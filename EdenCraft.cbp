@@ -68,13 +68,17 @@
 		<Unit filename="include/Communication/Office.hpp" />
 		<Unit filename="include/Communication/Signal.hpp" />
 		<Unit filename="include/Communication/Transmitable.hpp" />
-		<Unit filename="include/IArchetype.hpp" />
-		<Unit filename="include/IComponent.hpp" />
-		<Unit filename="include/IEntity.hpp" />
-		<Unit filename="include/ISystem.hpp" />
+		<Unit filename="include/Core/Application.hpp" />
+		<Unit filename="include/Core/Engine.hpp" />
+		<Unit filename="include/Core/Entity.hpp" />
+		<Unit filename="include/Core/GameEngine.hpp" />
+		<Unit filename="include/Core/IEngine.hpp" />
 		<Unit filename="src/Communication/Message.cpp" />
 		<Unit filename="src/Communication/Office.cpp" />
 		<Unit filename="src/Communication/Transmitable.cpp" />
+		<Unit filename="src/Core/Application.cpp" />
+		<Unit filename="src/Core/Engine.cpp" />
+		<Unit filename="src/Core/Entity.cpp" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />

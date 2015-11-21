@@ -3,8 +3,8 @@
 
 class ISystem
 {
-public:
-    ~ISystem() {}
+    public:
+        virtual ~ISystem() {}
 };
 
 #endif // ISYSTEM_HPP_INCLUDED

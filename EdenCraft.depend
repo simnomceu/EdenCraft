@@ -1,11 +1,6 @@
 # depslib dependency file v1.0
-1447945455 source:c:\users\isilinbn\programmation\c++\edencraft\src\main.cpp
-	<SFML/Graphics.hpp>
-	<memory>
-	<iostream>
-	"Office.hpp"
-	"Engine.hpp"
-	"Message.hpp"
+1448114850 source:c:\users\isilinbn\programmation\c++\edencraft\src\main.cpp
+	"Core/Application.hpp"
 
 1429780453 c:\users\isilinbn\programmation\c++\edencraft\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
@@ -405,19 +400,18 @@
 	<string>
 	<map>
 
-1447947459 source:c:\users\isilinbn\programmation\c++\edencraft\src\communication\office.cpp
+1448112368 source:c:\users\isilinbn\programmation\c++\edencraft\src\communication\office.cpp
 	"Office.hpp"
 	<iostream>
 
-1447944621 c:\users\isilinbn\programmation\c++\edencraft\include\communication\office.hpp
+1448112518 c:\users\isilinbn\programmation\c++\edencraft\include\communication\office.hpp
 	<map>
 	<string>
 	<memory>
 	<queue>
 	"ICentralizer.hpp"
-	"ICommunicable.hpp"
 
-1447870354 c:\users\isilinbn\programmation\c++\edencraft\include\communication\icentralizer.hpp
+1448112541 c:\users\isilinbn\programmation\c++\edencraft\include\communication\icentralizer.hpp
 	<memory>
 	"ITransmitable.hpp"
 
@@ -443,11 +437,61 @@
 	"Transmitable.hpp"
 	<map>
 
-1447947459 source:c:\users\isilinbn\programmation\c++\edencraft\src\engine.cpp
+1447970995 source:c:\users\isilinbn\programmation\c++\edencraft\src\engine.cpp
 	"Engine.hpp"
 	<iostream>
 
-1447944057 c:\users\isilinbn\programmation\c++\edencraft\include\engine.hpp
+1447971203 c:\users\isilinbn\programmation\c++\edencraft\include\engine.hpp
 	<queue>
 	"ICommunicable.hpp"
+	"IEngine.hpp"
+
+1447970730 source:c:\users\isilinbn\programmation\c++\edencraft\src\application.cpp
+	"Application.hpp"
+
+1447970964 c:\users\isilinbn\programmation\c++\edencraft\include\application.hpp
+	<memory>
+	<vector>
+	"Office.hpp"
+	"IEngine.hpp"
+
+1447970976 c:\users\isilinbn\programmation\c++\edencraft\include\iengine.hpp
+
+1448110118 source:c:\users\isilinbn\programmation\c++\edencraft\src\core\application.cpp
+	"Core/Application.hpp"
+	"Core/GameEngine.hpp"
+	<iostream>
+
+1448110118 c:\users\isilinbn\programmation\c++\edencraft\include\core\application.hpp
+	<memory>
+	<vector>
+	<SFML/System.hpp>
+	"Office.hpp"
+	"Engine.hpp"
+	"SFML/System.hpp"
+
+1447970976 c:\users\isilinbn\programmation\c++\edencraft\include\core\iengine.hpp
+
+1448115115 source:c:\users\isilinbn\programmation\c++\edencraft\src\core\engine.cpp
+	"Core/Engine.hpp"
+	<iostream>
+
+1448112249 c:\users\isilinbn\programmation\c++\edencraft\include\core\engine.hpp
+	<queue>
+	"Communication/ICommunicable.hpp"
+	"Core/IEngine.hpp"
+	"Core/ISystem.hpp"
+
+1448104773 source:c:\users\isilinbn\programmation\c++\edencraft\src\core\entity.cpp
+	"Core/Entity.hpp"
+
+1448104749 c:\users\isilinbn\programmation\c++\edencraft\include\core\entity.hpp
+
+1448105923 c:\users\isilinbn\programmation\c++\edencraft\include\core\isystem.hpp
+
+1448112625 source:c:\users\isilinbn\programmation\c++\edencraft\src\core\gameengine.cpp
+	"Core/GameEngine.hpp"
+
+1448110154 c:\users\isilinbn\programmation\c++\edencraft\include\core\gameengine.hpp
+	"Core/Engine.hpp"
 

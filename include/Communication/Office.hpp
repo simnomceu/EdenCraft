@@ -7,7 +7,6 @@
 #include <queue>
 
 #include "ICentralizer.hpp"
-#include "ICommunicable.hpp"
 
 class Office : public ICentralizer
 {
@@ -17,10 +16,11 @@ class Office : public ICentralizer
         Office();
 
         virtual void post(std::shared_ptr<ITransmitable> newMessageIn);
-        void registerAccount(std::pair<std::string, std::weak_ptr<ICommunicable>> newAccount);
-        void distribute();
+        void registerAccount(const std::string& newAccount);
+        virtual bool newMessages(const std::string& accountIn);
+        virtual std::shared_ptr<ITransmitable> withdraw(const std::string& accountIn);
     private:
-        std::map<std::string, std::weak_ptr<ICommunicable>> accounts;
+        std::map<std::string, std::queue<std::shared_ptr<ITransmitable>>> accounts;
         std::queue<std::shared_ptr<ITransmitable>> waitingMessages;
 };
 
