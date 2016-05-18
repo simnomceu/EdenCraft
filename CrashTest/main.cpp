@@ -1,45 +1,41 @@
-#include "stdafx.h"
 #include <iostream>
 #include <memory>
 
-#include "ComponentAPI.hpp"
-#include "AbstractComponent.hpp"
-#include "Component.hpp"
+#include "World.hpp"
 
-using namespace cmp;
+class A : public ECS::Component<A> {
+public: A(std::shared_ptr<ECS::Index<BaseComponent>> index): ECS::Component<A>(index) {}
+};
+class B: public ECS::Component<B>{};
+class C: public ECS::Component<C>{};
 
 int main()
 {
-	ComponentAPI api;
-	api.registerType<int>("health");
+	auto world = std::make_shared<ECS::World>();
+	auto ent = world->createEntity();
 
-	try {
-		auto healthComponents = api.accessComponents("health");
-		std::cout << healthComponents->size() << std::endl;
-		auto& oldOne = *healthComponents;
-		
-		auto newOneSp = std::make_shared<std::vector<std::shared_ptr<AbstractComponent>>>();
-		auto& newOne = *newOneSp;
-		newOne.reserve(oldOne.size()+1);
-		for (auto const& element : oldOne) {
-			newOne.push_back(element);
-		}
-		newOne.push_back(api.buildComponent<int>(1, "health", 20));
-		std::atomic_store(&healthComponents, newOneSp);
-		std::cout << healthComponents->size() << std::endl;	
+	auto index = world->getComponentIndex();
+	index->registerElement<A>();
+	index->registerElement<B>();
+	std::cout << index->getIndex<A>() << std::endl;
+	if (index->isRegistered<B>()) {
+		std::cout << index->getIndex<B>() << std::endl;
+	}
+	if (index->isRegistered<C>()) {
+		std::cout << index->getIndex<C>() << std::endl;
+	}
+	std::cout << index->getIndex<C>() << std::endl;
+	index->unregisterElement<B>();
+	if (index->isRegistered<B>()) {
+		std::cout << index->getIndex<B>() << std::endl;
+	}
 
-		auto component = (*healthComponents)[0];
-		auto intComponent = std::static_pointer_cast<Component<int>>(component);
-		std::cout << intComponent->read() << "pv" << std::endl;
-		intComponent->update(17);
-		std::cout << intComponent->read() << "pv" << std::endl;
-	}
-	catch (std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	}
-	while (1) {
+	auto entity = new ECS::Entity(world, 0);
+	std::cout << entity->toString() << std::endl;
+	auto componentA = entity->addComponent<A>();
+	std::cout << entity->toString() << std::endl;
+	entity->removeComponent<A>();
+	std::cout << entity->toString() << std::endl;
 
-	}
-    return 0;
+	return EXIT_SUCCESS;
 }
-
