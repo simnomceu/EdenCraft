@@ -4,9 +4,7 @@
  * @brief	Implements the main class.
  */
 
-#include <SFML/Graphics.hpp>
-
-#include "CustomWindow.hpp"
+#include "Game.hpp"
 
 /**
  * @fn	int main()
@@ -21,25 +19,10 @@
 
 int main()
 {
-	CustomWindow window;
-	window.initialize();
+	auto game = Game::getInstance();
+	auto usableGame = game.lock();
 
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
-
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		window.clear();
-		window.draw(shape);
-		window.display();
-	}
+	usableGame->run();
 
 	return 0;
 }

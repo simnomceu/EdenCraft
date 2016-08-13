@@ -47,6 +47,7 @@ CustomWindow::CustomWindow():
 
 CustomWindow::~CustomWindow()
 {
+	this->close();
 }
 
 /**

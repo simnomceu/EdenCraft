@@ -131,10 +131,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CustomWindow.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomWindow.hpp" />
+    <ClInclude Include="Game.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Strings.inl" />
