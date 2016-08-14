@@ -31,10 +31,10 @@ Game::Game(): NonCopyable(), window(), isRunning(false), elements()
 	std::cerr << glGetString(GL_VERSION) << " used in an SFML context." << std::endl;
 
 	if (sf::Shader::isAvailable()) {
-		std::cerr << "The shaders are available ..." << std::endl;
+		std::cerr << Strings::SHADERS_AVAILABLE << std::endl;
 	}
 	else {
-		std::cerr << "The shaders are not available ... You need a more recent graphic card to use this program." << std::endl;
+		std::cerr << Strings::SHADERS_NOT_AVAILABLE << std::endl;
 	}
 
 	// Init Glew.
