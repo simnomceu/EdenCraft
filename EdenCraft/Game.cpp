@@ -1,7 +1,18 @@
 #include "Game.hpp"
 
+#include <iostream>
+
 #include "SFML\Window\Event.hpp"
-#include "SFML\Graphics\CircleShape.hpp"
+#include "TriangleObject.hpp"
+#include "Strings.inl"
+#include "SFML\Graphics\Shader.hpp"
+
+
+#pragma warning(push)
+#pragma warning(disable : 4505)
+#include "GL\glew.h"
+#include "GL\freeglut.h"
+#pragma warning(pop)
 
 std::shared_ptr<Game> Game::instance = nullptr;
 
@@ -16,8 +27,28 @@ std::shared_ptr<Game> Game::instance = nullptr;
 
 Game::Game(): NonCopyable(), window(), isRunning(false), elements()
 {
-	this->elements.push_back(new sf::CircleShape(100.f));
-	this->elements[0]->setFillColor(sf::Color::Green);
+	std::cerr << "Renderer used: " << glGetString(GL_RENDERER) << std::endl;
+	std::cerr << glGetString(GL_VERSION) << " used in an SFML context." << std::endl;
+
+	if (sf::Shader::isAvailable()) {
+		std::cerr << "The shaders are available ..." << std::endl;
+	}
+	else {
+		std::cerr << "The shaders are not available ... You need a more recent graphic card to use this program." << std::endl;
+	}
+
+	// Init Glew.
+	// Required to use VAO & VBO.
+	glewExperimental = GL_TRUE;
+	glewInit();
+
+	/* tell GL to only draw onto a pixel if the shape is closer to the viewer
+	*/
+	glEnable(GL_DEPTH_TEST); /* enable depth-testing */
+							 /* with LESS depth-testing interprets a smaller value as "closer" */
+	glDepthFunc(GL_LESS);
+
+	this->elements.push_back(new TriangleObject());
 }
 
 /**
@@ -49,7 +80,8 @@ void Game::update()
 	sf::Event event;
 	while (this->window.pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed) {
+		if (event.type == sf::Event::Closed
+			|| (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) ) {
 			this->window.close();
 			this->stop();
 		}
@@ -67,7 +99,8 @@ void Game::update()
 
 void Game::render()
 {
-	window.clear();
+	//window.clear();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (auto it = this->elements.begin(); it != this->elements.end(); ++it)
 	{
@@ -139,9 +172,23 @@ void Game::run()
 {
 	this->initialize();
 
+	sf::Clock clock;
+	sf::Time elapsedTime = sf::Time::Zero;
+
+	int FPS = 0;
+
 	while (this->isRunningGame()) {
 		this->update();
 		this->render();
+
+		elapsedTime += clock.restart();
+		FPS++;
+		if (elapsedTime.asMicroseconds() > 1000000) {
+			this->window.setTitle(Strings::APP_TITLE + " " + std::to_string(FPS) + "FPS");
+
+			FPS = 0;
+			elapsedTime = sf::Time::Zero;
+		}
 	}
 
 	this->close();

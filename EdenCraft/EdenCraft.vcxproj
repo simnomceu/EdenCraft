@@ -132,13 +132,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CustomWindow.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TriangleObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseObject.hpp" />
     <ClInclude Include="CustomWindow.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="TriangleObject.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Constants.inl" />

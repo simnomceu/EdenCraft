@@ -13,6 +13,7 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4505)
+#include "GL\glew.h"
 #include "GL\freeglut.h"
 #pragma warning(pop)
 
@@ -77,7 +78,16 @@ void CustomWindow::initialize()
 
 	// Set the refreshing rate of window
 	this->setVerticalSyncEnabled(false);
-	this->setFramerateLimit(40);
+	//this->setFramerateLimit(40);
+}
 
-	std::cerr << glGetString(GL_VERSION) << " used in an SFML context." << std::endl;
+void CustomWindow::draw(BaseObject & object)
+{
+
+	// activate the VAO to use.
+	glBindVertexArray(object.getVAO());
+	// draw the object
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	// deactivate the VAO.
+	glBindVertexArray(0);
 }

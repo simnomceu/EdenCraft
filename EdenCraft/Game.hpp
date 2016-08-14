@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "SFML\System\NonCopyable.hpp"
-#include "SFML\Graphics\Shape.hpp"
+#include "BaseObject.hpp"
 
 #include "CustomWindow.hpp"
 
@@ -41,7 +41,7 @@ private:
 
 	CustomWindow window;
 	bool isRunning;
-	std::vector<sf::Shape*> elements;
+	std::vector<BaseObject*> elements;
 
 	Game();
 

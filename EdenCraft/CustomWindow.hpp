@@ -7,6 +7,7 @@
 #pragma once
 
 #include "SFML\Graphics\RenderWindow.hpp"
+#include "BaseObject.hpp"
 
 /**
  * @class	CustomWindow
@@ -24,6 +25,8 @@ public:
 	~CustomWindow();
 
 	void initialize();
+
+	void draw(BaseObject& object);
 
 private:
 	sf::VideoMode modeWindow;
