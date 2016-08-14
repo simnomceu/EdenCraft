@@ -41,6 +41,9 @@ ipch/
 -.ncb
 *.aps
 
+# Visual Studio 2015 cache/options directory
+.vs/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -58,3 +61,13 @@ bld/
 *.user
 *.userosscache
 *.sln.docstates
+
+# NuGet packages
+*.nupkg
+# The packages folder can be ignored becase of Package Restire
+**/packages/*
+# except build/, which is used as an MSBuild target
+!**/packages/build/
+# NuGet v3's project.json files produces more ignoreable files
+*.nuget.props
+*.nuget.targets

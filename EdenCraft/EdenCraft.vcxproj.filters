@@ -29,6 +29,10 @@
     <None Include="Strings.inl">
       <Filter>Fichiers d%27en-tête</Filter>
     </None>
+    <None Include="Constants.inl">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomWindow.hpp">

@@ -10,8 +10,9 @@
 #include <vector>
 
 #include "SFML\System\NonCopyable.hpp"
-#include "CustomWindow.hpp"
 #include "SFML\Graphics\Shape.hpp"
+
+#include "CustomWindow.hpp"
 
 /**
  * @class	Game

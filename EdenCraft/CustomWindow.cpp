@@ -6,9 +6,15 @@
 
 #include "CustomWindow.hpp"
 
+#include "Strings.inl"
+#include "Constants.inl"
+
 #include <iostream>
 
-#include "Strings.inl"
+#pragma warning(push)
+#pragma warning(disable : 4505)
+#include "GL\freeglut.h"
+#pragma warning(pop)
 
 /**
  * @fn	CustomWindow::CustomWindow(): RenderWindow(), modeWindow(sf::VideoMode::getDesktopMode()), titleWindow("EdenCraft"), style(sf::Style::Titlebar | sf::Style::Close), settings()
@@ -27,11 +33,16 @@ CustomWindow::CustomWindow():
 	settings()
 {
 	// OpenGL context settings
-	this->settings.depthBits = 24;
-	this->settings.stencilBits = 8;
-	this->settings.antialiasingLevel = 4;
-	this->settings.majorVersion = 3;
-	this->settings.minorVersion = 0;
+	this->settings.depthBits = Constants::GL_DEPTH_BITS_EC;
+	this->settings.stencilBits = Constants::GL_STENCIL_BITS_EC;
+	this->settings.antialiasingLevel = Constants::GL_ANTIALIASING_LEVEL_EC;
+	this->settings.majorVersion = Constants::GL_MAJOR_VERSION_EC;
+	this->settings.minorVersion = Constants::GL_MINOR_VERSION_EC;
+	// Profil fags :
+	// Default : compatibility mode active. Requirement when working with OpenGL 3.2+
+	// Debug
+	// Core : OS X works only with this mode. Then, OS X can only use OpenGL 2.1 and below in an SFML window.
+	this->settings.attributeFlags = sf::ContextSettings::Attribute::Default;
 
 	this->modeWindow.height -= 70; // remove the height of application bar and title bar.
 }
@@ -61,10 +72,12 @@ CustomWindow::~CustomWindow()
 
 void CustomWindow::initialize()
 {
-	// create window using parameters.
-	this->create(
-		this->modeWindow,
-		this->titleWindow,
-		this->style,
-		this->settings);
+	// Create window using parameters.
+	this->create(this->modeWindow, this->titleWindow, this->style, this->settings);
+
+	// Set the refreshing rate of window
+	this->setVerticalSyncEnabled(false);
+	this->setFramerateLimit(40);
+
+	std::cerr << glGetString(GL_VERSION) << " used in an SFML context." << std::endl;
 }

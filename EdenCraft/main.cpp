@@ -17,12 +17,12 @@
  * @return	Exit-code for the process - 0 for success, else an error code.
  */
 
-int main()
+auto main() -> int
 {
 	auto game = Game::getInstance();
 	auto usableGame = game.lock();
 
 	usableGame->run();
 
-	return 0;
+	return EXIT_SUCCESS;
 }
