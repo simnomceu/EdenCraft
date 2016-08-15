@@ -1,12 +1,8 @@
 #include "BaseObject.hpp"
 
-BaseObject::BaseObject(): vao(0), vbo(0)
+BaseObject::BaseObject() : vaoId{0}, vboIds{ 0, 0 }, shaderScript{0}
 {
-	glGenVertexArrays(1, &this->vao); // generate new VAO with index ID.
-	glBindVertexArray(this->vao); // link to the VAO.
-
-	glGenBuffers(1, &this->vbo); // generate new VBO with index ID.
-	glBindBuffer(GL_ARRAY_BUFFER, this->vbo); // link to the VBO.
+	glGenVertexArrays(1, &this->vaoId);
 }
 
 
@@ -14,29 +10,47 @@ BaseObject::~BaseObject()
 {
 }
 
+void BaseObject::applyShaders(const char* vsScript, const char * fsScript)
+{
+	int params = -1;
+
+	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vs, 1, &vsScript, nullptr);
+	glCompileShader(vs);
+	glGetShaderiv(vs, GL_COMPILE_STATUS, &params);
+	if (GL_TRUE != params) {
+		std::cerr << "ERROR: GL vertex shader index " << vs << " did not compile\n" << std::endl;
+	}
+
+	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fs, 1, &fsScript, nullptr);
+	glCompileShader(fs);
+	glGetShaderiv(fs, GL_COMPILE_STATUS, &params);
+	if (GL_TRUE != params) {
+		std::cerr << "ERROR: GL fragment shader index " << fs << " did not compile\n" << std::endl;
+	}
+
+	this->shaderScript = glCreateProgram();
+	glAttachShader(this->shaderScript, vs);
+	glAttachShader(this->shaderScript, fs);
+
+	glLinkProgram(this->shaderScript);
+	/* check for shader linking errors - very important! */
+	glGetProgramiv(this->shaderScript, GL_LINK_STATUS, &params);
+	if (GL_TRUE != params) {
+		std::cerr << "ERROR: could not link shader programme GL index" << this->shaderScript << std::endl;
+	}
+
+	//glBindAttribLocation(this->shaderScript, VERTICE, "in_vertices");
+	//glBindAttribLocation(this->shaderScript, COLOR, "in_colors");
+}
+
 GLuint BaseObject::getVAO()
 {
-	return this->vao;
+	return this->vaoId;
 }
 
-GLuint BaseObject::getVBO()
+void BaseObject::prepareShaders()
 {
-	return this->vbo;
-}
-
-void BaseObject::loadInMemory(const int nbVertices, float * vertices)
-{
-	// Define the VBO.
-	glBufferData(GL_ARRAY_BUFFER, nbVertices * 3 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
-
-	// Prepare the VAO
-	glVertexAttribPointer((GLuint)0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-}
-
-void BaseObject::deactivateBuffers()
-{
-	// Deativate the VAO.
-	glEnableVertexAttribArray(0);
-	// Deactivate the VBO.
-	glBindVertexArray(0);
+	glUseProgram(this->shaderScript);
 }

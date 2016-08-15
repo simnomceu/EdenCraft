@@ -10,6 +10,7 @@
 #include "Constants.inl"
 
 #include <iostream>
+#include <memory>
 
 #pragma warning(push)
 #pragma warning(disable : 4505)
@@ -83,7 +84,7 @@ void CustomWindow::initialize()
 
 void CustomWindow::draw(BaseObject & object)
 {
-
+	object.prepareShaders();
 	// activate the VAO to use.
 	glBindVertexArray(object.getVAO());
 	// draw the object

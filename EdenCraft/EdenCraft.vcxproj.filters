@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Util">
+      <UniqueIdentifier>{72079bbe-dfdb-462d-9160-d30123180968}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Util">
+      <UniqueIdentifier>{7dc3b116-9737-431b-ab75-340f502f319d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -29,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="TriangleObject.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeGL.cpp">
+      <Filter>Fichiers sources\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="TriangleObject.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeGL.hpp">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -137,12 +137,14 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TriangleObject.cpp" />
+    <ClCompile Include="TypeGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.hpp" />
     <ClInclude Include="CustomWindow.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="TriangleObject.hpp" />
+    <ClInclude Include="TypeGL.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Constants.inl" />

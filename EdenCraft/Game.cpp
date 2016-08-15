@@ -48,6 +48,10 @@ Game::Game(): NonCopyable(), window(), isRunning(false), elements()
 							 /* with LESS depth-testing interprets a smaller value as "closer" */
 	glDepthFunc(GL_LESS);
 
+	glEnable(GL_CULL_FACE); // cull face
+	glCullFace(GL_BACK); // cull back face
+	glFrontFace(GL_CW); // GL_CCW for counter clock-wise
+
 	this->elements.push_back(new TriangleObject());
 }
 
