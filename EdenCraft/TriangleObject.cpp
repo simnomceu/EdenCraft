@@ -10,7 +10,7 @@ TriangleObject::TriangleObject(): BaseObject()
 
 	std::vector<float> colors({ 1.0f, 0.0f, 0.0f,
 								0.0f, 1.0f, 0.0f,
-								0.0f, 0.0f, 1.0f });
+								0.0f, 1.0f, 1.0f });
 
 	this->submitData<float>(VERTICE, vertices);
 	this->submitData<float>(COLOR, colors);

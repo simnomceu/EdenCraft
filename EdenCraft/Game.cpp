@@ -30,29 +30,20 @@ Game::Game(): NonCopyable(), window(), isRunning(false), elements()
 	std::cerr << "Renderer used: " << glGetString(GL_RENDERER) << std::endl;
 	std::cerr << glGetString(GL_VERSION) << " used in an SFML context." << std::endl;
 
-	if (sf::Shader::isAvailable()) {
-		std::cerr << Strings::SHADERS_AVAILABLE << std::endl;
-	}
-	else {
-		std::cerr << Strings::SHADERS_NOT_AVAILABLE << std::endl;
-	}
-
 	// Init Glew.
 	// Required to use VAO & VBO.
-	glewExperimental = GL_TRUE;
-	glewInit();
+	glewExperimental = GL_TRUE; 
+	glewInit(); 
 
 	/* tell GL to only draw onto a pixel if the shape is closer to the viewer
 	*/
-	glEnable(GL_DEPTH_TEST); /* enable depth-testing */
+	glEnable(GL_DEPTH_TEST); /* enable depth-testing */ 
 							 /* with LESS depth-testing interprets a smaller value as "closer" */
-	glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LESS); 
 
 	glEnable(GL_CULL_FACE); // cull face
 	glCullFace(GL_BACK); // cull back face
 	glFrontFace(GL_CW); // GL_CCW for counter clock-wise
-
-	this->elements.push_back(new TriangleObject());
 }
 
 /**
@@ -68,6 +59,8 @@ void Game::initialize()
 {
 	this->start();
 	this->window.initialize();
+
+	this->elements.push_back(new TriangleObject());
 }
 
 /**
@@ -105,6 +98,7 @@ void Game::render()
 {
 	//window.clear();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0, 1, 0, 0);
 
 	for (auto it = this->elements.begin(); it != this->elements.end(); ++it)
 	{
@@ -180,6 +174,14 @@ void Game::run()
 	sf::Time elapsedTime = sf::Time::Zero;
 
 	int FPS = 0;
+
+
+	if (sf::Shader::isAvailable()) {
+		std::cerr << Strings::SHADERS_AVAILABLE << std::endl;
+	}
+	else {
+		std::cerr << Strings::SHADERS_NOT_AVAILABLE << std::endl;
+	}
 
 	while (this->isRunningGame()) {
 		this->update();

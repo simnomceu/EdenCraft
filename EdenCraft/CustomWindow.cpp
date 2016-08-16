@@ -31,7 +31,7 @@ CustomWindow::CustomWindow():
 	RenderWindow(),
 	modeWindow(sf::VideoMode::getDesktopMode()),
 	titleWindow(Strings::APP_TITLE),
-	style(sf::Style::Titlebar | sf::Style::Close),
+	style(sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize),
 	settings()
 {
 	// OpenGL context settings

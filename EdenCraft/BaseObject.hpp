@@ -78,7 +78,7 @@ void BaseObject::submitVertices(std::vector<T>& data)
 
 	// Select the VAO to use.
 	glBindVertexArray(this->vaoId);
-
+	
 	// Assign the VBO in the VAO.
 	glVertexAttribPointer((GLuint)BaseObject::VERTICE, 3, TypeGL::whatIsIt<T>(), GL_FALSE, 0, nullptr);
 

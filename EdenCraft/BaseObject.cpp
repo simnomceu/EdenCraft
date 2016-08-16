@@ -40,9 +40,6 @@ void BaseObject::applyShaders(const char* vsScript, const char * fsScript)
 	if (GL_TRUE != params) {
 		std::cerr << "ERROR: could not link shader programme GL index" << this->shaderScript << std::endl;
 	}
-
-	//glBindAttribLocation(this->shaderScript, VERTICE, "in_vertices");
-	//glBindAttribLocation(this->shaderScript, COLOR, "in_colors");
 }
 
 GLuint BaseObject::getVAO()
