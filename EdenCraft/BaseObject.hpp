@@ -11,6 +11,7 @@
 #pragma warning(pop)
 
 #include "TypeGL.hpp"
+#include "ShaderScript.h"
 
 class BaseObject
 {
@@ -28,7 +29,8 @@ public:
 
 	void applyTransformation(Matrix & transformation);
 	void applyTexture(Texture & texture);
-	void applyShaders(const char * vs, const char * fs);
+	void applyShaders(std::string vsScript, std::string fsScript);
+	void applyShadersFromFiles(std::string vsFile, std::string fsFile);
 
 	GLuint getVAO();
 	void prepareShaders();
@@ -43,7 +45,7 @@ protected:
 
 	GLuint vaoId;
 	GLuint vboIds[2];
-	GLuint shaderScript;
+	ShaderScript shaderScript;
 };
 
 

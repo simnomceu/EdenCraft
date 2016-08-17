@@ -136,6 +136,7 @@
     <ClCompile Include="CustomWindow.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ShaderScript.cpp" />
     <ClCompile Include="TriangleObject.cpp" />
     <ClCompile Include="TypeGL.cpp" />
   </ItemGroup>
@@ -143,10 +144,14 @@
     <ClInclude Include="BaseObject.hpp" />
     <ClInclude Include="CustomWindow.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ShaderScript.h" />
     <ClInclude Include="TriangleObject.hpp" />
     <ClInclude Include="TypeGL.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Basic.frag" />
+    <None Include="Basic.vert" />
     <None Include="Constants.inl" />
     <None Include="packages.config" />
     <None Include="Strings.inl" />
