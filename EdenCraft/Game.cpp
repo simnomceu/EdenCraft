@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "SFML\Window\Event.hpp"
-#include "TriangleObject.hpp"
+#include "RectangleObject.hpp"
 #include "Strings.inl"
 #include "SFML\Graphics\Shader.hpp"
 
@@ -44,6 +44,7 @@ Game::Game(): NonCopyable(), window(), isRunning(false), elements()
 	glEnable(GL_CULL_FACE); // cull face
 	glCullFace(GL_BACK); // cull back face
 	glFrontFace(GL_CW); // GL_CCW for counter clock-wise
+
 }
 
 /**
@@ -60,7 +61,7 @@ void Game::initialize()
 	this->start();
 	this->window.initialize();
 
-	this->elements.push_back(new TriangleObject());
+	this->elements.push_back(new RectangleObject());
 }
 
 /**
@@ -97,8 +98,8 @@ void Game::update()
 void Game::render()
 {
 	//window.clear();
+	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0, 1, 0, 0);
 
 	for (auto it = this->elements.begin(); it != this->elements.end(); ++it)
 	{

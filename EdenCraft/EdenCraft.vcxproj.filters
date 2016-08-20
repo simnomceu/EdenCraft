@@ -19,6 +19,9 @@
     <Filter Include="Fichiers sources\Util">
       <UniqueIdentifier>{7dc3b116-9737-431b-ab75-340f502f319d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\values">
+      <UniqueIdentifier>{40d0b6ed-00c4-4647-8362-2f412c897843}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,17 +45,23 @@
     <ClCompile Include="ShaderScript.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="RectangleObject.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeObject.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Strings.inl">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
-    <None Include="Constants.inl">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </None>
     <None Include="packages.config" />
     <None Include="Basic.frag" />
     <None Include="Basic.vert" />
+    <None Include="Strings.inl">
+      <Filter>Fichiers de ressources\values</Filter>
+    </None>
+    <None Include="Constants.inl">
+      <Filter>Fichiers d%27en-tête\Util</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomWindow.hpp">
@@ -73,7 +82,10 @@
     <ClInclude Include="ShaderScript.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="RectangleObject.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeObject.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

@@ -88,7 +88,7 @@ void CustomWindow::draw(BaseObject & object)
 	// activate the VAO to use.
 	glBindVertexArray(object.getVAO());
 	// draw the object
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 12);
 	// deactivate the VAO.
 	glBindVertexArray(0);
 }

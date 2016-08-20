@@ -133,18 +133,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="CubeObject.cpp" />
     <ClCompile Include="CustomWindow.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RectangleObject.cpp" />
     <ClCompile Include="ShaderScript.cpp" />
     <ClCompile Include="TriangleObject.cpp" />
     <ClCompile Include="TypeGL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.hpp" />
+    <ClInclude Include="CubeObject.hpp" />
     <ClInclude Include="CustomWindow.hpp" />
     <ClInclude Include="Game.hpp" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="RectangleObject.hpp" />
     <ClInclude Include="ShaderScript.h" />
     <ClInclude Include="TriangleObject.hpp" />
     <ClInclude Include="TypeGL.hpp" />

@@ -16,11 +16,9 @@ public:
 
 	void loadVertexShader(std::string vsScript);
 	void loadFragmentShader(std::string fsScript);
-	// void loadGeometryShader(std::string gsScript);
 	
 	void loadVertexShaderFromFile(std::string vsFile);
 	void loadFragmentShaderFromFile(std::string fsFile);
-	// void loadGeometryShaderFromFile(std::string gsFile);
 
 	void generate();
 	void activate();
