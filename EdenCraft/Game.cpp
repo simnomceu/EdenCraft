@@ -7,12 +7,7 @@
 #include "Strings.inl"
 #include "SFML\Graphics\Shader.hpp"
 
-
-#pragma warning(push)
-#pragma warning(disable : 4505)
-#include "GL\glew.h"
-#include "GL\freeglut.h"
-#pragma warning(pop)
+#include "GLAdapter.hpp"
 
 std::shared_ptr<Game> Game::instance = nullptr;
 
@@ -27,23 +22,11 @@ std::shared_ptr<Game> Game::instance = nullptr;
 
 Game::Game(): NonCopyable(), window(), isRunning(false), elements()
 {
-	std::cerr << "Renderer used: " << glGetString(GL_RENDERER) << std::endl;
-	std::cerr << glGetString(GL_VERSION) << " used in an SFML context." << std::endl;
+	GLAdapter::displayContextInfos();
 
-	// Init Glew.
-	// Required to use VAO & VBO.
-	glewExperimental = GL_TRUE; 
-	glewInit(); 
+	GLAdapter::initGLContext();
 
-	/* tell GL to only draw onto a pixel if the shape is closer to the viewer
-	*/
-	glEnable(GL_DEPTH_TEST); /* enable depth-testing */ 
-							 /* with LESS depth-testing interprets a smaller value as "closer" */
-	glDepthFunc(GL_LESS); 
-
-	glEnable(GL_CULL_FACE); // cull face
-	glCullFace(GL_BACK); // cull back face
-	glFrontFace(GL_CW); // GL_CCW for counter clock-wise
+	GLAdapter::init3D();
 
 }
 
@@ -98,8 +81,7 @@ void Game::update()
 void Game::render()
 {
 	//window.clear();
-	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	GLAdapter::clearWindow(Colors::DARK_GRAY);
 
 	for (auto it = this->elements.begin(); it != this->elements.end(); ++it)
 	{
