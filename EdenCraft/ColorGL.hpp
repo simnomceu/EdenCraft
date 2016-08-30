@@ -5,6 +5,7 @@ using Vector = float[S];
 
 namespace Colors {
 	using Color = Vector<3>;
+	using ColorRGBA = Vector<4>;
 
 	const Color BLACK = { 0.0f, 0.0f, 0.0f };
 	const Color WHITE = { 1.0f, 1.0f, 1.0f };
@@ -15,4 +16,6 @@ namespace Colors {
 	const Color BLUE = { 0.0f, 0.0f, 1.0f };
 	const Color CYAN = { 0.0f, 1.0f, 1.0f };
 	const Color YELLOW = { 1.0f, 1.0f, 1.0f };
+
+	ColorRGBA& fromRGBtoRGBA(const Color& color);
 }

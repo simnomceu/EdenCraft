@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="ColorGL.cpp" />
     <ClCompile Include="CubeObject.cpp" />
     <ClCompile Include="CustomWindow.cpp" />
     <ClCompile Include="Game.cpp" />

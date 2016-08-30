@@ -28,6 +28,7 @@ void GLAdapter::init3D()
 							 /* with LESS depth-testing interprets a smaller value as "closer" */
 	glDepthFunc(GL_LESS);
 
+	// Reduce cost by disabling back rendering
 	glEnable(GL_CULL_FACE); // cull face
 	glCullFace(GL_BACK); // cull back face
 	glFrontFace(GL_CW); // GL_CCW for counter clock-wise
@@ -55,7 +56,7 @@ void GLAdapter::setVAOBuffer(int vaoId)
 	glBindVertexArray(vaoId);
 }
 
-void GLAdapter::clearVAOBuffer(int vaoId)
+void GLAdapter::clearVAOBuffer()
 {
 	GLAdapter::setVAOBuffer(0);
 }

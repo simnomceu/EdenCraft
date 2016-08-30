@@ -24,6 +24,6 @@ public:
 	static void clearWindow(const Colors::Color color);
 
 	static void setVAOBuffer(int vaoId);
-	static void clearVAOBuffer(int vaoId);
+	static void clearVAOBuffer();
 };
 
