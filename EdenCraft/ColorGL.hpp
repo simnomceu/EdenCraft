@@ -1,7 +1,9 @@
 #pragma once
 
+#include <array>
+
 template <int S>
-using Vector = float[S];
+using Vector = std::array<float, S>;
 
 namespace Colors {
 	using Color = Vector<3>;
@@ -17,5 +19,5 @@ namespace Colors {
 	const Color CYAN = { 0.0f, 1.0f, 1.0f };
 	const Color YELLOW = { 1.0f, 1.0f, 1.0f };
 
-	ColorRGBA& fromRGBtoRGBA(const Color& color);
+	ColorRGBA fromRGBtoRGBA(const Color& color);
 }

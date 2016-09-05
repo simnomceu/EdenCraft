@@ -25,5 +25,10 @@ public:
 
 	static void setVAOBuffer(int vaoId);
 	static void clearVAOBuffer();
+
+	static void setVBOBuffer(int vboId);
+	static void clearVBOBuffer();
+
+	static int generateVAO();
 };
 

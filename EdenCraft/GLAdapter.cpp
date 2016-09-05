@@ -60,3 +60,21 @@ void GLAdapter::clearVAOBuffer()
 {
 	GLAdapter::setVAOBuffer(0);
 }
+
+void GLAdapter::setVBOBuffer(int vboId)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, vboId);
+}
+
+void GLAdapter::clearVBOBuffer()
+{
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+int GLAdapter::generateVAO()
+{
+	GLuint vao;
+	glGenBuffers(1, &vao);
+
+	return vao;
+}
