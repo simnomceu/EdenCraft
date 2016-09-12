@@ -1,10 +1,10 @@
 /**
- * @file	CustomWindow.cpp
+ * @file	BaseWindow.cpp
  *
  * @brief	Implements the custom Windows Form.
  */
 
-#include "CustomWindow.hpp"
+#include "BaseWindow.hpp"
 
 #include "Constants.inl"
 
@@ -17,7 +17,7 @@
 namespace Window
 {
 	/**
-	 * @fn	CustomWindow::CustomWindow(): RenderWindow(), modeWindow(sf::VideoMode::getDesktopMode()), titleWindow("EdenCraft"), style(sf::Style::Titlebar | sf::Style::Close), settings()
+	 * @fn	BaseWindow::BaseWindow(): RenderWindow(), modeWindow(sf::VideoMode::getDesktopMode()), titleWindow("EdenCraft"), style(sf::Style::Titlebar | sf::Style::Close), settings()
 	 *
 	 * @brief	Default constructor.
 	 *
@@ -25,7 +25,7 @@ namespace Window
 	 * @date	13/08/2016
 	 */
 
-	CustomWindow::CustomWindow(const std::string & title, const WindowTag tagOptions, const int monitorId) :
+	BaseWindow::BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId) :
 		titleWindow(title),
 		window(nullptr),
 		monitorToFill(nullptr),
@@ -40,7 +40,7 @@ namespace Window
 	}
 
 	/**
-	 * @fn	CustomWindow::~CustomWindow()
+	 * @fn	BaseWindow::~BaseWindow()
 	 *
 	 * @brief	Destructor.
 	 *
@@ -48,7 +48,7 @@ namespace Window
 	 * @date	13/08/2016
 	 */
 
-	CustomWindow::~CustomWindow()
+	BaseWindow::~BaseWindow()
 	{
 		if (this->isOpened()) {
 			this->close();
@@ -56,7 +56,7 @@ namespace Window
 	}
 
 	/**
-	 * @fn	void CustomWindow::initialize()
+	 * @fn	void BaseWindow::initialize()
 	 *
 	 * @brief	Initializes this object.
 	 *
@@ -64,7 +64,7 @@ namespace Window
 	 * @date	13/08/2016
 	 */
 
-	void CustomWindow::open()
+	void BaseWindow::open()
 	{
 		this->window = glfwCreateWindow(640, 480, this->titleWindow.c_str(), this->monitorToFill, nullptr);
 		if (!this->window) {
@@ -83,19 +83,19 @@ namespace Window
 		}
 	}
 
-	void CustomWindow::close()
+	void BaseWindow::close()
 	{
 		if (this->window) {
 			glfwDestroyWindow(this->window);
 		}
 	}
 
-	bool CustomWindow::isOpened()
+	bool BaseWindow::isOpened()
 	{
 		return this->window && !glfwWindowShouldClose(this->window);
 	}
 
-	void CustomWindow::draw(BaseObject & object)
+	void BaseWindow::draw(BaseObject & object)
 	{
 		object.prepareShaders();
 		// activate the VAO to use.
@@ -106,23 +106,23 @@ namespace Window
 		glBindVertexArray(0);
 	}
 
-	void CustomWindow::display()
+	void BaseWindow::display()
 	{
 		glfwSwapBuffers(this->window);
 	}
 
-	void CustomWindow::clear()
+	void BaseWindow::clear()
 	{
 		GLAdapter::clearWindow(Colors::DARK_GRAY);
 	}
 
-	void CustomWindow::setTitle(std::string title)
+	void BaseWindow::setTitle(std::string title)
 	{
 		this->titleWindow = title;
 		glfwSetWindowTitle(this->window, this->titleWindow.c_str());
 	}
 
-	void CustomWindow::setOptions(const WindowTag tagOptionsIn)
+	void BaseWindow::setOptions(const WindowTag tagOptionsIn)
 	{
 		this->tagOptions = tagOptionsIn;
 
@@ -145,12 +145,12 @@ namespace Window
 		}
 	}
 
-	bool CustomWindow::isFullscreenActivated()
+	bool BaseWindow::isFullscreenActivated()
 	{
 		return (this->tagOptions & FULLSCREEN) == FULLSCREEN;
 	}
 
-	void CustomWindow::attachToMonitor(const int monitorIdIn)
+	void BaseWindow::attachToMonitor(const int monitorIdIn)
 	{
 		if (monitorId < GLAdapter::getNumberOfMonitors()) {
 			this->monitorId = monitorIdIn;

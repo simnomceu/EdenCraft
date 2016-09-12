@@ -12,7 +12,7 @@
 #include "SFML\System\NonCopyable.hpp"
 #include "BaseObject.hpp"
 
-#include "CustomWindow.hpp"
+#include "BaseWindow.hpp"
 
 /**
  * @class	Game
@@ -39,7 +39,7 @@ public:
 private:
 	static std::shared_ptr<Game> instance;
 
-	Window::CustomWindow window;
+	Window::BaseWindow window;
 	bool isRunning;
 	std::vector<BaseObject*> elements;
 

@@ -17,22 +17,22 @@
 #include "Window.inl"
 #include "BaseObject.hpp"
 
-/**
- * @class	CustomWindow
- *
- * @brief	Form for viewing the custom.
- *
- * @author	PIERRE
- * @date	13/08/2016
- */
-
 namespace Window
 {
-	class CustomWindow
+
+	/**
+	* @class	BaseWindow
+	*
+	* @brief	Form for viewing the custom.
+	*
+	* @author	PIERRE
+	* @date	13/08/2016
+	*/
+	class BaseWindow
 	{
 	public:
-		CustomWindow(const std::string & title, const WindowTag tagOptions, const int monitorId);
-		~CustomWindow();
+		BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId);
+		~BaseWindow();
 
 		void open();
 		void close();

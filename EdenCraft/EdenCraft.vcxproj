@@ -135,7 +135,7 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="ColorGL.cpp" />
     <ClCompile Include="CubeObject.cpp" />
-    <ClCompile Include="CustomWindow.cpp" />
+    <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GLAdapter.cpp" />
     <ClCompile Include="main.cpp" />
@@ -148,7 +148,7 @@
     <ClInclude Include="BaseObject.hpp" />
     <ClInclude Include="ColorGL.hpp" />
     <ClInclude Include="CubeObject.hpp" />
-    <ClInclude Include="CustomWindow.hpp" />
+    <ClInclude Include="BaseWindow.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GLAdapter.hpp" />
     <ClInclude Include="RectangleObject.hpp" />

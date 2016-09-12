@@ -60,7 +60,7 @@
     <ClCompile Include="ColorGL.cpp">
       <Filter>Fichiers sources\Util</Filter>
     </ClCompile>
-    <ClCompile Include="CustomWindow.cpp">
+    <ClCompile Include="BaseWindow.cpp">
       <Filter>Fichiers sources\Window</Filter>
     </ClCompile>
   </ItemGroup>
@@ -106,7 +106,7 @@
     <ClInclude Include="ColorGL.hpp">
       <Filter>Fichiers d%27en-tête\Util</Filter>
     </ClInclude>
-    <ClInclude Include="CustomWindow.hpp">
+    <ClInclude Include="BaseWindow.hpp">
       <Filter>Fichiers d%27en-tête\Window</Filter>
     </ClInclude>
   </ItemGroup>
