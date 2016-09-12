@@ -14,6 +14,7 @@
 #include "GLFW\glfw3.h"
 #pragma warning(pop)
 
+#include "Window.inl"
 #include "BaseObject.hpp"
 
 /**
@@ -25,44 +26,37 @@
  * @date	13/08/2016
  */
 
-class CustomWindow
+namespace Window
 {
-public:
-	using WindowTag = unsigned short int;
+	class CustomWindow
+	{
+	public:
+		CustomWindow(const std::string & title, const WindowTag tagOptions, const int monitorId);
+		~CustomWindow();
 
-	static const WindowTag NO_OPTIONS = 0b000;
-	static const WindowTag FULLSCREEN = 0b001;
-	static const WindowTag RESIZABLE = 0b010;
-	static const WindowTag TOOLBAR = 0b100;
+		void open();
+		void close();
 
-	static const int PRIMARY_MONITOR = 0;
+		bool isOpened();
 
-	CustomWindow(const std::string & title, const WindowTag tagOptions, const int monitorId);
-	~CustomWindow();
+		void draw(BaseObject& object);
+		void display();
+		void clear();
 
-	void initialize();
-	void close();
+		void setTitle(std::string title);
 
-	bool isOpened();
+		void setOptions(const WindowTag tagOptionsIn);
+		bool isFullscreenActivated();
 
-	void draw(BaseObject& object);
-	void display();
-	void clear();
+		void attachToMonitor(const int monitorIdIn); // only for fullscreen mode
 
-	void setTitle(std::string title);
+	private:
+		std::string titleWindow;
 
-	void setOptions(const WindowTag tagOptionsIn);
-	bool isFullscreenActivated();
+		GLFWwindow* window;
+		GLFWmonitor* monitorToFill;
 
-	void attachToMonitor(const int monitorIdIn); // only for fullscreen mode
-
-private:
-	std::string titleWindow;
-
-	GLFWwindow* window;
-	GLFWmonitor* monitorToFill;
-
-	WindowTag tagOptions;
-	int monitorId;
-};
-
+		WindowTag tagOptions;
+		int monitorId;
+	};
+}

@@ -39,7 +39,7 @@ public:
 private:
 	static std::shared_ptr<Game> instance;
 
-	CustomWindow window;
+	Window::CustomWindow window;
 	bool isRunning;
 	std::vector<BaseObject*> elements;
 

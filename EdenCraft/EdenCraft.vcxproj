@@ -162,6 +162,7 @@
     <None Include="Constants.inl" />
     <None Include="packages.config" />
     <None Include="Strings.inl" />
+    <None Include="Window.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

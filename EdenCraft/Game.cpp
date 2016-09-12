@@ -21,7 +21,7 @@ std::shared_ptr<Game> Game::instance = nullptr;
  * @date	14/08/2016
  */
 
-Game::Game(): NonCopyable(), window(Strings::APP_TITLE, CustomWindow::TOOLBAR, CustomWindow::PRIMARY_MONITOR), isRunning(false), elements()
+Game::Game(): NonCopyable(), window(Strings::APP_TITLE, Window::TOOLBAR, Window::PRIMARY_MONITOR), isRunning(false), elements()
 {
 }
 
@@ -37,7 +37,7 @@ Game::Game(): NonCopyable(), window(Strings::APP_TITLE, CustomWindow::TOOLBAR, C
 void Game::initialize()
 {
 	this->start();
-	this->window.initialize();
+	this->window.open();
 
 	this->elements.push_back(new RectangleObject());
 }
