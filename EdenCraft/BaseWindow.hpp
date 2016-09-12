@@ -32,21 +32,25 @@ namespace Window
 	{
 	public:
 		BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId);
+		BaseWindow(const BaseWindow & copy) = delete;
+		BaseWindow(BaseWindow && copy);	
 		~BaseWindow();
+
+		BaseWindow & operator=(const BaseWindow & rightOperand) = delete;
+		BaseWindow & operator=(BaseWindow && rightOperand);
 
 		void open();
 		void close();
-
-		bool isOpened();
+		bool isOpened() const;
 
 		void draw(BaseObject& object);
 		void display();
 		void clear();
 
-		void setTitle(std::string title);
+		void setTitle(const std::string & title);
 
 		void setOptions(const WindowTag tagOptionsIn);
-		bool isFullscreenActivated();
+		bool isFullscreenActivated() const;
 
 		void attachToMonitor(const int monitorIdIn); // only for fullscreen mode
 

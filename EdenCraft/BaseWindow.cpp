@@ -48,6 +48,17 @@ namespace Window
 	 * @date	13/08/2016
 	 */
 
+	BaseWindow::BaseWindow(BaseWindow && copy) :
+		titleWindow(std::move(copy.titleWindow)),
+		window(copy.window),
+		monitorToFill(copy.monitorToFill),
+		tagOptions(copy.tagOptions),
+		monitorId(copy.monitorId)
+	{
+		copy.window = nullptr;
+		copy.monitorToFill = nullptr;
+	}
+
 	BaseWindow::~BaseWindow()
 	{
 		if (this->isOpened()) {
@@ -63,6 +74,20 @@ namespace Window
 	 * @author	PIERRE
 	 * @date	13/08/2016
 	 */
+
+	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
+	{
+		this->titleWindow = std::move(rightOperand.titleWindow);
+		window = rightOperand.window;
+		monitorToFill = rightOperand.monitorToFill;
+		tagOptions = rightOperand.tagOptions;
+		monitorId = rightOperand.monitorId;
+
+		rightOperand.window = nullptr;
+		rightOperand.monitorToFill = nullptr;
+
+		return *this;
+	}
 
 	void BaseWindow::open()
 	{
@@ -90,13 +115,14 @@ namespace Window
 		}
 	}
 
-	bool BaseWindow::isOpened()
+	bool BaseWindow::isOpened() const
 	{
 		return this->window && !glfwWindowShouldClose(this->window);
 	}
 
 	void BaseWindow::draw(BaseObject & object)
 	{
+		/*
 		object.prepareShaders();
 		// activate the VAO to use.
 		glBindVertexArray(object.getVAO());
@@ -104,6 +130,7 @@ namespace Window
 		glDrawArrays(GL_TRIANGLES, 0, 12);
 		// deactivate the VAO.
 		glBindVertexArray(0);
+		*/
 	}
 
 	void BaseWindow::display()
@@ -116,7 +143,7 @@ namespace Window
 		GLAdapter::clearWindow(Colors::DARK_GRAY);
 	}
 
-	void BaseWindow::setTitle(std::string title)
+	void BaseWindow::setTitle(const std::string & title)
 	{
 		this->titleWindow = title;
 		glfwSetWindowTitle(this->window, this->titleWindow.c_str());
@@ -145,7 +172,7 @@ namespace Window
 		}
 	}
 
-	bool BaseWindow::isFullscreenActivated()
+	bool BaseWindow::isFullscreenActivated() const
 	{
 		return (this->tagOptions & FULLSCREEN) == FULLSCREEN;
 	}
