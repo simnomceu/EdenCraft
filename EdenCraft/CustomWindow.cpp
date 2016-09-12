@@ -25,11 +25,32 @@
  * @date	13/08/2016
  */
 
-CustomWindow::CustomWindow(const int tagOptions):
+CustomWindow::CustomWindow(const int tagOptions) :
 	titleWindow(Strings::APP_TITLE),
 	window(nullptr),
+	monitor(nullptr),
 	tagOptions(tagOptions)
 {
+	// TODO move init out of here, and add a check
+	GLAdapter::initGLFW();
+
+	if ((this->tagOptions & FULLSCREEN) == FULLSCREEN) {
+		this->monitor = glfwGetPrimaryMonitor();
+	}
+
+	if ((this->tagOptions & RESIZABLE) == RESIZABLE) {
+		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	}
+	else {
+		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	}
+
+	if ((this->tagOptions & TOOLBAR) == TOOLBAR) {
+		glfwWindowHint(GLFW_DECORATED, GL_TRUE);
+	}
+	else {
+		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+	}
 }
 
 /**
@@ -59,29 +80,7 @@ CustomWindow::~CustomWindow()
 
 void CustomWindow::initialize()
 {
-	GLAdapter::initGLFW();
-
-	GLFWmonitor* monitor = nullptr;
-
-	if ((this->tagOptions & FULLSCREEN) == FULLSCREEN) {
-		monitor = glfwGetPrimaryMonitor();
-	}
-
-	if ((this->tagOptions & RESIZABLE) == RESIZABLE) {
-		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-	}
-	else {
-		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	}
-
-	if ((this->tagOptions & TOOLBAR) == TOOLBAR) {
-		glfwWindowHint(GLFW_DECORATED, GL_TRUE);
-	}
-	else {
-		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-	}
-
-	this->window = glfwCreateWindow(640, 480, this->titleWindow.c_str(), monitor, nullptr);
+	this->window = glfwCreateWindow(640, 480, this->titleWindow.c_str(), this->monitor, nullptr);
 	if (!this->window) {
 		std::cerr << "Context cannot be created ..." << std::endl;
 		glfwTerminate();

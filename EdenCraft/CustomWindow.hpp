@@ -51,6 +51,7 @@ private:
 	std::string titleWindow;
 
 	GLFWwindow* window;
+	GLFWmonitor* monitor;
 
 	int tagOptions;
 };
