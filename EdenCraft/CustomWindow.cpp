@@ -67,6 +67,20 @@ void CustomWindow::initialize()
 		monitor = glfwGetPrimaryMonitor();
 	}
 
+	if ((this->tagOptions & RESIZABLE) == RESIZABLE) {
+		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	}
+	else {
+		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	}
+
+	if ((this->tagOptions & TOOLBAR) == TOOLBAR) {
+		glfwWindowHint(GLFW_DECORATED, GL_TRUE);
+	}
+	else {
+		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+	}
+
 	this->window = glfwCreateWindow(640, 480, this->titleWindow.c_str(), monitor, nullptr);
 	if (!this->window) {
 		std::cerr << "Context cannot be created ..." << std::endl;

@@ -28,8 +28,10 @@
 class CustomWindow
 {
 public:
-	static const int NO_OPTIONS = 0b00;
-	static const int FULLSCREEN = 0b01;
+	static const int NO_OPTIONS = 0b000;
+	static const int FULLSCREEN = 0b001;
+	static const int RESIZABLE = 0b010;
+	static const int TOOLBAR = 0b100;
 
 	CustomWindow(const int tagOptions);
 	~CustomWindow();

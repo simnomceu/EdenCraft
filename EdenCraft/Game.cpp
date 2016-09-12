@@ -21,7 +21,7 @@ std::shared_ptr<Game> Game::instance = nullptr;
  * @date	14/08/2016
  */
 
-Game::Game(): NonCopyable(), window(CustomWindow::NO_OPTIONS), isRunning(false), elements()
+Game::Game(): NonCopyable(), window(CustomWindow::TOOLBAR), isRunning(false), elements()
 {
 }
 
@@ -168,7 +168,7 @@ void Game::run()
 
 	while (this->isRunningGame()) {
 		this->update();
-		//this->render();
+		this->render();
 
 		elapsedTime += clock.restart();
 		FPS++;
