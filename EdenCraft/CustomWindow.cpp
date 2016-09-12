@@ -10,6 +10,7 @@
 #include "Constants.inl"
 
 #include "GLAdapter.hpp"
+#include "ColorGL.hpp"
 
 #include <iostream>
 #include <memory>
@@ -101,14 +102,20 @@ void CustomWindow::draw(BaseObject & object)
 	glBindVertexArray(0);
 }
 
-void CustomWindow::setTitle(std::string title)
-{
-	glfwSetWindowTitle(this->window, title.c_str());
-}
-
 void CustomWindow::display()
 {
 	glfwSwapBuffers(this->window);
+}
+
+void CustomWindow::clear()
+{
+	GLAdapter::clearWindow(Colors::DARK_GRAY);
+}
+
+void CustomWindow::setTitle(std::string title)
+{
+	this->titleWindow = title;
+	glfwSetWindowTitle(this->window, this->titleWindow.c_str());
 }
 
 bool CustomWindow::isOpened()

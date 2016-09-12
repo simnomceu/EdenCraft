@@ -81,7 +81,6 @@ void Game::update()
 
 void Game::render()
 {
-	//window.clear();
 	GLAdapter::clearWindow(Colors::DARK_GRAY);
 
 	for (auto it = this->elements.begin(); it != this->elements.end(); ++it)

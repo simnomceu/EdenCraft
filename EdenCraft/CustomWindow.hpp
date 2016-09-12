@@ -35,12 +35,13 @@ public:
 	~CustomWindow();
 
 	void initialize();
-
 	void close();
+
 	void draw(BaseObject& object);
+	void display();
+	void clear();
 
 	void setTitle(std::string title);
-	void display();
 
 	bool isOpened();
 
