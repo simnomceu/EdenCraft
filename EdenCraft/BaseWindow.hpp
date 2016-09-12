@@ -51,6 +51,8 @@ namespace Window
 
 		void setOptions(const WindowTag tagOptionsIn);
 		bool isFullscreenActivated() const;
+		bool isResizable() const;
+		bool isToolbarActivated() const;
 
 		void attachToMonitor(const int monitorIdIn); // only for fullscreen mode
 

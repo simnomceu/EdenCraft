@@ -61,9 +61,7 @@ namespace Window
 
 	BaseWindow::~BaseWindow()
 	{
-		if (this->isOpened()) {
-			this->close();
-		}
+		this->close();
 	}
 
 	/**
@@ -110,7 +108,7 @@ namespace Window
 
 	void BaseWindow::close()
 	{
-		if (this->window) {
+		if (this->window && this->isOpened()) {
 			glfwDestroyWindow(this->window);
 		}
 	}
@@ -135,7 +133,9 @@ namespace Window
 
 	void BaseWindow::display()
 	{
-		glfwSwapBuffers(this->window);
+		if (this->window) {
+			glfwSwapBuffers(this->window);
+		}
 	}
 
 	void BaseWindow::clear()
@@ -146,7 +146,9 @@ namespace Window
 	void BaseWindow::setTitle(const std::string & title)
 	{
 		this->titleWindow = title;
-		glfwSetWindowTitle(this->window, this->titleWindow.c_str());
+		if (this->window) {
+			glfwSetWindowTitle(this->window, this->titleWindow.c_str());
+		}
 	}
 
 	void BaseWindow::setOptions(const WindowTag tagOptionsIn)
@@ -157,14 +159,14 @@ namespace Window
 			this->monitorToFill = glfwGetPrimaryMonitor();
 		}
 
-		if ((this->tagOptions & RESIZABLE) == RESIZABLE) {
+		if (this->isResizable()) {
 			glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 		}
 		else {
 			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 		}
 
-		if ((this->tagOptions & TOOLBAR) == TOOLBAR) {
+		if (this->isToolbarActivated()) {
 			glfwWindowHint(GLFW_DECORATED, GL_TRUE);
 		}
 		else {
@@ -175,6 +177,16 @@ namespace Window
 	bool BaseWindow::isFullscreenActivated() const
 	{
 		return (this->tagOptions & FULLSCREEN) == FULLSCREEN;
+	}
+
+	bool BaseWindow::isResizable() const
+	{
+		return (this->tagOptions & RESIZABLE) == RESIZABLE;
+	}
+
+	bool BaseWindow::isToolbarActivated() const
+	{
+		return (this->tagOptions & TOOLBAR) == TOOLBAR;
 	}
 
 	void BaseWindow::attachToMonitor(const int monitorIdIn)
