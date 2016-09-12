@@ -28,16 +28,20 @@
 class CustomWindow
 {
 public:
-	static const int NO_OPTIONS = 0b000;
-	static const int FULLSCREEN = 0b001;
-	static const int RESIZABLE = 0b010;
-	static const int TOOLBAR = 0b100;
+	using WindowTag = unsigned short int;
 
-	CustomWindow(const int tagOptions);
+	static const WindowTag NO_OPTIONS = 0b000;
+	static const WindowTag FULLSCREEN = 0b001;
+	static const WindowTag RESIZABLE = 0b010;
+	static const WindowTag TOOLBAR = 0b100;
+
+	CustomWindow(const std::string & title, const WindowTag tagOptions);
 	~CustomWindow();
 
 	void initialize();
 	void close();
+
+	bool isOpened();
 
 	void draw(BaseObject& object);
 	void display();
@@ -45,14 +49,12 @@ public:
 
 	void setTitle(std::string title);
 
-	bool isOpened();
+	void setOptions(const WindowTag tagOptions);
 
 private:
 	std::string titleWindow;
 
 	GLFWwindow* window;
-	GLFWmonitor* monitor;
-
-	int tagOptions;
+	GLFWmonitor* monitorToFill;
 };
 

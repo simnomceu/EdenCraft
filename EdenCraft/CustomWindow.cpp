@@ -6,7 +6,6 @@
 
 #include "CustomWindow.hpp"
 
-#include "Strings.inl"
 #include "Constants.inl"
 
 #include "GLAdapter.hpp"
@@ -25,32 +24,15 @@
  * @date	13/08/2016
  */
 
-CustomWindow::CustomWindow(const int tagOptions) :
-	titleWindow(Strings::APP_TITLE),
+CustomWindow::CustomWindow(const std::string & title, const WindowTag tagOptions) :
+	titleWindow(title),
 	window(nullptr),
-	monitor(nullptr),
-	tagOptions(tagOptions)
+	monitorToFill(nullptr)
 {
 	// TODO move init out of here, and add a check
 	GLAdapter::initGLFW();
 
-	if ((this->tagOptions & FULLSCREEN) == FULLSCREEN) {
-		this->monitor = glfwGetPrimaryMonitor();
-	}
-
-	if ((this->tagOptions & RESIZABLE) == RESIZABLE) {
-		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-	}
-	else {
-		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	}
-
-	if ((this->tagOptions & TOOLBAR) == TOOLBAR) {
-		glfwWindowHint(GLFW_DECORATED, GL_TRUE);
-	}
-	else {
-		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-	}
+	this->setOptions(tagOptions);
 }
 
 /**
@@ -80,7 +62,7 @@ CustomWindow::~CustomWindow()
 
 void CustomWindow::initialize()
 {
-	this->window = glfwCreateWindow(640, 480, this->titleWindow.c_str(), this->monitor, nullptr);
+	this->window = glfwCreateWindow(640, 480, this->titleWindow.c_str(), this->monitorToFill, nullptr);
 	if (!this->window) {
 		std::cerr << "Context cannot be created ..." << std::endl;
 		glfwTerminate();
@@ -102,6 +84,11 @@ void CustomWindow::close()
 	if (this->window) {
 		glfwDestroyWindow(this->window);
 	}
+}
+
+bool CustomWindow::isOpened()
+{
+	return !glfwWindowShouldClose(window);
 }
 
 void CustomWindow::draw(BaseObject & object)
@@ -131,7 +118,23 @@ void CustomWindow::setTitle(std::string title)
 	glfwSetWindowTitle(this->window, this->titleWindow.c_str());
 }
 
-bool CustomWindow::isOpened()
+void CustomWindow::setOptions(const WindowTag tagOptions)
 {
-	return !glfwWindowShouldClose(window);
+	if ((tagOptions & FULLSCREEN) == FULLSCREEN) {
+		this->monitorToFill = glfwGetPrimaryMonitor();
+	}
+
+	if ((tagOptions & RESIZABLE) == RESIZABLE) {
+		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	}
+	else {
+		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	}
+
+	if ((tagOptions & TOOLBAR) == TOOLBAR) {
+		glfwWindowHint(GLFW_DECORATED, GL_TRUE);
+	}
+	else {
+		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+	}
 }
