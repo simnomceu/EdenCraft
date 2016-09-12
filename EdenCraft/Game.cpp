@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "SFML\System\Clock.hpp"
 #include "SFML\Window\Event.hpp"
 #include "RectangleObject.hpp"
 #include "Strings.inl"
@@ -20,14 +21,8 @@ std::shared_ptr<Game> Game::instance = nullptr;
  * @date	14/08/2016
  */
 
-Game::Game(): NonCopyable(), window(), isRunning(false), elements()
+Game::Game(): NonCopyable(), window(CustomWindow::NO_OPTIONS), isRunning(false), elements()
 {
-	GLAdapter::displayContextInfos();
-
-	GLAdapter::initGLContext();
-
-	GLAdapter::init3D();
-
 }
 
 /**
@@ -58,7 +53,13 @@ void Game::initialize()
 
 void Game::update()
 {
-	sf::Event event;
+	if (!this->window.isOpened()) {
+		this->stop();
+	}
+
+	glfwPollEvents();
+	// TODO add event management
+	/*sf::Event event;
 	while (this->window.pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed
@@ -66,7 +67,7 @@ void Game::update()
 			this->window.close();
 			this->stop();
 		}
-	}
+	}*/
 }
 
 /**
@@ -168,7 +169,7 @@ void Game::run()
 
 	while (this->isRunningGame()) {
 		this->update();
-		this->render();
+		//this->render();
 
 		elapsedTime += clock.restart();
 		FPS++;
@@ -226,3 +227,4 @@ bool Game::isRunningGame()
 {
 	return this->isRunning;
 }
+

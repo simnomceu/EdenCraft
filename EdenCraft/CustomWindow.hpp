@@ -6,7 +6,14 @@
 
 #pragma once
 
-#include "SFML\Graphics\RenderWindow.hpp"
+
+#pragma warning(push)
+#pragma warning(disable : 4505)
+#include "GL\glew.h"
+#include "GL\freeglut.h"
+#include "GLFW\glfw3.h"
+#pragma warning(pop)
+
 #include "BaseObject.hpp"
 
 /**
@@ -18,20 +25,30 @@
  * @date	13/08/2016
  */
 
-class CustomWindow : public sf::RenderWindow
+class CustomWindow
 {
 public:
-	CustomWindow();
+	static const int NO_OPTIONS = 0b00;
+	static const int FULLSCREEN = 0b01;
+
+	CustomWindow(const int tagOptions);
 	~CustomWindow();
 
 	void initialize();
 
+	void close();
 	void draw(BaseObject& object);
 
+	void setTitle(std::string title);
+	void display();
+
+	bool isOpened();
+
 private:
-	sf::VideoMode modeWindow;
 	std::string titleWindow;
-	unsigned int style;
-	sf::ContextSettings settings;
+
+	GLFWwindow* window;
+
+	int tagOptions;
 };
 

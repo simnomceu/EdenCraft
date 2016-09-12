@@ -15,6 +15,7 @@ public:
 	GLAdapter();
 	~GLAdapter();
 
+	static int initGLFW();
 	static void initGLContext();
 	static void init3D();
 
@@ -30,5 +31,7 @@ public:
 	static void clearVBOBuffer();
 
 	static int generateVAO();
+	static int generateVBO();
+	static void attachVBOtoVAO(int vboId, int vaoId);
 };
 

@@ -1,5 +1,8 @@
 #include "GLAdapter.hpp"
 
+#include "GLFW\glfw3.h"
+#include "Constants.inl"
+
 #include <iostream>
 
 
@@ -12,12 +15,30 @@ GLAdapter::~GLAdapter()
 {
 }
 
+int GLAdapter::initGLFW()
+{
+	if (!glfwInit()) {
+		return -1;
+	}
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Constants::GL_MAJOR_VERSION_EC);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Constants::GL_MINOR_VERSION_EC);
+	glfwSwapInterval(0);
+
+	return 0;
+}
+
 void GLAdapter::initGLContext()
 {
 	// Init Glew.
 	// Required to use VAO & VBO.
 	glewExperimental = GL_TRUE;
-	glewInit();
+
+	GLint GlewInitResult = glewInit();
+	if (GLEW_OK != GlewInitResult)
+	{
+		std::cerr << "ERROR: " << glewGetErrorString(GlewInitResult) << std::endl;
+	}
 }
 
 void GLAdapter::init3D()
@@ -37,7 +58,7 @@ void GLAdapter::init3D()
 void GLAdapter::displayContextInfos()
 {
 	std::cerr << "Renderer used: " << glGetString(GL_RENDERER) << std::endl;
-	std::cerr << glGetString(GL_VERSION) << " used in an SFML context." << std::endl;
+	std::cerr << glGetString(GL_VERSION) << " used in an GLFW context." << std::endl;
 }
 
 void GLAdapter::clearWindow()

@@ -9,14 +9,11 @@
 #include "Strings.inl"
 #include "Constants.inl"
 
+#include "GLAdapter.hpp"
+
 #include <iostream>
 #include <memory>
 
-#pragma warning(push)
-#pragma warning(disable : 4505)
-#include "GL\glew.h"
-#include "GL\freeglut.h"
-#pragma warning(pop)
 
 /**
  * @fn	CustomWindow::CustomWindow(): RenderWindow(), modeWindow(sf::VideoMode::getDesktopMode()), titleWindow("EdenCraft"), style(sf::Style::Titlebar | sf::Style::Close), settings()
@@ -27,26 +24,11 @@
  * @date	13/08/2016
  */
 
-CustomWindow::CustomWindow(): 
-	RenderWindow(),
-	modeWindow(sf::VideoMode::getDesktopMode()),
+CustomWindow::CustomWindow(const int tagOptions):
 	titleWindow(Strings::APP_TITLE),
-	style(sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize),
-	settings()
+	window(nullptr),
+	tagOptions(tagOptions)
 {
-	// OpenGL context settings
-	this->settings.depthBits = Constants::GL_DEPTH_BITS_EC;
-	this->settings.stencilBits = Constants::GL_STENCIL_BITS_EC;
-	this->settings.antialiasingLevel = Constants::GL_ANTIALIASING_LEVEL_EC;
-	this->settings.majorVersion = Constants::GL_MAJOR_VERSION_EC;
-	this->settings.minorVersion = Constants::GL_MINOR_VERSION_EC;
-	// Profil fags :
-	// Default : compatibility mode active. Requirement when working with OpenGL 3.2+
-	// Debug
-	// Core : OS X works only with this mode. Then, OS X can only use OpenGL 2.1 and below in an SFML window.
-	this->settings.attributeFlags = sf::ContextSettings::Attribute::Default;
-
-	this->modeWindow.height -= 70; // remove the height of application bar and title bar.
 }
 
 /**
@@ -60,7 +42,9 @@ CustomWindow::CustomWindow():
 
 CustomWindow::~CustomWindow()
 {
-	this->close();
+	if (this->isOpened()) {
+		this->close();
+	}
 }
 
 /**
@@ -74,12 +58,36 @@ CustomWindow::~CustomWindow()
 
 void CustomWindow::initialize()
 {
-	// Create window using parameters.
-	this->create(this->modeWindow, this->titleWindow, this->style, this->settings);
+	GLAdapter::initGLFW();
 
-	// Set the refreshing rate of window
-	this->setVerticalSyncEnabled(false);
-	//this->setFramerateLimit(40);
+	GLFWmonitor* monitor = nullptr;
+
+	if ((this->tagOptions & FULLSCREEN) == FULLSCREEN) {
+		monitor = glfwGetPrimaryMonitor();
+	}
+
+	this->window = glfwCreateWindow(640, 480, this->titleWindow.c_str(), monitor, nullptr);
+	if (!this->window) {
+		std::cerr << "Context cannot be created ..." << std::endl;
+		glfwTerminate();
+	}
+	else {
+		/* Make the window's context current */
+		glfwMakeContextCurrent(this->window);
+
+		GLAdapter::initGLContext();
+
+		GLAdapter::init3D();
+
+		GLAdapter::displayContextInfos();
+	}
+}
+
+void CustomWindow::close()
+{
+	if (this->window) {
+		glfwDestroyWindow(this->window);
+	}
 }
 
 void CustomWindow::draw(BaseObject & object)
@@ -91,4 +99,19 @@ void CustomWindow::draw(BaseObject & object)
 	glDrawArrays(GL_TRIANGLES, 0, 12);
 	// deactivate the VAO.
 	glBindVertexArray(0);
+}
+
+void CustomWindow::setTitle(std::string title)
+{
+	glfwSetWindowTitle(this->window, title.c_str());
+}
+
+void CustomWindow::display()
+{
+	glfwSwapBuffers(this->window);
+}
+
+bool CustomWindow::isOpened()
+{
+	return !glfwWindowShouldClose(window);
 }
