@@ -5,6 +5,7 @@
 #pragma warning(disable : 4505)
 #include "GL\glew.h"
 #include "GL\freeglut.h"
+#include "GLFW\glfw3.h"
 #pragma warning(pop)
 
 #include "ColorGL.hpp"
@@ -33,5 +34,11 @@ public:
 	static int generateVAO();
 	static int generateVBO();
 	static void attachVBOtoVAO(int vboId, int vaoId);
+
+
+	/* ##### MONITORS ##### */
+	static int getNumberOfMonitors();
+	static GLFWmonitor* getMainMonitor();
+	static GLFWmonitor* getMonitor(const int monitorId);
 };
 

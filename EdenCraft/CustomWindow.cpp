@@ -24,15 +24,18 @@
  * @date	13/08/2016
  */
 
-CustomWindow::CustomWindow(const std::string & title, const WindowTag tagOptions) :
+CustomWindow::CustomWindow(const std::string & title, const WindowTag tagOptions, const int monitorId) :
 	titleWindow(title),
 	window(nullptr),
-	monitorToFill(nullptr)
+	monitorToFill(nullptr),
+	tagOptions(NO_OPTIONS),
+	monitorId(0)
 {
 	// TODO move init out of here, and add a check
 	GLAdapter::initGLFW();
 
 	this->setOptions(tagOptions);
+	this->attachToMonitor(monitorId);
 }
 
 /**
@@ -88,7 +91,7 @@ void CustomWindow::close()
 
 bool CustomWindow::isOpened()
 {
-	return !glfwWindowShouldClose(window);
+	return this->window && !glfwWindowShouldClose(this->window);
 }
 
 void CustomWindow::draw(BaseObject & object)
@@ -118,23 +121,46 @@ void CustomWindow::setTitle(std::string title)
 	glfwSetWindowTitle(this->window, this->titleWindow.c_str());
 }
 
-void CustomWindow::setOptions(const WindowTag tagOptions)
+void CustomWindow::setOptions(const WindowTag tagOptionsIn)
 {
-	if ((tagOptions & FULLSCREEN) == FULLSCREEN) {
+	this->tagOptions = tagOptionsIn;
+
+	if (this->isFullscreenActivated()) {
 		this->monitorToFill = glfwGetPrimaryMonitor();
 	}
 
-	if ((tagOptions & RESIZABLE) == RESIZABLE) {
+	if ((this->tagOptions & RESIZABLE) == RESIZABLE) {
 		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 	}
 	else {
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	}
 
-	if ((tagOptions & TOOLBAR) == TOOLBAR) {
+	if ((this->tagOptions & TOOLBAR) == TOOLBAR) {
 		glfwWindowHint(GLFW_DECORATED, GL_TRUE);
 	}
 	else {
 		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+	}
+}
+
+bool CustomWindow::isFullscreenActivated()
+{
+	return (this->tagOptions & FULLSCREEN) == FULLSCREEN;
+}
+
+void CustomWindow::attachToMonitor(const int monitorIdIn)
+{
+	if (monitorId < GLAdapter::getNumberOfMonitors()) {
+		this->monitorId = monitorIdIn;
+	}
+
+	if (this->isFullscreenActivated()) {
+		this->monitorToFill = GLAdapter::getMonitor(this->monitorId);
+	}
+
+	if (this->isOpened() && this->isFullscreenActivated()) {
+		this->close();
+		this->initialize();
 	}
 }

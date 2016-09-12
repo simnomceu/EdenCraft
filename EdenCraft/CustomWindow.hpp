@@ -35,7 +35,9 @@ public:
 	static const WindowTag RESIZABLE = 0b010;
 	static const WindowTag TOOLBAR = 0b100;
 
-	CustomWindow(const std::string & title, const WindowTag tagOptions);
+	static const int PRIMARY_MONITOR = 0;
+
+	CustomWindow(const std::string & title, const WindowTag tagOptions, const int monitorId);
 	~CustomWindow();
 
 	void initialize();
@@ -49,12 +51,18 @@ public:
 
 	void setTitle(std::string title);
 
-	void setOptions(const WindowTag tagOptions);
+	void setOptions(const WindowTag tagOptionsIn);
+	bool isFullscreenActivated();
+
+	void attachToMonitor(const int monitorIdIn); // only for fullscreen mode
 
 private:
 	std::string titleWindow;
 
 	GLFWwindow* window;
 	GLFWmonitor* monitorToFill;
+
+	WindowTag tagOptions;
+	int monitorId;
 };
 

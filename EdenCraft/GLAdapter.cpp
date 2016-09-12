@@ -99,3 +99,28 @@ int GLAdapter::generateVAO()
 
 	return vao;
 }
+
+int GLAdapter::getNumberOfMonitors()
+{
+	int count = 0;
+	glfwGetMonitors(&count);
+	return count;
+}
+
+GLFWmonitor * GLAdapter::getMainMonitor()
+{
+	return glfwGetPrimaryMonitor();
+}
+
+GLFWmonitor * GLAdapter::getMonitor(const int monitorId)
+{
+	int count = 0;
+	GLFWmonitor** monitors = glfwGetMonitors(&count);
+	GLFWmonitor* monitor = nullptr;
+
+	if (monitorId < count) {
+		monitor = monitors[monitorId];
+	}
+
+	return monitor;
+}
