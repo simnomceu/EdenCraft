@@ -22,12 +22,6 @@
     <Filter Include="Fichiers de ressources\values">
       <UniqueIdentifier>{40d0b6ed-00c4-4647-8362-2f412c897843}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\Window">
-      <UniqueIdentifier>{072718ee-6358-4cd1-a1c1-4d5c906edfd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Window">
-      <UniqueIdentifier>{8d21a83d-24e0-4ee2-8889-e090e5668b6b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,16 +30,7 @@
     <ClCompile Include="Game.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="BaseObject.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="TriangleObject.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="TypeGL.cpp">
-      <Filter>Fichiers sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderScript.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="RectangleObject.cpp">
@@ -53,15 +38,6 @@
     </ClCompile>
     <ClCompile Include="CubeObject.cpp">
       <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GLAdapter.cpp">
-      <Filter>Fichiers sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="ColorGL.cpp">
-      <Filter>Fichiers sources\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseWindow.cpp">
-      <Filter>Fichiers sources\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,30 +47,12 @@
     <None Include="Strings.inl">
       <Filter>Fichiers de ressources\values</Filter>
     </None>
-    <None Include="Constants.inl">
-      <Filter>Fichiers d%27en-tête\Util</Filter>
-    </None>
-    <None Include="Window.inl">
-      <Filter>Fichiers d%27en-tête\Window</Filter>
-    </None>
-    <None Include="Rectangle.inl">
-      <Filter>Fichiers d%27en-tête\Util</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="BaseObject.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="TriangleObject.hpp">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="TypeGL.hpp">
-      <Filter>Fichiers d%27en-tête\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderScript.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="RectangleObject.hpp">
@@ -102,18 +60,6 @@
     </ClInclude>
     <ClInclude Include="CubeObject.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="GLAdapter.hpp">
-      <Filter>Fichiers d%27en-tête\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorGL.hpp">
-      <Filter>Fichiers d%27en-tête\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseWindow.hpp">
-      <Filter>Fichiers d%27en-tête\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Rectangle.hpp">
-      <Filter>Fichiers d%27en-tête\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

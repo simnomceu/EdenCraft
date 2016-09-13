@@ -11,7 +11,7 @@
 #pragma warning(pop)
 
 #include "TypeGL.hpp"
-#include "ShaderScript.h"
+#include "ShaderScript.hpp"
 
 class BaseObject
 {
