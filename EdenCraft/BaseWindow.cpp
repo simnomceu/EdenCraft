@@ -25,12 +25,13 @@ namespace Window
 	 * @date	13/08/2016
 	 */
 
-	BaseWindow::BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId) :
+	BaseWindow::BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Util::Rectangle<int> & rect) :
 		titleWindow(title),
 		window(nullptr),
 		monitorToFill(nullptr),
 		tagOptions(NO_OPTIONS),
-		monitorId(0)
+		monitorId(0),
+		rect(rect)
 	{
 		// TODO move init out of here, and add a check
 		GLAdapter::initGLFW();
@@ -53,7 +54,8 @@ namespace Window
 		window(copy.window),
 		monitorToFill(copy.monitorToFill),
 		tagOptions(copy.tagOptions),
-		monitorId(copy.monitorId)
+		monitorId(copy.monitorId),
+		rect(std::move(copy.rect))
 	{
 		copy.window = nullptr;
 		copy.monitorToFill = nullptr;
@@ -76,10 +78,11 @@ namespace Window
 	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
 	{
 		this->titleWindow = std::move(rightOperand.titleWindow);
-		window = rightOperand.window;
-		monitorToFill = rightOperand.monitorToFill;
-		tagOptions = rightOperand.tagOptions;
-		monitorId = rightOperand.monitorId;
+		this->window = rightOperand.window;
+		this->monitorToFill = rightOperand.monitorToFill;
+		this->tagOptions = rightOperand.tagOptions;
+		this->monitorId = rightOperand.monitorId;
+		this->rect = std::move(rightOperand.rect);
 
 		rightOperand.window = nullptr;
 		rightOperand.monitorToFill = nullptr;
@@ -89,12 +92,15 @@ namespace Window
 
 	void BaseWindow::open()
 	{
-		this->window = glfwCreateWindow(640, 480, this->titleWindow.c_str(), this->monitorToFill, nullptr);
+		// TODO use alse param X and Y of rect.
+		this->window = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
 		if (!this->window) {
 			std::cerr << "Context cannot be created ..." << std::endl;
 			glfwTerminate();
 		}
 		else {
+			glfwSetWindowPos(this->window, this->rect.getX(), this->rect.getY());
+
 			/* Make the window's context current */
 			glfwMakeContextCurrent(this->window);
 
@@ -120,7 +126,6 @@ namespace Window
 
 	void BaseWindow::draw(BaseObject & object)
 	{
-		/*
 		object.prepareShaders();
 		// activate the VAO to use.
 		glBindVertexArray(object.getVAO());
@@ -128,7 +133,6 @@ namespace Window
 		glDrawArrays(GL_TRIANGLES, 0, 12);
 		// deactivate the VAO.
 		glBindVertexArray(0);
-		*/
 	}
 
 	void BaseWindow::display()
@@ -148,6 +152,15 @@ namespace Window
 		this->titleWindow = title;
 		if (this->window) {
 			glfwSetWindowTitle(this->window, this->titleWindow.c_str());
+		}
+	}
+
+	void BaseWindow::setRect(const Util::Rectangle<int>& rectIn)
+	{
+		this->rect = rectIn;
+		if (this->window) {
+			glfwSetWindowPos(this->window, this->rect.getX(), this->rect.getY());
+			glfwSetWindowSize(this->window, this->rect.getWidth(), this->rect.getHeight());
 		}
 	}
 

@@ -151,6 +151,7 @@
     <ClInclude Include="BaseWindow.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GLAdapter.hpp" />
+    <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="RectangleObject.hpp" />
     <ClInclude Include="ShaderScript.h" />
     <ClInclude Include="TriangleObject.hpp" />
@@ -161,6 +162,7 @@
     <None Include="Basic.vert" />
     <None Include="Constants.inl" />
     <None Include="packages.config" />
+    <None Include="Rectangle.inl" />
     <None Include="Strings.inl" />
     <None Include="Window.inl" />
   </ItemGroup>

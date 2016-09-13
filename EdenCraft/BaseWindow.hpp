@@ -16,6 +16,7 @@
 
 #include "Window.inl"
 #include "BaseObject.hpp"
+#include "Rectangle.hpp"
 
 namespace Window
 {
@@ -31,7 +32,7 @@ namespace Window
 	class BaseWindow
 	{
 	public:
-		BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId);
+		BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Util::Rectangle<int> & rect);
 		BaseWindow(const BaseWindow & copy) = delete;
 		BaseWindow(BaseWindow && copy);	
 		~BaseWindow();
@@ -49,6 +50,8 @@ namespace Window
 
 		void setTitle(const std::string & title);
 
+		void setRect(const Util::Rectangle<int> & rectIn);
+
 		void setOptions(const WindowTag tagOptionsIn);
 		bool isFullscreenActivated() const;
 		bool isResizable() const;
@@ -64,5 +67,7 @@ namespace Window
 
 		WindowTag tagOptions;
 		int monitorId;
+
+		Util::Rectangle<int> rect;
 	};
 }
