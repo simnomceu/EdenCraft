@@ -22,6 +22,12 @@
     <Filter Include="Fichiers d%27en-tête\Maths">
       <UniqueIdentifier>{3c5fd36d-8d3a-4174-bf8a-7666320fe3b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Utils">
+      <UniqueIdentifier>{7be7ee07-d392-415a-bfd5-e61ad06dac67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Utils">
+      <UniqueIdentifier>{4efddc0b-17ce-4bcb-9193-cc2298d6b2cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -60,6 +66,9 @@
     <ClInclude Include="GLAdapter.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="DriverGL.hpp">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseWindow.cpp">
@@ -79,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="GLAdapter.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DriverGL.cpp">
+      <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

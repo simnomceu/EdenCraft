@@ -1,6 +1,5 @@
 #include "GLAdapter.hpp"
 
-#include "GLFW\glfw3.h"
 #include "Constants.inl"
 
 #include <iostream>
@@ -20,6 +19,9 @@ int GLAdapter::initGLFW()
 	if (!glfwInit()) {
 		return -1;
 	}
+	int major, minor, rev;
+	glfwGetVersion(&major, &minor, &rev);
+	std::cerr << "GLFW initialized in version " << major << "." << minor << "." << rev << std::endl;
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Constants::GL_MAJOR_VERSION_EC);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Constants::GL_MINOR_VERSION_EC);

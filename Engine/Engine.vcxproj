@@ -139,6 +139,7 @@
     <ClInclude Include="BaseObject.hpp" />
     <ClInclude Include="BaseWindow.hpp" />
     <ClInclude Include="ColorGL.hpp" />
+    <ClInclude Include="DriverGL.hpp" />
     <ClInclude Include="GLAdapter.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="ShaderScript.hpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="ColorGL.cpp" />
+    <ClCompile Include="DriverGL.cpp" />
     <ClCompile Include="GLAdapter.cpp" />
     <ClCompile Include="ShaderScript.cpp" />
     <ClCompile Include="TypeGL.cpp" />
