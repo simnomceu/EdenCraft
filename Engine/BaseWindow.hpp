@@ -32,7 +32,7 @@ namespace Window
 	class BaseWindow
 	{
 	public:
-		BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Util::Rectangle<int> & rect);
+		BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Utils::Rectangle<unsigned int> & rect);
 		BaseWindow(const BaseWindow & copy) = delete;
 		BaseWindow(BaseWindow && copy);	
 		~BaseWindow();
@@ -50,7 +50,7 @@ namespace Window
 
 		void setTitle(const std::string & title);
 
-		void setRect(const Util::Rectangle<int> & rectIn);
+		void setRect(const Utils::Rectangle<unsigned int> & rectIn);
 
 		void setOptions(const WindowTag tagOptionsIn);
 		bool isFullscreenActivated() const;
@@ -62,12 +62,12 @@ namespace Window
 	private:
 		std::string titleWindow;
 
-		GLFWwindow* window;
+		short int windowId;
 		GLFWmonitor* monitorToFill;
 
 		WindowTag tagOptions;
 		int monitorId;
 
-		Util::Rectangle<int> rect;
+		Utils::Rectangle<unsigned int> rect;
 	};
 }

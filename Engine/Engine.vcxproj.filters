@@ -43,6 +43,9 @@
     <None Include="Constants.inl">
       <Filter>Fichiers d%27en-tête</Filter>
     </None>
+    <None Include="Vector.inl">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rectangle.hpp">
@@ -66,8 +69,20 @@
     <ClInclude Include="GLAdapter.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="DriverGL.hpp">
+    <ClInclude Include="WindowManagerGLFW.hpp">
       <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.hpp">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowServiceLocator.hpp">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManagerNone.hpp">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.hpp">
+      <Filter>Fichiers d%27en-tête\Maths</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -89,7 +104,13 @@
     <ClCompile Include="GLAdapter.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="DriverGL.cpp">
+    <ClCompile Include="WindowManagerGLFW.cpp">
+      <Filter>Fichiers sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowServiceLocator.cpp">
+      <Filter>Fichiers sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManagerNone.cpp">
       <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
   </ItemGroup>

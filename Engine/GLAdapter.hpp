@@ -13,14 +13,7 @@
 class GLAdapter
 {
 public:
-	GLAdapter();
-	~GLAdapter();
-
-	static int initGLFW();
-	static void initGLContext();
 	static void init3D();
-
-	static void displayContextInfos();
 
 	static void clearWindow();
 	static void clearWindow(const Colors::Color color);

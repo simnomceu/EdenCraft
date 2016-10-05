@@ -5,44 +5,6 @@
 #include <iostream>
 
 
-GLAdapter::GLAdapter()
-{
-}
-
-
-GLAdapter::~GLAdapter()
-{
-}
-
-int GLAdapter::initGLFW()
-{
-	if (!glfwInit()) {
-		return -1;
-	}
-	int major, minor, rev;
-	glfwGetVersion(&major, &minor, &rev);
-	std::cerr << "GLFW initialized in version " << major << "." << minor << "." << rev << std::endl;
-
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Constants::GL_MAJOR_VERSION_EC);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Constants::GL_MINOR_VERSION_EC);
-	glfwSwapInterval(0);
-
-	return 0;
-}
-
-void GLAdapter::initGLContext()
-{
-	// Init Glew.
-	// Required to use VAO & VBO.
-	glewExperimental = GL_TRUE;
-
-	GLint GlewInitResult = glewInit();
-	if (GLEW_OK != GlewInitResult)
-	{
-		std::cerr << "ERROR: " << glewGetErrorString(GlewInitResult) << std::endl;
-	}
-}
-
 void GLAdapter::init3D()
 {
 	/* tell GL to only draw onto a pixel if the shape is closer to the viewer
@@ -55,12 +17,6 @@ void GLAdapter::init3D()
 	glEnable(GL_CULL_FACE); // cull face
 	glCullFace(GL_BACK); // cull back face
 	glFrontFace(GL_CW); // GL_CCW for counter clock-wise
-}
-
-void GLAdapter::displayContextInfos()
-{
-	std::cerr << "Renderer used: " << glGetString(GL_RENDERER) << std::endl;
-	std::cerr << glGetString(GL_VERSION) << " used in an GLFW context." << std::endl;
 }
 
 void GLAdapter::clearWindow()

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Util
+namespace Utils
 {
 	template<typename T>
 	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) :

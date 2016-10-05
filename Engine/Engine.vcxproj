@@ -133,26 +133,33 @@
     <None Include="Constants.inl" />
     <None Include="packages.config" />
     <None Include="Rectangle.inl" />
+    <None Include="Vector.inl" />
     <None Include="Window.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.hpp" />
     <ClInclude Include="BaseWindow.hpp" />
     <ClInclude Include="ColorGL.hpp" />
-    <ClInclude Include="DriverGL.hpp" />
+    <ClInclude Include="Vector.hpp" />
+    <ClInclude Include="WindowManager.hpp" />
+    <ClInclude Include="WindowManagerGLFW.hpp" />
     <ClInclude Include="GLAdapter.hpp" />
     <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="ShaderScript.hpp" />
     <ClInclude Include="TypeGL.hpp" />
+    <ClInclude Include="WindowManagerNone.hpp" />
+    <ClInclude Include="WindowServiceLocator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="ColorGL.cpp" />
-    <ClCompile Include="DriverGL.cpp" />
+    <ClCompile Include="WindowManagerGLFW.cpp" />
     <ClCompile Include="GLAdapter.cpp" />
     <ClCompile Include="ShaderScript.cpp" />
     <ClCompile Include="TypeGL.cpp" />
+    <ClCompile Include="WindowManagerNone.cpp" />
+    <ClCompile Include="WindowServiceLocator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,6 +5,8 @@
  */
 
 #include "Game.hpp"
+#include "WindowServiceLocator.hpp"
+#include "WindowManagerGLFW.hpp"
 
 /**
  * @fn	int main()
@@ -19,6 +21,8 @@
 
 auto main() -> int
 {
+	Utils::WindowServiceLocator::provide(new Utils::WindowManagerGLFW());
+
 	auto game = Game::getInstance();
 	auto usableGame = game.lock();
 

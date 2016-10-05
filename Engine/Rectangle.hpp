@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Util
+namespace Utils
 {
 	template<typename T>
 	class Rectangle

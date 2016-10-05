@@ -10,6 +10,7 @@
 
 #include "GLAdapter.hpp"
 #include "ColorGL.hpp"
+#include "WindowServiceLocator.hpp"
 
 #include <iostream>
 #include <memory>
@@ -25,17 +26,14 @@ namespace Window
 	 * @date	13/08/2016
 	 */
 
-	BaseWindow::BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Util::Rectangle<int> & rect) :
+	BaseWindow::BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Utils::Rectangle<unsigned int> & rect) :
 		titleWindow(title),
-		window(nullptr),
+		windowId(-1),
 		monitorToFill(nullptr),
 		tagOptions(NO_OPTIONS),
 		monitorId(0),
 		rect(rect)
 	{
-		// TODO move init out of here, and add a check
-		GLAdapter::initGLFW();
-
 		this->setOptions(tagOptions);
 		this->attachToMonitor(monitorId);
 	}
@@ -51,13 +49,12 @@ namespace Window
 
 	BaseWindow::BaseWindow(BaseWindow && copy) :
 		titleWindow(std::move(copy.titleWindow)),
-		window(copy.window),
+		windowId(copy.windowId),
 		monitorToFill(copy.monitorToFill),
 		tagOptions(copy.tagOptions),
 		monitorId(copy.monitorId),
 		rect(std::move(copy.rect))
 	{
-		copy.window = nullptr;
 		copy.monitorToFill = nullptr;
 	}
 
@@ -78,13 +75,12 @@ namespace Window
 	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
 	{
 		this->titleWindow = std::move(rightOperand.titleWindow);
-		this->window = rightOperand.window;
+		this->windowId = rightOperand.windowId;
 		this->monitorToFill = rightOperand.monitorToFill;
 		this->tagOptions = rightOperand.tagOptions;
 		this->monitorId = rightOperand.monitorId;
 		this->rect = std::move(rightOperand.rect);
 
-		rightOperand.window = nullptr;
 		rightOperand.monitorToFill = nullptr;
 
 		return *this;
@@ -93,35 +89,25 @@ namespace Window
 	void BaseWindow::open()
 	{
 		// TODO use alse param X and Y of rect.
-		this->window = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
-		if (!this->window) {
-			std::cerr << "Context cannot be created ..." << std::endl;
-			glfwTerminate();
-		}
-		else {
-			glfwSetWindowPos(this->window, this->rect.getX(), this->rect.getY());
+		//this->windowId = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
+		this->windowId = Utils::WindowServiceLocator::getService().openWindow();
+		
+		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->rect);
 
-			/* Make the window's context current */
-			glfwMakeContextCurrent(this->window);
+		/* Make the window's context current */
+		//glfwMakeContextCurrent(this->window);
 
-			GLAdapter::initGLContext();
-
-			GLAdapter::init3D();
-
-			GLAdapter::displayContextInfos();
-		}
+		//GLAdapter::init3D();
 	}
 
 	void BaseWindow::close()
 	{
-		if (this->window && this->isOpened()) {
-			glfwDestroyWindow(this->window);
-		}
+		Utils::WindowServiceLocator::getService().closeWindow(this->windowId);
 	}
 
 	bool BaseWindow::isOpened() const
 	{
-		return this->window && !glfwWindowShouldClose(this->window);
+		return this->windowId != -1;
 	}
 
 	void BaseWindow::draw(BaseObject & object)
@@ -137,9 +123,9 @@ namespace Window
 
 	void BaseWindow::display()
 	{
-		if (this->window) {
+		/*if (this->window) {
 			glfwSwapBuffers(this->window);
-		}
+		}*/
 	}
 
 	void BaseWindow::clear()
@@ -150,18 +136,12 @@ namespace Window
 	void BaseWindow::setTitle(const std::string & title)
 	{
 		this->titleWindow = title;
-		if (this->window) {
-			glfwSetWindowTitle(this->window, this->titleWindow.c_str());
-		}
+		Utils::WindowServiceLocator::getService().setTitle(this->windowId, title);
 	}
 
-	void BaseWindow::setRect(const Util::Rectangle<int>& rectIn)
+	void BaseWindow::setRect(const Utils::Rectangle<unsigned int>& rectIn)
 	{
-		this->rect = rectIn;
-		if (this->window) {
-			glfwSetWindowPos(this->window, this->rect.getX(), this->rect.getY());
-			glfwSetWindowSize(this->window, this->rect.getWidth(), this->rect.getHeight());
-		}
+		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->rect);
 	}
 
 	void BaseWindow::setOptions(const WindowTag tagOptionsIn)
@@ -212,9 +192,9 @@ namespace Window
 			this->monitorToFill = GLAdapter::getMonitor(this->monitorId);
 		}
 
-		if (this->isOpened() && this->isFullscreenActivated()) {
+		/*if (this->isOpened() && this->isFullscreenActivated()) {
 			this->close();
 			this->open();
-		}
+		}*/
 	}
 }

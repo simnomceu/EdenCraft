@@ -23,7 +23,7 @@ std::shared_ptr<Game> Game::instance = nullptr;
 
 Game::Game() : 
 	NonCopyable(), 
-	window(Strings::APP_TITLE, Window::TOOLBAR, Window::PRIMARY_MONITOR, Util::Rectangle<int>{100, 100, 480, 360}), 
+	window(Strings::APP_TITLE, Window::TOOLBAR, Window::PRIMARY_MONITOR, Utils::Rectangle<unsigned int>{100, 100, 480, 360}), 
 	isRunning(false), 
 	elements()
 {
@@ -43,7 +43,7 @@ void Game::initialize()
 	this->start();
 	this->window.open();
 
-	this->elements.push_back(new RectangleObject());
+//	this->elements.push_back(new RectangleObject());
 }
 
 /**

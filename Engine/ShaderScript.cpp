@@ -5,6 +5,7 @@
 
 ShaderScript::ShaderScript()
 {
+	// TODO : check initialization of all what is required (GLEW, context, etc ...)
 	this->program = glCreateProgram();
 }
 
