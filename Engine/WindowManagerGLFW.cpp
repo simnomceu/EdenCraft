@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <utility> // std::pair
+#include <functional>
 
 namespace Utils
 {
@@ -27,6 +28,7 @@ namespace Utils
 			int major, minor, rev;
 			glfwGetVersion(&major, &minor, &rev);
 			std::cerr << "GLFW initialized in version " << major << "." << minor << "." << rev << std::endl;
+			this->isGLFWInitialized = true;
 		}
 	}
 
@@ -39,7 +41,8 @@ namespace Utils
 			this->parametrizeContextGL();
 		}
 
-		this->windows.insert(std::make_pair(this->idsAvailable.top(), glfwCreateWindow(640, 480, "My Title", NULL, NULL)));
+		this->windows.insert(std::make_pair(this->idsAvailable.top(), 
+										glfwCreateWindow(640, 480, "My Title", NULL, NULL)));
 		unsigned short int windowId = -1;
 
 		if (this->windows[this->idsAvailable.top()] != nullptr) {
@@ -49,7 +52,7 @@ namespace Utils
 			this->idsAvailable.push(windowId + 1);
 
 			if (this->isContextDefined == -1) {
-				glfwMakeContextCurrent(this->windows[windowId]);
+				glfwMakeContextCurrent(this->getWindow(windowId));
 			}
 
 			if (!this->isGLEWInit) {
@@ -64,14 +67,14 @@ namespace Utils
 
 	void WindowManagerGLFW::closeWindow(const short int windowId)
 	{
-		glfwDestroyWindow(this->windows[windowId]);
+		glfwDestroyWindow(this->getWindow(windowId));
 		if (this->isContextDefined == windowId) {
 			if (this->windows.size() == 0) {
 				this->isContextDefined = -1;
 			}
 			else {
 				this->isContextDefined = this->windows.end()->first;
-				glfwMakeContextCurrent(this->windows[windowId]);
+				glfwMakeContextCurrent(this->getWindow(windowId));
 				// TODO : re-init GLEW ?
 			}
 		}
@@ -81,6 +84,7 @@ namespace Utils
 		if (this->windows.size() == 0) {
 			this->terminateGLFW();
 		}
+		std::cout << "Window with id " << windowId << " has been closed without encoutering errors ..." << std::endl;
 	}
 
 	void WindowManagerGLFW::setTitle(const short int windowId, const std::string & title)
@@ -197,6 +201,7 @@ namespace Utils
 				std::cerr << "Glew has been initialized." << std::endl;
 				std::cerr << "Renderer used: " << glGetString(GL_RENDERER) << std::endl;
 				std::cerr << glGetString(GL_VERSION) << " used in an GLFW context." << std::endl;
+				this->isGLEWInit = true;
 			}
 		}
 		else {
@@ -212,6 +217,6 @@ namespace Utils
 
 	GLFWwindow * WindowManagerGLFW::getWindow(const short int windowId)
 	{
-		return this->windows[windowId];
+		return this->windows[windowId].get();
 	}
 }

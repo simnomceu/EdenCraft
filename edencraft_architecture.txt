@@ -1,0 +1,29 @@
+EdenCraft
+   |--------Build
+   |	      |--------bin
+   |	      |         |--------Debug
+   |	      |		|--------Release
+   |	      |
+   |	      |--------obj
+   |	                |--------Debug
+   |	       		|--------Release
+   |
+   |--------src
+   |	     |--------core
+   |         |--------app
+   |
+   |--------include
+   |		|--------core
+   |		|--------app
+   |
+   |--------extlibs
+   |
+   |--------resources
+		|--------docs        
+		|--------fonts
+		|--------imgs
+		|--------shaders
+		|--------models
+		|--------textures
+		|--------sounds
+		|--------texts

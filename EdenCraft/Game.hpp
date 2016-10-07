@@ -40,6 +40,7 @@ private:
 	static std::shared_ptr<Game> instance;
 
 	Window::BaseWindow window;
+	Window::BaseWindow windowBis;
 	bool isRunning;
 	std::vector<BaseObject*> elements;
 
