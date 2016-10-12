@@ -1,12 +1,12 @@
 EdenCraft
-   |--------Build
+   |--------build
    |	      |--------bin
-   |	      |         |--------Debug
-   |	      |		|--------Release
+   |	      |         |--------debug
+   |	      |		|--------release
    |	      |
    |	      |--------obj
-   |	                |--------Debug
-   |	       		|--------Release
+   |	                |--------debug
+   |	       		|--------release
    |
    |--------src
    |	     |--------core
@@ -16,7 +16,7 @@ EdenCraft
    |		|--------core
    |		|--------app
    |
-   |--------extlibs
+   |--------libs
    |
    |--------resources
 		|--------docs        
