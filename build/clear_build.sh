@@ -8,6 +8,8 @@ rm -f Makefile
 rm -f ./*.vcxproj
 rm -f ./*.vcxproj.filters
 rm -f ./*.sln
+rm -f ./*.VC.db
+rm -f ./*.VC.opendb
 
 # Code::Blocks project
 rm -f ./*.cbp
