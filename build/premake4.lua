@@ -20,6 +20,7 @@ project "App"
 		"../include/App/**.hpp",
 		"../include/App/**.inl"
 	}
+	links { "core" }
 
 
 project "Core"

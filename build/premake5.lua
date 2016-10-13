@@ -30,6 +30,15 @@ project "App"
 		"../include/App/**.hpp",
 		"../include/App/**.inl"
 	}
+	links { "Core", "GLEW" }
+
+	filter { "configurations:Debug" }
+		links { "glfw3-d" }
+
+	filter { "configurations:Release" }
+		links { "glfw3" }
+
+	filter { }
 
 
 project "Core"
@@ -40,3 +49,12 @@ project "Core"
 		"../include/Core/**.hpp",
 		"../include/Core/**.inl"
 	}
+	links { "GLEW" }
+
+	filter { "configurations:Debug" }
+		links { "glfw3-d" }
+
+	filter { "configurations:Release" }
+		links { "glfw3" }
+
+	filter { }
