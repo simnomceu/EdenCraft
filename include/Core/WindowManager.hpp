@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "Rectangle.hpp"
-#include "Vector.hpp"
+#include "Core/Geom/Rectangle.hpp"
+#include "Core/Geom/Vector.hpp"
 
 namespace Utils
 {

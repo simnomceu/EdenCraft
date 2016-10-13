@@ -26,7 +26,7 @@ namespace Window
 	 * @date	13/08/2016
 	 */
 
-	BaseWindow::BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Utils::Rectangle<unsigned int> & rect) :
+	BaseWindow::BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Geom::Rectangle<unsigned int> & rect) :
 		titleWindow(title),
 		windowId(-1),
 		monitorToFill(nullptr),
@@ -110,7 +110,7 @@ namespace Window
 		return this->windowId != -1;
 	}
 
-	void BaseWindow::draw(BaseObject & object)
+	/*void BaseWindow::draw(BaseObject & object)
 	{
 		object.prepareShaders();
 		// activate the VAO to use.
@@ -119,7 +119,7 @@ namespace Window
 		glDrawArrays(GL_TRIANGLES, 0, 12);
 		// deactivate the VAO.
 		glBindVertexArray(0);
-	}
+	}*/
 
 	void BaseWindow::display()
 	{
@@ -130,7 +130,7 @@ namespace Window
 
 	void BaseWindow::clear()
 	{
-		GLAdapter::clearWindow(Colors::DARK_GRAY);
+		//GLAdapter::clearWindow(Colors::DARK_GRAY);
 	}
 
 	void BaseWindow::setTitle(const std::string & title)
@@ -139,7 +139,7 @@ namespace Window
 		Utils::WindowServiceLocator::getService().setTitle(this->windowId, title);
 	}
 
-	void BaseWindow::setRect(const Utils::Rectangle<unsigned int>& rectIn)
+	void BaseWindow::setRect(const Geom::Rectangle<unsigned int>& rectIn)
 	{
 		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->rect);
 	}
@@ -184,13 +184,13 @@ namespace Window
 
 	void BaseWindow::attachToMonitor(const int monitorIdIn)
 	{
-		if (monitorId < GLAdapter::getNumberOfMonitors()) {
+		/*if (monitorId < GLAdapter::getNumberOfMonitors()) {
 			this->monitorId = monitorIdIn;
 		}
 
 		if (this->isFullscreenActivated()) {
 			this->monitorToFill = GLAdapter::getMonitor(this->monitorId);
-		}
+		}*/
 
 		/*if (this->isOpened() && this->isFullscreenActivated()) {
 			this->close();
