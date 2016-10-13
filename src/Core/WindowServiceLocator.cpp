@@ -1,6 +1,6 @@
-#include "WindowServiceLocator.hpp"
+#include "Core/WindowServiceLocator.hpp"
 
-#include "WindowManagerNone.hpp"
+#include "Core/WindowManagerNone.hpp"
 
 namespace Utils
 {

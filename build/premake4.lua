@@ -12,6 +12,9 @@ solution "EdenCraft"
 	configuration "Release"
 		flags { "Optimize" }
 
+	includedirs { "../include" }
+	libdirs { "../lib" }
+
 project "App"
 	kind "ConsoleApp"
 	location ""
@@ -20,7 +23,7 @@ project "App"
 		"../include/App/**.hpp",
 		"../include/App/**.inl"
 	}
-	links { "core" }
+	links { "core", "glew32", "glfw3", "freeglut" }
 
 
 project "Core"
@@ -31,3 +34,4 @@ project "Core"
 		"../include/Core/**.hpp",
 		"../include/Core/**.inl"
 	}
+	links { "glew32", "glfw3", "freeglut" }

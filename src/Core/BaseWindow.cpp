@@ -4,13 +4,13 @@
  * @brief	Implements the custom Windows Form.
  */
 
-#include "BaseWindow.hpp"
+#include "Core/BaseWindow.hpp"
 
-#include "Constants.inl"
+//#include "Constants.inl"
 
-#include "GLAdapter.hpp"
-#include "ColorGL.hpp"
-#include "WindowServiceLocator.hpp"
+//#include "GLAdapter.hpp"
+//#include "ColorGL.hpp"
+#include "Core/WindowServiceLocator.hpp"
 
 #include <iostream>
 #include <memory>

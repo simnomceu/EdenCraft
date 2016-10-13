@@ -22,6 +22,9 @@ workspace "EdenCraft"
 
 	filter { }
 
+	includedirs { "../include" }
+	libdirs { "../lib" }
+
 project "App"
 	kind "ConsoleApp"
 	location ""
@@ -30,15 +33,7 @@ project "App"
 		"../include/App/**.hpp",
 		"../include/App/**.inl"
 	}
-	links { "Core", "GLEW" }
-
-	filter { "configurations:Debug" }
-		links { "glfw3-d" }
-
-	filter { "configurations:Release" }
-		links { "glfw3" }
-
-	filter { }
+	links { "Core", "glew32", "glfw3", "freeglut" }
 
 
 project "Core"
@@ -49,12 +44,4 @@ project "Core"
 		"../include/Core/**.hpp",
 		"../include/Core/**.inl"
 	}
-	links { "GLEW" }
-
-	filter { "configurations:Debug" }
-		links { "glfw3-d" }
-
-	filter { "configurations:Release" }
-		links { "glfw3" }
-
-	filter { }
+	links { "glew32", "glfw3", "freeglut" }
