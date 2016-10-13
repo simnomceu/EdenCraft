@@ -1,3 +1,9 @@
+# Visual Studio 2015 project
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+
 # Compiled Object files
 *.slo
 *.lo
