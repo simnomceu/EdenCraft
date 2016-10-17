@@ -1,11 +1,4 @@
-/**
- * @file	CustomWindow.h
- *
- * @brief	Declares the custom Windows Form.
- */
-
 #pragma once
-
 
 #pragma warning(push)
 #pragma warning(disable : 4505)
@@ -14,25 +7,16 @@
 #include "GLFW\glfw3.h"
 #pragma warning(pop)
 
-//#include "Window.inl"
-//#include "BaseObject.hpp"
 #include "Core/Geom/Rectangle.hpp"
+#include "WindowSetting.hpp"
+#include "Window.inl"
 
 namespace Window
 {
-
-	/**
-	* @class	BaseWindow
-	*
-	* @brief	Form for viewing the custom.
-	*
-	* @author	PIERRE
-	* @date	13/08/2016
-	*/
 	class BaseWindow
 	{
 	public:
-		BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Geom::Rectangle<unsigned int> & rect);
+		BaseWindow(const Utils::WindowSetting & settings);
 		BaseWindow(const BaseWindow & copy) = delete;
 		BaseWindow(BaseWindow && copy);	
 		~BaseWindow();
@@ -52,22 +36,16 @@ namespace Window
 
 		void setRect(const Geom::Rectangle<unsigned int> & rectIn);
 
-		void setOptions(const WindowTag tagOptionsIn);
+		void setOptions(const Utils::WindowTag tagOptionsIn);
 		bool isFullscreenActivated() const;
 		bool isResizable() const;
 		bool isToolbarActivated() const;
 
-		void attachToMonitor(const int monitorIdIn); // only for fullscreen mode
+		void attachToMonitor(const int monitorIdIn);
 
 	private:
-		std::string titleWindow;
-
 		short int windowId;
-		GLFWmonitor* monitorToFill;
 
-		WindowTag tagOptions;
-		int monitorId;
-
-		Geom::Rectangle<unsigned int> rect;
+		Utils::WindowSetting settings;
 	};
 }

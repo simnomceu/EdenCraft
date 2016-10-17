@@ -1,15 +1,6 @@
-/**
- * @file	BaseWindow.cpp
- *
- * @brief	Implements the custom Windows Form.
- */
 
 #include "Core/BaseWindow.hpp"
 
-//#include "Constants.inl"
-
-//#include "GLAdapter.hpp"
-//#include "ColorGL.hpp"
 #include "Core/WindowServiceLocator.hpp"
 
 #include <iostream>
@@ -17,45 +8,12 @@
 
 namespace Window
 {
-	/**
-	 * @fn	BaseWindow::BaseWindow(): RenderWindow(), modeWindow(sf::VideoMode::getDesktopMode()), titleWindow("EdenCraft"), style(sf::Style::Titlebar | sf::Style::Close), settings()
-	 *
-	 * @brief	Default constructor.
-	 *
-	 * @author	PIERRE
-	 * @date	13/08/2016
-	 */
-
-	BaseWindow::BaseWindow(const std::string & title, const WindowTag tagOptions, const int monitorId, const Geom::Rectangle<unsigned int> & rect) :
-		titleWindow(title),
-		windowId(-1),
-		monitorToFill(nullptr),
-		tagOptions(NO_OPTIONS),
-		monitorId(0),
-		rect(rect)
+	BaseWindow::BaseWindow(const Utils::WindowSetting & settings) : windowId(-1), settings(settings)
 	{
-		this->setOptions(tagOptions);
-		this->attachToMonitor(monitorId);
 	}
 
-	/**
-	 * @fn	BaseWindow::~BaseWindow()
-	 *
-	 * @brief	Destructor.
-	 *
-	 * @author	PIERRE
-	 * @date	13/08/2016
-	 */
-
-	BaseWindow::BaseWindow(BaseWindow && copy) :
-		titleWindow(std::move(copy.titleWindow)),
-		windowId(copy.windowId),
-		monitorToFill(copy.monitorToFill),
-		tagOptions(copy.tagOptions),
-		monitorId(copy.monitorId),
-		rect(std::move(copy.rect))
+	BaseWindow::BaseWindow(BaseWindow && copy) : windowId(copy.windowId), settings(copy.settings)
 	{
-		copy.monitorToFill = nullptr;
 	}
 
 	BaseWindow::~BaseWindow()
@@ -63,25 +21,10 @@ namespace Window
 		this->close();
 	}
 
-	/**
-	 * @fn	void BaseWindow::initialize()
-	 *
-	 * @brief	Initializes this object.
-	 *
-	 * @author	PIERRE
-	 * @date	13/08/2016
-	 */
-
 	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
 	{
-		this->titleWindow = std::move(rightOperand.titleWindow);
 		this->windowId = rightOperand.windowId;
-		this->monitorToFill = rightOperand.monitorToFill;
-		this->tagOptions = rightOperand.tagOptions;
-		this->monitorId = rightOperand.monitorId;
-		this->rect = std::move(rightOperand.rect);
-
-		rightOperand.monitorToFill = nullptr;
+		this->settings = rightOperand.settings;
 
 		return *this;
 	}
@@ -92,7 +35,7 @@ namespace Window
 		//this->windowId = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
 		this->windowId = Utils::WindowServiceLocator::getService().openWindow();
 		
-		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->rect);
+		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 
 		/* Make the window's context current */
 		//glfwMakeContextCurrent(this->window);
@@ -135,20 +78,20 @@ namespace Window
 
 	void BaseWindow::setTitle(const std::string & title)
 	{
-		this->titleWindow = title;
+		this->settings.setTitle(title);
 		Utils::WindowServiceLocator::getService().setTitle(this->windowId, title);
 	}
 
 	void BaseWindow::setRect(const Geom::Rectangle<unsigned int>& rectIn)
 	{
-		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->rect);
+		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 	}
 
-	void BaseWindow::setOptions(const WindowTag tagOptionsIn)
+	void BaseWindow::setOptions(const Utils::WindowTag tagOptionsIn)
 	{
-		this->tagOptions = tagOptionsIn;
+		this->settings.setTagOptions(tagOptionsIn);
 
-		if (this->isFullscreenActivated()) {
+		/*if (this->isFullscreenActivated()) {
 			this->monitorToFill = glfwGetPrimaryMonitor();
 		}
 
@@ -164,22 +107,22 @@ namespace Window
 		}
 		else {
 			glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-		}
+		}*/
 	}
 
 	bool BaseWindow::isFullscreenActivated() const
 	{
-		return (this->tagOptions & FULLSCREEN) == FULLSCREEN;
+		return (this->settings.getTagOptions() & Utils::FULLSCREEN) == Utils::FULLSCREEN;
 	}
 
 	bool BaseWindow::isResizable() const
 	{
-		return (this->tagOptions & RESIZABLE) == RESIZABLE;
+		return (this->settings.getTagOptions() & Utils::RESIZABLE) == Utils::RESIZABLE;
 	}
 
 	bool BaseWindow::isToolbarActivated() const
 	{
-		return (this->tagOptions & TOOLBAR) == TOOLBAR;
+		return (this->settings.getTagOptions() & Utils::TOOLBAR) == Utils::TOOLBAR;
 	}
 
 	void BaseWindow::attachToMonitor(const int monitorIdIn)

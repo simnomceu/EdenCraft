@@ -10,7 +10,7 @@ namespace Utils
 	{
 	public:
 
-		template<class T, typename std::enable_if<std::is_base_of_v<WindowManager, T>>::type>
+		template<class T, typename std::enable_if<std::is_base_of<WindowManager, T>::value>::type>
 		static WindowManager * makeWindowManager();
 	};
 }

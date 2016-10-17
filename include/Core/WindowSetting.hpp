@@ -27,7 +27,7 @@ namespace Utils
 
 		std::string & getTitle();
 		MonitorID & getMonitorAttached();
-		WindowTag & getTagOptions();
+		WindowTag getTagOptions() const;
 		Geom::Rectangle<unsigned int> & getBounds();
 
 	private:

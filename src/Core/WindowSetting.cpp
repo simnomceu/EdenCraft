@@ -41,7 +41,7 @@ namespace Utils
 	{
 		return this->monitorId;
 	}
-	WindowTag & WindowSetting::getTagOptions()
+	WindowTag WindowSetting::getTagOptions() const
 	{
 		return this->tagOptions;
 	}
