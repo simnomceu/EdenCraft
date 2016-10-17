@@ -14,7 +14,7 @@
 #include "GLFW\glfw3.h"
 #pragma warning(pop)
 
-#include "Window.inl"
+//#include "Window.inl"
 //#include "BaseObject.hpp"
 #include "Core/Geom/Rectangle.hpp"
 

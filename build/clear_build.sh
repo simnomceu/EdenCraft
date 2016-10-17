@@ -7,6 +7,7 @@ rm -f Makefile
 # Visual Studio 2015 project
 rm -f ./*.vcxproj
 rm -f ./*.vcxproj.filters
+rm -f ./*.vcxproj.user
 rm -f ./*.sln
 rm -f ./*.VC.db
 rm -f ./*.VC.opendb

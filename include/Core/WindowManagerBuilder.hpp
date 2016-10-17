@@ -9,13 +9,9 @@ namespace Utils
 	class WindowManagerBuilder
 	{
 	public:
-		enum ManagerType : unsigned short int
-		{
-			NONE = 0,
-			GLFW = 1
-		};
 
-		static WindowManager * makeWindowManager(const ManagerType & type);
+		template<class T, typename std::enable_if<std::is_base_of_v<WindowManager, T>>::type>
+		static WindowManager * makeWindowManager();
 	};
 }
 

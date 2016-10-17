@@ -2,14 +2,9 @@
 
 namespace Utils
 {
-	WindowManager * WindowManagerBuilder::makeWindowManager(const ManagerType & type)
+	template<class T, typename std::enable_if<std::is_base_of_v<WindowManager, T>>::type>
+	WindowManager * WindowManagerBuilder::makeWindowManager()
 	{
-		switch (type) {
-		case NONE:
-			return new WindowManagerNone();
-			break;
-		case GLFW:
-			return new WindowManagerGLFW();
-		}
+		return new T();
 	}
 }

@@ -4,7 +4,8 @@ del "./Makefile"
 
 REM Visual Studio 2015 project
 del "./*.vcxproj"
-del "./*vcxproj.filters"
+del "./*.vcxproj.filters"
+del "./*.vcxproj.user"
 del "./*.sln"
 del "./*.VC.db"
 del "./*.VC.opendb"
