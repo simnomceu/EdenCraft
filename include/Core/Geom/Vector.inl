@@ -1,7 +1,10 @@
-#include "Vector.hpp"
 #pragma once
 
-namespace Utils
+#include "Vector.hpp"
+
+#include <algorithm>
+
+namespace Geom
 {
 	template<class T, unsigned short int S>
 	Vector<T, S>::Vector() : std::array<T, S>()

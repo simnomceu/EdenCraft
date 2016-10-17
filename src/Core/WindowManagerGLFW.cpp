@@ -87,36 +87,41 @@ namespace Utils
 		std::cout << "Window with id " << windowId << " has been closed without encoutering errors ..." << std::endl;
 	}
 
+	void WindowManagerGLFW::attachToMonitor(const short int windowId, const short int monitorId)
+	{
+		// TODO attach to the monitor
+	}
+
 	void WindowManagerGLFW::setTitle(const short int windowId, const std::string & title)
 	{
 		glfwSetWindowTitle(this->getWindow(windowId), title.c_str());
 	}
 
-	void WindowManagerGLFW::setBounds(const short int windowId, const Utils::Rectangle<unsigned int>& bounds)
+	void WindowManagerGLFW::setBounds(const short int windowId, const Geom::Rectangle<unsigned int>& bounds)
 	{
-		this->setPosition(windowId, Utils::Vector2ui({ bounds.getX(), bounds.getY() }));
-		this->setSize(windowId, Utils::Vector2ui({ bounds.getWidth(), bounds.getHeight() }));
+		this->setPosition(windowId, Geom::Vector2ui({ bounds.getX(), bounds.getY() }));
+		this->setSize(windowId, Geom::Vector2ui({ bounds.getWidth(), bounds.getHeight() }));
 	}
 
-	void WindowManagerGLFW::setPosition(const short int windowId, const Utils::Vector2ui & position)
+	void WindowManagerGLFW::setPosition(const short int windowId, const Geom::Vector2ui & position)
 	{
 		glfwSetWindowPos(this->getWindow(windowId), position[0], position[1]);
 	}
 
-	void WindowManagerGLFW::setSize(const short int windowId, const Utils::Vector2ui & size)
+	void WindowManagerGLFW::setSize(const short int windowId, const Geom::Vector2ui & size)
 	{
 		glfwSetWindowSize(this->getWindow(windowId), size[0], size[1]);
 	}
 
-	Rectangle<unsigned int> WindowManagerGLFW::getBounds(const short int windowId)
+	Geom::Rectangle<unsigned int> WindowManagerGLFW::getBounds(const short int windowId)
 	{
 		auto position = this->getPosition(windowId);
 		auto size = this->getSize(windowId);
 
-		return Rectangle<unsigned int>(position[0], position[1], size[0], size[1]);
+		return Geom::Rectangle<unsigned int>(position[0], position[1], size[0], size[1]);
 	}
 
-	Vector2ui WindowManagerGLFW::getPosition(const short int windowId)
+	Geom::Vector2ui WindowManagerGLFW::getPosition(const short int windowId)
 	{
 		int x = 0, y = 0;
 		glfwGetWindowPos(this->getWindow(windowId), &x, &y);
@@ -127,10 +132,10 @@ namespace Utils
 		if (y >= 0) {
 			y = uy;
 		}
-		return Vector2ui({ ux, uy });
+		return Geom::Vector2ui({ ux, uy });
 	}
 
-	Vector2ui WindowManagerGLFW::getSize(const short int windowId)
+	Geom::Vector2ui WindowManagerGLFW::getSize(const short int windowId)
 	{
 		int w = 0, h = 0;
 		glfwGetWindowSize(this->getWindow(windowId), &w, &h);
@@ -141,7 +146,7 @@ namespace Utils
 		if (h >= 0) {
 			h = uh;
 		}
-		return Vector2ui({ uw, uh });
+		return Geom::Vector2ui({ uw, uh });
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()

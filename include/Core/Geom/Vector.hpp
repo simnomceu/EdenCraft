@@ -1,28 +1,98 @@
-#pragma once
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 
-#include <algorithm>
+/**
+* @file Rectangle.hpp
+* @author IsiliBN (casa2pir@hotmail.fr)
+* @date October, 17th 2016
+* @copyright ----------
+* @brief Describe a rectangle object.
+*
+* Describe a rectangle object.  This rectangle is purely a boundering, an aggregate of positions and sizes.
+*
+**/
+
 #include <array>
 #include <initializer_list>
 
-namespace Utils
+/**
+ * @namespace Geom
+ *
+ * A namespace to gather classes and functionalities for geometric operations.
+ *
+**/
+namespace Geom
 {
 	template<class T, unsigned short int S> class Vector;
-	//template<class T, unsigned short int S> Vector<T,S> operator* (const T & t, const Vector<T, S> & v);
 	template<class T, unsigned short int S> std::ostream & operator<< (std::ostream & os, const Vector<T, S> & v);
 
 
+	/**
+	 * @class Vector
+	 * @extends std::array<T, S>
+	 * @tparam T A numerical and scalar type used for the representation of the attributes of the vector.
+	 * @tparam S The size of the vector.
+	 * @brief Describe a geometric vector.
+	 *
+	 * This is a vector, as defined geometrically. It is used to perform numerical and geometrical computations.
+	 * The object is completely compatible with movable or copyable operations.
+	 * Size is fixed at construction. The vector couldn't be resized after having been defined.
+	 *
+	**/
 	template<class T, unsigned short int S>
 	class Vector : private std::array<T, S>
 	{
 	public:
+		/**
+		 * @typedef using std::array<T, S>::operator[]
+		 * @brief Use the subscript operator, as defined in the parent class std::array.
+		 *
+		 **/
 		using std::array<T, S>::operator[];
 
+		/**
+		 * @fn Vector()
+		 * @brief Build a vector, with default values. All the attributes are set to 0.
+		 *
+		 **/
 		Vector();
+
+		/**
+		 * @fn Vector(std::initializer_list<T> values)
+		 * @params values List of attributes to initialize the vector.
+		 * @brief Build a vector, and set the attributes using the initializer list.
+		 *
+		 **/
 		Vector(std::initializer_list<T> values);
+
+		/**
+		 * @fn Vector(const Vector & copy)
+		 * @params copy Existing vector used as pattern to build the vector.
+		 * @brief Copy constructor for the class vector.
+		 *
+		 * This copy constructor is the default one. All properties are of scalar type.
+		 *
+		 **/
 		Vector(const Vector & copy) = default;
+
+		/**
+		 * @fn Vector(Vector && value)
+		 * @params value Existing vector which will be used to moved attributes in the new vector.
+		 * @brief Move constructor for the class vector.
+		 *
+		 **/
 		Vector(Vector && value);
 		~Vector();
 
+		/**
+		 * @fn Vector & operator=(const Vector & copy)
+		 * @params copy Existing vector used as pattern to set new values to the current vector.
+		 * @return The vector set with values of the copy vector.
+		 * @brief Copy assigment operator for the class vector.
+		 *
+		 * This copy assigment operator is the default one. All properties are of scalar type.
+		 *
+		 **/
 		Vector & operator=(const Vector & copy) = default;
 		Vector & operator=(Vector && value);
 		Vector & operator=(std::initializer_list<T> values);
@@ -32,9 +102,6 @@ namespace Utils
 		Vector operator-() const;
 		Vector operator*(const Vector & rightOperand);
 		Vector operator*(const T & rightOperand);
-		/*Vector operator/(const Vector & rightOperand);
-		Vector operator/(const T & rightOperand);
-		Vector operator%(const Vector & rightOperand);*/
 		Vector & operator++();
 		Vector operator++(int);
 		Vector & operator--();
@@ -42,11 +109,7 @@ namespace Utils
 
 		/*Vector & operator+=(const Vector & rightOperand);
 		Vector & operator-=(const Vector & rightOperand);
-		Vector & operator*=(const Vector & rightOperand);
-		Vector & operator/=(const Vector & rightOperand);
-		Vector & operator%=(const Vector & rightOperand);*/
-
-		//friend Vector<T,S> operator* <>(const T & t, const Vector<T, S> & v);
+		Vector & operator*=(const Vector & rightOperand);*/
 
 		friend std::ostream & operator<< <>(std::ostream & os, const Vector<T, S> & v);
 
@@ -62,7 +125,7 @@ namespace Utils
 
 #include "Vector.inl"
 
-namespace Utils
+namespace Geom
 {
 	template<class T>
 	using Vector2 = Vector<T, 2>;
@@ -78,3 +141,5 @@ namespace Utils
 	using Vector3i = Vector3<int>;
 	using Vector3ui = Vector3<unsigned int>;
 }
+
+#endif // VECTOR_HPP

@@ -35,7 +35,12 @@ namespace Geom
 	{
 	public:
 
-		Rectangle() = delete;
+		/**
+		* @fn Rectangle()
+		* @brief Build a rectangle, setting all the properties to 0.
+		*
+		**/
+		Rectangle();
 
 		/**
 		 * @fn Rectangle(const T x, const T y, const T w, const T h)

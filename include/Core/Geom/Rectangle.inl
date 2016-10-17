@@ -4,11 +4,12 @@
 namespace Geom
 {
 	template<typename T>
-	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) :
-		x(x),
-		y(y),
-		w(w),
-		h(h)
+	inline Rectangle<T>::Rectangle() : x(0), y(0), w(0), h(0)
+	{
+	}
+
+	template<typename T>
+	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) : x(x), y(y), w(w), h(h)
 	{
 	}
 

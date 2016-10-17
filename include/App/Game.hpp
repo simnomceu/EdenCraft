@@ -9,7 +9,6 @@
 #include <memory>
 #include <vector>
 
-#include "SFML\System\NonCopyable.hpp"
 #include "BaseObject.hpp"
 
 #include "BaseWindow.hpp"
@@ -23,7 +22,7 @@
  * @date	14/08/2016
  */
 
-class Game : public sf::NonCopyable
+class Game
 {
 public:
 	static std::weak_ptr<Game> getInstance();

@@ -77,3 +77,6 @@ bld/
 # NuGet v3's project.json files produces more ignoreable files
 *.nuget.props
 *.nuget.targets
+
+# Visual Paradigm project
+resources/uml/*

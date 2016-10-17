@@ -4,9 +4,9 @@
  * @brief	Implements the main class.
  */
 
-#include "Game.hpp"
-#include "WindowServiceLocator.hpp"
-#include "WindowManagerGLFW.hpp"
+#include "App\Game.hpp"
+#include "Core\WindowServiceLocator.hpp"
+#include "Core\WindowManagerBuilder.hpp"
 
 /**
  * @fn	int main()
@@ -21,7 +21,7 @@
 
 auto main() -> int
 {
-	Utils::WindowServiceLocator::provide(new Utils::WindowManagerGLFW());
+	Utils::WindowServiceLocator::provide(Utils::WindowManagerBuilder::makeWindowManager(Utils::WindowManagerBuilder::GLFW));
 
 	auto game = Game::getInstance();
 	auto usableGame = game.lock();
