@@ -32,6 +32,9 @@ namespace Window
 		void display();
 		void clear();
 
+		void setWindow(const Utils::WindowSetting & settings);
+		Utils::WindowSetting & getSettings();
+
 		void setTitle(const std::string & title);
 
 		void setRect(const Geom::Rectangle<unsigned int> & rectIn);

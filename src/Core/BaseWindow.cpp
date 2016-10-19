@@ -23,8 +23,16 @@ namespace Window
 
 	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
 	{
-		this->windowId = rightOperand.windowId;
-		this->settings = rightOperand.settings;
+		// guard to prevent an assigment from itself to itself.
+		if (this != &rightOperand) {
+			// If an opened window is going to be overwritten, close it.
+			if (this->isOpened()) {
+				this->close();
+			}
+
+			this->windowId = std::move(rightOperand.windowId);
+			this->settings = std::move(rightOperand.settings);
+		}
 
 		return *this;
 	}

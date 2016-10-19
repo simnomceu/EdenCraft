@@ -4,7 +4,7 @@
 
 namespace Utils
 {
-	WindowSetting::WindowSetting(): titleWindow(""), monitorId(-1), tagOptions(Utils::NO_OPTIONS), bounds()
+	WindowSetting::WindowSetting(): titleWindow(""), tagOptions(Utils::NO_OPTIONS), bounds()
 	{
 	}
 
@@ -17,16 +17,6 @@ namespace Utils
 		this->titleWindow = title;
 	}
 
-	void WindowSetting::attachMonitor(const MonitorID & monitorId)
-	{
-		this->monitorId = monitorId;
-	}
-
-	void WindowSetting::setTagOptions(const WindowTag & tagOptions)
-	{
-		this->tagOptions = tagOptions;
-	}
-
 	void WindowSetting::setBounds(const Geom::Rectangle<unsigned int>& bounds)
 	{
 		this->bounds = bounds;
@@ -37,16 +27,45 @@ namespace Utils
 		return this->titleWindow;
 	}
 
-	MonitorID & WindowSetting::getMonitorAttached()
-	{
-		return this->monitorId;
-	}
-	WindowTag WindowSetting::getTagOptions() const
-	{
-		return this->tagOptions;
-	}
 	Geom::Rectangle<unsigned int>& WindowSetting::getBounds()
 	{
 		return this->bounds;
+	}
+
+	void WindowSetting::setTagOptions(const WindowTag & tagOptions)
+	{
+		this->tagOptions = tagOptions;
+	}
+	bool WindowSetting::isInFullscreen() const
+	{
+		return (this->tagOptions & Utils::FULLSCREEN) == Utils::FULLSCREEN;
+	}
+	bool WindowSetting::isUsingToolbar() const
+	{
+		return (this->tagOptions & Utils::TOOLBAR) == Utils::TOOLBAR;
+	}
+	bool WindowSetting::isResizable() const
+	{
+		return (this->tagOptions & Utils::RESIZABLE) == Utils::RESIZABLE;
+	}
+	bool WindowSetting::isInitiallyVisible() const
+	{
+		return (this->tagOptions & Utils::VISIBLE) == Utils::VISIBLE;
+	}
+	bool WindowSetting::isInitiallyFocused() const
+	{
+		return (this->tagOptions & Utils::FOCUSED) == Utils::FOCUSED;
+	}
+	bool WindowSetting::isAutoIconifying() const
+	{
+		return (this->tagOptions & Utils::AUTO_ICONIFY) == Utils::AUTO_ICONIFY;
+	}
+	bool WindowSetting::isFloating() const
+	{
+		return (this->tagOptions & Utils::FLOATING) == Utils::FLOATING;
+	}
+	bool WindowSetting::isInitiallyMaximized() const
+	{
+		return (this->tagOptions & Utils::MAXIMIZED) == Utils::MAXIMIZED;
 	}
 }

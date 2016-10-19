@@ -5,43 +5,34 @@ namespace Utils
 	WindowManagerNone::WindowManagerNone(): WindowManager()
 	{
 	}
+
 	WindowManagerNone::~WindowManagerNone()
 	{
 	}
+
 	short int WindowManagerNone::openWindow()
 	{
 		return -1;
 	}
+
 	void WindowManagerNone::closeWindow(const short int windowId)
 	{
 	}
-	void WindowManagerNone::attachToMonitor(const short int windowId, const short int monitorId)
-	{
-		// TODO attach to the monitor
-	}
-	void WindowManagerNone::setTitle(const short int windowId, const std::string & title)
-	{
 
-	}
-	void WindowManagerNone::setBounds(const short int windowId, const Geom::Rectangle<unsigned int>& bounds)
+	void WindowManagerNone::provideSettings(const Utils::WindowID & windowId, const Utils::WindowSetting & settings)
 	{
 	}
-	void WindowManagerNone::setPosition(const short int windowId, const Geom::Vector2ui & position)
+
+	void WindowManagerNone::provideVideoMode(const Utils::WindowID & windowId, const Utils::VideoMode & settings)
 	{
 	}
-	void WindowManagerNone::setSize(const short int windowId, const Geom::Vector2ui & size)
+
+	void WindowManagerNone::attachToMonitor(const Utils::WindowID & windowId, const short int monitorId)
 	{
 	}
-	Geom::Rectangle<unsigned int> WindowManagerNone::getBounds(const short int windowId)
+
+	std::vector<Utils::MonitorID>& WindowManagerNone::getMonitors()
 	{
-		return Geom::Rectangle<unsigned int>();
-	}
-	Geom::Vector2ui WindowManagerNone::getPosition(const short int windowId)
-	{
-		return Geom::Vector2ui();
-	}
-	Geom::Vector2ui WindowManagerNone::getSize(const short int windowId)
-	{
-		return Geom::Vector2ui();
+		return std::vector<Utils::MonitorID>();
 	}
 }

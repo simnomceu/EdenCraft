@@ -21,19 +21,23 @@ namespace Utils
 		WindowSetting & operator=(WindowSetting && copy) = default;
 
 		void setTitle(const std::string & title);
-		void attachMonitor(const MonitorID & monitorId);
-		void setTagOptions(const WindowTag & tagOptions);
 		void setBounds(const Geom::Rectangle<unsigned int> & bounds);
 
 		std::string & getTitle();
-		MonitorID & getMonitorAttached();
-		WindowTag getTagOptions() const;
 		Geom::Rectangle<unsigned int> & getBounds();
+
+		void setTagOptions(const WindowTag & tagOptions);
+		bool isInFullscreen() const;
+		bool isUsingToolbar() const;
+		bool isResizable() const;
+		bool isInitiallyVisible() const;
+		bool isInitiallyFocused() const;
+		bool isAutoIconifying() const;
+		bool isFloating() const;
+		bool isInitiallyMaximized() const;
 
 	private:
 		std::string titleWindow;
-
-		MonitorID monitorId;
 
 		WindowTag tagOptions;
 
