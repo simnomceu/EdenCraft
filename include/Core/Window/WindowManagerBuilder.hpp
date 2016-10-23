@@ -1,8 +1,8 @@
 #ifndef WINDOWMANAGERBUILDER_HPP
 #define WINDOWMANAGERBUILDER_HPP
 
-#include "Core\WindowManagerNone.hpp"
-#include "Core\WindowManagerGLFW.hpp"
+#include "Core\Window\WindowManagerNone.hpp"
+#include "Core\Window\WindowManagerGLFW.hpp"
 
 namespace Utils
 {

@@ -5,9 +5,9 @@
  */
 
 #include "App\Game.hpp"
-#include "Core\WindowServiceLocator.hpp"
-#include "Core\WindowManagerBuilder.hpp"
-#include "Core\WindowManagerGLFW.hpp"
+#include "Core\Window\WindowServiceLocator.hpp"
+#include "Core\Window\WindowManagerBuilder.hpp"
+#include "Core\Window\WindowManagerGLFW.hpp"
 
 /**
  * @fn	int main()

@@ -1,7 +1,7 @@
 #ifndef VIDEOMODE_HPP
 #define VIDEOMODE_HPP
 
-#include "Geom\Vector.hpp"
+#include "Core\Geom\Vector.hpp"
 
 namespace Utils
 {

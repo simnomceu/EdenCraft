@@ -1,4 +1,4 @@
-#include "Core/WindowManagerGLFW.hpp"
+#include "Core\Window\WindowManagerGLFW.hpp"
 //#include "Constants.inl"
 
 #include <iostream>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WindowManager.hpp"
+#include "Core\Window\WindowManager.hpp"
 
 #include <memory>
 #include <map>

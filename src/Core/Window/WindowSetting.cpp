@@ -1,6 +1,6 @@
-#include "Core/WindowSetting.hpp"
+#include "Core\Window\WindowSetting.hpp"
 
-#include "Core\Window.inl"
+#include "Core\Window\Window.inl"
 
 namespace Utils
 {

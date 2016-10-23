@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "Geom\Rectangle.hpp"
-#include "Core\Window.inl"
+#include "Core\Geom\Rectangle.hpp"
+#include "Core\Window\Window.inl"
 
 namespace Utils
 {

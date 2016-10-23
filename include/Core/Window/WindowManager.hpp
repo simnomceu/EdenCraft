@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "WindowSetting.hpp"
-#include "VideoMode.hpp"
-#include "Window.inl"
+#include "Core\Window\WindowSetting.hpp"
+#include "Core\Window\VideoMode.hpp"
+#include "Core\Window\Window.inl"
 
 namespace Utils
 {

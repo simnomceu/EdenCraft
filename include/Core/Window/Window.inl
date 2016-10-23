@@ -1,7 +1,7 @@
 #ifndef WINDOW_INL
 #define WINDOW_INL
 
-#include "Geom\Vector.hpp"
+#include "Core\Geom\Vector.hpp"
 
 namespace Utils
 {

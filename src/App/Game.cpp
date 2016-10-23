@@ -2,14 +2,6 @@
 
 #include <iostream>
 
-#include "SFML\System\Clock.hpp"
-#include "SFML\Window\Event.hpp"
-#include "RectangleObject.hpp"
-#include "Strings.inl"
-#include "SFML\Graphics\Shader.hpp"
-
-#include "GLAdapter.hpp"
-
 std::shared_ptr<Game> Game::instance = nullptr;
 
 /**

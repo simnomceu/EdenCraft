@@ -1,4 +1,4 @@
-#include "Core\WindowManagerBuilder.hpp"
+#include "Core\Window\WindowManagerBuilder.hpp"
 
 namespace Utils
 {

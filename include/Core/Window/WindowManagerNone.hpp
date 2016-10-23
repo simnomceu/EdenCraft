@@ -1,6 +1,7 @@
 #pragma once
 
-#include "WindowManager.hpp"
+#include "Core\Window\WindowManager.hpp"
+
 namespace Utils
 {
 	class WindowManagerNone : public WindowManager

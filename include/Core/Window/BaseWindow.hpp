@@ -7,9 +7,9 @@
 #include "GLFW\glfw3.h"
 #pragma warning(pop)
 
-#include "Core/Geom/Rectangle.hpp"
-#include "WindowSetting.hpp"
-#include "Window.inl"
+#include "Core\Geom\Rectangle.hpp"
+#include "Core\Window\WindowSetting.hpp"
+#include "Core\Window\Window.inl"
 
 namespace Window
 {

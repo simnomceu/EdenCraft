@@ -1,4 +1,4 @@
-#include "Core\VideoMode.hpp"
+#include "Core\Window\VideoMode.hpp"
 
 namespace Utils
 {
