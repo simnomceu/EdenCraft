@@ -9,15 +9,15 @@ namespace ece
 	using MonitorID = short int;
 	using WindowTag = unsigned short int;
 
-	static const WindowTag NO_OPTIONS   = 0b00000000;
-	static const WindowTag FULLSCREEN   = 0b00000001;
-	static const WindowTag TOOLBAR      = 0b00000010;
-	static const WindowTag RESIZABLE    = 0b00000100;
-	static const WindowTag VISIBLE      = 0b00001000; // initially visible
-	static const WindowTag FOCUSED      = 0b00010000;
-	static const WindowTag AUTO_ICONIFY = 0b00100000;
-	static const WindowTag FLOATING		= 0b01000000;
-	static const WindowTag MAXIMIZED    = 0b10000000;
+	const WindowTag NO_OPTIONS   = 0b00000000;
+	const WindowTag FULLSCREEN   = 0b00000001;
+	const WindowTag TOOLBAR      = 0b00000010;
+	const WindowTag RESIZABLE    = 0b00000100;
+	const WindowTag VISIBLE      = 0b00001000; // initially visible
+	const WindowTag FOCUSED      = 0b00010000;
+	const WindowTag AUTO_ICONIFY = 0b00100000;
+	const WindowTag FLOATING	 = 0b01000000;
+	const WindowTag MAXIMIZED    = 0b10000000;
 
 
 	using ColorRGB = ece::Vector3ui;

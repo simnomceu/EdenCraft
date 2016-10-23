@@ -1,5 +1,5 @@
 #include "Core\Window\WindowManagerGLFW.hpp"
-//#include "Constants.inl"
+#include "Core\Window\Constant.inl"
 
 #include <iostream>
 #include <utility> // std::pair
@@ -165,11 +165,8 @@ namespace ece
 		GLFW_OPENGL_PROFILE	GLFW_OPENGL_ANY_PROFILE	GLFW_OPENGL_ANY_PROFILE, GLFW_OPENGL_COMPAT_PROFILE or GLFW_OPENGL_CORE_PROFILE
 		*/
 
-
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-		//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Constants::GL_MAJOR_VERSION_EC);
-		//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Constants::GL_MINOR_VERSION_EC);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GL_MAJOR_VERSION_ECE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_MINOR_VERSION_ECE);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
 		glfwSwapInterval(0);
 	}
