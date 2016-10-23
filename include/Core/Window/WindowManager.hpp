@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WINDOWMANAGER_HPP
+#define WINDOWMANAGER_HPP
 
 #include <vector>
 
@@ -26,3 +27,5 @@ namespace ece
 		virtual std::vector<ece::MonitorID> getMonitors() = 0;
 	};
 }
+
+#endif // WINDOWMANAGER_HPP

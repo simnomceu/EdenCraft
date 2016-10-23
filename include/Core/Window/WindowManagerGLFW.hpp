@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WINDOWMANAGERGLFW_HPP
+#define WINDOWMANAGERGLFW_HPP
 
 #include "Core\Window\WindowManager.hpp"
 
@@ -63,3 +64,5 @@ namespace ece
 		std::map<unsigned short int, std::unique_ptr<GLFWwindow, WindowDeleter>> windows;
 	};
 }
+
+#endif // WINDOWMANAGERGLFW_HPP

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WINDOWMANAGERNONE_HPP
+#define WINDOWMANAGERNONE_HPP
 
 #include "Core\Window\WindowManager.hpp"
 
@@ -22,3 +23,5 @@ namespace ece
 		std::vector<ece::MonitorID> getMonitors();
 	};
 }
+
+#endif // WINDOWMANAGERNONE_HPP

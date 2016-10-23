@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VECTOR_INL
+#define VECTOR_INL
 
 #include <algorithm>
 
@@ -235,3 +236,5 @@ namespace ece
 		return result;
 	}
 }
+
+#endif // VECTOR_INL

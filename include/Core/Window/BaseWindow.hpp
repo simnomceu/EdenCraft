@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BASEWINDOW_HPP
+#define BASEWINDOW_HPP
 
 #pragma warning(push)
 #pragma warning(disable : 4505)
@@ -49,3 +50,5 @@ namespace Window
 		ece::WindowSetting settings;
 	};
 }
+
+#endif // BASEWINDOW_HPP

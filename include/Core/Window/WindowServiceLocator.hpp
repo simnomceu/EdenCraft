@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WINDOWSERVICELOCATOR_HPP
+#define WINDOWSERVICELOCATOR_HPP
 
 #include "Core\Window\WindowManager.hpp"
 
@@ -19,3 +20,5 @@ namespace ece
 		static std::shared_ptr<WindowManager> service;
 	};
 }
+
+#endif // WINDOWSERVICLOCATOR_HPP
