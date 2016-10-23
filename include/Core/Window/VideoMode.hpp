@@ -2,6 +2,7 @@
 #define VIDEOMODE_HPP
 
 #include "Core\Geom\Vector.hpp"
+#include "Core\Window\Window.inl"
 
 namespace ece
 {
@@ -12,7 +13,7 @@ namespace ece
 		~VideoMode();
 
 		void setRefreshRate(const unsigned short int refreshRate);
-		void setColorBits(const ece::Vector<unsigned short int, 4> & colorBits);
+		void setColorBits(const ece::ColorRGBA & colorBits);
 		void setDepthBits(const unsigned short int dephtBits);
 		void setStencilBits(const unsigned short int stencilBits);
 		void setSamples(const unsigned short int samples);
@@ -20,7 +21,7 @@ namespace ece
 		void setSrgbCapable(const unsigned short int srgbCapable);
 
 		unsigned short int getRefreshRate() const;
-		ece::Vector<unsigned short int, 4> getColorBits() const;
+		ece::ColorRGBA getColorBits() const;
 		unsigned short int getDepthBits() const;
 		unsigned short int getStencilBits() const;
 		unsigned short int getSamples() const;
@@ -29,7 +30,7 @@ namespace ece
 
 	private:
 		unsigned short int refreshRate;
-		ece::Vector<unsigned short int, 4> colorBits;
+		ece::ColorRGBA colorBits;
 		unsigned short int depthBits;
 		unsigned short int stencilBits;
 		/* Deprecated

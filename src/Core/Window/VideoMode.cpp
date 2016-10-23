@@ -22,7 +22,7 @@ namespace ece
 		this->refreshRate = refreshRate;
 	}
 
-	void VideoMode::setColorBits(const ece::Vector<unsigned short int, 4>& colorBits)
+	void VideoMode::setColorBits(const ece::ColorRGBA& colorBits)
 	{
 		this->colorBits = colorBits;
 	}
@@ -56,9 +56,9 @@ namespace ece
 		return this->refreshRate;
 	}
 
-	ece::Vector<unsigned short int, 4> VideoMode::getColorBits() const
+	ece::ColorRGBA VideoMode::getColorBits() const
 	{
-		return ece::Vector<unsigned short int, 4>(this->colorBits);
+		return ece::ColorRGBA(this->colorBits);
 	}
 	unsigned short int VideoMode::getDepthBits() const
 	{

@@ -22,6 +22,13 @@ namespace ece
 
 	using ColorRGB = ece::Vector3ui;
 	using ColorRGBA = ece::Vector<unsigned int, 4>;
+
+	enum ChannelColor : int {
+		RED_CHANNEL = 0,
+		GREEN_CHANNEL = 1,
+		BLUE_CHANNEL = 2,
+		ALPHA_CHANNEL = 3
+	};
 }
 
 #endif // WINDOW_INL
