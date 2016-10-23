@@ -28,11 +28,6 @@
 *.a
 *.lib
 
-# Executables
-*.exe
-*.out
-*.app
-
 #crash
 *.ipch
 
