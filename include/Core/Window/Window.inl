@@ -3,7 +3,7 @@
 
 #include "Core\Geom\Vector.hpp"
 
-namespace Utils
+namespace ece
 {
 	using WindowID = short int;
 	using MonitorID = short int;
@@ -20,8 +20,8 @@ namespace Utils
 	static const WindowTag MAXIMIZED    = 0b10000000;
 
 
-	using ColorRGB = Geom::Vector3ui;
-	using ColorRGBA = Geom::Vector<unsigned int, 4>;
+	using ColorRGB = ece::Vector3ui;
+	using ColorRGBA = ece::Vector<unsigned int, 4>;
 }
 
 #endif // WINDOW_INL

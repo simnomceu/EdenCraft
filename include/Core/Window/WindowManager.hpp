@@ -6,7 +6,7 @@
 #include "Core\Window\VideoMode.hpp"
 #include "Core\Window\Window.inl"
 
-namespace Utils
+namespace ece
 {
 	class WindowManager
 	{
@@ -16,12 +16,12 @@ namespace Utils
 		virtual short int openWindow() = 0;
 		virtual void closeWindow(const short int windowId) = 0;
 
-		virtual void provideSettings(const Utils::WindowID & windowId, const Utils::WindowSetting & settings) = 0;
+		virtual void provideSettings(const ece::WindowID & windowId, const ece::WindowSetting & settings) = 0;
 
-		virtual void provideVideoMode(const Utils::WindowID & windowId, const Utils::VideoMode & settings) = 0;
+		virtual void provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings) = 0;
 
-		virtual void attachToMonitor(const Utils::WindowID & windowId, const short int monitorId) = 0;
+		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId) = 0;
 
-		virtual std::vector<Utils::MonitorID> & getMonitors() = 0;
+		virtual std::vector<ece::MonitorID> & getMonitors() = 0;
 	};
 }

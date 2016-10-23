@@ -2,9 +2,9 @@
 
 #include "Core\Window\Window.inl"
 
-namespace Utils
+namespace ece
 {
-	WindowSetting::WindowSetting(): titleWindow(""), tagOptions(Utils::NO_OPTIONS), bounds()
+	WindowSetting::WindowSetting(): titleWindow(""), tagOptions(ece::NO_OPTIONS), bounds()
 	{
 	}
 
@@ -17,7 +17,7 @@ namespace Utils
 		this->titleWindow = title;
 	}
 
-	void WindowSetting::setBounds(const Geom::Rectangle<unsigned int>& bounds)
+	void WindowSetting::setBounds(const ece::Rectangle<unsigned int>& bounds)
 	{
 		this->bounds = bounds;
 	}
@@ -27,7 +27,7 @@ namespace Utils
 		return this->titleWindow;
 	}
 
-	Geom::Rectangle<unsigned int>& WindowSetting::getBounds()
+	ece::Rectangle<unsigned int>& WindowSetting::getBounds()
 	{
 		return this->bounds;
 	}
@@ -38,34 +38,34 @@ namespace Utils
 	}
 	bool WindowSetting::isInFullscreen() const
 	{
-		return (this->tagOptions & Utils::FULLSCREEN) == Utils::FULLSCREEN;
+		return (this->tagOptions & ece::FULLSCREEN) == ece::FULLSCREEN;
 	}
 	bool WindowSetting::isUsingToolbar() const
 	{
-		return (this->tagOptions & Utils::TOOLBAR) == Utils::TOOLBAR;
+		return (this->tagOptions & ece::TOOLBAR) == ece::TOOLBAR;
 	}
 	bool WindowSetting::isResizable() const
 	{
-		return (this->tagOptions & Utils::RESIZABLE) == Utils::RESIZABLE;
+		return (this->tagOptions & ece::RESIZABLE) == ece::RESIZABLE;
 	}
 	bool WindowSetting::isInitiallyVisible() const
 	{
-		return (this->tagOptions & Utils::VISIBLE) == Utils::VISIBLE;
+		return (this->tagOptions & ece::VISIBLE) == ece::VISIBLE;
 	}
 	bool WindowSetting::isInitiallyFocused() const
 	{
-		return (this->tagOptions & Utils::FOCUSED) == Utils::FOCUSED;
+		return (this->tagOptions & ece::FOCUSED) == ece::FOCUSED;
 	}
 	bool WindowSetting::isAutoIconifying() const
 	{
-		return (this->tagOptions & Utils::AUTO_ICONIFY) == Utils::AUTO_ICONIFY;
+		return (this->tagOptions & ece::AUTO_ICONIFY) == ece::AUTO_ICONIFY;
 	}
 	bool WindowSetting::isFloating() const
 	{
-		return (this->tagOptions & Utils::FLOATING) == Utils::FLOATING;
+		return (this->tagOptions & ece::FLOATING) == ece::FLOATING;
 	}
 	bool WindowSetting::isInitiallyMaximized() const
 	{
-		return (this->tagOptions & Utils::MAXIMIZED) == Utils::MAXIMIZED;
+		return (this->tagOptions & ece::MAXIMIZED) == ece::MAXIMIZED;
 	}
 }

@@ -4,7 +4,7 @@
 #include "Core\Window\WindowManagerNone.hpp"
 #include "Core\Window\WindowManagerGLFW.hpp"
 
-namespace Utils
+namespace ece
 {
 	class WindowManagerBuilder
 	{

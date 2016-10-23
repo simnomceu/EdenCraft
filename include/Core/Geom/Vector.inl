@@ -4,7 +4,7 @@
 
 #include <algorithm>
 
-namespace Geom
+namespace ece
 {
 	template<class T, unsigned short int S>
 	Vector<T, S>::Vector() : std::array<T, S>()

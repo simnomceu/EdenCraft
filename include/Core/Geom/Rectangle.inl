@@ -1,7 +1,7 @@
 #ifndef RECTANGLE_INL
 #define RECTANGLE_INL
 
-namespace Geom
+namespace ece
 {
 	template<typename T>
 	inline Rectangle<T>::Rectangle() : x(0), y(0), w(0), h(0)

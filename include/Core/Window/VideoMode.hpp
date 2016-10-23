@@ -3,7 +3,7 @@
 
 #include "Core\Geom\Vector.hpp"
 
-namespace Utils
+namespace ece
 {
 	class VideoMode
 	{
@@ -12,7 +12,7 @@ namespace Utils
 		~VideoMode();
 
 		void setRefreshRate(const unsigned short int refreshRate);
-		void setColorBits(const Geom::Vector<unsigned short int, 4> & colorBits);
+		void setColorBits(const ece::Vector<unsigned short int, 4> & colorBits);
 		void setDepthBits(const unsigned short int dephtBits);
 		void setStencilBits(const unsigned short int stencilBits);
 		void setSamples(const unsigned short int samples);
@@ -20,7 +20,7 @@ namespace Utils
 		void setSrgbCapable(const unsigned short int srgbCapable);
 
 		unsigned short int getRefreshRate() const;
-		Geom::Vector<unsigned short int, 4> & getColorBits() const;
+		ece::Vector<unsigned short int, 4> & getColorBits() const;
 		unsigned short int getDepthBits() const;
 		unsigned short int getStencilBits() const;
 		unsigned short int getSamples() const;
@@ -29,11 +29,11 @@ namespace Utils
 
 	private:
 		unsigned short int refreshRate;
-		Geom::Vector<unsigned short int, 4> colorBits;
+		ece::Vector<unsigned short int, 4> colorBits;
 		unsigned short int depthBits;
 		unsigned short int stencilBits;
 		/* Deprecated
-		Geom::Vector<unsigned int, 4> accumColorBits;*/
+		ece::Vector<unsigned int, 4> accumColorBits;*/
 		/* Deprecated
 		unsigned short int auxBuffers;*/
 		unsigned short int samples;

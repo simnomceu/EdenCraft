@@ -22,7 +22,7 @@
 
 auto main() -> int
 {
-	Utils::WindowServiceLocator::provide(Utils::WindowManagerBuilder::makeWindowManager<Utils::WindowManagerGLFW>());
+	ece::WindowServiceLocator::provide(ece::WindowManagerBuilder::makeWindowManager<ece::WindowManagerGLFW>());
 
 	auto game = Game::getInstance();
 	auto usableGame = game.lock();

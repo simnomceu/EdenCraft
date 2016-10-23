@@ -1,6 +1,6 @@
 #include "Core\Window\WindowManagerBuilder.hpp"
 
-namespace Utils
+namespace ece
 {
 	template<class T, typename std::enable_if<std::is_base_of<WindowManager, T>::value>::type>
 	WindowManager * WindowManagerBuilder::makeWindowManager()

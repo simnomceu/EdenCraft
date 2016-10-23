@@ -13,7 +13,7 @@
 #include "GLFW\glfw3.h"
 #pragma warning(pop)
 
-namespace Utils
+namespace ece
 {
 	struct WindowDeleter {
 		void operator()(GLFWwindow * ptr) {
@@ -34,13 +34,13 @@ namespace Utils
 		short int openWindow();
 		void closeWindow(const short int windowId);
 
-		void provideSettings(const Utils::WindowID & windowId, const Utils::WindowSetting & settings);
+		void provideSettings(const ece::WindowID & windowId, const ece::WindowSetting & settings);
 
-		void provideVideoMode(const Utils::WindowID & windowId, const Utils::VideoMode & settings);
+		void provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings);
 
-		void attachToMonitor(const Utils::WindowID & windowId, const short int monitorId);
+		void attachToMonitor(const ece::WindowID & windowId, const short int monitorId);
 
-		std::vector<Utils::MonitorID> & getMonitors();
+		std::vector<ece::MonitorID> & getMonitors();
 
 	protected:
 		void initGLFW();

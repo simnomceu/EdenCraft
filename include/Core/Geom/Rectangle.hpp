@@ -13,12 +13,12 @@
  **/
 
 /**
- * @namespace Geom
+ * @namespace ece
  * 
- * A namespace to gather classes and functionalities for geometric operations.
+ * A namespace to gather classes and functionalities for eceetric operations.
  *
  **/
-namespace Geom
+namespace ece
 {
 	/**
 	 * @class Rectangle

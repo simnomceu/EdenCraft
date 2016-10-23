@@ -16,12 +16,12 @@
 #include <initializer_list>
 
 /**
- * @namespace Geom
+ * @namespace ece
  *
- * A namespace to gather classes and functionalities for geometric operations.
+ * A namespace to gather classes and functionalities for eceetric operations.
  *
 **/
-namespace Geom
+namespace ece
 {
 	template<class T, unsigned short int S> class Vector;
 	template<class T, unsigned short int S> std::ostream & operator<< (std::ostream & os, const Vector<T, S> & v);
@@ -32,9 +32,9 @@ namespace Geom
 	 * @extends std::array<T, S>
 	 * @tparam T A numerical and scalar type used for the representation of the attributes of the vector.
 	 * @tparam S The size of the vector.
-	 * @brief Describe a geometric vector.
+	 * @brief Describe a eceetric vector.
 	 *
-	 * This is a vector, as defined geometrically. It is used to perform numerical and geometrical computations.
+	 * This is a vector, as defined eceetrically. It is used to perform numerical and eceetrical computations.
 	 * The object is completely compatible with movable or copyable operations.
 	 * Size is fixed at construction. The vector couldn't be resized after having been defined.
 	 *
@@ -125,7 +125,7 @@ namespace Geom
 
 #include "Vector.inl"
 
-namespace Geom
+namespace ece
 {
 	template<class T>
 	using Vector2 = Vector<T, 2>;

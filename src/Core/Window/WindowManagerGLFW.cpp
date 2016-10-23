@@ -5,7 +5,7 @@
 #include <utility> // std::pair
 #include <functional>
 
-namespace Utils
+namespace ece
 {
 	WindowManagerGLFW::WindowManagerGLFW() : WindowManager(), isGLFWInitialized(false), isContextParametrized(false), isWindowOpen(false), 
 											isContextDefined(-1), isGLEWInit(false), idsAvailable(), windows()
@@ -87,7 +87,7 @@ namespace Utils
 		std::cout << "Window with id " << windowId << " has been closed without encoutering errors ..." << std::endl;
 	}
 
-	void WindowManagerGLFW::provideSettings(const Utils::WindowID & windowId, const Utils::WindowSetting & settings)
+	void WindowManagerGLFW::provideSettings(const ece::WindowID & windowId, const ece::WindowSetting & settings)
 	{
 		if (windowId != -1) {
 
@@ -113,17 +113,17 @@ namespace Utils
 		}
 	}
 
-	void WindowManagerGLFW::provideVideoMode(const Utils::WindowID & windowId, const Utils::VideoMode & settings)
+	void WindowManagerGLFW::provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings)
 	{
 
 	}
 
-	void WindowManagerGLFW::attachToMonitor(const Utils::WindowID & windowId, const short int monitorId)
+	void WindowManagerGLFW::attachToMonitor(const ece::WindowID & windowId, const short int monitorId)
 	{
 		// TODO attach to the monitor
 	}
 
-	std::vector<Utils::MonitorID> & WindowManagerGLFW::getMonitors()
+	std::vector<ece::MonitorID> & WindowManagerGLFW::getMonitors()
 	{
 
 	}

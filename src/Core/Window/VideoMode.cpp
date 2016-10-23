@@ -1,6 +1,6 @@
 #include "Core\Window\VideoMode.hpp"
 
-namespace Utils
+namespace ece
 {
 	VideoMode::VideoMode(): 
 		refreshRate(60), 
@@ -22,7 +22,7 @@ namespace Utils
 		this->refreshRate = refreshRate;
 	}
 
-	void VideoMode::setColorBits(const Geom::Vector<unsigned short int, 4>& colorBits)
+	void VideoMode::setColorBits(const ece::Vector<unsigned short int, 4>& colorBits)
 	{
 		this->colorBits = colorBits;
 	}
@@ -56,9 +56,9 @@ namespace Utils
 		return this->refreshRate;
 	}
 
-	Geom::Vector<unsigned short int, 4> & VideoMode::getColorBits() const
+	ece::Vector<unsigned short int, 4> & VideoMode::getColorBits() const
 	{
-		return Geom::Vector<unsigned short int, 4>(this->colorBits);
+		return ece::Vector<unsigned short int, 4>(this->colorBits);
 	}
 	unsigned short int VideoMode::getDepthBits() const
 	{

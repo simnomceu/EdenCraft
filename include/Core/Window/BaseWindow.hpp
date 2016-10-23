@@ -16,7 +16,7 @@ namespace Window
 	class BaseWindow
 	{
 	public:
-		BaseWindow(const Utils::WindowSetting & settings);
+		BaseWindow(const ece::WindowSetting & settings);
 		BaseWindow(const BaseWindow & copy) = delete;
 		BaseWindow(BaseWindow && copy);	
 		~BaseWindow();
@@ -32,14 +32,14 @@ namespace Window
 		void display();
 		void clear();
 
-		void setWindow(const Utils::WindowSetting & settings);
-		Utils::WindowSetting & getSettings();
+		void setWindow(const ece::WindowSetting & settings);
+		ece::WindowSetting & getSettings();
 
 		void setTitle(const std::string & title);
 
-		void setRect(const Geom::Rectangle<unsigned int> & rectIn);
+		void setRect(const ece::Rectangle<unsigned int> & rectIn);
 
-		void setOptions(const Utils::WindowTag tagOptionsIn);
+		void setOptions(const ece::WindowTag tagOptionsIn);
 		bool isFullscreenActivated() const;
 		bool isResizable() const;
 		bool isToolbarActivated() const;
@@ -49,6 +49,6 @@ namespace Window
 	private:
 		short int windowId;
 
-		Utils::WindowSetting settings;
+		ece::WindowSetting settings;
 	};
 }

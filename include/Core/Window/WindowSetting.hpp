@@ -6,7 +6,7 @@
 #include "Core\Geom\Rectangle.hpp"
 #include "Core\Window\Window.inl"
 
-namespace Utils
+namespace ece
 {
 	class WindowSetting
 	{
@@ -21,10 +21,10 @@ namespace Utils
 		WindowSetting & operator=(WindowSetting && copy) = default;
 
 		void setTitle(const std::string & title);
-		void setBounds(const Geom::Rectangle<unsigned int> & bounds);
+		void setBounds(const ece::Rectangle<unsigned int> & bounds);
 
 		std::string & getTitle();
-		Geom::Rectangle<unsigned int> & getBounds();
+		ece::Rectangle<unsigned int> & getBounds();
 
 		void setTagOptions(const WindowTag & tagOptions);
 		bool isInFullscreen() const;
@@ -41,7 +41,7 @@ namespace Utils
 
 		WindowTag tagOptions;
 
-		Geom::Rectangle<unsigned int> bounds;
+		ece::Rectangle<unsigned int> bounds;
 	};
 }
 

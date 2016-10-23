@@ -2,7 +2,7 @@
 
 #include "Core\Window\WindowManagerNone.hpp"
 
-namespace Utils
+namespace ece
 {
 	WindowManager * WindowServiceLocator::service = new WindowManagerNone();
 

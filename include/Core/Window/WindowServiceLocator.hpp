@@ -2,7 +2,7 @@
 
 #include "Core\Window\WindowManager.hpp"
 
-namespace Utils
+namespace ece
 {
 	class WindowServiceLocator
 	{
