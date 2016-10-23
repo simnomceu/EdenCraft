@@ -20,7 +20,7 @@ namespace ece
 		void setSrgbCapable(const unsigned short int srgbCapable);
 
 		unsigned short int getRefreshRate() const;
-		ece::Vector<unsigned short int, 4> & getColorBits() const;
+		ece::Vector<unsigned short int, 4> getColorBits() const;
 		unsigned short int getDepthBits() const;
 		unsigned short int getStencilBits() const;
 		unsigned short int getSamples() const;

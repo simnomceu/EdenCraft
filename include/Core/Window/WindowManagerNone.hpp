@@ -19,6 +19,6 @@ namespace ece
 
 		void attachToMonitor(const ece::WindowID & windowId, const short int monitorId);
 
-		std::vector<ece::MonitorID> & getMonitors();
+		std::vector<ece::MonitorID> getMonitors();
 	};
 }

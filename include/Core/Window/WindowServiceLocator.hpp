@@ -2,6 +2,8 @@
 
 #include "Core\Window\WindowManager.hpp"
 
+#include <memory>
+
 namespace ece
 {
 	class WindowServiceLocator
@@ -14,6 +16,6 @@ namespace ece
 		static void stopService();
 
 	private:
-		static WindowManager * service;
+		static std::shared_ptr<WindowManager> service;
 	};
 }

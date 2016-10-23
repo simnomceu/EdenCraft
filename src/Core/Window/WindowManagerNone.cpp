@@ -31,7 +31,7 @@ namespace ece
 	{
 	}
 
-	std::vector<ece::MonitorID>& WindowManagerNone::getMonitors()
+	std::vector<ece::MonitorID> WindowManagerNone::getMonitors()
 	{
 		return std::vector<ece::MonitorID>();
 	}

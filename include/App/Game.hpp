@@ -39,7 +39,6 @@ private:
 	Window::BaseWindow window;
 	Window::BaseWindow windowBis;
 	bool isRunning;
-	std::vector<BaseObject*> elements;
 
 	Game();
 

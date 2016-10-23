@@ -123,9 +123,9 @@ namespace ece
 		// TODO attach to the monitor
 	}
 
-	std::vector<ece::MonitorID> & WindowManagerGLFW::getMonitors()
+	std::vector<ece::MonitorID> WindowManagerGLFW::getMonitors()
 	{
-
+		return std::vector<ece::MonitorID>();
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()

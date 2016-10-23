@@ -56,7 +56,7 @@ namespace ece
 		return this->refreshRate;
 	}
 
-	ece::Vector<unsigned short int, 4> & VideoMode::getColorBits() const
+	ece::Vector<unsigned short int, 4> VideoMode::getColorBits() const
 	{
 		return ece::Vector<unsigned short int, 4>(this->colorBits);
 	}

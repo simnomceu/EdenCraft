@@ -8,6 +8,7 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4505)
+#define GLEW_STATIC
 #include "GL\glew.h"
 #include "GL\freeglut.h"
 #include "GLFW\glfw3.h"
@@ -40,7 +41,7 @@ namespace ece
 
 		void attachToMonitor(const ece::WindowID & windowId, const short int monitorId);
 
-		std::vector<ece::MonitorID> & getMonitors();
+		std::vector<ece::MonitorID> getMonitors();
 
 	protected:
 		void initGLFW();

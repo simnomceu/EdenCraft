@@ -5,9 +5,7 @@
  */
 
 #include "App\Game.hpp"
-#include "Core\Window\WindowServiceLocator.hpp"
-#include "Core\Window\WindowManagerBuilder.hpp"
-#include "Core\Window\WindowManagerGLFW.hpp"
+#include "Core\Window\WindowSystem.hpp"
 
 /**
  * @fn	int main()
@@ -22,7 +20,7 @@
 
 auto main() -> int
 {
-	ece::WindowServiceLocator::provide(ece::WindowManagerBuilder::makeWindowManager<ece::WindowManagerGLFW>());
+	ece::WindowSystem::initWindowService();
 
 	auto game = Game::getInstance();
 	auto usableGame = game.lock();

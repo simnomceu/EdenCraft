@@ -43,7 +43,7 @@ namespace Window
 		//this->windowId = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
 		
-		ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 
 		/* Make the window's context current */
 		//glfwMakeContextCurrent(this->window);
@@ -87,12 +87,12 @@ namespace Window
 	void BaseWindow::setTitle(const std::string & title)
 	{
 		this->settings.setTitle(title);
-		ece::WindowServiceLocator::getService().setTitle(this->windowId, title);
+		//ece::WindowServiceLocator::getService().setTitle(this->windowId, title);
 	}
 
 	void BaseWindow::setRect(const ece::Rectangle<unsigned int>& rectIn)
 	{
-		ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 	}
 
 	void BaseWindow::setOptions(const ece::WindowTag tagOptionsIn)
@@ -116,21 +116,6 @@ namespace Window
 		else {
 			glfwWindowHint(GLFW_DECORATED, GL_FALSE);
 		}*/
-	}
-
-	bool BaseWindow::isFullscreenActivated() const
-	{
-		return (this->settings.getTagOptions() & ece::FULLSCREEN) == ece::FULLSCREEN;
-	}
-
-	bool BaseWindow::isResizable() const
-	{
-		return (this->settings.getTagOptions() & ece::RESIZABLE) == ece::RESIZABLE;
-	}
-
-	bool BaseWindow::isToolbarActivated() const
-	{
-		return (this->settings.getTagOptions() & ece::TOOLBAR) == ece::TOOLBAR;
 	}
 
 	void BaseWindow::attachToMonitor(const int monitorIdIn)

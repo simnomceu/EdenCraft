@@ -40,9 +40,6 @@ namespace Window
 		void setRect(const ece::Rectangle<unsigned int> & rectIn);
 
 		void setOptions(const ece::WindowTag tagOptionsIn);
-		bool isFullscreenActivated() const;
-		bool isResizable() const;
-		bool isToolbarActivated() const;
 
 		void attachToMonitor(const int monitorIdIn);
 

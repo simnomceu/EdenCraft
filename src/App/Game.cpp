@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Core\Window\WindowSetting.hpp"
+
 std::shared_ptr<Game> Game::instance = nullptr;
 
 /**
@@ -14,10 +16,9 @@ std::shared_ptr<Game> Game::instance = nullptr;
  */
 
 Game::Game() : 
-	window(Strings::APP_TITLE, Window::TOOLBAR, Window::PRIMARY_MONITOR, ece::Rectangle<unsigned int>{100, 100, 480, 360}),
-	windowBis(Strings::APP_TITLE, Window::TOOLBAR, Window::PRIMARY_MONITOR, ece::Rectangle<unsigned int>{100, 100, 480, 360}),
-	isRunning(false), 
-	elements()
+	window(ece::WindowSetting()),
+	windowBis(ece::WindowSetting()),
+	isRunning(false)
 {
 }
 
@@ -78,12 +79,6 @@ void Game::update()
 
 void Game::render()
 {
-	GLAdapter::clearWindow(Colors::DARK_GRAY);
-
-	for (auto it = this->elements.begin(); it != this->elements.end(); ++it)
-	{
-		this->window.draw(**it);
-	}
 	window.display();
 }
 
@@ -134,7 +129,6 @@ std::weak_ptr<Game> Game::getInstance()
 
 Game::~Game()
 {
-	this->elements.clear();
 }
 
 /**
@@ -150,7 +144,7 @@ void Game::run()
 {
 	this->initialize();
 
-	sf::Clock clock;
+	/*sf::Clock clock;
 	sf::Time elapsedTime = sf::Time::Zero;
 
 	int FPS = 0;
@@ -161,20 +155,20 @@ void Game::run()
 	}
 	else {
 		std::cerr << Strings::SHADERS_NOT_AVAILABLE << std::endl;
-	}
+	}*/
 
 	while (this->isRunningGame()) {
 		this->update();
 		this->render();
 
-		elapsedTime += clock.restart();
+		/*elapsedTime += clock.restart();
 		FPS++;
 		if (elapsedTime.asMicroseconds() > 1000000) {
 			this->window.setTitle(Strings::APP_TITLE + " " + std::to_string(FPS) + "FPS");
 
 			FPS = 0;
 			elapsedTime = sf::Time::Zero;
-		}
+		}*/
 	}
 
 	this->close();

@@ -6,6 +6,7 @@
 #include "Core\Window\VideoMode.hpp"
 #include "Core\Window\Window.inl"
 
+
 namespace ece
 {
 	class WindowManager
@@ -22,6 +23,6 @@ namespace ece
 
 		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId) = 0;
 
-		virtual std::vector<ece::MonitorID> & getMonitors() = 0;
+		virtual std::vector<ece::MonitorID> getMonitors() = 0;
 	};
 }

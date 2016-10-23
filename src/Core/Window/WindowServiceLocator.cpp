@@ -4,11 +4,11 @@
 
 namespace ece
 {
-	WindowManager * WindowServiceLocator::service = new WindowManagerNone();
+	std::shared_ptr<WindowManager> WindowServiceLocator::service(new WindowManagerNone());
 
 	void WindowServiceLocator::provide(WindowManager * service)
 	{
-		WindowServiceLocator::service = service;
+		WindowServiceLocator::service = std::shared_ptr<WindowManager>(service);
 	}
 
 	WindowManager & WindowServiceLocator::getService()
@@ -17,6 +17,6 @@ namespace ece
 	}
 	void WindowServiceLocator::stopService()
 	{
-		WindowServiceLocator::service = new WindowManagerNone();
+		WindowServiceLocator::service = std::shared_ptr<WindowManager>(new WindowManagerNone());
 	}
 }
