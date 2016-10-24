@@ -1,20 +1,38 @@
 #include "Core\Window\VideoMode.hpp"
 
+#include "Core\Window\Constant.inl"
+
 namespace ece
 {
 	VideoMode::VideoMode(): 
-		refreshRate(60), 
-		colorBits({8, 8, 8}), 
-		depthBits(24), 
-		stencilBits(24), 
-		samples(0), 
-		doubleBuffering(true),
-		srgbCapable(0)
+		refreshRate(DEFAULT_REFRESH_RATE_ECE), 
+		colorBits({DEFAULT_RED_BITS_ECE, DEFAULT_GREEN_BITS_ECE, DEFAULT_BLUE_BITS_ECE, DEFAULT_ALPHA_BITS_ECE}), 
+		depthBits(DEFAULT_DEPTH_BITS_ECE), 
+		stencilBits(DEFAULT_STENCIL_BITS_ECE), 
+		samples(DEFAULT_SAMPLES_ECE), 
+		doubleBuffering(DEFAULT_DOUBLE_BUFFERING_ECE),
+		srgbCapable(DEFAULT_SRGB_CAPABLE_ECE)
 	{
 	}
 
 	VideoMode::~VideoMode()
 	{
+	}
+
+	bool VideoMode::operator==(const VideoMode & rightOperand) const
+	{
+		return this->refreshRate == rightOperand.getRefreshRate()
+			&& this->colorBits == rightOperand.getColorBits()
+			&& this->depthBits == rightOperand.getDepthBits()
+			&& this->stencilBits == rightOperand.getStencilBits()
+			&& this->samples == rightOperand.getSamples()
+			&& this->doubleBuffering == rightOperand.isDoubleBufferingActivate()
+			&& this->srgbCapable == rightOperand.isSrgbCapable();
+	}
+
+	bool VideoMode::operator!=(const VideoMode & rightOperand) const
+	{
+		return !operator==(rightOperand);
 	}
 
 	void VideoMode::setRefreshRate(const unsigned short int refreshRate)
@@ -46,7 +64,7 @@ namespace ece
 		this->doubleBuffering = doubleBuffering;
 	}
 
-	void VideoMode::setSrgbCapable(const unsigned short int srgbCapable)
+	void VideoMode::setSrgbCapable(const bool srgbCapable)
 	{
 		this->srgbCapable = srgbCapable;
 	}
@@ -60,23 +78,28 @@ namespace ece
 	{
 		return ece::ColorRGBA(this->colorBits);
 	}
+
 	unsigned short int VideoMode::getDepthBits() const
 	{
 		return this->depthBits;
 	}
+
 	unsigned short int VideoMode::getStencilBits() const
 	{
 		return this->stencilBits;
 	}
+
 	unsigned short int VideoMode::getSamples() const
 	{
 		return this->samples;
 	}
+
 	bool VideoMode::isDoubleBufferingActivate() const
 	{
 		return this->doubleBuffering;
 	}
-	unsigned short int VideoMode::getSrgbCapable() const
+
+	bool VideoMode::isSrgbCapable() const
 	{
 		return this->srgbCapable;
 	}

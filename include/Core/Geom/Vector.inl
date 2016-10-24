@@ -2,6 +2,7 @@
 #define VECTOR_INL
 
 #include <algorithm>
+#include "Vector.hpp"
 
 namespace ece
 {
@@ -201,6 +202,16 @@ namespace ece
 			os << "Vector is empty." << std::endl;
 		}
 		return os;
+	}
+
+	template<class T, unsigned short int S>
+	bool Vector<T, S>::operator==(const Vector<T, S>& rightOperand) const
+	{
+		bool result = true;
+		for (int i = 0; i < S; ++i) {
+			result = result && ((*this)[i] == rightOperand[i]);
+		}
+		return result;
 	}
 
 	template<class T, unsigned short int S>

@@ -16,10 +16,10 @@
 #include <initializer_list>
 
 /**
- * @namespace ece
- *
- * A namespace to gather classes and functionalities for eceetric operations.
- *
+* @namespace ece
+*
+* A namespace to gather classes and functionalities of the core engine of EdenCraft.
+*
 **/
 namespace ece
 {
@@ -110,6 +110,8 @@ namespace ece
 		/*Vector & operator+=(const Vector & rightOperand);
 		Vector & operator-=(const Vector & rightOperand);
 		Vector & operator*=(const Vector & rightOperand);*/
+
+		bool operator==(const Vector<T, S> & rightOperand) const;
 
 		friend std::ostream & operator<< <>(std::ostream & os, const Vector<T, S> & v);
 

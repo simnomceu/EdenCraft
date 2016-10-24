@@ -15,7 +15,7 @@
 /**
  * @namespace ece
  * 
- * A namespace to gather classes and functionalities for eceetric operations.
+ * A namespace to gather classes and functionalities of the core engine of EdenCraft.
  *
  **/
 namespace ece
