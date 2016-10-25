@@ -74,4 +74,5 @@ bld/
 *.nuget.targets
 
 # Visual Paradigm project
-resources/uml/*
+resource/uml/*
+resource/documents/*
