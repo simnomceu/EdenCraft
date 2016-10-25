@@ -15,16 +15,19 @@ namespace ece
 	public:
 		virtual ~WindowManager() {}
 
-		virtual short int openWindow() = 0;
-		virtual void closeWindow(const short int windowId) = 0;
+		virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS, const ece::WindowPreTag & preTag = ece::NO_OPTIONS) = 0;
+		virtual void closeWindow(const ece::WindowID & windowId) = 0;
 
-		virtual void provideSettings(const ece::WindowID & windowId, const ece::WindowSetting & settings) = 0;
+		virtual void setTitle(const ece::WindowID & windowId, const std::string & title) = 0;
+		virtual void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds) = 0;
+		virtual void setState(const ece::WindowID & windowId, const ece::WindowState & state) = 0;
+		virtual void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings) = 0;
 
-		virtual void provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings) = 0;
+		virtual void provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & videoMode) = 0;
 
-		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId) = 0;
+		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings) = 0;
 
-		virtual std::vector<ece::MonitorID> getMonitors() = 0;
+		virtual unsigned short int getNumberOfMonitors() = 0;
 	};
 }
 

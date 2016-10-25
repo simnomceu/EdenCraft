@@ -97,7 +97,6 @@ namespace Window
 
 	void BaseWindow::setOptions(const ece::WindowTag tagOptionsIn)
 	{
-		this->settings.setTagOptions(tagOptionsIn);
 
 		/*if (this->isFullscreenActivated()) {
 			this->monitorToFill = glfwGetPrimaryMonitor();

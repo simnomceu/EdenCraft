@@ -11,16 +11,19 @@ namespace ece
 		WindowManagerNone();
 		~WindowManagerNone();
 
-		short int openWindow();
-		void closeWindow(const short int windowId);
+		ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS, const ece::WindowPreTag & preTag = ece::NO_OPTIONS);
+		void closeWindow(const ece::WindowID & windowId);
 
-		void provideSettings(const ece::WindowID & windowId, const ece::WindowSetting & settings);
+		void setTitle(const ece::WindowID & windowId, const std::string & title);
+		void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds);
+		void setState(const ece::WindowID & windowId, const ece::WindowState & state);
+		void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings);
 
 		void provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings);
 
-		void attachToMonitor(const ece::WindowID & windowId, const short int monitorId);
+		void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings);
 
-		std::vector<ece::MonitorID> getMonitors();
+		unsigned short int getNumberOfMonitors();
 	};
 }
 

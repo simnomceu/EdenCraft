@@ -22,26 +22,18 @@ namespace ece
 
 		void setTitle(const std::string & title);
 		void setBounds(const ece::Rectangle<unsigned int> & bounds);
+		void setState(const ece::WindowState & state);
 
-		std::string & getTitle();
-		ece::Rectangle<unsigned int> & getBounds();
-
-		void setTagOptions(const WindowTag & tagOptions);
-		bool isInFullscreen() const;
-		bool isUsingToolbar() const;
-		bool isResizable() const;
-		bool isInitiallyVisible() const;
-		bool isInitiallyFocused() const;
-		bool isAutoIconifying() const;
-		bool isFloating() const;
-		bool isInitiallyMaximized() const;
+		const std::string & getTitle() const;
+		const ece::Rectangle<unsigned int> & getBounds() const;
+		const ece::WindowState & getState() const;
 
 	private:
 		std::string titleWindow;
 
-		WindowTag tagOptions;
-
 		ece::Rectangle<unsigned int> bounds;
+
+		ece::WindowState state;
 	};
 }
 

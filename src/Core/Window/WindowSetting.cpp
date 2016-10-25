@@ -4,7 +4,7 @@
 
 namespace ece
 {
-	WindowSetting::WindowSetting(): titleWindow(""), tagOptions(ece::NO_OPTIONS), bounds()
+	WindowSetting::WindowSetting(): titleWindow(""), bounds(), state(ece::NO_OPTIONS)
 	{
 	}
 
@@ -22,50 +22,22 @@ namespace ece
 		this->bounds = bounds;
 	}
 
-	std::string & WindowSetting::getTitle()
+	void WindowSetting::setState(const ece::WindowState & state)
+	{
+		this->state = state;
+	}
+
+	const std::string & WindowSetting::getTitle() const
 	{
 		return this->titleWindow;
 	}
 
-	ece::Rectangle<unsigned int>& WindowSetting::getBounds()
+	const ece::Rectangle<unsigned int>& WindowSetting::getBounds() const
 	{
 		return this->bounds;
 	}
-
-	void WindowSetting::setTagOptions(const WindowTag & tagOptions)
+	const ece::WindowState & WindowSetting::getState() const
 	{
-		this->tagOptions = tagOptions;
-	}
-	bool WindowSetting::isInFullscreen() const
-	{
-		return (this->tagOptions & ece::FULLSCREEN) == ece::FULLSCREEN;
-	}
-	bool WindowSetting::isUsingToolbar() const
-	{
-		return (this->tagOptions & ece::TOOLBAR) == ece::TOOLBAR;
-	}
-	bool WindowSetting::isResizable() const
-	{
-		return (this->tagOptions & ece::RESIZABLE) == ece::RESIZABLE;
-	}
-	bool WindowSetting::isInitiallyVisible() const
-	{
-		return (this->tagOptions & ece::VISIBLE) == ece::VISIBLE;
-	}
-	bool WindowSetting::isInitiallyFocused() const
-	{
-		return (this->tagOptions & ece::FOCUSED) == ece::FOCUSED;
-	}
-	bool WindowSetting::isAutoIconifying() const
-	{
-		return (this->tagOptions & ece::AUTO_ICONIFY) == ece::AUTO_ICONIFY;
-	}
-	bool WindowSetting::isFloating() const
-	{
-		return (this->tagOptions & ece::FLOATING) == ece::FLOATING;
-	}
-	bool WindowSetting::isInitiallyMaximized() const
-	{
-		return (this->tagOptions & ece::MAXIMIZED) == ece::MAXIMIZED;
+		return this->state;
 	}
 }

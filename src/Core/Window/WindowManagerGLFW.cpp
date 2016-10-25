@@ -32,7 +32,7 @@ namespace ece
 		}
 	}
 
-	short int WindowManagerGLFW::openWindow()
+	ece::WindowID WindowManagerGLFW::openWindow(const ece::WindowTag & tag, const ece::WindowPreTag & preTag)
 	{
 		if (!this->isGLFWInitialized) {
 			this->initGLFW();
@@ -43,7 +43,7 @@ namespace ece
 
 		this->windows.insert(std::make_pair(this->idsAvailable.top(), 
 										glfwCreateWindow(640, 480, "My Title", NULL, NULL)));
-		unsigned short int windowId = -1;
+		ece::WindowID windowId = -1;
 
 		if (this->windows[this->idsAvailable.top()] != nullptr) {
 			this->isWindowOpen = true;
@@ -58,6 +58,12 @@ namespace ece
 			if (!this->isGLEWInit) {
 				this->initGLEW();
 			}
+
+			if (tag != ece::NO_OPTIONS_BIS) {
+			}
+
+			if (preTag != ece::NO_OPTIONS_TER) {
+			}
 		}
 		else {
 			this->windows.erase(this->idsAvailable.top());
@@ -65,7 +71,7 @@ namespace ece
 		return windowId;
 	}
 
-	void WindowManagerGLFW::closeWindow(const short int windowId)
+	void WindowManagerGLFW::closeWindow(const ece::WindowID & windowId)
 	{
 		glfwDestroyWindow(this->getWindow(windowId));
 		if (this->isContextDefined == windowId) {
@@ -87,30 +93,60 @@ namespace ece
 		std::cout << "Window with id " << windowId << " has been closed without encoutering errors ..." << std::endl;
 	}
 
-	void WindowManagerGLFW::provideSettings(const ece::WindowID & windowId, const ece::WindowSetting & settings)
+	void WindowManagerGLFW::setTitle(const ece::WindowID & windowId, const std::string & title)
 	{
 		if (windowId != -1) {
-
+			glfwSetWindowTitle(this->getWindow(windowId), title.c_str());
 		}
-		else {
-			/*if (this->isFullscreenActivated()) {
-			this->monitorToFill = glfwGetPrimaryMonitor();
-			}
+	}
 
-			if (this->isResizable()) {
-			glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	void WindowManagerGLFW::setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int>& bounds)
+	{
+		if (windowId != -1) {
+			auto window = this->getWindow(windowId);
+
+			glfwSetWindowPos(window, bounds.getX(), bounds.getY());
+			glfwSetWindowSize(window, bounds.getWidth(), bounds.getHeight());
+		}
+	}
+
+	void WindowManagerGLFW::setState(const ece::WindowID & windowId, const ece::WindowState & state)
+	{
+		if (windowId != 1) {
+			auto window = this->getWindow(windowId);
+
+			if ((state & ece::VISIBLE) == ece::VISIBLE) {
+				glfwShowWindow(window);
 			}
 			else {
-			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+				glfwHideWindow(window);
 			}
 
-			if (this->isToolbarActivated()) {
-			glfwWindowHint(GLFW_DECORATED, GL_TRUE);
+			if ((state & ece::FOCUSED) == ece::FOCUSED) {
+				glfwFocusWindow(window);
+			}
+
+			if ((state & ece::ICONIFIED) == ece::ICONIFIED) {
+				glfwIconifyWindow(window);
 			}
 			else {
-			glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-			}*/
+				glfwRestoreWindow(window);
+			}
+
+			if ((state & ece::MAXIMIZED) == ece::MAXIMIZED) {
+				glfwMaximizeWindow(window);
+			}
+			else {
+				glfwRestoreWindow(window);
+			}
 		}
+	}
+
+	void WindowManagerGLFW::provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings)
+	{
+		this->setTitle(windowId, settings.getTitle());
+		this->setBounds(windowId, settings.getBounds());
+		this->setState(windowId, settings.getState());
 	}
 
 	void WindowManagerGLFW::provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings)
@@ -118,14 +154,25 @@ namespace ece
 
 	}
 
-	void WindowManagerGLFW::attachToMonitor(const ece::WindowID & windowId, const short int monitorId)
+	void WindowManagerGLFW::attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings)
 	{
-		// TODO attach to the monitor
+		if (monitorId != -1 && windowId != -1) {
+			auto monitor = this->getMonitor(monitorId);
+			auto window = this->getWindow(windowId);
+			auto bounds = settings.getBounds();
+
+			glfwSetWindowMonitor(window, monitor, bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight(), 60);
+		}
 	}
 
-	std::vector<ece::MonitorID> WindowManagerGLFW::getMonitors()
+	unsigned short int WindowManagerGLFW::getNumberOfMonitors()
 	{
-		return std::vector<ece::MonitorID>();
+		std::vector<ece::MonitorID> monitors;
+
+		int nbMonitors = 0;
+		glfwGetMonitors(&nbMonitors);
+
+		return nbMonitors;
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()
@@ -200,8 +247,18 @@ namespace ece
 		this->isGLFWInitialized = false;
 	}
 
-	GLFWwindow * WindowManagerGLFW::getWindow(const short int windowId)
+	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
+		// TODO add guard for the id (out of range)
 		return this->windows[windowId].get();
+	}
+
+	GLFWmonitor * WindowManagerGLFW::getMonitor(const ece::MonitorID & monitorId)
+	{
+		// TODO add guard for the id and the number of monitors
+		int nbMonitors = 0;
+		auto monitors = glfwGetMonitors(&nbMonitors);
+
+		return monitors[monitorId];
 	}
 }

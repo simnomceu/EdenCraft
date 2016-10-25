@@ -10,16 +10,28 @@ namespace ece
 	{
 	}
 
-	short int WindowManagerNone::openWindow()
+	ece::WindowID WindowManagerNone::openWindow(const ece::WindowTag & tag, const ece::WindowPreTag & preTag)
 	{
 		return -1;
 	}
 
-	void WindowManagerNone::closeWindow(const short int windowId)
+	void WindowManagerNone::closeWindow(const ece::WindowID & windowId)
 	{
 	}
 
-	void WindowManagerNone::provideSettings(const ece::WindowID & windowId, const ece::WindowSetting & settings)
+	void WindowManagerNone::setTitle(const ece::WindowID & windowId, const std::string & title)
+	{
+	}
+
+	void WindowManagerNone::setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int>& bounds)
+	{
+	}
+
+	void WindowManagerNone::setState(const ece::WindowID & windowId, const ece::WindowState & state)
+	{
+	}
+
+	void WindowManagerNone::provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings)
 	{
 	}
 
@@ -27,12 +39,12 @@ namespace ece
 	{
 	}
 
-	void WindowManagerNone::attachToMonitor(const ece::WindowID & windowId, const short int monitorId)
+	void WindowManagerNone::attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings)
 	{
 	}
 
-	std::vector<ece::MonitorID> WindowManagerNone::getMonitors()
+	unsigned short int WindowManagerNone::getNumberOfMonitors()
 	{
-		return std::vector<ece::MonitorID>();
+		return 0;
 	}
 }
