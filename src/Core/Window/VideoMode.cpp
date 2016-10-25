@@ -10,6 +10,7 @@ namespace ece
 		depthBits(DEFAULT_DEPTH_BITS_ECE), 
 		stencilBits(DEFAULT_STENCIL_BITS_ECE), 
 		samples(DEFAULT_SAMPLES_ECE), 
+		stereo(DEFAULT_STEREO_ECE),
 		doubleBuffering(DEFAULT_DOUBLE_BUFFERING_ECE),
 		srgbCapable(DEFAULT_SRGB_CAPABLE_ECE)
 	{
@@ -26,6 +27,7 @@ namespace ece
 			&& this->depthBits == rightOperand.getDepthBits()
 			&& this->stencilBits == rightOperand.getStencilBits()
 			&& this->samples == rightOperand.getSamples()
+			&& this->stereo == rightOperand.isStereoActivate()
 			&& this->doubleBuffering == rightOperand.isDoubleBufferingActivate()
 			&& this->srgbCapable == rightOperand.isSrgbCapable();
 	}
@@ -59,6 +61,12 @@ namespace ece
 	{
 		this->samples = samples;
 	}
+
+	void VideoMode::setStereo(const bool stereo)
+	{
+		this->stereo = stereo;
+	}
+
 	void VideoMode::setDoubleBuffering(const bool doubleBuffering)
 	{
 		this->doubleBuffering = doubleBuffering;
@@ -92,6 +100,11 @@ namespace ece
 	unsigned short int VideoMode::getSamples() const
 	{
 		return this->samples;
+	}
+
+	bool VideoMode::isStereoActivate() const
+	{
+		return this->stereo;
 	}
 
 	bool VideoMode::isDoubleBufferingActivate() const

@@ -33,7 +33,7 @@ namespace ece
 		WindowManagerGLFW();
 		~WindowManagerGLFW();
 
-		ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS, const ece::WindowPreTag & preTag = ece::NO_OPTIONS);
+		ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS);
 		void closeWindow(const ece::WindowID &  windowId);
 
 		void setTitle(const ece::WindowID & windowId, const std::string & title);
@@ -41,7 +41,7 @@ namespace ece
 		void setState(const ece::WindowID & windowId, const ece::WindowState & state);
 		void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings);
 
-		void provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings);
+		void provideVideoMode(const ece::VideoMode & videoMode);
 
 		void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings);
 
@@ -55,6 +55,8 @@ namespace ece
 
 		GLFWwindow * getWindow(const ece::WindowID & windowId);
 		GLFWmonitor * getMonitor(const ece::MonitorID & monitorId);
+
+		void setWindowHint(const ece::WindowTag & tag);
 
 	private:
 		bool isGLFWInitialized;

@@ -10,6 +10,7 @@
 
 #include "Core\Geom\Rectangle.hpp"
 #include "Core\Window\WindowSetting.hpp"
+#include "Core\Window\VideoMode.hpp"
 #include "Core\Window\Window.inl"
 
 namespace Window
@@ -48,6 +49,8 @@ namespace Window
 		short int windowId;
 
 		ece::WindowSetting settings;
+
+		ece::VideoMode videoMode;
 	};
 }
 

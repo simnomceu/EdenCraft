@@ -9,7 +9,6 @@ namespace ece
 	using MonitorID = short int;
 	using WindowState = unsigned short int;
 	using WindowTag = unsigned short int;
-	using WindowPreTag = unsigned short int;
 	using WindowUnknownTag = unsigned short int;
 
 	const WindowState NO_OPTIONS = 0b0000;
@@ -18,15 +17,13 @@ namespace ece
 	const WindowState ICONIFIED  = 0b0100;
 	const WindowState MAXIMIZED  = 0b1000;
 
-	const WindowTag NO_OPTIONS_BIS = 0b000;
-	const WindowTag FULLSCREEN = 0b001;
-	const WindowTag TOOLBAR    = 0b010;
-	const WindowTag RESIZABLE  = 0b100;
-
-	const WindowPreTag NO_OPTIONS_TER      = 0b000;
-	const WindowPreTag INIT_VISIBLE    = 0b001;
-	const WindowPreTag INIT_FOCUSED    = 0b010;
-	const WindowPreTag INIT_MAXIMIZED  = 0b100;
+	const WindowTag NO_OPTIONS_BIS  = 0b000000;
+	const WindowTag FULLSCREEN      = 0b000001;
+	const WindowTag TOOLBAR         = 0b000010;
+	const WindowTag RESIZABLE       = 0b000100;
+	const WindowTag INIT_VISIBLE    = 0b001000;
+	const WindowTag INIT_FOCUSED    = 0b010000;
+	const WindowTag INIT_MAXIMIZED  = 0b100000;
 
 
 	const WindowUnknownTag AUTO_ICONIFY = 0b0;

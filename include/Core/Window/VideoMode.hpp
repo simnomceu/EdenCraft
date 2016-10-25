@@ -50,6 +50,7 @@ namespace ece
 		void setDepthBits(const unsigned short int dephtBits);
 		void setStencilBits(const unsigned short int stencilBits);
 		void setSamples(const unsigned short int samples);
+		void setStereo(const bool stereo);
 		void setDoubleBuffering(const bool doubleBuffering);
 		void setSrgbCapable(const bool srgbCapable);
 
@@ -58,6 +59,7 @@ namespace ece
 		unsigned short int getDepthBits() const;
 		unsigned short int getStencilBits() const;
 		unsigned short int getSamples() const;
+		bool isStereoActivate() const;
 		bool isDoubleBufferingActivate() const;
 		bool isSrgbCapable() const;
 
@@ -67,6 +69,7 @@ namespace ece
 		unsigned short int depthBits;
 		unsigned short int stencilBits;
 		unsigned short int samples;
+		bool stereo;
 		bool doubleBuffering;
 		bool srgbCapable;
 	};

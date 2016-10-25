@@ -10,7 +10,7 @@ namespace ece
 	{
 	}
 
-	ece::WindowID WindowManagerNone::openWindow(const ece::WindowTag & tag, const ece::WindowPreTag & preTag)
+	ece::WindowID WindowManagerNone::openWindow(const ece::WindowTag & tag)
 	{
 		return -1;
 	}
@@ -35,7 +35,7 @@ namespace ece
 	{
 	}
 
-	void WindowManagerNone::provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings)
+	void WindowManagerNone::provideVideoMode(const ece::VideoMode & videoMode)
 	{
 	}
 

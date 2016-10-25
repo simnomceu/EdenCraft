@@ -15,7 +15,7 @@ namespace ece
 	public:
 		virtual ~WindowManager() {}
 
-		virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS, const ece::WindowPreTag & preTag = ece::NO_OPTIONS) = 0;
+		virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS) = 0;
 		virtual void closeWindow(const ece::WindowID & windowId) = 0;
 
 		virtual void setTitle(const ece::WindowID & windowId, const std::string & title) = 0;
@@ -23,7 +23,7 @@ namespace ece
 		virtual void setState(const ece::WindowID & windowId, const ece::WindowState & state) = 0;
 		virtual void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings) = 0;
 
-		virtual void provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & videoMode) = 0;
+		virtual void provideVideoMode(const ece::VideoMode & videoMode) = 0;
 
 		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings) = 0;
 

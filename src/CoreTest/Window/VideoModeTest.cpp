@@ -4,6 +4,8 @@
 #include "Core\Window\Window.inl"
 #include "Core\Window\Constant.inl"
 
+// TODO add test for stereo property
+
 SCENARIO("VideoMode regression", "[Core][Window][Regression]")
 {
 	GIVEN("A default VideoMode.")

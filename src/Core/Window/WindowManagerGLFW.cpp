@@ -13,12 +13,14 @@ namespace ece
 		this->idsAvailable.push(0);
 		this->windows.insert(std::make_pair(-1, nullptr));
 	}
+
 	WindowManagerGLFW::~WindowManagerGLFW()
 	{
 		for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
 			this->closeWindow(it->first);
 		}
 	}
+
 	void WindowManagerGLFW::initGLFW()
 	{
 		if (!glfwInit()) {
@@ -32,7 +34,7 @@ namespace ece
 		}
 	}
 
-	ece::WindowID WindowManagerGLFW::openWindow(const ece::WindowTag & tag, const ece::WindowPreTag & preTag)
+	ece::WindowID WindowManagerGLFW::openWindow(const ece::WindowTag & tag)
 	{
 		if (!this->isGLFWInitialized) {
 			this->initGLFW();
@@ -41,8 +43,19 @@ namespace ece
 			this->parametrizeContextGL();
 		}
 
-		this->windows.insert(std::make_pair(this->idsAvailable.top(), 
-										glfwCreateWindow(640, 480, "My Title", NULL, NULL)));
+		if (tag != ece::NO_OPTIONS_BIS) {
+			this->setWindowHint(tag);
+		}
+
+		if ((tag & ece::FULLSCREEN) == ece::FULLSCREEN) {
+			this->windows.insert(std::make_pair(this->idsAvailable.top(),
+												glfwCreateWindow(640, 480, "My Title", glfwGetPrimaryMonitor(), NULL)));
+		}
+		else {
+
+			this->windows.insert(std::make_pair(this->idsAvailable.top(),
+												glfwCreateWindow(640, 480, "My Title", NULL, NULL)));
+		}
 		ece::WindowID windowId = -1;
 
 		if (this->windows[this->idsAvailable.top()] != nullptr) {
@@ -57,12 +70,6 @@ namespace ece
 
 			if (!this->isGLEWInit) {
 				this->initGLEW();
-			}
-
-			if (tag != ece::NO_OPTIONS_BIS) {
-			}
-
-			if (preTag != ece::NO_OPTIONS_TER) {
 			}
 		}
 		else {
@@ -149,9 +156,19 @@ namespace ece
 		this->setState(windowId, settings.getState());
 	}
 
-	void WindowManagerGLFW::provideVideoMode(const ece::WindowID & windowId, const ece::VideoMode & settings)
+	void WindowManagerGLFW::provideVideoMode(const ece::VideoMode & videoMode)
 	{
-
+		glfwWindowHint(GLFW_REFRESH_RATE, videoMode.getRefreshRate());
+		glfwWindowHint(GLFW_RED_BITS, videoMode.getColorBits()[ece::RED_CHANNEL]);
+		glfwWindowHint(GLFW_GREEN_BITS, videoMode.getColorBits()[ece::GREEN_CHANNEL]);
+		glfwWindowHint(GLFW_BLUE_BITS, videoMode.getColorBits()[ece::BLUE_CHANNEL]);
+		glfwWindowHint(GLFW_ALPHA_BITS, videoMode.getColorBits()[ece::ALPHA_CHANNEL]);
+		glfwWindowHint(GLFW_DEPTH_BITS, videoMode.getDepthBits());
+		glfwWindowHint(GLFW_STENCIL_BITS, videoMode.getStencilBits());
+		glfwWindowHint(GLFW_SAMPLES, videoMode.getSamples());
+		glfwWindowHint(GLFW_STEREO, videoMode.isStereoActivate());
+		glfwWindowHint(GLFW_DOUBLEBUFFER, videoMode.isDoubleBufferingActivate());
+		glfwWindowHint(GLFW_SRGB_CAPABLE, videoMode.isSrgbCapable());
 	}
 
 	void WindowManagerGLFW::attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings)
@@ -169,53 +186,24 @@ namespace ece
 	{
 		std::vector<ece::MonitorID> monitors;
 
-		int nbMonitors = 0;
-		glfwGetMonitors(&nbMonitors);
+int nbMonitors = 0;
+glfwGetMonitors(&nbMonitors);
 
-		return nbMonitors;
+return nbMonitors;
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()
 	{
-		/*
-		GLFW_RESIZABLE	GLFW_TRUE	GLFW_TRUE or GLFW_FALSE
-		GLFW_VISIBLE	GLFW_TRUE	GLFW_TRUE or GLFW_FALSE
-		GLFW_DECORATED	GLFW_TRUE	GLFW_TRUE or GLFW_FALSE
-		GLFW_FOCUSED	GLFW_TRUE	GLFW_TRUE or GLFW_FALSE
-		GLFW_AUTO_ICONIFY	GLFW_TRUE	GLFW_TRUE or GLFW_FALSE
-		GLFW_FLOATING	GLFW_FALSE	GLFW_TRUE or GLFW_FALSE
-		GLFW_MAXIMIZED	GLFW_FALSE	GLFW_TRUE or GLFW_FALSE
-		GLFW_RED_BITS	8	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_GREEN_BITS	8	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_BLUE_BITS	8	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_ALPHA_BITS	8	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_DEPTH_BITS	24	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_STENCIL_BITS	8	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_ACCUM_RED_BITS	0	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_ACCUM_GREEN_BITS	0	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_ACCUM_BLUE_BITS	0	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_ACCUM_ALPHA_BITS	0	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_AUX_BUFFERS	0	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_SAMPLES	0	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_REFRESH_RATE	GLFW_DONT_CARE	0 to INT_MAX or GLFW_DONT_CARE
-		GLFW_STEREO	GLFW_FALSE	GLFW_TRUE or GLFW_FALSE
-		GLFW_SRGB_CAPABLE	GLFW_FALSE	GLFW_TRUE or GLFW_FALSE
-		GLFW_DOUBLEBUFFER	GLFW_TRUE	GLFW_TRUE or GLFW_FALSE
-		GLFW_CLIENT_API	GLFW_OPENGL_API	GLFW_OPENGL_API, GLFW_OPENGL_ES_API or GLFW_NO_API
-		GLFW_CONTEXT_CREATION_API	GLFW_NATIVE_CONTEXT_API	GLFW_NATIVE_CONTEXT_API or GLFW_EGL_CONTEXT_API
-		GLFW_CONTEXT_VERSION_MAJOR	1	Any valid major version number of the chosen client API
-		GLFW_CONTEXT_VERSION_MINOR	0	Any valid minor version number of the chosen client API
-		GLFW_CONTEXT_ROBUSTNESS	GLFW_NO_ROBUSTNESS	GLFW_NO_ROBUSTNESS, GLFW_NO_RESET_NOTIFICATION or GLFW_LOSE_CONTEXT_ON_RESET
-		GLFW_CONTEXT_RELEASE_BEHAVIOR	GLFW_ANY_RELEASE_BEHAVIOR	GLFW_ANY_RELEASE_BEHAVIOR, GLFW_RELEASE_BEHAVIOR_FLUSH or GLFW_RELEASE_BEHAVIOR_NONE
-		GLFW_OPENGL_FORWARD_COMPAT	GLFW_FALSE	GLFW_TRUE or GLFW_FALSE
-		GLFW_OPENGL_DEBUG_CONTEXT	GLFW_FALSE	GLFW_TRUE or GLFW_FALSE
-		GLFW_OPENGL_PROFILE	GLFW_OPENGL_ANY_PROFILE	GLFW_OPENGL_ANY_PROFILE, GLFW_OPENGL_COMPAT_PROFILE or GLFW_OPENGL_CORE_PROFILE
-		*/
-
+		glfwWindowHint(GLFW_CLIENT_API, GL_CLIENT_API_ECE);
+		glfwWindowHint(GLFW_CONTEXT_CREATION_API, GL_CONTEXT_CREATION_API_ECE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GL_MAJOR_VERSION_ECE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_MINOR_VERSION_ECE);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
-		glfwSwapInterval(0);
+		glfwWindowHint(GLFW_CONTEXT_ROBUSTNESS, GL_CONTEXT_ROBUSTNESS_ECE);
+		glfwWindowHint(GLFW_CONTEXT_RELEASE_BEHAVIOR, GL_CONTEXT_RELEASE_BEHAVIOR_ECE);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_OPENGL_FORWARD_COMPAT_ECE);
+		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_OPENGL_DEBUG_CONTEXT_ECE);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GL_OPENGL_PROFILE_ECE);
+		glfwSwapInterval(DEFAULT_INTERVAL_SWAP_ECE);
 	}
 
 	void WindowManagerGLFW::initGLEW()
@@ -260,5 +248,30 @@ namespace ece
 		auto monitors = glfwGetMonitors(&nbMonitors);
 
 		return monitors[monitorId];
+	}
+
+	void WindowManagerGLFW::setWindowHint(const ece::WindowTag & tag)
+	{
+		if ((tag & ece::INIT_VISIBLE) == ece::INIT_VISIBLE) {
+			glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+		}
+		else {
+
+			glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+		}
+
+		if ((tag & ece::INIT_FOCUSED) == ece::INIT_FOCUSED) {
+			glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
+		}
+		else {
+			glfwWindowHint(GLFW_FOCUSED, GLFW_FALSE);
+		}
+
+		if ((tag & ece::INIT_MAXIMIZED) == ece::INIT_MAXIMIZED) {
+			glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+		}
+		else {
+			glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+		}
 	}
 }
