@@ -20,6 +20,10 @@
  * @return	Exit-code for the process - 0 for success, else an error code.
  */
 
+/*#include "Core\System\EventManager.hpp"
+#include "Core\System\Slot.hpp"
+#include "Core\System\Event.inl"*/
+
 auto main() -> int
 {
 	Utils::WindowServiceLocator::provide(Utils::WindowManagerBuilder::makeWindowManager<Utils::WindowManagerGLFW>());

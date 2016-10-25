@@ -1,5 +1,5 @@
 #ifndef EVENT_INL
-#include EVENT_INL
+#define EVENT_INL
 
 namespace ece
 {

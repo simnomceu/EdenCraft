@@ -12,6 +12,9 @@ namespace ece
 	class EventManager
 	{
 	public:
+		EventManager();
+		~EventManager();
+
 		void registerSignal(const ece::SignalID & signal);
 		void broadcast(const ece::SignalID & signal);
 		void connect(const ece::Slot & slot, const ece::SignalID & signal);
