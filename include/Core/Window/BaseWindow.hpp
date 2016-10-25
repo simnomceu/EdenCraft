@@ -1,13 +1,6 @@
 #ifndef BASEWINDOW_HPP
 #define BASEWINDOW_HPP
 
-#pragma warning(push)
-#pragma warning(disable : 4505)
-#include "GL\glew.h"
-#include "GL\freeglut.h"
-#include "GLFW\glfw3.h"
-#pragma warning(pop)
-
 #include "Core\Geom\Rectangle.hpp"
 #include "Core\Window\WindowSetting.hpp"
 #include "Core\Window\VideoMode.hpp"
@@ -19,29 +12,24 @@ namespace Window
 	{
 	public:
 		BaseWindow(const ece::WindowSetting & settings);
-		BaseWindow(const BaseWindow & copy) = delete;
+		BaseWindow(const BaseWindow & copy);
 		BaseWindow(BaseWindow && copy);	
 		~BaseWindow();
 
-		BaseWindow & operator=(const BaseWindow & rightOperand) = delete;
+		BaseWindow & operator=(const BaseWindow & rightOperand);
 		BaseWindow & operator=(BaseWindow && rightOperand);
 
 		void open();
 		void close();
-		bool isOpened() const;
 
-		//void draw(BaseObject& object);
 		void display();
-		void clear();
 
-		void setWindow(const ece::WindowSetting & settings);
-		ece::WindowSetting & getSettings();
+		void applySettings(const ece::WindowSetting & settings);
+		const ece::WindowSetting & getSettings();
 
 		void setTitle(const std::string & title);
-
-		void setRect(const ece::Rectangle<unsigned int> & rectIn);
-
-		void setOptions(const ece::WindowTag tagOptionsIn);
+		void setBounds(const ece::Rectangle<unsigned int> & bounds);
+		void setState(const ece::WindowState state);
 
 		void attachToMonitor(const int monitorIdIn);
 

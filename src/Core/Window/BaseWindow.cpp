@@ -79,11 +79,6 @@ namespace Window
 		}*/
 	}
 
-	void BaseWindow::clear()
-	{
-		//GLAdapter::clearWindow(Colors::DARK_GRAY);
-	}
-
 	void BaseWindow::setTitle(const std::string & title)
 	{
 		this->settings.setTitle(title);
