@@ -43,7 +43,7 @@ namespace Window
 		//this->windowId = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
 		this->windowId = Utils::WindowServiceLocator::getService().openWindow();
 		
-		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		//Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 
 		/* Make the window's context current */
 		//glfwMakeContextCurrent(this->window);
@@ -87,12 +87,12 @@ namespace Window
 	void BaseWindow::setTitle(const std::string & title)
 	{
 		this->settings.setTitle(title);
-		Utils::WindowServiceLocator::getService().setTitle(this->windowId, title);
+		//Utils::WindowServiceLocator::getService().setTitle(this->windowId, title);
 	}
 
 	void BaseWindow::setRect(const Geom::Rectangle<unsigned int>& rectIn)
 	{
-		Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		//Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 	}
 
 	void BaseWindow::setOptions(const Utils::WindowTag tagOptionsIn)
@@ -120,17 +120,20 @@ namespace Window
 
 	bool BaseWindow::isFullscreenActivated() const
 	{
-		return (this->settings.getTagOptions() & Utils::FULLSCREEN) == Utils::FULLSCREEN;
+		return false;
+		//return (this->settings.getTagOptions() & Utils::FULLSCREEN) == Utils::FULLSCREEN;
 	}
 
 	bool BaseWindow::isResizable() const
 	{
-		return (this->settings.getTagOptions() & Utils::RESIZABLE) == Utils::RESIZABLE;
+		return false;
+		//return (this->settings.getTagOptions() & Utils::RESIZABLE) == Utils::RESIZABLE;
 	}
 
 	bool BaseWindow::isToolbarActivated() const
 	{
-		return (this->settings.getTagOptions() & Utils::TOOLBAR) == Utils::TOOLBAR;
+		return false;
+		//return (this->settings.getTagOptions() & Utils::TOOLBAR) == Utils::TOOLBAR;
 	}
 
 	void BaseWindow::attachToMonitor(const int monitorIdIn)

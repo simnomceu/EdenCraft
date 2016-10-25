@@ -1,15 +1,14 @@
 #ifndef EVENTMANAGER_HPP
 #define EVENTMANAGER_HPP
 
-#include "Core\System\Event.inl"
-#include "Core\System\Slot.hpp"
+#include "Core\System\BaseEventManager.hpp"
 
 #include <map>
 #include <vector>
 
 namespace ece
 {
-	class EventManager
+	class EventManager: public BaseEventManager
 	{
 	public:
 		EventManager();

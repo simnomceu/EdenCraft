@@ -125,7 +125,7 @@ namespace Utils
 
 	std::vector<Utils::MonitorID> & WindowManagerGLFW::getMonitors()
 	{
-
+		return std::vector<Utils::MonitorID>();
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()

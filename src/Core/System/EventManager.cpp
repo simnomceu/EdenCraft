@@ -2,7 +2,7 @@
 
 namespace ece
 {
-	EventManager::EventManager() : matcher(), slots()
+	EventManager::EventManager() : BaseEventManager(), matcher(), slots()
 	{
 	}
 
