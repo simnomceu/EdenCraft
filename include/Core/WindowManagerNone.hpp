@@ -18,6 +18,6 @@ namespace Utils
 
 		void attachToMonitor(const Utils::WindowID & windowId, const short int monitorId);
 
-		std::vector<Utils::MonitorID> & getMonitors();
+		const std::vector<Utils::MonitorID> & getMonitors();
 	};
 }

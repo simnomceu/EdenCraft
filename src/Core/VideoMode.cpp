@@ -56,7 +56,7 @@ namespace Utils
 		return this->refreshRate;
 	}
 
-	Geom::Vector<unsigned short int, 4> & VideoMode::getColorBits() const
+	const Geom::Vector<unsigned short int, 4> & VideoMode::getColorBits() const
 	{
 		return Geom::Vector<unsigned short int, 4>(this->colorBits);
 	}

@@ -123,9 +123,9 @@ namespace Utils
 		// TODO attach to the monitor
 	}
 
-	std::vector<Utils::MonitorID> & WindowManagerGLFW::getMonitors()
+	const std::vector<Utils::MonitorID> & WindowManagerGLFW::getMonitors()
 	{
-
+		return std::vector<Utils::MonitorID>();
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()

@@ -9,9 +9,7 @@
 #include <memory>
 #include <vector>
 
-#include "BaseObject.hpp"
-
-#include "BaseWindow.hpp"
+#include "Core\BaseWindow.hpp"
 
 /**
  * @class	Game
@@ -41,7 +39,6 @@ private:
 	Window::BaseWindow window;
 	Window::BaseWindow windowBis;
 	bool isRunning;
-	std::vector<BaseObject*> elements;
 
 	Game();
 

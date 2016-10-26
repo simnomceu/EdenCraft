@@ -25,8 +25,8 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
+#*.a
+#*.lib
 
 #crash
 *.ipch
@@ -74,4 +74,5 @@ bld/
 *.nuget.targets
 
 # Visual Paradigm project
-resources/uml/*
+resource/uml/*
+resource/documents/*
