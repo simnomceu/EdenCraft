@@ -76,3 +76,7 @@ bld/
 # Visual Paradigm project
 resource/uml/*
 resource/documents/*
+
+# Git merge tool
+*.bak
+*.orig
