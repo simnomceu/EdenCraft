@@ -16,12 +16,12 @@
 #include <initializer_list>
 
 /**
- * @namespace Geom
- *
- * A namespace to gather classes and functionalities for geometric operations.
- *
+* @namespace ece
+*
+* A namespace to gather classes and functionalities of the core engine of EdenCraft.
+*
 **/
-namespace Geom
+namespace ece
 {
 	template<class T, unsigned short int S> class Vector;
 	template<class T, unsigned short int S> std::ostream & operator<< (std::ostream & os, const Vector<T, S> & v);
@@ -32,9 +32,9 @@ namespace Geom
 	 * @extends std::array<T, S>
 	 * @tparam T A numerical and scalar type used for the representation of the attributes of the vector.
 	 * @tparam S The size of the vector.
-	 * @brief Describe a geometric vector.
+	 * @brief Describe a eceetric vector.
 	 *
-	 * This is a vector, as defined geometrically. It is used to perform numerical and geometrical computations.
+	 * This is a vector, as defined eceetrically. It is used to perform numerical and eceetrical computations.
 	 * The object is completely compatible with movable or copyable operations.
 	 * Size is fixed at construction. The vector couldn't be resized after having been defined.
 	 *
@@ -111,6 +111,8 @@ namespace Geom
 		Vector & operator-=(const Vector & rightOperand);
 		Vector & operator*=(const Vector & rightOperand);*/
 
+		bool operator==(const Vector<T, S> & rightOperand) const;
+
 		friend std::ostream & operator<< <>(std::ostream & os, const Vector<T, S> & v);
 
 		double norm(const unsigned short int base) const;
@@ -123,9 +125,9 @@ namespace Geom
 	};
 }
 
-#include "Vector.inl"
+#include "Core\Geom\Vector.inl"
 
-namespace Geom
+namespace ece
 {
 	template<class T>
 	using Vector2 = Vector<T, 2>;

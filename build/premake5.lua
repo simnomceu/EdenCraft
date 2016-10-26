@@ -44,7 +44,7 @@ project "Core"
 		"../include/Core/**.hpp",
 		"../include/Core/**.inl"
 	}
-	links { "glew32", "glfw3s", "freeglut" }
+	links { "glew32s", "glfw3", "freeglut" }
 
 project "CoreTest"
 	kind "ConsoleApp"

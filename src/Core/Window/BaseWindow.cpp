@@ -1,14 +1,14 @@
 
-#include "Core/BaseWindow.hpp"
+#include "Core\Window\BaseWindow.hpp"
 
-#include "Core/WindowServiceLocator.hpp"
+#include "Core\Window\WindowServiceLocator.hpp"
 
 #include <iostream>
 #include <memory>
 
 namespace Window
 {
-	BaseWindow::BaseWindow(const Utils::WindowSetting & settings) : windowId(-1), settings(settings)
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : windowId(-1), settings(settings)
 	{
 	}
 
@@ -41,9 +41,9 @@ namespace Window
 	{
 		// TODO use alse param X and Y of rect.
 		//this->windowId = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
-		this->windowId = Utils::WindowServiceLocator::getService().openWindow();
+		this->windowId = ece::WindowServiceLocator::getService().openWindow();
 		
-		//Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 
 		/* Make the window's context current */
 		//glfwMakeContextCurrent(this->window);
@@ -53,7 +53,7 @@ namespace Window
 
 	void BaseWindow::close()
 	{
-		Utils::WindowServiceLocator::getService().closeWindow(this->windowId);
+		ece::WindowServiceLocator::getService().closeWindow(this->windowId);
 	}
 
 	bool BaseWindow::isOpened() const
@@ -79,25 +79,19 @@ namespace Window
 		}*/
 	}
 
-	void BaseWindow::clear()
-	{
-		//GLAdapter::clearWindow(Colors::DARK_GRAY);
-	}
-
 	void BaseWindow::setTitle(const std::string & title)
 	{
 		this->settings.setTitle(title);
-		//Utils::WindowServiceLocator::getService().setTitle(this->windowId, title);
+		//ece::WindowServiceLocator::getService().setTitle(this->windowId, title);
 	}
 
-	void BaseWindow::setRect(const Geom::Rectangle<unsigned int>& rectIn)
+	void BaseWindow::setRect(const ece::Rectangle<unsigned int>& rectIn)
 	{
-		//Utils::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 	}
 
-	void BaseWindow::setOptions(const Utils::WindowTag tagOptionsIn)
+	void BaseWindow::setOptions(const ece::WindowTag tagOptionsIn)
 	{
-		this->settings.setTagOptions(tagOptionsIn);
 
 		/*if (this->isFullscreenActivated()) {
 			this->monitorToFill = glfwGetPrimaryMonitor();
@@ -116,24 +110,6 @@ namespace Window
 		else {
 			glfwWindowHint(GLFW_DECORATED, GL_FALSE);
 		}*/
-	}
-
-	bool BaseWindow::isFullscreenActivated() const
-	{
-		return false;
-		//return (this->settings.getTagOptions() & Utils::FULLSCREEN) == Utils::FULLSCREEN;
-	}
-
-	bool BaseWindow::isResizable() const
-	{
-		return false;
-		//return (this->settings.getTagOptions() & Utils::RESIZABLE) == Utils::RESIZABLE;
-	}
-
-	bool BaseWindow::isToolbarActivated() const
-	{
-		return false;
-		//return (this->settings.getTagOptions() & Utils::TOOLBAR) == Utils::TOOLBAR;
 	}
 
 	void BaseWindow::attachToMonitor(const int monitorIdIn)

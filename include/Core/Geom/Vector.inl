@@ -1,10 +1,10 @@
-#pragma once
-
-#include "Vector.hpp"
+#ifndef VECTOR_INL
+#define VECTOR_INL
 
 #include <algorithm>
+#include "Vector.hpp"
 
-namespace Geom
+namespace ece
 {
 	template<class T, unsigned short int S>
 	Vector<T, S>::Vector() : std::array<T, S>()
@@ -205,6 +205,16 @@ namespace Geom
 	}
 
 	template<class T, unsigned short int S>
+	bool Vector<T, S>::operator==(const Vector<T, S>& rightOperand) const
+	{
+		bool result = true;
+		for (int i = 0; i < S; ++i) {
+			result = result && ((*this)[i] == rightOperand[i]);
+		}
+		return result;
+	}
+
+	template<class T, unsigned short int S>
 	double Vector<T, S>::norm(const unsigned short int base) const
 	{
 		unsigned double norm = std::accumulate(this->begin(), this->end(), 0);
@@ -237,3 +247,5 @@ namespace Geom
 		return result;
 	}
 }
+
+#endif // VECTOR_INL

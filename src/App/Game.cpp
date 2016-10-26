@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "Core\WindowSetting.hpp"
+#include "Core\Window\WindowSetting.hpp"
 
 std::shared_ptr<Game> Game::instance = nullptr;
 
@@ -16,8 +16,8 @@ std::shared_ptr<Game> Game::instance = nullptr;
  */
 
 Game::Game() : 
-	window(Utils::WindowSetting()),
-	windowBis(Utils::WindowSetting()),
+	window(ece::WindowSetting()),
+	windowBis(ece::WindowSetting()),
 	isRunning(false)
 {
 }
@@ -79,12 +79,6 @@ void Game::update()
 
 void Game::render()
 {
-	//GLAdapter::clearWindow(Colors::DARK_GRAY);
-
-	//for (auto it = this->elements.begin(); it != this->elements.end(); ++it)
-	//{
-		//this->window.draw(**it);
-	//}
 	window.display();
 }
 
@@ -135,7 +129,6 @@ std::weak_ptr<Game> Game::getInstance()
 
 Game::~Game()
 {
-	//this->elements.clear();
 }
 
 /**

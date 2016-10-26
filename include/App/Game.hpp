@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-#include "Core\BaseWindow.hpp"
+#include "Core\Window\BaseWindow.hpp"
 
 /**
  * @class	Game
