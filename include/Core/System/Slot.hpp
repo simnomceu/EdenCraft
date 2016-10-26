@@ -10,10 +10,9 @@ namespace ece
 	class Slot
 	{
 	public:
+		Slot() = default;
 		Slot(const ece::SlotID&  id, const std::function<void()> & handle);
 		~Slot();
-
-		bool operator==(const Slot & rightOperand);
 
 		void trigger();
 
@@ -23,6 +22,8 @@ namespace ece
 		ece::SlotID id;
 		std::function<void()> handle;
 	};
+
+
 }
 
 #endif // SLOT_HPP

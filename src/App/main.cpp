@@ -20,7 +20,6 @@
  * @return	Exit-code for the process - 0 for success, else an error code.
  */
 
-
 auto main() -> int
 {
 	Utils::WindowServiceLocator::provide(Utils::WindowManagerBuilder::makeWindowManager<Utils::WindowManagerGLFW>());

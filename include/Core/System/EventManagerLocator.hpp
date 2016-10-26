@@ -3,17 +3,19 @@
 
 #include "Core\System\BaseEventManager.hpp"
 
+#include <memory>
+
 namespace ece
 {
 	class EventManagerLocator
 	{
 	public:
-		static void provide(BaseEventManager & service);
+		static void provide(const std::shared_ptr<BaseEventManager> & service);
 		static BaseEventManager & getService();
 		static void stop();
 
 	private:
-		static BaseEventManager & service;
+		static std::shared_ptr<BaseEventManager> service;
 	};
 }
 

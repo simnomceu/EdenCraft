@@ -20,7 +20,7 @@ namespace Utils
 		void setSrgbCapable(const unsigned short int srgbCapable);
 
 		unsigned short int getRefreshRate() const;
-		Geom::Vector<unsigned short int, 4> & getColorBits() const;
+		const Geom::Vector<unsigned short int, 4> & getColorBits() const;
 		unsigned short int getDepthBits() const;
 		unsigned short int getStencilBits() const;
 		unsigned short int getSamples() const;

@@ -31,7 +31,7 @@ namespace Utils
 	{
 	}
 
-	std::vector<Utils::MonitorID>& WindowManagerNone::getMonitors()
+	const std::vector<Utils::MonitorID>& WindowManagerNone::getMonitors()
 	{
 		return std::vector<Utils::MonitorID>();
 	}

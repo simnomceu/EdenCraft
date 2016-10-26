@@ -4,7 +4,8 @@
 #include "Core\System\Slot.hpp"
 #include "Core\System\Event.inl"
 
-#include <vector>
+#include <map>
+#include <memory>
 
 namespace ece
 {
@@ -14,11 +15,13 @@ namespace ece
 		Listener();
 		virtual ~Listener() = 0;
 
-		void addSlot(const ece::Slot & slot);
+		void addSlot(const std::shared_ptr<ece::Slot> & slot);
+		void removeSlot(const ece::SlotID & slot);
+
 		void connect(const ece::SlotID & slot, const ece::SignalID & signal);
 
 	private:
-		std::vector<ece::Slot> slots;
+		std::map<ece::SlotID, std::shared_ptr<ece::Slot>> slots;
 	};
 }
 

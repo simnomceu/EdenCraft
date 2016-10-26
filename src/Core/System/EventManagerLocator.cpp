@@ -4,18 +4,18 @@
 
 namespace ece
 {
-	BaseEventManager & EventManagerLocator::service = EventManagerNone();
+	std::shared_ptr<BaseEventManager> EventManagerLocator::service(new EventManagerNone());
 
-	void EventManagerLocator::provide(BaseEventManager & service)
+	void EventManagerLocator::provide(const std::shared_ptr<BaseEventManager> & service)
 	{
 		EventManagerLocator::service = service;
 	}
 	BaseEventManager & EventManagerLocator::getService()
 	{
-		return EventManagerLocator::service;
+		return *EventManagerLocator::service;
 	}
 	void EventManagerLocator::stop()
 	{
-		EventManagerLocator::service = EventManagerNone();
+		EventManagerLocator::service = std::shared_ptr<BaseEventManager>(new EventManagerNone());
 	}
 }

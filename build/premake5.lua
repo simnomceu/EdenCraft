@@ -45,3 +45,13 @@ project "Core"
 		"../include/Core/**.inl"
 	}
 	links { "glew32", "glfw3s", "freeglut" }
+
+project "CoreTest"
+	kind "ConsoleApp"
+	location ""
+	files {
+		"../src/CoreTest/**.cpp",
+		"../include/CoreTest/**.hpp",
+		"../include/CoreTest/**.inl"
+	}
+	links { "Core" }

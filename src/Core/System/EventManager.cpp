@@ -2,39 +2,64 @@
 
 namespace ece
 {
-	EventManager::EventManager() : BaseEventManager(), matcher(), slots()
+	void EventManager::registerSlot(const std::shared_ptr<ece::Slot>& slot)
 	{
+		if (this->slots.find(slot->getId()) == this->slots.end()) {
+			this->slots[slot->getId()] = slot;
+		}
 	}
 
-	EventManager::~EventManager()
+	void EventManager::eraseSlot(const ece::SlotID & slot)
 	{
+		if (this->slots.find(slot) != this->slots.end()) {
+			this->slots.erase(slot);
+			for (auto it = this->matcher.begin(); it != this->matcher.end(); ++it) {
+				auto & connections = it->second;
+				connections.erase(std::find(connections.begin(), connections.end(), slot));
+			}
+		}
 	}
 
 	void EventManager::registerSignal(const ece::SignalID & signal)
 	{
-		if (this->matcher.count(signal) <= 0) {
+		if (this->matcher.find(signal) == this->matcher.end()) {
 			this->matcher[signal] = std::vector<ece::SlotID>();
+		}
+	}
+
+	void EventManager::eraseSignal(const ece::SignalID & signal)
+	{
+		if (this->matcher.find(signal) != this->matcher.end()) {
+			this->matcher.erase(signal);
+		}
+	}
+
+	void EventManager::connect(const ece::SlotID & slot, const ece::SignalID & signal)
+	{
+		if (this->matcher.find(signal) != this->matcher.end() && this->slots.find(slot) != this->slots.end()) {
+			auto & connections = this->matcher[signal];
+			if (std::find(connections.begin(), connections.end(), slot) == connections.end()) {
+				connections.push_back(slot);
+			}
+		}
+	}
+
+	void EventManager::disconnect(const ece::SlotID & slot, const ece::SignalID & signal)
+	{
+		if (this->matcher.find(signal) != this->matcher.end() && this->slots.find(slot) != this->slots.end()) {
+			auto & connections = this->matcher[signal];
+			auto pos = std::find(connections.begin(), connections.end(), slot);
+			if (pos != connections.end()) {
+				connections.erase(pos);
+			}
 		}
 	}
 
 	void EventManager::broadcast(const ece::SignalID & signal)
 	{
-		if (this->matcher.count(signal) <= 0) {
-			this->matcher[signal] = std::vector<ece::SlotID>();
+		auto connections = this->matcher[signal];
+		for (auto it = connections.begin(); it != connections.end(); ++it) {
+			this->slots[*it]->trigger();
 		}
-		for (auto it = this->matcher[signal].begin(); it != this->matcher[signal].end(); ++it) {
-			if (std::find(this->slots.begin(), this->slots.end(), *it) == this->slots.end()) {
-				this->slots[*it].trigger();
-			}
-		}
-	}
-
-	void EventManager::connect(const ece::Slot & slot, const ece::SignalID & signal)
-	{
-		this->slots[slot.getId()] = slot;
-		if (this->matcher.count(signal) <= 0) {
-			this->matcher[signal] = std::vector<ece::SlotID>();
-		}
-		this->matcher[signal].push_back(slot.getId());
 	}
 }
