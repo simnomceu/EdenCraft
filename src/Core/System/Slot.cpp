@@ -10,7 +10,7 @@ namespace ece
 
 	Slot::~Slot()
 	{
-		ece::EventManagerLocator::getService().eraseSlot(*this);
+		ece::EventManagerLocator::getService().eraseSlot(std::shared_ptr<Slot>(this));
 	}
 
 	void Slot::trigger()

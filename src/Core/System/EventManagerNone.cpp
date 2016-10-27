@@ -12,7 +12,7 @@ namespace ece
 		return 0;
 	}
 
-	void EventManagerNone::eraseSlot(ece::Slot & slot)
+	void EventManagerNone::eraseSlot(const std::shared_ptr<ece::Slot> & slot)
 	{
 	}
 

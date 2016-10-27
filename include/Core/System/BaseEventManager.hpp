@@ -13,7 +13,7 @@ namespace ece
 		virtual const SlotID getSlotID() = 0;
 		virtual const SignalID getSignalID() = 0;
 
-		virtual void eraseSlot(ece::Slot & slot) = 0;
+		virtual void eraseSlot(const std::shared_ptr<ece::Slot> & slot) = 0;
 		virtual void eraseSignal(const ece::GlobalSignalID signal) = 0;
 
 		virtual void connect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal) = 0;

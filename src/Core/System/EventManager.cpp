@@ -30,17 +30,17 @@ namespace ece
 		return id;
 	}
 
-	void EventManager::eraseSlot(ece::Slot & slot)
+	void EventManager::eraseSlot(const std::shared_ptr<ece::Slot> & slot)
 	{
-		auto & pos = this->slots.find(slot.getId());
+		auto & pos = this->slots.find(slot->getId());
 		if (pos != this->slots.end()) {
 			auto & listened = pos->second;
 			for (auto it = listened.begin(); it != listened.end(); ++it) {
 				auto & slots = this->signals[*it];
-				slots.erase(std::shared_ptr<ece::Slot>(&slot));
+				slots.erase(slot);
 			}
 
-			this->slots.erase(slot.getId());
+			this->slots.erase(slot->getId());
 		}
 	}
 
