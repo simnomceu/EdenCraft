@@ -6,14 +6,14 @@
 #include "Core\Window\VideoMode.hpp"
 #include "Core\Window\Window.inl"
 
-namespace Window
+	namespace Window
 {
 	class BaseWindow
 	{
 	public:
 		BaseWindow(const ece::WindowSetting & settings);
 		BaseWindow(const BaseWindow & copy);
-		BaseWindow(BaseWindow && copy);	
+		BaseWindow(BaseWindow && copy);
 		~BaseWindow();
 
 		BaseWindow & operator=(const BaseWindow & rightOperand);

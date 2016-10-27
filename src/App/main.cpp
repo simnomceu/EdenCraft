@@ -5,7 +5,7 @@
  */
 
 #include "App\Game.hpp"
-#include "Core\Window\WindowSystem.hpp"
+#include "Core\Core.hpp"
 
 /**
  * @fn	int main()
@@ -20,7 +20,7 @@
 
 auto main() -> int
 {
-	ece::WindowSystem::initWindowService();
+	ece::Core::init(ece::SYSTEM | ece::WINDOW);
 
 	auto game = Game::getInstance();
 	auto usableGame = game.lock();

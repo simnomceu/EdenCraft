@@ -1,4 +1,3 @@
-
 #include "Core\Window\BaseWindow.hpp"
 
 #include "Core\Window\WindowServiceLocator.hpp"
@@ -26,9 +25,9 @@ namespace Window
 		// guard to prevent an assigment from itself to itself.
 		if (this != &rightOperand) {
 			// If an opened window is going to be overwritten, close it.
-			if (this->isOpened()) {
+			//if (this->isOpened()) {
 				this->close();
-			}
+			//}
 
 			this->windowId = std::move(rightOperand.windowId);
 			this->settings = std::move(rightOperand.settings);
@@ -42,7 +41,7 @@ namespace Window
 		// TODO use alse param X and Y of rect.
 		//this->windowId = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
-		
+
 		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 
 		/* Make the window's context current */
@@ -56,26 +55,21 @@ namespace Window
 		ece::WindowServiceLocator::getService().closeWindow(this->windowId);
 	}
 
-	bool BaseWindow::isOpened() const
-	{
-		return this->windowId != -1;
-	}
-
 	/*void BaseWindow::draw(BaseObject & object)
 	{
-		object.prepareShaders();
-		// activate the VAO to use.
-		glBindVertexArray(object.getVAO());
-		// draw the object
-		glDrawArrays(GL_TRIANGLES, 0, 12);
-		// deactivate the VAO.
-		glBindVertexArray(0);
+	object.prepareShaders();
+	// activate the VAO to use.
+	glBindVertexArray(object.getVAO());
+	// draw the object
+	glDrawArrays(GL_TRIANGLES, 0, 12);
+	// deactivate the VAO.
+	glBindVertexArray(0);
 	}*/
 
 	void BaseWindow::display()
 	{
 		/*if (this->window) {
-			glfwSwapBuffers(this->window);
+		glfwSwapBuffers(this->window);
 		}*/
 	}
 
@@ -85,46 +79,43 @@ namespace Window
 		//ece::WindowServiceLocator::getService().setTitle(this->windowId, title);
 	}
 
-	void BaseWindow::setRect(const ece::Rectangle<unsigned int>& rectIn)
+	void BaseWindow::setBounds(const ece::Rectangle<unsigned int>& rectIn)
 	{
 		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 	}
 
-	void BaseWindow::setOptions(const ece::WindowTag tagOptionsIn)
+	void BaseWindow::setState(const ece::WindowState state)
 	{
 
 		/*if (this->isFullscreenActivated()) {
-			this->monitorToFill = glfwGetPrimaryMonitor();
+		this->monitorToFill = glfwGetPrimaryMonitor();
 		}
-
 		if (this->isResizable()) {
-			glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 		}
 		else {
-			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 		}
-
 		if (this->isToolbarActivated()) {
-			glfwWindowHint(GLFW_DECORATED, GL_TRUE);
+		glfwWindowHint(GLFW_DECORATED, GL_TRUE);
 		}
 		else {
-			glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+		glfwWindowHint(GLFW_DECORATED, GL_FALSE);
 		}*/
 	}
 
 	void BaseWindow::attachToMonitor(const int monitorIdIn)
 	{
 		/*if (monitorId < GLAdapter::getNumberOfMonitors()) {
-			this->monitorId = monitorIdIn;
+		this->monitorId = monitorIdIn;
 		}
-
 		if (this->isFullscreenActivated()) {
-			this->monitorToFill = GLAdapter::getMonitor(this->monitorId);
+		this->monitorToFill = GLAdapter::getMonitor(this->monitorId);
 		}*/
 
 		/*if (this->isOpened() && this->isFullscreenActivated()) {
-			this->close();
-			this->open();
+		this->close();
+		this->open();
 		}*/
 	}
 }

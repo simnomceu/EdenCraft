@@ -15,6 +15,9 @@ namespace ece
 	template <class T>
 	std::shared_ptr<BaseEventManager> EventManagerBuilder::makeEventManager()
 	{
+		if (!std::is_base_of<BaseEventManager, T>()) {
+			throw std::exception("This class cannot be instantiate as a BaseEventManager service. Check again.");
+		}
 		return std::shared_ptr<BaseEventManager>(new T());
 	}
 }
