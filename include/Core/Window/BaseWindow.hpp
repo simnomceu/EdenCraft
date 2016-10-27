@@ -6,12 +6,15 @@
 #include "Core\Window\VideoMode.hpp"
 #include "Core\Window\Window.inl"
 
-	namespace Window
+#include "Core\System\Emitter.hpp"
+
+namespace ece
 {
-	class BaseWindow
+	class BaseWindow: public Emitter
 	{
 	public:
 		BaseWindow(const ece::WindowSetting & settings);
+		BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
 		BaseWindow(const BaseWindow & copy);
 		BaseWindow(BaseWindow && copy);
 		~BaseWindow();
@@ -19,7 +22,7 @@
 		BaseWindow & operator=(const BaseWindow & rightOperand);
 		BaseWindow & operator=(BaseWindow && rightOperand);
 
-		void open();
+		void open(const ece::VideoMode & videoMode);
 		void close();
 
 		void display();

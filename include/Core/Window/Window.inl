@@ -1,6 +1,7 @@
 #ifndef WINDOW_INL
 #define WINDOW_INL
 
+#include "Core\System\Event.inl"
 #include "Core\Geom\Vector.hpp"
 
 namespace ece
@@ -39,6 +40,9 @@ namespace ece
 		BLUE_CHANNEL = 2,
 		ALPHA_CHANNEL = 3
 	};
+
+	const SignalID WINDOW_OPENED = 1;
+	const SignalID WINDOW_CLOSED = 2;
 }
 
 #endif // WINDOW_INL

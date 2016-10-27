@@ -5,19 +5,34 @@
 #include <iostream>
 #include <memory>
 
-namespace Window
+namespace ece
 {
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : windowId(-1), settings(settings)
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter()
+	{
+		this->addSignal(WINDOW_OPENED);
+		this->addSignal(WINDOW_CLOSED);
+	}
+
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter()
 	{
 	}
 
-	BaseWindow::BaseWindow(BaseWindow && copy) : windowId(copy.windowId), settings(copy.settings)
+	BaseWindow::BaseWindow(const BaseWindow & copy) : Emitter()
+	{
+	}
+
+	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter()
 	{
 	}
 
 	BaseWindow::~BaseWindow()
 	{
 		this->close();
+	}
+
+	BaseWindow & BaseWindow::operator=(const BaseWindow & rightOperand)
+	{
+		// TODO: insérer une instruction return ici
 	}
 
 	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
@@ -36,23 +51,19 @@ namespace Window
 		return *this;
 	}
 
-	void BaseWindow::open()
+	void BaseWindow::open(const ece::VideoMode & videoMode)
 	{
-		// TODO use alse param X and Y of rect.
-		//this->windowId = glfwCreateWindow(this->rect.getWidth(), this->rect.getHeight(), this->titleWindow.c_str(), this->monitorToFill, nullptr);
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
 
 		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 
-		/* Make the window's context current */
-		//glfwMakeContextCurrent(this->window);
-
-		//GLAdapter::init3D();
+		this->emit(WINDOW_OPENED);
 	}
 
 	void BaseWindow::close()
 	{
 		ece::WindowServiceLocator::getService().closeWindow(this->windowId);
+		this->emit(WINDOW_CLOSED);
 	}
 
 	/*void BaseWindow::draw(BaseObject & object)
@@ -71,6 +82,15 @@ namespace Window
 		/*if (this->window) {
 		glfwSwapBuffers(this->window);
 		}*/
+	}
+
+	void BaseWindow::applySettings(const ece::WindowSetting & settings)
+	{
+	}
+
+	const ece::WindowSetting & BaseWindow::getSettings()
+	{
+		// TODO: insérer une instruction return ici
 	}
 
 	void BaseWindow::setTitle(const std::string & title)

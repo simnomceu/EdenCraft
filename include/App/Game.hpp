@@ -36,8 +36,8 @@ public:
 private:
 	static std::shared_ptr<Game> instance;
 
-	Window::BaseWindow window;
-	Window::BaseWindow windowBis;
+	ece::BaseWindow window;
+	ece::BaseWindow windowBis;
 	bool isRunning;
 
 	Game();
