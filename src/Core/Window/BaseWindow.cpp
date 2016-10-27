@@ -26,9 +26,9 @@ namespace Window
 		// guard to prevent an assigment from itself to itself.
 		if (this != &rightOperand) {
 			// If an opened window is going to be overwritten, close it.
-			if (this->isOpened()) {
+			/*if (this->isOpened()) {
 				this->close();
-			}
+			}*/
 
 			this->windowId = std::move(rightOperand.windowId);
 			this->settings = std::move(rightOperand.settings);
@@ -56,11 +56,6 @@ namespace Window
 		ece::WindowServiceLocator::getService().closeWindow(this->windowId);
 	}
 
-	bool BaseWindow::isOpened() const
-	{
-		return this->windowId != -1;
-	}
-
 	/*void BaseWindow::draw(BaseObject & object)
 	{
 		object.prepareShaders();
@@ -85,12 +80,12 @@ namespace Window
 		//ece::WindowServiceLocator::getService().setTitle(this->windowId, title);
 	}
 
-	void BaseWindow::setRect(const ece::Rectangle<unsigned int>& rectIn)
+	void BaseWindow::setBounds(const ece::Rectangle<unsigned int>& bounds)
 	{
 		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 	}
 
-	void BaseWindow::setOptions(const ece::WindowTag tagOptionsIn)
+	void BaseWindow::setState(const ece::WindowState state)
 	{
 
 		/*if (this->isFullscreenActivated()) {

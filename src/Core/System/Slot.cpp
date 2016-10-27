@@ -1,14 +1,16 @@
 #include "Core\System\Slot.hpp"
 
+#include "Core\System\EventManagerLocator.hpp"
 
 namespace ece
 {
-	Slot::Slot(const ece::SlotID& id, const std::function<void()> & handle): id(id), handle(handle)
+	Slot::Slot(const std::function<void()> & handle): id(ece::EventManagerLocator::getService().getSlotID()), handle(handle)
 	{
 	}
 
 	Slot::~Slot()
 	{
+		ece::EventManagerLocator::getService().eraseSlot(*this);
 	}
 
 	void Slot::trigger()

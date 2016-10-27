@@ -10,29 +10,25 @@ namespace ece
 
 	Listener::~Listener()
 	{
-		for (auto it = this->slots.begin(); it != this->slots.end(); ++it) {
-			ece::EventManagerLocator::getService().eraseSlot(it->first);
+		this->slots.clear();
+	}
+
+	void Listener::addSlot(const ece::SlotID id, const ece::Slot & slot)
+	{
+		if (this->slots.find(id) == this->slots.end()) {
+			this->slots[id] = std::shared_ptr<ece::Slot>(new Slot(slot));
 		}
 	}
 
-	void Listener::addSlot(const std::shared_ptr<ece::Slot> & slot)
+	void Listener::removeSlot(const ece::SlotID slot)
 	{
-		if (this->slots.find(slot->getId()) == this->slots.end()) {
-			this->slots[slot->getId()] = slot;
-		}
-		ece::EventManagerLocator::getService().registerSlot(slot);
+		ece::EventManagerLocator::getService().eraseSlot(*this->slots[slot]);
+
+		this->slots.erase(slot);
 	}
 
-	void Listener::removeSlot(const ece::SlotID & slot)
+	std::shared_ptr<Slot> Listener::getSlot(const ece::SlotID slot) const
 	{
-		if (this->slots.find(slot) != this->slots.end()) {
-			this->slots.erase(slot);
-		}
-		ece::EventManagerLocator::getService().eraseSlot(slot);
-	}
-
-	void Listener::connect(const ece::SlotID & slot, const ece::SignalID & signal)
-	{
-		ece::EventManagerLocator::getService().connect(slot, signal);
+		return this->slots.at(slot);
 	}
 }
