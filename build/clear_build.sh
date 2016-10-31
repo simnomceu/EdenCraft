@@ -11,6 +11,8 @@ rm -f ./*.vcxproj.user
 rm -f ./*.sln
 rm -f ./*.VC.db
 rm -f ./*.VC.opendb
+rm -rf ./UxTheme.pdb/
+rm -rf ./.vs/
 
 # Code::Blocks project
 rm -f ./*.cbp

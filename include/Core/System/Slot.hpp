@@ -12,7 +12,6 @@ namespace ece
 	public:
 		Slot() = default;
 		Slot(const std::function<void()> & handle);
-		~Slot();
 
 		void trigger();
 
