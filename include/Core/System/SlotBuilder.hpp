@@ -10,7 +10,7 @@ namespace ece
 	class SlotBuilder
 	{
 	public:
-		static std::shared_ptr<Slot> makeSlot(const SlotID & slotId, const std::function<void()> & action);
+		static std::shared_ptr<Slot> makeSlot(const std::function<void()> & action);
 	};
 }
 

@@ -51,11 +51,11 @@ void Game::initialize()
 
 void Game::update()
 {
-	if (!this->window.isOpened()) {
+	/*if (!this->window.isOpened()) {
 		this->stop();
-	}
+	}*/
 
-	glfwPollEvents();
+	//glfwPollEvents();
 	// TODO add event management
 	/*sf::Event event;
 	while (this->window.pollEvent(event))

@@ -11,15 +11,14 @@ namespace ece
 	{
 	public:
 		Slot() = default;
-		Slot(const ece::SlotID&  id, const std::function<void()> & handle);
-		~Slot();
+		Slot(const std::function<void()> & handle);
 
 		void trigger();
 
-		const ece::SlotID & getId() const;
+		const ece::GlobalSlotID & getId() const;
 
 	private:
-		ece::SlotID id;
+		ece::GlobalSlotID id;
 		std::function<void()> handle;
 	};
 
