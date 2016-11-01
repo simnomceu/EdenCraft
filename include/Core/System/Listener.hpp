@@ -15,10 +15,10 @@ namespace ece
 		Listener();
 		virtual ~Listener() = 0;
 
-		void addSlot(const std::shared_ptr<ece::Slot> & slot);
-		void removeSlot(const ece::SlotID & slot);
+		void addSlot(const ece::SlotID id, const std::shared_ptr<ece::Slot> & slot);
+		void removeSlot(const ece::SlotID slot);
 
-		void connect(const ece::SlotID & slot, const ece::SignalID & signal);
+		const std::shared_ptr<Slot> & getSlot(const ece::SlotID slot) const;
 
 	private:
 		std::map<ece::SlotID, std::shared_ptr<ece::Slot>> slots;

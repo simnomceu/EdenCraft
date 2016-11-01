@@ -3,7 +3,7 @@
 
 #include "Core\System\Event.inl"
 
-#include <vector>
+#include <map>
 
 namespace ece
 {
@@ -13,13 +13,15 @@ namespace ece
 		Emitter();
 		virtual ~Emitter() = 0;
 
-		void addSignal(const ece::SignalID & signal);
-		void removeSignal(const ece::SignalID & signal);
+		void addSignal(const ece::SignalID signal);
+		void removeSignal(const ece::SignalID signal);
 
-		void emit(const ece::SignalID & signal);
+		void emit(const ece::SignalID signal);
+
+		const ece::GlobalSignalID getSignal(const ece::SignalID signal) const;
 
 	private:
-		std::vector<ece::SignalID> signals;
+		std::map<ece::SignalID, ece::GlobalSignalID> signals;
 	};
 }
 

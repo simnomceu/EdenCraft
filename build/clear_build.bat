@@ -9,6 +9,8 @@ del "./*.vcxproj.user"
 del "./*.sln"
 del "./*.VC.db"
 del "./*.VC.opendb"
+rd "./UxTheme.pdb/" /s /q
+rd "./.vs/" /s /q
 
 REM Code::Blocks project
 del "./*.cbp"
