@@ -2,10 +2,10 @@
 #define EVENTMANAGER_HPP
 
 #include "Core\System\BaseEventManager.hpp"
+#include "Core\Util\UniqueID.hpp"
 
 #include <map>
 #include <set>
-#include <stack>
 
 #include <memory>
 
@@ -16,8 +16,8 @@ namespace ece
 	public:
 		EventManager();
 
-		virtual const SlotID getSlotID();
-		virtual const SignalID getSignalID();
+		virtual const GlobalSlotID getSlotID();
+		virtual const GlobalSignalID getSignalID();
 
 		virtual void eraseSlot(const std::shared_ptr<ece::Slot> & slot);
 		virtual void eraseSignal(const ece::GlobalSignalID signal);
@@ -31,8 +31,8 @@ namespace ece
 		std::map<ece::GlobalSignalID, std::set<std::shared_ptr<ece::Slot>>> signals;
 		std::map<ece::GlobalSlotID, std::set<ece::GlobalSignalID>> slots;
 
-		std::stack<ece::GlobalSignalID> signalsAvailable;
-		std::stack<ece::GlobalSlotID> slotsAvailable;
+		ece::UniqueID signalsAvailable;
+		ece::UniqueID slotsAvailable;
 	};
 }
 

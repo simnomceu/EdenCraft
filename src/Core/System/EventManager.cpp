@@ -4,28 +4,18 @@ namespace ece
 {
 	EventManager::EventManager(): BaseEventManager(), signals(), slots(), signalsAvailable(), slotsAvailable()
 	{
-		this->signalsAvailable.push(0);
-		this->slotsAvailable.push(0);
 	}
 
-	const SlotID EventManager::getSlotID()
+	const GlobalSlotID EventManager::getSlotID()
 	{
-		auto id = this->slotsAvailable.top();
-		this->slotsAvailable.pop();
-		if (this->slotsAvailable.empty()) {
-			this->slotsAvailable.push(id + 1);
-		}
+		GlobalSlotID id = this->slotsAvailable.next();
 		this->slots[id] = std::set<ece::GlobalSignalID>();
 		return id;
 	}
 
-	const SignalID EventManager::getSignalID()
+	const GlobalSignalID EventManager::getSignalID()
 	{
-		auto id = this->signalsAvailable.top();
-		this->signalsAvailable.pop();
-		if (this->signalsAvailable.empty()) {
-			this->signalsAvailable.push(id + 1);
-		}
+		auto id = this->signalsAvailable.next();
 		this->signals[id] = std::set<std::shared_ptr<ece::Slot>>();
 		return id;
 	}
@@ -41,6 +31,7 @@ namespace ece
 			}
 
 			this->slots.erase(slot->getId());
+			this->slotsAvailable.restack(slot->getId());
 		}
 	}
 
@@ -54,6 +45,7 @@ namespace ece
 			}
 
 			this->signals.erase(signal);
+			this->signalsAvailable.restack(signal);
 		}
 	}
 

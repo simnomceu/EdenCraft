@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Core\Window\WindowSetting.hpp"
+#include "Core\Window\VideoMode.hpp"
 
 std::shared_ptr<Game> Game::instance = nullptr;
 
@@ -34,8 +35,8 @@ Game::Game() :
 void Game::initialize()
 {
 	this->start();
-	this->window.open();
-	this->windowBis.open();
+	this->window.open(ece::VideoMode());
+	this->windowBis.open(ece::VideoMode());
 
 //	this->elements.push_back(new RectangleObject());
 }

@@ -34,6 +34,7 @@ namespace ece
 	BaseWindow & BaseWindow::operator=(const BaseWindow & rightOperand)
 	{
 		// TODO: insérer une instruction return ici
+		return *this;
 	}
 
 	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
@@ -92,6 +93,7 @@ namespace ece
 	const ece::WindowSetting & BaseWindow::getSettings()
 	{
 		// TODO: insérer une instruction return ici
+		return this->settings;
 	}
 
 	void BaseWindow::setTitle(const std::string & title)

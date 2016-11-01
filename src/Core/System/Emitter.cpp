@@ -31,7 +31,7 @@ namespace ece
 
 	void Emitter::emit(const ece::SignalID signal)
 	{
-		ece::EventManagerLocator::getService().broadcast(*this, this->signals[signal]);
+		ece::EventManagerLocator::getService().broadcast(*this, signal);
 	}
 
 	const ece::GlobalSignalID Emitter::getSignal(const ece::SignalID signal) const
