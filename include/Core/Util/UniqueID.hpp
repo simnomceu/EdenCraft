@@ -1,10 +1,12 @@
-#include <stack>
+#include <deque>
 
 namespace ece
 {
-	class UniqueID: private std::stack<unsigned int>
+	class UniqueID: private std::deque<unsigned int>
 	{
 	public:
+		using std::deque<unsigned int>::size;
+
 		UniqueID();
 		UniqueID(const unsigned int start);
 
