@@ -2,7 +2,7 @@
 
 namespace ece
 {
-	std::shared_ptr<Slot> SlotBuilder::makeSlot(const std::function<void()>& action)
+	std::shared_ptr<Slot> SlotBuilder::makeSlot(const Slot::Handle & action)
 	{
 		return std::shared_ptr<Slot>(new Slot(action));
 	}

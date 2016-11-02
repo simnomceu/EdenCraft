@@ -16,10 +16,13 @@ namespace ece
 	public:
 		EventManager();
 
-		virtual const GlobalSlotID getSlotID();
+		virtual const Slot::GlobalSlotID getSlotID();
 		virtual const GlobalSignalID getSignalID();
 
-		virtual void eraseSlot(const std::shared_ptr<ece::Slot> & slot);
+		virtual void addSlot(const std::shared_ptr<ece::Slot> & slot) ;
+		virtual void addSignal(const ece::GlobalSignalID signal);
+
+		virtual void eraseSlot(const ece::Slot::GlobalSlotID slot);
 		virtual void eraseSignal(const ece::GlobalSignalID signal);
 
 		virtual void connect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal);
@@ -28,8 +31,14 @@ namespace ece
 		virtual void broadcast(ece::Emitter & emitter, const ece::SignalID signal);
 
 	private:
-		std::map<ece::GlobalSignalID, std::set<std::shared_ptr<ece::Slot>>> signals;
-		std::map<ece::GlobalSlotID, std::set<ece::GlobalSignalID>> slots;
+		struct MappedSlot
+		{
+			std::shared_ptr<Slot> slot;
+			std::set<GlobalSignalID> signals;
+		};
+
+		std::map<GlobalSignalID, std::set<Slot::GlobalSlotID>> signals;
+		std::map<Slot::GlobalSlotID, MappedSlot> slots;
 
 		ece::UniqueID signalsAvailable;
 		ece::UniqueID slotsAvailable;

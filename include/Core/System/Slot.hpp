@@ -7,19 +7,29 @@
 
 namespace ece
 {
+	class Emitter;
+
 	class Slot
 	{
 	public:
+		using GlobalSlotID = unsigned int;
+		using Handle = std::function<void(const ece::Emitter & emitter, const ece::SignalID signal)>;
+
 		Slot() = default;
-		Slot(const std::function<void()> & handle);
+		Slot(const Handle & handle);
+		Slot(const Slot & copy);
+		Slot(Slot && move);
 
-		void trigger();
+		Slot & operator=(const Slot & copy);
+		Slot & operator=(Slot && move);
 
-		const ece::GlobalSlotID & getId() const;
+		void trigger(const ece::Emitter & emitter, const ece::SignalID signal);
+
+		const GlobalSlotID & getId() const;
 
 	private:
-		ece::GlobalSlotID id;
-		std::function<void()> handle;
+		GlobalSlotID id;
+		Handle handle;
 	};
 
 

@@ -7,7 +7,6 @@
 #include "Core\System\Listener.hpp"
 
 #include <memory>
-#include <iostream>
 
 class A : public ece::Emitter
 {
@@ -22,8 +21,8 @@ class B : public ece::Listener
 {
 public:
 	B(): counter(0) {
-		this->addSlot(0, std::shared_ptr<ece::Slot>(new ece::Slot([this]() { this->counter = 5; })));
-		this->addSlot(1, std::shared_ptr<ece::Slot>(new ece::Slot([this]() { this->counter = 10; })));
+		this->addSlot(0, std::shared_ptr<ece::Slot>(new ece::Slot([this](const ece::Emitter & emitter, const ece::SignalID signal) { this->counter = 5; })));
+		this->addSlot(1, std::shared_ptr<ece::Slot>(new ece::Slot([this](const ece::Emitter & emitter, const ece::SignalID signal) { this->counter = 10; })));
 	}
 
 	void connect(A & a) {

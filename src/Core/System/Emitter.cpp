@@ -19,6 +19,7 @@ namespace ece
 	{
 		if (this->signals.find(signal) == this->signals.end()) {
 			this->signals[signal] = ece::EventManagerLocator::getService().getSignalID();
+			ece::EventManagerLocator::getService().addSignal(this->signals[signal]);
 		}
 	}
 

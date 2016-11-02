@@ -6,7 +6,6 @@ namespace ece
 	using SlotID = unsigned short int;
 	using SignalID = unsigned short int;
 
-	using GlobalSlotID = unsigned short int;
 	using GlobalSignalID = unsigned short int;
 }
 

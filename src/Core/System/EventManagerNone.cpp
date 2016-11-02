@@ -2,17 +2,25 @@
 
 namespace ece
 {
-	const SlotID EventManagerNone::getSlotID()
+	const Slot::GlobalSlotID EventManagerNone::getSlotID()
 	{
 		return 0;
 	}
 
-	const SignalID EventManagerNone::getSignalID()
+	const GlobalSignalID EventManagerNone::getSignalID()
 	{
 		return 0;
 	}
 
-	void EventManagerNone::eraseSlot(const std::shared_ptr<ece::Slot> & slot)
+	void EventManagerNone::addSlot(const std::shared_ptr<ece::Slot>& slot)
+	{
+	}
+
+	void EventManagerNone::addSignal(const ece::GlobalSignalID signal)
+	{
+	}
+
+	void EventManagerNone::eraseSlot(const  ece::Slot::GlobalSlotID slot)
 	{
 	}
 
