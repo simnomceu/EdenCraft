@@ -13,6 +13,12 @@ namespace ece
 	class BaseWindow: public Emitter
 	{
 	public:
+		const SignalID WINDOW_OPENED = 0;
+		const SignalID WINDOW_CLOSED = 1;
+		const SignalID WINDOW_RESIZED = 2;
+		const SignalID WINDOW_MOVED = 3;
+		const SignalID WINDOW_RENAMED = 4;
+
 		BaseWindow(const ece::WindowSetting & settings);
 		BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
 		BaseWindow(const BaseWindow & copy);

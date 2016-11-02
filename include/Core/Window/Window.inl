@@ -41,8 +41,6 @@ namespace ece
 		ALPHA_CHANNEL = 3
 	};
 
-	const SignalID WINDOW_OPENED = 1;
-	const SignalID WINDOW_CLOSED = 2;
 }
 
 #endif // WINDOW_INL

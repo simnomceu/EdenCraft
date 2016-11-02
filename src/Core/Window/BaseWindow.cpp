@@ -12,6 +12,9 @@ namespace ece
 	{
 		this->addSignal(WINDOW_OPENED);
 		this->addSignal(WINDOW_CLOSED);
+		this->addSignal(WINDOW_RESIZED);
+		this->addSignal(WINDOW_MOVED);
+		this->addSignal(WINDOW_RENAMED);
 	}
 
 	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter()
@@ -55,6 +58,7 @@ namespace ece
 
 	void BaseWindow::open(const ece::VideoMode & videoMode)
 	{
+		ece::WindowServiceLocator::getService().provideVideoMode(videoMode);
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
 
 		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
@@ -88,23 +92,37 @@ namespace ece
 
 	void BaseWindow::applySettings(const ece::WindowSetting & settings)
 	{
+		this->setBounds(settings.getBounds());
+		this->setTitle(settings.getTitle());
+		this->setState(settings.getState());
 	}
 
 	const ece::WindowSetting & BaseWindow::getSettings()
 	{
-		// TODO: insérer une instruction return ici
 		return this->settings;
 	}
 
 	void BaseWindow::setTitle(const std::string & title)
 	{
+		auto lastTitle = this->settings.getTitle();
 		this->settings.setTitle(title);
-		//ece::WindowServiceLocator::getService().setTitle(this->windowId, title);
+		if (lastTitle != this->settings.getTitle()) {
+			this->emit(WINDOW_RENAMED);
+		}
+		ece::WindowServiceLocator::getService().setTitle(this->windowId, this->settings.getTitle());
 	}
 
 	void BaseWindow::setBounds(const ece::Rectangle<unsigned int>& bounds)
 	{
-		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		auto lastBounds = this->settings.getBounds();
+		this->settings.setBounds(bounds);
+		if (lastBounds.getX() != bounds.getX() || lastBounds.getY() != bounds.getY()) {
+			this->emit(WINDOW_MOVED);
+		}
+		if (lastBounds.getWidth() != bounds.getWidth() || lastBounds.getHeight() != bounds.getHeight()) {
+			this->emit(WINDOW_RESIZED);
+		}
+		ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 	}
 
 	void BaseWindow::setState(const ece::WindowState state)
