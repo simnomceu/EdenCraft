@@ -22,6 +22,7 @@ namespace ece
 
 		static void initEventManager(const ece::Mode & mode = DEFAULT);
 		static void initWindowManager(const ece::Mode & mode = DEFAULT);
+		static void initLog(const ece::Mode & mode = DEFAULT);
 
 		static bool systemInit;
 		static bool windowInit;

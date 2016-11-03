@@ -12,6 +12,11 @@
 #include "Core\Window\WindowManagerGLFW.hpp"
 #include "Core\Window\WindowManagerNone.hpp"
 
+#include "Core\Util\Log.hpp"
+#include "Core\Util\LoggerBuilder.hpp"
+#include "Core\Util\Logger.hpp"
+#include "Core\Util\LoggerNone.hpp"
+
 namespace ece
 {
 	bool Core::systemInit = false;
@@ -21,6 +26,8 @@ namespace ece
 
 	void Core::init(const ece::Module & modules)
 	{
+		Core::initLog();
+
 		if ((modules & SYSTEM) == SYSTEM) {
 			Core::dispenser(SYSTEM);
 		}
@@ -66,7 +73,7 @@ namespace ece
 			else if (mode == OFF) {
 				EventManagerLocator::provide(EventManagerBuilder::makeEventManager<EventManagerNone>());
 			}
-			std::cout << "Events management service started ..." << std::endl;
+			Log::getService().logInfo("Events management service started ...");
 		}
 		catch (std::exception & e) {
 			std::cerr << e.what() << std::endl;
@@ -82,7 +89,23 @@ namespace ece
 			else if (mode == OFF) {
 				WindowServiceLocator::provide(WindowManagerBuilder::makeWindowManager<WindowManagerNone>());
 			}
-			std::cout << "Window management service started ..." << std::endl;
+			Log::getService().logInfo("Window management service started ...");
+		}
+		catch (std::exception & e) {
+			std::cerr << e.what() << std::endl;
+		}
+	}
+
+	void Core::initLog(const ece::Mode & mode)
+	{
+		try {
+			if (mode == DEFAULT) {
+				Log::provide(LoggerBuilder::makeLogger<Logger>());
+			}
+			else if (mode == OFF) {
+				Log::provide(LoggerBuilder::makeLogger<LoggerNone>());
+			}
+			Log::getService().logInfo("Logger service started ...");
 		}
 		catch (std::exception & e) {
 			std::cerr << e.what() << std::endl;

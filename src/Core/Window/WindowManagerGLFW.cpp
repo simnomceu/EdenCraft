@@ -1,5 +1,7 @@
 #include "Core\Window\WindowManagerGLFW.hpp"
+
 #include "Core\Window\Constant.inl"
+#include "Core\Util\Log.hpp"
 
 #include <iostream>
 #include <utility> // std::pair
@@ -24,12 +26,13 @@ namespace ece
 	void WindowManagerGLFW::initGLFW()
 	{
 		if (!glfwInit()) {
-			std::cerr << "GLFW has encoutered a problem and couldn't be initialized." << std::endl;
+			Log::getService().logError("GLFW has encoutered a problem and couldn't be initialized.");
 		}
 		else {
 			int major, minor, rev;
 			glfwGetVersion(&major, &minor, &rev);
-			std::cerr << "GLFW initialized in version " << major << "." << minor << "." << rev << std::endl;
+			Log::getService().logInfo("GLFW initialized in version " + std::to_string(major) + "." + std::to_string(minor) 
+										+ "." + std::to_string(rev));
 			this->isGLFWInitialized = true;
 		}
 	}
@@ -97,7 +100,6 @@ namespace ece
 		if (this->windows.size() == 0) {
 			this->terminateGLFW();
 		}
-		std::cout << "Window with id " << windowId << " has been closed without encoutering errors ..." << std::endl;
 	}
 
 	void WindowManagerGLFW::setTitle(const ece::WindowID & windowId, const std::string & title)
@@ -215,17 +217,17 @@ return nbMonitors;
 			GLint GlewInitResult = glewInit();
 			if (GLEW_OK != GlewInitResult)
 			{
-				std::cerr << "Glew has encoutered a problem and couldn't be initialized: " << glewGetErrorString(GlewInitResult) << std::endl;
+				Log::getService().logInfo("Glew has encoutered a problem and couldn't be initialized: " + std::string(reinterpret_cast< const char * >(glewGetErrorString(GlewInitResult))));
 			}
 			else {
-				std::cerr << "Glew has been initialized." << std::endl;
-				std::cerr << "Renderer used: " << glGetString(GL_RENDERER) << std::endl;
-				std::cerr << glGetString(GL_VERSION) << " used in an GLFW context." << std::endl;
+				Log::getService().logInfo("Glew has been initialized.");
+				Log::getService().logInfo("Renderer used: " + std::string(reinterpret_cast< const char * >(glGetString(GL_RENDERER))));
+				Log::getService().logInfo(std::string(reinterpret_cast< const char * >(glGetString(GL_VERSION))) + " used in an GLFW context.");
 				this->isGLEWInit = true;
 			}
 		}
 		else {
-			std::cerr << "GLEW need a context to work correctly." << std::endl;
+			Log::getService().logError("GLEW need a context to work correctly.");
 		}
 	}
 
