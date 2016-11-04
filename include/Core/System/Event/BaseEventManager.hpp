@@ -1,9 +1,9 @@
 #ifndef BASEEVENTMANAGER_HPP
 #define BASEEVENTMANAGER_HPP
 
-#include "Core\System\Event.inl"
-#include "Core\System\Emitter.hpp"
-#include "Core\System\Listener.hpp"
+#include "Core\System\Event\Event.inl"
+#include "Core\System\Event\Emitter.hpp"
+#include "Core\System\Event\Listener.hpp"
 
 namespace ece
 {

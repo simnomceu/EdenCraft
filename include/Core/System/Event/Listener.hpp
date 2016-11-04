@@ -1,7 +1,7 @@
 #ifndef LISTENER_HPP
 #define LISTENER_HPP
 
-#include "Core\System\Slot.hpp"
+#include "Core\System\Event\Slot.hpp"
 
 #include <map>
 #include <memory>

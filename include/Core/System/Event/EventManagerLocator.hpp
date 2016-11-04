@@ -1,7 +1,7 @@
 #ifndef EVENTMANAGERLOCATOR_HPP
 #define EVENTMANAGERLOCATOR_HPP
 
-#include "Core\System\BaseEventManager.hpp"
+#include "Core\System\Event\BaseEventManager.hpp"
 
 #include <memory>
 

@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-#include "Core\System\EventManagerLocator.hpp"
-#include "Core\System\EventManagerBuilder.hpp"
-#include "Core\System\EventManager.hpp"
-#include "Core\System\EventManagerNone.hpp"
+#include "Core\System\Event\EventManagerLocator.hpp"
+#include "Core\System\Event\EventManagerBuilder.hpp"
+#include "Core\System\Event\EventManager.hpp"
+#include "Core\System\Event\EventManagerNone.hpp"
 
 #include "Core\Window\WindowServiceLocator.hpp"
 #include "Core\Window\WindowManagerBuilder.hpp"

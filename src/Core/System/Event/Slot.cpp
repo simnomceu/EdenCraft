@@ -1,7 +1,7 @@
-#include "Core\System\Slot.hpp"
+#include "Core\System\Event\Slot.hpp"
 
-#include "Core\System\Emitter.hpp"
-#include "Core\System\EventManagerLocator.hpp"
+#include "Core\System\Event\Emitter.hpp"
+#include "Core\System\Event\EventManagerLocator.hpp"
 
 namespace ece
 {

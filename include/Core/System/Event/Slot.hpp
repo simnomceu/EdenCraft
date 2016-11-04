@@ -1,7 +1,7 @@
 #ifndef SLOT_HPP
 #define SLOT_HPP
 
-#include "Core\System\Event.inl"
+#include "Core\System\Event\Event.inl"
 
 #include <functional>
 

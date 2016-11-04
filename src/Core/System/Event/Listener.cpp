@@ -1,6 +1,6 @@
-#include "Core\System\Listener.hpp"
+#include "Core\System\Event\Listener.hpp"
 
-#include "Core\System\EventManagerLocator.hpp"
+#include "Core\System\Event\EventManagerLocator.hpp"
 
 namespace ece
 {

@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "Core\System\Slot.hpp"
+#include "Core\System\Event\Slot.hpp"
 
 namespace ece
 {

@@ -1,7 +1,7 @@
 #ifndef EMITTER_HPP
 #define EMITTER_HPP
 
-#include "Core\System\Event.inl"
+#include "Core\System\Event\Event.inl"
 
 #include <map>
 
