@@ -2,6 +2,7 @@
 #define WINDOWMANAGER_HPP
 
 #include <vector>
+#include <functional>
 
 #include "Core\Window\WindowSetting.hpp"
 #include "Core\Window\VideoMode.hpp"
@@ -17,6 +18,8 @@ namespace ece
 
 		virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS) = 0;
 		virtual void closeWindow(const ece::WindowID & windowId) = 0;
+
+		virtual bool windowShouldClose(const ece::WindowID & windowId) = 0;
 
 		virtual void setTitle(const ece::WindowID & windowId, const std::string & title) = 0;
 		virtual void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds) = 0;

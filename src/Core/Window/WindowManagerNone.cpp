@@ -19,6 +19,11 @@ namespace ece
 	{
 	}
 
+	bool WindowManagerNone::windowShouldClose(const ece::WindowID & windowId)
+	{
+		return false;
+	}
+
 	void WindowManagerNone::setTitle(const ece::WindowID & windowId, const std::string & title)
 	{
 	}

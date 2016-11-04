@@ -102,6 +102,11 @@ namespace ece
 		}
 	}
 
+	bool WindowManagerGLFW::windowShouldClose(const ece::WindowID & windowId)
+	{
+		return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
+	}
+
 	void WindowManagerGLFW::setTitle(const ece::WindowID & windowId, const std::string & title)
 	{
 		if (windowId != -1) {

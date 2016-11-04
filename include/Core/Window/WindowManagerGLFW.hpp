@@ -36,6 +36,8 @@ namespace ece
 		ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS);
 		void closeWindow(const ece::WindowID &  windowId);
 
+		bool windowShouldClose(const ece::WindowID & windowId);
+
 		void setTitle(const ece::WindowID & windowId, const std::string & title);
 		void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds);
 		void setState(const ece::WindowID & windowId, const ece::WindowState & state);

@@ -72,6 +72,11 @@ namespace ece
 		this->emit(WINDOW_CLOSED);
 	}
 
+	bool BaseWindow::shouldClosed() const
+	{
+		return WindowServiceLocator::getService().windowShouldClose(this->windowId);
+	}
+
 	/*void BaseWindow::draw(BaseObject & object)
 	{
 		object.prepareShaders();

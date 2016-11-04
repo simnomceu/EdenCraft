@@ -31,6 +31,8 @@ namespace ece
 		void open(const ece::VideoMode & videoMode);
 		void close();
 
+		bool shouldClosed() const;
+
 		void display();
 
 		void applySettings(const ece::WindowSetting & settings);
@@ -41,6 +43,8 @@ namespace ece
 		void setState(const ece::WindowState state);
 
 		void attachToMonitor(const int monitorIdIn);
+
+	protected:
 
 	private:
 		short int windowId;

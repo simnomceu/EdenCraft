@@ -51,9 +51,13 @@ void Game::initialize()
 
 void Game::update()
 {
-	/*if (!this->window.isOpened()) {
-		this->stop();
-	}*/
+	if (this->window.shouldClosed()) {
+		this->window.close();
+	}
+
+	if (this->windowBis.shouldClosed()) {
+		this->windowBis.close();
+	}
 
 	//glfwPollEvents();
 	// TODO add event management
@@ -96,7 +100,6 @@ void Game::close()
 	if (this->isRunning) {
 		this->stop();
 	}
-	this->window.close();
 }
 
 /**
