@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "Core\Window\WindowSetting.hpp"
-#include "Core\Window\VideoMode.hpp"
-#include "Core\Window\Window.inl"
+#include "Core\Window\Window\WindowSetting.hpp"
+#include "Core\Window\Window\VideoMode.hpp"
+#include "Core\Window\Window\Window.inl"
 
 
 namespace ece

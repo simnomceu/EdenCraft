@@ -12,7 +12,7 @@
 *
 **/
 
-#include "Core\Window\Window.inl"
+#include "Core\Window\Window\Window.inl"
 
 /**
 * @namespace ece

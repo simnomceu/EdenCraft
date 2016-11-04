@@ -1,7 +1,7 @@
 #ifndef WINDOWMANAGERGLFW_HPP
 #define WINDOWMANAGERGLFW_HPP
 
-#include "Core\Window\WindowManager.hpp"
+#include "Core\Window\Window\WindowManager.hpp"
 
 #include <memory>
 #include <map>

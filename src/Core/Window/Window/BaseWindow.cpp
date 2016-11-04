@@ -1,7 +1,7 @@
 
-#include "Core\Window\BaseWindow.hpp"
+#include "Core\Window\Window\BaseWindow.hpp"
 
-#include "Core\Window\WindowServiceLocator.hpp"
+#include "Core\Window\Window\WindowServiceLocator.hpp"
 
 #include <iostream>
 #include <memory>

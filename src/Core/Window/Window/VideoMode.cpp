@@ -1,4 +1,4 @@
-#include "Core\Window\VideoMode.hpp"
+#include "Core\Window\Window\VideoMode.hpp"
 
 #include "Core\Window\Constant.inl"
 

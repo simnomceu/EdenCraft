@@ -1,7 +1,7 @@
 #ifndef WINDOWSERVICELOCATOR_HPP
 #define WINDOWSERVICELOCATOR_HPP
 
-#include "Core\Window\WindowManager.hpp"
+#include "Core\Window\Window\WindowManager.hpp"
 
 #include <memory>
 

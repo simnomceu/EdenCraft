@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Core\Geom\Rectangle.hpp"
-#include "Core\Window\Window.inl"
+#include "Core\Window\Window\Window.inl"
 
 namespace ece
 {

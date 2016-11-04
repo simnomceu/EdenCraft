@@ -1,7 +1,7 @@
-#include "Core\Window\WindowManagerGLFW.hpp"
+#include "Core\Window\Window\WindowManagerGLFW.hpp"
 
 #include "Core\Window\Constant.inl"
-#include "Core\Util\Log.hpp"
+#include "Core\Util\Log\Log.hpp"
 
 #include <iostream>
 #include <utility> // std::pair

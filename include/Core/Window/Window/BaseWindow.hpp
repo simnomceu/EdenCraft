@@ -2,9 +2,9 @@
 #define BASEWINDOW_HPP
 
 #include "Core\Geom\Rectangle.hpp"
-#include "Core\Window\WindowSetting.hpp"
-#include "Core\Window\VideoMode.hpp"
-#include "Core\Window\Window.inl"
+#include "Core\Window\Window\WindowSetting.hpp"
+#include "Core\Window\Window\VideoMode.hpp"
+#include "Core\Window\Window\Window.inl"
 
 #include "Core\System\Event\Emitter.hpp"
 

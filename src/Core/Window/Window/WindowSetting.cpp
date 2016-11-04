@@ -1,6 +1,6 @@
-#include "Core\Window\WindowSetting.hpp"
+#include "Core\Window\Window\WindowSetting.hpp"
 
-#include "Core\Window\Window.inl"
+#include "Core\Window\Window\Window.inl"
 
 namespace ece
 {

@@ -1,6 +1,6 @@
 #include "Core\System\Event\Emitter.hpp"
 
-#include "Core\System\Event\EventManagerLocator.hpp"
+#include "Core\System\Event\EventService.hpp"
 
 namespace ece
 {
@@ -11,28 +11,28 @@ namespace ece
 	Emitter::~Emitter()
 	{
 		for (auto it = this->signals.begin(); it != this->signals.end(); ++it) {
-			ece::EventManagerLocator::getService().eraseSignal(it->second);
+			ece::EventServiceLocator::getService().eraseSignal(it->second);
 		}
 	}
 
 	void Emitter::addSignal(const ece::SignalID signal)
 	{
 		if (this->signals.find(signal) == this->signals.end()) {
-			this->signals[signal] = ece::EventManagerLocator::getService().getSignalID();
-			ece::EventManagerLocator::getService().addSignal(this->signals[signal]);
+			this->signals[signal] = ece::EventServiceLocator::getService().getSignalID();
+			ece::EventServiceLocator::getService().addSignal(this->signals[signal]);
 		}
 	}
 
 	void Emitter::removeSignal(const ece::SignalID signal)
 	{
-		ece::EventManagerLocator::getService().eraseSignal(this->signals[signal]);
+		ece::EventServiceLocator::getService().eraseSignal(this->signals[signal]);
 
 		this->signals.erase(signal);
 	}
 
 	void Emitter::emit(const ece::SignalID signal)
 	{
-		ece::EventManagerLocator::getService().broadcast(*this, signal);
+		ece::EventServiceLocator::getService().broadcast(*this, signal);
 	}
 
 	const ece::GlobalSignalID Emitter::getSignal(const ece::SignalID signal) const

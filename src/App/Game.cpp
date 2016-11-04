@@ -1,7 +1,7 @@
 #include "App/Game.hpp"
 
-#include "Core\Window\WindowSetting.hpp"
-#include "Core\Window\VideoMode.hpp"
+#include "Core\Window\Window\WindowSetting.hpp"
+#include "Core\Window\Window\VideoMode.hpp"
 #include "Core\System\Event\SlotBuilder.hpp"
 
 std::shared_ptr<Game> Game::instance = nullptr;

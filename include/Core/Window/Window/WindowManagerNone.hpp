@@ -1,7 +1,7 @@
 #ifndef WINDOWMANAGERNONE_HPP
 #define WINDOWMANAGERNONE_HPP
 
-#include "Core\Window\WindowManager.hpp"
+#include "Core\Window\Window\WindowManager.hpp"
 
 namespace ece
 {
