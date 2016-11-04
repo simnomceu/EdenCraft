@@ -8,27 +8,28 @@ namespace ece
 {
 	void Core::init(const ServiceID services, const ModuleID modules)
 	{
+		LogService logService;
 		if ((services & LOG) == LOG) {
-			LogService logService;
 			logService.init(Mode::CONSOLE);
 		}
 		else {
+			logService.init(Mode::NOT_INIT);
 		}
 
+		SystemModule systemModule;
 		if ((modules & SYSTEM) == SYSTEM) {
-			SystemModule systemModule;
 			systemModule.init(Mode::DEFAULT);
 		}
 		else {
-			SystemModule systemModule;
-			systemModule.init(Mode::DEFAULT);
+			systemModule.init(Mode::NOT_INIT);
 		}
 
+		WindowModule windowModule;
 		if ((modules & WINDOW) == WINDOW) {
-			WindowModule windowModule;
 			windowModule.init(Mode::DEFAULT);
 		}
 		else {
+			windowModule.init(Mode::NOT_INIT);
 		}
 
 		if ((modules & GRAPHIC) == GRAPHIC) {
