@@ -1,4 +1,8 @@
-#include "Core\System\Event\EventService.hpp"
+#include "Core\System\EventService.hpp"
+
+#include "Core\System\Event\EventManager.hpp"
+
+#include "Core\Util\LogService.hpp"
 
 namespace ece
 {
@@ -16,13 +20,16 @@ namespace ece
 			EventServiceLocator::provide(EventServiceFactory::build<EventManagerNone>());
 			break;
 		case ece::Mode::DEFAULT:
+			EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
 			break;
 		case ece::Mode::CONSOLE:
 			break;
 		default:
 			break;
 		}
+		LogServiceLocator::getService().logInfo("Event service started.");
 	}
+
 	void EventService::setMode(Mode mode)
 	{
 	}

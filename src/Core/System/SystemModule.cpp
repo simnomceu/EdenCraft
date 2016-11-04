@@ -1,6 +1,6 @@
 #include "Core\System\SystemModule.hpp"
 
-#include "Core\System\Event\EventService.hpp"
+#include "Core\System\EventService.hpp"
 
 namespace ece
 {

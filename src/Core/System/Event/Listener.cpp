@@ -1,6 +1,6 @@
 #include "Core\System\Event\Listener.hpp"
 
-#include "Core\System\Event\EventManagerLocator.hpp"
+#include "Core\System\EventService.hpp"
 
 namespace ece
 {
@@ -11,7 +11,7 @@ namespace ece
 	Listener::~Listener()
 	{
 		for (auto it = this->slots.begin(); it != this->slots.end(); ++it) {
-			ece::EventManagerLocator::getService().eraseSlot(it->second);
+			ece::EventServiceLocator::getService().eraseSlot(it->second);
 		}
 		this->slots.clear();
 	}
@@ -20,13 +20,13 @@ namespace ece
 	{
 		if (this->slots.find(id) == this->slots.end()) {
 			this->slots[id] = slot->getId();
-			ece::EventManagerLocator::getService().addSlot(slot);
+			ece::EventServiceLocator::getService().addSlot(slot);
 		}
 	}
 
 	void Listener::removeSlot(const ece::SlotID slot)
 	{
-		ece::EventManagerLocator::getService().eraseSlot(this->slots[slot]);
+		ece::EventServiceLocator::getService().eraseSlot(this->slots[slot]);
 
 		this->slots.erase(slot);
 	}
@@ -39,7 +39,7 @@ namespace ece
 	void Listener::connect(const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal)
 	{
 		if (this->slots.find(slot) != this->slots.end()) {
-			ece::EventManagerLocator::getService().connect(*this, slot, emitter, signal);
+			ece::EventServiceLocator::getService().connect(*this, slot, emitter, signal);
 		}
 	}
 }
