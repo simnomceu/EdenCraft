@@ -1,4 +1,3 @@
-#include "Component.hpp"
 #ifndef COMPONENT_INL
 #define COMPONENT_INL
 
