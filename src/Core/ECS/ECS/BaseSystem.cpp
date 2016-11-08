@@ -1,4 +1,4 @@
-#include "Core\ECS\BaseSystem.hpp"
+#include "Core\ECS\ECS\BaseSystem.hpp"
 
 namespace ece
 {

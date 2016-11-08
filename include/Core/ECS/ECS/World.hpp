@@ -1,8 +1,8 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include "Core\ECS\BaseSystem.hpp"
-#include "Core\ECS\ComponentTank.hpp"
+#include "Core\ECS\ECS\BaseSystem.hpp"
+#include "Core\ECS\ECS\ComponentTank.hpp"
 #include "Core\Util\UniqueID.hpp"
 
 #include <memory>
@@ -17,6 +17,12 @@ namespace ece
 
 		World();
 		~World();
+
+		void addSystem(const std::shared_ptr<BaseSystem> & system);
+		const Entity addEntity();
+		void deleteEntity(const Entity entity);
+		ComponentTank & getComponents();
+
 
 	private:
 		std::vector<std::unique_ptr<BaseSystem>> systems;

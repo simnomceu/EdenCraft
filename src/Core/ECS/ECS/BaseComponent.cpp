@@ -1,8 +1,8 @@
-#include "Core\ECS\BaseComponent.hpp"
+#include "Core\ECS\ECS\BaseComponent.hpp"
 
 namespace ece
 {
-	BaseComponent::BaseComponent(const ComponentID id)
+	BaseComponent::BaseComponent(const ComponentID id): type(), id(id), owner()
 	{
 	}
 

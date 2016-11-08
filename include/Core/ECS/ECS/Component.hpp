@@ -1,7 +1,7 @@
 #ifndef COMPONENT_HPP
 #define COMPONENT_HPP
 
-#include "Core\ECS\BaseComponent.hpp"
+#include "Core\ECS\ECS\BaseComponent.hpp"
 
 namespace ece
 {
