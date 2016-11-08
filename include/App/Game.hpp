@@ -9,8 +9,8 @@
 #include <memory>
 #include <vector>
 
-#include "Core\Window\BaseWindow.hpp"
-#include "Core\System\Listener.hpp"
+#include "Core\Window\Window\BaseWindow.hpp"
+#include "Core\System\Event\Listener.hpp"
 
 /**
  * @class	Game
