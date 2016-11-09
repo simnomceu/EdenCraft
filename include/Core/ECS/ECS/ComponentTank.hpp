@@ -22,7 +22,7 @@ namespace ece
 	private:
 		UniqueID nextComponent;
 		std::map<BaseComponent::ComponentType, std::vector<std::shared_ptr<BaseComponent>>> components;
-		std::map <World::Entity, std::vector<unsigned int>> entityBodies;
+		std::map<World::Entity, std::vector<BaseComponent::ComponentType>> entityBodies;
 	};
 }
 

@@ -9,6 +9,12 @@ namespace ece
 	BaseComponent::~BaseComponent()
 	{
 	}
+
+	const BaseComponent::ComponentType BaseComponent::getType() const
+	{
+		return this->type;
+	}
+
 	const BaseComponent::ComponentID BaseComponent::getID() const
 	{
 		return this->id;
