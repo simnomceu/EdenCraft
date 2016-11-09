@@ -21,8 +21,9 @@ namespace ece
 		void addSystem(const std::shared_ptr<BaseSystem> & system);
 		const Entity addEntity();
 		void deleteEntity(const Entity entity);
-		ComponentTank & getComponents();
-
+		std::vector<std::shared_ptr<BaseComponent>> & getComponents(BaseComponent::ComponentType type);
+		void addComponent(const std::shared_ptr<BaseComponent> & component);
+		void removeComponent(const std::shared_ptr<BaseComponent> & component);
 
 	private:
 		std::vector<std::unique_ptr<BaseSystem>> systems;

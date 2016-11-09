@@ -30,8 +30,18 @@ namespace ece
 		}
 	}
 
-	ComponentTank & World::getComponents()
+	std::vector<std::shared_ptr<BaseComponent>>& World::getComponents(BaseComponent::ComponentType type)
 	{
-		return this->components;
+		return this->components.getComponents(type);
+	}
+
+	void World::addComponent(const std::shared_ptr<BaseComponent>& component)
+	{
+		this->components.addComponent(component);
+	}
+
+	void World::removeComponent(const std::shared_ptr<BaseComponent>& component)
+	{
+		this->components.removeComponent(component);
 	}
 }

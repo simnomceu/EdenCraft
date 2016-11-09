@@ -16,6 +16,7 @@ namespace ece
 		inline BaseComponent(const ComponentID id);
 		inline virtual ~BaseComponent() = 0;
 
+		const ComponentType getType() const;
 		inline const ComponentID getID() const;
 		inline const unsigned int getOwner() const;
 
