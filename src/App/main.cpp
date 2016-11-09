@@ -20,7 +20,7 @@
 
 auto main() -> int
 {
-	ece::Core::init(ece::SYSTEM | ece::WINDOW);
+	ece::Core::init(ece::LOG, ece::SYSTEM | ece::WINDOW);
 
 	auto game = Game::getInstance();
 	auto usableGame = game.lock();

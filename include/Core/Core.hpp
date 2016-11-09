@@ -13,21 +13,7 @@ namespace ece
 	class Core
 	{
 	public:
-		static void init(const ece::Module & modules);
-
-		static void setModuleMode(const ece::Module & module, const ece::Mode & mode);
-
-	private:
-		static void dispenser(const ece::Module & module, const ece::Mode & mode = DEFAULT);
-
-		static void initEventManager(const ece::Mode & mode = DEFAULT);
-		static void initWindowManager(const ece::Mode & mode = DEFAULT);
-		static void initLog(const ece::Mode & mode = DEFAULT);
-
-		static bool systemInit;
-		static bool windowInit;
-		static bool graphicInit;
-		static bool ecsInit;
+		static void init(const ServiceID services, const ModuleID modules);
 	};
 }
 

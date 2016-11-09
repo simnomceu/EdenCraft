@@ -17,3 +17,7 @@ rm -rf ./.vs/
 # Code::Blocks project
 rm -f ./*.cbp
 rm -f ./*.workspace
+
+# Compilation files
+rm -rf ./bin/
+rm -rf ./obj/

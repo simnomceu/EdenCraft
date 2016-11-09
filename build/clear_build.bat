@@ -16,5 +16,8 @@ REM Code::Blocks project
 del "./*.cbp"
 del "./*.workspace"
 
+REM Compilation files
+rd "./bin/" /s /q
+rd "./obj/" /s /q
 
 timeout /t 5
