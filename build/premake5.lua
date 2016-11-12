@@ -54,4 +54,4 @@ project "CoreTest"
 		"../include/CoreTest/**.hpp",
 		"../include/CoreTest/**.inl"
 	}
-	links { "Core" }
+	links { "Core", "glew32s", "glfw3", "freeglut" }
