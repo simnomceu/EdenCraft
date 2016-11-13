@@ -22,11 +22,27 @@ SCENARIO("Service/module system", "[Core][Util][Conflicts]")
 		WHEN("Core is initialized with Window module.")
 		{
 			ece::Core::init(ece::LOG, ece::SYSTEM | ece::WINDOW);
+			THEN("Log service, system and window modules ares initialized once and only once.")
+			{
+				REQUIRE(ece::Core::isModuleInit(ece::SYSTEM));
+				REQUIRE(ece::Core::isModuleInit(ece::WINDOW));
+				REQUIRE(ece::Core::isServiceInit(ece::LOG));
+				REQUIRE(ece::Core::isServiceInit(ece::EVENT));
+				REQUIRE(ece::Core::isServiceInit(ece::WINDOW));
+			}
 		}
 
 		WHEN("Core is initialized with Window module witout dependencies.")
 		{
 			ece::Core::init(ece::LOG, ece::WINDOW);
+			THEN("Log service, window modules ares initialized once and only once. By dependency, System module is also initialized.")
+			{
+				REQUIRE(ece::Core::isModuleInit(ece::SYSTEM));
+				REQUIRE(ece::Core::isModuleInit(ece::WINDOW));
+				REQUIRE(ece::Core::isServiceInit(ece::LOG));
+				REQUIRE(ece::Core::isServiceInit(ece::EVENT));
+				REQUIRE(ece::Core::isServiceInit(ece::WINDOW));
+			}
 		}
 	}
 }
