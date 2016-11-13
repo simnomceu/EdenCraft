@@ -7,7 +7,8 @@ namespace ece
 	using ModuleID = unsigned short int;
 
 	const ServiceID NO_SERVICE = 0b000;
-	const ServiceID LOG = 0b000;
+	const ServiceID LOG = 0b001;
+	const ServiceID EVENT = 0b010;
 
 	const ModuleID NO_MODULE = 0b0000;
 	const ModuleID SYSTEM = 0b0001;

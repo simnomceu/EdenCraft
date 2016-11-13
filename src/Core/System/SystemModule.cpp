@@ -4,7 +4,7 @@
 
 namespace ece
 {
-	SystemModule::SystemModule(): Module()
+	SystemModule::SystemModule(): Module(ece::SYSTEM)
 	{
 		this->services.push_back(new EventService());
 	}

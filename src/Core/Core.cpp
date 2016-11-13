@@ -6,6 +6,9 @@
 
 namespace ece
 {
+	ServiceID Core::services = ece::NO_SERVICE;
+	ModuleID Core::modules = ece::NO_MODULE;
+
 	void Core::init(const ServiceID services, const ModuleID modules)
 	{
 		LogService logService;
@@ -41,5 +44,25 @@ namespace ece
 		}
 		else {
 		}
+	}
+
+	void Core::initService(const ServiceID service)
+	{
+		Core::services = Core::services | service;
+	}
+
+	bool Core::isServiceInit(const ServiceID service)
+	{
+		return (Core::services & service) == service;
+	}
+
+	void Core::initModule(const ModuleID module)
+	{
+		Core::modules = modules | module;
+	}
+
+	bool Core::isModuleInit(const ModuleID module)
+	{
+		return (Core::modules & module) == module;
 	}
 }

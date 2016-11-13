@@ -14,6 +14,16 @@ namespace ece
 	{
 	public:
 		static void init(const ServiceID services, const ModuleID modules);
+
+		static void initService(const ServiceID service);
+		static bool isServiceInit(const ServiceID service);
+
+		static void initModule(const ModuleID module);
+		static bool isModuleInit(const ModuleID module);
+
+	private:
+		static ServiceID services;
+		static ModuleID modules;
 	};
 }
 

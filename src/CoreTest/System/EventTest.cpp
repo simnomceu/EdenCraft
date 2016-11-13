@@ -1,6 +1,6 @@
 #include "Catch\catch.hpp"
 
-#include "Core\System\EventManagerLocator.hpp"
+/*#include "Core\System\EventManagerLocator.hpp"
 #include "Core\System\EventManagerBuilder.hpp"
 #include "Core\System\EventManager.hpp"
 #include "Core\System\Emitter.hpp"
@@ -59,4 +59,4 @@ SCENARIO("Event", "[Core][System]")
 			}
 		}
 	}
-}
+}*/

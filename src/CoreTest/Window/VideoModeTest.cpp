@@ -1,7 +1,7 @@
 #include "Catch\catch.hpp"
 
-#include "Core\Window\VideoMode.hpp"
-#include "Core\Window\Window.inl"
+#include "Core\Window\Window\VideoMode.hpp"
+#include "Core\Window\Window\Window.inl"
 #include "Core\Window\Constant.inl"
 
 // TODO add test for stereo property

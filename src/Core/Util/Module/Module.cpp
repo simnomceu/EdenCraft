@@ -1,8 +1,12 @@
 #include "Core\Util\Module\Module.hpp"
 
+#include "Core\Core.hpp"
+
+#include <iostream>
+
 namespace ece
 {
-	Module::Module(): dependencies(), services(), initialized(false), modeInitialized(Mode::NOT_INIT)
+	Module::Module(const ModuleID id): dependencies(), services(), modeInitialized(Mode::NOT_INIT), id(id)
 	{
 	}
 
@@ -12,30 +16,18 @@ namespace ece
 
 	void Module::init(Mode mode)
 	{
-		if (!this->initialized) {
+		if (!Core::isModuleInit(this->id)) {
 			for (auto it = this->dependencies.begin(); it != this->dependencies.end(); ++it) {
 				(*it)->init(mode);
 			}
 			for (auto it = this->services.begin(); it != this->services.end(); ++it) {
 				(*it)->init(mode);
 			}
-
-			this->initialized = true;
-			this->modeInitialized = mode;
+			Core::initModule(this->id);
 		}
 	}
 
 	void Module::setMode(Mode mode)
 	{
-		if (this->initialized) {
-			for (auto it = this->dependencies.begin(); it != this->dependencies.end(); ++it) {
-				(*it)->setMode(mode);
-			}
-			for (auto it = this->services.begin(); it != this->services.end(); ++it) {
-				(*it)->setMode(mode);
-			}
-
-			this->modeInitialized = mode;
-		}
 	}
 }

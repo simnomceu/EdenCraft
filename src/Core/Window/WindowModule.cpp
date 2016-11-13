@@ -5,7 +5,7 @@
 
 namespace ece
 {
-	WindowModule::WindowModule() : Module()
+	WindowModule::WindowModule() : Module(WINDOW)
 	{
 		this->dependencies.push_back(new SystemModule());
 

@@ -2,6 +2,7 @@
 #define MODULE_HPP
 
 #include "Core\Util\Module\Service.hpp"
+#include "Core\Core.inl"
 
 #include <vector>
 
@@ -10,7 +11,7 @@ namespace ece
 	class Module
 	{
 	public:
-		Module();
+		Module(const ModuleID id);
 		virtual ~Module() = 0;
 		
 		void init(Mode mode = Mode::NONE);
@@ -20,8 +21,8 @@ namespace ece
 	protected:
 		std::vector<Module *> dependencies;
 		std::vector<Service *> services;
-		bool initialized;
 		Mode modeInitialized;
+		ModuleID id;
 	};
 }
 
