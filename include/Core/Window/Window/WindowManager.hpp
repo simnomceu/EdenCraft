@@ -8,9 +8,10 @@
 #include "Core\Window\Window\VideoMode.hpp"
 #include "Core\Window\Window\Window.inl"
 
-
 namespace ece
 {
+	class EventHandler;
+
 	class WindowManager
 	{
 	public:
@@ -31,6 +32,8 @@ namespace ece
 		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings) = 0;
 
 		virtual unsigned short int getNumberOfMonitors() = 0;
+
+		virtual void registerEventHandler(EventHandler * handler) = 0;
 	};
 }
 

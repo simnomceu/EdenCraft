@@ -8,7 +8,7 @@
 
 namespace ece
 {
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter()
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter(), windowId(-1), settings(), videoMode(), eventHandler(*this)
 	{
 		this->addSignal(WINDOW_OPENED);
 		this->addSignal(WINDOW_CLOSED);
@@ -17,15 +17,15 @@ namespace ece
 		this->addSignal(WINDOW_RENAMED);
 	}
 
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter()
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter(), windowId(-1), settings(), videoMode(), eventHandler(*this)
 	{
 	}
 
-	BaseWindow::BaseWindow(const BaseWindow & copy) : Emitter()
+	BaseWindow::BaseWindow(const BaseWindow & copy) : Emitter(), windowId(-1), settings(), videoMode(), eventHandler(*this)
 	{
 	}
 
-	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter()
+	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter(), windowId(-1), settings(), videoMode(), eventHandler(*this)
 	{
 	}
 

@@ -26,6 +26,8 @@ namespace ece
 		void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings);
 
 		unsigned short int getNumberOfMonitors();
+		
+		void registerEventHandler(EventHandler * handler);
 	};
 }
 

@@ -49,6 +49,9 @@ namespace ece
 
 		unsigned short int getNumberOfMonitors();
 
+		void registerEventHandler(EventHandler * handler);
+
+		static std::map<GLFWwindow*, EventHandler *> eventHandlers;
 	protected:
 		void initGLFW();
 		void parametrizeContextGL();

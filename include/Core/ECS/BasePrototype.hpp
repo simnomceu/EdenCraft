@@ -6,5 +6,6 @@ namespace ece
 	class BasePrototype
 	{
 	};
+}
 
 #endif // BASEPROTOTYPE_HPP

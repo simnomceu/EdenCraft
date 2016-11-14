@@ -3,12 +3,16 @@
 #include "Core\Window\Constant.inl"
 #include "Core\Util\LogService.hpp"
 
+#include "Core\Window\Event\EventHandler.hpp"
+
 #include <iostream>
 #include <utility> // std::pair
 #include <functional>
 
 namespace ece
 {
+	std::map<GLFWwindow*, EventHandler *> WindowManagerGLFW::eventHandlers = std::map<GLFWwindow*, EventHandler *>();
+
 	WindowManagerGLFW::WindowManagerGLFW() : WindowManager(), isGLFWInitialized(false), isContextParametrized(false), isWindowOpen(false), 
 											isContextDefined(-1), isGLEWInit(false), idsAvailable(), windows()
 	{
@@ -193,10 +197,20 @@ namespace ece
 	{
 		std::vector<ece::MonitorID> monitors;
 
-int nbMonitors = 0;
-glfwGetMonitors(&nbMonitors);
+		int nbMonitors = 0;
+		glfwGetMonitors(&nbMonitors);
 
-return nbMonitors;
+		return nbMonitors;
+	}
+
+	void WindowManagerGLFW::registerEventHandler(EventHandler * handler)
+	{
+		WindowManagerGLFW::eventHandlers[this->getWindow(handler->getWindowAttached())] = handler;
+		glfwSetKeyCallback(this->getWindow(handler->getWindowAttached()), 
+							[](GLFWwindow* window, int key, int scancode, int action, int mods) {
+								WindowManagerGLFW::eventHandlers[window]->produceEvent(key, scancode, action, mods);
+							}
+		);
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()

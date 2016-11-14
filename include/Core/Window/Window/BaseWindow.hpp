@@ -7,6 +7,7 @@
 #include "Core\Window\Window\Window.inl"
 
 #include "Core\System\Event\Emitter.hpp"
+#include "Core\Window\Event\EventHandler.hpp"
 
 namespace ece
 {
@@ -52,6 +53,8 @@ namespace ece
 		ece::WindowSetting settings;
 
 		ece::VideoMode videoMode;
+
+		EventHandler eventHandler;
 	};
 }
 

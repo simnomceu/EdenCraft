@@ -52,4 +52,8 @@ namespace ece
 	{
 		return 0;
 	}
+
+	void WindowManagerNone::registerEventHandler(EventHandler * handler)
+	{
+	}
 }
