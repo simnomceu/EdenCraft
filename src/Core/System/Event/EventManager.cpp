@@ -61,11 +61,22 @@ namespace ece
 
 	void EventManager::connect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal)
 	{
-		const auto & tmpSlot = listener.getSlotID(slot);
-		auto globalSignalID = emitter.getSignal(signal);
-		if (this->slots.find(tmpSlot) != this->slots.end() && this->signals.find(globalSignalID) != this->signals.end()) {
-			this->signals[globalSignalID].insert(tmpSlot);
-			this->slots[tmpSlot].signals.insert(globalSignalID);
+		try {
+			const auto & tmpSlot = listener.getSlotID(slot);
+			auto globalSignalID = emitter.getSignal(signal);
+			if (this->slots.find(tmpSlot) != this->slots.end() && this->signals.find(globalSignalID) != this->signals.end()) {
+				if (!this->inBroadcast) {
+					this->signals[globalSignalID].insert(tmpSlot);
+					this->slots[tmpSlot].signals.insert(globalSignalID);
+				}
+				else {
+					this->signalsNotReady[globalSignalID].insert(tmpSlot);
+					this->slotsNotReady[tmpSlot].signals.insert(globalSignalID);
+				}
+			}
+		}
+		catch (std::exception & e) {
+			std::cerr << "Error, the slot " << slot << " and the signal " << signal << " cannot be connected: " << e.what() << std::endl;
 		}
 	}
 
@@ -81,12 +92,28 @@ namespace ece
 
 	void EventManager::broadcast(ece::Emitter & emitter, const ece::SignalID signal)
 	{
+		bool recurseBroadcast = this->inBroadcast;
+		this->inBroadcast = true;
+
 		auto globalSignalID = emitter.getSignal(signal);
 		if (this->signals.find(globalSignalID) != this->signals.end()) {
 			auto & listeners = this->signals[globalSignalID];
 			for (auto it = listeners.begin(); it != listeners.end(); ++it) {
 				this->slots[*it].slot->trigger(emitter, signal);
 			}
+		}
+
+		if (!recurseBroadcast) {
+			// Add the connections created during the broadcast.
+			for (auto it = this->signalsNotReady.begin(); it != this->signalsNotReady.end(); ++it) {
+				this->signals[it->first].insert(it->second.begin(), it->second.end());
+			}
+			for (auto it = this->slotsNotReady.begin(); it != this->slotsNotReady.end(); ++it) {
+				this->slots[it->first].signals.insert(it->second.signals.begin(), it->second.signals.end());
+			}
+			this->signalsNotReady.clear();
+			this->slotsNotReady.clear();
+			this->inBroadcast = false;
 		}
 	}
 }

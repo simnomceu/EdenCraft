@@ -37,6 +37,9 @@ namespace ece
 
 	const ece::GlobalSignalID Emitter::getSignal(const ece::SignalID signal) const
 	{
+		if (this->signals.find(signal) == this->signals.end()) {
+			throw std::exception();
+		}
 		return this->signals.at(signal);
 	}
 }

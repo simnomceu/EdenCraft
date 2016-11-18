@@ -33,6 +33,9 @@ namespace ece
 
 	const Slot::GlobalSlotID Listener::getSlotID(const ece::SlotID slot) const
 	{
+		if (this->slots.find(slot) == this->slots.end()) {
+			throw std::exception();
+		}
 		return this->slots.at(slot);
 	}
 	

@@ -40,6 +40,10 @@ namespace ece
 		std::map<GlobalSignalID, std::set<Slot::GlobalSlotID>> signals;
 		std::map<Slot::GlobalSlotID, MappedSlot> slots;
 
+		std::map<GlobalSignalID, std::set<Slot::GlobalSlotID>> signalsNotReady;
+		std::map<Slot::GlobalSlotID, MappedSlot> slotsNotReady;
+		bool inBroadcast;
+
 		ece::UniqueID signalsAvailable;
 		ece::UniqueID slotsAvailable;
 	};
