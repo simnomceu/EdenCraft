@@ -2,9 +2,9 @@
 #define LISTENER_HPP
 
 #include "Core\System\Event\Slot.hpp"
+#include "Core\System\Event\EventManagerConsumer.hpp"
 
 #include <map>
-#include <memory>
 
 namespace ece
 {
@@ -13,21 +13,28 @@ namespace ece
 	class Listener
 	{
 	public:
-		using SlotID = unsigned int;
-
-		Listener();
+		Listener() = default;
+		Listener(const Listener & copy) = default;
+		Listener(Listener && move) = default;
 		virtual ~Listener() = 0;
 
-		void addSlot(const ece::SlotID id, const std::shared_ptr<ece::Slot> & slot);
-		void removeSlot(const ece::SlotID slot);
+		Listener & operator=(const Listener & copy) = default;
+		Listener & operator=(Listener && move) = default;
 
-		const Slot::GlobalSlotID getSlotID(const ece::SlotID slot) const;
+		void addSlot(const Slot::SlotID slot, const Slot::Handle & handle);
+		void removeSlot(const Slot::SlotID slot);
 
-		void connect(const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal);
+		const Slot::GlobalSlotID getSlotID(const Slot::SlotID slot) const;
+
+		void connect(const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal);
+		void disconnect(const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal);
+		void disconnectAll();
+
+		void clear();
 
 	private:
-		//std::map<ece::SlotID, std::shared_ptr<ece::Slot>> slots;
-		std::map<SlotID, Slot::GlobalSlotID> slots;
+		EventManagerConsumer consumer;
+		std::map<Slot::SlotID, Slot::GlobalSlotID> slots;
 	};
 }
 

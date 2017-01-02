@@ -1,11 +1,182 @@
 #include "Core\System\Event\EventManager.hpp"
 
 #include <iostream>
+#include <algorithm>
+
+#include "Core\System\Event\Listener.hpp"
+#include "Core\System\Event\Emitter.hpp"
 
 namespace ece
 {
 	EventManager::EventManager(): BaseEventManager(), signals(), slots(), signalsAvailable(), slotsAvailable()
 	{
+	}
+
+	const Slot::GlobalSlotID  EventManager::addSlot(const Slot::Handle & handle)
+	{
+		this->slotsNotReady.push_back(Slot(this->getSlotID(), handle));
+		return this->slotsNotReady.back().getId();
+	}
+
+	const Signal::GlobalSignalID EventManager::addSignal()
+	{
+		this->signalsNotReady.push_back(Signal(this->getSignalID()));
+		return this->signalsNotReady.back().getId();
+	}
+
+	void EventManager::eraseSlot(const Listener & listener, const Slot::SlotID slot)
+	{
+		if (!this->slots.empty()) {
+			auto slotID = listener.getSlotID(slot);
+
+			std::vector<Slot>::iterator it = std::find_if(this->slots.begin(), this->slots.end(), [slotID](Slot & sl) { return sl.getId() == slotID; });
+			if (it != this->slots.end()) {
+				it->setDirty(true);
+				for (auto it = this->connections.begin(); it != this->connections.end(); ++it) {
+					if (it->getSlot() == slotID) {
+						it->setDirty(true);
+					}
+				}
+			}
+		}
+	}
+
+	void EventManager::eraseSignal(const Emitter & emitter, const Signal::SignalID signal)
+	{
+		if (!this->signals.empty()) {
+			auto signalID = emitter.getSignal(signal);
+
+			std::vector<Signal>::iterator it = std::find_if(this->signals.begin(), this->signals.end(), [signalID](Signal & sig) { return sig.getId() == signalID; });
+			if (it != this->signals.end()) {
+				it->setDirty(true);
+				for (auto it = this->connections.begin(); it != this->connections.end(); ++it) {
+					if (it->getSignal() == signalID) {
+						it->setDirty(true);
+					}
+				}
+			}
+		}
+	}
+
+	void EventManager::connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
+	{
+
+		auto slotID = listener.getSlotID(slot);
+		auto signalID = emitter.getSignal(signal);
+
+		this->connectionsNotReady.push_back(Connection(slotID, signalID));
+	}
+
+	void EventManager::disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
+	{
+		if (!this->connections.empty()) {
+			auto slotID = listener.getSlotID(slot);
+			auto signalID = emitter.getSignal(signal);
+
+			auto pos = std::find_if(this->connections.begin(), this->connections.end(), [slotID, signalID](Connection & connection) { return connection.getSignal() == signalID && connection.getSlot() == slotID; });
+			if (pos != this->connections.end()) {
+				pos->setDirty(true);
+			}
+		}
+	}
+
+	void EventManager::disconnectAll(const Listener & listener, const Slot::SlotID slot)
+	{
+		if (!this->connections.empty()) {
+			auto slotID = listener.getSlotID(slot);
+
+			auto pos = std::find_if(this->connections.begin(), this->connections.end(), [slotID](Connection & connection) { return connection.getSlot() == slotID; });
+			if (pos != this->connections.end()) {
+				pos->setDirty(true);
+			}
+		}
+	}
+
+	void EventManager::disconnectAll(const Emitter & emitter, const Signal::SignalID signal)
+	{
+		if (!this->connections.empty()) {
+			auto signalID = emitter.getSignal(signal);
+
+			auto pos = std::find_if(this->connections.begin(), this->connections.end(), [signalID](Connection & connection) { return connection.getSignal() == signalID; });
+			if (pos != this->connections.end()) {
+				pos->setDirty(true);
+			}
+		}
+	}
+
+	void EventManager::broadcast(const Emitter & emitter, const Signal::SignalID signal)
+	{
+		if (!this->signals.empty()) {
+			auto const signalID = emitter.getSignal(signal);
+
+			auto posSignal = std::find_if(this->signals.begin(), this->signals.end(), [signalID](Signal & signal) { return signal.getId() == signalID; });
+
+			if (posSignal != this->signals.end() && !posSignal->isDirty()) {
+				for (auto & it = this->connections.begin(); it != this->connections.end(); ++it) {
+					if (it->getSignal() == signalID) {
+						auto posSlot = std::find_if(this->slots.begin(), this->slots.end(), [it](Slot & slot) { return slot.getId() == it->getSlot(); });
+						posSlot->trigger(emitter, signal);
+					}
+				}
+			}
+		}
+	}
+
+	void EventManager::clear()
+	{
+		if (!this->slots.empty()) {
+			auto & slotsAvailableRef = this->slotsAvailable;
+			this->slots.erase(std::remove_if(this->slots.begin(), this->slots.end(), [&slotsAvailableRef](Slot & slot) {
+				if (slot.isDirty()) {
+					slotsAvailableRef.restack(slot.getId());
+				}
+				return slot.isDirty();
+			}), this->slots.end());
+		}
+
+		if (!this->signals.empty()) {
+			auto & signalsAvailableRef = this->signalsAvailable;
+			this->signals.erase(std::remove_if(this->signals.begin(), this->signals.end(), [&signalsAvailableRef](Signal & signal) {
+				if (signal.isDirty()) {
+					signalsAvailableRef.restack(signal.getId());
+				}
+				return signal.isDirty();
+			}), this->signals.end());
+		}
+
+		if (!this->connections.empty()) {
+			this->connections.erase(std::remove_if(this->connections.begin(), this->connections.end(), [](Connection & connection) {
+				return connection.isDirty();
+			}), this->connections.end());
+		}
+
+		if (!this->signalsNotReady.empty()) {
+			this->signals.insert(this->signals.end(), this->signalsNotReady.begin(), this->signalsNotReady.end());
+			this->signalsNotReady.clear();
+		}
+
+		if (!this->slotsNotReady.empty()) {
+			this->slots.insert(this->slots.begin(), this->slotsNotReady.begin(), this->slotsNotReady.end());
+			this->slotsNotReady.clear();
+		}
+
+		if (!this->connectionsNotReady.empty()) {
+			for (auto it = this->connectionsNotReady.begin(); it != this->connectionsNotReady.end(); ++it) {
+				bool existingSlot = !this->slots.empty() && std::find_if(this->slots.begin(), this->slots.end(),
+					[it](Slot & slot) { return slot.getId() == it->getSlot(); }) != this->slots.end();
+
+				bool existingSignal = !this->signals.empty() && std::find_if(this->signals.begin(), this->signals.end(),
+					[it](Signal & signal) { return signal.getId() == it->getSignal(); }) != this->signals.end();
+
+				bool existingConnection = !this->connections.empty() && std::find_if(this->connections.begin(), this->connections.end(),
+					[it](Connection & connection) { return connection == *it; }) != this->connections.end();
+
+				if (existingSlot && existingSignal && !existingConnection) {
+					this->connections.push_back(*it);
+				}
+			}
+			this->connectionsNotReady.clear();
+		}
 	}
 
 	const Slot::GlobalSlotID EventManager::getSlotID()
@@ -14,106 +185,9 @@ namespace ece
 		return id;
 	}
 
-	const GlobalSignalID EventManager::getSignalID()
+	const Signal::GlobalSignalID EventManager::getSignalID()
 	{
 		auto id = this->signalsAvailable.next();
 		return id;
-	}
-
-	void EventManager::addSlot(const std::shared_ptr<ece::Slot>& slot)
-	{
-		this->slots[slot->getId()] = { slot, std::set<GlobalSignalID>() };
-	}
-
-	void EventManager::addSignal(const ece::GlobalSignalID signal)
-	{
-		this->signals[signal] = std::set<Slot::GlobalSlotID>();
-	}
-
-	void EventManager::eraseSlot(const  ece::Slot::GlobalSlotID slot)
-	{
-		auto & pos = this->slots.find(slot);
-		if (pos != this->slots.end()) {
-			auto & listened = pos->second.signals;
-			for (auto it = listened.begin(); it != listened.end(); ++it) {
-				auto & slots = this->signals[*it];
-				slots.erase(slot);
-			}
-
-			this->slots.erase(slot);
-			this->slotsAvailable.restack(slot);
-		}
-	}
-
-	void EventManager::eraseSignal(const ece::GlobalSignalID signal)
-	{
-		auto & pos = this->signals.find(signal);
-		if (pos != this->signals.end()) {
-			auto & listener = pos->second;
-			for (auto it = listener.begin(); it != listener.end(); ++it) {
-				this->slots[*it].signals.erase(signal);
-			}
-
-			this->signals.erase(signal);
-			this->signalsAvailable.restack(signal);
-		}
-	}
-
-	void EventManager::connect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal)
-	{
-		try {
-			const auto & tmpSlot = listener.getSlotID(slot);
-			auto globalSignalID = emitter.getSignal(signal);
-			if (this->slots.find(tmpSlot) != this->slots.end() && this->signals.find(globalSignalID) != this->signals.end()) {
-				if (!this->inBroadcast) {
-					this->signals[globalSignalID].insert(tmpSlot);
-					this->slots[tmpSlot].signals.insert(globalSignalID);
-				}
-				else {
-					this->signalsNotReady[globalSignalID].insert(tmpSlot);
-					this->slotsNotReady[tmpSlot].signals.insert(globalSignalID);
-				}
-			}
-		}
-		catch (std::exception & e) {
-			std::cerr << "Error, the slot " << slot << " and the signal " << signal << " cannot be connected: " << e.what() << std::endl;
-		}
-	}
-
-	void EventManager::disconnect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal)
-	{
-		const auto & tmpSlot = listener.getSlotID(slot);
-		auto globalSignalID = emitter.getSignal(signal);
-		if (this->slots.find(tmpSlot) != this->slots.end() && this->signals.find(globalSignalID) != this->signals.end()) {
-			this->signals[globalSignalID].erase(tmpSlot);
-			this->slots[tmpSlot].signals.erase(globalSignalID);
-		}
-	}
-
-	void EventManager::broadcast(ece::Emitter & emitter, const ece::SignalID signal)
-	{
-		bool recurseBroadcast = this->inBroadcast;
-		this->inBroadcast = true;
-
-		auto globalSignalID = emitter.getSignal(signal);
-		if (this->signals.find(globalSignalID) != this->signals.end()) {
-			auto & listeners = this->signals[globalSignalID];
-			for (auto it = listeners.begin(); it != listeners.end(); ++it) {
-				this->slots[*it].slot->trigger(emitter, signal);
-			}
-		}
-
-		if (!recurseBroadcast) {
-			// Add the connections created during the broadcast.
-			for (auto it = this->signalsNotReady.begin(); it != this->signalsNotReady.end(); ++it) {
-				this->signals[it->first].insert(it->second.begin(), it->second.end());
-			}
-			for (auto it = this->slotsNotReady.begin(); it != this->slotsNotReady.end(); ++it) {
-				this->slots[it->first].signals.insert(it->second.signals.begin(), it->second.signals.end());
-			}
-			this->signalsNotReady.clear();
-			this->slotsNotReady.clear();
-			this->inBroadcast = false;
-		}
 	}
 }

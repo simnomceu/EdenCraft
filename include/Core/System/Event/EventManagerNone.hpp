@@ -8,19 +8,19 @@ namespace ece
 	class EventManagerNone : public BaseEventManager
 	{
 	public:
-		virtual const Slot::GlobalSlotID getSlotID();
-		virtual const GlobalSignalID getSignalID();
+		virtual const Slot::GlobalSlotID addSlot(const Slot::Handle & handle);
+		virtual const Signal::GlobalSignalID addSignal();
 
-		virtual void addSlot(const std::shared_ptr<ece::Slot> & slot);
-		virtual void addSignal(const ece::GlobalSignalID signal);
+		virtual void eraseSlot(const Listener & listener, const Slot::SlotID slot);
+		virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID signal);
 
-		virtual void eraseSlot(const ece::Slot::GlobalSlotID slot);
-		virtual void eraseSignal(const ece::GlobalSignalID signal);
+		virtual void connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal);
+		virtual void disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal);
+		virtual void disconnectAll(const Listener & listener, const Slot::SlotID slot);
+		virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID signal);
 
-		virtual void connect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal);
-		virtual void disconnect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal);
-
-		virtual void broadcast(ece::Emitter & emitter, const ece::SignalID signal);
+		virtual void broadcast(const Emitter & emitter, const Signal::SignalID signal);
+		virtual void clear();
 	};
 }
 

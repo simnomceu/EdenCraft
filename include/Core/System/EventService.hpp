@@ -11,7 +11,14 @@ namespace ece
 {	
 	typedef ServiceFactory<BaseEventManager> EventServiceFactory;
 
-	typedef ServiceLocator<BaseEventManager, EventManagerNone> EventServiceLocator;
+	class EventServiceLocator : private ServiceLocator<BaseEventManager, EventManagerNone>
+	{
+	public:
+		using ServiceLocator<BaseEventManager, EventManagerNone>::provide;
+		using ServiceLocator<BaseEventManager, EventManagerNone>::stop;
+
+		static std::weak_ptr<BaseEventManager> getServicePtr(EventManagerConsumer & consumer);
+	};
 
 	class EventService: public Service
 	{
