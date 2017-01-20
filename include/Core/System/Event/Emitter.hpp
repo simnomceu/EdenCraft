@@ -1,27 +1,42 @@
 #ifndef EMITTER_HPP
 #define EMITTER_HPP
 
-#include "Core\System\Event\Event.inl"
+#include "Core\System\Event\Signal.hpp"
+#include "Core\System\Event\EventManagerConsumer.hpp"
 
 #include <map>
 
 namespace ece
 {
+	class Listener;
+
 	class Emitter
 	{
 	public:
-		Emitter();
+		Emitter() = default;
+		Emitter(const Emitter & copy) = default;
+		Emitter(Emitter && move) = default;
 		virtual ~Emitter() = 0;
 
-		void addSignal(const ece::SignalID signal);
-		void removeSignal(const ece::SignalID signal);
+		Emitter & operator=(const Emitter & copy) = default;
+		Emitter & operator=(Emitter && move) = default;
 
-		void emit(const ece::SignalID signal);
+		void addSignal(const Signal::SignalID signal);
+		void removeSignal(const Signal::SignalID signal);
 
-		const ece::GlobalSignalID getSignal(const ece::SignalID signal) const;
+		void emit(const Signal::SignalID signal);
+
+		const Signal::GlobalSignalID getSignal(const Signal::SignalID signal) const;
+
+		void clear();
+
+		void connect(const Signal::SignalID signal, const Listener & listener, const Slot::SlotID slot);
+		void disconnect(const Signal::SignalID signal, const Listener & listener, const Slot::SlotID slot);
+		void disconnectAll();
 
 	private:
-		std::map<ece::SignalID, ece::GlobalSignalID> signals;
+		EventManagerConsumer consumer;
+		std::map<Signal::SignalID, Signal::GlobalSignalID> signals;
 	};
 }
 

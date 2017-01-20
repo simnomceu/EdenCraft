@@ -1,7 +1,6 @@
 #ifndef WINDOW_INL
 #define WINDOW_INL
 
-#include "Core\System\Event\Event.inl"
 #include "Core\Geom\Vector.hpp"
 
 namespace ece

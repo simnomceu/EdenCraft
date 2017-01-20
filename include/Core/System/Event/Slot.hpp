@@ -1,38 +1,44 @@
 #ifndef SLOT_HPP
 #define SLOT_HPP
 
-#include "Core\System\Event\Event.inl"
-
 #include <functional>
+
+#include "Core\System\Event\Signal.hpp"
 
 namespace ece
 {
 	class Emitter;
 
-	class Slot
+	class Slot final
 	{
 	public:
+		using SlotID = unsigned int;
 		using GlobalSlotID = unsigned int;
-		using Handle = std::function<void(const ece::Emitter & emitter, const ece::SignalID signal)>;
+		using Handle = std::function<void(const Emitter & emitter, const Signal::SignalID signal)>;
 
-		Slot() = default;
-		Slot(const Handle & handle);
-		Slot(const Slot & copy);
-		Slot(Slot && move);
+		static const Slot::GlobalSlotID INVALID_SLOT = -1;
 
-		Slot & operator=(const Slot & copy);
-		Slot & operator=(Slot && move);
+		Slot() = delete;
+		Slot(const GlobalSlotID id, const Handle & handle);
+		Slot(const Slot & copy) = default;
+		Slot(Slot && move) = default;
+		~Slot() = default;
 
-		void trigger(const ece::Emitter & emitter, const ece::SignalID signal);
+		Slot & operator=(const Slot & copy) = default;
+		Slot & operator=(Slot && move) = default;
+
+		void trigger(const Emitter & emitter, const Signal::SignalID signal);
 
 		const GlobalSlotID & getId() const;
+
+		const bool isDirty() const;
+		void setDirty(const bool dirty);
 
 	private:
 		GlobalSlotID id;
 		Handle handle;
+		bool dirty;
 	};
-
-
 }
 
 #endif // SLOT_HPP
