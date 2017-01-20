@@ -5,31 +5,11 @@
 
 namespace ece
 {
-	Slot::Slot(const Handle & handle): id(ece::EventServiceLocator::getService().getSlotID()), handle(handle)
+	Slot::Slot(const GlobalSlotID id, const Handle & handle) : id(id), handle(handle), dirty(false)
 	{
 	}
 
-	Slot::Slot(const Slot & copy): id(ece::EventServiceLocator::getService().getSlotID()), handle(copy.handle)
-	{
-	}
-
-	Slot::Slot(Slot && move): id(ece::EventServiceLocator::getService().getSlotID()), handle(std::move(move.handle))
-	{
-	}
-
-	Slot & Slot::operator=(const Slot & copy)
-	{
-		this->handle = handle;
-		return *this;
-	}
-
-	Slot & Slot::operator=(Slot && move)
-	{
-		this->handle = std::move(move.handle);
-		return *this;
-	}
-
-	void Slot::trigger(const ece::Emitter & emitter, const ece::SignalID signal)
+	void Slot::trigger(const Emitter & emitter, const Signal::SignalID signal)
 	{
 		this->handle(emitter, signal);
 	}
@@ -37,5 +17,15 @@ namespace ece
 	const Slot::GlobalSlotID & Slot::getId() const
 	{
 		return this->id;
+	}
+
+	const bool Slot::isDirty() const
+	{
+		return this->dirty;
+	}
+
+	void Slot::setDirty(const bool dirty)
+	{
+		this->dirty = dirty;
 	}
 }

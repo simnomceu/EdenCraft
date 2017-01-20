@@ -6,6 +6,11 @@
 
 namespace ece
 {
+	std::weak_ptr<BaseEventManager> EventServiceLocator::getServicePtr(EventManagerConsumer & consumer)
+	{
+		return ServiceLocator<BaseEventManager, EventManagerNone>::service;
+	}
+
 	EventService::EventService(): Service()
 	{
 	}
