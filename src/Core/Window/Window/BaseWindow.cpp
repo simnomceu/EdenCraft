@@ -74,7 +74,7 @@ namespace ece
 
 	bool BaseWindow::shouldClosed() const
 	{
-		return WindowServiceLocator::getService().windowShouldClose(this->windowId);
+		return this->windowId != -1 && WindowServiceLocator::getService().windowShouldClose(this->windowId);
 	}
 
 	/*void BaseWindow::draw(BaseObject & object)
@@ -166,5 +166,15 @@ namespace ece
 			this->close();
 			this->open();
 		}*/
+	}
+
+	const bool BaseWindow::pollEvent(Event & event)
+	{
+		return false;
+	}
+
+	const bool BaseWindow::waitEvent(Event & event)
+	{
+		return false;
 	}
 }

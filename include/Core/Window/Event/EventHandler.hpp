@@ -1,5 +1,5 @@
 #ifndef EVENTHANDLER_HPP
-#define EVENTHANLER_HPP
+#define EVENTHANDLER_HPP
 
 #include "Core\System\Event\Emitter.hpp"
 

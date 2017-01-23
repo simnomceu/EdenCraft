@@ -22,10 +22,9 @@ auto main() -> int
 {
 	ece::Core::init(ece::LOG, ece::SYSTEM | ece::WINDOW);
 
-	auto game = Game::getInstance();
-	auto usableGame = game.lock();
+	Game game;
 
-	usableGame->run();
+	game.run();
 
 	return EXIT_SUCCESS;
 }

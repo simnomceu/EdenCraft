@@ -6,8 +6,8 @@
 #include "Core\Window\Window\VideoMode.hpp"
 #include "Core\Window\Window\Window.inl"
 
-#include "Core\System\Event\Emitter.hpp"
 #include "Core\Window\Event\EventHandler.hpp"
+#include "Core\Window\Event\Event.hpp"
 
 namespace ece
 {
@@ -44,6 +44,9 @@ namespace ece
 		void setState(const ece::WindowState state);
 
 		void attachToMonitor(const int monitorIdIn);
+
+		const bool pollEvent(Event & event);
+		const bool waitEvent(Event & event);
 
 	protected:
 

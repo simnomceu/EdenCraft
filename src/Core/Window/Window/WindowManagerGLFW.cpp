@@ -16,7 +16,7 @@ namespace ece
 	WindowManagerGLFW::WindowManagerGLFW() : WindowManager(), isGLFWInitialized(false), isContextParametrized(false), isWindowOpen(false), 
 											isContextDefined(-1), isGLEWInit(false), idsAvailable(), windows()
 	{
-		this->idsAvailable.push(0);
+		this->idsAvailable.push(1);
 		this->windows.insert(std::make_pair(-1, nullptr));
 	}
 
@@ -108,7 +108,12 @@ namespace ece
 
 	bool WindowManagerGLFW::windowShouldClose(const ece::WindowID & windowId)
 	{
-		return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
+		if (windowId > 0 && this->getWindow(windowId) != nullptr) {
+			return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
+		}
+		else {
+			return false;
+		}
 	}
 
 	void WindowManagerGLFW::setTitle(const ece::WindowID & windowId, const std::string & title)
@@ -259,7 +264,7 @@ namespace ece
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
 		// TODO add guard for the id (out of range)
-		return this->windows[windowId].get();
+		return this->windows[windowId];
 	}
 
 	GLFWmonitor * WindowManagerGLFW::getMonitor(const ece::MonitorID & monitorId)

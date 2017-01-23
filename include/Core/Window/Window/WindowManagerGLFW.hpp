@@ -17,18 +17,9 @@
 
 namespace ece
 {
-	struct WindowDeleter {
-		void operator()(GLFWwindow * ptr) {
-			glfwDestroyWindow(ptr);
-		}
-	};
-
 	class WindowManagerGLFW : public WindowManager
 	{
 	public:
-		static void DestroyGLFWwindow(GLFWwindow* ptr) {
-				glfwDestroyWindow(ptr);
-			}
 
 		WindowManagerGLFW();
 		~WindowManagerGLFW();
@@ -72,7 +63,7 @@ namespace ece
 
 		std::stack<unsigned short int> idsAvailable;
 
-		std::map<unsigned short int, std::unique_ptr<GLFWwindow, WindowDeleter>> windows;
+		std::map<unsigned short int, GLFWwindow*> windows;
 	};
 }
 
