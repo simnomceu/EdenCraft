@@ -212,7 +212,9 @@ namespace ece
 		glfwPollEvents();
 		try {
 			int focused = glfwGetWindowAttrib(this->getWindow(windowId), GLFW_FOCUSED);
+			double xpos = 0, ypos = 0;
 			if (focused) {
+				glfwGetCursorPos(this->getWindow(windowId), &xpos, &ypos);
 			}
 		}
 		catch (OutOfRangeException & e) {
@@ -224,7 +226,9 @@ namespace ece
 		glfwWaitEvents();
 		try {
 			int focused = glfwGetWindowAttrib(this->getWindow(windowId), GLFW_FOCUSED);
+			double xpos = 0, ypos = 0;
 			if (focused) {
+				glfwGetCursorPos(this->getWindow(windowId), &xpos, &ypos);
 			}
 		}
 		catch (OutOfRangeException & e) {
