@@ -8,7 +8,7 @@
 
 namespace ece
 {
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter(), windowId(-1), settings(), videoMode(), eventHandler(*this)
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 		this->addSignal(WINDOW_OPENED);
 		this->addSignal(WINDOW_CLOSED);
@@ -17,15 +17,15 @@ namespace ece
 		this->addSignal(WINDOW_RENAMED);
 	}
 
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter(), windowId(-1), settings(), videoMode(), eventHandler(*this)
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 	}
 
-	BaseWindow::BaseWindow(const BaseWindow & copy) : Emitter(), windowId(-1), settings(), videoMode(), eventHandler(*this)
+	BaseWindow::BaseWindow(const BaseWindow & copy) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 	}
 
-	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter(), windowId(-1), settings(), videoMode(), eventHandler(*this)
+	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 	}
 
@@ -62,6 +62,7 @@ namespace ece
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
 
 		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		WindowServiceLocator::getService().registerEventHandler(this->windowId);
 
 		this->emit(WINDOW_OPENED);
 	}
@@ -170,11 +171,13 @@ namespace ece
 
 	const bool BaseWindow::pollEvent(Event & event)
 	{
+		WindowServiceLocator::getService().pollEvents(this->windowId, event);
 		return false;
 	}
 
 	const bool BaseWindow::waitEvent(Event & event)
 	{
+		WindowServiceLocator::getService().waitEvents(this->windowId, event);
 		return false;
 	}
 }

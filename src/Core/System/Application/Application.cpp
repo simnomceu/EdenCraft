@@ -1,7 +1,6 @@
 #include "Core\System\Application\Application.hpp"
 
 #include "Core\Window\Window\VideoMode.hpp"
-#include "GLFW\glfw3.h"
 
 namespace ece
 {
@@ -22,7 +21,6 @@ namespace ece
 		this->start();
 
 		while (this->isRunning()) {
-			glfwPollEvents();
 			this->processEvents();
 			this->update();
 			this->render();

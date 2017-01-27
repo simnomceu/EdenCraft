@@ -12,15 +12,16 @@ namespace ece
 	class EventHandler: public Emitter
 	{
 	public:
-		EventHandler(BaseWindow & window);
+		static EventHandler & getInstance();
+
+		EventHandler() = default;
 		~EventHandler();
 
-		const WindowID getWindowAttached() const;
-
-		void produceEvent(const int key, const int scancode, const int action, const int mods);
+		void produceKeyEvent(const int key, const int scancode, const int action, const int mods);
+		void produceMouseButtonEvent(const int button, const int action, const int mods);
 
 	private:
-		BaseWindow & windowAttached;
+
 	};
 }
 

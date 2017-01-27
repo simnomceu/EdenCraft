@@ -4,6 +4,7 @@
 #include "Core\Util\LogService.hpp"
 
 #include "Core\Window\Event\EventHandler.hpp"
+#include "Core\Util\OutOfRangeException.hpp"
 
 #include <iostream>
 #include <utility> // std::pair
@@ -11,8 +12,6 @@
 
 namespace ece
 {
-	std::map<GLFWwindow*, EventHandler *> WindowManagerGLFW::eventHandlers = std::map<GLFWwindow*, EventHandler *>();
-
 	WindowManagerGLFW::WindowManagerGLFW() : WindowManager(), isGLFWInitialized(false), isContextParametrized(false), isWindowOpen(false), 
 											isContextDefined(-1), isGLEWInit(false), idsAvailable(), windows()
 	{
@@ -208,13 +207,43 @@ namespace ece
 		return nbMonitors;
 	}
 
-	void WindowManagerGLFW::registerEventHandler(EventHandler * handler)
+	void WindowManagerGLFW::pollEvents(const ece::WindowID & windowId, Event & event)
 	{
-		WindowManagerGLFW::eventHandlers[this->getWindow(handler->getWindowAttached())] = handler;
-		glfwSetKeyCallback(this->getWindow(handler->getWindowAttached()), 
+		glfwPollEvents();
+		try {
+			int focused = glfwGetWindowAttrib(this->getWindow(windowId), GLFW_FOCUSED);
+			if (focused) {
+			}
+		}
+		catch (OutOfRangeException & e) {
+		}
+	}
+
+	void WindowManagerGLFW::waitEvents(const ece::WindowID & windowId, Event & event)
+	{
+		glfwWaitEvents();
+		try {
+			int focused = glfwGetWindowAttrib(this->getWindow(windowId), GLFW_FOCUSED);
+			if (focused) {
+			}
+		}
+		catch (OutOfRangeException & e) {
+		}
+	}
+
+	void WindowManagerGLFW::registerEventHandler(const ece::WindowID & windowId)
+	{
+		GLFWwindow * window = this->getWindow(windowId);
+
+		glfwSetKeyCallback(window, 
 							[](GLFWwindow* window, int key, int scancode, int action, int mods) {
-								WindowManagerGLFW::eventHandlers[window]->produceEvent(key, scancode, action, mods);
+								EventHandler::getInstance().produceKeyEvent(key, scancode, action, mods);
 							}
+		);
+		glfwSetMouseButtonCallback(window,
+			[](GLFWwindow* window, int button, int action, int mods) {
+			EventHandler::getInstance().produceMouseButtonEvent(button, action, mods);
+		}
 		);
 	}
 
@@ -263,15 +292,20 @@ namespace ece
 
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
-		// TODO add guard for the id (out of range)
+		if (windowId < 0 || windowId > this->windows.size()) {
+			throw OutOfRangeException("GLFWwindow", windowId);
+		}
 		return this->windows[windowId];
 	}
 
 	GLFWmonitor * WindowManagerGLFW::getMonitor(const ece::MonitorID & monitorId)
 	{
-		// TODO add guard for the id and the number of monitors
 		int nbMonitors = 0;
 		auto monitors = glfwGetMonitors(&nbMonitors);
+
+		if (monitorId < 0 || monitorId > nbMonitors) {
+			throw OutOfRangeException("GLFWmonitor", monitorId);
+		}
 
 		return monitors[monitorId];
 	}

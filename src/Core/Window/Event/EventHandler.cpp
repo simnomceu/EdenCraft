@@ -7,22 +7,23 @@
 
 namespace ece
 {
-	EventHandler::EventHandler(BaseWindow & window): Emitter(), windowAttached(window)
+	EventHandler & EventHandler::getInstance()
 	{
-		WindowServiceLocator::getService().registerEventHandler(this);
+		static EventHandler handler;
+		return handler;
 	}
 
 	EventHandler::~EventHandler()
 	{
 	}
 
-	const WindowID EventHandler::getWindowAttached() const
-	{
-		return WindowID();
-	}
-
-	void EventHandler::produceEvent(const int key, const int scancode, const int action, const int mods)
+	void EventHandler::produceKeyEvent(const int key, const int scancode, const int action, const int mods)
 	{
 		std::cerr << "key: " << key << std::endl;
+	}
+
+	void EventHandler::produceMouseButtonEvent(const int button, const int action, const int mods)
+	{
+		std::cerr << "button: " << button << std::endl;
 	}
 }

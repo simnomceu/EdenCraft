@@ -1,5 +1,7 @@
 #include "Core\Window\Window\WindowManagerNone.hpp"
 
+#include "Core\Window\Event\Event.hpp"
+
 namespace ece
 {
 	WindowManagerNone::WindowManagerNone(): WindowManager()
@@ -53,7 +55,15 @@ namespace ece
 		return 0;
 	}
 
-	void WindowManagerNone::registerEventHandler(EventHandler * handler)
+	void WindowManagerNone::pollEvents(const ece::WindowID & windowId, Event & event)
+	{
+	}
+
+	void WindowManagerNone::waitEvents(const ece::WindowID & windowId, Event & event)
+	{
+	}
+
+	void WindowManagerNone::registerEventHandler(const ece::WindowID & windowId)
 	{
 	}
 }

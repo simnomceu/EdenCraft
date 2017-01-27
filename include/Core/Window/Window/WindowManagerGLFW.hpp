@@ -24,25 +24,27 @@ namespace ece
 		WindowManagerGLFW();
 		~WindowManagerGLFW();
 
-		ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS);
-		void closeWindow(const ece::WindowID &  windowId);
+		virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS);
+		virtual void closeWindow(const ece::WindowID &  windowId);
 
-		bool windowShouldClose(const ece::WindowID & windowId);
+		virtual bool windowShouldClose(const ece::WindowID & windowId);
 
-		void setTitle(const ece::WindowID & windowId, const std::string & title);
-		void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds);
-		void setState(const ece::WindowID & windowId, const ece::WindowState & state);
-		void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings);
+		virtual void setTitle(const ece::WindowID & windowId, const std::string & title);
+		virtual void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds);
+		virtual void setState(const ece::WindowID & windowId, const ece::WindowState & state);
+		virtual void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings);
 
-		void provideVideoMode(const ece::VideoMode & videoMode);
+		virtual void provideVideoMode(const ece::VideoMode & videoMode);
 
-		void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings);
+		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings);
 
-		unsigned short int getNumberOfMonitors();
+		virtual unsigned short int getNumberOfMonitors();
 
-		void registerEventHandler(EventHandler * handler);
+		virtual void pollEvents(const ece::WindowID & windowId, Event & event);
+		virtual void waitEvents(const ece::WindowID & windowId, Event & event);
 
-		static std::map<GLFWwindow*, EventHandler *> eventHandlers;
+		virtual void registerEventHandler(const ece::WindowID & windowId);
+
 	protected:
 		void initGLFW();
 		void parametrizeContextGL();
