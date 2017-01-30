@@ -9,13 +9,14 @@ namespace ece
 
 	const bool UpdatePerSecond::isReadyToUpdate()
 	{
-		float elapsedTime = this->chrono.getElapsedTime();
+		float elapsedTime = (float)this->chrono.getElapsedTime();
 		bool isReady = elapsedTime >= this->rate;
 		if (isReady) {
 			this->chrono.reset();
 			this->average = ((this->average*this->nbFrames) + elapsedTime) / (this->nbFrames + 1);
 			this->nbFrames++;
 		}
+		return isReady;
 	}
 
 	const double UpdatePerSecond::getUPS() const
