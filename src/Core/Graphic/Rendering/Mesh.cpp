@@ -13,9 +13,19 @@ namespace ece
 		this->computeCenter();
 	}
 
+	void Mesh::addColors(const std::vector<float>& colors)
+	{
+		this->colors = colors;
+	}
+
 	const std::vector<float>& Mesh::getVertices()
 	{
 		return this->vertices;
+	}
+
+	const std::vector<float>& Mesh::getColors()
+	{
+		return this->colors;
 	}
 
 	const int Mesh::getNumberOfVertices() const

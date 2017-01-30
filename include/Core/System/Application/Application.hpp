@@ -24,6 +24,7 @@ namespace ece
 		void stop();
 
 		void addWindow(const WindowSetting & setting);
+		template<class T> T & addWindow();
 
 	protected:
 		virtual void render() = 0;
@@ -31,12 +32,20 @@ namespace ece
 		virtual void processEvents() = 0;
 		const bool isRunning() const;
 
-		std::vector<std::unique_ptr<BaseWindow>> windows;
+		std::vector<std::shared_ptr<BaseWindow>> windows;
 		bool running;
 
 	private:
 		void start();
 	};
+
+	template<class T>
+	T & Application::addWindow()
+	{
+		auto windowPtr = std::make_shared<T>(ece::WindowSetting());
+		this->windows.push_back(windowPtr);
+		return *windowPtr.get();
+	}
 }
 
 #endif // APPLICATION_HPP

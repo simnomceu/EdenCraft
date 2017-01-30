@@ -21,10 +21,6 @@ namespace ece
 	{
 	}
 
-	BaseWindow::BaseWindow(const BaseWindow & copy) : Emitter(), windowId(-1), settings(), videoMode()
-	{
-	}
-
 	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 	}
@@ -32,12 +28,6 @@ namespace ece
 	BaseWindow::~BaseWindow()
 	{
 		this->close();
-	}
-
-	BaseWindow & BaseWindow::operator=(const BaseWindow & rightOperand)
-	{
-		// TODO: insérer une instruction return ici
-		return *this;
 	}
 
 	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
@@ -65,6 +55,10 @@ namespace ece
 		WindowServiceLocator::getService().registerEventHandler(this->windowId);
 
 		this->emit(WINDOW_OPENED);
+	}
+
+	void BaseWindow::onRefresh()
+	{
 	}
 
 	void BaseWindow::close()

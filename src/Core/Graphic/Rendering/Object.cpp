@@ -13,6 +13,7 @@ namespace ece
 			glGenVertexArrays(1, &this->vao);
 			glBindVertexArray(this->vao);
 			glEnableVertexAttribArray(POSITION);
+			glEnableVertexAttribArray(COLOR);
 		}
 		else {
 			glBindVertexArray(this->vao);
@@ -25,6 +26,14 @@ namespace ece
 		glBindBuffer(GL_ARRAY_BUFFER, this->vbos[POSITION]);
 		glBufferData(GL_ARRAY_BUFFER, this->mesh.getNumberOfVertices() * 3 * sizeof(GLfloat), this->mesh.getVertices().data(), GL_STATIC_DRAW);
 		glVertexAttribPointer(POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+
+		if (this->vbos[COLOR] == 0) {
+			glGenBuffers(1, &this->vbos[0] + COLOR);
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, this->vbos[COLOR]);
+		glBufferData(GL_ARRAY_BUFFER, this->mesh.getNumberOfVertices() * 3 * sizeof(GLfloat), this->mesh.getColors().data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(COLOR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// ===== Clear Binding =====
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

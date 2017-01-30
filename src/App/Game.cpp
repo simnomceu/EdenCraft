@@ -2,6 +2,7 @@
 
 #include "Core\Window\Window\WindowSetting.hpp"
 #include "Core\Window\Window\VideoMode.hpp"
+#include "Core\Graphic\Rendering\RenderWindow.hpp"
 
 #include <algorithm>
 
@@ -16,8 +17,8 @@
 
 Game::Game() : Application()
 {
-	this->addWindow(ece::WindowSetting());
-	this->addWindow(ece::WindowSetting());
+	auto & firstWindow = this->addWindow<ece::BaseWindow>();
+	auto & secondWindow = this->addWindow<ece::RenderWindow>();
 }
 
 /**
@@ -53,7 +54,7 @@ void Game::render()
 void Game::update()
 {
 	this->windows.erase(std::remove_if(this->windows.begin(), this->windows.end(), 
-										[](std::unique_ptr<ece::BaseWindow> const & x) -> bool { return x.get()->shouldClosed(); }), this->windows.end());
+										[](std::shared_ptr<ece::BaseWindow> const & x) -> bool { return x->shouldClosed(); }), this->windows.end());
 }
 
 void Game::processEvents()

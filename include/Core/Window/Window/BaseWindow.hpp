@@ -22,14 +22,15 @@ namespace ece
 
 		BaseWindow(const ece::WindowSetting & settings);
 		BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
-		BaseWindow(const BaseWindow & copy);
+		BaseWindow(const BaseWindow & copy) = delete;
 		BaseWindow(BaseWindow && copy);
 		~BaseWindow();
 
-		BaseWindow & operator=(const BaseWindow & rightOperand);
+		BaseWindow & operator=(const BaseWindow & rightOperand) = delete;
 		BaseWindow & operator=(BaseWindow && rightOperand);
 
 		void open(const ece::VideoMode & videoMode);
+		virtual void onRefresh();
 		void close();
 
 		bool shouldClosed() const;

@@ -14,7 +14,9 @@ namespace ece
 		~Mesh() = default;
 
 		void addVertices(const std::vector<float> & vertices);
+		void addColors(const std::vector<float> & colors);
 		const std::vector<float>& getVertices();
+		const std::vector<float>& getColors();
 
 		const int getNumberOfVertices() const;
 
@@ -23,8 +25,9 @@ namespace ece
 	protected:
 		void computeCenter();
 
-	private:		
+	private:
 		std::vector<float> vertices;
+		std::vector<float> colors;
 
 		float center[3];
 	};
