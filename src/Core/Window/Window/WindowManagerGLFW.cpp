@@ -108,7 +108,12 @@ namespace ece
 	bool WindowManagerGLFW::windowShouldClose(const ece::WindowID & windowId)
 	{
 		if (windowId > 0 && this->getWindow(windowId) != nullptr) {
-			return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
+			try {
+				return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
+			}
+			catch (OutOfRangeException & e) {
+				return true;
+			}
 		}
 		else {
 			return false;
@@ -211,10 +216,11 @@ namespace ece
 	{
 		glfwPollEvents();
 		try {
-			int focused = glfwGetWindowAttrib(this->getWindow(windowId), GLFW_FOCUSED);
+			GLFWwindow * window = this->getWindow(windowId);
+			int focused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
 			double xpos = 0, ypos = 0;
 			if (focused) {
-				glfwGetCursorPos(this->getWindow(windowId), &xpos, &ypos);
+				glfwGetCursorPos(window, &xpos, &ypos);
 			}
 		}
 		catch (OutOfRangeException & e) {
@@ -296,8 +302,9 @@ namespace ece
 
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
-		if (windowId < 0 || windowId > this->windows.size()) {
+		if (windowId < 0 || windowId > this->windows.size() || this->windows[windowId] == nullptr) {
 			throw OutOfRangeException("GLFWwindow", windowId);
+			// TODO exception non attrapée quand fenêtre fermée
 		}
 		return this->windows[windowId];
 	}

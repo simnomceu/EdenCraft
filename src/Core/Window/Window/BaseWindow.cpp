@@ -70,30 +70,13 @@ namespace ece
 	void BaseWindow::close()
 	{
 		ece::WindowServiceLocator::getService().closeWindow(this->windowId);
+		this->windowId = -1;
 		this->emit(WINDOW_CLOSED);
 	}
 
 	bool BaseWindow::shouldClosed() const
 	{
 		return this->windowId != -1 && WindowServiceLocator::getService().windowShouldClose(this->windowId);
-	}
-
-	/*void BaseWindow::draw(BaseObject & object)
-	{
-		object.prepareShaders();
-		// activate the VAO to use.
-		glBindVertexArray(object.getVAO());
-		// draw the object
-		glDrawArrays(GL_TRIANGLES, 0, 12);
-		// deactivate the VAO.
-		glBindVertexArray(0);
-	}*/
-
-	void BaseWindow::display()
-	{
-		/*if (this->window) {
-			glfwSwapBuffers(this->window);
-		}*/
 	}
 
 	void BaseWindow::applySettings(const ece::WindowSetting & settings)

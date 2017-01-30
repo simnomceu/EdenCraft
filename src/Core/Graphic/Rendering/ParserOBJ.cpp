@@ -6,12 +6,12 @@
 
 namespace ece
 {
-	Mesh ParserOBJ::open(const std::string & pathname)
+	Object ParserOBJ::open(const std::string & pathname)
 	{
-		std::vector<float*> vertices;
-		std::vector<float*> textures;
-		std::vector<float*> normales;
-		std::vector<int*> faces;
+		std::vector<float> vertices;
+		std::vector<float> textures;
+		std::vector<float> normales;
+		std::vector<int> faces;
 
 		std::ifstream file(pathname, std::ios::out);
 		if (!file.is_open()) {
@@ -27,25 +27,38 @@ namespace ece
 			// TODO add checks for the format of the file
 
 			if (command == "v ") {
-				float* vertice = new float[3];
+				float vertice[3];
 				stream >> vertice[0] >> vertice[1] >> vertice[2];
-				vertices.push_back(vertice);
+				vertices.push_back(vertice[0]);
+				vertices.push_back(vertice[1]);
+				vertices.push_back(vertice[2]);
 			}
 			else if (command == "vt") {
-				float* texture = new float[2];
+				float texture[2];
 				stream >> texture[0] >> texture[1];
-				textures.push_back(texture);
+				textures.push_back(texture[0]);
+				textures.push_back(texture[1]);
 			}
 			else if (command == "vn") {
-				float* normale = new float[3];
+				float normale[3];
 				stream >> normale[0] >> normale[1] >> normale[2];
-				normales.push_back(normale);
+				normales.push_back(normale[0]);
+				normales.push_back(normale[1]);
+				normales.push_back(normale[2]);
 			}
 			else if (command == "f ") {
-				int* face = new int[9];
+				int face[9];
 				sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &face[0], &face[1], &face[2], &face[3], &face[4], 
 					&face[5], &face[6], &face[7], &face[8]);
-				faces.push_back(face);
+				faces.push_back(face[0]);
+				faces.push_back(face[1]);
+				faces.push_back(face[2]);
+				faces.push_back(face[3]);
+				faces.push_back(face[4]);
+				faces.push_back(face[5]);
+				faces.push_back(face[6]);
+				faces.push_back(face[7]);
+				faces.push_back(face[8]);
 				// TODO check that it uses existing vertices, normales, and textures.
 			}
 			else if (command == "g ") {
@@ -59,6 +72,8 @@ namespace ece
 			}
 		}
 		// TODO care about objects groups and faces groups
-		return Mesh();
+		Mesh mesh(GL_TRIANGLES);
+		mesh.addVertices(vertices);
+		return Object(mesh, ProgramGLSL());
 	}
 }

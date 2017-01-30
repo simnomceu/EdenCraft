@@ -3,6 +3,8 @@
 #include "Core\Window\Window\WindowSetting.hpp"
 #include "Core\Window\Window\VideoMode.hpp"
 
+#include <algorithm>
+
 /**
  * @fn	Game::Game()
  *
@@ -44,17 +46,14 @@ Game::~Game()
 void Game::render()
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-		it->get()->display();
+//		it->get()->display();
 	}
 }
 
 void Game::update()
 {
-	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-		if (it->get()->shouldClosed()) {
-			it->get()->close();
-		}
-	}
+	this->windows.erase(std::remove_if(this->windows.begin(), this->windows.end(), 
+										[](std::unique_ptr<ece::BaseWindow> const & x) -> bool { return x.get()->shouldClosed(); }), this->windows.end());
 }
 
 void Game::processEvents()

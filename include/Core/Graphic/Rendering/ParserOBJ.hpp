@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Core\Graphic\Rendering\Mesh.hpp"
+#include "Core\Graphic\Rendering\Object.hpp"
 
 namespace ece
 {
@@ -14,7 +14,7 @@ namespace ece
 	public:
 		ParserOBJ() = default;
 
-		Mesh open(const std::string & pathname);
+		Object open(const std::string & pathname);
 
 	};
 }

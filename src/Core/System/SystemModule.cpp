@@ -2,6 +2,8 @@
 
 #include "Core\System\EventService.hpp"
 
+#include <iostream>
+
 namespace ece
 {
 	SystemModule::SystemModule(): Module()

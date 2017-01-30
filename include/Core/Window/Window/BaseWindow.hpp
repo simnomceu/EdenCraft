@@ -34,8 +34,6 @@ namespace ece
 
 		bool shouldClosed() const;
 
-		void display();
-
 		void applySettings(const ece::WindowSetting & settings);
 		const ece::WindowSetting & getSettings();
 
