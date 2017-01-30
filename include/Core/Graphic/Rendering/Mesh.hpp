@@ -18,6 +18,9 @@ namespace ece
 
 		const int getNumberOfVertices() const;
 
+		void reset();
+
+	protected:
 		void computeCenter();
 
 	private:		

@@ -23,6 +23,12 @@ namespace ece
 		return (int)this->vertices.size() / 3;
 	}
 
+	void Mesh::reset()
+	{
+		this->vertices.clear();
+		this->computeCenter();
+	}
+
 	void Mesh::computeCenter()
 	{
 		float xMin = this->vertices[0], xMax = this->vertices[0],
