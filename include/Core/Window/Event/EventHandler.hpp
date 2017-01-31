@@ -12,9 +12,15 @@ namespace ece
 	class EventHandler: public Emitter
 	{
 	public:
+		const Signal::SignalID KEY_PRESSED = 0;
+		const Signal::SignalID KEY_RELEASED = 1;
+		const Signal::SignalID MOUSE_BUTTON_PRESSED = 2;
+		const Signal::SignalID MOUSE_BUTTON_RELEASED = 3;
+		const Signal::SignalID MOUSE_WHEEL_SCROLLED = 4;
+
 		static EventHandler & getInstance();
 
-		EventHandler() = default;
+		EventHandler();
 		~EventHandler();
 
 		void produceKeyEvent(const int key, const int scancode, const int action, const int mods);

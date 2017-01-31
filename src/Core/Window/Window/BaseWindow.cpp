@@ -21,11 +21,8 @@ namespace ece
 	{
 	}
 
-	BaseWindow::BaseWindow(const BaseWindow & copy) : Emitter(), windowId(-1), settings(), videoMode()
-	{
-	}
 
-	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter(), windowId(-1), settings(), videoMode()
+	BaseWindow::BaseWindow(BaseWindow && move) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 	}
 
@@ -34,13 +31,7 @@ namespace ece
 		this->close();
 	}
 
-	BaseWindow & BaseWindow::operator=(const BaseWindow & rightOperand)
-	{
-		// TODO: insérer une instruction return ici
-		return *this;
-	}
-
-	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
+	BaseWindow & BaseWindow::operator=(BaseWindow && move)
 	{
 		// guard to prevent an assigment from itself to itself.
 		if (this != &rightOperand) {
@@ -76,24 +67,6 @@ namespace ece
 	bool BaseWindow::shouldClosed() const
 	{
 		return this->windowId != -1 && WindowServiceLocator::getService().windowShouldClose(this->windowId);
-	}
-
-	/*void BaseWindow::draw(BaseObject & object)
-	{
-		object.prepareShaders();
-		// activate the VAO to use.
-		glBindVertexArray(object.getVAO());
-		// draw the object
-		glDrawArrays(GL_TRIANGLES, 0, 12);
-		// deactivate the VAO.
-		glBindVertexArray(0);
-	}*/
-
-	void BaseWindow::display()
-	{
-		/*if (this->window) {
-			glfwSwapBuffers(this->window);
-		}*/
 	}
 
 	void BaseWindow::applySettings(const ece::WindowSetting & settings)

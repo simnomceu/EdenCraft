@@ -14,27 +14,25 @@ namespace ece
 	class BaseWindow: public Emitter
 	{
 	public:
-		const Signal::SignalID WINDOW_OPENED = 0;
-		const Signal::SignalID WINDOW_CLOSED = 1;
-		const Signal::SignalID WINDOW_RESIZED = 2;
-		const Signal::SignalID WINDOW_MOVED = 3;
-		const Signal::SignalID WINDOW_RENAMED = 4;
+		static const Signal::SignalID WINDOW_OPENED = 0;
+		static const Signal::SignalID WINDOW_CLOSED = 1;
+		static const Signal::SignalID WINDOW_RESIZED = 2;
+		static const Signal::SignalID WINDOW_MOVED = 3;
+		static const Signal::SignalID WINDOW_RENAMED = 4;
 
 		BaseWindow(const ece::WindowSetting & settings);
 		BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
-		BaseWindow(const BaseWindow & copy);
-		BaseWindow(BaseWindow && copy);
+		BaseWindow(const BaseWindow & copy) = delete;
+		BaseWindow(BaseWindow && move);
 		~BaseWindow();
 
-		BaseWindow & operator=(const BaseWindow & rightOperand);
-		BaseWindow & operator=(BaseWindow && rightOperand);
+		BaseWindow & operator=(const BaseWindow & copy) = delete;
+		BaseWindow & operator=(BaseWindow && move);
 
 		void open(const ece::VideoMode & videoMode);
 		void close();
 
 		bool shouldClosed() const;
-
-		void display();
 
 		void applySettings(const ece::WindowSetting & settings);
 		const ece::WindowSetting & getSettings();
