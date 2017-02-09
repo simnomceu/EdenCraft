@@ -112,6 +112,7 @@ namespace ece
 				return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
 			}
 			catch (OutOfRangeException & e) {
+				LogServiceLocator::getService().logWarning(e.what());
 				return true;
 			}
 		}
@@ -224,6 +225,7 @@ namespace ece
 			}
 		}
 		catch (OutOfRangeException & e) {
+			LogServiceLocator::getService().logWarning(e.what());
 		}
 	}
 
@@ -238,6 +240,7 @@ namespace ece
 			}
 		}
 		catch (OutOfRangeException & e) {
+			LogServiceLocator::getService().logWarning(e.what());
 		}
 	}
 

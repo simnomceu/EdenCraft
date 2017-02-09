@@ -9,13 +9,15 @@ workspace "EdenCraft"
 	language "C++"
 
 	filter { "configurations:Debug" }
+		symbols "Default"
 
 	filter { "configurations:Release" }
 		optimize "On"
+		symbols "Off"
 
 	filter { "x64" }
 		system "Windows"
-		linkoptions { "/NODEFAULTLIB:msvcrt.lib", "/NODEFAULTLIB:libcmt.lib" }
+		linkoptions { "/NODEFAULTLIB:libcmt.lib", "/NODEFAULTLIB:msvcrt.lib" }
 
 	filter { }
 
@@ -31,6 +33,7 @@ project "App"
 		"../include/App/**.inl"
 	}
 	links { "Core", "glew32s", "glfw3", "freeglut" }
+	linkoptions { "/NODEFAULTLIB:libcmt.lib"}
 
 
 project "Core"
