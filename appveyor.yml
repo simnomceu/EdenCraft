@@ -12,10 +12,10 @@ configuration:
     - Debug
     - Release
 
-platform: x64
+platform: Any CPU
 
 install:
-    - cmd: cd ./build && ./makeVS15.bat && cd ..
+    - cmd: cd build && makeVS15.bat && cd ..
 
 build:
     project: build/EdenCraft.sln
@@ -23,4 +23,4 @@ build:
     verbosity: normal
 
 after_build:
-    - cmd: cd ./build && ./clear_build.bat && cd ..
+    - cd build && clear_build.bat && cd ..

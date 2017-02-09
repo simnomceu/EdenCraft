@@ -3,10 +3,10 @@
 --premake5.lua
 workspace "EdenCraft"
 	configurations { "Debug", "Release" }
-	platforms { "Win64", "Lnx64" }
+	platforms { "x64" }
 	location ""
 	architecture "x86_64"
-	language "c++"
+	language "C++"
 
 	filter { "configurations:Debug" }
 		symbols "On"
@@ -16,7 +16,7 @@ workspace "EdenCraft"
 
 	filter { "platforms:Win64" }
 		system "Windows"
-	
+
 	filter { "platforms:Lnx64" }
 		system "Linux"
 
