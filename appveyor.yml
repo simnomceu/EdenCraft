@@ -12,7 +12,7 @@ configuration:
     - Debug
     - Release
 
-platform: Any CPU
+platform: x64
 
 install:
     - cmd: cd build && makeVS15.bat && cd ..
