@@ -1,4 +1,4 @@
-version: 'edencraft-{branch}-rev{build}'
+version: edencraft-{branch}-rev{build}
 
 branches:
     only:
@@ -6,23 +6,21 @@ branches:
 
 max_jobs: 1
 
-image:
-    - Visual Studio 2015
-
-install:
-    - cd ./build && ./makeVS15.bat && cd ..
-
-platform:
-    - x64
+image: Visual Studio 2015
 
 configuration:
     - Debug
     - Release
 
+platform: x64
+
+install:
+    - cmd: cd ./build && ./makeVS15.bat && cd ..
+
 build:
-    parallel: true
     project: build/EdenCraft.sln
+    parallel: true
     verbosity: normal
 
 after_build:
-    - cd ./build && ./clear_build.bat && cd ..
+    - cmd: cd ./build && ./clear_build.bat && cd ..
