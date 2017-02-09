@@ -14,11 +14,8 @@ workspace "EdenCraft"
 	filter { "configurations:Release" }
 		optimize "On"
 
-	filter { "platforms:Win64" }
+	filter { "x64" }
 		system "Windows"
-
-	filter { "platforms:Lnx64" }
-		system "Linux"
 
 	filter { }
 
