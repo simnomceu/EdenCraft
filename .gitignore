@@ -55,7 +55,6 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
-[Ll]og/
 
 # User-specific files
 *.suo
