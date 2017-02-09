@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "Core\Graphic\Rendering\Camera.hpp"
 #include "Core\Graphic\Rendering\Object.hpp"
 
 namespace ece
@@ -10,10 +11,14 @@ namespace ece
 	class Scene
 	{
 	public:
-		Scene() = default;
+		Scene();
+
+		void render();
 
 	private:
+		Camera cam;
 		std::vector<Object> objects;
+		glm::mat4 projection;
 	};
 }
 

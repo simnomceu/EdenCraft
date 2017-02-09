@@ -39,4 +39,19 @@ namespace ece
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 	}
+
+	Point3D Object::getCenter() const
+	{
+		// TODO call from mesh
+		return Point3D();
+	}
+
+	void Object::render(const glm::mat4 view, const glm::mat4 projection)
+	{
+		glBindVertexArray(this->vao);
+		this->program.setUniform("MVP", projection * view * this->model);
+		program.use();
+		glDrawArrays(this->modeRender, 0, (GLsizei)(this->mesh.getNumberOfVertices() * 3));
+		glBindVertexArray(0);
+	}
 }

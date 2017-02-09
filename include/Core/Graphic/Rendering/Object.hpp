@@ -7,9 +7,12 @@
 #include "Core\Graphic\Rendering\ProgramGLSL.hpp"
 #include "Core\Graphic\Rendering\Texture.hpp"
 #include "Core\Graphic\Rendering\Transformation.hpp"
+#include "glm\glm.hpp"
 
 namespace ece
 {
+	using Point3D = glm::vec3;
+
 	class Object
 	{
 	public:
@@ -23,6 +26,9 @@ namespace ece
 		Object(const Mesh & mesh, const ProgramGLSL program);
 
 		void prepare();
+		Point3D getCenter() const;
+
+		void render(const glm::mat4 view, const glm::mat4 projection);
 
 	private:
 		Mesh mesh;
