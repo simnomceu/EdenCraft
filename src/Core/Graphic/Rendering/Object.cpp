@@ -49,7 +49,7 @@ namespace ece
 	void Object::render(const glm::mat4 view, const glm::mat4 projection)
 	{
 		glBindVertexArray(this->vao);
-		this->program.setUniform("MVP", projection * view * this->model);
+		//this->program.setUniform("MVP", projection * view * this->model);
 		program.use();
 		glDrawArrays(this->modeRender, 0, (GLsizei)(this->mesh.getNumberOfVertices() * 3));
 		glBindVertexArray(0);
