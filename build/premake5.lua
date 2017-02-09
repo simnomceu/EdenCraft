@@ -9,13 +9,13 @@ workspace "EdenCraft"
 	language "C++"
 
 	filter { "configurations:Debug" }
-		symbols "On"
 
 	filter { "configurations:Release" }
 		optimize "On"
 
 	filter { "x64" }
 		system "Windows"
+		linkoptions { "/NODEFAULTLIB:msvcrt.lib", "/NODEFAULTLIB:libcmt.lib" }
 
 	filter { }
 
