@@ -1,9 +1,20 @@
 #include "Core\Graphic\Rendering\Object.hpp"
 
+#include <iostream>
+
+#include "Core\Graphic\Rendering\ShaderGL.hpp"
+
 namespace ece
 {
-	Object::Object(const Mesh & mesh, const ProgramGLSL program): mesh(mesh), program(program), texture(), transformations()
+	Object::Object(const Mesh & mesh): mesh(mesh), program(), texture(), transformations(), vao(0), vbos(3, 0), model(1.0f)
 	{
+		ShaderGL frag(Shader::FRAGMENT_SHADER);
+		frag.loadFromFile("../resource/shader/basic.frag");
+		this->program.attachShader(frag);
+
+		ShaderGL vert(Shader::VERTEX_SHADER);
+		frag.loadFromFile("../resource/shader/basic.vert");
+		this->program.attachShader(vert);
 	}
 
 	void Object::prepare()
@@ -27,6 +38,11 @@ namespace ece
 		glBufferData(GL_ARRAY_BUFFER, this->mesh.getNumberOfVertices() * 3 * sizeof(GLfloat), this->mesh.getVertices().data(), GL_STATIC_DRAW);
 		glVertexAttribPointer(POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+		if (this->vbos[INDEX] == 0) {
+			glGenBuffers(1, &this->vbos[0] + INDEX);
+		}
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[INDEX]);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mesh.getNumberOfIndex() * sizeof(GLint), this->mesh.getVerticesIndex().data(), GL_STATIC_DRAW);
 
 		if (this->vbos[COLOR] == 0) {
 			glGenBuffers(1, &this->vbos[0] + COLOR);
@@ -38,6 +54,8 @@ namespace ece
 		// ===== Clear Binding =====
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
+
+		this->program.link();
 	}
 
 	Point3D Object::getCenter() const
@@ -49,9 +67,13 @@ namespace ece
 	void Object::render(const glm::mat4 view, const glm::mat4 projection)
 	{
 		glBindVertexArray(this->vao);
-		//this->program.setUniform("MVP", projection * view * this->model);
-		program.use();
-		glDrawArrays(this->modeRender, 0, (GLsizei)(this->mesh.getNumberOfVertices() * 3));
+		this->program.bindInfo<glm::mat4>(projection * view * this->model, "MVP");
+		this->program.use();
+		glBindBuffer(GL_ARRAY_BUFFER, POSITION);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, INDEX);
+		glDrawElements(this->mesh.getModeRender(), this->mesh.getNumberOfIndex(), GL_UNSIGNED_INT, 0);
+
 		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }

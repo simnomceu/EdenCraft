@@ -17,6 +17,8 @@ namespace ece
 
 		void attachScene(const std::shared_ptr<Scene> & scene);
 
+		virtual void open(const ece::VideoMode & videoMode);
+
 	private:
 		std::shared_ptr<Scene> scene;
 	};

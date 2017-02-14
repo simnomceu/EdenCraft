@@ -44,6 +44,7 @@ namespace ece
 		virtual void waitEvents(const ece::WindowID & windowId, Event & event);
 
 		virtual void registerEventHandler(const ece::WindowID & windowId);
+		virtual void displayOnWindow(const ece::WindowID & windowId);
 
 	protected:
 		void initGLFW();

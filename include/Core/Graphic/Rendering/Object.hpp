@@ -4,7 +4,7 @@
 #include <queue>
 
 #include "Core\Graphic\Rendering\Mesh.hpp"
-#include "Core\Graphic\Rendering\ProgramGLSL.hpp"
+#include "Core\Graphic\Rendering\ProgramGL.hpp"
 #include "Core\Graphic\Rendering\Texture.hpp"
 #include "Core\Graphic\Rendering\Transformation.hpp"
 #include "glm\glm.hpp"
@@ -19,11 +19,12 @@ namespace ece
 		enum MeshAttribute
 		{
 			POSITION = 0,
-			COLOR = 1
+			COLOR = 1,
+			INDEX = 2
 		};
 
 		Object() = delete;
-		Object(const Mesh & mesh, const ProgramGLSL program);
+		Object(const Mesh & mesh);
 
 		void prepare();
 		Point3D getCenter() const;
@@ -32,13 +33,13 @@ namespace ece
 
 	private:
 		Mesh mesh;
-		ProgramGLSL program;
+		ProgramGL program;
 		Texture texture;
 		std::queue<Transformation*> transformations;
 
-		GLenum modeRender;
 		GLuint vao;
 		std::vector<GLuint> vbos;
+		glm::mat4 model;
 	};
 }
 

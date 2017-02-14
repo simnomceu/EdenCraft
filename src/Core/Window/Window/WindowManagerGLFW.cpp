@@ -69,10 +69,11 @@ namespace ece
 			windowId = this->idsAvailable.top();
 			this->idsAvailable.pop();
 			this->idsAvailable.push(windowId + 1);
-
-			if (this->isContextDefined == -1) {
+			
+			// TODO: define the right current context
+			//if (this->isContextDefined == -1) {
 				glfwMakeContextCurrent(this->getWindow(windowId));
-			}
+			//}
 
 			if (!this->isGLEWInit) {
 				this->initGLEW();
@@ -258,6 +259,11 @@ namespace ece
 			EventHandler::getInstance().produceMouseButtonEvent(button, action, mods);
 		}
 		);
+	}
+
+	void WindowManagerGLFW::displayOnWindow(const ece::WindowID & windowId)
+	{
+		glfwSwapBuffers(this->getWindow(windowId));
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()

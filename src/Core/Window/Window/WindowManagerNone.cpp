@@ -66,4 +66,8 @@ namespace ece
 	void WindowManagerNone::registerEventHandler(const ece::WindowID & windowId)
 	{
 	}
+
+	void WindowManagerNone::displayOnWindow(const ece::WindowID & windowId)
+	{
+	}
 }

@@ -13,23 +13,31 @@ namespace ece
 		Mesh(const GLenum mode);
 		~Mesh() = default;
 
-		void addVertices(const std::vector<float> & vertices);
+		void addVertices(const std::vector<float> & vertices, const std::vector<int> & index);
 		void addColors(const std::vector<float> & colors);
 		const std::vector<float>& getVertices();
+		const std::vector<int> & getVerticesIndex();
 		const std::vector<float>& getColors();
 
 		const int getNumberOfVertices() const;
+		const int getNumberOfIndex() const;
 
 		void reset();
+
+		GLenum getModeRender() const;
 
 	protected:
 		void computeCenter();
 
 	private:
 		std::vector<float> vertices;
+		std::vector<int> index;
+
 		std::vector<float> colors;
 
 		float center[3];
+
+		GLenum modeRender;
 	};
 }
 

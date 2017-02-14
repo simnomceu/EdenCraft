@@ -3,6 +3,7 @@
 #include "Core\Window\Window\WindowSetting.hpp"
 #include "Core\Window\Window\VideoMode.hpp"
 #include "Core\Graphic\Rendering\RenderWindow.hpp"
+#include "Core\Graphic\Rendering\Scene.hpp"
 
 #include <algorithm>
 
@@ -19,6 +20,9 @@ Game::Game() : Application()
 {
 	auto & firstWindow = this->addWindow<ece::BaseWindow>();
 	auto & secondWindow = this->addWindow<ece::RenderWindow>();
+
+	auto scene = std::make_shared<ece::Scene>();
+	secondWindow.attachScene(scene);
 }
 
 /**
@@ -47,7 +51,8 @@ Game::~Game()
 void Game::render()
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-//		it->get()->display();
+		it->get()->onRefresh();
+		it->get()->display();
 	}
 }
 

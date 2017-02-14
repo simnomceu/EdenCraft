@@ -2,6 +2,7 @@
 #include "Core\Window\Window\BaseWindow.hpp"
 
 #include "Core\Window\WindowService.hpp"
+#include "GLFW\glfw3.h"
 
 #include <iostream>
 #include <memory>
@@ -156,5 +157,10 @@ namespace ece
 	{
 		WindowServiceLocator::getService().waitEvents(this->windowId, event);
 		return false;
+	}
+
+	void BaseWindow::display()
+	{
+		WindowServiceLocator::getService().displayOnWindow(this->windowId);
 	}
 }

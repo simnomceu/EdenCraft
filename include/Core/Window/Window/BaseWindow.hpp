@@ -29,7 +29,7 @@ namespace ece
 		BaseWindow & operator=(const BaseWindow & rightOperand) = delete;
 		BaseWindow & operator=(BaseWindow && rightOperand);
 
-		void open(const ece::VideoMode & videoMode);
+		virtual void open(const ece::VideoMode & videoMode);
 		virtual void onRefresh();
 		void close();
 
@@ -46,6 +46,8 @@ namespace ece
 
 		const bool pollEvent(Event & event);
 		const bool waitEvent(Event & event);
+
+		void display();
 
 	protected:
 

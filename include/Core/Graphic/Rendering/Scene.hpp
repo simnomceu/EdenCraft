@@ -14,6 +14,7 @@ namespace ece
 		Scene();
 
 		void render();
+		void addObject(const std::string pathname);
 
 	private:
 		Camera cam;

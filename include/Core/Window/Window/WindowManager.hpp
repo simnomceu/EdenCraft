@@ -38,6 +38,8 @@ namespace ece
 		virtual void waitEvents(const ece::WindowID & windowId, Event & event) = 0;
 
 		virtual void registerEventHandler(const ece::WindowID & windowId) = 0;
+
+		virtual void displayOnWindow(const ece::WindowID & windowId) = 0;
 	};
 }
 

@@ -42,6 +42,11 @@ namespace ece
 		this->lookAt(position, target);
 	}
 
+	void Camera::moveTo(const Point3D position)
+	{
+		this->position = position;
+	}
+
 	quat Camera::getCamera() const
 	{
 		return glm::lookAt(this->position, this->target, this->upAxis);

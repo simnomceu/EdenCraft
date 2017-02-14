@@ -1,26 +1,37 @@
 #include "Core\Graphic\Rendering\Mesh.hpp"
 
+#include <iostream>
+
 namespace ece
 {
 	Mesh::Mesh(const GLenum mode) : vertices(),
-		center{ 0.0f, 0.0f, 0.0f }
+		center{ 0.0f, 0.0f, 0.0f }, modeRender(mode)
 	{
 	}
 
-	void Mesh::addVertices(const std::vector<float>& vertices)
+	void Mesh::addVertices(const std::vector<float>& vertices, const std::vector<int> & index)
 	{
 		this->vertices = vertices;
+		this->index = index;
 		this->computeCenter();
 	}
 
 	void Mesh::addColors(const std::vector<float>& colors)
 	{
 		this->colors = colors;
+		if (this->colors.size() == 0) {
+			this->colors.insert(this->colors.begin(), this->vertices.size(), 1.0f);
+		}
 	}
 
 	const std::vector<float>& Mesh::getVertices()
 	{
 		return this->vertices;
+	}
+
+	const std::vector<int>& Mesh::getVerticesIndex()
+	{
+		return this->index;
 	}
 
 	const std::vector<float>& Mesh::getColors()
@@ -33,10 +44,20 @@ namespace ece
 		return (int)this->vertices.size() / 3;
 	}
 
+	const int Mesh::getNumberOfIndex() const
+	{
+		return (int)this->index.size();
+	}
+
 	void Mesh::reset()
 	{
 		this->vertices.clear();
 		this->computeCenter();
+	}
+
+	GLenum Mesh::getModeRender() const
+	{
+		return this->modeRender;
 	}
 
 	void Mesh::computeCenter()
