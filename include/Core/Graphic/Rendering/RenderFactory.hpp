@@ -1,10 +1,11 @@
 #ifndef RENDERFACTORY_HPP
 #define RENDERFACTORY_HPP
 
+#include "Core\Graphic\Rendering\Shader.hpp"
+
 namespace ece
 {
 	class Program;
-	class Shader;
 
 	class RenderFactory
 	{

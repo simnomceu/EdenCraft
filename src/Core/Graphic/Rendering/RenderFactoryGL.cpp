@@ -1,6 +1,7 @@
 #include "Core\Graphic\Rendering\RenderFactoryGL.hpp"
 
 #include "Core\Graphic\Rendering\ProgramGL.hpp"
+#include "Core\Graphic\Rendering\ShaderGL.hpp"
 
 namespace ece
 {

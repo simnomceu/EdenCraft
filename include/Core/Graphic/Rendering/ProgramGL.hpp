@@ -20,23 +20,18 @@ namespace ece
 		ProgramGL & operator=(ProgramGL && move) = default;
 
 		virtual void attachShader(Shader & shader);
-		template<class T> void bindInfo(const T & info, const std::string & name);
 
 		virtual void detachShader(const Shader::ShaderID & shader);
 
 		virtual void link();
 		virtual void use();
 
+		void bindInfo(const glm::mat4 & info, const std::string & name);
+		void bindInfo(const glm::vec3 & info, const std::string & name);
+
 	private:
 		std::vector<Shader*> shaders;
 	};
-
-
-	template<class T>
-	inline void ProgramGL::bindInfo(const T & info, const std::string & name)
-	{
-		LogServiceLocator::getService().logWarning("Binding this kind of informations has not already been implemented, it won't do anything.");
-	}
 }
 
 #endif // PROGRAMGL_HPP

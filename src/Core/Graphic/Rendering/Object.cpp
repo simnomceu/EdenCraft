@@ -2,19 +2,28 @@
 
 #include <iostream>
 
-#include "Core\Graphic\Rendering\ShaderGL.hpp"
+#include "Core\Graphic\RenderingService.hpp"
 
 namespace ece
 {
-	Object::Object(const Mesh & mesh): mesh(mesh), program(), texture(), transformations(), vao(0), vbos(3, 0), model(1.0f)
+	Object::Object(const Mesh & mesh): mesh(mesh), program(nullptr), texture(), transformations(), vao(0), vbos(3, 0), model(1.0f)
 	{
-		ShaderGL frag(Shader::FRAGMENT_SHADER);
-		frag.loadFromFile("../resource/shader/basic.frag");
-		this->program.attachShader(frag);
+		program = RenderingServiceLocator::getService().createProgram();
 
-		ShaderGL vert(Shader::VERTEX_SHADER);
-		frag.loadFromFile("../resource/shader/basic.vert");
-		this->program.attachShader(vert);
+		Shader* frag = RenderingServiceLocator::getService().createShader(Shader::FRAGMENT_SHADER);
+		frag->loadFromFile("../resource/shader/basic.frag");
+		this->program->attachShader(*frag);
+		delete frag;
+
+		Shader* vert = RenderingServiceLocator::getService().createShader(Shader::VERTEX_SHADER);
+		frag->loadFromFile("../resource/shader/basic.vert");
+		this->program->attachShader(*vert);
+		delete vert;
+	}
+
+	Object::~Object()
+	{
+		delete this->program;
 	}
 
 	void Object::prepare()
@@ -55,7 +64,7 @@ namespace ece
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
-		this->program.link();
+		this->program->link();
 	}
 
 	Point3D Object::getCenter() const
@@ -67,8 +76,8 @@ namespace ece
 	void Object::render(const glm::mat4 view, const glm::mat4 projection)
 	{
 		glBindVertexArray(this->vao);
-		this->program.bindInfo<glm::mat4>(projection * view * this->model, "MVP");
-		this->program.use();
+		this->program->bindInfo(projection * view * this->model, "MVP");
+		this->program->use();
 		glBindBuffer(GL_ARRAY_BUFFER, POSITION);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, INDEX);
 		glDrawElements(this->mesh.getModeRender(), this->mesh.getNumberOfIndex(), GL_UNSIGNED_INT, 0);

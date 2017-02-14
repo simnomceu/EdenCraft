@@ -1,18 +1,12 @@
-#include "Core\Graphic\Rendering\ParserOBJ.hpp"
+#include "Core\Util\File\ParserOBJ.hpp"
 
 #include <fstream>
 #include <sstream>
-#include <vector>
-#include <iostream>
 
 namespace ece
 {
-	Object ParserOBJ::open(const std::string & pathname)
+	void ParserOBJ::open(const std::string & pathname)
 	{
-		std::vector<float> vertices;
-		std::vector<float> textures;
-		std::vector<float> normales;
-		std::vector<int> faces;
 
 		std::ifstream file(pathname, std::ios::out);
 		if (!file.is_open()) {
@@ -52,15 +46,16 @@ namespace ece
 					int face[9];
 					sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &face[0], &face[1], &face[2], &face[3], &face[4],
 						&face[5], &face[6], &face[7], &face[8]);
-					faces.push_back(face[0]);
+					faces.push_back(face[0] * 3);
 					//faces.push_back(face[1]);
 					//faces.push_back(face[2]);
-					faces.push_back(face[3]);
+					faces.push_back(face[3] * 3);
 					//faces.push_back(face[4]);
 					//faces.push_back(face[5]);
-					faces.push_back(face[6]);
+					faces.push_back(face[6] * 3);
 					//faces.push_back(face[7]);
 					//faces.push_back(face[8]);
+
 					// TODO check that it uses existing vertices, normales, and textures.
 				}
 				else if (command == "g ") {
@@ -75,10 +70,25 @@ namespace ece
 			}
 		}
 		// TODO care about objects groups and faces groups
-		Mesh mesh(GL_TRIANGLES);
-		mesh.addVertices(vertices, faces);
-		mesh.addColors(textures);
+	}
 
-		return Object(mesh);
+	const std::vector<float>& ParserOBJ::getVertices()
+	{
+		return this->vertices;
+	}
+
+	const std::vector<float>& ParserOBJ::getTextures()
+	{
+		return this->textures;
+	}
+
+	const std::vector<float>& ParserOBJ::getNormales()
+	{
+		return this->normales;
+	}
+
+	const std::vector<int>& ParserOBJ::getFaces()
+	{
+		return this->faces;
 	}
 }

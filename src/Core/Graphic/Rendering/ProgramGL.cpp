@@ -3,8 +3,6 @@
 #include <algorithm>
 
 #include "Core\Util\LogService.hpp"
-#include "GL\glew.h"
-#include "glm\glm.hpp"
 #include "Core\Graphic\Rendering\ShaderGL.hpp"
 
 namespace ece
@@ -31,7 +29,7 @@ namespace ece
 	void ProgramGL::attachShader(Shader & shader)
 	{
 		if (this->id > 0) {
-			this->shaders.push_back(new ShaderGL(std::move(shader)));
+			//this->shaders.push_back(new ShaderGL(std::move(shader)));
 			shader.reset(); // TODO: could be eventually moved in the move constructor (and move assignment operator) of Shader class.
 
 			glAttachShader(this->id, this->shaders.front()->getId());
@@ -46,8 +44,8 @@ namespace ece
 		if (this->id > 0) {
 			// TODO: check if the shader is attached to not trigger a GL_INVALID_OPERATION
 			glDetachShader(this->id, shader);
-			std::remove_if(this->shaders.begin(), this->shaders.end(), [shader](Shader & element) {
-				return shader == element.getId();
+			std::remove_if(this->shaders.begin(), this->shaders.end(), [shader](const Shader * element) {
+				return shader == element->getId();
 			});
 		}
 		else {
@@ -89,8 +87,7 @@ namespace ece
 		}
 	}
 
-	template<>
-	void ProgramGL::bindInfo<glm::mat4>(const glm::mat4 & info, const std::string & name)
+	void ProgramGL::bindInfo(const glm::mat4 & info, const std::string & name)
 	{
 		if (this->id > 0) {
 			GLuint handle = glGetUniformLocation(this->id, name.data());
@@ -101,8 +98,7 @@ namespace ece
 		}
 	}
 
-	template<>
-	void ProgramGL::bindInfo<glm::vec3>(const glm::vec3 & info, const std::string & name)
+	void ProgramGL::bindInfo(const glm::vec3 & info, const std::string & name)
 	{
 		if (this->id > 0) {
 			GLuint handle = glGetUniformLocation(this->id, name.data());

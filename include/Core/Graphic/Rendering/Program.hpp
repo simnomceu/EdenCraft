@@ -4,6 +4,10 @@
 #include "Core\Graphic\Rendering\Shader.hpp"
 #include "Core\Util\LogService.hpp"
 
+#include "GL\glew.h"
+#include "glm\glm.hpp"
+// TODO : remove this include from here (redefine basic mat and vec classes)
+
 namespace ece
 {
 	class Program
@@ -21,7 +25,8 @@ namespace ece
 		Program & operator=(Program && move) = default;
 
 		virtual void attachShader(Shader & shader) = 0;
-		template<class T> void bindInfo(const T & info, const std::string & name);
+		virtual void bindInfo(const glm::mat4 & info, const std::string & name) = 0;
+		virtual void bindInfo(const glm::vec3 & info, const std::string & name) = 0;
 
 		virtual void detachShader(const Shader::ShaderID & shader) = 0;
 
@@ -35,12 +40,6 @@ namespace ece
 	inline Program::Program(): id(-1) {}
 
 	inline Program::~Program() {}
-
-	template<class T>
-	inline void Program::bindInfo(const T & info, const std::string & name)
-	{
-		LogServiceLocator::getService().logWarning("Binding this kind of informations has not already been implemented, it won't do anything.");
-	}
 }
 
 #endif

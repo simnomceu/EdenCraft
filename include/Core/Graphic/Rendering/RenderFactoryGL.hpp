@@ -2,7 +2,6 @@
 #define RENDERFACTORYGL_HPP
 
 #include "Core\Graphic\Rendering\RenderFactory.hpp"
-#include "Core\Graphic\Rendering\ShaderGL.hpp"
 
 namespace ece
 {

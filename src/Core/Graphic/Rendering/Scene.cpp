@@ -1,7 +1,7 @@
 #include "Core\Graphic\Rendering\Scene.hpp"
 
 #include "glm\gtc\matrix_transform.hpp"
-#include "Core\Graphic\Rendering\ParserOBJ.hpp"
+#include "Core\Util\File\ParserOBJ.hpp"
 #include "Core\Util\LogService.hpp"
 
 namespace ece
@@ -28,7 +28,13 @@ namespace ece
 		ParserOBJ parser;
 
 		try {
-			this->objects.push_back(parser.open(pathname));
+			parser.open(pathname);
+
+			Mesh mesh(GL_TRIANGLES);
+			mesh.addVertices(parser.getVertices(), parser.getFaces());
+			mesh.addColors(parser.getTextures());
+
+			this->objects.push_back(Object(mesh));
 			this->objects.front().prepare();
 		}
 		catch (std::exception & e) {

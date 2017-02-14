@@ -26,6 +26,8 @@ namespace ece
 		Object() = delete;
 		Object(const Mesh & mesh);
 
+		~Object();
+
 		void prepare();
 		Point3D getCenter() const;
 
@@ -33,7 +35,7 @@ namespace ece
 
 	private:
 		Mesh mesh;
-		ProgramGL program;
+		Program* program;
 		Texture texture;
 		std::queue<Transformation*> transformations;
 
