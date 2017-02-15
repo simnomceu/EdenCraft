@@ -8,17 +8,21 @@ namespace ece
 {
 	Object::Object(const Mesh & mesh): mesh(mesh), program(nullptr), texture(), transformations(), vao(0), vbos(3, 0), model(1.0f)
 	{
+		std::cout << "ok" << std::endl;
 		program = RenderingServiceLocator::getService().createProgram();
+		std::cout << "ok2" << std::endl;
 
 		Shader* frag = RenderingServiceLocator::getService().createShader(Shader::FRAGMENT_SHADER);
 		frag->loadFromFile("../resource/shader/basic.frag");
 		this->program->attachShader(*frag);
 		delete frag;
+		std::cout << "ok3" << std::endl;
 
 		Shader* vert = RenderingServiceLocator::getService().createShader(Shader::VERTEX_SHADER);
 		frag->loadFromFile("../resource/shader/basic.vert");
 		this->program->attachShader(*vert);
 		delete vert;
+		std::cout << "ok4" << std::endl;
 	}
 
 	Object::~Object()

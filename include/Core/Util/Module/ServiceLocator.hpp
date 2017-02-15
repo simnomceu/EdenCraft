@@ -13,6 +13,7 @@ namespace ece
 	public:
 		static void provide(const std::shared_ptr<Base> & service);
 		static Base & getService();
+		static Base * getServicePtr();
 		static void stop();
 
 	protected:
@@ -31,7 +32,16 @@ namespace ece
 	template <class Base, class Null>
 	Base & ServiceLocator<Base, Null>::getService()
 	{
+		if (ServiceLocator<Base, Null>::service.get() == nullptr) {
+			throw std::exception("Invalid pointer to a service.");
+		}
 		return *ServiceLocator<Base, Null>::service;
+	}
+
+	template <class Base, class Null>
+	Base * ServiceLocator<Base, Null>::getServicePtr()
+	{
+		return ServiceLocator<Base, Null>::service.get();
 	}
 
 	template <class Base, class Null>

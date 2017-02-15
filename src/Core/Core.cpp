@@ -3,6 +3,7 @@
 #include "Core\Util\LogService.hpp"
 #include "Core\System\SystemModule.hpp"
 #include "Core\Window\WindowModule.hpp"
+#include "Core\Graphic\GraphicModule.hpp"
 
 namespace ece
 {
@@ -32,9 +33,14 @@ namespace ece
 			windowModule.init(Mode::NOT_INIT);
 		}
 
+		std::cout << "core init" << std::endl;
+		GraphicModule graphicModule;
 		if ((modules & GRAPHIC) == GRAPHIC) {
+			graphicModule.init(Mode::DEFAULT);
+			std::cout << "core init end" << std::endl;
 		}
 		else {
+			graphicModule.init(Mode::NOT_INIT);
 		}
 
 		if ((modules & ECS) == ECS) {

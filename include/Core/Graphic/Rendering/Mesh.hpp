@@ -11,6 +11,7 @@ namespace ece
 	{
 	public:
 		Mesh(const GLenum mode);
+		Mesh(const Mesh & copy) = default;
 		~Mesh() = default;
 
 		void addVertices(const std::vector<float> & vertices, const std::vector<int> & index);

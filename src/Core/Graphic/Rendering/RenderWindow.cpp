@@ -1,7 +1,5 @@
 #include "Core\Graphic\Rendering\RenderWindow.hpp"
 
-#include <iostream>
-
 namespace ece
 {
 	RenderWindow::RenderWindow(const ece::WindowSetting & settings): BaseWindow(settings), scene(nullptr)

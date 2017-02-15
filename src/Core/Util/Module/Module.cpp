@@ -1,5 +1,7 @@
 #include "Core\Util\Module\Module.hpp"
 
+#include <iostream>
+
 namespace ece
 {
 	Module::Module(): dependencies(), services(), initialized(false), modeInitialized(Mode::NOT_INIT)

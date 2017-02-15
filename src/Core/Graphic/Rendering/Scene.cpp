@@ -4,6 +4,8 @@
 #include "Core\Util\File\ParserOBJ.hpp"
 #include "Core\Util\LogService.hpp"
 
+#include <iostream>
+
 namespace ece
 {
 	Scene::Scene(): cam(), objects(), projection(1.0f)

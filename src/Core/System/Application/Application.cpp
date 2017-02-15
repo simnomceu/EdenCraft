@@ -2,6 +2,8 @@
 
 #include "Core\Window\Window\VideoMode.hpp"
 
+#include <iostream>
+
 namespace ece
 {
 	Application::Application(): windows(), running(false)
@@ -19,7 +21,6 @@ namespace ece
 	void Application::run()
 	{
 		this->start();
-
 		while (this->isRunning()) {
 			this->processEvents();
 			this->update();

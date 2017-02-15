@@ -7,6 +7,9 @@
 #include "App\Game.hpp"
 #include "Core\Core.hpp"
 
+#include <iostream>
+#include <exception>
+
 /**
  * @fn	int main()
  *
@@ -20,7 +23,13 @@
 
 auto main() -> int
 {
-	ece::Core::init(ece::LOG, ece::SYSTEM | ece::WINDOW);
+	// TODO : error while modules are not inialized explicitly here.
+	try {
+		ece::Core::init(ece::LOG, ece::SYSTEM | ece::WINDOW | ece::GRAPHIC);
+	}
+	catch (std::exception & e) {
+		std::cerr << e.what() << std::endl;
+	}
 
 	Game game;
 
