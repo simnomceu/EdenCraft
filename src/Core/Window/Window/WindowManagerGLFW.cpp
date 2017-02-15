@@ -3,6 +3,9 @@
 #include "Core\Window\Constant.inl"
 #include "Core\Util\LogService.hpp"
 
+#include "Core\Window\Event\EventHandler.hpp"
+#include "Core\Util\OutOfRangeException.hpp"
+
 #include <iostream>
 #include <utility> // std::pair
 #include <functional>
@@ -12,7 +15,7 @@ namespace ece
 	WindowManagerGLFW::WindowManagerGLFW() : WindowManager(), isGLFWInitialized(false), isContextParametrized(false), isWindowOpen(false), 
 											isContextDefined(-1), isGLEWInit(false), idsAvailable(), windows()
 	{
-		this->idsAvailable.push(0);
+		this->idsAvailable.push(1);
 		this->windows.insert(std::make_pair(-1, nullptr));
 	}
 
@@ -66,10 +69,11 @@ namespace ece
 			windowId = this->idsAvailable.top();
 			this->idsAvailable.pop();
 			this->idsAvailable.push(windowId + 1);
-
-			if (this->isContextDefined == -1) {
+			
+			// TODO: define the right current context
+			//if (this->isContextDefined == -1) {
 				glfwMakeContextCurrent(this->getWindow(windowId));
-			}
+			//}
 
 			if (!this->isGLEWInit) {
 				this->initGLEW();
@@ -99,6 +103,22 @@ namespace ece
 		this->idsAvailable.push(windowId);
 		if (this->windows.size() == 0) {
 			this->terminateGLFW();
+		}
+	}
+
+	bool WindowManagerGLFW::windowShouldClose(const ece::WindowID & windowId)
+	{
+		if (windowId > 0 && this->getWindow(windowId) != nullptr) {
+			try {
+				return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
+			}
+			catch (OutOfRangeException & e) {
+				LogServiceLocator::getService().logWarning(e.what());
+				return true;
+			}
+		}
+		else {
+			return false;
 		}
 	}
 
@@ -188,10 +208,62 @@ namespace ece
 	{
 		std::vector<ece::MonitorID> monitors;
 
-int nbMonitors = 0;
-glfwGetMonitors(&nbMonitors);
+		int nbMonitors = 0;
+		glfwGetMonitors(&nbMonitors);
 
-return nbMonitors;
+		return nbMonitors;
+	}
+
+	void WindowManagerGLFW::pollEvents(const ece::WindowID & windowId, Event & event)
+	{
+		glfwPollEvents();
+		try {
+			GLFWwindow * window = this->getWindow(windowId);
+			int focused = glfwGetWindowAttrib(window, GLFW_FOCUSED);
+			double xpos = 0, ypos = 0;
+			if (focused) {
+				glfwGetCursorPos(window, &xpos, &ypos);
+			}
+		}
+		catch (OutOfRangeException & e) {
+			LogServiceLocator::getService().logWarning(e.what());
+		}
+	}
+
+	void WindowManagerGLFW::waitEvents(const ece::WindowID & windowId, Event & event)
+	{
+		glfwWaitEvents();
+		try {
+			int focused = glfwGetWindowAttrib(this->getWindow(windowId), GLFW_FOCUSED);
+			double xpos = 0, ypos = 0;
+			if (focused) {
+				glfwGetCursorPos(this->getWindow(windowId), &xpos, &ypos);
+			}
+		}
+		catch (OutOfRangeException & e) {
+			LogServiceLocator::getService().logWarning(e.what());
+		}
+	}
+
+	void WindowManagerGLFW::registerEventHandler(const ece::WindowID & windowId)
+	{
+		GLFWwindow * window = this->getWindow(windowId);
+
+		glfwSetKeyCallback(window, 
+							[](GLFWwindow* window, int key, int scancode, int action, int mods) {
+								EventHandler::getInstance().produceKeyEvent(key, scancode, action, mods);
+							}
+		);
+		glfwSetMouseButtonCallback(window,
+			[](GLFWwindow* window, int button, int action, int mods) {
+			EventHandler::getInstance().produceMouseButtonEvent(button, action, mods);
+		}
+		);
+	}
+
+	void WindowManagerGLFW::displayOnWindow(const ece::WindowID & windowId)
+	{
+		glfwSwapBuffers(this->getWindow(windowId));
 	}
 
 	void WindowManagerGLFW::parametrizeContextGL()
@@ -239,15 +311,21 @@ return nbMonitors;
 
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
-		// TODO add guard for the id (out of range)
-		return this->windows[windowId].get();
+		if (windowId < 0 || windowId > this->windows.size() || this->windows[windowId] == nullptr) {
+			throw OutOfRangeException("GLFWwindow", windowId);
+			// TODO exception non attrapée quand fenêtre fermée
+		}
+		return this->windows[windowId];
 	}
 
 	GLFWmonitor * WindowManagerGLFW::getMonitor(const ece::MonitorID & monitorId)
 	{
-		// TODO add guard for the id and the number of monitors
 		int nbMonitors = 0;
 		auto monitors = glfwGetMonitors(&nbMonitors);
+
+		if (monitorId < 0 || monitorId > nbMonitors) {
+			throw OutOfRangeException("GLFWmonitor", monitorId);
+		}
 
 		return monitors[monitorId];
 	}

@@ -1,6 +1,8 @@
 #ifndef SERVICE_HPP
 #define SERVICE_HPP
 
+// TODO : make this class as a singleton for each derived classes ? or at least the initialized attribute
+
 namespace ece
 {
 	enum class Mode

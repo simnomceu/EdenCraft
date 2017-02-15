@@ -7,31 +7,33 @@
 #include "Core\Window\Window\Window.inl"
 
 #include "Core\System\Event\Emitter.hpp"
+#include "Core\Window\Event\Event.hpp"
 
 namespace ece
 {
 	class BaseWindow: public Emitter
 	{
 	public:
-		const SignalID WINDOW_OPENED = 0;
-		const SignalID WINDOW_CLOSED = 1;
-		const SignalID WINDOW_RESIZED = 2;
-		const SignalID WINDOW_MOVED = 3;
-		const SignalID WINDOW_RENAMED = 4;
+		const Signal::SignalID WINDOW_OPENED = 0;
+		const Signal::SignalID WINDOW_CLOSED = 1;
+		const Signal::SignalID WINDOW_RESIZED = 2;
+		const Signal::SignalID WINDOW_MOVED = 3;
+		const Signal::SignalID WINDOW_RENAMED = 4;
 
 		BaseWindow(const ece::WindowSetting & settings);
 		BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
-		BaseWindow(const BaseWindow & copy);
+		BaseWindow(const BaseWindow & copy) = delete;
 		BaseWindow(BaseWindow && copy);
 		~BaseWindow();
 
-		BaseWindow & operator=(const BaseWindow & rightOperand);
+		BaseWindow & operator=(const BaseWindow & rightOperand) = delete;
 		BaseWindow & operator=(BaseWindow && rightOperand);
 
-		void open(const ece::VideoMode & videoMode);
+		virtual void open(const ece::VideoMode & videoMode);
+		virtual void onRefresh();
 		void close();
 
-		void display();
+		bool shouldClosed() const;
 
 		void applySettings(const ece::WindowSetting & settings);
 		const ece::WindowSetting & getSettings();
@@ -41,6 +43,13 @@ namespace ece
 		void setState(const ece::WindowState state);
 
 		void attachToMonitor(const int monitorIdIn);
+
+		const bool pollEvent(Event & event);
+		const bool waitEvent(Event & event);
+
+		void display();
+
+	protected:
 
 	private:
 		short int windowId;

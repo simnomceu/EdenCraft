@@ -6,6 +6,9 @@
 
 #include <vector>
 
+
+// TODO : make this class as a singleton for each derived classes ? Or at list the initialized attribute
+
 namespace ece
 {
 	class Module

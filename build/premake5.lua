@@ -3,22 +3,21 @@
 --premake5.lua
 workspace "EdenCraft"
 	configurations { "Debug", "Release" }
-	platforms { "Win64", "Lnx64" }
+	platforms { "x64" }
 	location ""
 	architecture "x86_64"
-	language "c++"
+	language "C++"
 
 	filter { "configurations:Debug" }
-		symbols "On"
+		symbols "Default"
 
 	filter { "configurations:Release" }
 		optimize "On"
+		symbols "Off"
 
-	filter { "platforms:Win64" }
+	filter { "x64" }
 		system "Windows"
-	
-	filter { "platforms:Lnx64" }
-		system "Linux"
+		linkoptions { "/NODEFAULTLIB:libcmt.lib", "/NODEFAULTLIB:msvcrt.lib" }
 
 	filter { }
 
@@ -34,6 +33,7 @@ project "App"
 		"../include/App/**.inl"
 	}
 	links { "Core", "glew32s", "glfw3", "freeglut" }
+	linkoptions { "/NODEFAULTLIB:libcmt.lib"}
 
 
 project "Core"

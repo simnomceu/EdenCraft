@@ -1,13 +1,15 @@
 #include "Catch\catch.hpp"
 
+#include "Core\Core.hpp"
+
 #include "Core\Window\Window\VideoMode.hpp"
-#include "Core\Window\Window\Window.inl"
 #include "Core\Window\Constant.inl"
 
 // TODO add test for stereo property
 
 SCENARIO("VideoMode regression", "[Core][Window][Regression]")
 {
+	//ece::Core::init(ece::LOG, ece::SYSTEM | ece::WINDOW);
 	GIVEN("A default VideoMode.")
 	{
 		ece::VideoMode videoMode;

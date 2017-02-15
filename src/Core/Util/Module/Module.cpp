@@ -1,7 +1,5 @@
 #include "Core\Util\Module\Module.hpp"
 
-#include "Core\Core.hpp"
-
 #include <iostream>
 
 namespace ece

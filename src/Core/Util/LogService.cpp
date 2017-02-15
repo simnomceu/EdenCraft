@@ -11,7 +11,7 @@ namespace ece
 
 	void LogService::init(Mode mode)
 	{
-		if (!ece::Core::isServiceInit(ece::LOG)) {
+		if (!this->isInitialized()) {
 			switch (mode)
 			{
 			case ece::Mode::NOT_INIT:
@@ -27,8 +27,9 @@ namespace ece
 			default:
 				break;
 			}
+			this->initialized = true;
+			this->modeInitialized = mode;
 			LogServiceLocator::getService().logInfo("Log service started.");
-			ece::Core::initService(ece::LOG);
 		}
 	}
 

@@ -1,5 +1,7 @@
 #include "Core\Window\Window\WindowManagerNone.hpp"
 
+#include "Core\Window\Event\Event.hpp"
+
 namespace ece
 {
 	WindowManagerNone::WindowManagerNone(): WindowManager()
@@ -17,6 +19,11 @@ namespace ece
 
 	void WindowManagerNone::closeWindow(const ece::WindowID & windowId)
 	{
+	}
+
+	bool WindowManagerNone::windowShouldClose(const ece::WindowID & windowId)
+	{
+		return false;
 	}
 
 	void WindowManagerNone::setTitle(const ece::WindowID & windowId, const std::string & title)
@@ -46,5 +53,21 @@ namespace ece
 	unsigned short int WindowManagerNone::getNumberOfMonitors()
 	{
 		return 0;
+	}
+
+	void WindowManagerNone::pollEvents(const ece::WindowID & windowId, Event & event)
+	{
+	}
+
+	void WindowManagerNone::waitEvents(const ece::WindowID & windowId, Event & event)
+	{
+	}
+
+	void WindowManagerNone::registerEventHandler(const ece::WindowID & windowId)
+	{
+	}
+
+	void WindowManagerNone::displayOnWindow(const ece::WindowID & windowId)
+	{
 	}
 }

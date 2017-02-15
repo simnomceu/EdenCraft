@@ -7,13 +7,18 @@
 
 namespace ece
 {
+	std::weak_ptr<BaseEventManager> EventServiceLocator::getServicePtr(EventManagerConsumer & consumer)
+	{
+		return ServiceLocator<BaseEventManager, EventManagerNone>::service;
+	}
+
 	EventService::EventService(): Service()
 	{
 	}
 
 	void EventService::init(Mode mode)
 	{
-		if (!Core::isServiceInit(ece::EVENT)) {
+		if (!this->isInitialized()) {
 			switch (mode)
 			{
 			case ece::Mode::NOT_INIT:
@@ -29,8 +34,9 @@ namespace ece
 			default:
 				break;
 			}
+			this->initialized = true;
+			this->modeInitialized = mode;
 			LogServiceLocator::getService().logInfo("Event service started.");
-			Core::initService(ece::EVENT);
 		}
 	}
 

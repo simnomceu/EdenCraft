@@ -13,7 +13,7 @@ namespace ece
 
 	void WindowService::init(Mode mode)
 	{
-		if (Core::isServiceInit(ece::WINDOW)) {
+		if (!this->isInitialized()) {
 			switch (mode)
 			{
 			case ece::Mode::NOT_INIT:
@@ -29,8 +29,9 @@ namespace ece
 			default:
 				break;
 			}
+			this->initialized = true;
+			this->modeInitialized = mode;
 			LogServiceLocator::getService().logInfo("Window service started.");
-			Core::initService(WINDOW);
 		}
 	}
 

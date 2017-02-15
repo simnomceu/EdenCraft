@@ -2,13 +2,14 @@
 #include "Core\Window\Window\BaseWindow.hpp"
 
 #include "Core\Window\WindowService.hpp"
+#include "GLFW\glfw3.h"
 
 #include <iostream>
 #include <memory>
 
 namespace ece
 {
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter()
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 		this->addSignal(WINDOW_OPENED);
 		this->addSignal(WINDOW_CLOSED);
@@ -17,27 +18,17 @@ namespace ece
 		this->addSignal(WINDOW_RENAMED);
 	}
 
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter()
+	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 	}
 
-	BaseWindow::BaseWindow(const BaseWindow & copy) : Emitter()
-	{
-	}
-
-	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter()
+	BaseWindow::BaseWindow(BaseWindow && copy) : Emitter(), windowId(-1), settings(), videoMode()
 	{
 	}
 
 	BaseWindow::~BaseWindow()
 	{
 		this->close();
-	}
-
-	BaseWindow & BaseWindow::operator=(const BaseWindow & rightOperand)
-	{
-		// TODO: insérer une instruction return ici
-		return *this;
 	}
 
 	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
@@ -62,32 +53,25 @@ namespace ece
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
 
 		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+		WindowServiceLocator::getService().registerEventHandler(this->windowId);
 
 		this->emit(WINDOW_OPENED);
+	}
+
+	void BaseWindow::onRefresh()
+	{
 	}
 
 	void BaseWindow::close()
 	{
 		ece::WindowServiceLocator::getService().closeWindow(this->windowId);
+		this->windowId = -1;
 		this->emit(WINDOW_CLOSED);
 	}
 
-	/*void BaseWindow::draw(BaseObject & object)
+	bool BaseWindow::shouldClosed() const
 	{
-		object.prepareShaders();
-		// activate the VAO to use.
-		glBindVertexArray(object.getVAO());
-		// draw the object
-		glDrawArrays(GL_TRIANGLES, 0, 12);
-		// deactivate the VAO.
-		glBindVertexArray(0);
-	}*/
-
-	void BaseWindow::display()
-	{
-		/*if (this->window) {
-			glfwSwapBuffers(this->window);
-		}*/
+		return this->windowId != -1 && WindowServiceLocator::getService().windowShouldClose(this->windowId);
 	}
 
 	void BaseWindow::applySettings(const ece::WindowSetting & settings)
@@ -161,5 +145,22 @@ namespace ece
 			this->close();
 			this->open();
 		}*/
+	}
+
+	const bool BaseWindow::pollEvent(Event & event)
+	{
+		WindowServiceLocator::getService().pollEvents(this->windowId, event);
+		return false;
+	}
+
+	const bool BaseWindow::waitEvent(Event & event)
+	{
+		WindowServiceLocator::getService().waitEvents(this->windowId, event);
+		return false;
+	}
+
+	void BaseWindow::display()
+	{
+		WindowServiceLocator::getService().displayOnWindow(this->windowId);
 	}
 }

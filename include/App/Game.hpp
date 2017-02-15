@@ -8,8 +8,7 @@
 
 #include <memory>
 #include <vector>
-
-#include "Core\Window\Window\BaseWindow.hpp"
+#include "Core\System\Application\Application.hpp"
 #include "Core\System\Event\Listener.hpp"
 
 /**
@@ -21,31 +20,15 @@
  * @date	14/08/2016
  */
 
-class Game
+class Game: public ece::Application
 {
 public:
-	static std::weak_ptr<Game> getInstance();
-
+	Game();
 	~Game();
 
-	void run();
-
-	void start();
-	void stop();
-	bool isRunningGame();
-
 private:
-	static std::shared_ptr<Game> instance;
-
-	ece::BaseWindow window;
-	ece::BaseWindow windowBis;
-	bool isRunning;
-
-	Game();
-
-	void initialize();
-	void update();
-	void render();
-	void close();
+	virtual void render();
+	virtual void update();
+	virtual void processEvents();
 };
 

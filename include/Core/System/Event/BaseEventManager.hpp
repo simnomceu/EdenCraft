@@ -1,29 +1,32 @@
 #ifndef BASEEVENTMANAGER_HPP
 #define BASEEVENTMANAGER_HPP
 
-#include "Core\System\Event\Event.inl"
-#include "Core\System\Event\Emitter.hpp"
-#include "Core\System\Event\Listener.hpp"
+#include "Core\System\Event\Slot.hpp"
+#include "Core\System\Event\Signal.hpp"
+#include "Core\System\Event\Connection.hpp"
+#include "Core\Util\UniqueID.hpp"
 
 namespace ece
 {
+	class EventManagerConsumer;
+	class Listener;
+	class Emitter;
+
 	class BaseEventManager
 	{
 	public:
-		virtual const Slot::GlobalSlotID getSlotID() = 0;
-		virtual const GlobalSignalID getSignalID() = 0;
+		virtual const Slot::GlobalSlotID addSlot(const Slot::Handle & handle) = 0;
+		virtual const Signal::GlobalSignalID addSignal() = 0;
+		virtual void eraseSlot(const Listener & listener, const Slot::SlotID slot) = 0;
+		virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID signal) = 0;
+		virtual void connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) = 0;
+		virtual void disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) = 0;
+		virtual void disconnectAll(const Listener & listener, const Slot::SlotID slot) = 0;
+		virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID signal) = 0;
 
-		virtual void addSlot(const std::shared_ptr<ece::Slot> & slot) = 0;
-		virtual void addSignal(const ece::GlobalSignalID signal) = 0;
-
-		virtual void eraseSlot(const ece::Slot::GlobalSlotID slot) = 0;
-		virtual void eraseSignal(const ece::GlobalSignalID signal) = 0;
-
-		virtual void connect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal) = 0;
-		virtual void disconnect(const ece::Listener & listener, const ece::SlotID slot, const ece::Emitter & emitter, const ece::SignalID signal) = 0;
-
-		virtual void broadcast(ece::Emitter & emitter, const ece::SignalID signal) = 0;
+		virtual void broadcast(const Emitter & emitter, const Signal::SignalID signal) = 0;
+		virtual void clear() = 0;
 	};
 }
 
-#endif
+#endif // EVENTMANAGER_HPP
