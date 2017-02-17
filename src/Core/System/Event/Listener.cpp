@@ -1,18 +1,12 @@
-#include "Core\System\Event\Listener.hpp"
+#include "System\Event\Listener.hpp"
 
-#include "Core\System\EventService.hpp"
-#include "Core\Util\MemoryAccessException.hpp"
-#include "Core\Util\OutOfRangeException.hpp"
+#include "Util\Debug\MemoryAccessException.hpp"
+#include "Util\Debug\OutOfRangeException.hpp"
 
 #include <iostream>
 
 namespace ece
 {
-	Listener::~Listener()
-	{
-		this->clear();
-	}
-
 	void Listener::addSlot(const Slot::SlotID slot, const Slot::Handle & handle)
 	{
 		try {
@@ -21,6 +15,7 @@ namespace ece
 			}
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use the logger
 			std::cerr << "Slot cannot be added: " << e.what() << std::endl;
 		}
 	}
@@ -33,6 +28,7 @@ namespace ece
 			this->slots.erase(slot);
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use the logger
 			std::cerr << "Slot cannot be removed: " << e.what() << std::endl;
 		}
 	}
@@ -53,6 +49,7 @@ namespace ece
 			}
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use the logger
 			std::cerr << "Slot cannot be connected to a signal: " << e.what() << std::endl;
 		}
 	}
@@ -65,6 +62,7 @@ namespace ece
 			}
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use the logger
 			std::cerr << "Slot cannot be disconnected from a signal: " << e.what() << std::endl;
 		}
 	}
@@ -77,6 +75,7 @@ namespace ece
 			}
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use the logger
 			std::cerr << "Slot cannot be disconnected from signals: " << e.what() << std::endl;
 		}
 	}
@@ -90,6 +89,7 @@ namespace ece
 			this->slots.clear();
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use the logger
 			std::cerr << "Listener cannot be cleared: " << e.what() << std::endl;
 		}
 	}

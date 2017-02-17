@@ -12,7 +12,7 @@ namespace ece
 		static const Signal::GlobalSignalID INVALID_SIGNAL = -1;
 
 		Signal() = delete;
-		Signal(const GlobalSignalID id);
+		inline Signal(const GlobalSignalID id);
 		Signal(const Signal & copy) = default;
 		Signal(Signal && move) = default;
 		~Signal() = default;
@@ -20,15 +20,17 @@ namespace ece
 		Signal & operator=(const Signal & copy) = default;
 		Signal & operator=(Signal && move) = default;
 
-		const GlobalSignalID getId() const;
+		inline const GlobalSignalID getId() const;
 		
-		const bool isDirty() const;
-		void setDirty(const bool dirty);
+		inline const bool isDirty() const;
+		inline void setDirty(const bool dirty);
 
 	private:
 		GlobalSignalID id;
 		bool dirty;
 	};
 }
+
+#include "System\Event\Signal.inl"
 
 #endif // SIGNAL_HPP

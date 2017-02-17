@@ -21,21 +21,21 @@ workspace "EdenCraft"
 
 	filter { }
 
-	includedirs { "../include" }
-	libdirs { "../lib" }
+	includedirs { "../extlibs/include" }
+	libdirs { "../extlibs/lib" }
 
 project "App"
 	kind "ConsoleApp"
 	location ""
 	files {
-		"../src/App/**.cpp",
-		"../include/App/**.hpp",
-		"../include/App/**.inl"
+		"../examples/App/**.cpp",
+		"../examples/App/**.hpp",
+		"../examples/App/**.inl"
 	}
-	links { "Core", "glew32s", "glfw3", "freeglut" }
+	links { "System", "glew32s", "glfw3", "freeglut" }
 	linkoptions { "/NODEFAULTLIB:libcmt.lib"}
 
-
+--[[
 project "Core"
 	kind "StaticLib"
 	location ""
@@ -45,13 +45,47 @@ project "Core"
 		"../include/Core/**.inl"
 	}
 	links { "glew32s", "glfw3", "freeglut" }
+--]]
 
-project "CoreTest"
+project "Core"
+	kind "StaticLib"
+	location ""
+	files {
+		"../src/Core/**.cpp",
+		"../include/Core/**.inl",
+		"../include/Core/**.hpp"
+	}
+	includedirs { "../include/Core" }
+	links { }
+	
+project "Window"
+	kind "StaticLib"
+	location ""
+	files {
+		"../src/Window/**.cpp",
+		"../include/Window/**.inl",
+		"../include/Window/**.hpp"
+	}
+	includedirs { "../include/Window" }
+	links { "Core" }
+	
+project "Graphic"
+	kind "StaticLib"
+	location ""
+	files {
+		"../src/Graphic/**.cpp",
+		"../include/Graphic/**.inl",
+		"../include/Graphic/**.hpp"
+	}
+	includedirs { "../include/Graphic" }
+	links { "Core" }
+		
+project "Test"
 	kind "ConsoleApp"
 	location ""
 	files {
-		"../src/CoreTest/**.cpp",
-		"../include/CoreTest/**.hpp",
-		"../include/CoreTest/**.inl"
+		"../tests/**.cpp",
+		"../tests/**.hpp",
+		"../tests/**.inl"
 	}
-	links { "Core", "glew32s", "glfw3", "freeglut" }
+	links { "System", "glew32s", "glfw3", "freeglut" }

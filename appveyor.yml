@@ -2,7 +2,7 @@ version: edencraft-{branch}-rev{build}
 
 branches:
     only:
-        - feature/graphics
+        - feature/module_service
 
 max_jobs: 1
 

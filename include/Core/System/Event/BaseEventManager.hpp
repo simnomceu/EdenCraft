@@ -1,10 +1,9 @@
 #ifndef BASEEVENTMANAGER_HPP
 #define BASEEVENTMANAGER_HPP
 
-#include "Core\System\Event\Slot.hpp"
-#include "Core\System\Event\Signal.hpp"
-#include "Core\System\Event\Connection.hpp"
-#include "Core\Util\UniqueID.hpp"
+#include "System\Event\Slot.hpp"
+#include "System\Event\Signal.hpp"
+#include "Util\UniqueID.hpp"
 
 namespace ece
 {

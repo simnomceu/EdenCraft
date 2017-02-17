@@ -11,8 +11,8 @@ namespace ece
 		using std::deque<unsigned int>::size;
 		using std::deque<unsigned int>::clear;
 
-		UniqueID();
-		UniqueID(const unsigned int start);
+		inline UniqueID();
+		inline UniqueID(const unsigned int start);
 		UniqueID(const UniqueID & copy) = default;
 		UniqueID(UniqueID && move) = default;
 		~UniqueID() = default;
@@ -24,5 +24,7 @@ namespace ece
 		void restack(const unsigned int value);
 	};
 }
+
+#include "Util\UniqueID.inl"
 
 #endif // UNIQUEID_HPP

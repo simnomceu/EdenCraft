@@ -9,8 +9,8 @@ namespace ece
 	class BaseLogger
 	{
 	public:
-		BaseLogger(): target(std::cerr) {}
-		virtual ~BaseLogger() {}
+		inline BaseLogger();
+		inline virtual ~BaseLogger() = 0;
 		
 		virtual void logError(const std::string & data) = 0;
 		virtual void logWarning(const std::string & data) = 0;
@@ -20,5 +20,7 @@ namespace ece
 		std::ostream & target;
 	};
 }
+
+#include "Util\Log\BaseLogger.inl"
 
 #endif // BASELOGGER_HPP

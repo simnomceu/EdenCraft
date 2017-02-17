@@ -1,14 +1,10 @@
-#include "Core\Util\Log\Logger.hpp"
+#include "Util\Log\Logger.hpp"
 
 #include <iostream>
 #include <ctime>
 
 namespace ece
 {
-	Logger::Logger(): BaseLogger()
-	{
-	}
-
 	void Logger::logError(const std::string & data)
 	{
 		std::time_t result = std::time(nullptr);

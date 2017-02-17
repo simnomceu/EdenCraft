@@ -1,4 +1,4 @@
-#include "Core\Util\File\ParserOBJ.hpp"
+#include "Util\File\ParserOBJ.hpp"
 
 #include <fstream>
 #include <sstream>
@@ -70,25 +70,5 @@ namespace ece
 			}
 		}
 		// TODO care about objects groups and faces groups
-	}
-
-	const std::vector<float>& ParserOBJ::getVertices()
-	{
-		return this->vertices;
-	}
-
-	const std::vector<float>& ParserOBJ::getTextures()
-	{
-		return this->textures;
-	}
-
-	const std::vector<float>& ParserOBJ::getNormales()
-	{
-		return this->normales;
-	}
-
-	const std::vector<int>& ParserOBJ::getFaces()
-	{
-		return this->faces;
 	}
 }

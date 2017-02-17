@@ -1,8 +1,8 @@
 #ifndef COMPONENTTANK_HPP
 #define COMPONENTTANK_HPP
 
-#include "Core\ECS\BaseComponent.hpp"
-#include "Core\Util\UniqueID.hpp"
+#include "ECS\BaseComponent.hpp"
+#include "Util\UniqueID.hpp"
 
 #include <memory>
 #include <vector>
@@ -12,12 +12,14 @@ namespace ece
 	class ComponentTank
 	{
 	public:
-		ComponentTank();
-		~ComponentTank();
+		inline ComponentTank();
+		inline ~ComponentTank();
 
 	private:
 		UniqueID nextComponent;
 	};
 }
+
+#include "ECS\Component.inl"
 
 #endif // COMPONENTTANK_HPP

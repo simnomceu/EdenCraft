@@ -40,7 +40,7 @@ namespace ece
 		* @brief Build a rectangle, setting all the properties to 0.
 		*
 		**/
-		Rectangle();
+		inline Rectangle();
 
 		/**
 		 * @fn Rectangle(const T x, const T y, const T w, const T h)

@@ -7,7 +7,7 @@
 namespace ece
 {
 	template<class T, unsigned short int S>
-	Vector<T, S>::Vector() : std::array<T, S>()
+	inline Vector<T, S>::Vector() : std::array<T, S>()
 	{
 	}
 
@@ -22,12 +22,12 @@ namespace ece
 	}
 
 	template<class T, unsigned short int S>
-	Vector<T, S>::Vector(Vector && value) : std::array<T, S>(value)
+	inline Vector<T, S>::Vector(Vector && move) : std::array<T, S>(value)
 	{
 	}
 
 	template<class T, unsigned short int S>
-	Vector<T, S>::~Vector()
+	inline Vector<T, S>::~Vector()
 	{
 	}
 
@@ -184,7 +184,7 @@ namespace ece
 	}
 
 	template<class T, unsigned short int S>
-	Vector<T, S> operator* (const T & t, Vector<T, S> & v)
+	inline Vector<T, S> operator* (const T & t, Vector<T, S> & v)
 	{
 		return v * t;
 	}
