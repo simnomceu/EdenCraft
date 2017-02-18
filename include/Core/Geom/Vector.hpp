@@ -55,7 +55,7 @@ namespace ece
 		 * @brief Build a vector, with default values. All the attributes are set to 0.
 		 *
 		 **/
-		Vector();
+		inline Vector();
 
 		/**
 		 * @fn Vector(std::initializer_list<T> values)
@@ -77,12 +77,13 @@ namespace ece
 
 		/**
 		 * @fn Vector(Vector && value)
-		 * @params value Existing vector which will be used to moved attributes in the new vector.
+		 * @params move Existing vector which will be used to moved attributes in the new vector.
 		 * @brief Move constructor for the class vector.
 		 *
 		 **/
-		Vector(Vector && value);
-		~Vector();
+		inline Vector(Vector && move);
+
+		inline ~Vector();
 
 		/**
 		 * @fn Vector & operator=(const Vector & copy)
@@ -101,7 +102,7 @@ namespace ece
 		Vector operator-(const Vector & rightOperand);
 		Vector operator-() const;
 		Vector operator*(const Vector & rightOperand);
-		Vector operator*(const T & rightOperand);
+		inline Vector operator*(const T & rightOperand);
 		Vector & operator++();
 		Vector operator++(int);
 		Vector & operator--();
@@ -125,7 +126,7 @@ namespace ece
 	};
 }
 
-#include "Core\Geom\Vector.inl"
+#include "Geom\Vector.inl"
 
 namespace ece
 {

@@ -12,16 +12,8 @@ namespace ece
 		template <class Derived>
 		static std::shared_ptr<Base> build();
 	};
-
-	template <class Base>
-	template <class Derived>
-	std::shared_ptr<Base> ServiceFactory<Base>::build()
-	{
-		if(!std::is_base_of<Base, Derived>()) {
-			throw std::exception("This class cannot be instantiate as the service wished. Chec again.");
-		}
-		return std::shared_ptr<Base>(new Derived());
-	}
 }
+
+#include "Util\Module\ServiceFactory.inl"
 
 #endif

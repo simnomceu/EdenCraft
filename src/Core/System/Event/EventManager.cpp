@@ -1,17 +1,13 @@
-#include "Core\System\Event\EventManager.hpp"
+#include "System\Event\EventManager.hpp"
 
 #include <iostream>
 #include <algorithm>
 
-#include "Core\System\Event\Listener.hpp"
-#include "Core\System\Event\Emitter.hpp"
+#include "System\Event\Listener.hpp"
+#include "System\Event\Emitter.hpp"
 
 namespace ece
 {
-	EventManager::EventManager(): BaseEventManager(), signals(), slots(), signalsAvailable(), slotsAvailable()
-	{
-	}
-
 	const Slot::GlobalSlotID  EventManager::addSlot(const Slot::Handle & handle)
 	{
 		this->slotsNotReady.push_back(Slot(this->getSlotID(), handle));
@@ -177,17 +173,5 @@ namespace ece
 			}
 			this->connectionsNotReady.clear();
 		}
-	}
-
-	const Slot::GlobalSlotID EventManager::getSlotID()
-	{
-		auto id = this->slotsAvailable.next();
-		return id;
-	}
-
-	const Signal::GlobalSignalID EventManager::getSignalID()
-	{
-		auto id = this->signalsAvailable.next();
-		return id;
 	}
 }

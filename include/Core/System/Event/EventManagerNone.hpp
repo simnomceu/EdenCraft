@@ -1,27 +1,29 @@
 #ifndef EVENTMANAGERNONE_HPP
 #define EVENTMANAGERNONE_HPP
 
-#include "Core\System\Event\BaseEventManager.hpp"
+#include "System\Event\BaseEventManager.hpp"
 
 namespace ece
 {
 	class EventManagerNone : public BaseEventManager
 	{
 	public:
-		virtual const Slot::GlobalSlotID addSlot(const Slot::Handle & handle);
-		virtual const Signal::GlobalSignalID addSignal();
+		inline virtual const Slot::GlobalSlotID addSlot(const Slot::Handle & handle) override;
+		inline virtual const Signal::GlobalSignalID addSignal() override;
 
-		virtual void eraseSlot(const Listener & listener, const Slot::SlotID slot);
-		virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID signal);
+		inline virtual void eraseSlot(const Listener & listener, const Slot::SlotID slot) override;
+		inline virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID signal) override;
 
-		virtual void connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal);
-		virtual void disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal);
-		virtual void disconnectAll(const Listener & listener, const Slot::SlotID slot);
-		virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID signal);
+		inline virtual void connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) override;
+		inline virtual void disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) override;
+		inline virtual void disconnectAll(const Listener & listener, const Slot::SlotID slot) override;
+		inline virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID signal) override;
 
-		virtual void broadcast(const Emitter & emitter, const Signal::SignalID signal);
-		virtual void clear();
+		inline virtual void broadcast(const Emitter & emitter, const Signal::SignalID signal) override;
+		inline virtual void clear() override;
 	};
 }
+
+#include "System\Event\EventManagerNone.inl"
 
 #endif // EVENTMANAGERNONE_HPP

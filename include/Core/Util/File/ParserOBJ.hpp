@@ -15,10 +15,10 @@ namespace ece
 
 		void open(const std::string & pathname);
 
-		const std::vector<float> & getVertices();
-		const std::vector<float> & getTextures();
-		const std::vector<float> & getNormales();
-		const std::vector<int> & getFaces();
+		inline const std::vector<float> & getVertices();
+		inline const std::vector<float> & getTextures();
+		inline const std::vector<float> & getNormales();
+		inline const std::vector<int> & getFaces();
 
 	private:
 		std::vector<float> vertices;
@@ -27,5 +27,7 @@ namespace ece
 		std::vector<int> faces;
 	};
 }
+
+#include "Util\File\ParserOBJ.inl"
 
 #endif // PARSEROBJ_HPP

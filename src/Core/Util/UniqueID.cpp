@@ -1,17 +1,7 @@
-#include "Core\Util\UniqueID.hpp"
+#include "Util\UniqueID.hpp"
 
 namespace ece
 {
-	UniqueID::UniqueID(): std::deque<unsigned int>()
-	{
-		this->push_back(0);
-	}
-
-	UniqueID::UniqueID(const unsigned int start) : std::deque<unsigned int>()
-	{
-		this->push_back(start);
-	}
-
 	unsigned int UniqueID::next()
 	{
 		int id = this->back();

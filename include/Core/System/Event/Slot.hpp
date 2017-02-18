@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "Core\System\Event\Signal.hpp"
+#include "System\Event\Signal.hpp"
 
 namespace ece
 {
@@ -19,7 +19,7 @@ namespace ece
 		static const Slot::GlobalSlotID INVALID_SLOT = -1;
 
 		Slot() = delete;
-		Slot(const GlobalSlotID id, const Handle & handle);
+		inline Slot(const GlobalSlotID id, const Handle & handle);
 		Slot(const Slot & copy) = default;
 		Slot(Slot && move) = default;
 		~Slot() = default;
@@ -27,12 +27,12 @@ namespace ece
 		Slot & operator=(const Slot & copy) = default;
 		Slot & operator=(Slot && move) = default;
 
-		void trigger(const Emitter & emitter, const Signal::SignalID signal);
+		inline void trigger(const Emitter & emitter, const Signal::SignalID signal);
 
-		const GlobalSlotID & getId() const;
+		inline const GlobalSlotID & getId() const;
 
-		const bool isDirty() const;
-		void setDirty(const bool dirty);
+		inline const bool isDirty() const;
+		inline void setDirty(const bool dirty);
 
 	private:
 		GlobalSlotID id;
@@ -40,5 +40,7 @@ namespace ece
 		bool dirty;
 	};
 }
+
+#include "System\Event\Slot.inl"
 
 #endif // SLOT_HPP

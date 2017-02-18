@@ -8,16 +8,18 @@ namespace ece
 	public:
 		using ComponentID = unsigned int;
 
-		BaseComponent(const ComponentID id);
-		virtual ~BaseComponent() = 0;
+		inline BaseComponent(const ComponentID id);
+		inline virtual ~BaseComponent() = 0;
 
-		const ComponentID getID() const;
-		const unsigned int getOwner() const;
+		inline const ComponentID getID() const;
+		inline const unsigned int getOwner() const;
 
 	private:
 		ComponentID id;
 		unsigned int owner;
 	};
 }
+
+#include "ECS\BaseComponent.inl"
 
 #endif // BASECOMPONENT_HPP
