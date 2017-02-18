@@ -1,8 +1,8 @@
 #ifndef LISTENER_HPP
 #define LISTENER_HPP
 
-#include "Core\System\Event\Slot.hpp"
-#include "Core\System\Event\EventManagerConsumer.hpp"
+#include "System\Event\Slot.hpp"
+#include "System\Event\EventManagerConsumer.hpp"
 
 #include <map>
 
@@ -16,7 +16,7 @@ namespace ece
 		Listener() = default;
 		Listener(const Listener & copy) = default;
 		Listener(Listener && move) = default;
-		virtual ~Listener() = 0;
+		inline virtual ~Listener() = 0;
 
 		Listener & operator=(const Listener & copy) = default;
 		Listener & operator=(Listener && move) = default;
@@ -37,5 +37,7 @@ namespace ece
 		std::map<Slot::SlotID, Slot::GlobalSlotID> slots;
 	};
 }
+
+#include "System\Event\Listener.inl"
 
 #endif // LISTENER_HPP

@@ -1,8 +1,8 @@
 #ifndef CONNECTION_HPP
 #define CONNECTION_HPP
 
-#include "Core\System\Event\Signal.hpp"
-#include "Core\System\Event\Slot.hpp"
+#include "System\Event\Signal.hpp"
+#include "System\Event\Slot.hpp"
 
 namespace ece
 {
@@ -10,7 +10,7 @@ namespace ece
 	{
 	public:
 		Connection() = delete;
-		Connection(const Slot::GlobalSlotID slot, const Signal::GlobalSignalID signal);
+		inline Connection(const Slot::GlobalSlotID slot, const Signal::GlobalSignalID signal);
 		Connection(const Connection & copy) = default;
 		Connection(Connection && move) = default;
 		~Connection() = default;
@@ -18,13 +18,13 @@ namespace ece
 		Connection & operator=(const Connection & copy) = default;
 		Connection & operator=(Connection && move) = default;
 
-		bool operator==(const Connection & rightOperand);
+		inline bool operator==(const Connection & rightOperand);
 
-		const Slot::GlobalSlotID getSlot() const;
-		const Slot::GlobalSlotID getSignal() const;
+		inline const Slot::GlobalSlotID getSlot() const;
+		inline const Slot::GlobalSlotID getSignal() const;
 
-		void setDirty(const bool dirty);
-		const bool isDirty() const;
+		inline void setDirty(const bool dirty);
+		inline const bool isDirty() const;
 
 	private:
 		Slot::GlobalSlotID slot;
@@ -32,5 +32,7 @@ namespace ece
 		bool dirty;
 	};
 }
+
+#include "System\Event\Connection.inl"
 
 #endif // CONNECTION_HPP

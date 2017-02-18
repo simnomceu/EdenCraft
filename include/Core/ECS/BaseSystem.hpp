@@ -6,8 +6,10 @@ namespace ece
 	class BaseSystem
 	{
 	public:
-		virtual ~BaseSystem() = 0;
+		inline virtual ~BaseSystem() = 0;
 	};
 }
+
+#include "ECS\BaseSystem.inl"
 
 #endif // BASESYSTEM

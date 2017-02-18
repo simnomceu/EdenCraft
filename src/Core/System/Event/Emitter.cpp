@@ -1,16 +1,12 @@
-#include "Core\System\Event\Emitter.hpp"
+#include "System\Event\Emitter.hpp"
 
-#include "Core\Util\MemoryAccessException.hpp"
-#include "Core\Util\OutOfRangeException.hpp"
+#include "Util\Debug\MemoryAccessException.hpp"
+#include "Util\Debug\OutOfRangeException.hpp"
 
 #include <iostream>
 
 namespace ece
 {
-	Emitter::~Emitter()
-	{
-	}
-
 	void Emitter::addSignal(const Signal::SignalID signal)
 	{
 		try {
@@ -19,6 +15,7 @@ namespace ece
 			}
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use logger
 			std::cerr << "Signal cannot be added: " << e.what() << std::endl;
 		}
 	}
@@ -31,6 +28,7 @@ namespace ece
 			this->signals.erase(signal);
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use logger
 			std::cerr << "Signal cannot be erased: " << e.what() << std::endl;
 		}
 	}
@@ -41,6 +39,7 @@ namespace ece
 			this->consumer.consume()->broadcast(*this, signal);
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use logger
 			std::cerr << "Signal cannot be broadcasted: " << e.what() << std::endl;
 		}
 	}
@@ -62,6 +61,7 @@ namespace ece
 			this->signals.clear();
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use logger
 			std::cerr << "Emitter cannot be cleared: " << e.what() << std::endl;
 		}
 	}
@@ -72,6 +72,7 @@ namespace ece
 			this->consumer.consume()->connect(listener, slot, *this, signal);
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use logger
 			std::cerr << "Signal cannot be connected to a slot: " << e.what() << std::endl;
 		}
 	}
@@ -82,6 +83,7 @@ namespace ece
 			this->consumer.consume()->disconnect(listener, slot, *this, signal);
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use logger
 			std::cerr << "Signal cannot be disconnected from a slot: " << e.what() << std::endl;
 		}
 	}
@@ -94,6 +96,7 @@ namespace ece
 			}
 		}
 		catch (MemoryAccessException & e) {
+			// TODO: use logger
 			std::cerr << "Signal cannot be disconnected from slots: " << e.what() << std::endl;
 		}
 	}

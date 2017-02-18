@@ -1,8 +1,8 @@
 #ifndef EMITTER_HPP
 #define EMITTER_HPP
 
-#include "Core\System\Event\Signal.hpp"
-#include "Core\System\Event\EventManagerConsumer.hpp"
+#include "System\Event\Signal.hpp"
+#include "System\Event\EventManagerConsumer.hpp"
 
 #include <map>
 
@@ -16,7 +16,7 @@ namespace ece
 		Emitter() = default;
 		Emitter(const Emitter & copy) = default;
 		Emitter(Emitter && move) = default;
-		virtual ~Emitter() = 0;
+		inline virtual ~Emitter() = 0;
 
 		Emitter & operator=(const Emitter & copy) = default;
 		Emitter & operator=(Emitter && move) = default;
@@ -39,5 +39,7 @@ namespace ece
 		std::map<Signal::SignalID, Signal::GlobalSignalID> signals;
 	};
 }
+
+#include "System\Event\Emitter.inl"
 
 #endif // EMITTER_HPP
