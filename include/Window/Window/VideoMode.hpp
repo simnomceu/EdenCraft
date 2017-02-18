@@ -12,7 +12,8 @@
 *
 **/
 
-#include "Core\Window\Window\Window.inl"
+#include "Window\Window.inl"
+#include "Window\Constant.inl"
 
 /**
 * @namespace ece
@@ -34,34 +35,34 @@ namespace ece
 	class VideoMode
 	{
 	public:
-		VideoMode();
+		inline VideoMode();
 		VideoMode(const VideoMode & copy) = default;
 		VideoMode(VideoMode && copy) = default;
-		~VideoMode();
+		inline ~VideoMode();
 
 		VideoMode & operator=(const VideoMode & copy) = default;
 		VideoMode & operator=(VideoMode && copy) = default;
 
 		bool operator==(const VideoMode & rightOperand) const;
-		bool operator!=(const VideoMode & rightOperand) const;
+		inline bool operator!=(const VideoMode & rightOperand) const;
 
-		void setRefreshRate(const unsigned short int refreshRate);
-		void setColorBits(const ece::ColorRGBA & colorBits);
-		void setDepthBits(const unsigned short int dephtBits);
-		void setStencilBits(const unsigned short int stencilBits);
-		void setSamples(const unsigned short int samples);
-		void setStereo(const bool stereo);
-		void setDoubleBuffering(const bool doubleBuffering);
-		void setSrgbCapable(const bool srgbCapable);
+		inline void setRefreshRate(const unsigned short int refreshRate);
+		inline void setColorBits(const ece::ColorRGBA & colorBits);
+		inline void setDepthBits(const unsigned short int dephtBits);
+		inline void setStencilBits(const unsigned short int stencilBits);
+		inline void setSamples(const unsigned short int samples);
+		inline void setStereo(const bool stereo);
+		inline void setDoubleBuffering(const bool doubleBuffering);
+		inline void setSrgbCapable(const bool srgbCapable);
 
-		unsigned short int getRefreshRate() const;
-		ece::ColorRGBA getColorBits() const;
-		unsigned short int getDepthBits() const;
-		unsigned short int getStencilBits() const;
-		unsigned short int getSamples() const;
-		bool isStereoActivate() const;
-		bool isDoubleBufferingActivate() const;
-		bool isSrgbCapable() const;
+		inline unsigned short int getRefreshRate() const;
+		inline ece::ColorRGBA getColorBits() const;
+		inline unsigned short int getDepthBits() const;
+		inline unsigned short int getStencilBits() const;
+		inline unsigned short int getSamples() const;
+		inline bool isStereoActivate() const;
+		inline bool isDoubleBufferingActivate() const;
+		inline bool isSrgbCapable() const;
 
 	private:
 		unsigned short int refreshRate;
@@ -74,5 +75,7 @@ namespace ece
 		bool srgbCapable;
 	};
 }
+
+#include "Window\VideoMode.inl"
 
 #endif // VIDEOMODE_HPP

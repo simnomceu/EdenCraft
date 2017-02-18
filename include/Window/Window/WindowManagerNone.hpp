@@ -1,39 +1,41 @@
 #ifndef WINDOWMANAGERNONE_HPP
 #define WINDOWMANAGERNONE_HPP
 
-#include "Core\Window\Window\WindowManager.hpp"
+#include "Window\WindowManager.hpp"
 
 namespace ece
 {
 	class WindowManagerNone : public WindowManager
 	{
 	public:
-		WindowManagerNone();
-		~WindowManagerNone();
+		WindowManagerNone() = default;
+		~WindowManagerNone() = default;
 
-		virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS);
-		virtual void closeWindow(const ece::WindowID & windowId);
+		inline virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS) override;
+		inline virtual void closeWindow(const ece::WindowID & windowId) override;
 
-		virtual bool windowShouldClose(const ece::WindowID & windowId);
+		inline virtual bool windowShouldClose(const ece::WindowID & windowId) override;
 
-		virtual void setTitle(const ece::WindowID & windowId, const std::string & title);
-		virtual void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds);
-		virtual void setState(const ece::WindowID & windowId, const ece::WindowState & state);
-		virtual void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings);
+		inline virtual void setTitle(const ece::WindowID & windowId, const std::string & title) override;
+		inline virtual void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds) override;
+		inline virtual void setState(const ece::WindowID & windowId, const ece::WindowState & state) override;
+		inline virtual void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings) override;
 
-		virtual void provideVideoMode(const ece::VideoMode & videoMode);
+		inline virtual void provideVideoMode(const ece::VideoMode & videoMode) override;
 
-		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings);
+		inline virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings) override;
 
-		virtual unsigned short int getNumberOfMonitors();
+		inline virtual unsigned short int getNumberOfMonitors() override;
 
-		virtual void pollEvents(const ece::WindowID & windowId, Event & event);
-		virtual void waitEvents(const ece::WindowID & windowId, Event & event);
+		inline virtual void pollEvents(const ece::WindowID & windowId, Event & event) override;
+		inline virtual void waitEvents(const ece::WindowID & windowId, Event & event) override;
 		
-		virtual void registerEventHandler(const ece::WindowID & windowId);
+		inline virtual void registerEventHandler(const ece::WindowID & windowId) override;
 
-		virtual void displayOnWindow(const ece::WindowID & windowId);
+		inline virtual void displayOnWindow(const ece::WindowID & windowId) override;
 	};
 }
+
+#include "Window\WindowManagerNone.inl"
 
 #endif // WINDOWMANAGERNONE_HPP

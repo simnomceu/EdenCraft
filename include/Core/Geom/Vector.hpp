@@ -126,7 +126,7 @@ namespace ece
 	};
 }
 
-#include "Core\Geom\Vector.inl"
+#include "Geom\Vector.inl"
 
 namespace ece
 {

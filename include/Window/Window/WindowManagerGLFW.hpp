@@ -1,19 +1,13 @@
 #ifndef WINDOWMANAGERGLFW_HPP
 #define WINDOWMANAGERGLFW_HPP
 
-#include "Core\Window\Window\WindowManager.hpp"
+#include "Window\WindowManager.hpp"
 
 #include <memory>
 #include <map>
 #include <stack>
 
-#pragma warning(push)
-#pragma warning(disable : 4505)
-#define GLEW_STATIC
-#include "GL\glew.h"
-#include "GL\freeglut.h"
-#include "GLFW\glfw3.h"
-#pragma warning(pop)
+#include "Window\Constant.inl"
 
 namespace ece
 {
@@ -24,27 +18,27 @@ namespace ece
 		WindowManagerGLFW();
 		~WindowManagerGLFW();
 
-		virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS);
-		virtual void closeWindow(const ece::WindowID &  windowId);
+		virtual ece::WindowID openWindow(const ece::WindowTag & tag = ece::NO_OPTIONS_BIS) override;
+		virtual void closeWindow(const ece::WindowID &  windowId) override;
 
-		virtual bool windowShouldClose(const ece::WindowID & windowId);
+		virtual bool windowShouldClose(const ece::WindowID & windowId) override;
 
-		virtual void setTitle(const ece::WindowID & windowId, const std::string & title);
-		virtual void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds);
-		virtual void setState(const ece::WindowID & windowId, const ece::WindowState & state);
-		virtual void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings);
+		virtual void setTitle(const ece::WindowID & windowId, const std::string & title) override;
+		virtual void setBounds(const ece::WindowID & windowId, const ece::Rectangle<unsigned int> & bounds) override;
+		virtual void setState(const ece::WindowID & windowId, const ece::WindowState & state) override;
+		virtual void provideSettings(const ece::WindowID & windowId, ece::WindowSetting & settings) override;
 
-		virtual void provideVideoMode(const ece::VideoMode & videoMode);
+		virtual void provideVideoMode(const ece::VideoMode & videoMode) override;
 
-		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings);
+		virtual void attachToMonitor(const ece::WindowID & windowId, const short int monitorId, const ece::WindowSetting & settings) override;
 
-		virtual unsigned short int getNumberOfMonitors();
+		virtual unsigned short int getNumberOfMonitors() override;
 
-		virtual void pollEvents(const ece::WindowID & windowId, Event & event);
-		virtual void waitEvents(const ece::WindowID & windowId, Event & event);
+		virtual void pollEvents(const ece::WindowID & windowId, Event & event) override;
+		virtual void waitEvents(const ece::WindowID & windowId, Event & event) override;
 
-		virtual void registerEventHandler(const ece::WindowID & windowId);
-		virtual void displayOnWindow(const ece::WindowID & windowId);
+		virtual void registerEventHandler(const ece::WindowID & windowId) override;
+		virtual void displayOnWindow(const ece::WindowID & windowId) override;
 
 	protected:
 		void initGLFW();

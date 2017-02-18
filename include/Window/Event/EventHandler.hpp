@@ -1,9 +1,9 @@
 #ifndef EVENTHANDLER_HPP
 #define EVENTHANDLER_HPP
 
-#include "Core\System\Event\Emitter.hpp"
+#include "System\Event\Emitter.hpp"
 
-#include "Core\Window\Window\Window.inl"
+#include "Window\Window.inl"
 
 namespace ece
 {
@@ -14,15 +14,17 @@ namespace ece
 	public:
 		static EventHandler & getInstance();
 
-		EventHandler() = default;
-		~EventHandler();
+		inline ~EventHandler();
 
 		void produceKeyEvent(const int key, const int scancode, const int action, const int mods);
 		void produceMouseButtonEvent(const int button, const int action, const int mods);
 
 	private:
+		EventHandler() = default;
 
 	};
 }
+
+#include "Event\EventHandler.inl"
 
 #endif // EVENT_HANDLER

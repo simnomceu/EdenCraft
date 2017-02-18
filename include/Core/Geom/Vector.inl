@@ -22,7 +22,7 @@ namespace ece
 	}
 
 	template<class T, unsigned short int S>
-	inline Vector<T, S>::Vector(Vector && move) : std::array<T, S>(value)
+	inline Vector<T, S>::Vector(Vector && move) : std::array<T, S>(move)
 	{
 	}
 

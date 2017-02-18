@@ -1,12 +1,10 @@
-#include "Core\Window\Window\WindowManagerGLFW.hpp"
+#include "Window\WindowManagerGLFW.hpp"
 
-#include "Core\Window\Constant.inl"
-#include "Core\Util\LogService.hpp"
+#include "Util\Log\ServiceLogger.hpp"
 
-#include "Core\Window\Event\EventHandler.hpp"
-#include "Core\Util\OutOfRangeException.hpp"
+#include "Event\EventHandler.hpp"
+#include "Util\Debug\OutOfRangeException.hpp"
 
-#include <iostream>
 #include <utility> // std::pair
 #include <functional>
 
@@ -29,12 +27,12 @@ namespace ece
 	void WindowManagerGLFW::initGLFW()
 	{
 		if (!glfwInit()) {
-			LogServiceLocator::getService().logError("GLFW has encoutered a problem and couldn't be initialized.");
+			ServiceLoggerLocator::getService().logError("GLFW has encoutered a problem and couldn't be initialized.");
 		}
 		else {
 			int major, minor, rev;
 			glfwGetVersion(&major, &minor, &rev);
-			LogServiceLocator::getService().logInfo("GLFW initialized in version " + std::to_string(major) + "." + std::to_string(minor)
+			ServiceLoggerLocator::getService().logInfo("GLFW initialized in version " + std::to_string(major) + "." + std::to_string(minor)
 										+ "." + std::to_string(rev));
 			this->isGLFWInitialized = true;
 		}
@@ -113,7 +111,7 @@ namespace ece
 				return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
 			}
 			catch (OutOfRangeException & e) {
-				LogServiceLocator::getService().logWarning(e.what());
+				ServiceLoggerLocator::getService().logWarning(e.what());
 				return true;
 			}
 		}
@@ -226,7 +224,7 @@ namespace ece
 			}
 		}
 		catch (OutOfRangeException & e) {
-			LogServiceLocator::getService().logWarning(e.what());
+			ServiceLoggerLocator::getService().logWarning(e.what());
 		}
 	}
 
@@ -241,7 +239,7 @@ namespace ece
 			}
 		}
 		catch (OutOfRangeException & e) {
-			LogServiceLocator::getService().logWarning(e.what());
+			ServiceLoggerLocator::getService().logWarning(e.what());
 		}
 	}
 
@@ -289,17 +287,17 @@ namespace ece
 			GLint GlewInitResult = glewInit();
 			if (GLEW_OK != GlewInitResult)
 			{
-				LogServiceLocator::getService().logInfo("Glew has encoutered a problem and couldn't be initialized: " + std::string(reinterpret_cast< const char * >(glewGetErrorString(GlewInitResult))));
+				ServiceLoggerLocator::getService().logInfo("Glew has encoutered a problem and couldn't be initialized: " + std::string(reinterpret_cast< const char * >(glewGetErrorString(GlewInitResult))));
 			}
 			else {
-				LogServiceLocator::getService().logInfo("Glew has been initialized.");
-				LogServiceLocator::getService().logInfo("Renderer used: " + std::string(reinterpret_cast< const char * >(glGetString(GL_RENDERER))));
-				LogServiceLocator::getService().logInfo(std::string(reinterpret_cast< const char * >(glGetString(GL_VERSION))) + " used in an GLFW context.");
+				ServiceLoggerLocator::getService().logInfo("Glew has been initialized.");
+				ServiceLoggerLocator::getService().logInfo("Renderer used: " + std::string(reinterpret_cast< const char * >(glGetString(GL_RENDERER))));
+				ServiceLoggerLocator::getService().logInfo(std::string(reinterpret_cast< const char * >(glGetString(GL_VERSION))) + " used in an GLFW context.");
 				this->isGLEWInit = true;
 			}
 		}
 		else {
-			LogServiceLocator::getService().logError("GLEW need a context to work correctly.");
+			ServiceLoggerLocator::getService().logError("GLEW need a context to work correctly.");
 		}
 	}
 

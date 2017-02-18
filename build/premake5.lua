@@ -35,18 +35,6 @@ project "App"
 	links { "System", "glew32s", "glfw3", "freeglut" }
 	linkoptions { "/NODEFAULTLIB:libcmt.lib"}
 
---[[
-project "Core"
-	kind "StaticLib"
-	location ""
-	files {
-		"../src/Core/**.cpp",
-		"../include/Core/**.hpp",
-		"../include/Core/**.inl"
-	}
-	links { "glew32s", "glfw3", "freeglut" }
---]]
-
 project "Core"
 	kind "StaticLib"
 	location ""
@@ -66,7 +54,7 @@ project "Window"
 		"../include/Window/**.inl",
 		"../include/Window/**.hpp"
 	}
-	includedirs { "../include/Window" }
+	includedirs { "../include/Window", "../include/Core" }
 	links { "Core" }
 	
 project "Graphic"
@@ -77,7 +65,7 @@ project "Graphic"
 		"../include/Graphic/**.inl",
 		"../include/Graphic/**.hpp"
 	}
-	includedirs { "../include/Graphic" }
+	includedirs { "../include/Graphic", "../include/Core" }
 	links { "Core" }
 		
 project "Test"

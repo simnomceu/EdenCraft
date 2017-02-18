@@ -15,14 +15,16 @@ namespace ece
 			MOUSE_SCROLLED = 3
 		};
 
-		Event();
+		inline Event();
 
-		const EventType getType() const;
-		void setType(const EventType type);
+		inline const EventType getType() const;
+		inline void setType(const EventType type);
 
 	private:
 		EventType type;
 	};
 }
+
+#include "Event\Event.inl"
 
 #endif // EVENT_HPP

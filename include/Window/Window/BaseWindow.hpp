@@ -1,13 +1,13 @@
 #ifndef BASEWINDOW_HPP
 #define BASEWINDOW_HPP
 
-#include "Core\Geom\Rectangle.hpp"
-#include "Core\Window\Window\WindowSetting.hpp"
-#include "Core\Window\Window\VideoMode.hpp"
-#include "Core\Window\Window\Window.inl"
+#include "Geom\Rectangle.hpp"
+#include "Window\WindowSetting.hpp"
+#include "Window\VideoMode.hpp"
+#include "Window\Window.inl"
 
-#include "Core\System\Event\Emitter.hpp"
-#include "Core\Window\Event\Event.hpp"
+#include "System\Event\Emitter.hpp"
+#include "Event\Event.hpp"
 
 namespace ece
 {
@@ -21,22 +21,22 @@ namespace ece
 		const Signal::SignalID WINDOW_RENAMED = 4;
 
 		BaseWindow(const ece::WindowSetting & settings);
-		BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
+		inline BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
 		BaseWindow(const BaseWindow & copy) = delete;
-		BaseWindow(BaseWindow && copy);
-		~BaseWindow();
+		inline BaseWindow(BaseWindow && copy);
+		inline ~BaseWindow();
 
 		BaseWindow & operator=(const BaseWindow & rightOperand) = delete;
 		BaseWindow & operator=(BaseWindow && rightOperand);
 
 		virtual void open(const ece::VideoMode & videoMode);
-		virtual void onRefresh();
+		inline virtual void onRefresh();
 		void close();
 
 		bool shouldClosed() const;
 
 		void applySettings(const ece::WindowSetting & settings);
-		const ece::WindowSetting & getSettings();
+		inline const ece::WindowSetting & getSettings();
 
 		void setTitle(const std::string & title);
 		void setBounds(const ece::Rectangle<unsigned int> & bounds);
@@ -59,5 +59,7 @@ namespace ece
 		ece::VideoMode videoMode;
 	};
 }
+
+#include "Window\BaseWindow.inl"
 
 #endif // BASEWINDOW_HPP

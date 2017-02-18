@@ -1,7 +1,7 @@
-#include "Core\Window\Event\EventHandler.hpp"
+#include "Event\EventHandler.hpp"
 
-#include "Core\Window\Window\BaseWindow.hpp"
-#include "Core\Window\WindowService.hpp"
+#include "Window\BaseWindow.hpp"
+#include "Window\WindowService.hpp"
 
 #include <iostream>
 
@@ -11,10 +11,6 @@ namespace ece
 	{
 		static EventHandler handler;
 		return handler;
-	}
-
-	EventHandler::~EventHandler()
-	{
 	}
 
 	void EventHandler::produceKeyEvent(const int key, const int scancode, const int action, const int mods)
