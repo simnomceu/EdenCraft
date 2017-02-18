@@ -1,8 +1,8 @@
-#include "Core\Graphic\Rendering\Scene.hpp"
+#include "Rendering\Scene.hpp"
 
 #include "glm\gtc\matrix_transform.hpp"
-#include "Core\Util\File\ParserOBJ.hpp"
-#include "Core\Util\LogService.hpp"
+#include "Util\File\ParserOBJ.hpp"
+#include "Util\Log\ServiceLogger.hpp"
 
 #include <iostream>
 
@@ -40,7 +40,7 @@ namespace ece
 			this->objects.front().prepare();
 		}
 		catch (std::exception & e) {
-			LogServiceLocator::getService().logError("Error while loading object " + pathname + ": " + std::string(e.what()));
+			ServiceLoggerLocator::getService().logError("Error while loading object " + pathname + ": " + std::string(e.what()));
 		}
 	}
 }

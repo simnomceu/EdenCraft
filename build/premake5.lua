@@ -32,7 +32,7 @@ project "App"
 		"../examples/App/**.hpp",
 		"../examples/App/**.inl"
 	}
-	links { "System", "glew32s", "glfw3", "freeglut" }
+	links { "Core", "glew32s", "glfw3", "freeglut" }
 	linkoptions { "/NODEFAULTLIB:libcmt.lib"}
 
 project "Core"
@@ -65,8 +65,8 @@ project "Graphic"
 		"../include/Graphic/**.inl",
 		"../include/Graphic/**.hpp"
 	}
-	includedirs { "../include/Graphic", "../include/Core" }
-	links { "Core" }
+	includedirs { "../include/Graphic", "../include/Core", "../include/Window" }
+	links { "Core", "Window" }
 		
 project "Test"
 	kind "ConsoleApp"
@@ -76,4 +76,4 @@ project "Test"
 		"../tests/**.hpp",
 		"../tests/**.inl"
 	}
-	links { "System", "glew32s", "glfw3", "freeglut" }
+	links { "Core", "glew32s", "glfw3", "freeglut" }

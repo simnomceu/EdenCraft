@@ -1,14 +1,9 @@
-#include "Core\Graphic\Rendering\Mesh.hpp"
+#include "Rendering\Mesh.hpp"
 
 #include <iostream>
 
 namespace ece
 {
-	Mesh::Mesh(const GLenum mode) : vertices(),
-		center{ 0.0f, 0.0f, 0.0f }, modeRender(mode)
-	{
-	}
-
 	void Mesh::addVertices(const std::vector<float>& vertices, const std::vector<int> & index)
 	{
 		this->vertices = vertices;
@@ -24,44 +19,15 @@ namespace ece
 		}
 	}
 
-	const std::vector<float>& Mesh::getVertices()
-	{
-		return this->vertices;
-	}
-
-	const std::vector<int>& Mesh::getVerticesIndex()
-	{
-		return this->index;
-	}
-
-	const std::vector<float>& Mesh::getColors()
-	{
-		return this->colors;
-	}
-
-	const int Mesh::getNumberOfVertices() const
-	{
-		return (int)this->vertices.size() / 3;
-	}
-
-	const int Mesh::getNumberOfIndex() const
-	{
-		return (int)this->index.size();
-	}
-
 	void Mesh::reset()
 	{
 		this->vertices.clear();
 		this->computeCenter();
 	}
 
-	GLenum Mesh::getModeRender() const
-	{
-		return this->modeRender;
-	}
-
 	void Mesh::computeCenter()
 	{
+		// TODO: have a look at mutable variable to move this in the getCenter() const getter, with using a cache to store center computed.
 		float xMin = this->vertices[0], xMax = this->vertices[0],
 			yMin = this->vertices[1], yMax = this->vertices[1],
 			zMin = this->vertices[2], zMax = this->vertices[2];

@@ -21,11 +21,11 @@ namespace ece
 		};
 
 		Shader() = delete;
-		Shader(const ShaderType & type); // TODO: shader type should be provided at same time that the source code.
+		inline Shader(const ShaderType & type); // TODO: shader type should be provided at same time that the source code.
 		Shader(const Shader & copy) = delete;
 		Shader(Shader && move) = default;
 
-		virtual ~Shader() = 0;
+		inline virtual ~Shader() = 0;
 
 		Shader & operator=(const Shader & copy) = delete;
 		Shader & operator=(Shader && move) = default;
@@ -35,9 +35,9 @@ namespace ece
 
 		virtual void compile() = 0;
 
-		const ShaderID & getId() const;
-		const ShaderType & getType() const;
-		const std::string & getFilename() const;
+		inline const ShaderID & getId() const;
+		inline const ShaderType & getType() const;
+		inline const std::string & getFilename() const;
 
 		virtual void reset() = 0;
 
@@ -46,14 +46,8 @@ namespace ece
 		ShaderType type;
 		std::string filename;
 	};
-
-	inline Shader::Shader(const ShaderType & type) : id(-1), type(type), filename("") {}
-
-	inline Shader::~Shader() {}
-
-	inline const Shader::ShaderID & Shader::getId() const { return this->id; }
-	inline const Shader::ShaderType & Shader::getType() const { return this->type; }
-	inline const std::string & Shader::getFilename() const { return this->filename; }
 }
+
+#include "Rendering\Shader.inl"
 
 #endif // SHADER_HPP

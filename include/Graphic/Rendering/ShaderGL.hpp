@@ -1,7 +1,7 @@
 #ifndef SHADERGL_HPP
 #define SHADERGL_HPP
 
-#include "Core\Graphic\Rendering\Shader.hpp"
+#include "Rendering\Shader.hpp"
 
 namespace ece
 {
@@ -16,12 +16,12 @@ namespace ece
 
 		ShaderGL & operator=(ShaderGL && move) = default;
 
-		virtual void loadFromFile(const std::string & filename);
-		virtual void loadFromString(const std::string & sourceCode);
+		virtual void loadFromFile(const std::string & filename) override;
+		virtual void loadFromString(const std::string & sourceCode) override;
 
-		virtual void compile();
+		virtual void compile() override;
 
-		virtual void reset();
+		virtual void reset() override;
 
 	private:
 		std::string source;

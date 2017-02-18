@@ -8,8 +8,10 @@ namespace ece
 	class Movable
 	{
 	public:
-		virtual ~Movable() = 0;
+		inline virtual ~Movable() = 0;
 	};
 }
+
+#include "Animation\Movable.inl"
 
 #endif // MOVABLE_HPP

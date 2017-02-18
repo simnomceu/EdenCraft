@@ -1,7 +1,7 @@
 #ifndef RENDERFACTORY_HPP
 #define RENDERFACTORY_HPP
 
-#include "Core\Graphic\Rendering\Shader.hpp"
+#include "Rendering\Shader.hpp"
 
 namespace ece
 {
@@ -10,13 +10,13 @@ namespace ece
 	class RenderFactory
 	{
 	public:
-		virtual ~RenderFactory() = 0;
+		inline virtual ~RenderFactory() = 0;
 
 		virtual Program * createProgram() = 0;
 		virtual Shader * createShader(const Shader::ShaderType & type) = 0;
 	};
-
-	inline RenderFactory::~RenderFactory() {}
 }
+
+#include "Rendering\RenderFactory.inl"
 
 #endif // RENDERFACTORY_HPP

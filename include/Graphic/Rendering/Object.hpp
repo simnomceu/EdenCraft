@@ -3,10 +3,10 @@
 
 #include <queue>
 
-#include "Core\Graphic\Rendering\Mesh.hpp"
-#include "Core\Graphic\Rendering\ProgramGL.hpp"
-#include "Core\Graphic\Rendering\Texture.hpp"
-#include "Core\Graphic\Rendering\Transformation.hpp"
+#include "Rendering\Mesh.hpp"
+#include "Rendering\ProgramGL.hpp"
+#include "Rendering\Texture.hpp"
+#include "Rendering\Transformation.hpp"
 #include "glm\glm.hpp"
 
 namespace ece
@@ -26,7 +26,7 @@ namespace ece
 		Object() = delete;
 		Object(const Mesh & mesh);
 
-		~Object();
+		inline ~Object();
 
 		void prepare();
 		Point3D getCenter() const;
@@ -44,5 +44,7 @@ namespace ece
 		glm::mat4 model;
 	};
 }
+
+#include "Rendering\Object.inl"
 
 #endif // OBJECT_HPP

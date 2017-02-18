@@ -3,25 +3,27 @@
 
 #include <memory>
 
-#include "Core\Window\Window\BaseWindow.hpp"
-#include "Core\Graphic\Rendering\Scene.hpp"
+#include "Window\BaseWindow.hpp"
+#include "Rendering\Scene.hpp"
 
 namespace ece
 {
 	class RenderWindow : public BaseWindow
 	{
 	public:
-		RenderWindow(const ece::WindowSetting & settings);
+		inline RenderWindow(const ece::WindowSetting & settings);
 
-		virtual void onRefresh();
+		virtual void onRefresh() override;
 
-		void attachScene(const std::shared_ptr<Scene> & scene);
+		inline void attachScene(const std::shared_ptr<Scene> & scene);
 
-		virtual void open(const ece::VideoMode & videoMode);
+		virtual void open(const ece::VideoMode & videoMode) override;
 
 	private:
 		std::shared_ptr<Scene> scene;
 	};
 }
+
+#include "Rendering\RenderWindow.inl"
 
 #endif // RENDERWINDOW_HPP

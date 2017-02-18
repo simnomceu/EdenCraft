@@ -1,8 +1,8 @@
-#include "Core\Graphic\Rendering\Object.hpp"
+#include "Rendering\Object.hpp"
 
 #include <iostream>
 
-#include "Core\Graphic\RenderingService.hpp"
+#include "Rendering\RenderingService.hpp"
 
 namespace ece
 {
@@ -23,11 +23,6 @@ namespace ece
 		this->program->attachShader(*vert);
 		delete vert;
 		std::cout << "ok4" << std::endl;
-	}
-
-	Object::~Object()
-	{
-		delete this->program;
 	}
 
 	void Object::prepare()

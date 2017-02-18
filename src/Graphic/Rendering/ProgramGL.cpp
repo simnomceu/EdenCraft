@@ -1,9 +1,9 @@
-#include "Core\Graphic\Rendering\ProgramGL.hpp"
+#include "Rendering\ProgramGL.hpp"
 
 #include <algorithm>
 
-#include "Core\Util\LogService.hpp"
-#include "Core\Graphic\Rendering\ShaderGL.hpp"
+#include "Util\Log\ServiceLogger.hpp"
+#include "Rendering\ShaderGL.hpp"
 
 namespace ece
 {
@@ -11,7 +11,7 @@ namespace ece
 	{
 		this->id = glCreateProgram();
 		if (this->id == 0) {
-			LogServiceLocator::getService().logError("An error occured while trying to create a program.");
+			ServiceLoggerLocator::getService().logError("An error occured while trying to create a program.");
 		}
 	}
 

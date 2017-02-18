@@ -1,7 +1,7 @@
 #ifndef RENDERFACTORYNULL_HPP
 #define RENDERFACTORYNULL_HPP
 
-#include "Core\Graphic\Rendering\RenderFactory.hpp"
+#include "Rendering\RenderFactory.hpp"
 
 namespace ece
 {
@@ -10,12 +10,11 @@ namespace ece
 	public:
 		RenderFactoryNull() = default;
 
-		virtual Program * createProgram();
-		virtual Shader * createShader(const Shader::ShaderType & type);
+		inline virtual Program * createProgram() override;
+		inline virtual Shader * createShader(const Shader::ShaderType & type) override;
 	};
-
-	inline Program * RenderFactoryNull::createProgram() { return nullptr; }
-	inline Shader * RenderFactoryNull::createShader(const Shader::ShaderType & type) { return nullptr; }
 }
+
+#include "Rendering\RenderFactoryNull.inl"
 
 #endif // RENDERFACTORYNULL_HPP

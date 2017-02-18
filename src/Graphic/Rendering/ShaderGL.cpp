@@ -1,7 +1,7 @@
-#include "Core\Graphic\Rendering\ShaderGL.hpp"
+#include "Rendering\ShaderGL.hpp"
 
 #include "GL\glew.h"
-#include "Core\Util\LogService.hpp"
+#include "Util\Log\ServiceLogger.hpp"
 
 #include <fstream>
 #include <exception>
@@ -10,7 +10,7 @@ namespace ece
 {
 	ShaderGL::ShaderGL(const Shader::ShaderType & type): Shader(type), source("")
 	{
-		auto & logger = LogServiceLocator::getService();
+		auto & logger = ServiceLoggerLocator::getService();
 
 		switch (this->type) {
 			case COMPUTE_SHADER:

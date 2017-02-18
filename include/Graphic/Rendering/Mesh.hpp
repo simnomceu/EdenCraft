@@ -10,22 +10,22 @@ namespace ece
 	class Mesh
 	{
 	public:
-		Mesh(const GLenum mode);
+		inline Mesh(const GLenum mode);
 		Mesh(const Mesh & copy) = default;
 		~Mesh() = default;
 
 		void addVertices(const std::vector<float> & vertices, const std::vector<int> & index);
 		void addColors(const std::vector<float> & colors);
-		const std::vector<float>& getVertices();
-		const std::vector<int> & getVerticesIndex();
-		const std::vector<float>& getColors();
+		inline const std::vector<float>& getVertices();
+		inline const std::vector<int> & getVerticesIndex();
+		inline const std::vector<float>& getColors();
 
-		const int getNumberOfVertices() const;
-		const int getNumberOfIndex() const;
+		inline const int getNumberOfVertices() const;
+		inline const int getNumberOfIndex() const;
 
 		void reset();
 
-		GLenum getModeRender() const;
+		inline GLenum getModeRender() const;
 
 	protected:
 		void computeCenter();
@@ -41,5 +41,7 @@ namespace ece
 		GLenum modeRender;
 	};
 }
+
+#include "Rendering\Mesh.inl"
 
 #endif // MESH_HPP

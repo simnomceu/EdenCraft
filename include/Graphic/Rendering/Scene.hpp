@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "Core\Graphic\Rendering\Camera.hpp"
-#include "Core\Graphic\Rendering\Object.hpp"
+#include "Rendering\Camera.hpp"
+#include "Rendering\Object.hpp"
 
 namespace ece
 {

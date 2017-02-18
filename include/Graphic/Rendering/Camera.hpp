@@ -1,8 +1,8 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "Core\Graphic\Animation\Movable.hpp"
-#include "Core\Graphic\Rendering\Object.hpp"
+#include "Animation\Movable.hpp"
+#include "Rendering\Object.hpp"
 #include "glm\glm.hpp"
 
 namespace ece
@@ -14,14 +14,14 @@ namespace ece
 	class Camera: public Movable
 	{
 	public:
-		Camera();
+		inline Camera();
 
-		void lookAt(const Object & object);
+		inline void lookAt(const Object & object);
 		void lookAt(const Point3D position, const Point3D & target);
 		void lookUpTo(const Point3D position, const Vertex3D & direction);
-		void moveTo(const Point3D position);
+		inline void moveTo(const Point3D position);
 
-		quat getCamera() const;
+		inline quat getCamera() const;
 
 	private:
 		Point3D position;
@@ -29,5 +29,7 @@ namespace ece
 		Vertex3D upAxis;
 	};
 }
+
+#include "Rendering\Camera.inl"
 
 #endif // CAMERA_HPP
