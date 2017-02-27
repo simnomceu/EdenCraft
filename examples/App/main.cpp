@@ -4,8 +4,15 @@
  * @brief	Implements the main class.
  */
 
-#include "App\Game.hpp"
-#include "Core\Core.hpp"
+#include "GL\glew.h"
+
+#include "Game.hpp"
+#include "Util\Log\ServiceLogger.hpp"
+#include "Util\Log\Logger.hpp"
+#include "System\Event\EventService.hpp"
+#include "System\Event\EventManager.hpp"
+#include "Window\WindowService.hpp"
+#include "Window\WindowManagerGLFW.hpp"
 
 #include <iostream>
 #include <exception>
@@ -24,12 +31,15 @@
 auto main() -> int
 {
 	// TODO : error while modules are not inialized explicitly here.
-	try {
+	/*try {
 		ece::Core::init(ece::LOG, ece::SYSTEM | ece::WINDOW | ece::GRAPHIC);
 	}
 	catch (std::exception & e) {
 		std::cerr << e.what() << std::endl;
-	}
+	}*/
+	ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
+	ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
+	ece::WindowServiceLocator::provide(ece::WindowServiceFactory::build<ece::WindowManagerGLFW>());
 
 	Game game;
 

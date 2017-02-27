@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Rendering\RenderingService.hpp"
+#include "GL\glew.h"
 
 namespace ece
 {
@@ -72,7 +73,7 @@ namespace ece
 		return Point3D();
 	}
 
-	void Object::render(const glm::mat4 view, const glm::mat4 projection)
+	void Object::render(const glm::mat4 & view, const glm::mat4 & projection)
 	{
 		glBindVertexArray(this->vao);
 		this->program->bindInfo(projection * view * this->model, "MVP");

@@ -2,7 +2,7 @@ version: edencraft-{branch}-rev{build}
 
 branches:
     only:
-        - develop
+        - feature/graphics
 
 max_jobs: 1
 
@@ -12,7 +12,9 @@ configuration:
     - Debug
     - Release
 
-platform: x64
+platform:
+    - x86
+    - x64
 
 install:
     - cmd: cd build && makeVS15.bat && cd ..

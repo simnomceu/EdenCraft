@@ -31,7 +31,7 @@ namespace ece
 		void prepare();
 		Point3D getCenter() const;
 
-		void render(const glm::mat4 view, const glm::mat4 projection);
+		void render(const glm::mat4 & view, const glm::mat4 & projection);
 
 	private:
 		Mesh mesh;

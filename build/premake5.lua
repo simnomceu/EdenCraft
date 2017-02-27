@@ -3,11 +3,18 @@
 --premake5.lua
 workspace "EdenCraft"
 	configurations { "Debug", "Release" }
-	platforms { "x64" }
+	platforms { "x86", "x64" }
 	location ""
-	architecture "x86_64"
 	language "C++"
 
+	filter{ "platforms:x86" }
+		architecture "x86"
+		libdirs { "../extlibs/lib/msvc/x86" }
+		
+	filter { "platforms:x64" }
+		architecture "x86_64"
+		libdirs { "../extlibs/lib/msvc/x64" }
+	
 	filter { "configurations:Debug" }
 		symbols "Default"
 
@@ -17,12 +24,10 @@ workspace "EdenCraft"
 
 	filter { "x64" }
 		system "Windows"
-		linkoptions { "/NODEFAULTLIB:libcmt.lib", "/NODEFAULTLIB:msvcrt.lib" }
 
 	filter { }
 
 	includedirs { "../extlibs/include" }
-	libdirs { "../extlibs/lib" }
 
 project "App"
 	kind "ConsoleApp"
@@ -32,8 +37,9 @@ project "App"
 		"../examples/App/**.hpp",
 		"../examples/App/**.inl"
 	}
-	links { "Core", "glew32s", "glfw3", "freeglut" }
 	linkoptions { "/NODEFAULTLIB:libcmt.lib"}
+	links { "Core", "Window", "Graphic", "opengl32", "glew32s", "glfw3" }
+	includedirs { "../include/Graphic", "../include/Core", "../include/Window", "../examples/App" }
 
 project "Core"
 	kind "StaticLib"
@@ -55,7 +61,7 @@ project "Window"
 		"../include/Window/**.hpp"
 	}
 	includedirs { "../include/Window", "../include/Core" }
-	links { "Core" }
+	links { }
 	
 project "Graphic"
 	kind "StaticLib"
@@ -66,7 +72,8 @@ project "Graphic"
 		"../include/Graphic/**.hpp"
 	}
 	includedirs { "../include/Graphic", "../include/Core", "../include/Window" }
-	links { "Core", "Window" }
+	links { }
+	defines { "GLEW_STATIC" }
 		
 project "Test"
 	kind "ConsoleApp"
@@ -76,4 +83,4 @@ project "Test"
 		"../tests/**.hpp",
 		"../tests/**.inl"
 	}
-	links { "Core", "glew32s", "glfw3", "freeglut" }
+	links { }

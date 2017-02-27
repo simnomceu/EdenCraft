@@ -3,6 +3,7 @@
 #include "glm\gtc\matrix_transform.hpp"
 #include "Util\File\ParserOBJ.hpp"
 #include "Util\Log\ServiceLogger.hpp"
+#include "GL\glew.h"
 
 #include <iostream>
 

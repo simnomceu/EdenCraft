@@ -10,6 +10,7 @@
 #include <vector>
 #include "System\Application\Application.hpp"
 #include "System\Event\Listener.hpp"
+#include "Window\BaseWindow.hpp"
 
 /**
  * @class	Game
@@ -26,7 +27,7 @@ public:
 	Game();
 	~Game();
 
-	void addWindow(const WindowSetting & setting);
+	void addWindow(const ece::WindowSetting & setting);
 	template<class T> T & addWindow();
 
 private:
@@ -35,7 +36,7 @@ private:
 	virtual void update();
 	virtual void processEvents();
 
-	std::vector<std::shared_ptr<BaseWindow>> windows;
+	std::vector<std::shared_ptr<ece::BaseWindow>> windows;
 };
 
 

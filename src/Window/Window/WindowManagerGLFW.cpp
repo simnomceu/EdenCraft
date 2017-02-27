@@ -309,7 +309,7 @@ namespace ece
 
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
-		if (windowId < 0 || windowId > this->windows.size() || this->windows[windowId] == nullptr) {
+		if (windowId < 0 || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
 			throw OutOfRangeException("GLFWwindow", windowId);
 			// TODO exception non attrapée quand fenêtre fermée
 		}
