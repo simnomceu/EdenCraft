@@ -19,6 +19,9 @@ platform:
 install:
     - cmd: cd build && makeVS15.bat && cd ..
 
+before_build:
+    - cmd: SET PATH=%APPVEYOR_BUILD_FOLDER%\extlibs;%PATH%
+    
 build:
     project: build/EdenCraft.sln
     parallel: true
