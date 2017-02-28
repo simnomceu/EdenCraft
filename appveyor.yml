@@ -18,14 +18,11 @@ platform:
 
 install:
     - cmd: cd build && makeVS15.bat && cd ..
-
-before_build:
-    - cmd: cd build
     
 build:
-    project: EdenCraft.sln
+    project: build/EdenCraft.sln
     parallel: true
     verbosity: minimal
 
 after_build:
-    - clear_build.bat && cd ..
+    - cd build && clear_build.bat && cd ..
