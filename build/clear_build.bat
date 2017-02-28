@@ -16,4 +16,8 @@ REM Compilation files
 rd "./bin/" /s /q
 rd "./obj/" /s /q
 
+REM Gmake project
+del "./*.make"
+del "Makefile"
+
 timeout /t 5

@@ -17,3 +17,7 @@ rm -f ./*.workspace
 # Compilation files
 rm -rf ./bin/
 rm -rf ./obj/
+
+# Gmake project
+rm -f ./*.make
+rm -f ./Makefile
