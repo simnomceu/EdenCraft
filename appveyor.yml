@@ -17,7 +17,7 @@ platform:
     - x64
 
 install:
-    - cmd: cd build && makeVS15.bat && cd ..
+    - cmd: cd build && makeVS14.bat && cd ..
     
 build:
     project: build/EdenCraft.sln
