@@ -3,55 +3,84 @@
 --premake5.lua
 workspace "EdenCraft"
 	configurations { "Debug", "Release" }
-	platforms { "Win64", "Lnx64" }
+	platforms { "x86", "x64" }
 	location ""
-	architecture "x86_64"
-	language "c++"
+	language "C++"
 
+	filter{ "platforms:x86" }
+		architecture "x86"
+		libdirs { "../extlibs/lib/msvc/x86" }
+		
+	filter { "platforms:x64" }
+		architecture "x86_64"
+		libdirs { "../extlibs/lib/msvc/x64" }
+	
 	filter { "configurations:Debug" }
-		symbols "On"
+		symbols "Default"
 
 	filter { "configurations:Release" }
 		optimize "On"
+		symbols "Off"
 
-	filter { "platforms:Win64" }
+	filter { "x64" }
 		system "Windows"
-	
-	filter { "platforms:Lnx64" }
-		system "Linux"
 
 	filter { }
 
-	includedirs { "../include" }
-	libdirs { "../lib" }
+	includedirs { "../extlibs/include" }
 
 project "App"
 	kind "ConsoleApp"
 	location ""
 	files {
-		"../src/App/**.cpp",
-		"../include/App/**.hpp",
-		"../include/App/**.inl"
+		"../examples/App/**.cpp",
+		"../examples/App/**.hpp",
+		"../examples/App/**.inl"
 	}
-	links { "Core", "glew32s", "glfw3", "freeglut" }
-
+	linkoptions { "/NODEFAULTLIB:libcmt.lib"}
+	links { "Core", "Window", "Graphic", "opengl32", "glew32s", "glfw3" }
+	includedirs { "../include/Graphic", "../include/Core", "../include/Window", "../examples/App" }
 
 project "Core"
 	kind "StaticLib"
 	location ""
 	files {
 		"../src/Core/**.cpp",
-		"../include/Core/**.hpp",
-		"../include/Core/**.inl"
+		"../include/Core/**.inl",
+		"../include/Core/**.hpp"
 	}
-	links { "glew32s", "glfw3", "freeglut" }
-
-project "CoreTest"
+	includedirs { "../include/Core" }
+	links { }
+	
+project "Window"
+	kind "StaticLib"
+	location ""
+	files {
+		"../src/Window/**.cpp",
+		"../include/Window/**.inl",
+		"../include/Window/**.hpp"
+	}
+	includedirs { "../include/Window", "../include/Core" }
+	links { }
+	
+project "Graphic"
+	kind "StaticLib"
+	location ""
+	files {
+		"../src/Graphic/**.cpp",
+		"../include/Graphic/**.inl",
+		"../include/Graphic/**.hpp"
+	}
+	includedirs { "../include/Graphic", "../include/Core", "../include/Window" }
+	links { }
+	defines { "GLEW_STATIC" }
+		
+project "Test"
 	kind "ConsoleApp"
 	location ""
 	files {
-		"../src/CoreTest/**.cpp",
-		"../include/CoreTest/**.hpp",
-		"../include/CoreTest/**.inl"
+		"../tests/**.cpp",
+		"../tests/**.hpp",
+		"../tests/**.inl"
 	}
-	links { "Core", "glew32s", "glfw3", "freeglut" }
+	links { }

@@ -1,9 +1,9 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include "Core\ECS\BaseSystem.hpp"
-#include "Core\ECS\ComponentTank.hpp"
-#include "Core\Util\UniqueID.hpp"
+#include "ECS\BaseSystem.hpp"
+#include "ECS\ComponentTank.hpp"
+#include "Util\UniqueID.hpp"
 
 #include <memory>
 #include <vector>
@@ -15,8 +15,8 @@ namespace ece
 	public:
 		using Entity = unsigned int;
 
-		World();
-		~World();
+		inline World();
+		inline ~World();
 
 	private:
 		std::vector<std::unique_ptr<BaseSystem>> systems;
@@ -25,5 +25,7 @@ namespace ece
 		UniqueID entityGenerator;
 	};
 }
+
+#include "ECS\World.inl"
 
 #endif // WORLD_HPP

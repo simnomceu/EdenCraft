@@ -1,14 +1,15 @@
 #ifndef EVENTMANAGERCONSUMER_HPP
 #define EVENTMANAGERCONSUMER_HPP
 
-#include "Core\System\Event\EventManager.hpp"
+#include "System\Event\EventManager.hpp"
+#include "EventService.hpp"
 
 namespace ece
 {
 	class EventManagerConsumer final
 	{
 	public:
-		EventManagerConsumer();
+		inline EventManagerConsumer();
 		EventManagerConsumer(const EventManagerConsumer & copy) = default;
 		EventManagerConsumer(EventManagerConsumer && move) = default;
 		~EventManagerConsumer() = default;
@@ -22,5 +23,7 @@ namespace ece
 		std::weak_ptr<BaseEventManager> eventManager;
 	};
 }
+
+#include "System\Event\EventManagerConsumer.inl"
 
 #endif // EVENTMANAGERCONSUMER

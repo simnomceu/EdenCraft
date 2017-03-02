@@ -11,34 +11,16 @@ namespace ece
 		static_assert(std::is_base_of<Base, Null>::value, "ServiceLocator cannot be instantiate with this template parameters.");
 
 	public:
-		static void provide(const std::shared_ptr<Base> & service);
+		static inline void provide(const std::shared_ptr<Base> & service);
 		static Base & getService();
-		static void stop();
+		//static std::weak_ptr<Base> getServicePtr();
+		static inline void stop();
 
 	protected:
 		static std::shared_ptr<Base> service;
 	};
-
-	template <class Base, class Null>
-	std::shared_ptr<Base> ServiceLocator<Base, Null>::service = std::shared_ptr<Null>();
-
-	template <class Base, class Null>
-	void ServiceLocator<Base, Null>::provide(const std::shared_ptr<Base> & service)
-	{
-		ServiceLocator<Base, Null>::service = service;
-	}
-
-	template <class Base, class Null>
-	Base & ServiceLocator<Base, Null>::getService()
-	{
-		return *ServiceLocator<Base, Null>::service;
-	}
-
-	template <class Base, class Null>
-	void ServiceLocator<Base, Null>::stop()
-	{
-		ServiceLocator<Base, Null>::service = std::shared_ptr<Null>();
-	}
 }
+
+#include "Util\Module\ServiceLocator.inl"
 
 #endif // SERVICELOCATOR_HPP

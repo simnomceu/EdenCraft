@@ -1,7 +1,7 @@
 #ifndef COMPONENT_HPP
 #define COMPONENT_HPP
 
-#include "Core\ECS\BaseComponent.hpp"
+#include "ECS\BaseComponent.hpp"
 
 namespace ece
 {
@@ -9,16 +9,16 @@ namespace ece
 	class Component: public BaseComponent
 	{
 	public:
-		Component();
-		~Component();
+		inline Component();
+		inline ~Component();
 
-		const T & get();
-		void set(const T &  value);
+		inline const T & get();
+		inline void set(const T &  value);
 	protected:
 		T value;
 	};
 }
 
-#include "Core\ECS\Component.inl"
+#include "ECS\Component.inl"
 
 #endif // COMPONENT_HPP
