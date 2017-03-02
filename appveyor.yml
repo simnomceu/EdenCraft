@@ -2,7 +2,7 @@ version: edencraft-{branch}-rev{build}
 
 branches:
     only:
-        - develop
+        - feature/graphics
 
 max_jobs: 1
 
@@ -12,11 +12,13 @@ configuration:
     - Debug
     - Release
 
-platform: x64
+platform:
+    - Win32
+    - x64
 
 install:
-    - cmd: cd build && makeVS15.bat && cd ..
-
+    - cmd: cd build && makeVS14.bat && cd ..
+    
 build:
     project: build/EdenCraft.sln
     parallel: true

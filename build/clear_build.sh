@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Makefile project
-rm -f ./*.make
-rm -f Makefile
-
 # Visual Studio 2015 project
 rm -f ./*.vcxproj
 rm -f ./*.vcxproj.filters
@@ -14,10 +10,14 @@ rm -f ./*.VC.opendb
 rm -rf ./UxTheme.pdb/
 rm -rf ./.vs/
 
-# Code::Blocks project
-rm -f ./*.cbp
+# CodeLite project
+rm -f ./*.project
 rm -f ./*.workspace
 
 # Compilation files
 rm -rf ./bin/
 rm -rf ./obj/
+
+# Gmake project
+rm -f ./*.make
+rm -f ./Makefile

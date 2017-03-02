@@ -1,7 +1,3 @@
-REM Makefile project
-del "./*.make"
-del "./Makefile"
-
 REM Visual Studio 2015 project
 del "./*.vcxproj"
 del "./*.vcxproj.filters"
@@ -12,12 +8,16 @@ del "./*.VC.opendb"
 rd "./UxTheme.pdb/" /s /q
 rd "./.vs/" /s /q
 
-REM Code::Blocks project
-del "./*.cbp"
+REM CodeLite project
+del "./*.project"
 del "./*.workspace"
 
 REM Compilation files
 rd "./bin/" /s /q
 rd "./obj/" /s /q
+
+REM Gmake project
+del "./*.make"
+del "Makefile"
 
 timeout /t 5

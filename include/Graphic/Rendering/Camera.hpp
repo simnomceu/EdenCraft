@@ -17,6 +17,7 @@ namespace ece
 		inline Camera();
 
 		inline void lookAt(const Object & object);
+		inline void lookAt(const Point3D & target);
 		void lookAt(const Point3D position, const Point3D & target);
 		void lookUpTo(const Point3D position, const Vertex3D & direction);
 		inline void moveTo(const Point3D position);

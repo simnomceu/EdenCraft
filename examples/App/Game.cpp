@@ -1,9 +1,9 @@
-#include "App/Game.hpp"
+#include "Game.hpp"
 
-#include "Core\Window\Window\WindowSetting.hpp"
-#include "Core\Window\Window\VideoMode.hpp"
-#include "Core\Graphic\Rendering\RenderWindow.hpp"
-#include "Core\Graphic\Rendering\Scene.hpp"
+#include "Window\WindowSetting.hpp"
+#include "Window\VideoMode.hpp"
+#include "Rendering\RenderWindow.hpp"
+#include "Rendering\Scene.hpp"
 
 #include <algorithm>
 #include "Game.hpp"
@@ -19,7 +19,7 @@
 
 Game::Game() : Application(), windows()
 {
-	auto & firstWindow = this->addWindow<ece::BaseWindow>();
+	//auto & firstWindow = this->addWindow<ece::BaseWindow>();
 	auto & secondWindow = this->addWindow<ece::RenderWindow>();
 
 	auto scene = std::make_shared<ece::Scene>();
@@ -43,15 +43,15 @@ Game::~Game()
 	this->windows.clear();
 }
 
-void Game::addWindow(const WindowSetting & setting)
+void Game::addWindow(const ece::WindowSetting & setting)
 {
-	this->windows.push_back(std::make_unique<BaseWindow>(setting));
+	this->windows.push_back(std::make_unique<ece::BaseWindow>(setting));
 }
 
 void Game::onInit()
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-		it->get()->open(VideoMode());
+		it->get()->open(ece::VideoMode());
 	}
 }
 

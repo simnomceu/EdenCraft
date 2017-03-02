@@ -294,6 +294,9 @@ namespace ece
 				ServiceLoggerLocator::getService().logInfo("Renderer used: " + std::string(reinterpret_cast< const char * >(glGetString(GL_RENDERER))));
 				ServiceLoggerLocator::getService().logInfo(std::string(reinterpret_cast< const char * >(glGetString(GL_VERSION))) + " used in an GLFW context.");
 				this->isGLEWInit = true;
+
+				glEnable(GL_DEPTH_TEST);
+				glDepthFunc(GL_LESS);
 			}
 		}
 		else {
@@ -309,7 +312,7 @@ namespace ece
 
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
-		if (windowId < 0 || windowId > this->windows.size() || this->windows[windowId] == nullptr) {
+		if (windowId < 0 || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
 			throw OutOfRangeException("GLFWwindow", windowId);
 			// TODO exception non attrapée quand fenêtre fermée
 		}
