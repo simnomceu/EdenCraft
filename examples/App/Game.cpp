@@ -19,7 +19,7 @@
 
 Game::Game() : Application(), windows()
 {
-	auto & firstWindow = this->addWindow<ece::BaseWindow>();
+	//auto & firstWindow = this->addWindow<ece::BaseWindow>();
 	auto & secondWindow = this->addWindow<ece::RenderWindow>();
 
 	auto scene = std::make_shared<ece::Scene>();

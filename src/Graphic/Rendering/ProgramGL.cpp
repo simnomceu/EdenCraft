@@ -29,7 +29,7 @@ namespace ece
 	void ProgramGL::attachShader(Shader & shader)
 	{
 		if (this->id > 0) {
-			//this->shaders.push_back(new ShaderGL(std::move(shader)));
+			//this->shaders.push_back(std::make_shared<ShaderGL>(std::move(shader)));
 			shader.reset(); // TODO: could be eventually moved in the move constructor (and move assignment operator) of Shader class.
 
 			glAttachShader(this->id, this->shaders.front()->getId());

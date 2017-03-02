@@ -294,6 +294,9 @@ namespace ece
 				ServiceLoggerLocator::getService().logInfo("Renderer used: " + std::string(reinterpret_cast< const char * >(glGetString(GL_RENDERER))));
 				ServiceLoggerLocator::getService().logInfo(std::string(reinterpret_cast< const char * >(glGetString(GL_VERSION))) + " used in an GLFW context.");
 				this->isGLEWInit = true;
+
+				glEnable(GL_DEPTH_TEST);
+				glDepthFunc(GL_LESS);
 			}
 		}
 		else {

@@ -14,5 +14,6 @@ namespace ece
 		BaseWindow::open(videoMode);
 
 		this->scene->addObject("../resource/mesh/cube.obj");
+		this->scene->init(); // TODO : crash !!!
 	}
 }
