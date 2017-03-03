@@ -1,10 +1,10 @@
-#include "Rendering\Camera.hpp"
+#include "Rendering\Scene\Camera.hpp"
 
-#include "Util\Log\ServiceLogger.hpp"
+#include "Util\Debug\BadInputException.hpp"
 
 namespace ece
 {
-	void Camera::lookAt(const Point3D position, const Point3D & target)
+	void Camera::updatePosition(const Point3D position, const Point3D & target)
 	{
 		this->position = position;
 		this->target = target;
@@ -21,14 +21,8 @@ namespace ece
 				this->upAxis = Vertex3D(1.0f, 0.0f, 0.0f);
 			}
 			else {
-				ServiceLoggerLocator::getService().logError("Computation of the up axis is wrong !");
+				throw BadInputException("Computation of the up axis is wrong !");
 			}
 		}
-	}
-
-	void Camera::lookUpTo(const Point3D position, const Vertex3D & direction)
-	{
-		Point3D target = position + direction;
-		this->lookAt(position, target);
 	}
 }

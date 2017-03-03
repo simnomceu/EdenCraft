@@ -4,6 +4,7 @@
 
 #include "Event\EventHandler.hpp"
 #include "Util\Debug\OutOfRangeException.hpp"
+#include "GL\glew.h"
 
 #include <utility> // std::pair
 #include <functional>

@@ -1,6 +1,6 @@
-#include "OldRendering\OldGLSLProgram.hpp"
+#include "Rendering\Model\OldGLSLProgram.hpp"
 
-#include "OldRendering\OldFile.hpp"
+#include "Rendering\Model\OldFile.hpp"
 
 #include <iostream>
 #include <iomanip>

@@ -9,6 +9,8 @@ namespace ece
 	{
 	public:
 		inline virtual ~Movable() = 0;
+
+		virtual const glm::vec3 & getPosition() const = 0;
 	};
 }
 

@@ -1,11 +1,11 @@
-#include "OldRendering\OldObject3D.hpp"
+#include "Rendering\Model\OldObject3D.hpp"
 
-#include "OldRendering\OldFile.hpp"
-#include "OldRendering\OldFileException.hpp"
+#include "Rendering\Model\OldFile.hpp"
+#include "Rendering\Model\OldFileException.hpp"
 #include "glm\gtc\matrix_transform.hpp"
-#include "OldRendering\OldGLSLProgram.hpp"
+#include "Rendering\Model\OldGLSLProgram.hpp"
 //#include "Rendering\Program.hpp"
-#include "OldRendering\OldRotation.hpp"
+#include "Rendering\Model\OldRotation.hpp"
 
 #include <iostream>
 #include <algorithm>

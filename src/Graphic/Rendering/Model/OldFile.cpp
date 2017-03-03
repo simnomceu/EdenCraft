@@ -1,8 +1,8 @@
-#include "OldRendering\OldFile.hpp"
+#include "Rendering\Model\OldFile.hpp"
 
 #include <sys/stat.h>
 
-#include "OldRendering\OldFileException.hpp"
+#include "Rendering\Model\OldFileException.hpp"
 
 namespace ece
 {

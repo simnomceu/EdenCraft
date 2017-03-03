@@ -3,7 +3,7 @@
 
 #include "glm\glm.hpp"
 #include "GL\glew.h"
-#include "OldRendering\OldAnimation.hpp"
+#include "Rendering\Model\OldAnimation.hpp"
 
 #include <vector>
 

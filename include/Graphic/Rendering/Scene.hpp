@@ -4,10 +4,10 @@
 #include <vector>
 #include <memory>
 
-#include "Rendering\Camera.hpp"
+#include "Rendering\Scene\Camera.hpp"
 //#include "Rendering\Object.hpp"
-#include "OldRendering\OldObject3D.hpp"
-#include "OldRendering\OldGLSLProgram.hpp"
+#include "Rendering\Model\OldObject3D.hpp"
+#include "Rendering\Model\OldGLSLProgram.hpp"
 
 namespace ece
 {
