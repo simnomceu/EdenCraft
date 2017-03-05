@@ -1,0 +1,44 @@
+#include "Util\File\File.hpp"
+
+#include "Util\Debug\FileException.hpp"
+
+namespace ece
+{
+	const bool File::open(const std::string & filename, const std::ios_base::openmode & mode)
+	{
+		this->close();
+		if (!File::exists(filename)) {
+			throw FileException(BAD_PATH, filename);
+		}
+		this->filename = filename;
+		std::fstream::open(this->filename, mode);
+		return this->isOpen();
+	}
+
+	void File::close()
+	{
+		if (this->isOpen()) {
+			std::fstream::close();
+		}
+	}
+
+	std::string File::parseToString()
+	{
+		std::string content = "";
+		while (this->good()) {
+			std::string line;
+			std::getline(*this, line);
+			content.append(line + "\n");
+		}
+		return content;
+	}
+
+	const bool File::exists(const std::string & filename)
+	{
+		struct stat info;
+		int ret = -1;
+
+		ret = stat(filename.c_str(), &info);
+		return 0 == ret;
+	}
+}

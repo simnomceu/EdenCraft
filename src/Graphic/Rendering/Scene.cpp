@@ -22,7 +22,7 @@ namespace ece
 
 	void Scene::init()
 	{
-		this->objects[0] = std::shared_ptr<OldObject3D>(new OldObject3D());
+		this->objects[0] = std::shared_ptr<Object>(new Object());
 		this->objects[0]->buildFromFile("../resource/shader/cube.dat");
 
 

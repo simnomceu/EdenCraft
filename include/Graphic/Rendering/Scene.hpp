@@ -5,8 +5,7 @@
 #include <memory>
 
 #include "Rendering\Scene\Camera.hpp"
-//#include "Rendering\Object.hpp"
-#include "Rendering\Model\OldObject3D.hpp"
+#include "Rendering\Model\Object.hpp"
 #include "Rendering\Model\OldGLSLProgram.hpp"
 
 namespace ece
@@ -23,7 +22,7 @@ namespace ece
 	private:
 		Camera cam;
 		//std::vector<Object> objects;
-		std::vector<std::shared_ptr<OldObject3D>> objects;
+		std::vector<std::shared_ptr<Object>> objects;
 		glm::mat4 projection;
 		OldGLSLProgram program;
 		//std::shared_ptr<Program> program;

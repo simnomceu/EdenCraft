@@ -1,6 +1,6 @@
 #include "Rendering\Model\OldGLSLProgram.hpp"
 
-#include "Rendering\Model\OldFile.hpp"
+#include "Util\File\File.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -35,8 +35,8 @@ namespace ece
 
     void OldGLSLProgram::loadShaderFromFile(const GLSLShaderType type, const std::string & filename)
     {
-		OldFile shaderFile(filename, std::ios_base::in);
-        std::string content = shaderFile.copyToString();
+		File shaderFile(filename, std::ios_base::in);
+        std::string content = shaderFile.parseToString();
         this->loadShaderFromString(type, content);
     }
 

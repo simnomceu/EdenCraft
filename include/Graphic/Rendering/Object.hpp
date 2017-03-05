@@ -7,12 +7,10 @@
 #include "Rendering\ProgramGL.hpp"
 #include "Rendering\Texture.hpp"
 #include "Rendering\Transformation.hpp"
-#include "glm\glm.hpp"
+#include "Util\Type.hpp"
 
 namespace ece
 {
-	using Point3D = glm::vec3;
-
 	class Object
 	{
 	public:

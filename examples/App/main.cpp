@@ -14,7 +14,7 @@
 #include "Window\WindowService.hpp"
 #include "Window\WindowManagerGLFW.hpp"
 #include "Window\BaseWindow.hpp"
-#include "Rendering\Model\OldObject3D.hpp"
+#include "Rendering\Model\Object.hpp"
 #include "Rendering\Model\OldGLSLProgram.hpp"
 //#include "Rendering\RenderingService.hpp"
 //#include "Rendering\RenderFactoryGL.hpp"
@@ -58,7 +58,7 @@ auto main() -> int
 	window->open(ece::VideoMode());
 	window->setTitle("Wonderful, it's working!");
 
-	ece::OldObject3D object;
+	ece::Object object;
 	object.buildFromFile("../resource/shader/cube.dat");
 
 	ece::OldGLSLProgram program;
