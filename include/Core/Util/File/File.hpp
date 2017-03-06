@@ -18,7 +18,7 @@ namespace ece
 		File(const File & copy) = delete;
 		File(File && move) = default;
 		
-		~File() = default;
+		inline ~File();
 
 		File & operator=(const File & copy) = delete;
 		File & operator=(File && move) = default;

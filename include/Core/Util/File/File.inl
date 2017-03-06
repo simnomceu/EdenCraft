@@ -5,6 +5,8 @@ namespace ece
 		this->open(filename, mode);
 	}
 
+	inline File::~File() { this->close(); }
+
 	inline const bool File::isOpen() const { return this->is_open(); }
 
 	template<class T>

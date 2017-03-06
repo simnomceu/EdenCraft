@@ -1,6 +1,6 @@
 #include "Rendering\Model\Object.hpp"
 
-#include "Util\File\File.hpp"
+#include "Util\File\ParserModelDAT.hpp"
 #include "Util\Debug\FileException.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 #include "Rendering\Model\OldGLSLProgram.hpp"
@@ -13,20 +13,17 @@ namespace ece
 {
     void Object::buildFromFile(const std::string filename)
     {
-		File file;
+		ParserModelDAT parser;
         try {
-            file.open(filename, std::ios_base::in);
+            parser.open(filename);
+			this->vertices = parser.getVertices();
+			this->colors = parser.getColors();
+
+			this->computeCenter();
         }
         catch(FileException & e) {
             std::cerr << e.what() << std::endl;
         }
-
-        std::vector<float> tmp(file.parseToVector<float>());
-        int size = (int)tmp.size() / 2;
-        this->vertices.insert(this->vertices.begin(), tmp.begin(), tmp.begin() + size);
-        this->colors.insert(this->colors.begin(), tmp.begin() + size, tmp.end());
-
-        this->computeCenter();
     }
 
     void Object::prepare()
@@ -117,6 +114,10 @@ namespace ece
 
     void Object::computeCenter()
     {
+		if (this->vertices.size() >= 0) {
+			return;
+		}
+
         float xMin = this->vertices[0], xMax = this->vertices[0],
                 yMin = this->vertices[1], yMax = this->vertices[1],
                 zMin = this->vertices[2], zMax = this->vertices[2];

@@ -17,14 +17,12 @@ namespace ece
 		// TODO : cange the resolution ratio to be adapted to window size
 		this->projection = glm::perspective(20.0f, 800.0f/600.0f, 0.3f, 30.0f);
 		this->cam.moveTo(Point3D(1.0f, 2.0f, 2.0f));
-
 	}
 
 	void Scene::init()
 	{
 		this->objects[0] = std::shared_ptr<Object>(new Object());
 		this->objects[0]->buildFromFile("../resource/shader/cube.dat");
-
 
 		/*this->program = std::shared_ptr<Program>(RenderingServiceLocator::getService().createProgram());
 
