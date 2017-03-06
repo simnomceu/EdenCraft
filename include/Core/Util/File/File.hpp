@@ -5,6 +5,8 @@
 #include <fstream>
 #include <vector>
 
+#include "Util\Type.hpp"
+
 namespace ece
 {
 	class File: private std::fstream
@@ -35,6 +37,8 @@ namespace ece
 	private:
 		std::string filename;
 	};
+
+	template<> std::vector<FastVertex3D> File::parseToVector<FastVertex3D>();
 }
 
 #include "Util\File\File.inl"

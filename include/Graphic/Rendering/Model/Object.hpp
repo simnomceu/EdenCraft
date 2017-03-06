@@ -51,8 +51,8 @@ namespace ece
 		VertexBufferID vboPosition;
 		VertexBufferID vboColor;
 
-        std::vector<float> vertices;
-        std::vector<float> colors;
+		std::vector<FastVertex3D> vertices;
+		std::vector<FastVertex3D> colors;
 
         OldAnimation animation;
         Matrix4x4 model;

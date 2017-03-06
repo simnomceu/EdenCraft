@@ -33,6 +33,23 @@ namespace ece
 		return content;
 	}
 
+	template<>
+	std::vector<FastVertex3D> File::parseToVector<FastVertex3D>()
+	{
+		std::vector<FastVertex3D> content;
+		FastVertex3D value;
+		try {
+			while (this->good()) {
+				*this >> value.x >> value.y >> value.z;
+				content.push_back(value);
+			}
+		}
+		catch (std::exception & e) {
+			throw FileException(PARSE_ERROR, this->filename);
+		}
+		return content;
+	}
+
 	const bool File::exists(const std::string & filename)
 	{
 		struct stat info;

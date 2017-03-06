@@ -43,14 +43,14 @@ namespace ece
             glGenBuffers(1, &this->vboPosition);
         }
         glBindBuffer(GL_ARRAY_BUFFER, this->vboPosition);
-        glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(GLfloat), this->vertices.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, 3 * this->vertices.size() * sizeof(GLfloat), this->vertices.data(), GL_STATIC_DRAW);
         glVertexAttribPointer(POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
         if (this->vboColor == 0) {
             glGenBuffers(1, &this->vboColor);
         }
         glBindBuffer(GL_ARRAY_BUFFER, this->vboColor);
-        glBufferData(GL_ARRAY_BUFFER, this->colors.size() * sizeof(GLfloat), this->colors.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, 3 * this->colors.size() * sizeof(GLfloat), this->colors.data(), GL_STATIC_DRAW);
         glVertexAttribPointer(COLOR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
         // ===== Clear Binding =====
@@ -65,7 +65,7 @@ namespace ece
 		program.setUniform("MVP", projection * view * this->model);
 		program.use();
         glBindVertexArray(this->vao);
-        glDrawArrays(this->modeRender, 0, (GLsizei)this->vertices.size());
+        glDrawArrays(this->modeRender, 0, (GLsizei)this->vertices.size()*3);
         glBindVertexArray(0);
     }
 
@@ -118,35 +118,34 @@ namespace ece
 			return;
 		}
 
-        float xMin = this->vertices[0], xMax = this->vertices[0],
-                yMin = this->vertices[1], yMax = this->vertices[1],
-                zMin = this->vertices[2], zMax = this->vertices[2];
+		float xMin = this->vertices[0].x, xMax = this->vertices[0].x,
+			yMin = this->vertices[0].y, yMax = this->vertices[0].y,
+			zMin = this->vertices[0].z, zMax = this->vertices[0].z;
 
         int size = (int)this->vertices.size();
-        for(int i = 3; i < size; ++i) {
-            if (i%3 == 0) {
-                if(this->vertices[i] < xMin) {
-                    xMin = this->vertices[i];
-                }
-                if(this->vertices[i] > xMax) {
-                    xMax = this->vertices[i];
-                }
-            } else if (i%3 == 1) {
-                if(this->vertices[i] < yMin) {
-                    yMin = this->vertices[i];
-                }
-                if(this->vertices[i] > yMax) {
-                    yMax = this->vertices[i];
-                }
-            } else if (i%3 == 2){
-                if(this->vertices[i] < zMin) {
-                    zMin = this->vertices[i];
-                }
-                if(this->vertices[i] > zMax) {
-                    zMax = this->vertices[i];
-                }
-            }
-        }
+
+		for (int i = 1; i < size; ++i) {
+			if (this->vertices[i].x < xMin) {
+				xMin = this->vertices[i].x;
+			}
+			if (this->vertices[i].x > xMax) {
+				xMax = this->vertices[i].x;
+			}
+
+			if (this->vertices[i].y < yMin) {
+				yMin = this->vertices[i].y;
+			}
+			if (this->vertices[i].y > yMax) {
+				yMax = this->vertices[i].y;
+			}
+			
+			if (this->vertices[i].z < zMin) {
+				zMin = this->vertices[i].z;
+			}
+			if (this->vertices[i].z > zMax) {
+				zMax = this->vertices[i].z;
+			}
+		}
 
         this->position[0] = (xMin + xMax) / 2;
         this->position[1] = (yMin + yMax) / 2;

@@ -7,7 +7,7 @@ namespace ece
 
 	inline Object::~Object() {}
 
-	inline const unsigned int Object::getNbVertices() const { return (int)this->vertices.size() / 3; }
+	inline const unsigned int Object::getNbVertices() const { return (int)this->vertices.size(); }
 
 	inline void Object::update(const float elapsedTime) { this->animation.animate(elapsedTime, this->model); }
 

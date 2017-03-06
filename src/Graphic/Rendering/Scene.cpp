@@ -1,7 +1,7 @@
 #include "Rendering\Scene.hpp"
 
 #include "glm\gtc\matrix_transform.hpp"
-#include "Util\File\ParserOBJ.hpp"
+//#include "Util\File\ParserOBJ.hpp"
 #include "Util\Log\ServiceLogger.hpp"
 #include "GL\glew.h"
 #include "glm\glm.hpp"
@@ -65,7 +65,7 @@ namespace ece
 
 	void Scene::addObject(const std::string pathname)
 	{
-		ParserOBJ parser;
+		//ParserOBJ parser;
 
 		/*try {
 			parser.open(pathname);

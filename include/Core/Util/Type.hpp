@@ -19,6 +19,12 @@ namespace ece
 	using Matrix4x4 = glm::mat4;
 	using Point3D = glm::vec3;
 	using Vertex3D = glm::vec3;
+	struct FastVertex3D
+	{
+		float x;
+		float y;
+		float z;
+	};
 
 	using VertexArrayID = GLuint;
 	using VertexBufferID = GLuint;
