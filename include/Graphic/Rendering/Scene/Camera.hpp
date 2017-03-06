@@ -1,7 +1,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "Animation\Movable.hpp"
+#include "Rendering\Model\Movable.hpp"
 #include "Util\Type.hpp"
 
 namespace ece

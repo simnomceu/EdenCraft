@@ -3,6 +3,7 @@
 
 #include "Rendering\Model\OldAnimation.hpp"
 #include "Util\Type.hpp"
+#include "Rendering\Model\Movable.hpp"
 
 #include <vector>
 
@@ -10,7 +11,7 @@ namespace ece
 {
     class OldGLSLProgram;
 
-    class Object
+    class Object: public Movable
     {
     public:
         inline Object();
@@ -53,12 +54,10 @@ namespace ece
         std::vector<float> vertices;
         std::vector<float> colors;
 
-        Point3D center;
-
         OldAnimation animation;
         Matrix4x4 model;
 
-        void computeCenter();
+        virtual void computeCenter() override;
     };
 }
 

@@ -148,8 +148,8 @@ namespace ece
             }
         }
 
-        this->center[0] = (xMin + xMax) / 2;
-        this->center[1] = (yMin + yMax) / 2;
-        this->center[2] = (zMin + zMax) / 2;
+        this->position[0] = (xMin + xMax) / 2;
+        this->position[1] = (yMin + yMax) / 2;
+        this->position[2] = (zMin + zMax) / 2;
     }
 }
