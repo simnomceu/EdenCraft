@@ -4,8 +4,10 @@
 #include "Rendering\Model\OldAnimation.hpp"
 #include "Util\Type.hpp"
 #include "Rendering\Model\Movable.hpp"
+#include "Rendering\Model\Mesh.hpp"
 
 #include <vector>
+#include <memory>
 
 namespace ece
 {
@@ -23,9 +25,8 @@ namespace ece
         Object & operator=(const Object & copy) = default; // TODO correct it to be sure the clone is a new object (different id)
 		Object & operator=(Object && move) = default;
 
-        void buildFromFile(const std::string filename); // TODO: REMOVE IT
+		void loadMeshFromFile(const std::string & filename);
 
-        inline const unsigned int getNbVertices() const;
         void prepare();
         inline void update(const float elaspedTime);
         void render(OldGLSLProgram & program, const glm::mat4 & view, const glm::mat4 & projection);
@@ -42,8 +43,6 @@ namespace ece
         void scale(const glm::vec3 & scaling);
         void moveToOrigin();*/
 
-        //void updateVertices(const std::vector<Point3D> & vertices);
-
     protected:
 		RenderMode modeRender;
 
@@ -51,8 +50,7 @@ namespace ece
 		VertexBufferID vboPosition;
 		VertexBufferID vboColor;
 
-		std::vector<FastVertex3D> vertices;
-		std::vector<FastVertex3D> colors;
+		std::unique_ptr<Mesh> mesh;
 
         OldAnimation animation;
         Matrix4x4 model;

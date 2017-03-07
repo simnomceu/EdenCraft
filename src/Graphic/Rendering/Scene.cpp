@@ -22,7 +22,7 @@ namespace ece
 	void Scene::init()
 	{
 		this->objects[0] = std::shared_ptr<Object>(new Object());
-		this->objects[0]->buildFromFile("../resource/shader/cube.dat");
+		this->objects[0]->loadMeshFromFile("../resource/shader/cube.dat");
 
 		/*this->program = std::shared_ptr<Program>(RenderingServiceLocator::getService().createProgram());
 

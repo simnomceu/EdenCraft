@@ -2,6 +2,7 @@
 #define MOVABLE_HPP
 
 #include "glm\glm.hpp"
+#include "Util\Type.hpp"
 
 namespace ece
 {
@@ -22,7 +23,7 @@ namespace ece
 	protected:
 		virtual void computeCenter() = 0;
 
-		glm::vec3 position;
+		Vertex3D position;
 	};
 }
 

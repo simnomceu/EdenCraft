@@ -1,13 +1,13 @@
 namespace ece
 {
-	inline Object::Object() : Movable(), modeRender(RenderMode::TRIANGLES), vao(0), vboPosition(0), vboColor(0), vertices(), colors(), model(1.0f) {}
+	inline Object::Object() : Movable(), modeRender(RenderMode::TRIANGLES), vao(0), vboPosition(0), vboColor(0), mesh(nullptr), 
+		model(1.0f) {}
 
-	inline Object::Object(const RenderMode mode) : Movable(), modeRender(mode), vao(0), vboPosition(0), vboColor(0), vertices(),
-		colors(), model(1.0f) {}
+	inline Object::Object(const RenderMode mode) : Movable(), modeRender(mode), vao(0), vboPosition(0), vboColor(0), mesh(nullptr), 
+		model(1.0f) {}
 
-	inline Object::~Object() {}
+	inline Object::~Object() { this->mesh.reset(); }
 
-	inline const unsigned int Object::getNbVertices() const { return (int)this->vertices.size(); }
 
 	inline void Object::update(const float elapsedTime) { this->animation.animate(elapsedTime, this->model); }
 
