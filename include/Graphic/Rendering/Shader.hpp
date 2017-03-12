@@ -3,22 +3,14 @@
 
 #include <string>
 
+#include "Util\OpenGL\OpenGL.hpp"
+
 namespace ece
 {
 	class Shader
 	{
 	public:
 		using ShaderID = int;
-
-		enum ShaderType : int
-		{
-			COMPUTE_SHADER = 0,
-			FRAGMENT_SHADER = 1,
-			GEOMETRY_SHADER = 2,
-			VERTEX_SHADER = 3,
-			TESS_EVALUATION_SHADER = 4,
-			TESS_CONTROL_SHADER = 5
-		};
 
 		Shader() = delete;
 		inline Shader(const ShaderType & type); // TODO: shader type should be provided at same time that the source code.

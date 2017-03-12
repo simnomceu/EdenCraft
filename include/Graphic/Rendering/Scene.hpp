@@ -6,7 +6,7 @@
 
 #include "Rendering\Scene\Camera.hpp"
 #include "Rendering\Model\Object.hpp"
-#include "Rendering\Model\OldGLSLProgram.hpp"
+#include "Rendering\Model\Program.hpp"
 
 namespace ece
 {
@@ -24,7 +24,7 @@ namespace ece
 		//std::vector<Object> objects;
 		std::vector<std::shared_ptr<Object>> objects;
 		glm::mat4 projection;
-		OldGLSLProgram program;
+		Program program;
 		//std::shared_ptr<Program> program;
 	};
 }

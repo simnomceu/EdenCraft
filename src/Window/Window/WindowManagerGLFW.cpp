@@ -281,8 +281,9 @@ namespace ece
 
 	void WindowManagerGLFW::initGLEW()
 	{
+		// TODO initialize earlier, to not shift usage of Objects.
 		if (this->isWindowOpen) {
-			// Required to use VAO & VBO.
+			// Required to use VAO & VBO & ShaderProgram.
 			glewExperimental = GL_TRUE;
 
 			GLint GlewInitResult = glewInit();

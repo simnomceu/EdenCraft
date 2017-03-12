@@ -18,7 +18,7 @@ namespace ece
 		Box3D & operator=(const Box3D & copy) = default;
 		Box3D & operator=(Box3D && move) = default;
 
-		inline const FastVertex3D & getCenter() const;
+		inline FastVertex3D getCenter() const;
 
 	private:
 		FastVertex3D a;

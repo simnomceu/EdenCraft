@@ -15,12 +15,13 @@
 #include "Window\WindowManagerGLFW.hpp"
 #include "Window\BaseWindow.hpp"
 #include "Rendering\Model\Object.hpp"
-#include "Rendering\Model\OldGLSLProgram.hpp"
+#include "Rendering\Model\Program.hpp"
 //#include "Rendering\RenderingService.hpp"
 //#include "Rendering\RenderFactoryGL.hpp"
 
 #include <iostream>
 #include <exception>
+#include <string>
 
 /**
  * @fn	int main()
@@ -42,15 +43,19 @@ auto main() -> int
 	catch (std::exception & e) {
 		std::cerr << e.what() << std::endl;
 	}*/
-	ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
-	ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
-	ece::WindowServiceLocator::provide(ece::WindowServiceFactory::build<ece::WindowManagerGLFW>());
-	//ece::RenderingServiceLocator::provide(ece::RenderingServiceFactory::build<ece::RenderFactoryGL>());
+	try {
+		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
+		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
+		ece::WindowServiceLocator::provide(ece::WindowServiceFactory::build<ece::WindowManagerGLFW>());
+		//ece::RenderingServiceLocator::provide(ece::RenderingServiceFactory::build<ece::RenderFactoryGL>());
 
-	Game game;
+		Game game;
 
-	game.run();
-
+		game.run();
+	}
+	catch (std::exception & e) {
+		ece::ServiceLoggerLocator::getService().logError("Uncaught exception: " + std::string(e.what()));
+	}
 
 	// ########################################################
 

@@ -1,8 +1,7 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
-#include "glm\glm.hpp"
-#include "Util\Type.hpp"
+#include "Util\OpenGL\OpenGL.hpp"
 
 namespace ece
 {
@@ -18,7 +17,7 @@ namespace ece
 		Movable & operator=(const Movable & copy) = default;
 		Movable & operator=(Movable && move) = default;
 
-		inline virtual const glm::vec3 & getPosition() const;
+		inline virtual const Vertex3D & getPosition() const;
 
 	protected:
 		virtual void computeCenter() = 0;

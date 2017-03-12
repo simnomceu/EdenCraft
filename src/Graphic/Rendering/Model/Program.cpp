@@ -1,19 +1,21 @@
-#include "Rendering\Model\OldGLSLProgram.hpp"
+#include "Rendering\Model\Program.hpp"
 
 #include "Util\File\File.hpp"
+#include "Util\Debug\ResourceException.hpp"
 
 #include <iostream>
 #include <iomanip>
 
 namespace ece
 {
-	OldGLSLProgram::OldGLSLProgram(): handle(0), vertex(0), fragment(0)
+	Program::Program(): handle(NULL_ID), vertex(NULL_ID), fragment(NULL_ID)
     {
     }
 
-	OldGLSLProgram::~OldGLSLProgram()
+	Program::~Program()
     {
-        if (this->handle != 0) {
+        if (this->handle != NULL_ID) {
+			//
             if (this->vertex != 0) {
                 glDetachShader(this->handle, this->vertex);
                 glDeleteShader(this->vertex);
@@ -22,29 +24,33 @@ namespace ece
                 glDetachShader(this->handle, this->fragment);
                 glDeleteShader(this->fragment);
             }
+			//
             glDeleteProgram(this->handle);
         }
     }
 
-    void OldGLSLProgram::init()
+    void Program::init()
     {
-        this->handle = glCreateProgram();
+		this->handle = glCreateProgram();
+		if (this->handle == NULL_ID) {
+			// TODO return an InitializationException
+		}
         glBindAttribLocation(this->handle, 0, "VertexPosition");
         glBindAttribLocation(this->handle, 1, "VertexColor");
     }
 
-    void OldGLSLProgram::loadShaderFromFile(const GLSLShaderType type, const std::string & filename)
+    void Program::loadShaderFromFile(const ShaderType type, const std::string & filename)
     {
 		File shaderFile(filename, std::ios_base::in);
         std::string content = shaderFile.parseToString();
         this->loadShaderFromString(type, content);
     }
 
-    void OldGLSLProgram::loadShaderFromString(const GLSLShaderType type, const std::string & content)
+    void Program::loadShaderFromString(const ShaderType type, const std::string & content)
     {
         GLuint shaderID = 0;
         switch (type) {
-        case VERTEX:
+        case VERTEX_SHADER:
             if(this->vertex != 0) {
                 glDetachShader(this->handle, this->vertex);
                 glDeleteShader(this->vertex);
@@ -52,7 +58,7 @@ namespace ece
             this->vertex = glCreateShader(GL_VERTEX_SHADER);
             shaderID = this->vertex;
             break;
-        case FRAGMENT:
+        case FRAGMENT_SHADER:
             if(this->fragment != 0) {
                 glDetachShader(this->handle, this->fragment);
                 glDeleteShader(this->fragment);
@@ -81,7 +87,7 @@ namespace ece
         glAttachShader(this->handle, shaderID);
     }
 
-    void OldGLSLProgram::link()
+    void Program::link()
     {
         glLinkProgram(this->handle);
 
@@ -97,20 +103,23 @@ namespace ece
         }
     }
 
-    void OldGLSLProgram::use()
+    void Program::use()
     {
         if (this->handle != 0) {
             glUseProgram(this->handle);
-        }
+		}
+		else {
+			throw ResourceException("Program", this->handle);
+		}
     }
 
-    void OldGLSLProgram::setUniform(const std::string & name, const glm::mat4 & value)
+    void Program::setUniform(const std::string & name, const Matrix4x4 & value)
     {
         GLuint mvpHandle = glGetUniformLocation(this->handle, name.c_str());
         glUniformMatrix4fv(mvpHandle, 1, GL_FALSE, &value[0][0]);
     }
 
-    void OldGLSLProgram::displayActiveUniforms() {
+    void Program::displayActiveUniforms() {
 
         GLint nbUniforms, size, location, maxLength;
         GLsizei written;
@@ -130,7 +139,7 @@ namespace ece
         }
     }
 
-    void OldGLSLProgram::displayActiveAttribs() {
+    void Program::displayActiveAttribs() {
 
         GLint written, size, location, maxLength, nbAttribs;
         GLenum type;

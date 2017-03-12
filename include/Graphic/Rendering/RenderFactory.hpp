@@ -13,7 +13,7 @@ namespace ece
 		inline virtual ~RenderFactory() = 0;
 
 		virtual Program * createProgram() = 0;
-		virtual Shader * createShader(const Shader::ShaderType & type) = 0;
+		virtual Shader * createShader(const ShaderType & type) = 0;
 	};
 }
 

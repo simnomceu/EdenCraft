@@ -3,8 +3,6 @@
 #include "glm\gtc\matrix_transform.hpp"
 //#include "Util\File\ParserOBJ.hpp"
 #include "Util\Log\ServiceLogger.hpp"
-#include "GL\glew.h"
-#include "glm\glm.hpp"
 //#include "Rendering\RenderingService.hpp"
 //#include "Rendering\Program.hpp"
 
@@ -21,8 +19,11 @@ namespace ece
 
 	void Scene::init()
 	{
+		auto mesh = std::make_shared<Mesh>();
+		mesh->loadFromFile("../resource/shader/cube.dat");
+
 		this->objects[0] = std::shared_ptr<Object>(new Object());
-		this->objects[0]->loadMeshFromFile("../resource/shader/cube.dat");
+		this->objects[0]->addMesh(mesh);
 
 		/*this->program = std::shared_ptr<Program>(RenderingServiceLocator::getService().createProgram());
 
@@ -35,8 +36,8 @@ namespace ece
 		this->program->attachShader(*vertex);*/
 
 		this->program.init();
-		this->program.loadShaderFromFile(OldGLSLProgram::FRAGMENT, "../resource/shader/basic.frag");
-		this->program.loadShaderFromFile(OldGLSLProgram::VERTEX, "../resource/shader/basic.vert");
+		this->program.loadShaderFromFile(FRAGMENT_SHADER, "../resource/shader/basic.frag");
+		this->program.loadShaderFromFile(VERTEX_SHADER, "../resource/shader/basic.vert");
 		this->program.link();
 
 		for (auto it = this->objects.begin(); it != this->objects.end(); ++it) {

@@ -26,7 +26,7 @@ namespace ece
 		inline const std::vector<FastVertex3D> & getVertices() const;
 		inline const std::vector<FastVertex3D> & getColors() const;
 		inline const unsigned int size() const;
-		const Box3D & getAABB() const;
+		Box3D getAABB() const;
 
 	private:
 		std::vector<FastVertex3D> vertices;

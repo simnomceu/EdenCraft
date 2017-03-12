@@ -11,7 +11,7 @@ namespace ece
 		RenderFactoryNull() = default;
 
 		inline virtual Program * createProgram() override;
-		inline virtual Shader * createShader(const Shader::ShaderType & type) override;
+		inline virtual Shader * createShader(const ShaderType & type) override;
 	};
 }
 

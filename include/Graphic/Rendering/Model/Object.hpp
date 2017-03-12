@@ -5,6 +5,7 @@
 #include "Util\Type.hpp"
 #include "Rendering\Model\Movable.hpp"
 #include "Rendering\Model\Mesh.hpp"
+#include "Rendering\Model\Program.hpp"
 
 #include <vector>
 #include <memory>
@@ -25,11 +26,12 @@ namespace ece
         Object & operator=(const Object & copy) = default; // TODO correct it to be sure the clone is a new object (different id)
 		Object & operator=(Object && move) = default;
 
-		void loadMeshFromFile(const std::string & filename);
+		void addMesh(const std::shared_ptr<Mesh> & mesh);
+		//void loadMeshFromFile(const std::string & filename);
 
         void prepare();
         inline void update(const float elaspedTime);
-        void render(OldGLSLProgram & program, const glm::mat4 & view, const glm::mat4 & projection);
+        void render(Program & program, const glm::mat4 & view, const glm::mat4 & projection);
 		//void render(Program & program, const glm::mat4 & view, const glm::mat4 & projection);
 
         inline const Point3D getAbsoluteCenter() const;
@@ -50,7 +52,7 @@ namespace ece
 		VertexBufferID vboPosition;
 		VertexBufferID vboColor;
 
-		std::unique_ptr<Mesh> mesh;
+		std::shared_ptr<Mesh> mesh;
 
         OldAnimation animation;
         Matrix4x4 model;

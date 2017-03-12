@@ -8,7 +8,7 @@
 
 namespace ece
 {
-	ShaderGL::ShaderGL(const Shader::ShaderType & type): Shader(type), source("")
+	ShaderGL::ShaderGL(const ShaderType & type): Shader(type), source("")
 	{
 		auto & logger = ServiceLoggerLocator::getService();
 

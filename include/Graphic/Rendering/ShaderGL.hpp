@@ -9,7 +9,7 @@ namespace ece
 	{
 	public:
 		ShaderGL() = delete;
-		ShaderGL(const Shader::ShaderType & type);
+		ShaderGL(const ShaderType & type);
 		ShaderGL(ShaderGL && move) = default;
 
 		~ShaderGL();

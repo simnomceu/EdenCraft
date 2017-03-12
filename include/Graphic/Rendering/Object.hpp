@@ -3,7 +3,7 @@
 
 #include <queue>
 
-#include "Rendering\Mesh.hpp"
+#include "Rendering\Model\Mesh.hpp"
 #include "Rendering\ProgramGL.hpp"
 #include "Rendering\Texture.hpp"
 #include "Rendering\Transformation.hpp"

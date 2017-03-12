@@ -11,12 +11,12 @@ namespace ece
 	{
 		program = RenderingServiceLocator::getService().createProgram();
 
-		Shader* frag = RenderingServiceLocator::getService().createShader(Shader::FRAGMENT_SHADER);
+		Shader* frag = RenderingServiceLocator::getService().createShader(FRAGMENT_SHADER);
 		frag->loadFromFile("../resource/shader/basic.frag");
 		this->program->attachShader(*frag);
 		delete frag;
 
-		Shader* vert = RenderingServiceLocator::getService().createShader(Shader::VERTEX_SHADER);
+		Shader* vert = RenderingServiceLocator::getService().createShader(VERTEX_SHADER);
 		frag->loadFromFile("../resource/shader/basic.vert");
 		this->program->attachShader(*vert);
 		delete vert;
@@ -40,20 +40,20 @@ namespace ece
 			glGenBuffers(1, &this->vbos[0] + POSITION);
 		}
 		glBindBuffer(GL_ARRAY_BUFFER, this->vbos[POSITION]);
-		glBufferData(GL_ARRAY_BUFFER, this->mesh.getNumberOfVertices() * 3 * sizeof(GLfloat), this->mesh.getVertices().data(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, this->mesh.size() * 3 * sizeof(GLfloat), this->mesh.getVertices().data(), GL_STATIC_DRAW);
 		glVertexAttribPointer(POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-		if (this->vbos[INDEX] == 0) {
+		/*if (this->vbos[INDEX] == 0) {
 			glGenBuffers(1, &this->vbos[0] + INDEX);
 		}
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->vbos[INDEX]);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mesh.getNumberOfIndex() * sizeof(GLint), this->mesh.getVerticesIndex().data(), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->mesh.size() * sizeof(GLint), this->mesh.getVerticesIndex().data(), GL_STATIC_DRAW);*/
 
 		if (this->vbos[COLOR] == 0) {
 			glGenBuffers(1, &this->vbos[0] + COLOR);
 		}
 		glBindBuffer(GL_ARRAY_BUFFER, this->vbos[COLOR]);
-		glBufferData(GL_ARRAY_BUFFER, this->mesh.getNumberOfVertices() * 3 * sizeof(GLfloat), this->mesh.getColors().data(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, this->mesh.size() * 3 * sizeof(GLfloat), this->mesh.getColors().data(), GL_STATIC_DRAW);
 		glVertexAttribPointer(COLOR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// ===== Clear Binding =====
@@ -76,7 +76,7 @@ namespace ece
 		this->program->use();
 		glBindBuffer(GL_ARRAY_BUFFER, POSITION);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, INDEX);
-		glDrawElements(this->mesh.getModeRender(), this->mesh.getNumberOfIndex(), GL_UNSIGNED_INT, 0);
+		//glDrawElements(this->mesh.getModeRender(), this->mesh.size(), GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);

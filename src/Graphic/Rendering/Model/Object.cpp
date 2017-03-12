@@ -3,7 +3,6 @@
 #include "Util\File\ParserModelDAT.hpp"
 #include "Util\Debug\FileException.hpp"
 #include "glm\gtc\matrix_transform.hpp"
-#include "Rendering\Model\OldGLSLProgram.hpp"
 #include "Rendering\Model\OldRotation.hpp"
 
 #include <iostream>
@@ -11,19 +10,25 @@
 
 namespace ece
 {
-	void Object::loadMeshFromFile(const std::string & filename)
+	void Object::addMesh(const std::shared_ptr<Mesh> & mesh)
+	{
+		this->mesh = mesh;
+		this->computeCenter();
+	}
+
+	/*void Object::loadMeshFromFile(const std::string & filename)
 	{
 		this->mesh = std::make_unique<Mesh>();
 		bool loaded = this->mesh->loadFromFile(filename);
 		if (loaded) {
 			this->computeCenter();
 		}
-	}
+	}*/
 
     void Object::prepare()
     {
         // ===== VAO =====
-        if(this->vao == 0) {
+        if(this->vao == NULL_ID) {
             glGenVertexArrays(1, &this->vao);
             glBindVertexArray(this->vao);
             glEnableVertexAttribArray(POSITION);
@@ -33,14 +38,14 @@ namespace ece
         }
 
         // ===== VBOs =====
-        if (this->vboPosition == 0) {
+        if (this->vboPosition == NULL_ID) {
             glGenBuffers(1, &this->vboPosition);
         }
         glBindBuffer(GL_ARRAY_BUFFER, this->vboPosition);
         glBufferData(GL_ARRAY_BUFFER, 3 * this->mesh->size() * sizeof(GLfloat), this->mesh->getVertices().data(), GL_STATIC_DRAW);
         glVertexAttribPointer(POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-        if (this->vboColor == 0) {
+        if (this->vboColor == NULL_ID) {
             glGenBuffers(1, &this->vboColor);
         }
         glBindBuffer(GL_ARRAY_BUFFER, this->vboColor);
@@ -49,10 +54,10 @@ namespace ece
 
         // ===== Clear Binding =====
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
+        glBindVertexArray(NULL_ID);
     }
 
-    void Object::render(OldGLSLProgram & program, const glm::mat4 & view, const glm::mat4 & projection)
+    void Object::render(Program & program, const glm::mat4 & view, const glm::mat4 & projection)
 	//void OldObject3D::render(Program & program, const glm::mat4 & view, const glm::mat4 & projection)
     {
 		//program.bindInfo(projection * view * this->model, "MVP");
@@ -60,7 +65,7 @@ namespace ece
 		program.use();
         glBindVertexArray(this->vao);
         glDrawArrays(this->modeRender, 0, (GLsizei)this->mesh->size()*3);
-        glBindVertexArray(0);
+        glBindVertexArray(NULL_ID);
     }
 
     /*void Object::rotate(const float degree, const glm::vec3 & normal, const bool animated)

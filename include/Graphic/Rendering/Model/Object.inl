@@ -1,9 +1,9 @@
 namespace ece
 {
-	inline Object::Object() : Movable(), modeRender(RenderMode::TRIANGLES), vao(0), vboPosition(0), vboColor(0), mesh(nullptr), 
-		model(1.0f) {}
+	inline Object::Object() : Movable(), modeRender(RenderMode::TRIANGLES), vao(NULL_ID), vboPosition(NULL_ID), vboColor(NULL_ID), 
+		mesh(nullptr), model(1.0f) {}
 
-	inline Object::Object(const RenderMode mode) : Movable(), modeRender(mode), vao(0), vboPosition(0), vboColor(0), mesh(nullptr), 
+	inline Object::Object(const RenderMode mode) : Movable(), modeRender(mode), vao(NULL_ID), vboPosition(0), vboColor(0), mesh(nullptr),
 		model(1.0f) {}
 
 	inline Object::~Object() { this->mesh.reset(); }

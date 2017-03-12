@@ -28,7 +28,7 @@ namespace ece
 		return result;
 	}
 
-	const Box3D & Mesh::getAABB() const
+	Box3D Mesh::getAABB() const
 	{
 		auto xMin = std::min_element(this->vertices.begin(), this->vertices.end(), [](const FastVertex3D &  a, const FastVertex3D & b) { return a.x < b.x; })->x;
 		auto xMax = std::max_element(this->vertices.begin(), this->vertices.end(), [](const FastVertex3D &  a, const FastVertex3D & b) { return a.x < b.x; })->x;
