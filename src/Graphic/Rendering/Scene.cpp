@@ -44,11 +44,10 @@ namespace ece
 			(*it)->prepare();
 		}
 
-		this->program.displayActiveUniforms();
-		this->program.displayActiveAttribs();
+		//this->program.displayActiveUniforms();
+		//this->program.displayActiveAttribs();
 
-		//this->cam.lookAt(*this->objects[0]);
-		this->cam.lookAt(this->objects[0]->getRelativeCenter());
+		this->cam.lookAt(*this->objects[0]);
 	}
 
 	void Scene::render()

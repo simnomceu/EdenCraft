@@ -60,8 +60,7 @@ namespace ece
     void Object::render(Program & program, const glm::mat4 & view, const glm::mat4 & projection)
 	//void OldObject3D::render(Program & program, const glm::mat4 & view, const glm::mat4 & projection)
     {
-		//program.bindInfo(projection * view * this->model, "MVP");
-		program.setUniform("MVP", projection * view * this->model);
+		program.bindInfo(projection * view * this->model, "MVP");
 		program.use();
         glBindVertexArray(this->vao);
         glDrawArrays(this->modeRender, 0, (GLsizei)this->mesh->size()*3);

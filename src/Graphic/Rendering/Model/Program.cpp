@@ -2,6 +2,7 @@
 
 #include "Util\File\File.hpp"
 #include "Util\Debug\ResourceException.hpp"
+#include "Util\Debug\InitializationException.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -33,7 +34,7 @@ namespace ece
     {
 		this->handle = glCreateProgram();
 		if (this->handle == NULL_ID) {
-			// TODO return an InitializationException
+			throw InitializationException("Program");
 		}
         glBindAttribLocation(this->handle, 0, "VertexPosition");
         glBindAttribLocation(this->handle, 1, "VertexColor");
@@ -113,13 +114,29 @@ namespace ece
 		}
     }
 
-    void Program::setUniform(const std::string & name, const Matrix4x4 & value)
-    {
-        GLuint mvpHandle = glGetUniformLocation(this->handle, name.c_str());
-        glUniformMatrix4fv(mvpHandle, 1, GL_FALSE, &value[0][0]);
-    }
+	void Program::bindInfo(const Matrix4x4 & info, const std::string & name)
+	{
+		if (this->handle > NULL_ID) {
+			GLuint handle = glGetUniformLocation(this->handle, name.data());
+			glUniformMatrix4fv(handle, 1, GL_FALSE, &info[0][0]);
+		}
+		else {
+			throw ResourceException("Program", this->handle);
+		}
+	}
 
-    void Program::displayActiveUniforms() {
+	void Program::bindInfo(const Vertex3D & info, const std::string & name)
+	{
+		if (this->handle > NULL_ID) {
+			GLuint handle = glGetUniformLocation(this->handle, name.data());
+			glUniform3fv(handle, 3, &info[0]);
+		}
+		else {
+			throw ResourceException("Program", this->handle);
+		}
+	}
+
+    /*void Program::displayActiveUniforms() {
 
         GLint nbUniforms, size, location, maxLength;
         GLsizei written;
@@ -156,5 +173,5 @@ namespace ece
             location = glGetAttribLocation(handle, &name[0]);
             std::cout << location << std::setw(8) << " | " << &name[0] << std::endl;
         }
-    }
+    }*/
 }

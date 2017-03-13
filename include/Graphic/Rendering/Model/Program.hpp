@@ -26,10 +26,11 @@ namespace ece
         void link();//
         void use();
 
-        void setUniform(const std::string & name, const Matrix4x4 & value);//
+		void bindInfo(const Matrix4x4 & info, const std::string & name);
+		void bindInfo(const Vertex3D & info, const std::string & name);
 
-        void displayActiveUniforms();//
-        void displayActiveAttribs();//
+        //void displayActiveUniforms();
+        //void displayActiveAttribs();
 
     private:
         ProgramID handle;

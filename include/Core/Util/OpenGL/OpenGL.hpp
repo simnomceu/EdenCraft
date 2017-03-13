@@ -51,6 +51,9 @@ namespace ece
 	class OpenGL
 	{
 	public:
+		static bool initGLFW();
+		static bool initGlew();
+
 		static inline Matrix4x4 lookAt(Vertex3D position, Point3D target, Vertex3D upAxis);
 	};
 }
