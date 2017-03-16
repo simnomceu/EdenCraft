@@ -25,6 +25,15 @@ namespace ece
 		BAD_PATH = 0,
 		PARSE_ERROR = 1
 	};
+
+	enum ResourceType : unsigned short int
+	{
+		SHADER = 0,
+		PROGRAM = 1,
+		MESH = 2,
+		TEXTURE = 3,
+		ANIMATION = 4
+	};
 }
 
 #endif // TYPE_HPP
