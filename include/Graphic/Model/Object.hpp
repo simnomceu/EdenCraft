@@ -48,6 +48,11 @@ namespace ece
 		inline std::shared_ptr<ShaderEffect> getShaderEffect() const;
 		inline std::shared_ptr<Animation> getAnimation() const;
 
+		virtual std::vector<std::string> getLocations() const override;
+		virtual const GL::Matrix4x4 & getModel() const override;
+
+		virtual void draw() override;
+
 		//void loadMeshFromFile(const std::string & filename);
 
         //void prepare();

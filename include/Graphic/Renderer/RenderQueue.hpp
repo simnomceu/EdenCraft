@@ -14,12 +14,12 @@ namespace ece
 		RenderQueue(const RenderQueue & copy) = default;
 		RenderQueue(RenderQueue && move) = default;
 
-		virtual ~RenderQueue() = 0;
+		~RenderQueue() = default;
 
 		RenderQueue & operator=(const RenderQueue & copy) = default;
 		RenderQueue & operator=(RenderQueue && move) = default;
 
-		void render(const Matrix4x4 & VP, Renderable & object);
+		void render(const GL::Matrix4x4 & VP, Renderable & object);
 
 	private:
 		Program program;

@@ -17,12 +17,12 @@ namespace ece
 		Movable & operator=(const Movable & copy) = default;
 		Movable & operator=(Movable && move) = default;
 
-		inline virtual const Vertex3D & getPosition() const;
+		inline virtual const GL::Vertex3D & getPosition() const;
 
 	protected:
 		virtual void computeCenter() = 0;
 
-		Vertex3D position;
+		GL::Vertex3D position;
 	};
 }
 

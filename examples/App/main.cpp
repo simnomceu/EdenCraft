@@ -14,8 +14,8 @@
 #include "Window\WindowService.hpp"
 #include "Window\WindowManagerGLFW.hpp"
 #include "Window\BaseWindow.hpp"
-#include "Rendering\Model\Object.hpp"
-#include "Rendering\Model\Program.hpp"
+//#include "Rendering\Model\Object.hpp"
+//#include "Rendering\Model\Program.hpp"
 //#include "Rendering\RenderingService.hpp"
 //#include "Rendering\RenderFactoryGL.hpp"
 

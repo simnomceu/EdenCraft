@@ -4,5 +4,5 @@ namespace ece
 
 	inline Movable::~Movable() {}
 
-	inline const glm::vec3 & Movable::getPosition() const { return this->position; }
+	inline const GL::Vertex3D & Movable::getPosition() const { return this->position; }
 }

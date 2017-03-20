@@ -17,8 +17,15 @@ namespace ece
 		Projection & operator=(const Projection & copy) = default;
 		Projection & operator=(Projection && move) = default;
 
-		const Matrix4x4 & getProjection() const;
+		inline void setProjection(const double FOV, const double ratio, const double nearClipping, const double farClipping);
+
+		inline const GL::Matrix4x4 & getProjection() const;
+
+	private:
+		GL::Matrix4x4 projection;
 	};
 }
+
+#include "Scene\Projection.inl"
 
 #endif // PROJECTION_HPP

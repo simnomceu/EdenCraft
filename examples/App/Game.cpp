@@ -2,8 +2,7 @@
 
 #include "Window\WindowSetting.hpp"
 #include "Window\VideoMode.hpp"
-#include "Rendering\RenderWindow.hpp"
-#include "Rendering\Scene.hpp"
+#include "Renderer\RenderWindow.hpp"
 
 #include <algorithm>
 #include "Game.hpp"
@@ -21,9 +20,6 @@ Game::Game() : Application(), windows()
 {
 	//auto & firstWindow = this->addWindow<ece::BaseWindow>();
 	auto & secondWindow = this->addWindow<ece::RenderWindow>();
-
-	auto scene = std::make_shared<ece::Scene>();
-	secondWindow.attachScene(scene);
 }
 
 /**

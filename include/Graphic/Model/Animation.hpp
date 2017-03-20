@@ -1,6 +1,11 @@
 #ifndef ANIMATION_HPP
 #define ANIMATION_HPP
 
+#include "Animation\Transformation.hpp"
+
+#include <queue>
+#include <memory>
+
 namespace ece
 {
 	class Animation
@@ -14,6 +19,12 @@ namespace ece
 
 		Animation & operator=(const Animation & copy) = default;
 		Animation & operator=(Animation && move) = default;
+
+		void add(const std::shared_ptr<Transformation> & transformation);
+		void clear();
+
+	private:
+		std::queue<std::shared_ptr<Transformation>> transformations;
 	};
 }
 

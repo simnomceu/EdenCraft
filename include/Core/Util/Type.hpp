@@ -34,6 +34,11 @@ namespace ece
 		TEXTURE = 3,
 		ANIMATION = 4
 	};
+
+	static const double RATIO_4_3 = 4.0 / 3.0;
+	static const double RATIO_5_4 = 5.0 / 4.0;
+	static const double RATIO_16_9 = 16.0 / 9.0;
+	static const double RATIO_16_10 = 16.0 / 10.0;
 }
 
 #endif // TYPE_HPP

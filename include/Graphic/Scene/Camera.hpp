@@ -20,20 +20,20 @@ namespace ece
 		Camera & operator=(Camera && move) = default;
 
 		inline void lookAt(const Movable & object);
-		inline void lookAt(const Point3D & target);
-		inline void lookUpTo(const Vertex3D & direction);
+		inline void lookAt(const GL::Point3D & target);
+		inline void lookUpTo(const GL::Vertex3D & direction);
 		inline void moveTo(const Movable & object);
-		inline void moveTo(const Point3D position);
-		inline void moveIn(const Vertex3D & direction);
+		inline void moveTo(const GL::Point3D position);
+		inline void moveIn(const GL::Vertex3D & direction);
 
-		inline Matrix4x4 getCamera() const;
+		inline GL::Matrix4x4 getCamera() const;
 
 	private:
-		void updatePosition(const Point3D position, const Point3D & target);
+		void updatePosition(const GL::Point3D position, const GL::Point3D & target);
 
-		Point3D position;
-		Point3D target;
-		Vertex3D upAxis;
+		GL::Point3D position;
+		GL::Point3D target;
+		GL::Vertex3D upAxis;
 	};
 }
 

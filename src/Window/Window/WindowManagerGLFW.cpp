@@ -28,7 +28,7 @@ namespace ece
 
 	void WindowManagerGLFW::initGLFW()
 	{
-		this->isGLFWInitialized = OpenGL::initGLFW();
+		this->isGLFWInitialized = GL::initGLFW();
 	}
 
 	ece::WindowID WindowManagerGLFW::openWindow(const ece::WindowTag & tag)
@@ -78,22 +78,27 @@ namespace ece
 
 	void WindowManagerGLFW::closeWindow(const ece::WindowID & windowId)
 	{
-		glfwDestroyWindow(this->getWindow(windowId));
-		if (this->isContextDefined == windowId) {
-			if (this->windows.size() == 0) {
-				this->isContextDefined = -1;
+		try {
+			glfwDestroyWindow(this->getWindow(windowId));
+			if (this->isContextDefined == windowId) {
+				if (this->windows.size() == 0) {
+					this->isContextDefined = GL::NULL_ID;
+				}
+				else {
+					this->isContextDefined = this->windows.end()->first;
+					glfwMakeContextCurrent(this->getWindow(windowId));
+					// TODO : re-init GLEW ?
+				}
 			}
-			else {
-				this->isContextDefined = this->windows.end()->first;
-				glfwMakeContextCurrent(this->getWindow(windowId));
-				// TODO : re-init GLEW ?
+
+			this->windows.erase(windowId);
+			this->idsAvailable.push(windowId);
+			if (this->windows.size() == 0) {
+				this->terminateGLFW();
 			}
 		}
-
-		this->windows.erase(windowId);
-		this->idsAvailable.push(windowId);
-		if (this->windows.size() == 0) {
-			this->terminateGLFW();
+		catch (OutOfRangeException & e) {
+			// TODO: what to do here ? Is there a right place to catch this exception ? 
 		}
 	}
 
@@ -275,7 +280,7 @@ namespace ece
 	{
 		// TODO initialize earlier, to not shift usage of Objects.
 		if (this->isWindowOpen) {
-			this->isGLEWInit = OpenGL::initGlew();
+			this->isGLEWInit = GL::initGlew();
 		}
 		else {
 			ServiceLoggerLocator::getService().logError("GLEW need a context to work correctly.");
@@ -290,7 +295,7 @@ namespace ece
 
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
-		if (windowId < 0 || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
+		if (windowId == GL::NULL_ID || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
 			throw OutOfRangeException("GLFWwindow", windowId);
 			// TODO exception non attrapée quand fenêtre fermée
 		}

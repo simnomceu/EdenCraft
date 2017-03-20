@@ -2,9 +2,10 @@
 #define RENDERABLE_HPP
 
 #include "Util\OpenGL\OpenGL.hpp"
-#include "Renderer\Shader.hpp"
+#include "Model\ShaderEffect.hpp"
 
 #include <vector>
+#include <memory>
 
 namespace ece
 {
@@ -18,11 +19,11 @@ namespace ece
 		~Renderable() = default;
 
 		Renderable & operator=(const Renderable & copy) = default;
-		Renderable & operator=(Renderable & move) = default;
+		Renderable & operator=(Renderable && move) = default;
 
 		virtual std::vector<std::string> getLocations() const = 0;
-		virtual std::vector<Shader &> getShaders() const = 0;
-		virtual const Matrix4x4 & getModel() const = 0;
+		virtual std::shared_ptr<ShaderEffect> getShaderEffect() const = 0;
+		virtual const GL::Matrix4x4 & getModel() const = 0;
 
 		virtual void draw() = 0;
 	};

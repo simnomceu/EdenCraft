@@ -6,6 +6,7 @@
 
 #include <string>
 #include <memory>
+#include <queue>
 
 namespace ece
 {
@@ -28,26 +29,23 @@ namespace ece
 
         void init();//
 
-        /*void loadShaderFromFile(const ShaderType type, const std::string & filename);
-        void loadShaderFromString(const ShaderType type, const std::string & content);*/
-		void apply(Shader & shader);
+		//void apply(const std::shared_ptr<Shader> & shader);
 
         void link();//
         void use();
 
 		void bindLocation(const int index, const std::string & name);
 
-		void bindInfo(const Matrix4x4 & info, const std::string & name);
-		void bindInfo(const Vertex3D & info, const std::string & name);
+		void bindInfo(const GL::Matrix4x4 & info, const std::string & name);
+		void bindInfo(const GL::Vertex3D & info, const std::string & name);
 
+		inline const GL::ProgramID & getHandle() const;
 
         //void displayActiveUniforms();
         //void displayActiveAttribs();
 
     private:
-        ProgramID handle;
-        //ShaderID vertex;
-        //ShaderID fragment;
+		GL::ProgramID handle;
     };
 }
 

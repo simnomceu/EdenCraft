@@ -3,7 +3,6 @@
 #include "Util\File\ParserModelDAT.hpp"
 #include "Util\Debug\FileException.hpp"
 #include "glm\gtc\matrix_transform.hpp"
-#include "OldRotation.hpp"
 
 #include <iostream>
 #include <algorithm>
@@ -18,12 +17,29 @@ namespace ece
 		this->computeCenter();
 	}*/
 
-	void Object::setSkeleton(const std::shared_ptr<Mesh> & mesh)
+	/*void Object::setSkeleton(const std::shared_ptr<Mesh> & mesh)
 	{
 		auto lastPtr = this->mesh;
 		this->mesh = mesh;
 		lastPtr.reset();
 		//		this->computeCenter();
+	}*/
+
+	std::vector<std::string> Object::getLocations() const
+	{
+		// TODO: not final version
+		return std::vector<std::string>();
+	}
+
+	const GL::Matrix4x4 & Object::getModel() const
+	{
+		// TODO: not final version
+		return GL::Matrix4x4();
+	}
+
+	void Object::draw()
+	{
+		// TODO: not final version
 	}
 
 	/*void Object::loadMeshFromFile(const std::string & filename)
@@ -107,7 +123,7 @@ namespace ece
         this->model = glm::mat4(1.0f);
     }*/
 
-    void Object::computeCenter()
+    /*void Object::computeCenter()
     {
 		if (this->mesh->size() >= 0) {
 			return;
@@ -118,5 +134,5 @@ namespace ece
         this->position[0] = center.x;
         this->position[1] = center.y;
         this->position[2] = center.z;
-    }
+    }*/
 }

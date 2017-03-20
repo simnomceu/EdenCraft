@@ -11,96 +11,57 @@ namespace ece
 {
 	Program::~Program()
     {
-        if (this->handle != NULL_ID) {
-            /*if (this->vertex != 0) {
-                glDetachShader(this->handle, this->vertex);
-                glDeleteShader(this->vertex);
-            }
-            if (this->fragment != 0) {
-                glDetachShader(this->handle, this->fragment);
-                glDeleteShader(this->fragment);
-            }*/
+        if (this->handle != GL::NULL_ID) {
             glDeleteProgram(this->handle);
         }
     }
 
     void Program::init()
     {
-		this->handle = glCreateProgram();
-		if (this->handle == NULL_ID) {
-			throw InitializationException("Program");
-		}
+		this->handle = GL::createProgram();
+
         glBindAttribLocation(this->handle, 0, "VertexPosition");
         glBindAttribLocation(this->handle, 1, "VertexColor");
     }
 
-    /*void Program::loadShaderFromFile(const ShaderType type, const std::string & filename)
+	/*void Program::apply(const std::shared_ptr<Shader> & shader)
+	{
+		// TODO : only adding shader to a list (= FIFO queue ?)
+		// Then: attaching it during link, then removing shader from list, detaching it en deleting eventually
+
+		this->shaders.push(shader);
+	}*/
+
+	void Program::link()
     {
-		File shaderFile(filename, std::ios_base::in);
-        std::string content = shaderFile.parseToString();
-        this->loadShaderFromString(type, content);
-    }
+		if (this->handle != GL::NULL_ID) {
+			/*while (!this->shaders.empty()) {
+				// TODO: poping shader THEN applying it
+			}*/
 
-    void Program::loadShaderFromString(const ShaderType type, const std::string & content)
-    {
-        GLuint shaderID = 0;
-        switch (type) {
-        case VERTEX_SHADER:
-            if(this->vertex != 0) {
-                glDetachShader(this->handle, this->vertex);
-                glDeleteShader(this->vertex);
-            }
-            this->vertex = glCreateShader(GL_VERTEX_SHADER);
-            shaderID = this->vertex;
-            break;
-        case FRAGMENT_SHADER:
-            if(this->fragment != 0) {
-                glDetachShader(this->handle, this->fragment);
-                glDeleteShader(this->fragment);
-            }
-            this->fragment = glCreateShader(GL_FRAGMENT_SHADER);
-            shaderID = this->fragment;
-            break;
-        default:
-            break;
-        }
+			glLinkProgram(this->handle);
 
-        const char * sourceShader = content.c_str();
-        glShaderSource(shaderID, 1, &sourceShader, NULL);
-        glCompileShader(shaderID);
+			GLint result = GL_FALSE;
+			int infoLogLength = 0;
+			glGetProgramiv(this->handle, GL_LINK_STATUS, &result);
+			glGetProgramiv(this->handle, GL_INFO_LOG_LENGTH, &infoLogLength);
+			if (infoLogLength > 0) {
+				char* error = new char[infoLogLength + 1];
+				glGetProgramInfoLog(this->handle, infoLogLength, NULL, error);
+				std::cerr << std::string(error) << std::endl;
+				delete[] error;
+			}
 
-        GLint result = GL_FALSE;
-        int infoLogLength = 0;
-        glGetShaderiv(shaderID, GL_COMPILE_STATUS, &result);
-        glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &infoLogLength);
-        if (infoLogLength > 0) {
-            char* error = new char[infoLogLength+1];
-            glGetShaderInfoLog(shaderID, infoLogLength, NULL, error);
-            std::cerr << std::string(error) << std::endl;
-            delete[] error;
-        }
-        glAttachShader(this->handle, shaderID);
-    }*/
-
-    void Program::link()
-    {
-        glLinkProgram(this->handle);
-
-        GLint result = GL_FALSE;
-        int infoLogLength = 0;
-        glGetProgramiv(this->handle, GL_LINK_STATUS, &result);
-        glGetProgramiv(this->handle, GL_INFO_LOG_LENGTH, &infoLogLength);
-        if (infoLogLength > 0) {
-            char* error = new char[infoLogLength+1];
-            glGetProgramInfoLog(this->handle, infoLogLength, NULL, error);
-            std::cerr << std::string(error) << std::endl;
-            delete[] error;
-        }
+			// TODO: removing all shaders after link
+		}
+		else {
+			throw ResourceException("Program", this->handle);
+		}
     }
 
     void Program::use()
     {
-        if (this->handle != 0) {
+        if (this->handle != GL::NULL_ID) {
             glUseProgram(this->handle);
 		}
 		else {
@@ -108,9 +69,19 @@ namespace ece
 		}
     }
 
-	void Program::bindInfo(const Matrix4x4 & info, const std::string & name)
+	void Program::bindLocation(const int index, const std::string & name)
 	{
-		if (this->handle > NULL_ID) {
+		if (this->handle != GL::NULL_ID) {
+			glBindAttribLocation(this->handle, index, name.data());
+		}
+		else {
+			throw ResourceException("Program", this->handle);
+		}
+	}
+
+	void Program::bindInfo(const GL::Matrix4x4 & info, const std::string & name)
+	{
+		if (this->handle > GL::NULL_ID) {
 			GLuint handle = glGetUniformLocation(this->handle, name.data());
 			glUniformMatrix4fv(handle, 1, GL_FALSE, &info[0][0]);
 		}
@@ -119,9 +90,9 @@ namespace ece
 		}
 	}
 
-	void Program::bindInfo(const Vertex3D & info, const std::string & name)
+	void Program::bindInfo(const GL::Vertex3D & info, const std::string & name)
 	{
-		if (this->handle > NULL_ID) {
+		if (this->handle > GL::NULL_ID) {
 			GLuint handle = glGetUniformLocation(this->handle, name.data());
 			glUniform3fv(handle, 3, &info[0]);
 		}

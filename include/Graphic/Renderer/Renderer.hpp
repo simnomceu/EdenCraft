@@ -30,7 +30,7 @@ namespace ece
 
 		void addRenderQueue(const RenderQueueKey & key);
 
-		void render(const Camera & cam, const Projection & projection, std::vector<Renderable &> & objects);
+		void render(const Camera & cam, const Projection & projection, std::vector<Renderable *> & objects);
 
 	private:
 		std::unordered_map<RenderQueueKey, std::unique_ptr<RenderQueue>> queues;
