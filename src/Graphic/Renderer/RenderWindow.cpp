@@ -2,6 +2,10 @@
 
 #include "Model\ShaderEffect.hpp"
 #include "Renderer\Shader.hpp"
+#include "Model\Mesh.hpp"
+#include "Model\Object.hpp"
+
+#include <memory>
 
 namespace ece
 {
@@ -13,9 +17,9 @@ namespace ece
 		auto shaderEffect = std::make_shared<ShaderEffect>();
 		auto vertexShader = shaderEffect->addShader();
 
-		auto & object = this->scene.addObject();
-		/*object.setMesh(mesh);
-		object.setShaderEffect(shaderEffect);*/
+		//auto & object = this->scene.addObject();
+		//object.setMesh(mesh);
+		//object.setShaderEffect(shaderEffect);
 	}
 
 	void RenderWindow::onRefresh()

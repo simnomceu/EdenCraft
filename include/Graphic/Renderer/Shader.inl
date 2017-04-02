@@ -1,4 +1,3 @@
-#include "Shader.hpp"
 namespace ece
 {
 	inline Shader::Shader(): filename(), source(), type(GL::NULL_TYPE_SHADER), handle(GL::NULL_ID) {}

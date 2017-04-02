@@ -162,5 +162,25 @@ namespace ece
 				// throw RuntimeException
 			}
 		}
+
+		VertexArrayID createObject()
+		{
+			VertexArrayID handle = NULL_ID;
+			glGenVertexArrays(1, &handle);
+			if (handle == NULL_ID) {
+				throw InitializationException("GL object");
+			}
+			return handle;
+		}
+
+		void renderObject(const VertexArrayID & objectHandle, const RenderMode & renderMode, const unsigned int numberOfVertices)
+		{
+			if (objectHandle == NULL_ID) {
+				throw BadInputException("An invalid reference to an object cannot be used for rendering.");
+			}
+			glBindVertexArray(objectHandle);
+			glDrawArrays(renderMode, 0, (GLsizei)(numberOfVertices * 3));
+			glBindVertexArray(NULL_ID);
+		}
 	}
 }

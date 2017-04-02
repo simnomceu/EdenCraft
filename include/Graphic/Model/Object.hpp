@@ -1,24 +1,18 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
-//#include "Rendering\Model\OldAnimation.hpp"
-//#include "Util\Type.hpp"
 //#include "Rendering\Model\Movable.hpp"
-//#include "Rendering\Model\Program.hpp"
-//#include <vector>
-
 #include "Renderer\Renderable.hpp"
-#include "Model\Mesh.hpp"
-#include "Model\Skeleton.hpp"
-#include "Model\Texture.hpp"
-#include "Model\ShaderEffect.hpp"
-#include "Model\Animation.hpp"
 
 #include <memory>
 
 namespace ece
 {
-    //class OldGLSLProgram;
+	class Mesh;
+	class Skeleton;
+	class Texture;
+	class ShaderEffect;
+	class Animation;
 
     class Object: public Renderable// ,public Movable
     {
@@ -53,8 +47,6 @@ namespace ece
 
 		virtual void draw() override;
 
-		//void loadMeshFromFile(const std::string & filename);
-
         //void prepare();
         //inline void update(const float elaspedTime);
         //void render(Program & program, const glm::mat4 & view, const glm::mat4 & projection);
@@ -64,18 +56,8 @@ namespace ece
         inline const Point3D getRelativeCenter() const;
         inline const Matrix4x4 & getModel() const;*/
 
-        /*void rotate(const float degree, const glm::vec3 & normal, const bool animated = true);
-        void rotate(const float degree, const glm::vec3 & normal, const Point3D & center, const bool animated = true);
-        void rotate(const float degree, const glm::vec3 & normal, const Object & center, const bool animated = true);
-        void translate(const glm::vec3 & translation);
-        void scale(const glm::vec3 & scaling);
-        void moveToOrigin();*/
-
     protected:
-		/*RenderMode modeRender;
-
-		VertexArrayID vao;
-		VertexBufferID vboPosition;
+		/*VertexBufferID vboPosition;
 		VertexBufferID vboColor;*/
 
 		/*OldAnimation animation;
@@ -88,6 +70,9 @@ namespace ece
 		std::shared_ptr<Texture> texture;
 		std::shared_ptr<ShaderEffect> shaderEffect;
 		std::shared_ptr<Animation> animation;
+
+		GL::VertexArrayID handle;
+		GL::RenderMode renderMode;
     };
 }
 

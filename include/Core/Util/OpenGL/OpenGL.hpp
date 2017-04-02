@@ -77,6 +77,9 @@ namespace ece
 
 		void attachShaderToProgram(const ShaderID & shaderHandle, const ProgramID & programHandle);
 		void detachShaderFromProgram(const ShaderID & shaderHandle, const ProgramID & programHandle);
+
+		VertexArrayID createObject();
+		void renderObject(const VertexArrayID & objectHandle, const RenderMode & renderMode, const unsigned int numberOfVertices);
 	};
 }
 

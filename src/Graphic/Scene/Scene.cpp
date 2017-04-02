@@ -1,6 +1,8 @@
 #include "Scene\Scene.hpp"
 
 #include "Util\Type.hpp"
+#include "Model\Object.hpp"
+#include "Renderer\Renderable.hpp"
 
 namespace ece
 {

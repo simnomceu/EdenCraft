@@ -9,23 +9,7 @@
 
 namespace ece
 {
-/*	void Object::setMesh(const std::shared_ptr<Mesh> & mesh)
-	{
-		auto lastPtr = this->mesh;
-		this->mesh = mesh;
-		lastPtr.reset();
-		this->computeCenter();
-	}*/
-
-	/*void Object::setSkeleton(const std::shared_ptr<Mesh> & mesh)
-	{
-		auto lastPtr = this->mesh;
-		this->mesh = mesh;
-		lastPtr.reset();
-		//		this->computeCenter();
-	}*/
-
-	std::vector<std::string> Object::getLocations() const
+	/*std::vector<std::string> Object::getLocations() const
 	{
 		// TODO: not final version
 		return std::vector<std::string>();
@@ -35,21 +19,26 @@ namespace ece
 	{
 		// TODO: not final version
 		return GL::Matrix4x4();
+	}*/
+
+	std::vector<std::string> Object::getLocations() const
+	{
+		return std::vector<std::string>();
+	}
+
+	const GL::Matrix4x4 & Object::getModel() const
+	{
+		return GL::Matrix4x4();
 	}
 
 	void Object::draw()
 	{
-		// TODO: not final version
-	}
-
-	/*void Object::loadMeshFromFile(const std::string & filename)
-	{
-		this->mesh = std::make_unique<Mesh>();
-		bool loaded = this->mesh->loadFromFile(filename);
-		if (loaded) {
-			this->computeCenter();
+		if (this->handle == GL::NULL_ID) {
+			this->handle = GL::createObject();
+			// TODO: not final version
 		}
-	}*/
+		GL::renderObject(this->handle, this->renderMode, this->mesh->size());
+	}
 
     /*void Object::prepare()
     {
@@ -81,46 +70,6 @@ namespace ece
         // ===== Clear Binding =====
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(NULL_ID);
-    }*/
-
-    /*void Object::render(Program & program, const glm::mat4 & view, const glm::mat4 & projection)
-	//void OldObject3D::render(Program & program, const glm::mat4 & view, const glm::mat4 & projection)
-    {
-		program.bindInfo(projection * view * this->model, "MVP");
-		program.use();
-        glBindVertexArray(this->vao);
-        glDrawArrays(this->modeRender, 0, (GLsizei)this->mesh->size()*3);
-        glBindVertexArray(NULL_ID);
-    }*/
-
-    /*void Object::rotate(const float degree, const glm::vec3 & normal, const bool animated)
-    {
-        this->animation.add(std::make_shared<OldRotation>(degree, normal, animated));
-    }
-
-    void Object::rotate(const float degree, const glm::vec3 & normal, const Point3D & center, const bool animated)
-    {
-        this->animation.add(std::make_shared<OldRotation>(degree, normal, center, animated));
-    }
-
-    void Object::rotate(const float degree, const glm::vec3 & normal, const Object & center, const bool animated)
-    {
-        this->animation.add(std::make_shared<OldRotation>(degree, normal, center.getAbsoluteCenter(), animated));
-    }
-
-    void Object::translate(const glm::vec3 & translation)
-    {
-//        this->translationToApply = translation;
-    }
-
-    void Object::scale(const glm::vec3 & scaling)
-    {
-//        this->scaleToApply = scaling;
-    }
-
-    void Object::moveToOrigin()
-    {
-        this->model = glm::mat4(1.0f);
     }*/
 
     /*void Object::computeCenter()

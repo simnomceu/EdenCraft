@@ -35,6 +35,17 @@ namespace ece
 		ANIMATION = 4
 	};
 
+	enum TypeNodeJSON : unsigned short int
+	{
+		NULL_JSON = 0,
+		BOOLEAN = 1,
+		INTEGER = 2,
+		DOUBLE = 3,
+		STRING = 4,
+		OBJECT = 5,
+		ARRAY = 6
+	};
+
 	static const double RATIO_4_3 = 4.0 / 3.0;
 	static const double RATIO_5_4 = 5.0 / 4.0;
 	static const double RATIO_16_9 = 16.0 / 9.0;

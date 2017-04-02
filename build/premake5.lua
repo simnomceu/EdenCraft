@@ -37,9 +37,21 @@ project "App"
 		"../examples/App/**.hpp",
 		"../examples/App/**.inl"
 	}
-	linkoptions { "/NODEFAULTLIB:libcmt.lib"}
+	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
 	links { "Core", "Window", "Graphic", "opengl32", "glew32s", "glfw3" }
 	includedirs { "../include/Graphic", "../include/Core", "../include/Window", "../examples/App" }
+	
+project "Internationalization"
+	kind "ConsoleApp"
+	location ""
+	files {
+		"../examples/Internationalization/**.cpp",
+		"../examples/Internationalization/**.hpp",
+		"../examples/Internationalization/**.inl"
+	}
+	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
+	links { "Core", "opengl32", "glew32s", "glfw3" }
+	includedirs { "../include/Core", "../include/examples/Internationalization" }
 
 project "Core"
 	kind "StaticLib"

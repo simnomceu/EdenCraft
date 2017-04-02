@@ -1,12 +1,13 @@
 #include "Model\ShaderEffect.hpp"
 
+#include <algorithm>
+
 namespace ece
 {
 	std::shared_ptr<Shader> ShaderEffect::addShader()
 	{
-		auto shader = std::make_shared<Shader>();
-		this->shaders.push_back(shader);
-		return shader;
+		this->shaders.push_back(std::shared_ptr<Shader>());
+		return this->shaders.back();
 	}
 
 	void ShaderEffect::compileAll()

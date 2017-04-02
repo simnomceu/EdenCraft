@@ -3,12 +3,14 @@
 
 #include "Scene\Camera.hpp"
 #include "Scene\Projection.hpp"
-#include "Model\Object.hpp"
 
 #include <vector>
 
 namespace ece
 {
+	class Renderable;
+	class Object;
+
 	class Scene
 	{
 	public:

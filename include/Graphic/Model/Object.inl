@@ -1,4 +1,11 @@
+#include "Model\Mesh.hpp"
+#include "Model\Skeleton.hpp"
+#include "Model\Texture.hpp"
+#include "Model\ShaderEffect.hpp"
+#include "Model\Animation.hpp"
 #include "Object.hpp"
+
+
 namespace ece
 {
 	/*inline Object::Object() : Movable(), modeRender(RenderMode::TRIANGLES), vao(NULL_ID), vboPosition(NULL_ID), vboColor(NULL_ID), 
@@ -18,7 +25,8 @@ namespace ece
 
 	inline const glm::mat4 & Object::getModel() const { return this->model; }*/
 
-	inline Object::Object(): mesh(nullptr), skeleton(nullptr), texture(nullptr), shaderEffect(nullptr), animation(nullptr) {}
+	inline Object::Object(): mesh(nullptr), skeleton(nullptr), texture(nullptr), shaderEffect(nullptr), animation(nullptr), 
+		handle(GL::NULL_ID), renderMode(GL::TRIANGLES) {}
 
 	inline Object::~Object() {}
 
@@ -42,3 +50,5 @@ namespace ece
 
 	inline std::shared_ptr<Animation> Object::getAnimation() const { return this->animation; }
 }
+
+
