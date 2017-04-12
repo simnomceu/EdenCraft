@@ -4,6 +4,7 @@ namespace ece
 {
 	void Application::run()
 	{
+		// TODO : add balancer to reduce usage of processor.
 		this->start();
 		while (this->isRunning()) {
 			this->processEvents();

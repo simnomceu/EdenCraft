@@ -14,13 +14,14 @@
 #include "Window\WindowService.hpp"
 #include "Window\WindowManagerGLFW.hpp"
 #include "Window\BaseWindow.hpp"
-#include "OldRendering\OldObject3D.hpp"
-#include "OldRendering\OldGLSLProgram.hpp"
+//#include "Rendering\Model\Object.hpp"
+//#include "Rendering\Model\Program.hpp"
 //#include "Rendering\RenderingService.hpp"
 //#include "Rendering\RenderFactoryGL.hpp"
 
 #include <iostream>
 #include <exception>
+#include <string>
 
 /**
  * @fn	int main()
@@ -33,6 +34,11 @@
  * @return	Exit-code for the process - 0 for success, else an error code.
  */
 
+// TODO: create another project in the solution to analize the code smell
+// it could be to check if there is no more than 8-10 methods in a class (with step: green level (? < 6), orange(6 < ? < 10) and red(? > 10)
+// number of parameters by method (no more than 2-3 parameters)
+// etc ....
+// thsi could be developped using qt module at the beginning, and then, be replaced by ece designer in the future.
 auto main() -> int
 {
 	// TODO : error while modules are not inialized explicitly here.
@@ -42,15 +48,19 @@ auto main() -> int
 	catch (std::exception & e) {
 		std::cerr << e.what() << std::endl;
 	}*/
-	ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
-	ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
-	ece::WindowServiceLocator::provide(ece::WindowServiceFactory::build<ece::WindowManagerGLFW>());
-	//ece::RenderingServiceLocator::provide(ece::RenderingServiceFactory::build<ece::RenderFactoryGL>());
+	try {
+		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
+		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
+		ece::WindowServiceLocator::provide(ece::WindowServiceFactory::build<ece::WindowManagerGLFW>());
+		//ece::RenderingServiceLocator::provide(ece::RenderingServiceFactory::build<ece::RenderFactoryGL>());
 
-	Game game;
+		Game game;
 
-	game.run();
-
+		game.run();
+	}
+	catch (std::exception & e) {
+		ece::ServiceLoggerLocator::getService().logError("Uncaught exception: " + std::string(e.what()));
+	}
 
 	// ########################################################
 
@@ -58,7 +68,7 @@ auto main() -> int
 	window->open(ece::VideoMode());
 	window->setTitle("Wonderful, it's working!");
 
-	ece::OldObject3D object;
+	ece::Object object;
 	object.buildFromFile("../resource/shader/cube.dat");
 
 	ece::OldGLSLProgram program;

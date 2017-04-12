@@ -3,6 +3,7 @@
 
 #include "Window\WindowService.hpp"
 #include "GLFW\glfw3.h"
+#include "Util\OpenGL\OpenGL.hpp"
 
 #include <iostream>
 #include <memory>
@@ -48,7 +49,7 @@ namespace ece
 	void BaseWindow::close()
 	{
 		ece::WindowServiceLocator::getService().closeWindow(this->windowId);
-		this->windowId = -1;
+		this->windowId = GL::NULL_ID;
 		this->emit(WINDOW_CLOSED);
 	}
 
