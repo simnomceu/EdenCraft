@@ -64,6 +64,17 @@ project "Core"
 	includedirs { "../include/Core" }
 	links { }
 	
+project "Utility"
+	kind "StaticLib"
+	location ""
+	files {
+		"../src/Utility/**.cpp",
+		"../include/Utility/**.inl",
+		"../include/Utility/**.hpp"
+	}
+	includedirs { "../include/Utility" }
+	links { }
+	
 project "Window"
 	kind "StaticLib"
 	location ""
