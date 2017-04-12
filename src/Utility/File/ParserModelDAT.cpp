@@ -1,7 +1,7 @@
-#include "Util\File\ParserModelDAT.hpp"
+#include "File\ParserModelDAT.hpp"
 
-#include "Util\File\File.hpp"
-#include "Util\Debug\FileException.hpp"
+#include "File\File.hpp"
+#include "Debug\FileException.hpp"
 
 namespace ece
 {

@@ -20,6 +20,6 @@ namespace ece
 	};
 }
 
-#include "Util\Time\Chrono.inl"
+#include "Time\Chrono.inl"
 
 #endif CHRONO_HPP

@@ -18,6 +18,6 @@ namespace ece
 	};
 }
 
-#include "Util\Debug\BadInputException.inl"
+#include "Debug\BadInputException.inl"
 
 #endif // BADINPUTEXCEPTION_HPP

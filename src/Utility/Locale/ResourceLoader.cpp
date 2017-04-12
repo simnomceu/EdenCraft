@@ -1,8 +1,8 @@
-#include "Util\Locale\ResourceLoader.hpp"
+#include "Locale\ResourceLoader.hpp"
 
-#include "Util\File\ParserJSON.hpp"
-#include "Util\Debug\FileException.hpp"
-#include "Util\JSON\AtomicJSON.hpp"
+#include "File\ParserJSON.hpp"
+#include "Debug\FileException.hpp"
+#include "JSON\AtomicJSON.hpp"
 
 #include <utility>
 #include <iostream>

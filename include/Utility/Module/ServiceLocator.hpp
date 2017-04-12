@@ -21,6 +21,6 @@ namespace ece
 	};
 }
 
-#include "Util\Module\ServiceLocator.inl"
+#include "Module\ServiceLocator.inl"
 
 #endif // SERVICELOCATOR_HPP

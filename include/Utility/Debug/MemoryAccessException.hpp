@@ -18,6 +18,6 @@ namespace ece
 	};
 }
 
-#include "Util\Debug\MemoryAccessException.inl"
+#include "Debug\MemoryAccessException.inl"
 
 #endif // MEMORYACCESSEXCEPTION_HPP

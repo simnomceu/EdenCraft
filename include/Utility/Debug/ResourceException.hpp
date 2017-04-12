@@ -18,6 +18,6 @@ namespace ece
 	};
 }
 
-#include "Util\Debug\ResourceException.inl"
+#include "Debug\ResourceException.inl"
 
 #endif // RESOURCEEXCEPTION_HPP

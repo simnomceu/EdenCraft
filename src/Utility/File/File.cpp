@@ -1,6 +1,6 @@
-#include "Util\File\File.hpp"
+#include "File\File.hpp"
 
-#include "Util\Debug\FileException.hpp"
+#include "Debug\FileException.hpp"
 
 namespace ece
 {

@@ -1,6 +1,6 @@
-#include "Util\JSON\ArrayJSON.hpp"
+#include "JSON\ArrayJSON.hpp"
 
-#include "Util\JSON\ObjectJSON.hpp"
+#include "JSON\ObjectJSON.hpp"
 
 namespace ece
 {

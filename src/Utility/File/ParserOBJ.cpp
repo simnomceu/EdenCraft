@@ -1,4 +1,4 @@
-#include "Util\File\ParserOBJ.hpp"
+#include "File\ParserOBJ.hpp"
 
 #include <fstream>
 #include <sstream>

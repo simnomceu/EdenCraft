@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Util\Log\BaseLogger.hpp"
+#include "Log\BaseLogger.hpp"
 
 namespace ece
 {	
@@ -18,6 +18,6 @@ namespace ece
 	};
 }
 
-#include "Util\Log\Logger.inl"
+#include "Log\Logger.inl"
 
 #endif // LOGGER_HPP

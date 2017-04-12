@@ -5,7 +5,7 @@
 #include <fstream>
 #include <vector>
 
-#include "Util\Type.hpp"
+#include "Type.hpp"
 
 namespace ece
 {
@@ -41,6 +41,6 @@ namespace ece
 	template<> std::vector<FastVertex3D> File::parseToVector<FastVertex3D>();
 }
 
-#include "Util\File\File.inl"
+#include "File\File.inl"
 
 #endif // FILE_HPP

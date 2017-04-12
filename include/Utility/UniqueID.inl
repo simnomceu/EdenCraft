@@ -9,6 +9,4 @@ namespace ece
 	{
 		this->push_back(start);
 	}
-
-
 }

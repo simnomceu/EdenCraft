@@ -1,8 +1,8 @@
-#include "Util\File\ParserJSON.hpp"
+#include "File\ParserJSON.hpp"
 
-#include "Util\File\File.hpp"
-#include "Util\Debug\FileException.hpp"
-#include "Util\JSON\ArrayJSON.hpp"
+#include "File\File.hpp"
+#include "Debug\FileException.hpp"
+#include "JSON\ArrayJSON.hpp"
 
 #include <sstream>
 

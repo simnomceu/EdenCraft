@@ -1,4 +1,4 @@
-#include "Util\Time\UpdatePerSecond.hpp"
+#include "Time\UpdatePerSecond.hpp"
 
 namespace ece
 {

@@ -2,7 +2,7 @@
 #define PARSERMODELDAT_HPP
 
 #include <vector>
-#include "Util\Type.hpp"
+#include "Type.hpp"
 
 namespace ece
 {
@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "Util\File\ParserModelDAT.inl"
+#include "File\ParserModelDAT.inl"
 
 #endif // PARSERMODELDAT_HPP

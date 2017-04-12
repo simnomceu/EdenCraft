@@ -1,7 +1,7 @@
 #ifndef LOGGERNONE_HPP
 #define LOGGERNONE_HPP
 
-#include "Util\Log\BaseLogger.hpp"
+#include "Log\BaseLogger.hpp"
 
 namespace ece
 {
@@ -14,6 +14,6 @@ namespace ece
 	};
 }
 
-#include "Util\Log\LoggerNone.inl"
+#include "Log\LoggerNone.inl"
 
 #endif // LOGGERNONE_HPP

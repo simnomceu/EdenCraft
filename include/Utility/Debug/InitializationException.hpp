@@ -18,6 +18,6 @@ namespace ece
 	};
 }
 
-#include "Util\Debug\InitializationException.inl"
+#include "Debug\InitializationException.inl"
 
 #endif // INITIALIZATIONEXCEPTION_HPP

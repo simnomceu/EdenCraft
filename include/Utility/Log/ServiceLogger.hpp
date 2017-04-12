@@ -1,9 +1,9 @@
 #ifndef SERVICELOGGER_HPP
 #define SERVICELOGGER_HPP
 
-#include "Util\Module\ServiceFactory.hpp"
-#include "Util\Module\ServiceLocator.hpp"
-#include "Util\Log\LoggerNone.hpp"
+#include "Module\ServiceFactory.hpp"
+#include "Module\ServiceLocator.hpp"
+#include "Log\LoggerNone.hpp"
 
 namespace ece
 {

@@ -28,6 +28,6 @@ namespace ece
 	};
 }
 
-#include "Util\File\ParserOBJ.inl"
+#include "File\ParserOBJ.inl"
 
 #endif // PARSEROBJ_HPP

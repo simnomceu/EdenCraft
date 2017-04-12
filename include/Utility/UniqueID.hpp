@@ -25,6 +25,6 @@ namespace ece
 	};
 }
 
-#include "Util\UniqueID.inl"
+#include "UniqueID.inl"
 
 #endif // UNIQUEID_HPP

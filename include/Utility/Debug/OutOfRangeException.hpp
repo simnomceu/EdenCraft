@@ -18,6 +18,6 @@ namespace ece
 	};
 }
 
-#include "Util\Debug\OutOfRangeException.inl"
+#include "Debug\OutOfRangeException.inl"
 
 #endif

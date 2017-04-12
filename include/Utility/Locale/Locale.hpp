@@ -1,8 +1,8 @@
 #ifndef LOCALE_HPP
 #define LOCALE_HPP
 
-#include "Util\Locale\Language.hpp"
-#include "Util\Locale\Country.hpp"
+#include "Locale\Language.hpp"
+#include "Locale\Country.hpp"
 
 namespace ece
 {
@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "Util\Locale\Locale.inl"
+#include "Locale\Locale.inl"
 
 #endif // LOCALE_HPP

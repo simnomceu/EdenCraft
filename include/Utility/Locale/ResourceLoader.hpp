@@ -4,8 +4,8 @@
 #include <string>
 #include <utility>
 
-#include "Util\Locale\Locale.hpp"
-#include "Util\Locale\ResourceContainer.hpp"
+#include "Locale\Locale.hpp"
+#include "Locale\ResourceContainer.hpp"
 
 namespace ece
 {

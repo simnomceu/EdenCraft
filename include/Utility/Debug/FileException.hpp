@@ -4,7 +4,7 @@
 #include <exception>
 #include <string>
 
-#include "Util\Type.hpp"
+#include "Type.hpp"
 
 namespace ece
 {
@@ -19,6 +19,6 @@ namespace ece
 	};
 }
 
-#include "Util\Debug\FileException.inl"
+#include "Debug\FileException.inl"
 
 #endif // FILEEXCEPTION_HPP
