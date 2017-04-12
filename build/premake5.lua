@@ -85,6 +85,17 @@ project "Graphic"
 	}
 	includedirs { "../include/Graphic", "../include/Core", "../include/Window" }
 	links { }
+	
+project "Renderer"
+	kind "StaticLib"
+	location ""
+	files {
+		"../src/Renderer/**.cpp",
+		"../include/Randerer/**.inl",
+		"../include/Renderer/**.hpp"
+	}
+	includedirs { "../include/Rendering", "../include/Core" }
+	links { }
 	defines { "GLEW_STATIC" }
 		
 project "Test"
