@@ -1,6 +1,7 @@
 #include "File\File.hpp"
 
-#include "Debug\FileException.hpp"
+#include "Debug\Exception.hpp"
+#include <iostream>
 
 namespace ece
 {
@@ -8,7 +9,7 @@ namespace ece
 	{
 		this->close();
 		if (!File::exists(filename)) {
-			throw FileException(BAD_PATH, filename);
+			throw Debug::makeFileException(BAD_PATH, filename);
 		}
 		this->filename = filename;
 		std::fstream::open(this->filename, mode);
@@ -45,7 +46,7 @@ namespace ece
 			}
 		}
 		catch (std::exception & e) {
-			throw FileException(PARSE_ERROR, this->filename);
+			throw Debug::makeFileException(PARSE_ERROR, this->filename);
 		}
 		return content;
 	}

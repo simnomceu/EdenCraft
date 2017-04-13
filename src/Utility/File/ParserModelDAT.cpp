@@ -1,7 +1,7 @@
 #include "File\ParserModelDAT.hpp"
 
 #include "File\File.hpp"
-#include "Debug\FileException.hpp"
+#include "Debug\Exception.hpp"
 
 namespace ece
 {
@@ -16,7 +16,7 @@ namespace ece
 			this->vertices.insert(this->vertices.begin(), tmp.begin(), tmp.begin() + size);
 			this->colors.insert(this->colors.begin(), tmp.begin() + size, tmp.end());
 		}
-		catch (FileException & e) {
+		catch (Debug::FileException & e) {
 			throw e;
 		}
 	}

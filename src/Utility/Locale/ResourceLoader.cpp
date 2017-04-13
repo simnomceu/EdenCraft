@@ -1,7 +1,7 @@
 #include "Locale\ResourceLoader.hpp"
 
 #include "File\ParserJSON.hpp"
-#include "Debug\FileException.hpp"
+#include "Debug\Exception.hpp"
 #include "JSON\AtomicJSON.hpp"
 
 #include <utility>
@@ -66,7 +66,7 @@ namespace ece
 				}
 			}
 		}
-		catch (FileException & e) {
+		catch (Debug::FileException & e) {
 			std::cerr << e.what() << std::endl;
 		}
 	}

@@ -50,8 +50,8 @@ project "Internationalization"
 		"../examples/Internationalization/**.inl"
 	}
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
-	links { "Core", "opengl32", "glew32s", "glfw3" }
-	includedirs { "../include/Core", "../include/examples/Internationalization" }
+	links { "Utility" }
+	includedirs { "../include/Utility", "../include/examples/Internationalization" }
 
 project "Core"
 	kind "StaticLib"

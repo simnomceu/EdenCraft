@@ -1,7 +1,7 @@
 #include "File\ParserJSON.hpp"
 
 #include "File\File.hpp"
-#include "Debug\FileException.hpp"
+#include "Debug\Exception.hpp"
 #include "JSON\ArrayJSON.hpp"
 
 #include <sstream>
@@ -162,7 +162,7 @@ namespace ece
 				}
 				this->contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
 			}
-			catch (FileException & e) {
+			catch (Debug::FileException & e) {
 				throw e;
 			}
 		}
