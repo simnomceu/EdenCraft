@@ -66,7 +66,7 @@ namespace ece
 				}
 			}
 		}
-		catch (Debug::FileException & e) {
+		catch (FileException & e) {
 			std::cerr << e.what() << std::endl;
 		}
 	}

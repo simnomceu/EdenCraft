@@ -162,7 +162,7 @@ namespace ece
 				}
 				this->contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
 			}
-			catch (Debug::FileException & e) {
+			catch (FileException & e) {
 				throw e;
 			}
 		}

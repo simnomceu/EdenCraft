@@ -16,7 +16,7 @@ namespace ece
 			this->vertices.insert(this->vertices.begin(), tmp.begin(), tmp.begin() + size);
 			this->colors.insert(this->colors.begin(), tmp.begin() + size, tmp.end());
 		}
-		catch (Debug::FileException & e) {
+		catch (FileException & e) {
 			throw e;
 		}
 	}

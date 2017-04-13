@@ -9,7 +9,7 @@ namespace ece
 	{
 		this->close();
 		if (!File::exists(filename)) {
-			throw Debug::makeFileException(BAD_PATH, filename);
+			throw FileException::makeException(BAD_PATH, filename);
 		}
 		this->filename = filename;
 		std::fstream::open(this->filename, mode);
@@ -46,7 +46,7 @@ namespace ece
 			}
 		}
 		catch (std::exception & e) {
-			throw Debug::makeFileException(PARSE_ERROR, this->filename);
+			throw FileException::makeException(PARSE_ERROR, this->filename);
 		}
 		return content;
 	}

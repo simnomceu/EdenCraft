@@ -7,12 +7,7 @@
 
 namespace ece
 {
-	enum class ExceptionType : unsigned int
-	{
-		FILE_EXCEPTION = 0
-	};
-
-	template <ExceptionType T>
+	template <class T>
 	class Exception : protected std::runtime_error
 	{
 	public:
@@ -21,7 +16,7 @@ namespace ece
 		inline Exception(const std::string & whatArg);
 
 		template<class... Args>
-		static Exception<T> makeException(const std::string & message, Args... args);
+		static T makeException(const std::string & message, Args... args);
 
 	private:
 		inline static std::string mapString(const std::string & content);
@@ -30,11 +25,11 @@ namespace ece
 		static std::string mapString(const std::string & content, V value, Args... args);
 	};
 
-	namespace Debug
+	class FileException : public Exception<FileException>
 	{
-		typedef Exception<ExceptionType::FILE_EXCEPTION> FileException;
-		FileException makeFileException(const FileCodeError codeError, const std::string & filename);
-	}
+	public:
+		static FileException makeException(const FileCodeError codeError, const std::string & filename);
+	};
 }
 
 #include "Debug\Exception.inl"
