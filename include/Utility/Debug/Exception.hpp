@@ -30,6 +30,37 @@ namespace ece
 	public:
 		static FileException makeException(const FileCodeError codeError, const std::string & filename);
 	};
+
+	class BadInputException : public Exception<BadInputException>
+	{
+	public:
+		static BadInputException makeException(const std::string & details);
+	};
+
+	class InitializationException : public Exception<InitializationException>
+	{
+	public:
+		static InitializationException makeException(const std::string & target);
+	};
+
+	class MemoryAccessException : public Exception<MemoryAccessException>
+	{
+	public:
+		static MemoryAccessException makeException(const std::string & target);
+		static MemoryAccessException makeException(const std::string & target, const std::string & origin);
+	};
+
+	class OutOfRangeException : public Exception<OutOfRangeException>
+	{
+	public:
+		static OutOfRangeException makeException(const std::string & type, const int id);
+	};
+
+	class ResourceException : public Exception<ResourceException>
+	{
+	public:
+		static ResourceException makeException(const std::string & target, const unsigned short int id);
+	};
 }
 
 #include "Debug\Exception.inl"

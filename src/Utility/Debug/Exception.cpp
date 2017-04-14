@@ -16,4 +16,34 @@ namespace ece
 			break;
 		}
 	}
+
+	BadInputException BadInputException::makeException(const std::string & details)
+	{
+		return Exception<BadInputException>::makeException("Bad input: %.", details);
+	}
+
+	InitializationException InitializationException::makeException(const std::string & target)
+	{
+		return Exception<InitializationException>::makeException("% has failed to initialize.", target);
+	}
+
+	MemoryAccessException MemoryAccessException::makeException(const std::string & target)
+	{
+		return Exception<MemoryAccessException>::makeException("Bad access to %. The pointer has expired.", target);
+	}
+
+	MemoryAccessException MemoryAccessException::makeException(const std::string & target, const std::string & origin)
+	{
+		return Exception<MemoryAccessException>::makeException("Bad access to % from %. The pointer has expired.", target, origin);
+	}
+
+	OutOfRangeException OutOfRangeException::makeException(const std::string & type, const int id)
+	{
+		return Exception<OutOfRangeException>::makeException("Out of range access for % %.", type, id);
+	}
+
+	ResourceException ResourceException::makeException(const std::string & target, const unsigned short int id)
+	{
+		return Exception<ResourceException>::makeException("The resource % with the ID % is not available.", target, id);
+	}
 }
