@@ -61,8 +61,8 @@ project "Core"
 		"../include/Core/**.inl",
 		"../include/Core/**.hpp"
 	}
-	includedirs { "../include/Core" }
-	links { }
+	includedirs { "../include/Core", "../include/Utility" }
+	links { "Utility" }
 	
 project "Utility"
 	kind "StaticLib"

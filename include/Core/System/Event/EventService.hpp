@@ -1,8 +1,8 @@
 #ifndef EVENTSERVICE_HPP
 #define EVENTSERVICE_HPP
 
-#include "Util\Module\ServiceFactory.hpp"
-#include "Util\Module\ServiceLocator.hpp"
+#include "Module\ServiceFactory.hpp"
+#include "Module\ServiceLocator.hpp"
 #include "System\Event\EventManagerNone.hpp"
 
 

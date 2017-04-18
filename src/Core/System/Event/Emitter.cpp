@@ -1,7 +1,7 @@
 #include "System\Event\Emitter.hpp"
 
-#include "Util\Debug\MemoryAccessException.hpp"
-#include "Util\Debug\OutOfRangeException.hpp"
+#include "Debug\Exception.hpp"
+#include "Debug\Exception.hpp"
 
 #include <iostream>
 
@@ -47,7 +47,7 @@ namespace ece
 	const Signal::GlobalSignalID Emitter::getSignal(const Signal::SignalID signal) const
 	{
 		if (this->signals.find(signal) == this->signals.end()) {
-			throw OutOfRangeException("signal", signal);
+			throw OutOfRangeException::makeException("signal", signal);
 		}
 		return this->signals.at(signal);
 	}
