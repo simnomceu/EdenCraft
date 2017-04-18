@@ -15,7 +15,7 @@ namespace ece
 		static void setPath(const std::string & path);
 
 		ResourceLoader() = delete;
-		ResourceLoader(const std::string & filename, const Locale & locale = Locale(ENGLISH, US));
+		ResourceLoader(const std::string & filename, const Locale & locale = Locale(ENGLISH, USA));
 		ResourceLoader(const ResourceLoader & copy) = default;
 		ResourceLoader(ResourceLoader && move) = default;
 

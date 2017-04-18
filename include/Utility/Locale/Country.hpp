@@ -7,7 +7,7 @@ namespace ece
 {
 	using Country = std::string;
 
-	static const Country US = "US";
+	static const Country USA = "US";
 	static const Country FRANCE = "FR";
 }
 
