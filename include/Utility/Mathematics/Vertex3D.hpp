@@ -8,7 +8,7 @@ namespace ece
 	{
 	public:
 		inline Vertex3D();
-		inline Vertex3D(const int x, const int y, const int z);
+		inline Vertex3D(const T x, const T y, const T z);
 		Vertex3D(const Vertex3D & copy) = default;
 		Vertex3D(Vertex3D && move) = default;
 
@@ -28,6 +28,8 @@ namespace ece
 		inline Vertex3D<T> operator-(const Vertex3D<T> value) const;
 
 		inline Vertex3D<T> operator-() const;
+
+		inline bool operator==(const Vertex3D<T> rightOperand) const;
 
 		inline void normalize();
 		inline T magnitude() const;

@@ -25,8 +25,8 @@ namespace ece
 
 	inline const glm::mat4 & Object::getModel() const { return this->model; }*/
 
-	inline Object::Object(): mesh(nullptr), skeleton(nullptr), texture(nullptr), shaderEffect(nullptr), animation(nullptr), 
-		handle(GL::NULL_ID), renderMode(GL::TRIANGLES) {}
+	inline Object::Object(): mesh(nullptr), skeleton(nullptr), texture(nullptr), shaderEffect(nullptr), animation(nullptr)/*, 
+		handle(GL::NULL_ID), renderMode(GL::TRIANGLES)*/ {}
 
 	inline Object::~Object() {}
 

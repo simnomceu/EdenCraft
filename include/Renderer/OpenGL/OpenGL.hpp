@@ -1,7 +1,7 @@
 #ifndef OPENGL_HPP
 #define OPENGL_HPP
 
-#include "Util\Type.hpp"
+#include "Type.hpp"
 #include "glm\glm.hpp"
 #include "GL\glew.h"
 
@@ -83,6 +83,6 @@ namespace ece
 	};
 }
 
-#include "Util\OpenGL\OpenGL.inl"
+#include "OpenGL\OpenGL.inl"
 
 #endif // OPENGL_HPP

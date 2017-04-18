@@ -46,7 +46,7 @@ namespace ece
 			}
 		}
 		catch (std::exception & e) {
-			throw FileException::makeException(PARSE_ERROR, this->filename);
+			throw FileException::makeException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
 		}
 		return content;
 	}

@@ -6,8 +6,8 @@
 #include <memory>
 #include <vector>
 
-#include "Renderer\RenderQueue.hpp"
-#include "Renderer\Renderable.hpp"
+#include "RenderQueue.hpp"
+#include "Renderable.hpp"
 
 namespace ece
 {

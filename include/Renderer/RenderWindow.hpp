@@ -2,7 +2,7 @@
 #define RENDERWINDOW_HPP
 
 #include "Window\BaseWindow.hpp"
-#include "Renderer\Renderer.hpp"
+#include "Renderer.hpp"
 #include "Scene\Scene.hpp"
 
 namespace ece

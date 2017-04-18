@@ -1,10 +1,10 @@
 #include "Window\WindowManagerGLFW.hpp"
 
-#include "Util\Log\ServiceLogger.hpp"
+#include "Log\ServiceLogger.hpp"
 
-#include "Util\OpenGL\OpenGL.hpp"
+//#include "OpenGL\OpenGL.hpp"
 #include "Event\EventHandler.hpp"
-#include "Util\Debug\OutOfRangeException.hpp"
+#include "Debug\Exception.hpp"
 #include "GL\glew.h"
 
 #include <utility> // std::pair
@@ -28,7 +28,7 @@ namespace ece
 
 	void WindowManagerGLFW::initGLFW()
 	{
-		this->isGLFWInitialized = GL::initGLFW();
+		//this->isGLFWInitialized = GL::initGLFW();
 	}
 
 	ece::WindowID WindowManagerGLFW::openWindow(const ece::WindowTag & tag)
@@ -82,7 +82,7 @@ namespace ece
 			glfwDestroyWindow(this->getWindow(windowId));
 			if (this->isContextDefined == windowId) {
 				if (this->windows.size() == 0) {
-					this->isContextDefined = GL::NULL_ID;
+					this->isContextDefined = -1;// GL::NULL_ID;
 				}
 				else {
 					this->isContextDefined = this->windows.end()->first;
@@ -280,7 +280,7 @@ namespace ece
 	{
 		// TODO initialize earlier, to not shift usage of Objects.
 		if (this->isWindowOpen) {
-			this->isGLEWInit = GL::initGlew();
+			//this->isGLEWInit = GL::initGlew();
 		}
 		else {
 			ServiceLoggerLocator::getService().logError("GLEW need a context to work correctly.");
@@ -295,8 +295,8 @@ namespace ece
 
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
-		if (windowId == GL::NULL_ID || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
-			throw OutOfRangeException("GLFWwindow", windowId);
+		if (windowId == -1/*GL::NULL_ID*/ || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
+			throw OutOfRangeException::makeException("GLFWwindow", windowId);
 			// TODO exception non attrapée quand fenêtre fermée
 		}
 		return this->windows[windowId];
@@ -308,7 +308,7 @@ namespace ece
 		auto monitors = glfwGetMonitors(&nbMonitors);
 
 		if (monitorId < 0 || monitorId > nbMonitors) {
-			throw OutOfRangeException("GLFWmonitor", monitorId);
+			throw OutOfRangeException::makeException("GLFWmonitor", monitorId);
 		}
 
 		return monitors[monitorId];

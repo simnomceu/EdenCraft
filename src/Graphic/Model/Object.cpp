@@ -1,7 +1,7 @@
 #include "Model\Object.hpp"
 
-#include "Util\File\ParserModelDAT.hpp"
-#include "Util\Debug\FileException.hpp"
+#include "File\ParserModelDAT.hpp"
+#include "Debug\Exception.hpp"
 #include "glm\gtc\matrix_transform.hpp"
 
 #include <iostream>
@@ -21,7 +21,7 @@ namespace ece
 		return GL::Matrix4x4();
 	}*/
 
-	std::vector<std::string> Object::getLocations() const
+	/*std::vector<std::string> Object::getLocations() const
 	{
 		return std::vector<std::string>();
 	}
@@ -39,7 +39,7 @@ namespace ece
 		}
 		GL::renderObject(this->handle, this->renderMode, this->mesh->size());
 	}
-
+	*/
     /*void Object::prepare()
     {
         // ===== VAO =====

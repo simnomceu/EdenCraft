@@ -1,7 +1,7 @@
 #ifndef RENDERABLE_HPP
 #define RENDERABLE_HPP
 
-#include "Util\OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGL.hpp"
 #include "Model\ShaderEffect.hpp"
 
 #include <vector>

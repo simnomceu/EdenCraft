@@ -5,7 +5,7 @@ namespace ece
 	inline Vertex3D::Vertex3D(): x(0), y(0), z(0) {}
 
 	template <class T>
-	inline Vertex3D::Vertex3D(const int x, const int y, const int z) : x(x), y(y), z(z) {}
+	inline Vertex3D::Vertex3D(const T x, const T y, const T z) : x(x), y(y), z(z) {}
 
 	template<class T>
 	template<typename V>
@@ -71,6 +71,12 @@ namespace ece
 	inline Vertex3D<T> Vertex3D<T>::operator-() const
 	{
 		return Vertex3D<T>(-value.x, -value.y, -value.z);
+	}
+
+	template<class T>
+	inline bool Vertex3D<T>::operator==(const Vertex3D<T> rightOperand) const
+	{
+		return this->x == rightOperand.x && this->y == rightOperand.y && this->z == rightOperand.z;
 	}
 
 	template<class T>

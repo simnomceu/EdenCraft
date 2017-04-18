@@ -1,9 +1,9 @@
 #ifndef RENDERQUEUE_HPP
 #define RENDERQUEUE_HPP
 
-#include "Renderer\Renderable.hpp"
-#include "Util\OpenGL\OpenGL.hpp"
-#include "Renderer\Program.hpp"
+#include "Renderable.hpp"
+#include "OpenGL\OpenGL.hpp"
+#include "Program.hpp"
 
 namespace ece
 {

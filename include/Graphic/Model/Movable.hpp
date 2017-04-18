@@ -1,7 +1,7 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
-#include "Type.hpp"
+#include "Mathematics\Vertex3D.hpp"
 
 namespace ece
 {

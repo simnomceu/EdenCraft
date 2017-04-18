@@ -83,8 +83,8 @@ project "Window"
 		"../include/Window/**.inl",
 		"../include/Window/**.hpp"
 	}
-	includedirs { "../include/Window", "../include/Core" }
-	links { }
+	includedirs { "../include/Window", "../include/Utility", "../include/Core" }
+	links { "Utility", "Core" }
 	
 project "Graphic"
 	kind "StaticLib"
@@ -94,19 +94,19 @@ project "Graphic"
 		"../include/Graphic/**.inl",
 		"../include/Graphic/**.hpp"
 	}
-	includedirs { "../include/Graphic", "../include/Core", "../include/Window", "../include/Utility" }
-	links { "Utility" }
+	includedirs { "../include/Graphic", "../include/Core", "../include/Utility" }
+	links { "Utility", "Core" }
 	
 project "Renderer"
 	kind "StaticLib"
 	location ""
 	files {
 		"../src/Renderer/**.cpp",
-		"../include/Randerer/**.inl",
+		"../include/Renderer/**.inl",
 		"../include/Renderer/**.hpp"
 	}
-	includedirs { "../include/Rendering", "../include/Core" }
-	links { }
+	includedirs { "../include/Renderer", "../include/Utility", "../include/Core", "../include/Graphic", "../include/Window" }
+	links { "Utility", "Core", "Graphic", "Window" }
 	defines { "GLEW_STATIC" }
 		
 project "Test"

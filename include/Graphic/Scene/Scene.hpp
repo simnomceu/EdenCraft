@@ -27,12 +27,12 @@ namespace ece
 
 		inline Camera & getCamera();
 		inline Projection & getProjection();
-		inline std::vector<Renderable *> & getObjects();
+		inline std::vector<Object> & getObjects();
 
 	private:
 		Camera camera;
 		Projection projection;
-		std::vector<Renderable *> objects;
+		std::vector<Object> objects;
 	};
 }
 

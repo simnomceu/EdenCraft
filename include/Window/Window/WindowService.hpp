@@ -1,8 +1,8 @@
 #ifndef WINDOWSERVICE_HPP
 #define WINDOWSERVICE_HPP
 
-#include "Util\Module\ServiceFactory.hpp"
-#include "Util\Module\ServiceLocator.hpp"
+#include "Module\ServiceFactory.hpp"
+#include "Module\ServiceLocator.hpp"
 #include "Window\WindowManagerNone.hpp"
 #include "Window\WindowManager.hpp"
 

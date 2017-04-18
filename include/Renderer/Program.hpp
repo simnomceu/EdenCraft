@@ -1,8 +1,8 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
 
-#include "Util\OpenGL\OpenGL.hpp"
-#include "Renderer\Shader.hpp"
+#include "OpenGL\OpenGL.hpp"
+#include "ShaderGL.hpp"
 
 #include <string>
 #include <memory>
@@ -49,6 +49,6 @@ namespace ece
     };
 }
 
-#include "Renderer\Program.inl"
+#include "Program.inl"
 
 #endif // PROGRAM_H

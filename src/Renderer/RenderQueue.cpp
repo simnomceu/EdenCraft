@@ -1,4 +1,4 @@
-#include "Renderer\RenderQueue.hpp"
+#include "RenderQueue.hpp"
 
 #include "Model\ShaderEffect.hpp"
 
@@ -15,11 +15,11 @@ namespace ece
 		}
 
 		auto shaderEffect = object.getShaderEffect();
-		shaderEffect->compileAll();
-		shaderEffect->attachTo(this->program.getHandle());
+		//shaderEffect->compileAll();
+		//shaderEffect->attachTo(this->program.getHandle());
 		this->program.link();
-		shaderEffect->detachFrom(this->program.getHandle());
-		shaderEffect->terminateAll();
+		//shaderEffect->detachFrom(this->program.getHandle());
+		//shaderEffect->terminateAll();
 
 		this->program.bindInfo(VP * object.getModel(), "MVP");
 		this->program.use();

@@ -4,5 +4,5 @@ namespace ece
 
 	inline Projection & Scene::getProjection() { return this->projection; }
 
-	inline std::vector<Renderable *> & Scene::getObjects() { return this->objects; }
+	inline std::vector<Object> & Scene::getObjects() { return this->objects; }
 }

@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-#include "Type.hpp"
+#include "Mathematics\Vertex3D.hpp"
 #include "Geom\Box3D.hpp"
 
 namespace ece

@@ -1,10 +1,11 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
-//#include "Rendering\Model\Movable.hpp"
-#include "Renderer\Renderable.hpp"
+#include "Model\Movable.hpp"
+//#include "Renderer\Renderable.hpp"
 
 #include <memory>
+#include <vector>
 
 namespace ece
 {
@@ -14,7 +15,7 @@ namespace ece
 	class ShaderEffect;
 	class Animation;
 
-    class Object: public Renderable// ,public Movable
+    class Object//: public Renderable// ,public Movable
     {
     public:
         inline Object();
@@ -42,10 +43,10 @@ namespace ece
 		inline std::shared_ptr<ShaderEffect> getShaderEffect() const;
 		inline std::shared_ptr<Animation> getAnimation() const;
 
-		virtual std::vector<std::string> getLocations() const override;
-		virtual const GL::Matrix4x4 & getModel() const override;
+		//virtual std::vector<std::string> getLocations() const override;
+		//virtual const GL::Matrix4x4 & getModel() const override;
 
-		virtual void draw() override;
+		//virtual void draw() override;
 
         //void prepare();
         //inline void update(const float elaspedTime);
@@ -71,8 +72,8 @@ namespace ece
 		std::shared_ptr<ShaderEffect> shaderEffect;
 		std::shared_ptr<Animation> animation;
 
-		GL::VertexArrayID handle;
-		GL::RenderMode renderMode;
+		//GL::VertexArrayID handle;
+		//GL::RenderMode renderMode;
     };
 }
 

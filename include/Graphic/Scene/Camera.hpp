@@ -2,7 +2,8 @@
 #define CAMERA_HPP
 
 #include "Model\Movable.hpp"
-#include "Util\Type.hpp"
+#include "Mathematics\Vertex3D.hpp"
+#include "glm\glm.hpp"
 
 namespace ece
 {
@@ -20,20 +21,20 @@ namespace ece
 		Camera & operator=(Camera && move) = default;
 
 		inline void lookAt(const Movable & object);
-		inline void lookAt(const GL::Point3D & target);
-		inline void lookUpTo(const GL::Vertex3D & direction);
+		inline void lookAt(const FloatVertex3D & target);
+		inline void lookUpTo(const FloatVertex3D & direction);
 		inline void moveTo(const Movable & object);
-		inline void moveTo(const GL::Point3D position);
-		inline void moveIn(const GL::Vertex3D & direction);
+		inline void moveTo(const FloatVertex3D & position);
+		inline void moveIn(const FloatVertex3D & direction);
 
-		inline GL::Matrix4x4 getCamera() const;
+		inline glm::mat4 getCamera() const;
 
 	private:
-		void updatePosition(const GL::Point3D position, const GL::Point3D & target);
+		void updatePosition(const FloatVertex3D & position, const FloatVertex3D & target);
 
-		GL::Point3D position;
-		GL::Point3D target;
-		GL::Vertex3D upAxis;
+		FloatVertex3D position;
+		FloatVertex3D target;
+		FloatVertex3D upAxis;
 	};
 }
 

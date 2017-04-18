@@ -1,7 +1,7 @@
 #ifndef BOX3D_HPP
 #define BOX3D_HPP
 
-#include "Vertex.hpp"
+#include "Mathematics\Vertex3D.hpp"
 
 namespace ece
 {

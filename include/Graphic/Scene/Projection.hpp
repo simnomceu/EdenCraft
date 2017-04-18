@@ -1,7 +1,7 @@
 #ifndef PROJECTION_HPP
 #define PROJECTION_HPP
 
-#include "Util\OpenGL\OpenGL.hpp"
+#include "glm\glm.hpp"
 
 namespace ece
 {
@@ -19,10 +19,10 @@ namespace ece
 
 		inline void setProjection(const double FOV, const double ratio, const double nearClipping, const double farClipping);
 
-		inline const GL::Matrix4x4 & getProjection() const;
+		inline const glm::mat4 & getProjection() const;
 
 	private:
-		GL::Matrix4x4 projection;
+		glm::mat4 projection;
 	};
 }
 

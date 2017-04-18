@@ -1,8 +1,8 @@
-#include "Renderer\Renderer.hpp"
+#include "Renderer.hpp"
 
 #include "Scene\Camera.hpp"
 #include "Scene\Projection.hpp"
-#include "Util\OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGL.hpp"
 
 #include <utility>
 

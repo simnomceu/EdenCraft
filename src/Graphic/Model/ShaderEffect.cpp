@@ -1,7 +1,5 @@
 #include "Model\ShaderEffect.hpp"
 
-#include <algorithm>
-
 namespace ece
 {
 	std::shared_ptr<Shader> ShaderEffect::addShader()
@@ -10,7 +8,7 @@ namespace ece
 		return this->shaders.back();
 	}
 
-	void ShaderEffect::compileAll()
+/*	void ShaderEffect::compileAll()
 	{
 		// TODO: only one shader of each shader type ?
 		for (auto shader : this->shaders) {
@@ -37,5 +35,5 @@ namespace ece
 		for (auto shader : this->shaders) {
 			GL::detachShaderFromProgram(shader->getHandle(), programHandle);
 		}
-	}
+	}*/
 }
