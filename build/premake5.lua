@@ -94,8 +94,8 @@ project "Graphic"
 		"../include/Graphic/**.inl",
 		"../include/Graphic/**.hpp"
 	}
-	includedirs { "../include/Graphic", "../include/Core", "../include/Window" }
-	links { }
+	includedirs { "../include/Graphic", "../include/Core", "../include/Window", "../include/Utility" }
+	links { "Utility" }
 	
 project "Renderer"
 	kind "StaticLib"

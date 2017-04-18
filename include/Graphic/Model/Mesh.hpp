@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-#include "Util\Type.hpp"
+#include "Type.hpp"
 #include "Geom\Box3D.hpp"
 
 namespace ece
@@ -23,14 +23,14 @@ namespace ece
 
 		bool loadFromFile(const std::string & filename);
 
-		inline const std::vector<FastVertex3D> & getVertices() const;
-		inline const std::vector<FastVertex3D> & getColors() const;
+		inline const std::vector<FloatVertex3D> & getVertices() const;
+		inline const std::vector<FloatVertex3D> & getColors() const;
 		inline const unsigned int size() const;
 		Box3D getAABB() const;
 
 	private:
-		std::vector<FastVertex3D> vertices;
-		std::vector<FastVertex3D> colors;
+		std::vector<FloatVertex3D> vertices;
+		std::vector<FloatVertex3D> colors;
 	};
 }
 
