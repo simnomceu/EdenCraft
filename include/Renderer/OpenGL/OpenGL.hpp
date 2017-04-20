@@ -62,10 +62,7 @@ namespace ece
 			std::string log;
 			std::string source;
 		};
-
-		bool initGLFW();
-		bool initGlew();
-
+		
 		inline Matrix4x4 lookAt(Vertex3D position, Point3D target, Vertex3D upAxis);
 
 		ShaderID createShader(const ShaderType & type);

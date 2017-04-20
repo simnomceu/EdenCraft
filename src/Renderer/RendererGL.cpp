@@ -1,4 +1,4 @@
-#include "Renderer.hpp"
+#include "RendererGL.hpp"
 
 #include "Scene\Camera.hpp"
 #include "Scene\Projection.hpp"
@@ -8,14 +8,14 @@
 
 namespace ece
 {
-	void Renderer::addRenderQueue(const RenderQueueKey & key)
+	void RendererGL::addRenderQueue(const RenderQueueKey & key)
 	{
 		// NOTE: not final version. Required to implement an inheritance of RenderQueues.
 		this->queues.insert(std::make_pair(key, nullptr));
 		this->queues[key] = std::make_unique<RenderQueue>();
 	}
 
-	void Renderer::render(const Camera & cam, const Projection & projection, std::vector<Renderable *> & objects)
+	void RendererGL::render(const Camera & cam, const Projection & projection, std::vector<Renderable *> & objects)
 	{
 		auto VP = projection.getProjection() * cam.getCamera();
 

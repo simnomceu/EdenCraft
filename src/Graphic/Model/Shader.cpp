@@ -8,6 +8,10 @@ namespace ece
 {
 	void Shader::loadFromFile(const ShaderType & type, const std::string & filename)
 	{
+		if (type == NULL_TYPE_SHADER) {
+			throw BadInputException::makeException("A shader file need to be loaded with a valid type.");
+		}
+
 		if (this->filename != filename) {
 			this->filename = filename;
 
@@ -27,6 +31,10 @@ namespace ece
 
 	void Shader::loadFromString(const ShaderType & type, const std::string & sourceCode)
 	{
+		if (type == NULL_TYPE_SHADER) {
+			throw BadInputException::makeException("A shader file need to be loaded with a valid type.");
+		}
+
 		this->filename = "";
 		this->source = sourceCode;
 		this->type = type;

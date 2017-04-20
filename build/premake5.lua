@@ -38,8 +38,8 @@ project "App"
 		"../examples/App/**.inl"
 	}
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
-	links { "Core", "Window", "Graphic", "opengl32", "glew32s", "glfw3" }
-	includedirs { "../include/Graphic", "../include/Core", "../include/Window", "../examples/App" }
+	links { "Utility", "Core", "Window", "Graphic", "Renderer", "opengl32", "glew32s", "glfw3" }
+	includedirs { "../include/Utility", "../include/Core", "../include/Window", "../include/Graphic", "../include/Renderer", "../examples/App" }
 	
 project "Internationalization"
 	kind "ConsoleApp"
@@ -85,6 +85,7 @@ project "Window"
 	}
 	includedirs { "../include/Window", "../include/Utility", "../include/Core" }
 	links { "Utility", "Core" }
+	defines { "GLEW_STATIC" }
 	
 project "Graphic"
 	kind "StaticLib"
@@ -94,8 +95,8 @@ project "Graphic"
 		"../include/Graphic/**.inl",
 		"../include/Graphic/**.hpp"
 	}
-	includedirs { "../include/Graphic", "../include/Core", "../include/Utility" }
-	links { "Utility", "Core" }
+	includedirs { "../include/Graphic", "../include/Utility", "../include/Core", "../include/Window" }
+	links { "Utility", "Core", "Window" }
 	
 project "Renderer"
 	kind "StaticLib"

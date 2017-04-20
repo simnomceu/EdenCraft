@@ -1,6 +1,7 @@
 #ifndef PROJECTION_HPP
 #define PROJECTION_HPP
 
+#include "Window\Ratio.hpp"
 #include "glm\glm.hpp"
 
 namespace ece
@@ -8,7 +9,7 @@ namespace ece
 	class Projection
 	{
 	public:
-		Projection() = default;
+		inline Projection();
 		Projection(const Projection & copy) = default;
 		Projection(Projection && move) = default;
 
@@ -17,7 +18,7 @@ namespace ece
 		Projection & operator=(const Projection & copy) = default;
 		Projection & operator=(Projection && move) = default;
 
-		inline void setProjection(const double FOV, const double ratio, const double nearClipping, const double farClipping);
+		inline void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
 
 		inline const glm::mat4 & getProjection() const;
 

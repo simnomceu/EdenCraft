@@ -1,11 +1,7 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
-#include "Model\Movable.hpp"
-//#include "Renderer\Renderable.hpp"
-
 #include <memory>
-#include <vector>
 
 namespace ece
 {
@@ -15,17 +11,16 @@ namespace ece
 	class ShaderEffect;
 	class Animation;
 
-    class Object//: public Renderable// ,public Movable
+    class Object
     {
     public:
         inline Object();
-        //inline Object(const RenderMode mode);
-        Object(const Object & copy) = default; // TODO correct it to be sure the clone is a new object (different id)
+        Object(const Object & copy) = default;
         Object(Object && move) = default;
 
-        inline ~Object();
+        ~Object() = default;
 
-        Object & operator=(const Object & copy) = default; // TODO correct it to be sure the clone is a new object (different id)
+        Object & operator=(const Object & copy) = default;
 		Object & operator=(Object && move) = default;
 
 		// NOTE: each element should be build externally from this class, and just "linked" to it when required.
@@ -43,37 +38,12 @@ namespace ece
 		inline std::shared_ptr<ShaderEffect> getShaderEffect() const;
 		inline std::shared_ptr<Animation> getAnimation() const;
 
-		//virtual std::vector<std::string> getLocations() const override;
-		//virtual const GL::Matrix4x4 & getModel() const override;
-
-		//virtual void draw() override;
-
-        //void prepare();
-        //inline void update(const float elaspedTime);
-        //void render(Program & program, const glm::mat4 & view, const glm::mat4 & projection);
-		//void render(Program & program, const glm::mat4 & view, const glm::mat4 & projection);
-
-        /*inline const Point3D getAbsoluteCenter() const;
-        inline const Point3D getRelativeCenter() const;
-        inline const Matrix4x4 & getModel() const;*/
-
     protected:
-		/*VertexBufferID vboPosition;
-		VertexBufferID vboColor;*/
-
-		/*OldAnimation animation;
-		Matrix4x4 model;*/
-
-		//virtual void computeCenter() override;
-
 		std::shared_ptr<Mesh> mesh;
 		std::shared_ptr<Skeleton> skeleton;
 		std::shared_ptr<Texture> texture;
 		std::shared_ptr<ShaderEffect> shaderEffect;
 		std::shared_ptr<Animation> animation;
-
-		//GL::VertexArrayID handle;
-		//GL::RenderMode renderMode;
     };
 }
 

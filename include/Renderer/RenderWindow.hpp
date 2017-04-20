@@ -5,6 +5,8 @@
 #include "Renderer.hpp"
 #include "Scene\Scene.hpp"
 
+#include <memory>
+
 namespace ece
 {
 	class RenderWindow: public BaseWindow
@@ -24,8 +26,9 @@ namespace ece
 		virtual void open(const ece::VideoMode & videoMode) override;
 
 	private:
-		Renderer renderer;
+		std::shared_ptr<Renderer> renderer;
 		Scene scene;
+		Projection projection;
 	};
 }
 

@@ -41,22 +41,14 @@ namespace ece
 		virtual void displayOnWindow(const ece::WindowID & windowId) override;
 
 	protected:
-		void initGLFW();
-		void parametrizeContextGL();
-		void initGLEW();
-		void terminateGLFW();
-
 		GLFWwindow * getWindow(const ece::WindowID & windowId);
 		GLFWmonitor * getMonitor(const ece::MonitorID & monitorId);
 
 		void setWindowHint(const ece::WindowTag & tag);
 
 	private:
-		bool isGLFWInitialized;
-		bool isContextParametrized;
 		bool isWindowOpen;
 		short isContextDefined;
-		bool isGLEWInit;
 
 		std::stack<unsigned short int> idsAvailable;
 

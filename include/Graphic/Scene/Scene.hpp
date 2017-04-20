@@ -8,7 +8,6 @@
 
 namespace ece
 {
-	class Renderable;
 	class Object;
 
 	class Scene
@@ -26,12 +25,10 @@ namespace ece
 		Object & addObject();
 
 		inline Camera & getCamera();
-		inline Projection & getProjection();
 		inline std::vector<Object> & getObjects();
 
 	private:
 		Camera camera;
-		Projection projection;
 		std::vector<Object> objects;
 	};
 }

@@ -43,6 +43,6 @@ namespace ece
 	};
 }
 
-#include "Model\Shader.hpp"
+#include "Model\Shader.inl"
 
 #endif // SHADER_HPP

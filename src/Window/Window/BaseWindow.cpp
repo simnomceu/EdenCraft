@@ -39,11 +39,13 @@ namespace ece
 	{
 		ece::WindowServiceLocator::getService().provideVideoMode(videoMode);
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
+		if (this->windowId != -1) {
 
-		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
-		WindowServiceLocator::getService().registerEventHandler(this->windowId);
+			//WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+			WindowServiceLocator::getService().registerEventHandler(this->windowId);
 
-		this->emit(WINDOW_OPENED);
+			this->emit(WINDOW_OPENED);
+		}
 	}
 
 	void BaseWindow::close()

@@ -2,7 +2,8 @@
 
 #include "Window\WindowSetting.hpp"
 #include "Window\VideoMode.hpp"
-#include "Renderer\RenderWindow.hpp"
+#include "RenderWindow.hpp"
+#include "GraphicLibrary\ServiceGL.hpp"
 
 #include <algorithm>
 #include "Game.hpp"
