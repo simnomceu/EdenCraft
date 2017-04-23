@@ -1,7 +1,7 @@
 #ifndef RENDERQUEUE_HPP
 #define RENDERQUEUE_HPP
 
-#include "Renderable.hpp"
+#include "Renderable\Renderable.hpp"
 #include "OpenGL\OpenGL.hpp"
 #include "Program.hpp"
 

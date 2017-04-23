@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "Renderable\Renderable.hpp"
+
 namespace ece
 {
 	class Mesh;
@@ -11,7 +13,7 @@ namespace ece
 	class ShaderEffect;
 	class Animation;
 
-    class Object
+    class Object: public Renderable
     {
     public:
         inline Object();
@@ -37,6 +39,10 @@ namespace ece
 		inline std::shared_ptr<Texture> getTexture() const;
 		inline std::shared_ptr<ShaderEffect> getShaderEffect() const;
 		inline std::shared_ptr<Animation> getAnimation() const;
+
+		virtual std::vector<Vertex> getVertices() const override;
+		virtual std::vector<BaseUniform *> getUniforms() const override;
+		virtual std::vector<ShaderSource *> getShaderSources() const override;
 
     protected:
 		std::shared_ptr<Mesh> mesh;

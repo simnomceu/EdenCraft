@@ -2,21 +2,11 @@
 #define SHADER_HPP
 
 #include <string>
+#include "Renderable\ShaderSource.hpp"
 
 namespace ece
 {
-	enum ShaderType : unsigned short int
-	{
-		COMPUTE_SHADER = 0,
-		FRAGMENT_SHADER = 1,
-		GEOMETRY_SHADER = 2,
-		VERTEX_SHADER = 3,
-		TESS_EVALUATION_SHADER = 4,
-		TESS_CONTROL_SHADER = 5,
-		NULL_TYPE_SHADER
-	};
-
-	class Shader
+	class Shader: public ShaderSource
 	{
 	public:
 		inline Shader();
@@ -32,8 +22,8 @@ namespace ece
 		void loadFromString(const ShaderType & type, const std::string & sourceCode);
 
 		inline const std::string & getFilename() const;
-		inline const std::string & getSource() const;
-		inline const ShaderType & getType() const;
+		inline virtual const std::string & getSource() const override;
+		inline virtual const ShaderType & getType() const override;
 
 	private:
 		std::string filename;

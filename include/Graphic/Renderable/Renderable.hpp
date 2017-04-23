@@ -1,11 +1,11 @@
 #ifndef RENDERABLE_HPP
 #define RENDERABLE_HPP
 
-#include "OpenGL\OpenGL.hpp"
-#include "Model\ShaderEffect.hpp"
-
 #include <vector>
-#include <memory>
+
+#include "Renderable\Vertex.hpp"
+#include "Renderable\BaseUniform.hpp"
+#include "Renderable\ShaderSource.hpp"
 
 namespace ece
 {
@@ -21,11 +21,9 @@ namespace ece
 		Renderable & operator=(const Renderable & copy) = default;
 		Renderable & operator=(Renderable && move) = default;
 
-		virtual std::vector<std::string> getLocations() const = 0;
-		virtual std::shared_ptr<ShaderEffect> getShaderEffect() const = 0;
-		virtual const GL::Matrix4x4 & getModel() const = 0;
-
-		virtual void draw() = 0;
+		virtual std::vector<Vertex> getVertices() const = 0;
+		virtual std::vector<BaseUniform *> getUniforms() const = 0;
+		virtual std::vector<ShaderSource *> getShaderSources() const = 0;
 	};
 }
 

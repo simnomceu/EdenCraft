@@ -4,13 +4,13 @@
 #include "Model\Shader.hpp"
 #include "Model\Mesh.hpp"
 #include "Model\Object.hpp"
-#include "RendererGL.hpp"
+#include "BasicRenderer.hpp"
 
 #include <memory>
 
 namespace ece
 {
-	RenderWindow::RenderWindow(const ece::WindowSetting & settings): BaseWindow(settings), renderer(new RendererGL()), scene(), projection()
+	RenderWindow::RenderWindow(const ece::WindowSetting & settings): BaseWindow(settings), renderer(new BasicRenderer()), scene(), projection()
 	{
 		auto mesh = std::make_shared<Mesh>();
 		mesh->loadFromFile("../resource/shader/cube.dat");
@@ -36,6 +36,6 @@ namespace ece
 		// TODO : fix that, the object cannot be added before the window is opened.
 		BaseWindow::open(videoMode);
 
-		std::static_pointer_cast<RendererGL>(this->renderer)->addRenderQueue("Classic");
+	//	std::static_pointer_cast<RendererGL>(this->renderer)->addRenderQueue("Classic");
 	}
 }
