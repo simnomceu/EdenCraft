@@ -39,7 +39,7 @@ project "App"
 	}
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
 	links { "opengl32", "glew32s", "glfw3", "Utility", "Core", "Window", "Graphic", "Renderer" }
-	includedirs { "../include/Utility", "../include/Core", "../include/Window", "../include/Graphic", "../include/Renderer", "../examples/App" }
+	includedirs { "../include/Utility", "../include/Core", "../include/Window", "../include/Graphic", "../include/Renderer", "../examples/App" } 
 	
 project "Internationalization"
 	kind "ConsoleApp"

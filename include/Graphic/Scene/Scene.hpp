@@ -8,6 +8,7 @@
 
 namespace ece
 {
+	class Renderable;
 	class Object;
 
 	class Scene
@@ -22,14 +23,14 @@ namespace ece
 		Scene & operator=(const Scene & copy) = default;
 		Scene & operator=(Scene && move) = default;
 
-		Object & addObject();
+		Object * addObject();
 
 		inline Camera & getCamera();
-		inline std::vector<Object> & getObjects();
+		inline std::vector<Renderable *> & getObjects();
 
 	private:
 		Camera camera;
-		std::vector<Object> objects;
+		std::vector<Renderable *> objects;
 	};
 }
 

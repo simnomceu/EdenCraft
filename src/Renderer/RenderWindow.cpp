@@ -28,7 +28,7 @@ namespace ece
 		glViewport(0, 0, 800, 600); // TODO: why ?
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-//		this->renderer.render(this->scene.getCamera(), this->scene.getProjection(), this->scene.getObjects());
+		this->renderer->render(this->scene.getCamera(), this->projection, this->scene.getObjects());
 	}
 
 	void RenderWindow::open(const ece::VideoMode & videoMode)

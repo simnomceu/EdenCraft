@@ -25,11 +25,15 @@ namespace ece
 		virtual void onRefresh() override;
 		virtual void open(const ece::VideoMode & videoMode) override;
 
+		inline Scene & getScene();
+
 	private:
 		std::shared_ptr<Renderer> renderer;
 		Scene scene;
 		Projection projection;
 	};
 }
+
+#include "RenderWindow.inl"
 
 #endif // RENDERWINDOW_HPP

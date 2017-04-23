@@ -4,6 +4,8 @@
 #include "Scene\Projection.hpp"
 #include "Renderable\Renderable.hpp"
 
+#include <iostream>
+
 namespace ece
 {
 	void BasicRenderer::render(const Camera & cam, const Projection & projection, std::vector<Renderable *> & objects)

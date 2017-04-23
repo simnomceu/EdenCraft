@@ -11,9 +11,9 @@ namespace ece
 		this->camera.moveTo(FloatVertex3D(1.0f, 2.0f, 2.0f));
 	}
 
-	Object & Scene::addObject()
+	Object * Scene::addObject()
 	{
-		this->objects.push_back(Object());
-		return this->objects.back();
+		this->objects.push_back(new Object());
+		return static_cast<Object *>(this->objects.back());
 	}
 }

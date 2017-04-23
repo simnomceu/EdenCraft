@@ -4,9 +4,10 @@
 #include "Window\VideoMode.hpp"
 #include "RenderWindow.hpp"
 #include "GraphicLibrary\ServiceGL.hpp"
+#include "Model\Object.hpp"
 
 #include <algorithm>
-#include "Game.hpp"
+#include <memory>
 
 /**
  * @fn	Game::Game()
@@ -50,6 +51,20 @@ void Game::onInit()
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
 		it->get()->open(ece::VideoMode());
 	}
+
+	auto & scene = std::static_pointer_cast<ece::RenderWindow>(this->windows[0])->getScene();
+	auto object = scene.addObject();
+	
+	auto mesh = std::make_shared<ece::Mesh>();
+	mesh->loadFromFile("../resource/shader/cube.dat");
+	object->setMesh(mesh);
+
+	auto shaderEffect = std::make_shared<ece::ShaderEffect>();
+	auto vs = shaderEffect->addShader();
+	vs->loadFromFile(ece::ShaderType::VERTEX_SHADER, "../resource/shader/basic.vert");
+	auto fs = shaderEffect->addShader();
+	fs->loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../resource/shader/basic.frag");
+	object->setShaderEffect(shaderEffect);
 }
 
 /**
