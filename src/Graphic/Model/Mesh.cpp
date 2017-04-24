@@ -16,8 +16,8 @@ namespace ece
 		ParserModelDAT parser;
 		try {
 			parser.open(filename);
-//			this->vertices = parser.getVertices();
-//			this->colors = parser.getColors();
+			this->vertices = parser.getVertices();
+			this->colors = parser.getColors();
 		}
 		catch (FileException & e) {
 			std::cerr << e.what() << std::endl;
