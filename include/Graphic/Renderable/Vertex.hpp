@@ -29,6 +29,8 @@ namespace ece
 		std::vector<Color> getColors() const;
 		std::vector<Normal> getNormals() const;
 		std::vector<int> getIndices() const;
+
+		bool isIndexed() const;
 	};
 }
 

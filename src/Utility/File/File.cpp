@@ -41,7 +41,7 @@ namespace ece
 		FloatVertex3D value;
 		try {
 			while (this->good()) {
-				*this >> value.x >> value.y >> value.z;
+				*this >> value.position[X] >> value.position[Y] >> value.position[Z];
 				content.push_back(value);
 			}
 		}

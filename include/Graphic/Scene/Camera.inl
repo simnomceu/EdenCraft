@@ -18,8 +18,8 @@ namespace ece
 
 	inline glm::mat4 Camera::getCamera() const 
 	{ 
-		return glm::lookAt(glm::vec3(this->position.x, this->position.y, this->position.z), 
-							glm::vec3(this->target.x, this->target.y, this->target.z),
-							glm::vec3(this->upAxis.x, this->upAxis.y, this->upAxis.z));
+		return glm::lookAt(glm::vec3(this->position.position[X], this->position.position[Y], this->position.position[Z]),
+							glm::vec3(this->target.position[X], this->target.position[Y], this->target.position[Z]),
+							glm::vec3(this->upAxis.position[X], this->upAxis.position[Y], this->upAxis.position[Z]));
 	}
 }

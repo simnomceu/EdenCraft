@@ -1,8 +1,17 @@
 #ifndef VERTEX3D_HPP
 #define VERTEX3D_HPP
 
+#include <array>
+
 namespace ece
 {
+	enum Axis: unsigned short int
+	{
+		X = 0,
+		Y = 1,
+		Z = 2
+	};
+
 	template <class T>
 	class Vertex3D
 	{
@@ -39,9 +48,7 @@ namespace ece
 		inline T dot(const Vertex3D<T> & rightOperand) const;
 		inline T distanceFrom(const Vertex3D<T> & rightOperand) const;
 
-		T x;
-		T y;
-		T z;
+		std::array<T, 3> position;
 	};
 
 	static const Vertex3D<int> UP(0, 1, 0);
