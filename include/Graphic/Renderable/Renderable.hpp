@@ -21,7 +21,7 @@ namespace ece
 		Renderable & operator=(const Renderable & copy) = default;
 		Renderable & operator=(Renderable && move) = default;
 
-		virtual std::vector<Vertex> getVertices() const = 0;
+		virtual Vertex * getVertices() const = 0;
 		virtual std::vector<BaseUniform *> getUniforms() const = 0;
 		virtual std::vector<ShaderSource *> getShaderSources() const = 0;
 	};

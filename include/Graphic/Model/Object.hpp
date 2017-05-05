@@ -40,7 +40,7 @@ namespace ece
 		inline std::shared_ptr<ShaderEffect> getShaderEffect() const;
 		inline std::shared_ptr<Animation> getAnimation() const;
 
-		virtual std::vector<Vertex> getVertices() const override;
+		inline virtual Vertex * getVertices() const override;
 		virtual std::vector<BaseUniform *> getUniforms() const override;
 		virtual std::vector<ShaderSource *> getShaderSources() const override;
 

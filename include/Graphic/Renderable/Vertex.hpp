@@ -2,17 +2,10 @@
 #define VERTEX_HPP
 
 #include <vector>
+#include "Mathematics\Vertex3D.hpp"
 
 namespace ece
 {
-	struct Position
-	{
-		int data[3];
-	};
-
-	typedef Position Color;
-	typedef Position Normal;
-
 	class Vertex
 	{
 	public:
@@ -25,13 +18,15 @@ namespace ece
 		Vertex & operator=(const Vertex & copy) = default;
 		Vertex & operator=(Vertex && move) = default;
 
-		std::vector<Position> getPositions() const;
-		std::vector<Color> getColors() const;
-		std::vector<Normal> getNormals() const;
-		std::vector<int> getIndices() const;
+		virtual std::vector<FloatVertex3D> getPositions() const = 0;
+		virtual std::vector<FloatVertex3D> getColors() const = 0;
+		virtual std::vector<FloatVertex3D> getNormals() const = 0;
+		virtual std::vector<int> getIndices() const = 0;
 
-		bool isIndexed() const;
+		inline bool isIndexed() const;
 	};
 }
+
+#include "Renderable\Vertex.inl"
 
 #endif // VERTEX_HPP

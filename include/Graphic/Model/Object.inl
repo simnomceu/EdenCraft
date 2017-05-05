@@ -29,6 +29,8 @@ namespace ece
 	inline std::shared_ptr<ShaderEffect> Object::getShaderEffect() const { return this->shaderEffect; }
 
 	inline std::shared_ptr<Animation> Object::getAnimation() const { return this->animation; }
+
+	inline Vertex * Object::getVertices() const { return this->mesh.get(); }
 }
 
 
