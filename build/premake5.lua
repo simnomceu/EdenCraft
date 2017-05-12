@@ -52,6 +52,17 @@ project "Internationalization"
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
 	links { "Utility" }
 	includedirs { "../include/Utility", "../include/examples/Internationalization" }
+	
+project "Argumentalization"
+	kind "ConsoleApp"
+	location ""
+	files {
+		"../examples/Argumentalization/**.cpp",
+		"../examples/Argumentalization/**.hpp",
+		"../examples/Argumentalization/**.inl"
+	}
+	links { "Core", "Utility" }
+	includedirs { "../include/Core", "../include/Utility", "../examples/Argumentalization" }
 
 project "Core"
 	kind "StaticLib"

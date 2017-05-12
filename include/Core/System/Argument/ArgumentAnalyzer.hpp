@@ -1,0 +1,35 @@
+#ifndef ARGUMENTANALYZER_HPP
+#define ARGUMENTANALYZER_HPP
+
+#include <vector>
+
+#include "System\Argument\Option.hpp"
+
+namespace ece
+{
+	class ArgumentAnalyzer
+	{
+	public:
+		ArgumentAnalyzer() = default;
+		ArgumentAnalyzer(int argc, char * argv[]);
+		ArgumentAnalyzer(const ArgumentAnalyzer & copy) = default;
+		ArgumentAnalyzer(ArgumentAnalyzer && move) = default;
+
+		~ArgumentAnalyzer() = default;
+
+		ArgumentAnalyzer & operator=(const ArgumentAnalyzer & copy) = default;
+		ArgumentAnalyzer & operator=(ArgumentAnalyzer && move) = default;
+
+		inline void addOption(const Option & option);
+
+		void analyse();
+
+	private:
+		std::vector<Option> options;
+		std::vector<std::pair<std::string, std::string>> parameters;
+	};
+}
+
+#include "System\Argument\ArgumentAnalyzer.inl"
+
+#endif // ARGUMENTANALYZER_HPP

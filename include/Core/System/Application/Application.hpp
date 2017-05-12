@@ -4,16 +4,19 @@
 #include <memory>
 #include <vector>
 
+#include "System\Argument\ArgumentAnalyzer.hpp"
+
 namespace ece
 {
 	class Application
 	{
 	public:
 		inline Application();
+		inline Application(int argc, char * argv[]);
 		Application(const Application & copy) = delete;
 		Application(Application && move) = delete;
 
-		inline virtual ~Application() = 0;
+		inline ~Application();
 
 		Application & operator=(const Application & copy) = delete;
 		Application & operator=(Application && move) = delete;
@@ -21,14 +24,17 @@ namespace ece
 		void run();
 		inline void stop();
 
+		inline ArgumentAnalyzer & getArgumentAnalyzer();
+
 	protected:
-		virtual void onInit() = 0;
-		virtual void render() = 0;
-		virtual void update() = 0;
-		virtual void processEvents() = 0;
+		virtual void onInit();
+		inline virtual void render();
+		inline virtual void update();
+		inline virtual void processEvents();
 		inline const bool isRunning() const;
 
 		bool running;
+		ArgumentAnalyzer argumentAnalyzer;
 
 	private:
 		void start();

@@ -1,4 +1,5 @@
 #include "System\Application\Application.hpp"
+#include "Log\ServiceLogger.hpp"
 
 namespace ece
 {
@@ -10,6 +11,16 @@ namespace ece
 			this->processEvents();
 			this->update();
 			this->render();
+		}
+	}
+
+	void Application::onInit()
+	{
+		try {
+			this->argumentAnalyzer.analyse();
+		}
+		catch (std::runtime_error & e) {
+			ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
 		}
 	}
 
