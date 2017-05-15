@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "System\Argument\ArgumentAnalyzer.hpp"
+#include "System\Module\ModuleManager.hpp"
 
 namespace ece
 {
@@ -12,7 +13,7 @@ namespace ece
 	{
 	public:
 		inline Application();
-		inline Application(int argc, char * argv[]);
+		Application(int argc, char * argv[]);
 		Application(const Application & copy) = delete;
 		Application(Application && move) = delete;
 
@@ -26,18 +27,31 @@ namespace ece
 
 		inline ArgumentAnalyzer & getArgumentAnalyzer();
 
+		template <class T> inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
+		template <class T> inline void removeModule();
+		template <class T> inline T & getModule();
+
 	protected:
-		virtual void onInit();
-		inline virtual void render();
-		inline virtual void update();
-		inline virtual void processEvents();
+		inline virtual void onPreInit();
+		inline virtual void onPostInit();
+		inline virtual void onPreProcess();
+		inline virtual void onPreUpdate();
+		inline virtual void onPostUpdate();
+		inline virtual void onPostRender();
+		inline virtual void onPreTerminate();
+		inline virtual void onPostTerminate();
+
 		inline const bool isRunning() const;
 
 		bool running;
-		ArgumentAnalyzer argumentAnalyzer;
+		ModuleManager moduleManager;
 
 	private:
-		void start();
+		void init();
+		void update();
+		void processEvents();
+		void render();
+		void terminate();
 	};
 }
 

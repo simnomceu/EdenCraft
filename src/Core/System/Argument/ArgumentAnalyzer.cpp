@@ -2,7 +2,7 @@
 
 namespace ece
 {
-	ArgumentAnalyzer::ArgumentAnalyzer(int argc, char * argv[]): options(), parameters()
+	void ArgumentAnalyzer::setParameters(int argc, char * argv[])
 	{
 		for (int i = 1; i < argc; i++) {
 			if (argv[i][0] == '-') {

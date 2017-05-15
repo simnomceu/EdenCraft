@@ -1,8 +1,8 @@
 #ifndef SERVICEGL_HPP
 #define SERVICEGL_HPP
 
-#include "Module\ServiceFactory.hpp"
-#include "Module\ServiceLocator.hpp"
+#include "Service\ServiceFactory.hpp"
+#include "Service\ServiceLocator.hpp"
 #include "GraphicLibrary\NoneGL.hpp"
 
 namespace ece

@@ -11,7 +11,6 @@ namespace ece
 	{
 	public:
 		ArgumentAnalyzer() = default;
-		ArgumentAnalyzer(int argc, char * argv[]);
 		ArgumentAnalyzer(const ArgumentAnalyzer & copy) = default;
 		ArgumentAnalyzer(ArgumentAnalyzer && move) = default;
 
@@ -21,6 +20,8 @@ namespace ece
 		ArgumentAnalyzer & operator=(ArgumentAnalyzer && move) = default;
 
 		inline void addOption(const Option & option);
+
+		void setParameters(int argc, char * argv[]);
 
 		void analyse();
 
