@@ -44,18 +44,18 @@ namespace ece
 	template<class T>
 	inline Vertex3u<T>& Vertex3u<T>::operator+=(const Vertex3u<T> value)
 	{
-		(*this)[X] += value.x;
-		(*this)[Y] += value.y;
-		(*this)[Z] += value.z;
+		(*this)[X] += value[X];
+		(*this)[Y] += value[Y];
+		(*this)[Z] += value[Z];
 		return *this;
 	}
 
 	template<class T>
 	inline Vertex3u<T>& Vertex3u<T>::operator-=(const Vertex3u<T> value)
 	{
-		(*this)[X] -= value.x;
-		(*this)[Y] -= value.y;
-		(*this)[Z] -= value.z;
+		(*this)[X] -= value[X];
+		(*this)[Y] -= value[Y];
+		(*this)[Z] -= value[Z];
 		return *this;
 	}
 

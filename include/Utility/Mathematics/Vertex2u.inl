@@ -9,7 +9,7 @@ namespace ece
 	template <class T>
 	template <typename V>
 	inline Vertex2u<T>::Vertex2u(const Vertex2u<V> & copy) :
-		std::array<T, 3>{ static_cast<T>(copy[0]), static_cast<T>(copy[1]) } {}
+		std::array<T, 2>{ static_cast<T>(copy[0]), static_cast<T>(copy[1]) } {}
 
 	template <class T>
 	template <typename V>
@@ -41,16 +41,16 @@ namespace ece
 	template<class T>
 	inline Vertex2u<T>& Vertex2u<T>::operator+=(const Vertex2u<T> value)
 	{
-		(*this)[0] += value.x;
-		(*this)[1] += value.y;
+		(*this)[0] += value[0];
+		(*this)[1] += value[1];
 		return *this;
 	}
 
 	template<class T>
 	inline Vertex2u<T>& Vertex2u<T>::operator-=(const Vertex2u<T> value)
 	{
-		(*this)[0] -= value.x;
-		(*this)[1] -= value.y;
+		(*this)[0] -= value[0];
+		(*this)[1] -= value[1];
 		return *this;
 	}
 
