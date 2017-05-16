@@ -18,8 +18,19 @@
  * @date	14/08/2016
  */
 
-Game::Game() : Application(), windows()
+Game::Game() : Application(), Listener(), windows()
 {
+	this->addSlot(CREATE_WINDOWS, std::bind(&Game::createWindows, this, std::placeholders::_1, std::placeholders::_2));
+	this->addSlot(CREATE_SCENE, std::bind(&Game::createScene, this, std::placeholders::_1, std::placeholders::_2));
+	this->addSlot(ANALYSE_EVENTS, std::bind(&Game::analyseEvents, this, std::placeholders::_1, std::placeholders::_2));
+	this->addSlot(CLEAN_WINDOWS, std::bind(&Game::cleanWindows, this, std::placeholders::_1, std::placeholders::_2));
+	this->addSlot(REFRESH_DISPLAY, std::bind(&Game::refreshDisplay, this, std::placeholders::_1, std::placeholders::_2));
+
+	this->onPreInit(*this, CREATE_WINDOWS);
+	this->onPostInit(*this, CREATE_SCENE);
+	this->onPreUpdate(*this, ANALYSE_EVENTS);
+	this->onPostUpdate(*this, CLEAN_WINDOWS);
+	this->onPostRender(*this, REFRESH_DISPLAY);
 }
 
 /**
@@ -42,15 +53,16 @@ Game::~Game()
 void Game::addWindow(const ece::WindowSetting & setting)
 {
 	this->windows.push_back(std::make_unique<ece::BaseWindow>(setting));
+	std::cout << "window created" << std::endl;
 }
 
-void Game::onPreInit()
+void Game::createWindows(const ece::Emitter & emitter, const unsigned int signal)
 {
 	//auto & firstWindow = this->addWindow<ece::BaseWindow>();
 	auto & secondWindow = this->addWindow<ece::RenderWindow>();
 }
 
-void Game::onPostInit()
+void Game::createScene(const ece::Emitter & emitter, const unsigned int signal)
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
 		it->get()->open(ece::VideoMode());
@@ -71,11 +83,7 @@ void Game::onPostInit()
 	object->setShaderEffect(shaderEffect);
 }
 
-void Game::onPreProcess()
-{
-}
-
-void Game::onPreUpdate()
+void Game::analyseEvents(const ece::Emitter & emitter, const unsigned int signal)
 {
 	ece::Event event;
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
@@ -85,24 +93,16 @@ void Game::onPreUpdate()
 	}
 }
 
-void Game::onPostUpdate()
+void Game::cleanWindows(const ece::Emitter & emitter, const unsigned int signal)
 {
 	this->windows.erase(std::remove_if(this->windows.begin(), this->windows.end(),
 		[](std::shared_ptr<ece::BaseWindow> const & x) -> bool { return x->shouldClosed(); }), this->windows.end());
 }
 
-void Game::onPostRender()
+void Game::refreshDisplay(const ece::Emitter & emitter, const unsigned int signal)
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
 		it->get()->onRefresh();
 		it->get()->display();
 	}
-}
-
-void Game::onPreTerminate()
-{
-}
-
-void Game::onPostTerminate()
-{
 }

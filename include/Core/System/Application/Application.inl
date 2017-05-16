@@ -18,14 +18,14 @@ namespace ece
 	template <class T>
 	inline T & Application::getModule() { return this->moduleManager.get<T>(); }
 
-	inline void Application::onPreInit() {}
-	inline void Application::onPostInit() {}
-	inline void Application::onPreProcess() {}
-	inline void Application::onPreUpdate() {}
-	inline void Application::onPostUpdate() {}
-	inline void Application::onPostRender() {}
-	inline void Application::onPreTerminate() {}
-	inline void Application::onPostTerminate() {}
+	inline void Application::onPreInit(const Listener & listener, const unsigned int slot) { this->lifecycle->onPreInit(listener, slot); }
+	inline void Application::onPostInit(const Listener & listener, const unsigned int slot) { this->lifecycle->onPostInit(listener, slot); }
+	inline void Application::onPreProcess(const Listener & listener, const unsigned int slot) { this->lifecycle->onPreProcess(listener, slot); }
+	inline void Application::onPreUpdate(const Listener & listener, const unsigned int slot) { this->lifecycle->onPreUpdate(listener, slot); }
+	inline void Application::onPostUpdate(const Listener & listener, const unsigned int slot) { this->lifecycle->onPostUpdate(listener, slot); }
+	inline void Application::onPostRender(const Listener & listener, const unsigned int slot) { this->lifecycle->onPostRender(listener, slot); }
+	inline void Application::onPreTerminate(const Listener & listener, const unsigned int slot) { this->lifecycle->onPreTerminate(listener, slot); }
+	inline void Application::onPostTerminate(const Listener & listener, const unsigned int slot) { this->lifecycle->onPostTerminate(listener, slot); }
 
 	inline const bool Application::isRunning() const { return this->running; }
 }

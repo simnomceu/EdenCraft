@@ -7,16 +7,20 @@
 
 namespace ece
 {
-	Application::Application() : running(false), moduleManager()
+	Application::Application() : running(false), moduleManager(), lifecycle(nullptr)
 	{
 		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
 		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
+
+		this->lifecycle = std::make_shared<Lifecycle>();
 	}
 
-	Application::Application(int argc, char * argv[]) : running(false), moduleManager()
+	Application::Application(int argc, char * argv[]) : running(false), moduleManager(), lifecycle(nullptr)
 	{
 		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
 		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
+
+		this->lifecycle = std::make_shared<Lifecycle>();
 
 		auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyse);
 		argumentAnalyzer.setParameters(argc, argv);
@@ -25,23 +29,23 @@ namespace ece
 	void Application::run()
 	{
 		// TODO : add balancer to reduce usage of processor.
-		this->onPreInit();
+		this->lifecycle->preInit();
 		this->init();
-		this->onPostInit();
+		this->lifecycle->postInit();
 
 		while (this->isRunning()) {
-			this->onPreProcess();
+			this->lifecycle->preProcess();
 			this->processEvents();
-			this->onPreUpdate();
+			this->lifecycle->preUpdate();
 			this->update();
-			this->onPostUpdate();
+			this->lifecycle->postUpdate();
 			this->render();
-			this->onPostRender();
+			this->lifecycle->postRender();
 		}
 
-		this->onPreTerminate();
+		this->lifecycle->preTerminate();
 		this->terminate();
-		this->onPreTerminate();
+		this->lifecycle->preTerminate();
 	}
 
 	void Application::init()
@@ -62,6 +66,7 @@ namespace ece
 
 	void Application::processEvents()
 	{
+		//EventServiceLocator::getService().clear();
 	}
 
 	void Application::render()

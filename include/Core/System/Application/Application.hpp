@@ -6,6 +6,8 @@
 
 #include "System\Argument\ArgumentAnalyzer.hpp"
 #include "System\Module\ModuleManager.hpp"
+#include "System\Event\Emitter.hpp"
+#include "System\Application\Lifecycle.hpp"
 
 namespace ece
 {
@@ -31,16 +33,16 @@ namespace ece
 		template <class T> inline void removeModule();
 		template <class T> inline T & getModule();
 
-	protected:
-		inline virtual void onPreInit();
-		inline virtual void onPostInit();
-		inline virtual void onPreProcess();
-		inline virtual void onPreUpdate();
-		inline virtual void onPostUpdate();
-		inline virtual void onPostRender();
-		inline virtual void onPreTerminate();
-		inline virtual void onPostTerminate();
+		inline void onPreInit(const Listener & listener, const unsigned int slot);
+		inline void onPostInit(const Listener & listener, const unsigned int slot);
+		inline void onPreProcess(const Listener & listener, const unsigned int slot);
+		inline void onPreUpdate(const Listener & listener, const unsigned int slot);
+		inline void onPostUpdate(const Listener & listener, const unsigned int slot);
+		inline void onPostRender(const Listener & listener, const unsigned int slot);
+		inline void onPreTerminate(const Listener & listener, const unsigned int slot);
+		inline void onPostTerminate(const Listener & listener, const unsigned int slot);
 
+	protected:
 		inline const bool isRunning() const;
 
 		bool running;
@@ -52,6 +54,8 @@ namespace ece
 		void processEvents();
 		void render();
 		void terminate();
+
+		std::shared_ptr<Lifecycle> lifecycle;
 	};
 }
 
