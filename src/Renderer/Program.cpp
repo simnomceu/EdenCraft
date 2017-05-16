@@ -1,8 +1,7 @@
-#include "Renderer\Program.hpp"
+#include "Program.hpp"
 
-#include "Util\File\File.hpp"
-#include "Util\Debug\ResourceException.hpp"
-#include "Util\Debug\InitializationException.hpp"
+#include "File\File.hpp"
+#include "Debug\Exception.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -55,7 +54,7 @@ namespace ece
 			// TODO: removing all shaders after link
 		}
 		else {
-			throw ResourceException("Program", this->handle);
+			throw ResourceException::makeException("Program", this->handle);
 		}
     }
 
@@ -65,7 +64,7 @@ namespace ece
             glUseProgram(this->handle);
 		}
 		else {
-			throw ResourceException("Program", this->handle);
+			throw ResourceException::makeException("Program", this->handle);
 		}
     }
 
@@ -75,7 +74,7 @@ namespace ece
 			glBindAttribLocation(this->handle, index, name.data());
 		}
 		else {
-			throw ResourceException("Program", this->handle);
+			throw ResourceException::makeException("Program", this->handle);
 		}
 	}
 
@@ -86,7 +85,7 @@ namespace ece
 			glUniformMatrix4fv(handle, 1, GL_FALSE, &info[0][0]);
 		}
 		else {
-			throw ResourceException("Program", this->handle);
+			throw ResourceException::makeException("Program", this->handle);
 		}
 	}
 
@@ -97,7 +96,7 @@ namespace ece
 			glUniform3fv(handle, 3, &info[0]);
 		}
 		else {
-			throw ResourceException("Program", this->handle);
+			throw ResourceException::makeException("Program", this->handle);
 		}
 	}
 

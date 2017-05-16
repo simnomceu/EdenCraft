@@ -1,23 +1,23 @@
-#ifndef SHADER_HPP
-#define SHADER_HPP
+#ifndef SHADERGL_HPP
+#define SHADERGL_HPP
 
 #include <string>
 
-#include "Util\OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGL.hpp"
 
 namespace ece
 {
-	class Shader
+	class ShaderGL
 	{
 	public:
-		inline Shader();
-		Shader(const Shader & copy) = delete;
-		Shader(Shader && move);
+		inline ShaderGL();
+		ShaderGL(const ShaderGL & copy) = delete;
+		ShaderGL(ShaderGL && move);
 
-		inline ~Shader();
+		inline ~ShaderGL();
 
-		Shader & operator=(const Shader & copy) = delete;
-		Shader & operator=(Shader && move);
+		ShaderGL & operator=(const ShaderGL & copy) = delete;
+		ShaderGL & operator=(ShaderGL && move);
 
 		void loadFromFile(const GL::ShaderType & type, const std::string & filename);
 		void loadFromString(const GL::ShaderType & type, const std::string & sourceCode);
@@ -40,6 +40,4 @@ namespace ece
 	};
 }
 
-#include "Renderer\Shader.inl"
-
-#endif // SHADER_HPP
+#endif // SHADERGL_HPP

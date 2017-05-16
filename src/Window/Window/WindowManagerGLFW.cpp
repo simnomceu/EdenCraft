@@ -1,22 +1,21 @@
 #include "Window\WindowManagerGLFW.hpp"
 
-#include "Util\Log\ServiceLogger.hpp"
+#include "Log\ServiceLogger.hpp"
 
-#include "Util\OpenGL\OpenGL.hpp"
+#include "GraphicLibrary\ServiceGL.hpp"
 #include "Event\EventHandler.hpp"
-#include "Util\Debug\OutOfRangeException.hpp"
-#include "GL\glew.h"
+#include "Debug\Exception.hpp"
+
 
 #include <utility> // std::pair
 #include <functional>
 
 namespace ece
 {
-	WindowManagerGLFW::WindowManagerGLFW() : WindowManager(), isGLFWInitialized(false), isContextParametrized(false), isWindowOpen(false), 
-											isContextDefined(-1), isGLEWInit(false), idsAvailable(), windows()
+	WindowManagerGLFW::WindowManagerGLFW() : WindowManager(), isWindowOpen(false), 
+											isContextDefined(-1), idsAvailable(), windows()
 	{
-		this->idsAvailable.push(1);
-		this->windows.insert(std::make_pair(-1, nullptr));
+		this->idsAvailable.push(0);
 	}
 
 	WindowManagerGLFW::~WindowManagerGLFW()
@@ -26,18 +25,12 @@ namespace ece
 		}
 	}
 
-	void WindowManagerGLFW::initGLFW()
-	{
-		this->isGLFWInitialized = GL::initGLFW();
-	}
+
 
 	ece::WindowID WindowManagerGLFW::openWindow(const ece::WindowTag & tag)
 	{
-		if (!this->isGLFWInitialized) {
-			this->initGLFW();
-		}
-		if (!this->isContextParametrized) {
-			this->parametrizeContextGL();
+		if (!ServiceGLLocator::getService().isPreInitialized()) {
+			ServiceGLLocator::getService().preInit();
 		}
 
 		if (tag != ece::NO_OPTIONS_BIS) {
@@ -45,13 +38,10 @@ namespace ece
 		}
 
 		if ((tag & ece::FULLSCREEN) == ece::FULLSCREEN) {
-			this->windows.insert(std::make_pair(this->idsAvailable.top(),
-												glfwCreateWindow(640, 480, "My Title", glfwGetPrimaryMonitor(), NULL)));
+			this->windows[this->idsAvailable.top()] = glfwCreateWindow(640, 480, "My Title", glfwGetPrimaryMonitor(), NULL);
 		}
 		else {
-
-			this->windows.insert(std::make_pair(this->idsAvailable.top(),
-												glfwCreateWindow(640, 480, "My Title", NULL, NULL)));
+			this->windows[this->idsAvailable.top()] = glfwCreateWindow(640, 480, "My Title", NULL, NULL);
 		}
 		ece::WindowID windowId = -1;
 
@@ -66,12 +56,13 @@ namespace ece
 				glfwMakeContextCurrent(this->getWindow(windowId));
 			//}
 
-			if (!this->isGLEWInit) {
-				this->initGLEW();
+			if (!ServiceGLLocator::getService().isPostInitialized()) {
+				ServiceGLLocator::getService().postInit();
 			}
 		}
 		else {
 			this->windows.erase(this->idsAvailable.top());
+			ServiceLoggerLocator::getService().logError("Invalid context used to open a window.");
 		}
 		return windowId;
 	}
@@ -82,7 +73,7 @@ namespace ece
 			glfwDestroyWindow(this->getWindow(windowId));
 			if (this->isContextDefined == windowId) {
 				if (this->windows.size() == 0) {
-					this->isContextDefined = GL::NULL_ID;
+					this->isContextDefined = -1;// GL::NULL_ID;
 				}
 				else {
 					this->isContextDefined = this->windows.end()->first;
@@ -93,9 +84,6 @@ namespace ece
 
 			this->windows.erase(windowId);
 			this->idsAvailable.push(windowId);
-			if (this->windows.size() == 0) {
-				this->terminateGLFW();
-			}
 		}
 		catch (OutOfRangeException & e) {
 			// TODO: what to do here ? Is there a right place to catch this exception ? 
@@ -104,7 +92,7 @@ namespace ece
 
 	bool WindowManagerGLFW::windowShouldClose(const ece::WindowID & windowId)
 	{
-		if (windowId > 0 && this->getWindow(windowId) != nullptr) {
+		if (windowId > -1 && this->getWindow(windowId) != nullptr) {
 			try {
 				return glfwWindowShouldClose(this->getWindow(windowId)) == GLFW_TRUE;
 			}
@@ -137,7 +125,7 @@ namespace ece
 
 	void WindowManagerGLFW::setState(const ece::WindowID & windowId, const ece::WindowState & state)
 	{
-		if (windowId != 1) {
+		if (windowId != -1) {
 			auto window = this->getWindow(windowId);
 
 			if ((state & ece::VISIBLE) == ece::VISIBLE) {
@@ -262,41 +250,10 @@ namespace ece
 		glfwSwapBuffers(this->getWindow(windowId));
 	}
 
-	void WindowManagerGLFW::parametrizeContextGL()
-	{
-		glfwWindowHint(GLFW_CLIENT_API, GL_CLIENT_API_ECE);
-		glfwWindowHint(GLFW_CONTEXT_CREATION_API, GL_CONTEXT_CREATION_API_ECE);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, GL_MAJOR_VERSION_ECE);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_MINOR_VERSION_ECE);
-		glfwWindowHint(GLFW_CONTEXT_ROBUSTNESS, GL_CONTEXT_ROBUSTNESS_ECE);
-		glfwWindowHint(GLFW_CONTEXT_RELEASE_BEHAVIOR, GL_CONTEXT_RELEASE_BEHAVIOR_ECE);
-		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_OPENGL_FORWARD_COMPAT_ECE);
-		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_OPENGL_DEBUG_CONTEXT_ECE);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GL_OPENGL_PROFILE_ECE);
-		glfwSwapInterval(DEFAULT_INTERVAL_SWAP_ECE);
-	}
-
-	void WindowManagerGLFW::initGLEW()
-	{
-		// TODO initialize earlier, to not shift usage of Objects.
-		if (this->isWindowOpen) {
-			this->isGLEWInit = GL::initGlew();
-		}
-		else {
-			ServiceLoggerLocator::getService().logError("GLEW need a context to work correctly.");
-		}
-	}
-
-	void WindowManagerGLFW::terminateGLFW()
-	{
-		glfwTerminate();
-		this->isGLFWInitialized = false;
-	}
-
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
-		if (windowId == GL::NULL_ID || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
-			throw OutOfRangeException("GLFWwindow", windowId);
+		if (windowId == -1/*GL::NULL_ID*/ || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
+			throw OutOfRangeException::makeException("GLFWwindow", windowId);
 			// TODO exception non attrapée quand fenêtre fermée
 		}
 		return this->windows[windowId];
@@ -308,7 +265,7 @@ namespace ece
 		auto monitors = glfwGetMonitors(&nbMonitors);
 
 		if (monitorId < 0 || monitorId > nbMonitors) {
-			throw OutOfRangeException("GLFWmonitor", monitorId);
+			throw OutOfRangeException::makeException("GLFWmonitor", monitorId);
 		}
 
 		return monitors[monitorId];

@@ -1,8 +1,7 @@
 #ifndef SHADEREFFECT_HPP
 #define SHADEREFFECT_HPP
 
-#include "Renderer\Shader.hpp"
-#include "Util\OpenGL\OpenGL.hpp"
+#include "Model\Shader.hpp"
 
 #include <memory>
 #include <vector>
@@ -22,16 +21,14 @@ namespace ece
 		ShaderEffect & operator=(ShaderEffect && move) = default;
 
 		std::shared_ptr<Shader> addShader();
-
-		void compileAll();
-		void terminateAll();
-		
-		void attachTo(const GL::ProgramID & programHandle);
-		void detachFrom(const GL::ProgramID & programHandle);
+		inline void removeShader(std::shared_ptr<Shader> & shader);
+		inline void clear();
 
 	private:
 		std::vector<std::shared_ptr<Shader>> shaders;
 	};
 }
+
+#include "Model\ShaderEffect.inl"
 
 #endif // SHADEREFFECT_HPP

@@ -4,12 +4,13 @@
 #include <vector>
 #include <iostream>
 
-#include "Util\Type.hpp"
+#include "Mathematics\Vertex3D.hpp"
 #include "Geom\Box3D.hpp"
+#include "Renderable\Vertex.hpp"
 
 namespace ece
 {
-	class Mesh
+	class Mesh: public Vertex
 	{
 	public:
 		Mesh() = default;
@@ -23,14 +24,17 @@ namespace ece
 
 		bool loadFromFile(const std::string & filename);
 
-		inline const std::vector<FastVertex3D> & getVertices() const;
-		inline const std::vector<FastVertex3D> & getColors() const;
 		inline const unsigned int size() const;
 		Box3D getAABB() const;
 
+		inline virtual std::vector<FloatVertex3D> getPositions() const override;
+		inline virtual std::vector<FloatVertex3D> getColors() const override;
+		inline virtual std::vector<FloatVertex3D> getNormals() const override;
+		inline virtual std::vector<int> getIndices() const override;
+
 	private:
-		std::vector<FastVertex3D> vertices;
-		std::vector<FastVertex3D> colors;
+		std::vector<FloatVertex3D> vertices;
+		std::vector<FloatVertex3D> colors;
 	};
 }
 

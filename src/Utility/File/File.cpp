@@ -35,18 +35,18 @@ namespace ece
 	}
 
 	template<>
-	std::vector<FastVertex3D> File::parseToVector<FastVertex3D>()
+	std::vector<FloatVertex3D> File::parseToVector<FloatVertex3D>()
 	{
-		std::vector<FastVertex3D> content;
-		FastVertex3D value;
+		std::vector<FloatVertex3D> content;
+		FloatVertex3D value;
 		try {
 			while (this->good()) {
-				*this >> value.x >> value.y >> value.z;
+				*this >> value.position[X] >> value.position[Y] >> value.position[Z];
 				content.push_back(value);
 			}
 		}
 		catch (std::exception & e) {
-			throw FileException::makeException(PARSE_ERROR, this->filename);
+			throw FileException::makeException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
 		}
 		return content;
 	}

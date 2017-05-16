@@ -1,4 +1,4 @@
-#include "Util\OpenGL\OpenGL.hpp"
+#include "glm\gtc\matrix_transform.hpp"
 
 namespace ece
 {
@@ -6,15 +6,20 @@ namespace ece
 
 	inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->position, object.getPosition()); }
 
-	inline void Camera::lookAt(const GL::Point3D & target) { this->updatePosition(this->position, target); }
+	inline void Camera::lookAt(const FloatPoint3D & target) { this->updatePosition(this->position, target); }
 
-	inline void Camera::lookUpTo(const GL::Vertex3D & direction) { this->updatePosition(this->position, this->target + direction); }
+	inline void Camera::lookUpTo(const FloatVertex3D & direction) { this->updatePosition(this->position, this->target + direction); }
 
 	inline void Camera::moveTo(const Movable & object) { this->updatePosition(object.getPosition(), this->target); }
 
-	inline void Camera::moveTo(const GL::Point3D position) { this->updatePosition(position, this->target); }
+	inline void Camera::moveTo(const FloatPoint3D & position) { this->updatePosition(position, this->target); }
 
-	inline void Camera::moveIn(const GL::Vertex3D & direction) { this->updatePosition(this->position + direction, this->target); }
+	inline void Camera::moveIn(const FloatVertex3D & direction) { this->updatePosition(this->position + direction, this->target); }
 
-	inline GL::Matrix4x4 Camera::getCamera() const { return GL::lookAt(this->position, this->target, this->upAxis); }
+	inline glm::mat4 Camera::getCamera() const 
+	{ 
+		return glm::lookAt(glm::vec3(this->position.position[X], this->position.position[Y], this->position.position[Z]),
+							glm::vec3(this->target.position[X], this->target.position[Y], this->target.position[Z]),
+							glm::vec3(this->upAxis.position[X], this->upAxis.position[Y], this->upAxis.position[Z]));
+	}
 }

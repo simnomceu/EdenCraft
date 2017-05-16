@@ -7,17 +7,13 @@
 #include "GL\glew.h"
 
 #include "Game.hpp"
-#include "Util\Log\ServiceLogger.hpp"
-#include "Util\Log\Logger.hpp"
-#include "System\Event\EventService.hpp"
-#include "System\Event\EventManager.hpp"
+#include "Log\ServiceLogger.hpp"
+#include "Log\Logger.hpp"
 #include "Window\WindowService.hpp"
 #include "Window\WindowManagerGLFW.hpp"
 #include "Window\BaseWindow.hpp"
-//#include "Rendering\Model\Object.hpp"
-//#include "Rendering\Model\Program.hpp"
-//#include "Rendering\RenderingService.hpp"
-//#include "Rendering\RenderFactoryGL.hpp"
+#include "GraphicLibrary\ServiceGL.hpp"
+#include "GraphicLibrary\OpenGL.hpp"
 
 #include <iostream>
 #include <exception>
@@ -41,16 +37,8 @@
 // thsi could be developped using qt module at the beginning, and then, be replaced by ece designer in the future.
 auto main() -> int
 {
-	// TODO : error while modules are not inialized explicitly here.
-	/*try {
-		ece::Core::init(ece::LOG, ece::SYSTEM | ece::WINDOW | ece::GRAPHIC);
-	}
-	catch (std::exception & e) {
-		std::cerr << e.what() << std::endl;
-	}*/
 	try {
-		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
-		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
+		ece::ServiceGLLocator::provide(ece::ServiceGLFactory::build<ece::OpenGL>());
 		ece::WindowServiceLocator::provide(ece::WindowServiceFactory::build<ece::WindowManagerGLFW>());
 		//ece::RenderingServiceLocator::provide(ece::RenderingServiceFactory::build<ece::RenderFactoryGL>());
 
@@ -61,31 +49,6 @@ auto main() -> int
 	catch (std::exception & e) {
 		ece::ServiceLoggerLocator::getService().logError("Uncaught exception: " + std::string(e.what()));
 	}
-
-	// ########################################################
-
-	/*ece::BaseWindow * window = new ece::BaseWindow(ece::WindowSetting());
-	window->open(ece::VideoMode());
-	window->setTitle("Wonderful, it's working!");
-
-	ece::Object object;
-	object.buildFromFile("../resource/shader/cube.dat");
-
-	ece::OldGLSLProgram program;
-	program.init();
-	program.loadShaderFromFile(ece::OldGLSLProgram::FRAGMENT, "../resource/shader/basic.frag");
-	program.loadShaderFromFile(ece::OldGLSLProgram::VERTEX, "../resource/shader/basic.vert");
-
-	object.prepare();
-	program.link();
-
-	while (!window->shouldClosed()) {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		object.render(program, glm::mat4(1.0f), glm::mat4(1.0f));
-		glfwPollEvents();
-		window->display();
-	}
-	window->close();*/
 
 	return EXIT_SUCCESS;
 }

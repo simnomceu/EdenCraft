@@ -23,15 +23,13 @@ namespace ece
 		Scene & operator=(const Scene & copy) = default;
 		Scene & operator=(Scene && move) = default;
 
-		Object & addObject();
+		Object * addObject();
 
 		inline Camera & getCamera();
-		inline Projection & getProjection();
 		inline std::vector<Renderable *> & getObjects();
 
 	private:
 		Camera camera;
-		Projection projection;
 		std::vector<Renderable *> objects;
 	};
 }

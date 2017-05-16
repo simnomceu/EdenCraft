@@ -5,7 +5,7 @@
 #include <fstream>
 #include <vector>
 
-#include "Type.hpp"
+#include "Mathematics\Vertex3D.hpp"
 
 namespace ece
 {
@@ -38,7 +38,7 @@ namespace ece
 		std::string filename;
 	};
 
-	template<> std::vector<FastVertex3D> File::parseToVector<FastVertex3D>();
+	template<> std::vector<FloatVertex3D> File::parseToVector<FloatVertex3D>();
 }
 
 #include "File\File.inl"

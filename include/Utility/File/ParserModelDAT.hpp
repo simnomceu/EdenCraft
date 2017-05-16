@@ -2,7 +2,7 @@
 #define PARSERMODELDAT_HPP
 
 #include <vector>
-#include "Type.hpp"
+#include "Mathematics\Vertex3D.hpp"
 
 namespace ece
 {
@@ -22,12 +22,12 @@ namespace ece
 
 		//inline const std::vector<float> & getVertices();
 		//inline const std::vector<float> & getColors();
-		inline const std::vector<FastVertex3D> & getVertices();
-		inline const std::vector<FastVertex3D> & getColors();
+		inline const std::vector<FloatVertex3D> & getVertices();
+		inline const std::vector<FloatVertex3D> & getColors();
 
 	private:
-		std::vector<FastVertex3D> vertices;
-		std::vector<FastVertex3D> colors;
+		std::vector<FloatVertex3D> vertices;
+		std::vector<FloatVertex3D> colors;
 	};
 }
 

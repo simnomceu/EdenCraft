@@ -1,20 +1,18 @@
-#include "Renderer\Shader.hpp"
+#include "ShaderGL.hpp"
 
-#include "Util\File\File.hpp"
-#include "Util\Debug\FileException.hpp"
-#include "Util\Log\ServiceLogger.hpp"
-#include "Util\Debug\InitializationException.hpp"
-#include "Util\Debug\BadInputException.hpp"
+#include "File\File.hpp"
+#include "Debug\Exception.hpp"
+#include "Log\ServiceLogger.hpp"
 
 namespace ece
 {
-	Shader::Shader(Shader && move): 
+	ShaderGL::ShaderGL(ShaderGL && move):
 		filename(std::move(move.filename)), source(std::move(move.source)), type(move.type), handle(move.handle)
 	{
 		move.handle = GL::NULL_ID;
 	}
 
-	Shader & Shader::operator=(Shader && move)
+	ShaderGL & ShaderGL::operator=(ShaderGL && move)
 	{
 		this->filename = std::move(move.filename);
 		this->source = std::move(move.filename);
@@ -26,7 +24,7 @@ namespace ece
 		return *this;
 	}
 
-	void Shader::loadFromFile(const GL::ShaderType & type, const std::string & filename)
+	void ShaderGL::loadFromFile(const GL::ShaderType & type, const std::string & filename)
 	{
 		if (this->handle != GL::NULL_ID) {
 			this->terminate();
@@ -49,7 +47,7 @@ namespace ece
 		}
 	}
 
-	void Shader::loadFromString(const GL::ShaderType & type, const std::string & sourceCode)
+	void ShaderGL::loadFromString(const GL::ShaderType & type, const std::string & sourceCode)
 	{
 		if (this->handle != GL::NULL_ID) {
 			this->terminate();
@@ -60,14 +58,14 @@ namespace ece
 		this->type = type;
 	}
 
-	void Shader::compile()
+	void ShaderGL::compile()
 	{
 		this->handle = GL::createShader(this->type);
 		GL::compileShader(this->handle, this->source);
 
 		auto result = GL::checkShaderCompilationStatus(this->handle);
 		if (!result.compiled) {
-			throw BadInputException("Shader failed to compile: " + result.log);
+			throw BadInputException::makeException("Shader failed to compile: " + result.log);
 		}
 		if (result.deleteFlag) {
 			//TODO : what to do ?
@@ -80,7 +78,7 @@ namespace ece
 		}
 	}
 
-	void Shader::terminate()
+	void ShaderGL::terminate()
 	{
 		GL::deleteShader(this->handle);
 		this->handle = GL::NULL_ID;

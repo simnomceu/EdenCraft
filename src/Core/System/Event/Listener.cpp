@@ -1,7 +1,6 @@
 #include "System\Event\Listener.hpp"
 
-#include "Util\Debug\MemoryAccessException.hpp"
-#include "Util\Debug\OutOfRangeException.hpp"
+#include "Debug\Exception.hpp"
 
 #include <iostream>
 
@@ -36,7 +35,7 @@ namespace ece
 	const Slot::GlobalSlotID Listener::getSlotID(const Slot::SlotID slot) const
 	{
 		if (this->slots.find(slot) == this->slots.end()) {
-			throw OutOfRangeException("slot", slot);
+			throw OutOfRangeException::makeException("slot", slot);
 		}
 		return this->slots.at(slot);
 	}

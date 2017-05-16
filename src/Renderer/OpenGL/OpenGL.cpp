@@ -1,9 +1,8 @@
-#include "Util\OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGL.hpp"
 
-#include "Util\Log\ServiceLogger.hpp"
+#include "Log\ServiceLogger.hpp"
 #include "GLFW\glfw3.h"
-#include "Util\Debug\InitializationException.hpp"
-#include "Util\Debug\BadInputException.hpp"
+#include "Debug\Exception.hpp"
 
 #include <vector>
 
@@ -11,48 +10,11 @@ namespace ece
 {
 	namespace GL
 	{
-		bool initGLFW()
-		{
-			if (!glfwInit()) {
-				ServiceLoggerLocator::getService().logError("GLFW has encoutered a problem and couldn't be initialized.");
-				return false;
-			}
-			else {
-				int major, minor, rev;
-				glfwGetVersion(&major, &minor, &rev);
-				ServiceLoggerLocator::getService().logInfo("GLFW initialized in version " + std::to_string(major) + "." + std::to_string(minor)
-					+ "." + std::to_string(rev));
-				return true;
-			}
-		}
-
-		bool initGlew()
-		{
-			// Required to use VAO & VBO & ShaderProgram.
-			glewExperimental = GL_TRUE;
-
-			GLint GlewInitResult = glewInit();
-			if (GLEW_OK != GlewInitResult)
-			{
-				ServiceLoggerLocator::getService().logInfo("Glew has encoutered a problem and couldn't be initialized: " + std::string(reinterpret_cast<const char *>(glewGetErrorString(GlewInitResult))));
-				return false;
-			}
-			else {
-				ServiceLoggerLocator::getService().logInfo("Glew has been initialized.");
-				ServiceLoggerLocator::getService().logInfo("Renderer used: " + std::string(reinterpret_cast<const char *>(glGetString(GL_RENDERER))));
-				ServiceLoggerLocator::getService().logInfo(std::string(reinterpret_cast<const char *>(glGetString(GL_VERSION))) + " used in an GLFW context.");
-
-				glEnable(GL_DEPTH_TEST);
-				glDepthFunc(GL_LESS);
-				return true;
-			}
-		}
-
 		ShaderID createShader(const ShaderType & type)
 		{
 			auto handle = glCreateShader(type);
 			if (handle == NULL_ID) {
-				throw InitializationException("GL Shader");
+				throw InitializationException::makeException("GL Shader");
 			}
 			return handle;
 		}
@@ -61,7 +23,7 @@ namespace ece
 		{
 			auto handle = glCreateProgram();
 			if (handle == NULL_ID) {
-				throw InitializationException("GL Program");
+				throw InitializationException::makeException("GL Program");
 			}
 			return handle;
 		}
@@ -116,7 +78,7 @@ namespace ece
 		void deleteShader(const ShaderID & shaderHandle)
 		{
 			if (shaderHandle == NULL_ID) {
-				throw BadInputException("This shader reference is null and cannot be delete.");
+				throw BadInputException::makeException("This shader reference is null and cannot be delete.");
 			}
 			glDeleteShader(shaderHandle);
 
@@ -130,10 +92,10 @@ namespace ece
 		void attachShaderToProgram(const ShaderID & shaderHandle, const ProgramID & programHandle)
 		{
 			if (shaderHandle == GL::NULL_ID) {
-				throw BadInputException("An invalid reference to a shader cannot be attached to a program.");
+				throw BadInputException::makeException("An invalid reference to a shader cannot be attached to a program.");
 			}
 			if (programHandle == GL::NULL_ID) {
-				throw BadInputException("A shader cannot be attached to an invalid reference to a program.");
+				throw BadInputException::makeException("A shader cannot be attached to an invalid reference to a program.");
 			}
 			glAttachShader(programHandle, shaderHandle);
 
@@ -148,10 +110,10 @@ namespace ece
 		void detachShaderFromProgram(const ShaderID & shaderHandle, const ProgramID & programHandle)
 		{
 			if (shaderHandle == GL::NULL_ID) {
-				throw BadInputException("An invalid reference to a shader cannot be detached to a program.");
+				throw BadInputException::makeException("An invalid reference to a shader cannot be detached to a program.");
 			}
 			if (programHandle == GL::NULL_ID) {
-				throw BadInputException("A shader cannot be detached to an invalid reference to a program.");
+				throw BadInputException::makeException("A shader cannot be detached to an invalid reference to a program.");
 			}
 			glDetachShader(programHandle, shaderHandle);
 
@@ -168,7 +130,7 @@ namespace ece
 			VertexArrayID handle = NULL_ID;
 			glGenVertexArrays(1, &handle);
 			if (handle == NULL_ID) {
-				throw InitializationException("GL object");
+				throw InitializationException::makeException("GL object");
 			}
 			return handle;
 		}
@@ -176,7 +138,7 @@ namespace ece
 		void renderObject(const VertexArrayID & objectHandle, const RenderMode & renderMode, const unsigned int numberOfVertices)
 		{
 			if (objectHandle == NULL_ID) {
-				throw BadInputException("An invalid reference to an object cannot be used for rendering.");
+				throw BadInputException::makeException("An invalid reference to an object cannot be used for rendering.");
 			}
 			glBindVertexArray(objectHandle);
 			glDrawArrays(renderMode, 0, (GLsizei)(numberOfVertices * 3));

@@ -38,8 +38,8 @@ project "App"
 		"../examples/App/**.inl"
 	}
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
-	links { "Core", "Window", "Graphic", "opengl32", "glew32s", "glfw3" }
-	includedirs { "../include/Graphic", "../include/Core", "../include/Window", "../examples/App" }
+	links { "opengl32", "glew32s", "glfw3", "Utility", "Core", "Window", "Graphic", "Renderer" }
+	includedirs { "../include/Utility", "../include/Core", "../include/Window", "../include/Graphic", "../include/Renderer", "../examples/App" } 
 	
 project "Internationalization"
 	kind "ConsoleApp"
@@ -52,6 +52,17 @@ project "Internationalization"
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
 	links { "Utility" }
 	includedirs { "../include/Utility", "../include/examples/Internationalization" }
+	
+project "Argumentalization"
+	kind "ConsoleApp"
+	location ""
+	files {
+		"../examples/Argumentalization/**.cpp",
+		"../examples/Argumentalization/**.hpp",
+		"../examples/Argumentalization/**.inl"
+	}
+	links { "Core", "Utility" }
+	includedirs { "../include/Core", "../include/Utility", "../examples/Argumentalization" }
 
 project "Core"
 	kind "StaticLib"
@@ -61,8 +72,9 @@ project "Core"
 		"../include/Core/**.inl",
 		"../include/Core/**.hpp"
 	}
-	includedirs { "../include/Core" }
-	links { }
+	includedirs { "../include/Core", "../include/Utility" }
+	links { "Utility" }
+	defines { "GLEW_STATIC" }
 	
 project "Utility"
 	kind "StaticLib"
@@ -83,8 +95,8 @@ project "Window"
 		"../include/Window/**.inl",
 		"../include/Window/**.hpp"
 	}
-	includedirs { "../include/Window", "../include/Core" }
-	links { }
+	includedirs { "../include/Window", "../include/Utility", "../include/Core" }
+	links { "Utility", "Core" }
 	
 project "Graphic"
 	kind "StaticLib"
@@ -94,20 +106,19 @@ project "Graphic"
 		"../include/Graphic/**.inl",
 		"../include/Graphic/**.hpp"
 	}
-	includedirs { "../include/Graphic", "../include/Core", "../include/Window" }
-	links { }
+	includedirs { "../include/Graphic", "../include/Utility", "../include/Core", "../include/Window" }
+	links { "Utility", "Core", "Window" }
 	
 project "Renderer"
 	kind "StaticLib"
 	location ""
 	files {
 		"../src/Renderer/**.cpp",
-		"../include/Randerer/**.inl",
+		"../include/Renderer/**.inl",
 		"../include/Renderer/**.hpp"
 	}
-	includedirs { "../include/Rendering", "../include/Core" }
-	links { }
-	defines { "GLEW_STATIC" }
+	includedirs { "../include/Renderer", "../include/Utility", "../include/Core", "../include/Graphic", "../include/Window" }
+	links { "Utility", "Core", "Graphic", "Window" }
 		
 project "Test"
 	kind "ConsoleApp"

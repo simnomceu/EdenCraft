@@ -3,7 +3,7 @@
 
 #include "Window\WindowService.hpp"
 #include "GLFW\glfw3.h"
-#include "Util\OpenGL\OpenGL.hpp"
+//#include "OpenGL\OpenGL.hpp"
 
 #include <iostream>
 #include <memory>
@@ -39,17 +39,19 @@ namespace ece
 	{
 		ece::WindowServiceLocator::getService().provideVideoMode(videoMode);
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
+		if (this->windowId != -1) {
 
-		//ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
-		WindowServiceLocator::getService().registerEventHandler(this->windowId);
+			//WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+			WindowServiceLocator::getService().registerEventHandler(this->windowId);
 
-		this->emit(WINDOW_OPENED);
+			this->emit(WINDOW_OPENED);
+		}
 	}
 
 	void BaseWindow::close()
 	{
 		ece::WindowServiceLocator::getService().closeWindow(this->windowId);
-		this->windowId = GL::NULL_ID;
+		this->windowId = -1;// GL::NULL_ID;
 		this->emit(WINDOW_CLOSED);
 	}
 

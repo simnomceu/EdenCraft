@@ -2,8 +2,10 @@
 #define RENDERWINDOW_HPP
 
 #include "Window\BaseWindow.hpp"
-#include "Renderer\Renderer.hpp"
+#include "Renderer.hpp"
 #include "Scene\Scene.hpp"
+
+#include <memory>
 
 namespace ece
 {
@@ -23,10 +25,15 @@ namespace ece
 		virtual void onRefresh() override;
 		virtual void open(const ece::VideoMode & videoMode) override;
 
+		inline Scene & getScene();
+
 	private:
-		Renderer renderer;
+		std::shared_ptr<Renderer> renderer;
 		Scene scene;
+		Projection projection;
 	};
 }
+
+#include "RenderWindow.inl"
 
 #endif // RENDERWINDOW_HPP

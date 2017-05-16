@@ -102,6 +102,7 @@ namespace ece
 
 	void EventManager::broadcast(const Emitter & emitter, const Signal::SignalID signal)
 	{
+		this->clear();
 		if (!this->signals.empty()) {
 			auto const signalID = emitter.getSignal(signal);
 
