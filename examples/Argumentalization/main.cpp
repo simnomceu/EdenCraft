@@ -7,8 +7,6 @@
 int main(int argc, char * argv[])
 {
 	try {
-		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
-
 		std::string name = "";
 		int count = 0;
 

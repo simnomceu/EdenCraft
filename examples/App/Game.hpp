@@ -31,10 +31,14 @@ public:
 	template<class T> T & addWindow();
 
 private:
-	virtual void onInit();
-	virtual void render();
-	virtual void update();
-	virtual void processEvents();
+	virtual void onPreInit() override;
+	virtual void onPostInit() override;
+	virtual void onPreProcess() override;
+	virtual void onPreUpdate() override;
+	virtual void onPostUpdate() override;
+	virtual void onPostRender() override;
+	virtual void onPreTerminate() override;
+	virtual void onPostTerminate() override;
 
 	std::vector<std::shared_ptr<ece::BaseWindow>> windows;
 };

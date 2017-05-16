@@ -20,8 +20,6 @@
 
 Game::Game() : Application(), windows()
 {
-	//auto & firstWindow = this->addWindow<ece::BaseWindow>();
-	auto & secondWindow = this->addWindow<ece::RenderWindow>();
 }
 
 /**
@@ -46,7 +44,13 @@ void Game::addWindow(const ece::WindowSetting & setting)
 	this->windows.push_back(std::make_unique<ece::BaseWindow>(setting));
 }
 
-void Game::onInit()
+void Game::onPreInit()
+{
+	//auto & firstWindow = this->addWindow<ece::BaseWindow>();
+	auto & secondWindow = this->addWindow<ece::RenderWindow>();
+}
+
+void Game::onPostInit()
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
 		it->get()->open(ece::VideoMode());
@@ -54,7 +58,7 @@ void Game::onInit()
 
 	auto & scene = std::static_pointer_cast<ece::RenderWindow>(this->windows[0])->getScene();
 	auto object = scene.addObject();
-	
+
 	auto mesh = std::make_shared<ece::Mesh>();
 	mesh->loadFromFile("../resource/shader/cube.dat");
 	object->setMesh(mesh);
@@ -67,29 +71,11 @@ void Game::onInit()
 	object->setShaderEffect(shaderEffect);
 }
 
-/**
-* @fn	void Game::render()
-*
-* @brief	Renders this object.
-*
-* @author	PIERRE
-* @date	14/08/2016
-*/
-void Game::render()
+void Game::onPreProcess()
 {
-	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-		it->get()->onRefresh();
-		it->get()->display();
-	}
 }
 
-void Game::update()
-{
-	this->windows.erase(std::remove_if(this->windows.begin(), this->windows.end(), 
-										[](std::shared_ptr<ece::BaseWindow> const & x) -> bool { return x->shouldClosed(); }), this->windows.end());
-}
-
-void Game::processEvents()
+void Game::onPreUpdate()
 {
 	ece::Event event;
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
@@ -99,3 +85,24 @@ void Game::processEvents()
 	}
 }
 
+void Game::onPostUpdate()
+{
+	this->windows.erase(std::remove_if(this->windows.begin(), this->windows.end(),
+		[](std::shared_ptr<ece::BaseWindow> const & x) -> bool { return x->shouldClosed(); }), this->windows.end());
+}
+
+void Game::onPostRender()
+{
+	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
+		it->get()->onRefresh();
+		it->get()->display();
+	}
+}
+
+void Game::onPreTerminate()
+{
+}
+
+void Game::onPostTerminate()
+{
+}

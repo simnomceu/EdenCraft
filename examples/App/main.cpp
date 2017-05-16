@@ -9,8 +9,6 @@
 #include "Game.hpp"
 #include "Log\ServiceLogger.hpp"
 #include "Log\Logger.hpp"
-#include "System\Event\EventService.hpp"
-#include "System\Event\EventManager.hpp"
 #include "Window\WindowService.hpp"
 #include "Window\WindowManagerGLFW.hpp"
 #include "Window\BaseWindow.hpp"
@@ -40,8 +38,6 @@
 auto main() -> int
 {
 	try {
-		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
-		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
 		ece::ServiceGLLocator::provide(ece::ServiceGLFactory::build<ece::OpenGL>());
 		ece::WindowServiceLocator::provide(ece::WindowServiceFactory::build<ece::WindowManagerGLFW>());
 		//ece::RenderingServiceLocator::provide(ece::RenderingServiceFactory::build<ece::RenderFactoryGL>());

@@ -1,11 +1,23 @@
 #include "System\Application\Application.hpp"
 #include "Log\ServiceLogger.hpp"
+#include "Log\Logger.hpp"
+#include "System\Event\EventService.hpp"
+#include "System\Event\EventManager.hpp"
 #include "System\Module\ModuleMethod.hpp"
 
 namespace ece
 {
+	Application::Application() : running(false), moduleManager()
+	{
+		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
+		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
+	}
+
 	Application::Application(int argc, char * argv[]) : running(false), moduleManager()
 	{
+		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
+		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
+
 		auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyse);
 		argumentAnalyzer.setParameters(argc, argv);
 	}

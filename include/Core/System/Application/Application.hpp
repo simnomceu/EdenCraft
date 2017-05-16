@@ -12,7 +12,7 @@ namespace ece
 	class Application
 	{
 	public:
-		inline Application();
+		Application();
 		Application(int argc, char * argv[]);
 		Application(const Application & copy) = delete;
 		Application(Application && move) = delete;

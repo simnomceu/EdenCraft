@@ -1,7 +1,5 @@
 namespace ece
 {
-	inline Application::Application() : running(false), moduleManager() {}
-
 	inline Application::~Application() {}
 
 	inline void Application::stop() { this->running = false; }
