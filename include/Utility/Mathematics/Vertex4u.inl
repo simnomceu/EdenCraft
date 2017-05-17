@@ -7,6 +7,9 @@ namespace ece
 	inline Vertex4u<T>::Vertex4u(const T x, const T y, const T z, const T w) : std::array<T, 4>{ x, y, z, w } {}
 
 	template <class T>
+	inline Vertex4u<T>::Vertex4u(const Vertex3u<T> & xyz, const T w): std::array<T, 4>{ xyz[0], xyz[1], xyz[2], w } {}
+
+	template <class T>
 	template <typename V>
 	inline Vertex4u<T>::Vertex4u(const Vertex4u<V> & copy) :
 		std::array<T, 4>{ static_cast<T>(copy[0]), static_cast<T>(copy[1]), static_cast<T>(copy[2]), static_cast<T>(copy[3]) } {}

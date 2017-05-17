@@ -11,14 +11,14 @@ namespace ece
 	public:
 		inline Vertex2u();
 		inline Vertex2u(const T x, const T y);
-		Vertex2u(const Vertex2u & copy) = default;
-		Vertex2u(Vertex2u && move) = default;
+		Vertex2u(const Vertex2u<T> & copy) = default;
+		Vertex2u(Vertex2u<T> && move) = default;
 		template <typename V> inline Vertex2u(const Vertex2u<V> & copy);
 
 		~Vertex2u() = default;
 
-		Vertex2u & operator=(const Vertex2u & copy) = default;
-		Vertex2u & operator=(Vertex2u && move) = default;
+		Vertex2u<T> & operator=(const Vertex2u<T> & copy) = default;
+		Vertex2u<T> & operator=(Vertex2u<T> && move) = default;
 		template <typename V> Vertex2u<T> & operator=(const Vertex2u<V> & copy);
 
 		template <typename V> inline Vertex2u<T> & operator/=(const V value);
