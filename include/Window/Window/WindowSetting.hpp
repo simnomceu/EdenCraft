@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "Geom\Rectangle.hpp"
+#include "Mathematics\Rectangle.hpp"
 #include "Window\Window.inl"
 
 namespace ece

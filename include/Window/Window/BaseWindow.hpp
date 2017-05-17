@@ -1,7 +1,7 @@
 #ifndef BASEWINDOW_HPP
 #define BASEWINDOW_HPP
 
-#include "Geom\Rectangle.hpp"
+#include "Mathematics\Rectangle.hpp"
 #include "Window\WindowSetting.hpp"
 #include "Window\VideoMode.hpp"
 #include "Window\Window.inl"

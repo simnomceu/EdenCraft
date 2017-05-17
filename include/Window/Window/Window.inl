@@ -1,7 +1,8 @@
 #ifndef WINDOW_INL
 #define WINDOW_INL
 
-#include "Geom\Vector.hpp"
+#include "Mathematics\Vertex3u.hpp"
+#include "Mathematics\Vertex4u.hpp"
 
 namespace ece
 {
@@ -30,8 +31,8 @@ namespace ece
 	const WindowUnknownTag FLOATING     = 0b1;
 
 
-	using ColorRGB = ece::Vector3ui;
-	using ColorRGBA = ece::Vector<unsigned int, 4>;
+	using ColorRGB = ece::IntVertex3u;
+	using ColorRGBA = ece::IntVertex4u;
 
 	enum ChannelColor : int {
 		RED_CHANNEL = 0,
