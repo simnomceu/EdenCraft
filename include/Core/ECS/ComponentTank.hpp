@@ -1,9 +1,9 @@
 #ifndef COMPONENTTANK_HPP
 #define COMPONENTTANK_HPP
 
-#include "Core\ECS\ECS\BaseComponent.hpp"
-#include "Core\ECS\ECS\World.hpp"
-#include "Core\Util\UniqueID.hpp"
+#include "ECS\BaseComponent.hpp"
+#include "ECS\World.hpp"
+#include "UniqueID.hpp"
 
 #include <memory>
 #include <vector>
@@ -18,6 +18,8 @@ namespace ece
 		~ComponentTank();
 
 		void addComponent(const std::shared_ptr<BaseComponent> & component);
+		void removeComponent(const std::shared_ptr<BaseComponent> & component);
+		std::vector<std::shared_ptr<BaseComponent>> & getComponents(BaseComponent::ComponentType);
 
 	private:
 		UniqueID nextComponent;
@@ -25,5 +27,7 @@ namespace ece
 		std::map<World::Entity, std::vector<BaseComponent::ComponentType>> entityBodies;
 	};
 }
+
+#include "ECS\ComponentTank.inl"
 
 #endif // COMPONENTTANK_HPP

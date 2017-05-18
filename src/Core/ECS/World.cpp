@@ -1,4 +1,6 @@
-#include "Core\ECS\ECS\World.hpp"
+#include "ECS\World.hpp"
+
+#include "ECS\ComponentTank.hpp"
 
 namespace ece
 {
@@ -12,7 +14,8 @@ namespace ece
 
 	void World::addSystem(const std::shared_ptr<BaseSystem>& system)
 	{
-		this->systems.push_back(std::make_unique<BaseSystem>(system));
+		// BUG: probably an error of reference counting here
+		this->systems.push_back(std::unique_ptr<BaseSystem>(system.get()));
 	}
 
 	const World::Entity World::addEntity()
@@ -32,16 +35,16 @@ namespace ece
 
 	std::vector<std::shared_ptr<BaseComponent>>& World::getComponents(BaseComponent::ComponentType type)
 	{
-		return this->components.getComponents(type);
+		return this->components->getComponents(type);
 	}
 
 	void World::addComponent(const std::shared_ptr<BaseComponent>& component)
 	{
-		this->components.addComponent(component);
+		this->components->addComponent(component);
 	}
 
 	void World::removeComponent(const std::shared_ptr<BaseComponent>& component)
 	{
-		this->components.removeComponent(component);
+		this->components->removeComponent(component);
 	}
 }

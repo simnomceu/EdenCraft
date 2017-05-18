@@ -1,14 +1,10 @@
-#include "Core\ECS\ECS\BaseSystem.hpp"
+#include "ECS\BaseSystem.hpp"
 
-#include "Core\ECS\ECS\World.hpp"
+#include "ECS\World.hpp"
 
 namespace ece
 {
 	BaseSystem::BaseSystem(): world()
-	{
-	}
-
-	BaseSystem::~BaseSystem()
 	{
 	}
 

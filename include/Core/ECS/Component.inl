@@ -1,6 +1,3 @@
-#ifndef COMPONENT_INL
-#define COMPONENT_INL
-
 namespace ece
 {
 	template<class T>
@@ -15,5 +12,3 @@ namespace ece
 	template<class T>
 	inline void Component<T>::set(const T & value) { this->value = value; }
 }
-
-#endif // COMPONENT_INL

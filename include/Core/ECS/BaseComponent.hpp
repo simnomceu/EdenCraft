@@ -1,12 +1,10 @@
 #ifndef BASECOMPONENT_HPP
 #define BASECOMPONENT_HPP
 
-#include "Core\Util\Module\ServiceFactory.hpp"
+#include "Service\ServiceFactory.hpp"
 
 namespace ece
 {
-	typedef ServiceFactory<BaseComponent> ComponentFactory;
-
 	class BaseComponent
 	{
 	public:
@@ -16,7 +14,7 @@ namespace ece
 		inline BaseComponent(const ComponentID id);
 		inline virtual ~BaseComponent() = 0;
 
-		const ComponentType getType() const;
+		inline const ComponentType getType() const;
 		inline const ComponentID getID() const;
 		inline const unsigned int getOwner() const;
 
@@ -25,6 +23,8 @@ namespace ece
 		ComponentID id;
 		unsigned int owner;
 	};
+
+	typedef ServiceFactory<BaseComponent> ComponentFactory;
 }
 
 #include "ECS\BaseComponent.inl"
