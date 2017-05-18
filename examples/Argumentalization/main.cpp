@@ -1,8 +1,8 @@
-#include "System\Application\Application.hpp"
+#include "Application\Application.hpp"
 #include "Log\ServiceLogger.hpp"
 #include "Log\Logger.hpp"
-#include "System\Argument\StringOptionValue.hpp"
-#include "System\Argument\IntegerOptionValue.hpp"
+#include "Argument\StringOptionValue.hpp"
+#include "Argument\IntegerOptionValue.hpp"
 
 int main(int argc, char * argv[])
 {

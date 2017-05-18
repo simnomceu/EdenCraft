@@ -6,7 +6,7 @@
 #include "Window\VideoMode.hpp"
 #include "Window\Window.inl"
 
-#include "System\Event\Emitter.hpp"
+#include "Event\Emitter.hpp"
 #include "Event\Event.hpp"
 
 namespace ece
