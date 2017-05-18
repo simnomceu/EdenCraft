@@ -20,18 +20,13 @@ namespace ece
 
 		static EventHandler & getInstance();
 
-<<<<<<< develop:include/Window/Event/EventHandler.hpp
 		inline ~EventHandler();
-=======
-		EventHandler();
-		~EventHandler();
->>>>>>> Add some improvements for windows.:include/Core/Window/Event/EventHandler.hpp
 
 		void produceKeyEvent(const int key, const int scancode, const int action, const int mods);
 		void produceMouseButtonEvent(const int button, const int action, const int mods);
 
 	private:
-		EventHandler() = default;
+		EventHandler();
 
 	};
 }

@@ -21,23 +21,13 @@ namespace ece
 		static const Signal::SignalID WINDOW_RENAMED = 4;
 
 		BaseWindow(const ece::WindowSetting & settings);
-<<<<<<< develop:include/Window/Window/BaseWindow.hpp
 		inline BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
 		BaseWindow(const BaseWindow & copy) = delete;
-		inline BaseWindow(BaseWindow && copy);
+		inline BaseWindow(BaseWindow && move);
 		inline ~BaseWindow();
-
-		BaseWindow & operator=(const BaseWindow & rightOperand) = delete;
-		BaseWindow & operator=(BaseWindow && rightOperand);
-=======
-		BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
-		BaseWindow(const BaseWindow & copy) = delete;
-		BaseWindow(BaseWindow && move);
-		~BaseWindow();
 
 		BaseWindow & operator=(const BaseWindow & copy) = delete;
 		BaseWindow & operator=(BaseWindow && move);
->>>>>>> Add some improvements for windows.:include/Core/Window/Window/BaseWindow.hpp
 
 		virtual void open(const ece::VideoMode & videoMode);
 		inline virtual void onRefresh();

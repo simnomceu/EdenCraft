@@ -15,8 +15,6 @@ namespace ece
 		return handler;
 	}
 
-<<<<<<< develop:src/Window/Event/EventHandler.cpp
-=======
 	EventHandler::EventHandler()
 	{
 		this->addSignal(KEY_PRESSED);
@@ -26,11 +24,6 @@ namespace ece
 		this->addSignal(MOUSE_WHEEL_SCROLLED);
 	}
 
-	EventHandler::~EventHandler()
-	{
-	}
-
->>>>>>> Add some improvements for windows.:src/Core/Window/Event/EventHandler.cpp
 	void EventHandler::produceKeyEvent(const int key, const int scancode, const int action, const int mods)
 	{
 		std::cerr << "key: " << key << std::endl;

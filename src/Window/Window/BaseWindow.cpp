@@ -19,35 +19,17 @@ namespace ece
 		this->addSignal(WINDOW_RENAMED);
 	}
 
-<<<<<<< develop:src/Window/Window/BaseWindow.cpp
-	BaseWindow & BaseWindow::operator=(BaseWindow && rightOperand)
-=======
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter(), windowId(-1), settings(), videoMode()
-	{
-	}
-
-
-	BaseWindow::BaseWindow(BaseWindow && move) : Emitter(), windowId(-1), settings(), videoMode()
-	{
-	}
-
-	BaseWindow::~BaseWindow()
-	{
-		this->close();
-	}
-
 	BaseWindow & BaseWindow::operator=(BaseWindow && move)
->>>>>>> Add some improvements for windows.:src/Core/Window/Window/BaseWindow.cpp
 	{
 		// guard to prevent an assigment from itself to itself.
-		if (this != &rightOperand) {
+		if (this != &move) {
 			// If an opened window is going to be overwritten, close it.
 			/*if (this->isOpened()) {
 				this->close();
 			}*/
 
-			this->windowId = std::move(rightOperand.windowId);
-			this->settings = std::move(rightOperand.settings);
+			this->windowId = std::move(move.windowId);
+			this->settings = std::move(move.settings);
 		}
 
 		return *this;
