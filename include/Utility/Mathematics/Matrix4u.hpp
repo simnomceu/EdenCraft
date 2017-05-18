@@ -46,9 +46,9 @@ namespace ece
 
 		inline bool operator==(const Matrix4u<T> & rightOperand) const;
 
-		inline Vertex2u<T> getColumn(const int index) const;
-		inline Vertex2u<T> getRow(const int index) const;
-		inline Vertex2u<T> & getRow(const int index);
+		inline Vertex4u<T> getColumn(const int index) const;
+		inline Vertex4u<T> getRow(const int index) const;
+		inline Vertex4u<T> & getRow(const int index);
 		using std::array<Vertex4u<T>, 4>::operator[];
 
 		inline T determinant() const;

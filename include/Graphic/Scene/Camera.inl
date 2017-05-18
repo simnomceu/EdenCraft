@@ -1,4 +1,5 @@
-#include "glm\gtc\matrix_transform.hpp"
+//#include "glm\gtc\matrix_transform.hpp"
+#include "Mathematics\Transform.hpp"
 
 namespace ece
 {
@@ -16,10 +17,12 @@ namespace ece
 
 	inline void Camera::moveIn(const FloatVertex3u & direction) { this->updatePosition(this->position + direction, this->target); }
 
-	inline glm::mat4 Camera::getCamera() const 
+	/*inline glm::mat4 Camera::getCamera() const 
 	{ 
 		return glm::lookAt(glm::vec3(this->position[X], this->position[Y], this->position[Z]),
 							glm::vec3(this->target[X], this->target[Y], this->target[Z]),
 							glm::vec3(this->upAxis[X], this->upAxis[Y], this->upAxis[Z]));
-	}
+	}*/
+
+	inline FloatMatrix4u Camera::getCamera() const { return ece::lookAt(this->position, this->target, this->upAxis); }
 }

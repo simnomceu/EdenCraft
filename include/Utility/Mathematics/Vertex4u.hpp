@@ -2,6 +2,7 @@
 #define VERTEX4U_HPP
 
 #include <array>
+#include "Mathematics\Vertex3u.hpp"
 
 namespace ece
 {

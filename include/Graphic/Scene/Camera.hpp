@@ -3,7 +3,8 @@
 
 #include "Model\Movable.hpp"
 #include "Mathematics\Vertex3u.hpp"
-#include "glm\glm.hpp"
+#include "Mathematics\Matrix4u.hpp"
+//#include "glm\glm.hpp"
 
 namespace ece
 {
@@ -27,7 +28,8 @@ namespace ece
 		inline void moveTo(const FloatPoint3u & position);
 		inline void moveIn(const FloatVertex3u & direction);
 
-		inline glm::mat4 getCamera() const;
+		//inline glm::mat4 getCamera() const;
+		inline FloatMatrix4u getCamera() const;
 
 	private:
 		void updatePosition(const FloatPoint3u & position, const FloatPoint3u & target);
