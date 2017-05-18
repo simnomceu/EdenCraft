@@ -13,13 +13,6 @@ namespace ece
 	using int32 = __int32;
 	using int64 = __int64;
 
-	struct FastVertex3D
-	{
-		float x;
-		float y;
-		float z;
-	};
-
 	enum FileCodeError : unsigned short int
 	{
 		BAD_PATH = 0,
