@@ -3,7 +3,7 @@
 
 #include "System\Event\Slot.hpp"
 #include "System\Event\Signal.hpp"
-#include "UniqueID.hpp"
+#include "Indexing\UniqueID.hpp"
 
 namespace ece
 {
