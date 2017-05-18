@@ -2,7 +2,7 @@
 #define VERTEX_HPP
 
 #include <vector>
-#include "Mathematics\Vertex3D.hpp"
+#include "Mathematics\Vertex3u.hpp"
 
 namespace ece
 {
@@ -18,9 +18,9 @@ namespace ece
 		Vertex & operator=(const Vertex & copy) = default;
 		Vertex & operator=(Vertex && move) = default;
 
-		virtual std::vector<FloatVertex3D> getPositions() const = 0;
-		virtual std::vector<FloatVertex3D> getColors() const = 0;
-		virtual std::vector<FloatVertex3D> getNormals() const = 0;
+		virtual std::vector<FloatVertex3u> getPositions() const = 0;
+		virtual std::vector<FloatVertex3u> getColors() const = 0;
+		virtual std::vector<FloatVertex3u> getNormals() const = 0;
 		virtual std::vector<int> getIndices() const = 0;
 
 		inline bool isIndexed() const;

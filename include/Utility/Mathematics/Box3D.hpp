@@ -1,7 +1,7 @@
 #ifndef BOX3D_HPP
 #define BOX3D_HPP
 
-#include "Mathematics\Vertex3D.hpp"
+#include "Mathematics\Vertex3u.hpp"
 
 namespace ece
 {
@@ -9,7 +9,7 @@ namespace ece
 	{
 	public:
 		Box3D() = delete;
-		inline Box3D(const FloatVertex3D & a, FloatVertex3D & b);
+		inline Box3D(const FloatVertex3u & a, FloatVertex3u & b);
 		Box3D(const Box3D & copy) = default;
 		Box3D(Box3D && move) = default;
 
@@ -18,14 +18,14 @@ namespace ece
 		Box3D & operator=(const Box3D & copy) = default;
 		Box3D & operator=(Box3D && move) = default;
 
-		inline FloatVertex3D getCenter() const;
+		inline FloatVertex3u getCenter() const;
 
 	private:
-		FloatVertex3D a;
-		FloatVertex3D b;
+		FloatVertex3u a;
+		FloatVertex3u b;
 	};
 }
 
-#include "Geom\Box3D.inl"
+#include "Mathematics\Box3D.inl"
 
 #endif // BOX3D_HPP

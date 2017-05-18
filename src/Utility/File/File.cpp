@@ -35,13 +35,13 @@ namespace ece
 	}
 
 	template<>
-	std::vector<FloatVertex3D> File::parseToVector<FloatVertex3D>()
+	std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>()
 	{
-		std::vector<FloatVertex3D> content;
-		FloatVertex3D value;
+		std::vector<FloatVertex3u> content;
+		FloatVertex3u value;
 		try {
 			while (this->good()) {
-				*this >> value.position[X] >> value.position[Y] >> value.position[Z];
+				*this >> value[X] >> value[Y] >> value[Z];
 				content.push_back(value);
 			}
 		}
