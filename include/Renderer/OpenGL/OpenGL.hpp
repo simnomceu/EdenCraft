@@ -11,10 +11,6 @@ namespace ece
 {
 	namespace GL
 	{
-		using Matrix4x4 = glm::mat4;
-		using Point3D = glm::vec3;
-		using Vertex3D = glm::vec3;
-
 		//TODO: rename as XxxxxxHandle instead of XxxxxxID ?
 		using VertexArrayID = GLuint;
 		using VertexBufferID = GLuint;
@@ -62,8 +58,6 @@ namespace ece
 			std::string log;
 			std::string source;
 		};
-		
-		inline Matrix4x4 lookAt(Vertex3D position, Point3D target, Vertex3D upAxis);
 
 		ShaderID createShader(const ShaderType & type);
 		ProgramID createProgram();
@@ -79,7 +73,5 @@ namespace ece
 		void renderObject(const VertexArrayID & objectHandle, const RenderMode & renderMode, const unsigned int numberOfVertices);
 	};
 }
-
-#include "OpenGL\OpenGL.inl"
 
 #endif // OPENGL_HPP

@@ -74,7 +74,6 @@ project "Core"
 	}
 	includedirs { "../include/Core", "../include/Utility" }
 	links { "Utility" }
-	defines { "GLEW_STATIC" }
 	
 project "Utility"
 	kind "StaticLib"
@@ -97,6 +96,7 @@ project "Window"
 	}
 	includedirs { "../include/Window", "../include/Utility", "../include/Core" }
 	links { "Utility", "Core" }
+	defines { "GLEW_STATIC" }
 	
 project "Graphic"
 	kind "StaticLib"
