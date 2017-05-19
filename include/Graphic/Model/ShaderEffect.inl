@@ -6,4 +6,6 @@ namespace ece
 	}
 
 	inline void ShaderEffect::clear() { this->shaders.clear(); }
+
+	inline std::vector<std::shared_ptr<Shader>> & ShaderEffect::getShaders() { return this->shaders; }
 }
