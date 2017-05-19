@@ -2,7 +2,7 @@
 #define VIDEOMODE_HPP
 
 /**
-* @file VideMode.hpp
+* @file VideoMode.hpp
 * @author IsiliBN (casa2pir@hotmail.fr)
 * @date October, 24th 2016
 * @copyright ----------

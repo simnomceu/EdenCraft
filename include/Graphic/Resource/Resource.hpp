@@ -1,7 +1,7 @@
 #ifndef RESOURCE_HPP
 #define RESOURC_HPP
 
-#include "Util\Type.hpp"
+#include "Type.hpp"
 
 #include <string>
 

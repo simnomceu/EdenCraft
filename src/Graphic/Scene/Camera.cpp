@@ -1,7 +1,6 @@
 #include "Scene\Camera.hpp"
 
 #include "Debug\Exception.hpp"
-#include "glm\gtx\transform.hpp"
 
 namespace ece
 {

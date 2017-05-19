@@ -2,7 +2,7 @@
 #define COMPONENTTANK_HPP
 
 #include "ECS\BaseComponent.hpp"
-#include "Util\UniqueID.hpp"
+#include "Indexing\UniqueID.hpp"
 
 #include <memory>
 #include <vector>

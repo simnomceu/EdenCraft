@@ -1,4 +1,5 @@
 #include "Application\Application.hpp"
+
 #include "Log\ServiceLogger.hpp"
 #include "Log\Logger.hpp"
 #include "Event\EventService.hpp"
