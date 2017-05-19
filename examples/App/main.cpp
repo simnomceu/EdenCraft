@@ -18,6 +18,7 @@
 #include <iostream>
 #include <exception>
 #include <string>
+#include "File\Path.hpp"
 
 /**
  * @fn	int main()
