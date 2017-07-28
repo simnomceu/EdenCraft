@@ -53,6 +53,7 @@ namespace ece
 	class OutOfRangeException : public Exception<OutOfRangeException>
 	{
 	public:
+		static OutOfRangeException makeException(const std::string & type);
 		static OutOfRangeException makeException(const std::string & type, const int id);
 	};
 

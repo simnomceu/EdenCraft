@@ -2,8 +2,12 @@
 #define RESOURCEMANAGER_HPP
 
 #include <map>
+#include <string>
+#include <memory>
 
 #include "Resource\ResourceHandler.hpp"
+#include "Resource\ResourceLoader.hpp"
+#include "Resource\ResourceUnloader.hpp"
 
 namespace ece
 {
@@ -20,14 +24,21 @@ namespace ece
 		ResourceManager & operator=(ResourceManager && move) = default;
 
 		void loadResource(const std::string & identifier);
+		void loadResource(const std::string & identifier, const std::shared_ptr<ResourceLoader> & loader);
 		void unloadResource(const std::string & identifier);
+		void unloadResource(const std::string & identifier, const std::shared_ptr<ResourceUnloader> & unloader);
 
 		std::weak_ptr<Resource> getResource(const std::string & identifier);
 
 		void clear();
 
+		void registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader);
+		void registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader);
+
 	private:
 		std::map<std::string, ResourceHandler> resources;
+		std::map<std::string, std::shared_ptr<ResourceLoader>> loaders;
+		std::map<std::string, std::shared_ptr<ResourceUnloader>> unloaders;
 	};
 }
 

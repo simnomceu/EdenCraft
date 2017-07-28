@@ -20,6 +20,7 @@ namespace ece
 		ResourceHandler & operator=(ResourceHandler && move) = default;
 
 		inline std::weak_ptr<Resource> operator->();
+		inline std::weak_ptr<Resource> operator*();
 
 	private:
 		std::shared_ptr<Resource> resource;
