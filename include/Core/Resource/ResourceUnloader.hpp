@@ -12,7 +12,7 @@ namespace ece
 		ResourceUnloader(const ResourceUnloader & copy) = default;
 		ResourceUnloader(ResourceUnloader && move) = default;
 
-		virtual ~ResourceUnloader() = 0;
+		inline virtual ~ResourceUnloader() = 0;
 
 		ResourceUnloader & operator=(const ResourceUnloader & copy) = default;
 		ResourceUnloader & operator=(ResourceUnloader && move) = default;
@@ -20,5 +20,7 @@ namespace ece
 		virtual void unload(ResourceHandler & handler) const = 0;
 	};
 }
+
+#include "Resource\ResourceUnloader.inl"
 
 #endif // RESOURCEUNLOADER_HPP

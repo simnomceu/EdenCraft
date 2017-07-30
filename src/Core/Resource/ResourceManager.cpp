@@ -74,6 +74,9 @@ namespace ece
 			auto & pair = this->resources.begin();
 			this->unloadResource(pair->first);
 		}
+
+		this->loaders.clear();
+		this->unloaders.clear();
 	}
 
 	void ResourceManager::registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader)

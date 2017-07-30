@@ -11,6 +11,7 @@ namespace ece
 	{
 	public:
 		ResourceHandler() = default;
+		inline ResourceHandler(const std::shared_ptr<Resource> & resource);
 		ResourceHandler(const ResourceHandler & copy) = default;
 		ResourceHandler(ResourceHandler && move) = default;
 

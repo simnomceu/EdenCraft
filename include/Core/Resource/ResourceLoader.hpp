@@ -14,7 +14,7 @@ namespace ece
 		ResourceLoader(const ResourceLoader & copy) = default;
 		ResourceLoader(ResourceLoader && move) = default;
 
-		virtual ~ResourceLoader() = 0;
+		inline virtual ~ResourceLoader() = 0;
 
 		ResourceLoader & operator=(const ResourceLoader & copy) = default;
 		ResourceLoader & operator=(ResourceLoader && move) = default;
@@ -22,5 +22,7 @@ namespace ece
 		virtual ResourceHandler load(const std::string & identifier) const = 0;
 	};
 }
+
+#include "Resource\ResourceLoader.inl"
 
 #endif // RESOURCELOADER_HPP
