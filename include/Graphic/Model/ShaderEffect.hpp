@@ -24,6 +24,8 @@ namespace ece
 		inline void removeShader(std::shared_ptr<Shader> & shader);
 		inline void clear();
 
+		inline std::vector<std::shared_ptr<Shader>> & getShaders();
+
 	private:
 		std::vector<std::shared_ptr<Shader>> shaders;
 	};

@@ -1,4 +1,3 @@
-#include "Module.hpp"
 namespace ece
 {
 	template<class T>

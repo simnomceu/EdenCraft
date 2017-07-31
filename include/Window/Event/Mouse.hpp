@@ -1,7 +1,7 @@
 #ifndef MOUSE_HPP
 #define MOUSE_HPP
 
-namespace cmpt
+namespace ece
 {
 	class Mouse
 	{
