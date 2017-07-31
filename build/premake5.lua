@@ -139,4 +139,5 @@ project "Test"
 		"../tests/**.hpp",
 		"../tests/**.inl"
 	}
-	links { }
+	includedirs { "../include/Utility", "../include/Core", "../include/Graphic", "../include/Window", "../include/Renderer" }
+	links { "Utility", "Core", "Graphic", "Window", "Renderer" }
