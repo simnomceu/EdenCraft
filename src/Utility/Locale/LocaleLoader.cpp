@@ -1,4 +1,4 @@
-#include "Locale\ResourceLoader.hpp"
+#include "Locale\LocaleLoader.hpp"
 
 #include "File\ParserJSON.hpp"
 #include "Debug\Exception.hpp"
@@ -10,33 +10,33 @@
 
 namespace ece
 {
-	std::string ResourceLoader::path = "";
+	std::string LocaleLoader::path = "";
 
-	void ResourceLoader::setPath(const std::string & path)
+	void LocaleLoader::setPath(const std::string & path)
 	{
-		ResourceLoader::path = path;
+		LocaleLoader::path = path;
 	}
 
-	ResourceLoader::ResourceLoader(const std::string & filename, const Locale & locale): locale(locale), resource(), filename(filename)
+	LocaleLoader::LocaleLoader(const std::string & filename, const Locale & locale): locale(locale), resource(), filename(filename)
 	{
 		this->locale = locale;
-		std::string file = ResourceLoader::path + this->filename + "_" + this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
+		std::string file = LocaleLoader::path + this->filename + "_" + this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
 		this->generateResource(file);
 	}
 
-	LocaleResource & ResourceLoader::getResource()
+	LocaleResource & LocaleLoader::getResource()
 	{
 		return this->resource;
 	}
 
-	void ResourceLoader::changeLocale(const Locale & locale)
+	void LocaleLoader::changeLocale(const Locale & locale)
 	{
 		this->locale = locale;
-		std::string file = ResourceLoader::path + this->filename + "_" + this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
+		std::string file = LocaleLoader::path + this->filename + "_" + this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
 		this->generateResource(file);
 	}
 
-	void ResourceLoader::generateResource(const std::string & file)
+	void LocaleLoader::generateResource(const std::string & file)
 	{
 		this->resource.clear();
 		try {

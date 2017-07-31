@@ -1,5 +1,5 @@
 #ifndef RESOURCE_HPP
-#define RESOURC_HPP
+#define RESOURCE_HPP
 
 #include "Type.hpp"
 
@@ -14,7 +14,7 @@ namespace ece
 		Resource(const Resource & copy) = default;
 		Resource(Resource && move) = default;
 
-		virtual ~Resource() = 0;
+		inline virtual ~Resource() = 0;
 
 		Resource & operator=(const Resource & copy) = default;
 		Resource & operator=(Resource && move) = default;

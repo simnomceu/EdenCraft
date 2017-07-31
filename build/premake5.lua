@@ -63,6 +63,17 @@ project "Argumentalization"
 	}
 	links { "Core", "Utility" }
 	includedirs { "../include/Core", "../include/Utility", "../examples/Argumentalization" }
+	
+project "Resources"
+	kind "ConsoleApp"
+	location ""
+	files {
+		"../examples/Resources/**.cpp",
+		"../examples/Resources/**.hpp",
+		"../examples/Resources/**.inl"
+	}
+	links { "Core", "Utility" }
+	includedirs { "../include/Core", "../include/Utility", "../examples/Resources" }
 
 project "Core"
 	kind "StaticLib"
