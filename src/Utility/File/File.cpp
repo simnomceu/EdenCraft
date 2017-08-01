@@ -26,10 +26,12 @@ namespace ece
 	std::string File::parseToString()
 	{
 		std::string content = "";
-		while (this->good()) {
-			std::string line;
-			std::getline(*this, line);
-			content.append(line + "\n");
+		if (this->isOpen()) {
+			while (this->good()) {
+				std::string line;
+				std::getline(*this, line);
+				content.append(line + "\n");
+			}
 		}
 		return content;
 	}
@@ -38,15 +40,17 @@ namespace ece
 	std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>()
 	{
 		std::vector<FloatVertex3u> content;
-		FloatVertex3u value;
-		try {
-			while (this->good()) {
-				*this >> value[X] >> value[Y] >> value[Z];
-				content.push_back(value);
+		if (this->isOpen()) {
+			FloatVertex3u value;
+			try {
+				while (this->good()) {
+					*this >> value[X] >> value[Y] >> value[Z];
+					content.push_back(value);
+				}
 			}
-		}
-		catch (std::exception & e) {
-			throw FileException::makeException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
+			catch (std::exception & e) {
+				throw FileException::makeException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
+			}
 		}
 		return content;
 	}
