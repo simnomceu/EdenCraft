@@ -38,8 +38,8 @@ project "App"
 		"../examples/App/**.inl"
 	}
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
-	links { "opengl32", "glew32s", "glfw3", "Utility", "Core", "Window", "Graphic", "Renderer" }
-	includedirs { "../include/Utility", "../include/Core", "../include/Window", "../include/Graphic", "../include/Renderer", "../examples/App" } 
+	links { "opengl32", "glew32s", "glfw3", "OpenAL32", "Utility", "Core", "Window", "Graphic", "Audio", "Renderer" }
+	includedirs { "../include/Utility", "../include/Core", "../include/Window", "../include/Graphic", "../include/Audio", "../include/Renderer", "../examples/App" } 
 	
 project "Internationalization"
 	kind "ConsoleApp"
@@ -119,6 +119,17 @@ project "Graphic"
 	}
 	includedirs { "../include/Graphic", "../include/Utility", "../include/Core", "../include/Window" }
 	links { "Utility", "Core", "Window" }
+	
+project "Audio"
+	kind "StaticLib"
+	location ""
+	files {
+		"../src/Audio/**.cpp",
+		"../include/Audio/**.hpp",
+		"../include/Audio/**.inl"
+	}
+	includedirs { "../include/Audio", "../include/Utility", "../include/Core"}
+	links { "Utility", "Core" }
 	
 project "Renderer"
 	kind "StaticLib"
