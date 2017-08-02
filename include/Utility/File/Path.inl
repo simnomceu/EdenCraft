@@ -26,7 +26,7 @@ namespace ece
 	inline std::string Path::getPath() const {
 		std::stringstream res;
 		std::copy(this->path.begin(), this->path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
-		std::string  strres = res.str();
+		std::string  strres = res.str() + '\\';
 		return strres.substr(0, strres.size() - 1);
 	}
 
@@ -35,4 +35,8 @@ namespace ece
 	inline std::string & Path::operator[](const int index) { return this->path[index]; }
 
 	inline bool Path::exists() const { return this->isFile() || this->isFolder(); }
+
+	inline bool Path::isFile() const { return false; }
+
+	inline bool Path::isFolder() const { return false; }
 }

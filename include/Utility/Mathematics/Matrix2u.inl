@@ -45,7 +45,7 @@ namespace ece
 
 	template <class T>
 	template<typename V>
-	inline Matrix2u<T>& Matrix2u<T>::operator*=(const V value)
+	inline Matrix2u<T> & Matrix2u<T>::operator*=(const V value)
 	{
 		(*this)[0] *= value;
 		(*this)[1] *= value;
@@ -54,7 +54,7 @@ namespace ece
 
 	template <class T>
 	template <typename V>
-	inline Matrix2u<T> Matrix2u<T>::operator*=(const Matrix2u<V> value)
+	inline Matrix2u<T> & Matrix2u<T>::operator*=(const Matrix2u<V> value)
 	{
 		T a11 = (*this)[0][0] * value[0][0] + (*this)[0][1] * value[1][0];
 		T a12 = (*this)[0][0] * value[0][1] + (*this)[0][1] * value[1][1];
@@ -68,7 +68,7 @@ namespace ece
 	}
 
 	template <class T>
-	inline Matrix2u<T>& Matrix2u<T>::operator+=(const Matrix2u<T> value)
+	inline Matrix2u<T> & Matrix2u<T>::operator+=(const Matrix2u<T> value)
 	{
 		(*this)[0] += value[0];
 		(*this)[1] += value[1];
