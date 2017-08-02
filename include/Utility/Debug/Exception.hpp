@@ -62,6 +62,12 @@ namespace ece
 	public:
 		static ResourceException makeException(const std::string & target, const unsigned short int id);
 	};
+
+	class DivideByZeroException : public Exception<DivideByZeroException>
+	{
+	public:
+		static DivideByZeroException makeException(const std::string & origin);
+	};
 }
 
 #include "Debug\Exception.inl"

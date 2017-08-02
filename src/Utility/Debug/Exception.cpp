@@ -51,4 +51,10 @@ namespace ece
 	{
 		return Exception<ResourceException>::makeException("The resource % with the ID % is not available.", target, id);
 	}
+
+
+	DivideByZeroException DivideByZeroException::makeException(const std::string & origin)
+	{
+		return Exception<DivideByZeroException>::makeException("A division by zero has been handle in %", origin);
+	}
 }

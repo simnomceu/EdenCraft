@@ -50,7 +50,7 @@ namespace ece
 
 		inline T determinant() const;
 		inline Matrix2u<T> transpose() const;
-		inline Matrix2u<T> inverse(bool & invertible) const;
+		inline Matrix2u<double> inverse(bool & invertible) const;
 	};
 
 	typedef Matrix2u<float> FloatMatrix2u;
