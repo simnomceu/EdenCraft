@@ -123,9 +123,9 @@ SCENARIO("Matrix2u", "[Utility][Mathematics]")
 		{
 			auto determinant = matrix.determinant();
 
-			THEN("Determinant is positive or null")
+			THEN("Determinant is not null")
 			{
-				REQUIRE(determinant >= 0);
+				REQUIRE(determinant != 0);
 			}
 		}
 		AND_WHEN("Getting the inverse matrix")
