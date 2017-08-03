@@ -9,11 +9,12 @@ namespace ece
 	class Component: public BaseComponent
 	{
 	public:
-		inline Component();
-		inline ~Component();
+		Component();
+		~Component();
 
-		inline const T & get();
-		inline void set(const T &  value);
+		const T & get();
+		void set(const T &  value);
+
 	protected:
 		T value;
 	};
