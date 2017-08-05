@@ -1,3 +1,5 @@
+#include "Debug\Exception.hpp"
+
 namespace ece
 {
 	template <class T>
@@ -9,10 +11,10 @@ namespace ece
 	}
 
 	template <class T>
-	inline Matrix4u<T>::Matrix4u() : std::array<Vertex4u<T>, 4>{ { 0, 0, 0, 0 }, 
-																 { 0, 0, 0, 0 },
-																 { 0, 0, 0, 0 },
-																 { 0, 0, 0, 0 } } {}
+	inline Matrix4u<T>::Matrix4u() : std::array<Vertex4u<T>, 4>{ Vertex4u<T>(),
+																 Vertex4u<T>(),
+																 Vertex4u<T>(),
+																 Vertex4u<T>() } {}
 
 	template <class T>
 	inline Matrix4u<T>::Matrix4u(const T a11, const T a12, const T a13, const T a14,
@@ -58,6 +60,10 @@ namespace ece
 	template<typename V>
 	inline Matrix4u<T>& Matrix4u<T>::operator/=(const V value)
 	{
+		if (value == 0) {
+			throw DivideByZeroException::makeException("Matrix4u");
+		}
+
 		(*this)[0] /= value;
 		(*this)[1] /= value;
 		(*this)[2] /= value;
@@ -139,6 +145,9 @@ namespace ece
 	template <typename V>
 	inline Matrix4u<T> Matrix4u<T>::operator/(const V value) const
 	{
+		if (value == 0) {
+			throw DivideByZeroException::makeException("Matrix4u");
+		}
 		return Matrix4u<T>{(*this)[0] / value, (*this)[1] / value, (*this)[2] / value, (*this)[3] / value};
 	}
 

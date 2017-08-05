@@ -20,9 +20,9 @@ namespace ece
 
 	inline unsigned short int WindowManagerNone::getNumberOfMonitors() { return 0; }
 
-	inline void WindowManagerNone::pollEvents(const ece::WindowID & windowId, Event & event) {}
+	inline void WindowManagerNone::pollEvents(const ece::WindowID & windowId, InputEvent & event) {}
 
-	inline void WindowManagerNone::waitEvents(const ece::WindowID & windowId, Event & event) {}
+	inline void WindowManagerNone::waitEvents(const ece::WindowID & windowId, InputEvent & event) {}
 
 	inline void WindowManagerNone::registerEventHandler(const ece::WindowID & windowId) {}
 
