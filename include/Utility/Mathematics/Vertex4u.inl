@@ -78,7 +78,7 @@ namespace ece
 	template<typename V>
 	inline Vertex4u<T> Vertex4u<T>::operator*(const V value) const
 	{
-		return Vertex4u<T>((*this)[0] * value, (*this)[1] * value, (*this)[2] * value, (*this)[3] * value);
+		return Vertex4u<T>((*this)[0] * static_cast<T>(value), (*this)[1] * static_cast<T>(value), (*this)[2] * static_cast<T>(value), (*this)[3] * static_cast<T>(value));
 	}
 
 	template<class T>

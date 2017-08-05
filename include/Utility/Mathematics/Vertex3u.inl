@@ -70,7 +70,7 @@ namespace ece
 	template<typename V>
 	inline Vertex3u<T> Vertex3u<T>::operator*(const V value) const
 	{
-		return Vertex3u<T>((*this)[X] * value, (*this)[Y] * value, (*this)[Z] * value);
+		return Vertex3u<T>((*this)[X] * static_cast<T>(value), (*this)[Y] * static_cast<T>(value), (*this)[Z] * static_cast<T>(value));
 	}
 
 	template<class T>

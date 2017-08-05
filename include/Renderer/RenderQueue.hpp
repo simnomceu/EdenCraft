@@ -2,7 +2,7 @@
 #define RENDERQUEUE_HPP
 
 #include "Renderable\Renderable.hpp"
-#include "OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGLUtil.hpp"
 #include "Program.hpp"
 #include "Mathematics\Matrix4u.hpp"
 
