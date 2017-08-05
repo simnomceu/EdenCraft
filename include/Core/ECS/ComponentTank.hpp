@@ -2,7 +2,7 @@
 #define COMPONENTTANK_HPP
 
 #include "ECS\BaseComponent.hpp"
-#include "Util\UniqueID.hpp"
+#include "Indexing\UniqueID.hpp"
 
 #include <memory>
 #include <vector>
@@ -20,6 +20,6 @@ namespace ece
 	};
 }
 
-#include "ECS\Component.inl"
+#include "ECS\ComponentTank.inl"
 
 #endif // COMPONENTTANK_HPP

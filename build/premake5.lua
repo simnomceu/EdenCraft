@@ -63,6 +63,17 @@ project "Argumentalization"
 	}
 	links { "Core", "Utility" }
 	includedirs { "../include/Core", "../include/Utility", "../examples/Argumentalization" }
+	
+project "Resources"
+	kind "ConsoleApp"
+	location ""
+	files {
+		"../examples/Resources/**.cpp",
+		"../examples/Resources/**.hpp",
+		"../examples/Resources/**.inl"
+	}
+	links { "Core", "Utility" }
+	includedirs { "../include/Core", "../include/Utility", "../examples/Resources" }
 
 project "Core"
 	kind "StaticLib"
@@ -74,7 +85,6 @@ project "Core"
 	}
 	includedirs { "../include/Core", "../include/Utility" }
 	links { "Utility" }
-	defines { "GLEW_STATIC" }
 	
 project "Utility"
 	kind "StaticLib"
@@ -97,6 +107,7 @@ project "Window"
 	}
 	includedirs { "../include/Window", "../include/Utility", "../include/Core" }
 	links { "Utility", "Core" }
+	defines { "GLEW_STATIC" }
 	
 project "Graphic"
 	kind "StaticLib"
@@ -128,4 +139,5 @@ project "Test"
 		"../tests/**.hpp",
 		"../tests/**.inl"
 	}
-	links { }
+	includedirs { "../include/Utility", "../include/Core", "../include/Graphic", "../include/Window", "../include/Renderer" }
+	links { "Utility", "Core", "Graphic", "Window", "Renderer" }

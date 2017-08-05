@@ -37,6 +37,11 @@ namespace ece
 		return Exception<MemoryAccessException>::makeException("Bad access to % from %. The pointer has expired.", target, origin);
 	}
 
+	OutOfRangeException OutOfRangeException::makeException(const std::string & type)
+	{
+		return Exception<OutOfRangeException>::makeException("Out of range access for %.", type);
+	}
+
 	OutOfRangeException OutOfRangeException::makeException(const std::string & type, const int id)
 	{
 		return Exception<OutOfRangeException>::makeException("Out of range access for % %.", type, id);
@@ -45,5 +50,11 @@ namespace ece
 	ResourceException ResourceException::makeException(const std::string & target, const unsigned short int id)
 	{
 		return Exception<ResourceException>::makeException("The resource % with the ID % is not available.", target, id);
+	}
+
+
+	DivideByZeroException DivideByZeroException::makeException(const std::string & origin)
+	{
+		return Exception<DivideByZeroException>::makeException("A division by zero has been handle in %", origin);
 	}
 }

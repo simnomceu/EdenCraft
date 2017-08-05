@@ -14,6 +14,7 @@ int main(int argc, char* const argv[])
 	// writing to session.configData() or session.Config() here 
 	// overrides command line args
 	// only do this if you know you need to
+	int numFailed = session.run();
 
-	return session.run();
+	return (numFailed < 0xff ? numFailed : 0xff);
 }

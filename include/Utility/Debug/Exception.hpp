@@ -53,6 +53,7 @@ namespace ece
 	class OutOfRangeException : public Exception<OutOfRangeException>
 	{
 	public:
+		static OutOfRangeException makeException(const std::string & type);
 		static OutOfRangeException makeException(const std::string & type, const int id);
 	};
 
@@ -60,6 +61,12 @@ namespace ece
 	{
 	public:
 		static ResourceException makeException(const std::string & target, const unsigned short int id);
+	};
+
+	class DivideByZeroException : public Exception<DivideByZeroException>
+	{
+	public:
+		static DivideByZeroException makeException(const std::string & origin);
 	};
 }
 

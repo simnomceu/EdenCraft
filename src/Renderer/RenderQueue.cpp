@@ -4,7 +4,7 @@
 
 namespace ece
 {
-	void RenderQueue::render(const GL::Matrix4x4 & VP, Renderable & object)
+	void RenderQueue::render(const FloatMatrix4u & VP, Renderable & object)
 	{
 		// TODO: add tag to remember the last object displayed
 		//auto locations = object.getLocations();

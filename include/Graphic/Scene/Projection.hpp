@@ -2,7 +2,8 @@
 #define PROJECTION_HPP
 
 #include "Window\Ratio.hpp"
-#include "glm\glm.hpp"
+//#include "glm\glm.hpp"
+#include "Mathematics\Matrix4u.hpp"
 
 namespace ece
 {
@@ -20,10 +21,12 @@ namespace ece
 
 		inline void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
 
-		inline const glm::mat4 & getProjection() const;
+		//inline const glm::mat4 & getProjection() const;
+		inline const FloatMatrix4u & getProjection() const;
 
 	private:
-		glm::mat4 projection;
+		//glm::mat4 projection;
+		FloatMatrix4u projection;
 	};
 }
 

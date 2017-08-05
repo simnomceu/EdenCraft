@@ -1,13 +1,13 @@
 #ifndef BASEWINDOW_HPP
 #define BASEWINDOW_HPP
 
-#include "Geom\Rectangle.hpp"
+#include "Mathematics\Rectangle.hpp"
 #include "Window\WindowSetting.hpp"
 #include "Window\VideoMode.hpp"
 #include "Window\Window.inl"
 
-#include "System\Event\Emitter.hpp"
-#include "Event\Event.hpp"
+#include "Event\Emitter.hpp"
+#include "Event\InputEvent.hpp"
 
 namespace ece
 {
@@ -44,8 +44,8 @@ namespace ece
 
 		void attachToMonitor(const int monitorIdIn);
 
-		const bool pollEvent(Event & event);
-		const bool waitEvent(Event & event);
+		const bool pollEvent(InputEvent & event);
+		const bool waitEvent(InputEvent & event);
 
 		void display();
 

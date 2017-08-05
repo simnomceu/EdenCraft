@@ -1,7 +1,7 @@
 #ifndef EVENTHANDLER_HPP
 #define EVENTHANDLER_HPP
 
-#include "System\Event\Emitter.hpp"
+#include "Event\Emitter.hpp"
 
 #include "Window\Window.inl"
 

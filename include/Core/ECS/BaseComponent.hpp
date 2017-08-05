@@ -8,6 +8,7 @@ namespace ece
 	public:
 		using ComponentID = unsigned int;
 
+		BaseComponent() = default;
 		inline BaseComponent(const ComponentID id);
 		inline virtual ~BaseComponent() = 0;
 

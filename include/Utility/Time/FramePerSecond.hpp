@@ -22,6 +22,6 @@ namespace ece
 	};
 }
 
-#include "Util\Time\FramePerSecond.inl"
+#include "Time\FramePerSecond.inl"
 
 #endif // FRAMEPERSECOND_HPP

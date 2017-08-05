@@ -198,7 +198,7 @@ namespace ece
 		return nbMonitors;
 	}
 
-	void WindowManagerGLFW::pollEvents(const ece::WindowID & windowId, Event & event)
+	void WindowManagerGLFW::pollEvents(const ece::WindowID & windowId, InputEvent & event)
 	{
 		glfwPollEvents();
 		try {
@@ -214,7 +214,7 @@ namespace ece
 		}
 	}
 
-	void WindowManagerGLFW::waitEvents(const ece::WindowID & windowId, Event & event)
+	void WindowManagerGLFW::waitEvents(const ece::WindowID & windowId, InputEvent & event)
 	{
 		glfwWaitEvents();
 		try {

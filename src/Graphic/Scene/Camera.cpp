@@ -1,11 +1,10 @@
 #include "Scene\Camera.hpp"
 
 #include "Debug\Exception.hpp"
-#include "glm\gtx\transform.hpp"
 
 namespace ece
 {
-	void Camera::updatePosition(const FloatPoint3D & position, const FloatPoint3D & target)
+	void Camera::updatePosition(const FloatPoint3u & position, const FloatPoint3u & target)
 	{
 		this->position = position;
 		this->target = target;

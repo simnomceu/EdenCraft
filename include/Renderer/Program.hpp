@@ -1,7 +1,8 @@
 #ifndef PROGRAM_H
 #define PROGRAM_H
 
-#include "OpenGL\OpenGL.hpp"
+#include "Mathematics\Matrix4u.hpp"
+#include "OpenGL\OpenGLUtil.hpp"
 #include "ShaderGL.hpp"
 
 #include <string>
@@ -36,8 +37,8 @@ namespace ece
 
 		void bindLocation(const int index, const std::string & name);
 
-		void bindInfo(const GL::Matrix4x4 & info, const std::string & name);
-		void bindInfo(const GL::Vertex3D & info, const std::string & name);
+		void bindInfo(const FloatMatrix4u & info, const std::string & name);
+		void bindInfo(const FloatVertex3u & info, const std::string & name);
 
 		inline const GL::ProgramID & getHandle() const;
 

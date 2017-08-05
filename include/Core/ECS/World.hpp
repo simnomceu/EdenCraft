@@ -3,7 +3,7 @@
 
 #include "ECS\BaseSystem.hpp"
 #include "ECS\ComponentTank.hpp"
-#include "Util\UniqueID.hpp"
+#include "Indexing\UniqueID.hpp"
 
 #include <memory>
 #include <vector>

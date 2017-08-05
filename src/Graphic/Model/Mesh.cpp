@@ -30,15 +30,15 @@ namespace ece
 
 	Box3D Mesh::getAABB() const
 	{
-		auto xMin = std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3D &  a, const FloatVertex3D & b){ return a.position[X] < b.position[X]; })->position[X];
-		auto xMax = std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3D &  a, const FloatVertex3D & b) { return a.position[X] < b.position[X]; })->position[X];
+		auto xMin = (*std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b){ return a[X] < b[X]; }))[X];
+		auto xMax = (*std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[X] < b[X]; }))[X];
 
-		auto yMin = std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3D &  a, const FloatVertex3D & b) { return a.position[Y] < b.position[Y]; })->position[Y];
-		auto yMax = std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3D &  a, const FloatVertex3D & b) { return a.position[Y] < b.position[Y]; })->position[Y];
+		auto yMin = (*std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[Y] < b[Y]; }))[Y];
+		auto yMax = (*std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[Y] < b[Y]; }))[Y];
 
-		auto zMin = std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3D &  a, const FloatVertex3D & b) { return a.position[Z] < b.position[Z]; })->position[Z];
-		auto zMax = std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3D &  a, const FloatVertex3D & b) { return a.position[Z] < b.position[Z]; })->position[Z];
+		auto zMin = (*std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[Z] < b[Z]; }))[Z];
+		auto zMax = (*std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[Z] < b[Z]; }))[Z];
 
-		return Box3D(FloatVertex3D{ xMin, yMin, zMin }, FloatVertex3D{ xMax, yMax, zMax });
+		return Box3D(FloatVertex3u(xMin, yMin, zMin), FloatVertex3u(xMax, yMax, zMax));
 	}
 }
