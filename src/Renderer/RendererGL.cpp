@@ -2,7 +2,7 @@
 
 #include "Scene\Camera.hpp"
 #include "Scene\Projection.hpp"
-#include "OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGLUtil.hpp"
 
 #include <utility>
 

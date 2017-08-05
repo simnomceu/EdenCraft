@@ -1,4 +1,4 @@
-#include "OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGLUtil.hpp"
 
 #include "Log\ServiceLogger.hpp"
 #include "GLFW\glfw3.h"

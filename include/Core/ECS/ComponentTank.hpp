@@ -20,6 +20,6 @@ namespace ece
 	};
 }
 
-#include "ECS\Component.inl"
+#include "ECS\ComponentTank.inl"
 
 #endif // COMPONENTTANK_HPP

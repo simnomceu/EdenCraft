@@ -1,5 +1,5 @@
-#ifndef OPENGL_HPP
-#define OPENGL_HPP
+#ifndef OPENGLUTIL_HPP
+#define OPENGLUTIL_HPP
 
 #include "Type.hpp"
 #include "glm\glm.hpp"
@@ -74,4 +74,4 @@ namespace ece
 	};
 }
 
-#endif // OPENGL_HPP
+#endif // OPENGLUTIL_HPP

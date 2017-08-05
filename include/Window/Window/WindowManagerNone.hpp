@@ -27,8 +27,8 @@ namespace ece
 
 		inline virtual unsigned short int getNumberOfMonitors() override;
 
-		inline virtual void pollEvents(const ece::WindowID & windowId, Event & event) override;
-		inline virtual void waitEvents(const ece::WindowID & windowId, Event & event) override;
+		inline virtual void pollEvents(const ece::WindowID & windowId, InputEvent & event) override;
+		inline virtual void waitEvents(const ece::WindowID & windowId, InputEvent & event) override;
 		
 		inline virtual void registerEventHandler(const ece::WindowID & windowId) override;
 

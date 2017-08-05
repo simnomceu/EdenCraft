@@ -128,13 +128,13 @@ namespace ece
 		}*/
 	}
 
-	const bool BaseWindow::pollEvent(Event & event)
+	const bool BaseWindow::pollEvent(InputEvent & event)
 	{
 		WindowServiceLocator::getService().pollEvents(this->windowId, event);
 		return false;
 	}
 
-	const bool BaseWindow::waitEvent(Event & event)
+	const bool BaseWindow::waitEvent(InputEvent & event)
 	{
 		WindowServiceLocator::getService().waitEvents(this->windowId, event);
 		return false;
