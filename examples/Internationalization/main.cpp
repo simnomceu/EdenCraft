@@ -1,13 +1,13 @@
 #include <iostream>
-#include "Locale\ResourceLoader.hpp"
+#include "Locale\LocaleLoader.hpp"
 #include "Locale\Country.hpp"
 #include "Locale\Language.hpp"
 
 auto main() -> int
 {
-	ece::ResourceLoader::setPath("../examples/Internationalization/");
+	ece::LocaleLoader::setPath("../examples/Internationalization/");
 
-	ece::ResourceLoader loader("test");
+	ece::LocaleLoader loader("test");
 	auto & resource = loader.getResource();
 	std::cout << "########## Default Locale en_US ##########" << std::endl;
 	std::cout << resource["helloworld"] << std::endl;

@@ -2,8 +2,9 @@
 #define RENDERQUEUE_HPP
 
 #include "Renderable\Renderable.hpp"
-#include "OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGLUtil.hpp"
 #include "Program.hpp"
+#include "Mathematics\Matrix4u.hpp"
 
 namespace ece
 {
@@ -19,7 +20,7 @@ namespace ece
 		RenderQueue & operator=(const RenderQueue & copy) = default;
 		RenderQueue & operator=(RenderQueue && move) = default;
 
-		void render(const GL::Matrix4x4 & VP, Renderable & object);
+		void render(const FloatMatrix4u & VP, Renderable & object);
 
 	private:
 		Program program;

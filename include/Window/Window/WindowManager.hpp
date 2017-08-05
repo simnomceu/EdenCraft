@@ -11,7 +11,7 @@
 namespace ece
 {
 	class EventHandler;
-	class Event;
+	class InputEvent;
 
 	class WindowManager
 	{
@@ -34,8 +34,8 @@ namespace ece
 
 		virtual unsigned short int getNumberOfMonitors() = 0;
 
-		virtual void pollEvents(const ece::WindowID & windowId, Event & event) = 0;
-		virtual void waitEvents(const ece::WindowID & windowId, Event & event) = 0;
+		virtual void pollEvents(const ece::WindowID & windowId, InputEvent & event) = 0;
+		virtual void waitEvents(const ece::WindowID & windowId, InputEvent & event) = 0;
 
 		virtual void registerEventHandler(const ece::WindowID & windowId) = 0;
 

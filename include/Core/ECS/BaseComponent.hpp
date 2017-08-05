@@ -11,6 +11,7 @@ namespace ece
 		using ComponentType = unsigned int;
 		using ComponentID = unsigned int;
 
+		BaseComponent() = default;
 		inline BaseComponent(const ComponentID id);
 		inline virtual ~BaseComponent() = 0;
 

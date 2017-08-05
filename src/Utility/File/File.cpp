@@ -26,27 +26,31 @@ namespace ece
 	std::string File::parseToString()
 	{
 		std::string content = "";
-		while (this->good()) {
-			std::string line;
-			std::getline(*this, line);
-			content.append(line + "\n");
+		if (this->isOpen()) {
+			while (this->good()) {
+				std::string line;
+				std::getline(*this, line);
+				content.append(line + "\n");
+			}
 		}
 		return content;
 	}
 
 	template<>
-	std::vector<FloatVertex3D> File::parseToVector<FloatVertex3D>()
+	std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>()
 	{
-		std::vector<FloatVertex3D> content;
-		FloatVertex3D value;
-		try {
-			while (this->good()) {
-				*this >> value.position[X] >> value.position[Y] >> value.position[Z];
-				content.push_back(value);
+		std::vector<FloatVertex3u> content;
+		if (this->isOpen()) {
+			FloatVertex3u value;
+			try {
+				while (this->good()) {
+					*this >> value[X] >> value[Y] >> value[Z];
+					content.push_back(value);
+				}
 			}
-		}
-		catch (std::exception & e) {
-			throw FileException::makeException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
+			catch (std::exception & e) {
+				throw FileException::makeException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
+			}
 		}
 		return content;
 	}

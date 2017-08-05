@@ -1,7 +1,7 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
-#include "Mathematics\Vertex3D.hpp"
+#include "Mathematics\Vertex3u.hpp"
 
 namespace ece
 {
@@ -17,12 +17,12 @@ namespace ece
 		Movable & operator=(const Movable & copy) = default;
 		Movable & operator=(Movable && move) = default;
 
-		inline virtual const FloatVertex3D & getPosition() const;
+		inline virtual const FloatVertex3u & getPosition() const;
 
 	protected:
 		virtual void computeCenter() = 0;
 
-		FloatVertex3D position;
+		FloatVertex3u position;
 	};
 }
 

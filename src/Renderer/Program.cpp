@@ -78,7 +78,7 @@ namespace ece
 		}
 	}
 
-	void Program::bindInfo(const GL::Matrix4x4 & info, const std::string & name)
+	void Program::bindInfo(const FloatMatrix4u & info, const std::string & name)
 	{
 		if (this->handle > GL::NULL_ID) {
 			GLuint handle = glGetUniformLocation(this->handle, name.data());
@@ -89,7 +89,7 @@ namespace ece
 		}
 	}
 
-	void Program::bindInfo(const GL::Vertex3D & info, const std::string & name)
+	void Program::bindInfo(const FloatVertex3u & info, const std::string & name)
 	{
 		if (this->handle > GL::NULL_ID) {
 			GLuint handle = glGetUniformLocation(this->handle, name.data());
