@@ -2,7 +2,7 @@
 #define PROGRAM_H
 
 #include "Mathematics\Matrix4u.hpp"
-#include "OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGLUtil.hpp"
 #include "ShaderGL.hpp"
 
 #include <string>

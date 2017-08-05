@@ -4,7 +4,7 @@
 #include "Scene\Projection.hpp"
 #include "Renderable\Renderable.hpp"
 
-#include "OpenGL\OpenGL.hpp"
+#include "OpenGL\OpenGLUtil.hpp"
 
 #include <iostream>
 
