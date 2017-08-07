@@ -57,12 +57,16 @@ namespace ece
 	template <class V, class... Args>
 	std::string Exception<T>::mapString(const std::string & content, V value, Args... args)
 	{
+		/* Look for the next '%' tag to bind. */
 		auto pos = content.find_first_of("%");
 		if (pos != std::string::npos) {
+			/* If there is one, replace it. */
 			std::stringstream stream;
 			stream << value;
+			/* And then return the new content with the recursive result of the others arguments to bind. */
 			return content.substr(0, pos) + stream.str() + Exception<T>::mapString(content.substr(pos + 1), args...);
 		}
+		/* Else, just return the current content. */
 		return content;
 	}
 }

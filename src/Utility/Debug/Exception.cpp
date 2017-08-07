@@ -40,6 +40,8 @@
 
 namespace ece
 {
+	/* ########## FileException methods ########## */
+
 	FileException FileException::makeException(const FileCodeError codeError, const std::string & filename)
 	{
 		switch (codeError) {
@@ -50,20 +52,26 @@ namespace ece
 			return Exception<FileException>::makeException("Code %. Error while trying to parse %. Check the content format.", (int)codeError, filename);
 			break;
 		default:
-			return Exception<FileException>::makeException("Code %i. Undefined error on file %.", (int)codeError, filename);
+			return Exception<FileException>::makeException("Code %. Undefined error on file %.", (int)codeError, filename);
 			break;
 		}
 	}
+
+	/* ########## BadInputException methods ########## */
 
 	BadInputException BadInputException::makeException(const std::string & details)
 	{
 		return Exception<BadInputException>::makeException("Bad input: %.", details);
 	}
 
+	/* ########## InitializationException methods ########## */
+
 	InitializationException InitializationException::makeException(const std::string & target)
 	{
 		return Exception<InitializationException>::makeException("% has failed to initialize.", target);
 	}
+
+	/* ########## MemoryAccessException methods ########## */
 
 	MemoryAccessException MemoryAccessException::makeException(const std::string & target)
 	{
@@ -75,6 +83,8 @@ namespace ece
 		return Exception<MemoryAccessException>::makeException("Bad access to % from %. The pointer has expired.", target, origin);
 	}
 
+	/* ########## OutOfRangeException methods ########## */
+
 	OutOfRangeException OutOfRangeException::makeException(const std::string & type)
 	{
 		return Exception<OutOfRangeException>::makeException("Out of range access for %.", type);
@@ -85,11 +95,14 @@ namespace ece
 		return Exception<OutOfRangeException>::makeException("Out of range access for % %.", type, id);
 	}
 
+	/* ########## ResourceException methods ########## */
+
 	ResourceException ResourceException::makeException(const std::string & target, const unsigned short int id)
 	{
 		return Exception<ResourceException>::makeException("The resource % with the ID % is not available.", target, id);
 	}
 
+	/* ########## DivideByZeroException methods ########## */
 
 	DivideByZeroException DivideByZeroException::makeException(const std::string & origin)
 	{
