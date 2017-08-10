@@ -1,9 +1,9 @@
 #include "render_window.hpp"
 
-#include "model\shader_effect.hpp"
-#include "model\shader.hpp"
-#include "model\mesh.hpp"
-#include "model\object.hpp"
+#include "model/shader_effect.hpp"
+#include "model/shader.hpp"
+#include "model/mesh.hpp"
+#include "model/object.hpp"
 #include "basic_renderer.hpp"
 
 #include <memory>

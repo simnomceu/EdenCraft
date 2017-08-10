@@ -1,7 +1,7 @@
 #ifndef FRAME_PER_SECOND_HPP
 #define FRAME_PER_SECOND_HPP
 
-#include "time\update_per_second.hpp"
+#include "time/update_per_second.hpp"
 
 namespace ece
 {
@@ -22,6 +22,6 @@ namespace ece
 	};
 }
 
-#include "time\frame_per_second.inl"
+#include "time/frame_per_second.inl"
 
 #endif // FRAME_PER_SECOND_HPP

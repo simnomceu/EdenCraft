@@ -1,6 +1,6 @@
-#include "graphic_library\glfw.hpp"
+#include "graphic_library/glfw.hpp"
 
-#include "log\service_logger.hpp"
+#include "log/service_logger.hpp"
 
 namespace ece
 {

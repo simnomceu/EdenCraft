@@ -4,9 +4,9 @@
 #include <vector>
 #include <iostream>
 
-#include "mathematics\vertex3u.hpp"
-#include "mathematics\box3d.hpp"
-#include "renderable\vertex.hpp"
+#include "mathematics/vertex3u.hpp"
+#include "mathematics/box3d.hpp"
+#include "renderable/vertex.hpp"
 
 namespace ece
 {
@@ -38,6 +38,6 @@ namespace ece
 	};
 }
 
-#include "model\mesh.inl"
+#include "model/mesh.inl"
 
 #endif // MESH_HPP

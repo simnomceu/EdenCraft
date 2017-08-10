@@ -1,5 +1,5 @@
 //#include "glm\gtx\transform.hpp"
-#include "mathematics\transform.hpp"
+#include "mathematics/transform.hpp"
 
 namespace ece
 {

@@ -4,21 +4,21 @@
  * @brief	Implements the main class.
  */
 
-#include "gl\glew.h"
+#include "gl/glew.h"
 
 #include "game.hpp"
-#include "log\service_logger.hpp"
-#include "log\logger.hpp"
-#include "window\window_service.hpp"
-#include "window\window_manager_glfw.hpp"
-#include "window\base_window.hpp"
-#include "graphic_library\service_gl.hpp"
-#include "graphic_library\open_gl.hpp"
+#include "log/service_logger.hpp"
+#include "log/logger.hpp"
+#include "window/window_service.hpp"
+#include "window/window_manager_glfw.hpp"
+#include "window/base_window.hpp"
+#include "graphic_library/service_gl.hpp"
+#include "graphic_library/open_gl.hpp"
 
 #include <iostream>
 #include <exception>
 #include <string>
-#include "File\Path.hpp"
+#include "file/path.hpp"
 
 /**
  * @fn	int main()

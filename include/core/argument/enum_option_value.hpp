@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "argument\option_value.hpp"
+#include "argument/option_value.hpp"
 
 namespace ece
 {
@@ -29,6 +29,6 @@ namespace ece
 	};
 }
 
-#include "argument\enum_option_value.inl"
+#include "argument/enum_option_value.inl"
 
 #endif // ENUM_OPTION_VALUE_HPP

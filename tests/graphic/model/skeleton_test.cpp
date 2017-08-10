@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "model\skeleton.hpp"
+#include "model/skeleton.hpp"
 
 SCENARIO("Skeleton", "[Graphic][Model]")
 {

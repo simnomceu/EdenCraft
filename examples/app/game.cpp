@@ -1,10 +1,10 @@
 #include "game.hpp"
 
-#include "window\window_setting.hpp"
-#include "window\video_mode.hpp"
+#include "window/window_setting.hpp"
+#include "window/video_mode.hpp"
 #include "render_window.hpp"
-#include "graphic_library\service_gl.hpp"
-#include "model\object.hpp"
+#include "graphic_library/service_gl.hpp"
+#include "model/object.hpp"
 
 #include <algorithm>
 #include <memory>

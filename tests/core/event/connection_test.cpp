@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "event\connection.hpp"
+#include "event/connection.hpp"
 
 SCENARIO("Connection", "[Core][Event]")
 {

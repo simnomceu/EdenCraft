@@ -1,7 +1,7 @@
 #ifndef GLFW_HPP
 #define GLFW_HPP
 
-#include "glfw\glfw3.h"
+#include "glfw/glfw3.h"
 
 namespace ece
 {

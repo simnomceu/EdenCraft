@@ -1,9 +1,9 @@
 #ifndef RENDER_WINDOW_HPP
 #define RENDER_WINDOW_HPP
 
-#include "window\base_window.hpp"
+#include "window/base_window.hpp"
 #include "renderer.hpp"
-#include "scene\scene.hpp"
+#include "scene/scene.hpp"
 
 #include <memory>
 

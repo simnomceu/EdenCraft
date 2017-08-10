@@ -1,8 +1,8 @@
-#include "model\shader.hpp"
+#include "model/shader.hpp"
 
-#include "file\file.hpp"
-#include "debug\exception.hpp"
-#include "log\service_logger.hpp"
+#include "file/file.hpp"
+#include "debug/exception.hpp"
+#include "log/service_logger.hpp"
 
 namespace ece
 {

@@ -1,9 +1,9 @@
 #ifndef OPEN_GL_HPP
 #define OPEN_GL_HPP
 
-#include "graphic_library\base_gl.hpp"
-#include "graphic_library\glfw.hpp"
-#include "graphic_library\glew.hpp"
+#include "graphic_library/base_gl.hpp"
+#include "graphic_library/glfw.hpp"
+#include "graphic_library/glew.hpp"
 
 namespace ece
 {

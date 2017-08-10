@@ -1,9 +1,9 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "model\movable.hpp"
-#include "mathematics\vertex3u.hpp"
-#include "mathematics\matrix4u.hpp"
+#include "model/movable.hpp"
+#include "mathematics/vertex3u.hpp"
+#include "mathematics/matrix4u.hpp"
 //#include "glm\glm.hpp"
 
 namespace ece
@@ -40,6 +40,6 @@ namespace ece
 	};
 }
 
-#include "scene\camera.inl"
+#include "scene/camera.inl"
 
 #endif // CAMERA_HPP

@@ -1,7 +1,7 @@
 #ifndef UPDATE_PER_SECOND_HPP
 #define UPDATE_PER_SECOND_HPP
 
-#include "time\chrono.hpp"
+#include "time/chrono.hpp"
 
 namespace ece
 {
@@ -24,6 +24,6 @@ namespace ece
 
 }
 
-#include "time\update_per_second.inl"
+#include "time/update_per_second.inl"
 
 #endif // UPDATE_PER_SECOND_HPP

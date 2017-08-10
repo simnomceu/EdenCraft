@@ -2,7 +2,7 @@
 #define SHADER_HPP
 
 #include <string>
-#include "renderable\shader_source.hpp"
+#include "renderable/shader_source.hpp"
 
 namespace ece
 {
@@ -33,6 +33,6 @@ namespace ece
 	};
 }
 
-#include "model\shader.inl"
+#include "model/shader.inl"
 
 #endif // SHADER_HPP

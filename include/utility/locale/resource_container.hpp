@@ -1,7 +1,7 @@
 #ifndef RESOURCE_CONTAINER_HPP
 #define RESOURCE_CONTAINER_HPP
 
-#include "locale\locale_resource.hpp"
+#include "locale/locale_resource.hpp"
 
 namespace ece
 {

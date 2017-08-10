@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "indexing\index2u.hpp"
+#include "indexing/index2u.hpp"
 
 SCENARIO("Index2u", "[Utility][Indexing]")
 {

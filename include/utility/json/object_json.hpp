@@ -1,8 +1,8 @@
 #ifndef OBJECT_JSON_HPP
 #define OBJECT_JSON_HPP
 
-#include "json\node_json.hpp"
-#include "json\atomic_json.hpp"
+#include "json/node_json.hpp"
+#include "json/atomic_json.hpp"
 
 namespace ece
 {

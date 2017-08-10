@@ -21,6 +21,6 @@ namespace ece
 	};
 }
 
-#include "ecs\base_component.inl"
+#include "ecs/base_component.inl"
 
 #endif // BASE_COMPONENT_HPP

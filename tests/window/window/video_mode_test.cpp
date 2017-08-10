@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "window\video_mode.hpp"
+#include "window/video_mode.hpp"
 
 SCENARIO("VideoMode", "[Window][Window]")
 {

@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "mathematics\box3d.hpp"
+#include "mathematics/box3d.hpp"
 
 SCENARIO("Box3D", "[Utility][Mathematics]")
 {

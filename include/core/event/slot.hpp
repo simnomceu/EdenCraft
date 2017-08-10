@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "event\signal.hpp"
+#include "event/signal.hpp"
 
 namespace ece
 {
@@ -41,6 +41,6 @@ namespace ece
 	};
 }
 
-#include "event\slot.inl"
+#include "event/slot.inl"
 
 #endif // SLOT_HPP

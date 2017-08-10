@@ -1,7 +1,7 @@
 #ifndef EVENT_MANAGER_NONE_HPP
 #define EVENT_MANAGER_NONE_HPP
 
-#include "event\base_event_manager.hpp"
+#include "event/base_event_manager.hpp"
 
 namespace ece
 {
@@ -24,6 +24,6 @@ namespace ece
 	};
 }
 
-#include "event\event_manager_none.inl"
+#include "event/event_manager_none.inl"
 
 #endif // EVENT_MANAGER_NONE_HPP

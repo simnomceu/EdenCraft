@@ -1,13 +1,13 @@
 #ifndef WINDOW_MANAGER_GLFW_HPP
 #define WINDOW_MANAGER_GLFW_HPP
 
-#include "window\window_manager.hpp"
+#include "window/window_manager.hpp"
 
 #include <memory>
 #include <map>
 #include <stack>
 
-#include "window\constant.inl"
+#include "window/constant.inl"
 
 namespace ece
 {

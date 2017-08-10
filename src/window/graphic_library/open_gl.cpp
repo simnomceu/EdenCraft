@@ -1,4 +1,4 @@
-#include "graphic_library\open_gl.hpp"
+#include "graphic_library/open_gl.hpp"
 
 namespace ece
 {

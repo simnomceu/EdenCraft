@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "argument\option.hpp"
+#include "argument/option.hpp"
 
 SCENARIO("Option", "[Core][Argument]")
 {

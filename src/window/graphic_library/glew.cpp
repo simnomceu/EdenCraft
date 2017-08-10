@@ -1,7 +1,7 @@
-#include "graphic_library\glew.hpp"
+#include "graphic_library/glew.hpp"
 
-#include "gl\glew.h"
-#include "log\service_logger.hpp"
+#include "gl/glew.h"
+#include "log/service_logger.hpp"
 
 namespace ece
 {

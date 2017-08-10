@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-#include "module\module.hpp"
+#include "module/module.hpp"
 
 namespace ece
 {
@@ -33,6 +33,6 @@ namespace ece
 	};
 }
 
-#include "module\module_manager.inl"
+#include "module/module_manager.inl"
 
 #endif // MODULE_MANAGER_HPP

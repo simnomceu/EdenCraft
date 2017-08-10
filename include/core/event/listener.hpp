@@ -1,8 +1,8 @@
 #ifndef LISTENER_HPP
 #define LISTENER_HPP
 
-#include "event\slot.hpp"
-#include "event\event_manager_consumer.hpp"
+#include "event/slot.hpp"
+#include "event/event_manager_consumer.hpp"
 
 #include <map>
 
@@ -38,6 +38,6 @@ namespace ece
 	};
 }
 
-#include "event\listener.inl"
+#include "event/listener.inl"
 
 #endif // LISTENER_HPP

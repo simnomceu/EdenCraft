@@ -1,7 +1,7 @@
 #ifndef WINDOW_MANAGER_NONE_HPP
 #define WINDOW_MANAGER_NONE_HPP
 
-#include "window\window_manager.hpp"
+#include "window/window_manager.hpp"
 
 namespace ece
 {
@@ -36,6 +36,6 @@ namespace ece
 	};
 }
 
-#include "window\window_manager_none.inl"
+#include "window/window_manager_none.inl"
 
 #endif // WINDOW_MANAGER_NONE_HPP

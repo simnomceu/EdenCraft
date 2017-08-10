@@ -1,7 +1,7 @@
 #include <iostream>
-#include "locale\locale_loader.hpp"
-#include "locale\country.hpp"
-#include "locale\language.hpp"
+#include "locale/locale_loader.hpp"
+#include "locale/country.hpp"
+#include "locale/language.hpp"
 
 auto main() -> int
 {

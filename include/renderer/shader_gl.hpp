@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "opengl\open_gl_util.hpp"
+#include "opengl/open_gl_util.hpp"
 
 namespace ece
 {

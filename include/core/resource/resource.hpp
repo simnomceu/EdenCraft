@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "resource\resource.inl"
+#include "resource/resource.inl"
 
 #endif // RESOURCE_HPP

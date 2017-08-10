@@ -12,8 +12,8 @@
 *
 **/
 
-#include "window\window.inl"
-#include "window\constant.inl"
+#include "window/window.inl"
+#include "window/constant.inl"
 
 /**
 * @namespace ece
@@ -76,6 +76,6 @@ namespace ece
 	};
 }
 
-#include "window\video_mode.inl"
+#include "window/video_mode.inl"
 
 #endif // VIDEO_MODE_HPP

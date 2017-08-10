@@ -5,7 +5,7 @@
 #include <fstream>
 #include <vector>
 
-#include "mathematics\vertex3u.hpp"
+#include "mathematics/vertex3u.hpp"
 
 namespace ece
 {
@@ -41,6 +41,6 @@ namespace ece
 	template<> std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>();
 }
 
-#include "file\file.inl"
+#include "file/file.inl"
 
 #endif // FILE_HPP

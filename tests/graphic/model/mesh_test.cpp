@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "model\mesh.hpp"
+#include "model/mesh.hpp"
 
 SCENARIO("Mesh", "[Graphic][Model]")
 {

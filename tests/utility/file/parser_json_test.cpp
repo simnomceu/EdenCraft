@@ -1,7 +1,7 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "file\parser_json.hpp"
-#include "debug\exception.hpp"
+#include "file/parser_json.hpp"
+#include "debug/exception.hpp"
 
 SCENARIO("ParserJSON", "[Utility][File]")
 {

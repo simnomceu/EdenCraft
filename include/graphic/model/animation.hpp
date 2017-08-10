@@ -1,7 +1,7 @@
 #ifndef ANIMATION_HPP
 #define ANIMATION_HPP
 
-#include "animation\transformation.hpp"
+#include "animation/transformation.hpp"
 
 #include <queue>
 #include <memory>

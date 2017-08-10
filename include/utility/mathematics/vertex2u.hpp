@@ -52,6 +52,6 @@ namespace ece
 	typedef Vertex2u<double> DoublePoint2u;
 }
 
-#include "mathematics\vertex2u.inl"
+#include "mathematics/vertex2u.inl"
 
 #endif // VERTEX2U_HPP

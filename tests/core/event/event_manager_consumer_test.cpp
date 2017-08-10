@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "event\event_manager_consumer.hpp"
+#include "event/event_manager_consumer.hpp"
 
 SCENARIO("EventManagerConsumer", "[Core][Event]")
 {

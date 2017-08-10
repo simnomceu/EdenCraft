@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "resource\resource.hpp"
+#include "resource/resource.hpp"
 
 namespace ece
 {
@@ -28,6 +28,6 @@ namespace ece
 	};
 }
 
-#include "resource\resource_handler.inl"
+#include "resource/resource_handler.inl"
 
 #endif // RESOURCE_HANDLER_HPP

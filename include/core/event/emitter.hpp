@@ -1,8 +1,8 @@
 #ifndef EMITTER_HPP
 #define EMITTER_HPP
 
-#include "event\signal.hpp"
-#include "event\event_manager_consumer.hpp"
+#include "event/signal.hpp"
+#include "event/event_manager_consumer.hpp"
 
 #include <map>
 
@@ -40,6 +40,6 @@ namespace ece
 	};
 }
 
-#include "event\emitter.inl"
+#include "event/emitter.inl"
 
 #endif // EMITTER_HPP

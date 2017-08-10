@@ -4,8 +4,8 @@
 #include <string>
 #include <utility>
 
-#include "locale\locale.hpp"
-#include "locale\resource_container.hpp"
+#include "locale/locale.hpp"
+#include "locale/resource_container.hpp"
 
 namespace ece
 {
@@ -38,6 +38,5 @@ namespace ece
 		void generateResource(const std::string & file);
 	};
 }
-
 
 #endif // LOCALE_LOADER_HPP

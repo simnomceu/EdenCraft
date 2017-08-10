@@ -25,6 +25,6 @@ namespace ece
 	};
 }
 
-#include "event\input_event.inl"
+#include "event/input_event.inl"
 
 #endif // INPUT_EVENT_HPP

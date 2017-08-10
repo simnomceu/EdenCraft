@@ -1,7 +1,7 @@
 #ifndef SHADER_EFFECT_HPP
 #define SHADER_EFFECT_HPP
 
-#include "model\shader.hpp"
+#include "model/shader.hpp"
 
 #include <memory>
 #include <vector>
@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "model\shader_effect.inl"
+#include "model/shader_effect.inl"
 
 #endif // SHADER_EFFECT_HPP

@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "mathematics\rectangle.hpp"
-#include "window\window.inl"
+#include "mathematics/rectangle.hpp"
+#include "window/window.inl"
 
 namespace ece
 {
@@ -37,6 +37,6 @@ namespace ece
 	};
 }
 
-#include "window\window_setting.inl"
+#include "window/window_setting.inl"
 
 #endif // WINDOW_SETTING_HPP

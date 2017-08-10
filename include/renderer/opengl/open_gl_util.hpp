@@ -2,8 +2,8 @@
 #define OPEN_GL_UTIL_HPP
 
 #include "type.hpp"
-#include "glm\glm.hpp"
-#include "gl\glew.h"
+#include "glm/glm.hpp"
+#include "gl/glew.h"
 
 #include <string>
 

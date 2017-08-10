@@ -1,7 +1,7 @@
-#include "resource\resource_manager.hpp"
+#include "resource/resource_manager.hpp"
 
-#include "log\service_logger.hpp"
-#include "debug\exception.hpp"
+#include "log/service_logger.hpp"
+#include "debug/exception.hpp"
 
 namespace ece
 {

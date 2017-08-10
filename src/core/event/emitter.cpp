@@ -1,7 +1,7 @@
-#include "event\emitter.hpp"
+#include "event/emitter.hpp"
 
-#include "debug\exception.hpp"
-#include "debug\exception.hpp"
+#include "debug/exception.hpp"
+#include "debug/exception.hpp"
 
 #include <iostream>
 

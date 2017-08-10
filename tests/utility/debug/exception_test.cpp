@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "debug\exception.hpp"
+#include "debug/exception.hpp"
 
 SCENARIO("Exception", "[Utility][Debug]")
 {

@@ -10,6 +10,6 @@ namespace ece
 	};
 }
 
-#include "ecs\base_system.inl"
+#include "ecs/base_system.inl"
 
 #endif // BASE_SYSTEM

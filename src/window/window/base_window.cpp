@@ -1,7 +1,7 @@
-#include "window\base_window.hpp"
+#include "window/base_window.hpp"
 
-#include "window\window_service.hpp"
-#include "glfw\glfw3.h"
+#include "window/window_service.hpp"
+#include "glfw/glfw3.h"
 //#include "OpenGL\OpenGL.hpp"
 
 #include <iostream>

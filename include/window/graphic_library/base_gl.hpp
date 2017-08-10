@@ -16,6 +16,6 @@ namespace ece
 	};
 }
 
-#include "graphic_library\base_gl.inl"
+#include "graphic_library/base_gl.inl"
 
 #endif // BASE_GL_HPP

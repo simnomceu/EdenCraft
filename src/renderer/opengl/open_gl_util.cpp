@@ -1,8 +1,8 @@
-#include "opengl\open_gl_util.hpp"
+#include "opengl/open_gl_util.hpp"
 
-#include "log\service_logger.hpp"
-#include "glfw\glfw3.h"
-#include "debug\exception.hpp"
+#include "log/service_logger.hpp"
+#include "glfw/glfw3.h"
+#include "debug/exception.hpp"
 
 #include <vector>
 

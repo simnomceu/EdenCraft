@@ -1,8 +1,8 @@
 #include "renderer_gl.hpp"
 
-#include "scene\camera.hpp"
-#include "scene\projection.hpp"
-#include "opengl\open_gl_util.hpp"
+#include "scene/camera.hpp"
+#include "scene/projection.hpp"
+#include "opengl/open_gl_util.hpp"
 
 #include <utility>
 

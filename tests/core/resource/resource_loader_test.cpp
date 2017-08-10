@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "resource\resource_loader.hpp"
+#include "resource/resource_loader.hpp"
 
 SCENARIO("ResourceLoader", "[Core][Resource]")
 {

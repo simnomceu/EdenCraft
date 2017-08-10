@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "event\signal.inl"
+#include "event/signal.inl"
 
 #endif // SIGNAL_HPP

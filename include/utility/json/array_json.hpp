@@ -1,8 +1,8 @@
 #ifndef ARRAY_JSON_HPP
 #define ARRAY_JSON_HPP
 
-#include "json\node_json.hpp"
-#include "json\atomic_json.hpp"
+#include "json/node_json.hpp"
+#include "json/atomic_json.hpp"
 
 #include <vector>
 

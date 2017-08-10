@@ -1,7 +1,7 @@
-#include "event\event_handler.hpp"
+#include "event/event_handler.hpp"
 
-#include "window\base_window.hpp"
-#include "window\window_service.hpp"
+#include "window/base_window.hpp"
+#include "window/window_service.hpp"
 
 #include <iostream>
 

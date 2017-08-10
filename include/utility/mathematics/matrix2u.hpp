@@ -3,7 +3,7 @@
 
 #include <array>
 
-#include "mathematics\vertex2u.hpp"
+#include "mathematics/vertex2u.hpp"
 
 namespace ece
 {
@@ -58,6 +58,6 @@ namespace ece
 	typedef Matrix2u<double> DoubleMatrix2u;
 }
 
-#include "mathematics\matrix2u.inl"
+#include "mathematics/matrix2u.inl"
 
 #endif // MATRIX2U_HPP

@@ -1,9 +1,9 @@
 #ifndef EVENT_SERVICE_HPP
 #define EVENT_SERVICE_HPP
 
-#include "service\service_factory.hpp"
-#include "service\service_locator.hpp"
-#include "event\event_manager_none.hpp"
+#include "service/service_factory.hpp"
+#include "service/service_locator.hpp"
+#include "event/event_manager_none.hpp"
 
 
 namespace ece

@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "mathematics\rectangle.hpp"
+#include "mathematics/rectangle.hpp"
 
 SCENARIO("Rectangle", "[Utility][Mathematics]")
 {

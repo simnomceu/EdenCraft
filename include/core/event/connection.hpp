@@ -1,8 +1,8 @@
 #ifndef CONNECTION_HPP
 #define CONNECTION_HPP
 
-#include "event\signal.hpp"
-#include "event\slot.hpp"
+#include "event/signal.hpp"
+#include "event/slot.hpp"
 
 namespace ece
 {
@@ -33,6 +33,6 @@ namespace ece
 	};
 }
 
-#include "event\connection.inl"
+#include "event/connection.inl"
 
 #endif // CONNECTION_HPP

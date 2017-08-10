@@ -7,9 +7,9 @@ namespace ece
 
 	template <class T>
 	template <class ...Args>
-	static T Exception<T>::makeException(const std::string & message, Args... args)
+	T Exception<T>::makeException(const std::string & message, Args... args)
 	{
-		return static_cast<T&>(Exception<T>(mapString(message, args...)));
+		return static_cast<T&>(Exception<T>(Exception<T>::mapString(message, args...)));
 	}
 
 	template <class T>

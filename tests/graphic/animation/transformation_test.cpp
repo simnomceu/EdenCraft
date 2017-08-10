@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "animation\transformation.hpp"
+#include "animation/transformation.hpp"
 
 SCENARIO("Transformation", "[Graphic][Animation]")
 {

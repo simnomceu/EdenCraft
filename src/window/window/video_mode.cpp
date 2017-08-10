@@ -1,6 +1,6 @@
-#include "window\video_mode.hpp"
+#include "window/video_mode.hpp"
 
-#include "window\constant.inl"
+#include "window/constant.inl"
 
 namespace ece
 {

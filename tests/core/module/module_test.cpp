@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "module\module.hpp"
+#include "module/module.hpp"
 
 SCENARIO("Module", "[Core][Module]")
 {

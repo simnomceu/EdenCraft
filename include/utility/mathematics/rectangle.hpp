@@ -167,7 +167,7 @@ namespace ece
  * @include Rectangle.inl
  * @brief Definition of inline and template methods of the Rectangle class.
  **/
-#include "mathematics\rectangle.inl"
+#include "mathematics/rectangle.inl"
 
 
 #endif // RECTANGLE_HPP

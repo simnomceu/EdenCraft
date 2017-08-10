@@ -4,8 +4,8 @@
 
 #pragma warning(push)
 #pragma warning(disable : 4505)
-#include "gl\glew.h"
-#include "glfw\glfw3.h"
+#include "gl/glew.h"
+#include "glfw/glfw3.h"
 #pragma warning(pop)
 
 namespace ece

@@ -1,10 +1,10 @@
-#include "window\window_manager_glfw.hpp"
+#include "window/window_manager_glfw.hpp"
 
-#include "log\service_logger.hpp"
+#include "log/service_logger.hpp"
 
-#include "graphic_library\service_gl.hpp"
-#include "event\event_handler.hpp"
-#include "debug\exception.hpp"
+#include "graphic_library/service_gl.hpp"
+#include "event/event_handler.hpp"
+#include "debug/exception.hpp"
 
 
 #include <utility> // std::pair

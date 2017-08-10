@@ -2,9 +2,9 @@
 #include <cmath>
 #include <ctime>
 
-#include "log\service_logger.hpp"
-#include "log\logger.hpp"
-#include "resource\resource_manager.hpp"
+#include "log/service_logger.hpp"
+#include "log/logger.hpp"
+#include "resource/resource_manager.hpp"
 
 class IntResource : public ece::Resource
 {

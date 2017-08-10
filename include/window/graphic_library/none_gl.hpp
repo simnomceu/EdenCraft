@@ -1,7 +1,7 @@
 #ifndef NONE_GL_HPP
 #define NONE_GL_HPP
 
-#include "graphic_library\base_gl.hpp"
+#include "graphic_library/base_gl.hpp"
 
 namespace ece
 {
@@ -19,6 +19,6 @@ namespace ece
 	};
 }
 
-#include "graphic_library\none_gl.inl"
+#include "graphic_library/none_gl.inl"
 
 #endif // NONE_GL_HPP

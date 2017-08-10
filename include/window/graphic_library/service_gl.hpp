@@ -1,9 +1,9 @@
 #ifndef SERVICE_GL_HPP
 #define SERVICE_GL_HPP
 
-#include "service\service_factory.hpp"
-#include "service\service_locator.hpp"
-#include "graphic_library\none_gl.hpp"
+#include "service/service_factory.hpp"
+#include "service/service_locator.hpp"
+#include "graphic_library/none_gl.hpp"
 
 namespace ece
 {

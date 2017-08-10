@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "mathematics\matrix2u.hpp"
+#include "mathematics/matrix2u.hpp"
 
 SCENARIO("Matrix2u", "[Utility][Mathematics]")
 {

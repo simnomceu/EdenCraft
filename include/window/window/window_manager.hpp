@@ -4,8 +4,8 @@
 #include <vector>
 #include <functional>
 
-#include "window\window_setting.hpp"
-#include "window\video_mode.hpp"
+#include "window/window_setting.hpp"
+#include "window/video_mode.hpp"
 #include "window.inl"
 
 namespace ece

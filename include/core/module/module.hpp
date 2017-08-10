@@ -1,8 +1,8 @@
 #ifndef MODULE_HPP
 #define MODULE_HPP
 
-#include "module\base_module.hpp"
-#include "module\module_method.hpp"
+#include "module/base_module.hpp"
+#include "module/module_method.hpp"
 
 namespace ece
 {
@@ -33,6 +33,6 @@ namespace ece
 	};
 }
 
-#include "module\module.inl"
+#include "module/module.inl"
 
 #endif // MODULE_HPP

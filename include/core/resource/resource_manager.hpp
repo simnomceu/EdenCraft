@@ -5,9 +5,9 @@
 #include <string>
 #include <memory>
 
-#include "resource\resource_handler.hpp"
-#include "resource\resource_loader.hpp"
-#include "resource\resource_unloader.hpp"
+#include "resource/resource_handler.hpp"
+#include "resource/resource_loader.hpp"
+#include "resource/resource_unloader.hpp"
 
 namespace ece
 {

@@ -1,7 +1,7 @@
-#include "event\event_manager_consumer.hpp"
+#include "event/event_manager_consumer.hpp"
 
-#include "debug\exception.hpp"
-#include "event\event_service.hpp"
+#include "debug/exception.hpp"
+#include "event/event_service.hpp"
 
 namespace ece
 {

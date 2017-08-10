@@ -1,6 +1,6 @@
-#include "catch\catch.hpp"
+#include "catch/catch.hpp"
 
-#include "animation\rotation.hpp"
+#include "animation/rotation.hpp"
 
 SCENARIO("Rotation", "[Graphic][Animation]")
 {

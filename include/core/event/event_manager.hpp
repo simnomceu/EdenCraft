@@ -1,11 +1,10 @@
 #ifndef EVENT_MANAGER_HPP
 #define EVENT_MANAGER_HPP
 
-#include "event\base_event_manager.hpp"
-#include "event\connection.hpp"
+#include "event/base_event_manager.hpp"
+#include "event/connection.hpp"
 
 #include <vector>
-
 #include <memory>
 
 namespace ece
@@ -45,6 +44,6 @@ namespace ece
 	};
 }
 
-#include "event\event_manager.inl"
+#include "event/event_manager.inl"
 
 #endif // EVENT_MANAGER_HPP

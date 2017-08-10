@@ -1,6 +1,6 @@
-#include "file\file.hpp"
+#include "file/file.hpp"
 
-#include "debug\exception.hpp"
+#include "debug/exception.hpp"
 #include <iostream>
 
 namespace ece

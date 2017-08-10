@@ -70,6 +70,6 @@ namespace ece
 	};
 }
 
-#include "debug\exception.inl"
+#include "debug/exception.inl"
 
 #endif // EXCEPTION_HPP

@@ -36,6 +36,6 @@ namespace ece
 	};
 }
 
-#include "file\path.inl"
+#include "file/path.inl"
 
 #endif // PATH_HPP

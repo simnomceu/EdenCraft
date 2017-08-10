@@ -1,7 +1,7 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
-#include "mathematics\vertex3u.hpp"
+#include "mathematics/vertex3u.hpp"
 
 namespace ece
 {
@@ -26,6 +26,6 @@ namespace ece
 	};
 }
 
-#include "model\movable.inl"
+#include "model/movable.inl"
 
 #endif // MOVABLE_HPP
