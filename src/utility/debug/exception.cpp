@@ -2,59 +2,58 @@
 
 namespace ece
 {
-	FileException FileException::makeException(const FileCodeError codeError, const std::string & filename)
+	FileException::FileException(const FileCodeError codeError, const std::string & filename): Exception()
 	{
 		switch (codeError) {
 		case BAD_PATH:
-			return Exception<FileException>::makeException("Code %. This file doesn't exist: %.", (int)codeError, filename);
+			this->setMessage("Code %. This file doesn't exist: %.", (int)codeError, filename);
 			break;
 		case PARSE_ERROR:
-			return Exception<FileException>::makeException("Code %. Error while trying to parse %. Check the content format.", (int)codeError, filename);
+			this->setMessage("Code %. Error while trying to parse %. Check the content format.", (int)codeError, filename);
 			break;
 		default:
-			return Exception<FileException>::makeException("Code %i. Undefined error on file %.", (int)codeError, filename);
+			this->setMessage("Code %i. Undefined error on file %.", (int)codeError, filename);
 			break;
 		}
 	}
 
-	BadInputException BadInputException::makeException(const std::string & details)
+	BadInputException::BadInputException(const std::string & details) : Exception()
 	{
-		return Exception<BadInputException>::makeException("Bad input: %.", details);
+		this->setMessage("Bad input: %.", details);
 	}
 
-	InitializationException InitializationException::makeException(const std::string & target)
+	InitializationException::InitializationException(const std::string & target) : Exception()
 	{
-		return Exception<InitializationException>::makeException("% has failed to initialize.", target);
+		this->setMessage("% has failed to initialize.", target);
 	}
 
-	MemoryAccessException MemoryAccessException::makeException(const std::string & target)
+	MemoryAccessException::MemoryAccessException(const std::string & target) : Exception()
 	{
-		return Exception<MemoryAccessException>::makeException("Bad access to %. The pointer has expired.", target);
+		this->setMessage("Bad access to %. The pointer has expired.", target);
 	}
 
-	MemoryAccessException MemoryAccessException::makeException(const std::string & target, const std::string & origin)
+	MemoryAccessException::MemoryAccessException(const std::string & target, const std::string & origin) : Exception()
 	{
-		return Exception<MemoryAccessException>::makeException("Bad access to % from %. The pointer has expired.", target, origin);
+		this->setMessage("Bad access to % from %. The pointer has expired.", target, origin);
 	}
 
-	OutOfRangeException OutOfRangeException::makeException(const std::string & type)
+	OutOfRangeException::OutOfRangeException(const std::string & type) : Exception()
 	{
-		return Exception<OutOfRangeException>::makeException("Out of range access for %.", type);
+		this->setMessage("Out of range access for %.", type);
 	}
 
-	OutOfRangeException OutOfRangeException::makeException(const std::string & type, const int id)
+	OutOfRangeException::OutOfRangeException(const std::string & type, const int id) : Exception()
 	{
-		return Exception<OutOfRangeException>::makeException("Out of range access for % %.", type, id);
+		this->setMessage("Out of range access for % %.", type, id);
 	}
 
-	ResourceException ResourceException::makeException(const std::string & target, const unsigned short int id)
+	ResourceException::ResourceException(const std::string & target, const unsigned short int id) : Exception()
 	{
-		return Exception<ResourceException>::makeException("The resource % with the ID % is not available.", target, id);
+		this->setMessage("The resource % with the ID % is not available.", target, id);
 	}
 
-
-	DivideByZeroException DivideByZeroException::makeException(const std::string & origin)
+	DivideByZeroException::DivideByZeroException(const std::string & origin) : Exception()
 	{
-		return Exception<DivideByZeroException>::makeException("A division by zero has been handle in %", origin);
+		this->setMessage("A division by zero has been handle in %", origin);
 	}
 }

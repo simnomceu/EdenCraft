@@ -22,7 +22,7 @@ namespace ece
 				this->upAxis = UP;
 			}
 			else {
-				throw BadInputException::makeException("Computation of the up axis is wrong !");
+				throw BadInputException("Computation of the up axis is wrong !");
 			}
 		}
 	}

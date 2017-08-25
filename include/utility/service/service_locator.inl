@@ -1,3 +1,5 @@
+#include "debug/exception.hpp"
+
 namespace ece
 {
 	template <class Base, class Null>
@@ -13,7 +15,7 @@ namespace ece
 	Base & ServiceLocator<Base, Null>::getService()
 	{
 		if (ServiceLocator<Base, Null>::service.get() == nullptr) {
-			throw std::exception("Invalid pointer to a service.");
+			throw MemoryAccessException("A service.");
 		}
 		return *ServiceLocator<Base, Null>::service;
 	}

@@ -12,10 +12,12 @@ namespace ece
 	class Renderer
 	{
 	public:
-		virtual ~Renderer() = 0 {}
+		inline virtual ~Renderer() = 0;
 
 		virtual void render(const Camera & cam, const Projection & projection, std::vector<Renderable *> & objects) = 0;
 	};
 }
+
+#include "renderer.inl"
 
 #endif // RENDERER_HPP

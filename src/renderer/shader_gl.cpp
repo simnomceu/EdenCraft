@@ -65,7 +65,7 @@ namespace ece
 
 		auto result = GL::checkShaderCompilationStatus(this->handle);
 		if (!result.compiled) {
-			throw BadInputException::makeException("Shader failed to compile: " + result.log);
+			throw BadInputException("Shader failed to compile: " + result.log);
 		}
 		if (result.deleteFlag) {
 			//TODO : what to do ?

@@ -5,6 +5,7 @@
 #include "json/array_json.hpp"
 
 #include <sstream>
+#include <cmath>
 
 namespace ece
 {

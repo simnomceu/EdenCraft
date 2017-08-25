@@ -47,7 +47,7 @@ namespace ece
 	const Signal::GlobalSignalID Emitter::getSignal(const Signal::SignalID signal) const
 	{
 		if (this->signals.find(signal) == this->signals.end()) {
-			throw OutOfRangeException::makeException("signal", signal);
+			throw OutOfRangeException("signal", signal);
 		}
 		return this->signals.at(signal);
 	}

@@ -9,7 +9,7 @@ namespace ece
 	{
 	public:
 		Box3D() = delete;
-		inline Box3D(const FloatVertex3u & a, FloatVertex3u & b);
+		inline Box3D(const FloatVertex3u & a, const FloatVertex3u & b);
 		Box3D(const Box3D & copy) = default;
 		Box3D(Box3D && move) = default;
 

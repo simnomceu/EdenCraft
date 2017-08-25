@@ -17,4 +17,4 @@ namespace ece
 	};
 }
 
-#endif GLEW_HPP
+#endif // GLEW_HPP
