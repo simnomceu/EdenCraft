@@ -5,7 +5,7 @@
 
 auto main() -> int
 {
-	ece::LocaleLoader::setPath("../examples/Internationalization/");
+	ece::LocaleLoader::setPath("../examples/internationalization/");
 
 	ece::LocaleLoader loader("test");
 	auto & resource = loader.getResource();

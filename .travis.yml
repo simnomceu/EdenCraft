@@ -7,9 +7,11 @@ dist:
 addons:
   apt:
     sources:
+      - ubuntu-toolchain-r-test
     packages:
-      - libglew1.13
+      - libglew-dev
       - libglfw-dev
+      - libopenal-dev
 
 sudo:
   required
@@ -22,13 +24,14 @@ compiler:
 
 env:
   global:
+    - COMPILER=g++-7.1
   matrix:
     - CONFIG=Debug
     - CONFIG=Release
 
 script:
-  - cd build && makeGmake.sh
-  - make all && cd ..
+  - cd build && ./make_gmake.sh
+  - make config=debug_linux64 all && cd ..
 
 after_script:
-  - cd build && clear_build.sh && cd ..
+  - cd build && ./clear_build.sh && cd ..
