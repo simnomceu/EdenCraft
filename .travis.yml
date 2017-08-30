@@ -29,6 +29,9 @@ env:
     - CONFIG=Debug
     - CONFIG=Release
 
+before_install:
+  - chmod +x build/premake5
+
 script:
   - cd build && ./premake5 gmake
   - make config=debug_linux64 all && cd ..
