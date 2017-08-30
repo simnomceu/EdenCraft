@@ -30,7 +30,7 @@ env:
     - CONFIG=Release
 
 script:
-  - cd build && ./make_gmake.sh
+  - cd build && ./premake5 gmake
   - make config=debug_linux64 all && cd ..
 
 after_script:
