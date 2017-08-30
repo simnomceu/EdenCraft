@@ -34,7 +34,7 @@ before_install:
 
 script:
   - cd build && ./premake5 gmake
-  - make config=debug_linux64 all && cd ..
+  - make config=debug_linux64 Tests && cd ..
 
 after_script:
   - cd build && ./clear_build.sh && cd ..
