@@ -9,6 +9,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
+      - g++-7
       - libglew-dev
       - libglfw-dev
       - libopenal-dev
@@ -27,14 +28,13 @@ env:
     - COMPILER=g++-7.1
   matrix:
     - CONFIG=Debug
-    - CONFIG=Release
 
 before_install:
   - chmod +x build/premake5
 
 script:
   - cd build && ./premake5 gmake
-  - make config=debug_linux64 && cd ..
+  - make -f Tests.make config=debug_linux64 && cd ..
 
 after_script:
   - cd build && ./clear_build.sh && cd ..
