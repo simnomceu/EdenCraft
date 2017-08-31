@@ -21,7 +21,7 @@ compiler: g++
 
 env:
   global:
-    - COMPILER=g++-7.1
+    - COMPILER=g++-7
   matrix:
     - CONFIG=Debug
 
@@ -32,12 +32,12 @@ before_install:
 
 install:
   - sudo apt-get install -qq g++-7
-  - export CXX="g++-7.1"
+  - export CXX="g++-7"
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 
 script:
   - cd build && ./premake5 gmake
-  - make config=debug_linux64 && ls && cd ..
+  - make config=debug_unix64 && cd ..
 
 after_script:
   - cd build && ./clear_build.sh && cd ..
