@@ -31,13 +31,13 @@ before_install:
   - chmod +x build/premake5
 
 install:
-  - sudo apt-get install -qq g++-7.1
+  - sudo apt-get install -qq g++-7
   - export CXX="g++-7.1"
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 
 script:
   - cd build && ./premake5 gmake
-  - make config=debug_linux64 && cd ..
+  - make config=debug_linux64 && ls && cd ..
 
 after_script:
   - cd build && ./clear_build.sh && cd ..
