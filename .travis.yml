@@ -1,8 +1,6 @@
-language:
-  cpp
+language: cpp
 
-dist: 
-  trusty
+dist: trusty
 
 addons:
   apt:
@@ -20,17 +18,22 @@ sudo:
 notifications:
   email: true
 
-compiler:
-  - gcc
+compiler: gcc
 
 env:
   global:
-    - COMPILER=g++-7.1
+    - COMPILER=g++-7
   matrix:
     - CONFIG=Debug
 
 before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
   - chmod +x build/premake5
+
+install:
+  - sudo apt-get install -qq g++-7
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 
 script:
   - cd build && ./premake5 gmake
