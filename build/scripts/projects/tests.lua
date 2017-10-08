@@ -4,8 +4,9 @@
 
 settings = {
         name = "Tests",
-        type = "ConsoleApp",
-        dependencies = {"Utility", "Core", "Window", "Graphic", "Renderer"}
+        type = "Test",
+        dependencies = {"Utility", "Core", "Window", "Graphic", "Renderer"},
+        extlibs = {"opengl32", "glew32s", "glfw3"}
 }
 
 return settings

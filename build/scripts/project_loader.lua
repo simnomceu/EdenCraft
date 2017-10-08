@@ -17,7 +17,7 @@ function ProjectLoader:loadProjects()
           print("the project name field is not correct in "..file)
           err = true
         end
-        if f.type == nil or (f.type ~= "StaticLib" and f.type ~= "ConsoleApp") then
+        if f.type == nil or (f.type ~= "StaticLib" and f.type ~= "ConsoleApp" and f.type ~= "Test") then
           print("the project type field is not correct in "..file)
           err = true
         end
@@ -40,9 +40,13 @@ function ProjectLoader:processProject(proj)
     if proj.type == "StaticLib" then
         includePath = "../include/"..projectName
         srcPath = "../src/"..projectName
-    else
+    elseif proj.type == "ConsoleApp" then
         includePath = "../examples/"..projectName
         srcPath = "../examples/"..projectName
+	else
+		includePath = "../"..projectName
+		srcPath = "../"..projectName
+		proj.type = "ConsoleApp"
     end
 
     local dependencies = {}
@@ -82,6 +86,10 @@ function ProjectLoader:processProject(proj)
                 end
             filter {}
         end
+
+	if proj.preprocessor then
+		defines(proj.preprocessor)
+	end
 end
 
 return ProjectLoader
