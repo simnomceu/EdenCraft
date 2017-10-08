@@ -33,79 +33,79 @@ project "App"
 	kind "ConsoleApp"
 	location ""
 	files {
-		"../examples/App/**.cpp",
-		"../examples/App/**.hpp",
-		"../examples/App/**.inl"
+		"../examples/app/**.cpp",
+		"../examples/app/**.hpp",
+		"../examples/app/**.inl"
 	}
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
 	links { "opengl32", "glew32s", "glfw3", "Utility", "Core", "Window", "Graphic", "Renderer" }
-	includedirs { "../include/Utility", "../include/Core", "../include/Window", "../include/Graphic", "../include/Renderer", "../examples/App" } 
+	includedirs { "../include/utility", "../include/core", "../include/window", "../include/graphic", "../include/renderer", "../examples/app" } 
 	
 project "Internationalization"
 	kind "ConsoleApp"
 	location ""
 	files {
-		"../examples/Internationalization/**.cpp",
-		"../examples/Internationalization/**.hpp",
-		"../examples/Internationalization/**.inl"
+		"../examples/internationalization/**.cpp",
+		"../examples/internationalization/**.hpp",
+		"../examples/internationalization/**.inl"
 	}
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
 	links { "Utility" }
-	includedirs { "../include/Utility", "../include/examples/Internationalization" }
+	includedirs { "../include/utility", "../include/examples/internationalization" }
 	
 project "Argumentalization"
 	kind "ConsoleApp"
 	location ""
 	files {
-		"../examples/Argumentalization/**.cpp",
-		"../examples/Argumentalization/**.hpp",
-		"../examples/Argumentalization/**.inl"
+		"../examples/argumentalization/**.cpp",
+		"../examples/argumentalization/**.hpp",
+		"../examples/argumentalization/**.inl"
 	}
 	links { "Core", "Utility" }
-	includedirs { "../include/Core", "../include/Utility", "../examples/Argumentalization" }
+	includedirs { "../include/core", "../include/utility", "../examples/argumentalization" }
 	
 project "Resources"
 	kind "ConsoleApp"
 	location ""
 	files {
-		"../examples/Resources/**.cpp",
-		"../examples/Resources/**.hpp",
-		"../examples/Resources/**.inl"
+		"../examples/resources/**.cpp",
+		"../examples/resources/**.hpp",
+		"../examples/resources/**.inl"
 	}
 	links { "Core", "Utility" }
-	includedirs { "../include/Core", "../include/Utility", "../examples/Resources" }
+	includedirs { "../include/core", "../include/utility", "../examples/resources" }
 
 project "Core"
 	kind "StaticLib"
 	location ""
 	files {
-		"../src/Core/**.cpp",
-		"../include/Core/**.inl",
-		"../include/Core/**.hpp"
+		"../src/core/**.cpp",
+		"../include/core/**.inl",
+		"../include/core/**.hpp"
 	}
-	includedirs { "../include/Core", "../include/Utility" }
+	includedirs { "../include/core", "../include/utility" }
 	links { "Utility" }
 	
 project "Utility"
 	kind "StaticLib"
 	location ""
 	files {
-		"../src/Utility/**.cpp",
-		"../include/Utility/**.inl",
-		"../include/Utility/**.hpp"
+		"../src/utility/**.cpp",
+		"../include/utility/**.inl",
+		"../include/utility/**.hpp"
 	}
-	includedirs { "../include/Utility" }
+	includedirs { "../include/utility" }
 	links { }
 	
 project "Window"
 	kind "StaticLib"
 	location ""
 	files {
-		"../src/Window/**.cpp",
-		"../include/Window/**.inl",
-		"../include/Window/**.hpp"
+		"../src/window/**.cpp",
+		"../include/window/**.inl",
+		"../include/window/**.hpp"
 	}
-	includedirs { "../include/Window", "../include/Utility", "../include/Core" }
+	includedirs { "../include/window", "../include/utility", "../include/core" }
 	links { "Utility", "Core" }
 	defines { "GLEW_STATIC" }
 	
@@ -113,22 +113,22 @@ project "Graphic"
 	kind "StaticLib"
 	location ""
 	files {
-		"../src/Graphic/**.cpp",
-		"../include/Graphic/**.inl",
-		"../include/Graphic/**.hpp"
+		"../src/graphic/**.cpp",
+		"../include/graphic/**.inl",
+		"../include/graphic/**.hpp"
 	}
-	includedirs { "../include/Graphic", "../include/Utility", "../include/Core", "../include/Window" }
+	includedirs { "../include/graphic", "../include/utility", "../include/core", "../include/window" }
 	links { "Utility", "Core", "Window" }
 	
 project "Renderer"
 	kind "StaticLib"
 	location ""
 	files {
-		"../src/Renderer/**.cpp",
-		"../include/Renderer/**.inl",
-		"../include/Renderer/**.hpp"
+		"../src/renderer/**.cpp",
+		"../include/renderer/**.inl",
+		"../include/renderer/**.hpp"
 	}
-	includedirs { "../include/Renderer", "../include/Utility", "../include/Core", "../include/Graphic", "../include/Window" }
+	includedirs { "../include/renderer", "../include/utility", "../include/core", "../include/graphic", "../include/window" }
 	links { "Utility", "Core", "Graphic", "Window" }
 		
 project "Test"
@@ -139,5 +139,5 @@ project "Test"
 		"../tests/**.hpp",
 		"../tests/**.inl"
 	}
-	includedirs { "../include/Utility", "../include/Core", "../include/Graphic", "../include/Window", "../include/Renderer" }
+	includedirs { "../include/utility", "../include/core", "../include/graphic", "../include/window", "../include/renderer" }
 	links { "Utility", "Core", "Graphic", "Window", "Renderer" }
