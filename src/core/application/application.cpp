@@ -5,6 +5,7 @@
 #include "event/event_service.hpp"
 #include "event/event_manager.hpp"
 #include "module/module_method.hpp"
+#include "debug/exception.hpp"
 
 namespace ece
 {

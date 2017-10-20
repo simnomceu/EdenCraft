@@ -1,7 +1,14 @@
 #include "file/parser_obj.hpp"
 
+#include "debug/exception.hpp"
+#include "type.hpp"
+
 #include <fstream>
 #include <sstream>
+
+#ifdef __linux__
+	#define sscanf_s sscanf
+#endif
 
 namespace ece
 {
@@ -10,8 +17,7 @@ namespace ece
 
 		std::ifstream file(pathname, std::ios::out);
 		if (!file.is_open()) {
-			throw std::exception(std::string("Error while trying to open " + pathname).c_str());
-			// TODO replace by a great exception.
+			throw FileException(FileCodeError::BAD_PATH, pathname);
 		}
 		std::string line, command;
 		while (file.good()) {

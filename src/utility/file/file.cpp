@@ -1,25 +1,29 @@
 #include "file/file.hpp"
 
 #include "debug/exception.hpp"
+
 #include <iostream>
+#ifdef __linux__
+	#include <sys/stat.h>
+#endif
 
 namespace ece
 {
 	const bool File::open(const std::string & filename, const std::ios_base::openmode & mode)
 	{
-		this->close();
+		this->stream.close();
 		if (!File::exists(filename)) {
-			throw FileException::makeException(BAD_PATH, filename);
+			throw FileException(BAD_PATH, filename);
 		}
 		this->filename = filename;
-		std::fstream::open(this->filename, mode);
+		this->stream.open(this->filename, mode);
 		return this->isOpen();
 	}
 
 	void File::close()
 	{
 		if (this->isOpen()) {
-			std::fstream::close();
+			this->stream.close();
 		}
 	}
 
@@ -27,9 +31,9 @@ namespace ece
 	{
 		std::string content = "";
 		if (this->isOpen()) {
-			while (this->good()) {
+			while (this->stream.good()) {
 				std::string line;
-				std::getline(*this, line);
+				std::getline(this->stream, line);
 				content.append(line + "\n");
 			}
 		}
@@ -43,13 +47,13 @@ namespace ece
 		if (this->isOpen()) {
 			FloatVertex3u value;
 			try {
-				while (this->good()) {
+				while (this->stream.good()) {
 					*this >> value[X] >> value[Y] >> value[Z];
 					content.push_back(value);
 				}
 			}
 			catch (std::exception & e) {
-				throw FileException::makeException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
+				throw FileException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
 			}
 		}
 		return content;

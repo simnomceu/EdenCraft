@@ -3,6 +3,10 @@
 #include <iostream>
 #include <ctime>
 
+#ifdef __linux__
+	#define localtime_s(time, result) localtime_r(result, time)
+#endif
+
 namespace ece
 {
 	void Logger::logError(const std::string & data)

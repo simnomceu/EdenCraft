@@ -1,15 +1,15 @@
-language:
-  cpp
+language: cpp
 
-dist: 
-  trusty
+dist: trusty
 
 addons:
   apt:
     sources:
+      - ubuntu-toolchain-r-test
     packages:
-      - libglew1.13
+      - libglew-dev
       - libglfw-dev
+      - libopenal-dev
 
 sudo:
   required
@@ -17,18 +17,27 @@ sudo:
 notifications:
   email: true
 
-compiler:
-  - gcc
+compiler: g++
 
 env:
   global:
+    - COMPILER=g++-7
   matrix:
     - CONFIG=Debug
-    - CONFIG=Release
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+  - chmod +x build/premake5
+
+install:
+  - sudo apt-get install -qq g++-7
+  - export CXX="g++-7"
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90
 
 script:
-  - cd build && makeGmake.sh
-  - make all && cd ..
+  - cd build && ./premake5 gmake
+  - make config=debug_unix64 && cd ..
 
 after_script:
-  - cd build && clear_build.sh && cd ..
+  - cd build && ./clear_build.sh && cd ..

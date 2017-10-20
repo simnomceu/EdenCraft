@@ -253,7 +253,7 @@ namespace ece
 	GLFWwindow * WindowManagerGLFW::getWindow(const ece::WindowID & windowId)
 	{
 		if (windowId == -1/*GL::NULL_ID*/ || windowId > (int)this->windows.size() || this->windows[windowId] == nullptr) {
-			throw OutOfRangeException::makeException("GLFWwindow", windowId);
+			throw OutOfRangeException("GLFWwindow", windowId);
 			// TODO exception non attrapée quand fenêtre fermée
 		}
 		return this->windows[windowId];
@@ -265,7 +265,7 @@ namespace ece
 		auto monitors = glfwGetMonitors(&nbMonitors);
 
 		if (monitorId < 0 || monitorId > nbMonitors) {
-			throw OutOfRangeException::makeException("GLFWmonitor", monitorId);
+			throw OutOfRangeException("GLFWmonitor", monitorId);
 		}
 
 		return monitors[monitorId];

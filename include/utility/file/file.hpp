@@ -9,14 +9,14 @@
 
 namespace ece
 {
-	class File: private std::fstream
+	class File
 	{
 	public:
-		using std::fstream::operator<<;
-		using std::fstream::operator>>;
+		static const std::ios_base::openmode in = std::fstream::in;
+		static const std::ios_base::openmode out = std::fstream::out;
 
 		inline File() = default;
-		File(const std::string & filename, const std::ios_base::openmode & mode);
+		File(const std::string & filename, const std::ios_base::openmode & mode = File::in | File::out);
 		File(const File & copy) = delete;
 		File(File && move) = default;
 		
@@ -25,7 +25,7 @@ namespace ece
 		File & operator=(const File & copy) = delete;
 		File & operator=(File && move) = default;
 
-		const bool open(const std::string & filename, const std::ios_base::openmode & mode);
+		const bool open(const std::string & filename, const std::ios_base::openmode & mode = File::in | File::out);
 		inline const bool isOpen() const;
 		void close();
 
@@ -34,8 +34,12 @@ namespace ece
 
 		static const bool exists(const std::string & filename);
 
+		template <class T> File & operator>>(T & value);
+		template <class T> File & operator<<(T & value);
+
 	private:
 		std::string filename;
+		std::fstream stream;
 	};
 
 	template<> std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>();

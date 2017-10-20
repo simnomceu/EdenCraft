@@ -63,7 +63,7 @@ namespace ece
 	std::weak_ptr<Resource> ResourceManager::getResource(const std::string & identifier)
 	{
 		if (this->resources.find(identifier) == this->resources.end()) {
-			throw OutOfRangeException::makeException("Resource " + identifier);
+			throw OutOfRangeException("Resource " + identifier);
 		}
 		return *this->resources[identifier];
 	}
@@ -71,7 +71,7 @@ namespace ece
 	void ResourceManager::clear()
 	{
 		while (!this->resources.empty()) {
-			auto & pair = this->resources.begin();
+			auto const & pair = this->resources.begin();
 			this->unloadResource(pair->first);
 		}
 

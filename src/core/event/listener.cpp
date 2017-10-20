@@ -35,7 +35,7 @@ namespace ece
 	const Slot::GlobalSlotID Listener::getSlotID(const Slot::SlotID slot) const
 	{
 		if (this->slots.find(slot) == this->slots.end()) {
-			throw OutOfRangeException::makeException("slot", slot);
+			throw OutOfRangeException("slot", slot);
 		}
 		return this->slots.at(slot);
 	}

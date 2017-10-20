@@ -2,6 +2,8 @@
 
 #include "json/object_json.hpp"
 
+#include <algorithm>
+
 namespace ece
 {
 	ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent): NodeJSON(parent), children()
@@ -52,7 +54,8 @@ namespace ece
 
 	void ArrayJSON::remove(const std::shared_ptr<NodeJSON>& child)
 	{
-		auto it = std::find(this->begin(), this->end(), child);
+		auto it = std::find_if(this->begin(), this->end(), 
+				[child](const std::shared_ptr<NodeJSON> & element){ return child.get() == element.get(); });
 		if (it != this->end()) {
 			this->children.erase(it);
 		}

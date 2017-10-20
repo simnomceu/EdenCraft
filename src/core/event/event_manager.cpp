@@ -109,7 +109,7 @@ namespace ece
 			auto posSignal = std::find_if(this->signals.begin(), this->signals.end(), [signalID](Signal & signal) { return signal.getId() == signalID; });
 
 			if (posSignal != this->signals.end() && !posSignal->isDirty()) {
-				for (auto & it = this->connections.begin(); it != this->connections.end(); ++it) {
+				for (auto it = this->connections.begin(); it != this->connections.end(); ++it) {
 					if (it->getSignal() == signalID) {
 						auto posSlot = std::find_if(this->slots.begin(), this->slots.end(), [it](Slot & slot) { return slot.getId() == it->getSlot(); });
 						posSlot->trigger(emitter, signal);

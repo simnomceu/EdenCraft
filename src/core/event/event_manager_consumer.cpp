@@ -9,7 +9,7 @@ namespace ece
 	{
 		// TODO: Guard if the EventManager doesn't exist anymore.
 		if (this->eventManager.expired()) {
-			throw MemoryAccessException::makeException("EventManager", "EventManagerConsumer");
+			throw MemoryAccessException("EventManager", "EventManagerConsumer");
 		}
 		return this->eventManager.lock();
 	}
