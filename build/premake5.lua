@@ -38,7 +38,7 @@ project "App"
 		"../examples/app/**.inl"
 	}
 	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
-	links { "opengl32", "glew32s", "glfw3", "Utility", "Core", "Window", "Graphic", "Renderer" }
+	links { "opengl32", "glew32s", "Utility", "Core", "Window", "Graphic", "Renderer" }
 	includedirs { "../include/utility", "../include/core", "../include/window", "../include/graphic", "../include/renderer", "../examples/app" } 
 	
 project "Internationalization"
