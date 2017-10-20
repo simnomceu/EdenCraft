@@ -1,5 +1,7 @@
 #include "indexing/unique_id.hpp"
 
+#include <algorithm>
+
 namespace ece
 {
 	unsigned int UniqueID::next()

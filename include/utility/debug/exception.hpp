@@ -7,66 +7,67 @@
 
 namespace ece
 {
-	template <class T>
 	class Exception : protected std::runtime_error
 	{
 	public:
-		using std::runtime_error::what;
+		inline Exception();
 
-		inline Exception(const std::string & whatArg);
+		template <class ...Args>
+		inline void setMessage(const std::string & message, Args... args);
 
-		template<class... Args>
-		static T makeException(const std::string & message, Args... args);
+		inline virtual const char * what() const noexcept override;
 
 	private:
-		inline static std::string mapString(const std::string & content);
+		std::string message;
+
+		inline std::string mapString(const std::string & content);
 
 		template <class V, class... Args>
-		static std::string mapString(const std::string & content, V value, Args... args);
+		std::string mapString(const std::string & content, V value, Args... args);
 	};
 
-	class FileException : public Exception<FileException>
+	class FileException : public Exception
 	{
 	public:
-		static FileException makeException(const FileCodeError codeError, const std::string & filename);
+		FileException(const FileCodeError codeError, const std::string & filename);
 	};
 
-	class BadInputException : public Exception<BadInputException>
+	class BadInputException : public Exception
 	{
 	public:
-		static BadInputException makeException(const std::string & details);
+		BadInputException(const std::string & details);
 	};
 
-	class InitializationException : public Exception<InitializationException>
+	class InitializationException : public Exception
 	{
 	public:
-		static InitializationException makeException(const std::string & target);
+		InitializationException(const std::string & target);
 	};
 
-	class MemoryAccessException : public Exception<MemoryAccessException>
+	class MemoryAccessException : public Exception
 	{
 	public:
-		static MemoryAccessException makeException(const std::string & target);
-		static MemoryAccessException makeException(const std::string & target, const std::string & origin);
+		MemoryAccessException(const std::string & target);
+		MemoryAccessException(const std::string & target, const std::string & origin);
 	};
 
-	class OutOfRangeException : public Exception<OutOfRangeException>
+	class OutOfRangeException : public Exception
 	{
 	public:
-		static OutOfRangeException makeException(const std::string & type);
-		static OutOfRangeException makeException(const std::string & type, const int id);
+		OutOfRangeException(const std::string & type);
+		OutOfRangeException(const std::string & type, const int id);
 	};
 
-	class ResourceException : public Exception<ResourceException>
+	class ResourceException : public Exception
 	{
 	public:
-		static ResourceException makeException(const std::string & target, const unsigned short int id);
+		ResourceException(const std::string & target, const unsigned short int id);
 	};
 
-	class DivideByZeroException : public Exception<DivideByZeroException>
+	class DivideByZeroException : public Exception
 	{
 	public:
-		static DivideByZeroException makeException(const std::string & origin);
+		DivideByZeroException(const std::string & origin);
 	};
 }
 

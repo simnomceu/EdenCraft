@@ -61,7 +61,7 @@ namespace ece
 	inline Matrix4u<T>& Matrix4u<T>::operator/=(const V value)
 	{
 		if (value == 0) {
-			throw DivideByZeroException::makeException("Matrix4u");
+			throw DivideByZeroException("Matrix4u");
 		}
 
 		(*this)[0] /= value;
@@ -146,7 +146,7 @@ namespace ece
 	inline Matrix4u<T> Matrix4u<T>::operator/(const V value) const
 	{
 		if (value == 0) {
-			throw DivideByZeroException::makeException("Matrix4u");
+			throw DivideByZeroException("Matrix4u");
 		}
 		return Matrix4u<T>{(*this)[0] / value, (*this)[1] / value, (*this)[2] / value, (*this)[3] / value};
 	}

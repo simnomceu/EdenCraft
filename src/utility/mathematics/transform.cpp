@@ -1,5 +1,7 @@
 #include "mathematics/transform.hpp"
 
+#include <cmath>
+
 namespace ece
 {
 	FloatMatrix4u lookAt(const FloatPoint3u & eye, const FloatPoint3u & target, const FloatVertex3u & upAxis)
@@ -21,7 +23,7 @@ namespace ece
 
 	FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)
 	{
-		float scale = static_cast<float>(tan(FOV * 0.5f * PI / 180.0f)) * nearClipping;
+		float scale = static_cast<float>(std::tan(FOV * 0.5f * PI / 180.0f)) * nearClipping;
 		Rectangle<float> screen(-ratio * scale, -scale, 2.0f * std::fabs(-ratio * scale), 2 * std::fabs(scale));
 		float right = screen.getX() + screen.getWidth();
 		float top = screen.getY() + screen.getHeight();

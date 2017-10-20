@@ -1,6 +1,7 @@
 #include "event/event_service.hpp"
 
 #include "event/event_manager_consumer.hpp"
+#include "debug/exception.hpp"
 
 namespace ece
 {
@@ -9,7 +10,7 @@ namespace ece
 		//return ServiceLocator<BaseEventManager, EventManagerNone>::getServicePtr();
 
 		if (ServiceLocator<BaseEventManager, EventManagerNone>::service.get() == nullptr) {
-			throw std::exception("Invalid pointer to a service.");
+			throw MemoryAccessException("a service.");
 		}
 		return ServiceLocator<BaseEventManager, EventManagerNone>::service;
 	}

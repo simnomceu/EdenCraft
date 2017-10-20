@@ -54,7 +54,7 @@ namespace ece
 			// TODO: removing all shaders after link
 		}
 		else {
-			throw ResourceException::makeException("Program", this->handle);
+			throw ResourceException("Program", this->handle);
 		}
     }
 
@@ -64,7 +64,7 @@ namespace ece
             glUseProgram(this->handle);
 		}
 		else {
-			throw ResourceException::makeException("Program", this->handle);
+			throw ResourceException("Program", this->handle);
 		}
     }
 
@@ -74,7 +74,7 @@ namespace ece
 			glBindAttribLocation(this->handle, index, name.data());
 		}
 		else {
-			throw ResourceException::makeException("Program", this->handle);
+			throw ResourceException("Program", this->handle);
 		}
 	}
 
@@ -85,7 +85,7 @@ namespace ece
 			glUniformMatrix4fv(handle, 1, GL_FALSE, &info[0][0]);
 		}
 		else {
-			throw ResourceException::makeException("Program", this->handle);
+			throw ResourceException("Program", this->handle);
 		}
 	}
 
@@ -96,7 +96,7 @@ namespace ece
 			glUniform3fv(handle, 3, &info[0]);
 		}
 		else {
-			throw ResourceException::makeException("Program", this->handle);
+			throw ResourceException("Program", this->handle);
 		}
 	}
 

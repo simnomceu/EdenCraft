@@ -8,36 +8,36 @@ SCENARIO("Exception", "[Utility][Debug]")
 	{
 		WHEN("Code error is BAD_PATH")
 		{
-			auto exception = ece::FileException::makeException(ece::FileCodeError::BAD_PATH, "test.txt");
+			ece::FileException exception(ece::FileCodeError::BAD_PATH, "test.txt");
 
 			REQUIRE_THAT(exception.what(), Catch::Contains("test.txt"));
 			REQUIRE_THAT(exception.what(), Catch::StartsWith("Code 0"));
 		}
 		AND_WHEN("Code error is PARSE_ERROR")
 		{
-			auto exception = ece::FileException::makeException(ece::FileCodeError::PARSE_ERROR, "test.txt");
+			ece::FileException exception(ece::FileCodeError::PARSE_ERROR, "test.txt");
 
 			REQUIRE_THAT(exception.what(), Catch::Contains("test.txt"));
 			REQUIRE_THAT(exception.what(), Catch::StartsWith("Code 1"));
 		}
 		AND_WHEN("Code error is anything but an existing code")
 		{
-			REQUIRE_THAT(ece::FileException::makeException(static_cast<ece::FileCodeError>(7), "test.txt").what(),
+			REQUIRE_THAT(ece::FileException(static_cast<ece::FileCodeError>(7), "test.txt").what(),
 				Catch::StartsWith("Code 7"));
-			REQUIRE_THAT(ece::FileException::makeException(static_cast<ece::FileCodeError>(49), "test.txt").what(),
+			REQUIRE_THAT(ece::FileException(static_cast<ece::FileCodeError>(49), "test.txt").what(),
 				Catch::StartsWith("Code 49"));
 		}
 	}
 
 	GIVEN("A bad input exception")
 	{
-		auto exception = ece::BadInputException::makeException("trululu");
+		ece::BadInputException exception("trululu");
 		REQUIRE_THAT(exception.what(), Catch::Contains("trululu"));
 	}
 
 	GIVEN("An initialization exception")
 	{
-		auto exception = ece::InitializationException::makeException("an integer");
+		ece::InitializationException exception("an integer");
 		REQUIRE_THAT(exception.what(), Catch::StartsWith("an integer"));
 	}
 
@@ -45,12 +45,12 @@ SCENARIO("Exception", "[Utility][Debug]")
 	{
 		WHEN("No access point is defined")
 		{
-			auto exception = ece::MemoryAccessException::makeException("a pointer");
+			ece::MemoryAccessException exception("a pointer");
 			REQUIRE_THAT(exception.what(), Catch::Contains("a pointer"));
 		}
 		AND_WHEN("The access point is defined")
 		{
-			auto exception = ece::MemoryAccessException::makeException("a pointer", "a method");
+			ece::MemoryAccessException exception("a pointer", "a method");
 			REQUIRE_THAT(exception.what(), Catch::Contains("a pointer"));
 			REQUIRE_THAT(exception.what(), Catch::Contains("a method"));
 		}
@@ -60,12 +60,12 @@ SCENARIO("Exception", "[Utility][Debug]")
 	{
 		WHEN("No id is provided")
 		{
-			auto exception = ece::OutOfRangeException::makeException("an element");
+			ece::OutOfRangeException exception("an element");
 			REQUIRE_THAT(exception.what(), Catch::Contains("an element"));
 		}
 		AND_WHEN("Any id is provided")
 		{
-			auto exception = ece::OutOfRangeException::makeException("an element", 1);
+			ece::OutOfRangeException exception("an element", 1);
 			REQUIRE_THAT(exception.what(), Catch::Contains("an element"));
 			REQUIRE_THAT(exception.what(), Catch::Contains("1"));
 		}
@@ -75,7 +75,7 @@ SCENARIO("Exception", "[Utility][Debug]")
 	{
 		WHEN("Any id is provided")
 		{
-			auto exception = ece::ResourceException::makeException("a shader", 10);
+			ece::ResourceException exception("a shader", 10);
 			REQUIRE_THAT(exception.what(), Catch::Contains("a shader"));
 			REQUIRE_THAT(exception.what(), Catch::Contains("10"));
 		}

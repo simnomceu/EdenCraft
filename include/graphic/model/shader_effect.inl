@@ -1,3 +1,5 @@
+#include <algorithm>
+
 namespace ece
 {
 	inline void ShaderEffect::removeShader(std::shared_ptr<Shader> & shader)

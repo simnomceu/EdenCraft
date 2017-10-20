@@ -5,6 +5,7 @@
 #include "debug/exception.hpp"
 
 #include <vector>
+#include <algorithm>
 
 namespace ece
 {
@@ -14,7 +15,7 @@ namespace ece
 		{
 			auto handle = glCreateShader(type);
 			if (handle == NULL_ID) {
-				throw InitializationException::makeException("GL Shader");
+				throw InitializationException("GL Shader");
 			}
 			return handle;
 		}
@@ -23,7 +24,7 @@ namespace ece
 		{
 			auto handle = glCreateProgram();
 			if (handle == NULL_ID) {
-				throw InitializationException::makeException("GL Program");
+				throw InitializationException("GL Program");
 			}
 			return handle;
 		}
@@ -78,7 +79,7 @@ namespace ece
 		void deleteShader(const ShaderID & shaderHandle)
 		{
 			if (shaderHandle == NULL_ID) {
-				throw BadInputException::makeException("This shader reference is null and cannot be delete.");
+				throw BadInputException("This shader reference is null and cannot be delete.");
 			}
 			glDeleteShader(shaderHandle);
 
@@ -92,10 +93,10 @@ namespace ece
 		void attachShaderToProgram(const ShaderID & shaderHandle, const ProgramID & programHandle)
 		{
 			if (shaderHandle == GL::NULL_ID) {
-				throw BadInputException::makeException("An invalid reference to a shader cannot be attached to a program.");
+				throw BadInputException("An invalid reference to a shader cannot be attached to a program.");
 			}
 			if (programHandle == GL::NULL_ID) {
-				throw BadInputException::makeException("A shader cannot be attached to an invalid reference to a program.");
+				throw BadInputException("A shader cannot be attached to an invalid reference to a program.");
 			}
 			glAttachShader(programHandle, shaderHandle);
 
@@ -110,10 +111,10 @@ namespace ece
 		void detachShaderFromProgram(const ShaderID & shaderHandle, const ProgramID & programHandle)
 		{
 			if (shaderHandle == GL::NULL_ID) {
-				throw BadInputException::makeException("An invalid reference to a shader cannot be detached to a program.");
+				throw BadInputException("An invalid reference to a shader cannot be detached to a program.");
 			}
 			if (programHandle == GL::NULL_ID) {
-				throw BadInputException::makeException("A shader cannot be detached to an invalid reference to a program.");
+				throw BadInputException("A shader cannot be detached to an invalid reference to a program.");
 			}
 			glDetachShader(programHandle, shaderHandle);
 
@@ -130,7 +131,7 @@ namespace ece
 			VertexArrayID handle = NULL_ID;
 			glGenVertexArrays(1, &handle);
 			if (handle == NULL_ID) {
-				throw InitializationException::makeException("GL object");
+				throw InitializationException("GL object");
 			}
 			return handle;
 		}
@@ -138,7 +139,7 @@ namespace ece
 		void renderObject(const VertexArrayID & objectHandle, const RenderMode & renderMode, const unsigned int numberOfVertices)
 		{
 			if (objectHandle == NULL_ID) {
-				throw BadInputException::makeException("An invalid reference to an object cannot be used for rendering.");
+				throw BadInputException("An invalid reference to an object cannot be used for rendering.");
 			}
 			glBindVertexArray(objectHandle);
 			glDrawArrays(renderMode, 0, (GLsizei)(numberOfVertices * 3));

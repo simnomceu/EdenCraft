@@ -41,7 +41,7 @@ namespace ece
 	inline Matrix2u<T>& Matrix2u<T>::operator/=(const V value)
 	{
 		if (value == 0) {
-			throw ece::DivideByZeroException::makeException("Matrix2u");
+			throw ece::DivideByZeroException("Matrix2u");
 		}
 		(*this)[0] /= value;
 		(*this)[1] /= value;
@@ -93,7 +93,7 @@ namespace ece
 	inline Matrix2u<T> Matrix2u<T>::operator/(const V value) const
 	{
 		if (value == 0) {
-			throw ece::DivideByZeroException::makeException("Matrix2u");
+			throw ece::DivideByZeroException("Matrix2u");
 		}
 		return Matrix2u<T>{(*this)[0] / value, (*this)[1] / value};
 	}
@@ -153,7 +153,7 @@ namespace ece
 	inline Vertex2u<T> Matrix2u<T>::getColumn(const int index) const
 	{
 		if (index > 1 || index < 0) {
-			throw ece::OutOfRangeException::makeException("Column of Matrix2u", index);
+			throw ece::OutOfRangeException("Column of Matrix2u", index);
 		}
 		return Vertex2u<T>((*this)[0][index], (*this)[1][index]);
 	}
@@ -162,7 +162,7 @@ namespace ece
 	inline Vertex2u<T> Matrix2u<T>::getRow(const int index) const
 	{
 		if (index > 1 || index < 0) {
-			throw ece::OutOfRangeException::makeException("Row of Matrix2u", index);
+			throw ece::OutOfRangeException("Row of Matrix2u", index);
 		}
 		return Vertex2u<T>((*this)[index]);
 	}
@@ -171,7 +171,7 @@ namespace ece
 	inline Vertex2u<T> & Matrix2u<T>::getRow(const int index)
 	{
 		if (index > 1 || index < 0) {
-			throw ece::OutOfRangeException::makeException("Row of Matrix2u", index);
+			throw ece::OutOfRangeException("Row of Matrix2u", index);
 		}
 		return (*this)[index];
 	}

@@ -1,4 +1,4 @@
-#include "Catch/catch.hpp"
+#include "catch/catch.hpp"
 
 #include "argument/integer_option_value.hpp"
 

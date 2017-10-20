@@ -1,3 +1,5 @@
+#include <cmath>
+
 namespace ece
 {
 	template <class T>
@@ -115,7 +117,7 @@ namespace ece
 	template<class T>
 	inline T Vertex4u<T>::magnitude() const
 	{
-		return sqrt(this->dot(*this));
+		return std::sqrt(this->dot(*this));
 	}
 
 	template<class T>
