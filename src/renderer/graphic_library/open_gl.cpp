@@ -4,8 +4,6 @@ namespace ece
 {
 	void OpenGL::preInit()
 	{
-		this->glfwHandle.init();
-		this->glfwHandle.parametrizeContext();
 	}
 
 	void OpenGL::postInit()
@@ -15,7 +13,7 @@ namespace ece
 
 	bool OpenGL::isPreInitialized()
 	{
-		return this->glfwHandle.isInit();
+		return false;
 	}
 
 	bool OpenGL::isPostInitialized()

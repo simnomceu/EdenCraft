@@ -3,9 +3,9 @@
 -- argumentalization.lua
 
 settings = {
-        name = "Argumentalization",
+        name = "argumentalization",
         type = "ConsoleApp",
-        dependencies = {"Utility", "Core"}
+        dependencies = {"utility", "core"}
 }
 
 return settings

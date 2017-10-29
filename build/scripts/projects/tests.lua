@@ -3,9 +3,9 @@
 -- tests.lua
 
 settings = {
-        name = "Tests",
+        name = "tests",
         type = "Test",
-        dependencies = {"Utility", "Core", "Window", "Graphic", "Renderer"},
+        dependencies = {"utility", "core", "window", "graphic", "renderer"},
         extlibs = {"opengl32", "glew32s", "glfw3"}
 }
 

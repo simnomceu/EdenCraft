@@ -1,10 +1,10 @@
 namespace ece
 {
-	inline BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter(), windowId(-1), settings(), videoMode() {}
+//	inline BaseWindow::BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode) : Emitter(), windowId(-1), settings(), videoMode() {}
 
-	inline BaseWindow::BaseWindow(BaseWindow && copy) : Emitter(), windowId(-1), settings(), videoMode() {}
+//	inline BaseWindow::BaseWindow(BaseWindow && copy) : Emitter(), windowId(-1), settings(), videoMode() {}
 
-	inline BaseWindow::~BaseWindow() { this->close(); }
+//	inline BaseWindow::~BaseWindow() { this->close(); }
 
 	inline void BaseWindow::onRefresh() {}
 

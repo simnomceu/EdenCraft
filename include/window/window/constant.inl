@@ -5,7 +5,6 @@
 #pragma warning(push)
 #pragma warning(disable : 4505)
 #include "gl/glew.h"
-#include "glfw/glfw3.h"
 #pragma warning(pop)
 
 namespace ece
@@ -25,4 +24,4 @@ namespace ece
 	const bool DEFAULT_SRGB_CAPABLE_ECE = GL_FALSE;
 }
 
-#endif
+#endif // CONSTANT_INL

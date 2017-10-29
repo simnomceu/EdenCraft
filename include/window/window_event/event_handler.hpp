@@ -12,6 +12,12 @@ namespace ece
 	class EventHandler: public Emitter
 	{
 	public:
+		const Signal::SignalID KEY_PRESSED = 0;
+		const Signal::SignalID KEY_RELEASED = 1;
+		const Signal::SignalID MOUSE_BUTTON_PRESSED = 2;
+		const Signal::SignalID MOUSE_BUTTON_RELEASED = 3;
+		const Signal::SignalID MOUSE_WHEEL_SCROLLED = 4;
+
 		static EventHandler & getInstance();
 
 		inline ~EventHandler();
@@ -20,11 +26,11 @@ namespace ece
 		void produceMouseButtonEvent(const int button, const int action, const int mods);
 
 	private:
-		EventHandler() = default;
+		EventHandler();
 
 	};
 }
 
-#include "event/event_handler.inl"
+#include "window_event/event_handler.inl"
 
 #endif // EVENT_HANDLER_HPP

@@ -3,9 +3,9 @@
 -- renderer.lua
 
 settings = {
-        name = "Renderer",
+        name = "renderer",
         type = "StaticLib",
-        dependencies = {"Utility", "Core", "Window", "Graphic"}
+        dependencies = {"utility", "core", "window", "graphic"}
 }
 
 return settings
