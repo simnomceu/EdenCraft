@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "event/event_handler.inl"
+#include "window_event/event_handler.inl"
 
 #endif // EVENT_HANDLER_HPP

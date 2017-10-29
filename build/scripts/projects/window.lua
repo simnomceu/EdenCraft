@@ -3,9 +3,9 @@
 -- window.lua
 
 settings = {
-        name = "Window",
+        name = "window",
         type = "StaticLib",
-        dependencies = {"Utility", "Core"},
+        dependencies = {"utility", "core"},
         preprocessor = {"GLEW_STATIC"}
 }
 

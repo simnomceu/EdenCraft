@@ -1,11 +1,11 @@
-#include "event/event_handler.hpp"
+#include "window_event/event_handler.hpp"
 
 #include "window/base_window.hpp"
-#include "window/window_service.hpp"
+//#include "window/window_service.hpp"
 
 #include <iostream>
 
-#include "GLFW\glfw3.h"
+//#include "GLFW\glfw3.h"
 
 namespace ece
 {
@@ -27,7 +27,7 @@ namespace ece
 	void EventHandler::produceKeyEvent(const int key, const int scancode, const int action, const int mods)
 	{
 		std::cerr << "key: " << key << std::endl;
-		switch (action) {
+/*		switch (action) {
 		case GLFW_PRESS:
 			this->emit(KEY_PRESSED);
 			break;
@@ -36,7 +36,7 @@ namespace ece
 			break;
 		default:
 			break;
-		}
+		}*/
 	}
 
 	void EventHandler::produceMouseButtonEvent(const int button, const int action, const int mods)

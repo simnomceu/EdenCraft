@@ -3,9 +3,9 @@
 -- internationalization.lua
 
 settings = {
-        name = "Internationalization",
+        name = "internationalization",
         type = "ConsoleApp",
-        dependencies = {"Utility"},
+        dependencies = {"utility"},
         linkOptions = {
             windows = "/NODEFAULTLIB:libcmt.lib"
         }

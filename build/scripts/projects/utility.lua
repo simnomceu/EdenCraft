@@ -3,7 +3,7 @@
 -- utility.lua
 
 settings = {
-        name = "Utility",
+        name = "utility",
         type = "StaticLib",
         dependencies = {},
         extlibs = {},

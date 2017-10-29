@@ -3,9 +3,9 @@
 -- core.lua
 
 settings = {
-        name = "Core",
+        name = "core",
         type = "StaticLib",
-        dependencies = {"Utility"}
+        dependencies = {"utility"}
 }
 
 return settings

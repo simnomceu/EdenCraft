@@ -3,9 +3,9 @@
 -- resources.lua
 
 settings = {
-        name = "Resources",
+        name = "resources",
         type = "ConsoleApp",
-        dependencies = {"Utility", "Core"}
+        dependencies = {"utility", "core"}
 }
 
 return settings

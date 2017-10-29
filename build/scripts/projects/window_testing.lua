@@ -1,11 +1,11 @@
 #!lua
 
--- app.lua
+-- window_testing.lua
 
 settings = {
-        name = "app",
+        name = "window_testing",
         type = "ConsoleApp",
-        dependencies = {"utility", "core", "window", "graphic", "renderer"},
+        dependencies = {"utility", "core", "window"},
         extlibs = {"opengl32", "glew32s"},
         linkOptions = {
             windows = "/NODEFAULTLIB:libcmt.lib"

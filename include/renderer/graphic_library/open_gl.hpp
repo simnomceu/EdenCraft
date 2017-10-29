@@ -2,7 +2,6 @@
 #define OPEN_GL_HPP
 
 #include "graphic_library/base_gl.hpp"
-#include "graphic_library/glfw.hpp"
 #include "graphic_library/glew.hpp"
 
 namespace ece
@@ -19,7 +18,6 @@ namespace ece
 		virtual bool isPostInitialized() override;
 
 	private:
-		GLFW glfwHandle;
 		GLEW glewHandle;
 	};
 }

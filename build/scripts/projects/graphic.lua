@@ -3,9 +3,9 @@
 -- graphic.lua
 
 settings = {
-        name = "Graphic",
+        name = "graphic",
         type = "StaticLib",
-        dependencies = {"Utility", "Core", "Window"}
+        dependencies = {"utility", "core", "window"}
 }
 
 return settings
