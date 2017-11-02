@@ -54,8 +54,10 @@ namespace ece
 		bool waitEvent(InputEvent & event);
 		bool pollEvent(InputEvent & event);
 
+		std::weak_ptr<BaseWindowAdapter> getAdapter() const;
+
 	private:
-		std::unique_ptr<BaseWindowAdapter> adapter;
+		std::shared_ptr<BaseWindowAdapter> adapter;
 	};
 }
 

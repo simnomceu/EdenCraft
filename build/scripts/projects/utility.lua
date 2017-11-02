@@ -4,10 +4,7 @@
 
 settings = {
         name = "utility",
-        type = "StaticLib",
-        dependencies = {},
-        extlibs = {},
-        linkOptions = ""
+        type = "StaticLib"
 }
 
 return settings

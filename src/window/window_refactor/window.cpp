@@ -3,7 +3,7 @@
 #ifdef __unix__
 #include "x11/window_adapter.hpp"
 #elif __WINDOW__
-#include "wgl/window_adapter.hpp"
+#include "win32/window_adapter.hpp"
 #elif __OSX__
 #include "cocoa/window_adapter.hpp"
 #else
@@ -12,7 +12,7 @@
 
 namespace ece
 {
-	Window::Window():Emitter(), adapter(std::make_unique<WindowAdapter>())
+	Window::Window():Emitter(), adapter(std::make_shared<WindowAdapter>())
 	{
 		this->addSignal(WINDOW_OPENED);
 		this->addSignal(WINDOW_CLOSED);
@@ -31,7 +31,7 @@ namespace ece
 
 	Window::~Window()
 	{
-		this->adapter.release();
+		this->adapter.reset();
 	}
 
 	Window & Window::operator=(const Window & copy)
@@ -175,5 +175,10 @@ namespace ece
 			return false;
 		}
 		return false;
+	}
+
+	std::weak_ptr<BaseWindowAdapter> Window::getAdapter() const
+	{
+		return this->adapter;
 	}
 }

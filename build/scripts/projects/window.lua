@@ -5,8 +5,7 @@
 settings = {
         name = "window",
         type = "StaticLib",
-        dependencies = {"utility", "core"},
-        preprocessor = {"GLEW_STATIC"}
+        dependencies = {"utility", "core"}
 }
 
 return settings

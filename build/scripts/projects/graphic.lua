@@ -5,7 +5,7 @@
 settings = {
         name = "graphic",
         type = "StaticLib",
-        dependencies = {"utility", "core", "window"}
+        dependencies = {"utility", "core", "window", "renderer"}
 }
 
 return settings
