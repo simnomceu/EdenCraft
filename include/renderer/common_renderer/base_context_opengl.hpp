@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "common_renderer/opengl.hpp"
+#include "renderer/common_renderer/opengl.hpp"
 
 namespace ece
 {
@@ -29,6 +29,6 @@ namespace ece
 	};
 }
 
-#include "common_renderer/base_context_opengl.inl"
+#include "renderer/common_renderer/base_context_opengl.inl"
 
 #endif // BASE_CONTEXT_OPENGL_HPP

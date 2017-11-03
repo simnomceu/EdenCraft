@@ -1,7 +1,7 @@
-#include "win32/wgl.hpp"
+#include "renderer/win32/wgl.hpp"
 
-#include "win32/window_adapter.hpp"
-#include "log/service_logger.hpp"
+#include "window/win32/window_adapter.hpp"
+#include "utility/log/service_logger.hpp"
 
 namespace ece
 {

@@ -1,8 +1,8 @@
-#include "shader_gl.hpp"
+#include "renderer/renderer/shader_gl.hpp"
 
-#include "file/file.hpp"
-#include "debug/exception.hpp"
-#include "log/service_logger.hpp"
+#include "utility/file/file.hpp"
+#include "utility/debug/exception.hpp"
+#include "utility/log/service_logger.hpp"
 
 namespace ece
 {

@@ -8,10 +8,10 @@
 
 #include <memory>
 #include <vector>
-#include "application/application.hpp"
-#include "event/listener.hpp"
-#include "window/base_window.hpp"
-#include "event/listener.hpp"
+#include "core/application/application.hpp"
+#include "core/event/listener.hpp"
+#include "window/window_refactor/window.hpp"
+#include "core/event/listener.hpp"
 
 /**
  * @class	Game
@@ -44,7 +44,7 @@ private:
 	void cleanWindows(const ece::Emitter & emitter, const unsigned int signal);
 	void refreshDisplay(const ece::Emitter & emitter, const unsigned int signal);
 
-	std::vector<std::shared_ptr<ece::BaseWindow>> windows;
+	std::vector<std::shared_ptr<ece::Window>> windows;
 };
 
 

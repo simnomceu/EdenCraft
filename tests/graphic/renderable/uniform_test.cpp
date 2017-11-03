@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "renderable/uniform.hpp"
+#include "graphic/renderable/uniform.hpp"
 
 SCENARIO("Uniform", "[Graphic][Renderable]")
 {

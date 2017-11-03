@@ -1,6 +1,8 @@
-#include "application/application.hpp"
+#include "core/application/application.hpp"
 
-#include "common_renderer/render_window.hpp"
+#include "renderer/common_renderer/render_window.hpp"
+#include "utility/file/file.hpp"
+#include "utility/log/service_logger.hpp"
 
 #include <iostream>
 
@@ -15,28 +17,31 @@ int main()
 	settings.title = "WFL window testing";
 		
 	window.open();
+	window.getVideoMode().setSamples(0);
+	window.updateVideoMode();
 	window.setSettings(settings);
 
+	ece::File file;
+	std::string fsSource, vsSource;
 
-	const char* fragment_shader =
-		"#version 460\n"
-		"in vec3 colour;"
-		"out vec4 frag_colour;"
-		"void main() {"
-		"frag_colour = vec4(colour, 1.0);"
-		"}";
-	const char* vertex_shader =
-		"#version 460\n"
-		"layout(location = 0) in vec3 vertex_position;"
-		"layout(location = 1) in vec3 vertex_colour;"
-		"out vec3 colour;"
-		"void main() {"
-		"colour = vertex_colour;"
-		"gl_Position = vec4(vertex_position, 1.0);"
-		"}";
-	GLfloat points[] = { 0.0f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, -0.5f, 0.0f };
+	try {
+		file.open("../examples/more_cube/shader.frag");
+		fsSource = file.parseToString();
 
-	GLfloat colours[] = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+		file.open("../examples/more_cube/shader.vert");
+		vsSource = file.parseToString();
+	}
+	catch (ece::FileException & e) {
+		ece::ServiceLoggerLocator::getService().logError(e.what());
+	}
+		
+	GLfloat points[] = { 0.0f, 0.5f, 0.0f, 
+						 0.5f, -0.5f, 0.0f, 
+						-0.5f, -0.5f, 0.0f };
+
+	GLfloat colours[] = { 1.0f, 0.0f, 0.0f, 
+						  0.0f, 1.0f, 0.0f, 
+						  0.0f, 0.0f, 1.0f };
 
 	GLuint points_vbo;
 	glGenBuffers(1, &points_vbo);
@@ -56,11 +61,11 @@ int main()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	const GLchar *p = (const GLchar *)vertex_shader;
+	const GLchar *p = (const GLchar *)vsSource.data();
 	glShaderSource(vs, 1, &p, NULL);
 	glCompileShader(vs);
 	GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-	p = (const GLchar *)fragment_shader;
+	p = (const GLchar *)fsSource.data();
 	glShaderSource(fs, 1, &p, NULL);
 	glCompileShader(fs);
 	GLuint shader_programme = glCreateProgram();

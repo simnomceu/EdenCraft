@@ -1,9 +1,9 @@
 #ifndef EVENT_HANDLER_HPP
 #define EVENT_HANDLER_HPP
 
-#include "event/emitter.hpp"
+#include "core/event/emitter.hpp"
 
-#include "window/window.inl"
+#include "window/window/window.inl"
 
 namespace ece
 {
@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "window_event/event_handler.inl"
+#include "window/window_event/event_handler.inl"
 
 #endif // EVENT_HANDLER_HPP

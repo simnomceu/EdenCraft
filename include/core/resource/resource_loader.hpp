@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "resource/resource_handler.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -23,6 +23,6 @@ namespace ece
 	};
 }
 
-#include "resource/resource_loader.inl"
+#include "core/resource/resource_loader.inl"
 
 #endif // RESOURCE_LOADER_HPP

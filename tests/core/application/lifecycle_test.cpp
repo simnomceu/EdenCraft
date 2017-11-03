@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "application/lifecycle.hpp"
+#include "core/application/lifecycle.hpp"
 
 SCENARIO("Lifecycle", "[Core][Application]")
 {

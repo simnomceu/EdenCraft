@@ -1,4 +1,4 @@
-#include "cocoa/agl.hpp"
+#include "renderer/cocoa/agl.hpp"
 
 namespace ece
 {

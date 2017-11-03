@@ -1,8 +1,8 @@
-#include "model/mesh.hpp"
-#include "model/skeleton.hpp"
-#include "model/texture.hpp"
-#include "model/shader_effect.hpp"
-#include "model/animation.hpp"
+#include "graphic/model/mesh.hpp"
+#include "graphic/model/skeleton.hpp"
+#include "graphic/model/texture.hpp"
+#include "graphic/model/shader_effect.hpp"
+#include "graphic/model/animation.hpp"
 
 namespace ece
 {

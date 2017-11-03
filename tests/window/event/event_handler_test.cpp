@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "event/event_handler.hpp"
+#include "window/window_event/event_handler.hpp"
 
 SCENARIO("EventHandler", "[Window][Event]")
 {

@@ -1,7 +1,7 @@
-#include "program.hpp"
+#include "renderer/renderer/program.hpp"
 
-#include "file/file.hpp"
-#include "debug/exception.hpp"
+#include "utility/file/file.hpp"
+#include "utility/debug/exception.hpp"
 
 #include <iostream>
 #include <iomanip>

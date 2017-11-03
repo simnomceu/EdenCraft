@@ -1,9 +1,9 @@
 #ifndef INPUT_EVENT_HPP
 #define INPUT_EVENT_HPP
 
-#include "window_event/mouse.hpp"
-#include "window_event/keyboard.hpp"
-#include "mathematics/vertex2u.hpp"
+#include "window/window_event/mouse.hpp"
+#include "window/window_event/keyboard.hpp"
+#include "utility/mathematics/vertex2u.hpp"
 
 namespace ece
 {
@@ -38,6 +38,6 @@ namespace ece
 	};
 }
 
-#include "window_event/input_event.inl"
+#include "window/window_event/input_event.inl"
 
 #endif // INPUT_EVENT_HPP

@@ -4,14 +4,16 @@
 #include <string>
 #include <memory>
 
-#include "window_refactor/base_window_adapter.hpp"
-#include "window_refactor/window_setting.hpp"
-#include "mathematics/vertex2u.hpp"
-#include "event/emitter.hpp"
-#include "window_event/input_event.hpp"
+#include "window/window_refactor/base_window_adapter.hpp"
+#include "utility/mathematics/vertex2u.hpp"
+#include "core/event/emitter.hpp"
+#include "window/window_refactor/video_mode.hpp"
+#include "window/window_refactor/window_setting.hpp"
 
 namespace ece
 {
+	class InputEvent;
+
 	class Window: public Emitter
 	{
 	public:
@@ -55,9 +57,14 @@ namespace ece
 		bool pollEvent(InputEvent & event);
 
 		std::weak_ptr<BaseWindowAdapter> getAdapter() const;
+		VideoMode & getVideoMode();
+		const VideoMode & getVideoMode() const;
 
-	private:
+		virtual void updateVideoMode();
+
+	protected:
 		std::shared_ptr<BaseWindowAdapter> adapter;
+		VideoMode videoMode;
 	};
 }
 

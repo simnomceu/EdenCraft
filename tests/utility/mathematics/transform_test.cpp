@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "mathematics/transform.hpp"
+#include "utility/mathematics/transform.hpp"
 
 SCENARIO("Transform", "[Utility][Mathematics]")
 {

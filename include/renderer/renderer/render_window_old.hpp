@@ -1,8 +1,8 @@
 #ifndef RENDER_WINDOW_OLD_HPP
 #define RENDER_WINDOW_OLD_HPP
 
-#include "window/base_window.hpp"
-#include "renderer.hpp"
+#include "window/window/base_window.hpp"
+#include "renderer/renderer/renderer.hpp"
 //#include "scene/scene.hpp"
 
 #include <memory>

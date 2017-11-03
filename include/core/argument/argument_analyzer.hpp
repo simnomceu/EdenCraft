@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "argument/option.hpp"
+#include "core/argument/option.hpp"
 
 namespace ece
 {
@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "argument/argument_analyzer.inl"
+#include "core/argument/argument_analyzer.inl"
 
 #endif // ARGUMENT_ANALYZER_HPP

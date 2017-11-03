@@ -1,8 +1,8 @@
-#include "locale/locale_loader.hpp"
+#include "utility/locale/locale_loader.hpp"
 
-#include "file/parser_json.hpp"
-#include "debug/exception.hpp"
-#include "json/atomic_json.hpp"
+#include "utility/file/parser_json.hpp"
+#include "utility/debug/exception.hpp"
+#include "utility/json/atomic_json.hpp"
 
 #include <utility>
 #include <iostream>

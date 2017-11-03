@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "renderable/vertex.hpp"
-#include "renderable/base_uniform.hpp"
-#include "renderable/shader_source.hpp"
+#include "graphic/renderable/vertex.hpp"
+#include "graphic/renderable/base_uniform.hpp"
+#include "graphic/renderable/shader_source.hpp"
 
 namespace ece
 {

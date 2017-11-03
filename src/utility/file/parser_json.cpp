@@ -1,8 +1,8 @@
-#include "file/parser_json.hpp"
+#include "utility/file/parser_json.hpp"
 
-#include "file/file.hpp"
-#include "debug/exception.hpp"
-#include "json/array_json.hpp"
+#include "utility/file/file.hpp"
+#include "utility/debug/exception.hpp"
+#include "utility/json/array_json.hpp"
 
 #include <sstream>
 #include <cmath>

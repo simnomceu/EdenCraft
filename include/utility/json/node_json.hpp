@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 
-#include "type.hpp"
+#include "utility/type.hpp"
 
 namespace ece
 {

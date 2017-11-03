@@ -1,6 +1,6 @@
-#include "scene/camera.hpp"
+#include "graphic/scene/camera.hpp"
 
-#include "debug/exception.hpp"
+#include "utility/debug/exception.hpp"
 
 namespace ece
 {

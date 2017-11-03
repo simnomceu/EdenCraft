@@ -1,7 +1,7 @@
 #ifndef ATOMIC_JSON_HPP
 #define ATOMIC_JSON_HPP
 
-#include "json/node_json.hpp"
+#include "utility/json/node_json.hpp"
 
 namespace ece
 {
@@ -38,6 +38,6 @@ namespace ece
 	typedef AtomicJSON<std::string> StringJSON;
 }
 
-#include "json/atomic_json.inl"
+#include "utility/json/atomic_json.inl"
 
 #endif // ATOMIC_JSON_HPP

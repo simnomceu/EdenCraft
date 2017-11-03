@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "event/signal.hpp"
+#include "core/event/signal.hpp"
 
 SCENARIO("Signal", "[Core][Event]")
 {

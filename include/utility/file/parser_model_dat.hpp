@@ -2,7 +2,7 @@
 #define PARSER_MODEL_DAT_HPP
 
 #include <vector>
-#include "mathematics/vertex3u.hpp"
+#include "utility/mathematics/vertex3u.hpp"
 
 namespace ece
 {
@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "file/parser_model_dat.inl"
+#include "utility/file/parser_model_dat.inl"
 
 #endif // PARSER_MODEL_DAT_HPP

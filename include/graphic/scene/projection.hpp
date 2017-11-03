@@ -1,9 +1,9 @@
 #ifndef PROJECTION_HPP
 #define PROJECTION_HPP
 
-#include "window/ratio.hpp"
+#include "window/window/ratio.hpp"
 //#include "glm\glm.hpp"
-#include "mathematics/matrix4u.hpp"
+#include "utility/mathematics/matrix4u.hpp"
 
 namespace ece
 {
@@ -30,6 +30,6 @@ namespace ece
 	};
 }
 
-#include "scene/projection.inl"
+#include "graphic/scene/projection.inl"
 
 #endif // PROJECTION_HPP

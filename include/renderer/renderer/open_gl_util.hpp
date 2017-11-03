@@ -1,7 +1,7 @@
 #ifndef OPEN_GL_UTIL_HPP
 #define OPEN_GL_UTIL_HPP
 
-#include "type.hpp"
+#include "utility/type.hpp"
 
 #include <string>
 

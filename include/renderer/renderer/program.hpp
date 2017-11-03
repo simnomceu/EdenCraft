@@ -1,9 +1,8 @@
 #ifndef PROGRAM_HPP
 #define PROGRAM_HPP
 
-#include "mathematics/matrix4u.hpp"
-#include "opengl/open_gl_util.hpp"
-#include "shader_gl.hpp"
+#include "utility/mathematics/matrix4u.hpp"
+#include "renderer/renderer/shader_gl.hpp"
 
 #include <string>
 #include <memory>

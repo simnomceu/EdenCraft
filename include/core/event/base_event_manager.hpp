@@ -1,9 +1,9 @@
 #ifndef BASE_EVENT_MANAGER_HPP
 #define BASE_EVENT_MANAGER_HPP
 
-#include "event/slot.hpp"
-#include "event/signal.hpp"
-#include "indexing/unique_id.hpp"
+#include "core/event/slot.hpp"
+#include "core/event/signal.hpp"
+#include "utility/indexing/unique_id.hpp"
 
 namespace ece
 {

@@ -21,6 +21,6 @@ namespace ece
 	};
 }
 
-#include "service/service_locator.inl"
+#include "utility/service/service_locator.inl"
 
 #endif // SERVICE_LOCATOR_HPP

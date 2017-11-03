@@ -12,9 +12,6 @@
 *
 **/
 
-#include "window/window.inl"
-#include "window/constant.inl"
-
 /**
 * @namespace ece
 *
@@ -46,36 +43,35 @@ namespace ece
 		bool operator==(const VideoMode & rightOperand) const;
 		inline bool operator!=(const VideoMode & rightOperand) const;
 
-		inline void setRefreshRate(const unsigned short int refreshRate);
-		inline void setColorBits(const ece::ColorRGBA & colorBits);
-		inline void setDepthBits(const unsigned short int dephtBits);
-		inline void setStencilBits(const unsigned short int stencilBits);
-		inline void setSamples(const unsigned short int samples);
-		inline void setStereo(const bool stereo);
-		inline void setDoubleBuffering(const bool doubleBuffering);
-		inline void setSrgbCapable(const bool srgbCapable);
+		void setRefreshRate(const unsigned short int refreshRate);
+		void setColorBits(const unsigned short int colorBits);
+		void setDepthBits(const unsigned short int dephtBits);
+		void setStencilBits(const unsigned short int stencilBits);
+		void setSamples(const unsigned short int samples);
+		void setDoubleBuffering(const bool doubleBuffering);
 
 		inline unsigned short int getRefreshRate() const;
-		inline ece::ColorRGBA getColorBits() const;
+		inline unsigned short int getColorBits() const;
 		inline unsigned short int getDepthBits() const;
 		inline unsigned short int getStencilBits() const;
 		inline unsigned short int getSamples() const;
-		inline bool isStereoActivate() const;
 		inline bool isDoubleBufferingActivate() const;
-		inline bool isSrgbCapable() const;
+
+		inline bool hasChanged() const;
+		inline void applyChanges();
 
 	private:
 		unsigned short int refreshRate;
-		ece::ColorRGBA colorBits;
+		unsigned short int colorBits;
 		unsigned short int depthBits;
 		unsigned short int stencilBits;
 		unsigned short int samples;
-		bool stereo;
 		bool doubleBuffering;
-		bool srgbCapable;
+
+		bool changed;
 	};
 }
 
-#include "window/video_mode.inl"
+#include "window/window_refactor/video_mode.inl"
 
 #endif // VIDEO_MODE_HPP

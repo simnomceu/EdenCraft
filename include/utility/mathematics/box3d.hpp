@@ -1,7 +1,7 @@
 #ifndef BOX3D_HPP
 #define BOX3D_HPP
 
-#include "mathematics/vertex3u.hpp"
+#include "utility/mathematics/vertex3u.hpp"
 
 namespace ece
 {
@@ -26,6 +26,6 @@ namespace ece
 	};
 }
 
-#include "mathematics/box3d.inl"
+#include "utility/mathematics/box3d.inl"
 
 #endif // BOX3D_HPP

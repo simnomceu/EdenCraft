@@ -1,4 +1,4 @@
-#include "win32/window_adapter.hpp"
+#include "window/win32/window_adapter.hpp"
 
 #include <iostream>
 

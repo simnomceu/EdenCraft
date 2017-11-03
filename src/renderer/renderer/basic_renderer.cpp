@@ -1,10 +1,10 @@
-#include "basic_renderer.hpp"
+#include "renderer/renderer/basic_renderer.hpp"
 
 //#include "scene/camera.hpp"
 //#include "scene/projection.hpp"
 //#include "renderable/renderable.hpp"
 
-#include "opengl/open_gl_util.hpp"
+#include "renderer/renderer/open_gl_util.hpp"
 
 #include <iostream>
 

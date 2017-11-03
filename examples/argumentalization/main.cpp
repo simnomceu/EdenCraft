@@ -1,8 +1,8 @@
-#include "application/application.hpp"
-#include "log/service_logger.hpp"
-#include "log/logger.hpp"
-#include "argument/string_option_value.hpp"
-#include "argument/integer_option_value.hpp"
+#include "core/application/application.hpp"
+#include "utility/log/service_logger.hpp"
+#include "utility/log/logger.hpp"
+#include "core/argument/string_option_value.hpp"
+#include "core/argument/integer_option_value.hpp"
 
 int main(int argc, char * argv[])
 {

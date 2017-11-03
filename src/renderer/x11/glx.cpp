@@ -1,4 +1,4 @@
-#include "x11/glx.hpp"
+#include "renderer/x11/glx.hpp"
 
 namespace ece
 {

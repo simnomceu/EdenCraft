@@ -1,7 +1,7 @@
 #ifndef CONTEXT_OPENGL_HPP
 #define CONTEXT_OPENGL_HPP
 
-#include "common_renderer/base_context_opengl.hpp"
+#include "renderer/common_renderer/base_context_opengl.hpp"
 
 namespace ece
 {
@@ -27,6 +27,6 @@ namespace ece
 	};
 }
 
-#include "win32/context_opengl.inl"
+#include "renderer/win32/context_opengl.inl"
 
 #endif // CONTEXT_OPENGL_HPP

@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "scene/camera.hpp"
+#include "graphic/scene/camera.hpp"
 
 SCENARIO("Camera", "[Graphic][Scene]")
 {

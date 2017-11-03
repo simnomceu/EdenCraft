@@ -25,6 +25,6 @@ namespace ece
 	};
 }
 
-#include "indexing/index3u.inl"
+#include "utility/indexing/index3u.inl"
 
 #endif // INDEX3U_HPP

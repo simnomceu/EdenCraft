@@ -8,7 +8,7 @@ function SolutionBuilder:build()
     workspace "EdenCraft"
         language "C++"
         location ""
-        includedirs { "../extlibs/include" }
+        includedirs { "../extlibs/include", "../include" }
         configurations {"Debug", "Release"}
         platforms {"Win32", "Win64", "Unix32", "Unix64", "OSX"}
 

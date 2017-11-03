@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "argument/argument_analyzer.hpp"
+#include "core/argument/argument_analyzer.hpp"
 
 SCENARIO("ArgumentAnalyzer", "[Core][Argument]")
 {

@@ -1,9 +1,9 @@
-#include "win32/context_opengl.hpp"
+#include "renderer/win32/context_opengl.hpp"
 
-#include "win32/wgl.hpp"
-#include "common_renderer/render_window.hpp"
-#include "win32/window_adapter.hpp"
-#include "log/service_logger.hpp"
+#include "renderer/win32/wgl.hpp"
+#include "renderer/common_renderer/render_window.hpp"
+#include "window/win32/window_adapter.hpp"
+#include "utility/log/service_logger.hpp"
 
 #include <iostream>
 
@@ -50,8 +50,8 @@ namespace ece
 			WGL_COLOR_BITS_ARB, 32,
 			WGL_DEPTH_BITS_ARB, 24,
 			WGL_STENCIL_BITS_ARB, 8,
-			WGL_SAMPLE_BUFFERS_ARB, 1,
-			WGL_SAMPLES_ARB, 4,
+			WGL_SAMPLE_BUFFERS_ARB, window.getVideoMode().getSamples() > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
+			WGL_SAMPLES_ARB, window.getVideoMode().getSamples(), // Number of samples
 			0
 		};
 
@@ -77,6 +77,7 @@ namespace ece
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
 			0
 		};
+		// TODO: deal with shared context, like for restarting window (MSAA requirements)
 		this->context = wglCreateContextAttribs(this->device, nullptr, glVersion);
 		if (this->context == nullptr) {
 			throw std::runtime_error("The context cannot be created.");

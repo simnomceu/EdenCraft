@@ -1,7 +1,7 @@
 #ifndef INTEGER_OPTION_VALUE_HPP
 #define INTEGER_OPTION_VALUE_HPP
 
-#include "argument/option_value.hpp"
+#include "core/argument/option_value.hpp"
 
 namespace ece
 {
@@ -21,6 +21,6 @@ namespace ece
 	};
 }
 
-#include "argument/integer_option_value.inl"
+#include "core/argument/integer_option_value.inl"
 
 #endif // INTEGER_OPTION_VALUE_HPP

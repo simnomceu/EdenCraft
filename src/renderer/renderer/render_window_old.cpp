@@ -1,10 +1,10 @@
-#include "render_window_old.hpp"
+#include "renderer/renderer/render_window_old.hpp"
 
 //#include "model/shader_effect.hpp"
 //#include "model/shader.hpp"
 //#include "model/mesh.hpp"
 //#include "model/object.hpp"
-#include "basic_renderer.hpp"
+#include "renderer/renderer/basic_renderer.hpp"
 
 #include <memory>
 

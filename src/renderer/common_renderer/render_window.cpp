@@ -1,16 +1,17 @@
-#include "common_renderer/render_window.hpp"
+#include "renderer/common_renderer/render_window.hpp"
 
 #ifdef __unix__
-#include "x11/context_opengl.hpp"
+#include "renderer/x11/context_opengl.hpp"
 #elif __WINDOW__
-#include "win32/context_opengl.hpp"
+#include "renderer/win32/context_opengl.hpp"
 #elif __OSX__
-#include "cocoa/context_opengl.hpp"
+#include "renderer/cocoa/context_opengl.hpp"
 #else
-#include "win32/context_opengl.hpp"
+#include "renderer/win32/context_opengl.hpp"
 #endif
 
-#include "log/service_logger.hpp"
+#include "utility/log/service_logger.hpp"
+#include "window/window_refactor/video_mode.hpp"
 
 namespace ece
 {
@@ -44,5 +45,21 @@ namespace ece
 	void RenderWindow::display()
 	{
 		this->context->swapBuffers();
+	}
+
+	void RenderWindow::enableMSAA(const unsigned short int samples)
+	{
+		this->videoMode.setSamples(samples);
+	}
+
+	void RenderWindow::updateVideoMode()
+	{
+		if (this->videoMode.hasChanged()) {
+			this->context.reset();
+			this->close();
+			this->context = std::make_shared<ContextOpenGL>();
+			this->open();
+			this->videoMode.applyChanges();
+		}
 	}
 }

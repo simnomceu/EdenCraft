@@ -1,8 +1,8 @@
 #ifndef EVENT_MANAGER_CONSUMER_HPP
 #define EVENT_MANAGER_CONSUMER_HPP
 
-#include "event/event_manager.hpp"
-#include "event_service.hpp"
+#include "core/event/event_manager.hpp"
+#include "core/event/event_service.hpp"
 
 namespace ece
 {
@@ -24,6 +24,6 @@ namespace ece
 	};
 }
 
-#include "event/event_manager_consumer.inl"
+#include "core/event/event_manager_consumer.inl"
 
 #endif // EVENT_MANAGER_CONSUMER_HPP

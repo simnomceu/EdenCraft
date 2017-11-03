@@ -1,7 +1,7 @@
 #ifndef RESOURCE_HPP
 #define RESOURCE_HPP
 
-#include "type.hpp"
+#include "utility/type.hpp"
 
 #include <string>
 
@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "resource/resource.inl"
+#include "core/resource/resource.inl"
 
 #endif // RESOURCE_HPP

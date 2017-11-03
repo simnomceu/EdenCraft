@@ -4,10 +4,10 @@
 #include <memory>
 #include <vector>
 
-#include "argument/argument_analyzer.hpp"
-#include "module/module_manager.hpp"
-#include "event/emitter.hpp"
-#include "application/lifecycle.hpp"
+#include "core/argument/argument_analyzer.hpp"
+#include "core/module/module_manager.hpp"
+#include "core/event/emitter.hpp"
+#include "core/application/lifecycle.hpp"
 
 namespace ece
 {
@@ -59,6 +59,6 @@ namespace ece
 	};
 }
 
-#include "application/application.inl"
+#include "core/application/application.inl"
 
 #endif // APPLICATION_HPP

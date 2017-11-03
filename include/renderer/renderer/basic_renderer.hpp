@@ -1,7 +1,7 @@
 #ifndef BASIC_RENDERER_HPP
 #define BASIC_RENDERER_HPP
 
-#include "renderer.hpp"
+#include "renderer/renderer/renderer.hpp"
 
 #include <vector>
 

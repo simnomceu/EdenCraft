@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "renderer_gl.hpp"
+#include "renderer/renderer/renderer_gl.hpp"
 
 SCENARIO("RendererGL", "[Renderer]")
 {

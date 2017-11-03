@@ -21,6 +21,6 @@ namespace ece
 	};
 }
 
-#include "log/base_logger.inl"
+#include "utility/log/base_logger.inl"
 
 #endif // BASE_LOGGER_HPP

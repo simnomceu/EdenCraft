@@ -2,9 +2,8 @@
 #define RENDER_QUEUE_HPP
 
 //#include "renderable/renderable.hpp"
-#include "opengl/open_gl_util.hpp"
-#include "program.hpp"
-#include "mathematics/matrix4u.hpp"
+#include "renderer/renderer/program.hpp"
+#include "utility/mathematics/matrix4u.hpp"
 
 namespace ece
 {

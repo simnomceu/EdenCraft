@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "event/slot.hpp"
+#include "core/event/slot.hpp"
 
 SCENARIO("Slot", "[Core][Event]")
 {

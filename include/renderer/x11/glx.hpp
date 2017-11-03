@@ -1,7 +1,7 @@
 #ifndef GLX_HPP
 #define GLX_HPP
 
-#include "common_renderer/opengl.hpp"
+#include "renderer/common_renderer/opengl.hpp"
 
 namespace ece
 {
@@ -24,6 +24,6 @@ namespace ece
 	};
 }
 
-#include "x11/glx.inl"
+#include "renderer/x11/glx.inl"
 
-#endif // !GLX_HPP
+#endif // GLX_HPP

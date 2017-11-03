@@ -1,7 +1,7 @@
 #ifndef WGL_HPP
 #define WGL_HPP
 
-#include "common_renderer/opengl.hpp"
+#include "renderer/common_renderer/opengl.hpp"
 #include "GL/wglext.h"
 
 namespace ece
@@ -33,6 +33,6 @@ namespace ece
 extern PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormat;
 extern PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribs;
 
-#include "win32/wgl.inl"
+#include "renderer/win32/wgl.inl"
 
 #endif // WGL_HPP

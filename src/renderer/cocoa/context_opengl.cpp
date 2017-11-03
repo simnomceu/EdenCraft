@@ -1,7 +1,7 @@
-#include "cocoa/context_opengl.hpp"
+#include "renderer/cocoa/context_opengl.hpp"
 
-#include "cocoa/agl.hpp"
-#include "cocoa/window_adapter.hpp"
+#include "renderer/cocoa/agl.hpp"
+#include "window/cocoa/window_adapter.hpp"
 
 namespace ece
 {

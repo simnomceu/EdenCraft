@@ -1,10 +1,9 @@
 #include "game.hpp"
 
-#include "window/window_setting.hpp"
-#include "window/video_mode.hpp"
-#include "render_window.hpp"
-#include "graphic_library/service_gl.hpp"
-#include "model/object.hpp"
+#include "window/window/window_setting.hpp"
+#include "window/window_refactor/video_mode.hpp"
+#include "renderer/common_renderer/render_window.hpp"
+#include "graphic/model/object.hpp"
 
 #include <algorithm>
 #include <memory>
@@ -45,64 +44,64 @@ Game::Game() : Application(), Listener(), windows()
 Game::~Game()
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-		it->get()->close();
+		//it->get()->close();
 	}
 	this->windows.clear();
 }
 
 void Game::addWindow(const ece::WindowSetting & setting)
 {
-	this->windows.push_back(std::make_unique<ece::BaseWindow>(setting));
+	//this->windows.push_back(std::make_unique<ece::Window>(setting));
 	std::cout << "window created" << std::endl;
 }
 
 void Game::createWindows(const ece::Emitter & emitter, const unsigned int signal)
 {
 	//auto & firstWindow = this->addWindow<ece::BaseWindow>();
-	auto & secondWindow = this->addWindow<ece::RenderWindow>();
+	//auto & secondWindow = this->addWindow<ece::RenderWindow>();
 }
 
 void Game::createScene(const ece::Emitter & emitter, const unsigned int signal)
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-		it->get()->open(ece::VideoMode());
+		//it->get()->open(ece::VideoMode());
 	}
 
-	auto & scene = std::static_pointer_cast<ece::RenderWindow>(this->windows[0])->getScene();
-	auto object = scene.addObject();
+	//auto & scene = std::static_pointer_cast<ece::RenderWindow>(this->windows[0])->getScene();
+	//auto object = scene.addObject();
 
 	auto mesh = std::make_shared<ece::Mesh>();
 	mesh->loadFromFile("../resource/shader/cube.dat");
-	object->setMesh(mesh);
+	//object->setMesh(mesh);
 
 	auto shaderEffect = std::make_shared<ece::ShaderEffect>();
 	auto vs = shaderEffect->addShader();
 	vs->loadFromFile(ece::ShaderType::VERTEX_SHADER, "../resource/shader/basic.vert");
 	auto fs = shaderEffect->addShader();
 	fs->loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../resource/shader/basic.frag");
-	object->setShaderEffect(shaderEffect);
+	//object->setShaderEffect(shaderEffect);
 }
 
 void Game::analyseEvents(const ece::Emitter & emitter, const unsigned int signal)
 {
 	ece::InputEvent event;
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-		while (it->get()->pollEvent(event)) {
+		//while (it->get()->pollEvent(event)) {
 
-		}
+		//}
 	}
 }
 
 void Game::cleanWindows(const ece::Emitter & emitter, const unsigned int signal)
 {
-	this->windows.erase(std::remove_if(this->windows.begin(), this->windows.end(),
-		[](std::shared_ptr<ece::BaseWindow> const & x) -> bool { return x->shouldClosed(); }), this->windows.end());
+	//this->windows.erase(std::remove_if(this->windows.begin(), this->windows.end(),
+	//	[](std::shared_ptr<ece::BaseWindow> const & x) -> bool { return x->shouldClosed(); }), this->windows.end());
 }
 
 void Game::refreshDisplay(const ece::Emitter & emitter, const unsigned int signal)
 {
 	for (auto it = this->windows.begin(); it != this->windows.end(); ++it) {
-		it->get()->onRefresh();
-		it->get()->display();
+		//it->get()->onRefresh();
+		//it->get()->display();
 	}
 }

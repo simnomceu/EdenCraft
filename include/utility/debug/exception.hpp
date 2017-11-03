@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 #include <string>
-#include "type.hpp"
+#include "utility/type.hpp"
 
 namespace ece
 {
@@ -71,6 +71,6 @@ namespace ece
 	};
 }
 
-#include "debug/exception.inl"
+#include "utility/debug/exception.inl"
 
 #endif // EXCEPTION_HPP

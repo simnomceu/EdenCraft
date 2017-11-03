@@ -4,21 +4,15 @@
  * @brief	Implements the main class.
  */
 
-#include "gl/glew.h"
-
 #include "game.hpp"
-#include "log/service_logger.hpp"
-#include "log/logger.hpp"
-#include "window/window_service.hpp"
-#include "window/window_manager_glfw.hpp"
-#include "window/base_window.hpp"
-#include "graphic_library/service_gl.hpp"
-#include "graphic_library/open_gl.hpp"
+#include "utility/log/service_logger.hpp"
+#include "utility/log/logger.hpp"
+#include "window/window/base_window.hpp"
 
 #include <iostream>
 #include <exception>
 #include <string>
-#include "file/path.hpp"
+#include "utility/file/path.hpp"
 
 /**
  * @fn	int main()
@@ -39,8 +33,6 @@
 auto main() -> int
 {
 	try {
-		ece::ServiceGLLocator::provide(ece::ServiceGLFactory::build<ece::OpenGL>());
-		ece::WindowServiceLocator::provide(ece::WindowServiceFactory::build<ece::WindowManagerGLFW>());
 		//ece::RenderingServiceLocator::provide(ece::RenderingServiceFactory::build<ece::RenderFactoryGL>());
 
 		Game game;

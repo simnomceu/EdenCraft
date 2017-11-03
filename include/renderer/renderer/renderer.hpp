@@ -18,6 +18,6 @@ namespace ece
 	};
 }
 
-#include "renderer.inl"
+#include "renderer/renderer/renderer.inl"
 
 #endif // RENDERER_HPP

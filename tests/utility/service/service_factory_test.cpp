@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "service/service_factory.hpp"
+#include "utility/service/service_factory.hpp"
 
 SCENARIO("ServiceFactory", "[Utility][Service]")
 {

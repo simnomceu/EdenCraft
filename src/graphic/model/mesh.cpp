@@ -1,7 +1,7 @@
-#include "model/mesh.hpp"
+#include "graphic/model/mesh.hpp"
 
-#include "file/parser_model_dat.hpp"
-#include "debug/exception.hpp"
+#include "utility/file/parser_model_dat.hpp"
+#include "utility/debug/exception.hpp"
 
 #include <iostream>
 #include <algorithm>

@@ -1,5 +1,5 @@
-#include "application/application.hpp"
-#include "window_refactor/window.hpp"
+#include "core/application/application.hpp"
+#include "window/window_refactor/window.hpp"
 
 #include <iostream>
 

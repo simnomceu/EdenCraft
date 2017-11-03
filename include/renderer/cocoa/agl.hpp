@@ -1,7 +1,7 @@
 #ifndef AGL_HPP
 #define AGL_HPP
 
-#include "common_renderer/opengl.hpp"
+#include "renderer/common_renderer/opengl.hpp"
 
 namespace ece
 {
@@ -25,6 +25,6 @@ namespace ece
 	};
 }
 
-#include "cocoa/agl.inl"
+#include "renderer/cocoa/agl.inl"
 
 #endif // AGL_HPP

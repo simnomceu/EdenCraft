@@ -775,6 +775,6 @@ extern PFNGLGETTRANSFORMFEEDBACKIVPROC glGetTransformFeedbackiv;
 extern PFNGLGETTRANSFORMFEEDBACKI_VPROC glGetTransformFeedbacki_v;
 extern PFNGLGETTRANSFORMFEEDBACKI64_VPROC glGetTransformFeedbacki64_v;
 
-#include "common_renderer/opengl.inl"
+#include "renderer/common_renderer/opengl.inl"
 
 #endif // BASE_OPENGL_HPP

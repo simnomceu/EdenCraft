@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "ecs/component_tank.hpp"
+#include "core/ecs/component_tank.hpp"
 
 SCENARIO("ComponentTank", "[Core][ECS]")
 {

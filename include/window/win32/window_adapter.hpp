@@ -3,7 +3,7 @@
 
 #include <Windows.h>
 
-#include "window_refactor/base_window_adapter.hpp"
+#include "window/window_refactor/base_window_adapter.hpp"
 
 namespace ece
 {

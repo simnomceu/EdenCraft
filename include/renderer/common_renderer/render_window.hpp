@@ -4,9 +4,9 @@
 #include <vector>
 #include <memory>
 
-#include "window_refactor/window.hpp"
-#include "common_renderer/renderer.hpp"
-#include "common_renderer/base_context_opengl.hpp"
+#include "window/window_refactor/window.hpp"
+#include "renderer/common_renderer/renderer.hpp"
+#include "renderer/common_renderer/base_context_opengl.hpp"
 
 namespace ece
 {
@@ -25,6 +25,10 @@ namespace ece
 		void open();
 		void clear();
 		void display();
+
+		void enableMSAA(const unsigned short int samples);
+
+		virtual void updateVideoMode() override;
 
 	private:
 		std::vector<std::shared_ptr<Renderer>> renderers;

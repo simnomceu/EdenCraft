@@ -1,18 +1,20 @@
-#include "window_refactor/window.hpp"
+#include "window/window_refactor/window.hpp"
 
 #ifdef __unix__
-#include "x11/window_adapter.hpp"
+#include "window/x11/window_adapter.hpp"
 #elif __WINDOW__
-#include "win32/window_adapter.hpp"
+#include "window/win32/window_adapter.hpp"
 #elif __OSX__
-#include "cocoa/window_adapter.hpp"
+#include "window/cocoa/window_adapter.hpp"
 #else
-#include "win32/window_adapter.hpp"
+#include "window/win32/window_adapter.hpp"
 #endif
+
+#include "window/window_event/input_event.hpp"
 
 namespace ece
 {
-	Window::Window():Emitter(), adapter(std::make_shared<WindowAdapter>())
+	Window::Window():Emitter(), adapter(std::make_shared<WindowAdapter>()), videoMode()
 	{
 		this->addSignal(WINDOW_OPENED);
 		this->addSignal(WINDOW_CLOSED);
@@ -180,5 +182,23 @@ namespace ece
 	std::weak_ptr<BaseWindowAdapter> Window::getAdapter() const
 	{
 		return this->adapter;
+	}
+
+	VideoMode & Window::getVideoMode()
+	{
+		return this->videoMode;
+	}
+
+	const VideoMode & Window::getVideoMode() const
+	{
+		return this->videoMode;
+	}
+
+	void Window::updateVideoMode()
+	{
+		if (this->videoMode.hasChanged()) {
+
+			this->videoMode.applyChanges();
+		}
 	}
 }
