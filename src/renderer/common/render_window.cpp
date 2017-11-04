@@ -1,4 +1,4 @@
-#include "renderer/common_renderer/render_window.hpp"
+#include "renderer/common/render_window.hpp"
 
 #ifdef __unix__
 #include "renderer/x11/context_opengl.hpp"

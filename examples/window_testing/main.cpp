@@ -12,7 +12,7 @@ int main()
 	ece::WindowSetting settings;
 	settings.position = ece::IntVertex2u(200, 200);
 	int count = 0;
-	for (auto window : windows) {
+	for (auto & window : windows) {
 		settings.title = "WFL window testing" + std::to_string(count);
 		settings.position += ece::IntVertex2u(10, 10);
 		++count;

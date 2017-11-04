@@ -5,8 +5,8 @@
 #include <memory>
 
 #include "window/window_refactor/window.hpp"
-#include "renderer/common_renderer/renderer.hpp"
-#include "renderer/common_renderer/base_context_opengl.hpp"
+#include "renderer/common/renderer.hpp"
+#include "renderer/common/base_context_opengl.hpp"
 
 namespace ece
 {

@@ -1,7 +1,7 @@
 #ifndef WGL_HPP
 #define WGL_HPP
 
-#include "renderer/common_renderer/opengl.hpp"
+#include "renderer/common/opengl.hpp"
 #include "GL/wglext.h"
 
 namespace ece

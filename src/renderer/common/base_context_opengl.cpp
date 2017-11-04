@@ -1,4 +1,4 @@
-#include "renderer/common_renderer/base_context_opengl.hpp"
+#include "renderer/common/base_context_opengl.hpp"
 
 namespace ece
 {

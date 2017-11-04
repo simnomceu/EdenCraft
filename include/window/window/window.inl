@@ -40,7 +40,6 @@ namespace ece
 		BLUE_CHANNEL = 2,
 		ALPHA_CHANNEL = 3
 	};
-
 }
 
 #endif // WINDOW_INL

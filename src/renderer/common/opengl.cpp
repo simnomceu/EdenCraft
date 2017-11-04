@@ -1,4 +1,4 @@
-#include "renderer/common_renderer/opengl.hpp"
+#include "renderer/common/opengl.hpp"
 
 #include "utility/log/service_logger.hpp"
 

@@ -1,6 +1,6 @@
 #include "core/application/application.hpp"
 
-#include "renderer/common_renderer/render_window.hpp"
+#include "renderer/common/render_window.hpp"
 #include "utility/file/file.hpp"
 #include "utility/log/service_logger.hpp"
 

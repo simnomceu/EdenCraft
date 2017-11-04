@@ -1,7 +1,7 @@
 #include "renderer/win32/context_opengl.hpp"
 
 #include "renderer/win32/wgl.hpp"
-#include "renderer/common_renderer/render_window.hpp"
+#include "renderer/common/render_window.hpp"
 #include "window/win32/window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
 

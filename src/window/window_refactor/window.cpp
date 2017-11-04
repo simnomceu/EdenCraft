@@ -33,7 +33,6 @@ namespace ece
 
 	Window::~Window()
 	{
-		this->adapter.reset();
 	}
 
 	Window & Window::operator=(const Window & copy)
