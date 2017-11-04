@@ -2,7 +2,7 @@
 #define PROGRAM_HPP
 
 #include "utility/mathematics/matrix4u.hpp"
-#include "renderer/renderer/shader_gl.hpp"
+//#include "renderer/renderer/shader_gl.hpp"
 
 #include <string>
 #include <memory>

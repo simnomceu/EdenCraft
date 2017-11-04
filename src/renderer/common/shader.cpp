@@ -1,4 +1,4 @@
-#include "renderer/renderer/shader_gl.hpp"
+#include "renderer/common/shader.hpp"
 
 #include "utility/file/file.hpp"
 #include "utility/debug/exception.hpp"
@@ -6,27 +6,35 @@
 
 namespace ece
 {
-	/*ShaderGL::ShaderGL(ShaderGL && move):
-		filename(std::move(move.filename)), source(std::move(move.source)), type(move.type), handle(move.handle)
+	Shader::Shader(const Shader & copy)
 	{
-		move.handle = GL::NULL_ID;
 	}
 
-	ShaderGL & ShaderGL::operator=(ShaderGL && move)
+	Shader::Shader(Shader && move):
+		filename(std::move(move.filename)), source(std::move(move.source)), type(move.type), handle(move.handle)
+	{
+		move.handle = 0;
+	}
+
+	Shader & Shader::operator=(const Shader & copy)
+	{
+	}
+
+	Shader & Shader::operator=(Shader && move)
 	{
 		this->filename = std::move(move.filename);
 		this->source = std::move(move.filename);
 		this->type = move.type;
 		this->handle = move.handle;
 
-		move.handle = GL::NULL_ID;
+		move.handle = 0;
 
 		return *this;
 	}
 
-	void ShaderGL::loadFromFile(const GL::ShaderType & type, const std::string & filename)
+	void Shader::loadFromFile(const ShaderType type, const std::string & filename)
 	{
-		if (this->handle != GL::NULL_ID) {
+		if (this->handle != 0) {
 			this->terminate();
 		}
 
@@ -47,9 +55,9 @@ namespace ece
 		}
 	}
 
-	void ShaderGL::loadFromString(const GL::ShaderType & type, const std::string & sourceCode)
+	void Shader::loadFromString(const ShaderType type, const std::string & sourceCode)
 	{
-		if (this->handle != GL::NULL_ID) {
+		if (this->handle != 0) {
 			this->terminate();
 		}
 
@@ -58,12 +66,12 @@ namespace ece
 		this->type = type;
 	}
 
-	void ShaderGL::compile()
+	void Shader::compile()
 	{
-		this->handle = GL::createShader(this->type);
-		GL::compileShader(this->handle, this->source);
+		//this->handle = GL::createShader(this->type);
+		//GL::compileShader(this->handle, this->source);
 
-		auto result = GL::checkShaderCompilationStatus(this->handle);
+		/*auto result = GL::checkShaderCompilationStatus(this->handle);
 		if (!result.compiled) {
 			throw BadInputException("Shader failed to compile: " + result.log);
 		}
@@ -75,12 +83,12 @@ namespace ece
 		}
 		if (result.source != this->source) {
 			//TODO : what to do ?
-		}
+		}*/
 	}
 
-	void ShaderGL::terminate()
+	void Shader::terminate()
 	{
-		GL::deleteShader(this->handle);
-		this->handle = GL::NULL_ID;
-	}*/
+		//GL::deleteShader(this->handle);
+		this->handle = 0;
+	}
 }
