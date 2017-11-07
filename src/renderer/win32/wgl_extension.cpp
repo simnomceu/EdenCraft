@@ -1,11 +1,11 @@
-#include "renderer/win32/wgl.hpp"
+#include "renderer/win32/wgl_extension.hpp"
 
 #include "window/win32/window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
 
 namespace ece
 {
-	void WGL::init(const OptionOpenGL options)
+	void WGLExtension::init(const OptionOpenGL options)
 	{
 		auto windowHandle = CreateWindow(L"Static", L"", WS_DISABLED, 0, 0, 1, 1, nullptr, nullptr, nullptr, nullptr);
 		if (windowHandle) {
@@ -53,7 +53,7 @@ namespace ece
 		}
 	}
 
-	WGL::~WGL()
+	WGLExtension::~WGLExtension()
 	{
 		if (this->openglLib != nullptr) {
 			FreeLibrary(this->openglLib);
@@ -61,7 +61,7 @@ namespace ece
 		}
 	}
 
-	void * WGL::loadOpenGLProc(const std::string & name)
+	void * WGLExtension::loadOpenGLProc(const std::string & name)
 	{
 		auto proc = wglGetProcAddress(name.data());
 		if (proc == nullptr) {
@@ -73,7 +73,7 @@ namespace ece
 		return static_cast<void *>(proc);
 	}
 
-	void WGL::loadPlatformExtensions()
+	void WGLExtension::loadPlatformExtensions()
 	{
 		wglChoosePixelFormat = reinterpret_cast<PFNWGLCHOOSEPIXELFORMATARBPROC>(this->loadOpenGLProc("wglChoosePixelFormatARB"));
 		wglCreateContextAttribs = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(this->loadOpenGLProc("wglCreateContextAttribsARB"));

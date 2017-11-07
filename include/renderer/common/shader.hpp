@@ -3,26 +3,16 @@
 
 #include <string>
 
+#include "renderer/opengl/opengl.hpp"
+
 namespace ece
 {
-	enum ShaderType: unsigned short int {
-		ECE_NULL_SHADER = 0,
-		ECE_COMPUTE_SHADER = 1,
-		ECE_FRAGMENT_SHADER = 2,
-		ECE_GEOMETRY_SHADER = 3,
-		ECE_VERTEX_SHADER = 4,
-		ECE_TESS_EVALUATION_SHADER = 5,
-		ECE_TESS_CONTROL_SHADER = 6
-	};
-
-	using ShaderHandle = unsigned short int;
-
 	class Shader
 	{
 	public:
 		inline Shader();
-		Shader(const Shader & copy);
-		Shader(Shader && move);
+		inline Shader(const Shader & copy);
+		inline Shader(Shader && move);
 
 		inline ~Shader();
 
@@ -36,6 +26,7 @@ namespace ece
 		inline const std::string & getSource() const;
 		inline ShaderType getType() const;
 		inline ShaderHandle getHandle() const;
+		inline bool isCompilationRequired() const;
 		
 		void compile();
 		void terminate();
@@ -45,6 +36,7 @@ namespace ece
 		std::string source;
 		ShaderType type;
 		ShaderHandle handle;
+		bool compilationRequired;
 	};
 }
 

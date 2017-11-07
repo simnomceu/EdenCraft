@@ -1,10 +1,6 @@
 #ifndef BASE_CONTEXT_OPENGL_HPP
 #define BASE_CONTEXT_OPENGL_HPP
 
-#include <memory>
-
-#include "renderer/common/opengl.hpp"
-
 namespace ece
 {
 	class RenderWindow;
@@ -23,12 +19,9 @@ namespace ece
 
 		virtual void create(const RenderWindow & window) = 0;
 		virtual void swapBuffers() = 0;
-
-	protected:
-		static std::unique_ptr<OpenGL> opengl;
 	};
 }
 
-#include "renderer/common/base_context_opengl.inl"
+#include "renderer/opengl/base_context_opengl.inl"
 
 #endif // BASE_CONTEXT_OPENGL_HPP

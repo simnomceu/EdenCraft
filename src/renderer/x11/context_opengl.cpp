@@ -1,6 +1,6 @@
 #include "renderer/x11/context_opengl.hpp"
 
-#include "renderer/x11/glx.hpp"
+#include "renderer/opengl/opengl.hpp"
 #include "window/x11/window_adapter.hpp"
 
 namespace ece

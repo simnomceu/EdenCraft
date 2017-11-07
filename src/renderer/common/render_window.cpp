@@ -10,6 +10,7 @@
 #include "renderer/win32/context_opengl.hpp"
 #endif
 
+#include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
 #include "window/window_refactor/video_mode.hpp"
 

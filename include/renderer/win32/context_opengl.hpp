@@ -1,7 +1,9 @@
 #ifndef CONTEXT_OPENGL_HPP
 #define CONTEXT_OPENGL_HPP
 
-#include "renderer/common/base_context_opengl.hpp"
+#include "renderer/opengl/base_context_opengl.hpp"
+
+#include <Windows.h>
 
 namespace ece
 {

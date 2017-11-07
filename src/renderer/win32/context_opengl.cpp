@@ -1,6 +1,6 @@
 #include "renderer/win32/context_opengl.hpp"
 
-#include "renderer/win32/wgl.hpp"
+#include "renderer/opengl/opengl.hpp"
 #include "renderer/common/render_window.hpp"
 #include "window/win32/window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
@@ -25,15 +25,12 @@ namespace ece
 
 	void ContextOpenGL::create(const RenderWindow & window)
 	{
-		if (ContextOpenGL::opengl.get() == nullptr) {
-			ContextOpenGL::opengl = std::make_unique<WGL>();
-			ContextOpenGL::opengl->init(COMMAND_EXECUTION | TIMER_QUERIES | SYNCHRONIZATION | ASYNCHRONOUS_QUERIES
-											| BUFFER_OBJECTS | SHADERS_AND_PROGRAMS | TEXTURES_AND_SAMPLERS | FRAMEBUFFER_OBJECTS
-											| VERTICES | VERTEX_ARRAYS | VERTEX_ATTRIBUTES | VERTEX_POST_PROCESSING | RASTERIZATION
-											| FRAGMENT_SHADERS | COMPUTE_SHADERS | PER_FRAGMENT_OPERATIONS | HINTS
-											| WHOLE_FRAMEBUFFER | READING_AND_COPYING_PIXELS | DEBUG_OUTPUT | STATE_AND_STATE_REQUESTS
-											| PLATFORM);
-		}
+		OpenGL::init(COMMAND_EXECUTION | TIMER_QUERIES | SYNCHRONIZATION | ASYNCHRONOUS_QUERIES
+			| BUFFER_OBJECTS | SHADERS_AND_PROGRAMS | TEXTURES_AND_SAMPLERS | FRAMEBUFFER_OBJECTS
+			| VERTICES | VERTEX_ARRAYS | VERTEX_ATTRIBUTES | VERTEX_POST_PROCESSING | RASTERIZATION
+			| FRAGMENT_SHADERS | COMPUTE_SHADERS | PER_FRAGMENT_OPERATIONS | HINTS
+			| WHOLE_FRAMEBUFFER | READING_AND_COPYING_PIXELS | DEBUG_OUTPUT | STATE_AND_STATE_REQUESTS
+			| PLATFORM);
 
 		// Create real context
 		this->windowHandle = std::static_pointer_cast<WindowAdapter>(window.getAdapter().lock())->getWindowHandle();

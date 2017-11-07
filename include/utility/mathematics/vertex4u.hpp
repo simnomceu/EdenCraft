@@ -49,9 +49,9 @@ namespace ece
 	typedef Vertex4u<int> IntVertex4u;
 	typedef Vertex4u<double> DoubleVertex4u;
 
-	typedef Vertex4u<float> FloatPoint2u;
-	typedef Vertex4u<int> IntPoint2u;
-	typedef Vertex4u<double> DoublePoint2u;
+	typedef Vertex4u<float> FloatPoint4u;
+	typedef Vertex4u<int> IntPoint4u;
+	typedef Vertex4u<double> DoublePoint4u;
 }
 
 #include "utility/mathematics/vertex4u.inl"

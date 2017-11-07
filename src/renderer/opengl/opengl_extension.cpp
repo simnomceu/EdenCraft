@@ -1,13 +1,13 @@
-#include "renderer/common/opengl.hpp"
+#include "renderer/opengl/opengl_extension.hpp"
 
 #include "utility/log/service_logger.hpp"
 
 namespace ece
 {
-	bool OpenGL::loadExtensions(const OptionOpenGL options)
+	bool OpenGLExtension::loadExtensions(const OptionOpenGL options)
 	{
 		bool allLoaded = true;
-		if ((options & COMMAND_EXECUTION) != 0 && (this->loaded & COMMAND_EXECUTION) == 0) {
+		if ((options & COMMAND_EXECUTION) != 0 && !this->isLoaded(COMMAND_EXECUTION)) {
 			try {
 				this->loadCommandExecutionExtensions();
 			}
@@ -18,7 +18,7 @@ namespace ece
 			}
 			this->loaded |= COMMAND_EXECUTION;
 		}
-		if ((options & TIMER_QUERIES) != 0 && (this->loaded & TIMER_QUERIES) == 0) {
+		if ((options & TIMER_QUERIES) != 0 && !this->isLoaded(TIMER_QUERIES)) {
 			try {
 				this->loadTimerQueriesExtensions();
 			}
@@ -29,7 +29,7 @@ namespace ece
 			}
 			this->loaded |= TIMER_QUERIES;
 		}
-		if ((options & SYNCHRONIZATION) != 0 && (this->loaded & SYNCHRONIZATION) == 0) {
+		if ((options & SYNCHRONIZATION) != 0 && !this->isLoaded(SYNCHRONIZATION)) {
 			try {
 				this->loadSynchronizationExtensions();
 			}
@@ -40,7 +40,7 @@ namespace ece
 			}
 			this->loaded |= SYNCHRONIZATION;
 		}
-		if ((options & ASYNCHRONOUS_QUERIES) != 0 && (this->loaded & ASYNCHRONOUS_QUERIES) == 0) {
+		if ((options & ASYNCHRONOUS_QUERIES) != 0 && !this->isLoaded(ASYNCHRONOUS_QUERIES)) {
 			try {
 				this->loadAsynchronousQueries();
 			}
@@ -51,7 +51,7 @@ namespace ece
 			}
 			this->loaded |= ASYNCHRONOUS_QUERIES;
 		}
-		if ((options & BUFFER_OBJECTS) != 0 && (this->loaded & BUFFER_OBJECTS) == 0) {
+		if ((options & BUFFER_OBJECTS) != 0 && !this->isLoaded(BUFFER_OBJECTS)) {
 			try {
 				this->loadBufferObjectsExtensions();
 			}
@@ -62,7 +62,7 @@ namespace ece
 			}
 			this->loaded |= BUFFER_OBJECTS;
 		}
-		if ((options & SHADERS_AND_PROGRAMS) != 0 && (this->loaded & SHADERS_AND_PROGRAMS) == 0) {
+		if ((options & SHADERS_AND_PROGRAMS) != 0 && !this->isLoaded(SHADERS_AND_PROGRAMS)) {
 			try {
 				this->loadShadersAndProgramsExtensions();
 			}
@@ -73,7 +73,7 @@ namespace ece
 			}
 			this->loaded |= SHADERS_AND_PROGRAMS;
 		}
-		if ((options & TEXTURES_AND_SAMPLERS) != 0 && (this->loaded & TEXTURES_AND_SAMPLERS) == 0) {
+		if ((options & TEXTURES_AND_SAMPLERS) != 0 && !this->isLoaded(TEXTURES_AND_SAMPLERS)) {
 			try {
 				this->loadTexturesAndSamplersExtensions();
 			}
@@ -84,7 +84,7 @@ namespace ece
 			}
 			this->loaded |= TEXTURES_AND_SAMPLERS;
 		}
-		if ((options & FRAMEBUFFER_OBJECTS) != 0 && (this->loaded & FRAMEBUFFER_OBJECTS) == 0) {
+		if ((options & FRAMEBUFFER_OBJECTS) != 0 && !this->isLoaded(FRAMEBUFFER_OBJECTS)) {
 			try {
 				this->loadFramebufferObjectsExtensions();
 			}
@@ -95,7 +95,7 @@ namespace ece
 			}
 			this->loaded |= FRAMEBUFFER_OBJECTS;
 		}
-		if ((options & VERTICES) != 0 && (this->loaded & VERTICES) == 0) {
+		if ((options & VERTICES) != 0 && !this->isLoaded(VERTICES)) {
 			try {
 				this->loadVerticesExtensions();
 			}
@@ -106,7 +106,7 @@ namespace ece
 			}
 			this->loaded |= VERTICES;
 		}
-		if ((options & VERTEX_ARRAYS) != 0 && (this->loaded & VERTEX_ARRAYS) == 0) {
+		if ((options & VERTEX_ARRAYS) != 0 && !this->isLoaded(VERTEX_ARRAYS)) {
 			try {
 				this->loadVertexArraysExtensions();
 			}
@@ -117,7 +117,7 @@ namespace ece
 			}
 			this->loaded |= VERTEX_ARRAYS;
 		}
-		if ((options & VERTEX_ATTRIBUTES) != 0 && (this->loaded & VERTEX_ATTRIBUTES) == 0) {
+		if ((options & VERTEX_ATTRIBUTES) != 0 && !this->isLoaded(VERTEX_ATTRIBUTES)) {
 			try {
 				this->loadVertexAttributesExtensions();
 			}
@@ -128,7 +128,7 @@ namespace ece
 			}
 			this->loaded |= VERTEX_ATTRIBUTES;
 		}
-		if ((options & VERTEX_POST_PROCESSING) != 0 && (this->loaded & VERTEX_POST_PROCESSING) == 0) {
+		if ((options & VERTEX_POST_PROCESSING) != 0 && !this->isLoaded(VERTEX_POST_PROCESSING)) {
 			try {
 				this->loadVertexPostProcessingExtensions();
 			}
@@ -139,7 +139,7 @@ namespace ece
 			}
 			this->loaded |= VERTEX_POST_PROCESSING;
 		}
-		if ((options & RASTERIZATION) != 0 && (this->loaded & RASTERIZATION) == 0) {
+		if ((options & RASTERIZATION) != 0 && !this->isLoaded(RASTERIZATION)) {
 			try {
 				this->loadRasterizationExtensions();
 			}
@@ -150,7 +150,7 @@ namespace ece
 			}
 			this->loaded |= RASTERIZATION;
 		}
-		if ((options & FRAGMENT_SHADERS) != 0 && (this->loaded & FRAGMENT_SHADERS) == 0) {
+		if ((options & FRAGMENT_SHADERS) != 0 && !this->isLoaded(FRAGMENT_SHADERS)) {
 			try {
 				this->loadFragmentShadersExtensions();
 			}
@@ -161,7 +161,7 @@ namespace ece
 			}
 			this->loaded |= FRAGMENT_SHADERS;
 		}
-		if ((options & COMPUTE_SHADERS) != 0 && (this->loaded & COMPUTE_SHADERS) == 0) {
+		if ((options & COMPUTE_SHADERS) != 0 && !this->isLoaded(COMPUTE_SHADERS)) {
 			try {
 				this->loadComputeShadersExtensions();
 			}
@@ -172,7 +172,7 @@ namespace ece
 			}
 			this->loaded |= COMPUTE_SHADERS;
 		}
-		if ((options & PER_FRAGMENT_OPERATIONS) != 0 && (this->loaded & PER_FRAGMENT_OPERATIONS) == 0) {
+		if ((options & PER_FRAGMENT_OPERATIONS) != 0 && !this->isLoaded(PER_FRAGMENT_OPERATIONS)) {
 			try {
 				this->loadPerFragmentOperationsExtensions();
 			}
@@ -183,7 +183,7 @@ namespace ece
 			}
 			this->loaded |= PER_FRAGMENT_OPERATIONS;
 		}
-		if ((options & HINTS) != 0 && (this->loaded & HINTS) == 0) {
+		if ((options & HINTS) != 0 && !this->isLoaded(HINTS)) {
 			try {
 				this->loadHintsExtensions();
 			}
@@ -194,7 +194,7 @@ namespace ece
 			}
 			this->loaded |= HINTS;
 		}
-		if ((options & WHOLE_FRAMEBUFFER) != 0 && (this->loaded & WHOLE_FRAMEBUFFER) == 0) {
+		if ((options & WHOLE_FRAMEBUFFER) != 0 && !this->isLoaded(WHOLE_FRAMEBUFFER)) {
 			try {
 				this->loadWholeFramebufferExtensions();
 			}
@@ -205,7 +205,7 @@ namespace ece
 			}
 			this->loaded |= WHOLE_FRAMEBUFFER;
 		}
-		if ((options & READING_AND_COPYING_PIXELS) != 0 && (this->loaded & READING_AND_COPYING_PIXELS) == 0) {
+		if ((options & READING_AND_COPYING_PIXELS) != 0 && !this->isLoaded(READING_AND_COPYING_PIXELS)) {
 			try {
 				this->loadReadingAndCopyingPixelsExtensions();
 			}
@@ -216,7 +216,7 @@ namespace ece
 			}
 			this->loaded |= READING_AND_COPYING_PIXELS;
 		}
-		if ((options & DEBUG_OUTPUT) != 0 && (this->loaded & DEBUG_OUTPUT) == 0) {
+		if ((options & DEBUG_OUTPUT) != 0 && !this->isLoaded(DEBUG_OUTPUT)) {
 			try {
 				this->loadDebugOutputExtensions();
 			}
@@ -227,7 +227,7 @@ namespace ece
 			}
 			this->loaded |= DEBUG_OUTPUT;
 		}
-		if ((options & STATE_AND_STATE_REQUESTS) != 0 && (this->loaded & STATE_AND_STATE_REQUESTS) == 0) {
+		if ((options & STATE_AND_STATE_REQUESTS) != 0 && !this->isLoaded(STATE_AND_STATE_REQUESTS)) {
 			try {
 				this->loadStateAndStateRequestsExtensions();
 			}
@@ -238,7 +238,7 @@ namespace ece
 			}
 			this->loaded |= STATE_AND_STATE_REQUESTS;
 		}
-		if ((options & PLATFORM) != 0 && (this->loaded & PLATFORM) == 0) {
+		if ((options & PLATFORM) != 0 && !this->isLoaded(PLATFORM)) {
 			try {
 				this->loadPlatformExtensions();
 			}
@@ -251,7 +251,7 @@ namespace ece
 		return allLoaded;
 	}
 
-	void OpenGL::loadCommandExecutionExtensions()
+	void OpenGLExtension::loadCommandExecutionExtensions()
 	{
 		glGetError = reinterpret_cast<PFNGLGETERRORPROC>(this->loadOpenGLProc("glGetError")); glGetError();
 		glGetGraphicsResetStatus = reinterpret_cast<PFNGLGETGRAPHICSRESETSTATUSPROC>(this->loadOpenGLProc("glGetGraphicsResetStatus"));
@@ -259,12 +259,12 @@ namespace ece
 		glFinish = reinterpret_cast<PFNGLFINISHPROC>(this->loadOpenGLProc("glFinish"));
 	}
 
-	void OpenGL::loadTimerQueriesExtensions()
+	void OpenGLExtension::loadTimerQueriesExtensions()
 	{
 		glQueryCounter = reinterpret_cast<PFNGLQUERYCOUNTERPROC>(this->loadOpenGLProc("glQueryCounter"));
 	}
 
-	void OpenGL::loadSynchronizationExtensions()
+	void OpenGLExtension::loadSynchronizationExtensions()
 	{
 		glDeleteSync = reinterpret_cast<PFNGLDELETESYNCPROC>(this->loadOpenGLProc("glDeleteSync"));
 		glFenceSync = reinterpret_cast<PFNGLFENCESYNCPROC>(this->loadOpenGLProc("glFenceSync"));
@@ -274,7 +274,7 @@ namespace ece
 		glIsSync = reinterpret_cast<PFNGLISSYNCPROC>(this->loadOpenGLProc("glIsSync"));
 	}
 
-	void OpenGL::loadAsynchronousQueries()
+	void OpenGLExtension::loadAsynchronousQueries()
 	{
 		glGenQueries = reinterpret_cast<PFNGLGENQUERIESPROC>(this->loadOpenGLProc("glGenQueries"));
 		glCreateQueries = reinterpret_cast<PFNGLCREATEQUERIESPROC>(this->loadOpenGLProc("glCreateQueries"));
@@ -292,7 +292,7 @@ namespace ece
 		glGetQueryObjectui64v = reinterpret_cast<PFNGLGETQUERYOBJECTUI64VPROC>(this->loadOpenGLProc("glGetQueryObjectui64v"));
 	}
 
-	void OpenGL::loadBufferObjectsExtensions()
+	void OpenGLExtension::loadBufferObjectsExtensions()
 	{
 		glGenBuffers = reinterpret_cast<PFNGLGENBUFFERSPROC>(this->loadOpenGLProc("glGenBuffers"));
 		glCreateBuffers = reinterpret_cast<PFNGLCREATEBUFFERSPROC>(this->loadOpenGLProc("glCreateBuffers"));
@@ -335,7 +335,7 @@ namespace ece
 		glCopyNamedBufferSubData = reinterpret_cast<PFNGLCOPYNAMEDBUFFERSUBDATAPROC>(this->loadOpenGLProc("glCopyNamedBufferSubData"));
 	}
 
-	void OpenGL::loadShadersAndProgramsExtensions()
+	void OpenGLExtension::loadShadersAndProgramsExtensions()
 	{
 		glCreateShader = reinterpret_cast<PFNGLCREATESHADERPROC>(this->loadOpenGLProc("glCreateShader"));
 		glShaderSource = reinterpret_cast<PFNGLSHADERSOURCEPROC>(this->loadOpenGLProc("glShaderSource"));
@@ -509,7 +509,7 @@ namespace ece
 		glGetProgramStageiv = reinterpret_cast<PFNGLGETPROGRAMSTAGEIVPROC>(this->loadOpenGLProc("glGetProgramStageiv"));
 	}
 
-	void OpenGL::loadTexturesAndSamplersExtensions()
+	void OpenGLExtension::loadTexturesAndSamplersExtensions()
 	{
 		glActiveTexture = reinterpret_cast<PFNGLACTIVETEXTUREPROC>(this->loadOpenGLProc("glActiveTexture"));
 		glGenTextures = reinterpret_cast<PFNGLGENTEXTURESPROC>(this->loadOpenGLProc("glGenTextures"));
@@ -625,7 +625,7 @@ namespace ece
 		glBindImageTextures = reinterpret_cast<PFNGLBINDIMAGETEXTURESPROC>(this->loadOpenGLProc("glBindImageTextures"));
 	}
 
-	void OpenGL::loadFramebufferObjectsExtensions()
+	void OpenGLExtension::loadFramebufferObjectsExtensions()
 	{
 		glBindFramebuffer = reinterpret_cast<PFNGLBINDFRAMEBUFFERPROC>(this->loadOpenGLProc("glBindFramebuffer"));
 		glCreateFramebuffers = reinterpret_cast<PFNGLCREATEFRAMEBUFFERSPROC>(this->loadOpenGLProc("glCreateFramebuffers"));
@@ -663,7 +663,7 @@ namespace ece
 		glCheckNamedFramebufferStatus = reinterpret_cast<PFNGLCHECKNAMEDFRAMEBUFFERSTATUSPROC>(this->loadOpenGLProc("glCheckNamedFramebufferStatus"));
 	}
 
-	void OpenGL::loadVerticesExtensions()
+	void OpenGLExtension::loadVerticesExtensions()
 	{
 		glPatchParameteri = reinterpret_cast<PFNGLPATCHPARAMETERIPROC>(this->loadOpenGLProc("glPatchParameteri"));
 		glVertexAttrib1s = reinterpret_cast<PFNGLVERTEXATTRIB1SPROC>(this->loadOpenGLProc("glVertexAttrib1s"));
@@ -739,7 +739,7 @@ namespace ece
 		glVertexAttribP4uiv = reinterpret_cast<PFNGLVERTEXATTRIBP4UIVPROC>(this->loadOpenGLProc("glVertexAttribP4uiv"));
 	}
 
-	void OpenGL::loadVertexArraysExtensions()
+	void OpenGLExtension::loadVertexArraysExtensions()
 	{
 		glGenVertexArrays = reinterpret_cast<PFNGLGENVERTEXARRAYSPROC>(this->loadOpenGLProc("glGenVertexArrays"));
 		glDeleteVertexArrays = reinterpret_cast<PFNGLDELETEVERTEXARRAYSPROC>(this->loadOpenGLProc("glDeleteVertexArrays"));
@@ -804,7 +804,7 @@ namespace ece
 		glEndConditionalRender = reinterpret_cast<PFNGLENDCONDITIONALRENDERPROC>(this->loadOpenGLProc("glEndConditionalRender"));
 	}
 
-	void OpenGL::loadVertexAttributesExtensions()
+	void OpenGLExtension::loadVertexAttributesExtensions()
 	{
 		glBindAttribLocation = reinterpret_cast<PFNGLBINDATTRIBLOCATIONPROC>(this->loadOpenGLProc("glBindAttribLocation"));
 		glGetActiveAttrib = reinterpret_cast<PFNGLGETACTIVEATTRIBPROC>(this->loadOpenGLProc("glGetActiveAttrib"));
@@ -816,7 +816,7 @@ namespace ece
 		glPatchParameterfv = reinterpret_cast<PFNGLPATCHPARAMETERFVPROC>(this->loadOpenGLProc("glPatchParameterfv"));
 	}
 
-	void OpenGL::loadVertexPostProcessingExtensions()
+	void OpenGLExtension::loadVertexPostProcessingExtensions()
 	{
 		glGenTransformFeedbacks = reinterpret_cast<PFNGLGENTRANSFORMFEEDBACKSPROC>(this->loadOpenGLProc("glGenTransformFeedbacks"));
 		glDeleteTransformFeedbacks = reinterpret_cast<PFNGLDELETETRANSFORMFEEDBACKSPROC>(this->loadOpenGLProc("glDeleteTransformFeedbacks"));
@@ -845,7 +845,7 @@ namespace ece
 		glViewport = reinterpret_cast<PFNGLVIEWPORTPROC>(this->loadOpenGLProc("glViewport"));
 	}
 
-	void OpenGL::loadRasterizationExtensions()
+	void OpenGLExtension::loadRasterizationExtensions()
 	{
 		glGetMultisamplefv = reinterpret_cast<PFNGLGETMULTISAMPLEFVPROC>(this->loadOpenGLProc("glGetMultisamplefv"));
 		glMinSampleShading = reinterpret_cast<PFNGLMINSAMPLESHADINGPROC>(this->loadOpenGLProc("glMinSampleShading"));
@@ -862,7 +862,7 @@ namespace ece
 		glPolygonOffset = reinterpret_cast<PFNGLPOLYGONOFFSETPROC>(this->loadOpenGLProc("glPolygonOffset"));
 	}
 
-	void OpenGL::loadFragmentShadersExtensions()
+	void OpenGLExtension::loadFragmentShadersExtensions()
 	{
 		glBindFragDataLocationIndexed = reinterpret_cast<PFNGLBINDFRAGDATALOCATIONINDEXEDPROC>(this->loadOpenGLProc("glBindFragDataLocationIndexed"));
 		glBindFragDataLocation = reinterpret_cast<PFNGLBINDFRAGDATALOCATIONPROC>(this->loadOpenGLProc("glBindFragDataLocation"));
@@ -870,13 +870,13 @@ namespace ece
 		glGetFragDataIndex = reinterpret_cast<PFNGLGETFRAGDATAINDEXPROC>(this->loadOpenGLProc("glGetFragDataIndex"));
 	}
 
-	void OpenGL::loadComputeShadersExtensions()
+	void OpenGLExtension::loadComputeShadersExtensions()
 	{
 		glDispatchCompute = reinterpret_cast<PFNGLDISPATCHCOMPUTEPROC>(this->loadOpenGLProc("glDispatchCompute"));
 		glDispatchComputeIndirect = reinterpret_cast<PFNGLDISPATCHCOMPUTEINDIRECTPROC>(this->loadOpenGLProc("glDispatchComputeIndirect"));
 	}
 
-	void OpenGL::loadPerFragmentOperationsExtensions()
+	void OpenGLExtension::loadPerFragmentOperationsExtensions()
 	{
 		glEnablei = reinterpret_cast<PFNGLENABLEIPROC>(this->loadOpenGLProc("glEnablei"));
 		glDisablei = reinterpret_cast<PFNGLDISABLEIPROC>(this->loadOpenGLProc("glDisablei"));
@@ -904,12 +904,12 @@ namespace ece
 		glLogicOp = reinterpret_cast<PFNGLLOGICOPPROC>(this->loadOpenGLProc("glLogicOp"));
 	}
 
-	void OpenGL::loadHintsExtensions()
+	void OpenGLExtension::loadHintsExtensions()
 	{
 		glHint = reinterpret_cast<PFNGLHINTPROC>(this->loadOpenGLProc("glHint"));
 	}
 
-	void OpenGL::loadWholeFramebufferExtensions()
+	void OpenGLExtension::loadWholeFramebufferExtensions()
 	{
 		glDrawBuffer = reinterpret_cast<PFNGLDRAWBUFFERPROC>(this->loadOpenGLProc("glDrawBuffer"));
 		glNamedFramebufferDrawBuffer = reinterpret_cast<PFNGLNAMEDFRAMEBUFFERDRAWBUFFERPROC>(this->loadOpenGLProc("glNamedFramebufferDrawBuffer"));
@@ -939,7 +939,7 @@ namespace ece
 		glInvalidateNamedFramebufferData = reinterpret_cast<PFNGLINVALIDATENAMEDFRAMEBUFFERDATAPROC>(this->loadOpenGLProc("glInvalidateNamedFramebufferData"));
 	}
 
-	void OpenGL::loadReadingAndCopyingPixelsExtensions()
+	void OpenGLExtension::loadReadingAndCopyingPixelsExtensions()
 	{
 		glReadBuffer = reinterpret_cast<PFNGLREADBUFFERPROC>(this->loadOpenGLProc("glReadBuffer"));
 		glNamedFramebufferReadBuffer = reinterpret_cast<PFNGLNAMEDFRAMEBUFFERREADBUFFERPROC>(this->loadOpenGLProc("glNamedFramebufferReadBuffer"));
@@ -951,7 +951,7 @@ namespace ece
 		glCopyImageSubData = reinterpret_cast<PFNGLCOPYIMAGESUBDATAPROC>(this->loadOpenGLProc("glCopyImageSubData"));
 	}
 
-	void OpenGL::loadDebugOutputExtensions()
+	void OpenGLExtension::loadDebugOutputExtensions()
 	{
 		glDebugMessageCallback = reinterpret_cast<PFNGLDEBUGMESSAGECALLBACKPROC>(this->loadOpenGLProc("glDebugMessageCallback"));
 		glDebugMessageControl = reinterpret_cast<PFNGLDEBUGMESSAGECONTROLPROC>(this->loadOpenGLProc("glDebugMessageControl"));
@@ -965,7 +965,7 @@ namespace ece
 		glGetObjectPtrLabel = reinterpret_cast<PFNGLGETOBJECTPTRLABELPROC>(this->loadOpenGLProc("glGetObjectPtrLabel"));
 	}
 
-	void OpenGL::loadStateAndStateRequestsExtensions()
+	void OpenGLExtension::loadStateAndStateRequestsExtensions()
 	{
 		glGetBooleanv = reinterpret_cast<PFNGLGETBOOLEANVPROC>(this->loadOpenGLProc("glGetBooleanv"));
 		glGetIntegerv = reinterpret_cast<PFNGLGETINTEGERVPROC>(this->loadOpenGLProc("glGetIntegerv"));
@@ -987,6 +987,7 @@ namespace ece
 		glGetTransformFeedbacki64_v = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKI64_VPROC>(this->loadOpenGLProc("glGetTransformFeedbacki64_v"));
 	}
 }
+
 
 // Command Execution
 PFNGLGETERRORPROC glGetError = nullptr;

@@ -2,7 +2,7 @@
 #define RENDER_QUEUE_HPP
 
 //#include "renderable/renderable.hpp"
-#include "renderer/renderer/program.hpp"
+//#include "renderer/renderer/program.hpp"
 #include "utility/mathematics/matrix4u.hpp"
 
 namespace ece
@@ -22,7 +22,7 @@ namespace ece
 //		void render(const FloatMatrix4u & VP, Renderable & object);
 
 	private:
-		Program program;
+//		Program program;
 	};
 }
 
