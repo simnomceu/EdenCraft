@@ -64,7 +64,7 @@ namespace ece
 
 	TypeNodeJSON ObjectJSON::getType() const
 	{
-		return TypeNodeJSON::OBJECT;
+		return TypeNodeJSON::OBJECT_JSON;
 	}
 
 	IteratorObjectJSON ObjectJSON::begin()

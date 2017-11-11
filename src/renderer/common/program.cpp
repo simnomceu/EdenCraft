@@ -21,7 +21,7 @@ namespace ece
 		OpenGL::linkProgram(this->handle);
 	}
 
-	void Program::use()
+	void Program::use() const
 	{
 		OpenGL::useProgram(this->handle);
 	}

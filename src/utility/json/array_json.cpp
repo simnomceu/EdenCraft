@@ -68,7 +68,7 @@ namespace ece
 
 	TypeNodeJSON ArrayJSON::getType() const
 	{
-		return TypeNodeJSON::ARRAY;
+		return TypeNodeJSON::ARRAY_JSON;
 	}
 	
 	IteratorArrayJSON ArrayJSON::begin()

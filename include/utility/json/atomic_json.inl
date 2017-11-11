@@ -22,25 +22,25 @@ namespace ece
 	template<>
 	inline TypeNodeJSON BooleanJSON::getType() const
 	{
-		return TypeNodeJSON::BOOLEAN;
+		return TypeNodeJSON::BOOLEAN_JSON;
 	}
 
 	template<>
 	inline TypeNodeJSON IntegerJSON::getType() const
 	{
-		return TypeNodeJSON::INTEGER;
+		return TypeNodeJSON::INTEGER_JSON;
 	}
 
 	template<>
 	inline TypeNodeJSON DoubleJSON::getType() const
 	{
-		return TypeNodeJSON::DOUBLE;
+		return TypeNodeJSON::DOUBLE_JSON;
 	}
 
 	template<>
 	inline TypeNodeJSON StringJSON::getType() const
 	{
-		return TypeNodeJSON::STRING;
+		return TypeNodeJSON::STRING_JSON;
 	}
 
 	template<class T>

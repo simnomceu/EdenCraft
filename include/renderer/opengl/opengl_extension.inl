@@ -3,7 +3,7 @@
 
 namespace ece
 {
-	inline OpenGLExtension::OpenGLExtension(): loaded(NO_OPENGL_OPTIONS) {}
+	inline OpenGLExtension::OpenGLExtension() : loaded(NO_OPENGL_OPTIONS) {}
 
 	inline OpenGLExtension::~OpenGLExtension() {}
 
@@ -11,7 +11,6 @@ namespace ece
 
 	inline void OpenGLExtension::loadPlatformExtensions() {}
 }
-
 
 // Command Execution
 extern PFNGLGETERRORPROC glGetError;

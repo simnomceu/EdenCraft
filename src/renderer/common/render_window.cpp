@@ -31,6 +31,9 @@ namespace ece
 		try {
 			this->context->create(*this);
 		}
+		catch (Exception & e) {
+			throw;
+		}
 		catch (std::runtime_error & e) {
 			ServiceLoggerLocator::getService().logError(e.what());
 		}
@@ -50,6 +53,9 @@ namespace ece
 
 	void RenderWindow::enableMSAA(const unsigned short int samples)
 	{
+		if (samples < 2) {
+			glDisable(GL_MULTISAMPLE);
+		}
 		this->videoMode.setSamples(samples);
 	}
 

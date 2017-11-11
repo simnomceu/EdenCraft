@@ -10,6 +10,7 @@ namespace ece
 	{
 	public:
 		Program();
+		inline Program(const ProgramHandle handle);
 		Program(const Program & copy) = default;
 		Program(Program && move) = default;
 
@@ -22,7 +23,7 @@ namespace ece
 
 		void addShader(Shader & shader);
 		void link();
-		void use();
+		void use() const;
 
 		template<class T> void uniform(const std::string & uniform, const T & value);
 

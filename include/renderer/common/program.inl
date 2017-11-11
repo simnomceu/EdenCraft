@@ -1,5 +1,7 @@
 namespace ece
 {
+	inline Program::Program(const ProgramHandle handle) : handle(handle) {}
+
 	inline ProgramHandle Program::getHandle() const { return this->handle; }
 
 	template<class T>

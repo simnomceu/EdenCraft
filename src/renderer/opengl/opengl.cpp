@@ -24,14 +24,17 @@ namespace ece
 		OpenGL::extensions->init(options);
 	}
 
+	unsigned int OpenGL::getError()
+	{
+		if (!glGetError) {
+			throw OpenGLExtensionException("glGetError", COMMAND_EXECUTION);
+		}
+		return glGetError();
+	}
+
 	void OpenGL::checkErrors()
 	{
-		if (!OpenGL::extensions->isLoaded(COMMAND_EXECUTION)) {
-			std::string error = "OpenGL errors cannot be checked, because some OpenGL extensions are missing. ("
-				+ std::to_string(COMMAND_EXECUTION) + ")";
-			throw std::runtime_error(error);
-		}
-		GLenum error(glGetError());
+		GLenum error(OpenGL::getError());
 		while (error != GL_NO_ERROR) {
 			std::string errorMessage;
 
@@ -45,49 +48,24 @@ namespace ece
 			}
 
 			ServiceLoggerLocator::getService().logError("Error OpenGL: (" + std::to_string(error) + ") " + errorMessage);
-			error = glGetError();
+			error = OpenGL::getError();
 		}
 	}
 
 	ShaderHandle OpenGL::createShader(const ShaderType type)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Shader cannot be created, because some OpenGL extensions are missing. ("
-			+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glCreateShader) {
+			throw OpenGLExtensionException("glCreateShader", SHADERS_AND_PROGRAMS);
 		}
-		GLuint shaderHandle = 0;
-		GLenum shaderType = 0;
-		switch (type) {
-		case ECE_NULL_SHADER: break;
-		case ECE_COMPUTE_SHADER: shaderType = GL_COMPUTE_SHADER; break;
-		case ECE_FRAGMENT_SHADER: shaderType = GL_FRAGMENT_SHADER; break;
-		case ECE_GEOMETRY_SHADER: shaderType = GL_GEOMETRY_SHADER; break;
-		case ECE_VERTEX_SHADER: shaderType = GL_VERTEX_SHADER; break;
-		case ECE_TESS_EVALUATION_SHADER: shaderType = GL_TESS_EVALUATION_SHADER; break;
-		case ECE_TESS_CONTROL_SHADER: shaderType = GL_TESS_CONTROL_SHADER; break;
-		default: break;
-		}
-
-		if (shaderType == 0) {
-			throw std::runtime_error("Trying to create a shader with an invalid type.");
-		}
-		shaderHandle = glCreateShader(shaderType);
-		if (shaderHandle == 0) {
-			throw std::runtime_error("OpenGL error while creating shader: " + std::to_string(glGetError()));
-		}
-
+		GLuint shaderHandle = glCreateShader(type);
 		OpenGL::checkErrors();
-
 		return shaderHandle;
 	}
 
 	void OpenGL::shaderSource(const ShaderHandle handle, const std::string & source)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Shader source cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glShaderSource) {
+			throw OpenGLExtensionException("glShaderSource", SHADERS_AND_PROGRAMS);
 		}
 		auto sourcePtr = source.data();
 		glShaderSource(handle, 1, &sourcePtr, nullptr); // TODO: add the length of the source
@@ -96,10 +74,8 @@ namespace ece
 
 	void OpenGL::shaderSource(const ShaderHandle handle, const std::vector<std::string>& source)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Shader source cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glShaderSource) {
+			throw OpenGLExtensionException("glShaderSource", SHADERS_AND_PROGRAMS);
 		}
 		std::vector<const char*> sourcesPtr{};
 		for (const auto& string : source) {
@@ -111,10 +87,8 @@ namespace ece
 
 	void OpenGL::compileShader(const ShaderHandle handle)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Shader cannot be compiled, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glCompileShader) {
+			throw OpenGLExtensionException("glCompileShader", SHADERS_AND_PROGRAMS);
 		}
 		glCompileShader(handle);
 		OpenGL::checkErrors();
@@ -122,10 +96,8 @@ namespace ece
 
 	void OpenGL::deleteShader(const ShaderHandle handle)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Shader cannot be deleted, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glDeleteShader) {
+			throw OpenGLExtensionException("glDeleteShader", SHADERS_AND_PROGRAMS);
 		}
 		glDeleteShader(handle);
 		OpenGL::checkErrors();
@@ -133,10 +105,8 @@ namespace ece
 
 	ProgramHandle OpenGL::createProgram()
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Program cannot be created, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glCreateProgram) {
+			throw OpenGLExtensionException("glCreateProgram", SHADERS_AND_PROGRAMS);
 		}
 		auto programHandle = glCreateProgram();
 		OpenGL::checkErrors();
@@ -145,10 +115,8 @@ namespace ece
 
 	void OpenGL::attachShader(const ProgramHandle program, const ShaderHandle shader)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Shader cannot be attached to a program, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glAttachShader) {
+			throw OpenGLExtensionException("glAttachShader", SHADERS_AND_PROGRAMS);
 		}
 		glAttachShader(program, shader);
 		OpenGL::checkErrors();
@@ -156,10 +124,8 @@ namespace ece
 
 	void OpenGL::linkProgram(const ProgramHandle handle)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Program cannot be linked, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glLinkProgram) {
+			throw OpenGLExtensionException("glLinkProgram", SHADERS_AND_PROGRAMS);
 		}
 		glLinkProgram(handle);
 		OpenGL::checkErrors();
@@ -167,10 +133,8 @@ namespace ece
 
 	void OpenGL::useProgram(const ProgramHandle handle)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Program cannot be used, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUseProgram) {
+			throw OpenGLExtensionException("glUseProgram", SHADERS_AND_PROGRAMS);
 		}
 		glUseProgram(handle);
 		OpenGL::checkErrors();
@@ -178,10 +142,8 @@ namespace ece
 
 	UniformHandle OpenGL::getUniformLocation(const ProgramHandle handle, const std::string & uniform)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be found, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glGetUniformLocation) {
+			throw OpenGLExtensionException("glGetUniformLocation", SHADERS_AND_PROGRAMS);
 		}
 		auto location = glGetUniformLocation(handle, uniform.data());
 		OpenGL::checkErrors();
@@ -191,10 +153,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const int value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform1i) {
+			throw OpenGLExtensionException("glUniform1i", SHADERS_AND_PROGRAMS);
 		}
 		glUniform1i(uniform, value);
 		OpenGL::checkErrors();
@@ -203,10 +163,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const float value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform1f) {
+			throw OpenGLExtensionException("glUniform1f", SHADERS_AND_PROGRAMS);
 		}
 		glUniform1f(uniform, value);
 		OpenGL::checkErrors();
@@ -215,10 +173,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const bool value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform1i) {
+			throw OpenGLExtensionException("glUniform1i", SHADERS_AND_PROGRAMS);
 		}
 		glUniform1i(uniform, static_cast<int>(value));
 		OpenGL::checkErrors();
@@ -227,10 +183,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const IntVertex2u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform2iv) {
+			throw OpenGLExtensionException("glUniform2iv", SHADERS_AND_PROGRAMS);
 		}
 		//glUniform2i(uniform, value[0], value[1]);
 		glUniform2iv(uniform, 2, &value[0]);
@@ -240,10 +194,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const IntVertex3u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform3iv) {
+			throw OpenGLExtensionException("glUniform3iv", SHADERS_AND_PROGRAMS);
 		}
 		//glUniform3i(uniform, value[0], value[1], value[2]);
 		glUniform3iv(uniform, 3, &value[0]);
@@ -253,10 +205,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const IntVertex4u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform4iv) {
+			throw OpenGLExtensionException("glUniform4iv", SHADERS_AND_PROGRAMS);
 		}
 		//glUniform4i(uniform, value[0], value[1], value[2], value[3]);
 		glUniform4iv(uniform, 4, &value[0]);
@@ -266,10 +216,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const FloatVertex2u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform2fv) {
+			throw OpenGLExtensionException("glUniform2fv", SHADERS_AND_PROGRAMS);
 		}
 		//glUniform2f(uniform, value[0], value[1]);
 		glUniform2fv(uniform, 2, &value[0]);
@@ -279,10 +227,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const FloatVertex3u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform3fv) {
+			throw OpenGLExtensionException("glUniform3fv", SHADERS_AND_PROGRAMS);
 		}
 		//glUniform3f(uniform, value[0], value[1], value[2]);
 		glUniform3fv(uniform, 3, &value[0]);
@@ -292,10 +238,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const FloatVertex4u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform4fv) {
+			throw OpenGLExtensionException("glUniform4fv", SHADERS_AND_PROGRAMS);
 		}
 		//glUniform4f(uniform, value[0], value[1], value[2], value[3]);
 		glUniform4fv(uniform, 4, &value[0]);
@@ -305,10 +249,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const FloatMatrix2u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniformMatrix2fv) {
+			throw OpenGLExtensionException("glUniformMatrix2fv", SHADERS_AND_PROGRAMS);
 		}
 		glUniformMatrix2fv(uniform, 2, false, &value[0][0]);
 		OpenGL::checkErrors();
@@ -317,10 +259,8 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const FloatMatrix3u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniformMatrix3fv) {
+			throw OpenGLExtensionException("glUniformMatrix3fv", SHADERS_AND_PROGRAMS);
 		}
 		glUniformMatrix3fv(uniform, 3, false, &value[0][0]);
 		OpenGL::checkErrors();
@@ -329,12 +269,79 @@ namespace ece
 	template<>
 	void OpenGL::uniform(const UniformHandle uniform, const FloatMatrix4u value)
 	{
-		if (!OpenGL::extensions->isLoaded(SHADERS_AND_PROGRAMS)) {
-			std::string error = "Uniform cannot be set, because some OpenGL extensions are missing. ("
-				+ std::to_string(SHADERS_AND_PROGRAMS) + ")";
-			throw std::runtime_error(error);
+		if (!glUniform4fv) {
+			throw OpenGLExtensionException("glUniformMatrix4fv", SHADERS_AND_PROGRAMS);
 		}
 		glUniformMatrix4fv(uniform, 4, false, &value[0][0]);
+		OpenGL::checkErrors();
+	}
+
+	void OpenGL::genBuffers(VBOHandle & handle)
+	{
+		if (!glGenBuffers) {
+			throw OpenGLExtensionException("glGenBuffers", BUFFER_OBJECTS);
+		}
+		glGenBuffers(1, &handle);
+		OpenGL::checkErrors();
+	}
+
+	void OpenGL::genBuffers(const int count, std::vector<VBOHandle>& handles)
+	{
+		if (count != 0) {
+			if (!glGenBuffers) {
+				throw OpenGLExtensionException("glGenBuffers", BUFFER_OBJECTS);
+			}
+			handles.resize(handles.size() + count);
+			glGenBuffers(count, &handles.back() - count + 1);
+			OpenGL::checkErrors();
+		}
+	}
+
+	void OpenGL::bindBuffer(const BufferType type, const VBOHandle handle)
+	{
+		if (!glBindBuffer) {
+			throw OpenGLExtensionException("glBindBuffer", BUFFER_OBJECTS);
+		}
+		glBindBuffer(type, handle);
+		OpenGL::checkErrors();
+	}
+
+	void OpenGL::genVertexArrays(VAOHandle & handle)
+	{
+		if (!glGenVertexArrays) {
+			throw OpenGLExtensionException("glGenVertexArrays", BUFFER_OBJECTS);
+		}
+		glGenVertexArrays(1, &handle);
+		OpenGL::checkErrors();
+	}
+
+	void OpenGL::genVertexArrays(const int count, std::vector<VAOHandle>& handles)
+	{
+		if (count != 0) {
+			if (!glGenVertexArrays) {
+				throw OpenGLExtensionException("glGenVertexArrays", BUFFER_OBJECTS);
+			}
+			handles.resize(handles.size() + count);
+			glGenVertexArrays(count, &handles.back() - count + 1);
+			OpenGL::checkErrors();
+		}
+	}
+
+	void OpenGL::bindVertexArray(const VAOHandle handle)
+	{
+		if (!glBindVertexArray) {
+			throw OpenGLExtensionException("glBindVertexArray", BUFFER_OBJECTS);
+		}
+		glBindVertexArray(handle);
+		OpenGL::checkErrors();
+	}
+
+	void OpenGL::enableVertexAttribArray(const int location)
+	{
+		if (!glEnableVertexAttribArray) {
+			throw OpenGLExtensionException("glEnableVertexAttribArray", BUFFER_OBJECTS);
+		}
+		glEnableVertexAttribArray(location);
 		OpenGL::checkErrors();
 	}
 }

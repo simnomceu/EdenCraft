@@ -52,7 +52,7 @@ namespace ece
 			0
 		};
 
-		INT iPF;
+		int iPF;
 		UINT num_formats_choosen;
 		if (!wglChoosePixelFormat(this->device, pixelAttribs, NULL, 1, &iPF, &num_formats_choosen) || !num_formats_choosen) {
 			throw std::runtime_error("There is no video mode available for this device.");
@@ -95,10 +95,7 @@ namespace ece
 
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-		GLenum err;
-		while ((err = glGetError()) != GL_NO_ERROR) {
-			ServiceLoggerLocator::getService().logError("OpenGL error: " + err);
-		}
+		OpenGL::checkErrors();
 	}
 
 	void ContextOpenGL::swapBuffers()
