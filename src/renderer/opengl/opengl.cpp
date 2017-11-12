@@ -339,9 +339,18 @@ namespace ece
 	void OpenGL::enableVertexAttribArray(const int location)
 	{
 		if (!glEnableVertexAttribArray) {
-			throw OpenGLExtensionException("glEnableVertexAttribArray", BUFFER_OBJECTS);
+			throw OpenGLExtensionException("glEnableVertexAttribArray", VERTEX_ARRAYS);
 		}
 		glEnableVertexAttribArray(location);
+		OpenGL::checkErrors();
+	}
+
+	void OpenGL::disableVertexAttribArray(const int location)
+	{
+		if (!glDisableVertexAttribArray) {
+			throw OpenGLExtensionException("glDisableVertexAttribArray", VERTEX_ARRAYS);
+		}
+		glDisableVertexAttribArray(location);
 		OpenGL::checkErrors();
 	}
 }

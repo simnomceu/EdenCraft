@@ -20,6 +20,7 @@
 #include "utility/mathematics/matrix3u.hpp"
 #include "utility/mathematics/matrix4u.hpp"
 
+
 namespace ece
 {
 	enum ShaderType : unsigned short int
@@ -160,6 +161,7 @@ namespace ece
 		template<> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
 		template<> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
 		static void enableVertexAttribArray(const int location);
+		static void disableVertexAttribArray(const int location);
 
 	private:
 		OpenGL() = default;

@@ -7,7 +7,7 @@ namespace ece
 		OpenGL::genVertexArrays(this->handle);
 	}
 
-	void VAO::bind()
+	void VAO::bind() const
 	{
 		OpenGL::bindVertexArray(this->handle);
 	}

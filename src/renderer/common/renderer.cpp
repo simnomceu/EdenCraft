@@ -1,5 +1,7 @@
 #include "renderer/common/renderer.hpp"
 
+#include "renderer/opengl/vao.hpp"
+
 namespace ece
 {
 	Program Renderer::getProgram() const
@@ -11,5 +13,11 @@ namespace ece
 
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
 	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CW);
+
+		vao.bind();
+		glDrawArrays(mode, 0, 3);
 	}
 }

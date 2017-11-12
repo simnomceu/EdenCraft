@@ -4,6 +4,7 @@
 #include "renderer/common/program.hpp"
 #include "utility/log/service_logger.hpp"
 #include "renderer/opengl/vao.hpp"
+#include "renderer/common/renderer.hpp"
 
 #include <iostream>
 
@@ -23,17 +24,18 @@ int main()
 		window.updateVideoMode();
 		window.setSettings(settings);
 
+		ece::Renderer renderer;
 
-		const std::vector<float> points{ 0.0f, 0.5f, 0.0f,
-									0.5f, -0.5f, 0.0f,
-									-0.5f, -0.5f, 0.0f };
+		const std::vector<float> points{ 0.0f, 0.5f,
+										 0.5f, -0.5f,
+										-0.5f, -0.5f };
 
 		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
-									0.0f, 1.0f, 0.0f,
-									0.0f, 0.0f, 1.0f };
+										  0.0f, 1.0f, 0.0f,
+										  0.0f, 0.0f, 1.0f };
 
 		ece::VAO vao;
-		vao.addAttribute(0, 3, false, 0, ece::ARRAY_BUFFER, points, ece::STATIC_DRAW);
+		vao.addAttribute(0, 2, false, 0, ece::ARRAY_BUFFER, points, ece::STATIC_DRAW);
 		vao.addAttribute(1, 3, false, 0, ece::ARRAY_BUFFER, colours, ece::STATIC_DRAW);
 
 		ece::Shader fsSource, vsSource;
@@ -43,16 +45,12 @@ int main()
 		program.addShader(fsSource);
 		program.addShader(vsSource);
 		program.link();
-		program.use();
-
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glFrontFace(GL_CW);
+		renderer.setProgram(program);
 
 		ece::InputEvent event;
 		while (1) {
 			window.clear();
-			glDrawArrays(GL_TRIANGLES, 0, 3);
+			renderer.drawPrimitives(ece::TRIANGLES, vao);
 			while (window.pollEvent(event)) {
 			}
 			window.display();
