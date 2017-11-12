@@ -1,9 +1,9 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
-#include "ecs/base_system.hpp"
-#include "ecs/component_tank.hpp"
-#include "indexing/unique_id.hpp"
+#include "core/ecs/base_system.hpp"
+#include "core/ecs/component_tank.hpp"
+#include "utility/indexing/unique_id.hpp"
 
 #include <memory>
 #include <vector>
@@ -26,6 +26,6 @@ namespace ece
 	};
 }
 
-#include "ecs/world.inl"
+#include "core/ecs/world.inl"
 
 #endif // WORLD_HPP

@@ -2,7 +2,7 @@
 #define VERTEX4U_HPP
 
 #include <array>
-#include "mathematics/vertex3u.hpp"
+#include "utility/mathematics/vertex3u.hpp"
 
 namespace ece
 {
@@ -49,11 +49,11 @@ namespace ece
 	typedef Vertex4u<int> IntVertex4u;
 	typedef Vertex4u<double> DoubleVertex4u;
 
-	typedef Vertex4u<float> FloatPoint2u;
-	typedef Vertex4u<int> IntPoint2u;
-	typedef Vertex4u<double> DoublePoint2u;
+	typedef Vertex4u<float> FloatPoint4u;
+	typedef Vertex4u<int> IntPoint4u;
+	typedef Vertex4u<double> DoublePoint4u;
 }
 
-#include "mathematics/vertex4u.inl"
+#include "utility/mathematics/vertex4u.inl"
 
 #endif // VERTEX4U_HPP

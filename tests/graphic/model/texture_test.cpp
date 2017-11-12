@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "model/texture.hpp"
+#include "graphic/model/texture.hpp"
 
 SCENARIO("Texture", "[Graphic][Model]")
 {

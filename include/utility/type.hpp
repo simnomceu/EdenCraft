@@ -21,12 +21,12 @@ namespace ece
 	enum TypeNodeJSON : unsigned short int
 	{
 		NULL_JSON = 0,
-		BOOLEAN = 1,
-		INTEGER = 2,
-		DOUBLE = 3,
-		STRING = 4,
-		OBJECT = 5,
-		ARRAY = 6
+		BOOLEAN_JSON = 1,
+		INTEGER_JSON = 2,
+		DOUBLE_JSON = 3,
+		STRING_JSON = 4,
+		OBJECT_JSON = 5,
+		ARRAY_JSON = 6
 	};
 }
 

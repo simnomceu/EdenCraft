@@ -3,9 +3,9 @@
 
 #define PI 3.14159265359
 
-#include "mathematics/matrix4u.hpp"
-#include "mathematics/vertex3u.hpp"
-#include "mathematics/rectangle.hpp"
+#include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics/vertex3u.hpp"
+#include "utility/mathematics/rectangle.hpp"
 
 namespace ece
 {

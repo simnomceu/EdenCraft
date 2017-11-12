@@ -1,12 +1,12 @@
 #ifndef BASE_WINDOW_HPP
 #define BASE_WINDOW_HPP
 
-#include "mathematics/rectangle.hpp"
-#include "window/window_setting.hpp"
-#include "window/video_mode.hpp"
-#include "window/window.inl"
+#include "utility/mathematics/rectangle.hpp"
+#include "window/window/window_setting.hpp"
+#include "window/window_refactor/video_mode.hpp"
+#include "window/window/window.inl"
 
-#include "event/emitter.hpp"
+#include "core/event/emitter.hpp"
 //#include "event/input_event.hpp"
 
 namespace ece
@@ -60,6 +60,6 @@ namespace ece
 	};
 }
 
-#include "window/base_window.inl"
+#include "window/window/base_window.inl"
 
 #endif // BASE_WINDOW_HPP

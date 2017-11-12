@@ -1,4 +1,4 @@
-#include "win32/window_adapter.hpp"
+#include "window/win32/window_adapter.hpp"
 
 #include <iostream>
 
@@ -13,7 +13,7 @@ namespace ece
 		DWORD settingsEx = WS_EX_TOPMOST;
 		DWORD settings = WS_OVERLAPPEDWINDOW;
 
-		this->windowId = CreateWindowEx(settingsEx, WindowAdapter::className, L"", settings, 0, 0, 640, 640, nullptr, nullptr, GetModuleHandle(nullptr), this);
+		this->windowId = CreateWindowEx(settingsEx, WindowAdapter::className, L"", settings, 0, 0, 320, 320, nullptr, nullptr, GetModuleHandle(nullptr), this);
 		ShowWindow(this->windowId, SW_SHOW);
 		UpdateWindow(this->windowId);
 	}
@@ -107,6 +107,11 @@ namespace ece
 		}
 	}
 
+	HWND WindowAdapter::getWindowHandle() const
+	{
+		return this->windowId;
+	}
+
 	/*bool WindowAdapter::hasEvents() const
 	{
 		return PeekMessage(nullptr, this->windowId, 0, 0, PM_NOREMOVE);
@@ -119,7 +124,7 @@ namespace ece
 			windowPattern.cbClsExtra = 0;
 			windowPattern.cbSize = sizeof(WNDCLASSEX);
 			windowPattern.cbWndExtra = 0;
-			windowPattern.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
+			windowPattern.hbrBackground = nullptr;
 			windowPattern.hCursor = LoadCursor(nullptr, IDC_ARROW);
 			windowPattern.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 			windowPattern.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);

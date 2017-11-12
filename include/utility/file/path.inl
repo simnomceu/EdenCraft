@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <fstream>
 
-#include "path.hpp"
-
 #include <sys/stat.h>
 #ifndef __unix__
 	#define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)

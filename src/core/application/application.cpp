@@ -1,11 +1,11 @@
-#include "application/application.hpp"
+#include "core/application/application.hpp"
 
-#include "log/service_logger.hpp"
-#include "log/logger.hpp"
-#include "event/event_service.hpp"
-#include "event/event_manager.hpp"
-#include "module/module_method.hpp"
-#include "debug/exception.hpp"
+#include "utility/log/service_logger.hpp"
+#include "utility/log/logger.hpp"
+#include "core/event/event_service.hpp"
+#include "core/event/event_manager.hpp"
+#include "core/module/module_method.hpp"
+#include "utility/debug/exception.hpp"
 
 namespace ece
 {

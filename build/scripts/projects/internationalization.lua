@@ -5,10 +5,7 @@
 settings = {
         name = "internationalization",
         type = "ConsoleApp",
-        dependencies = {"utility"},
-        linkOptions = {
-            windows = "/NODEFAULTLIB:libcmt.lib"
-        }
+        dependencies = {"utility"}
 }
 
 return settings

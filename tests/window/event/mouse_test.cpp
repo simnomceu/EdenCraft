@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "event/mouse.hpp"
+#include "window/window_event/mouse.hpp"
 
 SCENARIO("Mouse", "[Window][Event]")
 {

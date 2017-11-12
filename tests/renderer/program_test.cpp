@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "program.hpp"
+#include "renderer/renderer/program.hpp"
 
 SCENARIO("Program", "[Renderer]")
 {

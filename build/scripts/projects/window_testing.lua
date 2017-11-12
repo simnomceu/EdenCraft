@@ -5,11 +5,7 @@
 settings = {
         name = "window_testing",
         type = "ConsoleApp",
-        dependencies = {"utility", "core", "window"},
-        extlibs = {"opengl32", "glew32s"},
-        linkOptions = {
-            windows = "/NODEFAULTLIB:libcmt.lib"
-        }
+        dependencies = {"utility", "core", "window"}
 }
 
 return settings

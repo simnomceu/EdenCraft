@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "model/shader.hpp"
+#include "graphic/model/shader.hpp"
 
 SCENARIO("Shader", "[Graphic][Model]")
 {

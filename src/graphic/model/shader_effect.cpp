@@ -1,4 +1,4 @@
-#include "model/shader_effect.hpp"
+#include "graphic/model/shader_effect.hpp"
 
 namespace ece
 {

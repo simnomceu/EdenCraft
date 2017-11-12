@@ -67,6 +67,6 @@ namespace ece
 	typedef Vertex3u<double> DoublePoint3u;
 }
 
-#include "mathematics/vertex3u.inl"
+#include "utility/mathematics/vertex3u.inl"
 
 #endif // VERTEX3U_HPP

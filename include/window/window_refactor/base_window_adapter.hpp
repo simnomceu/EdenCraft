@@ -4,8 +4,8 @@
 #include <memory>
 #include <string>
 
-#include "window_event/input_event.hpp"
-#include "window_refactor/event_queue.hpp"
+#include "window/window_event/input_event.hpp"
+#include "window/window_refactor/event_queue.hpp"
 
 namespace ece
 {

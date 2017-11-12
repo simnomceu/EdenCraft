@@ -1,8 +1,8 @@
 #ifndef WINDOW_INL
 #define WINDOW_INL
 
-#include "mathematics/vertex3u.hpp"
-#include "mathematics/vertex4u.hpp"
+#include "utility/mathematics/vertex3u.hpp"
+#include "utility/mathematics/vertex4u.hpp"
 
 namespace ece
 {
@@ -40,7 +40,6 @@ namespace ece
 		BLUE_CHANNEL = 2,
 		ALPHA_CHANNEL = 3
 	};
-
 }
 
 #endif // WINDOW_INL

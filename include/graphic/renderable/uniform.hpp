@@ -1,7 +1,7 @@
 #ifndef UNIFORM_HPP
 #define UNIFORM_HPP
 
-#include "renderable/base_uniform.hpp"
+#include "graphic/renderable/base_uniform.hpp"
 
 namespace ece
 {
@@ -34,6 +34,6 @@ namespace ece
 	template <> UniformType Uniform<int>::getType() const;
 }
 
-#include "renderable/uniform.inl"
+#include "graphic/renderable/uniform.inl"
 
 #endif // UNIFORM_HPP

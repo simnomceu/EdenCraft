@@ -5,7 +5,7 @@
 #include <memory>
 #include <functional>
 
-#include "argument/option_value.hpp"
+#include "core/argument/option_value.hpp"
 
 namespace ece
 {
@@ -31,6 +31,6 @@ namespace ece
 	};
 }
 
-#include "argument/option.inl"
+#include "core/argument/option.inl"
 
 #endif // OPTION_HPP

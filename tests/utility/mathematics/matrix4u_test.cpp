@@ -1,7 +1,7 @@
 #include "catch/catch.hpp"
 
-#include "mathematics/matrix4u.hpp"
-#include "debug/exception.hpp"
+#include "utility/mathematics/matrix4u.hpp"
+#include "utility/debug/exception.hpp"
 
 SCENARIO("Matrix4u", "[Utility][Mathematics]")
 {

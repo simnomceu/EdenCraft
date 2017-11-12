@@ -8,7 +8,7 @@ function SolutionBuilder:build()
     workspace "EdenCraft"
         language "C++"
         location ""
-        includedirs { "../extlibs/include" }
+        includedirs { "../extlibs/include", "../include" }
         configurations {"Debug", "Release"}
         platforms {"Win32", "Win64", "Unix32", "Unix64", "OSX"}
 
@@ -16,13 +16,11 @@ function SolutionBuilder:build()
             architecture "x86"
             system "windows"
             libdirs {"../extlibs/lib/msvc/x86"}
-			systemversion "10.0.16299.0"
 
         filter {"platforms:Win64"}
             architecture "x86_64"
             system "windows"
             libdirs {"../extlibs/lib/msvc/x64"}
-			systemversion "10.0.16299.0"
 
         filter {"platforms:Unix32"}
             architecture "x86"

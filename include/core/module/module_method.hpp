@@ -27,6 +27,6 @@ namespace ece
 	};
 }
 
-#include "module/module_method.inl"
+#include "core/module/module_method.inl"
 
 #endif // MODULE_METHOD_HPP

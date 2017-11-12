@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "render_queue.hpp"
+#include "renderer/renderer/render_queue.hpp"
 
 SCENARIO("RenderQueue", "[Renderer]")
 {

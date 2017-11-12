@@ -1,10 +1,10 @@
-#include "event/event_manager.hpp"
+#include "core/event/event_manager.hpp"
 
 #include <iostream>
 #include <algorithm>
 
-#include "event/listener.hpp"
-#include "event/emitter.hpp"
+#include "core/event/listener.hpp"
+#include "core/event/emitter.hpp"
 
 namespace ece
 {

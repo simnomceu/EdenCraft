@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "log/logger.hpp"
+#include "utility/log/logger.hpp"
 
 SCENARIO("Logger", "[Utility][Log]")
 {

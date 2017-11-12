@@ -2,7 +2,7 @@
 #define PARSER_JSON_HPP
 
 #include <string>
-#include "json/object_json.hpp"
+#include "utility/json/object_json.hpp"
 
 namespace ece
 {

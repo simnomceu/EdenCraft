@@ -50,11 +50,9 @@ function ProjectLoader:processProject(proj)
     end
 
     local dependencies = {}
-    local dependenciesPath = {}
     if proj.dependencies then
         for key,dependency in pairs(proj.dependencies) do
             table.insert(dependencies, string.lower(dependency))
-            table.insert(dependenciesPath, "../include/"..string.lower(dependency))
         end
     end
     if proj.extlibs then
@@ -62,7 +60,6 @@ function ProjectLoader:processProject(proj)
             table.insert(dependencies, string.lower(extlib))
         end
     end
-    table.insert(dependenciesPath, includePath)
 
     project(proj.name)
         kind(proj.type)
@@ -73,7 +70,6 @@ function ProjectLoader:processProject(proj)
             srcPath.."/**.cpp",
         }
         links(dependencies)
-        includedirs(dependenciesPath)
 
         if proj.linkOptions then
             filter {"system:windows"}

@@ -1,7 +1,7 @@
 #ifndef RESOURCE_UNLOADER_HPP
 #define RESOURCE_UNLOADER_HPP
 
-#include "resource/resource_handler.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -21,6 +21,6 @@ namespace ece
 	};
 }
 
-#include "resource/resource_unloader.inl"
+#include "core/resource/resource_unloader.inl"
 
 #endif // RESOURCE_UNLOADER_HPP

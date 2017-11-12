@@ -1,4 +1,4 @@
-#include "application/lifecycle.hpp"
+#include "core/application/lifecycle.hpp"
 
 namespace ece
 {

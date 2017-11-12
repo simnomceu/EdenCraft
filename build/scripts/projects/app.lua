@@ -5,11 +5,8 @@
 settings = {
         name = "app",
         type = "ConsoleApp",
-        dependencies = {"utility", "core", "window", "graphic", "renderer"},
-        extlibs = {"opengl32", "glew32s"},
-        linkOptions = {
-            windows = "/NODEFAULTLIB:libcmt.lib"
-        }
+        dependencies = {"utility", "core", "window", "renderer", "graphic"},
+        extlibs = {"opengl32",}
 }
 
 return settings

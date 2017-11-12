@@ -1,6 +1,6 @@
-#include "json/array_json.hpp"
+#include "utility/json/array_json.hpp"
 
-#include "json/object_json.hpp"
+#include "utility/json/object_json.hpp"
 
 #include <algorithm>
 
@@ -68,7 +68,7 @@ namespace ece
 
 	TypeNodeJSON ArrayJSON::getType() const
 	{
-		return TypeNodeJSON::ARRAY;
+		return TypeNodeJSON::ARRAY_JSON;
 	}
 	
 	IteratorArrayJSON ArrayJSON::begin()

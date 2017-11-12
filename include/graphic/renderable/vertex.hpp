@@ -2,7 +2,7 @@
 #define VERTEX_HPP
 
 #include <vector>
-#include "mathematics/vertex3u.hpp"
+#include "utility/mathematics/vertex3u.hpp"
 
 namespace ece
 {
@@ -27,6 +27,6 @@ namespace ece
 	};
 }
 
-#include "renderable/vertex.inl"
+#include "graphic/renderable/vertex.inl"
 
 #endif // VERTEX_HPP

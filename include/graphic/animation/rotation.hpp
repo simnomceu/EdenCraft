@@ -1,7 +1,7 @@
 #ifndef ROTATION_HPP
 #define ROTATION_HPP
 
-#include "animation/transformation.hpp"
+#include "graphic/animation/transformation.hpp"
 
 namespace ece
 {

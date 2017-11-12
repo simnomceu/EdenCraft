@@ -1,7 +1,7 @@
-#include "scene/scene.hpp"
+#include "graphic/scene/scene.hpp"
 
-#include "mathematics/vertex3u.hpp"
-#include "model/object.hpp"
+#include "utility/mathematics/vertex3u.hpp"
+#include "graphic/model/object.hpp"
 
 namespace ece
 {

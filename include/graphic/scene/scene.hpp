@@ -1,8 +1,8 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "scene/camera.hpp"
-#include "scene/projection.hpp"
+#include "graphic/scene/camera.hpp"
+#include "graphic/scene/projection.hpp"
 
 #include <vector>
 
@@ -34,6 +34,6 @@ namespace ece
 	};
 }
 
-#include "scene/scene.inl"
+#include "graphic/scene/scene.inl"
 
 #endif // SCENE_HPP

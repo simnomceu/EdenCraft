@@ -1,8 +1,8 @@
 #ifndef LIFECYCLE_HPP
 #define LIFECYCLE_HPP
 
-#include "event/emitter.hpp"
-#include "event/signal.hpp"
+#include "core/event/emitter.hpp"
+#include "core/event/signal.hpp"
 
 namespace ece
 {
@@ -47,6 +47,6 @@ namespace ece
 	};
 }
 
-#include "application/lifecycle.inl"
+#include "core/application/lifecycle.inl"
 
-#endif // !LIFECYCLE_HPP
+#endif // LIFECYCLE_HPP

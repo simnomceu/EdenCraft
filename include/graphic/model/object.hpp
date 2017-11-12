@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "renderable/renderable.hpp"
+#include "graphic/renderable/renderable.hpp"
 
 namespace ece
 {
@@ -53,6 +53,6 @@ namespace ece
     };
 }
 
-#include "model/object.inl"
+#include "graphic/model/object.inl"
 
 #endif // OBJECT_HPP

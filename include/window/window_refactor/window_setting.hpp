@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "mathematics/vertex2u.hpp"
+#include "utility/mathematics/vertex2u.hpp"
 
 namespace ece
 {

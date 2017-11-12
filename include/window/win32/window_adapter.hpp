@@ -3,7 +3,7 @@
 
 #include <Windows.h>
 
-#include "window_refactor/base_window_adapter.hpp"
+#include "window/window_refactor/base_window_adapter.hpp"
 
 namespace ece
 {
@@ -33,11 +33,14 @@ namespace ece
 		virtual void maximize() override;
 
 		virtual void processEvent(const bool blocking) override;
+
+		HWND getWindowHandle() const;
+
+		static const LPCWSTR className;
 	private:
 		HWND windowId;
 
 		void registerPattern();
-		static const LPCWSTR className;
 		static LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
 		LRESULT  processMessage(UINT message, WPARAM wParam, LPARAM lParam);
 	};

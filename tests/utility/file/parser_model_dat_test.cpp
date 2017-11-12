@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
 
-#include "file/parser_model_dat.hpp"
+#include "utility/file/parser_model_dat.hpp"
 
 SCENARIO("ParserModelDAT", "[Utility][File]")
 {

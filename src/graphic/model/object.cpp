@@ -1,6 +1,6 @@
-#include "model/object.hpp"
+#include "graphic/model/object.hpp"
 
-#include "renderable/uniform.hpp"
+#include "graphic/renderable/uniform.hpp"
 
 namespace ece
 {

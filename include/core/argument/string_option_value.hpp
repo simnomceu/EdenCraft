@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "argument/option_value.hpp"
+#include "core/argument/option_value.hpp"
 
 namespace ece
 {
@@ -23,6 +23,6 @@ namespace ece
 	};
 }
 
-#include "argument/string_option_value.inl"
+#include "core/argument/string_option_value.inl"
 
 #endif // STRING_OPTION_VALUE_HPP

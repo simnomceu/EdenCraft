@@ -3,7 +3,7 @@
 
 #include <queue>
 
-#include "window_event/input_event.hpp"
+#include "window/window_event/input_event.hpp"
 
 namespace ece
 {
