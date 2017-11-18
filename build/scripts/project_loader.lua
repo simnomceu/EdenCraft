@@ -68,6 +68,9 @@ function ProjectLoader:processProject(proj)
             includePath.."/**.inl",
             includePath.."/**.hpp",
             srcPath.."/**.cpp",
+			srcPath.."/**.frag",
+			srcPath.."/**.vert",
+			srcPath.."/**.geom",
         }
         links(dependencies)
 
