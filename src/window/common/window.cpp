@@ -1,4 +1,4 @@
-#include "window/window_refactor/window.hpp"
+#include "window/common/window.hpp"
 
 #ifdef __unix__
 #include "window/x11/window_adapter.hpp"
@@ -12,9 +12,11 @@
 
 #include "window/window_event/input_event.hpp"
 
+#include <iostream>
+
 namespace ece
 {
-	Window::Window():Emitter(), adapter(std::make_shared<WindowAdapter>()), videoMode()
+	Window::Window():Emitter(), adapter(std::make_shared<WindowAdapter>()), videoMode(), ups(0)
 	{
 		this->addSignal(WINDOW_OPENED);
 		this->addSignal(WINDOW_CLOSED);
@@ -23,22 +25,24 @@ namespace ece
 		this->addSignal(WINDOW_RENAMED);
 	}
 
-	Window::Window(const Window & copy):Emitter(copy), adapter(static_cast<WindowAdapter*>(copy.adapter.get()))
+	Window::Window(const Window & copy):Emitter(copy), adapter(static_cast<WindowAdapter*>(copy.adapter.get())), ups(copy.ups)
 	{
 	}
 
-	Window::Window(Window && move): Emitter(move), adapter(std::move(adapter))
+	Window::Window(Window && move): Emitter(move), adapter(std::move(adapter)), ups(std::move(move.ups))
 	{
 	}
 
 	Window::~Window()
 	{
+		std::cout << "window destroyed" << std::endl;
 	}
 
 	Window & Window::operator=(const Window & copy)
 	{
 		Emitter::operator=(copy);
 		this->adapter.reset(copy.adapter.get());
+		this->ups = copy.ups;
 
 		return *this;
 	}
@@ -47,6 +51,7 @@ namespace ece
 	{
 		Emitter::operator=(move);
 		this->adapter = std::move(move.adapter);
+		this->ups = std::move(move.ups);
 
 		return *this;
 	}
@@ -144,13 +149,19 @@ namespace ece
 		return false;
 	}
 
-	void Window::enableKeyRepeated(const bool enabled)
+	void Window::enableKeyRepeat(const bool enabled)
 	{
+		this->adapter->enableKeyRepeat(enabled);
 	}
 
 	bool Window::isKeyRepeatedEnabled() const
 	{
 		return false;
+	}
+
+	void Window::limitUPS(const int limit)
+	{
+		this->ups.setUPS(limit);
 	}
 
 	bool Window::waitEvent(InputEvent & event)
@@ -168,10 +179,13 @@ namespace ece
 	bool Window::pollEvent(InputEvent & event)
 	{
 		if (this->isOpened()) {
-			this->adapter.get()->processEvent(false);
-			if (this->adapter.get()->hasEvents()) {
-				event = this->adapter.get()->popEvent();
-				return true;
+			if (this->ups.getLimit() == 0 || (this->ups.getLimit() > 0 && this->ups.isReadyToUpdate())) {
+				this->adapter.get()->processEvent(false);
+				if (this->adapter.get()->hasEvents()) {
+					event = this->adapter.get()->popEvent();
+					return true;
+				}
+				return false;
 			}
 			return false;
 		}

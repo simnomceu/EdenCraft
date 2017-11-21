@@ -2,9 +2,9 @@
 #define BASE_WINDOW_HPP
 
 #include "utility/mathematics/rectangle.hpp"
-#include "window/window/window_setting.hpp"
-#include "window/window_refactor/video_mode.hpp"
-#include "window/window/window.inl"
+//#include "window/window/window_setting.hpp"
+#include "window/common/video_mode.hpp"
+#include "window/window_old/window.inl"
 
 #include "core/event/emitter.hpp"
 //#include "event/input_event.hpp"
@@ -20,7 +20,7 @@ namespace ece
 	//	static const Signal::SignalID WINDOW_MOVED = 3;
 	//	static const Signal::SignalID WINDOW_RENAMED = 4;
 
-		BaseWindow(const ece::WindowSetting & settings);
+	//	BaseWindow(const ece::WindowSetting & settings);
 	//	inline BaseWindow(const ece::WindowSetting & settings, const ece::VideoMode & videoMode);
 	//	BaseWindow(const BaseWindow & copy) = delete;
 	//	inline BaseWindow(BaseWindow && move);
@@ -35,8 +35,8 @@ namespace ece
 
 		bool shouldClosed() const;
 
-		void applySettings(const ece::WindowSetting & settings);
-		inline const ece::WindowSetting & getSettings();
+	//	void applySettings(const ece::WindowSetting & settings);
+	//	inline const ece::WindowSetting & getSettings();
 
 	//	void setTitle(const std::string & title);
 	//	void setBounds(const ece::Rectangle<unsigned int> & bounds);
@@ -54,12 +54,12 @@ namespace ece
 	private:
 		short int windowId;
 
-		ece::WindowSetting settings;
+//		ece::WindowSetting settings;
 
 		ece::VideoMode videoMode;
 	};
 }
 
-#include "window/window/base_window.inl"
+#include "window/window_old/base_window.inl"
 
 #endif // BASE_WINDOW_HPP

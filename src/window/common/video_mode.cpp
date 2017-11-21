@@ -1,4 +1,4 @@
-#include "window/window_refactor/video_mode.hpp"
+#include "window/common/video_mode.hpp"
 
 namespace ece
 {

@@ -12,7 +12,10 @@ namespace ece
 
 		const bool isReadyToUpdate();
 
+		inline int getLimit() const;
 		inline const double getUPS() const;
+
+		void setUPS(const int limit);
 
 	private:
 		Chrono chrono;

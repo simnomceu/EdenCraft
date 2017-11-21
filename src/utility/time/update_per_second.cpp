@@ -12,5 +12,13 @@ namespace ece
 			this->nbFrames++;
 		}
 		return isReady;
-	}	
+	}
+
+	void UpdatePerSecond::setUPS(const int limit)
+	{
+		this->rate = 1000.0f / limit;
+		this->nbFrames = 0;
+		this->average = 0.0;
+		this->chrono.start();
+	}
 }

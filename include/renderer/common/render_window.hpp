@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-#include "window/window_refactor/window.hpp"
+#include "window/common/window.hpp"
 #include "renderer/common/renderer.hpp"
 #include "renderer/opengl/base_context_opengl.hpp"
 

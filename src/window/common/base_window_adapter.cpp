@@ -1,8 +1,15 @@
-#include "window/window_refactor/base_window_adapter.hpp"
+#include "window/common/base_window_adapter.hpp"
 
 namespace ece
 {
+	BaseWindowAdapter::BaseWindowAdapter(): keyRepeat(false), eventQueue() {}
+
 	BaseWindowAdapter::~BaseWindowAdapter() {}
+
+	void BaseWindowAdapter::enableKeyRepeat(const bool enabled)
+	{
+		this->keyRepeat = enabled;
+	}
 
 	bool BaseWindowAdapter::hasEvents() const
 	{

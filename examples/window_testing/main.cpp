@@ -1,5 +1,5 @@
 #include "core/application/application.hpp"
-#include "window/window_refactor/window.hpp"
+#include "window/common/window.hpp"
 
 #include <iostream>
 
@@ -7,7 +7,7 @@ int main()
 {
 	ece::Application app;
 
-	std::array<ece::Window, 50> windows;
+	std::array<ece::Window, 2> windows;
 
 	ece::WindowSetting settings;
 	settings.position = ece::IntVertex2u(200, 200);
@@ -18,14 +18,19 @@ int main()
 		++count;
 		window.open();
 		window.setSettings(settings);
+		window.limitUPS(100);
+		window.enableKeyRepeat(true);
 	}
 
 	ece::InputEvent event;
 	while (1) {
-		for (auto window : windows) {
-			while (window.waitEvent(event)) {
+		for (auto & window : windows) {
+			while (window.pollEvent(event)) {
 				if (event.doubleTap != ece::InputEvent::ECE_TAP_NONE) {
 					std::cout << "double click !";
+				}
+				if (event.type == ece::InputEvent::ECE_KEY_PRESSED && event.key >= ece::Keyboard::A && event.key <= ece::Keyboard::Z) {
+					std::cout << char(event.key + 34);
 				}
 			}
 		}

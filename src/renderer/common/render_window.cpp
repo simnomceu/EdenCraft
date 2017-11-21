@@ -12,7 +12,7 @@
 
 #include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
-#include "window/window_refactor/video_mode.hpp"
+#include "window/common/video_mode.hpp"
 
 namespace ece
 {

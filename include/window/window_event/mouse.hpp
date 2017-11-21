@@ -1,6 +1,8 @@
 #ifndef MOUSE_HPP
 #define MOUSE_HPP
 
+#include <array>
+
 namespace ece
 {
 	class Mouse
@@ -20,6 +22,12 @@ namespace ece
 			ECE_MOUSE_BUTTON5 = 8,
 			ECE_MOUSE_BUTTON6 = 9
 		};
+
+		static bool isKeyPressed(const Button code);
+		static void pressKey(const Button code, const bool state);
+
+	private:
+		static std::array<bool, 10> states;
 	};
 }
 

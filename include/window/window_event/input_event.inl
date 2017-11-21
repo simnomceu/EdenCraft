@@ -5,5 +5,5 @@ namespace ece
 		doubleTap(ECE_TAP_NONE), 
 		mouseButton(Mouse::ECE_MOUSE_NONE), 
 		mousePosition(), 
-		key(Keyboard::ECE_KEY_NONE) {}
+		key(Keyboard::KEY_NONE) {}
 }
