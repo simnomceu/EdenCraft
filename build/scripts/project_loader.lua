@@ -62,7 +62,6 @@ function ProjectLoader:processProject(proj)
     end
 
     project(proj.name)
-        kind(proj.type)
         location("")
         files {
             includePath.."/**.inl",
@@ -72,6 +71,7 @@ function ProjectLoader:processProject(proj)
 			srcPath.."/**.vert",
 			srcPath.."/**.geom",
         }
+		
         links(dependencies)
 
         if proj.linkOptions then
