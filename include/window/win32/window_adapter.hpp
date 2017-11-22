@@ -3,7 +3,7 @@
 
 #include <Windows.h>
 
-#include "window/window_refactor/base_window_adapter.hpp"
+#include "window/common/base_window_adapter.hpp"
 
 namespace ece
 {
@@ -30,7 +30,7 @@ namespace ece
 		virtual IntVertex2u getPosition() const override;
 
 		virtual void minimize() override;
-		virtual void maximize() override;
+		virtual void maximize() override;;
 
 		virtual void processEvent(const bool blocking) override;
 
@@ -43,6 +43,7 @@ namespace ece
 		void registerPattern();
 		static LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
 		LRESULT  processMessage(UINT message, WPARAM wParam, LPARAM lParam);
+		Keyboard::Key interpretKey(WPARAM wParam);
 	};
 }
 

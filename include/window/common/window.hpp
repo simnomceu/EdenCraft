@@ -4,11 +4,12 @@
 #include <string>
 #include <memory>
 
-#include "window/window_refactor/base_window_adapter.hpp"
+#include "window/common/base_window_adapter.hpp"
 #include "utility/mathematics/vertex2u.hpp"
 #include "core/event/emitter.hpp"
-#include "window/window_refactor/video_mode.hpp"
-#include "window/window_refactor/window_setting.hpp"
+#include "window/common/video_mode.hpp"
+#include "window/common/window_setting.hpp"
+#include "utility/time/update_per_second.hpp"
 
 namespace ece
 {
@@ -50,8 +51,9 @@ namespace ece
 		void setFullscreen(const bool fullscreen);
 		void enableDoubleClick(const bool enabled);
 		bool isDoubleClickEnabled() const;
-		void enableKeyRepeated(const bool enabled);
+		void enableKeyRepeat(const bool enabled);
 		bool isKeyRepeatedEnabled() const;
+		void limitUPS(const int limit);
 
 		bool waitEvent(InputEvent & event);
 		bool pollEvent(InputEvent & event);
@@ -65,6 +67,7 @@ namespace ece
 	protected:
 		std::shared_ptr<BaseWindowAdapter> adapter;
 		VideoMode videoMode;
+		UpdatePerSecond ups;
 	};
 }
 

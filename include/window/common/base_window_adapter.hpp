@@ -5,14 +5,14 @@
 #include <string>
 
 #include "window/window_event/input_event.hpp"
-#include "window/window_refactor/event_queue.hpp"
+#include "window/common/event_queue.hpp"
 
 namespace ece
 {
 	class BaseWindowAdapter
 	{
 	public:
-		BaseWindowAdapter() = default;
+		BaseWindowAdapter();
 		BaseWindowAdapter(const BaseWindowAdapter & copy) = default;
 		BaseWindowAdapter(BaseWindowAdapter && move) = default;
 
@@ -34,6 +34,8 @@ namespace ece
 		virtual void minimize() = 0;
 		virtual void maximize() = 0;
 
+		void enableKeyRepeat(const bool enabled);
+
 		virtual void processEvent(const bool blocking) = 0;
 		bool hasEvents() const;
 		InputEvent popEvent();
@@ -41,6 +43,8 @@ namespace ece
 	protected:
 		void pushEvent(const InputEvent & nextEvent);
 		InputEvent & lastEvent();
+
+		bool keyRepeat;
 
 	private:
 		EventQueue eventQueue;

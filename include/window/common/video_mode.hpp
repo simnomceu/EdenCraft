@@ -72,6 +72,6 @@ namespace ece
 	};
 }
 
-#include "window/window_refactor/video_mode.inl"
+#include "window/common/video_mode.inl"
 
 #endif // VIDEO_MODE_HPP

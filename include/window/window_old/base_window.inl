@@ -8,5 +8,5 @@ namespace ece
 
 	inline void BaseWindow::onRefresh() {}
 
-	inline const ece::WindowSetting & BaseWindow::getSettings() { return this->settings; }
+//	inline const ece::WindowSetting & BaseWindow::getSettings() { return this->settings; }
 }

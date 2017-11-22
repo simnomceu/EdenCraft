@@ -1,4 +1,4 @@
-#include "window/window/base_window.hpp"
+#include "window/window_old/base_window.hpp"
 
 //#include "window/window_service.hpp"
 //#include "glfw/glfw3.h"
@@ -9,14 +9,14 @@
 
 namespace ece
 {
-	BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter(), windowId(-1), settings(), videoMode()
-	{
+	//BaseWindow::BaseWindow(const ece::WindowSetting & settings) : Emitter(), windowId(-1), settings(), videoMode()
+	//{
 		//this->addSignal(WINDOW_OPENED);
 		//this->addSignal(WINDOW_CLOSED);
 		//this->addSignal(WINDOW_RESIZED);
 		//this->addSignal(WINDOW_MOVED);
 		//this->addSignal(WINDOW_RENAMED);
-	}
+	//}
 
 	/*BaseWindow & BaseWindow::operator=(BaseWindow && move)
 	{
@@ -59,12 +59,12 @@ namespace ece
 		return this->windowId != -1 /*&& WindowServiceLocator::getService().windowShouldClose(this->windowId)*/;
 	}
 
-	void BaseWindow::applySettings(const ece::WindowSetting & settings)
-	{
+	//void BaseWindow::applySettings(const ece::WindowSetting & settings)
+	//{
 	//	this->setBounds(settings.getBounds());
 	//	this->setTitle(settings.getTitle());
 	//	this->setState(settings.getState());
-	}
+	//}
 
 	/*void BaseWindow::setTitle(const std::string & title)
 	{
