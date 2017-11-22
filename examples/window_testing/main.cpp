@@ -19,7 +19,7 @@ int main()
 		window.open();
 		window.setSettings(settings);
 		window.limitUPS(100);
-		window.enableKeyRepeat(true);
+//		window.enableKeyRepeat(false);
 	}
 
 	ece::InputEvent event;

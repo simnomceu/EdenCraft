@@ -2,7 +2,7 @@
 
 namespace ece
 {
-	BaseWindowAdapter::BaseWindowAdapter(): keyRepeat(false), eventQueue() {}
+	BaseWindowAdapter::BaseWindowAdapter(): keyRepeat(true), eventQueue() {}
 
 	BaseWindowAdapter::~BaseWindowAdapter() {}
 

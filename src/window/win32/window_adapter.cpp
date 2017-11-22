@@ -167,7 +167,7 @@ namespace ece
 			switch (message) {
 			case WM_KEYDOWN: {
 				auto keyCode = this->interpretKey(wParam);
-				if (!this->keyRepeat || (this->keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
+				if (this->keyRepeat || (!this->keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
 					InputEvent newEvent;
 					newEvent.type = InputEvent::ECE_KEY_PRESSED;
 					newEvent.key = keyCode;
@@ -186,7 +186,7 @@ namespace ece
 				break;
 			}
 			case WM_LBUTTONDOWN: {
-				if (!this->keyRepeat || (this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_LEFT))) {
+				if (this->keyRepeat || (!this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_LEFT))) {
 					InputEvent newEvent;
 					newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
 					newEvent.mouseButton = Mouse::ECE_MOUSE_LEFT;
@@ -214,7 +214,7 @@ namespace ece
 				break;
 			}
 			case WM_RBUTTONDOWN: {
-				if (!this->keyRepeat || (this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_RIGHT))) {
+				if (this->keyRepeat || (!this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_RIGHT))) {
 					InputEvent newEvent;
 					newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
 					newEvent.mouseButton = Mouse::ECE_MOUSE_RIGHT;
@@ -240,7 +240,7 @@ namespace ece
 				break;
 			}
 			case WM_MBUTTONDOWN: {
-				if (!this->keyRepeat || (this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_WHEEL))) {
+				if (this->keyRepeat || (!this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_WHEEL))) {
 					InputEvent newEvent;
 					newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
 					newEvent.mouseButton = Mouse::ECE_MOUSE_WHEEL;
