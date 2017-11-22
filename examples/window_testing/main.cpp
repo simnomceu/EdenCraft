@@ -32,6 +32,10 @@ int main()
 				if (event.type == ece::InputEvent::ECE_KEY_PRESSED && event.key >= ece::Keyboard::A && event.key <= ece::Keyboard::Z) {
 					std::cout << char(event.key + 34);
 				}
+				if (event.type == ece::InputEvent::ECE_MOUSE_MOVED) {
+					std::cout << event.mousePosition[0] << "|" << event.mousePosition[1] << "  ";
+					std::cout << ece::Mouse::getPosition()[0] << "|" << ece::Mouse::getPosition()[1] << std::endl;
+				}
 			}
 		}
 	}

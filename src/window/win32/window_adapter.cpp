@@ -1,6 +1,7 @@
 #include "window/win32/window_adapter.hpp"
 
 #include <iostream>
+#include <windowsx.h>
 
 namespace ece
 {
@@ -262,6 +263,15 @@ namespace ece
 				newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
 				newEvent.mouseButton = Mouse::ECE_MOUSE_WHEEL;
 				this->pushEvent(newEvent);
+				this->pushEvent(newEvent);
+				break;
+			}
+			case WM_MOUSEMOVE: {
+				InputEvent newEvent;
+				newEvent.type = InputEvent::ECE_MOUSE_MOVED;
+				newEvent.mousePosition[0] = GET_X_LPARAM(lParam);
+				newEvent.mousePosition[1] = GET_Y_LPARAM(lParam);
+				Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
 				this->pushEvent(newEvent);
 				break;
 			}

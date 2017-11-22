@@ -2,6 +2,7 @@
 #define MOUSE_HPP
 
 #include <array>
+#include "utility/mathematics/vertex2u.hpp"
 
 namespace ece
 {
@@ -26,8 +27,12 @@ namespace ece
 		static bool isKeyPressed(const Button code);
 		static void pressKey(const Button code, const bool state);
 
+		static IntVertex2u & getPosition();
+		static void setPosition(const IntVertex2u & position);
+
 	private:
 		static std::array<bool, 10> states;
+		static IntVertex2u position;
 	};
 }
 

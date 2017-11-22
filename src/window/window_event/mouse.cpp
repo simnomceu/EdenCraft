@@ -2,7 +2,8 @@
 
 namespace ece
 {
-	std::array<bool, 10> Mouse::states = std::array<bool, 10>();
+	std::array<bool, 10> Mouse::states;
+	IntVertex2u Mouse::position;
 
 	bool Mouse::isKeyPressed(const Button code)
 	{
@@ -18,5 +19,14 @@ namespace ece
 			throw std::runtime_error("That code is not a valid key.");
 		}
 		Mouse::states[code] = state;
+	}
+
+	IntVertex2u & Mouse::getPosition()
+	{
+		return Mouse::position;
+	}
+	void Mouse::setPosition(const IntVertex2u & position)
+	{
+		Mouse::position = position;
 	}
 }
