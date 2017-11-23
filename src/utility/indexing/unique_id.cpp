@@ -36,7 +36,9 @@
 
 */
 
-#include "Indexing\UniqueID.hpp"
+#include "utility/indexing/unique_id.hpp"
+
+#include <algorithm>
 
 namespace ece
 {

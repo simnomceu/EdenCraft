@@ -36,22 +36,36 @@
 
 */
 
-#ifndef LOGGERNONE_HPP
-#define LOGGERNONE_HPP
+#ifndef PARSER_OBJ_HPP
+#define PARSER_OBJ_HPP
 
-#include "Log\BaseLogger.hpp"
+#include <string>
+#include <vector>
 
 namespace ece
 {
-	class LoggerNone: public BaseLogger
+	// TODO add parser MKL
+
+	class ParserOBJ
 	{
 	public:
-		inline virtual void logError(const std::string & data) override;
-		inline virtual void logWarning(const std::string & data) override;
-		inline virtual void logInfo(const std::string & data) override;
+		ParserOBJ() = default;
+
+		void open(const std::string & pathname);
+
+		inline const std::vector<float> & getVertices();
+		inline const std::vector<float> & getTextures();
+		inline const std::vector<float> & getNormales();
+		inline const std::vector<int> & getFaces();
+
+	private:
+		std::vector<float> vertices;
+		std::vector<float> textures;
+		std::vector<float> normales;
+		std::vector<int> faces;
 	};
 }
 
-#include "Log\LoggerNone.inl"
+#include "utility/file/parser_obj.inl"
 
-#endif // LOGGERNONE_HPP
+#endif // PARSER_OBJ_HPP

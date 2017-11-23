@@ -36,46 +36,27 @@
 
 */
 
-#include "JSON\NodeJSON.hpp"
+#include "utility/time/update_per_second.hpp"
 
 namespace ece
 {
-	NodeJSON::NodeJSON(const std::weak_ptr<NodeJSON>& parent): std::enable_shared_from_this<NodeJSON>(), parent(parent)
+	const bool UpdatePerSecond::isReadyToUpdate()
 	{
+		float elapsedTime = (float)this->chrono.getElapsedTime();
+		bool isReady = elapsedTime >= this->rate;
+		if (isReady) {
+			this->chrono.reset();
+			this->average = ((this->average*this->nbFrames) + elapsedTime) / (this->nbFrames + 1);
+			this->nbFrames++;
+		}
+		return isReady;
 	}
 
-	NodeJSON::NodeJSON(const NodeJSON & copy): std::enable_shared_from_this<NodeJSON>(copy), parent(copy.parent)
+	void UpdatePerSecond::setUPS(const int limit)
 	{
-	}
-
-	NodeJSON::NodeJSON(NodeJSON && move): std::enable_shared_from_this<NodeJSON>(move), parent(std::move(move.parent))
-	{
-	}
-
-	NodeJSON::~NodeJSON()
-	{
-		this->parent.reset();
-	}
-
-	NodeJSON & NodeJSON::operator=(const NodeJSON & copy)
-	{
-		this->parent = copy.parent;
-		return *this;
-	}
-
-	NodeJSON & NodeJSON::operator=(NodeJSON && move)
-	{
-		this->parent = std::move(move.parent);
-		return *this;
-	}
-
-	std::shared_ptr<NodeJSON> NodeJSON::getParent()
-	{
-		return this->parent.lock();
-	}
-
-	const bool NodeJSON::hasParent() const
-	{
-		return !this->parent.expired();
+		this->rate = 1000.0f / limit;
+		this->nbFrames = 0;
+		this->average = 0.0;
+		this->chrono.start();
 	}
 }

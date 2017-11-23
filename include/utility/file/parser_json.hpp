@@ -36,39 +36,35 @@
 
 */
 
-#ifndef NODEJSON_HPP
-#define NODEJSON_HPP
+#ifndef PARSER_JSON_HPP
+#define PARSER_JSON_HPP
 
-#include <memory>
-#include <map>
 #include <string>
-
-#include "Type.hpp"
+#include "utility/json/object_json.hpp"
 
 namespace ece
 {
-	class NodeJSON: public std::enable_shared_from_this<NodeJSON>
+	class ParserJSON
 	{
 	public:
-		NodeJSON() = delete;
-		NodeJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>());
-		NodeJSON(const NodeJSON & copy);
-		NodeJSON(NodeJSON && move);
+		ParserJSON() = default;
+		ParserJSON(const std::string & pathname);
+		ParserJSON(const ParserJSON & copy) = default;
+		ParserJSON(ParserJSON && move) = default;
+		
+		~ParserJSON() = default;
 
-		~NodeJSON();
+		ParserJSON & operator=(const ParserJSON & copy) = default;
+		ParserJSON & operator=(ParserJSON && move) = default;
 
-		NodeJSON & operator=(const NodeJSON & copy);
-		NodeJSON & operator=(NodeJSON && move);
+		void open(const std::string & pathname);
 
-		std::shared_ptr<NodeJSON> getParent();
-		const bool hasParent() const;
-
-		virtual bool isAtomic() const = 0;
-		virtual TypeNodeJSON getType() const = 0;
+		std::shared_ptr<ObjectJSON> getObject();
 
 	private:
-		std::weak_ptr<NodeJSON> parent;
+		std::string pathname;
+		std::shared_ptr<ObjectJSON> contentJSON;
 	};
 }
 
-#endif // NODEJSON_HPP
+#endif // PARSER_JSON_HPP

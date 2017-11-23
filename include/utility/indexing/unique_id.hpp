@@ -36,19 +36,33 @@
 
 */
 
-#ifndef RESOURCECONTAINER_HPP
-#define RESOURCECONTAINER_HPP
+#ifndef UNIQUE_ID_HPP
+#define UNIQUE_ID_HPP
 
-#include "Locale\LocaleResource.hpp"
+#include <deque>
 
 namespace ece
 {
-	class ResourceContainer: public LocaleResource
+	class UniqueID : private std::deque<unsigned int>
 	{
 	public:
-		using LocaleResource::insert;
-		using LocaleResource::clear;
+		using std::deque<unsigned int>::size;
+		using std::deque<unsigned int>::clear;
+
+		inline UniqueID();
+		inline UniqueID(const unsigned int start);
+		UniqueID(const UniqueID & copy) = default;
+		UniqueID(UniqueID && move) = default;
+		~UniqueID() = default;
+
+		UniqueID & operator=(const UniqueID & copy) = default;
+		UniqueID & operator=(UniqueID && move) = default;
+
+		unsigned int next();
+		void restack(const unsigned int value);
 	};
 }
 
-#endif // RESOURCECONTAINER_HPP
+#include "utility/indexing/unique_id.inl"
+
+#endif // UNIQUE_ID_HPP

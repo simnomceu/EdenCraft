@@ -36,33 +36,19 @@
 
 */
 
-#ifndef UNIQUEID_HPP
-#define UNIQUEID_HPP
+#ifndef LOCALE_RESOURCE_HPP
+#define LOCALE_RESOURCE_HPP
 
-#include <deque>
+#include <map>
+#include <string>
 
 namespace ece
 {
-	class UniqueID : private std::deque<unsigned int>
+	class LocaleResource: protected std::map<std::string, std::string>
 	{
 	public:
-		using std::deque<unsigned int>::size;
-		using std::deque<unsigned int>::clear;
-
-		inline UniqueID();
-		inline UniqueID(const unsigned int start);
-		UniqueID(const UniqueID & copy) = default;
-		UniqueID(UniqueID && move) = default;
-		~UniqueID() = default;
-
-		UniqueID & operator=(const UniqueID & copy) = default;
-		UniqueID & operator=(UniqueID && move) = default;
-
-		unsigned int next();
-		void restack(const unsigned int value);
+		using std::map<std::string, std::string>::operator[];
 	};
 }
 
-#include "UniqueID.inl"
-
-#endif // UNIQUEID_HPP
+#endif // LOCALE_RESOURCE_HPP

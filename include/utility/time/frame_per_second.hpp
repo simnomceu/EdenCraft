@@ -36,39 +36,30 @@
 
 */
 
-#ifndef PARSERMODELDAT_HPP
-#define PARSERMODELDAT_HPP
+#ifndef FRAME_PER_SECOND_HPP
+#define FRAME_PER_SECOND_HPP
 
-#include <vector>
-#include "Mathematics\Vertex3u.hpp"
+#include "utility/time/update_per_second.hpp"
 
 namespace ece
 {
-	class ParserModelDAT
+	class FramePerSecond : private UpdatePerSecond
 	{
 	public:
-		ParserModelDAT() = default;
-		ParserModelDAT(const ParserModelDAT & copy) = default;
-		ParserModelDAT(ParserModelDAT && move) = default;
+		enum FPSrate : int
+		{
+			FRAME_30 = 30,
+			FRAME_60 = 60
+		};
 
-		~ParserModelDAT() = default;
+		inline FramePerSecond(FPSrate rate = FRAME_60);
 
-		ParserModelDAT & operator=(const ParserModelDAT & copy) = default;
-		ParserModelDAT & operator=(ParserModelDAT && move) = default;
+		using UpdatePerSecond::isReadyToUpdate;
 
-		void open(const std::string & filename);
-
-		//inline const std::vector<float> & getVertices();
-		//inline const std::vector<float> & getColors();
-		inline const std::vector<FloatVertex3u> & getVertices();
-		inline const std::vector<FloatVertex3u> & getColors();
-
-	private:
-		std::vector<FloatVertex3u> vertices;
-		std::vector<FloatVertex3u> colors;
+		inline const double getFPS() const;
 	};
 }
 
-#include "File\ParserModelDAT.inl"
+#include "utility/time/frame_per_second.inl"
 
-#endif // PARSERMODELDAT_HPP
+#endif // FRAME_PER_SECOND_HPP

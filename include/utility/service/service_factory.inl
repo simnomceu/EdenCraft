@@ -36,22 +36,17 @@
 
 */
 
-#ifndef SERVICEFACTORY_HPP
-#define SERVICEFACTORY_HPP
-
-#include <memory>
+#include "utility/debug/exception.hpp"
 
 namespace ece
 {
 	template <class Base>
-	class ServiceFactory
+	template <class Derived>
+	std::shared_ptr<Base> ServiceFactory<Base>::build()
 	{
-	public:
-		template <class Derived>
-		static std::shared_ptr<Base> build();
-	};
+		if (!std::is_base_of<Base, Derived>()) {
+			throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
+		}
+		return std::shared_ptr<Base>(new Derived());
+	}
 }
-
-#include "Service\ServiceFactory.inl"
-
-#endif

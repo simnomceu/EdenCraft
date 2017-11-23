@@ -36,19 +36,35 @@
 
 */
 
-#include "Time\UpdatePerSecond.hpp"
+#ifndef UPDATE_PER_SECOND_HPP
+#define UPDATE_PER_SECOND_HPP
+
+#include "utility/time/chrono.hpp"
 
 namespace ece
 {
-	const bool UpdatePerSecond::isReadyToUpdate()
+	class UpdatePerSecond
 	{
-		float elapsedTime = (float)this->chrono.getElapsedTime();
-		bool isReady = elapsedTime >= this->rate;
-		if (isReady) {
-			this->chrono.reset();
-			this->average = ((this->average*this->nbFrames) + elapsedTime) / (this->nbFrames + 1);
-			this->nbFrames++;
-		}
-		return isReady;
-	}	
+	public:
+		inline UpdatePerSecond(const int UPS);
+
+		const bool isReadyToUpdate();
+
+		inline int getLimit() const;
+		inline const double getUPS() const;
+
+		void setUPS(const int limit);
+
+	private:
+		Chrono chrono;
+
+		float rate;
+		long int nbFrames;
+		double average;
+	};
+
 }
+
+#include "utility/time/update_per_second.inl"
+
+#endif // UPDATE_PER_SECOND_HPP

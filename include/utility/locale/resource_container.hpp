@@ -36,29 +36,19 @@
 
 */
 
-#ifndef SERVICELOCATOR_HPP
-#define SERVICELOCATOR_HPP
+#ifndef RESOURCE_CONTAINER_HPP
+#define RESOURCE_CONTAINER_HPP
 
-#include <memory>
+#include "utility/locale/locale_resource.hpp"
 
 namespace ece
 {
-	template <class Base, class Null>
-	class ServiceLocator
+	class ResourceContainer: public LocaleResource
 	{
-		static_assert(std::is_base_of<Base, Null>::value, "ServiceLocator cannot be instantiate with this template parameters.");
-
 	public:
-		static inline void provide(const std::shared_ptr<Base> & service);
-		static Base & getService();
-		//static std::weak_ptr<Base> getServicePtr();
-		static inline void stop();
-
-	protected:
-		static std::shared_ptr<Base> service;
+		using LocaleResource::insert;
+		using LocaleResource::clear;
 	};
 }
 
-#include "Service\ServiceLocator.inl"
-
-#endif // SERVICELOCATOR_HPP
+#endif // RESOURCE_CONTAINER_HPP

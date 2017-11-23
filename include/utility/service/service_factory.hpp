@@ -36,26 +36,22 @@
 
 */
 
-#include "File\ParserModelDAT.hpp"
+#ifndef SERVICE_FACTORY_HPP
+#define SERVICE_FACTORY_HPP
 
-#include "File\File.hpp"
-#include "Debug\Exception.hpp"
+#include <memory>
 
 namespace ece
 {
-	void ParserModelDAT::open(const std::string & filename)
+	template <class Base>
+	class ServiceFactory
 	{
-		File file;
-		try {
-			file.open(filename, std::ios_base::in);
-
-			std::vector<FloatVertex3u> tmp(file.parseToVector<FloatVertex3u>());
-			int size = (int)tmp.size() / 2;
-			this->vertices.insert(this->vertices.begin(), tmp.begin(), tmp.begin() + size);
-			this->colors.insert(this->colors.begin(), tmp.begin() + size, tmp.end());
-		}
-		catch (FileException & e) {
-			throw e;
-		}
-	}
+	public:
+		template <class Derived>
+		static std::shared_ptr<Base> build();
+	};
 }
+
+#include "utility/service/service_factory.inl"
+
+#endif // SERVIC_FACTORY_HPP

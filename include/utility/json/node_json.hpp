@@ -36,36 +36,39 @@
 
 */
 
-#ifndef PARSEROBJ_HPP
-#define PARSEROBJ_HPP
+#ifndef NODE_JSON_HPP
+#define NODE_JSON_HPP
 
+#include <memory>
+#include <map>
 #include <string>
-#include <vector>
+
+#include "utility/type.hpp"
 
 namespace ece
 {
-	// TODO add parser MKL
-
-	class ParserOBJ
+	class NodeJSON: public std::enable_shared_from_this<NodeJSON>
 	{
 	public:
-		ParserOBJ() = default;
+		NodeJSON() = delete;
+		NodeJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>());
+		NodeJSON(const NodeJSON & copy);
+		NodeJSON(NodeJSON && move);
 
-		void open(const std::string & pathname);
+		~NodeJSON();
 
-		inline const std::vector<float> & getVertices();
-		inline const std::vector<float> & getTextures();
-		inline const std::vector<float> & getNormales();
-		inline const std::vector<int> & getFaces();
+		NodeJSON & operator=(const NodeJSON & copy);
+		NodeJSON & operator=(NodeJSON && move);
+
+		std::shared_ptr<NodeJSON> getParent();
+		const bool hasParent() const;
+
+		virtual bool isAtomic() const = 0;
+		virtual TypeNodeJSON getType() const = 0;
 
 	private:
-		std::vector<float> vertices;
-		std::vector<float> textures;
-		std::vector<float> normales;
-		std::vector<int> faces;
+		std::weak_ptr<NodeJSON> parent;
 	};
 }
 
-#include "File\ParserOBJ.inl"
-
-#endif // PARSEROBJ_HPP
+#endif // NODE_JSON_HPP

@@ -36,32 +36,29 @@
 
 */
 
-#ifndef UPDATEPERSECOND_HPP
-#define UPDATEPERSECOND_HPP
+#ifndef SERVICE_LOCATOR_HPP
+#define SERVICE_LOCATOR_HPP
 
-#include "Time\Chrono.hpp"
+#include <memory>
 
 namespace ece
 {
-	class UpdatePerSecond
+	template <class Base, class Null>
+	class ServiceLocator
 	{
+		static_assert(std::is_base_of<Base, Null>::value, "ServiceLocator cannot be instantiate with this template parameters.");
+
 	public:
-		inline UpdatePerSecond(const int UPS);
+		static inline void provide(const std::shared_ptr<Base> & service);
+		static Base & getService();
+		//static std::weak_ptr<Base> getServicePtr();
+		static inline void stop();
 
-		const bool isReadyToUpdate();
-
-		inline const double getUPS() const;
-
-	private:
-		Chrono chrono;
-
-		float rate;
-		long int nbFrames;
-		double average;
+	protected:
+		static std::shared_ptr<Base> service;
 	};
-
 }
 
-#include "Time\UpdatePerSecond.inl"
+#include "utility/service/service_locator.inl"
 
-#endif // UPDATEPERSECOND_HPP
+#endif // SERVICE_LOCATOR_HPP

@@ -36,30 +36,29 @@
 
 */
 
-#ifndef FRAMEPERSECOND_HPP
-#define FRAMEPERSECOND_HPP
+#ifndef BASE_LOGGER_HPP
+#define BASE_LOGGER_HPP
 
-#include "Time\UpdatePerSecond.hpp"
+#include <string>
+#include <iostream>
 
 namespace ece
 {
-	class FramePerSecond : private UpdatePerSecond
+	class BaseLogger
 	{
 	public:
-		enum FPSrate : int
-		{
-			FRAME_30 = 30,
-			FRAME_60 = 60
-		};
+		inline BaseLogger();
+		inline virtual ~BaseLogger() = 0;
+		
+		virtual void logError(const std::string & data) = 0;
+		virtual void logWarning(const std::string & data) = 0;
+		virtual void logInfo(const std::string & data) = 0;
 
-		inline FramePerSecond(FPSrate rate = FRAME_60);
-
-		using UpdatePerSecond::isReadyToUpdate;
-
-		inline const double getFPS() const;
+	protected:
+		std::ostream & target;
 	};
 }
 
-#include "Time\FramePerSecond.inl"
+#include "utility/log/base_logger.inl"
 
-#endif // FRAMEPERSECOND_HPP
+#endif // BASE_LOGGER_HPP

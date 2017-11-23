@@ -36,29 +36,39 @@
 
 */
 
-#ifndef BASELOGGER_HPP
-#define BASELOGGER_HPP
+#ifndef PARSER_MODEL_DAT_HPP
+#define PARSER_MODEL_DAT_HPP
 
-#include <string>
-#include <iostream>
+#include <vector>
+#include "utility/mathematics/vertex3u.hpp"
 
 namespace ece
 {
-	class BaseLogger
+	class ParserModelDAT
 	{
 	public:
-		inline BaseLogger();
-		inline virtual ~BaseLogger() = 0;
-		
-		virtual void logError(const std::string & data) = 0;
-		virtual void logWarning(const std::string & data) = 0;
-		virtual void logInfo(const std::string & data) = 0;
+		ParserModelDAT() = default;
+		ParserModelDAT(const ParserModelDAT & copy) = default;
+		ParserModelDAT(ParserModelDAT && move) = default;
 
-	protected:
-		std::ostream & target;
+		~ParserModelDAT() = default;
+
+		ParserModelDAT & operator=(const ParserModelDAT & copy) = default;
+		ParserModelDAT & operator=(ParserModelDAT && move) = default;
+
+		void open(const std::string & filename);
+
+		//inline const std::vector<float> & getVertices();
+		//inline const std::vector<float> & getColors();
+		inline const std::vector<FloatVertex3u> & getVertices();
+		inline const std::vector<FloatVertex3u> & getColors();
+
+	private:
+		std::vector<FloatVertex3u> vertices;
+		std::vector<FloatVertex3u> colors;
 	};
 }
 
-#include "Log\BaseLogger.inl"
+#include "utility/file/parser_model_dat.inl"
 
-#endif // BASELOGGER_HPP
+#endif // PARSER_MODEL_DAT_HPP
