@@ -43,7 +43,7 @@
 #include <map>
 #include <string>
 
-#include "utility/type.hpp"
+#include "utility/enum.hpp"
 
 namespace ece
 {

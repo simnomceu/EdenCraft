@@ -39,7 +39,7 @@
 #include "utility/file/parser_obj.hpp"
 
 #include "utility/debug/exception.hpp"
-#include "utility/type.hpp"
+#include "utility/enum.hpp"
 
 #include <fstream>
 #include <sstream>

@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 #include <string>
-#include "utility/type.hpp"
+#include "utility/enum.hpp"
 
 namespace ece
 {

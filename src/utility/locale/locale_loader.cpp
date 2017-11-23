@@ -58,7 +58,8 @@ namespace ece
 	LocaleLoader::LocaleLoader(const std::string & filename, const Locale & locale): locale(locale), resource(), filename(filename)
 	{
 		this->locale = locale;
-		std::string file = LocaleLoader::path + this->filename + "_" + this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
+		std::string file = LocaleLoader::path + this->filename + "_" 
+							+ this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
 		this->generateResource(file);
 	}
 
@@ -70,7 +71,8 @@ namespace ece
 	void LocaleLoader::changeLocale(const Locale & locale)
 	{
 		this->locale = locale;
-		std::string file = LocaleLoader::path + this->filename + "_" + this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
+		std::string file = LocaleLoader::path + this->filename + "_" 
+							+ this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
 		this->generateResource(file);
 	}
 
@@ -82,23 +84,7 @@ namespace ece
 			std::shared_ptr<ObjectJSON> jsonObject = parser.getObject();
 
 			for (auto it = jsonObject->begin(); it != jsonObject->end(); ++it) {
-				if (it->second->getType() == TypeNodeJSON::NULL_JSON) {
-					auto element = std::static_pointer_cast<NullJSON>(it->second);
-					this->resource.insert(std::pair<std::string, std::string>(element->getKey(), "null"));
-				}
-				else if (it->second->getType() == TypeNodeJSON::BOOLEAN_JSON) {
-					auto element = std::static_pointer_cast<BooleanJSON>(it->second);
-					this->resource.insert(std::pair<std::string, std::string>(element->getKey(), std::to_string(element->getValue())));
-				}
-				else if (it->second->getType() == TypeNodeJSON::INTEGER_JSON) {
-					auto element = std::static_pointer_cast<IntegerJSON>(it->second);
-					this->resource.insert(std::pair<std::string, std::string>(element->getKey(), std::to_string(element->getValue())));
-				}
-				else if (it->second->getType() == TypeNodeJSON::DOUBLE_JSON) {
-					auto element = std::static_pointer_cast<DoubleJSON>(it->second);
-					this->resource.insert(std::pair<std::string, std::string>(element->getKey(), std::to_string(element->getValue())));
-				}
-				else if (it->second->getType() == TypeNodeJSON::STRING_JSON) {
+				if (it->second->getType() == TypeNodeJSON::STRING_JSON) {
 					auto element = std::static_pointer_cast<StringJSON>(it->second);
 					this->resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
 				}
