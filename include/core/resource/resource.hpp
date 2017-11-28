@@ -1,7 +1,7 @@
 #ifndef RESOURCE_HPP
 #define RESOURCE_HPP
 
-#include "utility/type.hpp"
+#include "utility/enum.hpp"
 
 #include <string>
 

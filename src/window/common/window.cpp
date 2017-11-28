@@ -1,14 +1,6 @@
 #include "window/common/window.hpp"
 
-#ifdef __unix__
-#include "window/x11/window_adapter.hpp"
-#elif __WINDOW__
-#include "window/win32/window_adapter.hpp"
-#elif __OSX__
-#include "window/cocoa/window_adapter.hpp"
-#else
-#include "window/win32/window_adapter.hpp"
-#endif
+#include "window/common/window_adapter.hpp"
 
 #include "window/window_event/input_event.hpp"
 

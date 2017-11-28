@@ -2,15 +2,16 @@
 #define CONTEXT_OPENGL_HPP
 
 #include "renderer/opengl/base_context_opengl.hpp"
-
-#include <Windows.h>
+#include "utility/pattern/pimpl.hpp"
 
 namespace ece
 {
+	struct DataContextOpenGL;
+
 	class ContextOpenGL: public BaseContextOpenGL
 	{
 	public:
-		inline ContextOpenGL();
+		ContextOpenGL();
 		ContextOpenGL(const ContextOpenGL & copy) = default;
 		ContextOpenGL(ContextOpenGL && move) = default;
 
@@ -21,14 +22,10 @@ namespace ece
 
 		virtual void create(const RenderWindow & window) override;
 		virtual void swapBuffers() override;
-		
+
 	private:
-		HGLRC context;
-		HDC device;
-		HWND windowHandle;
+		Pimpl<DataContextOpenGL> data;
 	};
 }
 
-#include "renderer/win32/context_opengl.inl"
-
-#endif // CONTEXT_OPENGL_HPP
+#endif // !CONTEXT_OPENGL_HPP

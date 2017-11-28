@@ -1,14 +1,6 @@
 #include "renderer/common/render_window.hpp"
 
-#ifdef __unix__
-#include "renderer/x11/context_opengl.hpp"
-#elif __WINDOW__
-#include "renderer/win32/context_opengl.hpp"
-#elif __OSX__
-#include "renderer/cocoa/context_opengl.hpp"
-#else
-#include "renderer/win32/context_opengl.hpp"
-#endif
+#include "renderer/opengl/context_opengl.hpp"
 
 #include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
