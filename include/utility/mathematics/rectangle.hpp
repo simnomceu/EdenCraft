@@ -36,19 +36,19 @@
 
 */
 
+/**
+* @file Rectangle.hpp
+* @author IsiliBN (casa2pir@hotmail.fr)
+* @date October, 13th 2016
+* @copyright ----------
+* @brief Describe a rectangle object.
+*
+* Describe a rectangle object.  This rectangle is purely a boundering, an aggregate of positions and sizes.
+*
+**/
+
 #ifndef RECTANGLE_HPP
 #define RECTANGLE_HPP
-
-/**
- * @file Rectangle.hpp
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date October, 13th 2016
- * @copyright ----------
- * @brief Describe a rectangle object.
- *
- * Describe a rectangle object.  This rectangle is purely a boundering, an aggregate of positions and sizes.
- *
- **/
 
 /**
  * @namespace ece

@@ -36,6 +36,17 @@
 
 */
 
+/**
+ * @file utility/debug/exception.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date November, 28th 2017
+ * @copyright ----------
+ * @brief Generic exception constructor and set of exceptions used in Edencraft libraries.
+ *
+ * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
+ *
+ **/
+
 #include "utility/debug/exception.hpp"
 
 namespace ece

@@ -36,78 +36,247 @@
 
 */
 
+/**
+ * @file utility/debug/exception.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date November, 28th 2017
+ * @copyright ----------
+ * @brief Generic exception constructor and set of exceptions used in Edencraft libraries.
+ *
+ * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
+ *
+ **/
+
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
 #include <string>
+#include <stdexcept>
+
 #include "utility/enum.hpp"
 
 namespace ece
 {
+	/**
+	 * @class Exception
+	 * @extends std::runtime_error
+	 * @brief Base class to build an exception with arguments binding.
+	 * @see http://en.cppreference.com/w/cpp/error/runtime_error
+	 */
 	class Exception : protected std::runtime_error
 	{
 	public:
+		/**
+		 * @fn Exception()
+		 * @brief Main constructor for the base class exception.
+		 */
 		inline Exception();
 
+		/**
+		 * @fn void setMessage(const std::string & message, Args... args)
+		 * @tparam Args A list of types for the arguments of the exception message.
+		 * @param[in] message The exception message to set to.
+		 * @param[in] args The list of arguments to bind to the exception message.
+		 * @brief Set the exception message, and bind the parameters into.
+		 *
+		 * All the arguments are binded into the message, according to the pattern provided. 
+		 * A '%' indicates the position of an argument. Arguments are processed in the reading direction, from left to right.
+		 * The next argument is binded only if there is still a '%' tag available in the pattern. Else, the pattern
+		 * is considered as completed, and is returned.
+		 */
 		template <class ...Args>
 		inline void setMessage(const std::string & message, Args... args);
 
+		/**
+		 * @fn const char * what() const noexcept
+		 * @return The exception message if it exists or an empty if not.
+		 * @brief A getter to the exception message.
+		 *
+		 * Get the exception message with all the parameters binded.
+		 */
 		inline virtual const char * what() const noexcept override;
 
 	private:
+		/**
+		 * @property message
+		 * @brief The exception message with parameters already binded.
+		 */
 		std::string message;
-
+		
+		/**
+		 * @fn std::string mapString(const std::string & content)
+		 * @param[in] content The pattern of string to return.
+		 * @return the content.
+	   	 * @brief The end step of the recursive mapping throw template binding.
+		 */
 		inline std::string mapString(const std::string & content);
 
+		/**
+		 * @fn std::string mapString(const std::string & content, V value, Args... args)
+		 * @tparam V The type of the first argument of the exception message.
+		 * @tparam Args A list of types for the arguments of the exception message.
+		 * @param[in] content The pattern of string to return.
+		 * @param[in] value The first argument to bind into the content.
+		 * @param[in] args The other arguments to bind into the content.
+		 * @return the content with all the arguments binded.
+		 * @brief The recursive method to bind all the arguments inside the content.
+		 */
 		template <class V, class... Args>
 		std::string mapString(const std::string & content, V value, Args... args);
 	};
 
+	/**
+	 * @class FileException
+	 * @extends Exception
+	 * @brief An exception used for error while handling files.
+	 * @see Exception
+	 */
 	class FileException : public Exception
 	{
 	public:
+		/**
+		 * @fn FileException(const FileCodeError codeError, const std::string & filename)
+		 * @param[in] codeError The type of error which has been raised.
+		 * @param[in] filename the filename where the error raised form.
+		 * @brief A constructor to build a FileException.
+		 * @see FileCodeError
+		 */
 		FileException(const FileCodeError codeError, const std::string & filename);
 	};
 
+	/**
+	 * @class BadInputException
+	 * @extends Exception
+	 * @brief An exception used to indicate an error of input.
+	 * @see Exception
+	 */
 	class BadInputException : public Exception
 	{
 	public:
+		/**
+		 * @fn BadInputException(const std::string & details)
+		 * @param[in] details Give some details about the origin of the error.
+		 * @brief A constructor to build a BadInputException.
+		 */
 		BadInputException(const std::string & details);
 	};
 
+	/**
+	 * @class InitilizationException
+	 * @extends Exception
+	 * @brief An exception used to indicate an error of initialization of a system or a service.
+	 * @see Exception
+	 */
 	class InitializationException : public Exception
 	{
 	public:
+		/**
+		 * @fn InitializationException(const std::string & target)
+		 * @param[in] target The target which has been initialized badly.
+		 * @brief A constructor to build an InitializationException.
+		 */
 		InitializationException(const std::string & target);
 	};
 
+	/**
+	 * @class MemoryAccessException
+	 * @extends Exception
+	 * @brief An exception used to indicates a wrong access to the memory.
+	 * @see Exception
+	 */
 	class MemoryAccessException : public Exception
 	{
 	public:
+		/**
+		 * @fn MemoryAccessException(const std::string & target)
+		 * @param[in] target The target location to try to access to.
+		 * @brief A constructor to build a MemoryAccessException.
+		 * @overload MemoryAccessException::MemoryAccessException(const std::string & target, const std::string & origin)
+		 * @see MemoryAccessException::MemoryAccessException(const std::string & target, const std::string & origin) 
+		 */
 		MemoryAccessException(const std::string & target);
+		
+		
+		/**
+		 * @fn MemoryAccessException(const std::string & target, const std::string & origin)
+		 * @param[in] target The target location to try to access to.
+		 * @param[in] origin The origin location  try to access to.
+		 * @brief A constructor to build a MemoryAccessException.
+		 * @overload MemoryAccessException::MemoryAccessException(const std::string & target)
+		 * @see MemoryAccessException::MemoryAccessException(const std::string & target) 
+		 */
 		MemoryAccessException(const std::string & target, const std::string & origin);
 	};
 
+	/**
+	 * @class OutOfRangeException
+	 * @extends Exception
+	 * @brief An exception used to indicates an access to a location out of the range of the owner container.
+	 * @see Exception
+	 */
 	class OutOfRangeException : public Exception
 	{
 	public:
+		/**
+		 * @fn OutOfRangeException(const std::string & type)
+		 * @param[in] type The type of container which generate the error.
+		 * @brief A constructor to build an OutOfRangeException.
+		 * @overload OutOfRangeException::OutOfRangeException(const std::string & type, const int id)
+		 * @see OutOfRangeException::OutOfRangeException(const std::string & type, const int id)
+		 */
 		OutOfRangeException(const std::string & type);
+		
+		/**
+		 * @fn OutOfRangeException(const std::string & type, const int id)
+		 * @param[in] type The type of container which generate the error.
+		 * @param[in] id The id which is out of range.
+		 * @brief A constructor to build an OutOfRangeException.
+		 * @overload OutOfRangeException::makeException(const std::string & type)
+		 * @see OutOfRangeException::makeException(const std::string & type)
+		 */
 		OutOfRangeException(const std::string & type, const int id);
 	};
 
+	/**
+	 * @class ResourceException
+	 * @extends Exception
+	 * @brief An exception used to indicates an error while handling a resource.
+	 * @see Exception
+	 */
 	class ResourceException : public Exception
 	{
 	public:
+		/**
+		 * @fn ResourceException(const std::string & target, const unsigned short int id)
+		 * @param[in] target The target resource which has generated an error while being handled.
+		 * @param[in] id The id of the target resource handled.
+		 * @brief A constructor to build a ResourceException.
+		 */
 		ResourceException(const std::string & target, const unsigned short int id);
 	};
 
+	/**
+	 * @class DivideByZeroException
+	 * @extends Exception
+	 * @brief An exception to indicate a division by zero which is not possible.
+	 * @see Exception
+	 */
 	class DivideByZeroException : public Exception
 	{
 	public:
+		/**
+		 * @fn DivideByZeroException(const std::string & origin)
+		 * @param[in] origin The origin of the division by zero.
+		 * @brief A constructor to build a DivideByZeroException.
+		 */
 		DivideByZeroException(const std::string & origin);
 	};
 }
 
+/**
+ * @include utility/debug/exception.inl
+ * @brief Definition of inline en template methods of the exception classes.
+ */
 #include "utility/debug/exception.inl"
 
 #endif // EXCEPTION_HPP

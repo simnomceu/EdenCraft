@@ -37,45 +37,17 @@
 */
 
 /**
- * @file utility/debug/exception.inl
+ * @file utility/debug.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
  * @date November, 28th 2017
  * @copyright ----------
- * @brief Generic exception constructor and set of exceptions used in Edencraft libraries.
- *
- * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
+ * @brief All features from utility/debug module.
  *
  **/
 
-#include <sstream>
+#ifndef DEBUG
+#define DEBUG
 
-namespace ece
-{
-	inline Exception::Exception() : std::runtime_error(""), message() {}
+#include "utility/debug/exception.hpp"
 
-	template<class ...Args>
-	inline void Exception::setMessage(const std::string & message, Args ...args)
-	{
-		this->message = this->mapString(message, args...);
-	}
-
-	inline const char * Exception::what() const noexcept { return this->message.data(); }
-
-	inline std::string Exception::mapString(const std::string & content) { return content; }
-
-	template <class V, class... Args>
-	std::string Exception::mapString(const std::string & content, V value, Args... args)
-	{
-		/* Look for the next '%' tag to bind. */
-		auto pos = content.find_first_of("%");
-		if (pos != std::string::npos) {
-			/* If there is one, replace it. */
-			std::stringstream stream;
-			stream << value;
-			/* And then return the new content with the recursive result of the others arguments to bind. */
-			return content.substr(0, pos) + stream.str() + this->mapString(content.substr(pos + 1), args...);
-		}
-		/* Else, just return the current content. */
-		return content;
-	}
-}
+#endif // DEBUG
