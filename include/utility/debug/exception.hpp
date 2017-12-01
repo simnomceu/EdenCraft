@@ -45,7 +45,7 @@
  *
  * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
  *
- **/
+ */
 
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP

@@ -36,97 +36,83 @@
 
 */
 
-#include "utility/file/file.hpp"
+#include "utility/file_system/parser_obj.hpp"
 
 #include "utility/debug/exception.hpp"
+#include "utility/enum.hpp"
 
-#include <iostream>
+#include <fstream>
+#include <sstream>
+
 #ifdef __linux__
-	#include <sys/stat.h>
+	#define sscanf_s sscanf
 #endif
 
 namespace ece
 {
-	File::File(const File & copy) : filename(copy.filename), stream()
+	void ParserOBJ::open(const std::string & pathname)
 	{
-		this->stream.copyfmt(copy.stream);
-		this->stream.clear(copy.stream.rdstate());
-		this->stream.basic_fstream<char>::basic_ios<char>::rdbuf(stream.rdbuf());
-	}
 
-	File & File::operator=(const File & copy)
-	{
-		this->filename = copy.filename;
-		this->stream.copyfmt(copy.stream);
-		this->stream.clear(copy.stream.rdstate());
-		this->stream.basic_fstream<char>::basic_ios<char>::rdbuf(stream.rdbuf());
-		return *this;
-	}
-
-	File & File::operator=(File && move)
-	{
-		this->filename = std::move(move.filename);
-		this->stream = std::move(move.stream);
-		move.close();
-		return *this;
-	}
-
-	const bool File::open(const std::string & filename, const OpenMode & mode)
-	{
-		this->stream.close();
-		if (!File::exists(filename)) {
-			throw FileException(BAD_PATH, filename);
+		std::ifstream file(pathname, std::ios::out);
+		if (!file.is_open()) {
+			throw FileException(FileCodeError::BAD_PATH, pathname);
 		}
-		this->filename = filename;
-		this->stream.open(this->filename, static_cast<std::ios_base::openmode>(mode));
-		return this->isOpen();
-	}
+		std::string line, command;
+		while (file.good()) {
+			getline(file, line);
+			if (line.size() >= 2) {
+				command = line.substr(0, 2);
+				std::istringstream stream(line.substr(2));
 
-	void File::close()
-	{
-		if (this->isOpen()) {
-			this->stream.close();
-		}
-	}
+				// TODO add checks for the format of the file
 
-	std::string File::parseToString()
-	{
-		std::string content = "";
-		if (this->isOpen()) {
-			while (this->stream.good()) {
-				std::string line;
-				std::getline(this->stream, line);
-				content.append(line + "\n");
-			}
-		}
-		return content;
-	}
+				if (command == "v ") {
+					float vertice[3];
+					stream >> vertice[0] >> vertice[1] >> vertice[2];
+					vertices.push_back(vertice[0]);
+					vertices.push_back(vertice[1]);
+					vertices.push_back(vertice[2]);
+				}
+				else if (command == "vt") {
+					float texture[2];
+					stream >> texture[0] >> texture[1];
+					textures.push_back(texture[0]);
+					textures.push_back(texture[1]);
+				}
+				else if (command == "vn") {
+					float normale[3];
+					stream >> normale[0] >> normale[1] >> normale[2];
+					normales.push_back(normale[0]);
+					normales.push_back(normale[1]);
+					normales.push_back(normale[2]);
+				}
+				else if (command == "f ") {
+					int face[9];
+					sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &face[0], &face[1], &face[2], &face[3], &face[4],
+						&face[5], &face[6], &face[7], &face[8]);
+					faces.push_back(face[0] * 3);
+					//faces.push_back(face[1]);
+					//faces.push_back(face[2]);
+					faces.push_back(face[3] * 3);
+					//faces.push_back(face[4]);
+					//faces.push_back(face[5]);
+					faces.push_back(face[6] * 3);
+					//faces.push_back(face[7]);
+					//faces.push_back(face[8]);
 
-	template<>
-	std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>()
-	{
-		std::vector<FloatVertex3u> content;
-		if (this->isOpen()) {
-			FloatVertex3u value;
-			try {
-				while (this->stream.good()) {
-					*this >> value[X] >> value[Y] >> value[Z];
-					content.push_back(value);
+					// TODO check that it uses existing vertices, normales, and textures.
+				}
+				else if (command == "g ") {
+
+				}
+				else if (command == "o ") {
+
+				}
+				else if (line.size() > 6 && line.substr(0, 6) == "usemtl") {
+
 				}
 			}
-			catch (std::exception & e) {
-				throw FileException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
-			}
 		}
-		return content;
-	}
-
-	const bool File::exists(const std::string & filename)
-	{
-		struct stat info;
-		int ret = -1;
-
-		ret = stat(filename.c_str(), &info);
-		return 0 == ret;
+		// TODO care about objects groups and faces groups
 	}
 }

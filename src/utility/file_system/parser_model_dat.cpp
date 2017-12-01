@@ -36,44 +36,27 @@
 
 */
 
-#ifndef PATH_HPP
-#define PATH_HPP
 
-#include <string>
-#include <vector>
+#include "utility/file_system/parser_model_dat.hpp"
+
+#include "utility/file_system/file.hpp"
+#include "utility/debug/exception.hpp"
 
 namespace ece
 {
-	class Path
+	void ParserModelDAT::open(const std::string & filename)
 	{
-	public:
-		static Path currentPath();
-		
-		Path() = default;
-		Path(const std::string & pathname);
-		Path(const Path & copy) = default;
-		Path(Path && move) = default;
+		File file;
+		try {
+			file.open(filename, OpenMode::in);
 
-		~Path() = default;
-
-		Path & operator=(const Path & copy) = default;
-		Path & operator=(Path && move) = default;
-
-		inline int getDepth() const;
-		inline std::string getPathname() const;
-		inline std::string getPath() const;
-		inline std::string getFilename() const;
-		inline std::string & operator[](const int index);
-
-		inline bool exists() const;
-		inline bool isFile() const;
-		inline bool isFolder() const;
-
-	private:
-		std::vector<std::string> path;
-	};
+			std::vector<FloatVertex3u> tmp(file.parseToVector<FloatVertex3u>());
+			int size = (int)tmp.size() / 2;
+			this->vertices.insert(this->vertices.begin(), tmp.begin(), tmp.begin() + size);
+			this->colors.insert(this->colors.begin(), tmp.begin() + size, tmp.end());
+		}
+		catch (FileException & e) {
+			throw e;
+		}
+	}
 }
-
-#include "utility/file/path.inl"
-
-#endif // PATH_HPP

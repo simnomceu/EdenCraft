@@ -39,11 +39,11 @@
 /**
  * @file utility/file/file.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date November, 28th 2017
+ * @date December, 1st 2017
  * @copyright ----------
  * @brief Encapsulates the file resource in a class.
  *
- **/
+ */
 
 #ifndef FILE_HPP
 #define FILE_HPP
@@ -135,33 +135,80 @@ namespace ece
 		 * @return True, if the current file is opened, false else.
 		 * @brief Indicates if the current file is opened or not. If no file is set, it returns FALSE.
 		 */
-		inline const bool isOpen() const;
+		inline const bool isOpen() const noexcept;
 
 		/** 
 		 * @fn void close()
 		 * @brief Close the current file and terminate the stream. If no file is opened, nothing happens.
 		 */
 		void close();
-
+		
+		/**
+		 * @fn std::string parseToString()
+		 * @return The file content as a string.
+		 * @brief Get the entire content of the file as a string.
+		 */
 		std::string parseToString();
+
+		/**
+		 * @fn std::vector<T> parseToVector()
+		 * @tparam T Type of the vector to return.
+		 * @return A vector of element extracted from the file. 
+		 * @brief Extracts a vector of element from the file. If the format doesn't match, an exception is hired.
+		 * If the file is not opened, an empty vector is returned.
+		 */
 		template<class T> std::vector<T> parseToVector();
 
 		/**
+		 * @fn const bool exists(const std::string & filename)
+		 * @param[in] filename The file to check for existence.
+		 * @return True, if the file exists, or false else.
 		 * @remark To move in the future class Path as a member method.
+		 * @brief Check if the file is existing or not.
 		 */
 		static const bool exists(const std::string & filename);
 
+		/**
+		 * @fn File & operator>>(T & value)
+		 * @tparam T The type of the value to read from the file.
+		 * @param value To put the reading to.
+		 * @return The current file stream.
+		 * @brief Read the value from the file. If the type doesn't match, an exception is hired.
+		 * The file cursor goes after the element read. If the file is not opened an exception is hired.
+		 */
 		template <class T> File & operator>>(T & value);
+
+		/**
+		 * @fn File & operator<<(T & value)
+		 * @tparam T The type of the value to write in the file.
+		 * @param value The value to write in the file.
+		 * @return The current file stream.
+		 * @brief Write the value in the file. If the type doesn't match, an exception is hired.
+		 * The file cursor goes after the element writen. If the file is not opened an exception is hired.
+		 */
 		template <class T> File & operator<<(T & value);
 
 	private:
+		/**
+		 * @property filename
+		 * @brief The filename opened in the file stream.
+		 */
 		std::string filename;
+
+		/**
+		 * @property stream
+		 * @brief The file stream associated.
+		 */
 		std::fstream stream;
 	};
 
+	/**
+	 * @remark That template specialization could be moved as a friend method of FloatVertex3u.
+	 * @see std::vector<T> File::parseToVector();
+	 */
 	template<> std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>();
 }
 
-#include "utility/file/file.inl"
+#include "utility/file_system/file.inl"
 
 #endif // FILE_HPP

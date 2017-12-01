@@ -36,39 +36,67 @@
 
 */
 
-#ifndef PARSER_MODEL_DAT_HPP
-#define PARSER_MODEL_DAT_HPP
+/**
+ * @file utility/file/file.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 1st 2017
+ * @copyright ----------
+ * @brief Encapsulates the file resource in a class.
+ *
+ */
 
-#include <vector>
-#include "utility/mathematics/vertex3u.hpp"
+#include "utility/debug/exception.hpp"
 
 namespace ece
 {
-	class ParserModelDAT
+	inline File::File() : filename(), stream() {}
+
+	inline File::File(const std::string & filename, const OpenMode & mode): filename(filename), stream()
 	{
-	public:
-		ParserModelDAT() = default;
-		ParserModelDAT(const ParserModelDAT & copy) = default;
-		ParserModelDAT(ParserModelDAT && move) = default;
+		this->stream.open(this->filename, static_cast<std::ios_base::openmode>(mode));
+	}
 
-		~ParserModelDAT() = default;
+	inline File::File(File && move): filename(std::move(move.filename)), stream(std::move(move.stream))
+	{
+		move.close();
+	}
 
-		ParserModelDAT & operator=(const ParserModelDAT & copy) = default;
-		ParserModelDAT & operator=(ParserModelDAT && move) = default;
+	inline File::~File() { this->stream.close(); }
 
-		void open(const std::string & filename);
+	inline const bool File::isOpen() const noexcept { return this->stream.is_open(); }
 
-		//inline const std::vector<float> & getVertices();
-		//inline const std::vector<float> & getColors();
-		inline const std::vector<FloatVertex3u> & getVertices();
-		inline const std::vector<FloatVertex3u> & getColors();
+	template <class T>
+	File & File::operator>>(T & value)
+	{
+		this->stream >> value;
+		return *this;
+	}
 
-	private:
-		std::vector<FloatVertex3u> vertices;
-		std::vector<FloatVertex3u> colors;
-	};
+	template <class T>
+	File & File::operator<<(T & value)
+	{
+		this->stream << value;
+		return *this;
+	}
+
+	template <class T>
+	std::vector<T> File::parseToVector()
+	{
+		std::vector<T> content;
+		if (this->isOpen()) {
+			T value;
+			try {
+				while (this->stream.good()) {
+					this->stream >> value;
+					content.push_back(value);
+				}
+			}
+			// TODO: possible to avoid that pragma ?
+#pragma warning(suppress: 4101)
+			catch (std::exception & e) {
+				throw FileException(FileCodeError::PARSE_ERROR, this->filename);
+			}
+		}
+		return content;
+	}
 }
-
-#include "utility/file/parser_model_dat.inl"
-
-#endif // PARSER_MODEL_DAT_HPP

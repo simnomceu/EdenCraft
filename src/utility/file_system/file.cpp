@@ -37,45 +37,105 @@
 */
 
 /**
- * @file utility/debug/exception.inl
+ * @file utility/file/file.cpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date November, 28th 2017
+ * @date December, 1st 2017
  * @copyright ----------
- * @brief Generic exception constructor and set of exceptions used in Edencraft libraries.
- *
- * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
+ * @brief Encapsulates the file resource in a class.
  *
  */
 
-#include <sstream>
+#include "utility/file_system/file.hpp"
+
+#include "utility/debug/exception.hpp"
+
+#include <iostream>
+#ifdef __linux__
+	#include <sys/stat.h>
+#endif
 
 namespace ece
 {
-	inline Exception::Exception() : std::runtime_error(""), message() {}
-
-	template<class ...Args>
-	inline void Exception::setMessage(const std::string & message, Args ...args)
+	File::File(const File & copy) : filename(copy.filename), stream()
 	{
-		this->message = this->mapString(message, args...);
+		this->stream.copyfmt(copy.stream);
+		this->stream.clear(copy.stream.rdstate());
+		this->stream.basic_fstream<char>::basic_ios<char>::rdbuf(stream.rdbuf());
 	}
 
-	inline const char * Exception::what() const noexcept { return this->message.data(); }
-
-	inline std::string Exception::mapString(const std::string & content) { return content; }
-
-	template <class V, class... Args>
-	std::string Exception::mapString(const std::string & content, V value, Args... args)
+	File & File::operator=(const File & copy)
 	{
-		/* Look for the next '%' tag to bind. */
-		auto pos = content.find_first_of("%");
-		if (pos != std::string::npos) {
-			/* If there is one, replace it. */
-			std::stringstream stream;
-			stream << value;
-			/* And then return the new content with the recursive result of the others arguments to bind. */
-			return content.substr(0, pos) + stream.str() + this->mapString(content.substr(pos + 1), args...);
+		this->filename = copy.filename;
+		this->stream.copyfmt(copy.stream);
+		this->stream.clear(copy.stream.rdstate());
+		this->stream.basic_fstream<char>::basic_ios<char>::rdbuf(stream.rdbuf());
+		return *this;
+	}
+
+	File & File::operator=(File && move)
+	{
+		this->filename = std::move(move.filename);
+		this->stream = std::move(move.stream);
+		move.close();
+		return *this;
+	}
+
+	const bool File::open(const std::string & filename, const OpenMode & mode)
+	{
+		this->stream.close();
+		if (!File::exists(filename)) {
+			throw FileException(BAD_PATH, filename);
 		}
-		/* Else, just return the current content. */
+		this->filename = filename;
+		this->stream.open(this->filename, static_cast<std::ios_base::openmode>(mode));
+		return this->isOpen();
+	}
+
+	void File::close()
+	{
+		if (this->isOpen()) {
+			this->stream.close();
+		}
+	}
+
+	std::string File::parseToString()
+	{
+		std::string content = "";
+		if (this->isOpen()) {
+			while (this->stream.good()) {
+				std::string line;
+				std::getline(this->stream, line);
+				content.append(line + "\n");
+			}
+		}
 		return content;
+	}
+
+	template<>
+	std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>()
+	{
+		std::vector<FloatVertex3u> content;
+		if (this->isOpen()) {
+			FloatVertex3u value;
+			try {
+				while (this->stream.good()) {
+					*this >> value[X] >> value[Y] >> value[Z];
+					content.push_back(value);
+				}
+			}
+			catch (std::exception & e) {
+				throw FileException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
+			}
+		}
+		return content;
+	}
+
+	const bool File::exists(const std::string & filename)
+	{
+		struct stat info;
+		int ret = -1;
+
+		ret = stat(filename.c_str(), &info);
+		return 0 == ret;
 	}
 }

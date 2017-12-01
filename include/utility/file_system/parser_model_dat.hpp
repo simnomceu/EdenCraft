@@ -36,36 +36,39 @@
 
 */
 
-#ifndef PARSER_OBJ_HPP
-#define PARSER_OBJ_HPP
+#ifndef PARSER_MODEL_DAT_HPP
+#define PARSER_MODEL_DAT_HPP
 
-#include <string>
 #include <vector>
+#include "utility/mathematics/vertex3u.hpp"
 
 namespace ece
 {
-	// TODO add parser MKL
-
-	class ParserOBJ
+	class ParserModelDAT
 	{
 	public:
-		ParserOBJ() = default;
+		ParserModelDAT() = default;
+		ParserModelDAT(const ParserModelDAT & copy) = default;
+		ParserModelDAT(ParserModelDAT && move) = default;
 
-		void open(const std::string & pathname);
+		~ParserModelDAT() = default;
 
-		inline const std::vector<float> & getVertices();
-		inline const std::vector<float> & getTextures();
-		inline const std::vector<float> & getNormales();
-		inline const std::vector<int> & getFaces();
+		ParserModelDAT & operator=(const ParserModelDAT & copy) = default;
+		ParserModelDAT & operator=(ParserModelDAT && move) = default;
+
+		void open(const std::string & filename);
+
+		//inline const std::vector<float> & getVertices();
+		//inline const std::vector<float> & getColors();
+		inline const std::vector<FloatVertex3u> & getVertices();
+		inline const std::vector<FloatVertex3u> & getColors();
 
 	private:
-		std::vector<float> vertices;
-		std::vector<float> textures;
-		std::vector<float> normales;
-		std::vector<int> faces;
+		std::vector<FloatVertex3u> vertices;
+		std::vector<FloatVertex3u> colors;
 	};
 }
 
-#include "utility/file/parser_obj.inl"
+#include "utility/file_system/parser_model_dat.inl"
 
-#endif // PARSER_OBJ_HPP
+#endif // PARSER_MODEL_DAT_HPP
