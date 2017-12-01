@@ -58,7 +58,7 @@ namespace ece
 			this->pathname = pathname;
 			File file;
 			try {
-				file.open(pathname, std::ios_base::in);
+				file.open(pathname, OpenMode::in);
 				std::string content = file.parseToString();
 				
 				/*size_t pos = 0;

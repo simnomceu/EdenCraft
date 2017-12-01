@@ -47,14 +47,38 @@
 
 namespace ece
 {
-	const bool File::open(const std::string & filename, const std::ios_base::openmode & mode)
+	File::File(const File & copy) : filename(copy.filename), stream()
+	{
+		this->stream.copyfmt(copy.stream);
+		this->stream.clear(copy.stream.rdstate());
+		this->stream.basic_fstream<char>::basic_ios<char>::rdbuf(stream.rdbuf());
+	}
+
+	File & File::operator=(const File & copy)
+	{
+		this->filename = copy.filename;
+		this->stream.copyfmt(copy.stream);
+		this->stream.clear(copy.stream.rdstate());
+		this->stream.basic_fstream<char>::basic_ios<char>::rdbuf(stream.rdbuf());
+		return *this;
+	}
+
+	File & File::operator=(File && move)
+	{
+		this->filename = std::move(move.filename);
+		this->stream = std::move(move.stream);
+		move.close();
+		return *this;
+	}
+
+	const bool File::open(const std::string & filename, const OpenMode & mode)
 	{
 		this->stream.close();
 		if (!File::exists(filename)) {
 			throw FileException(BAD_PATH, filename);
 		}
 		this->filename = filename;
-		this->stream.open(this->filename, mode);
+		this->stream.open(this->filename, static_cast<std::ios_base::openmode>(mode));
 		return this->isOpen();
 	}
 

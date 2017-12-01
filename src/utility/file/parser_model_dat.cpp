@@ -48,7 +48,7 @@ namespace ece
 	{
 		File file;
 		try {
-			file.open(filename, std::ios_base::in);
+			file.open(filename, OpenMode::in);
 
 			std::vector<FloatVertex3u> tmp(file.parseToVector<FloatVertex3u>());
 			int size = (int)tmp.size() / 2;

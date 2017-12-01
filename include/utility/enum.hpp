@@ -39,8 +39,27 @@
 #ifndef TYPE_HPP 
 #define TYPE_HPP 
 
+#include "utility/enum/enum_flags.hpp"
+
+#include <fstream>
+
 namespace ece
 {
+	/**
+	* @enum OpenMode
+	* @brief Alias to Standard Library openmode.
+	* @see http://en.cppreference.com/w/cpp/io/ios_base/openmode
+	*/
+	EnumFlagsT(std::ios_base::openmode, OpenMode)
+	{
+		app = std::fstream::app, /*< @brief "Seek to the end of stream before each write". */
+		binary = std::fstream::binary, /*< @brief "Open in binary mode". */
+		in = std::fstream::in, /*< @brief "Open for reading". */
+		out = std::fstream::out, /*< @brief "Open for writing". */
+		trunc = std::fstream::trunc, /*< @brief "Discard the contents of the stream when opening". */
+		ate = std::fstream::ate /*< @brief "Seek to the end of stream immediately after open". */
+	};
+
 	enum FileCodeError : unsigned short int
 	{
 		BAD_PATH = 0,

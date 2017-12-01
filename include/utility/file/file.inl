@@ -2,9 +2,16 @@
 
 namespace ece
 {
-	inline File::File(const std::string & filename, const std::ios_base::openmode & mode): filename(filename), stream()
+	inline File::File() : filename(), stream() {}
+
+	inline File::File(const std::string & filename, const OpenMode & mode): filename(filename), stream()
 	{
-		this->stream.open(this->filename, mode);
+		this->stream.open(this->filename, static_cast<std::ios_base::openmode>(mode));
+	}
+
+	inline File::File(File && move): filename(std::move(move.filename)), stream(std::move(move.stream))
+	{
+		move.close();
 	}
 
 	inline File::~File() { this->stream.close(); }
