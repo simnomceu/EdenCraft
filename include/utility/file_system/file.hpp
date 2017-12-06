@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -60,6 +60,7 @@ namespace ece
 	 * @class File
 	 * @brief Handle file as a stream.
 	 * @remark Because of Single Responsability Principle, the filename should be encapsulated in another class (like Path)
+	 * @remark Improving it by copying file stream to stringstream and closing instantly the file stream ?
 	 */
 	class File
 	{
@@ -99,7 +100,7 @@ namespace ece
 		 * @see File::File(const std::string & filename, const OpenMode & mode = File::in | File::out)
 		 */
 		inline File(File && move);
-		
+
 		/**
 		 * @fn ~File()
 		 * @brief Destructor. If the stream is still opened, it will be closed.
@@ -129,7 +130,7 @@ namespace ece
 		 * @brief Open a stream to the given file.
 		 */
 		const bool open(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
-		
+
 		/**
 		 * @fn const bool isOpen() const
 		 * @return True, if the current file is opened, false else.
@@ -137,12 +138,12 @@ namespace ece
 		 */
 		inline const bool isOpen() const;
 
-		/** 
+		/**
 		 * @fn void close()
 		 * @brief Close the current file and terminate the stream. If no file is opened, nothing happens.
 		 */
 		void close();
-		
+
 		/**
 		 * @fn std::string parseToString()
 		 * @return The file content as a string.
@@ -153,7 +154,7 @@ namespace ece
 		/**
 		 * @fn std::vector<T> parseToVector()
 		 * @tparam T Type of the vector to return.
-		 * @return A vector of element extracted from the file. 
+		 * @return A vector of element extracted from the file.
 		 * @brief Extracts a vector of element from the file. If the format doesn't match, an exception is hired.
 		 * If the file is not opened, an empty vector is returned.
 		 */
@@ -187,6 +188,13 @@ namespace ece
 		 * The file cursor goes after the element writen. If the file is not opened an exception is hired.
 		 */
 		template <class T> File & operator<<(T & value);
+
+		/**
+		 * @fn std::string getLine()
+		 * @return The next line of the stream or an empty string if there is nothing more.
+		 * @Brief Get the next line of the stream if possible and move the cursor after.
+		 */
+		 std::string getLine();
 
 	protected:
 		/**
