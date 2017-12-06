@@ -36,35 +36,113 @@
 
 */
 
+
+/**
+ * @file utility/file_system/parser_json.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 3rd 2017
+ * @copyright ----------
+ * @brief Parser to load and save JSON data.
+ *
+ */
+
 #ifndef PARSER_JSON_HPP
 #define PARSER_JSON_HPP
 
-#include <string>
+#include "utility/file_system/parser.hpp"
 #include "utility/json/object_json.hpp"
 
 namespace ece
 {
-	class ParserJSON
+	/**
+	 * @class ParserJSON
+	 * @extends Parser
+	 * @brief
+	 * @see Parser
+	 * @remarks Have to break coupling with ObjectJSON.
+	 */
+	class ParserJSON: public Parser
 	{
 	public:
-		ParserJSON() = default;
-		ParserJSON(const std::string & pathname);
-		ParserJSON(const ParserJSON & copy) = default;
-		ParserJSON(ParserJSON && move) = default;
-		
-		~ParserJSON() = default;
+		/**
+		 * @fn ParserJSON()
+		 * @brief
+		 */
+		inline constexpr ParserJSON();
 
-		ParserJSON & operator=(const ParserJSON & copy) = default;
-		ParserJSON & operator=(ParserJSON && move) = default;
+		/**
+		 * @fn void loadFromFile(const std::string & filename)
+		 * @param[in] filename
+		 * @brief
+		 * @see void Parser::loadFromFile(const std::string & filename)
+		 */
+		virtual void loadFromFile(const std::string & filename) override;
 
-		void open(const std::string & pathname);
+		/**
+		 * @fn void loadFromString(const std::string & content)
+		 * @param[in] content
+		 * @brief
+		 * @see void Parser::loadFromString(const std::string & content)
+		 */
+		virtual void loadFromString(const std::string & content) override;
 
-		std::shared_ptr<ObjectJSON> getObject();
+		/**
+		 * @fn void loadFromMemory(const void * content)
+		 * @param[in] content
+		 * @brief
+		 * @see void Parser::loadFromMemory(const void * content)
+		 */
+		virtual void loadFromMemory(const void * content) override;
 
-	private:
+		/**
+		 * @fn void saveToFile(const std::string & filename)
+		 * @param[in] filename
+		 * @brief
+		 * @see void Parser::saveToFile(const std::string & filename)
+		 */
+		virtual void saveToFile(const std::string & filename) override;
+
+		/**
+		 * @fn void saveToString(std::string & content)
+		 * @param[out] content
+		 * @brief 
+		 * @see void Parser::saveToString(std::string & content)
+		 */
+		virtual void saveToString(std::string & content) override;
+
+		/**
+		 * @fn void saveToMemory(void * content)
+		 * @param[out] content
+		 * @brief
+		 * @see void Parser::saveToMemory(void * content)
+		 */
+		virtual void saveToMemory(void * content) override;
+
+		/**
+		 * @fn std::shared_ptr<ObjectJSON> getObject() const
+		 * @return
+		 * @brief
+		 * @remark
+		 */
+		inline std::shared_ptr<ObjectJSON> getObject() const;
+
+	protected:
+		/**
+		 * @property pathname
+		 * @brief
+		 * @remark It should not be an internal property as the JSON object can be loaded throw different ways (memory, ...).
+		 */
 		std::string pathname;
+
+		/**
+		 * @property contentJSON
+		 * @brief The root of the last JSON parsed. If no JSON has been parsed yet, the property is empty.
+		 * @remark It should not be an internal property but an output of the Parser.
+		 */
 		std::shared_ptr<ObjectJSON> contentJSON;
 	};
 }
+
+#include "utility/file_system/parser_json.inl"
 
 #endif // PARSER_JSON_HPP

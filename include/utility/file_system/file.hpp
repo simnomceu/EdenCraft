@@ -37,7 +37,7 @@
 */
 
 /**
- * @file utility/file/file.hpp
+ * @file utility/file_system/file.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
  * @date December, 1st 2017
  * @copyright ----------
@@ -104,7 +104,7 @@ namespace ece
 		 * @fn ~File()
 		 * @brief Destructor. If the stream is still opened, it will be closed.
 		 */
-		inline ~File();
+		inline ~File() noexcept;
 
 		/**
 		 * @fn File & operator=(const File & copy)
@@ -135,7 +135,7 @@ namespace ece
 		 * @return True, if the current file is opened, false else.
 		 * @brief Indicates if the current file is opened or not. If no file is set, it returns FALSE.
 		 */
-		inline const bool isOpen() const noexcept;
+		inline const bool isOpen() const;
 
 		/** 
 		 * @fn void close()
@@ -188,7 +188,7 @@ namespace ece
 		 */
 		template <class T> File & operator<<(T & value);
 
-	private:
+	protected:
 		/**
 		 * @property filename
 		 * @brief The filename opened in the file stream.

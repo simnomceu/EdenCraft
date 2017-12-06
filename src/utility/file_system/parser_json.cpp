@@ -45,14 +45,11 @@
 #include <sstream>
 #include <cmath>
 
+#include "utility/json/object_json.hpp"
+
 namespace ece
 {
-	ParserJSON::ParserJSON(const std::string & pathname): pathname(), contentJSON()
-	{
-		this->open(pathname);
-	}
-
-	void ParserJSON::open(const std::string & pathname)
+	void ParserJSON::loadFromFile(const std::string & pathname)
 	{
 		if (this->pathname != pathname) {
 			this->pathname = pathname;
@@ -207,8 +204,28 @@ namespace ece
 		}
 	}
 
-	std::shared_ptr<ObjectJSON> ParserJSON::getObject()
+	void ParserJSON::loadFromString(const std::string & content)
 	{
-		return this->contentJSON;
+		/* NOT IMPLEMENTED YET*/
+	}
+
+	void ParserJSON::loadFromMemory(const void * content)
+	{
+		/* NOT IMPLEMENTED YET*/
+	}
+
+	void ParserJSON::saveToFile(const std::string & filename)
+	{
+		/* NOT IMPLEMENTED YET*/
+	}
+
+	void ParserJSON::saveToString(std::string & content)
+	{
+		/* NOT IMPLEMENTED YET*/
+	}
+
+	void ParserJSON::saveToMemory(void * content)
+	{
+		/* NOT IMPLEMENTED YET*/
 	}
 }
