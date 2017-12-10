@@ -38,7 +38,7 @@
 
 #include "utility/file_system/parser_obj.hpp"
 
-#include "utility/debug/exception.hpp"
+#include "utility/file_system/file.hpp"
 #include "utility/enum.hpp"
 
 #include <fstream>
@@ -47,6 +47,7 @@
 #ifdef __linux__
 	#define sscanf_s sscanf
 #endif
+
 
 namespace ece
 {
