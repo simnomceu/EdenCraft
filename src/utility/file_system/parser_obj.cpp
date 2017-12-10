@@ -55,10 +55,8 @@ namespace ece
 	{
 		File file(filename);
 
-		//std::ifstream file(filename, std::ios::out);
-		//if (!file.is_open()) {
-		//	throw FileException(FileCodeError::BAD_PATH, filename);
-		//}
+		Mesh * current = nullptr;
+
 		std::string line = file.getLine(), command;
 		while (!line.empty()) {
 			if (line.size() >= 2) {
@@ -68,46 +66,55 @@ namespace ece
 				// TODO add checks for the format of the file
 
 				if (command == "v ") {
-					float vertice[3];
-					stream >> vertice[0] >> vertice[1] >> vertice[2];
-					vertices.push_back(vertice[0]);
-					vertices.push_back(vertice[1]);
-					vertices.push_back(vertice[2]);
+					if (!current) {
+						this->meshes.push_back(Mesh());
+						current = &this->meshes.back();
+					}
+					FloatVertex3u tmp;
+					stream >> tmp[0] >> tmp[1] >> tmp[2];
+					current->positions.push_back(tmp);
 				}
 				else if (command == "vt") {
-					float texture[2];
-					stream >> texture[0] >> texture[1];
-					textures.push_back(texture[0]);
-					textures.push_back(texture[1]);
+					if (!current) {
+						this->meshes.push_back(Mesh());
+						current = &this->meshes.back();
+					}
+					FloatVertex2u tmp;
+					stream >> tmp[0] >> tmp[1];
+					current->textures.push_back(tmp);
 				}
 				else if (command == "vn") {
-					float normale[3];
-					stream >> normale[0] >> normale[1] >> normale[2];
-					normales.push_back(normale[0]);
-					normales.push_back(normale[1]);
-					normales.push_back(normale[2]);
+					if (!current) {
+						this->meshes.push_back(Mesh());
+						current = &this->meshes.back();
+					}
+					FloatVertex3u tmp;
+					stream >> tmp[0] >> tmp[1] >> tmp[2];
+					current->normals.push_back(tmp);
 				}
 				else if (command == "f ") {
-					int face[9];
-					sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &face[0], &face[1], &face[2], &face[3], &face[4],
-						&face[5], &face[6], &face[7], &face[8]);
-					faces.push_back(face[0] * 3);
-					//faces.push_back(face[1]);
-					//faces.push_back(face[2]);
-					faces.push_back(face[3] * 3);
-					//faces.push_back(face[4]);
-					//faces.push_back(face[5]);
-					faces.push_back(face[6] * 3);
-					//faces.push_back(face[7]);
-					//faces.push_back(face[8]);
+					if (!current) {
+						this->meshes.push_back(Mesh());
+						current = &this->meshes.back();
+					}
+					Face tmp;
+					
+					sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &tmp.position[0], &tmp.normal[0], &tmp.texture[0],
+																				   &tmp.position[1], &tmp.normal[1], &tmp.texture[1],
+																				   &tmp.position[2], &tmp.normal[2], &tmp.texture[2]);
+					current->faces.push_back(tmp);
 
 					// TODO check that it uses existing vertices, normales, and textures.
 				}
 				else if (command == "g ") {
-
+					current->submesh.push_back(Mesh());
+					// TODO add name of the group and parent mesh
+					current = &current->submesh.back();
 				}
 				else if (command == "o ") {
-
+					this->meshes.push_back(Mesh());
+					// TODO add name of the group and parent mesh
+					current = &this->meshes.back();
 				}
 				else if (line.size() > 6 && line.substr(0, 6) == "usemtl") {
 

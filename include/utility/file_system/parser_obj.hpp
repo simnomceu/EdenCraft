@@ -40,6 +40,8 @@
 #define PARSER_OBJ_HPP
 
 #include "utility/file_system/Parser.hpp"
+#include "utility/mathematics/vertex2u.hpp"
+#include "utility/mathematics/vertex3u.hpp"
 
 #include <vector>
 
@@ -50,6 +52,31 @@ namespace ece
 	class ParserOBJ: public Parser
 	{
 	public:
+		struct Face
+		{
+			IntVertex3u position;
+			IntVertex3u normal;
+			IntVertex3u texture;
+		};
+
+		struct Material
+		{
+
+		};
+
+		struct Mesh
+		{
+			std::string name;
+			std::vector<FloatVertex3u> positions;
+			std::vector<FloatVertex3u> normals;
+			std::vector<FloatVertex2u> textures;
+			std::vector<Face> faces;
+			ParserOBJ::Material material;
+
+			std::vector<Mesh> submesh;
+			Mesh * parent;
+		};
+
 		ParserOBJ() = default;
 
 		/**
@@ -94,16 +121,10 @@ namespace ece
 		 */
 		virtual void saveToMemory(void * content) override;
 
-		inline const std::vector<float> & getVertices();
-		inline const std::vector<float> & getTextures();
-		inline const std::vector<float> & getNormales();
-		inline const std::vector<int> & getFaces();
+		inline const std::vector<ParserOBJ::Mesh> & getMeshes() const;
 
 	private:
-		std::vector<float> vertices;
-		std::vector<float> textures;
-		std::vector<float> normales;
-		std::vector<int> faces;
+		std::vector<ParserOBJ::Mesh> meshes;
 	};
 }
 
