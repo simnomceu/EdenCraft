@@ -36,6 +36,15 @@
 
 */
 
+/**
+ * @file utility/file_system/parser_obj.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 11th 2017
+ * @copyright ----------
+ * @brief Parser to load and save OBJ Wavefront structure.
+ *
+ */
+
 #include "utility/file_system/parser_obj.hpp"
 
 #include "utility/debug/exception.hpp"
@@ -50,12 +59,12 @@
 
 namespace ece
 {
-	void ParserOBJ::open(const std::string & pathname)
+	void ParserOBJ::loadFromFile(const std::string & filename)
 	{
 
-		std::ifstream file(pathname, std::ios::out);
+		std::ifstream file(filename, std::ios::out);
 		if (!file.is_open()) {
-			throw FileException(FileCodeError::BAD_PATH, pathname);
+			throw FileException(FileCodeError::BAD_PATH, filename);
 		}
 		std::string line, command;
 		while (file.good()) {
@@ -114,5 +123,30 @@ namespace ece
 			}
 		}
 		// TODO care about objects groups and faces groups
+	}
+
+	void ParserOBJ::loadFromString(const std::string & content)
+	{
+		/* NOT IMPLEMENTED YET*/
+	}
+
+	void ParserOBJ::loadFromMemory(const void * content)
+	{
+		/* NOT IMPLEMENTED YET*/
+	}
+
+	void ParserOBJ::saveToFile(const std::string & filename)
+	{
+		/* NOT IMPLEMENTED YET*/
+	}
+
+	void ParserOBJ::saveToString(std::string & content)
+	{
+		/* NOT IMPLEMENTED YET*/
+	}
+
+	void ParserOBJ::saveToMemory(void * content)
+	{
+		/* NOT IMPLEMENTED YET*/
 	}
 }

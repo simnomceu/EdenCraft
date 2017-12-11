@@ -1,3 +1,4 @@
+#include "parser_obj.hpp"
 /*
 	
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
@@ -36,8 +37,19 @@
 
 */
 
+/**
+ * @file utility/file_system/parser_obj.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 11th 2017
+ * @copyright ----------
+ * @brief Parser to load and save OBJ Wavefront structure.
+ *
+ */
+
 namespace ece
 {
+	inline constexpr ParserOBJ::ParserOBJ() : vertices(), textures(), normales(), faces() {}
+
 	inline const std::vector<float>& ParserOBJ::getVertices() { return this->vertices; }
 
 	inline const std::vector<float>& ParserOBJ::getTextures() { return this->textures; }
