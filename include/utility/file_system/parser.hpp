@@ -126,21 +126,21 @@ namespace ece
 
 		/**
 		 * @fn void saveToFile(const std::string & filename)
-		 * @param[in] filename The name of the file to save into.
+		 * @param[out] filename The name of the file to save into.
 		 * @brief Formate and save data into a file.
 		 */
 		virtual void saveToFile(const std::string & filename) = 0;
 
 		/**
 		 * @fn void saveToString(std::string & content)
-		 * @param[in] content The string buffer to save into.
+		 * @param[out] content The string buffer to save into.
 		 * @brief Formate and save data into a string buffer.
 		 */
 		virtual void saveToString(std::string & content) = 0;
 
 		/**
 		 * @fn void saveToMemory(void * content)
-		 * @param[in] content The memory to save into.
+		 * @param[out] content The memory to save into.
 		 * @brief Formate and save data into memory.
 		 */
 		virtual void saveToMemory(void * content) = 0;

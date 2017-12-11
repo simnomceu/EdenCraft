@@ -36,6 +36,18 @@
 
 */
 
+
+/**
+ * @file utility/file_system/parser_json.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 11th 2017
+ * @copyright ----------
+ * @brief Parser to load and save JSON data.
+ *
+ */
+
+
+
 #include "utility/file_system/parser_json.hpp"
 
 #include "utility/file_system/file.hpp"
