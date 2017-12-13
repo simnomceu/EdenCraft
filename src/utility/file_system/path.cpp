@@ -36,12 +36,20 @@
 
 */
 
+/**
+ * @file utility/file_system/path.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 12th 2017
+ * @copyright ----------
+ * @brief Describe path to any location in the file system.
+ */
+
 #include "utility/file_system/path.hpp"
 
 #ifdef __linux__
 	#include <unistd.h>
 #else
-#include <Windows.h>
+	#include <Windows.h>
 #endif
 
 #include <cstdio>
@@ -55,7 +63,7 @@ namespace ece
 	Path Path::currentPath()
 	{
 		std::string path;
-
+		// BERK
 #ifdef __linux__
 		char result[FILENAME_MAX];
 		ssize_t count = readlink("/proc/self/exe", result, FILENAME_MAX);
@@ -73,6 +81,7 @@ namespace ece
 
 	Path::Path(const std::string & pathname): path()
 	{
+		// BERK
 		auto result = std::back_inserter(this->path);
 		std::stringstream ss;
 		ss.str(pathname);
@@ -80,5 +89,20 @@ namespace ece
 		while (std::getline(ss, item, '\\')) {
 			*(result++) = item;
 		}
+	}
+
+	std::string Path::getPathname() const
+	{
+		std::stringstream res;
+		std::copy(this->path.begin(), this->path.end(), std::ostream_iterator<std::string>(res, "\\"));
+		std::string  result = res.str();
+		return result.substr(0, result.size() - 1);
+	}
+
+	std::string Path::getPath() const {
+		std::stringstream res;
+		std::copy(this->path.begin(), this->path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
+		std::string  result = res.str() + '\\';
+		return result.substr(0, result.size() - 1);
 	}
 }

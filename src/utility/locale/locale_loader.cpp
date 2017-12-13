@@ -80,7 +80,8 @@ namespace ece
 	{
 		this->resource.clear();
 		try {
-			ParserJSON parser(file);
+			ParserJSON parser;
+			parser.loadFromFile(file);
 			std::shared_ptr<ObjectJSON> jsonObject = parser.getObject();
 
 			for (auto it = jsonObject->begin(); it != jsonObject->end(); ++it) {

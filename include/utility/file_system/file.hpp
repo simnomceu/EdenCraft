@@ -60,6 +60,8 @@ namespace ece
 	 * @class File
 	 * @brief Handle file as a stream.
 	 * @remark Because of Single Responsability Principle, the filename should be encapsulated in another class (like Path)
+	 * @remark Something like Memory mapping could be implemented for big file: 
+	 *          http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2044.html
 	 */
 	class File
 	{

@@ -69,14 +69,14 @@ namespace ece
 
 		/**
 		 * @fn Parser(const Parser & copy)
-		 * @param[in] copy
+		 * @param[in] copy The parser to copy.
 		 * @brief Default copy constructor.
 		 */
 		Parser(const Parser & copy) = default;
 
 		/**
 		 * @fn Parser(Parser && move)
-		 * @param[in] move
+		 * @param[in] move The parser to move.
 		 * @brief Default move constructor.
 		 */
 		Parser(Parser && move) = default;
