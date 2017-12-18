@@ -5,7 +5,7 @@
 
 namespace ece
 {
-	template <class T> class EulerRotation<T>;
+	template <class T> class EulerAngle<T>;
 	template <class T> class Matrix4u<T>;
 
 	template <class T>
@@ -42,7 +42,7 @@ namespace ece
 		inline T angle() const noexcept;
 		inline Vector3u<T> axis() const noexcept;
 
-		inline EulerRotation<T> toEulerRotation() const noexcept;
+		inline EulerRotation<T> toEulerAngle() const noexcept;
 		inline Matrix4u<T> toMatrix() const noexcept;
 
 	private:
