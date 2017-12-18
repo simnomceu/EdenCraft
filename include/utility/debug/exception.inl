@@ -54,26 +54,34 @@ namespace ece
 	inline Exception::Exception() : std::runtime_error(""), message() {}
 
 	template<class ...Args>
-	inline void Exception::setMessage(const std::string & message, Args ...args)
+	inline void Exception::setMessage(const std::string & message, Args ...args) noexcept
 	{
 		this->message = this->mapString(message, args...);
 	}
 
 	inline const char * Exception::what() const noexcept { return this->message.data(); }
 
-	inline std::string Exception::mapString(const std::string & content) { return content; }
+	inline std::string Exception::mapString(const std::string & content) noexcept { return content; }
 
 	template <class V, class... Args>
-	std::string Exception::mapString(const std::string & content, V value, Args... args)
+	std::string Exception::mapString(const std::string & content, V value, Args... args) noexcept
 	{
 		/* Look for the next '%' tag to bind. */
 		auto pos = content.find_first_of("%");
 		if (pos != std::string::npos) {
-			/* If there is one, replace it. */
-			std::stringstream stream;
-			stream << value;
-			/* And then return the new content with the recursive result of the others arguments to bind. */
-			return content.substr(0, pos) + stream.str() + this->mapString(content.substr(pos + 1), args...);
+			std::string end;
+			try {
+				/* If there is one, replace it. */
+				std::stringstream stream;
+				stream << value;
+				/* The new content with the recursive result of the others arguments to bind. */
+				end = stream.str() + this->mapString(content.substr(pos + 1), args...);
+			}
+			catch (std::exception & e) {
+				// TODO what ?
+			}
+			/* And then return  */
+			return content.substr(0, pos) + end;
 		}
 		/* Else, just return the current content. */
 		return content;

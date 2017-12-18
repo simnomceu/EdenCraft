@@ -69,6 +69,8 @@ namespace ece
 		/**
 		 * @fn Exception()
 		 * @brief Main constructor for the base class exception.
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		inline Exception();
 
@@ -78,6 +80,7 @@ namespace ece
 		 * @param[in] message The exception message to set to.
 		 * @param[in] args The list of arguments to bind to the exception message.
 		 * @brief Set the exception message, and bind the parameters into.
+		 * @throw noexcept
 		 *
 		 * All the arguments are binded into the message, according to the pattern provided. 
 		 * A '%' indicates the position of an argument. Arguments are processed in the reading direction, from left to right.
@@ -85,12 +88,13 @@ namespace ece
 		 * is considered as completed, and is returned.
 		 */
 		template <class ...Args>
-		inline void setMessage(const std::string & message, Args... args);
+		inline void setMessage(const std::string & message, Args... args) noexcept;
 
 		/**
 		 * @fn const char * what() const noexcept
 		 * @return The exception message if it exists or an empty if not.
 		 * @brief A getter to the exception message.
+		 * @throw noexcept
 		 *
 		 * Get the exception message with all the parameters binded.
 		 */
@@ -108,8 +112,9 @@ namespace ece
 		 * @param[in] content The pattern of string to return.
 		 * @return the content.
 	   	 * @brief The end step of the recursive mapping throw template binding.
+		 * @throw noexcept
 		 */
-		inline std::string mapString(const std::string & content);
+		inline std::string mapString(const std::string & content) noexcept;
 
 		/**
 		 * @fn std::string mapString(const std::string & content, V value, Args... args)
@@ -120,9 +125,10 @@ namespace ece
 		 * @param[in] args The other arguments to bind into the content.
 		 * @return the content with all the arguments binded.
 		 * @brief The recursive method to bind all the arguments inside the content.
+		 * @throw noexcept
 		 */
 		template <class V, class... Args>
-		std::string mapString(const std::string & content, V value, Args... args);
+		std::string mapString(const std::string & content, V value, Args... args) noexcept;
 	};
 
 	/**
@@ -140,6 +146,8 @@ namespace ece
 		 * @param[in] filename the filename where the error raised form.
 		 * @brief A constructor to build a FileException.
 		 * @see FileCodeError
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		FileException(const FileCodeError codeError, const std::string & filename);
 	};
@@ -157,6 +165,8 @@ namespace ece
 		 * @fn BadInputException(const std::string & details)
 		 * @param[in] details Give some details about the origin of the error.
 		 * @brief A constructor to build a BadInputException.
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		BadInputException(const std::string & details);
 	};
@@ -174,6 +184,8 @@ namespace ece
 		 * @fn InitializationException(const std::string & target)
 		 * @param[in] target The target which has been initialized badly.
 		 * @brief A constructor to build an InitializationException.
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		InitializationException(const std::string & target);
 	};
@@ -193,6 +205,8 @@ namespace ece
 		 * @brief A constructor to build a MemoryAccessException.
 		 * @overload MemoryAccessException::MemoryAccessException(const std::string & target, const std::string & origin)
 		 * @see MemoryAccessException::MemoryAccessException(const std::string & target, const std::string & origin) 
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		MemoryAccessException(const std::string & target);
 		
@@ -204,6 +218,8 @@ namespace ece
 		 * @brief A constructor to build a MemoryAccessException.
 		 * @overload MemoryAccessException::MemoryAccessException(const std::string & target)
 		 * @see MemoryAccessException::MemoryAccessException(const std::string & target) 
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		MemoryAccessException(const std::string & target, const std::string & origin);
 	};
@@ -223,6 +239,8 @@ namespace ece
 		 * @brief A constructor to build an OutOfRangeException.
 		 * @overload OutOfRangeException::OutOfRangeException(const std::string & type, const int id)
 		 * @see OutOfRangeException::OutOfRangeException(const std::string & type, const int id)
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		OutOfRangeException(const std::string & type);
 		
@@ -233,6 +251,8 @@ namespace ece
 		 * @brief A constructor to build an OutOfRangeException.
 		 * @overload OutOfRangeException::makeException(const std::string & type)
 		 * @see OutOfRangeException::makeException(const std::string & type)
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		OutOfRangeException(const std::string & type, const int id);
 	};
@@ -251,6 +271,8 @@ namespace ece
 		 * @param[in] target The target resource which has generated an error while being handled.
 		 * @param[in] id The id of the target resource handled.
 		 * @brief A constructor to build a ResourceException.
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		ResourceException(const std::string & target, const unsigned short int id);
 	};
@@ -268,6 +290,8 @@ namespace ece
 		 * @fn DivideByZeroException(const std::string & origin)
 		 * @param[in] origin The origin of the division by zero.
 		 * @brief A constructor to build a DivideByZeroException.
+		 * @throw std::bad_alloc May throw std:bad_alloc
+		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
 		DivideByZeroException(const std::string & origin);
 	};
