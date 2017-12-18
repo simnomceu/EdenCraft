@@ -31,7 +31,8 @@ namespace ece
 	protected:
 		double learningFactor;
 
-		Layer layer;
+		Neurone neurone;
+		double bias;
 	};
 }
 
