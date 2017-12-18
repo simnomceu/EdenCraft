@@ -14,7 +14,7 @@ namespace ece
 	{
 	public:
 		Neurone(const Activation & activation, const int nbInputs);
-		Neurone() = delete;
+		Neurone() = default;
 		Neurone(const Neurone & copy) = default;
 		Neurone(Neurone && move) = default;
 

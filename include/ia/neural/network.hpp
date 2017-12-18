@@ -5,11 +5,12 @@
 
 namespace ece
 {
+	template <unsigned int Input, unsigned int Output, unsigned int Hidden>
 	class Network
 	{
 	public:
 		Network() = delete;
-		Network(const int nbInputs, const int nbOutputs, const double threshold, const double learningFactor);
+		Network(const SPLIT_RULE splitRule, const double threshold, const double learningFactor);
 		Network(const Network & copy) = default;
 		Network(Network && move) = default;
 
@@ -19,15 +20,17 @@ namespace ece
 		Network & operator=(Network && move) = default;
 
 		std::vector<double> evaluate(const std::vector<double> & inputs);
-		void learn(const std::vector<double> & inputs, const std::vector<double> & result, const std::vector<double> & output);
+		void learn(const std::vector<double> & inputs, const std::vector<double> & results);
 
 	private:
-		Layer inputLayer;
-		std::vector<Layer> hiddenLayers;
-		Layer outputLayer;
+		Layer<Input> inputLayer;
+		std::array<Layer<(Input + Output) / 2>, Hidden> hiddenLayers;
+		Layer<Output> outputLayer;
 
 		double learningFactor;
 	};
 }
+
+#include "ia/neural/network.inl"
 
 #endif // NETWORK_HPP

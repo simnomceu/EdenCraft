@@ -5,13 +5,13 @@
 namespace ece
 {
 	Perceptron::Perceptron(const int nbInputs, const double learningFactor, const double threshold) :
-		learningFactor(learningFactor), layer(1, nbInputs, threshold)
+		learningFactor(learningFactor), neurone(sigmoid, nbInputs), bias(threshold)
 	{
 	}
 
 	double Perceptron::evaluate(const std::vector<double> & inputs)
 	{
-		return layer.evaluate(inputs)[0];
+		return this->neurone.evaluate(inputs, this->bias);
 	}
 
 	void Perceptron::learn(const std::vector<double> & inputs, const double result, const double output)
@@ -21,6 +21,7 @@ namespace ece
 		for (auto & it : fix) {
 			it *= delta;
 		}
-		this->layer.learn(fix, delta);
+		this->bias += delta;
+		this->neurone.learn(fix);
 	}
 }

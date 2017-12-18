@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "ia/learning/teacher.hpp"
+#include "ia/neural/network.hpp"
 
 int main()
 {
@@ -26,15 +27,15 @@ int main()
 	{ { 0.0, 1.0 }, 1.0 },
 	{ { 1.0, 0.0 }, 1.0 },
 	{ { 1.0, 1.0 }, 0.0 } },
-		"NAND"};
+		"NAND" };
 
-	ece::Epoch nor { { { {0.0, 0.0}, 1.0},
+	ece::Epoch nor{ { { {0.0, 0.0}, 1.0},
 	{ { 0.0, 1.0 }, 0.0 },
 	{ { 1.0, 0.0 }, 0.0 },
 	{ { 1.0, 1.0 }, 0.0 } },
 		"NOR" };
 
-	ece::Epoch xor { { { {0.0, 0.0}, 0.0},
+	ece::Epoch xor{ { { {0.0, 0.0}, 0.0},
 	{ { 0.0, 1.0 }, 1.0 },
 	{ { 1.0, 0.0 }, 1.0 },
 	{ { 1.0, 1.0 }, 0.0 } },
@@ -46,19 +47,32 @@ int main()
 	{ { 1.0, 1.0 }, 1.0 } },
 		"NXOR" };
 
-	ece::Perceptron neurone(2, 1.0, 0.5);
+	static const int RED_CLASS = 1;
+	static const int BLUE_CLASS = 0;
+	ece::Epoch colors{ { { { 1.0, 0.0, 0.0 }, RED_CLASS },
+						   { { 0.0, 0.0, 1.0 }, BLUE_CLASS },
+						   { { 0.0, 1.0, 0.0 }, BLUE_CLASS },
+						   { { 0.84, 0.14, 0.47 }, RED_CLASS },
+						   { { 0.67, 0.3, 0.67 }, BLUE_CLASS },
+						   { { 0.85, 0.67, 0.12 }, RED_CLASS } },
+		"COLOR" };
+
+	ece::Perceptron neurone(3, 100.0, 0.5);
 	ece::Teacher teacher(0.01);
 
-	teacher.teachTo(and, neurone);
+	ece::Network<2, 1, 1> network(ece::SPLIT_RULE::ALL_TO_ALL, 0.5, 0.01);
+
+	//teacher.teachTo(and, neurone);
 	//teacher.teachTo(or, neurone);
 	//teacher.teachTo(nand, neurone);
 	//teacher.teachTo(nor, neurone);
 	//teacher.teachTo(xor, neurone);
 	//teacher.teachTo(nxor, neurone);
+	teacher.teachTo(colors, neurone);
 
 	while (1) {
-		std::vector<double> inputs(2);
-		std::cin >> inputs[0] >> inputs[1];
+		std::vector<double> inputs(3);
+		std::cin >> inputs[0] >> inputs[1] >> inputs[2];
 		auto output = neurone.evaluate(inputs);
 		std::cout << "Perceptron has evaluate the answer is :" << std::endl;
 		std::cout << ">>>>>| " << std::round(output) << " |<<<<<" << std::endl;
