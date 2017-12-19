@@ -15,6 +15,7 @@ namespace ece
 		inline constexpr Quaternion() noexcept;
 		inline Quaternion(const T w, const T x, const T y, const T z) noexcept;
 		inline Quaternion(const T angle, const Vertex3u<T> & axis) noexcept;
+		Quaternion(const EulerAngle<T> & eulerAngle);
 		Quaternion(const Quaternion<T> & copy) = default;
 		Quaternion(Quaternion<T> && move) = default;
 
@@ -42,8 +43,18 @@ namespace ece
 		inline T angle() const noexcept;
 		inline Vector3u<T> axis() const noexcept;
 
-		inline EulerRotation<T> toEulerAngle() const noexcept;
+		inline EulerAngle<T> toEulerAngle() const noexcept;
 		inline Matrix4u<T> toMatrix() const noexcept;
+
+		inline T & getW() noexcept;
+		inline T & getX() noexcept;
+		inline T & getY() noexcept;
+		inline T & getZ() noexcept;
+
+		inline T getW() const noexcept;
+		inline T getX() const noexcept;
+		inline T getY() const noexcept;
+		inline T getZ() const noexcept;
 
 	private:
 		T w;
@@ -53,6 +64,6 @@ namespace ece
 	};
 }
 
-#include "utility/mathematics/quaternion.hpp"
+#include "utility/mathematics/quaternion.inl"
 
 #endif // QUATERNION_HPP
