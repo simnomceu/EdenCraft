@@ -8,7 +8,7 @@ namespace ece
 	class WindowAdapter: public BaseWindowAdapter
 	{
 	public:
-		WindowAdapter() = default;
+		WindowAdapter();
 		WindowAdapter(const WindowAdapter & copy) = default;
 		WindowAdapter(WindowAdapter && move) = default;
 
@@ -19,6 +19,7 @@ namespace ece
 
 		virtual void createWindow() override;
 		virtual void deleteWindow() override;
+		virtual bool isWindowCreated() const override;
 
 		virtual void setTitle(const std::string & title) override;
 		virtual std::string getTitle() const override;
@@ -30,8 +31,13 @@ namespace ece
 		virtual void maximize() override;
 
 		virtual void processEvent(const bool blocking) override;
-	private:
 
+		virtual inline Pimpl<DataWindowAdapter> & getImpl() override { return this->data; }
+
+		void processMessage(const WindowMessage & message);
+
+	private:
+		Pimpl<DataWindowAdapter> data;
 	};
 }
 

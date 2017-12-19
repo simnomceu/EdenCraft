@@ -1,42 +1,43 @@
-#include "window/win32/window_adapter.hpp"
+#include "window/common/window_adapter.hpp"
+#include "window/win32/data_window_adapter.hpp"
 
 #include <iostream>
 #include <windowsx.h>
 
 namespace ece
 {
-	const LPCWSTR WindowAdapter::className = L"ECE Window";
+	WindowAdapter::WindowAdapter(): BaseWindowAdapter(), data(makePimpl<DataWindowAdapter>(nullptr)) {}
 
 	void WindowAdapter::createWindow()
 	{
-		this->registerPattern();
+		registerPattern();
 
 		DWORD settingsEx = WS_EX_TOPMOST;
 		DWORD settings = WS_OVERLAPPEDWINDOW;
 
-		this->windowId = CreateWindowEx(settingsEx, WindowAdapter::className, L"", settings, 0, 0, 320, 320, nullptr, nullptr, GetModuleHandle(nullptr), this);
-		ShowWindow(this->windowId, SW_SHOW);
-		UpdateWindow(this->windowId);
+		this->data->windowId = CreateWindowEx(settingsEx, className, L"", settings, 0, 0, 320, 320, nullptr, nullptr, GetModuleHandle(nullptr), this);
+		ShowWindow(this->data->windowId, SW_SHOW);
+		UpdateWindow(this->data->windowId);
 	}
 
 	void WindowAdapter::deleteWindow()
 	{
-		int codeError = DestroyWindow(this->windowId);
+		int codeError = DestroyWindow(this->data->windowId);
 		if (codeError == 0) {
 			std::cout << "Erreur destruction HWND. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
 		}
-		this->windowId = nullptr;
+		this->data->windowId = nullptr;
 	}
 
 	bool WindowAdapter::isWindowCreated() const
 	{
-		return this->windowId != nullptr;
+		return this->data->windowId != nullptr;
 	}
 
 	void WindowAdapter::setTitle(const std::string & title)
 	{
-		bool success = SetWindowTextA(this->windowId, title.data());
+		bool success = SetWindowTextA(this->data->windowId, title.data());
 		if (!success) {
 			std::cout << "Error while renaming window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -46,7 +47,7 @@ namespace ece
 	std::string WindowAdapter::getTitle() const
 	{
 		LPSTR title = nullptr;
-		bool success = GetWindowTextA(this->windowId, title, GetWindowTextLengthA(this->windowId));
+		bool success = GetWindowTextA(this->data->windowId, title, GetWindowTextLengthA(this->data->windowId));
 		if (!success) {
 			std::cout << "Error while getting window name. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -56,7 +57,7 @@ namespace ece
 
 	void WindowAdapter::setPosition(const IntVertex2u & position)
 	{
-		bool success = SetWindowPos(this->windowId, 0, position[0], position[1], 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		bool success = SetWindowPos(this->data->windowId, 0, position[0], position[1], 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		if (!success) {
 			std::cout << "Error while moving window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -66,7 +67,7 @@ namespace ece
 	IntVertex2u WindowAdapter::getPosition() const
 	{
 		RECT bounds;
-		bool success = GetWindowRect(this->windowId, &bounds);
+		bool success = GetWindowRect(this->data->windowId, &bounds);
 		if (!success) {
 			std::cout << "Error while retrieving window bounds. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -76,7 +77,7 @@ namespace ece
 
 	void WindowAdapter::minimize()
 	{
-		bool success = ShowWindow(this->windowId, SW_RESTORE | SW_SHOWMINIMIZED);
+		bool success = ShowWindow(this->data->windowId, SW_RESTORE | SW_SHOWMINIMIZED);
 		if (!success) {
 			std::cout << "Error while minimizing window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -85,7 +86,7 @@ namespace ece
 
 	void WindowAdapter::maximize()
 	{
-		bool success = ShowWindow(this->windowId, SW_RESTORE | SW_SHOWMAXIMIZED);
+		bool success = ShowWindow(this->data->windowId, SW_RESTORE | SW_SHOWMAXIMIZED);
 		if (!success) {
 			std::cout << "Error while maximizing window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -108,20 +109,15 @@ namespace ece
 		}
 	}
 
-	HWND WindowAdapter::getWindowHandle() const
-	{
-		return this->windowId;
-	}
-
 	/*bool WindowAdapter::hasEvents() const
 	{
 		return PeekMessage(nullptr, this->windowId, 0, 0, PM_NOREMOVE);
 	}*/
 
-	void WindowAdapter::registerPattern()
+	void registerPattern()
 	{
 		WNDCLASSEX windowPattern;
-		if (!GetClassInfoEx(GetModuleHandle(nullptr), WindowAdapter::className, &windowPattern)) {
+		if (!GetClassInfoEx(GetModuleHandle(nullptr), className, &windowPattern)) {
 			windowPattern.cbClsExtra = 0;
 			windowPattern.cbSize = sizeof(WNDCLASSEX);
 			windowPattern.cbWndExtra = 0;
@@ -130,8 +126,8 @@ namespace ece
 			windowPattern.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 			windowPattern.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 			windowPattern.hInstance = GetModuleHandle(nullptr);
-			windowPattern.lpfnWndProc = WindowAdapter::processMessages;
-			windowPattern.lpszClassName = WindowAdapter::className;
+			windowPattern.lpfnWndProc = processMessages;
+			windowPattern.lpszClassName = className;
 			windowPattern.lpszMenuName = nullptr;
 			windowPattern.style = CS_DBLCLKS;
 
@@ -143,7 +139,7 @@ namespace ece
 		}
 	}
 
-	LRESULT CALLBACK WindowAdapter::processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		WindowAdapter * object = nullptr;
 		if (message == WM_CREATE) {
@@ -155,19 +151,17 @@ namespace ece
 		}
 
 		if (object) {
-			return object->processMessage(message, wParam, lParam);
+			object->processMessage(WindowMessage{ windowId, message, wParam, lParam });
 		}
-		else {
-			return DefWindowProc(windowId, message, wParam, lParam);
-		}
+		return DefWindowProc(windowId, message, wParam, lParam);
 	}
 
-	LRESULT WindowAdapter::processMessage(UINT message, WPARAM wParam, LPARAM lParam)
+	void WindowAdapter::processMessage(const WindowMessage & message)
 	{
-		if (this->windowId == windowId) {
-			switch (message) {
+		if (this->data->windowId == message.windowId) {
+			switch (message.message) {
 			case WM_KEYDOWN: {
-				auto keyCode = this->interpretKey(wParam);
+				auto keyCode = interpretKey(message.wParam);
 				if (this->keyRepeat || (!this->keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
 					InputEvent newEvent;
 					newEvent.type = InputEvent::ECE_KEY_PRESSED;
@@ -178,7 +172,7 @@ namespace ece
 				break;
 			}
 			case WM_KEYUP: {
-				auto keyCode = this->interpretKey(wParam);
+				auto keyCode = interpretKey(message.wParam);
 				InputEvent newEvent;
 				newEvent.type = InputEvent::ECE_KEY_RELEASED;
 				newEvent.key = keyCode;
@@ -269,8 +263,8 @@ namespace ece
 			case WM_MOUSEMOVE: {
 				InputEvent newEvent;
 				newEvent.type = InputEvent::ECE_MOUSE_MOVED;
-				newEvent.mousePosition[0] = GET_X_LPARAM(lParam);
-				newEvent.mousePosition[1] = GET_Y_LPARAM(lParam);
+				newEvent.mousePosition[0] = GET_X_LPARAM(message.lParam);
+				newEvent.mousePosition[1] = GET_Y_LPARAM(message.lParam);
 				Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
 				this->pushEvent(newEvent);
 				break;
@@ -280,10 +274,9 @@ namespace ece
 			}
 			}
 		}
-		return DefWindowProc(windowId, message, wParam, lParam);
 	}
 
-	Keyboard::Key WindowAdapter::interpretKey(WPARAM wParam)
+	Keyboard::Key interpretKey(WPARAM wParam)
 	{
 		Keyboard::Key key;
 		switch (wParam) {

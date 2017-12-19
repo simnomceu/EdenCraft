@@ -1,6 +1,6 @@
 #include "renderer/win32/wgl_extension.hpp"
 
-#include "window/win32/window_adapter.hpp"
+#include "window/common/window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
 
 namespace ece

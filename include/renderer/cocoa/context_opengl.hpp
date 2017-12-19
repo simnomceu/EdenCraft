@@ -8,11 +8,11 @@ namespace ece
 	class ContextOpenGL: public BaseContextOpenGL
 	{
 	public:
-		ContextOpenGL() = default;
+		ContextOpenGL();
 		ContextOpenGL(const ContextOpenGL & copy) = default;
 		ContextOpenGL(ContextOpenGL && move) = default;
 
-		~ContextOpenGL() = default;
+		~ContextOpenGL();
 
 		ContextOpenGL & operator=(const ContextOpenGL & copy) = default;
 		ContextOpenGL & operator=(ContextOpenGL && move) = default;
