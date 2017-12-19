@@ -48,6 +48,7 @@
  */
 
 #include <sstream>
+#include <iostream>
 
 namespace ece
 {
@@ -79,6 +80,7 @@ namespace ece
 			}
 			catch (std::exception & e) {
 				// TODO what ?
+				std::cerr << "Error with parsing exception argument: " << e.what() << std::endl;
 			}
 			/* And then return  */
 			return content.substr(0, pos) + end;
