@@ -36,28 +36,113 @@
 
 */
 
+/**
+ * @file utility/indexing/index2u.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 19th 2017
+ * @copyright ----------
+ * @brief A 2D index key.
+ *
+ */
+
 #ifndef INDEX2U_HPP
 #define INDEX2U_HPP
 
 namespace ece
 {
+	/**
+	 * @class Index2u
+	 * @brief
+	 * @remark This class need to be refactored to be usable in others classes like Matrix.
+	 */
 	class Index2u
 	{
 	public:
-		inline Index2u();
-		inline Index2u(const int i, const int j);
-		Index2u(const Index2u & copy) = default;
-		Index2u(Index2u && move) = default;
+		/**
+		 * @fn Index2u()
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline constexpr Index2u() noexcept;
+		
+		/**
+		 * @fn Index2u(const int i, const int j)
+		 * @param[in] i
+		 * @param[in] j
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline Index2u(const int i, const int j) noexcept;
 
-		~Index2u() = default;
+		/**
+		 * @fn Index2u(const Index2u & copy)
+		 * @param[in] copy
+		 * @brief
+		 * @throw noexcept
+		 */
+		Index2u(const Index2u & copy) noexcept = default;
 
-		Index2u & operator=(const Index2u & copy) = default;
-		Index2u & operator=(Index2u && move) = default;
+		/**
+		 * @fn Index2u(Index2u && move)
+		 * @param[in] move
+		 * @brief
+		 * @throw noexcept
+		 */
+		Index2u(Index2u && move) noexcept = default;
 
-		inline int get(const int maxI);
+		/**
+		 * @fn ~Index2u()
+		 * @brief
+		 * @throw noexcept
+		 */
+		~Index2u() noexcept = default;
+
+		/**
+		 * @fn Index2u & operator=(const Index2u & copy)
+		 * @param[in] copy
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		Index2u & operator=(const Index2u & copy) noexcept = default;
+
+		/**
+		 * @fn Index2u & operator=(Index2u && move)
+		 * @param[in] move
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		Index2u & operator=(Index2u && move) noexcept = default;
+
+		/**
+		 * @fn int get(const int maxI)
+		 * @param[in] maxI
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline int get(const int maxI) noexcept;
+
+		/**
+		 * @fn void set(const int maxI, const int index)
+		 * @param[in] maxI
+		 * @param[in] index
+		 * @brief
+		 * @throw 
+		 */
 		inline void set(const int maxI, const int index);
 
+		/**
+		 * @property i
+		 * @brief
+		 */
 		unsigned int i;
+
+		/**
+		 * @property j
+		 * @brief
+		 */
 		unsigned int j;
 	};
 }

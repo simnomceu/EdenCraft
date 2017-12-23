@@ -36,13 +36,22 @@
 
 */
 
+/**
+ * @file utility/indexing/index2u.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 19th 2017
+ * @copyright ----------
+ * @brief A 2D index key.
+ *
+ */
+
 namespace ece
 {
-	inline Index2u::Index2u(): i(0), j(0) {}
+	inline constexpr Index2u::Index2u() noexcept: i(0), j(0) {}
 
-	inline Index2u::Index2u(const int i, const int j) : i(i), j(j) {}
+	inline Index2u::Index2u(const int i, const int j) noexcept: i(i), j(j) {}
 
-	inline int Index2u::get(const int maxI) { return this->j * maxI + this->i; }
+	inline int Index2u::get(const int maxI) noexcept { return this->j * maxI + this->i; }
 	
 	inline void Index2u::set(const int maxI, const int index)
 	{

@@ -36,6 +36,15 @@
 
 */
 
+/**
+ * @file utility/enum.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 19th 2017
+ * @copyright ----------
+ * @brief All features from utility/enum module.
+ *
+ **/
+
 #ifndef TYPE_HPP 
 #define TYPE_HPP 
 
