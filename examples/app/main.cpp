@@ -54,7 +54,8 @@ int main()
 						   { { 0.0, 1.0, 0.0 }, BLUE_CLASS },
 						   { { 0.84, 0.14, 0.47 }, RED_CLASS },
 						   { { 0.67, 0.3, 0.67 }, BLUE_CLASS },
-						   { { 0.85, 0.67, 0.12 }, RED_CLASS } },
+						   { { 0.85, 0.67, 0.12 }, RED_CLASS },
+						   { { 0.63, 0.63, 0.63 }, BLUE_CLASS } },
 		"COLOR" };
 
 	ece::Perceptron neurone(3, 100.0, 0.5);
@@ -75,7 +76,7 @@ int main()
 		std::cin >> inputs[0] >> inputs[1] >> inputs[2];
 		auto output = neurone.evaluate(inputs);
 		std::cout << "Perceptron has evaluate the answer is :" << std::endl;
-		std::cout << ">>>>>| " << std::round(output) << " |<<<<<" << std::endl;
+		std::cout << ">>>>>| " << (std::round(output) ? "RED" : "BLUE") << " |<<<<<" << std::endl;
 	}
 
 	return 0;
