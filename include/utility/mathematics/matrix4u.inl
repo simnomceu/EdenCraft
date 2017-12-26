@@ -21,10 +21,10 @@ namespace ece
 								 const T a21, const T a22, const T a23, const T a24,
 								 const T a31, const T a32, const T a33, const T a34,
 								 const T a41, const T a42, const T a43, const T a44) :
-		std::array<Vertex4u<T>, 4>{ Vertex4u<T>(a11, a12, a13, a14),
-									Vertex4u<T>(a21, a22, a23, a24),
-									Vertex4u<T>(a31, a32, a33, a34),
-									Vertex4u<T>(a41, a42, a43, a44) } {}
+		std::array<Vertex4u<T>, 4>{ Vertex4u<T>{ a11, a12, a13, a14 },
+									Vertex4u<T>{ a21, a22, a23, a24 },
+									Vertex4u<T>{ a31, a32, a33, a34 },
+									Vertex4u<T>{ a41, a42, a43, a44 } } {}
 
 	template <class T>
 	inline Matrix4u<T>::Matrix4u(const Vertex4u<T> & a1, const Vertex4u<T> & a2, const Vertex4u<T> & a3, const Vertex4u<T> & a4) :

@@ -48,7 +48,7 @@
 #ifndef FILE_HPP
 #define FILE_HPP
 
-#include "utility/mathematics/vertex3u.hpp"
+#include "utility/mathematics/vector3u.hpp"
 #include "utility/enum.hpp"
 
 #include <string>

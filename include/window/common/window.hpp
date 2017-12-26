@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "window/common/base_window_adapter.hpp"
-#include "utility/mathematics/vertex2u.hpp"
+#include "utility/mathematics/vector2u.hpp"
 #include "core/event/emitter.hpp"
 #include "window/common/video_mode.hpp"
 #include "window/common/window_setting.hpp"

@@ -41,7 +41,7 @@
 
 #include <array>
 
-#include "utility/mathematics/vertex4u.hpp"
+#include "utility/mathematics/vector4u.hpp"
 
 namespace ece
 {

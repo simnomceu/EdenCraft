@@ -39,7 +39,7 @@
 #ifndef BOX3D_HPP
 #define BOX3D_HPP
 
-#include "utility/mathematics/vertex3u.hpp"
+#include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {
