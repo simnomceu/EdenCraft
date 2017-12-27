@@ -20,6 +20,9 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	inline Vector<T, Size>::Vector(std::valarray<T> && move) : std::valarray<T>(move) {}
+
+	template <class T, unsigned int Size>
 	Vector<T, Size> & Vector<T, Size>::operator=(const std::initializer_list<T> & il)
 	{
 		std::valarray<T>::operator=(il);
@@ -450,7 +453,4 @@ namespace ece
 
 	template <class T, unsigned int Size>
 	inline T Vector<T, Size>::distanceFrom(const Vector<T, Size> & rightOperand) const { return this->operator-(rightOperand).magnitude(); }
-
-	template <class T, unsigned int Size>
-	inline Vector<T, Size>::Vector(std::valarray<T> && move): std::valarray<T>(move) {}
 }

@@ -27,6 +27,7 @@ namespace ece
 		Vector(const std::initializer_list<T> &  il);
 		Vector(const Vector<T, Size> & copy) = default;
 		Vector(Vector<T, Size> && move) noexcept = default;
+		inline Vector(std::valarray<T> && move);
 
 		~Vector() = default;
 
@@ -147,9 +148,6 @@ namespace ece
 		inline Vector<T, Size> cross(const Vector<T, Size> & rightOperand) const;
 		inline T dot(const Vector<T, Size> & rightOperand) const;
 		inline T distanceFrom(const Vector<T, Size> & rightOperand) const;
-
-		protected:
-			inline Vector(std::valarray<T> && move);
 	};
 }
 
