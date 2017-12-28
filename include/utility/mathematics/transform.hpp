@@ -42,12 +42,12 @@
 #define PI 3.14159265359
 
 #include "utility/mathematics/matrix4u.hpp"
-#include "utility/mathematics/vertex3u.hpp"
+#include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/rectangle.hpp"
 
 namespace ece
 {
-	FloatMatrix4u lookAt(const FloatPoint3u & eye, const FloatPoint3u & target, const FloatVertex3u & upAxis);
+	FloatMatrix4u lookAt(const FloatVertex3u & eye, const FloatVertex3u & target, const FloatVector3u & upAxis);
 
 	FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping);
 

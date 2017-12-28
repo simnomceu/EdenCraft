@@ -1,200 +1,101 @@
-#include "utility/debug/exception.hpp"
-
 namespace ece
 {
-	template <class T>
-	inline Matrix2u<T> Matrix2u<T>::Identity() { return Matrix2u<T>(1, 0, 0, 1); }
-
-	template <class T>
-	inline Matrix2u<T>::Matrix2u() : std::array<Vertex2u<T>, 2>{ Vertex2u<T>{0, 0}, Vertex2u<T>{0, 0} } {}
-
-	template <class T>
-	inline Matrix2u<T>::Matrix2u(const T a11, const T a12, const T a21, const T a22):
-		std::array<Vertex2u<T>, 2>{ Vertex2u<T>{a11, a12}, Vertex2u<T>{ a21, a22 } } {}
-
-	template <class T>
-	inline Matrix2u<T>::Matrix2u(const Vertex2u<T> & a1, const Vertex2u<T> & a2) : std::array<Vertex2u<T>, 2>{ a1, a2 } {}
-
-	template <class T>
-	template <typename V>
-	inline Matrix2u<T>::Matrix2u(const Matrix2u<V> & copy): std::array<Vertex2u<T>, 2>{ copy[0], copy[1] } {}
-
-	template <class T>
-	template <typename V>
-	inline Matrix2u<T> & Matrix2u<T>::operator=(const Matrix2u<V> & copy) 
-	{
-		(*this)[0] = copy[0];
-		(*this)[1] = copy[1];
-		return *this;
-	}
-
-	template <class T>
-	inline Matrix2u<T>& Matrix2u<T>::setIdentity()
-	{
-		(*this)[0] = { 1, 0 };
-		(*this)[1] = { 0, 1 };
-		return *this;
-	}
-
-	template <class T>
-	template<typename V>
-	inline Matrix2u<T>& Matrix2u<T>::operator/=(const V value)
-	{
-		if (value == 0) {
-			throw ece::DivideByZeroException("Matrix2u");
-		}
-		(*this)[0] /= value;
-		(*this)[1] /= value;
-		return *this;
-	}
-
-	template <class T>
-	template<typename V>
-	inline Matrix2u<T> & Matrix2u<T>::operator*=(const V value)
-	{
-		(*this)[0] *= value;
-		(*this)[1] *= value;
-		return *this;
-	}
-
-	template <class T>
-	template <typename V>
-	inline Matrix2u<T> & Matrix2u<T>::operator*=(const Matrix2u<V> value)
-	{
-		T a11 = (*this)[0][0] * value[0][0] + (*this)[0][1] * value[1][0];
-		T a12 = (*this)[0][0] * value[0][1] + (*this)[0][1] * value[1][1];
-		T a21 = (*this)[1][0] * value[0][0] + (*this)[1][1] * value[1][0];
-		T a22 = (*this)[0][0] * value[0][1] + (*this)[0][1] * value[1][1];
-		(*this)[0][0] = a11;
-		(*this)[0][1] = a12;
-		(*this)[1][0] = a21;
-		(*this)[1][1] = a22;
-		return *this;
-	}
-
-	template <class T>
-	inline Matrix2u<T> & Matrix2u<T>::operator+=(const Matrix2u<T> value)
-	{
-		(*this)[0] += value[0];
-		(*this)[1] += value[1];
-		return *this;
-	}
-
-	template <class T>
-	inline Matrix2u<T>& Matrix2u<T>::operator-=(const Matrix2u<T> value)
-	{
-		(*this)[0] -= value[0];
-		(*this)[1] -= value[1];
-		return *this;
-	}
-
-	template <class T>
-	template <typename V>
-	inline Matrix2u<T> Matrix2u<T>::operator/(const V value) const
-	{
-		if (value == 0) {
-			throw ece::DivideByZeroException("Matrix2u");
-		}
-		return Matrix2u<T>{(*this)[0] / value, (*this)[1] / value};
-	}
-
-	template <class T>
-	template <typename V>
-	inline Matrix2u<T> Matrix2u<T>::operator*(const V value) const
-	{
-		return Matrix2u<T>{(*this)[0] * value, (*this)[1] * value};
-	}
-
-	template <class T>
-	template <typename V>
-	inline Vertex2u<T> Matrix2u<T>::operator*(const Vertex2u<V> value) const
-	{
-		T a11 = (*this)[0][0] * value[0] + (*this)[0][1] * value[1];
-		T a21 = (*this)[1][0] * value[0] + (*this)[1][1] * value[1];
-		return Vertex2u<T>(a11, a21);
-	}
-
-	template <class T>
-	template <typename V>
-	inline Matrix2u<T> Matrix2u<T>::operator*(const Matrix2u<V> value) const
-	{
-		T a11 = (*this)[0][0] * value[0][0] + (*this)[0][1] * value[1][0];
-		T a12 = (*this)[0][0] * value[0][1] + (*this)[0][1] * value[1][1];
-		T a21 = (*this)[1][0] * value[0][0] + (*this)[1][1] * value[1][0];
-		T a22 = (*this)[0][0] * value[0][1] + (*this)[0][1] * value[1][1];
-		return Matrix2u<T>(a11, a12, a21, a22);
-	}
-
-	template <class T>
-	inline Matrix2u<T> Matrix2u<T>::operator+(const Matrix2u<T> value) const
-	{
-		return Matrix2u<T>{(*this)[0] + value[0], (*this)[1] + value[1]};
-	}
-
-	template <class T>
-	inline Matrix2u<T> Matrix2u<T>::operator-(const Matrix2u<T> value) const
-	{
-		return Matrix2u<T>{(*this)[0] - value[0], (*this)[1] - value[1]};
-	}
-
-	template <class T>
-	inline Matrix2u<T> Matrix2u<T>::operator-() const
-	{
-		return Matrix2u<T>{-(*this)[0], -(*this)[1]};
-	}
-
-	template <class T>
-	inline bool Matrix2u<T>::operator==(const Matrix2u<T> & rightOperand) const
-	{
-		return (*this)[0] == rightOperand[0] && (*this)[1] == rightOperand[1];
-	}
-
-	template <class T>
-	inline Vertex2u<T> Matrix2u<T>::getColumn(const int index) const
-	{
-		if (index > 1 || index < 0) {
-			throw ece::OutOfRangeException("Column of Matrix2u", index);
-		}
-		return Vertex2u<T>((*this)[0][index], (*this)[1][index]);
-	}
-
-	template <class T>
-	inline Vertex2u<T> Matrix2u<T>::getRow(const int index) const
-	{
-		if (index > 1 || index < 0) {
-			throw ece::OutOfRangeException("Row of Matrix2u", index);
-		}
-		return Vertex2u<T>((*this)[index]);
-	}
-
-	template <class T>
-	inline Vertex2u<T> & Matrix2u<T>::getRow(const int index)
-	{
-		if (index > 1 || index < 0) {
-			throw ece::OutOfRangeException("Row of Matrix2u", index);
-		}
-		return (*this)[index];
-	}
-
-	template<class T>
-	inline T Matrix2u<T>::determinant() const
+	template <>
+	inline int Matrix2u<int>::determinant() const
 	{
 		return (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
 	}
 
-	template<class T>
-	inline Matrix2u<T> Matrix2u<T>::transpose() const
+	template <>
+	inline unsigned int Matrix2u<unsigned int>::determinant() const
 	{
-		return Matrix2u<T>((*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1]);
+		return (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
 	}
 
-	template<class T>
-	inline Matrix2u<double> Matrix2u<T>::inverse(bool & invertible) const
+	template <>
+	inline float Matrix2u<float>::determinant() const
+	{
+		return (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
+	}
+
+	template <>
+	inline double Matrix2u<double>::determinant() const
+	{
+		return (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
+	}
+
+	template<>
+	inline Matrix2u<int> Matrix2u<int>::transpose() const
+	{
+		return Matrix2u<int>{ (*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1] };
+	}
+
+	template<>
+	inline Matrix2u<unsigned int> Matrix2u<unsigned int>::transpose() const
+	{
+		return Matrix2u<unsigned int>{ (*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1] };
+	}
+
+	template<>
+	inline Matrix2u<float> Matrix2u<float>::transpose() const
+	{
+		return Matrix2u<float>{ (*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1] };
+	}
+
+	template<>
+	inline Matrix2u<double> Matrix2u<double>::transpose() const
+	{
+		return Matrix2u<double>{ (*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1] };
+	}
+
+	template<>
+	inline Matrix2u<double> Matrix2u<int>::inverse(bool & invertible) const
 	{
 		auto det = this->determinant();
 		invertible = (det != 0);
 		if (invertible) {
-			return Matrix2u<double>((*this)[1][1], -(*this)[0][1], -(*this)[1][0], (*this)[0][0]) * (1.0f / det);
+			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), static_cast<double>(-(*this)[0][1]), 
+									static_cast<double>(-(*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
+		}
+		else {
+			return Matrix2u<double>();
+		}
+	}
+
+	template<>
+	inline Matrix2u<double> Matrix2u<unsigned int>::inverse(bool & invertible) const
+	{
+		auto det = this->determinant();
+		invertible = (det != 0);
+		if (invertible) {
+			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), static_cast<double>(-(*this)[0][1]), 
+									static_cast<double>(-(*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
+		}
+		else {
+			return Matrix2u<double>();
+		}
+	}
+
+	template<>
+	inline Matrix2u<double> Matrix2u<float>::inverse(bool & invertible) const
+	{
+		auto det = this->determinant();
+		invertible = (det != 0);
+		if (invertible) {
+			return Matrix2u<double>{ (*this)[1][1], -(*this)[0][1], -(*this)[1][0], (*this)[0][0] } *(1.0f / det);
+		}
+		else {
+			return Matrix2u<double>();
+		}
+	}
+
+	template<>
+	inline Matrix2u<double> Matrix2u<double>::inverse(bool & invertible) const
+	{
+		auto det = this->determinant();
+		invertible = (det != 0);
+		if (invertible) {
+			return Matrix2u<double>{ (*this)[1][1], -(*this)[0][1], -(*this)[1][0], (*this)[0][0] } *(1.0f / det);
 		}
 		else {
 			return Matrix2u<double>();

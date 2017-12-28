@@ -2,269 +2,33 @@
 
 namespace ece
 {
-	template <class T>
-	inline Matrix4u<T> Matrix4u<T>::Identity() {
-		return Matrix4u<T>(1, 0, 0, 0,
-						   0, 1, 0, 0,
-						   0, 0, 1, 0,
-						   0, 0, 0, 1);
-	}
-
-	template <class T>
-	inline Matrix4u<T>::Matrix4u() : std::array<Vertex4u<T>, 4>{ Vertex4u<T>(),
-																 Vertex4u<T>(),
-																 Vertex4u<T>(),
-																 Vertex4u<T>() } {}
-
-	template <class T>
-	inline Matrix4u<T>::Matrix4u(const T a11, const T a12, const T a13, const T a14,
-								 const T a21, const T a22, const T a23, const T a24,
-								 const T a31, const T a32, const T a33, const T a34,
-								 const T a41, const T a42, const T a43, const T a44) :
-		std::array<Vertex4u<T>, 4>{ Vertex4u<T>(a11, a12, a13, a14),
-									Vertex4u<T>(a21, a22, a23, a24),
-									Vertex4u<T>(a31, a32, a33, a34),
-									Vertex4u<T>(a41, a42, a43, a44) } {}
-
-	template <class T>
-	inline Matrix4u<T>::Matrix4u(const Vertex4u<T> & a1, const Vertex4u<T> & a2, const Vertex4u<T> & a3, const Vertex4u<T> & a4) :
-		std::array<Vertex4u<T>, 4>{ a1, a2, a3, a4 } {}
-
-	template <class T>
-	template <typename V>
-	inline Matrix4u<T>::Matrix4u(const Matrix4u<V> & copy) : 
-		std::array<Vertex4u<T>, 4>{ copy[0], copy[1], copy[2], copy[3] } {}
-
-	template <class T>
-	template <typename V>
-	inline Matrix4u<T> & Matrix4u<T>::operator=(const Matrix4u<V> & copy)
+	template<>
+	inline int Matrix4u<int>::determinant() const
 	{
-		(*this)[0] = copy[0];
-		(*this)[1] = copy[1];
-		(*this)[2] = copy[2];
-		(*this)[3] = copy[3];
-		return *this;
-	}
-
-	template <class T>
-	inline Matrix4u<T>& Matrix4u<T>::setIdentity()
-	{
-		(*this)[0] = { 1, 0, 0, 0 };
-		(*this)[1] = { 0, 1, 0, 0 };
-		(*this)[2] = { 0, 0, 1, 0 };
-		(*this)[3] = { 0, 0, 0, 1 };
-		return *this;
-	}
-
-	template <class T>
-	template<typename V>
-	inline Matrix4u<T>& Matrix4u<T>::operator/=(const V value)
-	{
-		if (value == 0) {
-			throw DivideByZeroException("Matrix4u");
-		}
-
-		(*this)[0] /= value;
-		(*this)[1] /= value;
-		(*this)[2] /= value;
-		(*this)[3] /= value;
-		return *this;
-	}
-
-	template <class T>
-	template<typename V>
-	inline Matrix4u<T>& Matrix4u<T>::operator*=(const V value)
-	{
-		(*this)[0] *= value;
-		(*this)[1] *= value;
-		(*this)[2] *= value;
-		(*this)[3] *= value;
-		return *this;
-	}
-
-	template <class T>
-	template <typename V>
-	inline Matrix4u<T> & Matrix4u<T>::operator*=(const Matrix4u<V> value)
-	{
-		T a11 = (*this)[0][0] * value[0][0] + (*this)[0][1] * value[1][0] + (*this)[0][2] * value[2][0] + (*this)[0][3] * value[3][0];
-		T a12 = (*this)[0][0] * value[0][1] + (*this)[0][1] * value[1][1] + (*this)[0][2] * value[2][1] + (*this)[0][3] * value[3][1];
-		T a13 = (*this)[0][0] * value[0][2] + (*this)[0][1] * value[1][2] + (*this)[0][2] * value[2][2] + (*this)[0][3] * value[3][2];
-		T a14 = (*this)[0][0] * value[0][3] + (*this)[0][1] * value[1][3] + (*this)[0][2] * value[2][3] + (*this)[0][3] * value[3][3];
-		T a21 = (*this)[1][0] * value[0][0] + (*this)[1][1] * value[1][0] + (*this)[1][2] * value[2][0] + (*this)[1][3] * value[3][0];
-		T a22 = (*this)[1][0] * value[0][1] + (*this)[1][1] * value[1][1] + (*this)[1][2] * value[2][1] + (*this)[1][3] * value[3][1];
-		T a23 = (*this)[1][0] * value[0][2] + (*this)[1][1] * value[1][2] + (*this)[1][2] * value[2][2] + (*this)[1][3] * value[3][2];
-		T a24 = (*this)[1][0] * value[0][3] + (*this)[1][1] * value[1][3] + (*this)[1][2] * value[2][3] + (*this)[1][3] * value[3][3];
-		T a31 = (*this)[2][0] * value[0][0] + (*this)[2][1] * value[1][0] + (*this)[2][2] * value[2][0] + (*this)[2][3] * value[3][0];
-		T a32 = (*this)[2][0] * value[0][1] + (*this)[2][1] * value[1][1] + (*this)[2][2] * value[2][1] + (*this)[2][3] * value[3][1];
-		T a33 = (*this)[2][0] * value[0][2] + (*this)[2][1] * value[1][2] + (*this)[2][2] * value[2][2] + (*this)[2][3] * value[3][2];
-		T a34 = (*this)[2][0] * value[0][3] + (*this)[2][1] * value[1][3] + (*this)[2][2] * value[2][3] + (*this)[2][3] * value[3][3];
-		T a41 = (*this)[3][0] * value[0][0] + (*this)[3][1] * value[1][0] + (*this)[3][2] * value[2][0] + (*this)[3][3] * value[3][0];
-		T a42 = (*this)[3][0] * value[0][1] + (*this)[3][1] * value[1][1] + (*this)[3][2] * value[2][1] + (*this)[3][3] * value[3][1];
-		T a43 = (*this)[3][0] * value[0][2] + (*this)[3][1] * value[1][2] + (*this)[3][2] * value[2][2] + (*this)[3][3] * value[3][2];
-		T a44 = (*this)[3][0] * value[0][3] + (*this)[3][1] * value[1][3] + (*this)[3][2] * value[2][3] + (*this)[3][3] * value[3][3];
-		(*this)[0][0] = a11;
-		(*this)[0][1] = a12;
-		(*this)[0][2] = a13;
-		(*this)[0][3] = a14;
-		(*this)[1][0] = a21;
-		(*this)[1][1] = a22;
-		(*this)[1][2] = a23;
-		(*this)[1][3] = a24;
-		(*this)[2][0] = a31;
-		(*this)[2][1] = a32;
-		(*this)[2][2] = a33;
-		(*this)[2][3] = a44;
-		(*this)[3][0] = a41;
-		(*this)[3][1] = a42;
-		(*this)[3][2] = a43;
-		(*this)[3][3] = a44;
-		return *this;
-	}
-
-	template <class T>
-	inline Matrix4u<T>& Matrix4u<T>::operator+=(const Matrix4u<T> value)
-	{
-		(*this)[0] += value[0];
-		(*this)[1] += value[1];
-		(*this)[2] += value[2];
-		(*this)[3] += value[3];
-		return *this;
-	}
-
-	template <class T>
-	inline Matrix4u<T>& Matrix4u<T>::operator-=(const Matrix4u<T> value)
-	{
-		(*this)[0] -= value[0];
-		(*this)[1] -= value[1];
-		(*this)[2] -= value[2];
-		(*this)[3] -= value[3];
-		return *this;
-	}
-
-	template <class T>
-	template <typename V>
-	inline Matrix4u<T> Matrix4u<T>::operator/(const V value) const
-	{
-		if (value == 0) {
-			throw DivideByZeroException("Matrix4u");
-		}
-		return Matrix4u<T>{(*this)[0] / value, (*this)[1] / value, (*this)[2] / value, (*this)[3] / value};
-	}
-
-	template <class T>
-	template <typename V>
-	inline Matrix4u<T> Matrix4u<T>::operator*(const V value) const
-	{
-		return Matrix4u<T>{(*this)[0] * value, (*this)[1] * value, (*this)[2] * value, (*this)[3] * value};
-	}
-
-	template <class T>
-	template <typename V>
-	inline Vertex4u<T> Matrix4u<T>::operator*(const Vertex4u<V> value) const
-	{
-		T a11 = (*this)[0][0] * value[0] + (*this)[0][1] * value[1] + (*this)[0][2] * value[2] + (*this)[0][3] * value[3];
-		T a21 = (*this)[1][0] * value[0] + (*this)[1][1] * value[1] + (*this)[1][2] * value[2] + (*this)[1][3] * value[3];
-		T a31 = (*this)[2][0] * value[0] + (*this)[2][1] * value[1] + (*this)[2][2] * value[2] + (*this)[2][3] * value[3];
-		T a41 = (*this)[3][0] * value[0] + (*this)[3][1] * value[1] + (*this)[3][2] * value[2] + (*this)[3][3] * value[3];
-		return Vertex4u<T>(a11, a21, a31, a41);
-	}
-
-	template <class T>
-	template <typename V>
-	inline Matrix4u<T> Matrix4u<T>::operator*(const Matrix4u<V> value) const
-	{
-		T a11 = (*this)[0][0] * value[0][0] + (*this)[0][1] * value[1][0] + (*this)[0][2] * value[2][0] + (*this)[0][3] * value[3][0];
-		T a12 = (*this)[0][0] * value[0][1] + (*this)[0][1] * value[1][1] + (*this)[0][2] * value[2][1] + (*this)[0][3] * value[3][1];
-		T a13 = (*this)[0][0] * value[0][2] + (*this)[0][1] * value[1][2] + (*this)[0][2] * value[2][2] + (*this)[0][3] * value[3][2];
-		T a14 = (*this)[0][0] * value[0][3] + (*this)[0][1] * value[1][3] + (*this)[0][2] * value[2][3] + (*this)[0][3] * value[3][3];
-		T a21 = (*this)[1][0] * value[0][0] + (*this)[1][1] * value[1][0] + (*this)[1][2] * value[2][0] + (*this)[1][3] * value[3][0];
-		T a22 = (*this)[1][0] * value[0][1] + (*this)[1][1] * value[1][1] + (*this)[1][2] * value[2][1] + (*this)[1][3] * value[3][1];
-		T a23 = (*this)[1][0] * value[0][2] + (*this)[1][1] * value[1][2] + (*this)[1][2] * value[2][2] + (*this)[1][3] * value[3][2];
-		T a24 = (*this)[1][0] * value[0][3] + (*this)[1][1] * value[1][3] + (*this)[1][2] * value[2][3] + (*this)[1][3] * value[3][3];
-		T a31 = (*this)[2][0] * value[0][0] + (*this)[2][1] * value[1][0] + (*this)[2][2] * value[2][0] + (*this)[2][3] * value[3][0];
-		T a32 = (*this)[2][0] * value[0][1] + (*this)[2][1] * value[1][1] + (*this)[2][2] * value[2][1] + (*this)[2][3] * value[3][1];
-		T a33 = (*this)[2][0] * value[0][2] + (*this)[2][1] * value[1][2] + (*this)[2][2] * value[2][2] + (*this)[2][3] * value[3][2];
-		T a34 = (*this)[2][0] * value[0][3] + (*this)[2][1] * value[1][3] + (*this)[2][2] * value[2][3] + (*this)[2][3] * value[3][3];
-		T a41 = (*this)[3][0] * value[0][0] + (*this)[3][1] * value[1][0] + (*this)[3][2] * value[2][0] + (*this)[3][3] * value[3][0];
-		T a42 = (*this)[3][0] * value[0][1] + (*this)[3][1] * value[1][1] + (*this)[3][2] * value[2][1] + (*this)[3][3] * value[3][1];
-		T a43 = (*this)[3][0] * value[0][2] + (*this)[3][1] * value[1][2] + (*this)[3][2] * value[2][2] + (*this)[3][3] * value[3][2];
-		T a44 = (*this)[3][0] * value[0][3] + (*this)[3][1] * value[1][3] + (*this)[3][2] * value[2][3] + (*this)[3][3] * value[3][3];
-		return Matrix4u<T>(a11, a12, a13, a14,
-						   a21, a22, a23, a24,
-						   a31, a32, a33, a34,
-						   a41, a42, a43, a44);
-	}
-
-	template <class T>
-	inline Matrix4u<T> Matrix4u<T>::operator+(const Matrix4u<T> value) const
-	{
-		return Matrix4u<T>{(*this)[0] + value[0], (*this)[1] + value[1], (*this)[2] + value[2], (*this)[3] + value[3]};
-	}
-
-	template <class T>
-	inline Matrix4u<T> Matrix4u<T>::operator-(const Matrix4u<T> value) const
-	{
-		return Matrix4u<T>{(*this)[0] - value[0], (*this)[1] - value[1], (*this)[2] - value[2], (*this)[3] - value[3]};
-	}
-
-	template <class T>
-	inline Matrix4u<T> Matrix4u<T>::operator-() const
-	{
-		return Matrix4u<T>{-(*this)[0], -(*this)[1], -(*this)[2], -(*this)[3]};
-	}
-
-	template <class T>
-	inline bool Matrix4u<T>::operator==(const Matrix4u<T> & rightOperand) const
-	{
-		return (*this)[0] == rightOperand[0] && (*this)[1] == rightOperand[1] 
-			&& (*this)[2] == rightOperand[2] && (*this)[3] == rightOperand[3];
-	}
-
-	template <class T>
-	inline Vertex4u<T> Matrix4u<T>::getColumn(const int index) const
-	{
-		return Vertex4u<T>((*this)[0][index], (*this)[1][index], (*this)[2][index], (*this)[3][index]);
-	}
-
-	template <class T>
-	inline Vertex4u<T> Matrix4u<T>::getRow(const int index) const
-	{
-		return Vertex4u<T>((*this)[index]);
-	}
-
-	template <class T>
-	inline Vertex4u<T> & Matrix4u<T>::getRow(const int index)
-	{
-		return (*this)[index];
-	}
-
-	template<class T>
-	inline T Matrix4u<T>::determinant() const
-	{
-		T a11 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] * (*this)[3][0];
-		T a12 = (*this)[0][2] * (*this)[1][3] * (*this)[2][1] * (*this)[3][0];
-		T a13 = (*this)[0][3] * (*this)[1][1] * (*this)[2][2] * (*this)[3][0];
-		T a14 = (*this)[0][1] * (*this)[1][3] * (*this)[2][2] * (*this)[3][0];
-		T a21 = (*this)[0][2] * (*this)[1][1] * (*this)[2][3] * (*this)[3][0];
-		T a22 = (*this)[0][1] * (*this)[1][2] * (*this)[2][3] * (*this)[3][0];
-		T a23 = (*this)[0][3] * (*this)[1][2] * (*this)[2][0] * (*this)[3][1];
-		T a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] * (*this)[3][1];
-		T a31 = (*this)[0][3] * (*this)[1][0] * (*this)[2][2] * (*this)[3][1];
-		T a32 = (*this)[0][0] * (*this)[1][3] * (*this)[2][2] * (*this)[3][1];
-		T a33 = (*this)[0][2] * (*this)[1][0] * (*this)[2][3] * (*this)[3][1];
-		T a34 = (*this)[0][0] * (*this)[1][2] * (*this)[2][3] * (*this)[3][1];
-		T a41 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] * (*this)[3][2];
-		T a42 = (*this)[0][1] * (*this)[1][3] * (*this)[2][0] * (*this)[3][2];
-		T a43 = (*this)[0][3] * (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
-		T a44 = (*this)[0][0] * (*this)[1][3] * (*this)[2][1] * (*this)[3][2];
-		T a51 = (*this)[0][1] * (*this)[1][0] * (*this)[2][3] * (*this)[3][2];
-		T a52 = (*this)[0][0] * (*this)[1][1] * (*this)[2][3] * (*this)[3][2];
-		T a53 = (*this)[0][2] * (*this)[1][1] * (*this)[2][0] * (*this)[3][3];
-		T a54 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] * (*this)[3][3];
-		T a61 = (*this)[0][2] * (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
-		T a62 = (*this)[0][0] * (*this)[1][2] * (*this)[2][1] * (*this)[3][3];
-		T a63 = (*this)[0][1] * (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
-		T a64 = (*this)[0][0] * (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
+		int a11 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] * (*this)[3][0];
+		int a12 = (*this)[0][2] * (*this)[1][3] * (*this)[2][1] * (*this)[3][0];
+		int a13 = (*this)[0][3] * (*this)[1][1] * (*this)[2][2] * (*this)[3][0];
+		int a14 = (*this)[0][1] * (*this)[1][3] * (*this)[2][2] * (*this)[3][0];
+		int a21 = (*this)[0][2] * (*this)[1][1] * (*this)[2][3] * (*this)[3][0];
+		int a22 = (*this)[0][1] * (*this)[1][2] * (*this)[2][3] * (*this)[3][0];
+		int a23 = (*this)[0][3] * (*this)[1][2] * (*this)[2][0] * (*this)[3][1];
+		int a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] * (*this)[3][1];
+		int a31 = (*this)[0][3] * (*this)[1][0] * (*this)[2][2] * (*this)[3][1];
+		int a32 = (*this)[0][0] * (*this)[1][3] * (*this)[2][2] * (*this)[3][1];
+		int a33 = (*this)[0][2] * (*this)[1][0] * (*this)[2][3] * (*this)[3][1];
+		int a34 = (*this)[0][0] * (*this)[1][2] * (*this)[2][3] * (*this)[3][1];
+		int a41 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] * (*this)[3][2];
+		int a42 = (*this)[0][1] * (*this)[1][3] * (*this)[2][0] * (*this)[3][2];
+		int a43 = (*this)[0][3] * (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
+		int a44 = (*this)[0][0] * (*this)[1][3] * (*this)[2][1] * (*this)[3][2];
+		int a51 = (*this)[0][1] * (*this)[1][0] * (*this)[2][3] * (*this)[3][2];
+		int a52 = (*this)[0][0] * (*this)[1][1] * (*this)[2][3] * (*this)[3][2];
+		int a53 = (*this)[0][2] * (*this)[1][1] * (*this)[2][0] * (*this)[3][3];
+		int a54 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] * (*this)[3][3];
+		int a61 = (*this)[0][2] * (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
+		int a62 = (*this)[0][0] * (*this)[1][2] * (*this)[2][1] * (*this)[3][3];
+		int a63 = (*this)[0][1] * (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
+		int a64 = (*this)[0][0] * (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
 		return  a11 - a12 - a13 + a14 +
 				a21 - a22 - a23 + a24 +
 				a31 - a32 - a33 + a34 +
@@ -273,45 +37,276 @@ namespace ece
 				a61 - a62 - a63 + a64;
 	}
 
-	template<class T>
-	inline Matrix4u<T> Matrix4u<T>::transpose() const
+	template<>
+	inline unsigned int Matrix4u<unsigned int>::determinant() const
 	{
-		return Matrix4u<T>((*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
-						   (*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
-						   (*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
-						   (*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3]);
+		unsigned int a11 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] * (*this)[3][0];
+		unsigned int a12 = (*this)[0][2] * (*this)[1][3] * (*this)[2][1] * (*this)[3][0];
+		unsigned int a13 = (*this)[0][3] * (*this)[1][1] * (*this)[2][2] * (*this)[3][0];
+		unsigned int a14 = (*this)[0][1] * (*this)[1][3] * (*this)[2][2] * (*this)[3][0];
+		unsigned int a21 = (*this)[0][2] * (*this)[1][1] * (*this)[2][3] * (*this)[3][0];
+		unsigned int a22 = (*this)[0][1] * (*this)[1][2] * (*this)[2][3] * (*this)[3][0];
+		unsigned int a23 = (*this)[0][3] * (*this)[1][2] * (*this)[2][0] * (*this)[3][1];
+		unsigned int a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] * (*this)[3][1];
+		unsigned int a31 = (*this)[0][3] * (*this)[1][0] * (*this)[2][2] * (*this)[3][1];
+		unsigned int a32 = (*this)[0][0] * (*this)[1][3] * (*this)[2][2] * (*this)[3][1];
+		unsigned int a33 = (*this)[0][2] * (*this)[1][0] * (*this)[2][3] * (*this)[3][1];
+		unsigned int a34 = (*this)[0][0] * (*this)[1][2] * (*this)[2][3] * (*this)[3][1];
+		unsigned int a41 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] * (*this)[3][2];
+		unsigned int a42 = (*this)[0][1] * (*this)[1][3] * (*this)[2][0] * (*this)[3][2];
+		unsigned int a43 = (*this)[0][3] * (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
+		unsigned int a44 = (*this)[0][0] * (*this)[1][3] * (*this)[2][1] * (*this)[3][2];
+		unsigned int a51 = (*this)[0][1] * (*this)[1][0] * (*this)[2][3] * (*this)[3][2];
+		unsigned int a52 = (*this)[0][0] * (*this)[1][1] * (*this)[2][3] * (*this)[3][2];
+		unsigned int a53 = (*this)[0][2] * (*this)[1][1] * (*this)[2][0] * (*this)[3][3];
+		unsigned int a54 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] * (*this)[3][3];
+		unsigned int a61 = (*this)[0][2] * (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
+		unsigned int a62 = (*this)[0][0] * (*this)[1][2] * (*this)[2][1] * (*this)[3][3];
+		unsigned int a63 = (*this)[0][1] * (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
+		unsigned int a64 = (*this)[0][0] * (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
+		return  a11 - a12 - a13 + a14 +
+			a21 - a22 - a23 + a24 +
+			a31 - a32 - a33 + a34 +
+			a41 - a42 - a43 + a44 +
+			a51 - a52 - a53 + a54 +
+			a61 - a62 - a63 + a64;
 	}
 
-	template<class T>
-	inline Matrix4u<T> Matrix4u<T>::inverse(bool & invertible) const
+	template<>
+	inline float Matrix4u<float>::determinant() const
+	{
+		float a11 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] * (*this)[3][0];
+		float a12 = (*this)[0][2] * (*this)[1][3] * (*this)[2][1] * (*this)[3][0];
+		float a13 = (*this)[0][3] * (*this)[1][1] * (*this)[2][2] * (*this)[3][0];
+		float a14 = (*this)[0][1] * (*this)[1][3] * (*this)[2][2] * (*this)[3][0];
+		float a21 = (*this)[0][2] * (*this)[1][1] * (*this)[2][3] * (*this)[3][0];
+		float a22 = (*this)[0][1] * (*this)[1][2] * (*this)[2][3] * (*this)[3][0];
+		float a23 = (*this)[0][3] * (*this)[1][2] * (*this)[2][0] * (*this)[3][1];
+		float a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] * (*this)[3][1];
+		float a31 = (*this)[0][3] * (*this)[1][0] * (*this)[2][2] * (*this)[3][1];
+		float a32 = (*this)[0][0] * (*this)[1][3] * (*this)[2][2] * (*this)[3][1];
+		float a33 = (*this)[0][2] * (*this)[1][0] * (*this)[2][3] * (*this)[3][1];
+		float a34 = (*this)[0][0] * (*this)[1][2] * (*this)[2][3] * (*this)[3][1];
+		float a41 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] * (*this)[3][2];
+		float a42 = (*this)[0][1] * (*this)[1][3] * (*this)[2][0] * (*this)[3][2];
+		float a43 = (*this)[0][3] * (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
+		float a44 = (*this)[0][0] * (*this)[1][3] * (*this)[2][1] * (*this)[3][2];
+		float a51 = (*this)[0][1] * (*this)[1][0] * (*this)[2][3] * (*this)[3][2];
+		float a52 = (*this)[0][0] * (*this)[1][1] * (*this)[2][3] * (*this)[3][2];
+		float a53 = (*this)[0][2] * (*this)[1][1] * (*this)[2][0] * (*this)[3][3];
+		float a54 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] * (*this)[3][3];
+		float a61 = (*this)[0][2] * (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
+		float a62 = (*this)[0][0] * (*this)[1][2] * (*this)[2][1] * (*this)[3][3];
+		float a63 = (*this)[0][1] * (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
+		float a64 = (*this)[0][0] * (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
+		return  a11 - a12 - a13 + a14 +
+			a21 - a22 - a23 + a24 +
+			a31 - a32 - a33 + a34 +
+			a41 - a42 - a43 + a44 +
+			a51 - a52 - a53 + a54 +
+			a61 - a62 - a63 + a64;
+	}
+
+	template<>
+	inline double Matrix4u<double>::determinant() const
+	{
+		double a11 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] * (*this)[3][0];
+		double a12 = (*this)[0][2] * (*this)[1][3] * (*this)[2][1] * (*this)[3][0];
+		double a13 = (*this)[0][3] * (*this)[1][1] * (*this)[2][2] * (*this)[3][0];
+		double a14 = (*this)[0][1] * (*this)[1][3] * (*this)[2][2] * (*this)[3][0];
+		double a21 = (*this)[0][2] * (*this)[1][1] * (*this)[2][3] * (*this)[3][0];
+		double a22 = (*this)[0][1] * (*this)[1][2] * (*this)[2][3] * (*this)[3][0];
+		double a23 = (*this)[0][3] * (*this)[1][2] * (*this)[2][0] * (*this)[3][1];
+		double a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] * (*this)[3][1];
+		double a31 = (*this)[0][3] * (*this)[1][0] * (*this)[2][2] * (*this)[3][1];
+		double a32 = (*this)[0][0] * (*this)[1][3] * (*this)[2][2] * (*this)[3][1];
+		double a33 = (*this)[0][2] * (*this)[1][0] * (*this)[2][3] * (*this)[3][1];
+		double a34 = (*this)[0][0] * (*this)[1][2] * (*this)[2][3] * (*this)[3][1];
+		double a41 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] * (*this)[3][2];
+		double a42 = (*this)[0][1] * (*this)[1][3] * (*this)[2][0] * (*this)[3][2];
+		double a43 = (*this)[0][3] * (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
+		double a44 = (*this)[0][0] * (*this)[1][3] * (*this)[2][1] * (*this)[3][2];
+		double a51 = (*this)[0][1] * (*this)[1][0] * (*this)[2][3] * (*this)[3][2];
+		double a52 = (*this)[0][0] * (*this)[1][1] * (*this)[2][3] * (*this)[3][2];
+		double a53 = (*this)[0][2] * (*this)[1][1] * (*this)[2][0] * (*this)[3][3];
+		double a54 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] * (*this)[3][3];
+		double a61 = (*this)[0][2] * (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
+		double a62 = (*this)[0][0] * (*this)[1][2] * (*this)[2][1] * (*this)[3][3];
+		double a63 = (*this)[0][1] * (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
+		double a64 = (*this)[0][0] * (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
+		return  a11 - a12 - a13 + a14 +
+			a21 - a22 - a23 + a24 +
+			a31 - a32 - a33 + a34 +
+			a41 - a42 - a43 + a44 +
+			a51 - a52 - a53 + a54 +
+			a61 - a62 - a63 + a64;
+	}
+
+	template<>
+	inline Matrix4u<int> Matrix4u<int>::transpose() const
+	{
+		return Matrix4u<int>{ (*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
+							(*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
+							(*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
+							(*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3] };
+	}
+
+	template<>
+	inline Matrix4u<unsigned int> Matrix4u<unsigned int>::transpose() const
+	{
+		return Matrix4u<unsigned int>{ (*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
+			(*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
+			(*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
+			(*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3] };
+	}
+
+	template<>
+	inline Matrix4u<float> Matrix4u<float>::transpose() const
+	{
+		return Matrix4u<float>{ (*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
+								(*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
+								(*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
+								(*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3] };
+	}
+
+	template<>
+	inline Matrix4u<double> Matrix4u<double>::transpose() const
+	{
+		return Matrix4u<double>{ (*this)[0][0], (*this)[1][0], (*this)[2][0], (*this)[3][0],
+								(*this)[0][1], (*this)[1][1], (*this)[2][1], (*this)[3][1],
+								(*this)[0][2], (*this)[1][2], (*this)[2][2], (*this)[3][2],
+								(*this)[0][3], (*this)[1][3], (*this)[2][3], (*this)[3][3] };
+	}
+
+	template<>
+	inline Matrix4u<double> Matrix4u<int>::inverse(bool & invertible) const
 	{
 		auto det = this->determinant();
 		invertible = (det != 0);
 		if (invertible) {
-			T a11 = (*this)[1][2] * (*this)[2][3] * (*this)[3][1] - (*this)[1][3] * (*this)[2][2] * (*this)[3][1] + (*this)[1][3] * (*this)[2][1] * (*this)[3][2] - (*this)[1][1] * (*this)[2][3] * (*this)[3][2] - (*this)[1][2] * (*this)[2][1] * (*this)[3][3] + (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
-			T a12 = (*this)[0][3] * (*this)[2][2] * (*this)[3][1] - (*this)[0][2] * (*this)[2][3] * (*this)[3][1] - (*this)[0][3] * (*this)[2][1] * (*this)[3][2] + (*this)[0][1] * (*this)[2][3] * (*this)[3][2] + (*this)[0][2] * (*this)[2][1] * (*this)[3][3] - (*this)[0][1] * (*this)[2][2] * (*this)[3][3];
-			T a13 = (*this)[0][2] * (*this)[1][3] * (*this)[3][1] - (*this)[0][3] * (*this)[1][2] * (*this)[3][1] + (*this)[0][3] * (*this)[1][1] * (*this)[3][2] - (*this)[0][1] * (*this)[1][3] * (*this)[3][2] - (*this)[0][2] * (*this)[1][1] * (*this)[3][3] + (*this)[0][1] * (*this)[1][2] * (*this)[3][3];
-			T a14 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] - (*this)[0][2] * (*this)[1][3] * (*this)[2][1] - (*this)[0][3] * (*this)[1][1] * (*this)[2][2] + (*this)[0][1] * (*this)[1][3] * (*this)[2][2] + (*this)[0][2] * (*this)[1][1] * (*this)[2][3] - (*this)[0][1] * (*this)[1][2] * (*this)[2][3];
-			T a21 = (*this)[1][3] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][0] * (*this)[3][2] + (*this)[1][0] * (*this)[2][3] * (*this)[3][2] + (*this)[1][2] * (*this)[2][0] * (*this)[3][3] - (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
-			T a22 = (*this)[0][2] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][2] * (*this)[3][0] + (*this)[0][3] * (*this)[2][0] * (*this)[3][2] - (*this)[0][0] * (*this)[2][3] * (*this)[3][2] - (*this)[0][2] * (*this)[2][0] * (*this)[3][3] + (*this)[0][0] * (*this)[2][2] * (*this)[3][3];
-			T a23 = (*this)[0][3] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][0] * (*this)[3][2] + (*this)[0][0] * (*this)[1][3] * (*this)[3][2] + (*this)[0][2] * (*this)[1][0] * (*this)[3][3] - (*this)[0][0] * (*this)[1][2] * (*this)[3][3];
-			T a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][2] * (*this)[2][0] + (*this)[0][3] * (*this)[1][0] * (*this)[2][2] - (*this)[0][0] * (*this)[1][3] * (*this)[2][2] - (*this)[0][2] * (*this)[1][0] * (*this)[2][3] + (*this)[0][0] * (*this)[1][2] * (*this)[2][3];
-			T a31 = (*this)[1][1] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][1] * (*this)[3][0] + (*this)[1][3] * (*this)[2][0] * (*this)[3][1] - (*this)[1][0] * (*this)[2][3] * (*this)[3][1] - (*this)[1][1] * (*this)[2][0] * (*this)[3][3] + (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
-			T a32 = (*this)[0][3] * (*this)[2][1] * (*this)[3][0] - (*this)[0][1] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][0] * (*this)[3][1] + (*this)[0][0] * (*this)[2][3] * (*this)[3][1] + (*this)[0][1] * (*this)[2][0] * (*this)[3][3] - (*this)[0][0] * (*this)[2][1] * (*this)[3][3];
-			T a33 = (*this)[0][1] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][1] * (*this)[3][0] + (*this)[0][3] * (*this)[1][0] * (*this)[3][1] - (*this)[0][0] * (*this)[1][3] * (*this)[3][1] - (*this)[0][1] * (*this)[1][0] * (*this)[3][3] + (*this)[0][0] * (*this)[1][1] * (*this)[3][3];
-			T a34 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] - (*this)[0][1] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][0] * (*this)[2][1] + (*this)[0][0] * (*this)[1][3] * (*this)[2][1] + (*this)[0][1] * (*this)[1][0] * (*this)[2][3] - (*this)[0][0] * (*this)[1][1] * (*this)[2][3];
-			T a41 = (*this)[1][2] * (*this)[2][1] * (*this)[3][0] - (*this)[1][1] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][0] * (*this)[3][1] + (*this)[1][0] * (*this)[2][2] * (*this)[3][1] + (*this)[1][1] * (*this)[2][0] * (*this)[3][2] - (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
-			T a42 = (*this)[0][1] * (*this)[2][2] * (*this)[3][0] - (*this)[0][2] * (*this)[2][1] * (*this)[3][0] + (*this)[0][2] * (*this)[2][0] * (*this)[3][1] - (*this)[0][0] * (*this)[2][2] * (*this)[3][1] - (*this)[0][1] * (*this)[2][0] * (*this)[3][2] + (*this)[0][0] * (*this)[2][1] * (*this)[3][2];
-			T a43 = (*this)[0][2] * (*this)[1][1] * (*this)[3][0] - (*this)[0][1] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][0] * (*this)[3][1] + (*this)[0][0] * (*this)[1][2] * (*this)[3][1] + (*this)[0][1] * (*this)[1][0] * (*this)[3][2] - (*this)[0][0] * (*this)[1][1] * (*this)[3][2];
-			T a44 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] - (*this)[0][2] * (*this)[1][1] * (*this)[2][0] + (*this)[0][2] * (*this)[1][0] * (*this)[2][1] - (*this)[0][0] * (*this)[1][2] * (*this)[2][1] - (*this)[0][1] * (*this)[1][0] * (*this)[2][2] + (*this)[0][0] * (*this)[1][1] * (*this)[2][2];
+			double a11 = (*this)[1][2] * (*this)[2][3] * (*this)[3][1] - (*this)[1][3] * (*this)[2][2] * (*this)[3][1] + (*this)[1][3] * (*this)[2][1] * (*this)[3][2] - (*this)[1][1] * (*this)[2][3] * (*this)[3][2] - (*this)[1][2] * (*this)[2][1] * (*this)[3][3] + (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
+			double a12 = (*this)[0][3] * (*this)[2][2] * (*this)[3][1] - (*this)[0][2] * (*this)[2][3] * (*this)[3][1] - (*this)[0][3] * (*this)[2][1] * (*this)[3][2] + (*this)[0][1] * (*this)[2][3] * (*this)[3][2] + (*this)[0][2] * (*this)[2][1] * (*this)[3][3] - (*this)[0][1] * (*this)[2][2] * (*this)[3][3];
+			double a13 = (*this)[0][2] * (*this)[1][3] * (*this)[3][1] - (*this)[0][3] * (*this)[1][2] * (*this)[3][1] + (*this)[0][3] * (*this)[1][1] * (*this)[3][2] - (*this)[0][1] * (*this)[1][3] * (*this)[3][2] - (*this)[0][2] * (*this)[1][1] * (*this)[3][3] + (*this)[0][1] * (*this)[1][2] * (*this)[3][3];
+			double a14 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] - (*this)[0][2] * (*this)[1][3] * (*this)[2][1] - (*this)[0][3] * (*this)[1][1] * (*this)[2][2] + (*this)[0][1] * (*this)[1][3] * (*this)[2][2] + (*this)[0][2] * (*this)[1][1] * (*this)[2][3] - (*this)[0][1] * (*this)[1][2] * (*this)[2][3];
+			double a21 = (*this)[1][3] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][0] * (*this)[3][2] + (*this)[1][0] * (*this)[2][3] * (*this)[3][2] + (*this)[1][2] * (*this)[2][0] * (*this)[3][3] - (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
+			double a22 = (*this)[0][2] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][2] * (*this)[3][0] + (*this)[0][3] * (*this)[2][0] * (*this)[3][2] - (*this)[0][0] * (*this)[2][3] * (*this)[3][2] - (*this)[0][2] * (*this)[2][0] * (*this)[3][3] + (*this)[0][0] * (*this)[2][2] * (*this)[3][3];
+			double a23 = (*this)[0][3] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][0] * (*this)[3][2] + (*this)[0][0] * (*this)[1][3] * (*this)[3][2] + (*this)[0][2] * (*this)[1][0] * (*this)[3][3] - (*this)[0][0] * (*this)[1][2] * (*this)[3][3];
+			double a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][2] * (*this)[2][0] + (*this)[0][3] * (*this)[1][0] * (*this)[2][2] - (*this)[0][0] * (*this)[1][3] * (*this)[2][2] - (*this)[0][2] * (*this)[1][0] * (*this)[2][3] + (*this)[0][0] * (*this)[1][2] * (*this)[2][3];
+			double a31 = (*this)[1][1] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][1] * (*this)[3][0] + (*this)[1][3] * (*this)[2][0] * (*this)[3][1] - (*this)[1][0] * (*this)[2][3] * (*this)[3][1] - (*this)[1][1] * (*this)[2][0] * (*this)[3][3] + (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
+			double a32 = (*this)[0][3] * (*this)[2][1] * (*this)[3][0] - (*this)[0][1] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][0] * (*this)[3][1] + (*this)[0][0] * (*this)[2][3] * (*this)[3][1] + (*this)[0][1] * (*this)[2][0] * (*this)[3][3] - (*this)[0][0] * (*this)[2][1] * (*this)[3][3];
+			double a33 = (*this)[0][1] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][1] * (*this)[3][0] + (*this)[0][3] * (*this)[1][0] * (*this)[3][1] - (*this)[0][0] * (*this)[1][3] * (*this)[3][1] - (*this)[0][1] * (*this)[1][0] * (*this)[3][3] + (*this)[0][0] * (*this)[1][1] * (*this)[3][3];
+			double a34 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] - (*this)[0][1] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][0] * (*this)[2][1] + (*this)[0][0] * (*this)[1][3] * (*this)[2][1] + (*this)[0][1] * (*this)[1][0] * (*this)[2][3] - (*this)[0][0] * (*this)[1][1] * (*this)[2][3];
+			double a41 = (*this)[1][2] * (*this)[2][1] * (*this)[3][0] - (*this)[1][1] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][0] * (*this)[3][1] + (*this)[1][0] * (*this)[2][2] * (*this)[3][1] + (*this)[1][1] * (*this)[2][0] * (*this)[3][2] - (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
+			double a42 = (*this)[0][1] * (*this)[2][2] * (*this)[3][0] - (*this)[0][2] * (*this)[2][1] * (*this)[3][0] + (*this)[0][2] * (*this)[2][0] * (*this)[3][1] - (*this)[0][0] * (*this)[2][2] * (*this)[3][1] - (*this)[0][1] * (*this)[2][0] * (*this)[3][2] + (*this)[0][0] * (*this)[2][1] * (*this)[3][2];
+			double a43 = (*this)[0][2] * (*this)[1][1] * (*this)[3][0] - (*this)[0][1] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][0] * (*this)[3][1] + (*this)[0][0] * (*this)[1][2] * (*this)[3][1] + (*this)[0][1] * (*this)[1][0] * (*this)[3][2] - (*this)[0][0] * (*this)[1][1] * (*this)[3][2];
+			double a44 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] - (*this)[0][2] * (*this)[1][1] * (*this)[2][0] + (*this)[0][2] * (*this)[1][0] * (*this)[2][1] - (*this)[0][0] * (*this)[1][2] * (*this)[2][1] - (*this)[0][1] * (*this)[1][0] * (*this)[2][2] + (*this)[0][0] * (*this)[1][1] * (*this)[2][2];
 
-			return Matrix4u<T>(a11, a12, a13, a14,
-							   a21, a22, a23, a24,
-							   a31, a32, a33, a34,
-							   a41, a42, a43, a44) * (1.0f / det);
+			return Matrix4u<double>{ a11, a12, a13, a14,
+									a21, a22, a23, a24,
+									a31, a32, a33, a34,
+									a41, a42, a43, a44 } *(1.0f / det);
 		}
 		else {
-			return Matrix4u<T>();
+			return Matrix4u<double>();
+		}
+	}
+
+	template<>
+	inline Matrix4u<double> Matrix4u<unsigned int>::inverse(bool & invertible) const
+	{
+		auto det = this->determinant();
+		invertible = (det != 0);
+		if (invertible) {
+			double a11 = (*this)[1][2] * (*this)[2][3] * (*this)[3][1] - (*this)[1][3] * (*this)[2][2] * (*this)[3][1] + (*this)[1][3] * (*this)[2][1] * (*this)[3][2] - (*this)[1][1] * (*this)[2][3] * (*this)[3][2] - (*this)[1][2] * (*this)[2][1] * (*this)[3][3] + (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
+			double a12 = (*this)[0][3] * (*this)[2][2] * (*this)[3][1] - (*this)[0][2] * (*this)[2][3] * (*this)[3][1] - (*this)[0][3] * (*this)[2][1] * (*this)[3][2] + (*this)[0][1] * (*this)[2][3] * (*this)[3][2] + (*this)[0][2] * (*this)[2][1] * (*this)[3][3] - (*this)[0][1] * (*this)[2][2] * (*this)[3][3];
+			double a13 = (*this)[0][2] * (*this)[1][3] * (*this)[3][1] - (*this)[0][3] * (*this)[1][2] * (*this)[3][1] + (*this)[0][3] * (*this)[1][1] * (*this)[3][2] - (*this)[0][1] * (*this)[1][3] * (*this)[3][2] - (*this)[0][2] * (*this)[1][1] * (*this)[3][3] + (*this)[0][1] * (*this)[1][2] * (*this)[3][3];
+			double a14 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] - (*this)[0][2] * (*this)[1][3] * (*this)[2][1] - (*this)[0][3] * (*this)[1][1] * (*this)[2][2] + (*this)[0][1] * (*this)[1][3] * (*this)[2][2] + (*this)[0][2] * (*this)[1][1] * (*this)[2][3] - (*this)[0][1] * (*this)[1][2] * (*this)[2][3];
+			double a21 = (*this)[1][3] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][0] * (*this)[3][2] + (*this)[1][0] * (*this)[2][3] * (*this)[3][2] + (*this)[1][2] * (*this)[2][0] * (*this)[3][3] - (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
+			double a22 = (*this)[0][2] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][2] * (*this)[3][0] + (*this)[0][3] * (*this)[2][0] * (*this)[3][2] - (*this)[0][0] * (*this)[2][3] * (*this)[3][2] - (*this)[0][2] * (*this)[2][0] * (*this)[3][3] + (*this)[0][0] * (*this)[2][2] * (*this)[3][3];
+			double a23 = (*this)[0][3] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][0] * (*this)[3][2] + (*this)[0][0] * (*this)[1][3] * (*this)[3][2] + (*this)[0][2] * (*this)[1][0] * (*this)[3][3] - (*this)[0][0] * (*this)[1][2] * (*this)[3][3];
+			double a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][2] * (*this)[2][0] + (*this)[0][3] * (*this)[1][0] * (*this)[2][2] - (*this)[0][0] * (*this)[1][3] * (*this)[2][2] - (*this)[0][2] * (*this)[1][0] * (*this)[2][3] + (*this)[0][0] * (*this)[1][2] * (*this)[2][3];
+			double a31 = (*this)[1][1] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][1] * (*this)[3][0] + (*this)[1][3] * (*this)[2][0] * (*this)[3][1] - (*this)[1][0] * (*this)[2][3] * (*this)[3][1] - (*this)[1][1] * (*this)[2][0] * (*this)[3][3] + (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
+			double a32 = (*this)[0][3] * (*this)[2][1] * (*this)[3][0] - (*this)[0][1] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][0] * (*this)[3][1] + (*this)[0][0] * (*this)[2][3] * (*this)[3][1] + (*this)[0][1] * (*this)[2][0] * (*this)[3][3] - (*this)[0][0] * (*this)[2][1] * (*this)[3][3];
+			double a33 = (*this)[0][1] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][1] * (*this)[3][0] + (*this)[0][3] * (*this)[1][0] * (*this)[3][1] - (*this)[0][0] * (*this)[1][3] * (*this)[3][1] - (*this)[0][1] * (*this)[1][0] * (*this)[3][3] + (*this)[0][0] * (*this)[1][1] * (*this)[3][3];
+			double a34 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] - (*this)[0][1] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][0] * (*this)[2][1] + (*this)[0][0] * (*this)[1][3] * (*this)[2][1] + (*this)[0][1] * (*this)[1][0] * (*this)[2][3] - (*this)[0][0] * (*this)[1][1] * (*this)[2][3];
+			double a41 = (*this)[1][2] * (*this)[2][1] * (*this)[3][0] - (*this)[1][1] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][0] * (*this)[3][1] + (*this)[1][0] * (*this)[2][2] * (*this)[3][1] + (*this)[1][1] * (*this)[2][0] * (*this)[3][2] - (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
+			double a42 = (*this)[0][1] * (*this)[2][2] * (*this)[3][0] - (*this)[0][2] * (*this)[2][1] * (*this)[3][0] + (*this)[0][2] * (*this)[2][0] * (*this)[3][1] - (*this)[0][0] * (*this)[2][2] * (*this)[3][1] - (*this)[0][1] * (*this)[2][0] * (*this)[3][2] + (*this)[0][0] * (*this)[2][1] * (*this)[3][2];
+			double a43 = (*this)[0][2] * (*this)[1][1] * (*this)[3][0] - (*this)[0][1] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][0] * (*this)[3][1] + (*this)[0][0] * (*this)[1][2] * (*this)[3][1] + (*this)[0][1] * (*this)[1][0] * (*this)[3][2] - (*this)[0][0] * (*this)[1][1] * (*this)[3][2];
+			double a44 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] - (*this)[0][2] * (*this)[1][1] * (*this)[2][0] + (*this)[0][2] * (*this)[1][0] * (*this)[2][1] - (*this)[0][0] * (*this)[1][2] * (*this)[2][1] - (*this)[0][1] * (*this)[1][0] * (*this)[2][2] + (*this)[0][0] * (*this)[1][1] * (*this)[2][2];
+
+			return Matrix4u<double>{ a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44 } *(1.0f / det);
+		}
+		else {
+			return Matrix4u<double>();
+		}
+	}
+
+	template<>
+	inline Matrix4u<double> Matrix4u<float>::inverse(bool & invertible) const
+	{
+		auto det = this->determinant();
+		invertible = (det != 0);
+		if (invertible) {
+			double a11 = (*this)[1][2] * (*this)[2][3] * (*this)[3][1] - (*this)[1][3] * (*this)[2][2] * (*this)[3][1] + (*this)[1][3] * (*this)[2][1] * (*this)[3][2] - (*this)[1][1] * (*this)[2][3] * (*this)[3][2] - (*this)[1][2] * (*this)[2][1] * (*this)[3][3] + (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
+			double a12 = (*this)[0][3] * (*this)[2][2] * (*this)[3][1] - (*this)[0][2] * (*this)[2][3] * (*this)[3][1] - (*this)[0][3] * (*this)[2][1] * (*this)[3][2] + (*this)[0][1] * (*this)[2][3] * (*this)[3][2] + (*this)[0][2] * (*this)[2][1] * (*this)[3][3] - (*this)[0][1] * (*this)[2][2] * (*this)[3][3];
+			double a13 = (*this)[0][2] * (*this)[1][3] * (*this)[3][1] - (*this)[0][3] * (*this)[1][2] * (*this)[3][1] + (*this)[0][3] * (*this)[1][1] * (*this)[3][2] - (*this)[0][1] * (*this)[1][3] * (*this)[3][2] - (*this)[0][2] * (*this)[1][1] * (*this)[3][3] + (*this)[0][1] * (*this)[1][2] * (*this)[3][3];
+			double a14 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] - (*this)[0][2] * (*this)[1][3] * (*this)[2][1] - (*this)[0][3] * (*this)[1][1] * (*this)[2][2] + (*this)[0][1] * (*this)[1][3] * (*this)[2][2] + (*this)[0][2] * (*this)[1][1] * (*this)[2][3] - (*this)[0][1] * (*this)[1][2] * (*this)[2][3];
+			double a21 = (*this)[1][3] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][0] * (*this)[3][2] + (*this)[1][0] * (*this)[2][3] * (*this)[3][2] + (*this)[1][2] * (*this)[2][0] * (*this)[3][3] - (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
+			double a22 = (*this)[0][2] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][2] * (*this)[3][0] + (*this)[0][3] * (*this)[2][0] * (*this)[3][2] - (*this)[0][0] * (*this)[2][3] * (*this)[3][2] - (*this)[0][2] * (*this)[2][0] * (*this)[3][3] + (*this)[0][0] * (*this)[2][2] * (*this)[3][3];
+			double a23 = (*this)[0][3] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][0] * (*this)[3][2] + (*this)[0][0] * (*this)[1][3] * (*this)[3][2] + (*this)[0][2] * (*this)[1][0] * (*this)[3][3] - (*this)[0][0] * (*this)[1][2] * (*this)[3][3];
+			double a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][2] * (*this)[2][0] + (*this)[0][3] * (*this)[1][0] * (*this)[2][2] - (*this)[0][0] * (*this)[1][3] * (*this)[2][2] - (*this)[0][2] * (*this)[1][0] * (*this)[2][3] + (*this)[0][0] * (*this)[1][2] * (*this)[2][3];
+			double a31 = (*this)[1][1] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][1] * (*this)[3][0] + (*this)[1][3] * (*this)[2][0] * (*this)[3][1] - (*this)[1][0] * (*this)[2][3] * (*this)[3][1] - (*this)[1][1] * (*this)[2][0] * (*this)[3][3] + (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
+			double a32 = (*this)[0][3] * (*this)[2][1] * (*this)[3][0] - (*this)[0][1] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][0] * (*this)[3][1] + (*this)[0][0] * (*this)[2][3] * (*this)[3][1] + (*this)[0][1] * (*this)[2][0] * (*this)[3][3] - (*this)[0][0] * (*this)[2][1] * (*this)[3][3];
+			double a33 = (*this)[0][1] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][1] * (*this)[3][0] + (*this)[0][3] * (*this)[1][0] * (*this)[3][1] - (*this)[0][0] * (*this)[1][3] * (*this)[3][1] - (*this)[0][1] * (*this)[1][0] * (*this)[3][3] + (*this)[0][0] * (*this)[1][1] * (*this)[3][3];
+			double a34 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] - (*this)[0][1] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][0] * (*this)[2][1] + (*this)[0][0] * (*this)[1][3] * (*this)[2][1] + (*this)[0][1] * (*this)[1][0] * (*this)[2][3] - (*this)[0][0] * (*this)[1][1] * (*this)[2][3];
+			double a41 = (*this)[1][2] * (*this)[2][1] * (*this)[3][0] - (*this)[1][1] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][0] * (*this)[3][1] + (*this)[1][0] * (*this)[2][2] * (*this)[3][1] + (*this)[1][1] * (*this)[2][0] * (*this)[3][2] - (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
+			double a42 = (*this)[0][1] * (*this)[2][2] * (*this)[3][0] - (*this)[0][2] * (*this)[2][1] * (*this)[3][0] + (*this)[0][2] * (*this)[2][0] * (*this)[3][1] - (*this)[0][0] * (*this)[2][2] * (*this)[3][1] - (*this)[0][1] * (*this)[2][0] * (*this)[3][2] + (*this)[0][0] * (*this)[2][1] * (*this)[3][2];
+			double a43 = (*this)[0][2] * (*this)[1][1] * (*this)[3][0] - (*this)[0][1] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][0] * (*this)[3][1] + (*this)[0][0] * (*this)[1][2] * (*this)[3][1] + (*this)[0][1] * (*this)[1][0] * (*this)[3][2] - (*this)[0][0] * (*this)[1][1] * (*this)[3][2];
+			double a44 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] - (*this)[0][2] * (*this)[1][1] * (*this)[2][0] + (*this)[0][2] * (*this)[1][0] * (*this)[2][1] - (*this)[0][0] * (*this)[1][2] * (*this)[2][1] - (*this)[0][1] * (*this)[1][0] * (*this)[2][2] + (*this)[0][0] * (*this)[1][1] * (*this)[2][2];
+
+			return Matrix4u<double>{ a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44 } *(1.0f / det);
+		}
+		else {
+			return Matrix4u<double>();
+		}
+	}
+
+	template<>
+	inline Matrix4u<double> Matrix4u<double>::inverse(bool & invertible) const
+	{
+		auto det = this->determinant();
+		invertible = (det != 0);
+		if (invertible) {
+			double a11 = (*this)[1][2] * (*this)[2][3] * (*this)[3][1] - (*this)[1][3] * (*this)[2][2] * (*this)[3][1] + (*this)[1][3] * (*this)[2][1] * (*this)[3][2] - (*this)[1][1] * (*this)[2][3] * (*this)[3][2] - (*this)[1][2] * (*this)[2][1] * (*this)[3][3] + (*this)[1][1] * (*this)[2][2] * (*this)[3][3];
+			double a12 = (*this)[0][3] * (*this)[2][2] * (*this)[3][1] - (*this)[0][2] * (*this)[2][3] * (*this)[3][1] - (*this)[0][3] * (*this)[2][1] * (*this)[3][2] + (*this)[0][1] * (*this)[2][3] * (*this)[3][2] + (*this)[0][2] * (*this)[2][1] * (*this)[3][3] - (*this)[0][1] * (*this)[2][2] * (*this)[3][3];
+			double a13 = (*this)[0][2] * (*this)[1][3] * (*this)[3][1] - (*this)[0][3] * (*this)[1][2] * (*this)[3][1] + (*this)[0][3] * (*this)[1][1] * (*this)[3][2] - (*this)[0][1] * (*this)[1][3] * (*this)[3][2] - (*this)[0][2] * (*this)[1][1] * (*this)[3][3] + (*this)[0][1] * (*this)[1][2] * (*this)[3][3];
+			double a14 = (*this)[0][3] * (*this)[1][2] * (*this)[2][1] - (*this)[0][2] * (*this)[1][3] * (*this)[2][1] - (*this)[0][3] * (*this)[1][1] * (*this)[2][2] + (*this)[0][1] * (*this)[1][3] * (*this)[2][2] + (*this)[0][2] * (*this)[1][1] * (*this)[2][3] - (*this)[0][1] * (*this)[1][2] * (*this)[2][3];
+			double a21 = (*this)[1][3] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][0] * (*this)[3][2] + (*this)[1][0] * (*this)[2][3] * (*this)[3][2] + (*this)[1][2] * (*this)[2][0] * (*this)[3][3] - (*this)[1][0] * (*this)[2][2] * (*this)[3][3];
+			double a22 = (*this)[0][2] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][2] * (*this)[3][0] + (*this)[0][3] * (*this)[2][0] * (*this)[3][2] - (*this)[0][0] * (*this)[2][3] * (*this)[3][2] - (*this)[0][2] * (*this)[2][0] * (*this)[3][3] + (*this)[0][0] * (*this)[2][2] * (*this)[3][3];
+			double a23 = (*this)[0][3] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][0] * (*this)[3][2] + (*this)[0][0] * (*this)[1][3] * (*this)[3][2] + (*this)[0][2] * (*this)[1][0] * (*this)[3][3] - (*this)[0][0] * (*this)[1][2] * (*this)[3][3];
+			double a24 = (*this)[0][2] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][2] * (*this)[2][0] + (*this)[0][3] * (*this)[1][0] * (*this)[2][2] - (*this)[0][0] * (*this)[1][3] * (*this)[2][2] - (*this)[0][2] * (*this)[1][0] * (*this)[2][3] + (*this)[0][0] * (*this)[1][2] * (*this)[2][3];
+			double a31 = (*this)[1][1] * (*this)[2][3] * (*this)[3][0] - (*this)[1][3] * (*this)[2][1] * (*this)[3][0] + (*this)[1][3] * (*this)[2][0] * (*this)[3][1] - (*this)[1][0] * (*this)[2][3] * (*this)[3][1] - (*this)[1][1] * (*this)[2][0] * (*this)[3][3] + (*this)[1][0] * (*this)[2][1] * (*this)[3][3];
+			double a32 = (*this)[0][3] * (*this)[2][1] * (*this)[3][0] - (*this)[0][1] * (*this)[2][3] * (*this)[3][0] - (*this)[0][3] * (*this)[2][0] * (*this)[3][1] + (*this)[0][0] * (*this)[2][3] * (*this)[3][1] + (*this)[0][1] * (*this)[2][0] * (*this)[3][3] - (*this)[0][0] * (*this)[2][1] * (*this)[3][3];
+			double a33 = (*this)[0][1] * (*this)[1][3] * (*this)[3][0] - (*this)[0][3] * (*this)[1][1] * (*this)[3][0] + (*this)[0][3] * (*this)[1][0] * (*this)[3][1] - (*this)[0][0] * (*this)[1][3] * (*this)[3][1] - (*this)[0][1] * (*this)[1][0] * (*this)[3][3] + (*this)[0][0] * (*this)[1][1] * (*this)[3][3];
+			double a34 = (*this)[0][3] * (*this)[1][1] * (*this)[2][0] - (*this)[0][1] * (*this)[1][3] * (*this)[2][0] - (*this)[0][3] * (*this)[1][0] * (*this)[2][1] + (*this)[0][0] * (*this)[1][3] * (*this)[2][1] + (*this)[0][1] * (*this)[1][0] * (*this)[2][3] - (*this)[0][0] * (*this)[1][1] * (*this)[2][3];
+			double a41 = (*this)[1][2] * (*this)[2][1] * (*this)[3][0] - (*this)[1][1] * (*this)[2][2] * (*this)[3][0] - (*this)[1][2] * (*this)[2][0] * (*this)[3][1] + (*this)[1][0] * (*this)[2][2] * (*this)[3][1] + (*this)[1][1] * (*this)[2][0] * (*this)[3][2] - (*this)[1][0] * (*this)[2][1] * (*this)[3][2];
+			double a42 = (*this)[0][1] * (*this)[2][2] * (*this)[3][0] - (*this)[0][2] * (*this)[2][1] * (*this)[3][0] + (*this)[0][2] * (*this)[2][0] * (*this)[3][1] - (*this)[0][0] * (*this)[2][2] * (*this)[3][1] - (*this)[0][1] * (*this)[2][0] * (*this)[3][2] + (*this)[0][0] * (*this)[2][1] * (*this)[3][2];
+			double a43 = (*this)[0][2] * (*this)[1][1] * (*this)[3][0] - (*this)[0][1] * (*this)[1][2] * (*this)[3][0] - (*this)[0][2] * (*this)[1][0] * (*this)[3][1] + (*this)[0][0] * (*this)[1][2] * (*this)[3][1] + (*this)[0][1] * (*this)[1][0] * (*this)[3][2] - (*this)[0][0] * (*this)[1][1] * (*this)[3][2];
+			double a44 = (*this)[0][1] * (*this)[1][2] * (*this)[2][0] - (*this)[0][2] * (*this)[1][1] * (*this)[2][0] + (*this)[0][2] * (*this)[1][0] * (*this)[2][1] - (*this)[0][0] * (*this)[1][2] * (*this)[2][1] - (*this)[0][1] * (*this)[1][0] * (*this)[2][2] + (*this)[0][0] * (*this)[1][1] * (*this)[2][2];
+
+			return Matrix4u<double>{ a11, a12, a13, a14,
+				a21, a22, a23, a24,
+				a31, a32, a33, a34,
+				a41, a42, a43, a44 } *(1.0f / det);
+		}
+		else {
+			return Matrix4u<double>();
 		}
 	}
 }

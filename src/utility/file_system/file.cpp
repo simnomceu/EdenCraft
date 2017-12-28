@@ -119,7 +119,7 @@ namespace ece
 			FloatVertex3u value;
 			try {
 				while (this->stream.good()) {
-					*this >> value[X] >> value[Y] >> value[Z];
+					*this >> value[0] >> value[1] >> value[2];
 					content.push_back(value);
 				}
 			}

@@ -1,7 +1,7 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
-#include "utility/mathematics/vertex3u.hpp"
+#include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {

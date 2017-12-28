@@ -3,7 +3,7 @@
 
 #include "window/window_event/mouse.hpp"
 #include "window/window_event/keyboard.hpp"
-#include "utility/mathematics/vertex2u.hpp"
+#include "utility/mathematics/vector2u.hpp"
 
 namespace ece
 {

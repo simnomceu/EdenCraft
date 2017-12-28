@@ -2,7 +2,7 @@
 #include "window/win32/data_window_adapter.hpp"
 
 #include <iostream>
-#include <windowsx.h>
+#include <Windowsx.h>
 
 namespace ece
 {
@@ -72,7 +72,7 @@ namespace ece
 			std::cout << "Error while retrieving window bounds. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
 		}
-		return IntVertex2u(bounds.left, bounds.top);
+		return IntVertex2u{ bounds.left, bounds.top };
 	}
 
 	void WindowAdapter::minimize()

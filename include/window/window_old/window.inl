@@ -1,8 +1,8 @@
 #ifndef WINDOW_INL
 #define WINDOW_INL
 
-#include "utility/mathematics/vertex3u.hpp"
-#include "utility/mathematics/vertex4u.hpp"
+#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics/vector4u.hpp"
 
 namespace ece
 {
