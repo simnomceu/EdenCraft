@@ -36,6 +36,15 @@
 
 */
 
+/**
+ * @file utility/indexing/index3u.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 28th 2017
+ * @copyright ----------
+ * @brief A 3D index key.
+ *
+ */
+
 namespace ece
 {
 	inline Index3u::Index3u() : i(0), j(0), k(0) {}

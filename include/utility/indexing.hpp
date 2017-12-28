@@ -37,24 +37,19 @@
 */
 
 /**
- * @file utility/indexing/unique_id.inl
+ * @file utility/indexing.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
  * @date December, 28th 2017
  * @copyright ----------
- * @brief A class to manage unique IDs, considering limited memory.
- */
+ * @brief All features from utility/indexing module.
+ *
+ **/
 
-namespace ece
-{
-	inline UniqueID::UniqueID() : std::deque<unsigned int>()
-	{
-		// TODO: to replace by emplace_back ?
-		this->push_back(0);
-	}
+#ifndef INDEXING_HPP
+#define INDEXING_HPP
 
-	inline UniqueID::UniqueID(const unsigned int start) : std::deque<unsigned int>()
-	{
-		// TODO: to replace by emplace_back ?
-		this->push_back(start);
-	}
-}
+#include "utility/indexing/index2u.hpp"
+#include "utility/indexing/index3u.hpp"
+#include "utility/indexing/unique_id.hpp"
+
+#endif // INDEXING_HPP

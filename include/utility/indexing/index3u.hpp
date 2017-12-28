@@ -36,29 +36,123 @@
 
 */
 
+/**
+ * @file utility/indexing/index3u.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 28th 2017
+ * @copyright ----------
+ * @brief A 3D index key.
+ *
+ */
+
 #ifndef INDEX3U_HPP
 #define INDEX3U_HPP
 
 namespace ece
 {
+	/**
+	 * @class Index3u
+	 * @brief A 3D index key to access elements in a 3D container.
+	 * @remark This class need to be refactored to be usable in others classes like Matrix. Have to be compared with std::slice and others.
+	 */
 	class Index3u
 	{
 	public:
-		inline Index3u();
-		inline Index3u(const int i, const int j, const int k);
-		Index3u(const Index3u & copy) = default;
-		Index3u(Index3u && move) = default;
+		/**
+		 * @fn Index3u()
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 * It initializes the index to (0, 0, 0).
+		 */
+		inline constexpr Index3u() noexcept;
 
-		~Index3u() = default;
-
-		Index3u & operator=(const Index3u & copy) = default;
-		Index3u & operator=(Index3u && move) = default;
-
-		inline int get(const int maxI, const int maxJ);
+		/**
+		* @fn Index3u(const int i, const int j, const int k)
+		* @param[in] i The i position of the index.
+		* @param[in] j The j position of the index.
+		* @param[in] k The k position of the index.
+		* @brief Build a 3d index key and set the position to (i, j, k).
+		* @throw noexcept
+		*/
+		inline Index3u(const int i, const int j, const int k) noexcept;
+		
+		/**
+		 * @fn Index3u(const Index3u & copy)
+		 * @param[in] copy The index to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Index3u(const Index3u & copy) noexcept = default;
+		
+		/**
+		 * @fn Index3u(Index3u && move)
+		 * @param[in] move The index to move from.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Index3u(Index3u && move) noexcept = default;
+		
+		/**
+		 * @fn ~Index3u()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Index3u() noexcept = default;
+		
+		/**
+		 * @fn Index3u & operator=(const Index3u & copy)
+		 * @param[in] copy The index to copy from.
+		 * @return The 3D index copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Index3u & operator=(const Index3u & copy) noexcept  = default;
+		
+		/**
+		 * @fn Index3u & operator=(Index3u && move)
+		 * @param[in] move The index to move from.
+		 * @return The 3D index moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Index3u & operator=(Index3u && move) noexcept = default;
+		
+		/**
+		 * @fn int get(const int maxI, const int maxJ)
+		 * @param[in] maxI Max length of an i-axis raw.
+		 * @param[in] maxJ Max length of a j-axis raw.
+		 * @return The 1D position
+		 * @brief Get the 1D position considering the max size of a slice.
+		 * @throw noexcept
+		 */
+		inline int get(const int maxI, const int maxJ) noexcept;
+		
+		/**
+		 * @fn void set(const int maxI, const int maxJ, const int index)
+		 * @param[in] maxI Max length of an i-axis raw
+		 * @param[in] maxI Max length of a j-axis raw
+		 * @param[in] index 1D index to set.
+		 * @brief Convert a 1D position to a 3D position, considering the max size of a slice.
+		 * @throw A division_by_zero exception if the max length is equal to 0.
+		 */
 		inline void set(const int maxI, const int maxJ, const int index);
 
+		/**
+		 * @property i
+		 * @brief The i position (usually on X-axis) of the index in 3D.
+		 */
 		unsigned int i;
+		
+		/**
+		 * @property j
+		 * @brief The j position (usually on Y-axis) of the index in 3D.
+		 */
 		unsigned int j;
+		
+		/**
+		 * @property k
+		 * @brief The k position (usually on Z-axis) of the index in 3D.
+		 */
 		unsigned int k;
 	};
 }

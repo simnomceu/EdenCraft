@@ -39,7 +39,7 @@
 /**
  * @file utility/indexing/index2u.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 19th 2017
+ * @date December, 28th 2017
  * @copyright ----------
  * @brief A 2D index key.
  *
@@ -52,96 +52,97 @@ namespace ece
 {
 	/**
 	 * @class Index2u
-	 * @brief
-	 * @remark This class need to be refactored to be usable in others classes like Matrix.
+	 * @brief A 2D index key to access elements in a 2D container.
+	 * @remark This class need to be refactored to be usable in others classes like Matrix. Have to be compared with std::slice and others.
 	 */
 	class Index2u
 	{
 	public:
 		/**
 		 * @fn Index2u()
-		 * @brief
+		 * @brief Default constructor.
 		 * @throw noexcept
+		 * It initializes the index to (0, 0).
 		 */
 		inline constexpr Index2u() noexcept;
 		
 		/**
 		 * @fn Index2u(const int i, const int j)
-		 * @param[in] i
-		 * @param[in] j
-		 * @brief
+		 * @param[in] i The i position of the index.
+		 * @param[in] j The j position of the index.
+		 * @brief Build a 2d index key and set the position to (i, j).
 		 * @throw noexcept
 		 */
 		inline Index2u(const int i, const int j) noexcept;
 
 		/**
 		 * @fn Index2u(const Index2u & copy)
-		 * @param[in] copy
-		 * @brief
+		 * @param[in] copy The index to copy from.
+		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
 		Index2u(const Index2u & copy) noexcept = default;
 
 		/**
 		 * @fn Index2u(Index2u && move)
-		 * @param[in] move
-		 * @brief
+		 * @param[in] move The index to move from.
+		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
 		Index2u(Index2u && move) noexcept = default;
 
 		/**
 		 * @fn ~Index2u()
-		 * @brief
+		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
 		~Index2u() noexcept = default;
 
 		/**
 		 * @fn Index2u & operator=(const Index2u & copy)
-		 * @param[in] copy
-		 * @return
-		 * @brief
+		 * @param[in] copy The index to copy from.
+		 * @return The 2D index copied.
+		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
 		Index2u & operator=(const Index2u & copy) noexcept = default;
 
 		/**
 		 * @fn Index2u & operator=(Index2u && move)
-		 * @param[in] move
-		 * @return
-		 * @brief
+		 * @param[in] move The index to move from.
+		 * @return The 2D index moved.
+		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
 		Index2u & operator=(Index2u && move) noexcept = default;
 
 		/**
 		 * @fn int get(const int maxI)
-		 * @param[in] maxI
-		 * @return
-		 * @brief
+		 * @param[in] maxI Max length of a raw.
+		 * @return The 1D position
+		 * @brief Get the 1D position considering the max length of a raw.
 		 * @throw noexcept
 		 */
 		inline int get(const int maxI) noexcept;
 
 		/**
 		 * @fn void set(const int maxI, const int index)
-		 * @param[in] maxI
-		 * @param[in] index
-		 * @brief
-		 * @throw 
+		 * @param[in] maxI Max length of a raw
+		 * @param[in] index 1D index to set.
+		 * @brief Convert a 1D position to a 2D position, considering the max length of a raw.
+		 * @throw A division_by_zero exception if the max length is equal to 0.
 		 */
 		inline void set(const int maxI, const int index);
 
 		/**
 		 * @property i
-		 * @brief
+		 * @brief The i position (usually on X-axis) of the index in 2D.
 		 */
 		unsigned int i;
 
 		/**
 		 * @property j
-		 * @brief
+		 * @brief The j position (usually on Y-axis) of the index in 2D.
 		 */
 		unsigned int j;
 	};
