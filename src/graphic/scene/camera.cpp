@@ -4,7 +4,7 @@
 
 namespace ece
 {
-	void Camera::updatePosition(const FloatPoint3u & position, const FloatPoint3u & target)
+	void Camera::updatePosition(const FloatVertex3u & position, const FloatVertex3u & target)
 	{
 		this->position = position;
 		this->target = target;

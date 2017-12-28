@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-#include "utility/mathematics/vertex3u.hpp"
+#include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/box3d.hpp"
 #include "graphic/renderable/vertex.hpp"
 

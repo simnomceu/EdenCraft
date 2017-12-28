@@ -23,7 +23,7 @@ namespace ece
 		try {
 			this->context->create(*this);
 		}
-		catch (Exception & e) {
+		catch (Exception & /*e*/) {
 			throw;
 		}
 		catch (std::runtime_error & e) {

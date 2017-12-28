@@ -2,7 +2,7 @@
 #define MOUSE_HPP
 
 #include <array>
-#include "utility/mathematics/vertex2u.hpp"
+#include "utility/mathematics/vector2u.hpp"
 
 namespace ece
 {
