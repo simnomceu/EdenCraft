@@ -25,6 +25,8 @@ namespace ece
 		Matrix<T, M, N> & operator=(Matrix<T, M, N> && move) noexcept = default;
 		inline Matrix<T, M, N> & operator=(const std::initializer_list<T> & il);
 
+		inline Matrix<T, M, N> & setIdentity();
+
 		inline const Vector<T, M> & operator[](const unsigned int index) const;
 		inline Vector<T, M> & operator[](const unsigned int index);
 		// inline Matrix<T, M, N> operator[](std::slice_array<T> slicearr) const;
@@ -67,6 +69,8 @@ namespace ece
 		inline Matrix<T, M, N> & operator^=(const T & val);
 		inline Matrix<T, M, N> & operator<<=(const T & val);
 		inline Matrix<T, M, N> & operator>>=(const T & val);
+
+		inline Vector<T, M> operator*=(const Vector<T, M> & v) const;
 
 		using std::valarray<T>::min;
 		using std::valarray<T>::max;

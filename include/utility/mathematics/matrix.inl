@@ -18,6 +18,14 @@ namespace ece
 	inline Matrix<T, M, N> & Matrix<T, M, N>::operator=(const std::initializer_list<T> & il) { std::valarray<T>::operator=(il); }
 
 	template <class T, unsigned int M, unsigned int N>
+	inline Matrix<T, M, N> & Matrix<T, M, N>::setIdentity()
+	{
+		std::valarray<T>::operator !=(0);
+		(*this)[std::slice(0, M, M + 1)] = 1;
+		return *this;
+	}
+
+	template <class T, unsigned int M, unsigned int N>
 	inline const Vector<T, M> & Matrix<T, M, N>::operator[](const unsigned int index) const
 		{ return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(index, M, 1)))); }
 
@@ -70,7 +78,13 @@ namespace ece
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> & Matrix<T, M, N>::operator*=(const Matrix<T, M, N> & v)
 	{
-		std::valarray<T>::operator*=(v);
+		Matrix<T, M, N> result;
+		for (unsigned int j = 0; j < N; ++j) {
+			for (unsigned int i = 0; i < M; ++i) {
+				result[i][j] = (this->row(i) * v.column(j)).sum();
+			}
+		}
+		this->operator=(std::move(result));
 		return *this;
 	}
 
@@ -194,6 +208,16 @@ namespace ece
 	}
 
 	template <class T, unsigned int M, unsigned int N>
+	inline Vector<T, M> Matrix<T, M, N>::operator*=(const Vector<T, M> & v) const
+	{
+		Vector<T, M> result;
+		for (unsigned int i = 0; i < M; ++i) {
+			result[i] = (this->row(i) * v).sum();
+		}
+		return result;
+	}
+
+	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::apply(T func(T)) const { return Matrix<T, M, N>(std::move(std::valarray<T>::apply(func))); }
 
 	template <class T, unsigned int M, unsigned int N>
@@ -209,7 +233,15 @@ namespace ece
 
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::operator*(const Matrix<T, M, N> & rhs) const
-		{ return Matrix<T, M, N>(std::move(std::valarray<T>::operator*(*this, rhs))); }
+	{ 
+		Matrix<T, M, N> result;
+		for (unsigned int j = 0; j < N; ++j) {
+			for (unsigned int i = 0; i < M; ++i) {
+				result[i][j] = (this->row(i) * v.column(j)).sum();
+			}
+		}
+		return result;
+	}
 
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::operator/(const Matrix<T, M, N> & rhs) const
@@ -293,7 +325,9 @@ namespace ece
 
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::operator||(const T & rhs) const
-		{ return Matrix<T, M, N>(std::move(std::operator||(*this, rhs))); }
+	{
+		return Matrix<T, M, N>(std::move(std::operator||(*this, rhs)));
+	}
 
 	template <class T, unsigned int M, unsigned int N>
 	bool Matrix<T, M, N>::operator==(const Matrix<T, M, N> & rhs) const { return std::operator==(*this, rhs).min(); }
