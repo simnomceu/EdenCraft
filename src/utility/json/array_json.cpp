@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/json/array_json.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 1st 2018
+ * @copyright ----------
+ * @brief Array node from a JSON tree.
+ */
+
 #include "utility/json/array_json.hpp"
 
 #include "utility/json/object_json.hpp"
@@ -44,10 +52,6 @@
 
 namespace ece
 {
-	ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent): NodeJSON(parent), children()
-	{
-	}
-
 	std::shared_ptr<NodeJSON> ArrayJSON::addNull()
 	{
 		this->children.push_back(std::make_shared<NullJSON>(std::to_string(this->children.size()), nullptr, this->shared_from_this()));
@@ -97,35 +101,5 @@ namespace ece
 		if (it != this->end()) {
 			this->children.erase(it);
 		}
-	}
-
-	bool ArrayJSON::isAtomic() const
-	{
-		return false;
-	}
-
-	TypeNodeJSON ArrayJSON::getType() const
-	{
-		return TypeNodeJSON::ARRAY_JSON;
-	}
-	
-	IteratorArrayJSON ArrayJSON::begin()
-	{
-		return this->children.begin();
-	}
-
-	IteratorArrayJSON ArrayJSON::end()
-	{
-		return this->children.end();
-	}
-
-	std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key)
-	{
-		return this->children[key];
-	}
-
-	void ArrayJSON::clear()
-	{
-		this->children.clear();
 	}
 }

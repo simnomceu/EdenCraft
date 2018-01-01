@@ -35,18 +35,21 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
+
+/**
+ * @file utility/json/object_json.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 1st 2018
+ * @copyright ----------
+ * @brief Object node from a JSON tree.
+ */
+
 #include "utility/json/object_json.hpp"
 
 #include "utility/json/array_json.hpp"
 
-#include <utility>
-
 namespace ece
 {
-	ObjectJSON::ObjectJSON(const std::weak_ptr<NodeJSON>& parent): NodeJSON(parent), children()
-	{
-	}
-
 	std::shared_ptr<NodeJSON> ObjectJSON::addNull(const std::string & key)
 	{
 		this->children[key] = std::make_shared<NullJSON>(key, nullptr, this->shared_from_this());
@@ -87,40 +90,5 @@ namespace ece
 	{
 		this->children[key] = std::make_shared<ArrayJSON>(this->shared_from_this());
 		return this->children[key];
-	}
-
-	void ObjectJSON::remove(const std::string & key)
-	{
-		this->children.erase(key);
-	}
-
-	bool ObjectJSON::isAtomic() const
-	{
-		return false;
-	}
-
-	TypeNodeJSON ObjectJSON::getType() const
-	{
-		return TypeNodeJSON::OBJECT_JSON;
-	}
-
-	IteratorObjectJSON ObjectJSON::begin()
-	{
-		return this->children.begin();
-	}
-
-	IteratorObjectJSON ObjectJSON::end()
-	{
-		return this->children.end();
-	}
-
-	std::shared_ptr<NodeJSON> ObjectJSON::operator[](const std::string & key)
-	{
-		return this->children[key];
-	}
-
-	void ObjectJSON::clear()
-	{
-		this->children.clear();
 	}
 }

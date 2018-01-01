@@ -37,26 +37,24 @@
 */
 
 /**
- * @file utility/json/node_json.cpp
+ * @file utility/json/node_json.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
  * @date December, 28th 2017
  * @copyright ----------
  * @brief Default node from a JSON tree.
  */
 
-#include "utility/json/node_json.hpp"
-
 namespace ece
 {
-	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
-	{
-		this->parent = copy.parent;
-		return *this;
-	}
+	inline NodeJSON::NodeJSON(const std::weak_ptr<NodeJSON>& parent) noexcept : std::enable_shared_from_this<NodeJSON>(), parent(parent) {}
 
-	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
-	{
-		this->parent = std::move(move.parent);
-		return *this;
-	}
+	inline NodeJSON::NodeJSON(const NodeJSON & copy) noexcept : std::enable_shared_from_this<NodeJSON>(copy), parent(copy.parent) {}
+
+	inline NodeJSON::NodeJSON(NodeJSON && move) noexcept : std::enable_shared_from_this<NodeJSON>(move), parent(std::move(move.parent)) {}
+
+	inline NodeJSON::~NodeJSON() noexcept { this->parent.reset(); }
+
+	inline std::shared_ptr<NodeJSON> NodeJSON::getParent() noexcept { return this->parent.lock(); }
+
+	inline const bool NodeJSON::hasParent() const noexcept { return !this->parent.expired(); }
 }
