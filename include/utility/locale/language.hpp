@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/locale/language.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 2nd 2018
+ * @copyright ----------
+ * @brief Define an idiom type for language localization.
+ */
+
 #ifndef LANGUAGE_HPP
 #define LANGUAGE_HPP
 
@@ -43,10 +51,15 @@
 
 namespace ece
 {
+	/**
+	 * @typedef Language
+	 * @brief Idiom of a language localization.
+	 */
 	using Language = std::string;
 
 	static const Language ENGLISH = "en";
 	static const Language FRENCH = "fr";
+	static const Language LOJBAN = "jbo";
 }
 
 #endif // LANGUAGE_HPP

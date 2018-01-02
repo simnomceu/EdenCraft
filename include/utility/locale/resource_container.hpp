@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/locale/resource_container.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 2nd 2018
+ * @copyright ----------
+ * @brief Define an inflated LocaleResource.
+ */
+
 #ifndef RESOURCE_CONTAINER_HPP
 #define RESOURCE_CONTAINER_HPP
 
@@ -43,10 +51,23 @@
 
 namespace ece
 {
+	/**
+	 * @class ResourceContainer
+	 * @extends LocaleResource
+	 * @brief Expose LocaleResource as a container.
+	 * @remark Is this class useful or could it be replaced by a friendship between LocaleLoader and LocaleResource ?
+	 */
 	class ResourceContainer: public LocaleResource
 	{
 	public:
+		/**
+		 * @see http://en.cppreference.com/w/cpp/container/map/insert
+		 */
 		using LocaleResource::insert;
+		
+		/**
+		 * @see http://en.cppreference.com/w/cpp/container/map/clear
+		 */
 		using LocaleResource::clear;
 	};
 }

@@ -36,6 +36,15 @@
 
 */
 
+/**
+ * @file utility/locale/country.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 2nd 2018
+ * @copyright ----------
+ * @brief Define a country type for language localization.
+ */
+
+
 #ifndef COUNTRY_HPP
 #define COUNTRY_HPP
 
@@ -43,6 +52,10 @@
 
 namespace ece
 {
+	/**
+	 * @typedef Country
+	 * @brief Country of a language localization.
+	 */
 	using Country = std::string;
 
 	static const Country USA = "US";

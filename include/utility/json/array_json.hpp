@@ -71,7 +71,7 @@ namespace ece
 	class ArrayJSON : public NodeJSON
 	{
 	public:
-		ArrayJSON() = delete;
+		//ArrayJSON() = delete;
 
 		/**
 		 * @fn ArrayJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>())

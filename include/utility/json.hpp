@@ -39,10 +39,9 @@
 /**
  * @file utility/json.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date November, 30th 2017
+ * @date January, 2nd 2018
  * @copyright ----------
  * @brief All features from utility/json module.
- *
  **/
 
 #ifndef JSON_HPP

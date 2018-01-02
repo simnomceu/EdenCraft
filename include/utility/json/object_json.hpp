@@ -71,7 +71,7 @@ namespace ece
 	class ObjectJSON: public NodeJSON
 	{
 	public:
-		ObjectJSON() = delete;
+		//ObjectJSON() = delete;
 		
 		/**
 		 * @fn ObjectJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>())

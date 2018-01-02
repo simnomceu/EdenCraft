@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/locale/locale_loader.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 2nd 2018
+ * @copyright ----------
+ * @brief Load a locale resource of string literals.
+ */
+
 #include "utility/locale/locale_loader.hpp"
 
 #include "utility/file_system/parser_json.hpp"
@@ -50,12 +58,12 @@ namespace ece
 {
 	std::string LocaleLoader::path = "";
 
-	void LocaleLoader::setPath(const std::string & path)
+	void LocaleLoader::setPath(const std::string & path) noexcept
 	{
 		LocaleLoader::path = path;
 	}
 
-	LocaleLoader::LocaleLoader(const std::string & filename, const Locale & locale): locale(locale), resource(), filename(filename)
+	LocaleLoader::LocaleLoader(const std::string & filename, const Localization & locale): locale(locale), resource(), filename(filename)
 	{
 		this->locale = locale;
 		std::string file = LocaleLoader::path + this->filename + "_" 
@@ -63,12 +71,7 @@ namespace ece
 		this->generateResource(file);
 	}
 
-	LocaleResource & LocaleLoader::getResource()
-	{
-		return this->resource;
-	}
-
-	void LocaleLoader::changeLocale(const Locale & locale)
+	void LocaleLoader::changeLocale(const Localization & locale)
 	{
 		this->locale = locale;
 		std::string file = LocaleLoader::path + this->filename + "_" 

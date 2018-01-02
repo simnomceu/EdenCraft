@@ -37,35 +37,31 @@
 */
 
 /**
- * @file utility/locale/locale_resource.hpp
+ * @file utility/locale/localization.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
  * @date January, 2nd 2018
  * @copyright ----------
- * @brief Define a map of key/value for the string literals.
+ * @brief Defining localization for literals.
  */
 
-#ifndef LOCALE_RESOURCE_HPP
-#define LOCALE_RESOURCE_HPP
-
-#include <map>
-#include <string>
+#include <algorithm>
 
 namespace ece
 {
-	/**
-	 * @class LocaleResource
-	 * @extends std::map<std::string, std::string>
-	 * @brief Expose the container as an access map.
-	 * @remark Check if the map could be replaced by an unordered_map.
-	 */
-	class LocaleResource: protected std::map<std::string, std::string>
+	inline Localization::Localization(const Language & language, const Country & country) : language(language), country(country) 
 	{
-	public:
-		/**
-		 * @see http://en.cppreference.com/w/cpp/container/map/operator_at
-		 */
-		using std::map<std::string, std::string>::operator[];
-	};
-}
+		std::transform(this->country.begin(), this->country.end(), this->country.begin(), ::toupper);
+	}
 
-#endif // LOCALE_RESOURCE_HPP
+	inline const Language & Localization::getLanguage() const noexcept { return this->language; }
+
+	inline const Country & Localization::getCountry() const noexcept { return this->country; }
+
+	inline void Localization::setLanguage(const Language & language)
+	{
+		this->language = language;
+		std::transform(this->country.begin(), this->country.end(), this->country.begin(), ::toupper);
+	}
+
+	inline void Localization::setCountry(const Country & country) noexcept { this->country = country; }
+}
