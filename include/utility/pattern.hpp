@@ -37,20 +37,16 @@
 */
 
 /**
- * @file utility/file_system.hpp
+ * @file utility/pattern.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 19th 2017
+ * @date January, 3rd 2017
  * @copyright ----------
- * @brief All features from utility/file_system module.
+ * @brief All features from utility/pattern module.
  **/
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
+#ifndef PATTERN_HPP
+#define PATTERN_HPP
 
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/parser_json.hpp"
-#include "utility/file_system/parser_obj.hpp"
-#include "utility/file_system/path.hpp"
+#include "utility/pattern/pimpl.hpp"
 
-#endif // FILE_SYSTEM_HPP
+#endif // PATTERN_HPP
