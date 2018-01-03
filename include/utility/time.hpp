@@ -37,19 +37,18 @@
 */
 
 /**
- * @file utility/time/update_per_second.inl
+ * @file utility/time.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 3rd 2017
  * @copyright ----------
- * @brief Define an UPS counter.
+ * @brief All features from utility/time module.
  **/
 
-namespace ece
-{
+#ifndef TIME_HPP
+#define TIME_HPP
 
-	inline UpdatePerSecond::UpdatePerSecond(const int UPS) : chrono(), rate(1000.0f / UPS), nbFrames(0), average(0.0) { this->chrono.start(); }
+#include "utility/time/chrono.hpp"
+#include "utility/time/update_per_second.hpp"
+#include "utility/time/frame_per_second.hpp"
 
-	inline int UpdatePerSecond::getLimit() const noexcept { return static_cast<int>(this->rate * 1000); }
-
-	inline double UpdatePerSecond::getUPS() const noexcept { return this->average; }
-}
+#endif // TIME_HPP

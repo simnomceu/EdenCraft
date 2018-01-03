@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/time/update_per_second.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define an UPS counter.
+ **/
+
 #ifndef UPDATE_PER_SECOND_HPP
 #define UPDATE_PER_SECOND_HPP
 
@@ -43,23 +51,119 @@
 
 namespace ece
 {
+	/**
+	 * @class UpdatePerSecond
+	 * @brief UPS counter.
+	 */
 	class UpdatePerSecond
 	{
 	public:
+		UpdatePerSecond() = delete;
+
+		/**
+		 * @fn UpdatePerSecond(const int UPS)
+		 * @param[in] UPS
+		 * @brief 
+		 * @throw
+		 */
 		inline UpdatePerSecond(const int UPS);
 
-		const bool isReadyToUpdate();
+		/**
+		 * @fn UpdatePerSecond(const UpdatePerSecond & copy) noexcept
+		 * @param[in] copy The counter to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		UpdatePerSecond(const UpdatePerSecond & copy) noexcept = default;
 
-		inline int getLimit() const;
-		inline const double getUPS() const;
+		/**
+		 * @fn UpdatePerSecond(UpdatePerSecond && move) noexcept
+		 * @param[in] move The counter to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		UpdatePerSecond(UpdatePerSecond && move) noexcept = default;
 
+		/**
+		 * @fn ~UpdatePerSecond() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~UpdatePerSecond() noexcept = default;
+
+		/**
+		 * @fn UpdatePerSecond & operator=(const UpdatePerSecond & copy) noexcept 
+		 * @param[in] copy The counter to copy from.
+		 * @return The counter copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		UpdatePerSecond & operator=(const UpdatePerSecond & copy) noexcept = default;
+		
+		/**
+		 * @fn UpdatePerSecond & operator=(UpdatePerSecond && move) noexcept
+		 * @param[in] move The counter to move.
+		 * @return The counter moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		UpdatePerSecond & operator=(UpdatePerSecond && move) noexcept = default;
+
+		/**
+		 * @fn bool isReadyToUpdate()
+		 * @return True if The UPS limit is reach, false else.
+		 * @brief Indicates if the counter has reached the limit or not.
+		 * @throw
+		 */
+		bool isReadyToUpdate();
+
+		/**
+		 * @fn int getLimit() const noexcept
+		 * @return The UPS limit set.
+		 * @brief Get the current limit set.
+		 * @throw noexcept.
+		 */
+		inline int getLimit() const noexcept;
+
+		/**
+		 * @fn double getUPS() const noexcept
+		 * @return The current UPS.
+		 * @brief Get the current UPS.
+		 * @throw noexcept.
+		 */
+		inline double getUPS() const noexcept;
+
+		/**
+		 * @fn void setUPS(const int limit)
+		 * @param[in] limit The UPS limit to set.
+		 * @brief Set the UPS limit.
+		 * @throw
+		 */
 		void setUPS(const int limit);
 
 	private:
+		/**
+		 * @property chrono
+		 * @brief Chrono used to measure the elapsed time between two frames.
+		 */
 		Chrono chrono;
 
+		/**
+		 * @property rate
+		 * @brief The framerate of the counter.
+		 */
 		float rate;
+
+		/**
+		 * @property nbFrames
+		 * @brief The number of frames since the counter started.
+		 */
 		long int nbFrames;
+
+		/**
+		 * @property average
+		 * @fn The average UPS computed.
+		 */
 		double average;
 	};
 

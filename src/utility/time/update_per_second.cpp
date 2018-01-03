@@ -36,11 +36,19 @@
 
 */
 
+/**
+ * @file utility/time/update_per_second.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define an UPS counter.
+ **/
+
 #include "utility/time/update_per_second.hpp"
 
 namespace ece
 {
-	const bool UpdatePerSecond::isReadyToUpdate()
+	bool UpdatePerSecond::isReadyToUpdate()
 	{
 		float elapsedTime = (float)this->chrono.getElapsedTime();
 		bool isReady = elapsedTime >= this->rate;

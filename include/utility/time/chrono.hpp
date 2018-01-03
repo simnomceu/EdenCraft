@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/time/chrono.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define a chrono.
+ **/
+
 #ifndef CHRONO_HPP
 #define CHRONO_HPP
 
@@ -43,17 +51,89 @@
 
 namespace ece
 {
+	/**
+	 * @class Chrono
+	 * @brief Define a chrono to measure durations.
+	 */
 	class Chrono
 	{
 	public:
-		inline Chrono();
-		
-		inline void start();
-		const int reset();
+		/**
+		 * @fn constexpr Chrono()
+		 * @brief Default constructor. Timer is initialized to 0-time.
+		 * @throw
+		 */
+		inline constexpr Chrono();
 
-		const int getElapsedTime() const;
+		/**
+		 * @fn Chrono(const Chrono & copy)
+		 * @param[in] copy The chrono to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Chrono(const Chrono & copy) noexcept = default;
+
+		/**
+		 * @fn Chrono(Chrono && move)
+		 * @param[in] move The chrono to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Chrono(Chrono && move) noexcept = default;
+
+		/**
+		 * @fn ~Chrono()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Chrono() noexcept = default;
+
+		/**
+		 * @fn Chrono & operator=(const Chrono & copy)
+		 * @param[in] copy The chrono to copy from.
+		 * @return The chrono copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Chrono & operator=(const Chrono & copy) noexcept = default;
+
+		/**
+		 * @fn Chrono & operator=(Chrono && move)
+		 * @param[in] move The chrono to move.
+		 * @return The chrono moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Chrono & operator=(Chrono && move) noexcept = default;
+		
+		/**
+		 * @fn void start()
+		 * @brief Start the chrono
+		 * @throw
+		 */
+		inline void start();
+
+		/**
+		 * @fn int reset()
+		 * @return The elapsed time since last chrono start.
+		 * @brief Reset the chrono and get the elapsed time.
+		 * @throw
+		 */
+		int reset();
+
+		/**
+		 * @fn int getElapsedTime() const
+		 * @return The elapsed time since last chrono start.
+		 * @brief Get the elapsed time. Chrono is not stopped or reset.
+		 * @throw
+		 */
+		int getElapsedTime() const;
 
 	private:
+		/**
+		 * @property begin
+		 * @brief The time point when chrono has started.
+		 */
 		std::chrono::time_point<std::chrono::system_clock> begin;
 	};
 }

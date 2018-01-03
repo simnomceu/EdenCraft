@@ -36,11 +36,17 @@
 
 */
 
+/**
+ * @file utility/time/frame_per_second.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define an FPS counter.
+ **/
+
 namespace ece
 {
-	inline FramePerSecond::FramePerSecond(FPSrate rate) : UpdatePerSecond(rate)
-	{
-	}
+	inline FramePerSecond::FramePerSecond(FPSrate rate) : UpdatePerSecond(rate) {}
 
-	inline const double FramePerSecond::getFPS() const { return this->getUPS(); }
+	inline double FramePerSecond::getFPS() const noexcept { return this->getUPS(); }
 }
