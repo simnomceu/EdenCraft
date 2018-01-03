@@ -36,17 +36,38 @@
 
 */
 
+/**
+ * @file utility/log/service_logger.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define the logger service implementation.
+ */
+
 #ifndef SERVICE_LOGGER_HPP
 #define SERVICE_LOGGER_HPP
 
 #include "utility/service/service_factory.hpp"
 #include "utility/service/service_locator.hpp"
-#include "utility/log/logger_none.hpp"
+#include "utility/log/base_logger.hpp"
 
 namespace ece
 {
-	typedef ServiceFactory<BaseLogger> ServiceLoggerFactory;
-	typedef ServiceLocator<BaseLogger, LoggerNone> ServiceLoggerLocator;
+	/**
+	 * @typedef ServiceLoggerFactory;
+	 * @brief Factory to build a logger implementation.
+	 */
+	using ServiceLoggerFactory = ServiceFactory<BaseLogger>;
+
+	/**
+	 * @typedef ServiceLoggerLocator;
+	 * @brief Locator to access the current logger implementation.
+	 */
+	using ServiceLoggerLocator = ServiceLocator<BaseLogger, BaseLogger>;
+
+	/**
+	 * @remark LoggerHelper ERROR, WARNING, and INFO which implements operator<< and operator>> should be added to help.
+	 */
 }
 
 #endif

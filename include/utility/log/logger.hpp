@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/log/logger.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define a logger implementation for standard output.
+ */
+
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
@@ -45,17 +53,87 @@
 
 namespace ece
 {	
+	/**
+	 * @class Logger
+	 * @extends BaseLogger
+	 * @brief Logger implementation.
+	 * @see BaseLogger
+	 */
 	class Logger: public BaseLogger
 	{
 	public:
-		inline Logger();
+		/**
+		 * @fn Logger()
+		 * @brief Default constructor.
+		 * @throw
+		 */
+		Logger() = default;
 
+		/**
+		 * @fn Logger(const Logger & copy)
+		 * @param[in] copy The logger to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
+		Logger(const Logger & copy) = default;
+
+		/**
+		 * @fn Logger(Logger && move) noexcept
+		 * @param[in] move The logger to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Logger(Logger && move) noexcept = default;
+
+		/**
+		 * @fn ~Logger()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Logger() noexcept = default;
+
+		/**
+		 * @fn Logger & operator=(const Logger & copy)
+		 * @param[in] copy The logger to copy from.
+		 * @return The logger copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
+		Logger & operator=(const Logger & copy) = default;
+
+		/**
+		 * @fn Logger & operator=(Logger && move)
+		 * @param[in] move The logger to move.
+		 * @return The logger moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Logger & operator=(Logger && move) noexcept = default;
+		
+		/**
+		 * @fn void logError(const std::string & data)
+		 * @param[in] data The data to log.
+		 * @brief Log data with the tag ERROR.
+		 * @throw
+		 */
 		virtual void logError(const std::string & data) override;
+		
+		/**
+		 * @fn void logWarning(const std::string & data)
+		 * @param[in] data The data to log.
+		 * @brief Log data with the tag WARNING.
+		 * @throw
+		 */
 		virtual void logWarning(const std::string & data) override;
+		
+		/**
+		 * @fn void logInfo(const std::string & data)
+		 * @param[in] data The data to log.
+		 * @brief Log data with the tag INFO.
+		 * @throw
+		 */
 		virtual void logInfo(const std::string & data) override;
 	};
 }
-
-#include "utility/log/logger.inl"
 
 #endif // LOGGER_HPP

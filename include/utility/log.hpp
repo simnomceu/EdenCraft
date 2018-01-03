@@ -36,22 +36,19 @@
 
 */
 
-#ifndef LOGGER_NONE_HPP
-#define LOGGER_NONE_HPP
+/**
+ * @file utility/log.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief All features from utility/log module.
+ **/
+
+#ifndef LOG_HPP
+#define LOG_HPP
 
 #include "utility/log/base_logger.hpp"
+#include "utility/log/service_logger.hpp"
+#include "utility/log/logger.hpp"
 
-namespace ece
-{
-	class LoggerNone: public BaseLogger
-	{
-	public:
-		inline virtual void logError(const std::string & data) override;
-		inline virtual void logWarning(const std::string & data) override;
-		inline virtual void logInfo(const std::string & data) override;
-	};
-}
-
-#include "utility/log/logger_none.inl"
-
-#endif // LOGGER_NONE_HPP
+#endif // LOG_HPP
