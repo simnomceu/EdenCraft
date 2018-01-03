@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/service/service_locator.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2017
+ * @copyright ----------
+ * @brief Generic locator for the service pattern.
+ **/
+
 #include "utility/debug/exception.hpp"
 
 namespace ece

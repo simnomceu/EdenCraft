@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/service/service_factory.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2017
+ * @copyright ----------
+ * @brief Generic factory for the service pattern.
+ **/
+
 #ifndef SERVICE_FACTORY_HPP
 #define SERVICE_FACTORY_HPP
 
@@ -43,10 +51,23 @@
 
 namespace ece
 {
+	/**
+	 * @class ServiceFactory
+	 * @tparam Base The base class of service
+	 * @brief A factory for a category of services.
+	 */
 	template <class Base>
 	class ServiceFactory
 	{
 	public:
+		/**
+		 * @fn std::shared_ptr<Base> build()
+		 * @tparam Derived The derived class of the service to build
+		 * @return The base service built
+		 * @brief Build the service according to the derived implementation.
+		 * @throw
+		 * @remark It should be refactor to something like that: build(Args...&& args)
+		 */
 		template <class Derived>
 		static std::shared_ptr<Base> build();
 	};
