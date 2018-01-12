@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/mathematics/box3d.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define a box in a 3D space.
+ */
+
 #ifndef BOX3D_HPP
 #define BOX3D_HPP
 
@@ -43,23 +51,92 @@
 
 namespace ece
 {
+	/**
+	 * @class Box3D
+	 * @brief Box in a 3D space, defined by two vertices.
+	 * @remark Need to be refactored as a templated class.
+	 *      *-------b
+	 *     /|      /|
+	 *	  / |     / |
+	 *   *--|----*  |
+	 *   |  *----|--*
+	 *   | /     | /
+	 *   a-------*
+	 */
 	class Box3D
 	{
 	public:
 		Box3D() = delete;
+
+		/**
+		 * @fn Box3D(const FloatVertex3u & a, const FloatVertex3u & b)
+		 * @param[in] a The left-bottom vertex of the box
+		 * @param[in] b The right-top vertex of the box
+		 * @brief  Build a box in 3D space.
+		 * @throw
+		 */
 		inline Box3D(const FloatVertex3u & a, const FloatVertex3u & b);
+
+		/**
+		 * @fn Box3D(const Box3D & copy)
+		 * @param[in] copy The box to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		Box3D(const Box3D & copy) = default;
-		Box3D(Box3D && move) = default;
 
-		~Box3D() = default;
+		/**
+		 * @fn Box3D(Box3D && move) noexcept
+		 * @param[in] move The box to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Box3D(Box3D && move) noexcept = default;
 
+		/**
+		 * @fn ~Box3D() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Box3D() noexcept = default;
+
+		/**
+		 * @fn Box3D & operator=(const Box3D & copy)
+		 * @param[in] copy The box to copy from.
+		 * @return The box copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		Box3D & operator=(const Box3D & copy) = default;
-		Box3D & operator=(Box3D && move) = default;
 
-		inline FloatVertex3u getCenter() const;
+		/**
+		 * @fn Box3D & operator=(Box3D && move) noexcept
+		 * @param[in] move The box to move.
+		 * @return The box moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Box3D & operator=(Box3D && move) noexcept = default;
+
+		/**
+		 * @fn FloatVertex3u getCenter() const
+		 * @return The center of the box.
+		 * @brief Get the center of the box as a 3D vertex.
+		 * @throw noexcept.
+		 */
+		inline FloatVertex3u getCenter() const noexcept;
 
 	private:
+		/**
+		 * @property a
+		 * @brief The left-bottom vertex of the box.
+		 */
 		FloatVertex3u a;
+
+		/**
+		 * @property b
+		 * @brief The right-top vertex of the box.
+		 */
 		FloatVertex3u b;
 	};
 }

@@ -119,8 +119,8 @@ namespace ece
 		
 		/**
 		 * @fn int get(const int maxI, const int maxJ)
-		 * @param[in] maxI Max length of an i-axis raw.
-		 * @param[in] maxJ Max length of a j-axis raw.
+		 * @param[in] maxI Max length of an i-axis row.
+		 * @param[in] maxJ Max length of a j-axis row.
 		 * @return The 1D position
 		 * @brief Get the 1D position considering the max size of a slice.
 		 * @throw noexcept
@@ -129,8 +129,8 @@ namespace ece
 		
 		/**
 		 * @fn void set(const int maxI, const int maxJ, const int index)
-		 * @param[in] maxI Max length of an i-axis raw
-		 * @param[in] maxI Max length of a j-axis raw
+		 * @param[in] maxI Max length of an i-axis row
+		 * @param[in] maxI Max length of a j-axis row
 		 * @param[in] index 1D index to set.
 		 * @brief Convert a 1D position to a 3D position, considering the max size of a slice.
 		 * @throw A division_by_zero exception if the max length is equal to 0.

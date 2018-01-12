@@ -152,7 +152,7 @@ namespace ece
 		Copier copier;
 
 		/**
-		 * @fn Pimpl clone const
+		 * @fn Pimpl clone() const
 		 * @brief Create a clone of the current pimpl.
 		 * @throw
 		 */

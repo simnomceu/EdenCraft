@@ -162,7 +162,7 @@ namespace ece
 
 		/**
 		 * @property average
-		 * @fn The average UPS computed.
+		 * @brief The average UPS computed.
 		 */
 		double average;
 	};

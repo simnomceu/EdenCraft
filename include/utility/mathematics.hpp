@@ -37,16 +37,27 @@
 */
 
 /**
- * @file utility/mathematics/box3d.inl
+ * @file utility/mathematics.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 3rd 2017
  * @copyright ----------
- * @brief Define a box in a 3D space.
- */
+ * @brief All features from utility/mathematics module.
+ **/
 
-namespace ece
-{
-	inline Box3D::Box3D(const FloatVertex3u & a, const FloatVertex3u & b): a(a), b(b) {}
+#ifndef MATHEMATICS_HPP
+#define MATHEMATICS_HPP
 
-	inline FloatVertex3u Box3D::getCenter() const noexcept { return (this->a + this->b ) / 2.0f; }
-}
+#include "utility/mathematics/box3d.hpp"
+#include "utility/mathematics/euler_angle.hpp"
+#include "utility/mathematics/interpolation.hpp"
+#include "utility/mathematics/matrix2u.hpp"
+#include "utility/mathematics/matrix3u.hpp"
+#include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics/quaternion.hpp"
+#include "utility/mathematics/rectangle.hpp"
+#include "utility/mathematics/transform.hpp"
+#include "utility/mathematics/vector2u.hpp"
+#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics/vector4u.hpp"
+
+#endif // MATHEMATICS_HPP

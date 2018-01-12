@@ -25,7 +25,7 @@ namespace ece
 	ENUM_FLAGS_OPERATOR(NAME, ^)
 
 /**
- * @define EnumFlagsT(TYPE, NAME)
+ * @def EnumFlagsT(TYPE, NAME)
  * @brief Defines a C++14 enumeration to be used has C-like tags.
  * Thus, things like MyEnum::A | MyEnum::B make sense now.
  */
@@ -35,7 +35,7 @@ namespace ece
 	enum class NAME : TYPE
 
 /**
- * @define EnumFlags(NAME)
+ * @def EnumFlags(NAME)
  * @brief Defines a C++14 enumeration to be used has C-like tags, with default type as char.
  */
 #define EnumFlags(NAME) \

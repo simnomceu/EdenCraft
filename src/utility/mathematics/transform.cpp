@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/mathematics/transform.cpp
+ * @author IsiliBN (casa2pir@hotmail.fr)
+ * @date January, 8th 2017
+ * @copyright ----------
+ * @brief Define some matrix transformations.
+ **/
+
 #include "utility/mathematics/transform.hpp"
 
 #include <cmath>

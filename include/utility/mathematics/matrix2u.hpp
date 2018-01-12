@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/mathematics/matrix2u.hpp
+ * @author IsiliBN (casa2pir@hotmail.fr)
+ * @date January, 8th 2017
+ * @copyright ----------
+ * @brief A 2x2 specialization of Matrix.
+ **/
+
 #ifndef MATRIX2U_HPP
 #define MATRIX2U_HPP
 
@@ -43,12 +51,31 @@
 
 namespace ece
 {
+	/**
+	 * @typedef Matrix2u
+	 * @brief 2x2 Square matrix
+	 */
 	template <class T>
 	using Matrix2u = Matrix<T, 2, 2>;
 
+	/**
+	 * @typedef IntMatrix2u
+	 */
 	using IntMatrix2u = Matrix2u<int>;
+	
+	/**
+	 * @typedef UintMatrix2u
+	 */
 	using UintMatrix2u = Matrix2u<unsigned int>;
+	
+	/**
+	 * @typedef FloatMatrix2u
+	 */
 	using FloatMatrix2u = Matrix2u<float>;
+	
+	/**
+	 * @typedef DoubleMatrix2u
+	 */
 	using DoubleMatrix2u = Matrix2u<double>;
 }
 

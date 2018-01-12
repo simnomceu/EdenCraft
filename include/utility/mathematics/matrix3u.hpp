@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/mathematics/matrix3u.hpp
+ * @author IsiliBN (casa2pir@hotmail.fr)
+ * @date January, 8th 2017
+ * @copyright ----------
+ * @brief A 3x3 specialization of Matrix.
+ **/
+
 #ifndef MATRIX3U_HPP
 #define MATRIX3U_HPP
 
@@ -43,12 +51,31 @@
 
 namespace ece
 {
+	/**
+	 * @typedef Matrix3u
+	 * @brief 3x3 Square matrix
+	 */
 	template <class T>
 	using Matrix3u = Matrix<T, 3, 3>;
 
+	/**
+	 * @typedef IntMatrix3u
+	 */
 	using IntMatrix3u = Matrix3u<int>;
+
+	/**
+	* @typedef UintMatrix3u
+	*/
 	using UintMatrix3u = Matrix3u<unsigned int>;
+
+	/**
+	* @typedef FloatMatrix3u
+	*/
 	using FloatMatrix3u = Matrix3u<float>;
+
+	/**
+	* @typedef DoubleMatrix3u
+	*/
 	using DoubleMatrix3u = Matrix3u<double>;
 }
 

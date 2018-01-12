@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/mathematics/matrix4u.hpp
+ * @author IsiliBN (casa2pir@hotmail.fr)
+ * @date January, 8th 2017
+ * @copyright ----------
+ * @brief A 4x4 specialization of Matrix.
+ **/
+
 #ifndef MATRIX4U_HPP
 #define MATRIX4U_HPP
 
@@ -43,12 +51,31 @@
 
 namespace ece
 {
+	/**
+	 * @typedef Matrix4u
+	 * @brief 4x4 Square matrix
+	 */
 	template <class T>
 	using Matrix4u = Matrix<T, 4, 4>;
 
+	/**
+	 * @typedef IntMatrix4u
+	 */
 	using IntMatrix4u = Matrix4u<int>;
+
+	/**
+	 * @typedef UintMatrix4u
+	 */
 	using UintMatrix4u = Matrix4u<unsigned int>;
+
+	/**
+	 * @typedef FloatMatrix4u
+	 */
 	using FloatMatrix4u = Matrix4u<float>;
+
+	/**
+	 * @typedef DoubleMatrix4u
+	 */
 	using DoubleMatrix4u = Matrix4u<double>;
 }
 

@@ -118,18 +118,18 @@ namespace ece
 
 		/**
 		 * @fn int get(const int maxI)
-		 * @param[in] maxI Max length of a raw.
+		 * @param[in] maxI Max length of a row.
 		 * @return The 1D position
-		 * @brief Get the 1D position considering the max length of a raw.
+		 * @brief Get the 1D position considering the max length of a row.
 		 * @throw noexcept
 		 */
 		inline int get(const int maxI) noexcept;
 
 		/**
 		 * @fn void set(const int maxI, const int index)
-		 * @param[in] maxI Max length of a raw
+		 * @param[in] maxI Max length of a row
 		 * @param[in] index 1D index to set.
-		 * @brief Convert a 1D position to a 2D position, considering the max length of a raw.
+		 * @brief Convert a 1D position to a 2D position, considering the max length of a row.
 		 * @throw A division_by_zero exception if the max length is equal to 0.
 		 */
 		inline void set(const int maxI, const int index);

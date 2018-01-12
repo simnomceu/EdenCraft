@@ -203,8 +203,7 @@ namespace ece
 		 * @fn MemoryAccessException(const std::string & target)
 		 * @param[in] target The target location to try to access to.
 		 * @brief A constructor to build a MemoryAccessException.
-		 * @overload MemoryAccessException::MemoryAccessException(const std::string & target, const std::string & origin)
-		 * @see MemoryAccessException::MemoryAccessException(const std::string & target, const std::string & origin) 
+		 * @see MemoryAccessException(const std::string & target, const std::string & origin) 
 		 * @throw std::bad_alloc May throw std:bad_alloc
 		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
@@ -216,8 +215,7 @@ namespace ece
 		 * @param[in] target The target location to try to access to.
 		 * @param[in] origin The origin location  try to access to.
 		 * @brief A constructor to build a MemoryAccessException.
-		 * @overload MemoryAccessException::MemoryAccessException(const std::string & target)
-		 * @see MemoryAccessException::MemoryAccessException(const std::string & target) 
+		 * @see MemoryAccessException(const std::string & target) 
 		 * @throw std::bad_alloc May throw std:bad_alloc
 		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
@@ -237,8 +235,7 @@ namespace ece
 		 * @fn OutOfRangeException(const std::string & type)
 		 * @param[in] type The type of container which generate the error.
 		 * @brief A constructor to build an OutOfRangeException.
-		 * @overload OutOfRangeException::OutOfRangeException(const std::string & type, const int id)
-		 * @see OutOfRangeException::OutOfRangeException(const std::string & type, const int id)
+		 * @see OutOfRangeException(const std::string & type, const int id)
 		 * @throw std::bad_alloc May throw std:bad_alloc
 		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */
@@ -249,8 +246,7 @@ namespace ece
 		 * @param[in] type The type of container which generate the error.
 		 * @param[in] id The id which is out of range.
 		 * @brief A constructor to build an OutOfRangeException.
-		 * @overload OutOfRangeException::makeException(const std::string & type)
-		 * @see OutOfRangeException::makeException(const std::string & type)
+		 * @see makeException(const std::string & type)
 		 * @throw std::bad_alloc May throw std:bad_alloc
 		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
 		 */

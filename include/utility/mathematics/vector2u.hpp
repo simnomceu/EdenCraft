@@ -36,32 +36,50 @@
 
 */
 
+/**
+ * @file utility/mathematics/vector2u.hpp
+ * @author IsiliBN (casa2pir@hotmail.fr)
+ * @date January, 8th 2017
+ * @copyright ----------
+ * @brief A 2D specialization of Vector.
+ **/
+
 #ifndef VERTEX2U_HPP
 #define VERTEX2U_HPP
 
-//#include <array>
 #include "utility/mathematics/vector.hpp"
 
 namespace ece
 {
-	/*
-	template <>
-	struct HasCrossProduct<2>
-	{
-		static const bool value = true;
-	};
-	*/
-
+	/**
+	 * @typedef Vector2u
+	 * @brief A 2D Vector.
+	 */
 	template <class T>
 	using Vector2u = Vector<T, 2>;
 
+	/**
+	 * @typedef IntVector2u
+	 */
 	using IntVector2u = Vector2u<int>;
+	
+	/**
+	 * @typedef UintVector2u
+	 */
 	using UintVector2u = Vector2u<unsigned int>;
+	
+	/**
+	 * @typedef FloatVector2u
+	 */
 	using FloatVector2u = Vector2u<float>;
+
+	/**
+	 * @typedef DoubleVector2u
+	 */
 	using DoubleVector2u = Vector2u<double>;
 
 	template <class T>
-	using Vertex2u = Vector2u<T>;
+	[[deprecated]] using Vertex2u = Vector2u<T>;
 
 	using IntVertex2u = IntVector2u;
 	using UintVertex2u = UintVector2u;

@@ -65,7 +65,7 @@ namespace ece
 		 * @tparam Derived The derived class of the service to build
 		 * @return The base service built
 		 * @brief Build the service according to the derived implementation.
-		 * @throw
+		 * @throw 
 		 * @remark It should be refactor to something like that: build(Args...&& args)
 		 */
 		template <class Derived>

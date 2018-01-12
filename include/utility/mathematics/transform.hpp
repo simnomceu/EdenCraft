@@ -36,21 +36,57 @@
 
 */
 
+/**
+ * @file utility/mathematics/transform.hpp
+ * @author IsiliBN (casa2pir@hotmail.fr)
+ * @date January, 8th 2017
+ * @copyright ----------
+ * @brief Define some matrix transformations.
+ **/
+
 #ifndef TRANSFORM_HPP
 #define TRANSFORM_HPP
 
 #define PI 3.14159265359
 
+/**
+  * @remark is it possible to use a forward declaration of class here ?
+  */
 #include "utility/mathematics/matrix4u.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/rectangle.hpp"
 
 namespace ece
 {
+	/**
+	 * @fn FloatMatrix4u lookAt(const FloatVertex3u & eye, const FloatVertex3u & target, const FloatVector3u & upAxis)
+	 * @param[in] eye The position of the camera.
+	 * @param[in] target The target to look at.
+	 * @param[in] upAxis The axis used as up direction.
+	 * @return A view matrix corresponding to the camera settings.
+	 * @brief Get a view matrix of the camera settings wished.
+	 */
 	FloatMatrix4u lookAt(const FloatVertex3u & eye, const FloatVertex3u & target, const FloatVector3u & upAxis);
 
+	/**
+	 * @fn FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)
+	 * @param[in] FOV Field of view of the camera.
+	 * @param[in] ratio Ratio of the screen.
+	 * @param[in] nearClipping Nearest distance of the frustum view.
+	 * @param[in] farClipping Furthest distance of the frustum view.
+	 * @return A projection matrix corresponding to the rendering frustum settings with perspective.
+	 * @brief Get a perspective projection matrix of the frustum view.
+	 */
 	FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping);
 
+	/**
+	 * @fn FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
+	 * @param[in] screen The screen rectangle to project the rendering.
+	 * @param[in] nearClipping Nearest distance of the frustum view.
+	 * @param[in] farClipping Furthest distance of the frustum view.
+	 * @return A projection matrix corresponding to the rendering frustum settings, in an orthographic view.
+	 * @brief Get an orthographic projection matrix of the frustum view.
+	 */
 	FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
 }
 

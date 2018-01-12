@@ -77,7 +77,7 @@ namespace ece
 		 * @fn ArrayJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>())
 		 * @param[in] parent Parent node of the current node.
 		 * @brief Default constructor. The array node is built empty.
-		 * @throw
+		 * @throw 
 		 */
 		inline ArrayJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>());
 
@@ -85,7 +85,7 @@ namespace ece
 		 * @fn ArrayJSON(const ArrayJSON & copy)
 		 * @param[in] copy The array node to copy from.
 		 * @brief Default copy constructor.
-		 * @throw
+		 * @throw 
 		 */
 		ArrayJSON(const ArrayJSON & copy) = default;
 		
@@ -126,7 +126,7 @@ namespace ece
 		 * @fn std::shared_ptr<NodeJSON> addNull()
 		 * @return The child node created.
 		 * @brief Create a null node and add it as a child to the current node.
-		 * @throw
+		 * @throw 
 		 * @remark Maybe it should return the exact type of node created.
 		 * @remark This method should use emplace_back instead of push_back, with move syntax.
 		 */

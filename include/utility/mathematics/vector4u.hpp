@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/mathematics/vector4u.hpp
+ * @author IsiliBN (casa2pir@hotmail.fr)
+ * @date January, 8th 2017
+ * @copyright ----------
+ * @brief A 4D specialization of Vector.
+ **/
+
 #ifndef VERTEX4U_HPP
 #define VERTEX4U_HPP
 
@@ -43,16 +51,35 @@
 
 namespace ece
 {
+	/**
+	 * @typedef Vector4u
+	 * @brief A 4D Vector.
+	 */
 	template <class T>
 	using Vector4u = Vector<T, 4>;
 
+	/**
+	 * @typedef IntVector4u
+	 */
 	using IntVector4u = Vector4u<int>;
+
+	/**
+	 * @typedef UintVector4u
+	 */
 	using UintVector4u = Vector4u<unsigned int>;
+
+	/**
+	 * @typedef FloatVector4u
+	 */
 	using FloatVector4u = Vector4u<float>;
+
+	/**
+	 * @typedef DoubleVector4u
+	 */
 	using DoubleVector4u = Vector4u<double>;
 
 	template <class T>
-	using Vertex4u = Vector4u<T>;
+	[[deprecated]] using Vertex4u = Vector4u<T>;
 
 	using IntVertex4u = IntVector4u;
 	using UintVertex4u = UintVector4u;

@@ -60,7 +60,7 @@ namespace ece
 	{
 	public:
 		/**
-		 * @fn UniqueId()
+		 * @fn UniqueID()
 		 * @brief Default constructor.
 		 * @throw bad_alloc
 		 * Initialize the unique ID generator. The next ID get will be 0.
