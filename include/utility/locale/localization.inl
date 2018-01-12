@@ -37,26 +37,31 @@
 */
 
 /**
- * @file utility/json/node_json.cpp
+ * @file utility/locale/localization.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 2nd 2018
  * @copyright ----------
- * @brief Default node from a JSON tree.
+ * @brief Defining localization for literals.
  */
 
-#include "utility/json/node_json.hpp"
+#include <algorithm>
 
 namespace ece
 {
-	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
+	inline Localization::Localization(const Language & language, const Country & country) : language(language), country(country) 
 	{
-		this->parent = copy.parent;
-		return *this;
+		std::transform(this->country.begin(), this->country.end(), this->country.begin(), ::toupper);
 	}
 
-	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
+	inline const Language & Localization::getLanguage() const noexcept { return this->language; }
+
+	inline const Country & Localization::getCountry() const noexcept { return this->country; }
+
+	inline void Localization::setLanguage(const Language & language)
 	{
-		this->parent = std::move(move.parent);
-		return *this;
+		this->language = language;
+		std::transform(this->country.begin(), this->country.end(), this->country.begin(), ::toupper);
 	}
+
+	inline void Localization::setCountry(const Country & country) noexcept { this->country = country; }
 }

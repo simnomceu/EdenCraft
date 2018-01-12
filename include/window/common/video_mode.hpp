@@ -2,9 +2,9 @@
 #define VIDEO_MODE_HPP
 
 /**
-* @file VideoMode.hpp
+* @file window/common/video_mode.hpp
 * @author IsiliBN (casa2pir@hotmail.fr)
-* @date October, 24th 2016
+* @date January, 12th 2018
 * @copyright ----------
 * @brief Store the value for the video mode of a window.
 *

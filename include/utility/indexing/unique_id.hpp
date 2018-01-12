@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/indexing/unique_id.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 28th 2017
+ * @copyright ----------
+ * @brief A class to manage unique IDs, considering limited memory.
+ */
+
 #ifndef UNIQUE_ID_HPP
 #define UNIQUE_ID_HPP
 
@@ -43,23 +51,97 @@
 
 namespace ece
 {
-	class UniqueID : private std::deque<unsigned int>
+	/**
+	 * @class UniqueID
+	 * @extends std::deque<unsigned int>
+	 * @brief Manage unique IDs, considering limited memory.
+	 */
+	class UniqueID : protected std::deque<unsigned int>
 	{
 	public:
-		using std::deque<unsigned int>::size;
-		using std::deque<unsigned int>::clear;
-
+		/**
+		 * @fn UniqueID()
+		 * @brief Default constructor.
+		 * @throw bad_alloc
+		 * Initialize the unique ID generator. The next ID get will be 0.
+		 */
 		inline UniqueID();
+
+		/**
+		 * @fn UniqueID(const unsigned int start)
+		 * @param[in] start The minimum ID to get.
+		 * @brief Build the unique ID generator, with a minimum ID.
+		 * @throw bad_alloc
+		 */
 		inline UniqueID(const unsigned int start);
+		
+		/**
+		 * @fn UniqueID(const UniqueID & copy)
+		 * @param[in] copy The unique ID generator to copy from.
+		 * @brief Default copy constructor.
+		 * @throw bad_alloc
+		 */
 		UniqueID(const UniqueID & copy) = default;
+		
+		/**
+		 * @fn UniqueID(UniqueID && move)
+		 * @param[in] move The unique ID generator to move.
+		 * @brief Default move constructor.
+		 * @throw bad_alloc
+		 */
 		UniqueID(UniqueID && move) = default;
-		~UniqueID() = default;
+		
+		/**
+		 * @fn ~UniqueID()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~UniqueID() noexcept = default;
 
+		/**
+		 * @fn UniqueID & operator=(const UniqueID & copy)
+		 * @param[in] copy The unique ID generator to copy from.
+		 * @return The generator copied.
+		 * @brief Default copy assignment operator.
+		 * @throw bad_alloc
+		 */
 		UniqueID & operator=(const UniqueID & copy) = default;
-		UniqueID & operator=(UniqueID && move) = default;
+		
+		/**
+		 * @fn UniqueID & operator=(UniqueID && move)
+		 * @param[in] move The unique ID generator to move.
+		 * @return The generator moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		UniqueID & operator=(UniqueID && move) noexcept = default;
 
+		/**
+		 * @fn unsigned int next()
+		 * @return An unused unique ID.
+		 * @brief Get the next unused Id available.
+		 * @throw bad_alloc
+		 */
 		unsigned int next();
+		
+		/**
+		 * @fn void restack(const unsigned int value)
+		 * @param[in] value The ID to to re-use.
+		 * @brief Make available a specific ID.
+		 * @throw bad_alloc.
+		 * This ID will be used before generating new IDs.
+		 */
 		void restack(const unsigned int value);
+
+		/**
+		* @see http://en.cppreference.com/w/cpp/container/deque/size
+		*/
+		using std::deque<unsigned int>::size;
+
+		/**
+		* @see http://en.cppreference.com/w/cpp/container/deque/clear
+		*/
+		using std::deque<unsigned int>::clear;
 	};
 }
 

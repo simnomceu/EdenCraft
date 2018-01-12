@@ -36,22 +36,25 @@
 
 */
 
-#ifndef LOGGER_NONE_HPP
-#define LOGGER_NONE_HPP
-
-#include "utility/log/base_logger.hpp"
+/**
+ * @file utility/json/node_json.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 28th 2017
+ * @copyright ----------
+ * @brief Default node from a JSON tree.
+ */
 
 namespace ece
 {
-	class LoggerNone: public BaseLogger
-	{
-	public:
-		inline virtual void logError(const std::string & data) override;
-		inline virtual void logWarning(const std::string & data) override;
-		inline virtual void logInfo(const std::string & data) override;
-	};
+	inline NodeJSON::NodeJSON(const std::weak_ptr<NodeJSON>& parent) noexcept : std::enable_shared_from_this<NodeJSON>(), parent(parent) {}
+
+	inline NodeJSON::NodeJSON(const NodeJSON & copy) noexcept : std::enable_shared_from_this<NodeJSON>(copy), parent(copy.parent) {}
+
+	inline NodeJSON::NodeJSON(NodeJSON && move) noexcept : std::enable_shared_from_this<NodeJSON>(move), parent(std::move(move.parent)) {}
+
+	inline NodeJSON::~NodeJSON() noexcept { this->parent.reset(); }
+
+	inline std::shared_ptr<NodeJSON> NodeJSON::getParent() noexcept { return this->parent.lock(); }
+
+	inline const bool NodeJSON::hasParent() const noexcept { return !this->parent.expired(); }
 }
-
-#include "utility/log/logger_none.inl"
-
-#endif // LOGGER_NONE_HPP

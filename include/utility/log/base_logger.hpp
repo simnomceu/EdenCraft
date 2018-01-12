@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/log/base_logger.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 2nd 2018
+ * @copyright ----------
+ * @brief Define an empty base for logger service.
+ */
+
 #ifndef BASE_LOGGER_HPP
 #define BASE_LOGGER_HPP
 
@@ -44,17 +52,90 @@
 
 namespace ece
 {
+	/**
+	 * @class BaseLogger
+	 * @brief Empty base of the logger service.
+	 */
 	class BaseLogger
 	{
 	public:
+		/**
+		 * @fn BaseLogger()
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		inline BaseLogger();
-		inline virtual ~BaseLogger() = 0;
+
+		/**
+		 * @fn BaseLogger(const BaseLogger & copy)
+		 * @param[in] copy The logger to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
+		BaseLogger(const BaseLogger & copy) = default;
+
+		/**
+		 * @fn BaseLogger(BaseLogger && move)
+		 * @param[in] move The logger to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		BaseLogger(BaseLogger && move) noexcept = default;
+
+		/**
+		 * @fn ~BaseLogger()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~BaseLogger() noexcept = default;
+
+		/**
+		 * @fn BaseLogger & operator=(const BaseLogger & copy)
+		 * @param[in] copy The logger to copy from.
+		 * @return The logger copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
+		BaseLogger & operator=(const BaseLogger & copy) = default;
+
+		/**
+		 * @fn BaseLogger & operator=(BaseLogger && move)
+		 * @param[in] move The logger to move.
+		 * @return The logger moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		BaseLogger & operator=(BaseLogger && move) noexcept = default;
 		
-		virtual void logError(const std::string & data) = 0;
-		virtual void logWarning(const std::string & data) = 0;
-		virtual void logInfo(const std::string & data) = 0;
+		/**
+		 * @fn void logError(const std::string & data)
+		 * @param[in] data The data to log.
+		 * @brief Log data with the tag ERROR.
+		 * @throw
+		 */
+		inline virtual void logError(const std::string & data);
+		
+		/**
+		 * @fn void logWarning(const std::string & data)
+		 * @param[in] data The data to log.
+		 * @brief Log data with the tag WARNING.
+		 * @throw
+		 */
+		inline virtual void logWarning(const std::string & data);
+		
+		/**
+		 * @fn void logInfo(const std::string & data)
+		 * @param[in] data The data to log.
+		 * @brief Log data with the tag INFO.
+		 * @throw
+		 */
+		inline virtual void logInfo(const std::string & data);
 
 	protected:
+		/**
+		 * @property target
+		 * @brief The target stream to send the log.
+		 */
 		std::ostream & target;
 	};
 }

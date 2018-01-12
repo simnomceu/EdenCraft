@@ -37,26 +37,18 @@
 */
 
 /**
- * @file utility/json/node_json.cpp
+ * @file utility/locale.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 2nd 2018
  * @copyright ----------
- * @brief Default node from a JSON tree.
- */
+ * @brief All features from utility/locale module.
+ **/
 
-#include "utility/json/node_json.hpp"
+#ifndef LOCALE_HPP
+#define LOCALE_HPP
 
-namespace ece
-{
-	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
-	{
-		this->parent = copy.parent;
-		return *this;
-	}
+#include "utility/locale/resource_container.hpp"
+#include "utility/locale/locale_loader.hpp"
+#include "utility/locale/localization.hpp"
 
-	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
-	{
-		this->parent = std::move(move.parent);
-		return *this;
-	}
-}
+#endif // LOCALE_HPP

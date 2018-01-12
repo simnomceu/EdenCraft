@@ -36,12 +36,21 @@
 
 */
 
+/**
+ * @file utility/log/base_logger.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 2nd 2018
+ * @copyright ----------
+ * @brief Define an empty base for logger service.
+ */
+
 namespace ece
 {
 	inline BaseLogger::BaseLogger() : target(std::cerr) {}
 
-	inline BaseLogger::~BaseLogger()
-	{
+	inline void BaseLogger::logError(const std::string & data) {}
 
-	}
+	inline void BaseLogger::logWarning(const std::string & data) {}
+
+	inline void BaseLogger::logInfo(const std::string & data) {}
 }

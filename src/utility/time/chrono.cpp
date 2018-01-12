@@ -36,11 +36,19 @@
 
 */
 
+/**
+ * @file utility/time/chrono.cpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define a chrono.
+ **/
+
 #include "utility/time/chrono.hpp"
 
 namespace ece
 {
-	const int Chrono::reset()
+	int Chrono::reset()
 	{
 		auto end = std::chrono::system_clock::now();
 		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
@@ -48,7 +56,7 @@ namespace ece
 		return (int)elapsedTime;
 	}
 
-	const int Chrono::getElapsedTime() const
+	int Chrono::getElapsedTime() const
 	{
 		auto end = std::chrono::system_clock::now();
 		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();

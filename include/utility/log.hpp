@@ -36,9 +36,19 @@
 
 */
 
-namespace ece
-{
-	inline Logger::Logger() : BaseLogger()
-	{
-	}
-}
+/**
+ * @file utility/log.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief All features from utility/log module.
+ **/
+
+#ifndef LOG_HPP
+#define LOG_HPP
+
+#include "utility/log/base_logger.hpp"
+#include "utility/log/service_logger.hpp"
+#include "utility/log/logger.hpp"
+
+#endif // LOG_HPP

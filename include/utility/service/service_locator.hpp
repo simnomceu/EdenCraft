@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/service/service_locator.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2017
+ * @copyright ----------
+ * @brief Generic locator for the service pattern.
+ **/
+
 #ifndef SERVICE_LOCATOR_HPP
 #define SERVICE_LOCATOR_HPP
 
@@ -43,15 +51,42 @@
 
 namespace ece
 {
+	/**
+	 * @class ServiceLocator
+	 * @tparam Base The base class of the service to locate
+	 * @tparam Null A default implementation for the service.
+	 * @brief Encapsulate a unique instance of a service category.
+	 */
 	template <class Base, class Null>
 	class ServiceLocator
 	{
 		static_assert(std::is_base_of<Base, Null>::value, "ServiceLocator cannot be instantiate with this template parameters.");
 
 	public:
+		/**
+		 * @fn void provide(const std::shared_ptr<Base> & service)
+		 * @param[in] service The service which has to be provided by the locator.
+		 * @brief Set the service provided by the locator.
+		 * @throw
+		 */
 		static inline void provide(const std::shared_ptr<Base> & service);
+
+		/**
+		 * @fn Base & getService()
+		 * @return The service currently started.
+		 * @brief Consume the service provided.
+		 * @throw
+		 * @remark Should be rename as consume() ?
+		 */
 		static Base & getService();
+
 		//static std::weak_ptr<Base> getServicePtr();
+		
+		/**
+		 * @fn void stop()
+		 * @brief Stop the current service. The locator still exists but provide an empty service (which do nothing).
+		 * @throw
+		 */
 		static inline void stop();
 
 	protected:

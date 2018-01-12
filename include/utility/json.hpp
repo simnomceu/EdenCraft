@@ -37,26 +37,19 @@
 */
 
 /**
- * @file utility/json/node_json.cpp
+ * @file utility/json.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 2nd 2018
  * @copyright ----------
- * @brief Default node from a JSON tree.
- */
+ * @brief All features from utility/json module.
+ **/
+
+#ifndef JSON_HPP
+#define JSON_HPP
 
 #include "utility/json/node_json.hpp"
+#include "utility/json/array_json.hpp"
+#include "utility/json/object_json.hpp"
+#include "utility/json/atomic_json.hpp"
 
-namespace ece
-{
-	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
-	{
-		this->parent = copy.parent;
-		return *this;
-	}
-
-	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
-	{
-		this->parent = std::move(move.parent);
-		return *this;
-	}
-}
+#endif // JSON_HPP

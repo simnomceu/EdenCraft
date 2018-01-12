@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/mathematics/vector3u.hpp
+ * @author IsiliBN (casa2pir@hotmail.fr)
+ * @date January, 8th 2017
+ * @copyright ----------
+ * @brief A 3D specialization of Vector.
+ **/
+
 #ifndef VERTEX3U_HPP
 #define VERTEX3U_HPP
 
@@ -48,17 +56,36 @@ namespace ece
 	{
 		static const bool value = true;
 	};
-
+	
+	/**
+	 * @typedef Vector3u
+	 * @brief A 3D Vector.
+	 */
 	template <class T>
 	using Vector3u = Vector<T, 3>;
 
+	/**
+	 * @typedef IntVector3u
+	 */
 	using IntVector3u = Vector3u<int>;
+
+	/**
+	 * @typedef UintVector3u
+	 */
 	using UintVector3u = Vector3u<unsigned int>;
+
+	/**
+	 * @typedef FloatVector3u
+	 */
 	using FloatVector3u = Vector3u<float>;
+
+	/**
+	 * @typedef DoubleVector3u
+	 */
 	using DoubleVector3u = Vector3u<double>;
 
 	template <class T>
-	using Vertex3u = Vector3u<T>;
+	[[deprecated]] using Vertex3u = Vector3u<T>;
 
 	using IntVertex3u = IntVector3u;
 	using UintVertex3u = UintVector3u;

@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/locale/locale_resource.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 2nd 2018
+ * @copyright ----------
+ * @brief Define a map of key/value for the string literals.
+ */
+
 #ifndef LOCALE_RESOURCE_HPP
 #define LOCALE_RESOURCE_HPP
 
@@ -44,9 +52,18 @@
 
 namespace ece
 {
+	/**
+	 * @class LocaleResource
+	 * @extends std::map<std::string, std::string>
+	 * @brief Expose the container as an access map.
+	 * @remark Check if the map could be replaced by an unordered_map.
+	 */
 	class LocaleResource: protected std::map<std::string, std::string>
 	{
 	public:
+		/**
+		 * @see http://en.cppreference.com/w/cpp/container/map/operator_at
+		 */
 		using std::map<std::string, std::string>::operator[];
 	};
 }

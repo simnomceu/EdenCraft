@@ -36,66 +36,44 @@
 
 */
 
-#include <iostream>
+/**
+ * @file utility/json/atomic_json.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 1st 2018
+ * @copyright ----------
+ * @brief Atomic node from a JSON tree.
+ */
 
 namespace ece
 {
 	template<class T>
-	AtomicJSON<T>::AtomicJSON(const std::string & key, const T & value, const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), key(key), value(value)
-	{
-	}
+	inline AtomicJSON<T>::AtomicJSON(const std::string & key, const T & value, const std::weak_ptr<NodeJSON>& parent) : 
+		NodeJSON(parent), key(key), value(value) {}
 
 	template<class T>
-	bool AtomicJSON<T>::isAtomic() const
-	{
-		return true;
-	}
+	inline bool AtomicJSON<T>::isAtomic() const noexcept { return true; }
 
 	template<class T>
-	TypeNodeJSON AtomicJSON<T>::getType() const
-	{
-		return TypeNodeJSON::NULL_JSON;
-	}
+	inline TypeNodeJSON AtomicJSON<T>::getType() const noexcept { return TypeNodeJSON::NULL_JSON; }
 
 	template<>
-	inline TypeNodeJSON BooleanJSON::getType() const
-	{
-		return TypeNodeJSON::BOOLEAN_JSON;
-	}
+	inline TypeNodeJSON BooleanJSON::getType() const noexcept { return TypeNodeJSON::BOOLEAN_JSON; }
 
 	template<>
-	inline TypeNodeJSON IntegerJSON::getType() const
-	{
-		return TypeNodeJSON::INTEGER_JSON;
-	}
+	inline TypeNodeJSON IntegerJSON::getType() const noexcept { return TypeNodeJSON::INTEGER_JSON; }
 
 	template<>
-	inline TypeNodeJSON DoubleJSON::getType() const
-	{
-		return TypeNodeJSON::DOUBLE_JSON;
-	}
+	inline TypeNodeJSON DoubleJSON::getType() const noexcept { return TypeNodeJSON::DOUBLE_JSON; }
 
 	template<>
-	inline TypeNodeJSON StringJSON::getType() const
-	{
-		return TypeNodeJSON::STRING_JSON;
-	}
+	inline TypeNodeJSON StringJSON::getType() const noexcept { return TypeNodeJSON::STRING_JSON; }
 
 	template<class T>
-	const T & AtomicJSON<T>::getValue() const
-	{
-		return this->value;
-	}
+	inline const T & AtomicJSON<T>::getValue() const { return this->value; }
 
 	template<class T>
-	void AtomicJSON<T>::setValue(const T & value)
-	{
-		this->value = value;
-	}
+	inline void AtomicJSON<T>::setValue(const T & value) { this->value = value; }
 
 	template<class T>
-	inline const std::string & AtomicJSON<T>::getKey() const
-	{
-		return this->key;
-	}
+	inline const std::string & AtomicJSON<T>::getKey() const { return this->key; }
 }

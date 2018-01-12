@@ -37,26 +37,16 @@
 */
 
 /**
- * @file utility/json/node_json.cpp
+ * @file utility/pattern.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 3rd 2017
  * @copyright ----------
- * @brief Default node from a JSON tree.
- */
+ * @brief All features from utility/pattern module.
+ **/
 
-#include "utility/json/node_json.hpp"
+#ifndef PATTERN_HPP
+#define PATTERN_HPP
 
-namespace ece
-{
-	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
-	{
-		this->parent = copy.parent;
-		return *this;
-	}
+#include "utility/pattern/pimpl.hpp"
 
-	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
-	{
-		this->parent = std::move(move.parent);
-		return *this;
-	}
-}
+#endif // PATTERN_HPP

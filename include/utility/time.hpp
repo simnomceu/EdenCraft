@@ -36,11 +36,19 @@
 
 */
 
-namespace ece
-{
-	inline void LoggerNone::logError(const std::string & data) {}
+/**
+ * @file utility/time.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2017
+ * @copyright ----------
+ * @brief All features from utility/time module.
+ **/
 
-	inline void LoggerNone::logWarning(const std::string & data) {}
+#ifndef TIME_HPP
+#define TIME_HPP
 
-	inline void LoggerNone::logInfo(const std::string & data) {}
-}
+#include "utility/time/chrono.hpp"
+#include "utility/time/update_per_second.hpp"
+#include "utility/time/frame_per_second.hpp"
+
+#endif // TIME_HPP

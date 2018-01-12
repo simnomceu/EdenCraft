@@ -36,9 +36,17 @@
 
 */
 
+/**
+ * @file utility/mathematics/box3d.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define a box in a 3D space.
+ */
+
 namespace ece
 {
 	inline Box3D::Box3D(const FloatVertex3u & a, const FloatVertex3u & b): a(a), b(b) {}
 
-	inline FloatVertex3u Box3D::getCenter() const { return (this->a + this->b ) / 2.0f; }
+	inline FloatVertex3u Box3D::getCenter() const noexcept { return (this->a + this->b ) / 2.0f; }
 }

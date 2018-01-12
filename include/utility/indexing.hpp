@@ -37,26 +37,19 @@
 */
 
 /**
- * @file utility/json/node_json.cpp
+ * @file utility/indexing.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
  * @date December, 28th 2017
  * @copyright ----------
- * @brief Default node from a JSON tree.
- */
+ * @brief All features from utility/indexing module.
+ *
+ **/
 
-#include "utility/json/node_json.hpp"
+#ifndef INDEXING_HPP
+#define INDEXING_HPP
 
-namespace ece
-{
-	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
-	{
-		this->parent = copy.parent;
-		return *this;
-	}
+#include "utility/indexing/index2u.hpp"
+#include "utility/indexing/index3u.hpp"
+#include "utility/indexing/unique_id.hpp"
 
-	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
-	{
-		this->parent = std::move(move.parent);
-		return *this;
-	}
-}
+#endif // INDEXING_HPP

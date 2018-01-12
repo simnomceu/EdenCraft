@@ -36,9 +36,17 @@
 
 */
 
+/**
+ * @file utility/time/chrono.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define a chrono.
+ **/
+
 namespace ece
 {
-	inline Chrono::Chrono() : begin() {}
+	inline constexpr Chrono::Chrono() : begin() {}
 
 	inline void Chrono::start() { this->begin = std::chrono::system_clock::now(); }
 }

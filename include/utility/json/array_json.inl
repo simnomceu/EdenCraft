@@ -37,26 +37,28 @@
 */
 
 /**
- * @file utility/json/node_json.cpp
+ * @file utility/json/array_json.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 1st 2018
  * @copyright ----------
- * @brief Default node from a JSON tree.
+ * @brief Array node from a JSON tree.
  */
-
-#include "utility/json/node_json.hpp"
 
 namespace ece
 {
-	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
-	{
-		this->parent = copy.parent;
-		return *this;
-	}
+	inline ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), children() {}
 
-	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
-	{
-		this->parent = std::move(move.parent);
-		return *this;
-	}
+	inline bool ArrayJSON::isAtomic() const noexcept { return false; }
+
+	inline TypeNodeJSON ArrayJSON::getType() const noexcept { return TypeNodeJSON::ARRAY_JSON; }
+
+	inline IteratorArrayJSON ArrayJSON::begin() noexcept { return this->children.begin(); }
+
+	inline IteratorArrayJSON ArrayJSON::end() noexcept { return this->children.end(); }
+
+	inline std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key) { return this->children[key]; }
+
+	inline void ArrayJSON::clear() noexcept { this->children.clear(); }
+
+	inline unsigned int ArrayJSON::size() const noexcept { return this->children.size(); }
 }

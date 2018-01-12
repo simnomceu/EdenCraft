@@ -36,24 +36,28 @@
 
 */
 
-#include <algorithm>
+/**
+ * @file utility/mathematics.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2017
+ * @copyright ----------
+ * @brief All features from utility/mathematics module.
+ **/
 
-namespace ece
-{
-	inline Locale::Locale(const Language & language, const Country & country) : language(language), country(country) 
-	{
-		std::transform(this->country.begin(), this->country.end(), this->country.begin(), ::tolower);
-	}
+#ifndef MATHEMATICS_HPP
+#define MATHEMATICS_HPP
 
-	inline const Language & Locale::getLanguage() const { return this->language; }
+#include "utility/mathematics/box3d.hpp"
+#include "utility/mathematics/euler_angle.hpp"
+#include "utility/mathematics/interpolation.hpp"
+#include "utility/mathematics/matrix2u.hpp"
+#include "utility/mathematics/matrix3u.hpp"
+#include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics/quaternion.hpp"
+#include "utility/mathematics/rectangle.hpp"
+#include "utility/mathematics/transform.hpp"
+#include "utility/mathematics/vector2u.hpp"
+#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics/vector4u.hpp"
 
-	inline const Country & Locale::getCountry() const { return this->country; }
-
-	inline void Locale::setLanguage(const Language & language)
-	{
-		this->language = language;
-		std::transform(this->country.begin(), this->country.end(), this->country.begin(), ::tolower);
-	}
-
-	inline void Locale::setCountry(const Country & country) { this->country = country; }
-}
+#endif // MATHEMATICS_HPP

@@ -36,45 +36,144 @@
 
 */
 
+/**
+ * @file utility/locale/locale_loader.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 2nd 2018
+ * @copyright ----------
+ * @brief Load a locale resource of string literals.
+ */
+
 #ifndef LOCALE_LOADER_HPP
 #define LOCALE_LOADER_HPP
 
 #include <string>
 #include <utility>
 
-#include "utility/locale/locale.hpp"
+#include "utility/locale/localization.hpp"
 #include "utility/locale/resource_container.hpp"
 
 namespace ece
 {
+	/**
+	 * @class LocaleLoader
+	 * @brief Loader for JSON files of string literals, regarding the localization.
+	 * @remark This could be optimize, i guess.
+	 */
 	class LocaleLoader
 	{
 	public:
-		static void setPath(const std::string & path);
+		/**
+		 * @fn void setPath(const std::string & path)
+		 * @param[in] path The root of the locale files.
+		 * @brief Set the root of the locale files.
+		 * @throw noexcept
+		 */
+		static void setPath(const std::string & path) noexcept;
 
 		LocaleLoader() = delete;
-		LocaleLoader(const std::string & filename, const Locale & locale = Locale(ENGLISH, USA));
+
+		/**
+		 * @fn LocaleLoader(const std::string & filename, const Localization & locale = Localization(ENGLISH, USA))
+		 * @param[in] filename The filename to load.
+		 * @param[in] locale The locale to use for the file.
+		 * @brief Load a file regarding the locale defined.
+		 * @throw
+		 */
+		LocaleLoader(const std::string & filename, const Localization & locale = Localization(ENGLISH, USA));
+
+		/**
+		 * @fn LocaleLoader(const LocaleLoader & copy)
+		 * @param[in] copy The loader to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		LocaleLoader(const LocaleLoader & copy) = default;
+
+		/**
+		 * @fn LocaleLoader(LocaleLoader && move)
+		 * @param[in] move The loader to move.
+		 * @brief Default move constructor.
+		 * @throw
+		 */
 		LocaleLoader(LocaleLoader && move) = default;
 
-		~LocaleLoader() = default;
+		/**
+		 * @fn ~LocaleLoader()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~LocaleLoader() noexcept = default;
 
+		/**
+		 * @fn LocaleLoader & operator=(const LocaleLoader & copy)
+		 * @param[in] copy The loader to copy from.
+		 * @return The loader copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		LocaleLoader & operator=(const LocaleLoader & copy) = default;
-		LocaleLoader & operator=(LocaleLoader && move) = default;
 
-		LocaleResource & getResource();
+		/**
+		 * @fn LocaleLoader & operator=(LocaleLoader && move)
+		 * @param[in] move The loader to move.
+		 * @return The loader moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept.
+		 */
+		LocaleLoader & operator=(LocaleLoader && move) noexcept = default;
 
-		void changeLocale(const Locale & locale);
+		/**
+		 * @fn LocaleResource & getResource()
+		 * @return The locale resource loaded.
+		 * @brief Get access to the locale resource loaded from the file.
+		 * @throw
+		 */
+		inline LocaleResource & getResource();
+
+		/**
+		 * @fn void changeLocale(const Localization & locale)
+		 * @param[in] locale The localization to set.
+		 * @brief Change the localization.
+		 * @throw
+		 */
+		void changeLocale(const Localization & locale);
 
 	private:
+		/**
+		 * @property path
+		 * @brief The root of the locale resources.
+		 */
 		static std::string path;
 
-		Locale locale;
+		/**
+		 * @property locale
+		 * @brief The localization to use.
+		 */
+		Localization locale;
+
+		/**
+		 * @property resource
+		 * @brief The resource loaded from the file.
+		 */
 		ResourceContainer resource;
+
+		/**
+		 * @property filename
+		 * @brief The name of the resource file currently loaded.
+		 */
 		std::string filename;
 
+		/**
+		 * @fn void generateResource(const std::string & file)
+		 * @param[in] file The file to use to generate the resource.
+		 * @brief Generate the resource from a file.
+		 * @throw
+		 */
 		void generateResource(const std::string & file);
 	};
 }
+
+#include "utility/locale/locale_loader.inl"
 
 #endif // LOCALE_LOADER_HPP

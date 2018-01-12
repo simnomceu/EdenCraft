@@ -36,6 +36,14 @@
 
 */
 
+/**
+ * @file utility/time/frame_per_second.hpp
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date January, 3rd 2018
+ * @copyright ----------
+ * @brief Define an FPS counter.
+ **/
+
 #ifndef FRAME_PER_SECOND_HPP
 #define FRAME_PER_SECOND_HPP
 
@@ -43,20 +51,89 @@
 
 namespace ece
 {
+	/**
+	 * @class FramePerSecond
+	 * @extends UpdatePerSecond
+	 * @brief FPS counter.
+	 */
 	class FramePerSecond : private UpdatePerSecond
 	{
 	public:
+		/**
+		 * @enum FPSrate
+		 * @brief The FPS rate limit.
+		 * @remark Is it useful ?
+		 */
 		enum FPSrate : int
 		{
 			FRAME_30 = 30,
-			FRAME_60 = 60
+			FRAME_60 = 60,
+			FRAME_120 = 120
 		};
 
+		FramePerSecond() = delete;
+
+		/**
+		 * @fn FramePerSecond(FPSrate rate = FRAME_60)
+		 * @param[in] rate The framerate limit to set.
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		inline FramePerSecond(FPSrate rate = FRAME_60);
 
-		using UpdatePerSecond::isReadyToUpdate;
+		/**
+		 * @FramePerSecond(const FramePerSecond & copy) noexcept
+		 * @param[in] copy The counter to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		FramePerSecond(const FramePerSecond & copy) noexcept = default;
 
-		inline const double getFPS() const;
+		/**
+		 * @FramePerSecond(FramePerSecond && move) noexcept
+		 * @param[in@ move The counter to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		FramePerSecond(FramePerSecond && move) noexcept = default;
+
+		/**
+		 * @fn ~FramePerSecond() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~FramePerSecond() noexcept = default;
+
+		/**
+		 * @fn FramePerSecond & operator=(const FramePerSecond & copy) noexcept
+		 * @param[in] copy The counter to copy from.
+		 * @return The counter copied. 
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		FramePerSecond & operator=(const FramePerSecond & copy) noexcept = default;
+
+		/**
+		 * @fn FramePerSecond & operator=(FramePerSecond && move) noexcept
+		 * @param[in] move The counter to move.
+		 * @return The counter moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		FramePerSecond & operator=(FramePerSecond && move) noexcept = default;
+
+		/**
+		 * @fn double getFPS() const noexcept
+		 * @return The current FPS.
+		 * @brief Get the current FPS.
+		 * @throw noexcept
+		 */
+		inline double getFPS() const noexcept;
+
+		/**
+		 * @see UpdatePerSecond::isReadyToUpdate
+		 */
+		using UpdatePerSecond::isReadyToUpdate;
 	};
 }
 

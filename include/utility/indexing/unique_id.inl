@@ -36,15 +36,25 @@
 
 */
 
+/**
+ * @file utility/indexing/unique_id.inl
+ * @author IsilinBN (casa2pir@hotmail.fr)
+ * @date December, 28th 2017
+ * @copyright ----------
+ * @brief A class to manage unique IDs, considering limited memory.
+ */
+
 namespace ece
 {
 	inline UniqueID::UniqueID() : std::deque<unsigned int>()
 	{
+		// TODO: to replace by emplace_back ?
 		this->push_back(0);
 	}
 
 	inline UniqueID::UniqueID(const unsigned int start) : std::deque<unsigned int>()
 	{
+		// TODO: to replace by emplace_back ?
 		this->push_back(start);
 	}
 }
