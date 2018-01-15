@@ -37,13 +37,14 @@
 */
 
 /**
- * @file utility/mathematics/matrix3u.inl
+ * @file utility/mathematics/matrix3u.cpp
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
+ * @date January, 15th 2017
  * @copyright ----------
  * @brief A 3x3 specialization of Matrix.
  **/
 
+#include "utility/mathematics/matrix3u.hpp"
 
 #include "utility/debug/exception.hpp"
 

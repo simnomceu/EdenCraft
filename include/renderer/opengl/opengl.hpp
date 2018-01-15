@@ -20,7 +20,6 @@
 #include "utility/mathematics/matrix3u.hpp"
 #include "utility/mathematics/matrix4u.hpp"
 
-
 namespace ece
 {
 	enum ShaderType : unsigned short int
@@ -129,12 +128,12 @@ namespace ece
 		template<> static void uniform(const UniformHandle uniform, const int value);
 		template<> static void uniform(const UniformHandle uniform, const float value);
 		template<> static void uniform(const UniformHandle uniform, const bool value);
-		template<> static void uniform(const UniformHandle uniform, const IntVertex2u value);
-		template<> static void uniform(const UniformHandle uniform, const IntVertex3u value);
-		template<> static void uniform(const UniformHandle uniform, const IntVertex4u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVertex2u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVertex3u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVertex4u value);
+		template<> static void uniform(const UniformHandle uniform, const IntVector2u value);
+		template<> static void uniform(const UniformHandle uniform, const IntVector3u value);
+		template<> static void uniform(const UniformHandle uniform, const IntVector4u value);
+		template<> static void uniform(const UniformHandle uniform, const FloatVector2u value);
+		template<> static void uniform(const UniformHandle uniform, const FloatVector3u value);
+		template<> static void uniform(const UniformHandle uniform, const FloatVector4u value);
 		template<> static void uniform(const UniformHandle uniform, const FloatMatrix2u value);
 		template<> static void uniform(const UniformHandle uniform, const FloatMatrix3u value);
 		template<> static void uniform(const UniformHandle uniform, const FloatMatrix4u value);

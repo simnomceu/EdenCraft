@@ -49,7 +49,7 @@ namespace ece
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::Identity()
 	{
-		Matrix<T, M, N> tmp();
+		Matrix<T, M, N> tmp;
 		tmp[std::slice(0, M, M + 1)] = 1;
 		return  tmp;
 	}
@@ -66,7 +66,7 @@ namespace ece
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> & Matrix<T, M, N>::setIdentity()
 	{
-		std::valarray<T>::operator !=(0);
+		std::valarray<T>::operator=(0);
 		(*this)[std::slice(0, M, M + 1)] = 1;
 		return *this;
 	}
@@ -271,11 +271,11 @@ namespace ece
 
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::operator+(const Matrix<T, M, N> & rhs) const
-		{ return Matrix<T, M, N>(std::move(std::valarray<T>::operator+(*this, rhs))); }
+		{ return Matrix<T, M, N>(std::move(std::valarray<T>::operator+(rhs))); }
 
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::operator-(const Matrix<T, M, N> & rhs) const
-		{ return Matrix<T, M, N>(std::move(std::valarray<T>::operator-(*this, rhs))); }
+		{ return Matrix<T, M, N>(std::move(std::valarray<T>::operator-(rhs))); }
 
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::operator*(const Matrix<T, M, N> & rhs) const
@@ -283,7 +283,7 @@ namespace ece
 		Matrix<T, M, N> result;
 		for (unsigned int j = 0; j < N; ++j) {
 			for (unsigned int i = 0; i < M; ++i) {
-				result[i][j] = (this->row(i) * v.column(j)).sum();
+				result[i][j] = (this->row(i) * rhs.column(j)).sum();
 			}
 		}
 		return result;
@@ -332,6 +332,16 @@ namespace ece
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::operator-(const T & rhs) const
 		{ return Matrix<T, M, N>(std::move(std::operator-(*this, rhs))); }
+
+	template <class T, unsigned int M, unsigned int N>
+	inline Vector<T, N> Matrix<T, M, N>::operator*(const Vector<T, N> & rhs) const
+	{
+		Vector<T, N> result;
+		for (auto i = 0; i < N; ++i) {
+			result[i] = (this->row(i) * rhs).sum();
+		}
+		return result;
+	}
 
 	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N> Matrix<T, M, N>::operator*(const T & rhs) const

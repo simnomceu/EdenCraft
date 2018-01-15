@@ -47,11 +47,11 @@
 
 namespace ece
 {
-	inline Index3u::Index3u() : i(0), j(0), k(0) {}
+	inline constexpr Index3u::Index3u() noexcept : i(0), j(0), k(0) {}
 
-	inline Index3u::Index3u(const int i, const int j, const int k) : i(i), j(j), k(k) {}
+	inline Index3u::Index3u(const int i, const int j, const int k) noexcept : i(i), j(j), k(k) {}
 
-	inline int Index3u::get(const int maxI, const int maxJ) { return this->k * maxI * maxJ + this->j * maxI + this->i; }
+	inline int Index3u::get(const int maxI, const int maxJ) noexcept { return this->k * maxI * maxJ + this->j * maxI + this->i; }
 
 	inline void Index3u::set(const int maxI, const int maxJ, const int index)
 	{

@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/matrix3u.hpp
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
+ * @date January, 15th 2017
  * @copyright ----------
  * @brief A 3x3 specialization of Matrix.
  **/
@@ -78,7 +78,5 @@ namespace ece
 	*/
 	using DoubleMatrix3u = Matrix3u<double>;
 }
-
-#include "utility/mathematics/matrix3u.inl"
 
 #endif // MATRIX3U_HPP

@@ -37,46 +37,46 @@
 */
 
 /**
- * @file utility/mathematics/matrix2u.hpp
+ * @file utility/mathematics/vector3u.cpp
  * @author IsiliBN (casa2pir@hotmail.fr)
  * @date January, 15th 2017
  * @copyright ----------
- * @brief A 2x2 specialization of Matrix.
+ * @brief A 3D specialization of Vector.
  **/
 
-#ifndef MATRIX2U_HPP
-#define MATRIX2U_HPP
-
-#include "utility/mathematics/matrix.hpp"
+#include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {
-	/**
-	 * @typedef Matrix2u
-	 * @brief 2x2 Square matrix
-	 */
-	template <class T>
-	using Matrix2u = Matrix<T, 2, 2>;
+	template <>
+	inline Vector<int, 3> Vector<int, 3>::cross(const Vector<int, 3> & rightOperand) const
+	{
+		return Vector<int, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
+								(*this)[2] * rightOperand[0] - (*this)[0] * rightOperand[2],
+								(*this)[0] * rightOperand[1] - (*this)[1] * rightOperand[0]};
+	}
 
-	/**
-	 * @typedef IntMatrix2u
-	 */
-	using IntMatrix2u = Matrix2u<int>;
-	
-	/**
-	 * @typedef UintMatrix2u
-	 */
-	using UintMatrix2u = Matrix2u<unsigned int>;
-	
-	/**
-	 * @typedef FloatMatrix2u
-	 */
-	using FloatMatrix2u = Matrix2u<float>;
-	
-	/**
-	 * @typedef DoubleMatrix2u
-	 */
-	using DoubleMatrix2u = Matrix2u<double>;
+	template <>
+	inline Vector<unsigned int, 3> Vector<unsigned int, 3>::cross(const Vector<unsigned int, 3> & rightOperand) const
+	{
+		return Vector<unsigned int, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
+			(*this)[2] * rightOperand[0] - (*this)[0] * rightOperand[2],
+			(*this)[0] * rightOperand[1] - (*this)[1] * rightOperand[0]};
+	}
+
+	template <>
+	inline Vector<float, 3> Vector<float, 3>::cross(const Vector<float, 3> & rightOperand) const
+	{
+		return Vector<float, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
+			(*this)[2] * rightOperand[0] - (*this)[0] * rightOperand[2],
+			(*this)[0] * rightOperand[1] - (*this)[1] * rightOperand[0]};
+	}
+
+	template <>
+	inline Vector<double, 3> Vector<double, 3>::cross(const Vector<double, 3> & rightOperand) const
+	{
+		return Vector<double, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
+			(*this)[2] * rightOperand[0] - (*this)[0] * rightOperand[2],
+			(*this)[0] * rightOperand[1] - (*this)[1] * rightOperand[0]};
+	}
 }
-
-#endif // MATRIX2U_HPP

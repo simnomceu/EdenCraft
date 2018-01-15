@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_RUNNER
 
-#include "catch/catch.hpp"
+#include "Catch2/single_include/catch.hpp"
 
 int main(int argc, char* argv[])
 {

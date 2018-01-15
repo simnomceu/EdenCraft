@@ -61,6 +61,7 @@ namespace ece
 	 * @tparam N The number of rows.
 	 * @brief A generic matrix class of any size and any type.
 	 * @remark Add static_assert check for templated parameters
+	 * @remark Add a constructor with an initialization_list of Vectors.
 	 */
 	template <class T, unsigned int M, unsigned int N>
 	class Matrix: public std::valarray<T>
@@ -606,6 +607,15 @@ namespace ece
 		 */
 		inline Matrix<T, M, N> operator-(const T & rhs) const;
 		
+		/**
+		 * @fn Vector<T, N> operator*(const Vector<T, N> & rhs) const
+		 * @param[in] rhs The right hand side to apply to.
+		 * @return The application of multiplication operation on the current matrix.
+		 * @brief Apply a matrix - vector multiplication.
+		 * @throw
+		 */
+		inline Vector<T, N> operator*(const Vector<T, N> & rhs) const;
+
 		/**
 		 * @fn Matrix<T, M, N> operator*(const T & rhs) const
 		 * @param[in] rhs The right hand side to apply to.

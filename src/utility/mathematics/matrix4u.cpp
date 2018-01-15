@@ -37,12 +37,14 @@
 */
 
 /**
- * @file utility/mathematics/matrix4u.inl
+ * @file utility/mathematics/matrix4u.cpp
  * @author IsiliBN (casa2pir@hotmail.fr)
  * @date January, 8th 2017
  * @copyright ----------
  * @brief A 4x4 specialization of Matrix.
  **/
+
+#include "utility/mathematics/matrix4u.hpp"
 
 #include "utility/debug/exception.hpp"
 

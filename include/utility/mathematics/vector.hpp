@@ -587,22 +587,22 @@ namespace ece
 		inline Vector<T, Size> operator>>(const Vector<T, Size> & rhs) const;
 
 		/**
-		 * @fn Vector<T, Size> operator&&(const Vector<T, Size> & rhs) const
+		 * @fn Vector<bool, Size> operator&&(const Vector<T, Size> & rhs) const
 		 * @param[in] rhs The right hand side to apply to.
 		 * @return The application of binary and operation on the current vector.
 		 * @brief Apply the binary and operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
-		inline Vector<T, Size> operator&&(const Vector<T, Size> & rhs) const;
+		inline Vector<bool, Size> operator&&(const Vector<T, Size> & rhs) const;
 
 		/**
-		 * @fn Vector<T, Size> operator||(const Vector<T, Size> & rhs) const
+		 * @fn Vector<bool, Size> operator||(const Vector<T, Size> & rhs) const
 		 * @param[in] rhs The right hand side to apply to.
 		 * @return The application of binary or operation on the current vector.
 		 * @brief Apply the binary or operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
-		inline Vector<T, Size> operator||(const Vector<T, Size> & rhs) const;
+		inline Vector<bool, Size> operator||(const Vector<T, Size> & rhs) const;
 
 		/**
 		 * @fn Vector<T, Size> operator+(const Vector<T, Size> & rhs) const
@@ -695,22 +695,22 @@ namespace ece
 		inline Vector<T, Size> operator>>(const T & rhs) const;
 
 		/**
-		 * @fn Vector<T, Size> operator&&(const Vector<T, Size> & rhs) const
+		 * @fn Vector<bool, Size> operator&&(const Vector<T, Size> & rhs) const
 		 * @param[in] rhs The right hand side to apply to.
 		 * @return The application of binary and operation on the current vector.
 		 * @brief Apply the binary and operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
-		inline Vector<T, Size> operator&&(const T & rhs) const;
+		inline Vector<bool, Size> operator&&(const T & rhs) const;
 
 		/**
-		 * @fn Vector<T, Size> operator||(const Vector<T, Size> & rhs) const
+		 * @fn Vector<bool, Size> operator||(const Vector<T, Size> & rhs) const
 		 * @param[in] rhs The right hand side to apply to.
 		 * @return The application of binary or operation on the current vector.
 		 * @brief Apply the binary or operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
-		inline Vector<T, Size> operator||(const T & rhs) const;
+		inline Vector<bool, Size> operator||(const T & rhs) const;
 
 		/**
 		 * @fn bool operator==(const Vector<T, Size> & rhs) const

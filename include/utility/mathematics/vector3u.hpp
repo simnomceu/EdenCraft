@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/vector3u.hpp
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
+ * @date January, 15th 2017
  * @copyright ----------
  * @brief A 3D specialization of Vector.
  **/
@@ -99,7 +99,5 @@ namespace ece
 	static const IntVector3u FRONT{ 0, 0, 1 };
 	static const IntVector3u BACK{ 0, 0, -1 };
 }
-
-#include "utility/mathematics/vector3u.inl"
 
 #endif // VERTEX3U_HPP

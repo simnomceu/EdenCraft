@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/matrix4u.hpp
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
+ * @date January, 15th 2017
  * @copyright ----------
  * @brief A 4x4 specialization of Matrix.
  **/
@@ -78,7 +78,5 @@ namespace ece
 	 */
 	using DoubleMatrix4u = Matrix4u<double>;
 }
-
-#include "utility/mathematics/matrix4u.inl"
 
 #endif // MATRIX4U_HPP

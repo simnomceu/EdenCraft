@@ -294,39 +294,39 @@ namespace ece
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator/(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator/(rhs))); }
+		{ return Vector<T, Size>(std::move(std::operator/(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator%(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator%(rhs))); }
+		{ return Vector<T, Size>(std::move(std::operator%(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator&(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator&(rhs))); }
+		{ return Vector<T, Size>(std::move(std::operator&(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator|(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator|(rhs))); }
+		{ return Vector<T, Size>(std::move(std::operator|(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator^(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator^(rhs))); }
+		{ return Vector<T, Size>(std::move(std::operator^(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator<<(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator<<(rhs))); }
+		{ return Vector<T, Size>(std::move(std::operator<<(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator>>(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator>>(rhs))); }
+		{ return Vector<T, Size>(std::move(std::operator>>(*this, rhs))); }
 
 	template <class T, unsigned int Size>
-	inline Vector<T, Size> Vector<T, Size>::operator&&(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator&&(rhs))); }
+	inline Vector<bool, Size> Vector<T, Size>::operator&&(const Vector<T, Size> & rhs) const
+		{ return Vector<bool, Size>(std::move(std::operator&&(*this, rhs))); }
 
 	template <class T, unsigned int Size>
-	inline Vector<T, Size> Vector<T, Size>::operator||(const Vector<T, Size> & rhs) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator||(rhs))); }
+	inline Vector<bool, Size> Vector<T, Size>::operator||(const Vector<T, Size> & rhs) const
+		{ return Vector<bool, Size>(std::move(std::operator||(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator+(const T & rhs) const
@@ -369,12 +369,12 @@ namespace ece
 		{ return Vector<T, Size>(std::move(std::operator>>(*this, rhs))); }
 
 	template <class T, unsigned int Size>
-	inline Vector<T, Size> Vector<T, Size>::operator&&(const T & rhs) const
-		{ return Vector<T, Size>(std::move(std::operator&&(*this, rhs))); }
+	inline Vector<bool, Size> Vector<T, Size>::operator&&(const T & rhs) const
+		{ return Vector<bool, Size>(std::move(std::operator&&(*this, rhs))); }
 
 	template <class T, unsigned int Size>
-	inline Vector<T, Size> Vector<T, Size>::operator||(const T & rhs) const
-		{ return Vector<T, Size>(std::move(std::operator||(*this, rhs))); }
+	inline Vector<bool, Size> Vector<T, Size>::operator||(const T & rhs) const
+		{ return Vector<bool, Size>(std::move(std::operator||(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	bool Vector<T, Size>::operator==(const Vector<T, Size> & rhs) const { return std::operator==(*this, rhs).min(); }
@@ -385,47 +385,47 @@ namespace ece
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator!=(const Vector<T, Size> & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator!=(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator!=(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator<(const Vector<T, Size> & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator<(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator<(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator<=(const Vector<T, Size> & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator<=(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator<=(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator>(const Vector<T, Size> & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator>(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator>(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator>=(const Vector<T, Size> & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator>=(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator>=(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator==(const T & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator==(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator==(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator!=(const T & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator!=(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator!=(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator<(const T & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator<(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator<(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator<=(const T & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator<=(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator<=(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator>(const T & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator>(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator>(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	Vector<bool, Size> Vector<T, Size>::operator>=(const T & rhs)
-		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator>=(rhs))); }
+		{ return Vector<bool, Size>(std::move(std::operator>=(*this, rhs))); }
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::abs() const { return Vector<T, Size>(std::move(std::abs(*this))); }
@@ -490,7 +490,7 @@ namespace ece
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::cross(const Vector<T, Size> & rightOperand) const 
 	{
-		static_assert(Size == 3 || Size == 4 || Size == 7, "This method does not exist in that dimension.");
+		static_assert(HasCrossProduct<Size>::value, "This method does not exist in that dimension.");
 		return Vector<T, Size>();
 	}
 
