@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/vector.hpp
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 12th 2017
+ * @date January, 15th 2017
  * @copyright ----------
  * @brief A generic Vector of any size and any type.
  **/
@@ -48,10 +48,11 @@
 #define VECTOR_HPP
 
 #include <valarray>
+#include <type_traits>
 
 #ifdef _MSC_VER
-	#undef min
-	#undef max
+#	undef min
+#	undef max
 #endif
 
 namespace ece
@@ -219,13 +220,13 @@ namespace ece
 		inline std::gslice_array<T> operator[](std::gslice_array<T> & gslicearr);
 
 		/**
-		 * @fn Vector<T, Size> operator[](const Vector<bool, Size> & maskarr) const
-		 * @param[in] maskarr The selector index.
+		 * @fn Vector<T, Size> operator[](const Vector<bool, Size> & boolarr) const
+		 * @param[in] boolarr The selector index.
 		 * @return Data structure containing references to the selected elements.
 		 * @brief Retrieve some elements of the vector.
 		 * @throw
 		 */
-		inline Vector<T, Size> operator[](const Vector<bool, Size> & maskarr) const;
+//		inline Vector<T, Size> operator[](const Vector<bool, Size> & boolarr) const;
 
 //		inline std::mask_array<T> operator[](const Vector<bool, Size> & maskarr);
 //		inline Vector<T, Size> operator[](const Vector<bool, Size> & indarr) const;
@@ -253,6 +254,7 @@ namespace ece
 		 * @brief Get the one's complement of the vector content.
 		 * @throw noexcept
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator~() const noexcept;
 
 		/**
@@ -261,6 +263,7 @@ namespace ece
 		 * @brief Get the one's complement of the vector content.
 		 * @throw noexcept
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<bool, Size> operator!() const noexcept;
 
 		/**
@@ -306,6 +309,7 @@ namespace ece
 		 * @brief Apply the modulo operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator%=(const Vector<T, Size> & v);
 
 		/**
@@ -315,6 +319,7 @@ namespace ece
 		 * @brief Apply the unary and operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator&=(const Vector<T, Size> & v);
 
 		/**
@@ -324,6 +329,7 @@ namespace ece
 		 * @brief Apply the unary or operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator|=(const Vector<T, Size> & v);
 
 		/**
@@ -333,6 +339,7 @@ namespace ece
 		 * @brief Apply the unary xor operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator^=(const Vector<T, Size> & v);
 
 		/**
@@ -342,6 +349,7 @@ namespace ece
 		 * @brief Apply the binary shift left operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator<<=(const Vector<T, Size> & v);
 
 		/**
@@ -351,6 +359,7 @@ namespace ece
 		 * @brief Apply the binary shift right operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator>>=(const Vector<T, Size> & v);
 
 		/**
@@ -396,6 +405,7 @@ namespace ece
 		 * @brief Apply the modulo operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator%=(const T & val);
 
 		/**
@@ -405,6 +415,7 @@ namespace ece
 		 * @brief Apply the unary and operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator&=(const T & val);
 
 		/**
@@ -414,6 +425,7 @@ namespace ece
 		 * @brief Apply the unary or operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator|=(const T & val);
 
 		/**
@@ -423,6 +435,7 @@ namespace ece
 		 * @brief Apply the unary xor operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator^=(const T & val);
 
 		/**
@@ -432,6 +445,7 @@ namespace ece
 		 * @brief Apply the binary shift left operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator<<=(const T & val);
 
 		/**
@@ -441,6 +455,7 @@ namespace ece
 		 * @brief Apply the binary shift right operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> & operator>>=(const T & val);
 
 		/**
@@ -539,6 +554,7 @@ namespace ece
 		 * @brief Apply the modulo operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator%(const Vector<T, Size> & rhs) const;
 
 		/**
@@ -548,6 +564,7 @@ namespace ece
 		 * @brief Apply the unary and operation to the matrix with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator&(const Vector<T, Size> & rhs) const;
 
 		/**
@@ -557,6 +574,7 @@ namespace ece
 		 * @brief Apply the unary or operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator|(const Vector<T, Size> & rhs) const;
 
 		/**
@@ -566,6 +584,7 @@ namespace ece
 		 * @brief Apply the unary xor operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator^(const Vector<T, Size> & rhs) const;
 
 		/**
@@ -575,6 +594,7 @@ namespace ece
 		 * @brief Apply the binary shift left operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator<<(const Vector<T, Size> & rhs) const;
 
 		/**
@@ -584,6 +604,7 @@ namespace ece
 		 * @brief Apply the binary shift right operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator>>(const Vector<T, Size> & rhs) const;
 
 		/**
@@ -593,6 +614,7 @@ namespace ece
 		 * @brief Apply the binary and operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<bool, Size> operator&&(const Vector<T, Size> & rhs) const;
 
 		/**
@@ -602,6 +624,7 @@ namespace ece
 		 * @brief Apply the binary or operation to the vector with a one-to-one relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<bool, Size> operator||(const Vector<T, Size> & rhs) const;
 
 		/**
@@ -647,6 +670,7 @@ namespace ece
 		 * @brief Apply the modulo operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator%(const T & rhs) const;
 
 		/**
@@ -656,6 +680,7 @@ namespace ece
 		 * @brief Apply the unary and operation to the matrix with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator&(const T & rhs) const;
 
 		/**
@@ -665,6 +690,7 @@ namespace ece
 		 * @brief Apply the unary or operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator|(const T & rhs) const;
 		
 		/**
@@ -674,6 +700,7 @@ namespace ece
 		 * @brief Apply the unary xor operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator^(const T & rhs) const;
 
 		/**
@@ -683,6 +710,7 @@ namespace ece
 		 * @brief Apply the binary shift left operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator<<(const T & rhs) const;
 
 		/**
@@ -692,6 +720,7 @@ namespace ece
 		 * @brief Apply the binary shift right operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<T, Size> operator>>(const T & rhs) const;
 
 		/**
@@ -701,6 +730,7 @@ namespace ece
 		 * @brief Apply the binary and operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<bool, Size> operator&&(const T & rhs) const;
 
 		/**
@@ -710,6 +740,7 @@ namespace ece
 		 * @brief Apply the binary or operation to the vector with a one-to-all relationship.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 		inline Vector<bool, Size> operator||(const T & rhs) const;
 
 		/**
@@ -828,6 +859,7 @@ namespace ece
 		 * @brief Get the vector with the absolute value of each member.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<std::is_signed_v<T>>>
 		inline Vector<T, Size> abs() const;
 
 		/**
@@ -978,12 +1010,12 @@ namespace ece
 		inline void normalize();
 
 		/**
-		 * @fn T magnitude() const
+		 * @fn double magnitude() const
 		 * @return The magnitude (aka the norm) of the vector.
 		 * @brief Get the magnitude of the vector.
 		 * @throw
 		 */
-		inline T magnitude() const;
+		inline double magnitude() const;
 
 		/**
 		 * @fn Vector<T, Size> cross(const Vector<T, Size> & rightOperand) const
@@ -992,6 +1024,7 @@ namespace ece
 		 * @brief Apply a cross product operation between the two vectors.
 		 * @throw
 		 */
+		template <typename = std::enable_if_t<HasCrossProduct<Size>::value>>
 		inline Vector<T, Size> cross(const Vector<T, Size> & rightOperand) const;
 
 		/**
@@ -1004,7 +1037,7 @@ namespace ece
 		inline T dot(const Vector<T, Size> & rightOperand) const;
 
 		/**
-		 * @fn T distanceFrom(const Vector<T, Size> & rightOperand) const
+		 * @fn double distanceFrom(const Vector<T, Size> & rightOperand) const
 		 * @param[in] rightOperand The right hand side to use.
 		 * @return A distance between the two vectors.
 		 * @brief Get the distance between the two vectors.
@@ -1012,7 +1045,7 @@ namespace ece
 		 * as it is possible to compute a distance between to points.
 		 * @throw
 		 */
-		inline T distanceFrom(const Vector<T, Size> & rightOperand) const;
+		inline double distanceFrom(const Vector<T, Size> & rightOperand) const;
 	};
 }
 

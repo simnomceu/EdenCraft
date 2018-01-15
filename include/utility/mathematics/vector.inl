@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/vector.inl
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 10th 2017
+ * @date January, 15th 2017
  * @copyright ----------
  * @brief A generic Vector of any size and any type.
  **/
@@ -83,7 +83,7 @@ namespace ece
 
 	template <class T, unsigned int Size>
 	inline Vector<T, Size> Vector<T, Size>::operator[](std::slice_array<T> slicearr) const
-		{ Vector<T, Size>(std::move(std::valarray<T>::operator[](slicearr))); }
+		{ return Vector<T, Size>(std::move(std::valarray<T>::operator[](slicearr))); }
 
 	template <class T, unsigned int Size>
 	inline std::slice_array<T> Vector<T, Size>::operator[](std::slice_array<T> slicearr) { return std::valarray<T>::operator[](slicearr); }
@@ -96,9 +96,9 @@ namespace ece
 	inline std::gslice_array<T> Vector<T, Size>::operator[](std::gslice_array<T> & gslicearr)
 		{ return std::valarray<T>::operator[](gslicearr); }
 
-	template <class T, unsigned int Size>
-	inline Vector<T, Size> Vector<T, Size>::operator[](const Vector<bool, Size> & maskarr) const
-		{ return Vector<T, Size>(std::move(std::valarray<T>::operator[](maskarr))); }
+//	template <class T, unsigned int Size>
+//	inline Vector<T, Size> Vector<T, Size>::operator[](const Vector<bool, Size> & boolarr) const
+//		{ return Vector<T, Size>(std::move(std::valarray<T>::operator[](boolarr))); }
 
 //	template <class T, unsigned int Size>
 //	inline std::mask_array<T> Vector<T, Size>::operator[](const Vector<bool, Size> & maskarr)
@@ -121,10 +121,12 @@ namespace ece
 		{ return Vector<T, Size>(std::move(std::valarray<T>::operator-())); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator~() const noexcept
 		{ return Vector<T, Size>(std::move(std::valarray<T>::operator~())); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<bool, Size> Vector<T, Size>::operator!() const noexcept
 		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator!())); }
 
@@ -157,6 +159,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator%=(const Vector<T, Size> & v)
 	{
 		std::valarray<T>::operator%=(v);
@@ -164,6 +167,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator&=(const Vector<T, Size> & v)
 	{
 		std::valarray<T>::operator&=(v);
@@ -171,6 +175,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator|=(const Vector<T, Size> & v)
 	{
 		std::valarray<T>::operator|=(v);
@@ -178,6 +183,7 @@ namespace ece
 	}
 		
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator^=(const Vector<T, Size> & v)
 	{
 		std::valarray<T>::operator^=(v);
@@ -185,6 +191,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator<<=(const Vector<T, Size> & v)
 	{
 		std::valarray<T>::operator<<=(v);
@@ -192,6 +199,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator>>=(const Vector<T, Size> & v)
 	{
 		std::valarray<T>::operator>>=(v);
@@ -227,6 +235,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator%=(const T & val)
 	{
 		std::valarray<T>::operator%=(val);
@@ -234,6 +243,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator&=(const T & val)
 	{
 		std::valarray<T>::operator&=(val);
@@ -241,6 +251,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator|=(const T & val)
 	{
 		std::valarray<T>::operator|=(val);
@@ -248,6 +259,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator^=(const T & val)
 	{
 		std::valarray<T>::operator^=(val);
@@ -255,6 +267,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator<<=(const T & val)
 	{
 		std::valarray<T>::operator<<=(val);
@@ -262,6 +275,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> & Vector<T, Size>::operator>>=(const T & val)
 	{
 		std::valarray<T>::operator>>=(val);
@@ -297,34 +311,42 @@ namespace ece
 		{ return Vector<T, Size>(std::move(std::operator/(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator%(const Vector<T, Size> & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator%(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator&(const Vector<T, Size> & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator&(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator|(const Vector<T, Size> & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator|(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator^(const Vector<T, Size> & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator^(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator<<(const Vector<T, Size> & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator<<(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator>>(const Vector<T, Size> & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator>>(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<bool, Size> Vector<T, Size>::operator&&(const Vector<T, Size> & rhs) const
 		{ return Vector<bool, Size>(std::move(std::operator&&(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<bool, Size> Vector<T, Size>::operator||(const Vector<T, Size> & rhs) const
 		{ return Vector<bool, Size>(std::move(std::operator||(*this, rhs))); }
 
@@ -345,34 +367,42 @@ namespace ece
 		{ return Vector<T, Size>(std::move(std::operator/(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator%(const T & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator%(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator&(const T & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator&(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator|(const T & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator|(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator^(const T & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator^(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator<<(const T & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator<<(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::operator>>(const T & rhs) const
 		{ return Vector<T, Size>(std::move(std::operator>>(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<bool, Size> Vector<T, Size>::operator&&(const T & rhs) const
 		{ return Vector<bool, Size>(std::move(std::operator&&(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_enum_v<T> || std::is_integral_v<T>>>
 	inline Vector<bool, Size> Vector<T, Size>::operator||(const T & rhs) const
 		{ return Vector<bool, Size>(std::move(std::operator||(*this, rhs))); }
 
@@ -428,6 +458,7 @@ namespace ece
 		{ return Vector<bool, Size>(std::move(std::operator>=(*this, rhs))); }
 
 	template <class T, unsigned int Size>
+	template <typename = std::enable_if_t<std::is_signed_v<T>>>
 	inline Vector<T, Size> Vector<T, Size>::abs() const { return Vector<T, Size>(std::move(std::abs(*this))); }
 
 	template <class T, unsigned int Size>
@@ -485,12 +516,13 @@ namespace ece
 	inline void Vector<T, Size>::normalize() { this->operator/=(this->magnitude()); }
 
 	template <class T, unsigned int Size>
-	inline T Vector<T, Size>::magnitude() const { return std::sqrt(this->dot(*this)); }
+	inline double Vector<T, Size>::magnitude() const { return std::sqrt(this->dot(*this)); }
 
 	template <class T, unsigned int Size>
-	inline Vector<T, Size> Vector<T, Size>::cross(const Vector<T, Size> & rightOperand) const 
+	template <typename = std::enable_if_t<HasCrossProduct<Size>::value>>
+	inline Vector<T, Size> Vector<T, Size>::cross(const Vector<T, Size> & rightOperand) const
 	{
-		static_assert(HasCrossProduct<Size>::value, "This method does not exist in that dimension.");
+		//static_assert(HasCrossProduct<Size>::value, "This method does not exist in that dimension.");
 		return Vector<T, Size>();
 	}
 
@@ -498,5 +530,5 @@ namespace ece
 	inline T Vector<T, Size>::dot(const Vector<T, Size> & rightOperand) const { return this->operator*(rightOperand).sum(); }
 
 	template <class T, unsigned int Size>
-	inline T Vector<T, Size>::distanceFrom(const Vector<T, Size> & rightOperand) const { return this->operator-(rightOperand).magnitude(); }
+	inline double Vector<T, Size>::distanceFrom(const Vector<T, Size> & rightOperand) const { return this->operator-(rightOperand).magnitude(); }
 }
