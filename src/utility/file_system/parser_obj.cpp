@@ -39,7 +39,7 @@
 /**
  * @file utility/file_system/parser_obj.cpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 11th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Parser to load and save OBJ Wavefront structure.
  *
@@ -78,36 +78,36 @@ namespace ece
 				if (command == "v ") {
 					float vertice[3];
 					stream >> vertice[0] >> vertice[1] >> vertice[2];
-					vertices.push_back(vertice[0]);
-					vertices.push_back(vertice[1]);
-					vertices.push_back(vertice[2]);
+					this->_vertices.push_back(vertice[0]);
+					this->_vertices.push_back(vertice[1]);
+					this->_vertices.push_back(vertice[2]);
 				}
 				else if (command == "vt") {
 					float texture[2];
 					stream >> texture[0] >> texture[1];
-					textures.push_back(texture[0]);
-					textures.push_back(texture[1]);
+					this->_textures.push_back(texture[0]);
+					this->_textures.push_back(texture[1]);
 				}
 				else if (command == "vn") {
 					float normale[3];
 					stream >> normale[0] >> normale[1] >> normale[2];
-					normales.push_back(normale[0]);
-					normales.push_back(normale[1]);
-					normales.push_back(normale[2]);
+					this->_normales.push_back(normale[0]);
+					this->_normales.push_back(normale[1]);
+					this->_normales.push_back(normale[2]);
 				}
 				else if (command == "f ") {
 					int face[9];
 					sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &face[0], &face[1], &face[2], &face[3], &face[4],
 						&face[5], &face[6], &face[7], &face[8]);
-					faces.push_back(face[0] * 3);
-					//faces.push_back(face[1]);
-					//faces.push_back(face[2]);
-					faces.push_back(face[3] * 3);
-					//faces.push_back(face[4]);
-					//faces.push_back(face[5]);
-					faces.push_back(face[6] * 3);
-					//faces.push_back(face[7]);
-					//faces.push_back(face[8]);
+					this->_faces.push_back(face[0] * 3);
+//					this->_faces.push_back(face[1]);
+//					this->_faces.push_back(face[2]);
+					this->_faces.push_back(face[3] * 3);
+//					this->_faces.push_back(face[4]);
+//					this->_faces.push_back(face[5]);
+					this->_faces.push_back(face[6] * 3);
+//					this->_faces.push_back(face[7]);
+//					this->_faces.push_back(face[8]);
 
 					// TODO check that it uses existing vertices, normales, and textures.
 				}

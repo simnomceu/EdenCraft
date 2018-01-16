@@ -39,7 +39,7 @@
 /**
  * @file utility/indexing/index3u.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief A 3D index key.
  *
@@ -138,22 +138,22 @@ namespace ece
 		inline void set(const int maxI, const int maxJ, const int index);
 
 		/**
-		 * @property i
+		 * @property _i
 		 * @brief The i position (usually on X-axis) of the index in 3D.
 		 */
-		unsigned int i;
+		unsigned int _i;
 		
 		/**
-		 * @property j
+		 * @property _j
 		 * @brief The j position (usually on Y-axis) of the index in 3D.
 		 */
-		unsigned int j;
+		unsigned int _j;
 		
 		/**
-		 * @property k
+		 * @property _k
 		 * @brief The k position (usually on Z-axis) of the index in 3D.
 		 */
-		unsigned int k;
+		unsigned int _k;
 	};
 }
 

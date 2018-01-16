@@ -39,7 +39,7 @@
 /**
  * @file utility/json/object_json.cpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 1st 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Object node from a JSON tree.
  */
@@ -52,43 +52,43 @@ namespace ece
 {
 	std::shared_ptr<NodeJSON> ObjectJSON::addNull(const std::string & key)
 	{
-		this->children[key] = std::make_shared<NullJSON>(key, nullptr, this->shared_from_this());
-		return this->children[key];
+		this->_children[key] = std::make_shared<NullJSON>(key, nullptr, this->shared_from_this());
+		return this->_children[key];
 	}
 
 	std::shared_ptr<NodeJSON> ObjectJSON::addBoolean(const std::string & key, const bool value)
 	{
-		this->children[key] = std::make_shared<BooleanJSON>(key, value, this->shared_from_this());
-		return this->children[key];
+		this->_children[key] = std::make_shared<BooleanJSON>(key, value, this->shared_from_this());
+		return this->_children[key];
 	}
 
 	std::shared_ptr<NodeJSON> ObjectJSON::addInteger(const std::string & key, const int value)
 	{
-		this->children[key] = std::make_shared<IntegerJSON>(key, value, this->shared_from_this());
-		return this->children[key];
+		this->_children[key] = std::make_shared<IntegerJSON>(key, value, this->shared_from_this());
+		return this->_children[key];
 	}
 
 	std::shared_ptr<NodeJSON> ObjectJSON::addDouble(const std::string & key, const double value)
 	{
-		this->children[key] = std::make_shared<DoubleJSON>(key, value, this->shared_from_this());
-		return this->children[key];
+		this->_children[key] = std::make_shared<DoubleJSON>(key, value, this->shared_from_this());
+		return this->_children[key];
 	}
 
 	std::shared_ptr<NodeJSON> ObjectJSON::addString(const std::string & key, const std::string & value)
 	{
-		this->children[key] = std::make_shared<StringJSON>(key, value, this->shared_from_this());
-		return this->children[key];
+		this->_children[key] = std::make_shared<StringJSON>(key, value, this->shared_from_this());
+		return this->_children[key];
 	}
 
 	std::shared_ptr<NodeJSON> ObjectJSON::addObject(const std::string & key)
 	{
-		this->children[key] = std::make_shared<ObjectJSON>(this->shared_from_this());
-		return this->children[key];
+		this->_children[key] = std::make_shared<ObjectJSON>(this->shared_from_this());
+		return this->_children[key];
 	}
 
 	std::shared_ptr<NodeJSON> ObjectJSON::addArray(const std::string & key)
 	{
-		this->children[key] = std::make_shared<ArrayJSON>(this->shared_from_this());
-		return this->children[key];
+		this->_children[key] = std::make_shared<ArrayJSON>(this->shared_from_this());
+		return this->_children[key];
 	}
 }

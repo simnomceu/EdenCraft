@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/euler_angle.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define Euler angle rotations.
  */
@@ -48,13 +48,13 @@
 namespace ece
 {
 	template <class T>
-	inline constexpr EulerAngle<T>::EulerAngle() noexcept: roll(0.0), pitch(0.0), yaw(0.0) {}
+	inline constexpr EulerAngle<T>::EulerAngle() noexcept: _roll(0.0), _pitch(0.0), _yaw(0.0) {}
 
 	template <class T>
-	inline EulerAngle<T>::EulerAngle(const double roll, const double pitch, const double yaw) noexcept: roll(roll), pitch(pitch), yaw(yaw) {}
+	inline EulerAngle<T>::EulerAngle(const double roll, const double pitch, const double yaw) noexcept: _roll(roll), _pitch(pitch), _yaw(yaw) {}
 
 	template <class T>
-	EulerAngle<T>::EulerAngle(const Quaternion<T> & quaternion): roll(0.0), pitch(0.0), yaw(0.0)
+	EulerAngle<T>::EulerAngle(const Quaternion<T> & quaternion): _roll(0.0), _pitch(0.0), _yaw(0.0)
 	{
 		double sinr = 2.0 * (quaternion.getW() * quaternion.getX() + quaternion.getY() * quaternion.getZ());
 		double cosr = 1.0 - 2.0 * (quaternion.getX() * quaternion.getX() + quaternion.getY() * quaternion.getY());
@@ -62,20 +62,20 @@ namespace ece
 		double siny = 2.0 * (quaternion.getW() * quaternion.getZ() + quaternion.getX() * quaternion.getY());
 		double cosy = 1.0 - 2.0 * (quaternion.getY() * quaternion.getY() + quaternion.getZ() * quaternion.getZ());
 
-		this->roll = std::atan2(sinr, cosr);
-		this->pitch = std::fabs(sinp) >= 1.0 ? std::copysign(M_PI / 2, sinp) : std::asin(sinp);
-		this->yaw = std::atan2(siny, cosy);
+		this->_roll = std::atan2(sinr, cosr);
+		this->_pitch = std::fabs(sinp) >= 1.0 ? std::copysign(M_PI / 2, sinp) : std::asin(sinp);
+		this->_yaw = std::atan2(siny, cosy);
 	}
 
 	template <class T>
 	Quaternion<T> EulerAngle<T>::toQuaternion() const
 	{
-		double cy = cos(this->yaw * 0.5);
-		double sy = sin(this->yaw * 0.5);
-		double cr = cos(this->roll * 0.5);
-		double sr = sin(this->roll * 0.5);
-		double cp = cos(this->pitch * 0.5);
-		double sp = sin(this->pitch * 0.5);
+		double cy = cos(this->_yaw * 0.5);
+		double sy = sin(this->_yaw * 0.5);
+		double cr = cos(this->_roll * 0.5);
+		double sr = sin(this->_roll * 0.5);
+		double cp = cos(this->_pitch * 0.5);
+		double sp = sin(this->_pitch * 0.5);
 
 		return Quaternion<T>(cy * cr * cp + sy * sr * sp,
 			cy * sr * cp - sy * cr * sp,
@@ -89,20 +89,20 @@ namespace ece
 	}
 
 	template <class T>
-	inline T & EulerAngle<T>::getRoll() noexcept { return this->roll; }
+	inline T & EulerAngle<T>::getRoll() noexcept { return this->_roll; }
 
 	template <class T>
-	inline T & EulerAngle<T>::getPitch() noexcept { return this->pitch; }
+	inline T & EulerAngle<T>::getPitch() noexcept { return this->_pitch; }
 
 	template <class T>
-	inline T & EulerAngle<T>::getYaw() noexcept { return this->yaw; }
+	inline T & EulerAngle<T>::getYaw() noexcept { return this->_yaw; }
 
 	template <class T>
-	inline T EulerAngle<T>::getRoll() const noexcept { return this->roll; }
+	inline T EulerAngle<T>::getRoll() const noexcept { return this->_roll; }
 
 	template <class T>
-	inline T EulerAngle<T>::getPitch() const noexcept { return this->pitch; }
+	inline T EulerAngle<T>::getPitch() const noexcept { return this->_pitch; }
 
 	template <class T>
-	inline T EulerAngle<T>::getYaw() const noexcept { return this->yaw; }
+	inline T EulerAngle<T>::getYaw() const noexcept { return this->_yaw; }
 }

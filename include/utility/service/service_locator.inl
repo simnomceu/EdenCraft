@@ -39,7 +39,7 @@
 /**
  * @file utility/service/service_locator.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Generic locator for the service pattern.
  **/
@@ -49,21 +49,21 @@
 namespace ece
 {
 	template <class Base, class Null>
-	std::shared_ptr<Base> ServiceLocator<Base, Null>::service = std::shared_ptr<Null>();
+	std::shared_ptr<Base> ServiceLocator<Base, Null>::_service = std::shared_ptr<Null>();
 
 	template <class Base, class Null>
 	inline void ServiceLocator<Base, Null>::provide(const std::shared_ptr<Base> & service)
 	{
-		ServiceLocator<Base, Null>::service = service;
+		ServiceLocator<Base, Null>::_service = service;
 	}
 
 	template <class Base, class Null>
 	Base & ServiceLocator<Base, Null>::getService()
 	{
-		if (ServiceLocator<Base, Null>::service.get() == nullptr) {
+		if (ServiceLocator<Base, Null>::_service.get() == nullptr) {
 			throw MemoryAccessException("A service.");
 		}
-		return *ServiceLocator<Base, Null>::service;
+		return *ServiceLocator<Base, Null>::_service;
 	}
 
 	/*template <class Base, class Null>
@@ -78,6 +78,6 @@ namespace ece
 	template <class Base, class Null>
 	inline void ServiceLocator<Base, Null>::stop()
 	{
-		ServiceLocator<Base, Null>::service = std::shared_ptr<Null>();
+		ServiceLocator<Base, Null>::_service = std::shared_ptr<Null>();
 	}
 }

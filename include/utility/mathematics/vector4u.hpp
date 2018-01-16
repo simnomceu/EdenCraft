@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/vector4u.hpp
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
+ * @date January, 8th 2018
  * @copyright ----------
  * @brief A 4D specialization of Vector.
  **/

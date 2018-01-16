@@ -39,7 +39,7 @@
 /**
  * @file utility/log/base_logger.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define an empty base for logger service.
  */
@@ -133,10 +133,10 @@ namespace ece
 
 	protected:
 		/**
-		 * @property target
+		 * @property _target
 		 * @brief The target stream to send the log.
 		 */
-		std::ostream & target;
+		std::ostream & _target;
 	};
 }
 

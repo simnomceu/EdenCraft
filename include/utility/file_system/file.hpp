@@ -39,10 +39,9 @@
 /**
  * @file utility/file_system/file.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 1st 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Encapsulates the file resource in a class.
- *
  */
 
 #ifndef FILE_HPP
@@ -192,16 +191,16 @@ namespace ece
 
 	protected:
 		/**
-		 * @property filename
+		 * @property _filename
 		 * @brief The filename opened in the file stream.
 		 */
-		std::string filename;
+		std::string _filename;
 
 		/**
-		 * @property stream
+		 * @property _stream
 		 * @brief The file stream associated.
 		 */
-		std::fstream stream;
+		std::fstream _stream;
 	};
 
 	/**

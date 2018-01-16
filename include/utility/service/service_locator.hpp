@@ -39,7 +39,7 @@
 /**
  * @file utility/service/service_locator.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Generic locator for the service pattern.
  **/
@@ -90,7 +90,11 @@ namespace ece
 		static inline void stop();
 
 	protected:
-		static std::shared_ptr<Base> service;
+		/**
+		 * @property _service
+		 * @brief The service to expose.
+		 */
+		static std::shared_ptr<Base> _service;
 	};
 }
 

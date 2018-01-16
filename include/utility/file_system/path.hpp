@@ -39,11 +39,11 @@
 /**
  * @file utility/file_system/path.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 12th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Describe path to any location in the file system.
  * @remark Should define a non-member operation make_path to create a Path object and throw an exception if it is not valid.
- * @remark Look at the Filesystem standart library from C++17. Be careful with backward compatibility.
+ * @remark Look at the Filesystem standard library from C++17. Be careful with backward compatibility.
  */
 
 #ifndef PATH_HPP
@@ -191,10 +191,10 @@ namespace ece
 
 	private:
 		/**
-		 * @property path
+		 * @property _path
 		 * @brief Current path splitted to each segment level.
 		 */
-		std::vector<std::string> path;
+		std::vector<std::string> _path;
 	};
 }
 

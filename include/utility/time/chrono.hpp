@@ -39,7 +39,7 @@
 /**
  * @file utility/time/chrono.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define a chrono.
  **/
@@ -131,10 +131,10 @@ namespace ece
 
 	private:
 		/**
-		 * @property begin
+		 * @property _begin
 		 * @brief The time point when chrono has started.
 		 */
-		std::chrono::time_point<std::chrono::system_clock> begin;
+		std::chrono::time_point<std::chrono::system_clock> _begin;
 	};
 }
 

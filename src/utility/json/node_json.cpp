@@ -39,7 +39,7 @@
 /**
  * @file utility/json/node_json.cpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Default node from a JSON tree.
  */
@@ -50,13 +50,13 @@ namespace ece
 {
 	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
 	{
-		this->parent = copy.parent;
+		this->_parent = copy._parent;
 		return *this;
 	}
 
 	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
 	{
-		this->parent = std::move(move.parent);
+		this->_parent = std::move(move._parent);
 		return *this;
 	}
 }

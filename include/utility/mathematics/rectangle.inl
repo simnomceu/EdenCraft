@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/rectangle.inl
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
+ * @date January, 16th 2017
  * @copyright ----------
  * @brief Describe a rectangle object.
  * Describe a rectangle object.  This rectangle is purely a boundering, an aggregate of positions and sizes.
@@ -48,20 +48,20 @@
 namespace ece
 {
 	template<typename T>
-	inline constexpr Rectangle<T>::Rectangle() noexcept : x(0), y(0), w(0), h(0) {}
+	inline constexpr Rectangle<T>::Rectangle() noexcept : _x(0), _y(0), _w(0), _h(0) {}
 
 	template<typename T>
-	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : x(x), y(y), w(w), h(h) {}
+	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : _x(x), _y(y), _w(w), _h(h) {}
 
 	template<typename T>
-	inline T Rectangle<T>::getX() const noexcept { return this->x; }
+	inline T Rectangle<T>::getX() const noexcept { return this->_x; }
 
 	template<typename T>
-	inline T Rectangle<T>::getY() const noexcept { return this->y; }
+	inline T Rectangle<T>::getY() const noexcept { return this->_y; }
 
 	template<typename T>
-	inline T Rectangle<T>::getWidth() const noexcept { return this->w; }
+	inline T Rectangle<T>::getWidth() const noexcept { return this->_w; }
 
 	template<typename T>
-	inline T Rectangle<T>::getHeight() const noexcept { return this->h; }
+	inline T Rectangle<T>::getHeight() const noexcept { return this->_h; }
 }

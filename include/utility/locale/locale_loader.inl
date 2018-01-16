@@ -39,11 +39,11 @@
 /**
  * @file utility/locale/locale_loader.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Load a locale resource of string literals.
  */
 namespace ece
 {
-	inline LocaleResource & LocaleLoader::getResource() { return this->resource; }
+	inline LocaleResource & LocaleLoader::getResource() { return this->_resource; }
 }

@@ -39,43 +39,42 @@
 /**
  * @file utility/file_system/file.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 1st 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Encapsulates the file resource in a class.
- *
  */
 
 #include "utility/debug/exception.hpp"
 
 namespace ece
 {
-	inline File::File() : filename(), stream() {}
+	inline File::File() : _filename(), _stream() {}
 
-	inline File::File(const std::string & filename, const OpenMode & mode): filename(filename), stream()
+	inline File::File(const std::string & filename, const OpenMode & mode): _filename(filename), _stream()
 	{
-		this->stream.open(this->filename, static_cast<std::ios_base::openmode>(mode));
+		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
 	}
 
-	inline File::File(File && move): filename(std::move(move.filename)), stream(std::move(move.stream))
+	inline File::File(File && move): _filename(std::move(move._filename)), _stream(std::move(move._stream))
 	{
 		move.close();
 	}
 
-	inline File::~File() noexcept { this->stream.close(); }
+	inline File::~File() noexcept { this->_stream.close(); }
 
-	inline const bool File::isOpen() const { return this->stream.is_open(); }
+	inline const bool File::isOpen() const { return this->_stream.is_open(); }
 
 	template <class T>
 	File & File::operator>>(T & value)
 	{
-		this->stream >> value;
+		this->_stream >> value;
 		return *this;
 	}
 
 	template <class T>
 	File & File::operator<<(T & value)
 	{
-		this->stream << value;
+		this->_stream << value;
 		return *this;
 	}
 
@@ -86,15 +85,13 @@ namespace ece
 		if (this->isOpen()) {
 			T value;
 			try {
-				while (this->stream.good()) {
-					this->stream >> value;
+				while (this->_stream.good()) {
+					this->_stream >> value;
 					content.push_back(value);
 				}
 			}
-			// TODO: possible to avoid that pragma ?
-#pragma warning(suppress: 4101)
-			catch (std::exception & e) {
-				throw FileException(FileCodeError::PARSE_ERROR, this->filename);
+			catch (std::exception & /*e*/) {
+				throw FileException(FileCodeError::PARSE_ERROR, this->_filename);
 			}
 		}
 		return content;

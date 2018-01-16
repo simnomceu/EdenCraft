@@ -39,7 +39,7 @@
 /**
  * @file utility/debug/exception.cpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date November, 28th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Generic exception constructor and set of exceptions used in Edencraft libraries.
  *

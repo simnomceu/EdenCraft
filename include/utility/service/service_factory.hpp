@@ -39,7 +39,7 @@
 /**
  * @file utility/service/service_factory.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Generic factory for the service pattern.
  **/

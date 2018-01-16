@@ -39,7 +39,7 @@
 /**
  * @file utility/log/logger.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define a logger implementation for standard output.
  */

@@ -39,7 +39,7 @@
 /**
  * @file utility/json/node_json.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 30th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Default node from a JSON tree.
  */
@@ -155,10 +155,10 @@ namespace ece
 
 	private:
 		/**
-		 * @property parent
+		 * @property _parent
 		 * @brief The parent node of the current node.
 		 */
-		std::weak_ptr<NodeJSON> parent;
+		std::weak_ptr<NodeJSON> _parent;
 	};
 }
 

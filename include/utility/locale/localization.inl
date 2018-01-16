@@ -39,7 +39,7 @@
 /**
  * @file utility/locale/localization.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Defining localization for literals.
  */
@@ -49,20 +49,20 @@
 
 namespace ece
 {
-	inline Localization::Localization(const Language & language, const Country & country) : language(language), country(country) 
+	inline Localization::Localization(const Language & language, const Country & country) : _language(language), _country(country) 
 	{
-		std::transform(this->country.begin(), this->country.end(), this->country.begin(), [](char c) { return static_cast<unsigned char>(std::toupper(c)); });
+		std::transform(this->_country.begin(), this->_country.end(), this->_country.begin(), [](char c) { return static_cast<unsigned char>(std::toupper(c)); });
 	}
 
-	inline const Language & Localization::getLanguage() const noexcept { return this->language; }
+	inline const Language & Localization::getLanguage() const noexcept { return this->_language; }
 
-	inline const Country & Localization::getCountry() const noexcept { return this->country; }
+	inline const Country & Localization::getCountry() const noexcept { return this->_country; }
 
 	inline void Localization::setLanguage(const Language & language)
 	{
-		this->language = language;
-		std::transform(this->country.begin(), this->country.end(), this->country.begin(), [](char c) { return static_cast<unsigned char>(std::toupper(c)); });
+		this->_language = language;
+		std::transform(this->_country.begin(), this->_country.end(), this->_country.begin(), [](char c) { return static_cast<unsigned char>(std::toupper(c)); });
 	}
 
-	inline void Localization::setCountry(const Country & country) noexcept { this->country = country; }
+	inline void Localization::setCountry(const Country & country) noexcept { this->_country = country; }
 }

@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/quaternion.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 6th 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define quaternion rotation.
  */
@@ -49,20 +49,20 @@
 namespace ece
 {
 	template <class T>
-	inline constexpr Quaternion<T>::Quaternion() noexcept: w(1), x(0), y(0), z(0) {}
+	inline constexpr Quaternion<T>::Quaternion() noexcept: _w(1), _x(0), _y(0), _z(0) {}
 
 	template <class T>
-	inline Quaternion<T>::Quaternion(const T w, const T x, const T y, const T z) noexcept : w(w), x(x), y(y), z(z) {}
+	inline Quaternion<T>::Quaternion(const T w, const T x, const T y, const T z) noexcept : _w(w), _x(x), _y(y), _z(z) {}
 
 	template <class T>
 	inline Quaternion<T>::Quaternion(const T angle, const Vertex3u<T> & axis) noexcept : 
-		w(std::cos(angle/2)), 
-		x(axis[0]*std::sin(angle/2)), 
-		y(axis[1] * std::sin(angle / 2)), 
-		z(axis[2] * std::sin(angle / 2)) {}
+		_w(std::cos(angle/2)), 
+		_x(axis[0]*std::sin(angle/2)), 
+		_y(axis[1] * std::sin(angle / 2)), 
+		_z(axis[2] * std::sin(angle / 2)) {}
 
 	template <class T>
-	Quaternion<T>::Quaternion(const EulerAngle<T> & eulerAngle): w(0.0), x(0.0), y(0.0), z(0.0)
+	Quaternion<T>::Quaternion(const EulerAngle<T> & eulerAngle): _w(0.0), _x(0.0), _y(0.0), _z(0.0)
 	{
 		double cy = cos(eulerAngle.getYaw() * 0.5);
 		double sy = sin(eulerAngle.getYaw() * 0.5);
@@ -71,81 +71,81 @@ namespace ece
 		double cp = cos(eulerAngle.getPitch() * 0.5);
 		double sp = sin(eulerAngle.getPitch() * 0.5);
 
-		this->w = cy * cr * cp + sy * sr * sp;
-		this->x = cy * sr * cp - sy * cr * sp;
-		this->y = cy * cr * sp + sy * sr * cp;
-		this->z = sy * cr * cp - cy * sr * sp;
+		this->_w = cy * cr * cp + sy * sr * sp;
+		this->_x = cy * sr * cp - sy * cr * sp;
+		this->_y = cy * cr * sp + sy * sr * cp;
+		this->_z = sy * cr * cp - cy * sr * sp;
 	}
 
 	template <class T>
 	inline Quaternion<T> Quaternion<T>::operator+(const Quaternion<T> & rightOperator) const noexcept
 	{
-		return Quaternion<T>(this->w + rightOperator.w,
-							 this->x + rightOperator.x,
-							 this->y + rightOperator.y,
-							 this->z + rightOperator.z);
+		return Quaternion<T>(this->_w + rightOperator._w,
+							 this->_x + rightOperator._x,
+							 this->_y + rightOperator._y,
+							 this->_z + rightOperator._z);
 	}
 
 	template <class T>
 	inline Quaternion<T> Quaternion<T>::operator-(const Quaternion<T> & rightOperator) const noexcept
 	{
-		return Quaternion<T>(this->w - rightOperator.w,
-			this->x - rightOperator.x,
-			this->y - rightOperator.y,
-			this->z - rightOperator.z);
+		return Quaternion<T>(this->_w - rightOperator._w,
+			this->_x - rightOperator._x,
+			this->_y - rightOperator._y,
+			this->_z - rightOperator._z);
 	}
 
 	template <class T, class U>
 	inline Quaternion<T> Quaternion<T>::operator*(const U rightOperator) const noexcept
 	{
-		return Quaternion<T>(this->w * rightOperator, this->x * rightOperator, this->y * rightOperator, this->z * rightOperator);
+		return Quaternion<T>(this->_w * rightOperator, this->_x * rightOperator, this->_y * rightOperator, this->_z * rightOperator);
 	}
 
 	template <class T>
 	Quaternion<T> Quaternion<T>::operator*(const Quaternion<T> & rightOperator) const
 	{
-		Vertex3u<T> lh(this->x, this->y, this->z);
-		Vertex3u<T> rh(rightOperator.x, rightOperator.y, rightOperator.z);
-		auto product = (rh * this->w) + (lh * rightOperand.w) + (lh * rh);
-		return Quaternion<T>((this->w * rightOperator.w) + lh.dot(rh), product.x, product.y, product.z);
+		Vertex3u<T> lh(this->_x, this->_y, this->_z);
+		Vertex3u<T> rh(rightOperator._x, rightOperator._y, rightOperator._z);
+		auto product = (rh * this->_w) + (lh * rightOperand._w) + (lh * rh);
+		return Quaternion<T>((this->_w * rightOperator._w) + lh.dot(rh), product._x, product._y, product._z);
 	}
 
 	template <class T, class U>
 	inline Quaternion<T> Quaternion<T>::operator/(const U rightOperator) const noexcept
 	{
-		return Quaternion<T>(this->w / rightOperator, this->x / rightOperator, this->y / rightOperator, this->z / rightOperator);
+		return Quaternion<T>(this->_w / rightOperator, this->_x / rightOperator, this->_y / rightOperator, this->_z / rightOperator);
 	}
 
 	template <class T>
 	Quaternion<T> & Quaternion<T>::operator+=(const Quaternion<T> & rightOperator) noexcept
 	{
-		this->w += rightOperator.w;
-		this->x += rightOperator.x;
-		this->y += rightOperator.y;
-		this->z += rightOperator.z;
+		this->_w += rightOperator._w;
+		this->_x += rightOperator._x;
+		this->_y += rightOperator._y;
+		this->_z += rightOperator._z;
 		return *this;
 	}
 
 	template <class T>
 	Quaternion<T> & Quaternion<T>::operator-=(const Quaternion<T> & rightOperator) noexcept
 	{
-		this->w -= rightOperator.w;
-		this->x -= rightOperator.x;
-		this->y -= rightOperator.y;
-		this->z -= rightOperator.z;
+		this->_w -= rightOperator._w;
+		this->_x -= rightOperator._x;
+		this->_y -= rightOperator._y;
+		this->_z -= rightOperator._z;
 		return *this;
 	}
 
 	template <class T>
 	inline Quaternion<T> Quaternion<T>::conjugate() const noexcept
 	{
-		return Quaternion<T>(this->w, -this->x, -this->y, -this->z);
+		return Quaternion<T>(this->_w, -this->_x, -this->_y, -this->_z);
 	}
 
 	template <class T>
 	inline T Quaternion<T>::norm() const noexcept
 	{
-		return (this->w * this->w) + (this->x * this->x) + (this->y * this->y) + (this->z * this->z);
+		return (this->_w * this->_w) + (this->_x * this->_x) + (this->_y * this->_y) + (this->_z * this->_z);
 	}
 
 	template<class T>
@@ -163,32 +163,32 @@ namespace ece
 	template <class T>
 	inline T Quaternion<T>::dot(const Quaternion<T> & rightOperand) const noexcept
 	{
-		return (this->w * rightOperand.w) + (this->x * rightOperand.x) + (this->y * rightOperand.y) + (this->z * rightOperand.z);
+		return (this->_w * rightOperand.w) + (this->_x * rightOperand.x) + (this->_y * rightOperand.y) + (this->_z * rightOperand.z);
 	}
 
 	template <class T>
-	inline T Quaternion<T>::real() const noexcept { return this->w; }
+	inline T Quaternion<T>::real() const noexcept { return this->_w; }
 
 	template <class T>
-	inline T Quaternion<T>::angle() const noexcept { return 2 * std::arccos(this->w); }
+	inline T Quaternion<T>::angle() const noexcept { return 2 * std::arccos(this->_w); }
 
 	template <class T>
 	inline Vertex3u<T> Quaternion<T>::axis() const noexcept
 	{
-		Vertex3u<T>(this->x / arcsin(this->angle() / 2,
-					this->y / arcsin(this->angle() / 2,
-					this->z / arcsin(this->angle() / 2);
+		Vertex3u<T>(this->_x / arcsin(this->angle() / 2,
+					this->_y / arcsin(this->angle() / 2,
+					this->_z / arcsin(this->angle() / 2);
 	}
 
 	template <class T>
 	inline EulerAngle<T> Quaternion<T>::toEulerAngle() const noexcept
 	{
-		double sinr = 2.0 * (this->w * this->x + this->y * this->z);
-		double cosr = 1.0 - 2.0 * (this->x * this->x + this->y * this->y);
-		double sinp = 2.0 * (this->w * this->y - this->x * this->z);
+		double sinr = 2.0 * (this->_w * this->_x + this->_y * this->_z);
+		double cosr = 1.0 - 2.0 * (this->_x * this->_x + this->_y * this->_y);
+		double sinp = 2.0 * (this->_w * this->_y - this->_x * this->_z);
 		double pitch = std::fabs(sinp) >= 1.0 ? std::copysign(M_PI / 2, sinp) : std::asin(sinp);
-		double siny = 2.0 * (this->w * this->z + this->x * this->y);
-		double cosy = 1.0 - 2.0 * (this->y * this->y + this->z * this->z);
+		double siny = 2.0 * (this->_w * this->_z + this->_x * this->_y);
+		double cosy = 1.0 - 2.0 * (this->_y * this->_y + this->_z * this->_z);
 
 		return EulerAngle<T>(std::atan2(sinr, cosr), pitch, std::atan2(siny, cosy));
 	}
@@ -199,26 +199,26 @@ namespace ece
 	}
 
 	template <class T>
-	inline T & Quaternion<T>::getW() noexcept { return this->w; }
+	inline T & Quaternion<T>::getW() noexcept { return this->_w; }
 
 	template <class T>
-	inline T & Quaternion<T>::getX() noexcept { return this->x; }
+	inline T & Quaternion<T>::getX() noexcept { return this->_x; }
 
 	template <class T>
-	inline T & Quaternion<T>::getY() noexcept { return this->y; }
+	inline T & Quaternion<T>::getY() noexcept { return this->_y; }
 
 	template <class T>
-	inline T & Quaternion<T>::getZ() noexcept { return this->z; }
+	inline T & Quaternion<T>::getZ() noexcept { return this->_z; }
 
 	template <class T>
-	inline T Quaternion<T>::getW() const noexcept { return this->w; }
+	inline T Quaternion<T>::getW() const noexcept { return this->_w; }
 
 	template <class T>
-	inline T Quaternion<T>::getX() const noexcept { return this->x; }
+	inline T Quaternion<T>::getX() const noexcept { return this->_x; }
 
 	template <class T>
-	inline T Quaternion<T>::getY() const noexcept { return this->y; }
+	inline T Quaternion<T>::getY() const noexcept { return this->_y; }
 
 	template <class T>
-	inline T Quaternion<T>::getZ() const noexcept { return this->z; }
+	inline T Quaternion<T>::getZ() const noexcept { return this->_z; }
 }

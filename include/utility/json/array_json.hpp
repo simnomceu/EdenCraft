@@ -39,7 +39,7 @@
 /**
  * @file utility/json/array_json.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 1st 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Array node from a JSON tree.
  */
@@ -269,11 +269,11 @@ namespace ece
 
 	private:
 		/**
-		 * @property children
+		 * @property _children
 		 * @brief The list of children nodes of the current children.
 		 * Children can be of any type.
 		 */
-		std::vector<std::shared_ptr<NodeJSON>> children;
+		std::vector<std::shared_ptr<NodeJSON>> _children;
 	};
 }
 

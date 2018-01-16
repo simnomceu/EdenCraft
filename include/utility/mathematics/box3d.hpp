@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/box3d.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define a box in a 3D space.
  */
@@ -128,16 +128,16 @@ namespace ece
 
 	private:
 		/**
-		 * @property a
+		 * @property _a
 		 * @brief The left-bottom vertex of the box.
 		 */
-		FloatVertex3u a;
+		FloatVertex3u _a;
 
 		/**
-		 * @property b
+		 * @property _b
 		 * @brief The right-top vertex of the box.
 		 */
-		FloatVertex3u b;
+		FloatVertex3u _b;
 	};
 }
 

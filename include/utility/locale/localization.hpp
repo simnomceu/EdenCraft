@@ -39,7 +39,7 @@
 /**
  * @file utility/locale/localization.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Defining localization for literals.
  */
@@ -148,16 +148,16 @@ namespace ece
 
 	private:
 		/**
-		 * @property language
+		 * @property _language
 		 * @brief The localization language.
 		 */
-		Language language;
+		Language _language;
 		
 		/**
-		 * @property country
+		 * @property _country
 		 * @brief The country language.
 		 */
-		Country country;
+		Country _country;
 	};
 }
 

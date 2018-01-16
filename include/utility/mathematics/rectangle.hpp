@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/rectangle.hpp
  * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
+ * @date January, 16th 2017
  * @copyright ----------
  * @brief Describe a rectangle object.
  * Describe a rectangle object.  This rectangle is purely a boundering, an aggregate of positions and sizes.
@@ -160,28 +160,28 @@ namespace ece
 
 	private:
 		/**
-		 * @property x
+		 * @property _x
 		 * @brief Position on the x-axis.
 		 **/
-		T x;
+		T _x;
 
 		/**
-		 * @property y
+		 * @property _y
 		 * @brief Position on the y-axis.
 		 **/
-		T y;
+		T _y;
 
 		/**
-		 * @property w
+		 * @property _w
 		 * @brief Width of the rectangle.
 		 **/
-		T w;
+		T _w;
 
 		/**
-		 * @property h
+		 * @property _h
 		 * @brief Height of the rectangle.
 		 **/
-		T h;
+		T _h;
 	};
 }
 

@@ -40,7 +40,7 @@
 /**
  * @file utility/file_system/parser_json.cpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 11th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Parser to load and save JSON data.
  *
@@ -63,8 +63,8 @@ namespace ece
 {
 	void ParserJSON::loadFromFile(const std::string & pathname)
 	{
-		if (this->pathname != pathname) {
-			this->pathname = pathname;
+		if (this->_pathname != pathname) {
+			this->_pathname = pathname;
 			File file;
 			try {
 				file.open(pathname, OpenMode::in);
@@ -208,7 +208,7 @@ namespace ece
 						break;
 					}
 				}
-				this->contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
+				this->_contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
 			}
 			catch (FileException & e) {
 				throw e;

@@ -39,7 +39,7 @@
 /**
  * @file utility/locale/locale_loader.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Load a locale resource of string literals.
  */
@@ -141,28 +141,28 @@ namespace ece
 
 	private:
 		/**
-		 * @property path
+		 * @property _path
 		 * @brief The root of the locale resources.
 		 */
-		static std::string path;
+		static std::string _path;
 
 		/**
-		 * @property locale
+		 * @property _locale
 		 * @brief The localization to use.
 		 */
-		Localization locale;
+		Localization _locale;
 
 		/**
-		 * @property resource
+		 * @property _resource
 		 * @brief The resource loaded from the file.
 		 */
-		ResourceContainer resource;
+		ResourceContainer _resource;
 
 		/**
-		 * @property filename
+		 * @property _filename
 		 * @brief The name of the resource file currently loaded.
 		 */
-		std::string filename;
+		std::string _filename;
 
 		/**
 		 * @fn void generateResource(const std::string & file)

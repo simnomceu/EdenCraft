@@ -39,7 +39,7 @@
 /**
  * @file utility/indexing/index3u.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief A 3D index key.
  *
@@ -47,16 +47,16 @@
 
 namespace ece
 {
-	inline constexpr Index3u::Index3u() noexcept : i(0), j(0), k(0) {}
+	inline constexpr Index3u::Index3u() noexcept : _i(0), _j(0), _k(0) {}
 
-	inline Index3u::Index3u(const int i, const int j, const int k) noexcept : i(i), j(j), k(k) {}
+	inline Index3u::Index3u(const int i, const int j, const int k) noexcept : _i(i), _j(j), _k(k) {}
 
-	inline int Index3u::get(const int maxI, const int maxJ) noexcept { return this->k * maxI * maxJ + this->j * maxI + this->i; }
+	inline int Index3u::get(const int maxI, const int maxJ) noexcept { return this->_k * maxI * maxJ + this->_j * maxI + this->_i; }
 
 	inline void Index3u::set(const int maxI, const int maxJ, const int index)
 	{
-		this->k = index / (maxI * maxJ);
-		this->j = (index - this->k * (maxI * maxJ)) / maxI;
-		this->i = index - (this->j * maxI) - (this->k * maxI * maxJ);
+		this->_k = index / (maxI * maxJ);
+		this->_j = (index - this->_k * (maxI * maxJ)) / maxI;
+		this->_i = index - (this->_j * maxI) - (this->_k * maxI * maxJ);
 	}
 }

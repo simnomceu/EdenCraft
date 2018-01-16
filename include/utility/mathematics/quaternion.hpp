@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/quaternion.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 8th 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define quaternion rotation.
  */
@@ -299,28 +299,28 @@ namespace ece
 		inline Matrix4u<T> toMatrix() const noexcept;
 
 		/**
-		 * @property w
+		 * @property _w
 		 * @brief The real part of the quaternion.
 		 */
-		T w;
+		T _w;
 
 		/**
-		 * @property x
+		 * @property _x
 		 * @brief The x-axis complex part of the quaternion.
 		 */
-		T x;
+		T _x;
 		
 		/**
-		 * @property y
+		 * @property _y
 		 * @brief The y-axis complex part of the quaternion.
 		 */
-		T y;
+		T _y;
 		
 		/**
-		 * @property z
+		 * @property _z
 		 * @brief The z-axis complex part of the quaternion.
 		 */
-		T z;
+		T _z;
 	};
 }
 

@@ -39,7 +39,7 @@
 /**
  * @file utility/log/logger.cpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define a logger implementation for standard output.
  */
@@ -68,7 +68,7 @@ namespace ece
 		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
 		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][ERROR]" << data << std::endl;
+		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][ERROR]" << data << std::endl;
 	}
 
 	void Logger::logWarning(const std::string & data)
@@ -84,7 +84,7 @@ namespace ece
 		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
 		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][WARNING]" << data << std::endl;
+		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][WARNING]" << data << std::endl;
 	}
 
 	void Logger::logInfo(const std::string & data)
@@ -100,6 +100,6 @@ namespace ece
 		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
 		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][INFO]" << data << std::endl;
+		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][INFO]" << data << std::endl;
 	}
 }

@@ -39,10 +39,9 @@
 /**
  * @file utility/file_system/parser_obj.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 11th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Parser to load and save OBJ Wavefront structure.
- *
  */
 
 #ifndef PARSER_OBJ_HPP
@@ -154,32 +153,32 @@ namespace ece
 
 	private:
 		/**
-		 * @property vertices
+		 * @property _vertices
 		 * @brief The list of vertices of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
-		std::vector<float> vertices;
+		std::vector<float> _vertices;
 		
 		/**
-		 * @property textures
+		 * @property _textures
 		 * @brief The texture mapping of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
-		std::vector<float> textures;
+		std::vector<float> _textures;
 		
 		/**
-		 * @property normales
+		 * @property _normales
 		 * @brief The list of normales of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
-		std::vector<float> normales;
+		std::vector<float> _normales;
 		
 		/**
-		 * @property faces
+		 * @property _faces
 		 * @brief The list of faces of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
-		std::vector<int> faces;
+		std::vector<int> _faces;
 	};
 }
 

@@ -54,44 +54,44 @@ namespace ece
 {
 	std::shared_ptr<NodeJSON> ArrayJSON::addNull()
 	{
-		this->children.push_back(std::make_shared<NullJSON>(std::to_string(this->children.size()), nullptr, this->shared_from_this()));
-		return this->children.back();
+		this->_children.push_back(std::make_shared<NullJSON>(std::to_string(this->_children.size()), nullptr, this->shared_from_this()));
+		return this->_children.back();
 	}
 
 	std::shared_ptr<NodeJSON> ArrayJSON::addBoolean(const bool value)
 	{
-		this->children.push_back(std::make_shared<BooleanJSON>(std::to_string(this->children.size()), value, this->shared_from_this()));
-		return this->children.back();
+		this->_children.push_back(std::make_shared<BooleanJSON>(std::to_string(this->_children.size()), value, this->shared_from_this()));
+		return this->_children.back();
 	}
 
 	std::shared_ptr<NodeJSON> ArrayJSON::addInteger(const int value)
 	{
-		this->children.push_back(std::make_shared<IntegerJSON>(std::to_string(this->children.size()), value, this->shared_from_this()));
-		return this->children.back();
+		this->_children.push_back(std::make_shared<IntegerJSON>(std::to_string(this->_children.size()), value, this->shared_from_this()));
+		return this->_children.back();
 	}
 
 	std::shared_ptr<NodeJSON> ArrayJSON::addDouble(const double value)
 	{
-		this->children.push_back(std::make_shared<DoubleJSON>(std::to_string(this->children.size()), value, this->shared_from_this()));
-		return this->children.back();
+		this->_children.push_back(std::make_shared<DoubleJSON>(std::to_string(this->_children.size()), value, this->shared_from_this()));
+		return this->_children.back();
 	}
 
 	std::shared_ptr<NodeJSON> ArrayJSON::addString(const std::string & value)
 	{
-		this->children.push_back(std::make_shared<StringJSON>(std::to_string(this->children.size()), value, this->shared_from_this()));
-		return this->children.back();
+		this->_children.push_back(std::make_shared<StringJSON>(std::to_string(this->_children.size()), value, this->shared_from_this()));
+		return this->_children.back();
 	}
 
 	std::shared_ptr<NodeJSON> ArrayJSON::addObject()
 	{
-		this->children.push_back(std::make_shared<ObjectJSON>(this->shared_from_this()));
-		return this->children.back();
+		this->_children.push_back(std::make_shared<ObjectJSON>(this->shared_from_this()));
+		return this->_children.back();
 	}
 
 	std::shared_ptr<NodeJSON> ArrayJSON::addArray()
 	{
-		this->children.push_back(std::make_shared<ArrayJSON>(this->shared_from_this()));
-		return this->children.back();
+		this->_children.push_back(std::make_shared<ArrayJSON>(this->shared_from_this()));
+		return this->_children.back();
 	}
 
 	void ArrayJSON::remove(const std::shared_ptr<NodeJSON>& child)
@@ -99,7 +99,7 @@ namespace ece
 		auto it = std::find_if(this->begin(), this->end(), 
 				[child](const std::shared_ptr<NodeJSON> & element){ return child.get() == element.get(); });
 		if (it != this->end()) {
-			this->children.erase(it);
+			this->_children.erase(it);
 		}
 	}
 }

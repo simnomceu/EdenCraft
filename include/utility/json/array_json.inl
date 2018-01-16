@@ -39,26 +39,26 @@
 /**
  * @file utility/json/array_json.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 1st 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Array node from a JSON tree.
  */
 
 namespace ece
 {
-	inline ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), children() {}
+	inline ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
 
 	inline bool ArrayJSON::isAtomic() const noexcept { return false; }
 
 	inline TypeNodeJSON ArrayJSON::getType() const noexcept { return TypeNodeJSON::ARRAY_JSON; }
 
-	inline IteratorArrayJSON ArrayJSON::begin() noexcept { return this->children.begin(); }
+	inline IteratorArrayJSON ArrayJSON::begin() noexcept { return this->_children.begin(); }
 
-	inline IteratorArrayJSON ArrayJSON::end() noexcept { return this->children.end(); }
+	inline IteratorArrayJSON ArrayJSON::end() noexcept { return this->_children.end(); }
 
-	inline std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key) { return this->children[key]; }
+	inline std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key) { return this->_children[key]; }
 
-	inline void ArrayJSON::clear() noexcept { this->children.clear(); }
+	inline void ArrayJSON::clear() noexcept { this->_children.clear(); }
 
-	inline unsigned int ArrayJSON::size() const noexcept { return this->children.size(); }
+	inline unsigned int ArrayJSON::size() const noexcept { return this->_children.size(); }
 }

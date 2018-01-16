@@ -39,7 +39,7 @@
 /**
  * @file utility/mathematics/euler_angle.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 4th 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define Euler angle rotations.
  */
@@ -199,21 +199,21 @@ namespace ece
 
 	private:
 		/**
-		 * @property roll
+		 * @property _roll
 		 * @brief The x-axis rotation, according to Euler/aeronautic notation.
 		 */
-		T roll;
+		T _roll;
 		
 		/**
-		 * @property pitch
+		 * @property _pitch
 		 * @brief The y-axis rotation, according to aeronautic notation.
 		 */
-		T pitch;
+		T _pitch;
 		/**
-		 * @property yaw
+		 * @property _yaw
 		 * @brief The z-axis rotation, according to aeronautic notation.
 		 */
-		T yaw;
+		T _yaw;
 	};
 }
 

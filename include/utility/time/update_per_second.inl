@@ -39,7 +39,7 @@
 /**
  * @file utility/time/update_per_second.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define an UPS counter.
  **/
@@ -47,9 +47,9 @@
 namespace ece
 {
 
-	inline UpdatePerSecond::UpdatePerSecond(const int UPS) : chrono(), rate(1000.0f / UPS), nbFrames(0), average(0.0) { this->chrono.start(); }
+	inline UpdatePerSecond::UpdatePerSecond(const int UPS) : _chrono(), _rate(1000.0f / UPS), _nbFrames(0), _average(0.0) { this->_chrono.start(); }
 
-	inline int UpdatePerSecond::getLimit() const noexcept { return static_cast<int>(this->rate * 1000); }
+	inline int UpdatePerSecond::getLimit() const noexcept { return static_cast<int>(this->_rate * 1000); }
 
-	inline double UpdatePerSecond::getUPS() const noexcept { return this->average; }
+	inline double UpdatePerSecond::getUPS() const noexcept { return this->_average; }
 }

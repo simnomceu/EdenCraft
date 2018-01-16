@@ -39,7 +39,7 @@
 /**
  * @file utility/time/frame_per_second.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Define an FPS counter.
  **/

@@ -39,7 +39,7 @@
 /**
  * @file utility/pattern/pimpl.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Implementation of the PIMPL idiom.
  **/
@@ -48,7 +48,7 @@ namespace ece
 {
 	template <class Impl, class Deleter, class Copier>
 	Pimpl<Impl, Deleter, Copier>::Pimpl(Impl * impl, Deleter && deleter, Copier && copier) :
-		impl(impl, std::forward<Deleter>(deleter)), copier(std::forward<Copier>(copier)) {}
+		_impl(impl, std::forward<Deleter>(deleter)), _copier(std::forward<Copier>(copier)) {}
 
 	template <class Impl, class Deleter, class Copier>
 	Pimpl<Impl, Deleter, Copier>::Pimpl(const Pimpl & copy) noexcept : Pimpl(copy.clone()) {}
@@ -63,19 +63,19 @@ namespace ece
 	}
 
 	template<class Impl, class Deleter, class Copier>
-	const Impl * Pimpl<Impl, Deleter, Copier>::operator->() const noexcept { return this->impl.get(); }
+	const Impl * Pimpl<Impl, Deleter, Copier>::operator->() const noexcept { return this->_impl.get(); }
 
 	template<class Impl, class Deleter, class Copier>
-	Impl * Pimpl<Impl, Deleter, Copier>::operator->() noexcept { return this->impl.get(); }
+	Impl * Pimpl<Impl, Deleter, Copier>::operator->() noexcept { return this->_impl.get(); }
 
 	template<class Impl, class Deleter, class Copier>
 	Pimpl<Impl, Deleter, Copier> Pimpl<Impl, Deleter, Copier>::clone() const
 	{
 		if (this->impl) {
-			return Pimpl(this->copier(this->impl.get()), this->impl.get_deleter(), this->copier);
+			return Pimpl(this->copier(this->_impl.get()), this->_impl.get_deleter(), this->_copier);
 		}
 		else {
-			return Pimpl(nullptr, this->impl.get_deleter(), this->copier);
+			return Pimpl(nullptr, this->_impl.get_deleter(), this->_copier);
 		}
 	}
 

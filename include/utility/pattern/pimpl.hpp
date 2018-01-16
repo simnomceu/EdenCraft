@@ -39,7 +39,7 @@
 /**
  * @file utility/pattern/pimpl.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Implementation of the PIMPL idiom.
  **/
@@ -140,16 +140,16 @@ namespace ece
 
 	protected:
 		/**
-		 * @property impl
+		 * @property _impl
 		 * @brief The hidden implementation.
 		 */
-		std::unique_ptr<Impl, Deleter> impl; // opaque pointer
+		std::unique_ptr<Impl, Deleter> _impl; // opaque pointer
 
 		/**
-		 * @property copier
+		 * @property _copier
 		 * @brief The copier used to allow copy operation of the implementation.
 		 */
-		Copier copier;
+		Copier _copier;
 
 		/**
 		 * @fn Pimpl clone() const

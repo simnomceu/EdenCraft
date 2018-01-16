@@ -40,7 +40,7 @@
 /**
  * @file utility/file_system/parser_json.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 10th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Parser to load and save JSON data.
  *
@@ -49,7 +49,7 @@
 
 namespace ece
 {
-	inline constexpr ParserJSON::ParserJSON() : pathname(), contentJSON() {}
+	inline constexpr ParserJSON::ParserJSON() : _pathname(), _contentJSON() {}
 
-	inline std::shared_ptr<ObjectJSON> ParserJSON::getObject() const { return this->contentJSON; }
+	inline std::shared_ptr<ObjectJSON> ParserJSON::getObject() const { return this->_contentJSON; }
 }

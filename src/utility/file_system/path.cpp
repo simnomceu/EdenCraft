@@ -39,7 +39,7 @@
 /**
  * @file utility/file_system/path.cpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 12th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Describe path to any location in the file system.
  */
@@ -82,10 +82,10 @@ namespace ece
 		return Path(path);
 	}
 
-	Path::Path(const std::string & pathname): path()
+	Path::Path(const std::string & pathname): _path()
 	{
 		// BERK
-		auto result = std::back_inserter(this->path);
+		auto result = std::back_inserter(this->_path);
 		std::stringstream ss;
 		ss.str(pathname);
 		std::string item;
@@ -97,14 +97,14 @@ namespace ece
 	std::string Path::getPathname() const
 	{
 		std::stringstream res;
-		std::copy(this->path.begin(), this->path.end(), std::ostream_iterator<std::string>(res, "\\"));
+		std::copy(this->_path.begin(), this->_path.end(), std::ostream_iterator<std::string>(res, "\\"));
 		std::string  result = res.str();
 		return result.substr(0, result.size() - 1);
 	}
 
 	std::string Path::getPath() const {
 		std::stringstream res;
-		std::copy(this->path.begin(), this->path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
+		std::copy(this->_path.begin(), this->_path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
 		std::string  result = res.str() + '\\';
 		return result.substr(0, result.size() - 1);
 	}

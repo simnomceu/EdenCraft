@@ -39,10 +39,9 @@
 /**
  * @file utility/file_system/parser.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 1st 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Interface for any parser.
- *
  */
 
 namespace ece

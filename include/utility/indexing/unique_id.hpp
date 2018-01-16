@@ -39,7 +39,7 @@
 /**
  * @file utility/indexing/unique_id.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief A class to manage unique IDs, considering limited memory.
  */

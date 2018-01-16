@@ -39,7 +39,7 @@
 /**
  * @file utility/debug/exception.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date November, 28th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Generic exception constructor and set of exceptions used in Edencraft libraries.
  *
@@ -102,10 +102,10 @@ namespace ece
 
 	private:
 		/**
-		 * @property message
+		 * @property _message
 		 * @brief The exception message with parameters already binded.
 		 */
-		std::string message;
+		std::string _message;
 		
 		/**
 		 * @fn std::string mapString(const std::string & content)
@@ -293,10 +293,6 @@ namespace ece
 	};
 }
 
-/**
- * @include utility/debug/exception.inl
- * @brief Definition of inline en template methods of the exception classes.
- */
 #include "utility/debug/exception.inl"
 
 #endif // EXCEPTION_HPP

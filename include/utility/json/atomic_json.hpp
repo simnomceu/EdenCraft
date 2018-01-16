@@ -39,7 +39,7 @@
 /**
  * @file utility/json/atomic_json.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 1st 2018
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Atomic node from a JSON tree.
  */
@@ -157,16 +157,16 @@ namespace ece
 
 	private:
 		/**
-		 * @property key
+		 * @property _key
 		 * @brief The key of the node.
 		 */
-		std::string key;
+		std::string _key;
 
 		/**
-		 * @property value
+		 * @property _value
 		 * @brief The value of the node.
 		 */
-		T value;
+		T _value;
 	};
 
 	using NullJSON = AtomicJSON<void *>;

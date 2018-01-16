@@ -39,10 +39,9 @@
 /**
  * @file utility/file_system/parser_json.hpp
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 11th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Parser to load and save JSON data.
- *
  */
 
 #ifndef PARSER_JSON_HPP
@@ -127,18 +126,18 @@ namespace ece
 
 	protected:
 		/**
-		 * @property pathname
+		 * @property _pathname
 		 * @brief The pathname of the JSON file opened. It is empty if not stream is opened.
 		 * @remark It should not be an internal property as the JSON object can be loaded throw different ways (memory, ...).
 		 */
-		std::string pathname;
+		std::string _pathname;
 
 		/**
-		 * @property contentJSON
+		 * @property _contentJSON
 		 * @brief The root of the last JSON parsed. If no JSON has been parsed yet, the property is empty.
 		 * @remark It should not be an internal property but an output of the Parser.
 		 */
-		std::shared_ptr<ObjectJSON> contentJSON;
+		std::shared_ptr<ObjectJSON> _contentJSON;
 	};
 }
 

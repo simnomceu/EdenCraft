@@ -39,7 +39,7 @@
 /**
  * @file utility/file_system/path.inl
  * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 12th 2017
+ * @date January, 16th 2018
  * @copyright ----------
  * @brief Describe path to any location in the file system.
  */
@@ -57,15 +57,15 @@
 
 namespace ece
 {
-	inline constexpr Path::Path() noexcept: path() {}
+	inline constexpr Path::Path() noexcept: _path() {}
 
-	inline int Path::getDepth() const { return this->isFile() ? this->path.size() - 1 : this->path.size(); }
+	inline int Path::getDepth() const { return this->isFile() ? this->_path.size() - 1 : this->_path.size(); }
 
-	inline std::string Path::getFilename() const { return this->isFile() ? this->path.back() : "" ; }
+	inline std::string Path::getFilename() const { return this->isFile() ? this->_path.back() : "" ; }
 	
-	inline std::string & Path::operator[](const int index) { return this->path[index]; }
+	inline std::string & Path::operator[](const int index) { return this->_path[index]; }
 
-	inline const std::string & Path::operator[](const int index) const { return this->path[index]; }
+	inline const std::string & Path::operator[](const int index) const { return this->_path[index]; }
 
 	inline bool Path::exists() const { return this->isFile() || this->isFolder(); }
 
