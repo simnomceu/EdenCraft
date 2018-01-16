@@ -48,8 +48,4 @@
 
 namespace ece
 {
-	template class Vector<int, 2>;
-	template class Vector<unsigned int, 2>;
-	template class Vector<float, 2>;
-	template class Vector<double, 2>;
 }
