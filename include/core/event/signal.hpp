@@ -9,7 +9,7 @@ namespace ece
 		using SignalID = unsigned int;
 		using GlobalSignalID = unsigned int;
 
-		static const Signal::GlobalSignalID INVALID_SIGNAL = -1;
+		static const Signal::GlobalSignalID INVALID_SIGNAL = 0;
 
 		Signal() = delete;
 		inline Signal(const GlobalSignalID id);

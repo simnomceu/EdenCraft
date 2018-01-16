@@ -513,7 +513,7 @@ namespace ece
 	inline Vector<T, Size> Vector<T, Size>::tanh() const { return Vector<T, Size>(std::move(std::tanh(*this))); }
 
 	template <class T, unsigned int Size>
-	inline void Vector<T, Size>::normalize() { this->operator/=(this->magnitude()); }
+	inline Vector<double, Size> Vector<T, Size>::normalize() { return Vector<double, Size>(*this).operator/(this->magnitude()); }
 
 	template <class T, unsigned int Size>
 	inline double Vector<T, Size>::magnitude() const { return std::sqrt(this->dot(*this)); }

@@ -44,13 +44,14 @@
  * @brief Defining localization for literals.
  */
 
+#include <cctype>
 #include <algorithm>
 
 namespace ece
 {
 	inline Localization::Localization(const Language & language, const Country & country) : language(language), country(country) 
 	{
-		std::transform(this->country.begin(), this->country.end(), this->country.begin(), ::toupper);
+		std::transform(this->country.begin(), this->country.end(), this->country.begin(), [](char c) { return static_cast<unsigned char>(std::toupper(c)); });
 	}
 
 	inline const Language & Localization::getLanguage() const noexcept { return this->language; }
@@ -60,7 +61,7 @@ namespace ece
 	inline void Localization::setLanguage(const Language & language)
 	{
 		this->language = language;
-		std::transform(this->country.begin(), this->country.end(), this->country.begin(), ::toupper);
+		std::transform(this->country.begin(), this->country.end(), this->country.begin(), [](char c) { return static_cast<unsigned char>(std::toupper(c)); });
 	}
 
 	inline void Localization::setCountry(const Country & country) noexcept { this->country = country; }

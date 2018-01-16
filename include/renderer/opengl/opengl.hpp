@@ -19,6 +19,9 @@
 #include "utility/mathematics/matrix2u.hpp"
 #include "utility/mathematics/matrix3u.hpp"
 #include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics/vector2u.hpp"
+#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics/vector4u.hpp"
 
 namespace ece
 {

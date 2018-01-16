@@ -102,8 +102,8 @@ namespace ece
 		auto det = this->determinant();
 		invertible = (det != 0);
 		if (invertible) {
-			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), static_cast<double>(-(*this)[0][1]),
-				static_cast<double>(-(*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
+			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), -static_cast<double>((*this)[0][1]),
+				-static_cast<double>((*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
 		}
 		else {
 			return Matrix2u<double>();

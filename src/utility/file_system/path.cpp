@@ -74,6 +74,9 @@ namespace ece
 		int size = GetModuleFileName(NULL, wresult, FILENAME_MAX);
 		size_t copiedSize;
 		auto error = wcstombs_s(&copiedSize, result, FILENAME_MAX, wresult, size);
+		if (error != 0) {
+			throw std::runtime_error("aie aie aie");
+		}
 		path = std::string(result, size);
 #endif
 		return Path(path);

@@ -6,10 +6,10 @@
 
 SCENARIO("Matrix2u", "[Utility][Mathematics]")
 {
-	//REQUIRE(ece::IntMatrix2u() == ece::IntMatrix2u{ 0, 0, 0, 0 });
-	//REQUIRE(ece::IntMatrix2u() == ece::IntMatrix2u(ece::IntVector2u(), ece::IntVector2u()));
-	//REQUIRE(ece::IntMatrix2u() == ece::IntMatrix2u(ece::FloatVector2u(), ece::FloatVector2u()));
-	//REQUIRE(ece::IntMatrix2u::Identity() == ece::IntMatrix2u(1, 0, 0, 1));
+	REQUIRE(ece::IntMatrix2u() == ece::IntMatrix2u{ 0, 0, 0, 0 });
+//	REQUIRE(ece::IntMatrix2u() == ece::IntMatrix2u(ece::IntVector2u(), ece::IntVector2u()));
+//	REQUIRE(ece::IntMatrix2u() == ece::IntMatrix2u(ece::FloatVector2u(), ece::FloatVector2u()));
+	REQUIRE(ece::IntMatrix2u::Identity() == ece::IntMatrix2u{ 1, 0, 0, 1 });
 
 	GIVEN("A simple matrix")
 	{
@@ -71,19 +71,19 @@ SCENARIO("Matrix2u", "[Utility][Mathematics]")
 		{
 			REQUIRE(matrix.column(0) == ece::IntVector2u{ 2, 6 });
 			REQUIRE(matrix.column(1) == ece::IntVector2u{ 4, 8 });
-			REQUIRE_THROWS_AS(matrix.column(-1), ece::OutOfRangeException);
+//			REQUIRE_THROWS_AS(matrix.column(-1), ece::OutOfRangeException);
 			REQUIRE_THROWS_AS(matrix.column(2), ece::OutOfRangeException);
 		}
 		AND_WHEN("Getting a row")
 		{
 			REQUIRE(matrix.row(0) == ece::IntVector2u{ 2, 4 });
 			REQUIRE(matrix.row(1) == ece::IntVector2u{ 6, 8 });
-			REQUIRE_THROWS_AS(matrix.row(-1), ece::OutOfRangeException);
+//			REQUIRE_THROWS_AS(matrix.row(-1), ece::OutOfRangeException);
 			REQUIRE_THROWS_AS(matrix.row(2), ece::OutOfRangeException);
 
 			REQUIRE(matrix[0] == ece::IntVector2u{ 2, 4 });
 			REQUIRE(matrix[1] == ece::IntVector2u{ 6, 8 });
-			REQUIRE_THROWS_AS(matrix[-1], ece::OutOfRangeException);
+//			REQUIRE_THROWS_AS(matrix[-1], ece::OutOfRangeException);
 			REQUIRE_THROWS_AS(matrix[2], ece::OutOfRangeException);
 		}
 		AND_WHEN("Getting an element")

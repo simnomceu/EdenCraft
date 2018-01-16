@@ -1,6 +1,6 @@
 namespace ece
 {
-	inline BaseComponent::BaseComponent(const ComponentID id) {}
+	inline BaseComponent::BaseComponent(const ComponentID /*id*/) {}
 
 	inline BaseComponent::~BaseComponent() {}
 

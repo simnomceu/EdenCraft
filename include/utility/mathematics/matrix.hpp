@@ -47,6 +47,11 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
+
 #include <valarray>
 
 #include "utility/mathematics/vector.hpp"
@@ -166,7 +171,7 @@ namespace ece
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */
-		inline const Vector<T, M> & operator[](const unsigned int index) const;
+		inline Vector<T, M> operator[](const unsigned int index) const;
 
 		/**
 		 * @fn Vector<T, M> & operator[](const unsigned int index)
@@ -175,10 +180,15 @@ namespace ece
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */
-		inline Vector<T, M> & operator[](const unsigned int index);
+		inline Vector<T, M> operator[](const unsigned int index);
 		
-//		inline Matrix<T, M, N> operator[](std::slice_array<T> slicearr) const;
-//		inline std::slice_array<T> operator[](std::slice_array<T> slicearr);
+//		inline Matrix<T, M, N> operator[](std::slice slicearr) const;
+
+		/**
+		 * @fn std::slice_array<T> operator[](std::slice slicearr)
+		 */
+		inline std::slice_array<T> operator[](std::slice slicearr);
+
 //		inline Matrix<T, M, N> operator[](std::gslice_array<T> & gslicearr) const;
 //		inline std::gslice_array<T> operator[](std::gslice_array<T> & gslicearr);
 //		inline Matrix<T, M, N> operator[](const Matrix<bool, M, N> & maskarr) const;
@@ -193,7 +203,7 @@ namespace ece
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */ 
-		inline const Vector<T, M> & row(const unsigned int index) const;
+		inline Vector<T, M> row(const unsigned int index) const;
 		
 		/**
 		 * @fn Vector<T, M> & row(const unsigned int index)
@@ -202,7 +212,7 @@ namespace ece
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */
-		inline Vector<T, M> & row(const unsigned int index);
+		inline Vector<T, M> row(const unsigned int index);
 		
 		/**
 		 * @fn const Vector<T, M> & column(const unsigned int index) const
@@ -211,7 +221,7 @@ namespace ece
 		 * @brief Access a specific column of the matrix.
 		 * @throw
 		 */
-		inline const Vector<T, M> & column(const unsigned int index) const;
+		inline Vector<T, N> column(const unsigned int index) const;
 		
 		/**
 		 * @fn Vector<T, M> & column(const unsigned int index)
@@ -220,7 +230,7 @@ namespace ece
 		 * @brief Access a specific column of the matrix.
 		 * @throw
 		 */
-		inline Vector<T, M> & column(const unsigned int index);
+		inline Vector<T, N> column(const unsigned int index);
 
 		/**
 		 * @fn Matrix<T, M, N> operator+() const noexcept

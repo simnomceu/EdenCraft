@@ -63,7 +63,7 @@ namespace ece
 	 * @brief Base class to build an exception with arguments binding.
 	 * @see http://en.cppreference.com/w/cpp/error/runtime_error
 	 */
-	class Exception : protected std::runtime_error
+	class Exception : public std::runtime_error
 	{
 	public:
 		/**

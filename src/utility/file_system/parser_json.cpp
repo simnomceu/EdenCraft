@@ -216,27 +216,27 @@ namespace ece
 		}
 	}
 
-	void ParserJSON::loadFromString(const std::string & content)
+	void ParserJSON::loadFromString(const std::string & /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserJSON::loadFromMemory(const void * content)
+	void ParserJSON::loadFromMemory(const void * /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserJSON::saveToFile(const std::string & filename)
+	void ParserJSON::saveToFile(const std::string & /*filename*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserJSON::saveToString(std::string & content)
+	void ParserJSON::saveToString(std::string & /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserJSON::saveToMemory(void * content)
+	void ParserJSON::saveToMemory(void * /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}

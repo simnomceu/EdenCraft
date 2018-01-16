@@ -125,27 +125,27 @@ namespace ece
 		// TODO care about objects groups and faces groups
 	}
 
-	void ParserOBJ::loadFromString(const std::string & content)
+	void ParserOBJ::loadFromString(const std::string & /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserOBJ::loadFromMemory(const void * content)
+	void ParserOBJ::loadFromMemory(const void * /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserOBJ::saveToFile(const std::string & filename)
+	void ParserOBJ::saveToFile(const std::string & /*filename*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserOBJ::saveToString(std::string & content)
+	void ParserOBJ::saveToString(std::string & /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserOBJ::saveToMemory(void * content)
+	void ParserOBJ::saveToMemory(void * /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}

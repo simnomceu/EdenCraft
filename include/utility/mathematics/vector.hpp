@@ -77,7 +77,7 @@ namespace ece
 	 * @see http://en.cppreference.com/w/cpp/numeric/valarray
 	 */
 	template <class T, unsigned int Size>
-	class Vector : protected std::valarray<T>
+	class Vector : public std::valarray<T>
 	{
 		static_assert(std::is_arithmetic<T>::value, "This a geometric vector, and, it can be handled only using numerical types.");
 
@@ -1003,11 +1003,12 @@ namespace ece
 		inline Vector<T, Size> tanh() const;
 
 		/**
-		 * @fn void normalize()
+		 * @fn Vector<double, Size> normalize()
+		 * @return The vector normalized.
 		 * @brief Normalize the vector.
 		 * @throw
 		 */
-		inline void normalize();
+		inline Vector<double, Size> normalize();
 
 		/**
 		 * @fn double magnitude() const

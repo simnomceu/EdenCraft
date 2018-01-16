@@ -48,9 +48,9 @@ namespace ece
 {
 	inline BaseLogger::BaseLogger() : target(std::cerr) {}
 
-	inline void BaseLogger::logError(const std::string & data) {}
+	inline void BaseLogger::logError(const std::string & /*data*/) {}
 
-	inline void BaseLogger::logWarning(const std::string & data) {}
+	inline void BaseLogger::logWarning(const std::string & /*data*/) {}
 
-	inline void BaseLogger::logInfo(const std::string & data) {}
+	inline void BaseLogger::logInfo(const std::string & /*data*/) {}
 }
