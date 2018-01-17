@@ -41,7 +41,7 @@
 
 namespace ece
 {
-	template <class T> class Quaternion<T>;
+	template <class T> class Quaternion;
 
 	/**
 	 * T lerp(const T a, const T b)

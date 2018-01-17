@@ -24,7 +24,7 @@ namespace ece
 			const BufferType type, std::vector<T> & data, const BufferUsage usage);
 
 	private:
-		VAOHandle handle;
+		VAOHandle _handle;
 	};
 }
 

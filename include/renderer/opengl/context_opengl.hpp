@@ -24,7 +24,7 @@ namespace ece
 		virtual void swapBuffers() override;
 
 	private:
-		Pimpl<DataContextOpenGL> data;
+		Pimpl<DataContextOpenGL> _data;
 	};
 }
 

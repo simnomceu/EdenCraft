@@ -34,9 +34,9 @@ namespace ece
 	private:
 		void updatePosition(const FloatVertex3u & position, const FloatVertex3u & target);
 
-		FloatVertex3u position;
-		FloatVertex3u target;
-		FloatVector3u upAxis;
+		FloatVertex3u _position;
+		FloatVertex3u _target;
+		FloatVector3u _upAxis;
 	};
 }
 

@@ -7,8 +7,8 @@ namespace ece
 	Component<T>::~Component() {}
 
 	template<class T>
-	const T & Component<T>::get() { return this->value; }
+	const T & Component<T>::get() { return this->_value; }
 
 	template<class T>
-	void Component<T>::set(const T & value) { this->value = value; }
+	void Component<T>::set(const T & value) { this->_value = value; }
 }

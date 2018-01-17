@@ -25,7 +25,7 @@ namespace ece
 		inline void addValue(const std::string & value);
 
 	private:
-		std::vector<std::string> values;
+		std::vector<std::string> _values;
 	};
 }
 

@@ -80,7 +80,7 @@ namespace ece
 		 * Build a vector filled with 0.
 		 * @throw
 		 */
-		constexpr Vector() = default;
+		inline Vector();
 
 		/**
 		 * @fn Vector(const Vector<U, Size> & rhs)

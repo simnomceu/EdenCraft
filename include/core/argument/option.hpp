@@ -25,9 +25,9 @@ namespace ece
 		bool apply(const std::string & optionName, const std::string & optionValue = "");
 
 	private:
-		std::string name;
-		std::shared_ptr<OptionValue> value;
-		std::function<void(const std::string &)> command;
+		std::string _name;
+		std::shared_ptr<OptionValue> _value;
+		std::function<void(const std::string &)> _command;
 	};
 }
 

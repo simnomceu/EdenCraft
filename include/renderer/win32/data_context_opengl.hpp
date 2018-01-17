@@ -9,11 +9,11 @@ namespace ece
 {
 	struct DataContextOpenGL
 	{
-		inline DataContextOpenGL(HGLRC context, HDC device, HWND handle): context(context), device(device), windowHandle(handle) {}
+		inline DataContextOpenGL(HGLRC context, HDC device, HWND handle): _context(context), _device(device), _windowHandle(handle) {}
 
-		HGLRC context;
-		HDC device;
-		HWND windowHandle;
+		HGLRC _context;
+		HDC _device;
+		HWND _windowHandle;
 	};
 }
 

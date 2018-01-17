@@ -2,18 +2,18 @@
 
 namespace ece
 {
-	VBO::VBO(const BufferType type): handle(0), type(type)
+	VBO::VBO(const BufferType type): _handle(0), _type(type)
 	{
-		OpenGL::genBuffers(this->handle);
+		OpenGL::genBuffers(this->_handle);
 	}
 
-	VBO::VBO() : handle(0), type(ARRAY_BUFFER)
+	VBO::VBO() : _handle(0), _type(ARRAY_BUFFER)
 	{
-		OpenGL::genBuffers(this->handle);
+		OpenGL::genBuffers(this->_handle);
 	}
 
 	void VBO::bind()
 	{
-		OpenGL::bindBuffer(this->type, this->handle);
+		OpenGL::bindBuffer(this->_type, this->_handle);
 	}
 }

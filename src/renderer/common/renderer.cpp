@@ -8,7 +8,7 @@ namespace ece
 	{
 		int handle = 0;
 		glGetIntegerv(GL_CURRENT_PROGRAM, &handle);
-		return Program(handle);
+		return Program(static_cast<ProgramHandle>(handle));
 	}
 
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)

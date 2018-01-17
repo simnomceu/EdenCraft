@@ -41,6 +41,9 @@
 namespace ece
 {
 	template <class T, unsigned int Size>
+	inline Vector<T, Size>::Vector(): std::valarray<T>(static_cast<T>(0), Size) {}
+
+	template <class T, unsigned int Size>
 	template <class U>
 	inline Vector<T, Size>::Vector(const Vector<U, Size> & rhs): std::valarray<T>()
 	{

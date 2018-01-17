@@ -65,9 +65,9 @@ namespace ece
 		virtual void updateVideoMode();
 
 	protected:
-		std::shared_ptr<BaseWindowAdapter> adapter;
-		VideoMode videoMode;
-		UpdatePerSecond ups;
+		std::shared_ptr<BaseWindowAdapter> _adapter;
+		VideoMode _videoMode;
+		UpdatePerSecond _ups;
 	};
 }
 

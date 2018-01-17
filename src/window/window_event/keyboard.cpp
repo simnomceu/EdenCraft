@@ -2,5 +2,5 @@
 
 namespace ece
 {
-	std::array<bool, 132> Keyboard::states = std::array<bool, 132>();
+	std::array<bool, 132> Keyboard::_states = std::array<bool, 132>();
 }

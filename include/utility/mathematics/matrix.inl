@@ -47,6 +47,9 @@ namespace ece
 	}
 
 	template <class T, unsigned int M, unsigned int N>
+	inline Matrix<T, M, N>::Matrix(): std::valarray<T>(static_cast<T>(0), M * N) {}
+
+	template <class T, unsigned int M, unsigned int N>
 	inline Matrix<T, M, N>::Matrix(const std::initializer_list<T> & il): std::valarray<T>(il) {}
 
 	template <class T, unsigned int M, unsigned int N>

@@ -1,6 +1,6 @@
 namespace ece
 {
-	inline WGLExtension::WGLExtension() : OpenGLExtension(), openglLib(nullptr) {}
+	inline WGLExtension::WGLExtension() : OpenGLExtension(), _openglLib(nullptr) {}
 }
 
 extern PFNWGLCHOOSEPIXELFORMATARBPROC wglChoosePixelFormat;

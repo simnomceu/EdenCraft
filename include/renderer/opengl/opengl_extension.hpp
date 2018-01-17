@@ -75,7 +75,7 @@ namespace ece
 		void loadDebugOutputExtensions();
 		void loadStateAndStateRequestsExtensions();
 
-		OptionOpenGL loaded;
+		OptionOpenGL _loaded;
 	};
 }
 

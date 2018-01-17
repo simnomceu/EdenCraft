@@ -26,8 +26,8 @@ namespace ece
 		inline void setDirty(const bool dirty);
 
 	private:
-		GlobalSignalID id;
-		bool dirty;
+		GlobalSignalID _id;
+		bool _dirty;
 	};
 }
 

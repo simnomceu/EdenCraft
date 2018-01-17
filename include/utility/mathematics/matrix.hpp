@@ -79,7 +79,7 @@ namespace ece
 		 * Build a matrix filled with 0.
 		 * @throw
 		 */
-		constexpr Matrix() = default;
+		inline Matrix();
 		
 		/**
 		 * @fn Matrix(const std::initializer_list<T> & il)

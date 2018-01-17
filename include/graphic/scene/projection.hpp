@@ -25,7 +25,7 @@ namespace ece
 
 	private:
 		//glm::mat4 projection;
-		FloatMatrix4u projection;
+		FloatMatrix4u _projection;
 	};
 }
 

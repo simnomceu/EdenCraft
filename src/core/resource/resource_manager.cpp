@@ -8,8 +8,8 @@ namespace ece
 	void ResourceManager::loadResource(const std::string & identifier)
 	{
 		auto extension = identifier.substr(identifier.find_last_of('.') + 1);
-		if (this->loaders.find(extension) != this->loaders.end()) {
-			this->loadResource(identifier, this->loaders[extension]);
+		if (this->_loaders.find(extension) != this->_loaders.end()) {
+			this->loadResource(identifier, this->_loaders[extension]);
 		}
 		else {
 			std::string errorMessage = "It is not possible to identify a loader for the resource "
@@ -21,8 +21,8 @@ namespace ece
 
 	void ResourceManager::loadResource(const std::string & identifier, const std::shared_ptr<ResourceLoader> & loader)
 	{
-		if (this->resources.find(identifier) == this->resources.end()) {
-			this->resources[identifier] = loader->load(identifier);
+		if (this->_resources.find(identifier) == this->_resources.end()) {
+			this->_resources[identifier] = loader->load(identifier);
 		}
 		else {
 			std::string errorMessage = "A resource with the identifier "
@@ -35,8 +35,8 @@ namespace ece
 	void ResourceManager::unloadResource(const std::string & identifier)
 	{
 		auto extension = identifier.substr(identifier.find_last_of('.') + 1);
-		if (this->unloaders.find(extension) != this->unloaders.end()) {
-			this->unloadResource(identifier, this->unloaders[extension]);
+		if (this->_unloaders.find(extension) != this->_unloaders.end()) {
+			this->unloadResource(identifier, this->_unloaders[extension]);
 		}
 		else {
 			std::string errorMessage = "It is not possible to identify an unloader for the resource "
@@ -48,9 +48,9 @@ namespace ece
 
 	void ResourceManager::unloadResource(const std::string & identifier, const std::shared_ptr<ResourceUnloader> & unloader)
 	{
-		if (this->resources.find(identifier) != this->resources.end()) {
-			unloader->unload(this->resources[identifier]);
-			this->resources.erase(identifier);
+		if (this->_resources.find(identifier) != this->_resources.end()) {
+			unloader->unload(this->_resources[identifier]);
+			this->_resources.erase(identifier);
 		}
 		else {
 			std::string errorMessage = "It is not possible to unload the resource "
@@ -62,27 +62,27 @@ namespace ece
 
 	std::weak_ptr<Resource> ResourceManager::getResource(const std::string & identifier)
 	{
-		if (this->resources.find(identifier) == this->resources.end()) {
+		if (this->_resources.find(identifier) == this->_resources.end()) {
 			throw OutOfRangeException("Resource " + identifier);
 		}
-		return *this->resources[identifier];
+		return *this->_resources[identifier];
 	}
 
 	void ResourceManager::clear()
 	{
-		while (!this->resources.empty()) {
-			auto const & pair = this->resources.begin();
+		while (!this->_resources.empty()) {
+			auto const & pair = this->_resources.begin();
 			this->unloadResource(pair->first);
 		}
 
-		this->loaders.clear();
-		this->unloaders.clear();
+		this->_loaders.clear();
+		this->_unloaders.clear();
 	}
 
 	void ResourceManager::registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader)
 	{
-		if (this->loaders.find(extension) == this->loaders.end()) {
-			this->loaders[extension] = loader;
+		if (this->_loaders.find(extension) == this->_loaders.end()) {
+			this->_loaders[extension] = loader;
 		}
 		else {
 			std::string errorMessage = "A loader associated to the extension "
@@ -93,8 +93,8 @@ namespace ece
 
 	void ResourceManager::registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader)
 	{
-		if (this->unloaders.find(extension) == this->unloaders.end()) {
-			this->unloaders[extension] = unloader;
+		if (this->_unloaders.find(extension) == this->_unloaders.end()) {
+			this->_unloaders[extension] = unloader;
 		}
 		else {
 			std::string errorMessage = "An unloader associated to the extension "

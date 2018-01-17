@@ -87,7 +87,8 @@ namespace ece
 			this->_z - rightOperator._z);
 	}
 
-	template <class T, class U>
+	template <class T>
+	template <class U>
 	inline Quaternion<T> Quaternion<T>::operator*(const U rightOperator) const noexcept
 	{
 		return Quaternion<T>(this->_w * rightOperator, this->_x * rightOperator, this->_y * rightOperator, this->_z * rightOperator);
@@ -102,7 +103,8 @@ namespace ece
 		return Quaternion<T>((this->_w * rightOperator._w) + lh.dot(rh), product._x, product._y, product._z);
 	}
 
-	template <class T, class U>
+	template <class T>
+	template <class U>
 	inline Quaternion<T> Quaternion<T>::operator/(const U rightOperator) const noexcept
 	{
 		return Quaternion<T>(this->_w / rightOperator, this->_x / rightOperator, this->_y / rightOperator, this->_z / rightOperator);
@@ -167,9 +169,9 @@ namespace ece
 	template <class T>
 	inline Vertex3u<T> Quaternion<T>::axis() const noexcept
 	{
-		Vertex3u<T>(this->_x / arcsin(this->angle() / 2,
-					this->_y / arcsin(this->angle() / 2,
-					this->_z / arcsin(this->angle() / 2);
+		Vertex3u<T>{ this->_x / arcsin(this->angle() / 2),
+					this->_y / arcsin(this->angle() / 2),
+					this->_z / arcsin(this->angle() / 2) };
 	}
 
 	template <class T>
@@ -189,28 +191,4 @@ namespace ece
 	inline Matrix4u<T> Quaternion<T>::toMatrix() const noexcept
 	{
 	}
-
-	template <class T>
-	inline T & Quaternion<T>::getW() noexcept { return this->_w; }
-
-	template <class T>
-	inline T & Quaternion<T>::getX() noexcept { return this->_x; }
-
-	template <class T>
-	inline T & Quaternion<T>::getY() noexcept { return this->_y; }
-
-	template <class T>
-	inline T & Quaternion<T>::getZ() noexcept { return this->_z; }
-
-	template <class T>
-	inline T Quaternion<T>::getW() const noexcept { return this->_w; }
-
-	template <class T>
-	inline T Quaternion<T>::getX() const noexcept { return this->_x; }
-
-	template <class T>
-	inline T Quaternion<T>::getY() const noexcept { return this->_y; }
-
-	template <class T>
-	inline T Quaternion<T>::getZ() const noexcept { return this->_z; }
 }

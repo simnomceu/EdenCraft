@@ -16,7 +16,7 @@ namespace ece
 		inline ~ComponentTank();
 
 	private:
-		UniqueID nextComponent;
+		UniqueID _nextComponent;
 	};
 }
 

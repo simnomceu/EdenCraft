@@ -39,13 +39,15 @@
 #ifndef QUATERNION_HPP
 #define QUATERNION_HPP
 
+namespace ece
+{
+	template <class T> class EulerAngle;
+}
+#include "utility/mathematics/matrix4u.hpp"
 #include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {
-	template <class T> class EulerAngle<T>;
-	template <class T> class Matrix4u<T>;
-
 	/**
 	 * @class Quaternion
 	 * @tparam T Quaternion accept any numeric type.
@@ -316,6 +318,7 @@ namespace ece
 	};
 }
 
+#include "utility/mathematics/euler_angle.hpp"
 #include "utility/mathematics/quaternion.inl"
 
 #endif // QUATERNION_HPP

@@ -13,7 +13,7 @@ namespace ece
 	std::vector<ShaderSource *> Object::getShaderSources() const
 	{
 		std::vector<ShaderSource *> sources;
-		for (auto element : this->shaderEffect->getShaders()) {
+		for (auto element : this->_shaderEffect->getShaders()) {
 			sources.push_back(element.get());
 		}
 		return sources;

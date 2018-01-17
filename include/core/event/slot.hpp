@@ -35,9 +35,9 @@ namespace ece
 		inline void setDirty(const bool dirty);
 
 	private:
-		GlobalSlotID id;
-		Handle handle;
-		bool dirty;
+		GlobalSlotID _id;
+		Handle _handle;
+		bool _dirty;
 	};
 }
 

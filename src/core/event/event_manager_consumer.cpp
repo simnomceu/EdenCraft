@@ -8,9 +8,9 @@ namespace ece
 	const std::shared_ptr<BaseEventManager> EventManagerConsumer::consume()
 	{
 		// TODO: Guard if the EventManager doesn't exist anymore.
-		if (this->eventManager.expired()) {
+		if (this->_eventManager.expired()) {
 			throw MemoryAccessException("EventManager", "EventManagerConsumer");
 		}
-		return this->eventManager.lock();
+		return this->_eventManager.lock();
 	}
 }

@@ -31,8 +31,8 @@ namespace ece
 		virtual void updateVideoMode() override;
 
 	private:
-		std::vector<std::shared_ptr<Renderer>> renderers;
-		std::shared_ptr<BaseContextOpenGL> context;
+		std::vector<std::shared_ptr<Renderer>> _renderers;
+		std::shared_ptr<BaseContextOpenGL> _context;
 	};
 }
 

@@ -1,4 +1,4 @@
 namespace ece
 {
-	inline EventManagerConsumer::EventManagerConsumer() : eventManager(EventServiceLocator::getServicePtr(*this)) {}
+	inline EventManagerConsumer::EventManagerConsumer() : _eventManager(EventServiceLocator::getServicePtr(*this)) {}
 }

@@ -170,7 +170,7 @@ namespace ece
 		OpenGL(const OpenGL & copy) = default;
 		OpenGL(OpenGL && move) = default;
 
-		static std::unique_ptr<OpenGLExtension> extensions;
+		static std::unique_ptr<OpenGLExtension> _extensions;
 
 		OpenGL & operator=(const OpenGL & copy) = default;
 		OpenGL & operator=(OpenGL && move) = default;
