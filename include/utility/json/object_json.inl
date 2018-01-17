@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,13 +36,6 @@
 
 */
 
-/**
- * @file utility/json/object_json.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 16th 2018
- * @copyright ----------
- * @brief Object node from a JSON tree.
- */
 namespace ece
 {
 	inline ObjectJSON::ObjectJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}

@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,15 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/mathematics/rectangle.inl
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 16th 2017
- * @copyright ----------
- * @brief Describe a rectangle object.
- * Describe a rectangle object.  This rectangle is purely a boundering, an aggregate of positions and sizes.
- **/
 
 namespace ece
 {
