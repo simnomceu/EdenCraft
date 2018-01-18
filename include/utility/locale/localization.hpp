@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/locale/localization.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
- * @copyright ----------
- * @brief Defining localization for literals.
- */
 
 #ifndef LOCALIZATION_HPP
 #define LOCALIZATION_HPP
@@ -148,16 +140,16 @@ namespace ece
 
 	private:
 		/**
-		 * @property language
+		 * @property _language
 		 * @brief The localization language.
 		 */
-		Language language;
+		Language _language;
 		
 		/**
-		 * @property country
+		 * @property _country
 		 * @brief The country language.
 		 */
-		Country country;
+		Country _country;
 	};
 }
 

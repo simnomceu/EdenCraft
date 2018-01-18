@@ -33,8 +33,8 @@ namespace ece
 		inline virtual std::vector<int> getIndices() const override;
 
 	private:
-		std::vector<FloatVertex3u> vertices;
-		std::vector<FloatVertex3u> colors;
+		std::vector<FloatVertex3u> _vertices;
+		std::vector<FloatVertex3u> _colors;
 	};
 }
 

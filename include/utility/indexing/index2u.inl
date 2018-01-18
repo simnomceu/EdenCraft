@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,26 +36,17 @@
 
 */
 
-/**
- * @file utility/indexing/index2u.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 19th 2017
- * @copyright ----------
- * @brief A 2D index key.
- *
- */
-
 namespace ece
 {
-	inline constexpr Index2u::Index2u() noexcept: i(0), j(0) {}
+	inline constexpr Index2u::Index2u() noexcept: _i(0), _j(0) {}
 
-	inline Index2u::Index2u(const int i, const int j) noexcept: i(i), j(j) {}
+	inline Index2u::Index2u(const int i, const int j) noexcept: _i(i), _j(j) {}
 
-	inline int Index2u::get(const int maxI) noexcept { return this->j * maxI + this->i; }
+	inline int Index2u::get(const int maxI) noexcept { return this->_j * maxI + this->_i; }
 	
 	inline void Index2u::set(const int maxI, const int index)
 	{
-		this->j = index / maxI;
-		this->i = index - (this->j * maxI); 
+		this->_j = index / maxI;
+		this->_i = index - (this->_j * maxI); 
 	}
 }

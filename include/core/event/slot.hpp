@@ -16,7 +16,7 @@ namespace ece
 		using GlobalSlotID = unsigned int;
 		using Handle = std::function<void(const Emitter & emitter, const Signal::SignalID signal)>;
 
-		static const Slot::GlobalSlotID INVALID_SLOT = -1;
+		static const Slot::GlobalSlotID INVALID_SLOT = 0;
 
 		Slot() = delete;
 		inline Slot(const GlobalSlotID id, const Handle & handle);
@@ -35,9 +35,9 @@ namespace ece
 		inline void setDirty(const bool dirty);
 
 	private:
-		GlobalSlotID id;
-		Handle handle;
-		bool dirty;
+		GlobalSlotID _id;
+		Handle _handle;
+		bool _dirty;
 	};
 }
 

@@ -6,22 +6,22 @@
 
 namespace ece
 {
-	std::unique_ptr<OpenGLExtension> OpenGL::extensions(nullptr);
+	std::unique_ptr<OpenGLExtension> OpenGL::_extensions(nullptr);
 
 	void OpenGL::init(const OptionOpenGL options)
 	{
-		if (OpenGL::extensions.get() == nullptr) {
+		if (OpenGL::_extensions.get() == nullptr) {
 			#ifdef __unix__
-			OpenGL::extensions = std::make_unique<GLXExtension>();
+			OpenGL::_extensions = std::make_unique<GLXExtension>();
 			#elif __WINDOW__
-			OpenGL::extensions = std::make_unique<WGLExtension>();
+			OpenGL::_extensions = std::make_unique<WGLExtension>();
 			#elif __OSX__
-			OpenGL::extensions = std::make_unique<AGLExtension>();
+			OpenGL::_extensions = std::make_unique<AGLExtension>();
 			#else
-			OpenGL::extensions = std::make_unique<WGLExtension>();
+			OpenGL::_extensions = std::make_unique<WGLExtension>();
 			#endif
 		}
-		OpenGL::extensions->init(options);
+		OpenGL::_extensions->init(options);
 	}
 
 	unsigned int OpenGL::getError()
@@ -59,7 +59,7 @@ namespace ece
 		}
 		GLuint shaderHandle = glCreateShader(type);
 		OpenGL::checkErrors();
-		return shaderHandle;
+		return static_cast<ShaderHandle>(shaderHandle);
 	}
 
 	void OpenGL::shaderSource(const ShaderHandle handle, const std::string & source)
@@ -110,7 +110,7 @@ namespace ece
 		}
 		auto programHandle = glCreateProgram();
 		OpenGL::checkErrors();
-		return programHandle;
+		return static_cast<ProgramHandle>(programHandle);
 	}
 
 	void OpenGL::attachShader(const ProgramHandle program, const ShaderHandle shader)
@@ -147,7 +147,7 @@ namespace ece
 		}
 		auto location = glGetUniformLocation(handle, uniform.data());
 		OpenGL::checkErrors();
-		return location;
+		return static_cast<UniformHandle>(location);
 	}
 
 	template<>

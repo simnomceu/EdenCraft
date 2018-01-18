@@ -5,13 +5,13 @@
 
 namespace ece
 {
-	std::weak_ptr<BaseEventManager> EventServiceLocator::getServicePtr(EventManagerConsumer & consumer)
+	std::weak_ptr<BaseEventManager> EventServiceLocator::getServicePtr(EventManagerConsumer & /*consumer*/)
 	{
 		//return ServiceLocator<BaseEventManager, EventManagerNone>::getServicePtr();
 
-		if (ServiceLocator<BaseEventManager, EventManagerNone>::service.get() == nullptr) {
+		if (ServiceLocator<BaseEventManager, EventManagerNone>::_service.get() == nullptr) {
 			throw MemoryAccessException("a service.");
 		}
-		return ServiceLocator<BaseEventManager, EventManagerNone>::service;
+		return ServiceLocator<BaseEventManager, EventManagerNone>::_service;
 	}
 }

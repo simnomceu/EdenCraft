@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,15 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/file_system/parser_obj.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 11th 2017
- * @copyright ----------
- * @brief Parser to load and save OBJ Wavefront structure.
- *
- */
 
 #ifndef PARSER_OBJ_HPP
 #define PARSER_OBJ_HPP
@@ -154,32 +145,32 @@ namespace ece
 
 	private:
 		/**
-		 * @property vertices
+		 * @property _vertices
 		 * @brief The list of vertices of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
-		std::vector<float> vertices;
+		std::vector<float> _vertices;
 		
 		/**
-		 * @property textures
+		 * @property _textures
 		 * @brief The texture mapping of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
-		std::vector<float> textures;
+		std::vector<float> _textures;
 		
 		/**
-		 * @property normales
+		 * @property _normales
 		 * @brief The list of normales of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
-		std::vector<float> normales;
+		std::vector<float> _normales;
 		
 		/**
-		 * @property faces
+		 * @property _faces
 		 * @brief The list of faces of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
-		std::vector<int> faces;
+		std::vector<int> _faces;
 	};
 }
 

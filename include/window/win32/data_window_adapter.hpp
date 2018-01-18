@@ -9,17 +9,17 @@ namespace ece
 {
 	struct DataWindowAdapter
 	{
-		inline DataWindowAdapter(HWND windowId) : windowId(windowId) {}
+		inline DataWindowAdapter(HWND windowId) : _windowId(windowId) {}
 
-		HWND windowId;
+		HWND _windowId;
 	};
 
 	struct WindowMessage
 	{
-		HWND windowId;
-		UINT message;
-		WPARAM wParam;
-		LPARAM lParam;
+		HWND _windowId;
+		UINT _message;
+		WPARAM _wParam;
+		LPARAM _lParam;
 	};
 
 	static constexpr LPCWSTR className = L"ECE Window";

@@ -1,6 +1,6 @@
-#include "catch/catch.hpp"
+#include "Catch2/single_include/catch.hpp"
 
-#include "utility/file/file.hpp"
+#include "utility/file_system/file.hpp"
 
 SCENARIO("File", "[Utility][File]")
 {
@@ -29,7 +29,7 @@ SCENARIO("File", "[Utility][File]")
 		}
 		AND_THEN("A new existing file is opened instead of.")
 		{
-			REQUIRE(file.open("../tests/resource/file.txt", std::ios_base::in));
+			REQUIRE(file.open("../tests/resource/file.txt", ece::OpenMode::in));
 			REQUIRE(file.isOpen());
 			REQUIRE_THAT(file.parseToString(), Catch::Contains("test"));
 			file.close();
@@ -43,7 +43,7 @@ SCENARIO("File", "[Utility][File]")
 		THEN("We try to open it")
 		{
 			ece::File file;
-			REQUIRE_THROWS_AS(file.open(path, std::ios_base::in), ece::FileException);
+			REQUIRE_THROWS_AS(file.open(path, ece::OpenMode::in), ece::FileException);
 			REQUIRE_FALSE(file.isOpen());
 		}
 	}
@@ -56,26 +56,26 @@ SCENARIO("File", "[Utility][File]")
 
 		THEN("We open the file")
 		{
-			REQUIRE_NOTHROW(file.open(path, std::ios_base::in));
+			REQUIRE_NOTHROW(file.open(path, ece::OpenMode::in));
 			REQUIRE(file.isOpen());
 			file.close();
 		}
 		AND_THEN("We read the file")
 		{
-			file.open(path, std::ios_base::in);
+			file.open(path, ece::OpenMode::in);
 			REQUIRE_THAT(file.parseToString(), Catch::Contains("test"));
 			file.close();
 		}
 		AND_THEN("We write in the file")
 		{
-			file.open(path, std::ios_base::out | std::ios_base::app);
+			file.open(path, ece::OpenMode::out | ece::OpenMode::app);
 			//file << 5;
-			file.open(path, std::ios_base::in);
+			file.open(path, ece::OpenMode::in);
 			REQUIRE_THAT(file.parseToString(), Catch::Contains("5"));
 			file.close();
 		}
 
-		file.open(path, std::ios_base::in);
+		file.open(path, ece::OpenMode::in);
 		CHECK_THAT(file.parseToString(), Catch::StartsWith("test") && Catch::EndsWith("test"));
 		file.close();
 	}

@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,19 +36,11 @@
 
 */
 
-/**
- * @file utility/json/atomic_json.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 1st 2018
- * @copyright ----------
- * @brief Atomic node from a JSON tree.
- */
-
 namespace ece
 {
 	template<class T>
 	inline AtomicJSON<T>::AtomicJSON(const std::string & key, const T & value, const std::weak_ptr<NodeJSON>& parent) : 
-		NodeJSON(parent), key(key), value(value) {}
+		NodeJSON(parent), _key(key), _value(value) {}
 
 	template<class T>
 	inline bool AtomicJSON<T>::isAtomic() const noexcept { return true; }
@@ -69,11 +61,11 @@ namespace ece
 	inline TypeNodeJSON StringJSON::getType() const noexcept { return TypeNodeJSON::STRING_JSON; }
 
 	template<class T>
-	inline const T & AtomicJSON<T>::getValue() const { return this->value; }
+	inline const T & AtomicJSON<T>::getValue() const { return this->_value; }
 
 	template<class T>
-	inline void AtomicJSON<T>::setValue(const T & value) { this->value = value; }
+	inline void AtomicJSON<T>::setValue(const T & value) { this->_value = value; }
 
 	template<class T>
-	inline const std::string & AtomicJSON<T>::getKey() const { return this->key; }
+	inline const std::string & AtomicJSON<T>::getKey() const { return this->_key; }
 }

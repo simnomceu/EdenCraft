@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,13 +36,7 @@
 
 */
 
-/**
- * @file utility/mathematics/matrix2u.inl
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief A 2x2 specialization of Matrix.
- **/
+#include "utility/mathematics/matrix2u.hpp"
 
 namespace ece
 {
@@ -100,8 +94,8 @@ namespace ece
 		auto det = this->determinant();
 		invertible = (det != 0);
 		if (invertible) {
-			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), static_cast<double>(-(*this)[0][1]), 
-									static_cast<double>(-(*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
+			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), -static_cast<double>((*this)[0][1]),
+				-static_cast<double>((*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
 		}
 		else {
 			return Matrix2u<double>();
@@ -114,8 +108,8 @@ namespace ece
 		auto det = this->determinant();
 		invertible = (det != 0);
 		if (invertible) {
-			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), static_cast<double>(-(*this)[0][1]), 
-									static_cast<double>(-(*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
+			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), -static_cast<double>((*this)[0][1]),
+				-static_cast<double>((*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
 		}
 		else {
 			return Matrix2u<double>();

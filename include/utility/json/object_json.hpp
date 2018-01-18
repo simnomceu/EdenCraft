@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/json/object_json.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 1st 2018
- * @copyright ----------
- * @brief Object node from a JSON tree.
- */
 
 #ifndef OBJECT_JSON_HPP
 #define OBJECT_JSON_HPP
@@ -276,11 +268,11 @@ namespace ece
 
 	private:
 		/**
-		 * @property children
+		 * @property _children
 		 * @brief The list of children nodes of the current children.
 		 * Children can be of any type.
 		 */
-		std::unordered_map<std::string, std::shared_ptr<NodeJSON>> children;
+		std::unordered_map<std::string, std::shared_ptr<NodeJSON>> _children;
 	};
 }
 

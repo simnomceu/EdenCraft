@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,14 +36,6 @@
 
 */
 
-/**
- * @file utility/file_system/path.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 12th 2017
- * @copyright ----------
- * @brief Describe path to any location in the file system.
- */
-
 #include <sstream>
 #include <iterator>
 #include <algorithm>
@@ -57,15 +49,15 @@
 
 namespace ece
 {
-	inline constexpr Path::Path() noexcept: path() {}
+	inline constexpr Path::Path() noexcept: _path() {}
 
-	inline int Path::getDepth() const { return this->isFile() ? this->path.size() - 1 : this->path.size(); }
+	inline int Path::getDepth() const { return this->isFile() ? this->_path.size() - 1 : this->_path.size(); }
 
-	inline std::string Path::getFilename() const { return this->isFile() ? this->path.back() : "" ; }
+	inline std::string Path::getFilename() const { return this->isFile() ? this->_path.back() : "" ; }
 	
-	inline std::string & Path::operator[](const int index) { return this->path[index]; }
+	inline std::string & Path::operator[](const int index) { return this->_path[index]; }
 
-	inline const std::string & Path::operator[](const int index) const { return this->path[index]; }
+	inline const std::string & Path::operator[](const int index) const { return this->_path[index]; }
 
 	inline bool Path::exists() const { return this->isFile() || this->isFolder(); }
 

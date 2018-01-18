@@ -6,20 +6,20 @@ namespace ece
 {
 	void Camera::updatePosition(const FloatVertex3u & position, const FloatVertex3u & target)
 	{
-		this->position = position;
-		this->target = target;
+		this->_position = position;
+		this->_target = target;
 
 		auto direction = target - position;
 		direction.normalize();
-		if (direction == this->upAxis) {
+		if (direction == this->_upAxis) {
 			if (direction == UP) {
-				this->upAxis = RIGHT;
+				this->_upAxis = RIGHT;
 			}
 			else if (direction == RIGHT) {
-				this->upAxis = FRONT;
+				this->_upAxis = FRONT;
 			}
 			else if (direction == FRONT) {
-				this->upAxis = UP;
+				this->_upAxis = UP;
 			}
 			else {
 				throw BadInputException("Computation of the up axis is wrong !");

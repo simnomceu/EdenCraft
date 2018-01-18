@@ -24,8 +24,8 @@ namespace ece
 		inline void setType(const BufferType type);
 		inline VBOHandle getHandle() const;
 	private:
-		VBOHandle handle;
-		BufferType type;
+		VBOHandle _handle;
+		BufferType _type;
 	};
 }
 

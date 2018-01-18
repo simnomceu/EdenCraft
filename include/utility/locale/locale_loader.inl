@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,14 +36,7 @@
 
 */
 
-/**
- * @file utility/locale/locale_loader.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
- * @copyright ----------
- * @brief Load a locale resource of string literals.
- */
 namespace ece
 {
-	inline LocaleResource & LocaleLoader::getResource() { return this->resource; }
+	inline LocaleResource & LocaleLoader::getResource() { return this->_resource; }
 }

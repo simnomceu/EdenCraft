@@ -30,11 +30,11 @@ namespace ece
 
 		inline InputEvent();
 
-		InputEventType type;
-		DoubleTap doubleTap;
-		Mouse::Button mouseButton;
-		IntVertex2u mousePosition;
-		Keyboard::Key key;
+		InputEventType _type;
+		DoubleTap _doubleTap;
+		Mouse::Button _mouseButton;
+		IntVertex2u _mousePosition;
+		Keyboard::Key _key;
 	};
 }
 

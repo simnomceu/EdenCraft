@@ -1,6 +1,6 @@
-#include "catch/catch.hpp"
+#include "Catch2/single_include/catch.hpp"
 
-#include "utility/file/path.hpp"
+#include "utility/file_system/path.hpp"
 
 SCENARIO("Path", "[Utility][File]")
 {

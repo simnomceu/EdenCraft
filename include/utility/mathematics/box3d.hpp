@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/mathematics/box3d.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
- * @copyright ----------
- * @brief Define a box in a 3D space.
- */
 
 #ifndef BOX3D_HPP
 #define BOX3D_HPP
@@ -128,16 +120,16 @@ namespace ece
 
 	private:
 		/**
-		 * @property a
+		 * @property _a
 		 * @brief The left-bottom vertex of the box.
 		 */
-		FloatVertex3u a;
+		FloatVertex3u _a;
 
 		/**
-		 * @property b
+		 * @property _b
 		 * @brief The right-top vertex of the box.
 		 */
-		FloatVertex3u b;
+		FloatVertex3u _b;
 	};
 }
 

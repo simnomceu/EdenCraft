@@ -34,7 +34,7 @@ namespace ece
 		return *this;
 	}*/
 
-	void BaseWindow::open(const ece::VideoMode & videoMode)
+	void BaseWindow::open(const ece::VideoMode & /*videoMode*/)
 	{
 		/*ece::WindowServiceLocator::getService().provideVideoMode(videoMode);
 		this->windowId = ece::WindowServiceLocator::getService().openWindow();
@@ -56,7 +56,7 @@ namespace ece
 
 	bool BaseWindow::shouldClosed() const
 	{
-		return this->windowId != -1 /*&& WindowServiceLocator::getService().windowShouldClose(this->windowId)*/;
+		return this->_windowId != -1 /*&& WindowServiceLocator::getService().windowShouldClose(this->windowId)*/;
 	}
 
 	//void BaseWindow::applySettings(const ece::WindowSetting & settings)
@@ -89,7 +89,7 @@ namespace ece
 		ece::WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 	}*/
 
-	void BaseWindow::setState(const ece::WindowState state)
+	void BaseWindow::setState(const ece::WindowState /*state*/)
 	{
 
 		/*if (this->isFullscreenActivated()) {
@@ -111,7 +111,7 @@ namespace ece
 		}*/
 	}
 
-	void BaseWindow::attachToMonitor(const int monitorIdIn)
+	void BaseWindow::attachToMonitor(const int /*monitorIdIn*/)
 	{
 		/*if (monitorId < GLAdapter::getNumberOfMonitors()) {
 			this->monitorId = monitorIdIn;

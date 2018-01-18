@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,17 +36,12 @@
 
 */
 
-/**
- * @file utility/mathematics/vector3u.inl
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief A 3D specialization of Vector.
- **/
+#include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {
 	template <>
+	template <typename>
 	inline Vector<int, 3> Vector<int, 3>::cross(const Vector<int, 3> & rightOperand) const
 	{
 		return Vector<int, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
@@ -55,6 +50,7 @@ namespace ece
 	}
 
 	template <>
+	template <typename>
 	inline Vector<unsigned int, 3> Vector<unsigned int, 3>::cross(const Vector<unsigned int, 3> & rightOperand) const
 	{
 		return Vector<unsigned int, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
@@ -63,6 +59,7 @@ namespace ece
 	}
 
 	template <>
+	template <typename>
 	inline Vector<float, 3> Vector<float, 3>::cross(const Vector<float, 3> & rightOperand) const
 	{
 		return Vector<float, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
@@ -71,6 +68,7 @@ namespace ece
 	}
 
 	template <>
+	template <typename>
 	inline Vector<double, 3> Vector<double, 3>::cross(const Vector<double, 3> & rightOperand) const
 	{
 		return Vector<double, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],

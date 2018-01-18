@@ -31,8 +31,8 @@ namespace ece
 		static void setPosition(const IntVertex2u & position);
 
 	private:
-		static std::array<bool, 10> states;
-		static IntVertex2u position;
+		static std::array<bool, 10> _states;
+		static IntVertex2u _position;
 	};
 }
 

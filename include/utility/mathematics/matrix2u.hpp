@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/mathematics/matrix2u.hpp
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief A 2x2 specialization of Matrix.
- **/
 
 #ifndef MATRIX2U_HPP
 #define MATRIX2U_HPP
@@ -78,7 +70,5 @@ namespace ece
 	 */
 	using DoubleMatrix2u = Matrix2u<double>;
 }
-
-#include "utility/mathematics/matrix2u.inl"
 
 #endif // MATRIX2U_HPP

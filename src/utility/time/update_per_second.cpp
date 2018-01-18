@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,35 +36,27 @@
 
 */
 
-/**
- * @file utility/time/update_per_second.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
- * @copyright ----------
- * @brief Define an UPS counter.
- **/
-
 #include "utility/time/update_per_second.hpp"
 
 namespace ece
 {
 	bool UpdatePerSecond::isReadyToUpdate()
 	{
-		float elapsedTime = (float)this->chrono.getElapsedTime();
-		bool isReady = elapsedTime >= this->rate;
+		float elapsedTime = (float)this->_chrono.getElapsedTime();
+		bool isReady = elapsedTime >= this->_rate;
 		if (isReady) {
-			this->chrono.reset();
-			this->average = ((this->average*this->nbFrames) + elapsedTime) / (this->nbFrames + 1);
-			this->nbFrames++;
+			this->_chrono.reset();
+			this->_average = ((this->_average * this->_nbFrames) + elapsedTime) / (this->_nbFrames + 1);
+			this->_nbFrames++;
 		}
 		return isReady;
 	}
 
 	void UpdatePerSecond::setUPS(const int limit)
 	{
-		this->rate = 1000.0f / limit;
-		this->nbFrames = 0;
-		this->average = 0.0;
-		this->chrono.start();
+		this->_rate = 1000.0f / limit;
+		this->_nbFrames = 0;
+		this->_average = 0.0;
+		this->_chrono.start();
 	}
 }

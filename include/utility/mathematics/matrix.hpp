@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,16 +36,13 @@
 
 */
 
-/**
- * @file utility/mathematics/matrix.hpp
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 12th 2017
- * @copyright ----------
- * @brief A generic Matrix of any size and any type.
- **/
-
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
+
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
 
 #include <valarray>
 
@@ -61,6 +58,7 @@ namespace ece
 	 * @tparam N The number of rows.
 	 * @brief A generic matrix class of any size and any type.
 	 * @remark Add static_assert check for templated parameters
+	 * @remark Add a constructor with an initialization_list of Vectors.
 	 */
 	template <class T, unsigned int M, unsigned int N>
 	class Matrix: public std::valarray<T>
@@ -81,7 +79,7 @@ namespace ece
 		 * Build a matrix filled with 0.
 		 * @throw
 		 */
-		constexpr Matrix() = default;
+		inline Matrix();
 		
 		/**
 		 * @fn Matrix(const std::initializer_list<T> & il)
@@ -165,7 +163,7 @@ namespace ece
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */
-		inline const Vector<T, M> & operator[](const unsigned int index) const;
+		inline Vector<T, M> operator[](const unsigned int index) const;
 
 		/**
 		 * @fn Vector<T, M> & operator[](const unsigned int index)
@@ -174,10 +172,15 @@ namespace ece
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */
-		inline Vector<T, M> & operator[](const unsigned int index);
+		inline Vector<T, M> operator[](const unsigned int index);
 		
-//		inline Matrix<T, M, N> operator[](std::slice_array<T> slicearr) const;
-//		inline std::slice_array<T> operator[](std::slice_array<T> slicearr);
+//		inline Matrix<T, M, N> operator[](std::slice slicearr) const;
+
+		/**
+		 * @fn std::slice_array<T> operator[](std::slice slicearr)
+		 */
+		inline std::slice_array<T> operator[](std::slice slicearr);
+
 //		inline Matrix<T, M, N> operator[](std::gslice_array<T> & gslicearr) const;
 //		inline std::gslice_array<T> operator[](std::gslice_array<T> & gslicearr);
 //		inline Matrix<T, M, N> operator[](const Matrix<bool, M, N> & maskarr) const;
@@ -192,7 +195,7 @@ namespace ece
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */ 
-		inline const Vector<T, M> & row(const unsigned int index) const;
+		inline Vector<T, M> row(const unsigned int index) const;
 		
 		/**
 		 * @fn Vector<T, M> & row(const unsigned int index)
@@ -201,7 +204,7 @@ namespace ece
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */
-		inline Vector<T, M> & row(const unsigned int index);
+		inline Vector<T, M> row(const unsigned int index);
 		
 		/**
 		 * @fn const Vector<T, M> & column(const unsigned int index) const
@@ -210,7 +213,7 @@ namespace ece
 		 * @brief Access a specific column of the matrix.
 		 * @throw
 		 */
-		inline const Vector<T, M> & column(const unsigned int index) const;
+		inline Vector<T, N> column(const unsigned int index) const;
 		
 		/**
 		 * @fn Vector<T, M> & column(const unsigned int index)
@@ -219,7 +222,7 @@ namespace ece
 		 * @brief Access a specific column of the matrix.
 		 * @throw
 		 */
-		inline Vector<T, M> & column(const unsigned int index);
+		inline Vector<T, N> column(const unsigned int index);
 
 		/**
 		 * @fn Matrix<T, M, N> operator+() const noexcept
@@ -606,6 +609,15 @@ namespace ece
 		 */
 		inline Matrix<T, M, N> operator-(const T & rhs) const;
 		
+		/**
+		 * @fn Vector<T, N> operator*(const Vector<T, N> & rhs) const
+		 * @param[in] rhs The right hand side to apply to.
+		 * @return The application of multiplication operation on the current matrix.
+		 * @brief Apply a matrix - vector multiplication.
+		 * @throw
+		 */
+		inline Vector<T, N> operator*(const Vector<T, N> & rhs) const;
+
 		/**
 		 * @fn Matrix<T, M, N> operator*(const T & rhs) const
 		 * @param[in] rhs The right hand side to apply to.

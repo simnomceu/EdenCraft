@@ -22,7 +22,7 @@ namespace ece
 	protected:
 		virtual void computeCenter() = 0;
 
-		FloatVertex3u position;
+		FloatVertex3u _position;
 	};
 }
 

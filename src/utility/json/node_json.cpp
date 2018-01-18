@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,27 +36,19 @@
 
 */
 
-/**
- * @file utility/json/node_json.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
- * @copyright ----------
- * @brief Default node from a JSON tree.
- */
-
 #include "utility/json/node_json.hpp"
 
 namespace ece
 {
 	NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
 	{
-		this->parent = copy.parent;
+		this->_parent = copy._parent;
 		return *this;
 	}
 
 	NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
 	{
-		this->parent = std::move(move.parent);
+		this->_parent = std::move(move._parent);
 		return *this;
 	}
 }

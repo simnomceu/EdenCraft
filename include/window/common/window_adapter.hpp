@@ -32,12 +32,12 @@ namespace ece
 
 		virtual void processEvent(const bool blocking) override;
 
-		virtual inline Pimpl<DataWindowAdapter> & getImpl() override { return this->data; }
+		virtual inline Pimpl<DataWindowAdapter> & getImpl() override { return this->_data; }
 
 		void processMessage(const WindowMessage & message);
 
 	private:
-		Pimpl<DataWindowAdapter> data;
+		Pimpl<DataWindowAdapter> _data;
 	};
 }
 

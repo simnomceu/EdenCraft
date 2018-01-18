@@ -16,7 +16,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Command Execution extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= COMMAND_EXECUTION;
+			this->_loaded |= COMMAND_EXECUTION;
 		}
 		if ((options & TIMER_QUERIES) != 0 && !this->isLoaded(TIMER_QUERIES)) {
 			try {
@@ -27,7 +27,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Timer Queries extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= TIMER_QUERIES;
+			this->_loaded |= TIMER_QUERIES;
 		}
 		if ((options & SYNCHRONIZATION) != 0 && !this->isLoaded(SYNCHRONIZATION)) {
 			try {
@@ -38,7 +38,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Synchronization extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= SYNCHRONIZATION;
+			this->_loaded |= SYNCHRONIZATION;
 		}
 		if ((options & ASYNCHRONOUS_QUERIES) != 0 && !this->isLoaded(ASYNCHRONOUS_QUERIES)) {
 			try {
@@ -49,7 +49,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Asynchronous Queries extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= ASYNCHRONOUS_QUERIES;
+			this->_loaded |= ASYNCHRONOUS_QUERIES;
 		}
 		if ((options & BUFFER_OBJECTS) != 0 && !this->isLoaded(BUFFER_OBJECTS)) {
 			try {
@@ -60,7 +60,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Buffer Objects extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= BUFFER_OBJECTS;
+			this->_loaded |= BUFFER_OBJECTS;
 		}
 		if ((options & SHADERS_AND_PROGRAMS) != 0 && !this->isLoaded(SHADERS_AND_PROGRAMS)) {
 			try {
@@ -71,7 +71,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Shaders And Programs extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= SHADERS_AND_PROGRAMS;
+			this->_loaded |= SHADERS_AND_PROGRAMS;
 		}
 		if ((options & TEXTURES_AND_SAMPLERS) != 0 && !this->isLoaded(TEXTURES_AND_SAMPLERS)) {
 			try {
@@ -82,7 +82,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Textures And Samplers extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= TEXTURES_AND_SAMPLERS;
+			this->_loaded |= TEXTURES_AND_SAMPLERS;
 		}
 		if ((options & FRAMEBUFFER_OBJECTS) != 0 && !this->isLoaded(FRAMEBUFFER_OBJECTS)) {
 			try {
@@ -93,7 +93,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Framebuffer Objects extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= FRAMEBUFFER_OBJECTS;
+			this->_loaded |= FRAMEBUFFER_OBJECTS;
 		}
 		if ((options & VERTICES) != 0 && !this->isLoaded(VERTICES)) {
 			try {
@@ -104,7 +104,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Vertices extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= VERTICES;
+			this->_loaded |= VERTICES;
 		}
 		if ((options & VERTEX_ARRAYS) != 0 && !this->isLoaded(VERTEX_ARRAYS)) {
 			try {
@@ -115,7 +115,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Vertex Arrays extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= VERTEX_ARRAYS;
+			this->_loaded |= VERTEX_ARRAYS;
 		}
 		if ((options & VERTEX_ATTRIBUTES) != 0 && !this->isLoaded(VERTEX_ATTRIBUTES)) {
 			try {
@@ -126,7 +126,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Vertex Attributes extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= VERTEX_ATTRIBUTES;
+			this->_loaded |= VERTEX_ATTRIBUTES;
 		}
 		if ((options & VERTEX_POST_PROCESSING) != 0 && !this->isLoaded(VERTEX_POST_PROCESSING)) {
 			try {
@@ -137,7 +137,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Vertex Post-Processing extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= VERTEX_POST_PROCESSING;
+			this->_loaded |= VERTEX_POST_PROCESSING;
 		}
 		if ((options & RASTERIZATION) != 0 && !this->isLoaded(RASTERIZATION)) {
 			try {
@@ -148,7 +148,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Rasterization extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= RASTERIZATION;
+			this->_loaded |= RASTERIZATION;
 		}
 		if ((options & FRAGMENT_SHADERS) != 0 && !this->isLoaded(FRAGMENT_SHADERS)) {
 			try {
@@ -159,7 +159,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Fragment Shaders extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= FRAGMENT_SHADERS;
+			this->_loaded |= FRAGMENT_SHADERS;
 		}
 		if ((options & COMPUTE_SHADERS) != 0 && !this->isLoaded(COMPUTE_SHADERS)) {
 			try {
@@ -170,7 +170,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Compute Shaders extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= COMPUTE_SHADERS;
+			this->_loaded |= COMPUTE_SHADERS;
 		}
 		if ((options & PER_FRAGMENT_OPERATIONS) != 0 && !this->isLoaded(PER_FRAGMENT_OPERATIONS)) {
 			try {
@@ -181,7 +181,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Per-Fragment Operations extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= PER_FRAGMENT_OPERATIONS;
+			this->_loaded |= PER_FRAGMENT_OPERATIONS;
 		}
 		if ((options & HINTS) != 0 && !this->isLoaded(HINTS)) {
 			try {
@@ -192,7 +192,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Hints extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= HINTS;
+			this->_loaded |= HINTS;
 		}
 		if ((options & WHOLE_FRAMEBUFFER) != 0 && !this->isLoaded(WHOLE_FRAMEBUFFER)) {
 			try {
@@ -203,7 +203,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Whole Framebuffer extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= WHOLE_FRAMEBUFFER;
+			this->_loaded |= WHOLE_FRAMEBUFFER;
 		}
 		if ((options & READING_AND_COPYING_PIXELS) != 0 && !this->isLoaded(READING_AND_COPYING_PIXELS)) {
 			try {
@@ -214,7 +214,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Reading And Copying Pixels extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= READING_AND_COPYING_PIXELS;
+			this->_loaded |= READING_AND_COPYING_PIXELS;
 		}
 		if ((options & DEBUG_OUTPUT) != 0 && !this->isLoaded(DEBUG_OUTPUT)) {
 			try {
@@ -225,7 +225,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Debug Output extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= DEBUG_OUTPUT;
+			this->_loaded |= DEBUG_OUTPUT;
 		}
 		if ((options & STATE_AND_STATE_REQUESTS) != 0 && !this->isLoaded(STATE_AND_STATE_REQUESTS)) {
 			try {
@@ -236,7 +236,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading State And State Requests extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
-			this->loaded |= STATE_AND_STATE_REQUESTS;
+			this->_loaded |= STATE_AND_STATE_REQUESTS;
 		}
 		if ((options & PLATFORM) != 0 && !this->isLoaded(PLATFORM)) {
 			try {

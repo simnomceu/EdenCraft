@@ -31,16 +31,16 @@ namespace ece
 		inline const Slot::GlobalSlotID getSlotID();
 		inline const Signal::GlobalSignalID getSignalID();
 
-		std::vector<Signal> signals;
-		std::vector<Slot> slots;
-		std::vector<Connection> connections;
+		std::vector<Signal> _signals;
+		std::vector<Slot> _slots;
+		std::vector<Connection> _connections;
 
-		std::vector<Signal> signalsNotReady;
-		std::vector<Slot> slotsNotReady;
-		std::vector<Connection> connectionsNotReady;
+		std::vector<Signal> _signalsNotReady;
+		std::vector<Slot> _slotsNotReady;
+		std::vector<Connection> _connectionsNotReady;
 
-		UniqueID signalsAvailable;
-		UniqueID slotsAvailable;
+		UniqueID _signalsAvailable;
+		UniqueID _slotsAvailable;
 	};
 }
 

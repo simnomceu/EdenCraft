@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,15 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/indexing/index2u.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
- * @copyright ----------
- * @brief A 2D index key.
- *
- */
 
 #ifndef INDEX2U_HPP
 #define INDEX2U_HPP
@@ -135,16 +126,16 @@ namespace ece
 		inline void set(const int maxI, const int index);
 
 		/**
-		 * @property i
+		 * @property _i
 		 * @brief The i position (usually on X-axis) of the index in 2D.
 		 */
-		unsigned int i;
+		unsigned int _i;
 
 		/**
-		 * @property j
+		 * @property _j
 		 * @brief The j position (usually on Y-axis) of the index in 2D.
 		 */
-		unsigned int j;
+		unsigned int _j;
 	};
 }
 

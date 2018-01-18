@@ -1,10 +1,10 @@
 namespace ece
 {
-	inline Shader::Shader() : filename(), source(), type(NULL_TYPE_SHADER) {}
+	inline Shader::Shader() : _filename(), _source(), _type(NULL_TYPE_SHADER) {}
 
-	inline const std::string & Shader::getFilename() const { return this->filename; }
+	inline const std::string & Shader::getFilename() const { return this->_filename; }
 
-	inline const std::string & Shader::getSource() const { return this->source; }
+	inline const std::string & Shader::getSource() const { return this->_source; }
 
-	inline const ShaderType & Shader::getType() const { return this->type; }
+	inline const ShaderType & Shader::getType() const { return this->_type; }
 }
