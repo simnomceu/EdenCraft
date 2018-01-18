@@ -43,6 +43,24 @@
 
 namespace ece
 {
+	template <class T>
+	struct determinant<T, 3>
+	{
+		inline double operator()(const Matrix<T, 3, 3> & matrix) const;
+	};
+
+	template <class T>
+	struct transpose<T, 3>
+	{
+		inline Matrix<T, 3, 3> operator()(const Matrix<T, 3, 3> & matrix) const;
+	};
+
+	template <class T>
+	struct inverse<T, 3>
+	{
+		inline Matrix<double, 3, 3> operator()(const Matrix<T, 3, 3> & matrix, bool & invertible) const;
+	};
+
 	/**
 	 * @typedef Matrix3u
 	 * @brief 3x3 Square matrix
@@ -70,5 +88,7 @@ namespace ece
 	*/
 	using DoubleMatrix3u = Matrix3u<double>;
 }
+
+#include "utility/mathematics/matrix3u.inl"
 
 #endif // MATRIX3U_HPP

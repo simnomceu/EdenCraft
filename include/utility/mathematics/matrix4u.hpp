@@ -43,6 +43,24 @@
 
 namespace ece
 {
+	template <class T>
+	struct determinant<T, 4>
+	{
+		inline double operator()(const Matrix<T, 4, 4> & matrix) const;
+	};
+
+	template <class T>
+	struct transpose<T, 4>
+	{
+		inline Matrix<T, 4, 4> operator()(const Matrix<T, 4, 4> & matrix) const;
+	};
+
+	template <class T>
+	struct inverse<T, 4>
+	{
+		inline Matrix<double, 4, 4> operator()(const Matrix<T, 4, 4> & matrix, bool & invertible) const;
+	};
+
 	/**
 	 * @typedef Matrix4u
 	 * @brief 4x4 Square matrix
@@ -70,5 +88,7 @@ namespace ece
 	 */
 	using DoubleMatrix4u = Matrix4u<double>;
 }
+
+#include "utility/mathematics/matrix4u.inl"
 
 #endif // MATRIX4U_HPP
