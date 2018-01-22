@@ -35,8 +35,8 @@ namespace ece
 		void disconnectAll();
 
 	private:
-		EventManagerConsumer consumer;
-		std::map<Signal::SignalID, Signal::GlobalSignalID> signals;
+		EventManagerConsumer _consumer;
+		std::map<Signal::SignalID, Signal::GlobalSignalID> _signals;
 	};
 }
 

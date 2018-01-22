@@ -26,10 +26,10 @@ namespace ece
 		inline virtual const ShaderType & getType() const override;
 
 	private:
-		std::string filename;
-		std::string source;
+		std::string _filename;
+		std::string _source;
 
-		ShaderType type;
+		ShaderType _type;
 	};
 }
 

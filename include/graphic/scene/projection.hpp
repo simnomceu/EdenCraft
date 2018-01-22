@@ -1,8 +1,7 @@
 #ifndef PROJECTION_HPP
 #define PROJECTION_HPP
 
-#include "window/window/ratio.hpp"
-//#include "glm\glm.hpp"
+#include "window/window_old/ratio.hpp"
 #include "utility/mathematics/matrix4u.hpp"
 
 namespace ece
@@ -26,7 +25,7 @@ namespace ece
 
 	private:
 		//glm::mat4 projection;
-		FloatMatrix4u projection;
+		FloatMatrix4u _projection;
 	};
 }
 

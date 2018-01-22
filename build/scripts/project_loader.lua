@@ -68,7 +68,18 @@ function ProjectLoader:processProject(proj)
             includePath.."/**.inl",
             includePath.."/**.hpp",
             srcPath.."/**.cpp",
+			srcPath.."/**.frag",
+			srcPath.."/**.vert",
+			srcPath.."/**.geom",
         }
+		filter { "system:windows", "files:**/cocoa/** or **/x11/**" }
+			flags {"ExcludeFromBuild"}
+		filter "system:linux"
+			excludes { "**/win32/**", "**/cocoa/**" }
+		filter "system:macosx"
+			excludes { "**/win32/**", "**/x11/**" }
+		filter {}
+		
         links(dependencies)
 
         if proj.linkOptions then

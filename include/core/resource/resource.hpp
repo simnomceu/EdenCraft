@@ -1,7 +1,7 @@
 #ifndef RESOURCE_HPP
 #define RESOURCE_HPP
 
-#include "utility/type.hpp"
+#include "utility/enum.hpp"
 
 #include <string>
 
@@ -26,8 +26,8 @@ namespace ece
 		inline const std::string & getName() const;
 
 	protected:
-		ResourceType type;
-		std::string name;
+		ResourceType _type;
+		std::string _name;
 	};
 }
 

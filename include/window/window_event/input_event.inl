@@ -1,9 +1,9 @@
 namespace ece
 {
 	inline InputEvent::InputEvent() : 
-		type(ECE_TYPE_NONE), 
-		doubleTap(ECE_TAP_NONE), 
-		mouseButton(Mouse::ECE_MOUSE_NONE), 
-		mousePosition(), 
-		key(Keyboard::ECE_KEY_NONE) {}
+		_type(ECE_TYPE_NONE), 
+		_doubleTap(ECE_TAP_NONE), 
+		_mouseButton(Mouse::ECE_MOUSE_NONE), 
+		_mousePosition(), 
+		_key(Keyboard::KEY_NONE) {}
 }

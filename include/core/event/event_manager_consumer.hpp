@@ -20,7 +20,7 @@ namespace ece
 		const std::shared_ptr<BaseEventManager> consume();
 	
 	private:
-		std::weak_ptr<BaseEventManager> eventManager;
+		std::weak_ptr<BaseEventManager> _eventManager;
 	};
 }
 

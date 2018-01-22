@@ -45,8 +45,8 @@ namespace ece
 	protected:
 		inline const bool isRunning() const;
 
-		bool running;
-		ModuleManager moduleManager;
+		bool _running;
+		ModuleManager _moduleManager;
 
 	private:
 		void init();
@@ -55,7 +55,7 @@ namespace ece
 		void render();
 		void terminate();
 
-		std::shared_ptr<Lifecycle> lifecycle;
+		std::shared_ptr<Lifecycle> _lifecycle;
 	};
 }
 

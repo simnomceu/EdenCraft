@@ -27,9 +27,9 @@ namespace ece
 		inline const bool isDirty() const;
 
 	private:
-		Slot::GlobalSlotID slot;
-		Signal::GlobalSignalID signal;
-		bool dirty;
+		Slot::GlobalSlotID _slot;
+		Signal::GlobalSignalID _signal;
+		bool _dirty;
 	};
 }
 

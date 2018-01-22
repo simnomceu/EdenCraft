@@ -1,6 +1,6 @@
 #include "renderer/win32/wgl_extension.hpp"
 
-#include "window/win32/window_adapter.hpp"
+#include "window/common/window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
 
 namespace ece
@@ -31,8 +31,8 @@ namespace ece
 				}
 			}
 
-			if (this->openglLib == nullptr) {
-				this->openglLib = LoadLibrary(L"opengl32.dll");
+			if (this->_openglLib == nullptr) {
+				this->_openglLib = LoadLibrary(L"opengl32.dll");
 			}
 			if (!this->loadExtensions(options)) {
 				ServiceLoggerLocator::getService().logWarning("Not all the GL extensions have been loaded");
@@ -55,9 +55,9 @@ namespace ece
 
 	WGLExtension::~WGLExtension()
 	{
-		if (this->openglLib != nullptr) {
-			FreeLibrary(this->openglLib);
-			this->openglLib = nullptr;
+		if (this->_openglLib != nullptr) {
+			FreeLibrary(this->_openglLib);
+			this->_openglLib = nullptr;
 		}
 	}
 
@@ -65,7 +65,7 @@ namespace ece
 	{
 		auto proc = wglGetProcAddress(name.data());
 		if (proc == nullptr) {
-			proc = GetProcAddress(this->openglLib, name.data());
+			proc = GetProcAddress(this->_openglLib, name.data());
 			if (proc == nullptr) {
 				throw std::runtime_error(name + " cannot be loaded.");
 			}

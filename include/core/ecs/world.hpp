@@ -19,10 +19,10 @@ namespace ece
 		inline ~World();
 
 	private:
-		std::vector<std::unique_ptr<BaseSystem>> systems;
-		ComponentTank components;
-		std::vector<Entity> entities;
-		UniqueID entityGenerator;
+		std::vector<std::unique_ptr<BaseSystem>> _systems;
+		ComponentTank _components;
+		std::vector<Entity> _entities;
+		UniqueID _entityGenerator;
 	};
 }
 

@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 
-#include "window/window_refactor/window.hpp"
+#include "window/common/window.hpp"
 #include "renderer/common/renderer.hpp"
 #include "renderer/opengl/base_context_opengl.hpp"
 
@@ -31,8 +31,8 @@ namespace ece
 		virtual void updateVideoMode() override;
 
 	private:
-		std::vector<std::shared_ptr<Renderer>> renderers;
-		std::shared_ptr<BaseContextOpenGL> context;
+		std::vector<std::shared_ptr<Renderer>> _renderers;
+		std::shared_ptr<BaseContextOpenGL> _context;
 	};
 }
 

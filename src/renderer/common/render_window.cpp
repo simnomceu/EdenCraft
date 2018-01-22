@@ -1,37 +1,29 @@
 #include "renderer/common/render_window.hpp"
 
-#ifdef __unix__
-#include "renderer/x11/context_opengl.hpp"
-#elif __WINDOW__
-#include "renderer/win32/context_opengl.hpp"
-#elif __OSX__
-#include "renderer/cocoa/context_opengl.hpp"
-#else
-#include "renderer/win32/context_opengl.hpp"
-#endif
+#include "renderer/opengl/context_opengl.hpp"
 
 #include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
-#include "window/window_refactor/video_mode.hpp"
+#include "window/common/video_mode.hpp"
 
 namespace ece
 {
-	RenderWindow::RenderWindow(): context(std::make_shared<ContextOpenGL>())
+	RenderWindow::RenderWindow(): _context(std::make_shared<ContextOpenGL>())
 	{
 	}
 
 	RenderWindow::~RenderWindow()
 	{
-		this->renderers.clear();
+		this->_renderers.clear();
 	}
 
 	void RenderWindow::open()
 	{
 		Window::open();
 		try {
-			this->context->create(*this);
+			this->_context->create(*this);
 		}
-		catch (Exception & e) {
+		catch (Exception & /*e*/) {
 			throw;
 		}
 		catch (std::runtime_error & e) {
@@ -48,7 +40,7 @@ namespace ece
 
 	void RenderWindow::display()
 	{
-		this->context->swapBuffers();
+		this->_context->swapBuffers();
 	}
 
 	void RenderWindow::enableMSAA(const unsigned short int samples)
@@ -56,17 +48,17 @@ namespace ece
 		if (samples < 2) {
 			glDisable(GL_MULTISAMPLE);
 		}
-		this->videoMode.setSamples(samples);
+		this->_videoMode.setSamples(samples);
 	}
 
 	void RenderWindow::updateVideoMode()
 	{
-		if (this->videoMode.hasChanged()) {
-			this->context.reset();
+		if (this->_videoMode.hasChanged()) {
+			this->_context.reset();
 			this->close();
-			this->context = std::make_shared<ContextOpenGL>();
+			this->_context = std::make_shared<ContextOpenGL>();
 			this->open();
-			this->videoMode.applyChanges();
+			this->_videoMode.applyChanges();
 		}
 	}
 }

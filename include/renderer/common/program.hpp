@@ -28,7 +28,7 @@ namespace ece
 		template<class T> void uniform(const std::string & uniform, const T & value);
 
 	private:
-		ProgramHandle handle;
+		ProgramHandle _handle;
 	};
 }
 

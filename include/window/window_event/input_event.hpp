@@ -3,7 +3,7 @@
 
 #include "window/window_event/mouse.hpp"
 #include "window/window_event/keyboard.hpp"
-#include "utility/mathematics/vertex2u.hpp"
+#include "utility/mathematics/vector2u.hpp"
 
 namespace ece
 {
@@ -30,11 +30,11 @@ namespace ece
 
 		inline InputEvent();
 
-		InputEventType type;
-		DoubleTap doubleTap;
-		Mouse::Button mouseButton;
-		IntVertex2u mousePosition;
-		Keyboard::Key key;
+		InputEventType _type;
+		DoubleTap _doubleTap;
+		Mouse::Button _mouseButton;
+		IntVertex2u _mousePosition;
+		Keyboard::Key _key;
 	};
 }
 

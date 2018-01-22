@@ -26,8 +26,8 @@ namespace ece
 		void analyse();
 
 	private:
-		std::vector<Option> options;
-		std::vector<std::pair<std::string, std::string>> parameters;
+		std::vector<Option> _options;
+		std::vector<std::pair<std::string, std::string>> _parameters;
 	};
 }
 

@@ -1,6 +1,6 @@
 #include "window/window_event/event_handler.hpp"
 
-#include "window/window/base_window.hpp"
+#include "window/window_old/base_window.hpp"
 //#include "window/window_service.hpp"
 
 #include <iostream>
@@ -24,7 +24,7 @@ namespace ece
 		this->addSignal(MOUSE_WHEEL_SCROLLED);
 	}
 
-	void EventHandler::produceKeyEvent(const int key, const int scancode, const int action, const int mods)
+	void EventHandler::produceKeyEvent(const int key, const int /*scancode*/, const int /*action*/, const int /*mods*/)
 	{
 		std::cerr << "key: " << key << std::endl;
 /*		switch (action) {
@@ -39,7 +39,7 @@ namespace ece
 		}*/
 	}
 
-	void EventHandler::produceMouseButtonEvent(const int button, const int action, const int mods)
+	void EventHandler::produceMouseButtonEvent(const int button, const int /*action*/, const int /*mods*/)
 	{
 		std::cerr << "button: " << button << std::endl;
 	}
