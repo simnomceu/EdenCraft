@@ -36,43 +36,31 @@
 
 */
 
-#include "utility/mathematics/vector3u.hpp"
-
 namespace ece
 {
-	template <>
-	template <typename>
-	inline Vector<int, 3> Vector<int, 3>::cross(const Vector<int, 3> & rightOperand) const
+	template<class T>
+	inline double determinant<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const
 	{
-		return Vector<int, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
-								(*this)[2] * rightOperand[0] - (*this)[0] * rightOperand[2],
-								(*this)[0] * rightOperand[1] - (*this)[1] * rightOperand[0]};
+		return matrix(0, 0) * matrix(1, 1) - matrix(0, 1) * matrix(1, 0);
 	}
 
-	template <>
-	template <typename>
-	inline Vector<unsigned int, 3> Vector<unsigned int, 3>::cross(const Vector<unsigned int, 3> & rightOperand) const
+	template<class T>
+	inline Matrix<T, 2, 2> transpose<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const
 	{
-		return Vector<unsigned int, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
-			(*this)[2] * rightOperand[0] - (*this)[0] * rightOperand[2],
-			(*this)[0] * rightOperand[1] - (*this)[1] * rightOperand[0]};
+		return Matrix<T, 2, 2>{ matrix(0, 0), matrix(1, 0), matrix(0, 1), matrix(1, 1) };
 	}
 
-	template <>
-	template <typename>
-	inline Vector<float, 3> Vector<float, 3>::cross(const Vector<float, 3> & rightOperand) const
+	template<class T>
+	inline Matrix<double, 2, 2> inverse<T, 2>::operator()(const Matrix<T, 2, 2> & matrix, bool & invertible) const
 	{
-		return Vector<float, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
-			(*this)[2] * rightOperand[0] - (*this)[0] * rightOperand[2],
-			(*this)[0] * rightOperand[1] - (*this)[1] * rightOperand[0]};
-	}
-
-	template <>
-	template <typename>
-	inline Vector<double, 3> Vector<double, 3>::cross(const Vector<double, 3> & rightOperand) const
-	{
-		return Vector<double, 3>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
-			(*this)[2] * rightOperand[0] - (*this)[0] * rightOperand[2],
-			(*this)[0] * rightOperand[1] - (*this)[1] * rightOperand[0]};
+		auto det = matrix.determinant();
+		invertible = (det != 0.0);
+		if (invertible) {
+			return Matrix<double, 2, 2>{ static_cast<double>(matrix(1, 1)), -static_cast<double>(matrix(0, 1)),
+				-static_cast<double>(matrix(1, 0)), static_cast<double>(matrix(0, 0)) } *(1.0f / det);
+		}
+		else {
+			return Matrix<double, 2, 2>();
+		}
 	}
 }

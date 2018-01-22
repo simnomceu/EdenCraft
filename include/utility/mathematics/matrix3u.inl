@@ -36,59 +36,51 @@
 
 */
 
-#ifndef MATRIX2U_HPP
-#define MATRIX2U_HPP
-
-#include "utility/mathematics/matrix.hpp"
+#include "utility/debug/exception.hpp"
 
 namespace ece
 {
-	template <class T>
-	struct determinant<T, 2>
+	template<class T>
+	inline double determinant<T, 3>::operator()(const Matrix<T, 3, 3> & matrix) const
 	{
-		inline double operator()(const Matrix<T, 2, 2> & matrix) const;
-	};
+		return matrix(0, 0) * matrix(1, 1) * matrix(2, 2)
+			+ matrix(0, 1) * matrix(1, 2) * matrix(2, 0)
+			+ matrix(0, 2) * matrix(1, 0) * matrix(2, 1)
+			- matrix(0, 2) * matrix(1, 1) * matrix(2, 0)
+			- matrix(0, 1) * matrix(1, 0) * matrix(2, 2)
+			- matrix(0, 0) * matrix(1, 2) * matrix(2, 1);
+	}
 
-	template <class T>
-	struct transpose<T, 2>
+	template<class T>
+	inline Matrix<T, 3, 3> transpose<T, 3>::operator()(const Matrix<T, 3, 3> & matrix) const
 	{
-		inline Matrix<T, 2, 2> operator()(const Matrix<T, 2, 2> & matrix) const;
-	};
+		return Matrix<T, 3, 3>{ matrix(0, 0), matrix(1, 0), matrix(2, 0),
+			matrix(0, 1), matrix(1, 1), matrix(2, 1),
+			matrix(0, 2), matrix(1, 2), matrix(2, 2) };
+	}
 
-	template <class T>
-	struct inverse<T, 2>
+	template<class T>
+	inline Matrix<double, 3, 3> inverse<T, 3>::operator()(const Matrix<T, 3, 3> & matrix, bool & invertible) const
 	{
-		inline Matrix<double, 2, 2> operator()(const Matrix<T, 2, 2> & matrix, bool & invertible) const;
-	};
+		auto det = matrix.determinant();
+		invertible = (det != 0);
+		if (invertible) {
+			double a11 = matrix(1, 1) * matrix(2, 2) - matrix(1, 2) * matrix(2, 1);
+			double a12 = matrix(0, 2) * matrix(2, 1) - matrix(0, 1) * matrix(2, 2);
+			double a13 = matrix(0, 1) * matrix(1, 2) - matrix(0, 2) * matrix(1, 1);
+			double a21 = matrix(1, 2) * matrix(2, 0) - matrix(1, 0) * matrix(2, 2);
+			double a22 = matrix(0, 0) * matrix(2, 2) - matrix(0, 2) * matrix(2, 0);
+			double a23 = matrix(0, 2) * matrix(1, 0) - matrix(0, 0) * matrix(1, 2);
+			double a31 = matrix(1, 0) * matrix(2, 1) - matrix(1, 1) * matrix(2, 0);
+			double a32 = matrix(0, 1) * matrix(2, 0) - matrix(0, 0) * matrix(2, 1);
+			double a33 = matrix(0, 0) * matrix(1, 1) - matrix(0, 1) * matrix(1, 0);
 
-	/**
-	 * @typedef Matrix2u
-	 * @brief 2x2 Square matrix
-	 */
-	template <class T>
-	using Matrix2u = Matrix<T, 2, 2>;
-
-	/**
-	 * @typedef IntMatrix2u
-	 */
-	using IntMatrix2u = Matrix2u<int>;
-	
-	/**
-	 * @typedef UintMatrix2u
-	 */
-	using UintMatrix2u = Matrix2u<unsigned int>;
-	
-	/**
-	 * @typedef FloatMatrix2u
-	 */
-	using FloatMatrix2u = Matrix2u<float>;
-	
-	/**
-	 * @typedef DoubleMatrix2u
-	 */
-	using DoubleMatrix2u = Matrix2u<double>;
+			return Matrix<double, 3, 3>{ a11, a12, a13,
+				a21, a22, a23,
+				a31, a32, a33 } *(1.0f / det);
+		}
+		else {
+			return Matrix<double, 3, 3>();
+		}
+	}
 }
-
-#include "utility/mathematics/matrix2u.inl"
-
-#endif // MATRIX2U_HPP

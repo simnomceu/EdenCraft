@@ -74,15 +74,13 @@ SCENARIO("Matrix3u", "[Utility][Mathematics]")
 			REQUIRE(matrix.column(0) == ece::IntVector3u{ 2, 8, 14 });
 			REQUIRE(matrix.column(1) == ece::IntVector3u{ 4, 10, 16 });
 			REQUIRE(matrix.column(2) == ece::IntVector3u{ 6, 12, 18 });
-//			REQUIRE_THROWS_AS(matrix.column(-1), ece::OutOfRangeException);
 			REQUIRE_THROWS_AS(matrix.column(3), ece::OutOfRangeException);
 		}
 		AND_WHEN("Getting a row")
 		{
 			REQUIRE(matrix.row(0) == ece::IntVector3u{ 2, 4, 6 });
 			REQUIRE(matrix.row(1) == ece::IntVector3u{ 8, 10, 12 });
-			REQUIRE(matrix.row(2) == ece::IntVector3u{ 4, 16, 18 });
-//			REQUIRE_THROWS_AS(matrix.row(-1), ece::OutOfRangeException);
+			REQUIRE(matrix.row(2) == ece::IntVector3u{ 14, 16, 18 });
 			REQUIRE_THROWS_AS(matrix.row(3), ece::OutOfRangeException);
 
 			REQUIRE(matrix[0] == ece::IntVector3u{ 2, 4, 6 });
@@ -151,9 +149,9 @@ SCENARIO("Matrix3u", "[Utility][Mathematics]")
 			}
 			AND_THEN("The inverse matrix is returned")
 			{
-				REQUIRE(inverse == ece::DoubleMatrix3u{ 1.0f / 15.0f, 1.0f / 6.0f, -0.1,
-														19.0f / 60.0f, -1.0f / 3.0f, 0.15f,
-														-1.0f / 3.0f, 1.0f / 6.0f, 0 });
+				REQUIRE(inverse == ece::DoubleMatrix3u{ 1.0 / 15.0, 1.0 / 6.0, -0.1,
+														19.0 / 60.0, -1.0 / 3.0, 0.15,
+														-1.0 / 3.0, 1.0 / 6.0, 0 });
 			}
 		}
 	}
