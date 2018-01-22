@@ -71,31 +71,63 @@ namespace ece
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	inline Vector<T, M> Matrix<T, M, N, enabled>::operator[](const unsigned int index) const
-		{ return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index)))); }
+	{
+		if (index >= N) {
+			throw OutOfRangeException("Vector<T, M> Matrix<T, M, N, enabled>::operator[](const unsigned int index) const", index);
+		}
+		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index))));
+	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	inline Vector<T, M> Matrix<T, M, N, enabled>::operator[](const unsigned int index)
-		{ return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index)))); }
+	{
+		if (index >= N) {
+			throw OutOfRangeException("Vector<T, M> Matrix<T, M, N, enabled>::operator[](const unsigned int index) const", index);
+		}
+		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index))));
+	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	std::slice_array<T> Matrix<T, M, N, enabled>::operator[](std::slice slicearr)
-		{ return std::valarray<T>::operator[](slicearr); }
+	{
+		return std::valarray<T>::operator[](slicearr);
+	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	inline Vector<T, M> Matrix<T, M, N, enabled>::row(const unsigned int index) const
-		{ return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index)))); }
+	{
+		if (index >= N) {
+			throw OutOfRangeException("Vector<T, M> Matrix<T, M, N, enabled>::row(const unsigned int index) const", index);
+		}
+		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index))));
+	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	inline Vector<T, M> Matrix<T, M, N, enabled>::row(const unsigned int index)
-		{ return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index)))); }
+	{
+		if (index >= N) {
+			throw OutOfRangeException("Vector<T, M> Matrix<T, M, N, enabled>::row(const unsigned int index)", index);
+		}
+		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index))));
+	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	inline Vector<T, N> Matrix<T, M, N, enabled>::column(const unsigned int index) const
-		{ return Vector<T, N>(std::move(std::valarray<T>::operator[](std::slice(index, N, M)))); }
+	{
+		if (index >= M) {
+			throw OutOfRangeException("Vector<T, N> Matrix<T, M, N, enabled>::column(const unsigned int index) const", index);
+		}
+		return Vector<T, N>(std::move(std::valarray<T>::operator[](std::slice(index, N, M))));
+	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	inline Vector<T, N> Matrix<T, M, N, enabled>::column(const unsigned int index)
-		{ return Vector<T, N>(std::move(std::valarray<T>::operator[](std::slice(index, N, M)))); }
+	{
+		if (index >= M) {
+			throw OutOfRangeException("Vector<T, N> Matrix<T, M, N, enabled>::column(const unsigned int index)", index);
+		}
+		return Vector<T, N>(std::move(std::valarray<T>::operator[](std::slice(index, N, M))));
+	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	inline Matrix<T, M, N, enabled> Matrix<T, M, N, enabled>::operator+() const noexcept { return Matrix<T, M, N, enabled>(std::move(std::valarray<T>::operator+())); }
@@ -210,7 +242,7 @@ namespace ece
 	inline Matrix<T, M, N, enabled> & Matrix<T, M, N, enabled>::operator/=(const T & val)
 	{
 		if (val == 0) {
-			throw std::overflow_error("Exception: divide by zero.");
+			throw DivideByZeroException("Matrix<T, M, N, enabled>::operator/=(const T & val)");
 		}
 		std::valarray<T>::operator/=(val);
 		return *this;
@@ -220,7 +252,7 @@ namespace ece
 	inline Matrix<T, M, N, enabled> & Matrix<T, M, N, enabled>::operator%=(const T & val)
 	{
 		if (val == 0) {
-			throw std::overflow_error("Exception: divide by zero.");
+			throw DivideByZeroException("Matrix<T, M, N, enabled>::operator%=(const T & val)");
 		}
 		std::valarray<T>::operator%=(val);
 		return *this;
@@ -301,7 +333,7 @@ namespace ece
 	inline Matrix<T, M, N, enabled> Matrix<T, M, N, enabled>::operator/(const Matrix<T, M, N, enabled> & rhs) const
 	{
 		if (rhs == 0) {
-			throw std::overflow_error("Exception: divide by zero.");
+			throw DivideByZeroException("Matrix<T, M, N, enabled>::operator/(const Matrix<T, M, N, enabled> & rhs)");
 		}
 		return Matrix<T, M, N, enabled>(std::move(std::operator/(*this, rhs)));
 	}
@@ -310,7 +342,7 @@ namespace ece
 	inline Matrix<T, M, N, enabled> Matrix<T, M, N, enabled>::operator%(const Matrix<T, M, N, enabled> & rhs) const
 	{
 		if (rhs == 0) {
-			throw std::overflow_error("Exception: divide by zero.");
+			throw DivideByZeroException("Matrix<T, M, N, enabled>::operator%(const Matrix<T, M, N, enabled> & rhs)");
 		}
 		return Matrix<T, M, N, enabled>(std::move(std::operator%(*this, rhs)));
 	}
@@ -369,7 +401,7 @@ namespace ece
 	inline Matrix<T, M, N, enabled> Matrix<T, M, N, enabled>::operator/(const T & rhs) const
 	{
 		if (rhs == 0) {
-			throw std::overflow_error("Exception: divide by zero.");
+			throw DivideByZeroException("Matrix<T, M, N, enabled>::operator/(const T & rhs)");
 		}
 		return Matrix<T, M, N, enabled>(std::move(std::operator/(*this, rhs))); }
 
@@ -377,7 +409,7 @@ namespace ece
 	inline Matrix<T, M, N, enabled> Matrix<T, M, N, enabled>::operator%(const T & rhs) const
 	{
 		if (rhs == 0) {
-			throw std::overflow_error("Exception: divide by zero.");
+			throw DivideByZeroException("Matrix<T, M, N, enabled>::operator%(const T & rhs)");
 		}
 		return Matrix<T, M, N, enabled>(std::move(std::operator%(*this, rhs))); }
 
