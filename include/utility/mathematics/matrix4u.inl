@@ -43,30 +43,30 @@ namespace ece
 	template<class T>
 	inline double determinant<T, 4>::operator()(const Matrix<T, 4, 4> & matrix) const
 	{
-		int a11 = matrix[0][3] * matrix[1][2] * matrix[2][1] * matrix[3][0];
-		int a12 = matrix[0][2] * matrix[1][3] * matrix[2][1] * matrix[3][0];
-		int a13 = matrix[0][3] * matrix[1][1] * matrix[2][2] * matrix[3][0];
-		int a14 = matrix[0][1] * matrix[1][3] * matrix[2][2] * matrix[3][0];
-		int a21 = matrix[0][2] * matrix[1][1] * matrix[2][3] * matrix[3][0];
-		int a22 = matrix[0][1] * matrix[1][2] * matrix[2][3] * matrix[3][0];
-		int a23 = matrix[0][3] * matrix[1][2] * matrix[2][0] * matrix[3][1];
-		int a24 = matrix[0][2] * matrix[1][3] * matrix[2][0] * matrix[3][1];
-		int a31 = matrix[0][3] * matrix[1][0] * matrix[2][2] * matrix[3][1];
-		int a32 = matrix[0][0] * matrix[1][3] * matrix[2][2] * matrix[3][1];
-		int a33 = matrix[0][2] * matrix[1][0] * matrix[2][3] * matrix[3][1];
-		int a34 = matrix[0][0] * matrix[1][2] * matrix[2][3] * matrix[3][1];
-		int a41 = matrix[0][3] * matrix[1][1] * matrix[2][0] * matrix[3][2];
-		int a42 = matrix[0][1] * matrix[1][3] * matrix[2][0] * matrix[3][2];
-		int a43 = matrix[0][3] * matrix[1][0] * matrix[2][1] * matrix[3][2];
-		int a44 = matrix[0][0] * matrix[1][3] * matrix[2][1] * matrix[3][2];
-		int a51 = matrix[0][1] * matrix[1][0] * matrix[2][3] * matrix[3][2];
-		int a52 = matrix[0][0] * matrix[1][1] * matrix[2][3] * matrix[3][2];
-		int a53 = matrix[0][2] * matrix[1][1] * matrix[2][0] * matrix[3][3];
-		int a54 = matrix[0][1] * matrix[1][2] * matrix[2][0] * matrix[3][3];
-		int a61 = matrix[0][2] * matrix[1][0] * matrix[2][1] * matrix[3][3];
-		int a62 = matrix[0][0] * matrix[1][2] * matrix[2][1] * matrix[3][3];
-		int a63 = matrix[0][1] * matrix[1][0] * matrix[2][2] * matrix[3][3];
-		int a64 = matrix[0][0] * matrix[1][1] * matrix[2][2] * matrix[3][3];
+		int a11 = matrix(0, 3) * matrix(1, 2) * matrix(2, 1) * matrix(3, 0);
+		int a12 = matrix(0, 2) * matrix(1, 3) * matrix(2, 1) * matrix(3, 0);
+		int a13 = matrix(0, 3) * matrix(1, 1) * matrix(2, 2) * matrix(3, 0);
+		int a14 = matrix(0, 1) * matrix(1, 3) * matrix(2, 2) * matrix(3, 0);
+		int a21 = matrix(0, 2) * matrix(1, 1) * matrix(2, 3) * matrix(3, 0);
+		int a22 = matrix(0, 1) * matrix(1, 2) * matrix(2, 3) * matrix(3, 0);
+		int a23 = matrix(0, 3) * matrix(1, 2) * matrix(2, 0) * matrix(3, 1);
+		int a24 = matrix(0, 2) * matrix(1, 3) * matrix(2, 0) * matrix(3, 1);
+		int a31 = matrix(0, 3) * matrix(1, 0) * matrix(2, 2) * matrix(3, 1);
+		int a32 = matrix(0, 0) * matrix(1, 3) * matrix(2, 2) * matrix(3, 1);
+		int a33 = matrix(0, 2) * matrix(1, 0) * matrix(2, 3) * matrix(3, 1);
+		int a34 = matrix(0, 0) * matrix(1, 2) * matrix(2, 3) * matrix(3, 1);
+		int a41 = matrix(0, 3) * matrix(1, 1) * matrix(2, 0) * matrix(3, 2);
+		int a42 = matrix(0, 1) * matrix(1, 3) * matrix(2, 0) * matrix(3, 2);
+		int a43 = matrix(0, 3) * matrix(1, 0) * matrix(2, 1) * matrix(3, 2);
+		int a44 = matrix(0, 0) * matrix(1, 3) * matrix(2, 1) * matrix(3, 2);
+		int a51 = matrix(0, 1) * matrix(1, 0) * matrix(2, 3) * matrix(3, 2);
+		int a52 = matrix(0, 0) * matrix(1, 1) * matrix(2, 3) * matrix(3, 2);
+		int a53 = matrix(0, 2) * matrix(1, 1) * matrix(2, 0) * matrix(3, 3);
+		int a54 = matrix(0, 1) * matrix(1, 2) * matrix(2, 0) * matrix(3, 3);
+		int a61 = matrix(0, 2) * matrix(1, 0) * matrix(2, 1) * matrix(3, 3);
+		int a62 = matrix(0, 0) * matrix(1, 2) * matrix(2, 1) * matrix(3, 3);
+		int a63 = matrix(0, 1) * matrix(1, 0) * matrix(2, 2) * matrix(3, 3);
+		int a64 = matrix(0, 0) * matrix(1, 1) * matrix(2, 2) * matrix(3, 3);
 		return  a11 - a12 - a13 + a14 +
 			a21 - a22 - a23 + a24 +
 			a31 - a32 - a33 + a34 +
@@ -78,10 +78,10 @@ namespace ece
 	template<class T>
 	inline Matrix<T, 4, 4> transpose<T, 4>::operator()(const Matrix<T, 4, 4> & matrix) const
 	{
-		return Matrix<T, 4, 4>{ matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
-			matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
-			matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
-			matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3] };
+		return Matrix<T, 4, 4>{ matrix(0, 0), matrix(1, 0), matrix(2, 0), matrix(3, 0),
+			matrix(0, 1), matrix(1, 1), matrix(2, 1), matrix(3, 1),
+			matrix(0, 2), matrix(1, 2), matrix(2, 2), matrix(3, 2),
+			matrix(0, 3), matrix(1, 3), matrix(2, 3), matrix(3, 3) };
 	}
 
 	template<class T>
@@ -90,22 +90,22 @@ namespace ece
 		auto det = matrix.determinant();
 		invertible = (det != 0);
 		if (invertible) {
-			double a11 = matrix[1][2] * matrix[2][3] * matrix[3][1] - matrix[1][3] * matrix[2][2] * matrix[3][1] + matrix[1][3] * matrix[2][1] * matrix[3][2] - matrix[1][1] * matrix[2][3] * matrix[3][2] - matrix[1][2] * matrix[2][1] * matrix[3][3] + matrix[1][1] * matrix[2][2] * matrix[3][3];
-			double a12 = matrix[0][3] * matrix[2][2] * matrix[3][1] - matrix[0][2] * matrix[2][3] * matrix[3][1] - matrix[0][3] * matrix[2][1] * matrix[3][2] + matrix[0][1] * matrix[2][3] * matrix[3][2] + matrix[0][2] * matrix[2][1] * matrix[3][3] - matrix[0][1] * matrix[2][2] * matrix[3][3];
-			double a13 = matrix[0][2] * matrix[1][3] * matrix[3][1] - matrix[0][3] * matrix[1][2] * matrix[3][1] + matrix[0][3] * matrix[1][1] * matrix[3][2] - matrix[0][1] * matrix[1][3] * matrix[3][2] - matrix[0][2] * matrix[1][1] * matrix[3][3] + matrix[0][1] * matrix[1][2] * matrix[3][3];
-			double a14 = matrix[0][3] * matrix[1][2] * matrix[2][1] - matrix[0][2] * matrix[1][3] * matrix[2][1] - matrix[0][3] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][1] * matrix[2][3] - matrix[0][1] * matrix[1][2] * matrix[2][3];
-			double a21 = matrix[1][3] * matrix[2][2] * matrix[3][0] - matrix[1][2] * matrix[2][3] * matrix[3][0] - matrix[1][3] * matrix[2][0] * matrix[3][2] + matrix[1][0] * matrix[2][3] * matrix[3][2] + matrix[1][2] * matrix[2][0] * matrix[3][3] - matrix[1][0] * matrix[2][2] * matrix[3][3];
-			double a22 = matrix[0][2] * matrix[2][3] * matrix[3][0] - matrix[0][3] * matrix[2][2] * matrix[3][0] + matrix[0][3] * matrix[2][0] * matrix[3][2] - matrix[0][0] * matrix[2][3] * matrix[3][2] - matrix[0][2] * matrix[2][0] * matrix[3][3] + matrix[0][0] * matrix[2][2] * matrix[3][3];
-			double a23 = matrix[0][3] * matrix[1][2] * matrix[3][0] - matrix[0][2] * matrix[1][3] * matrix[3][0] - matrix[0][3] * matrix[1][0] * matrix[3][2] + matrix[0][0] * matrix[1][3] * matrix[3][2] + matrix[0][2] * matrix[1][0] * matrix[3][3] - matrix[0][0] * matrix[1][2] * matrix[3][3];
-			double a24 = matrix[0][2] * matrix[1][3] * matrix[2][0] - matrix[0][3] * matrix[1][2] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][2] - matrix[0][0] * matrix[1][3] * matrix[2][2] - matrix[0][2] * matrix[1][0] * matrix[2][3] + matrix[0][0] * matrix[1][2] * matrix[2][3];
-			double a31 = matrix[1][1] * matrix[2][3] * matrix[3][0] - matrix[1][3] * matrix[2][1] * matrix[3][0] + matrix[1][3] * matrix[2][0] * matrix[3][1] - matrix[1][0] * matrix[2][3] * matrix[3][1] - matrix[1][1] * matrix[2][0] * matrix[3][3] + matrix[1][0] * matrix[2][1] * matrix[3][3];
-			double a32 = matrix[0][3] * matrix[2][1] * matrix[3][0] - matrix[0][1] * matrix[2][3] * matrix[3][0] - matrix[0][3] * matrix[2][0] * matrix[3][1] + matrix[0][0] * matrix[2][3] * matrix[3][1] + matrix[0][1] * matrix[2][0] * matrix[3][3] - matrix[0][0] * matrix[2][1] * matrix[3][3];
-			double a33 = matrix[0][1] * matrix[1][3] * matrix[3][0] - matrix[0][3] * matrix[1][1] * matrix[3][0] + matrix[0][3] * matrix[1][0] * matrix[3][1] - matrix[0][0] * matrix[1][3] * matrix[3][1] - matrix[0][1] * matrix[1][0] * matrix[3][3] + matrix[0][0] * matrix[1][1] * matrix[3][3];
-			double a34 = matrix[0][3] * matrix[1][1] * matrix[2][0] - matrix[0][1] * matrix[1][3] * matrix[2][0] - matrix[0][3] * matrix[1][0] * matrix[2][1] + matrix[0][0] * matrix[1][3] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][3] - matrix[0][0] * matrix[1][1] * matrix[2][3];
-			double a41 = matrix[1][2] * matrix[2][1] * matrix[3][0] - matrix[1][1] * matrix[2][2] * matrix[3][0] - matrix[1][2] * matrix[2][0] * matrix[3][1] + matrix[1][0] * matrix[2][2] * matrix[3][1] + matrix[1][1] * matrix[2][0] * matrix[3][2] - matrix[1][0] * matrix[2][1] * matrix[3][2];
-			double a42 = matrix[0][1] * matrix[2][2] * matrix[3][0] - matrix[0][2] * matrix[2][1] * matrix[3][0] + matrix[0][2] * matrix[2][0] * matrix[3][1] - matrix[0][0] * matrix[2][2] * matrix[3][1] - matrix[0][1] * matrix[2][0] * matrix[3][2] + matrix[0][0] * matrix[2][1] * matrix[3][2];
-			double a43 = matrix[0][2] * matrix[1][1] * matrix[3][0] - matrix[0][1] * matrix[1][2] * matrix[3][0] - matrix[0][2] * matrix[1][0] * matrix[3][1] + matrix[0][0] * matrix[1][2] * matrix[3][1] + matrix[0][1] * matrix[1][0] * matrix[3][2] - matrix[0][0] * matrix[1][1] * matrix[3][2];
-			double a44 = matrix[0][1] * matrix[1][2] * matrix[2][0] - matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1] - matrix[0][0] * matrix[1][2] * matrix[2][1] - matrix[0][1] * matrix[1][0] * matrix[2][2] + matrix[0][0] * matrix[1][1] * matrix[2][2];
+			double a11 = matrix(1, 2) * matrix(2, 3) * matrix(3, 1) - matrix(1, 3) * matrix(2, 2) * matrix(3, 1) + matrix(1, 3) * matrix(2, 1) * matrix(3, 2) - matrix(1, 1) * matrix(2, 3) * matrix(3, 2) - matrix(1, 2) * matrix(2, 1) * matrix(3, 3) + matrix(1, 1) * matrix(2, 2) * matrix(3, 3);
+			double a12 = matrix(0, 3) * matrix(2, 2) * matrix(3, 1) - matrix(0, 2) * matrix(2, 3) * matrix(3, 1) - matrix(0, 3) * matrix(2, 1) * matrix(3, 2) + matrix(0, 1) * matrix(2, 3) * matrix(3, 2) + matrix(0, 2) * matrix(2, 1) * matrix(3, 3) - matrix(0, 1) * matrix(2, 2) * matrix(3, 3);
+			double a13 = matrix(0, 2) * matrix(1, 3) * matrix(3, 1) - matrix(0, 3) * matrix(1, 2) * matrix(3, 1) + matrix(0, 3) * matrix(1, 1) * matrix(3, 2) - matrix(0, 1) * matrix(1, 3) * matrix(3, 2) - matrix(0, 2) * matrix(1, 1) * matrix(3, 3) + matrix(0, 1) * matrix(1, 2) * matrix(3, 3);
+			double a14 = matrix(0, 3) * matrix(1, 2) * matrix(2, 1) - matrix(0, 2) * matrix(1, 3) * matrix(2, 1) - matrix(0, 3) * matrix(1, 1) * matrix(2, 2) + matrix(0, 1) * matrix(1, 3) * matrix(2, 2) + matrix(0, 2) * matrix(1, 1) * matrix(2, 3) - matrix(0, 1) * matrix(1, 2) * matrix(2, 3);
+			double a21 = matrix(1, 3) * matrix(2, 2) * matrix(3, 0) - matrix(1, 2) * matrix(2, 3) * matrix(3, 0) - matrix(1, 3) * matrix(2, 0) * matrix(3, 2) + matrix(1, 0) * matrix(2, 3) * matrix(3, 2) + matrix(1, 2) * matrix(2, 0) * matrix(3, 3) - matrix(1, 0) * matrix(2, 2) * matrix(3, 3);
+			double a22 = matrix(0, 2) * matrix(2, 3) * matrix(3, 0) - matrix(0, 3) * matrix(2, 2) * matrix(3, 0) + matrix(0, 3) * matrix(2, 0) * matrix(3, 2) - matrix(0, 0) * matrix(2, 3) * matrix(3, 2) - matrix(0, 2) * matrix(2, 0) * matrix(3, 3) + matrix(0, 0) * matrix(2, 2) * matrix(3, 3);
+			double a23 = matrix(0, 3) * matrix(1, 2) * matrix(3, 0) - matrix(0, 2) * matrix(1, 3) * matrix(3, 0) - matrix(0, 3) * matrix(1, 0) * matrix(3, 2) + matrix(0, 0) * matrix(1, 3) * matrix(3, 2) + matrix(0, 2) * matrix(1, 0) * matrix(3, 3) - matrix(0, 0) * matrix(1, 2) * matrix(3, 3);
+			double a24 = matrix(0, 2) * matrix(1, 3) * matrix(2, 0) - matrix(0, 3) * matrix(1, 2) * matrix(2, 0) + matrix(0, 3) * matrix(1, 0) * matrix(2, 2) - matrix(0, 0) * matrix(1, 3) * matrix(2, 2) - matrix(0, 2) * matrix(1, 0) * matrix(2, 3) + matrix(0, 0) * matrix(1, 2) * matrix(2, 3);
+			double a31 = matrix(1, 1) * matrix(2, 3) * matrix(3, 0) - matrix(1, 3) * matrix(2, 1) * matrix(3, 0) + matrix(1, 3) * matrix(2, 0) * matrix(3, 1) - matrix(1, 0) * matrix(2, 3) * matrix(3, 1) - matrix(1, 1) * matrix(2, 0) * matrix(3, 3) + matrix(1, 0) * matrix(2, 1) * matrix(3, 3);
+			double a32 = matrix(0, 3) * matrix(2, 1) * matrix(3, 0) - matrix(0, 1) * matrix(2, 3) * matrix(3, 0) - matrix(0, 3) * matrix(2, 0) * matrix(3, 1) + matrix(0, 0) * matrix(2, 3) * matrix(3, 1) + matrix(0, 1) * matrix(2, 0) * matrix(3, 3) - matrix(0, 0) * matrix(2, 1) * matrix(3, 3);
+			double a33 = matrix(0, 1) * matrix(1, 3) * matrix(3, 0) - matrix(0, 3) * matrix(1, 1) * matrix(3, 0) + matrix(0, 3) * matrix(1, 0) * matrix(3, 1) - matrix(0, 0) * matrix(1, 3) * matrix(3, 1) - matrix(0, 1) * matrix(1, 0) * matrix(3, 3) + matrix(0, 0) * matrix(1, 1) * matrix(3, 3);
+			double a34 = matrix(0, 3) * matrix(1, 1) * matrix(2, 0) - matrix(0, 1) * matrix(1, 3) * matrix(2, 0) - matrix(0, 3) * matrix(1, 0) * matrix(2, 1) + matrix(0, 0) * matrix(1, 3) * matrix(2, 1) + matrix(0, 1) * matrix(1, 0) * matrix(2, 3) - matrix(0, 0) * matrix(1, 1) * matrix(2, 3);
+			double a41 = matrix(1, 2) * matrix(2, 1) * matrix(3, 0) - matrix(1, 1) * matrix(2, 2) * matrix(3, 0) - matrix(1, 2) * matrix(2, 0) * matrix(3, 1) + matrix(1, 0) * matrix(2, 2) * matrix(3, 1) + matrix(1, 1) * matrix(2, 0) * matrix(3, 2) - matrix(1, 0) * matrix(2, 1) * matrix(3, 2);
+			double a42 = matrix(0, 1) * matrix(2, 2) * matrix(3, 0) - matrix(0, 2) * matrix(2, 1) * matrix(3, 0) + matrix(0, 2) * matrix(2, 0) * matrix(3, 1) - matrix(0, 0) * matrix(2, 2) * matrix(3, 1) - matrix(0, 1) * matrix(2, 0) * matrix(3, 2) + matrix(0, 0) * matrix(2, 1) * matrix(3, 2);
+			double a43 = matrix(0, 2) * matrix(1, 1) * matrix(3, 0) - matrix(0, 1) * matrix(1, 2) * matrix(3, 0) - matrix(0, 2) * matrix(1, 0) * matrix(3, 1) + matrix(0, 0) * matrix(1, 2) * matrix(3, 1) + matrix(0, 1) * matrix(1, 0) * matrix(3, 2) - matrix(0, 0) * matrix(1, 1) * matrix(3, 2);
+			double a44 = matrix(0, 1) * matrix(1, 2) * matrix(2, 0) - matrix(0, 2) * matrix(1, 1) * matrix(2, 0) + matrix(0, 2) * matrix(1, 0) * matrix(2, 1) - matrix(0, 0) * matrix(1, 2) * matrix(2, 1) - matrix(0, 1) * matrix(1, 0) * matrix(2, 2) + matrix(0, 0) * matrix(1, 1) * matrix(2, 2);
 
 			return Matrix<double, 4, 4>{ a11, a12, a13, a14,
 				a21, a22, a23, a24,

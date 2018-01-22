@@ -75,16 +75,34 @@ namespace ece
 		if (index >= N) {
 			throw OutOfRangeException("Vector<T, M> Matrix<T, M, N, enabled>::operator[](const unsigned int index) const", index);
 		}
-		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index))));
+		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(index * M, M, 1))));
 	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
 	inline Vector<T, M> Matrix<T, M, N, enabled>::operator[](const unsigned int index)
 	{
 		if (index >= N) {
-			throw OutOfRangeException("Vector<T, M> Matrix<T, M, N, enabled>::operator[](const unsigned int index) const", index);
+			throw OutOfRangeException("std::slice_array<T> Matrix<T, M, N, enabled>::operator[](const unsigned int index) const", index);
 		}
-		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index))));
+		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(index * M, M, 1))));
+	}
+
+	template <class T, unsigned int M, unsigned int N, typename enabled>
+	inline T & Matrix<T, M, N, enabled>::operator()(const unsigned int i, const unsigned int j)
+	{
+		if (i >= N || j >= M) {
+			throw OutOfRangeException("T & Matrix<T, M, N, enabled>::operator()(const unsigned int i, const unsigned int j)", i*M + j);
+		}
+		return std::valarray<T>::operator[](i*M + j);
+	}
+
+	template <class T, unsigned int M, unsigned int N, typename enabled>
+	inline T Matrix<T, M, N, enabled>::operator()(const unsigned int i, const unsigned int j) const
+	{
+		if (i >= N || j >= M) {
+			throw OutOfRangeException("T & Matrix<T, M, N, enabled>::operator()(const unsigned int i, const unsigned int j)", i*M + j);
+		}
+		return std::valarray<T>::operator[](i*M + j);
 	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
@@ -99,7 +117,7 @@ namespace ece
 		if (index >= N) {
 			throw OutOfRangeException("Vector<T, M> Matrix<T, M, N, enabled>::row(const unsigned int index) const", index);
 		}
-		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index))));
+		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(index * M, M, 1))));
 	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
@@ -108,7 +126,7 @@ namespace ece
 		if (index >= N) {
 			throw OutOfRangeException("Vector<T, M> Matrix<T, M, N, enabled>::row(const unsigned int index)", index);
 		}
-		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(1, M, index))));
+		return Vector<T, M>(std::move(std::valarray<T>::operator[](std::slice(index * M, M, 1))));
 	}
 
 	template <class T, unsigned int M, unsigned int N, typename enabled>
@@ -161,7 +179,7 @@ namespace ece
 		Matrix<T, M, N, enabled> result;
 		for (unsigned int j = 0; j < N; ++j) {
 			for (unsigned int i = 0; i < M; ++i) {
-				result[i][j] = (this->row(i) * v.column(j)).sum();
+				result(i, j) = (this->row(i) * v.column(j)).sum();
 			}
 		}
 		this->operator=(std::move(result));
@@ -323,7 +341,7 @@ namespace ece
 		Matrix<T, M, N, enabled> result;
 		for (unsigned int j = 0; j < N; ++j) {
 			for (unsigned int i = 0; i < M; ++i) {
-				result[i][j] = (this->row(i) * rhs.column(j)).sum();
+				result(i, j) = (this->row(i) * rhs.column(j)).sum();
 			}
 		}
 		return result;

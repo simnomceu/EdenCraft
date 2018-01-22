@@ -50,18 +50,18 @@ SCENARIO("Matrix2u", "[Utility][Mathematics]")
 		AND_WHEN("Adding a 2D matrix")
 		{
 			REQUIRE(matrix + ece::IntMatrix2u() == matrix);
-			REQUIRE(matrix + ece::IntMatrix2u::Identity() == ece::IntMatrix2u{ 3, 4, 7, 8 });
+			REQUIRE(matrix + ece::IntMatrix2u::Identity() == ece::IntMatrix2u{ 3, 4, 6, 9 });
 			REQUIRE(matrix + matrix == matrix * 2);
 			matrix += ece::IntMatrix2u::Identity();
-			REQUIRE(matrix == ece::IntMatrix2u{ 3, 4, 7, 8 });
+			REQUIRE(matrix == ece::IntMatrix2u{ 3, 4, 6, 9 });
 		}
 		AND_WHEN("Substracting a 2D matrix")
 		{
 			REQUIRE(matrix - ece::IntMatrix2u() == matrix);
-			REQUIRE(matrix - ece::IntMatrix2u::Identity() == ece::IntMatrix2u{ 1, 4, 5, 8 });
+			REQUIRE(matrix - ece::IntMatrix2u::Identity() == ece::IntMatrix2u{ 1, 4, 6, 7 });
 			REQUIRE(matrix - matrix == ece::IntMatrix2u());
 			matrix -= ece::IntMatrix2u::Identity();
-			REQUIRE(matrix == ece::IntMatrix2u{ 1, 4, 5, 8 });
+			REQUIRE(matrix == ece::IntMatrix2u{ 1, 4, 6, 7 });
 		}
 		AND_WHEN("Getting the negative of the matrix")
 		{
@@ -88,10 +88,10 @@ SCENARIO("Matrix2u", "[Utility][Mathematics]")
 		}
 		AND_WHEN("Getting an element")
 		{
-			REQUIRE(matrix[0][0] == 2);
-			REQUIRE(matrix[0][1] == 4);
-			REQUIRE(matrix[1][0] == 6);
-			REQUIRE(matrix[1][1] == 8);
+			REQUIRE(matrix(0, 0) == 2);
+			REQUIRE(matrix(0, 1) == 4);
+			REQUIRE(matrix(1, 0) == 6);
+			REQUIRE(matrix(1, 1) == 8);
 		}
 		AND_WHEN("Getting the determinant")
 		{
@@ -106,28 +106,28 @@ SCENARIO("Matrix2u", "[Utility][Mathematics]")
 			bool invertible = true;
 			auto inverse = matrix.inverse(invertible);
 
-			THEN("The matrix is not invertible")
+			THEN("The matrix is invertible")
 			{
-				REQUIRE_FALSE(invertible);
+				REQUIRE(invertible);
 			}
-			AND_THEN("A default matrix is returned")
+			AND_THEN("The reverse matrix is returned")
 			{
-				REQUIRE(inverse == ece::DoubleMatrix2u());
+				REQUIRE(inverse == ece::DoubleMatrix2u{-1.0, 0.5, 0.75, -0.25});
 			}
 		}
 	}
 	
-	GIVEN("An invertible matrix")
+	GIVEN("Not an invertible matrix")
 	{
-		ece::IntMatrix2u matrix{ 4, 2, 6, 8 };
+		ece::IntMatrix2u matrix{ 2, 4, 2, 4 };
 
 		WHEN("Getting the determinant")
 		{
 			auto determinant = matrix.determinant();
 
-			THEN("Determinant is not null")
+			THEN("Determinant is null")
 			{
-				REQUIRE(determinant != 0);
+				REQUIRE(determinant == 0);
 			}
 		}
 		AND_WHEN("Getting the inverse matrix")
@@ -135,13 +135,13 @@ SCENARIO("Matrix2u", "[Utility][Mathematics]")
 			bool invertible = true;
 			auto inverse = matrix.inverse(invertible);
 
-			THEN("The matrix is invertible")
+			THEN("The matrix is not invertible")
 			{
-				REQUIRE(invertible);
+				REQUIRE_FALSE(invertible);
 			}
-			AND_THEN("The inverse matrix is returned")
+			AND_THEN("The inverse matrix is empty")
 			{
-				REQUIRE(inverse == ece::DoubleMatrix2u{ 0.4, -0.1, -0.3, 0.2 });
+				REQUIRE(inverse == ece::DoubleMatrix2u());
 			}
 		}
 	}

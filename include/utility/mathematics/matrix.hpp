@@ -166,7 +166,7 @@ namespace ece
 		inline Matrix<T, M, N, enabled> & setIdentity();
 
 		/**
-		 * @fn const Vector<T, M> & operator[](const unsigned int index) const
+		 * @fn const Vector<T, M> operator[](const unsigned int index) const
 		 * @param[in] index The index of the row to access.
 		 * @return A row of the matrix.
 		 * @brief Access a specific row of the matrix.
@@ -175,13 +175,16 @@ namespace ece
 		inline Vector<T, M> operator[](const unsigned int index) const;
 
 		/**
-		 * @fn Vector<T, M> & operator[](const unsigned int index)
+		 * @fn std::slice_array<T> operator[](const unsigned int index)
 		 * @param[in] index The index of the row to access.
 		 * @return A row of the matrix.
 		 * @brief Access a specific row of the matrix.
 		 * @throw
 		 */
 		inline Vector<T, M> operator[](const unsigned int index);
+
+		inline T & operator()(const unsigned int i, const unsigned int j);
+		inline T operator()(const unsigned int i, const unsigned int j) const;
 		
 //		inline Matrix<T, M, N, enabled> operator[](std::slice slicearr) const;
 
