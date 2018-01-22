@@ -1,6 +1,6 @@
 #include "graphic/model/shader.hpp"
 
-#include "utility/file/file.hpp"
+#include "utility/file_system/file.hpp"
 #include "utility/debug/exception.hpp"
 #include "utility/log/service_logger.hpp"
 
@@ -12,20 +12,20 @@ namespace ece
 			throw BadInputException("A shader file need to be loaded with a valid type.");
 		}
 
-		if (this->filename != filename) {
-			this->filename = filename;
+		if (this->_filename != filename) {
+			this->_filename = filename;
 
-			this->source.clear();
+			this->_source.clear();
 			File shaderFile;
 			try {
-				shaderFile.open(this->filename, std::ios::out);
-				this->source = shaderFile.parseToString();
+				shaderFile.open(this->_filename, OpenMode::out);
+				this->_source = shaderFile.parseToString();
 				shaderFile.close();
 			}
 			catch (FileException & e) {
 				ServiceLoggerLocator::getService().logError(e.what());
 			}
-			this->type = type;
+			this->_type = type;
 		}
 	}
 
@@ -35,8 +35,8 @@ namespace ece
 			throw BadInputException("A shader file need to be loaded with a valid type.");
 		}
 
-		this->filename = "";
-		this->source = sourceCode;
-		this->type = type;
+		this->_filename = "";
+		this->_source = sourceCode;
+		this->_type = type;
 	}
 }

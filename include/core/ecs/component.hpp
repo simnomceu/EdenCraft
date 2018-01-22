@@ -16,7 +16,7 @@ namespace ece
 		void set(const T &  value);
 
 	protected:
-		T value;
+		T _value;
 	};
 }
 

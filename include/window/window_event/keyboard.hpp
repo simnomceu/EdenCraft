@@ -150,7 +150,7 @@ namespace ece
 		inline static void pressKey(const Key code, const bool state);
 
 	private:
-		static std::array<bool, 132> states;
+		static std::array<bool, 132> _states;
 	};
 }
 

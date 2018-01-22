@@ -9,20 +9,20 @@
 
 namespace ece
 {
-	Application::Application() : running(false), moduleManager(), lifecycle(nullptr)
+	Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
 	{
 		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
 		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
 
-		this->lifecycle = std::make_shared<Lifecycle>();
+		this->_lifecycle = std::make_shared<Lifecycle>();
 	}
 
-	Application::Application(int argc, char * argv[]) : running(false), moduleManager(), lifecycle(nullptr)
+	Application::Application(int argc, char * argv[]) : _running(false), _moduleManager(), _lifecycle(nullptr)
 	{
 		ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
 		ece::EventServiceLocator::provide(ece::EventServiceFactory::build<ece::EventManager>());
 
-		this->lifecycle = std::make_shared<Lifecycle>();
+		this->_lifecycle = std::make_shared<Lifecycle>();
 
 		auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyse);
 		argumentAnalyzer.setParameters(argc, argv);
@@ -31,39 +31,39 @@ namespace ece
 	void Application::run()
 	{
 		// TODO : add balancer to reduce usage of processor.
-		this->lifecycle->preInit();
+		this->_lifecycle->preInit();
 		this->init();
-		this->lifecycle->postInit();
+		this->_lifecycle->postInit();
 
 		while (this->isRunning()) {
-			this->lifecycle->preProcess();
+			this->_lifecycle->preProcess();
 			this->processEvents();
-			this->lifecycle->preUpdate();
+			this->_lifecycle->preUpdate();
 			this->update();
-			this->lifecycle->postUpdate();
+			this->_lifecycle->postUpdate();
 			this->render();
-			this->lifecycle->postRender();
+			this->_lifecycle->postRender();
 		}
 
-		this->lifecycle->preTerminate();
+		this->_lifecycle->preTerminate();
 		this->terminate();
-		this->lifecycle->preTerminate();
+		this->_lifecycle->preTerminate();
 	}
 
 	void Application::init()
 	{
 		try {
-			this->moduleManager.initAll();
+			this->_moduleManager.initAll();
 		}
 		catch (std::runtime_error & e) {
 			ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
 		}
-		this->running = true;
+		this->_running = true;
 	}
 
 	void Application::update()
 	{
-		this->moduleManager.updateAll();
+		this->_moduleManager.updateAll();
 	}
 
 	void Application::processEvents()
@@ -77,6 +77,6 @@ namespace ece
 
 	void Application::terminate()
 	{
-		this->moduleManager.terminateAll();
+		this->_moduleManager.terminateAll();
 	}
 }

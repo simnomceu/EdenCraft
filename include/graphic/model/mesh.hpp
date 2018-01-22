@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-#include "utility/mathematics/vertex3u.hpp"
+#include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/box3d.hpp"
 #include "graphic/renderable/vertex.hpp"
 
@@ -33,8 +33,8 @@ namespace ece
 		inline virtual std::vector<int> getIndices() const override;
 
 	private:
-		std::vector<FloatVertex3u> vertices;
-		std::vector<FloatVertex3u> colors;
+		std::vector<FloatVertex3u> _vertices;
+		std::vector<FloatVertex3u> _colors;
 	};
 }
 

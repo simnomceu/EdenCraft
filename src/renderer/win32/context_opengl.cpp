@@ -1,26 +1,32 @@
-#include "renderer/win32/context_opengl.hpp"
+#include "renderer/opengl/context_opengl.hpp"
+#include "renderer/win32/data_context_opengl.hpp"
 
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/common/render_window.hpp"
-#include "window/win32/window_adapter.hpp"
+#include "window/common/window_adapter.hpp"
+#include "window/win32/data_window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
 
 #include <iostream>
 
 namespace ece
 {
+	ContextOpenGL::ContextOpenGL(): BaseContextOpenGL(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
+	{
+	}
+
 	ContextOpenGL::~ContextOpenGL()
 	{
-		if (this->context != nullptr) {
+		if (this->_data->_context != nullptr) {
 			wglMakeCurrent(nullptr, nullptr);
-			wglDeleteContext(this->context);
-			this->context = nullptr;
+			wglDeleteContext(this->_data->_context);
+			this->_data->_context = nullptr;
 		}
-		if (this->device != nullptr) {
-			ReleaseDC(this->windowHandle, this->device);
-			this->device = nullptr;
+		if (this->_data->_device != nullptr) {
+			ReleaseDC(this->_data->_windowHandle, this->_data->_device);
+			this->_data->_device = nullptr;
 		}
-		this->windowHandle = nullptr;
+		this->_data->_windowHandle = nullptr;
 	}
 
 	void ContextOpenGL::create(const RenderWindow & window)
@@ -33,9 +39,9 @@ namespace ece
 			| PLATFORM);
 
 		// Create real context
-		this->windowHandle = std::static_pointer_cast<WindowAdapter>(window.getAdapter().lock())->getWindowHandle();
-		this->device = GetDC(windowHandle);
-		if (!this->device) {
+		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_windowId;
+		this->_data->_device = GetDC(this->_data->_windowHandle);
+		if (!this->_data->_device) {
 			throw std::runtime_error("The device associated to that window cannot be used or there is not device.");
 		}
 
@@ -54,15 +60,15 @@ namespace ece
 
 		int iPF;
 		UINT num_formats_choosen;
-		if (!wglChoosePixelFormat(this->device, pixelAttribs, NULL, 1, &iPF, &num_formats_choosen) || !num_formats_choosen) {
+		if (!wglChoosePixelFormat(this->_data->_device, pixelAttribs, NULL, 1, &iPF, &num_formats_choosen) || !num_formats_choosen) {
 			throw std::runtime_error("There is no video mode available for this device.");
 		}
 
 		PIXELFORMATDESCRIPTOR pfd;
 		memset(&pfd, 0, sizeof(pfd));
-		DescribePixelFormat(this->device, iPF, sizeof(pfd), &pfd);
+		DescribePixelFormat(this->_data->_device, iPF, sizeof(pfd), &pfd);
 
-		if (!SetPixelFormat(this->device, iPF, &pfd)) {
+		if (!SetPixelFormat(this->_data->_device, iPF, &pfd)) {
 			std::cout << "PixelFormat: " << iPF << std::endl;
 			throw std::runtime_error("The video mode cannot be used.");
 		}
@@ -75,11 +81,11 @@ namespace ece
 			0
 		};
 		// TODO: deal with shared context, like for restarting window (MSAA requirements)
-		this->context = wglCreateContextAttribs(this->device, nullptr, glVersion);
-		if (this->context == nullptr) {
+		this->_data->_context = wglCreateContextAttribs(this->_data->_device, nullptr, glVersion);
+		if (this->_data->_context == nullptr) {
 			throw std::runtime_error("The context cannot be created.");
 		}
-		if (wglMakeCurrent(this->device, this->context) == FALSE) {
+		if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
 			throw std::runtime_error("The created context cannot be used.");
 		}
 		
@@ -100,7 +106,7 @@ namespace ece
 
 	void ContextOpenGL::swapBuffers()
 	{
-		if (!SwapBuffers(this->device)) {
+		if (!SwapBuffers(this->_data->_device)) {
 			ServiceLoggerLocator::getService().logError("Buffers not swapped !");
 		}
 	}

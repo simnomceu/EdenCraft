@@ -32,11 +32,11 @@ namespace ece
 		void terminate();
 
 	private:
-		std::string filename;
-		std::string source;
-		ShaderType type;
-		ShaderHandle handle;
-		bool compilationRequired;
+		std::string _filename;
+		std::string _source;
+		ShaderType _type;
+		ShaderHandle _handle;
+		bool _compilationRequired;
 	};
 }
 

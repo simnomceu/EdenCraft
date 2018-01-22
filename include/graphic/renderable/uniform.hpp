@@ -27,8 +27,8 @@ namespace ece
 		void setData(const T & data);
 
 	private:
-		std::string location;
-		T data;
+		std::string _location;
+		T _data;
 	};
 
 	template <> UniformType Uniform<int>::getType() const;

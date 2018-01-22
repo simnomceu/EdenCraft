@@ -2,13 +2,13 @@
 
 namespace ece
 {
-	VAO::VAO(): handle(0)
+	VAO::VAO(): _handle(0)
 	{
-		OpenGL::genVertexArrays(this->handle);
+		OpenGL::genVertexArrays(this->_handle);
 	}
 
 	void VAO::bind() const
 	{
-		OpenGL::bindVertexArray(this->handle);
+		OpenGL::bindVertexArray(this->_handle);
 	}
 }

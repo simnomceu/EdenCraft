@@ -2,9 +2,9 @@
 
 namespace ece
 {
-	Program::Program() : handle(0)
+	Program::Program() : _handle(0)
 	{
-		this->handle = OpenGL::createProgram();
+		this->_handle = OpenGL::createProgram();
 	}
 
 	void Program::addShader(Shader & shader)
@@ -12,17 +12,17 @@ namespace ece
 		if (shader.isCompilationRequired()) {
 			shader.compile();
 		}
-		OpenGL::attachShader(this->handle, shader.getHandle());
+		OpenGL::attachShader(this->_handle, shader.getHandle());
 		shader.terminate();
 	}
 
 	void Program::link()
 	{
-		OpenGL::linkProgram(this->handle);
+		OpenGL::linkProgram(this->_handle);
 	}
 
 	void Program::use() const
 	{
-		OpenGL::useProgram(this->handle);
+		OpenGL::useProgram(this->_handle);
 	}
 }

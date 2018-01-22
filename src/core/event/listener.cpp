@@ -9,8 +9,8 @@ namespace ece
 	void Listener::addSlot(const Slot::SlotID slot, const Slot::Handle & handle)
 	{
 		try {
-			if (this->slots.find(slot) == this->slots.end()) {
-				this->slots[slot] = this->consumer.consume()->addSlot(handle);
+			if (this->_slots.find(slot) == this->_slots.end()) {
+				this->_slots[slot] = this->_consumer.consume()->addSlot(handle);
 			}
 		}
 		catch (MemoryAccessException & e) {
@@ -22,9 +22,9 @@ namespace ece
 	void Listener::removeSlot(const Slot::SlotID slot)
 	{
 		try {
-			this->consumer.consume()->eraseSlot(*this, slot);
+			this->_consumer.consume()->eraseSlot(*this, slot);
 
-			this->slots.erase(slot);
+			this->_slots.erase(slot);
 		}
 		catch (MemoryAccessException & e) {
 			// TODO: use the logger
@@ -34,17 +34,17 @@ namespace ece
 
 	const Slot::GlobalSlotID Listener::getSlotID(const Slot::SlotID slot) const
 	{
-		if (this->slots.find(slot) == this->slots.end()) {
+		if (this->_slots.find(slot) == this->_slots.end()) {
 			throw OutOfRangeException("slot", slot);
 		}
-		return this->slots.at(slot);
+		return this->_slots.at(slot);
 	}
 
 	void Listener::connect(const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
 	{
 		try {
-			if (this->slots.find(slot) != this->slots.end()) {
-				this->consumer.consume()->connect(*this, slot, emitter, signal);
+			if (this->_slots.find(slot) != this->_slots.end()) {
+				this->_consumer.consume()->connect(*this, slot, emitter, signal);
 			}
 		}
 		catch (MemoryAccessException & e) {
@@ -56,8 +56,8 @@ namespace ece
 	void Listener::disconnect(const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
 	{
 		try {
-			if (this->slots.find(slot) != this->slots.end()) {
-				this->consumer.consume()->disconnect(*this, slot, emitter, signal);
+			if (this->_slots.find(slot) != this->_slots.end()) {
+				this->_consumer.consume()->disconnect(*this, slot, emitter, signal);
 			}
 		}
 		catch (MemoryAccessException & e) {
@@ -69,8 +69,8 @@ namespace ece
 	void Listener::disconnectAll()
 	{
 		try {
-			for (auto it = this->slots.begin(); it != this->slots.end(); ++it) {
-				this->consumer.consume()->disconnectAll(*this, it->second);
+			for (auto it = this->_slots.begin(); it != this->_slots.end(); ++it) {
+				this->_consumer.consume()->disconnectAll(*this, it->second);
 			}
 		}
 		catch (MemoryAccessException & e) {
@@ -82,10 +82,10 @@ namespace ece
 	void Listener::clear()
 	{
 		try {
-			for (auto it = this->slots.begin(); it != this->slots.end(); ++it) {
-				this->consumer.consume()->eraseSlot(*this, it->first);
+			for (auto it = this->_slots.begin(); it != this->_slots.end(); ++it) {
+				this->_consumer.consume()->eraseSlot(*this, it->first);
 			}
-			this->slots.clear();
+			this->_slots.clear();
 		}
 		catch (MemoryAccessException & e) {
 			// TODO: use the logger

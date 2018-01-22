@@ -16,8 +16,8 @@ namespace ece
 		inline const unsigned int getOwner() const;
 
 	private:
-		ComponentID id;
-		unsigned int owner;
+		ComponentID _id;
+		unsigned int _owner;
 	};
 }
 

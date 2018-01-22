@@ -1,42 +1,43 @@
-#include "window/win32/window_adapter.hpp"
+#include "window/common/window_adapter.hpp"
+#include "window/win32/data_window_adapter.hpp"
 
 #include <iostream>
-#include <windowsx.h>
+#include <Windowsx.h>
 
 namespace ece
 {
-	const LPCWSTR WindowAdapter::className = L"ECE Window";
+	WindowAdapter::WindowAdapter(): BaseWindowAdapter(), _data(makePimpl<DataWindowAdapter>(nullptr)) {}
 
 	void WindowAdapter::createWindow()
 	{
-		this->registerPattern();
+		registerPattern();
 
 		DWORD settingsEx = WS_EX_TOPMOST;
 		DWORD settings = WS_OVERLAPPEDWINDOW;
 
-		this->windowId = CreateWindowEx(settingsEx, WindowAdapter::className, L"", settings, 0, 0, 320, 320, nullptr, nullptr, GetModuleHandle(nullptr), this);
-		ShowWindow(this->windowId, SW_SHOW);
-		UpdateWindow(this->windowId);
+		this->_data->_windowId = CreateWindowEx(settingsEx, className, L"", settings, 0, 0, 320, 320, nullptr, nullptr, GetModuleHandle(nullptr), this);
+		ShowWindow(this->_data->_windowId, SW_SHOW);
+		UpdateWindow(this->_data->_windowId);
 	}
 
 	void WindowAdapter::deleteWindow()
 	{
-		int codeError = DestroyWindow(this->windowId);
+		int codeError = DestroyWindow(this->_data->_windowId);
 		if (codeError == 0) {
 			std::cout << "Erreur destruction HWND. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
 		}
-		this->windowId = nullptr;
+		this->_data->_windowId = nullptr;
 	}
 
 	bool WindowAdapter::isWindowCreated() const
 	{
-		return this->windowId != nullptr;
+		return this->_data->_windowId != nullptr;
 	}
 
 	void WindowAdapter::setTitle(const std::string & title)
 	{
-		bool success = SetWindowTextA(this->windowId, title.data());
+		bool success = SetWindowTextA(this->_data->_windowId, title.data());
 		if (!success) {
 			std::cout << "Error while renaming window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -46,7 +47,7 @@ namespace ece
 	std::string WindowAdapter::getTitle() const
 	{
 		LPSTR title = nullptr;
-		bool success = GetWindowTextA(this->windowId, title, GetWindowTextLengthA(this->windowId));
+		bool success = GetWindowTextA(this->_data->_windowId, title, GetWindowTextLengthA(this->_data->_windowId));
 		if (!success) {
 			std::cout << "Error while getting window name. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -56,7 +57,7 @@ namespace ece
 
 	void WindowAdapter::setPosition(const IntVertex2u & position)
 	{
-		bool success = SetWindowPos(this->windowId, 0, position[0], position[1], 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		bool success = SetWindowPos(this->_data->_windowId, 0, position[0], position[1], 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		if (!success) {
 			std::cout << "Error while moving window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -66,17 +67,17 @@ namespace ece
 	IntVertex2u WindowAdapter::getPosition() const
 	{
 		RECT bounds;
-		bool success = GetWindowRect(this->windowId, &bounds);
+		bool success = GetWindowRect(this->_data->_windowId, &bounds);
 		if (!success) {
 			std::cout << "Error while retrieving window bounds. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
 		}
-		return IntVertex2u(bounds.left, bounds.top);
+		return IntVertex2u{ bounds.left, bounds.top };
 	}
 
 	void WindowAdapter::minimize()
 	{
-		bool success = ShowWindow(this->windowId, SW_RESTORE | SW_SHOWMINIMIZED);
+		bool success = ShowWindow(this->_data->_windowId, SW_RESTORE | SW_SHOWMINIMIZED);
 		if (!success) {
 			std::cout << "Error while minimizing window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -85,7 +86,7 @@ namespace ece
 
 	void WindowAdapter::maximize()
 	{
-		bool success = ShowWindow(this->windowId, SW_RESTORE | SW_SHOWMAXIMIZED);
+		bool success = ShowWindow(this->_data->_windowId, SW_RESTORE | SW_SHOWMAXIMIZED);
 		if (!success) {
 			std::cout << "Error while maximizing window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
@@ -108,20 +109,15 @@ namespace ece
 		}
 	}
 
-	HWND WindowAdapter::getWindowHandle() const
-	{
-		return this->windowId;
-	}
-
 	/*bool WindowAdapter::hasEvents() const
 	{
 		return PeekMessage(nullptr, this->windowId, 0, 0, PM_NOREMOVE);
 	}*/
 
-	void WindowAdapter::registerPattern()
+	void registerPattern()
 	{
 		WNDCLASSEX windowPattern;
-		if (!GetClassInfoEx(GetModuleHandle(nullptr), WindowAdapter::className, &windowPattern)) {
+		if (!GetClassInfoEx(GetModuleHandle(nullptr), className, &windowPattern)) {
 			windowPattern.cbClsExtra = 0;
 			windowPattern.cbSize = sizeof(WNDCLASSEX);
 			windowPattern.cbWndExtra = 0;
@@ -130,8 +126,8 @@ namespace ece
 			windowPattern.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 			windowPattern.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 			windowPattern.hInstance = GetModuleHandle(nullptr);
-			windowPattern.lpfnWndProc = WindowAdapter::processMessages;
-			windowPattern.lpszClassName = WindowAdapter::className;
+			windowPattern.lpfnWndProc = processMessages;
+			windowPattern.lpszClassName = className;
 			windowPattern.lpszMenuName = nullptr;
 			windowPattern.style = CS_DBLCLKS;
 
@@ -143,7 +139,7 @@ namespace ece
 		}
 	}
 
-	LRESULT CALLBACK WindowAdapter::processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		WindowAdapter * object = nullptr;
 		if (message == WM_CREATE) {
@@ -155,42 +151,40 @@ namespace ece
 		}
 
 		if (object) {
-			return object->processMessage(message, wParam, lParam);
+			object->processMessage(WindowMessage{ windowId, message, wParam, lParam });
 		}
-		else {
-			return DefWindowProc(windowId, message, wParam, lParam);
-		}
+		return DefWindowProc(windowId, message, wParam, lParam);
 	}
 
-	LRESULT WindowAdapter::processMessage(UINT message, WPARAM wParam, LPARAM lParam)
+	void WindowAdapter::processMessage(const WindowMessage & message)
 	{
-		if (this->windowId == windowId) {
-			switch (message) {
+		if (this->_data->_windowId == message._windowId) {
+			switch (message._message) {
 			case WM_KEYDOWN: {
-				auto keyCode = this->interpretKey(wParam);
-				if (this->keyRepeat || (!this->keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
+				auto keyCode = interpretKey(message._wParam);
+				if (this->_keyRepeat || (!this->_keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
 					InputEvent newEvent;
-					newEvent.type = InputEvent::ECE_KEY_PRESSED;
-					newEvent.key = keyCode;
+					newEvent._type = InputEvent::ECE_KEY_PRESSED;
+					newEvent._key = keyCode;
 					this->pushEvent(newEvent);
 					Keyboard::pressKey(keyCode, true);
 				}
 				break;
 			}
 			case WM_KEYUP: {
-				auto keyCode = this->interpretKey(wParam);
+				auto keyCode = interpretKey(message._wParam);
 				InputEvent newEvent;
-				newEvent.type = InputEvent::ECE_KEY_RELEASED;
-				newEvent.key = keyCode;
+				newEvent._type = InputEvent::ECE_KEY_RELEASED;
+				newEvent._key = keyCode;
 				this->pushEvent(newEvent);
 				Keyboard::pressKey(keyCode, false);
 				break;
 			}
 			case WM_LBUTTONDOWN: {
-				if (this->keyRepeat || (!this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_LEFT))) {
+				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_LEFT))) {
 					InputEvent newEvent;
-					newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
-					newEvent.mouseButton = Mouse::ECE_MOUSE_LEFT;
+					newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
+					newEvent._mouseButton = Mouse::ECE_MOUSE_LEFT;
 					this->pushEvent(newEvent);
 					Mouse::pressKey(Mouse::ECE_MOUSE_LEFT, true);
 				}
@@ -198,27 +192,27 @@ namespace ece
 			}
 			case WM_LBUTTONUP: {
 				InputEvent newEvent;
-				newEvent.type = InputEvent::ECE_MOUSE_RELEASED;
-				newEvent.mouseButton = Mouse::ECE_MOUSE_LEFT;
+				newEvent._type = InputEvent::ECE_MOUSE_RELEASED;
+				newEvent._mouseButton = Mouse::ECE_MOUSE_LEFT;
 				this->pushEvent(newEvent);
 				Mouse::pressKey(Mouse::ECE_MOUSE_LEFT, false);
 				break;
 			}
 			case WM_LBUTTONDBLCLK: {
 				InputEvent newEvent;
-				newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
-				newEvent.mouseButton = Mouse::ECE_MOUSE_LEFT;
-				newEvent.doubleTap = InputEvent::ECE_FIRST_OF;
+				newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
+				newEvent._mouseButton = Mouse::ECE_MOUSE_LEFT;
+				newEvent._doubleTap = InputEvent::ECE_FIRST_OF;
 				this->pushEvent(newEvent);
-				newEvent.doubleTap = InputEvent::ECE_LAST_OF;
+				newEvent._doubleTap = InputEvent::ECE_LAST_OF;
 				this->pushEvent(newEvent);
 				break;
 			}
 			case WM_RBUTTONDOWN: {
-				if (this->keyRepeat || (!this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_RIGHT))) {
+				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_RIGHT))) {
 					InputEvent newEvent;
-					newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
-					newEvent.mouseButton = Mouse::ECE_MOUSE_RIGHT;
+					newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
+					newEvent._mouseButton = Mouse::ECE_MOUSE_RIGHT;
 					this->pushEvent(newEvent);
 					Mouse::pressKey(Mouse::ECE_MOUSE_RIGHT, true);
 				}
@@ -226,25 +220,25 @@ namespace ece
 			}
 			case WM_RBUTTONUP: {
 				InputEvent newEvent;
-				newEvent.type = InputEvent::ECE_MOUSE_RELEASED;
-				newEvent.mouseButton = Mouse::ECE_MOUSE_RIGHT;
+				newEvent._type = InputEvent::ECE_MOUSE_RELEASED;
+				newEvent._mouseButton = Mouse::ECE_MOUSE_RIGHT;
 				this->pushEvent(newEvent);
 				Mouse::pressKey(Mouse::ECE_MOUSE_RIGHT, false);
 				break;
 			}
 			case WM_RBUTTONDBLCLK: {
 				InputEvent newEvent;
-				newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
-				newEvent.mouseButton = Mouse::ECE_MOUSE_RIGHT;
+				newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
+				newEvent._mouseButton = Mouse::ECE_MOUSE_RIGHT;
 				this->pushEvent(newEvent);
 				this->pushEvent(newEvent);
 				break;
 			}
 			case WM_MBUTTONDOWN: {
-				if (this->keyRepeat || (!this->keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_WHEEL))) {
+				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_WHEEL))) {
 					InputEvent newEvent;
-					newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
-					newEvent.mouseButton = Mouse::ECE_MOUSE_WHEEL;
+					newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
+					newEvent._mouseButton = Mouse::ECE_MOUSE_WHEEL;
 					this->pushEvent(newEvent);
 					Mouse::pressKey(Mouse::ECE_MOUSE_WHEEL, true);
 				}
@@ -252,26 +246,26 @@ namespace ece
 			}
 			case WM_MBUTTONUP: {
 				InputEvent newEvent;
-				newEvent.type = InputEvent::ECE_MOUSE_RELEASED;
-				newEvent.mouseButton = Mouse::ECE_MOUSE_WHEEL;
+				newEvent._type = InputEvent::ECE_MOUSE_RELEASED;
+				newEvent._mouseButton = Mouse::ECE_MOUSE_WHEEL;
 				this->pushEvent(newEvent);
 				Mouse::pressKey(Mouse::ECE_MOUSE_WHEEL, false);
 				break;
 			}
 			case WM_MBUTTONDBLCLK: {
 				InputEvent newEvent;
-				newEvent.type = InputEvent::ECE_MOUSE_PRESSED;
-				newEvent.mouseButton = Mouse::ECE_MOUSE_WHEEL;
+				newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
+				newEvent._mouseButton = Mouse::ECE_MOUSE_WHEEL;
 				this->pushEvent(newEvent);
 				this->pushEvent(newEvent);
 				break;
 			}
 			case WM_MOUSEMOVE: {
 				InputEvent newEvent;
-				newEvent.type = InputEvent::ECE_MOUSE_MOVED;
-				newEvent.mousePosition[0] = GET_X_LPARAM(lParam);
-				newEvent.mousePosition[1] = GET_Y_LPARAM(lParam);
-				Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
+				newEvent._type = InputEvent::ECE_MOUSE_MOVED;
+				newEvent._mousePosition[0] = GET_X_LPARAM(message._lParam);
+				newEvent._mousePosition[1] = GET_Y_LPARAM(message._lParam);
+				Mouse::setPosition(this->getPosition() + newEvent._mousePosition);
 				this->pushEvent(newEvent);
 				break;
 			}
@@ -280,12 +274,11 @@ namespace ece
 			}
 			}
 		}
-		return DefWindowProc(windowId, message, wParam, lParam);
 	}
 
-	Keyboard::Key WindowAdapter::interpretKey(WPARAM wParam)
+	Keyboard::Key interpretKey(WPARAM wParam)
 	{
-		Keyboard::Key key;
+		Keyboard::Key key = Keyboard::KEY_NONE;
 		switch (wParam) {
 		case VK_CANCEL: //Control-break processing
 		case VK_BACK:

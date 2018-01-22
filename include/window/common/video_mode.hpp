@@ -2,9 +2,9 @@
 #define VIDEO_MODE_HPP
 
 /**
-* @file VideoMode.hpp
+* @file window/common/video_mode.hpp
 * @author IsiliBN (casa2pir@hotmail.fr)
-* @date October, 24th 2016
+* @date January, 12th 2018
 * @copyright ----------
 * @brief Store the value for the video mode of a window.
 *
@@ -61,14 +61,14 @@ namespace ece
 		inline void applyChanges();
 
 	private:
-		unsigned short int refreshRate;
-		unsigned short int colorBits;
-		unsigned short int depthBits;
-		unsigned short int stencilBits;
-		unsigned short int samples;
-		bool doubleBuffering;
+		unsigned short int _refreshRate;
+		unsigned short int _colorBits;
+		unsigned short int _depthBits;
+		unsigned short int _stencilBits;
+		unsigned short int _samples;
+		bool _doubleBuffering;
 
-		bool changed;
+		bool _changed;
 	};
 }
 

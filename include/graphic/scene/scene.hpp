@@ -29,8 +29,8 @@ namespace ece
 		inline std::vector<Renderable *> & getObjects();
 
 	private:
-		Camera camera;
-		std::vector<Renderable *> objects;
+		Camera _camera;
+		std::vector<Renderable *> _objects;
 	};
 }
 

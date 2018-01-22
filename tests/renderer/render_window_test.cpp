@@ -1,6 +1,6 @@
-#include "catch/catch.hpp"
+#include "Catch2/single_include/catch.hpp"
 
-#include "renderer/common_renderer/render_window.hpp"
+#include "renderer/common/render_window.hpp"
 
 SCENARIO("RenderWindow", "[Renderer]")
 {

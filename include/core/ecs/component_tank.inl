@@ -1,6 +1,6 @@
 namespace ece
 {
-	inline ComponentTank::ComponentTank() : nextComponent() {}
+	inline ComponentTank::ComponentTank() : _nextComponent() {}
 
 	inline ComponentTank::~ComponentTank() {}
 }

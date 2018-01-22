@@ -6,9 +6,13 @@
 
 #include "window/window_event/input_event.hpp"
 #include "window/common/event_queue.hpp"
+#include "utility/pattern/pimpl.hpp"
 
 namespace ece
 {
+	struct DataWindowAdapter;
+	struct WindowMessage;
+
 	class BaseWindowAdapter
 	{
 	public:
@@ -40,14 +44,16 @@ namespace ece
 		bool hasEvents() const;
 		InputEvent popEvent();
 
+		virtual Pimpl<DataWindowAdapter> & getImpl() = 0;
+
 	protected:
 		void pushEvent(const InputEvent & nextEvent);
 		InputEvent & lastEvent();
 
-		bool keyRepeat;
+		bool _keyRepeat;
 
 	private:
-		EventQueue eventQueue;
+		EventQueue _eventQueue;
 	};
 }
 

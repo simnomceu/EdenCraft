@@ -24,7 +24,7 @@ namespace ece
 		inline std::weak_ptr<Resource> operator*();
 
 	private:
-		std::shared_ptr<Resource> resource;
+		std::shared_ptr<Resource> _resource;
 	};
 }
 

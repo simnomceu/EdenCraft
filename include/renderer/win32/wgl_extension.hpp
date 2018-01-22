@@ -26,7 +26,7 @@ namespace ece
 		virtual void loadPlatformExtensions() override;
 	
 	private:
-		HMODULE openglLib;
+		HMODULE _openglLib;
 	};
 }
 

@@ -1,6 +1,6 @@
 #include "renderer/common/shader.hpp"
 
-#include "utility/file/file.hpp"
+#include "utility/file_system/file.hpp"
 #include "utility/debug/exception.hpp"
 #include "utility/log/service_logger.hpp"
 
@@ -8,26 +8,26 @@ namespace ece
 {
 	Shader & Shader::operator=(const Shader & copy)
 	{
-		this->filename = copy.filename;
-		this->source = copy.filename;
-		this->type = copy.type;
-		this->handle = copy.handle;
-		this->compilationRequired = copy.compilationRequired;
+		this->_filename = copy._filename;
+		this->_source = copy._filename;
+		this->_type = copy._type;
+		this->_handle = copy._handle;
+		this->_compilationRequired = copy._compilationRequired;
 
 		return *this;
 	}
 
 	Shader & Shader::operator=(Shader && move)
 	{
-		this->filename = std::move(move.filename);
-		this->source = std::move(move.filename);
-		this->type = move.type;
-		this->handle = move.handle;
-		this->compilationRequired = move.compilationRequired;
+		this->_filename = std::move(move._filename);
+		this->_source = std::move(move._filename);
+		this->_type = move._type;
+		this->_handle = move._handle;
+		this->_compilationRequired = move._compilationRequired;
 
-		move.filename.clear();
-		move.handle = 0;
-		move.compilationRequired = false;
+		move._filename.clear();
+		move._handle = 0;
+		move._compilationRequired = false;
 
 		return *this;
 	}
@@ -36,21 +36,21 @@ namespace ece
 	{
 		this->terminate();
 
-		if (this->filename != filename) {
-			this->filename = filename;
+		if (this->_filename != filename) {
+			this->_filename = filename;
 
-			this->source.clear();
+			this->_source.clear();
 			File shaderFile;
 			try {
-				shaderFile.open(this->filename);
-				this->source = shaderFile.parseToString();
+				shaderFile.open(this->_filename);
+				this->_source = shaderFile.parseToString();
 				shaderFile.close();
 			}
 			catch (FileException & e) {
 				ServiceLoggerLocator::getService().logError(e.what());
 			}
-			this->type = type;
-			this->compilationRequired = true;
+			this->_type = type;
+			this->_compilationRequired = true;
 		}
 	}
 
@@ -58,26 +58,26 @@ namespace ece
 	{
 		this->terminate();
 
-		this->filename = "";
-		this->source = sourceCode;
-		this->type = type;
-		this->compilationRequired = true;
+		this->_filename = "";
+		this->_source = sourceCode;
+		this->_type = type;
+		this->_compilationRequired = true;
 	}
 
 	void Shader::compile()
 	{
-		this->handle = OpenGL::createShader(this->type);
-		OpenGL::shaderSource(this->handle, this->source);		
-		OpenGL::compileShader(this->handle);
-		this->compilationRequired = false;
+		this->_handle = OpenGL::createShader(this->_type);
+		OpenGL::shaderSource(this->_handle, this->_source);		
+		OpenGL::compileShader(this->_handle);
+		this->_compilationRequired = false;
 	}
 
 	void Shader::terminate()
 	{
-		if (this->handle != 0) {
-			OpenGL::deleteShader(this->handle);
-			this->handle = 0;
-			this->compilationRequired = true;
+		if (this->_handle != 0) {
+			OpenGL::deleteShader(this->_handle);
+			this->_handle = 0;
+			this->_compilationRequired = true;
 		}
 	}
 }

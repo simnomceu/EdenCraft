@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "utility/mathematics/vertex2u.hpp"
+#include "utility/mathematics/vector2u.hpp"
 
 namespace ece
 {
@@ -19,10 +19,10 @@ namespace ece
 		WindowSetting & operator=(const WindowSetting & copy) = default;
 		WindowSetting & operator=(WindowSetting && move) = default;
 
-		std::string title;
-		IntVertex2u position;
-		IntVertex2u minimumSize;
-		IntVertex2u maximumSize;
+		std::string _title;
+		IntVertex2u _position;
+		IntVertex2u _minimumSize;
+		IntVertex2u _maximumSize;
 	};
 }
 
