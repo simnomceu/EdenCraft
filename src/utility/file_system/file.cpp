@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,15 +36,6 @@
 
 */
 
-/**
- * @file utility/file_system/file.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 1st 2017
- * @copyright ----------
- * @brief Encapsulates the file resource in a class.
- *
- */
-
 #include "utility/file_system/file.hpp"
 
 #include "utility/debug/exception.hpp"
@@ -56,45 +47,45 @@
 
 namespace ece
 {
-	File::File(const File & copy) : filename(copy.filename), stream()
+	File::File(const File & copy) : _filename(copy._filename), _stream()
 	{
-		this->stream.copyfmt(copy.stream);
-		this->stream.clear(copy.stream.rdstate());
-		this->stream.basic_fstream<char>::basic_ios<char>::rdbuf(stream.rdbuf());
+		this->_stream.copyfmt(copy._stream);
+		this->_stream.clear(copy._stream.rdstate());
+		this->_stream.basic_fstream<char>::basic_ios<char>::rdbuf(copy._stream.rdbuf());
 	}
 
 	File & File::operator=(const File & copy)
 	{
-		this->filename = copy.filename;
-		this->stream.copyfmt(copy.stream);
-		this->stream.clear(copy.stream.rdstate());
-		this->stream.basic_fstream<char>::basic_ios<char>::rdbuf(stream.rdbuf());
+		this->_filename = copy._filename;
+		this->_stream.copyfmt(copy._stream);
+		this->_stream.clear(copy._stream.rdstate());
+		this->_stream.basic_fstream<char>::basic_ios<char>::rdbuf(copy._stream.rdbuf());
 		return *this;
 	}
 
 	File & File::operator=(File && move)
 	{
-		this->filename = std::move(move.filename);
-		this->stream = std::move(move.stream);
+		this->_filename = std::move(move._filename);
+		this->_stream = std::move(move._stream);
 		move.close();
 		return *this;
 	}
 
 	const bool File::open(const std::string & filename, const OpenMode & mode)
 	{
-		this->stream.close();
+		this->_stream.close();
 		if (!File::exists(filename)) {
 			throw FileException(BAD_PATH, filename);
 		}
-		this->filename = filename;
-		this->stream.open(this->filename, static_cast<std::ios_base::openmode>(mode));
+		this->_filename = filename;
+		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
 		return this->isOpen();
 	}
 
 	void File::close()
 	{
 		if (this->isOpen()) {
-			this->stream.close();
+			this->_stream.close();
 		}
 	}
 
@@ -102,9 +93,9 @@ namespace ece
 	{
 		std::string content = "";
 		if (this->isOpen()) {
-			while (this->stream.good()) {
+			while (this->_stream.good()) {
 				std::string line;
-				std::getline(this->stream, line);
+				std::getline(this->_stream, line);
 				content.append(line + "\n");
 			}
 		}
@@ -118,13 +109,13 @@ namespace ece
 		if (this->isOpen()) {
 			FloatVertex3u value;
 			try {
-				while (this->stream.good()) {
+				while (this->_stream.good()) {
 					*this >> value[0] >> value[1] >> value[2];
 					content.push_back(value);
 				}
 			}
 			catch (std::exception & e) {
-				throw FileException(PARSE_ERROR, this->filename + " (" + e.what() + ")");
+				throw FileException(PARSE_ERROR, this->_filename + " (" + e.what() + ")");
 			}
 		}
 		return content;

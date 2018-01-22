@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,25 +36,17 @@
 
 */
 
-/**
- * @file utility/json/node_json.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 28th 2017
- * @copyright ----------
- * @brief Default node from a JSON tree.
- */
-
 namespace ece
 {
-	inline NodeJSON::NodeJSON(const std::weak_ptr<NodeJSON>& parent) noexcept : std::enable_shared_from_this<NodeJSON>(), parent(parent) {}
+	inline NodeJSON::NodeJSON(const std::weak_ptr<NodeJSON>& parent) noexcept : std::enable_shared_from_this<NodeJSON>(), _parent(parent) {}
 
-	inline NodeJSON::NodeJSON(const NodeJSON & copy) noexcept : std::enable_shared_from_this<NodeJSON>(copy), parent(copy.parent) {}
+	inline NodeJSON::NodeJSON(const NodeJSON & copy) noexcept : std::enable_shared_from_this<NodeJSON>(copy), _parent(copy._parent) {}
 
-	inline NodeJSON::NodeJSON(NodeJSON && move) noexcept : std::enable_shared_from_this<NodeJSON>(move), parent(std::move(move.parent)) {}
+	inline NodeJSON::NodeJSON(NodeJSON && move) noexcept : std::enable_shared_from_this<NodeJSON>(move), _parent(std::move(move._parent)) {}
 
-	inline NodeJSON::~NodeJSON() noexcept { this->parent.reset(); }
+	inline NodeJSON::~NodeJSON() noexcept { this->_parent.reset(); }
 
-	inline std::shared_ptr<NodeJSON> NodeJSON::getParent() noexcept { return this->parent.lock(); }
+	inline std::shared_ptr<NodeJSON> NodeJSON::getParent() noexcept { return this->_parent.lock(); }
 
-	inline const bool NodeJSON::hasParent() const noexcept { return !this->parent.expired(); }
+	inline const bool NodeJSON::hasParent() const noexcept { return !this->_parent.expired(); }
 }

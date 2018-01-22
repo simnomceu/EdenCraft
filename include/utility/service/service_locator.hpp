@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/service/service_locator.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2017
- * @copyright ----------
- * @brief Generic locator for the service pattern.
- **/
 
 #ifndef SERVICE_LOCATOR_HPP
 #define SERVICE_LOCATOR_HPP
@@ -90,7 +82,11 @@ namespace ece
 		static inline void stop();
 
 	protected:
-		static std::shared_ptr<Base> service;
+		/**
+		 * @property _service
+		 * @brief The service to expose.
+		 */
+		static std::shared_ptr<Base> _service;
 	};
 }
 

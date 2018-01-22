@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,14 +36,6 @@
 
 */
 
-/**
- * @file utility/mathematics/matrix3u.hpp
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief A 3x3 specialization of Matrix.
- **/
-
 #ifndef MATRIX3U_HPP
 #define MATRIX3U_HPP
 
@@ -51,6 +43,24 @@
 
 namespace ece
 {
+	template <class T>
+	struct determinant<T, 3>
+	{
+		inline double operator()(const Matrix<T, 3, 3> & matrix) const;
+	};
+
+	template <class T>
+	struct transpose<T, 3>
+	{
+		inline Matrix<T, 3, 3> operator()(const Matrix<T, 3, 3> & matrix) const;
+	};
+
+	template <class T>
+	struct inverse<T, 3>
+	{
+		inline Matrix<double, 3, 3> operator()(const Matrix<T, 3, 3> & matrix, bool & invertible) const;
+	};
+
 	/**
 	 * @typedef Matrix3u
 	 * @brief 3x3 Square matrix

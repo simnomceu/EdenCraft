@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,17 +36,9 @@
 
 */
 
-/**
- * @file utility/time/chrono.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
- * @copyright ----------
- * @brief Define a chrono.
- **/
-
 namespace ece
 {
-	inline constexpr Chrono::Chrono() : begin() {}
+	inline constexpr Chrono::Chrono() : _begin() {}
 
-	inline void Chrono::start() { this->begin = std::chrono::system_clock::now(); }
+	inline void Chrono::start() { this->_begin = std::chrono::system_clock::now(); }
 }

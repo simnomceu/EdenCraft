@@ -33,8 +33,8 @@ namespace ece
 		void clear();
 
 	private:
-		EventManagerConsumer consumer;
-		std::map<Slot::SlotID, Slot::GlobalSlotID> slots;
+		EventManagerConsumer _consumer;
+		std::map<Slot::SlotID, Slot::GlobalSlotID> _slots;
 	};
 }
 

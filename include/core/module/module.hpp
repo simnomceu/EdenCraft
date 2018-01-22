@@ -26,10 +26,10 @@ namespace ece
 		inline virtual void terminate() override;
 
 	private:
-		T module;
-		ModuleMethod<T> initHandle;
-		ModuleMethod<T> updateHandle;
-		ModuleMethod<T> terminateHandle;
+		T _module;
+		ModuleMethod<T> _initHandle;
+		ModuleMethod<T> _updateHandle;
+		ModuleMethod<T> _terminateHandle;
 	};
 }
 

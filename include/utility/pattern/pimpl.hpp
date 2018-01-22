@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/pattern/pimpl.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2017
- * @copyright ----------
- * @brief Implementation of the PIMPL idiom.
- **/
 
 #ifndef PIMPL_HPP
 #define PIMPL_HPP
@@ -140,16 +132,16 @@ namespace ece
 
 	protected:
 		/**
-		 * @property impl
+		 * @property _impl
 		 * @brief The hidden implementation.
 		 */
-		std::unique_ptr<Impl, Deleter> impl; // opaque pointer
+		std::unique_ptr<Impl, Deleter> _impl; // opaque pointer
 
 		/**
-		 * @property copier
+		 * @property _copier
 		 * @brief The copier used to allow copy operation of the implementation.
 		 */
-		Copier copier;
+		Copier _copier;
 
 		/**
 		 * @fn Pimpl clone() const

@@ -36,9 +36,9 @@ namespace ece
 		void registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader);
 
 	private:
-		std::map<std::string, ResourceHandler> resources;
-		std::map<std::string, std::shared_ptr<ResourceLoader>> loaders;
-		std::map<std::string, std::shared_ptr<ResourceUnloader>> unloaders;
+		std::map<std::string, ResourceHandler> _resources;
+		std::map<std::string, std::shared_ptr<ResourceLoader>> _loaders;
+		std::map<std::string, std::shared_ptr<ResourceUnloader>> _unloaders;
 	};
 }
 

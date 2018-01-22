@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/log/base_logger.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
- * @copyright ----------
- * @brief Define an empty base for logger service.
- */
 
 #ifndef BASE_LOGGER_HPP
 #define BASE_LOGGER_HPP
@@ -133,10 +125,10 @@ namespace ece
 
 	protected:
 		/**
-		 * @property target
+		 * @property _target
 		 * @brief The target stream to send the log.
 		 */
-		std::ostream & target;
+		std::ostream & _target;
 	};
 }
 

@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/file_system/path.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 12th 2017
- * @copyright ----------
- * @brief Describe path to any location in the file system.
- */
 
 #include "utility/file_system/path.hpp"
 
@@ -74,15 +66,18 @@ namespace ece
 		int size = GetModuleFileName(NULL, wresult, FILENAME_MAX);
 		size_t copiedSize;
 		auto error = wcstombs_s(&copiedSize, result, FILENAME_MAX, wresult, size);
+		if (error != 0) {
+			throw std::runtime_error("aie aie aie");
+		}
 		path = std::string(result, size);
 #endif
 		return Path(path);
 	}
 
-	Path::Path(const std::string & pathname): path()
+	Path::Path(const std::string & pathname): _path()
 	{
 		// BERK
-		auto result = std::back_inserter(this->path);
+		auto result = std::back_inserter(this->_path);
 		std::stringstream ss;
 		ss.str(pathname);
 		std::string item;
@@ -94,14 +89,14 @@ namespace ece
 	std::string Path::getPathname() const
 	{
 		std::stringstream res;
-		std::copy(this->path.begin(), this->path.end(), std::ostream_iterator<std::string>(res, "\\"));
+		std::copy(this->_path.begin(), this->_path.end(), std::ostream_iterator<std::string>(res, "\\"));
 		std::string  result = res.str();
 		return result.substr(0, result.size() - 1);
 	}
 
 	std::string Path::getPath() const {
 		std::stringstream res;
-		std::copy(this->path.begin(), this->path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
+		std::copy(this->_path.begin(), this->_path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
 		std::string  result = res.str() + '\\';
 		return result.substr(0, result.size() - 1);
 	}

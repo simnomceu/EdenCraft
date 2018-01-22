@@ -10,8 +10,8 @@ namespace ece
 	void Emitter::addSignal(const Signal::SignalID signal)
 	{
 		try {
-			if (this->signals.find(signal) == this->signals.end()) {
-				this->signals[signal] = this->consumer.consume()->addSignal();
+			if (this->_signals.find(signal) == this->_signals.end()) {
+				this->_signals[signal] = this->_consumer.consume()->addSignal();
 			}
 		}
 		catch (MemoryAccessException & e) {
@@ -23,9 +23,9 @@ namespace ece
 	void Emitter::removeSignal(const Signal::SignalID signal)
 	{
 		try {
-			this->consumer.consume()->eraseSignal(*this, signal);
+			this->_consumer.consume()->eraseSignal(*this, signal);
 
-			this->signals.erase(signal);
+			this->_signals.erase(signal);
 		}
 		catch (MemoryAccessException & e) {
 			// TODO: use logger
@@ -36,7 +36,7 @@ namespace ece
 	void Emitter::emit(const Signal::SignalID signal)
 	{
 		try {
-			this->consumer.consume()->broadcast(*this, signal);
+			this->_consumer.consume()->broadcast(*this, signal);
 		}
 		catch (MemoryAccessException & e) {
 			// TODO: use logger
@@ -46,19 +46,19 @@ namespace ece
 
 	const Signal::GlobalSignalID Emitter::getSignal(const Signal::SignalID signal) const
 	{
-		if (this->signals.find(signal) == this->signals.end()) {
+		if (this->_signals.find(signal) == this->_signals.end()) {
 			throw OutOfRangeException("signal", signal);
 		}
-		return this->signals.at(signal);
+		return this->_signals.at(signal);
 	}
 
 	void Emitter::clear()
 	{
 		try {
-			for (auto it = this->signals.begin(); it != this->signals.end(); ++it) {
-				this->consumer.consume()->eraseSignal(*this, it->first);
+			for (auto it = this->_signals.begin(); it != this->_signals.end(); ++it) {
+				this->_consumer.consume()->eraseSignal(*this, it->first);
 			}
-			this->signals.clear();
+			this->_signals.clear();
 		}
 		catch (MemoryAccessException & e) {
 			// TODO: use logger
@@ -69,7 +69,7 @@ namespace ece
 	void Emitter::connect(const Signal::SignalID signal, const Listener & listener, const Slot::SlotID slot)
 	{
 		try {
-			this->consumer.consume()->connect(listener, slot, *this, signal);
+			this->_consumer.consume()->connect(listener, slot, *this, signal);
 		}
 		catch (MemoryAccessException & e) {
 			// TODO: use logger
@@ -80,7 +80,7 @@ namespace ece
 	void Emitter::disconnect(const Signal::SignalID signal, const Listener & listener, const Slot::SlotID slot)
 	{
 		try {
-			this->consumer.consume()->disconnect(listener, slot, *this, signal);
+			this->_consumer.consume()->disconnect(listener, slot, *this, signal);
 		}
 		catch (MemoryAccessException & e) {
 			// TODO: use logger
@@ -91,8 +91,8 @@ namespace ece
 	void Emitter::disconnectAll()
 	{
 		try {
-			for (auto it = this->signals.begin(); it != this->signals.end(); ++it) {
-				this->consumer.consume()->disconnectAll(*this, it->second);
+			for (auto it = this->_signals.begin(); it != this->_signals.end(); ++it) {
+				this->_consumer.consume()->disconnectAll(*this, it->second);
 			}
 		}
 		catch (MemoryAccessException & e) {

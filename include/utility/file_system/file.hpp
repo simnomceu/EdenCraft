@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,15 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/file_system/file.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 1st 2017
- * @copyright ----------
- * @brief Encapsulates the file resource in a class.
- *
- */
 
 #ifndef FILE_HPP
 #define FILE_HPP
@@ -192,16 +183,16 @@ namespace ece
 
 	protected:
 		/**
-		 * @property filename
+		 * @property _filename
 		 * @brief The filename opened in the file stream.
 		 */
-		std::string filename;
+		std::string _filename;
 
 		/**
-		 * @property stream
+		 * @property _stream
 		 * @brief The file stream associated.
 		 */
-		std::fstream stream;
+		std::fstream _stream;
 	};
 
 	/**

@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,17 +36,6 @@
 
 */
 
-/**
- * @file utility/debug/exception.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date November, 28th 2017
- * @copyright ----------
- * @brief Generic exception constructor and set of exceptions used in Edencraft libraries.
- *
- * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
- *
- */
-
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
@@ -62,8 +51,9 @@ namespace ece
 	 * @extends std::runtime_error
 	 * @brief Base class to build an exception with arguments binding.
 	 * @see http://en.cppreference.com/w/cpp/error/runtime_error
+	 * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
 	 */
-	class Exception : protected std::runtime_error
+	class Exception : public std::runtime_error
 	{
 	public:
 		/**
@@ -102,10 +92,10 @@ namespace ece
 
 	private:
 		/**
-		 * @property message
+		 * @property _message
 		 * @brief The exception message with parameters already binded.
 		 */
-		std::string message;
+		std::string _message;
 		
 		/**
 		 * @fn std::string mapString(const std::string & content)
@@ -293,10 +283,6 @@ namespace ece
 	};
 }
 
-/**
- * @include utility/debug/exception.inl
- * @brief Definition of inline en template methods of the exception classes.
- */
 #include "utility/debug/exception.inl"
 
 #endif // EXCEPTION_HPP

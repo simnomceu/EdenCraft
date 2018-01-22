@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,14 +36,6 @@
 
 */
 
-/**
- * @file utility/mathematics/matrix4u.hpp
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief A 4x4 specialization of Matrix.
- **/
-
 #ifndef MATRIX4U_HPP
 #define MATRIX4U_HPP
 
@@ -51,6 +43,24 @@
 
 namespace ece
 {
+	template <class T>
+	struct determinant<T, 4>
+	{
+		inline double operator()(const Matrix<T, 4, 4> & matrix) const;
+	};
+
+	template <class T>
+	struct transpose<T, 4>
+	{
+		inline Matrix<T, 4, 4> operator()(const Matrix<T, 4, 4> & matrix) const;
+	};
+
+	template <class T>
+	struct inverse<T, 4>
+	{
+		inline Matrix<double, 4, 4> operator()(const Matrix<T, 4, 4> & matrix, bool & invertible) const;
+	};
+
 	/**
 	 * @typedef Matrix4u
 	 * @brief 4x4 Square matrix

@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,14 +36,6 @@
 
 */
 
-/**
- * @file utility/locale/locale_loader.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
- * @copyright ----------
- * @brief Load a locale resource of string literals.
- */
-
 #include "utility/locale/locale_loader.hpp"
 
 #include "utility/file_system/parser_json.hpp"
@@ -56,32 +48,32 @@
 
 namespace ece
 {
-	std::string LocaleLoader::path = "";
+	std::string LocaleLoader::_path = "";
 
 	void LocaleLoader::setPath(const std::string & path) noexcept
 	{
-		LocaleLoader::path = path;
+		LocaleLoader::_path = path;
 	}
 
-	LocaleLoader::LocaleLoader(const std::string & filename, const Localization & locale): locale(locale), resource(), filename(filename)
+	LocaleLoader::LocaleLoader(const std::string & filename, const Localization & locale): _locale(locale), _resource(), _filename(filename)
 	{
-		this->locale = locale;
-		std::string file = LocaleLoader::path + this->filename + "_" 
-							+ this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
+		this->_locale = locale;
+		std::string file = LocaleLoader::_path + this->_filename + "_" 
+							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
 		this->generateResource(file);
 	}
 
 	void LocaleLoader::changeLocale(const Localization & locale)
 	{
-		this->locale = locale;
-		std::string file = LocaleLoader::path + this->filename + "_" 
-							+ this->locale.getLanguage() + "_" + this->locale.getCountry() + ".json";
+		this->_locale = locale;
+		std::string file = LocaleLoader::_path + this->_filename + "_" 
+							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
 		this->generateResource(file);
 	}
 
 	void LocaleLoader::generateResource(const std::string & file)
 	{
-		this->resource.clear();
+		this->_resource.clear();
 		try {
 			ParserJSON parser;
 			parser.loadFromFile(file);
@@ -90,7 +82,7 @@ namespace ece
 			for (auto it = jsonObject->begin(); it != jsonObject->end(); ++it) {
 				if (it->second->getType() == TypeNodeJSON::STRING_JSON) {
 					auto element = std::static_pointer_cast<StringJSON>(it->second);
-					this->resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
+					this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
 				}
 			}
 		}

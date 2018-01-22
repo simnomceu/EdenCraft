@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,192 +36,51 @@
 
 */
 
-/**
- * @file utility/mathematics/matrix3u.inl
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief A 3x3 specialization of Matrix.
- **/
-
-
 #include "utility/debug/exception.hpp"
 
 namespace ece
 {
-	template<>
-	inline int Matrix3u<int>::determinant() const
+	template<class T>
+	inline double determinant<T, 3>::operator()(const Matrix<T, 3, 3> & matrix) const
 	{
-		return (*this)[0][0] * (*this)[1][1] * (*this)[2][2]
-			 + (*this)[0][1] * (*this)[1][2] * (*this)[2][0]
-			 + (*this)[0][2] * (*this)[1][0] * (*this)[2][1]
-			 - (*this)[0][2] * (*this)[1][1] * (*this)[2][0]
-			 - (*this)[0][1] * (*this)[1][0] * (*this)[2][2]
-			 - (*this)[0][0] * (*this)[1][2] * (*this)[2][1];
+		return matrix(0, 0) * matrix(1, 1) * matrix(2, 2)
+			+ matrix(0, 1) * matrix(1, 2) * matrix(2, 0)
+			+ matrix(0, 2) * matrix(1, 0) * matrix(2, 1)
+			- matrix(0, 2) * matrix(1, 1) * matrix(2, 0)
+			- matrix(0, 1) * matrix(1, 0) * matrix(2, 2)
+			- matrix(0, 0) * matrix(1, 2) * matrix(2, 1);
 	}
 
-	template<>
-	inline unsigned int Matrix3u<unsigned int>::determinant() const
+	template<class T>
+	inline Matrix<T, 3, 3> transpose<T, 3>::operator()(const Matrix<T, 3, 3> & matrix) const
 	{
-		return (*this)[0][0] * (*this)[1][1] * (*this)[2][2]
-			+ (*this)[0][1] * (*this)[1][2] * (*this)[2][0]
-			+ (*this)[0][2] * (*this)[1][0] * (*this)[2][1]
-			- (*this)[0][2] * (*this)[1][1] * (*this)[2][0]
-			- (*this)[0][1] * (*this)[1][0] * (*this)[2][2]
-			- (*this)[0][0] * (*this)[1][2] * (*this)[2][1];
+		return Matrix<T, 3, 3>{ matrix(0, 0), matrix(1, 0), matrix(2, 0),
+			matrix(0, 1), matrix(1, 1), matrix(2, 1),
+			matrix(0, 2), matrix(1, 2), matrix(2, 2) };
 	}
 
-	template<>
-	inline float Matrix3u<float>::determinant() const
+	template<class T>
+	inline Matrix<double, 3, 3> inverse<T, 3>::operator()(const Matrix<T, 3, 3> & matrix, bool & invertible) const
 	{
-		return (*this)[0][0] * (*this)[1][1] * (*this)[2][2]
-			+ (*this)[0][1] * (*this)[1][2] * (*this)[2][0]
-			+ (*this)[0][2] * (*this)[1][0] * (*this)[2][1]
-			- (*this)[0][2] * (*this)[1][1] * (*this)[2][0]
-			- (*this)[0][1] * (*this)[1][0] * (*this)[2][2]
-			- (*this)[0][0] * (*this)[1][2] * (*this)[2][1];
-	}
-
-	template<>
-	inline double Matrix3u<double>::determinant() const
-	{
-		return (*this)[0][0] * (*this)[1][1] * (*this)[2][2]
-			+ (*this)[0][1] * (*this)[1][2] * (*this)[2][0]
-			+ (*this)[0][2] * (*this)[1][0] * (*this)[2][1]
-			- (*this)[0][2] * (*this)[1][1] * (*this)[2][0]
-			- (*this)[0][1] * (*this)[1][0] * (*this)[2][2]
-			- (*this)[0][0] * (*this)[1][2] * (*this)[2][1];
-	}
-
-	template<>
-	inline Matrix3u<int> Matrix3u<int>::transpose() const
-	{
-		return Matrix3u<int>{ (*this)[0][0], (*this)[1][0], (*this)[2][0],
-							  (*this)[0][1], (*this)[1][1], (*this)[2][1],
-							  (*this)[0][2], (*this)[1][2], (*this)[2][2] };
-	}
-
-	template<>
-	inline Matrix3u<unsigned int> Matrix3u<unsigned int>::transpose() const
-	{
-		return Matrix3u<unsigned int>{ (*this)[0][0], (*this)[1][0], (*this)[2][0],
-									   (*this)[0][1], (*this)[1][1], (*this)[2][1],
-									   (*this)[0][2], (*this)[1][2], (*this)[2][2] };
-	}
-
-	template<>
-	inline Matrix3u<float> Matrix3u<float>::transpose() const
-	{
-		return Matrix3u<float>{ (*this)[0][0], (*this)[1][0], (*this)[2][0],
-								(*this)[0][1], (*this)[1][1], (*this)[2][1],
-								(*this)[0][2], (*this)[1][2], (*this)[2][2] };
-	}
-
-	template<>
-	inline Matrix3u<double> Matrix3u<double>::transpose() const
-	{
-		return Matrix3u<double>{ (*this)[0][0], (*this)[1][0], (*this)[2][0],
-								 (*this)[0][1], (*this)[1][1], (*this)[2][1],
-								 (*this)[0][2], (*this)[1][2], (*this)[2][2] };
-	}
-
-	template<>
-	inline Matrix3u<double> Matrix3u<int>::inverse(bool & invertible) const
-	{
-		auto det = this->determinant();
+		auto det = matrix.determinant();
 		invertible = (det != 0);
 		if (invertible) {
-			double a11 = (*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1];
-			double a12 = (*this)[0][2] * (*this)[2][1] - (*this)[0][1] * (*this)[2][2];
-			double a13 = (*this)[0][1] * (*this)[1][2] - (*this)[0][2] * (*this)[1][1];
-			double a21 = (*this)[1][2] * (*this)[2][0] - (*this)[1][0] * (*this)[2][2];
-			double a22 = (*this)[0][0] * (*this)[2][2] - (*this)[0][2] * (*this)[2][0];
-			double a23 = (*this)[0][2] * (*this)[1][0] - (*this)[0][0] * (*this)[1][2];
-			double a31 = (*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0];
-			double a32 = (*this)[0][1] * (*this)[2][0] - (*this)[0][0] * (*this)[2][1];
-			double a33 = (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
+			double a11 = matrix(1, 1) * matrix(2, 2) - matrix(1, 2) * matrix(2, 1);
+			double a12 = matrix(0, 2) * matrix(2, 1) - matrix(0, 1) * matrix(2, 2);
+			double a13 = matrix(0, 1) * matrix(1, 2) - matrix(0, 2) * matrix(1, 1);
+			double a21 = matrix(1, 2) * matrix(2, 0) - matrix(1, 0) * matrix(2, 2);
+			double a22 = matrix(0, 0) * matrix(2, 2) - matrix(0, 2) * matrix(2, 0);
+			double a23 = matrix(0, 2) * matrix(1, 0) - matrix(0, 0) * matrix(1, 2);
+			double a31 = matrix(1, 0) * matrix(2, 1) - matrix(1, 1) * matrix(2, 0);
+			double a32 = matrix(0, 1) * matrix(2, 0) - matrix(0, 0) * matrix(2, 1);
+			double a33 = matrix(0, 0) * matrix(1, 1) - matrix(0, 1) * matrix(1, 0);
 
-			return Matrix3u<double>{ a11, a12, a13,
-									a21, a22, a23,
-									a31, a32, a33 } *(1.0f / det);
+			return Matrix<double, 3, 3>{ a11, a12, a13,
+				a21, a22, a23,
+				a31, a32, a33 } *(1.0f / det);
 		}
 		else {
-			return Matrix3u<double>();
-		}
-	}
-
-	template<>
-	inline Matrix3u<double> Matrix3u<unsigned int>::inverse(bool & invertible) const
-	{
-		auto det = this->determinant();
-		invertible = (det != 0);
-		if (invertible) {
-			double a11 = (*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1];
-			double a12 = (*this)[0][2] * (*this)[2][1] - (*this)[0][1] * (*this)[2][2];
-			double a13 = (*this)[0][1] * (*this)[1][2] - (*this)[0][2] * (*this)[1][1];
-			double a21 = (*this)[1][2] * (*this)[2][0] - (*this)[1][0] * (*this)[2][2];
-			double a22 = (*this)[0][0] * (*this)[2][2] - (*this)[0][2] * (*this)[2][0];
-			double a23 = (*this)[0][2] * (*this)[1][0] - (*this)[0][0] * (*this)[1][2];
-			double a31 = (*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0];
-			double a32 = (*this)[0][1] * (*this)[2][0] - (*this)[0][0] * (*this)[2][1];
-			double a33 = (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
-
-			return Matrix3u<double>{ a11, a12, a13,
-									a21, a22, a23,
-									a31, a32, a33 } *(1.0f / det);
-		}
-		else {
-			return Matrix3u<double>();
-		}
-	}
-
-	template<>
-	inline Matrix3u<double> Matrix3u<float>::inverse(bool & invertible) const
-	{
-		auto det = this->determinant();
-		invertible = (det != 0);
-		if (invertible) {
-			double a11 = (*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1];
-			double a12 = (*this)[0][2] * (*this)[2][1] - (*this)[0][1] * (*this)[2][2];
-			double a13 = (*this)[0][1] * (*this)[1][2] - (*this)[0][2] * (*this)[1][1];
-			double a21 = (*this)[1][2] * (*this)[2][0] - (*this)[1][0] * (*this)[2][2];
-			double a22 = (*this)[0][0] * (*this)[2][2] - (*this)[0][2] * (*this)[2][0];
-			double a23 = (*this)[0][2] * (*this)[1][0] - (*this)[0][0] * (*this)[1][2];
-			double a31 = (*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0];
-			double a32 = (*this)[0][1] * (*this)[2][0] - (*this)[0][0] * (*this)[2][1];
-			double a33 = (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
-
-			return Matrix3u<double>{ a11, a12, a13,
-									a21, a22, a23,
-									a31, a32, a33 } *(1.0f / det);
-		}
-		else {
-			return Matrix3u<double>();
-		}
-	}
-
-	template<>
-	inline Matrix3u<double> Matrix3u<double>::inverse(bool & invertible) const
-	{
-		auto det = this->determinant();
-		invertible = (det != 0);
-		if (invertible) {
-			double a11 = (*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1];
-			double a12 = (*this)[0][2] * (*this)[2][1] - (*this)[0][1] * (*this)[2][2];
-			double a13 = (*this)[0][1] * (*this)[1][2] - (*this)[0][2] * (*this)[1][1];
-			double a21 = (*this)[1][2] * (*this)[2][0] - (*this)[1][0] * (*this)[2][2];
-			double a22 = (*this)[0][0] * (*this)[2][2] - (*this)[0][2] * (*this)[2][0];
-			double a23 = (*this)[0][2] * (*this)[1][0] - (*this)[0][0] * (*this)[1][2];
-			double a31 = (*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0];
-			double a32 = (*this)[0][1] * (*this)[2][0] - (*this)[0][0] * (*this)[2][1];
-			double a33 = (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
-
-			return Matrix3u<double>{ a11, a12, a13,
-									a21, a22, a23,
-									a31, a32, a33 } *(1.0f / det);
-		}
-		else {
-			return Matrix3u<double>();
+			return Matrix<double, 3, 3>();
 		}
 	}
 }

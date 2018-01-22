@@ -19,7 +19,7 @@
 																										   `Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,18 +36,6 @@
 
 */
 
-
-/**
- * @file utility/file_system/parser_json.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 11th 2017
- * @copyright ----------
- * @brief Parser to load and save JSON data.
- *
- */
-
-
-
 #include "utility/file_system/parser_json.hpp"
 
 #include "utility/file_system/file.hpp"
@@ -63,8 +51,8 @@ namespace ece
 {
 	void ParserJSON::loadFromFile(const std::string & pathname)
 	{
-		if (this->pathname != pathname) {
-			this->pathname = pathname;
+		if (this->_pathname != pathname) {
+			this->_pathname = pathname;
 			File file;
 			try {
 				file.open(pathname, OpenMode::in);
@@ -208,7 +196,7 @@ namespace ece
 						break;
 					}
 				}
-				this->contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
+				this->_contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
 			}
 			catch (FileException & e) {
 				throw e;
@@ -216,27 +204,27 @@ namespace ece
 		}
 	}
 
-	void ParserJSON::loadFromString(const std::string & content)
+	void ParserJSON::loadFromString(const std::string & /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserJSON::loadFromMemory(const void * content)
+	void ParserJSON::loadFromMemory(const void * /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserJSON::saveToFile(const std::string & filename)
+	void ParserJSON::saveToFile(const std::string & /*filename*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserJSON::saveToString(std::string & content)
+	void ParserJSON::saveToString(std::string & /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserJSON::saveToMemory(void * content)
+	void ParserJSON::saveToMemory(void * /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}

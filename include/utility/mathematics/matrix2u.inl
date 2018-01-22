@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,115 +36,31 @@
 
 */
 
-/**
- * @file utility/mathematics/matrix2u.inl
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief A 2x2 specialization of Matrix.
- **/
-
 namespace ece
 {
-	template <>
-	inline int Matrix2u<int>::determinant() const
+	template<class T>
+	inline double determinant<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const
 	{
-		return (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
+		return matrix(0, 0) * matrix(1, 1) - matrix(0, 1) * matrix(1, 0);
 	}
 
-	template <>
-	inline unsigned int Matrix2u<unsigned int>::determinant() const
+	template<class T>
+	inline Matrix<T, 2, 2> transpose<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const
 	{
-		return (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
+		return Matrix<T, 2, 2>{ matrix(0, 0), matrix(1, 0), matrix(0, 1), matrix(1, 1) };
 	}
 
-	template <>
-	inline float Matrix2u<float>::determinant() const
+	template<class T>
+	inline Matrix<double, 2, 2> inverse<T, 2>::operator()(const Matrix<T, 2, 2> & matrix, bool & invertible) const
 	{
-		return (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
-	}
-
-	template <>
-	inline double Matrix2u<double>::determinant() const
-	{
-		return (*this)[0][0] * (*this)[1][1] - (*this)[0][1] * (*this)[1][0];
-	}
-
-	template<>
-	inline Matrix2u<int> Matrix2u<int>::transpose() const
-	{
-		return Matrix2u<int>{ (*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1] };
-	}
-
-	template<>
-	inline Matrix2u<unsigned int> Matrix2u<unsigned int>::transpose() const
-	{
-		return Matrix2u<unsigned int>{ (*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1] };
-	}
-
-	template<>
-	inline Matrix2u<float> Matrix2u<float>::transpose() const
-	{
-		return Matrix2u<float>{ (*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1] };
-	}
-
-	template<>
-	inline Matrix2u<double> Matrix2u<double>::transpose() const
-	{
-		return Matrix2u<double>{ (*this)[0][0], (*this)[1][0], (*this)[0][1], (*this)[1][1] };
-	}
-
-	template<>
-	inline Matrix2u<double> Matrix2u<int>::inverse(bool & invertible) const
-	{
-		auto det = this->determinant();
-		invertible = (det != 0);
+		auto det = matrix.determinant();
+		invertible = (det != 0.0);
 		if (invertible) {
-			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), static_cast<double>(-(*this)[0][1]), 
-									static_cast<double>(-(*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
+			return Matrix<double, 2, 2>{ static_cast<double>(matrix(1, 1)), -static_cast<double>(matrix(0, 1)),
+				-static_cast<double>(matrix(1, 0)), static_cast<double>(matrix(0, 0)) } *(1.0f / det);
 		}
 		else {
-			return Matrix2u<double>();
-		}
-	}
-
-	template<>
-	inline Matrix2u<double> Matrix2u<unsigned int>::inverse(bool & invertible) const
-	{
-		auto det = this->determinant();
-		invertible = (det != 0);
-		if (invertible) {
-			return Matrix2u<double>{ static_cast<double>((*this)[1][1]), static_cast<double>(-(*this)[0][1]), 
-									static_cast<double>(-(*this)[1][0]), static_cast<double>((*this)[0][0]) } *(1.0f / det);
-		}
-		else {
-			return Matrix2u<double>();
-		}
-	}
-
-	template<>
-	inline Matrix2u<double> Matrix2u<float>::inverse(bool & invertible) const
-	{
-		auto det = this->determinant();
-		invertible = (det != 0);
-		if (invertible) {
-			return Matrix2u<double>{ (*this)[1][1], -(*this)[0][1], -(*this)[1][0], (*this)[0][0] } *(1.0f / det);
-		}
-		else {
-			return Matrix2u<double>();
-		}
-	}
-
-	template<>
-	inline Matrix2u<double> Matrix2u<double>::inverse(bool & invertible) const
-	{
-		auto det = this->determinant();
-		invertible = (det != 0);
-		if (invertible) {
-			return Matrix2u<double>{ (*this)[1][1], -(*this)[0][1], -(*this)[1][0], (*this)[0][0] } *(1.0f / det);
-		}
-		else {
-			return Matrix2u<double>();
+			return Matrix<double, 2, 2>();
 		}
 	}
 }

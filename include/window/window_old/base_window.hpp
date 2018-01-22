@@ -52,11 +52,11 @@ namespace ece
 	protected:
 
 	private:
-		short int windowId;
+		short int _windowId;
 
 //		ece::WindowSetting settings;
 
-		ece::VideoMode videoMode;
+		ece::VideoMode _videoMode;
 	};
 }
 

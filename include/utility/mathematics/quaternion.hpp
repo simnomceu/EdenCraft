@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,24 +36,18 @@
 
 */
 
-/**
- * @file utility/mathematics/quaternion.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 8th 2018
- * @copyright ----------
- * @brief Define quaternion rotation.
- */
-
 #ifndef QUATERNION_HPP
 #define QUATERNION_HPP
 
+namespace ece
+{
+	template <class T> class EulerAngle;
+}
+#include "utility/mathematics/matrix4u.hpp"
 #include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {
-	template <class T> class EulerAngle<T>;
-	template <class T> class Matrix4u<T>;
-
 	/**
 	 * @class Quaternion
 	 * @tparam T Quaternion accept any numeric type.
@@ -299,31 +293,32 @@ namespace ece
 		inline Matrix4u<T> toMatrix() const noexcept;
 
 		/**
-		 * @property w
+		 * @property _w
 		 * @brief The real part of the quaternion.
 		 */
-		T w;
+		T _w;
 
 		/**
-		 * @property x
+		 * @property _x
 		 * @brief The x-axis complex part of the quaternion.
 		 */
-		T x;
+		T _x;
 		
 		/**
-		 * @property y
+		 * @property _y
 		 * @brief The y-axis complex part of the quaternion.
 		 */
-		T y;
+		T _y;
 		
 		/**
-		 * @property z
+		 * @property _z
 		 * @brief The z-axis complex part of the quaternion.
 		 */
-		T z;
+		T _z;
 	};
 }
 
+#include "utility/mathematics/euler_angle.hpp"
 #include "utility/mathematics/quaternion.inl"
 
 #endif // QUATERNION_HPP

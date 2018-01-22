@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,14 +36,6 @@
 
 */
 
-/**
- * @file utility/mathematics/matrix2u.hpp
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief A 2x2 specialization of Matrix.
- **/
-
 #ifndef MATRIX2U_HPP
 #define MATRIX2U_HPP
 
@@ -51,6 +43,24 @@
 
 namespace ece
 {
+	template <class T>
+	struct determinant<T, 2>
+	{
+		inline double operator()(const Matrix<T, 2, 2> & matrix) const;
+	};
+
+	template <class T>
+	struct transpose<T, 2>
+	{
+		inline Matrix<T, 2, 2> operator()(const Matrix<T, 2, 2> & matrix) const;
+	};
+
+	template <class T>
+	struct inverse<T, 2>
+	{
+		inline Matrix<double, 2, 2> operator()(const Matrix<T, 2, 2> & matrix, bool & invertible) const;
+	};
+
 	/**
 	 * @typedef Matrix2u
 	 * @brief 2x2 Square matrix

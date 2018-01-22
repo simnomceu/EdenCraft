@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/json/node_json.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 30th 2017
- * @copyright ----------
- * @brief Default node from a JSON tree.
- */
 
 #ifndef NODE_JSON_HPP
 #define NODE_JSON_HPP
@@ -155,10 +147,10 @@ namespace ece
 
 	private:
 		/**
-		 * @property parent
+		 * @property _parent
 		 * @brief The parent node of the current node.
 		 */
-		std::weak_ptr<NodeJSON> parent;
+		std::weak_ptr<NodeJSON> _parent;
 	};
 }
 

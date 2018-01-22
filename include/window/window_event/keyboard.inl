@@ -5,7 +5,7 @@ namespace ece
 		if (code == Keyboard::KEY_NONE) {
 			throw std::runtime_error("That code is not a valid key.");
 		}
-		return Keyboard::states[code];
+		return Keyboard::_states[code];
 	}
 
 	inline void Keyboard::pressKey(const Key code, const bool state)
@@ -13,6 +13,6 @@ namespace ece
 		if (code == Keyboard::KEY_NONE) {
 			throw std::runtime_error("That code is not a valid key.");
 		}
-		Keyboard::states[code] = state;
+		Keyboard::_states[code] = state;
 	}
 }

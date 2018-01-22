@@ -50,10 +50,10 @@ namespace ece
 		void pushEvent(const InputEvent & nextEvent);
 		InputEvent & lastEvent();
 
-		bool keyRepeat;
+		bool _keyRepeat;
 
 	private:
-		EventQueue eventQueue;
+		EventQueue _eventQueue;
 	};
 }
 

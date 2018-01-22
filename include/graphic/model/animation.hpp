@@ -24,7 +24,7 @@ namespace ece
 		void clear();
 
 	private:
-		std::queue<std::shared_ptr<Transformation>> transformations;
+		std::queue<std::shared_ptr<Transformation>> _transformations;
 	};
 }
 

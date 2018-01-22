@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,14 +36,6 @@
 
 */
 
-/**
- * @file utility/time/chrono.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
- * @copyright ----------
- * @brief Define a chrono.
- **/
-
 #include "utility/time/chrono.hpp"
 
 namespace ece
@@ -51,15 +43,15 @@ namespace ece
 	int Chrono::reset()
 	{
 		auto end = std::chrono::system_clock::now();
-		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-		this->begin = end;
+		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - this->_begin).count();
+		this->_begin = end;
 		return (int)elapsedTime;
 	}
 
 	int Chrono::getElapsedTime() const
 	{
 		auto end = std::chrono::system_clock::now();
-		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
+		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - this->_begin).count();
 		return (int)elapsedTime;
 	}
 }

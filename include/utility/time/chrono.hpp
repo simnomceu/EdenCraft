@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/time/chrono.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
- * @copyright ----------
- * @brief Define a chrono.
- **/
 
 #ifndef CHRONO_HPP
 #define CHRONO_HPP
@@ -131,10 +123,10 @@ namespace ece
 
 	private:
 		/**
-		 * @property begin
+		 * @property _begin
 		 * @brief The time point when chrono has started.
 		 */
-		std::chrono::time_point<std::chrono::system_clock> begin;
+		std::chrono::time_point<std::chrono::system_clock> _begin;
 	};
 }
 

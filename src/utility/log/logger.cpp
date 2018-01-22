@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,14 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/log/logger.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 3rd 2018
- * @copyright ----------
- * @brief Define a logger implementation for standard output.
- */
 
 #include "utility/log/logger.hpp"
 
@@ -68,7 +60,7 @@ namespace ece
 		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
 		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][ERROR]" << data << std::endl;
+		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][ERROR]" << data << std::endl;
 	}
 
 	void Logger::logWarning(const std::string & data)
@@ -84,7 +76,7 @@ namespace ece
 		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
 		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][WARNING]" << data << std::endl;
+		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][WARNING]" << data << std::endl;
 	}
 
 	void Logger::logInfo(const std::string & data)
@@ -100,6 +92,6 @@ namespace ece
 		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
 		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][INFO]" << data << std::endl;
+		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][INFO]" << data << std::endl;
 	}
 }

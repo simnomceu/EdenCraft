@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,31 +36,24 @@
 
 */
 
-/**
- * @file utility/debug/exception.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date November, 28th 2017
- * @copyright ----------
- * @brief Generic exception constructor and set of exceptions used in Edencraft libraries.
- *
- * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
- *
- */
-
 #include <sstream>
 #include <iostream>
 
+/**
+ * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
+ */
+
 namespace ece
 {
-	inline Exception::Exception() : std::runtime_error(""), message() {}
+	inline Exception::Exception() : std::runtime_error(""), _message() {}
 
 	template<class ...Args>
 	inline void Exception::setMessage(const std::string & message, Args ...args) noexcept
 	{
-		this->message = this->mapString(message, args...);
+		this->_message = this->mapString(message, args...);
 	}
 
-	inline const char * Exception::what() const noexcept { return this->message.data(); }
+	inline const char * Exception::what() const noexcept { return this->_message.data(); }
 
 	inline std::string Exception::mapString(const std::string & content) noexcept { return content; }
 

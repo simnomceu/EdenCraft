@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,15 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/file_system/parser_json.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 11th 2017
- * @copyright ----------
- * @brief Parser to load and save JSON data.
- *
- */
 
 #ifndef PARSER_JSON_HPP
 #define PARSER_JSON_HPP
@@ -127,18 +118,18 @@ namespace ece
 
 	protected:
 		/**
-		 * @property pathname
+		 * @property _pathname
 		 * @brief The pathname of the JSON file opened. It is empty if not stream is opened.
 		 * @remark It should not be an internal property as the JSON object can be loaded throw different ways (memory, ...).
 		 */
-		std::string pathname;
+		std::string _pathname;
 
 		/**
-		 * @property contentJSON
+		 * @property _contentJSON
 		 * @brief The root of the last JSON parsed. If no JSON has been parsed yet, the property is empty.
 		 * @remark It should not be an internal property but an output of the Parser.
 		 */
-		std::shared_ptr<ObjectJSON> contentJSON;
+		std::shared_ptr<ObjectJSON> _contentJSON;
 	};
 }
 

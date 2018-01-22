@@ -29,7 +29,7 @@ namespace ece
 		void terminateAll();
 
 	private:
-		std::vector<std::shared_ptr<BaseModule>> modules;
+		std::vector<std::shared_ptr<BaseModule>> _modules;
 	};
 }
 

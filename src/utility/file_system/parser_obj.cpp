@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,15 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/file_system/parser_obj.cpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 11th 2017
- * @copyright ----------
- * @brief Parser to load and save OBJ Wavefront structure.
- *
- */
 
 #include "utility/file_system/parser_obj.hpp"
 
@@ -78,36 +69,36 @@ namespace ece
 				if (command == "v ") {
 					float vertice[3];
 					stream >> vertice[0] >> vertice[1] >> vertice[2];
-					vertices.push_back(vertice[0]);
-					vertices.push_back(vertice[1]);
-					vertices.push_back(vertice[2]);
+					this->_vertices.push_back(vertice[0]);
+					this->_vertices.push_back(vertice[1]);
+					this->_vertices.push_back(vertice[2]);
 				}
 				else if (command == "vt") {
 					float texture[2];
 					stream >> texture[0] >> texture[1];
-					textures.push_back(texture[0]);
-					textures.push_back(texture[1]);
+					this->_textures.push_back(texture[0]);
+					this->_textures.push_back(texture[1]);
 				}
 				else if (command == "vn") {
 					float normale[3];
 					stream >> normale[0] >> normale[1] >> normale[2];
-					normales.push_back(normale[0]);
-					normales.push_back(normale[1]);
-					normales.push_back(normale[2]);
+					this->_normales.push_back(normale[0]);
+					this->_normales.push_back(normale[1]);
+					this->_normales.push_back(normale[2]);
 				}
 				else if (command == "f ") {
 					int face[9];
 					sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &face[0], &face[1], &face[2], &face[3], &face[4],
 						&face[5], &face[6], &face[7], &face[8]);
-					faces.push_back(face[0] * 3);
-					//faces.push_back(face[1]);
-					//faces.push_back(face[2]);
-					faces.push_back(face[3] * 3);
-					//faces.push_back(face[4]);
-					//faces.push_back(face[5]);
-					faces.push_back(face[6] * 3);
-					//faces.push_back(face[7]);
-					//faces.push_back(face[8]);
+					this->_faces.push_back(face[0] * 3);
+//					this->_faces.push_back(face[1]);
+//					this->_faces.push_back(face[2]);
+					this->_faces.push_back(face[3] * 3);
+//					this->_faces.push_back(face[4]);
+//					this->_faces.push_back(face[5]);
+					this->_faces.push_back(face[6] * 3);
+//					this->_faces.push_back(face[7]);
+//					this->_faces.push_back(face[8]);
 
 					// TODO check that it uses existing vertices, normales, and textures.
 				}
@@ -125,27 +116,27 @@ namespace ece
 		// TODO care about objects groups and faces groups
 	}
 
-	void ParserOBJ::loadFromString(const std::string & content)
+	void ParserOBJ::loadFromString(const std::string & /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserOBJ::loadFromMemory(const void * content)
+	void ParserOBJ::loadFromMemory(const void * /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserOBJ::saveToFile(const std::string & filename)
+	void ParserOBJ::saveToFile(const std::string & /*filename*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserOBJ::saveToString(std::string & content)
+	void ParserOBJ::saveToString(std::string & /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}
 
-	void ParserOBJ::saveToMemory(void * content)
+	void ParserOBJ::saveToMemory(void * /*content*/)
 	{
 		/* NOT IMPLEMENTED YET*/
 	}

@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,26 +36,22 @@
 
 */
 
-/**
- * @file utility/mathematics/euler_angle.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 4th 2018
- * @copyright ----------
- * @brief Define Euler angle rotations.
- */
-
 #ifndef EULER_ANGLE_HPP
 #define EULER_ANGLE_HPP
 
 namespace ece
 {
-	template <class T> Quaternion<T>;
-	template <class T> Matrix4u<T>;
+	template <class T> class Quaternion;
+}
 
+#include "utility/mathematics/matrix4u.hpp"
+
+namespace ece
+{
 	/**
 	 * @class EulerAngle
 	 * @tparam T Euler angle accept any numeric type.
-	 * @brief Euler angle defines rotation of an object as X, Y, and Z axis indepedant rotations.
+	 * @brief Euler angle defines rotation of an object as X, Y, and Z axis independent rotations.
 	 * @remark A constructor from Matrix should be added.
 	 * @remark Add a check for templated parameter (numerical type)
 	 */
@@ -90,20 +86,20 @@ namespace ece
 		EulerAngle(const Quaternion<T> & quaternion);
 
 		/**
-		 * @fn EulerAngle(const EulerAngle & copy) noexcept
+		 * @fn EulerAngle(const EulerAngle<T> & copy) noexcept
 		 * @param[in] copy The Euler angle to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		EulerAngle(const EulerAngle & copy) noexcept = default;
+		EulerAngle(const EulerAngle<T> & copy) noexcept = default;
 
 		/**
-		 * @fn EulerAngle(EulerAngle && move) noexcept 
+		 * @fn EulerAngle(EulerAngle<T> && move) noexcept 
 		 * @param[in] move The Euler angle to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		EulerAngle(EulerAngle && move) noexcept = default;
+		EulerAngle(EulerAngle<T> && move) noexcept = default;
 
 		/**
 		 * @fn ~EulerAngle()
@@ -113,22 +109,22 @@ namespace ece
 		~EulerAngle() noexcept = default;
 
 		/**
-		 * @fn EulerAngle & operator=(const EulerAngle & copy) noexcept
+		 * @fn EulerAngle<T> & operator=(const EulerAngle<T> & copy) noexcept
 		 * @param[in] copy The Euler angle to copy from.
 		 * @return The Euler angle copied.
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		EulerAngle & operator=(const EulerAngle & copy) noexcept = default;
+		EulerAngle<T> & operator=(const EulerAngle<T> & copy) noexcept = default;
 
 		/**
-		 * @fn EulerAngle & operator=(EulerAngle && move) noexcept
+		 * @fn EulerAngle<T> & operator=(EulerAngle<T> && move) noexcept
 		 * @param[in] move The Euler angle to move.
 		 * @return The Euler angle moved.
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		EulerAngle & operator=(EulerAngle && move) noexcept = default;
+		EulerAngle<T> & operator=(EulerAngle<T> && move) noexcept = default;
 
 		/**
 		 * @fn Quaternion<T> toQuaternion() const
@@ -199,24 +195,25 @@ namespace ece
 
 	private:
 		/**
-		 * @property roll
+		 * @property _roll
 		 * @brief The x-axis rotation, according to Euler/aeronautic notation.
 		 */
-		T roll;
+		T _roll;
 		
 		/**
-		 * @property pitch
+		 * @property _pitch
 		 * @brief The y-axis rotation, according to aeronautic notation.
 		 */
-		T pitch;
+		T _pitch;
 		/**
-		 * @property yaw
+		 * @property _yaw
 		 * @brief The z-axis rotation, according to aeronautic notation.
 		 */
-		T yaw;
+		T _yaw;
 	};
 }
 
+#include "utility/mathematics/quaternion.hpp"
 #include "utility/mathematics/euler_angle.inl"
 
 #endif // EULER_ANGLE_HPP

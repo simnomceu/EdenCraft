@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -35,15 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-/**
- * @file utility/mathematics/rectangle.hpp
- * @author IsiliBN (casa2pir@hotmail.fr)
- * @date January, 8th 2017
- * @copyright ----------
- * @brief Describe a rectangle object.
- * Describe a rectangle object.  This rectangle is purely a boundering, an aggregate of positions and sizes.
- **/
 
 #ifndef RECTANGLE_HPP
 #define RECTANGLE_HPP
@@ -160,28 +151,28 @@ namespace ece
 
 	private:
 		/**
-		 * @property x
+		 * @property _x
 		 * @brief Position on the x-axis.
 		 **/
-		T x;
+		T _x;
 
 		/**
-		 * @property y
+		 * @property _y
 		 * @brief Position on the y-axis.
 		 **/
-		T y;
+		T _y;
 
 		/**
-		 * @property w
+		 * @property _w
 		 * @brief Width of the rectangle.
 		 **/
-		T w;
+		T _w;
 
 		/**
-		 * @property h
+		 * @property _h
 		 * @brief Height of the rectangle.
 		 **/
-		T h;
+		T _h;
 	};
 }
 

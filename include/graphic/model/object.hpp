@@ -45,11 +45,11 @@ namespace ece
 		virtual std::vector<ShaderSource *> getShaderSources() const override;
 
     protected:
-		std::shared_ptr<Mesh> mesh;
-		std::shared_ptr<Skeleton> skeleton;
-		std::shared_ptr<Texture> texture;
-		std::shared_ptr<ShaderEffect> shaderEffect;
-		std::shared_ptr<Animation> animation;
+		std::shared_ptr<Mesh> _mesh;
+		std::shared_ptr<Skeleton> _skeleton;
+		std::shared_ptr<Texture> _texture;
+		std::shared_ptr<ShaderEffect> _shaderEffect;
+		std::shared_ptr<Animation> _animation;
     };
 }
 

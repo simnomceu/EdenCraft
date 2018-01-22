@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,16 +36,6 @@
 
 */
 
-/**
- * @file utility/file_system/path.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date December, 12th 2017
- * @copyright ----------
- * @brief Describe path to any location in the file system.
- * @remark Should define a non-member operation make_path to create a Path object and throw an exception if it is not valid.
- * @remark Look at the Filesystem standart library from C++17. Be careful with backward compatibility.
- */
-
 #ifndef PATH_HPP
 #define PATH_HPP
 
@@ -58,6 +48,8 @@ namespace ece
 	 * @class Path
 	 * @brief Defines a path, which could be a folder or a file.
 	 * @remark Maybe adding an iterator to navigate in the file system.
+	 * @remark Should define a non-member operation make_path to create a Path object and throw an exception if it is not valid.
+	 * @remark Look at the Filesystem standard library from C++17. Be careful with backward compatibility.
 	 */
 	class Path
 	{
@@ -191,10 +183,10 @@ namespace ece
 
 	private:
 		/**
-		 * @property path
+		 * @property _path
 		 * @brief Current path splitted to each segment level.
 		 */
-		std::vector<std::string> path;
+		std::vector<std::string> _path;
 	};
 }
 

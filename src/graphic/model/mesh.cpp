@@ -1,6 +1,5 @@
 #include "graphic/model/mesh.hpp"
 
-#include "utility/file/parser_model_dat.hpp"
 #include "utility/debug/exception.hpp"
 
 #include <iostream>
@@ -8,12 +7,12 @@
 
 namespace ece
 {
-	bool Mesh::loadFromFile(const std::string & filename)
+	bool Mesh::loadFromFile(const std::string & /*filename*/)
 	{
 		// TODO: use a resource manager to load only if not already loaded. 
 		// if modification on a resource loaded, copy as a new resource.
 		bool result = true;
-		ParserModelDAT parser;
+		/*ParserModelDAT parser;
 		try {
 			parser.open(filename);
 			this->vertices = parser.getVertices();
@@ -24,21 +23,21 @@ namespace ece
 			this->vertices.clear();
 			this->colors.clear();
 			result = false;
-		}
+		}*/
 		return result;
 	}
 
 	Box3D Mesh::getAABB() const
 	{
-		auto xMin = (*std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b){ return a[X] < b[X]; }))[X];
-		auto xMax = (*std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[X] < b[X]; }))[X];
+		auto xMin = (*std::min_element(this->_vertices.begin(), this->_vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b){ return a[0] < b[0]; }))[0];
+		auto xMax = (*std::max_element(this->_vertices.begin(), this->_vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[0] < b[0]; }))[0];
 
-		auto yMin = (*std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[Y] < b[Y]; }))[Y];
-		auto yMax = (*std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[Y] < b[Y]; }))[Y];
+		auto yMin = (*std::min_element(this->_vertices.begin(), this->_vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[1] < b[1]; }))[1];
+		auto yMax = (*std::max_element(this->_vertices.begin(), this->_vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[1] < b[1]; }))[1];
 
-		auto zMin = (*std::min_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[Z] < b[Z]; }))[Z];
-		auto zMax = (*std::max_element(this->vertices.begin(), this->vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[Z] < b[Z]; }))[Z];
+		auto zMin = (*std::min_element(this->_vertices.begin(), this->_vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[2] < b[2]; }))[2];
+		auto zMax = (*std::max_element(this->_vertices.begin(), this->_vertices.end(), [](const FloatVertex3u &  a, const FloatVertex3u & b) { return a[2] < b[2]; }))[2];
 
-		return Box3D(FloatVertex3u(xMin, yMin, zMin), FloatVertex3u(xMax, yMax, zMax));
+		return Box3D(FloatVertex3u{ xMin, yMin, zMin }, FloatVertex3u{ xMax, yMax, zMax });
 	}
 }

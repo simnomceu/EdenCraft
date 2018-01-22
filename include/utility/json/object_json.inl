@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,30 +36,23 @@
 
 */
 
-/**
- * @file utility/json/object_json.inl
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 1st 2018
- * @copyright ----------
- * @brief Object node from a JSON tree.
- */
 namespace ece
 {
-	inline ObjectJSON::ObjectJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), children() {}
+	inline ObjectJSON::ObjectJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
 
-	inline void ObjectJSON::remove(const std::string & key) { this->children.erase(key); }
+	inline void ObjectJSON::remove(const std::string & key) { this->_children.erase(key); }
 
 	inline bool ObjectJSON::isAtomic() const noexcept { return false; }
 
 	inline TypeNodeJSON ObjectJSON::getType() const noexcept { return TypeNodeJSON::OBJECT_JSON; }
 
-	inline IteratorObjectJSON ObjectJSON::begin() noexcept { return this->children.begin(); }
+	inline IteratorObjectJSON ObjectJSON::begin() noexcept { return this->_children.begin(); }
 
-	inline IteratorObjectJSON ObjectJSON::end() noexcept { return this->children.end(); }
+	inline IteratorObjectJSON ObjectJSON::end() noexcept { return this->_children.end(); }
 
-	inline std::shared_ptr<NodeJSON> ObjectJSON::operator[](const std::string & key) { return this->children[key]; }
+	inline std::shared_ptr<NodeJSON> ObjectJSON::operator[](const std::string & key) { return this->_children[key]; }
 
-	inline void ObjectJSON::clear() noexcept { this->children.clear(); }
+	inline void ObjectJSON::clear() noexcept { this->_children.clear(); }
 
-	inline unsigned int ObjectJSON::size() const noexcept { return this->children.size(); }
+	inline unsigned int ObjectJSON::size() const noexcept { return this->_children.size(); }
 }

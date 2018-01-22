@@ -27,7 +27,7 @@ namespace ece
 		inline std::vector<std::shared_ptr<Shader>> & getShaders();
 
 	private:
-		std::vector<std::shared_ptr<Shader>> shaders;
+		std::vector<std::shared_ptr<Shader>> _shaders;
 	};
 }
 

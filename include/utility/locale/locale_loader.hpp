@@ -19,7 +19,7 @@
 																											`Y8P'
 
 				This file is part of EdenCraft Engine - Utility module.
-				Copyright(C) 2017 Pierre Casati (@IsilinBN)
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
@@ -36,13 +36,6 @@
 
 */
 
-/**
- * @file utility/locale/locale_loader.hpp
- * @author IsilinBN (casa2pir@hotmail.fr)
- * @date January, 2nd 2018
- * @copyright ----------
- * @brief Load a locale resource of string literals.
- */
 
 #ifndef LOCALE_LOADER_HPP
 #define LOCALE_LOADER_HPP
@@ -141,28 +134,28 @@ namespace ece
 
 	private:
 		/**
-		 * @property path
+		 * @property _path
 		 * @brief The root of the locale resources.
 		 */
-		static std::string path;
+		static std::string _path;
 
 		/**
-		 * @property locale
+		 * @property _locale
 		 * @brief The localization to use.
 		 */
-		Localization locale;
+		Localization _locale;
 
 		/**
-		 * @property resource
+		 * @property _resource
 		 * @brief The resource loaded from the file.
 		 */
-		ResourceContainer resource;
+		ResourceContainer _resource;
 
 		/**
-		 * @property filename
+		 * @property _filename
 		 * @brief The name of the resource file currently loaded.
 		 */
-		std::string filename;
+		std::string _filename;
 
 		/**
 		 * @fn void generateResource(const std::string & file)
