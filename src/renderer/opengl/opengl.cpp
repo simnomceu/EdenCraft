@@ -181,7 +181,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const IntVertex2u value)
+	void OpenGL::uniform(const UniformHandle uniform, const IntVector2u value)
 	{
 		if (!glUniform2iv) {
 			throw OpenGLExtensionException("glUniform2iv", SHADERS_AND_PROGRAMS);
@@ -192,7 +192,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const IntVertex3u value)
+	void OpenGL::uniform(const UniformHandle uniform, const IntVector3u value)
 	{
 		if (!glUniform3iv) {
 			throw OpenGLExtensionException("glUniform3iv", SHADERS_AND_PROGRAMS);
@@ -203,7 +203,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const IntVertex4u value)
+	void OpenGL::uniform(const UniformHandle uniform, const IntVector4u value)
 	{
 		if (!glUniform4iv) {
 			throw OpenGLExtensionException("glUniform4iv", SHADERS_AND_PROGRAMS);
@@ -214,7 +214,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatVertex2u value)
+	void OpenGL::uniform(const UniformHandle uniform, const FloatVector2u value)
 	{
 		if (!glUniform2fv) {
 			throw OpenGLExtensionException("glUniform2fv", SHADERS_AND_PROGRAMS);
@@ -225,7 +225,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatVertex3u value)
+	void OpenGL::uniform(const UniformHandle uniform, const FloatVector3u value)
 	{
 		if (!glUniform3fv) {
 			throw OpenGLExtensionException("glUniform3fv", SHADERS_AND_PROGRAMS);
@@ -236,7 +236,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatVertex4u value)
+	void OpenGL::uniform(const UniformHandle uniform, const FloatVector4u value)
 	{
 		if (!glUniform4fv) {
 			throw OpenGLExtensionException("glUniform4fv", SHADERS_AND_PROGRAMS);

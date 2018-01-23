@@ -27,12 +27,12 @@ namespace ece
 		static bool isKeyPressed(const Button code);
 		static void pressKey(const Button code, const bool state);
 
-		static IntVertex2u & getPosition();
-		static void setPosition(const IntVertex2u & position);
+		static IntVector2u & getPosition();
+		static void setPosition(const IntVector2u & position);
 
 	private:
 		static std::array<bool, 10> _states;
-		static IntVertex2u _position;
+		static IntVector2u _position;
 	};
 }
 

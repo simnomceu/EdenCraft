@@ -55,7 +55,7 @@ namespace ece
 		return std::string(title);
 	}
 
-	void WindowAdapter::setPosition(const IntVertex2u & position)
+	void WindowAdapter::setPosition(const IntVector2u & position)
 	{
 		bool success = SetWindowPos(this->_data->_windowId, 0, position[0], position[1], 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		if (!success) {
@@ -64,7 +64,7 @@ namespace ece
 		}
 	}
 
-	IntVertex2u WindowAdapter::getPosition() const
+	IntVector2u WindowAdapter::getPosition() const
 	{
 		RECT bounds;
 		bool success = GetWindowRect(this->_data->_windowId, &bounds);
@@ -72,7 +72,7 @@ namespace ece
 			std::cout << "Error while retrieving window bounds. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
 		}
-		return IntVertex2u{ bounds.left, bounds.top };
+		return IntVector2u{ bounds.left, bounds.top };
 	}
 
 	void WindowAdapter::minimize()

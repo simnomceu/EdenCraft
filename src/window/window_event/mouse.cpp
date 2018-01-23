@@ -3,7 +3,7 @@
 namespace ece
 {
 	std::array<bool, 10> Mouse::_states;
-	IntVertex2u Mouse::_position;
+	IntVector2u Mouse::_position;
 
 	bool Mouse::isKeyPressed(const Button code)
 	{
@@ -21,11 +21,11 @@ namespace ece
 		Mouse::_states[code] = state;
 	}
 
-	IntVertex2u & Mouse::getPosition()
+	IntVector2u & Mouse::getPosition()
 	{
 		return Mouse::_position;
 	}
-	void Mouse::setPosition(const IntVertex2u & position)
+	void Mouse::setPosition(const IntVector2u & position)
 	{
 		Mouse::_position = position;
 	}

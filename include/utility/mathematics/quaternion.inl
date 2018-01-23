@@ -47,7 +47,7 @@ namespace ece
 	inline Quaternion<T>::Quaternion(const T w, const T x, const T y, const T z) noexcept : _w(w), _x(x), _y(y), _z(z) {}
 
 	template <class T>
-	inline Quaternion<T>::Quaternion(const T angle, const Vertex3u<T> & axis) noexcept : 
+	inline Quaternion<T>::Quaternion(const T angle, const Vector3u<T> & axis) noexcept :
 		_w(std::cos(angle/2)), 
 		_x(axis[0]*std::sin(angle/2)), 
 		_y(axis[1] * std::sin(angle / 2)), 
@@ -97,8 +97,8 @@ namespace ece
 	template <class T>
 	Quaternion<T> Quaternion<T>::operator*(const Quaternion<T> & rightOperator) const
 	{
-		Vertex3u<T> lh(this->_x, this->_y, this->_z);
-		Vertex3u<T> rh(rightOperator._x, rightOperator._y, rightOperator._z);
+		Vector3u<T> lh(this->_x, this->_y, this->_z);
+		Vector3u<T> rh(rightOperator._x, rightOperator._y, rightOperator._z);
 		auto product = (rh * this->_w) + (lh * rightOperand._w) + (lh * rh);
 		return Quaternion<T>((this->_w * rightOperator._w) + lh.dot(rh), product._x, product._y, product._z);
 	}
@@ -167,9 +167,9 @@ namespace ece
 	inline T Quaternion<T>::angle() const noexcept { return 2 * std::arccos(this->_w); }
 
 	template <class T>
-	inline Vertex3u<T> Quaternion<T>::axis() const noexcept
+	inline Vector3u<T> Quaternion<T>::axis() const noexcept
 	{
-		Vertex3u<T>{ this->_x / arcsin(this->angle() / 2),
+		Vector3u<T>{ this->_x / arcsin(this->angle() / 2),
 					this->_y / arcsin(this->angle() / 2),
 					this->_z / arcsin(this->angle() / 2) };
 	}

@@ -33,7 +33,7 @@ namespace ece
 		InputEventType _type;
 		DoubleTap _doubleTap;
 		Mouse::Button _mouseButton;
-		IntVertex2u _mousePosition;
+		IntVector2u _mousePosition;
 		Keyboard::Key _key;
 	};
 }

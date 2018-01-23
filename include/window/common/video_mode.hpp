@@ -1,34 +1,15 @@
 #ifndef VIDEO_MODE_HPP
 #define VIDEO_MODE_HPP
 
-/**
-* @file window/common/video_mode.hpp
-* @author IsiliBN (casa2pir@hotmail.fr)
-* @date January, 12th 2018
-* @copyright ----------
-* @brief Store the value for the video mode of a window.
-*
-* Store the value for the video mode of a window.  Modifying the value of the video mode doesn't affect directly the hints to the window.
-*
-**/
-
-/**
-* @namespace ece
-*
-* A namespace to gather classes and functionalities of the core engine of EdenCraft.
-*
-**/
 namespace ece
 {
 	/**
-	* @class VideoMode
-	* @brief Store all the parameters of the video mode for a window.
-	*
-	* Store all the parameters of the video mode for a window. It is used for read and write operation.
-	* The object is completely compatible with movable or copyable operations.
-	* Setting values in VideoMode doesn't affect anything else than this object.
-	*
-	**/
+	 * @class VideoMode
+	 * @brief Store all the parameters of the video mode for a window.
+	 * Store all the parameters of the video mode for a window. It is used for read and write operation.
+	 * The object is completely compatible with movable or copyable operations.
+	 * Setting values in VideoMode doesn't affect anything else than this object.
+	 **/
 	class VideoMode
 	{
 	public:

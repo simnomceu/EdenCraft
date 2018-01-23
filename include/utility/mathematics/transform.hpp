@@ -51,14 +51,14 @@
 namespace ece
 {
 	/**
-	 * @fn FloatMatrix4u lookAt(const FloatVertex3u & eye, const FloatVertex3u & target, const FloatVector3u & upAxis)
+	 * @fn FloatMatrix4u lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis)
 	 * @param[in] eye The position of the camera.
 	 * @param[in] target The target to look at.
 	 * @param[in] upAxis The axis used as up direction.
 	 * @return A view matrix corresponding to the camera settings.
 	 * @brief Get a view matrix of the camera settings wished.
 	 */
-	FloatMatrix4u lookAt(const FloatVertex3u & eye, const FloatVertex3u & target, const FloatVector3u & upAxis);
+	FloatMatrix4u lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis);
 
 	/**
 	 * @fn FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)

@@ -15,6 +15,9 @@ namespace ece
 {
 	class InputEvent;
 
+	using WindowID = short int;
+	using MonitorID = short int;
+
 	class Window: public Emitter
 	{
 	public:
@@ -43,9 +46,9 @@ namespace ece
 
 		const std::string & getTitle() const;
 		void setTitle(const std::string & title);
-		void setPosition(const IntVertex2u & position);
-		void setMinimumSize(const IntVertex2u & size);
-		void setMaximumSize(const IntVertex2u & size);
+		void setPosition(const IntVector2u & position);
+		void setMinimumSize(const IntVector2u & size);
+		void setMaximumSize(const IntVector2u & size);
 		void maximize();
 		void minimize();
 		void setFullscreen(const bool fullscreen);

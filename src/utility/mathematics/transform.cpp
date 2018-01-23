@@ -42,9 +42,9 @@
 
 namespace ece
 {
-	FloatMatrix4u lookAt(const FloatVertex3u & eye, const FloatVertex3u & target, const FloatVector3u & upAxis)
+	FloatMatrix4u lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis)
 	{
-		FloatVertex3u x, y, z;
+		FloatVector3u x, y, z;
 		z = eye - target;
 		z.normalize();
 		y = upAxis;

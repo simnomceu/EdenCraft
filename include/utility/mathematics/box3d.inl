@@ -38,7 +38,7 @@
 
 namespace ece
 {
-	inline Box3D::Box3D(const FloatVertex3u & a, const FloatVertex3u & b): _a(a), _b(b) {}
+	inline Box3D::Box3D(const FloatVector3u & a, const FloatVector3u & b): _a(a), _b(b) {}
 
-	inline FloatVertex3u Box3D::getCenter() const noexcept { return (this->_a + this->_b ) / 2.0f; }
+	inline FloatVector3u Box3D::getCenter() const noexcept { return (this->_a + this->_b ) / 2.0f; }
 }
