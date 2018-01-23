@@ -1,6 +1,8 @@
 #ifndef WINDOW_ENUM_HPP
 #define WINDOW_ENUM_HPP
 
+#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics/vector4u.hpp"
 #include "utility/enum/enum_flags.hpp"
 
 namespace ece

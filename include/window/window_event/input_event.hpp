@@ -10,7 +10,7 @@ namespace ece
 	class InputEvent
 	{
 	public:
-		enum InputEventType
+		enum class Type: short int
 		{
 			ECE_TYPE_NONE = -1,
 			ECE_MOUSE_PRESSED = 0,
@@ -21,7 +21,7 @@ namespace ece
 			ECE_KEY_RELEASED = 5,
 		};
 
-		enum DoubleTap
+		enum class DoubleTap: short int
 		{
 			ECE_TAP_NONE = -1,
 			ECE_FIRST_OF = 0,
@@ -30,7 +30,7 @@ namespace ece
 
 		inline InputEvent();
 
-		InputEventType _type;
+		InputEvent::Type _type;
 		DoubleTap _doubleTap;
 		Mouse::Button _mouseButton;
 		IntVector2u _mousePosition;
