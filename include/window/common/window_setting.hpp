@@ -20,9 +20,9 @@ namespace ece
 		WindowSetting & operator=(WindowSetting && move) = default;
 
 		std::string _title;
-		IntVertex2u _position;
-		IntVertex2u _minimumSize;
-		IntVertex2u _maximumSize;
+		IntVector2u _position;
+		IntVector2u _minimumSize;
+		IntVector2u _maximumSize;
 	};
 }
 

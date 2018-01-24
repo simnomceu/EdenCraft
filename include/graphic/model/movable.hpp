@@ -17,12 +17,12 @@ namespace ece
 		Movable & operator=(const Movable & copy) = default;
 		Movable & operator=(Movable && move) = default;
 
-		inline virtual const FloatVertex3u & getPosition() const;
+		inline virtual const FloatVector3u & getPosition() const;
 
 	protected:
 		virtual void computeCenter() = 0;
 
-		FloatVertex3u _position;
+		FloatVector3u _position;
 	};
 }
 

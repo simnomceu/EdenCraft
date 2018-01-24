@@ -39,9 +39,9 @@
 namespace ece
 {
 
-	inline UpdatePerSecond::UpdatePerSecond(const int UPS) : _chrono(), _rate(1000.0f / UPS), _nbFrames(0), _average(0.0) { this->_chrono.start(); }
+	inline UpdatePerSecond::UpdatePerSecond(const int UPS) : _chrono(), _rate((UPS == 0) ? 0 : 1000.0f / UPS), _nbFrames(0), _average(0.0) { this->_chrono.start(); }
 
 	inline int UpdatePerSecond::getLimit() const noexcept { return static_cast<int>(this->_rate * 1000); }
 
-	inline double UpdatePerSecond::getUPS() const noexcept { return this->_average; }
+	inline double UpdatePerSecond::getUPS() const noexcept { return 1000 / this->_average; }
 }

@@ -69,14 +69,6 @@ namespace ece
 	 * @typedef DoubleVector2u
 	 */
 	using DoubleVector2u = Vector2u<double>;
-
-	template <class T>
-	[[deprecated]] using Vertex2u = Vector2u<T>;
-
-	using IntVertex2u = IntVector2u;
-	using UintVertex2u = UintVector2u;
-	using FloatVertex2u = FloatVector2u;
-	using DoubleVertex2u = DoubleVector2u;
 }
 
 #endif // VERTEX2U_HPP

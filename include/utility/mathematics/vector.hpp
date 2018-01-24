@@ -746,13 +746,13 @@ namespace ece
 //		Vector<bool, Size> operator==(const Vector<T, Size, enabled> & rhs);
 
 		/**
-		 * @fn Vector<bool, Size> operator!=(const Vector<T, Size, enabled> & rhs)
+		 * @fn bool operator!=(const Vector<T, Size, enabled> & rhs)
 		 * @param[in] rhs The vector to compare to.
 		 * @return A vector of booleans with the following value: true, if the members are not equals, false else.
 		 * @brief Compare the two vectors to check if they are different (member to member) or not.
 		 * @throw
 		 */
-		Vector<bool, Size> operator!=(const Vector<T, Size, enabled> & rhs);
+		bool operator!=(const Vector<T, Size, enabled> & rhs);
 
 		/**
 		 * @fn Vector<bool, Size> operator<(const Vector<T, Size, enabled> & rhs)

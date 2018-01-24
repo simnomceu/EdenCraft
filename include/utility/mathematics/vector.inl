@@ -415,8 +415,8 @@ namespace ece
 //		{ return Vector<T, Size, enabled>(std::move(std::valarray<T>::operator==(rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	Vector<bool, Size> Vector<T, Size, enabled>::operator!=(const Vector<T, Size, enabled> & rhs)
-		{ return Vector<bool, Size>(std::move(std::operator!=(*this, rhs))); }
+	bool Vector<T, Size, enabled>::operator!=(const Vector<T, Size, enabled> & rhs)
+		{ return std::operator!=(*this, rhs).min(); }
 
 	template <class T, unsigned int Size, typename enabled>
 	Vector<bool, Size> Vector<T, Size, enabled>::operator<(const Vector<T, Size, enabled> & rhs)

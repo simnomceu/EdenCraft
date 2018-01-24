@@ -3,12 +3,8 @@
 
 #include "core/event/emitter.hpp"
 
-#include "window/window_old/window.inl"
-
 namespace ece
 {
-	class BaseWindow;
-
 	class EventHandler: public Emitter
 	{
 	public:

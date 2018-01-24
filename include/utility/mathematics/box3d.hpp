@@ -61,13 +61,13 @@ namespace ece
 		Box3D() = delete;
 
 		/**
-		 * @fn Box3D(const FloatVertex3u & a, const FloatVertex3u & b)
+		 * @fn Box3D(const FloatVector3u & a, const FloatVector3u & b)
 		 * @param[in] a The left-bottom vertex of the box
 		 * @param[in] b The right-top vertex of the box
 		 * @brief  Build a box in 3D space.
 		 * @throw
 		 */
-		inline Box3D(const FloatVertex3u & a, const FloatVertex3u & b);
+		inline Box3D(const FloatVector3u & a, const FloatVector3u & b);
 
 		/**
 		 * @fn Box3D(const Box3D & copy)
@@ -111,25 +111,25 @@ namespace ece
 		Box3D & operator=(Box3D && move) noexcept = default;
 
 		/**
-		 * @fn FloatVertex3u getCenter() const
+		 * @fn FloatVector3u getCenter() const
 		 * @return The center of the box.
 		 * @brief Get the center of the box as a 3D vertex.
 		 * @throw noexcept.
 		 */
-		inline FloatVertex3u getCenter() const noexcept;
+		inline FloatVector3u getCenter() const noexcept;
 
 	private:
 		/**
 		 * @property _a
 		 * @brief The left-bottom vertex of the box.
 		 */
-		FloatVertex3u _a;
+		FloatVector3u _a;
 
 		/**
 		 * @property _b
 		 * @brief The right-top vertex of the box.
 		 */
-		FloatVertex3u _b;
+		FloatVector3u _b;
 	};
 }
 

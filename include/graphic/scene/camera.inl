@@ -7,13 +7,13 @@ namespace ece
 
 	inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->_position, object.getPosition()); }
 
-	inline void Camera::lookAt(const FloatVertex3u & target) { this->updatePosition(this->_position, target); }
+	inline void Camera::lookAt(const FloatVector3u & target) { this->updatePosition(this->_position, target); }
 
 	inline void Camera::lookUpTo(const FloatVector3u & direction) { this->updatePosition(this->_position, this->_target + direction); }
 
 	inline void Camera::moveTo(const Movable & object) { this->updatePosition(object.getPosition(), this->_target); }
 
-	inline void Camera::moveTo(const FloatVertex3u & position) { this->updatePosition(position, this->_target); }
+	inline void Camera::moveTo(const FloatVector3u & position) { this->updatePosition(position, this->_target); }
 
 	inline void Camera::moveIn(const FloatVector3u & direction) { this->updatePosition(this->_position + direction, this->_target); }
 

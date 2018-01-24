@@ -24,8 +24,8 @@ namespace ece
 		virtual void setTitle(const std::string & title) override;
 		virtual std::string getTitle() const override;
 
-		virtual void setPosition(const IntVertex2u & position) override;
-		virtual IntVertex2u getPosition() const override;
+		virtual void setPosition(const IntVector2u & position) override;
+		virtual IntVector2u getPosition() const override;
 
 		virtual void minimize() override;
 		virtual void maximize() override;

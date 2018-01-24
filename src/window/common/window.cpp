@@ -50,8 +50,12 @@ namespace ece
 
 	void Window::open()
 	{
+//		ece::WindowServiceLocator::getService().provideVideoMode(videoMode);
 		if (!this->isOpened()) {
 			this->_adapter->createWindow();
+
+//			WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+//			WindowServiceLocator::getService().registerEventHandler(this->windowId);
 			this->emit(WINDOW_OPENED);
 		}
 	}
@@ -83,8 +87,10 @@ namespace ece
 
 	void Window::setSettings(const WindowSetting & settings)
 	{
+//		this->setBounds(settings.getBounds());
 		this->setTitle(settings._title);
 		this->setPosition(settings._position);
+//		this->setState(settings.getState());
 	}
 
 	const std::string & Window::getTitle() const
@@ -95,29 +101,33 @@ namespace ece
 	void Window::setTitle(const std::string & title)
 	{
 		this->_adapter.get()->setTitle(title);
+		this->emit(WINDOW_RENAMED);
 	}
 
-	void Window::setPosition(const IntVertex2u & position)
+	void Window::setPosition(const IntVector2u & position)
 	{
 		auto oldPosition = this->_adapter.get()->getPosition();
-		if (!(oldPosition == position)) { // TODO : overload operator!= for vertex classes
+		if (oldPosition != position) { // TODO : overload operator!= for vertex classes
 			this->_adapter.get()->setPosition(position);
 			this->emit(WINDOW_MOVED);
 		}
 	}
 
-	void Window::setMinimumSize(const IntVertex2u & /*size*/)
+	void Window::setMinimumSize(const IntVector2u & /*size*/)
 	{
+		this->emit(WINDOW_RESIZED);
 	}
 
-	void Window::setMaximumSize(const IntVertex2u & /*size*/)
+	void Window::setMaximumSize(const IntVector2u & /*size*/)
 	{
+		this->emit(WINDOW_RESIZED);
 	}
 
 	void Window::maximize()
 	{
 		if (this->isOpened()) {
 			this->_adapter.get()->maximize();
+			this->emit(WINDOW_RESIZED);
 		}
 	}
 
@@ -125,11 +135,13 @@ namespace ece
 	{
 		if (this->isOpened()) {
 			this->_adapter.get()->minimize();
+			this->emit(WINDOW_RESIZED);
 		}
 	}
 
 	void Window::setFullscreen(const bool /*fullscreen*/)
 	{
+		this->emit(WINDOW_RESIZED);
 	}
 
 	void Window::enableDoubleClick(const bool /*enabled*/)
@@ -206,4 +218,43 @@ namespace ece
 			this->_videoMode.applyChanges();
 		}
 	}
+
+	/*void BaseWindow::setState(const ece::WindowState state)
+	{
+
+		if (this->isFullscreenActivated()) {
+			this->monitorToFill = glfwGetPrimaryMonitor();
+		}
+
+		if (this->isResizable()) {
+			glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+		}
+		else {
+			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+		}
+
+		if (this->isToolbarActivated()) {
+			glfwWindowHint(GLFW_DECORATED, GL_TRUE);
+		}
+		else {
+			glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+		}
+	}
+
+	void BaseWindow::attachToMonitor(const int monitorIdIn)
+	{
+		if (monitorId < GLAdapter::getNumberOfMonitors()) {
+			this->monitorId = monitorIdIn;
+		}
+
+		if (this->isFullscreenActivated()) {
+			this->monitorToFill = GLAdapter::getMonitor(this->monitorId);
+		}
+
+		if (this->isOpened() && this->isFullscreenActivated()) {
+			this->close();
+			this->open();
+		}
+	}
+	*/
 }

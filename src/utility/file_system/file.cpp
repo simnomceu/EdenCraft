@@ -103,11 +103,11 @@ namespace ece
 	}
 
 	template<>
-	std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>()
+	std::vector<FloatVector3u> File::parseToVector<FloatVector3u>()
 	{
-		std::vector<FloatVertex3u> content;
+		std::vector<FloatVector3u> content;
 		if (this->isOpen()) {
-			FloatVertex3u value;
+			FloatVector3u value;
 			try {
 				while (this->_stream.good()) {
 					*this >> value[0] >> value[1] >> value[2];

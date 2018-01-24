@@ -196,10 +196,10 @@ namespace ece
 	};
 
 	/**
-	 * @remark That template specialization could be moved as a friend method of FloatVertex3u.
+	 * @remark That template specialization could be moved as a friend method of FloatVector3u.
 	 * @see std::vector<T> File::parseToVector();
 	 */
-	template<> std::vector<FloatVertex3u> File::parseToVector<FloatVertex3u>();
+	template<> std::vector<FloatVector3u> File::parseToVector<FloatVector3u>();
 }
 
 #include "utility/file_system/file.inl"

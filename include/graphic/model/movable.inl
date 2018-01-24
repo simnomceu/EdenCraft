@@ -4,5 +4,5 @@ namespace ece
 
 	inline Movable::~Movable() {}
 
-	inline const FloatVertex3u & Movable::getPosition() const { return this->_position; }
+	inline const FloatVector3u & Movable::getPosition() const { return this->_position; }
 }
