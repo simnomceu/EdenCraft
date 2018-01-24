@@ -2,14 +2,16 @@
 #define MOUSE_HPP
 
 #include <array>
+
 #include "utility/mathematics/vector2u.hpp"
+#include "utility/enum/enum_count.hpp"
 
 namespace ece
 {
 	class Mouse
 	{
 	public:
-		enum Button
+		enum class Button: short int
 		{
 			ECE_MOUSE_NONE = -1,
 			ECE_MOUSE_LEFT = 0,
@@ -27,12 +29,18 @@ namespace ece
 		static bool isKeyPressed(const Button code);
 		static void pressKey(const Button code, const bool state);
 
-		static IntVertex2u & getPosition();
-		static void setPosition(const IntVertex2u & position);
+		static IntVector2u & getPosition();
+		static void setPosition(const IntVector2u & position);
 
 	private:
 		static std::array<bool, 10> _states;
-		static IntVertex2u _position;
+		static IntVector2u _position;
+	};
+
+	template <>
+	struct EnumCount<Mouse::Button>
+	{
+		static constexpr unsigned short int value = static_cast<unsigned short int>(Mouse::Button::ECE_MOUSE_BUTTON6) + 1;
 	};
 }
 

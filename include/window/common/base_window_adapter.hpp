@@ -32,8 +32,8 @@ namespace ece
 		virtual void setTitle(const std::string & title) = 0;
 		virtual std::string getTitle() const = 0;
 
-		virtual void setPosition(const IntVertex2u & position) = 0;
-		virtual IntVertex2u getPosition() const = 0;
+		virtual void setPosition(const IntVector2u & position) = 0;
+		virtual IntVector2u getPosition() const = 0;
 
 		virtual void minimize() = 0;
 		virtual void maximize() = 0;

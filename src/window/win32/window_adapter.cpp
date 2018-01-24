@@ -55,7 +55,7 @@ namespace ece
 		return std::string(title);
 	}
 
-	void WindowAdapter::setPosition(const IntVertex2u & position)
+	void WindowAdapter::setPosition(const IntVector2u & position)
 	{
 		bool success = SetWindowPos(this->_data->_windowId, 0, position[0], position[1], 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		if (!success) {
@@ -64,7 +64,7 @@ namespace ece
 		}
 	}
 
-	IntVertex2u WindowAdapter::getPosition() const
+	IntVector2u WindowAdapter::getPosition() const
 	{
 		RECT bounds;
 		bool success = GetWindowRect(this->_data->_windowId, &bounds);
@@ -72,7 +72,7 @@ namespace ece
 			std::cout << "Error while retrieving window bounds. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
 		}
-		return IntVertex2u{ bounds.left, bounds.top };
+		return IntVector2u{ bounds.left, bounds.top };
 	}
 
 	void WindowAdapter::minimize()
@@ -164,7 +164,7 @@ namespace ece
 				auto keyCode = interpretKey(message._wParam);
 				if (this->_keyRepeat || (!this->_keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
 					InputEvent newEvent;
-					newEvent._type = InputEvent::ECE_KEY_PRESSED;
+					newEvent._type = InputEvent::Type::ECE_KEY_PRESSED;
 					newEvent._key = keyCode;
 					this->pushEvent(newEvent);
 					Keyboard::pressKey(keyCode, true);
@@ -174,95 +174,95 @@ namespace ece
 			case WM_KEYUP: {
 				auto keyCode = interpretKey(message._wParam);
 				InputEvent newEvent;
-				newEvent._type = InputEvent::ECE_KEY_RELEASED;
+				newEvent._type = InputEvent::Type::ECE_KEY_RELEASED;
 				newEvent._key = keyCode;
 				this->pushEvent(newEvent);
 				Keyboard::pressKey(keyCode, false);
 				break;
 			}
 			case WM_LBUTTONDOWN: {
-				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_LEFT))) {
+				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::ECE_MOUSE_LEFT))) {
 					InputEvent newEvent;
-					newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
-					newEvent._mouseButton = Mouse::ECE_MOUSE_LEFT;
+					newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
+					newEvent._mouseButton = Mouse::Button::ECE_MOUSE_LEFT;
 					this->pushEvent(newEvent);
-					Mouse::pressKey(Mouse::ECE_MOUSE_LEFT, true);
+					Mouse::pressKey(Mouse::Button::ECE_MOUSE_LEFT, true);
 				}
 				break;
 			}
 			case WM_LBUTTONUP: {
 				InputEvent newEvent;
-				newEvent._type = InputEvent::ECE_MOUSE_RELEASED;
-				newEvent._mouseButton = Mouse::ECE_MOUSE_LEFT;
+				newEvent._type = InputEvent::Type::ECE_MOUSE_RELEASED;
+				newEvent._mouseButton = Mouse::Button::ECE_MOUSE_LEFT;
 				this->pushEvent(newEvent);
-				Mouse::pressKey(Mouse::ECE_MOUSE_LEFT, false);
+				Mouse::pressKey(Mouse::Button::ECE_MOUSE_LEFT, false);
 				break;
 			}
 			case WM_LBUTTONDBLCLK: {
 				InputEvent newEvent;
-				newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
-				newEvent._mouseButton = Mouse::ECE_MOUSE_LEFT;
-				newEvent._doubleTap = InputEvent::ECE_FIRST_OF;
+				newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
+				newEvent._mouseButton = Mouse::Button::ECE_MOUSE_LEFT;
+				newEvent._doubleTap = InputEvent::DoubleTap::ECE_FIRST_OF;
 				this->pushEvent(newEvent);
-				newEvent._doubleTap = InputEvent::ECE_LAST_OF;
+				newEvent._doubleTap = InputEvent::DoubleTap::ECE_LAST_OF;
 				this->pushEvent(newEvent);
 				break;
 			}
 			case WM_RBUTTONDOWN: {
-				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_RIGHT))) {
+				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::ECE_MOUSE_RIGHT))) {
 					InputEvent newEvent;
-					newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
-					newEvent._mouseButton = Mouse::ECE_MOUSE_RIGHT;
+					newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
+					newEvent._mouseButton = Mouse::Button::ECE_MOUSE_RIGHT;
 					this->pushEvent(newEvent);
-					Mouse::pressKey(Mouse::ECE_MOUSE_RIGHT, true);
+					Mouse::pressKey(Mouse::Button::ECE_MOUSE_RIGHT, true);
 				}
 				break;
 			}
 			case WM_RBUTTONUP: {
 				InputEvent newEvent;
-				newEvent._type = InputEvent::ECE_MOUSE_RELEASED;
-				newEvent._mouseButton = Mouse::ECE_MOUSE_RIGHT;
+				newEvent._type = InputEvent::Type::ECE_MOUSE_RELEASED;
+				newEvent._mouseButton = Mouse::Button::ECE_MOUSE_RIGHT;
 				this->pushEvent(newEvent);
-				Mouse::pressKey(Mouse::ECE_MOUSE_RIGHT, false);
+				Mouse::pressKey(Mouse::Button::ECE_MOUSE_RIGHT, false);
 				break;
 			}
 			case WM_RBUTTONDBLCLK: {
 				InputEvent newEvent;
-				newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
-				newEvent._mouseButton = Mouse::ECE_MOUSE_RIGHT;
+				newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
+				newEvent._mouseButton = Mouse::Button::ECE_MOUSE_RIGHT;
 				this->pushEvent(newEvent);
 				this->pushEvent(newEvent);
 				break;
 			}
 			case WM_MBUTTONDOWN: {
-				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::ECE_MOUSE_WHEEL))) {
+				if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::ECE_MOUSE_WHEEL))) {
 					InputEvent newEvent;
-					newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
-					newEvent._mouseButton = Mouse::ECE_MOUSE_WHEEL;
+					newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
+					newEvent._mouseButton = Mouse::Button::ECE_MOUSE_WHEEL;
 					this->pushEvent(newEvent);
-					Mouse::pressKey(Mouse::ECE_MOUSE_WHEEL, true);
+					Mouse::pressKey(Mouse::Button::ECE_MOUSE_WHEEL, true);
 				}
 				break;
 			}
 			case WM_MBUTTONUP: {
 				InputEvent newEvent;
-				newEvent._type = InputEvent::ECE_MOUSE_RELEASED;
-				newEvent._mouseButton = Mouse::ECE_MOUSE_WHEEL;
+				newEvent._type = InputEvent::Type::ECE_MOUSE_RELEASED;
+				newEvent._mouseButton = Mouse::Button::ECE_MOUSE_WHEEL;
 				this->pushEvent(newEvent);
-				Mouse::pressKey(Mouse::ECE_MOUSE_WHEEL, false);
+				Mouse::pressKey(Mouse::Button::ECE_MOUSE_WHEEL, false);
 				break;
 			}
 			case WM_MBUTTONDBLCLK: {
 				InputEvent newEvent;
-				newEvent._type = InputEvent::ECE_MOUSE_PRESSED;
-				newEvent._mouseButton = Mouse::ECE_MOUSE_WHEEL;
+				newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
+				newEvent._mouseButton = Mouse::Button::ECE_MOUSE_WHEEL;
 				this->pushEvent(newEvent);
 				this->pushEvent(newEvent);
 				break;
 			}
 			case WM_MOUSEMOVE: {
 				InputEvent newEvent;
-				newEvent._type = InputEvent::ECE_MOUSE_MOVED;
+				newEvent._type = InputEvent::Type::ECE_MOUSE_MOVED;
 				newEvent._mousePosition[0] = GET_X_LPARAM(message._lParam);
 				newEvent._mousePosition[1] = GET_Y_LPARAM(message._lParam);
 				Mouse::setPosition(this->getPosition() + newEvent._mousePosition);
@@ -278,327 +278,327 @@ namespace ece
 
 	Keyboard::Key interpretKey(WPARAM wParam)
 	{
-		Keyboard::Key key = Keyboard::KEY_NONE;
+		Keyboard::Key key = Keyboard::Key::KEY_NONE;
 		switch (wParam) {
 		case VK_CANCEL: //Control-break processing
 		case VK_BACK:
-			key = Keyboard::BACKSPACE;
+			key = Keyboard::Key::BACKSPACE;
 			break;
 		case VK_TAB:
-			key = Keyboard::TAB;
+			key = Keyboard::Key::TAB;
 			break;
 		case VK_CLEAR: // CLEAR key
 		case VK_RETURN:
-			key = Keyboard::RETURN;
+			key = Keyboard::Key::RETURN;
 			break;
 		case VK_SHIFT:
-			key = Keyboard::SHIFT;
+			key = Keyboard::Key::SHIFT;
 			break;
 		case VK_CONTROL:
-			key = Keyboard::CTRL;
+			key = Keyboard::Key::CTRL;
 			break;
 		case VK_MENU:
-			key = Keyboard::ALTGR;
+			key = Keyboard::Key::ALTGR;
 			break;
 		case VK_PAUSE:
-			key = Keyboard::PAUSE;
+			key = Keyboard::Key::PAUSE;
 			break;
 		case VK_CAPITAL:
-			key = Keyboard::CAPS_LOCK;
+			key = Keyboard::Key::CAPS_LOCK;
 			break; // CAPS LOCK key
 		case VK_KANA: // IME Kana mode // IME Hangul mode
 		case VK_JUNJA: // IME Junja mode
 		case VK_FINAL: // IME final mode
 		case VK_HANJA: // IME Hanja mode // IME Kanji mode
 		case VK_ESCAPE:
-			key = Keyboard::ESCAPE;
+			key = Keyboard::Key::ESCAPE;
 			break;
 		case VK_CONVERT: // IME convert
 		case VK_NONCONVERT: // IME nonconvert
 		case VK_ACCEPT: // IME accept
 		case VK_MODECHANGE: // IME mode change request
 		case VK_SPACE:
-			key = Keyboard::SPACEBAR;
+			key = Keyboard::Key::SPACEBAR;
 			break;
 		case VK_PRIOR:
-			key = Keyboard::PAGE_UP;
+			key = Keyboard::Key::PAGE_UP;
 			break;
 		case VK_NEXT:
-			key = Keyboard::PAGE_DOWN;
+			key = Keyboard::Key::PAGE_DOWN;
 			break;
 		case VK_END:
-			key = Keyboard::END;
+			key = Keyboard::Key::END;
 			break;
 		case VK_HOME:
-			key = Keyboard::HOME;
+			key = Keyboard::Key::HOME;
 			break;
 		case VK_LEFT:
-			key = Keyboard::LEFT;
+			key = Keyboard::Key::LEFT;
 			break;
 		case VK_UP:
-			key = Keyboard::UP;
+			key = Keyboard::Key::UP;
 			break;
 		case VK_RIGHT:
-			key = Keyboard::RIGHT;
+			key = Keyboard::Key::RIGHT;
 			break;
 		case VK_DOWN:
-			key = Keyboard::DOWN;
+			key = Keyboard::Key::DOWN;
 			break;
 		case VK_SELECT: // SELECT key
 		case VK_PRINT: // PRINT key
 		case VK_EXECUTE: // EXECUTE key
 		case VK_SNAPSHOT:
-			key = Keyboard::PRINT_SCREEN;
+			key = Keyboard::Key::PRINT_SCREEN;
 			break; 
 		case VK_INSERT:
-			key = Keyboard::INS;
+			key = Keyboard::Key::INS;
 			break;
 		case VK_DELETE:
-			key = Keyboard::DEL;
+			key = Keyboard::Key::DEL;
 			break;
 		case VK_HELP:
-			key = Keyboard::HELP;
+			key = Keyboard::Key::HELP;
 			break;
 		case '0':
-			key = Keyboard::NUM_0;
+			key = Keyboard::Key::NUM_0;
 			break;
 		case '1':
-			key = Keyboard::NUM_1;
+			key = Keyboard::Key::NUM_1;
 			break;
 		case '2':
-			key = Keyboard::NUM_2;
+			key = Keyboard::Key::NUM_2;
 			break;
 		case '3':
-			key = Keyboard::NUM_3;
+			key = Keyboard::Key::NUM_3;
 			break;
 		case '4':
-			key = Keyboard::NUM_4;
+			key = Keyboard::Key::NUM_4;
 			break;
 		case '5':
-			key = Keyboard::NUM_5;
+			key = Keyboard::Key::NUM_5;
 			break;
 		case '6':
-			key = Keyboard::NUM_6;
+			key = Keyboard::Key::NUM_6;
 			break;
 		case '7':
-			key = Keyboard::NUM_7;
+			key = Keyboard::Key::NUM_7;
 			break;
 		case '8':
-			key = Keyboard::NUM_8;
+			key = Keyboard::Key::NUM_8;
 			break;
 		case '9':
-			key = Keyboard::NUM_9;
+			key = Keyboard::Key::NUM_9;
 			break;
 		case 'A':
-			key = Keyboard::A;
+			key = Keyboard::Key::A;
 			break;
 		case 'B':
-			key = Keyboard::B;
+			key = Keyboard::Key::B;
 			break;
 		case 'C':
-			key = Keyboard::C;
+			key = Keyboard::Key::C;
 			break;
 		case 'D':
-			key = Keyboard::D;
+			key = Keyboard::Key::D;
 			break;
 		case 'E':
-			key = Keyboard::E;
+			key = Keyboard::Key::E;
 			break;
 		case 'F':
-			key = Keyboard::F;
+			key = Keyboard::Key::F;
 			break;
 		case 'G':
-			key = Keyboard::G;
+			key = Keyboard::Key::G;
 			break;
 		case 'H':
-			key = Keyboard::H;
+			key = Keyboard::Key::H;
 			break;
 		case 'I':
-			key = Keyboard::I;
+			key = Keyboard::Key::I;
 			break;
 		case 'J':
-			key = Keyboard::J;
+			key = Keyboard::Key::J;
 			break;
 		case 'K':
-			key = Keyboard::K;
+			key = Keyboard::Key::K;
 			break;
 		case 'L':
-			key = Keyboard::L;
+			key = Keyboard::Key::L;
 			break;
 		case 'M':
-			key = Keyboard::M;
+			key = Keyboard::Key::M;
 			break;
 		case 'N':
-			key = Keyboard::N;
+			key = Keyboard::Key::N;
 			break;
 		case 'O':
-			key = Keyboard::O;
+			key = Keyboard::Key::O;
 			break;
 		case 'P':
-			key = Keyboard::P;
+			key = Keyboard::Key::P;
 			break;
 		case 'Q':
-			key = Keyboard::Q;
+			key = Keyboard::Key::Q;
 			break;
 		case 'R':
-			key = Keyboard::R;
+			key = Keyboard::Key::R;
 			break;
 		case 'S':
-			key = Keyboard::S;
+			key = Keyboard::Key::S;
 			break;
 		case 'T':
-			key = Keyboard::T;
+			key = Keyboard::Key::T;
 			break;
 		case 'U':
-			key = Keyboard::U;
+			key = Keyboard::Key::U;
 			break;
 		case 'V':
-			key = Keyboard::V;
+			key = Keyboard::Key::V;
 			break;
 		case 'W':
-			key = Keyboard::W;
+			key = Keyboard::Key::W;
 			break;
 		case 'X':
-			key = Keyboard::X;
+			key = Keyboard::Key::X;
 			break;
 		case 'Y':
-			key = Keyboard::Y;
+			key = Keyboard::Key::Y;
 			break;
 		case 'Z':
-			key = Keyboard::Z;
+			key = Keyboard::Key::Z;
 			break;
 		case VK_LWIN:
-			key = Keyboard::LEFT_COMMAND;
+			key = Keyboard::Key::LEFT_COMMAND;
 			break; // Left Windows key(Natural keyboard)
 		case VK_RWIN:
-			key = Keyboard::RIGHT_COMMAND;
+			key = Keyboard::Key::RIGHT_COMMAND;
 			break; // Right Windows key(Natural keyboard)
 		case VK_APPS:
-			key = Keyboard::APPLICATIONS;
+			key = Keyboard::Key::APPLICATIONS;
 			break;
 		case VK_SLEEP:
-			key = Keyboard::SLEEP;
+			key = Keyboard::Key::SLEEP;
 			break;
 		case VK_NUMPAD0:
-			key = Keyboard::NUMPAD_0;
+			key = Keyboard::Key::NUMPAD_0;
 			break;
 		case VK_NUMPAD1:
-			key = Keyboard::NUMPAD_1;
+			key = Keyboard::Key::NUMPAD_1;
 			break;
 		case VK_NUMPAD2:
-			key = Keyboard::NUMPAD_2;
+			key = Keyboard::Key::NUMPAD_2;
 			break;
 		case VK_NUMPAD3:
-			key = Keyboard::NUMPAD_3;
+			key = Keyboard::Key::NUMPAD_3;
 			break;
 		case VK_NUMPAD4:
-			key = Keyboard::NUMPAD_4;
+			key = Keyboard::Key::NUMPAD_4;
 			break;
 		case VK_NUMPAD5:
-			key = Keyboard::NUMPAD_5;
+			key = Keyboard::Key::NUMPAD_5;
 			break;
 		case VK_NUMPAD6:
-			key = Keyboard::NUMPAD_6;
+			key = Keyboard::Key::NUMPAD_6;
 			break;
 		case VK_NUMPAD7:
-			key = Keyboard::NUMPAD_7;
+			key = Keyboard::Key::NUMPAD_7;
 			break;
 		case VK_NUMPAD8:
-			key = Keyboard::NUMPAD_8;
+			key = Keyboard::Key::NUMPAD_8;
 			break;
 		case VK_NUMPAD9:
-			key = Keyboard::NUMPAD_9;
+			key = Keyboard::Key::NUMPAD_9;
 			break;
 		case VK_MULTIPLY:
-			key = Keyboard::MULTIPLY;
+			key = Keyboard::Key::MULTIPLY;
  			break;
 		case VK_ADD:
-			key = Keyboard::ADD;
+			key = Keyboard::Key::ADD;
 			break;
 		case VK_SEPARATOR: // Separator key
 		case VK_SUBTRACT:
-			key = Keyboard::SUBSTRACT;
+			key = Keyboard::Key::SUBSTRACT;
 			break;
 		case VK_DECIMAL:
-			key = Keyboard::NUMPAD_DEL;
+			key = Keyboard::Key::NUMPAD_DEL;
 			break;
 		case VK_DIVIDE:
-			key = Keyboard::DIVIDE;
+			key = Keyboard::Key::DIVIDE;
 			break;
 		case VK_F1:
-			key = Keyboard::F1;
+			key = Keyboard::Key::F1;
 			break;
 		case VK_F2:
-			key = Keyboard::F2;
+			key = Keyboard::Key::F2;
 			break;
 		case VK_F3:
-			key = Keyboard::F3;
+			key = Keyboard::Key::F3;
 			break;
 		case VK_F4:
-			key = Keyboard::F4;
+			key = Keyboard::Key::F4;
 			break;
 		case VK_F5:
-			key = Keyboard::F5;
+			key = Keyboard::Key::F5;
 			break;
 		case VK_F6:
-			key = Keyboard::F6;
+			key = Keyboard::Key::F6;
 			break;
 		case VK_F7:
-			key = Keyboard::F7;
+			key = Keyboard::Key::F7;
 			break;
 		case VK_F8:
-			key = Keyboard::F8;
+			key = Keyboard::Key::F8;
 			break;
 		case VK_F9:
-			key = Keyboard::F9;
+			key = Keyboard::Key::F9;
 			break;
 		case VK_F10:
-			key = Keyboard::F10;
+			key = Keyboard::Key::F10;
 			break;
 		case VK_F11:
-			key = Keyboard::F11;
+			key = Keyboard::Key::F11;
 			break;
 		case VK_F12:
-			key = Keyboard::F12;
+			key = Keyboard::Key::F12;
 			break;
 		case VK_F13:
-			key = Keyboard::F13;
+			key = Keyboard::Key::F13;
 			break;
 		case VK_F14:
-			key = Keyboard::F14;
+			key = Keyboard::Key::F14;
 			break;
 		case VK_F15:
-			key = Keyboard::F15;
+			key = Keyboard::Key::F15;
 			break;
 		case VK_F16:
-			key = Keyboard::F16;
+			key = Keyboard::Key::F16;
 			break;
 		case VK_F17:
-			key = Keyboard::F17;
+			key = Keyboard::Key::F17;
 			break;
 		case VK_F18:
-			key = Keyboard::F18;
+			key = Keyboard::Key::F18;
 			break;
 		case VK_F19:
-			key = Keyboard::F19;
+			key = Keyboard::Key::F19;
 			break;
 		case VK_F20:
-			key = Keyboard::F20;
+			key = Keyboard::Key::F20;
 			break;
 		case VK_F21:
-			key = Keyboard::F21;
+			key = Keyboard::Key::F21;
 			break;
 		case VK_F22:
-			key = Keyboard::F22;
+			key = Keyboard::Key::F22;
 			break;
 		case VK_F23:
-			key = Keyboard::F23;
+			key = Keyboard::Key::F23;
 			break;
 		case VK_F24:
-			key = Keyboard::F24;
+			key = Keyboard::Key::F24;
 			break;
 		case VK_NUMLOCK:
-			key = Keyboard::NUMLOCK;
+			key = Keyboard::Key::NUMLOCK;
 			break;
 		case VK_SCROLL: // SCROLL LOCK key
 		case VK_LSHIFT: // Left SHIFT key
@@ -608,97 +608,97 @@ namespace ece
 		case VK_LMENU: // Left MENU key
 		case VK_RMENU: // Right MENU key
 		case VK_BROWSER_BACK:
-			key = Keyboard::BROWSER_BACK;
+			key = Keyboard::Key::BROWSER_BACK;
 			break;
 		case VK_BROWSER_FORWARD:
-			key = Keyboard::BROWSER_FORWARD;
+			key = Keyboard::Key::BROWSER_FORWARD;
 			break;
 		case VK_BROWSER_REFRESH:
-			key = Keyboard::BROWSER_REFRESH;
+			key = Keyboard::Key::BROWSER_REFRESH;
 			break;
 		case VK_BROWSER_STOP:
-			key = Keyboard::BROWSER_STOP;
+			key = Keyboard::Key::BROWSER_STOP;
 			break;
 		case VK_BROWSER_SEARCH:
-			Keyboard::BROWSER_SEARCH;
+			Keyboard::Key::BROWSER_SEARCH;
 			break;
 		case VK_BROWSER_FAVORITES:
-			key = Keyboard::BROWSER_FAVORITES;
+			key = Keyboard::Key::BROWSER_FAVORITES;
 			break;
 		case VK_BROWSER_HOME:
-			key = Keyboard::BROWSER_HOME;
+			key = Keyboard::Key::BROWSER_HOME;
 			break;
 		case VK_VOLUME_MUTE:
-			key = Keyboard::VOLUME_MUTE;
+			key = Keyboard::Key::VOLUME_MUTE;
 			break;
 		case VK_VOLUME_DOWN:
-			key = Keyboard::VOLUME_DOWN;
+			key = Keyboard::Key::VOLUME_DOWN;
 			break;
 		case VK_VOLUME_UP:
-			key = Keyboard::VOLUME_UP;
+			key = Keyboard::Key::VOLUME_UP;
 			break;
 		case VK_MEDIA_NEXT_TRACK:
-			key = Keyboard::MEDIA_NEXT;
+			key = Keyboard::Key::MEDIA_NEXT;
 			break;
 		case VK_MEDIA_PREV_TRACK:
-			key = Keyboard::MEDIA_PREVIOUS;
+			key = Keyboard::Key::MEDIA_PREVIOUS;
 			break;
 		case VK_MEDIA_STOP:
-			key = Keyboard::MEDIA_STOP;
+			key = Keyboard::Key::MEDIA_STOP;
 			break;
 		case VK_MEDIA_PLAY_PAUSE:
-			key = Keyboard::MEDIA_PLAY;
+			key = Keyboard::Key::MEDIA_PLAY;
 			break;
 		case VK_LAUNCH_MAIL:
-			key = Keyboard::LAUNCH_MAIL;
+			key = Keyboard::Key::LAUNCH_MAIL;
 			break;
 		case VK_LAUNCH_MEDIA_SELECT:
-			key = Keyboard::SELECT_MEDIA;
+			key = Keyboard::Key::SELECT_MEDIA;
 			break;
 		case VK_LAUNCH_APP1:
-			key = Keyboard::APP_1;
+			key = Keyboard::Key::APP_1;
 			break;
 		case VK_LAUNCH_APP2:
-			key = Keyboard::APP_2;
+			key = Keyboard::Key::APP_2;
 			break;
 		case VK_OEM_1:
-			key = Keyboard::OEM_1;
+			key = Keyboard::Key::OEM_1;
 			break; // £ $ ¤
 		case VK_OEM_PLUS:
-			key = Keyboard::OEM_PLUS;
+			key = Keyboard::Key::OEM_PLUS;
 			break; // + = }
 		case VK_OEM_COMMA:
-			key = Keyboard::OEM_COMMA;
+			key = Keyboard::Key::OEM_COMMA;
 			break; // ? ,
 		case VK_OEM_MINUS:
-			key = Keyboard::OEM_MINUS;
+			key = Keyboard::Key::OEM_MINUS;
 			break; //  - _
 		case VK_OEM_PERIOD:
-			key = Keyboard::OEM_PERIOD;
+			key = Keyboard::Key::OEM_PERIOD;
 			break; // . ;
 		case VK_OEM_2:
-			key = Keyboard::OEM_2;
+			key = Keyboard::Key::OEM_2;
 			break; // : /
 		case VK_OEM_3:
-			key = Keyboard::OEM_3;
+			key = Keyboard::Key::OEM_3;
 			break; // % ù
 		case VK_OEM_4:
-			key = Keyboard::OEM_4;
+			key = Keyboard::Key::OEM_4;
 			break; // ° ) ]
 		case VK_OEM_5:
-			key = Keyboard::OEM_5;
+			key = Keyboard::Key::OEM_5;
 			break; // µ *
 		case VK_OEM_6:
-			key = Keyboard::OEM_6;
+			key = Keyboard::Key::OEM_6;
 			break; // ^ ¨
 		case VK_OEM_7:
-			key = Keyboard::OEM_7;
+			key = Keyboard::Key::OEM_7;
 			break; // ²
 		case VK_OEM_8:
-			key = Keyboard::OEM_8;
+			key = Keyboard::Key::OEM_8;
 			break; // § !
 		case VK_OEM_102:
-			key = Keyboard::OEM_102;
+			key = Keyboard::Key::OEM_102;
 			break; // > <
 		case VK_PROCESSKEY: // IME PROCESS key
 		case VK_PACKET: // Used to pass Unicode characters as if they were keystrokes.The VK_PACKET key is the low word of a 32 - bit Virtual Key value used for non - keyboard input methods.For more information, see Remark in KEYBDINPUT, SendInput, WM_KEYDOWN, and WM_KEYUP
@@ -711,7 +711,7 @@ namespace ece
 		case VK_PA1: // PA1 key
 		case VK_OEM_CLEAR: // Clear key
 		default:
-			key = Keyboard::KEY_NONE;
+			key = Keyboard::Key::KEY_NONE;
 			break;
 		}
 		return key;

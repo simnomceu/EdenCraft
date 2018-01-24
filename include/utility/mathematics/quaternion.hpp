@@ -77,13 +77,13 @@ namespace ece
 		inline Quaternion(const T w, const T x, const T y, const T z) noexcept;
 
 		/**
-		 * @fn Quaternion(const T angle, const Vertex3u<T> & axis) noexcept
+		 * @fn Quaternion(const T angle, const Vector3u<T> & axis) noexcept
 		 * @param[in] angle The angle of the rotation to set.
 		 * @param[in] axis The axis of the rotation to set.
 		 * @brief Build a quaternion from a classic rotation defined by the angle an the axis of rotation.
 		 * @throw noexcept
 		 */
-		inline Quaternion(const T angle, const Vertex3u<T> & axis) noexcept;
+		inline Quaternion(const T angle, const Vector3u<T> & axis) noexcept;
 
 		/**
 		 * @fn Quaternion(const EulerAngle<T> & eulerAngle)

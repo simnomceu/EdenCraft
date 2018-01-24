@@ -76,14 +76,6 @@ namespace ece
 	 */
 	using DoubleVector3u = Vector3u<double>;
 
-	template <class T>
-	[[deprecated]] using Vertex3u = Vector3u<T>;
-
-	using IntVertex3u = IntVector3u;
-	using UintVertex3u = UintVector3u;
-	using FloatVertex3u = FloatVector3u;
-	using DoubleVertex3u = DoubleVector3u;
-
 	static const IntVector3u UP{ 0, 1, 0 };
 	static const IntVector3u DOWN{ 0, -1, 0 };
 	static const IntVector3u LEFT{ -1, 0, 0 };

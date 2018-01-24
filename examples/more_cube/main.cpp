@@ -16,13 +16,14 @@ int main()
 		ece::RenderWindow window;
 
 		ece::WindowSetting settings;
-		settings.position = ece::IntVertex2u(200, 200);
-		settings.title = "WFL window testing";
+		settings._position = ece::IntVector2u{ 10, 10 };
+		settings._title = "WFL window testing";
 
 		window.open();
 		window.getVideoMode().setSamples(0);
 		window.updateVideoMode();
 		window.setSettings(settings);
+		window.limitUPS(100);
 
 		ece::Renderer renderer;
 

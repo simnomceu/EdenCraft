@@ -22,20 +22,20 @@ namespace ece
 		Camera & operator=(Camera && move) = default;
 
 		inline void lookAt(const Movable & object);
-		inline void lookAt(const FloatVertex3u & target);
+		inline void lookAt(const FloatVector3u & target);
 		inline void lookUpTo(const FloatVector3u & direction);
 		inline void moveTo(const Movable & object);
-		inline void moveTo(const FloatVertex3u & position);
+		inline void moveTo(const FloatVector3u & position);
 		inline void moveIn(const FloatVector3u & direction);
 
 		//inline glm::mat4 getCamera() const;
 		inline FloatMatrix4u getCamera() const;
 
 	private:
-		void updatePosition(const FloatVertex3u & position, const FloatVertex3u & target);
+		void updatePosition(const FloatVector3u & position, const FloatVector3u & target);
 
-		FloatVertex3u _position;
-		FloatVertex3u _target;
+		FloatVector3u _position;
+		FloatVector3u _target;
 		FloatVector3u _upAxis;
 	};
 }

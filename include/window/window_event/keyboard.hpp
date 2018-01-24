@@ -3,12 +3,14 @@
 
 #include <array>
 
+#include "utility/enum/enum_count.hpp"
+
 namespace ece
 {
 	class Keyboard
 	{
 	public:
-		enum Key : int
+		enum class Key : short int
 		{
 			KEY_NONE = -1,
 			BACKSPACE = 0,
@@ -151,6 +153,12 @@ namespace ece
 
 	private:
 		static std::array<bool, 132> _states;
+	};
+
+	template <>
+	struct EnumCount<Keyboard::Key>
+	{
+		static constexpr unsigned short int value = static_cast<unsigned short int>(Keyboard::Key::OEM_PERIOD) + 1;
 	};
 }
 

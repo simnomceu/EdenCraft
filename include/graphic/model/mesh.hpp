@@ -27,14 +27,14 @@ namespace ece
 		inline const unsigned int size() const;
 		Box3D getAABB() const;
 
-		inline virtual std::vector<FloatVertex3u> getPositions() const override;
-		inline virtual std::vector<FloatVertex3u> getColors() const override;
-		inline virtual std::vector<FloatVertex3u> getNormals() const override;
+		inline virtual std::vector<FloatVector3u> getPositions() const override;
+		inline virtual std::vector<FloatVector3u> getColors() const override;
+		inline virtual std::vector<FloatVector3u> getNormals() const override;
 		inline virtual std::vector<int> getIndices() const override;
 
 	private:
-		std::vector<FloatVertex3u> _vertices;
-		std::vector<FloatVertex3u> _colors;
+		std::vector<FloatVector3u> _vertices;
+		std::vector<FloatVector3u> _colors;
 	};
 }
 

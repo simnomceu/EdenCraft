@@ -1,11 +1,6 @@
 #include "window/window_event/event_handler.hpp"
 
-#include "window/window_old/base_window.hpp"
-//#include "window/window_service.hpp"
-
 #include <iostream>
-
-//#include "GLFW\glfw3.h"
 
 namespace ece
 {

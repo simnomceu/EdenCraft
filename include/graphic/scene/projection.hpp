@@ -1,7 +1,7 @@
 #ifndef PROJECTION_HPP
 #define PROJECTION_HPP
 
-#include "window/window_old/ratio.hpp"
+#include "window/common/ratio.hpp"
 #include "utility/mathematics/matrix4u.hpp"
 
 namespace ece
