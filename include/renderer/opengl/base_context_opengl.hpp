@@ -19,6 +19,8 @@ namespace ece
 
 		virtual void create(const RenderWindow & window) = 0;
 		virtual void swapBuffers() = 0;
+
+		void logInfos();
 	};
 }
 

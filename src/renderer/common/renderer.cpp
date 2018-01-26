@@ -13,7 +13,7 @@ namespace ece
 
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
 	{
-		glEnable(GL_CULL_FACE);
+		OpenGL::enable(CULL_FACE);
 		glCullFace(GL_BACK);
 		glFrontFace(GL_CW);
 

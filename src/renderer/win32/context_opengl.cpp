@@ -89,19 +89,14 @@ namespace ece
 			throw std::runtime_error("The created context cannot be used.");
 		}
 		
-		const char * renderer = (const char *)glGetString(GL_RENDERER);
-		const char * version = (const char *)glGetString(GL_VERSION);
-		const char * shaderVersion = (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION);
-		ServiceLoggerLocator::getService().logInfo("Renderer: " + std::string(renderer));
-		ServiceLoggerLocator::getService().logInfo("OpenGL version supported " + std::string(version));
-		ServiceLoggerLocator::getService().logInfo("GLSL version supported " + std::string(shaderVersion));
+		this->logInfos();
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
 
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("ContextOpenGL::create");
 	}
 
 	void ContextOpenGL::swapBuffers()

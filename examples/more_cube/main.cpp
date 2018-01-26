@@ -51,7 +51,7 @@ int main()
 		while (1) {
 			window.clear();
 			renderer.drawPrimitives(ece::TRIANGLES, vao);
-			if (window.pollEvent(event)) { // TODO: broken !!!!
+			if (window.pollEvent(event)) {
 			}
 			window.display();
 		}
