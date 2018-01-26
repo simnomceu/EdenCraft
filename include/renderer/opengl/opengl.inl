@@ -1,6 +1,9 @@
 #include "opengl.hpp"
 namespace ece
 {
+	inline int OpenGL::getLatestMinorVersion() { return OpenGL::_latestVersion[1]; }
+	inline int OpenGL::getLatestMajorVersion() { return OpenGL::_latestVersion[0]; }
+
 	template<class T> 
 	void OpenGL::uniform(const UniformHandle uniform, const T value)
 	{

@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <bitset>
+#include <array>
 
 #ifdef __unix__
 #include "renderer/x11/glx_extension.hpp"
@@ -112,6 +113,9 @@ namespace ece
 
 		static void init(const OptionOpenGL options);
 
+		static inline int getLatestMinorVersion();
+		static inline int getLatestMajorVersion();
+
 		static unsigned int getError();
 		static void checkErrors();
 
@@ -171,6 +175,7 @@ namespace ece
 		OpenGL(OpenGL && move) = default;
 
 		static std::unique_ptr<OpenGLExtension> _extensions;
+		static std::array<int, 2> _latestVersion;
 
 		OpenGL & operator=(const OpenGL & copy) = default;
 		OpenGL & operator=(OpenGL && move) = default;

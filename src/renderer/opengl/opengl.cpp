@@ -7,6 +7,7 @@
 namespace ece
 {
 	std::unique_ptr<OpenGLExtension> OpenGL::_extensions(nullptr);
+	std::array<int, 2> OpenGL::_latestVersion{2, 1};
 
 	void OpenGL::init(const OptionOpenGL options)
 	{
@@ -21,7 +22,10 @@ namespace ece
 			OpenGL::_extensions = std::make_unique<WGLExtension>();
 			#endif
 		}
-		OpenGL::_extensions->init(options);
+		auto version = OpenGL::_extensions->init(options);
+		if (version != std::array<int, 2>{0, 0}) {
+			OpenGL::_latestVersion = version;
+		}
 	}
 
 	unsigned int OpenGL::getError()

@@ -18,7 +18,7 @@ namespace ece
 		WGLExtension & operator=(const WGLExtension & copy) = default;
 		WGLExtension & operator=(WGLExtension && move) = default;
 
-		virtual void init(const OptionOpenGL options) override;
+		virtual std::array<int, 2> init(const OptionOpenGL options) override;
 
 	protected:
 		virtual void * loadOpenGLProc(const std::string & name) override;

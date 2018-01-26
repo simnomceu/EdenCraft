@@ -74,8 +74,8 @@ namespace ece
 		}
 
 		const int glVersion[] = {
-			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 5, //6 // TODO: Find the latest version available en use it instead of those constants.
+			WGL_CONTEXT_MAJOR_VERSION_ARB, OpenGL::getLatestMajorVersion(),
+			WGL_CONTEXT_MINOR_VERSION_ARB, OpenGL::getLatestMinorVersion(),
 			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
 			0
@@ -89,9 +89,9 @@ namespace ece
 			throw std::runtime_error("The created context cannot be used.");
 		}
 		
-		const char * renderer = (char *)glGetString(GL_RENDERER);
-		const char * version = (char *)glGetString(GL_VERSION);
-		const char * shaderVersion = (char *)glGetString(GL_SHADING_LANGUAGE_VERSION);
+		const char * renderer = (const char *)glGetString(GL_RENDERER);
+		const char * version = (const char *)glGetString(GL_VERSION);
+		const char * shaderVersion = (const char *)glGetString(GL_SHADING_LANGUAGE_VERSION);
 		ServiceLoggerLocator::getService().logInfo("Renderer: " + std::string(renderer));
 		ServiceLoggerLocator::getService().logInfo("OpenGL version supported " + std::string(version));
 		ServiceLoggerLocator::getService().logInfo("GLSL version supported " + std::string(shaderVersion));
