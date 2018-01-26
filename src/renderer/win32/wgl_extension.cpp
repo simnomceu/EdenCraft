@@ -67,7 +67,8 @@ namespace ece
 		if (proc == nullptr) {
 			proc = GetProcAddress(this->_openglLib, name.data());
 			if (proc == nullptr) {
-				throw std::runtime_error(name + " cannot be loaded.");
+				ServiceLoggerLocator::getService().logError(name + " cannot be loaded.");
+				//throw std::runtime_error(name + " cannot be loaded.");
 			}
 		}
 		return static_cast<void *>(proc);

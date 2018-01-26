@@ -1,4 +1,4 @@
-#version 460
+#version 450
 
 in vec3 colour;
 out vec4 frag_colour;
