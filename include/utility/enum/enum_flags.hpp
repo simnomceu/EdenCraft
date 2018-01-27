@@ -68,7 +68,7 @@ namespace ece
  * Thus, things like MyEnum::A | MyEnum::B make sense now.
  */
 #define EnumFlagsT(TYPE, NAME) \
-	enum class NAME; \
+	enum class NAME : TYPE; \
 	ENUM_FLAGS_OPERATOR_OVERLOAD(NAME) \
 	enum class NAME : TYPE
 

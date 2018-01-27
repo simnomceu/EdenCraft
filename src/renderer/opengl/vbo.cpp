@@ -7,7 +7,7 @@ namespace ece
 		OpenGL::genBuffers(this->_handle);
 	}
 
-	VBO::VBO() : _handle(0), _type(ARRAY_BUFFER)
+	VBO::VBO() : _handle(0), _type(BufferType::ARRAY_BUFFER)
 	{
 		OpenGL::genBuffers(this->_handle);
 	}

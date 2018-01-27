@@ -88,15 +88,14 @@ namespace ece
 		if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
 			throw std::runtime_error("The created context cannot be used.");
 		}
+		OpenGL::checkErrors("ContextOpenGL::create");
 		
 		this->logInfos();
 
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
+		OpenGL::enable(Capability::DEPTH_TEST);
+		OpenGL::depthFunc(DepthFunctionCondition::LESS);
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-		OpenGL::checkErrors("ContextOpenGL::create");
+		OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	void ContextOpenGL::swapBuffers()

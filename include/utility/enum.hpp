@@ -36,8 +36,8 @@
 
 */
 
-#ifndef TYPE_HPP 
-#define TYPE_HPP 
+#ifndef UTILITY_ENUM_HPP 
+#define UTILITY_ENUM_HPP 
 
 #include "utility/enum/enum_flags.hpp"
 
@@ -87,4 +87,4 @@ namespace ece
 	};
 }
 
-#endif // TYPE_HPP
+#endif // UTILITY_ENUM_HPP

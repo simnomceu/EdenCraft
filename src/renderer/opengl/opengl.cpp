@@ -65,12 +65,21 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::clear");
 	}
 
+	void OpenGL::clearColor(const float r, const float g, const float b, const float a)
+	{
+		if (!glClearColor) {
+			throw OpenGLExtensionException("glClearColor", WHOLE_FRAMEBUFFER);
+		}
+		glClearColor(r, g, b, a);
+		OpenGL::checkErrors("OpenGL::clearColor");
+	}
+
 	void OpenGL::enable(const Capability cap)
 	{
 		if (!glEnable) {
 			throw OpenGLExtensionException("glEnable", TEXTURES_AND_SAMPLERS);
 		}
-		glEnable(cap);
+		glEnable(static_cast<GLenum>(cap));
 		OpenGL::checkErrors("OpenGL::enable");
 	}
 
@@ -79,7 +88,7 @@ namespace ece
 		if (!glDisable) {
 			throw OpenGLExtensionException("glDisable", TEXTURES_AND_SAMPLERS);
 		}
-		glDisable(cap);
+		glDisable(static_cast<GLenum>(cap));
 		OpenGL::checkErrors("OpenGL::disable");
 	}
 
@@ -88,7 +97,7 @@ namespace ece
 		if (!glEnablei) {
 			throw OpenGLExtensionException("glEnablei", PER_FRAGMENT_OPERATIONS);
 		}
-		glEnablei(cap, index);
+		glEnablei(static_cast<GLenum>(cap), index);
 		OpenGL::checkErrors("OpenGL::enableIndexed");
 	}
 
@@ -97,8 +106,67 @@ namespace ece
 		if (!glDisablei) {
 			throw OpenGLExtensionException("glDisablei", PER_FRAGMENT_OPERATIONS);
 		}
-		glDisablei(cap, index);
+		glDisablei(static_cast<GLenum>(cap), index);
 		OpenGL::checkErrors("OpenGL::disableIndexed");
+	}
+
+	void OpenGL::cullFace(const CullFaceMode mode)
+	{
+		if (!glCullFace) {
+			throw OpenGLExtensionException("glCullFace", RASTERIZATION);
+		}
+		glCullFace(static_cast<GLenum>(mode));
+		OpenGL::checkErrors("OpenGL::cullFace");
+	}
+
+	void OpenGL::frontFace(const FrontFaceMode mode)
+	{
+		if (!glFrontFace) {
+			throw OpenGLExtensionException("glFrontFace", RASTERIZATION);
+		}
+		glFrontFace(static_cast<GLenum>(mode));
+		OpenGL::checkErrors("OpenGL::frontFace");
+	}
+
+	void OpenGL::depthFunc(const DepthFunctionCondition condition)
+	{
+		if (!glDepthFunc) {
+			throw OpenGLExtensionException("glDepthFunc", PER_FRAGMENT_OPERATIONS);
+		}
+		glDepthFunc(static_cast<GLenum>(condition));
+		OpenGL::checkErrors("OpenGL::depthFunc");
+	}
+
+	void OpenGL::getInteger(const Parameter parameter, int & data)
+	{
+		if (!glGetIntegerv) {
+			throw OpenGLExtensionException("glGetIntegerv", STATE_AND_STATE_REQUESTS);
+		}
+		GLint tmp;
+		glGetIntegerv(static_cast<GLenum>(parameter), &tmp);
+		OpenGL::checkErrors("OpenGL::getInteger");
+		data = static_cast<int>(tmp);
+	}
+
+	void OpenGL::getString(const InfoGL parameter, std::string & data)
+	{
+		if (!glGetString) {
+			throw OpenGLExtensionException("glGetString", STATE_AND_STATE_REQUESTS);
+		}
+		const char * tmp = reinterpret_cast<const char *>(glGetString(static_cast<GLenum>(parameter)));
+		OpenGL::checkErrors("OpenGL::getString");
+		data = std::string(tmp);
+	}
+
+	void OpenGL::getIntegers(const Parameter parameter, std::vector<int> & data)
+	{
+		if (!glGetIntegerv) {
+			throw OpenGLExtensionException("glGetIntegerv", STATE_AND_STATE_REQUESTS);
+		}
+		std::vector<GLint> tmp;
+		glGetIntegerv(static_cast<GLenum>(parameter), tmp.data());
+		OpenGL::checkErrors("OpenGL::getIntegers");
+		std::copy(tmp.begin(), tmp.end(), data.begin());
 	}
 
 	ShaderHandle OpenGL::createShader(const ShaderType type)
@@ -106,7 +174,7 @@ namespace ece
 		if (!glCreateShader) {
 			throw OpenGLExtensionException("glCreateShader", SHADERS_AND_PROGRAMS);
 		}
-		GLuint shaderHandle = glCreateShader(type);
+		GLuint shaderHandle = glCreateShader(static_cast<GLenum>(type));
 		OpenGL::checkErrors("OpenGL::createShader");
 		return static_cast<ShaderHandle>(shaderHandle);
 	}
@@ -351,7 +419,7 @@ namespace ece
 		if (!glBindBuffer) {
 			throw OpenGLExtensionException("glBindBuffer", BUFFER_OBJECTS);
 		}
-		glBindBuffer(type, handle);
+		glBindBuffer(static_cast<GLenum>(type), handle);
 		OpenGL::checkErrors("OpenGL::bindBuffer");
 	}
 
@@ -401,5 +469,14 @@ namespace ece
 		}
 		glDisableVertexAttribArray(location);
 		OpenGL::checkErrors("OpenGL::disableVertexAttribArray");
+	}
+
+	void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const unsigned int count)
+	{
+		if (!glDrawArrays) {
+			throw OpenGLExtensionException("glDrawArrays", VERTEX_ARRAYS);
+		}
+		glDrawArrays(static_cast<GLenum>(mode), first, count);
+		OpenGL::checkErrors("OpenGL::drawArrays");
 	}
 }

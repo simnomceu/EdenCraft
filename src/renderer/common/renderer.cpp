@@ -7,17 +7,17 @@ namespace ece
 	Program Renderer::getProgram() const
 	{
 		int handle = 0;
-		glGetIntegerv(GL_CURRENT_PROGRAM, &handle);
+		OpenGL::getInteger(Parameter::CURRENT_PROGRAM, handle);
 		return Program(static_cast<ProgramHandle>(handle));
 	}
 
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
 	{
-		OpenGL::enable(CULL_FACE);
-		glCullFace(GL_BACK);
-		glFrontFace(GL_CW);
+		OpenGL::enable(Capability::CULL_FACE);
+		OpenGL::cullFace(CullFaceMode::BACK);
+		OpenGL::frontFace(FrontFaceMode::CW);
 
 		vao.bind();
-		glDrawArrays(mode, 0, 3);
+		OpenGL::drawArrays(mode, 0, 3);
 	}
 }
