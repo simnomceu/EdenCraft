@@ -36,12 +36,12 @@ int main()
 										  0.0f, 0.0f, 1.0f };
 
 		ece::VAO vao;
-		vao.addAttribute(0, 2, false, 0, ece::ARRAY_BUFFER, points, ece::STATIC_DRAW);
-		vao.addAttribute(1, 3, false, 0, ece::ARRAY_BUFFER, colours, ece::STATIC_DRAW);
+		vao.addAttribute(0, 2, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
+		vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colours, ece::BufferUsage::STATIC_DRAW);
 
 		ece::Shader fsSource, vsSource;
-		fsSource.loadFromFile(ece::FRAGMENT_SHADER, "../examples/more_cube/shader.frag");
-		vsSource.loadFromFile(ece::VERTEX_SHADER, "../examples/more_cube/shader.vert");
+		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../examples/more_cube/shader.frag");
+		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../examples/more_cube/shader.vert");
 		ece::Program program;
 		program.addShader(fsSource);
 		program.addShader(vsSource);
@@ -51,8 +51,8 @@ int main()
 		ece::InputEvent event;
 		while (1) {
 			window.clear();
-			renderer.drawPrimitives(ece::TRIANGLES, vao);
-			if (window.pollEvent(event)) { // TODO: broken !!!!
+			renderer.drawPrimitives(ece::PrimitiveMode::TRIANGLES, vao);
+			if (window.pollEvent(event)) {
 			}
 			window.display();
 		}

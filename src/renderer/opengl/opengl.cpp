@@ -7,6 +7,7 @@
 namespace ece
 {
 	std::unique_ptr<OpenGLExtension> OpenGL::_extensions(nullptr);
+	std::array<int, 2> OpenGL::_latestVersion{2, 1};
 
 	void OpenGL::init(const OptionOpenGL options)
 	{
@@ -21,7 +22,10 @@ namespace ece
 			OpenGL::_extensions = std::make_unique<WGLExtension>();
 			#endif
 		}
-		OpenGL::_extensions->init(options);
+		auto version = OpenGL::_extensions->init(options);
+		if (version != std::array<int, 2>{0, 0}) {
+			OpenGL::_latestVersion = version;
+		}
 	}
 
 	unsigned int OpenGL::getError()
@@ -32,7 +36,7 @@ namespace ece
 		return glGetError();
 	}
 
-	void OpenGL::checkErrors()
+	void OpenGL::checkErrors(const std::string & location)
 	{
 		GLenum error(OpenGL::getError());
 		while (error != GL_NO_ERROR) {
@@ -47,9 +51,122 @@ namespace ece
 			default: break;
 			}
 
-			ServiceLoggerLocator::getService().logError("Error OpenGL: (" + std::to_string(error) + ") " + errorMessage);
+			ServiceLoggerLocator::getService().logError("Error OpenGL: (" + std::to_string(error) + ") " + errorMessage + " in " + location + ".");
 			error = OpenGL::getError();
 		}
+	}
+
+	void OpenGL::clear(const Bitfield mask)
+	{
+		if (!glClear) {
+			throw OpenGLExtensionException("glClear", WHOLE_FRAMEBUFFER);
+		}
+		glClear(static_cast<GLbitfield>(mask));
+		OpenGL::checkErrors("OpenGL::clear");
+	}
+
+	void OpenGL::clearColor(const float r, const float g, const float b, const float a)
+	{
+		if (!glClearColor) {
+			throw OpenGLExtensionException("glClearColor", WHOLE_FRAMEBUFFER);
+		}
+		glClearColor(r, g, b, a);
+		OpenGL::checkErrors("OpenGL::clearColor");
+	}
+
+	void OpenGL::enable(const Capability cap)
+	{
+		if (!glEnable) {
+			throw OpenGLExtensionException("glEnable", TEXTURES_AND_SAMPLERS);
+		}
+		glEnable(static_cast<GLenum>(cap));
+		OpenGL::checkErrors("OpenGL::enable");
+	}
+
+	void OpenGL::disable(const Capability cap)
+	{
+		if (!glDisable) {
+			throw OpenGLExtensionException("glDisable", TEXTURES_AND_SAMPLERS);
+		}
+		glDisable(static_cast<GLenum>(cap));
+		OpenGL::checkErrors("OpenGL::disable");
+	}
+
+	void OpenGL::enableIndexed(const Capability cap, const unsigned short int index)
+	{
+		if (!glEnablei) {
+			throw OpenGLExtensionException("glEnablei", PER_FRAGMENT_OPERATIONS);
+		}
+		glEnablei(static_cast<GLenum>(cap), index);
+		OpenGL::checkErrors("OpenGL::enableIndexed");
+	}
+
+	void OpenGL::disableIndexed(const Capability cap, const unsigned short int index)
+	{
+		if (!glDisablei) {
+			throw OpenGLExtensionException("glDisablei", PER_FRAGMENT_OPERATIONS);
+		}
+		glDisablei(static_cast<GLenum>(cap), index);
+		OpenGL::checkErrors("OpenGL::disableIndexed");
+	}
+
+	void OpenGL::cullFace(const CullFaceMode mode)
+	{
+		if (!glCullFace) {
+			throw OpenGLExtensionException("glCullFace", RASTERIZATION);
+		}
+		glCullFace(static_cast<GLenum>(mode));
+		OpenGL::checkErrors("OpenGL::cullFace");
+	}
+
+	void OpenGL::frontFace(const FrontFaceMode mode)
+	{
+		if (!glFrontFace) {
+			throw OpenGLExtensionException("glFrontFace", RASTERIZATION);
+		}
+		glFrontFace(static_cast<GLenum>(mode));
+		OpenGL::checkErrors("OpenGL::frontFace");
+	}
+
+	void OpenGL::depthFunc(const DepthFunctionCondition condition)
+	{
+		if (!glDepthFunc) {
+			throw OpenGLExtensionException("glDepthFunc", PER_FRAGMENT_OPERATIONS);
+		}
+		glDepthFunc(static_cast<GLenum>(condition));
+		OpenGL::checkErrors("OpenGL::depthFunc");
+	}
+
+	void OpenGL::getInteger(const Parameter parameter, int & data)
+	{
+		if (!glGetIntegerv) {
+			throw OpenGLExtensionException("glGetIntegerv", STATE_AND_STATE_REQUESTS);
+		}
+		GLint tmp;
+		glGetIntegerv(static_cast<GLenum>(parameter), &tmp);
+		OpenGL::checkErrors("OpenGL::getInteger");
+		data = static_cast<int>(tmp);
+	}
+
+	void OpenGL::getString(const InfoGL parameter, std::string & data)
+	{
+		if (!glGetString) {
+			throw OpenGLExtensionException("glGetString", STATE_AND_STATE_REQUESTS);
+		}
+		const char * tmp = reinterpret_cast<const char *>(glGetString(static_cast<GLenum>(parameter)));
+		OpenGL::checkErrors("OpenGL::getString");
+		data = std::string(tmp);
+	}
+
+	void OpenGL::getIntegers(const Parameter parameter, std::vector<int> & data)
+	{
+		if (!glGetIntegerv) {
+			throw OpenGLExtensionException("glGetIntegerv", STATE_AND_STATE_REQUESTS);
+		}
+		std::vector<GLint> tmp;
+		glGetIntegerv(static_cast<GLenum>(parameter), tmp.data());
+		OpenGL::checkErrors("OpenGL::getIntegers");
+		std::copy(tmp.begin(), tmp.end(), data.begin());
 	}
 
 	ShaderHandle OpenGL::createShader(const ShaderType type)
@@ -57,8 +174,8 @@ namespace ece
 		if (!glCreateShader) {
 			throw OpenGLExtensionException("glCreateShader", SHADERS_AND_PROGRAMS);
 		}
-		GLuint shaderHandle = glCreateShader(type);
-		OpenGL::checkErrors();
+		GLuint shaderHandle = glCreateShader(static_cast<GLenum>(type));
+		OpenGL::checkErrors("OpenGL::createShader");
 		return static_cast<ShaderHandle>(shaderHandle);
 	}
 
@@ -69,7 +186,7 @@ namespace ece
 		}
 		auto sourcePtr = source.data();
 		glShaderSource(handle, 1, &sourcePtr, nullptr); // TODO: add the length of the source
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::shaderSource");
 	}
 
 	void OpenGL::shaderSource(const ShaderHandle handle, const std::vector<std::string>& source)
@@ -82,7 +199,7 @@ namespace ece
 			sourcesPtr.push_back(string.data());
 		}
 		glShaderSource(handle, 1, sourcesPtr.data(), nullptr); // TODO: add the lengths of the sources
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::shaderSource");
 	}
 
 	void OpenGL::compileShader(const ShaderHandle handle)
@@ -91,7 +208,7 @@ namespace ece
 			throw OpenGLExtensionException("glCompileShader", SHADERS_AND_PROGRAMS);
 		}
 		glCompileShader(handle);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::compileShader");
 	}
 
 	void OpenGL::deleteShader(const ShaderHandle handle)
@@ -100,7 +217,7 @@ namespace ece
 			throw OpenGLExtensionException("glDeleteShader", SHADERS_AND_PROGRAMS);
 		}
 		glDeleteShader(handle);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::deleteShader");
 	}
 
 	ProgramHandle OpenGL::createProgram()
@@ -109,7 +226,7 @@ namespace ece
 			throw OpenGLExtensionException("glCreateProgram", SHADERS_AND_PROGRAMS);
 		}
 		auto programHandle = glCreateProgram();
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::createProgram");
 		return static_cast<ProgramHandle>(programHandle);
 	}
 
@@ -119,7 +236,7 @@ namespace ece
 			throw OpenGLExtensionException("glAttachShader", SHADERS_AND_PROGRAMS);
 		}
 		glAttachShader(program, shader);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::attachShader");
 	}
 
 	void OpenGL::linkProgram(const ProgramHandle handle)
@@ -128,7 +245,7 @@ namespace ece
 			throw OpenGLExtensionException("glLinkProgram", SHADERS_AND_PROGRAMS);
 		}
 		glLinkProgram(handle);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::linkProgram");
 	}
 
 	void OpenGL::useProgram(const ProgramHandle handle)
@@ -137,7 +254,7 @@ namespace ece
 			throw OpenGLExtensionException("glUseProgram", SHADERS_AND_PROGRAMS);
 		}
 		glUseProgram(handle);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::useProgram");
 	}
 
 	UniformHandle OpenGL::getUniformLocation(const ProgramHandle handle, const std::string & uniform)
@@ -146,7 +263,7 @@ namespace ece
 			throw OpenGLExtensionException("glGetUniformLocation", SHADERS_AND_PROGRAMS);
 		}
 		auto location = glGetUniformLocation(handle, uniform.data());
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::getUniformLocation");
 		return static_cast<UniformHandle>(location);
 	}
 
@@ -157,7 +274,7 @@ namespace ece
 			throw OpenGLExtensionException("glUniform1i", SHADERS_AND_PROGRAMS);
 		}
 		glUniform1i(uniform, value);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -167,7 +284,7 @@ namespace ece
 			throw OpenGLExtensionException("glUniform1f", SHADERS_AND_PROGRAMS);
 		}
 		glUniform1f(uniform, value);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -177,7 +294,7 @@ namespace ece
 			throw OpenGLExtensionException("glUniform1i", SHADERS_AND_PROGRAMS);
 		}
 		glUniform1i(uniform, static_cast<int>(value));
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -188,7 +305,7 @@ namespace ece
 		}
 		//glUniform2i(uniform, value[0], value[1]);
 		glUniform2iv(uniform, 2, &value[0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -199,7 +316,7 @@ namespace ece
 		}
 		//glUniform3i(uniform, value[0], value[1], value[2]);
 		glUniform3iv(uniform, 3, &value[0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -210,7 +327,7 @@ namespace ece
 		}
 		//glUniform4i(uniform, value[0], value[1], value[2], value[3]);
 		glUniform4iv(uniform, 4, &value[0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -221,7 +338,7 @@ namespace ece
 		}
 		//glUniform2f(uniform, value[0], value[1]);
 		glUniform2fv(uniform, 2, &value[0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -232,7 +349,7 @@ namespace ece
 		}
 		//glUniform3f(uniform, value[0], value[1], value[2]);
 		glUniform3fv(uniform, 3, &value[0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -243,7 +360,7 @@ namespace ece
 		}
 		//glUniform4f(uniform, value[0], value[1], value[2], value[3]);
 		glUniform4fv(uniform, 4, &value[0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -253,7 +370,7 @@ namespace ece
 			throw OpenGLExtensionException("glUniformMatrix2fv", SHADERS_AND_PROGRAMS);
 		}
 		glUniformMatrix2fv(uniform, 2, false, &value[0][0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -263,7 +380,7 @@ namespace ece
 			throw OpenGLExtensionException("glUniformMatrix3fv", SHADERS_AND_PROGRAMS);
 		}
 		glUniformMatrix3fv(uniform, 3, false, &value[0][0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	template<>
@@ -273,7 +390,7 @@ namespace ece
 			throw OpenGLExtensionException("glUniformMatrix4fv", SHADERS_AND_PROGRAMS);
 		}
 		glUniformMatrix4fv(uniform, 4, false, &value[0][0]);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
 	void OpenGL::genBuffers(VBOHandle & handle)
@@ -282,7 +399,7 @@ namespace ece
 			throw OpenGLExtensionException("glGenBuffers", BUFFER_OBJECTS);
 		}
 		glGenBuffers(1, &handle);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::genBuffers");
 	}
 
 	void OpenGL::genBuffers(const int count, std::vector<VBOHandle>& handles)
@@ -293,7 +410,7 @@ namespace ece
 			}
 			handles.resize(handles.size() + count);
 			glGenBuffers(count, &handles.back() - count + 1);
-			OpenGL::checkErrors();
+			OpenGL::checkErrors("OpenGL::genBuffers");
 		}
 	}
 
@@ -302,8 +419,8 @@ namespace ece
 		if (!glBindBuffer) {
 			throw OpenGLExtensionException("glBindBuffer", BUFFER_OBJECTS);
 		}
-		glBindBuffer(type, handle);
-		OpenGL::checkErrors();
+		glBindBuffer(static_cast<GLenum>(type), handle);
+		OpenGL::checkErrors("OpenGL::bindBuffer");
 	}
 
 	void OpenGL::genVertexArrays(VAOHandle & handle)
@@ -312,7 +429,7 @@ namespace ece
 			throw OpenGLExtensionException("glGenVertexArrays", BUFFER_OBJECTS);
 		}
 		glGenVertexArrays(1, &handle);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::genVertexArrays");
 	}
 
 	void OpenGL::genVertexArrays(const int count, std::vector<VAOHandle>& handles)
@@ -323,7 +440,7 @@ namespace ece
 			}
 			handles.resize(handles.size() + count);
 			glGenVertexArrays(count, &handles.back() - count + 1);
-			OpenGL::checkErrors();
+			OpenGL::checkErrors("OpenGL::genVertexArrays");
 		}
 	}
 
@@ -333,7 +450,7 @@ namespace ece
 			throw OpenGLExtensionException("glBindVertexArray", BUFFER_OBJECTS);
 		}
 		glBindVertexArray(handle);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::bindVertexArray");
 	}
 
 	void OpenGL::enableVertexAttribArray(const int location)
@@ -342,7 +459,7 @@ namespace ece
 			throw OpenGLExtensionException("glEnableVertexAttribArray", VERTEX_ARRAYS);
 		}
 		glEnableVertexAttribArray(location);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::enableVertexAttribArray");
 	}
 
 	void OpenGL::disableVertexAttribArray(const int location)
@@ -351,6 +468,15 @@ namespace ece
 			throw OpenGLExtensionException("glDisableVertexAttribArray", VERTEX_ARRAYS);
 		}
 		glDisableVertexAttribArray(location);
-		OpenGL::checkErrors();
+		OpenGL::checkErrors("OpenGL::disableVertexAttribArray");
+	}
+
+	void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const unsigned int count)
+	{
+		if (!glDrawArrays) {
+			throw OpenGLExtensionException("glDrawArrays", VERTEX_ARRAYS);
+		}
+		glDrawArrays(static_cast<GLenum>(mode), first, count);
+		OpenGL::checkErrors("OpenGL::drawArrays");
 	}
 }

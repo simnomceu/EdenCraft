@@ -74,8 +74,8 @@ namespace ece
 		}
 
 		const int glVersion[] = {
-			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 6,
+			WGL_CONTEXT_MAJOR_VERSION_ARB, OpenGL::getLatestMajorVersion(),
+			WGL_CONTEXT_MINOR_VERSION_ARB, OpenGL::getLatestMinorVersion(),
 			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
 			0
@@ -88,20 +88,14 @@ namespace ece
 		if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
 			throw std::runtime_error("The created context cannot be used.");
 		}
+		OpenGL::checkErrors("ContextOpenGL::create");
 		
-		const char * renderer = (char *)glGetString(GL_RENDERER);
-		const char * version = (char *)glGetString(GL_VERSION);
-		const char * shaderVersion = (char *)glGetString(GL_SHADING_LANGUAGE_VERSION);
-		ServiceLoggerLocator::getService().logInfo("Renderer: " + std::string(renderer));
-		ServiceLoggerLocator::getService().logInfo("OpenGL version supported " + std::string(version));
-		ServiceLoggerLocator::getService().logInfo("GLSL version supported " + std::string(shaderVersion));
+		this->logInfos();
 
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
+		OpenGL::enable(Capability::DEPTH_TEST);
+		OpenGL::depthFunc(DepthFunctionCondition::LESS);
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-		OpenGL::checkErrors();
+		OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	void ContextOpenGL::swapBuffers()

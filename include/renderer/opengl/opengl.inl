@@ -1,6 +1,10 @@
 #include "opengl.hpp"
 namespace ece
 {
+	inline int OpenGL::getLatestMinorVersion() { return OpenGL::_latestVersion[1]; }
+
+	inline int OpenGL::getLatestMajorVersion() { return OpenGL::_latestVersion[0]; }
+
 	template<class T> 
 	void OpenGL::uniform(const UniformHandle uniform, const T value)
 	{
@@ -15,8 +19,8 @@ namespace ece
 		}
 
 		const GLvoid * dataPtr = data.data();
-		glBufferData(type, data.size() * sizeof(T), dataPtr, usage);
-		OpenGL::checkErrors();
+		glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), dataPtr, static_cast<GLenum>(usage));
+		OpenGL::checkErrors("OpenGL::bufferData");
 	}
 
 	template<class T>
@@ -31,8 +35,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, SHORT, normalized, offset, nullptr);
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::SHORT), normalized, offset, nullptr);
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -41,8 +45,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, UNSIGNED_SHORT, normalized, offset, nullptr);
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_SHORT), normalized, offset, nullptr);
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -51,8 +55,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, INT, normalized, offset, nullptr);
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::INT), normalized, offset, nullptr);
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -61,8 +65,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, UNSIGNED_INT, normalized, offset, nullptr);
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_INT), normalized, offset, nullptr);
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -71,8 +75,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, FLOAT, normalized, offset, nullptr);
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::FLOAT), normalized, offset, nullptr);
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -81,8 +85,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, DOUBLE, normalized, offset, nullptr);
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::DOUBLE), normalized, offset, nullptr);
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<class T>
@@ -97,8 +101,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, SHORT, normalized, offset, data.data());
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::SHORT), normalized, offset, data.data());
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -107,8 +111,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, UNSIGNED_SHORT, normalized, offset, data.data());
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_SHORT), normalized, offset, data.data());
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -117,8 +121,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, INT, normalized, offset, data.data());
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::INT), normalized, offset, data.data());
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -127,8 +131,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, UNSIGNED_INT, normalized, offset, data.data());
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_INT), normalized, offset, data.data());
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -137,8 +141,8 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, FLOAT, normalized, offset, data.data());
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::FLOAT), normalized, offset, data.data());
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 
 	template<>
@@ -147,7 +151,7 @@ namespace ece
 		if (!glVertexAttribPointer) {
 			throw OpenGLExtensionException("glVertexAttribPointer", VERTEX_ARRAYS);
 		}
-		glVertexAttribPointer(location, size, DOUBLE, normalized, offset, data.data());
-		OpenGL::checkErrors();
+		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::DOUBLE), normalized, offset, data.data());
+		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
 }

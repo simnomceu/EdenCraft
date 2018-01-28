@@ -247,6 +247,7 @@ namespace ece
 				ServiceLoggerLocator::getService().logError("Loading Platform extensions for OpenGL has been interrupted.");
 				allLoaded = false;
 			}
+			this->_loaded |= PLATFORM;
 		}
 		return allLoaded;
 	}

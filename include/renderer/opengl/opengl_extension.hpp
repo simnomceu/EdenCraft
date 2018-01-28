@@ -43,7 +43,7 @@ namespace ece
 		OpenGLExtension & operator=(const OpenGLExtension & copy) = default;
 		OpenGLExtension & operator=(OpenGLExtension && move) = default;
 
-		virtual void init(const OptionOpenGL options) = 0;
+		virtual std::array<int, 2> init(const OptionOpenGL options) = 0;
 		inline bool isLoaded(const OptionOpenGL option) const;
 
 	protected:

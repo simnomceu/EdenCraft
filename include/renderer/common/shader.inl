@@ -1,6 +1,6 @@
 namespace ece
 {
-	inline Shader::Shader(): _filename(), _source(), _type(FRAGMENT_SHADER), _handle(0), _compilationRequired(false) {}
+	inline Shader::Shader(): _filename(), _source(), _type(ShaderType::FRAGMENT_SHADER), _handle(0), _compilationRequired(false) {}
 
 	inline Shader::Shader(const Shader & copy) : 
 		_filename(copy._filename), _source(copy._source), _type(copy._type), _handle(copy._handle), 

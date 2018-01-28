@@ -37,7 +37,7 @@
 */
 
 #ifndef UTILITY_ENUM_HPP 
-#define UTILITY_ENUM_HPP
+#define UTILITY_ENUM_HPP 
 
 #include "utility/enum/enum_flags.hpp"
 
