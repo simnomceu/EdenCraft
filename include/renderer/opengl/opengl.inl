@@ -6,7 +6,7 @@ namespace ece
 	inline int OpenGL::getLatestMajorVersion() { return OpenGL::_latestVersion[0]; }
 
 	template<class T> 
-	void OpenGL::uniform(const UniformHandle uniform, const T value)
+	void OpenGL::uniform(const Handle uniform, const T value)
 	{
 		throw std::runtime_error("A uniform cannot be set with this type.");
 	}

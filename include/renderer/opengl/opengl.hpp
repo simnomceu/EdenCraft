@@ -27,12 +27,7 @@
 
 namespace ece
 {
-
-	using ShaderHandle = unsigned short int;
-	using ProgramHandle = unsigned short int;
-	using UniformHandle = unsigned short int;
-	using VBOHandle = unsigned int;
-	using VAOHandle = unsigned int;
+	using Handle = unsigned int;
 
 	class OpenGL
 	{
@@ -63,39 +58,39 @@ namespace ece
 
 		static void getIntegers(const Parameter parameter, std::vector<int> & data);
 
-		static ShaderHandle createShader(const ShaderType type);
-		static void shaderSource(const ShaderHandle handle, const std::string & source);
-		static void shaderSource(const ShaderHandle handle, const std::vector<std::string> & source);
-		static void compileShader(const ShaderHandle handle);
-		static void deleteShader(const ShaderHandle handle);
+		static Handle createShader(const ShaderType type);
+		static void shaderSource(const Handle handle, const std::string & source);
+		static void shaderSource(const Handle handle, const std::vector<std::string> & source);
+		static void compileShader(const Handle handle);
+		static void deleteShader(const Handle handle);
 
-		static ProgramHandle createProgram();
-		static void attachShader(const ProgramHandle program, const ShaderHandle shader);
-		static void linkProgram(const ProgramHandle handle);
-		static void useProgram(const ProgramHandle handle);
+		static Handle createProgram();
+		static void attachShader(const Handle program, const Handle shader);
+		static void linkProgram(const Handle handle);
+		static void useProgram(const Handle handle);
 
-		static UniformHandle getUniformLocation(const ProgramHandle handle, const std::string & uniform);
-		template<class T> static void uniform(const UniformHandle uniform, const T value);
-		template<> static void uniform(const UniformHandle uniform, const int value);
-		template<> static void uniform(const UniformHandle uniform, const float value);
-		template<> static void uniform(const UniformHandle uniform, const bool value);
-		template<> static void uniform(const UniformHandle uniform, const IntVector2u value);
-		template<> static void uniform(const UniformHandle uniform, const IntVector3u value);
-		template<> static void uniform(const UniformHandle uniform, const IntVector4u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVector2u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVector3u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVector4u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatMatrix2u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatMatrix3u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatMatrix4u value);
+		static Handle getUniformLocation(const Handle handle, const std::string & uniform);
+		template<class T> static void uniform(const Handle uniform, const T value);
+		template<> static void uniform(const Handle uniform, const int value);
+		template<> static void uniform(const Handle uniform, const float value);
+		template<> static void uniform(const Handle uniform, const bool value);
+		template<> static void uniform(const Handle uniform, const IntVector2u value);
+		template<> static void uniform(const Handle uniform, const IntVector3u value);
+		template<> static void uniform(const Handle uniform, const IntVector4u value);
+		template<> static void uniform(const Handle uniform, const FloatVector2u value);
+		template<> static void uniform(const Handle uniform, const FloatVector3u value);
+		template<> static void uniform(const Handle uniform, const FloatVector4u value);
+		template<> static void uniform(const Handle uniform, const FloatMatrix2u value);
+		template<> static void uniform(const Handle uniform, const FloatMatrix3u value);
+		template<> static void uniform(const Handle uniform, const FloatMatrix4u value);
 
-		static void genBuffers(VBOHandle & handle);
-		static void genBuffers(const int count, std::vector<VBOHandle> & handles);
-		static void bindBuffer(const BufferType type, const VBOHandle handle);
+		static void genBuffers(Handle & handle);
+		static void genBuffers(const int count, std::vector<Handle> & handles);
+		static void bindBuffer(const BufferType type, const Handle handle);
 		template<class T> static void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
-		static void genVertexArrays(VAOHandle & handle);
-		static void genVertexArrays(const int count, std::vector<VAOHandle> & handles);
-		static void bindVertexArray(const VAOHandle handle);
+		static void genVertexArrays(Handle & handle);
+		static void genVertexArrays(const int count, std::vector<Handle> & handles);
+		static void bindVertexArray(const Handle handle);
 		template<class T> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset);
 		template<> static void vertexAttribPointer<short>(const int location, const int size, const bool normalized, const int offset);
 		template<> static void vertexAttribPointer<unsigned short>(const int location, const int size, const bool normalized, const int offset);
@@ -114,6 +109,7 @@ namespace ece
 		static void disableVertexAttribArray(const int location);
 
 		static void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);
+		static void drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset);
 
 	private:
 		OpenGL() = default;

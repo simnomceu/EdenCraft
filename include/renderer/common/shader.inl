@@ -1,8 +1,8 @@
 namespace ece
 {
-	inline Shader::Shader(const ProgramHandle handle) : _handle(handle) {}
+	inline Shader::Shader(const Handle handle) : _handle(handle) {}
 
-	inline ProgramHandle Shader::getHandle() const { return this->_handle; }
+	inline Handle Shader::getHandle() const { return this->_handle; }
 
 	template<class T>
 	void Shader::uniform(const std::string & uniform, const T & value)

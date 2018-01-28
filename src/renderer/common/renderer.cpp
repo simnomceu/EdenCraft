@@ -8,7 +8,7 @@ namespace ece
 	{
 		int handle = 0;
 		OpenGL::getInteger(Parameter::CURRENT_PROGRAM, handle);
-		return Shader(static_cast<ProgramHandle>(handle));
+		return Shader(static_cast<Handle>(handle));
 	}
 
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
@@ -18,6 +18,7 @@ namespace ece
 		OpenGL::frontFace(FrontFaceMode::CW);
 
 		vao.bind();
-		OpenGL::drawArrays(mode, 0, 3);
+		vao.bindIndexBuffer();
+		OpenGL::drawElements(mode, vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
 	}
 }

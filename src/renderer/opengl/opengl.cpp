@@ -169,17 +169,17 @@ namespace ece
 		std::copy(tmp.begin(), tmp.end(), data.begin());
 	}
 
-	ShaderHandle OpenGL::createShader(const ShaderType type)
+	Handle OpenGL::createShader(const ShaderType type)
 	{
 		if (!glCreateShader) {
 			throw OpenGLExtensionException("glCreateShader", SHADERS_AND_PROGRAMS);
 		}
 		GLuint shaderHandle = glCreateShader(static_cast<GLenum>(type));
 		OpenGL::checkErrors("OpenGL::createShader");
-		return static_cast<ShaderHandle>(shaderHandle);
+		return static_cast<Handle>(shaderHandle);
 	}
 
-	void OpenGL::shaderSource(const ShaderHandle handle, const std::string & source)
+	void OpenGL::shaderSource(const Handle handle, const std::string & source)
 	{
 		if (!glShaderSource) {
 			throw OpenGLExtensionException("glShaderSource", SHADERS_AND_PROGRAMS);
@@ -189,7 +189,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::shaderSource");
 	}
 
-	void OpenGL::shaderSource(const ShaderHandle handle, const std::vector<std::string>& source)
+	void OpenGL::shaderSource(const Handle handle, const std::vector<std::string>& source)
 	{
 		if (!glShaderSource) {
 			throw OpenGLExtensionException("glShaderSource", SHADERS_AND_PROGRAMS);
@@ -202,7 +202,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::shaderSource");
 	}
 
-	void OpenGL::compileShader(const ShaderHandle handle)
+	void OpenGL::compileShader(const Handle handle)
 	{
 		if (!glCompileShader) {
 			throw OpenGLExtensionException("glCompileShader", SHADERS_AND_PROGRAMS);
@@ -211,7 +211,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::compileShader");
 	}
 
-	void OpenGL::deleteShader(const ShaderHandle handle)
+	void OpenGL::deleteShader(const Handle handle)
 	{
 		if (!glDeleteShader) {
 			throw OpenGLExtensionException("glDeleteShader", SHADERS_AND_PROGRAMS);
@@ -220,17 +220,17 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::deleteShader");
 	}
 
-	ProgramHandle OpenGL::createProgram()
+	Handle OpenGL::createProgram()
 	{
 		if (!glCreateProgram) {
 			throw OpenGLExtensionException("glCreateProgram", SHADERS_AND_PROGRAMS);
 		}
 		auto programHandle = glCreateProgram();
 		OpenGL::checkErrors("OpenGL::createProgram");
-		return static_cast<ProgramHandle>(programHandle);
+		return static_cast<Handle>(programHandle);
 	}
 
-	void OpenGL::attachShader(const ProgramHandle program, const ShaderHandle shader)
+	void OpenGL::attachShader(const Handle program, const Handle shader)
 	{
 		if (!glAttachShader) {
 			throw OpenGLExtensionException("glAttachShader", SHADERS_AND_PROGRAMS);
@@ -239,7 +239,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::attachShader");
 	}
 
-	void OpenGL::linkProgram(const ProgramHandle handle)
+	void OpenGL::linkProgram(const Handle handle)
 	{
 		if (!glLinkProgram) {
 			throw OpenGLExtensionException("glLinkProgram", SHADERS_AND_PROGRAMS);
@@ -248,7 +248,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::linkProgram");
 	}
 
-	void OpenGL::useProgram(const ProgramHandle handle)
+	void OpenGL::useProgram(const Handle handle)
 	{
 		if (!glUseProgram) {
 			throw OpenGLExtensionException("glUseProgram", SHADERS_AND_PROGRAMS);
@@ -257,18 +257,18 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::useProgram");
 	}
 
-	UniformHandle OpenGL::getUniformLocation(const ProgramHandle handle, const std::string & uniform)
+	Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
 	{
 		if (!glGetUniformLocation) {
 			throw OpenGLExtensionException("glGetUniformLocation", SHADERS_AND_PROGRAMS);
 		}
 		auto location = glGetUniformLocation(handle, uniform.data());
 		OpenGL::checkErrors("OpenGL::getUniformLocation");
-		return static_cast<UniformHandle>(location);
+		return static_cast<Handle>(location);
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const int value)
+	void OpenGL::uniform(const Handle uniform, const int value)
 	{
 		if (!glUniform1i) {
 			throw OpenGLExtensionException("glUniform1i", SHADERS_AND_PROGRAMS);
@@ -278,7 +278,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const float value)
+	void OpenGL::uniform(const Handle uniform, const float value)
 	{
 		if (!glUniform1f) {
 			throw OpenGLExtensionException("glUniform1f", SHADERS_AND_PROGRAMS);
@@ -288,7 +288,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const bool value)
+	void OpenGL::uniform(const Handle uniform, const bool value)
 	{
 		if (!glUniform1i) {
 			throw OpenGLExtensionException("glUniform1i", SHADERS_AND_PROGRAMS);
@@ -298,7 +298,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const IntVector2u value)
+	void OpenGL::uniform(const Handle uniform, const IntVector2u value)
 	{
 		if (!glUniform2iv) {
 			throw OpenGLExtensionException("glUniform2iv", SHADERS_AND_PROGRAMS);
@@ -309,7 +309,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const IntVector3u value)
+	void OpenGL::uniform(const Handle uniform, const IntVector3u value)
 	{
 		if (!glUniform3iv) {
 			throw OpenGLExtensionException("glUniform3iv", SHADERS_AND_PROGRAMS);
@@ -320,7 +320,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const IntVector4u value)
+	void OpenGL::uniform(const Handle uniform, const IntVector4u value)
 	{
 		if (!glUniform4iv) {
 			throw OpenGLExtensionException("glUniform4iv", SHADERS_AND_PROGRAMS);
@@ -331,7 +331,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatVector2u value)
+	void OpenGL::uniform(const Handle uniform, const FloatVector2u value)
 	{
 		if (!glUniform2fv) {
 			throw OpenGLExtensionException("glUniform2fv", SHADERS_AND_PROGRAMS);
@@ -342,7 +342,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatVector3u value)
+	void OpenGL::uniform(const Handle uniform, const FloatVector3u value)
 	{
 		if (!glUniform3fv) {
 			throw OpenGLExtensionException("glUniform3fv", SHADERS_AND_PROGRAMS);
@@ -353,7 +353,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatVector4u value)
+	void OpenGL::uniform(const Handle uniform, const FloatVector4u value)
 	{
 		if (!glUniform4fv) {
 			throw OpenGLExtensionException("glUniform4fv", SHADERS_AND_PROGRAMS);
@@ -364,7 +364,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatMatrix2u value)
+	void OpenGL::uniform(const Handle uniform, const FloatMatrix2u value)
 	{
 		if (!glUniformMatrix2fv) {
 			throw OpenGLExtensionException("glUniformMatrix2fv", SHADERS_AND_PROGRAMS);
@@ -374,7 +374,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatMatrix3u value)
+	void OpenGL::uniform(const Handle uniform, const FloatMatrix3u value)
 	{
 		if (!glUniformMatrix3fv) {
 			throw OpenGLExtensionException("glUniformMatrix3fv", SHADERS_AND_PROGRAMS);
@@ -384,7 +384,7 @@ namespace ece
 	}
 
 	template<>
-	void OpenGL::uniform(const UniformHandle uniform, const FloatMatrix4u value)
+	void OpenGL::uniform(const Handle uniform, const FloatMatrix4u value)
 	{
 		if (!glUniform4fv) {
 			throw OpenGLExtensionException("glUniformMatrix4fv", SHADERS_AND_PROGRAMS);
@@ -393,7 +393,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::uniform");
 	}
 
-	void OpenGL::genBuffers(VBOHandle & handle)
+	void OpenGL::genBuffers(Handle & handle)
 	{
 		if (!glGenBuffers) {
 			throw OpenGLExtensionException("glGenBuffers", BUFFER_OBJECTS);
@@ -402,7 +402,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::genBuffers");
 	}
 
-	void OpenGL::genBuffers(const int count, std::vector<VBOHandle>& handles)
+	void OpenGL::genBuffers(const int count, std::vector<Handle>& handles)
 	{
 		if (count != 0) {
 			if (!glGenBuffers) {
@@ -414,7 +414,7 @@ namespace ece
 		}
 	}
 
-	void OpenGL::bindBuffer(const BufferType type, const VBOHandle handle)
+	void OpenGL::bindBuffer(const BufferType type, const Handle handle)
 	{
 		if (!glBindBuffer) {
 			throw OpenGLExtensionException("glBindBuffer", BUFFER_OBJECTS);
@@ -423,7 +423,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::bindBuffer");
 	}
 
-	void OpenGL::genVertexArrays(VAOHandle & handle)
+	void OpenGL::genVertexArrays(Handle & handle)
 	{
 		if (!glGenVertexArrays) {
 			throw OpenGLExtensionException("glGenVertexArrays", BUFFER_OBJECTS);
@@ -432,7 +432,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::genVertexArrays");
 	}
 
-	void OpenGL::genVertexArrays(const int count, std::vector<VAOHandle>& handles)
+	void OpenGL::genVertexArrays(const int count, std::vector<Handle>& handles)
 	{
 		if (count != 0) {
 			if (!glGenVertexArrays) {
@@ -444,7 +444,7 @@ namespace ece
 		}
 	}
 
-	void OpenGL::bindVertexArray(const VAOHandle handle)
+	void OpenGL::bindVertexArray(const Handle handle)
 	{
 		if (!glBindVertexArray) {
 			throw OpenGLExtensionException("glBindVertexArray", BUFFER_OBJECTS);
@@ -478,5 +478,14 @@ namespace ece
 		}
 		glDrawArrays(static_cast<GLenum>(mode), first, count);
 		OpenGL::checkErrors("OpenGL::drawArrays");
+	}
+
+	void OpenGL::drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset)
+	{
+		if (!glDrawElements) {
+			throw OpenGLExtensionException("glDrawElements", VERTEX_ARRAYS);
+		}
+		glDrawElements(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<void *>(offset));
+		OpenGL::checkErrors("OpenGL::drawElements");
 	}
 }

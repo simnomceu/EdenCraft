@@ -27,24 +27,41 @@ int main()
 
 		ece::Renderer renderer;
 
-		const std::vector<float> points{ 0.0f, 0.5f,
+		/*const std::vector<float> points{ 0.0f, 0.5f,
 										 0.5f, -0.5f,
 										-0.5f, -0.5f };
 
 		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
 										  0.0f, 1.0f, 0.0f,
 										  0.0f, 0.0f, 1.0f };
+										  
+		const std::vector<unsigned int> index{ 0, 1, 2 };*/
+
+		const std::vector<float> points{ -0.5f, -0.5f,
+										 -0.5f,  0.5f,
+										  0.5f,  0.5f,
+										  0.5f, -0.5f
+		};
+
+		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
+										  0.0f, 1.0f, 0.0f,
+										  0.0f, 0.0f, 1.0f,
+										  0.0f, 1.0f, 1.0f
+		};
+
+		const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
 
 		ece::VAO vao;
 		vao.addAttribute(0, 2, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
 		vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colours, ece::BufferUsage::STATIC_DRAW);
+		vao.addIndices(index, ece::BufferUsage::STATIC_DRAW);
 
 		ece::ShaderStage fsSource, vsSource;
 		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../examples/more_cube/shader.frag");
 		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../examples/more_cube/shader.vert");
 		ece::Shader program;
-		program.addStage(fsSource);
-		program.addStage(vsSource);
+		program.setStage(fsSource);
+		program.setStage(vsSource);
 		program.link();
 		renderer.setProgram(program);
 

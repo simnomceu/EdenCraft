@@ -10,7 +10,7 @@ namespace ece
 	{
 	public:
 		Shader();
-		inline Shader(const ProgramHandle handle);
+		inline Shader(const Handle handle);
 		Shader(const Shader & copy) = default;
 		Shader(Shader && move) = default;
 
@@ -19,16 +19,16 @@ namespace ece
 		Shader & operator=(const Shader & copy) = default;
 		Shader & operator=(Shader && move) = default;
 
-		inline ProgramHandle getHandle() const;
+		inline Handle getHandle() const;
 
-		void addStage(ShaderStage & shader);
+		void setStage(ShaderStage & shader);
 		void link();
 		void use() const;
 
 		template<class T> void uniform(const std::string & uniform, const T & value);
 
 	private:
-		ProgramHandle _handle;
+		Handle _handle;
 	};
 }
 

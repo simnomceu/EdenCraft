@@ -7,7 +7,7 @@ namespace ece
 		this->_handle = OpenGL::createProgram();
 	}
 
-	void Shader::addStage(ShaderStage & shader)
+	void Shader::setStage(ShaderStage & shader)
 	{
 		if (shader.isCompilationRequired()) {
 			shader.compile();
