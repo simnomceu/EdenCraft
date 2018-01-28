@@ -1,45 +1,37 @@
 #ifndef SHADER_HPP
 #define SHADER_HPP
 
-#include <string>
-
 #include "renderer/opengl/opengl.hpp"
+#include "renderer/common/shader_stage.hpp"
 
 namespace ece
 {
 	class Shader
 	{
 	public:
-		inline Shader();
-		inline Shader(const Shader & copy);
-		inline Shader(Shader && move);
+		Shader();
+		inline Shader(const ProgramHandle handle);
+		Shader(const Shader & copy) = default;
+		Shader(Shader && move) = default;
 
-		inline ~Shader();
+		~Shader() = default;
 
-		Shader & operator=(const Shader & copy);
-		Shader & operator=(Shader && move);
-		
-		void loadFromFile(const ShaderType type, const std::string & filename);
-		void loadFromString(const ShaderType type, const std::string & sourceCode);
+		Shader & operator=(const Shader & copy) = default;
+		Shader & operator=(Shader && move) = default;
 
-		inline const std::string & getFilename() const;
-		inline const std::string & getSource() const;
-		inline ShaderType getType() const;
-		inline ShaderHandle getHandle() const;
-		inline bool isCompilationRequired() const;
-		
-		void compile();
-		void terminate();
+		inline ProgramHandle getHandle() const;
+
+		void addStage(ShaderStage & shader);
+		void link();
+		void use() const;
+
+		template<class T> void uniform(const std::string & uniform, const T & value);
 
 	private:
-		std::string _filename;
-		std::string _source;
-		ShaderType _type;
-		ShaderHandle _handle;
-		bool _compilationRequired;
+		ProgramHandle _handle;
 	};
 }
 
 #include "renderer/common/shader.inl"
 
-#endif // SHADER_GL_HPP
+#endif // SHADER_HPP

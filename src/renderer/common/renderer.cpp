@@ -4,11 +4,11 @@
 
 namespace ece
 {
-	Program Renderer::getProgram() const
+	Shader Renderer::getProgram() const
 	{
 		int handle = 0;
 		OpenGL::getInteger(Parameter::CURRENT_PROGRAM, handle);
-		return Program(static_cast<ProgramHandle>(handle));
+		return Shader(static_cast<ProgramHandle>(handle));
 	}
 
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)

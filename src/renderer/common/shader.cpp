@@ -1,83 +1,28 @@
 #include "renderer/common/shader.hpp"
 
-#include "utility/file_system/file.hpp"
-#include "utility/debug/exception.hpp"
-#include "utility/log/service_logger.hpp"
-
 namespace ece
 {
-	Shader & Shader::operator=(const Shader & copy)
+	Shader::Shader() : _handle(0)
 	{
-		this->_filename = copy._filename;
-		this->_source = copy._filename;
-		this->_type = copy._type;
-		this->_handle = copy._handle;
-		this->_compilationRequired = copy._compilationRequired;
-
-		return *this;
+		this->_handle = OpenGL::createProgram();
 	}
 
-	Shader & Shader::operator=(Shader && move)
+	void Shader::addStage(ShaderStage & shader)
 	{
-		this->_filename = std::move(move._filename);
-		this->_source = std::move(move._filename);
-		this->_type = move._type;
-		this->_handle = move._handle;
-		this->_compilationRequired = move._compilationRequired;
-
-		move._filename.clear();
-		move._handle = 0;
-		move._compilationRequired = false;
-
-		return *this;
-	}
-
-	void Shader::loadFromFile(const ShaderType type, const std::string & filename)
-	{
-		this->terminate();
-
-		if (this->_filename != filename) {
-			this->_filename = filename;
-
-			this->_source.clear();
-			File shaderFile;
-			try {
-				shaderFile.open(this->_filename);
-				this->_source = shaderFile.parseToString();
-				shaderFile.close();
-			}
-			catch (FileException & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-			}
-			this->_type = type;
-			this->_compilationRequired = true;
+		if (shader.isCompilationRequired()) {
+			shader.compile();
 		}
+		OpenGL::attachShader(this->_handle, shader.getHandle());
+		shader.terminate();
 	}
 
-	void Shader::loadFromString(const ShaderType type, const std::string & sourceCode)
+	void Shader::link()
 	{
-		this->terminate();
-
-		this->_filename = "";
-		this->_source = sourceCode;
-		this->_type = type;
-		this->_compilationRequired = true;
+		OpenGL::linkProgram(this->_handle);
 	}
 
-	void Shader::compile()
+	void Shader::use() const
 	{
-		this->_handle = OpenGL::createShader(this->_type);
-		OpenGL::shaderSource(this->_handle, this->_source);		
-		OpenGL::compileShader(this->_handle);
-		this->_compilationRequired = false;
-	}
-
-	void Shader::terminate()
-	{
-		if (this->_handle != 0) {
-			OpenGL::deleteShader(this->_handle);
-			this->_handle = 0;
-			this->_compilationRequired = true;
-		}
+		OpenGL::useProgram(this->_handle);
 	}
 }

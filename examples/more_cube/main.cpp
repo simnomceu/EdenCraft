@@ -1,7 +1,7 @@
 #include "core/application/application.hpp"
 
 #include "renderer/common/render_window.hpp"
-#include "renderer/common/program.hpp"
+#include "renderer/common/shader.hpp"
 #include "utility/log/service_logger.hpp"
 #include "renderer/opengl/vao.hpp"
 #include "renderer/common/renderer.hpp"
@@ -39,12 +39,12 @@ int main()
 		vao.addAttribute(0, 2, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
 		vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colours, ece::BufferUsage::STATIC_DRAW);
 
-		ece::Shader fsSource, vsSource;
+		ece::ShaderStage fsSource, vsSource;
 		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../examples/more_cube/shader.frag");
 		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../examples/more_cube/shader.vert");
-		ece::Program program;
-		program.addShader(fsSource);
-		program.addShader(vsSource);
+		ece::Shader program;
+		program.addStage(fsSource);
+		program.addStage(vsSource);
 		program.link();
 		renderer.setProgram(program);
 
