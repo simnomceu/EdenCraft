@@ -2,6 +2,8 @@
 #define OPENGL_EXTENSION_HPP
 
 #include <string>
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 
 namespace ece
 {
@@ -46,8 +48,15 @@ namespace ece
 		virtual std::array<int, 2> init(const OptionOpenGL options) = 0;
 		inline bool isLoaded(const OptionOpenGL option) const;
 
+		inline GLenum glGetError()
+		{
+			static auto instance = this->loadOpenGLProcT<PFNGLGETERRORPROC>("glGetError");
+			return instance();
+		}
+
 	protected:
 		virtual void * loadOpenGLProc(const std::string & name) = 0;
+		template <class T> T loadOpenGLProcT(const std::string & name);
 
 		bool loadExtensions(const OptionOpenGL options);
 
@@ -77,6 +86,12 @@ namespace ece
 
 		OptionOpenGL _loaded;
 	};
+
+	template <class T>
+	T OpenGLExtension::loadOpenGLProcT(const std::string & name)
+	{
+		return reinterpret_cast<T>(this->loadOpenGLProc(name));
+	}
 }
 
 #include "renderer/opengl/opengl_extension.inl"

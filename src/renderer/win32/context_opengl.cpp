@@ -2,6 +2,7 @@
 #include "renderer/win32/data_context_opengl.hpp"
 
 #include "renderer/opengl/opengl.hpp"
+#include "renderer/win32/wgl_extension.hpp"
 #include "renderer/common/render_window.hpp"
 #include "window/common/window_adapter.hpp"
 #include "window/win32/data_window_adapter.hpp"
@@ -36,7 +37,8 @@ namespace ece
 			| VERTICES | VERTEX_ARRAYS | VERTEX_ATTRIBUTES | VERTEX_POST_PROCESSING | RASTERIZATION
 			| FRAGMENT_SHADERS | COMPUTE_SHADERS | PER_FRAGMENT_OPERATIONS | HINTS
 			| WHOLE_FRAMEBUFFER | READING_AND_COPYING_PIXELS | DEBUG_OUTPUT | STATE_AND_STATE_REQUESTS
-			| PLATFORM);
+			| PLATFORM,
+			std::make_unique<WGLExtension>());
 
 		// Create real context
 		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_windowId;

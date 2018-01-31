@@ -6,7 +6,7 @@
 #include <bitset>
 #include <array>
 
-#ifdef __unix__
+/*#ifdef __unix__
 #include "renderer/x11/glx_extension.hpp"
 #elif __WINDOW__
 #include "renderer/win32/wgl_extension.hpp"
@@ -14,7 +14,7 @@
 #include "renderer/cocoa/agl_extension.hpp"
 #else
 #include "renderer/win32/wgl_extension.hpp"
-#endif
+#endif*/
 
 #include "renderer/opengl/opengl_exception.hpp"
 #include "utility/mathematics/matrix2u.hpp"
@@ -39,7 +39,7 @@ namespace ece
 	public:
 		~OpenGL() = default;
 
-		static void init(const OptionOpenGL options);
+		static void init(const OptionOpenGL options, std::unique_ptr<OpenGLExtension> && extensions);
 
 		static inline int getLatestMinorVersion();
 		static inline int getLatestMajorVersion();

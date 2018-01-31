@@ -1,5 +1,3 @@
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
 
 namespace ece
 {
@@ -13,7 +11,7 @@ namespace ece
 }
 
 // Command Execution
-extern PFNGLGETERRORPROC glGetError;
+//extern PFNGLGETERRORPROC glGetError;
 extern PFNGLGETGRAPHICSRESETSTATUSPROC glGetGraphicsResetStatus;
 extern PFNGLFLUSHPROC glFlush;
 extern PFNGLFINISHPROC glFinish;

@@ -254,7 +254,7 @@ namespace ece
 
 	void OpenGLExtension::loadCommandExecutionExtensions()
 	{
-		glGetError = reinterpret_cast<PFNGLGETERRORPROC>(this->loadOpenGLProc("glGetError")); glGetError();
+	//	glGetError = reinterpret_cast<PFNGLGETERRORPROC>(this->loadOpenGLProc("glGetError")); glGetError();
 		glGetGraphicsResetStatus = reinterpret_cast<PFNGLGETGRAPHICSRESETSTATUSPROC>(this->loadOpenGLProc("glGetGraphicsResetStatus"));
 		glFlush = reinterpret_cast<PFNGLFLUSHPROC>(this->loadOpenGLProc("glFlush"));
 		glFinish = reinterpret_cast<PFNGLFINISHPROC>(this->loadOpenGLProc("glFinish"));
@@ -991,7 +991,7 @@ namespace ece
 
 
 // Command Execution
-PFNGLGETERRORPROC glGetError = nullptr;
+//PFNGLGETERRORPROC glGetError = nullptr;
 PFNGLGETGRAPHICSRESETSTATUSPROC glGetGraphicsResetStatus = nullptr;
 PFNGLFLUSHPROC glFlush = nullptr;
 PFNGLFINISHPROC glFinish = nullptr;

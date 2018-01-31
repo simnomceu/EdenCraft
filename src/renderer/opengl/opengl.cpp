@@ -9,9 +9,9 @@ namespace ece
 	std::unique_ptr<OpenGLExtension> OpenGL::_extensions(nullptr);
 	std::array<int, 2> OpenGL::_latestVersion{2, 1};
 
-	void OpenGL::init(const OptionOpenGL options)
+	void OpenGL::init(const OptionOpenGL options, std::unique_ptr<OpenGLExtension> && extensions)
 	{
-		if (OpenGL::_extensions.get() == nullptr) {
+		/*if (OpenGL::_extensions.get() == nullptr) {
 			#ifdef __unix__
 			OpenGL::_extensions = std::make_unique<GLXExtension>();
 			#elif __WINDOW__
@@ -21,7 +21,8 @@ namespace ece
 			#else
 			OpenGL::_extensions = std::make_unique<WGLExtension>();
 			#endif
-		}
+		}*/
+		OpenGL::_extensions = std::move(extensions);
 		auto version = OpenGL::_extensions->init(options);
 		if (version != std::array<int, 2>{0, 0}) {
 			OpenGL::_latestVersion = version;
@@ -30,10 +31,10 @@ namespace ece
 
 	unsigned int OpenGL::getError()
 	{
-		if (!glGetError) {
-			throw OpenGLExtensionException("glGetError", COMMAND_EXECUTION);
-		}
-		return glGetError();
+		//if (!glGetError) {
+		//	throw OpenGLExtensionException("glGetError", COMMAND_EXECUTION);
+		//}
+		return OpenGL::_extensions->glGetError();
 	}
 
 	void OpenGL::checkErrors(const std::string & location)
