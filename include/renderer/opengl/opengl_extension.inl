@@ -1,15 +1,3 @@
-
-namespace ece
-{
-	inline OpenGLExtension::OpenGLExtension() : _loaded(NO_OPENGL_OPTIONS) {}
-
-	inline OpenGLExtension::~OpenGLExtension() {}
-
-	inline bool OpenGLExtension::isLoaded(const OptionOpenGL option) const { return (this->_loaded & option) != 0; }
-
-	inline void OpenGLExtension::loadPlatformExtensions() {}
-}
-
 // Command Execution
 //extern PFNGLGETERRORPROC glGetError;
 extern PFNGLGETGRAPHICSRESETSTATUSPROC glGetGraphicsResetStatus;
