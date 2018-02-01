@@ -27,8 +27,6 @@
 
 namespace ece
 {
-	using Handle = unsigned int;
-
 	using Handle = unsigned short int;
 
 	class OpenGL

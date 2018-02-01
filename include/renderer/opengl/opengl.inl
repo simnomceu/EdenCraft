@@ -83,7 +83,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::disableIndexed");
 	}
 
-	/*inline void OpenGL::cullFace(const CullFaceMode mode)
+	inline void OpenGL::cullFace(const CullFaceMode mode)
 	{
 		glCullFace(static_cast<GLenum>(mode));
 		OpenGL::checkErrors("OpenGL::cullFace");
@@ -99,7 +99,7 @@ namespace ece
 	{
 		glDepthFunc(static_cast<GLenum>(condition));
 		OpenGL::checkErrors("OpenGL::depthFunc");
-	}*/
+	}
 
 	inline void OpenGL::getInteger(const Parameter parameter, int & data)
 	{
