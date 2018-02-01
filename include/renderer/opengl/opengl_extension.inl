@@ -1,19 +1,144 @@
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
+#include "renderer/opengl/extension_loader.hpp"
+#include "renderer/opengl/opengl_exception.hpp"
 
-namespace ece
+inline GLenum glGetError()
 {
-	inline OpenGLExtension::OpenGLExtension() : _loaded(NO_OPENGL_OPTIONS) {}
+	static auto proxy = ece::loadOpenGLProc<PFNGLGETERRORPROC>("glGetError");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glGetError");
+	}
+	return proxy();
+}
 
-	inline OpenGLExtension::~OpenGLExtension() {}
+inline void glClear(GLbitfield mask)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLCLEARPROC>("glClear");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glClear");
+	}
+	proxy(mask);
+}
 
-	inline bool OpenGLExtension::isLoaded(const OptionOpenGL option) const { return (this->_loaded & option) != 0; }
+inline void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLCLEARCOLORPROC>("glClearColor");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glClearColor");
+	}
+	proxy(red, green, blue, alpha);
+}
 
-	inline void OpenGLExtension::loadPlatformExtensions() {}
+inline const GLubyte * glGetString(GLenum name)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLGETSTRINGPROC>("glGetString");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glGetString");
+	}
+	return proxy(name);
+}
+
+inline void glGetIntegerv(GLenum pname, GLint * data)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLGETINTEGERVPROC>("glGetIntegerv");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glGetIntegerv");
+	}
+	proxy(pname, data);
+}
+
+inline void glGenBuffers(GLsizei n, GLuint * buffers)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLGENBUFFERSPROC>("glGenBuffers");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glGenBuffers");
+	}
+	proxy(n, buffers);
+}
+
+inline void glBindBuffer(GLenum target, GLuint buffer)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLBINDBUFFERPROC>("glBindBuffer");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glBindBuffer");
+	}
+	proxy(target, buffer);
+}
+
+inline GLuint glCreateProgram()
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLCREATEPROGRAMPROC>("glCreateProgram");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glCreateProgram");
+	}
+	return proxy();
+}
+
+inline void glEnable(GLenum cap)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLENABLEPROC>("glEnable");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glEnable");
+	}
+	proxy(cap);
+}
+
+inline void glDisable(GLenum cap)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLDISABLEPROC>("glDisable");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glDisable");
+	}
+	proxy(cap);
+}
+
+inline void glEnablei(GLenum cap, GLuint index)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLENABLEIPROC>("glEnablei");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glEnablei");
+	}
+	proxy(cap, index);
+}
+
+inline void glDisablei(GLenum cap, GLuint index)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLDISABLEIPROC>("glDisablei");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glDisablei");
+	}
+	proxy(cap, index);
+}
+
+
+inline void glCullFace(GLenum mode)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLCULLFACEPROC>("glCullFace");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glCullFace");
+	}
+	proxy(mode);
+}
+
+inline void glFrontFace(GLenum mode)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLFRONTFACEPROC>("glFrontFace");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("v");
+	}
+	proxy(mode);
+}
+
+inline void glDepthFunc(GLenum func)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLDEPTHFUNCPROC>("glDepthFunc");
+	if (proxy) {
+		throw ece::OpenGLExtensionException("glDepthFunc");
+	}
+	proxy(func);
 }
 
 // Command Execution
-extern PFNGLGETERRORPROC glGetError;
+//extern PFNGLGETERRORPROC glGetError;
 extern PFNGLGETGRAPHICSRESETSTATUSPROC glGetGraphicsResetStatus;
 extern PFNGLFLUSHPROC glFlush;
 extern PFNGLFINISHPROC glFinish;
@@ -46,10 +171,10 @@ extern PFNGLGETQUERYOBJECTI64VPROC glGetQueryObjecti64v;
 extern PFNGLGETQUERYOBJECTUI64VPROC glGetQueryObjectui64v;
 
 // Buffer Objects
-extern PFNGLGENBUFFERSPROC glGenBuffers;
+//extern PFNGLGENBUFFERSPROC glGenBuffers;
 extern PFNGLCREATEBUFFERSPROC glCreateBuffers;
 extern PFNGLDELETEBUFFERSPROC glDeleteBuffers;
-extern PFNGLBINDBUFFERPROC glBindBuffer;
+//extern PFNGLBINDBUFFERPROC glBindBuffer;
 extern PFNGLBINDBUFFERRANGEPROC glBindBufferRange;
 extern PFNGLBINDBUFFERBASEPROC glBindBufferBase;
 extern PFNGLBINDBUFFERSRANGEPROC glBindBuffersRange;
@@ -95,7 +220,7 @@ extern PFNGLDELETESHADERPROC glDeleteShader;
 extern PFNGLISSHADERPROC glIsShader;
 extern PFNGLSHADERBINARYPROC glShaderBinary;
 extern PFNGLSPECIALIZESHADERPROC glSpecializeShader;
-extern PFNGLCREATEPROGRAMPROC glCreateProgram;
+//extern PFNGLCREATEPROGRAMPROC glCreateProgram;
 extern PFNGLATTACHSHADERPROC glAttachShader;
 extern PFNGLDETACHSHADERPROC glDetachShader;
 extern PFNGLLINKPROGRAMPROC glLinkProgram;
@@ -349,8 +474,8 @@ extern PFNGLGETCOMPRESSEDTEXIMAGEPROC glGetCompressedTexImage;
 extern PFNGLGETCOMPRESSEDTEXTUREIMAGEPROC glGetCompressedTextureImage;
 extern PFNGLGETNCOMPRESSEDTEXIMAGEPROC glGetnCompressedTexImage;
 extern PFNGLGETCOMPRESSEDTEXTURESUBIMAGEPROC glGetCompressedTextureSubImage;
-extern PFNGLENABLEPROC glEnable;
-extern PFNGLDISABLEPROC glDisable;
+//extern PFNGLENABLEPROC glEnable;
+//extern PFNGLDISABLEPROC glDisable;
 extern PFNGLISENABLEDPROC glIsEnabled;
 extern PFNGLGENERATEMIPMAPPROC glGenerateMipmap;
 extern PFNGLGENERATETEXTUREMIPMAPPROC glGenerateTextureMipmap;
@@ -591,8 +716,8 @@ extern PFNGLPOINTPARAMETERFPROC glPointParameterf;
 extern PFNGLPOINTPARAMETERIVPROC glPointParameteriv;
 extern PFNGLPOINTPARAMETERFVPROC glPointParameterfv;
 extern PFNGLLINEWIDTHPROC glLineWidth;
-extern PFNGLFRONTFACEPROC glFrontFace;
-extern PFNGLCULLFACEPROC glCullFace;
+//extern PFNGLFRONTFACEPROC glFrontFace;
+//extern PFNGLCULLFACEPROC glCullFace;
 extern PFNGLPOLYGONMODEPROC glPolygonMode;
 extern PFNGLPOLYGONOFFSETCLAMPPROC glPolygonOffsetClamp;
 extern PFNGLPOLYGONOFFSETPROC glPolygonOffset;
@@ -608,8 +733,8 @@ extern PFNGLDISPATCHCOMPUTEPROC glDispatchCompute;
 extern PFNGLDISPATCHCOMPUTEINDIRECTPROC glDispatchComputeIndirect;
 
 // Per-Fragment Operations
-extern PFNGLENABLEIPROC glEnablei;
-extern PFNGLDISABLEIPROC glDisablei;
+//extern PFNGLENABLEIPROC glEnablei;
+//extern PFNGLDISABLEIPROC glDisablei;
 extern PFNGLISENABLEDIPROC glIsEnabledi;
 extern PFNGLSCISSORARRAYVPROC glScissorArrayv;
 extern PFNGLSCISSORINDEXEDPROC glScissorIndexed;
@@ -621,7 +746,7 @@ extern PFNGLSTENCILFUNCPROC glStencilFunc;
 extern PFNGLSTENCILFUNCSEPARATEPROC glStencilFuncSeparate;
 extern PFNGLSTENCILOPPROC glStencilOp;
 extern PFNGLSTENCILOPSEPARATEPROC glStencilOpSeparate;
-extern PFNGLDEPTHFUNCPROC glDepthFunc;
+//extern PFNGLDEPTHFUNCPROC glDepthFunc;
 extern PFNGLBLENDEQUATIONPROC glBlendEquation;
 extern PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate;
 extern PFNGLBLENDEQUATIONIPROC glBlendEquationi;
@@ -646,8 +771,8 @@ extern PFNGLCOLORMASKIPROC glColorMaski;
 extern PFNGLDEPTHMASKPROC glDepthMask;
 extern PFNGLSTENCILMASKPROC glStencilMask;
 extern PFNGLSTENCILMASKSEPARATEPROC glStencilMaskSeparate;
-extern PFNGLCLEARPROC glClear;
-extern PFNGLCLEARCOLORPROC glClearColor;
+//extern PFNGLCLEARPROC glClear;
+//extern PFNGLCLEARCOLORPROC glClearColor;
 extern PFNGLCLEARDEPTHPROC glClearDepth;
 extern PFNGLCLEARDEPTHFPROC glClearDepthf;
 extern PFNGLCLEARSTENCILPROC glClearStencil;
@@ -688,7 +813,7 @@ extern PFNGLGETOBJECTPTRLABELPROC glGetObjectPtrLabel;
 
 // State and State Request
 extern PFNGLGETBOOLEANVPROC glGetBooleanv;
-extern PFNGLGETINTEGERVPROC glGetIntegerv;
+//extern PFNGLGETINTEGERVPROC glGetIntegerv;
 extern PFNGLGETINTEGER64VPROC glGetInteger64v;
 extern PFNGLGETFLOATVPROC glGetFloatv;
 extern PFNGLGETDOUBLEVPROC glGetDoublev;
@@ -698,7 +823,7 @@ extern PFNGLGETINTEGERI_VPROC glGetIntegeri_v;
 extern PFNGLGETFLOATI_VPROC glGetFloati_v;
 extern PFNGLGETINTEGER64I_VPROC glGetInteger64i_v;
 extern PFNGLGETPOINTERVPROC glGetPointerv;
-extern PFNGLGETSTRINGPROC glGetString;
+//extern PFNGLGETSTRINGPROC glGetString;
 extern PFNGLGETSTRINGIPROC glGetStringi;
 extern PFNGLGETINTERNALFORMATIVPROC glGetInternalformativ;
 extern PFNGLGETINTERNALFORMATI64VPROC glGetInternalformati64v;

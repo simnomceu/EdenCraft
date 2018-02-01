@@ -1,260 +1,12 @@
 #include "renderer/opengl/opengl_extension.hpp"
 
 #include "utility/log/service_logger.hpp"
-
+/*
 namespace ece
 {
-	bool OpenGLExtension::loadExtensions(const OptionOpenGL options)
-	{
-		bool allLoaded = true;
-		if ((options & COMMAND_EXECUTION) != 0 && !this->isLoaded(COMMAND_EXECUTION)) {
-			try {
-				this->loadCommandExecutionExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Command Execution extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= COMMAND_EXECUTION;
-		}
-		if ((options & TIMER_QUERIES) != 0 && !this->isLoaded(TIMER_QUERIES)) {
-			try {
-				this->loadTimerQueriesExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Timer Queries extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= TIMER_QUERIES;
-		}
-		if ((options & SYNCHRONIZATION) != 0 && !this->isLoaded(SYNCHRONIZATION)) {
-			try {
-				this->loadSynchronizationExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Synchronization extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= SYNCHRONIZATION;
-		}
-		if ((options & ASYNCHRONOUS_QUERIES) != 0 && !this->isLoaded(ASYNCHRONOUS_QUERIES)) {
-			try {
-				this->loadAsynchronousQueries();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Asynchronous Queries extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= ASYNCHRONOUS_QUERIES;
-		}
-		if ((options & BUFFER_OBJECTS) != 0 && !this->isLoaded(BUFFER_OBJECTS)) {
-			try {
-				this->loadBufferObjectsExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Buffer Objects extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= BUFFER_OBJECTS;
-		}
-		if ((options & SHADERS_AND_PROGRAMS) != 0 && !this->isLoaded(SHADERS_AND_PROGRAMS)) {
-			try {
-				this->loadShadersAndProgramsExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Shaders And Programs extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= SHADERS_AND_PROGRAMS;
-		}
-		if ((options & TEXTURES_AND_SAMPLERS) != 0 && !this->isLoaded(TEXTURES_AND_SAMPLERS)) {
-			try {
-				this->loadTexturesAndSamplersExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Textures And Samplers extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= TEXTURES_AND_SAMPLERS;
-		}
-		if ((options & FRAMEBUFFER_OBJECTS) != 0 && !this->isLoaded(FRAMEBUFFER_OBJECTS)) {
-			try {
-				this->loadFramebufferObjectsExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Framebuffer Objects extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= FRAMEBUFFER_OBJECTS;
-		}
-		if ((options & VERTICES) != 0 && !this->isLoaded(VERTICES)) {
-			try {
-				this->loadVerticesExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Vertices extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= VERTICES;
-		}
-		if ((options & VERTEX_ARRAYS) != 0 && !this->isLoaded(VERTEX_ARRAYS)) {
-			try {
-				this->loadVertexArraysExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Vertex Arrays extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= VERTEX_ARRAYS;
-		}
-		if ((options & VERTEX_ATTRIBUTES) != 0 && !this->isLoaded(VERTEX_ATTRIBUTES)) {
-			try {
-				this->loadVertexAttributesExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Vertex Attributes extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= VERTEX_ATTRIBUTES;
-		}
-		if ((options & VERTEX_POST_PROCESSING) != 0 && !this->isLoaded(VERTEX_POST_PROCESSING)) {
-			try {
-				this->loadVertexPostProcessingExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Vertex Post-Processing extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= VERTEX_POST_PROCESSING;
-		}
-		if ((options & RASTERIZATION) != 0 && !this->isLoaded(RASTERIZATION)) {
-			try {
-				this->loadRasterizationExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Rasterization extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= RASTERIZATION;
-		}
-		if ((options & FRAGMENT_SHADERS) != 0 && !this->isLoaded(FRAGMENT_SHADERS)) {
-			try {
-				this->loadFragmentShadersExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Fragment Shaders extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= FRAGMENT_SHADERS;
-		}
-		if ((options & COMPUTE_SHADERS) != 0 && !this->isLoaded(COMPUTE_SHADERS)) {
-			try {
-				this->loadComputeShadersExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Compute Shaders extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= COMPUTE_SHADERS;
-		}
-		if ((options & PER_FRAGMENT_OPERATIONS) != 0 && !this->isLoaded(PER_FRAGMENT_OPERATIONS)) {
-			try {
-				this->loadPerFragmentOperationsExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Per-Fragment Operations extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= PER_FRAGMENT_OPERATIONS;
-		}
-		if ((options & HINTS) != 0 && !this->isLoaded(HINTS)) {
-			try {
-				this->loadHintsExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Hints extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= HINTS;
-		}
-		if ((options & WHOLE_FRAMEBUFFER) != 0 && !this->isLoaded(WHOLE_FRAMEBUFFER)) {
-			try {
-				this->loadWholeFramebufferExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Whole Framebuffer extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= WHOLE_FRAMEBUFFER;
-		}
-		if ((options & READING_AND_COPYING_PIXELS) != 0 && !this->isLoaded(READING_AND_COPYING_PIXELS)) {
-			try {
-				this->loadReadingAndCopyingPixelsExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Reading And Copying Pixels extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= READING_AND_COPYING_PIXELS;
-		}
-		if ((options & DEBUG_OUTPUT) != 0 && !this->isLoaded(DEBUG_OUTPUT)) {
-			try {
-				this->loadDebugOutputExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Debug Output extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= DEBUG_OUTPUT;
-		}
-		if ((options & STATE_AND_STATE_REQUESTS) != 0 && !this->isLoaded(STATE_AND_STATE_REQUESTS)) {
-			try {
-				this->loadStateAndStateRequestsExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading State And State Requests extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= STATE_AND_STATE_REQUESTS;
-		}
-		if ((options & PLATFORM) != 0 && !this->isLoaded(PLATFORM)) {
-			try {
-				this->loadPlatformExtensions();
-			}
-			catch (std::runtime_error & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
-				ServiceLoggerLocator::getService().logError("Loading Platform extensions for OpenGL has been interrupted.");
-				allLoaded = false;
-			}
-			this->_loaded |= PLATFORM;
-		}
-		return allLoaded;
-	}
-
 	void OpenGLExtension::loadCommandExecutionExtensions()
 	{
-		glGetError = reinterpret_cast<PFNGLGETERRORPROC>(this->loadOpenGLProc("glGetError")); glGetError();
+	//	glGetError = reinterpret_cast<PFNGLGETERRORPROC>(this->loadOpenGLProc("glGetError")); glGetError();
 		glGetGraphicsResetStatus = reinterpret_cast<PFNGLGETGRAPHICSRESETSTATUSPROC>(this->loadOpenGLProc("glGetGraphicsResetStatus"));
 		glFlush = reinterpret_cast<PFNGLFLUSHPROC>(this->loadOpenGLProc("glFlush"));
 		glFinish = reinterpret_cast<PFNGLFINISHPROC>(this->loadOpenGLProc("glFinish"));
@@ -987,11 +739,11 @@ namespace ece
 		glGetTransformFeedbacki_v = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKI_VPROC>(this->loadOpenGLProc("glGetTransformFeedbacki_v"));
 		glGetTransformFeedbacki64_v = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKI64_VPROC>(this->loadOpenGLProc("glGetTransformFeedbacki64_v"));
 	}
-}
+}*/
 
 
 // Command Execution
-PFNGLGETERRORPROC glGetError = nullptr;
+//PFNGLGETERRORPROC glGetError = nullptr;
 PFNGLGETGRAPHICSRESETSTATUSPROC glGetGraphicsResetStatus = nullptr;
 PFNGLFLUSHPROC glFlush = nullptr;
 PFNGLFINISHPROC glFinish = nullptr;
@@ -1024,10 +776,10 @@ PFNGLGETQUERYOBJECTI64VPROC glGetQueryObjecti64v = nullptr;
 PFNGLGETQUERYOBJECTUI64VPROC glGetQueryObjectui64v = nullptr;
 
 // Buffer Objects
-PFNGLGENBUFFERSPROC glGenBuffers = nullptr;
+//PFNGLGENBUFFERSPROC glGenBuffers = nullptr;
 PFNGLCREATEBUFFERSPROC glCreateBuffers = nullptr;
 PFNGLDELETEBUFFERSPROC glDeleteBuffers = nullptr;
-PFNGLBINDBUFFERPROC glBindBuffer = nullptr;
+//PFNGLBINDBUFFERPROC glBindBuffer = nullptr;
 PFNGLBINDBUFFERRANGEPROC glBindBufferRange = nullptr;
 PFNGLBINDBUFFERBASEPROC glBindBufferBase = nullptr;
 PFNGLBINDBUFFERSRANGEPROC glBindBuffersRange = nullptr;
@@ -1073,7 +825,7 @@ PFNGLDELETESHADERPROC glDeleteShader = nullptr;
 PFNGLISSHADERPROC glIsShader = nullptr;
 PFNGLSHADERBINARYPROC glShaderBinary = nullptr;
 PFNGLSPECIALIZESHADERPROC glSpecializeShader = nullptr;
-PFNGLCREATEPROGRAMPROC glCreateProgram = nullptr;
+//PFNGLCREATEPROGRAMPROC glCreateProgram = nullptr;
 PFNGLATTACHSHADERPROC glAttachShader = nullptr;
 PFNGLDETACHSHADERPROC glDetachShader = nullptr;
 PFNGLLINKPROGRAMPROC glLinkProgram = nullptr;
@@ -1327,8 +1079,8 @@ PFNGLGETCOMPRESSEDTEXIMAGEPROC glGetCompressedTexImage = nullptr;
 PFNGLGETCOMPRESSEDTEXTUREIMAGEPROC glGetCompressedTextureImage = nullptr;
 PFNGLGETNCOMPRESSEDTEXIMAGEPROC glGetnCompressedTexImage = nullptr;
 PFNGLGETCOMPRESSEDTEXTURESUBIMAGEPROC glGetCompressedTextureSubImage = nullptr;
-PFNGLENABLEPROC glEnable = nullptr;
-PFNGLDISABLEPROC glDisable = nullptr;
+//PFNGLENABLEPROC glEnable = nullptr;
+//PFNGLDISABLEPROC glDisable = nullptr;
 PFNGLISENABLEDPROC glIsEnabled = nullptr;
 PFNGLGENERATEMIPMAPPROC glGenerateMipmap = nullptr;
 PFNGLGENERATETEXTUREMIPMAPPROC glGenerateTextureMipmap = nullptr;
@@ -1569,8 +1321,8 @@ PFNGLPOINTPARAMETERFPROC glPointParameterf = nullptr;
 PFNGLPOINTPARAMETERIVPROC glPointParameteriv = nullptr;
 PFNGLPOINTPARAMETERFVPROC glPointParameterfv = nullptr;
 PFNGLLINEWIDTHPROC glLineWidth = nullptr;
-PFNGLFRONTFACEPROC glFrontFace = nullptr;
-PFNGLCULLFACEPROC glCullFace = nullptr;
+//PFNGLFRONTFACEPROC glFrontFace = nullptr;
+//PFNGLCULLFACEPROC glCullFace = nullptr;
 PFNGLPOLYGONMODEPROC glPolygonMode = nullptr;
 PFNGLPOLYGONOFFSETCLAMPPROC glPolygonOffsetClamp = nullptr;
 PFNGLPOLYGONOFFSETPROC glPolygonOffset = nullptr;
@@ -1586,8 +1338,8 @@ PFNGLDISPATCHCOMPUTEPROC glDispatchCompute = nullptr;
 PFNGLDISPATCHCOMPUTEINDIRECTPROC glDispatchComputeIndirect = nullptr;
 
 // Per-Fragment Operations
-PFNGLENABLEIPROC glEnablei = nullptr;
-PFNGLDISABLEIPROC glDisablei = nullptr;
+//PFNGLENABLEIPROC glEnablei = nullptr;
+//PFNGLDISABLEIPROC glDisablei = nullptr;
 PFNGLISENABLEDIPROC glIsEnabledi = nullptr;
 PFNGLSCISSORARRAYVPROC glScissorArrayv = nullptr;
 PFNGLSCISSORINDEXEDPROC glScissorIndexed = nullptr;
@@ -1599,7 +1351,7 @@ PFNGLSTENCILFUNCPROC glStencilFunc = nullptr;
 PFNGLSTENCILFUNCSEPARATEPROC glStencilFuncSeparate = nullptr;
 PFNGLSTENCILOPPROC glStencilOp = nullptr;
 PFNGLSTENCILOPSEPARATEPROC glStencilOpSeparate = nullptr;
-PFNGLDEPTHFUNCPROC glDepthFunc = nullptr;
+//PFNGLDEPTHFUNCPROC glDepthFunc = nullptr;
 PFNGLBLENDEQUATIONPROC glBlendEquation = nullptr;
 PFNGLBLENDEQUATIONSEPARATEPROC glBlendEquationSeparate = nullptr;
 PFNGLBLENDEQUATIONIPROC glBlendEquationi = nullptr;
@@ -1624,8 +1376,8 @@ PFNGLCOLORMASKIPROC glColorMaski = nullptr;
 PFNGLDEPTHMASKPROC glDepthMask = nullptr;
 PFNGLSTENCILMASKPROC glStencilMask = nullptr;
 PFNGLSTENCILMASKSEPARATEPROC glStencilMaskSeparate = nullptr;
-PFNGLCLEARPROC glClear = nullptr;
-PFNGLCLEARCOLORPROC glClearColor = nullptr;
+//PFNGLCLEARPROC glClear = nullptr;
+//PFNGLCLEARCOLORPROC glClearColor = nullptr;
 PFNGLCLEARDEPTHPROC glClearDepth = nullptr;
 PFNGLCLEARDEPTHFPROC glClearDepthf = nullptr;
 PFNGLCLEARSTENCILPROC glClearStencil = nullptr;
@@ -1666,7 +1418,7 @@ PFNGLGETOBJECTPTRLABELPROC glGetObjectPtrLabel = nullptr;
 
 // State and State Request
 PFNGLGETBOOLEANVPROC glGetBooleanv = nullptr;
-PFNGLGETINTEGERVPROC glGetIntegerv = nullptr;
+//PFNGLGETINTEGERVPROC glGetIntegerv = nullptr;
 PFNGLGETINTEGER64VPROC glGetInteger64v = nullptr;
 PFNGLGETFLOATVPROC glGetFloatv = nullptr;
 PFNGLGETDOUBLEVPROC glGetDoublev = nullptr;
@@ -1676,7 +1428,7 @@ PFNGLGETINTEGERI_VPROC glGetIntegeri_v = nullptr;
 PFNGLGETFLOATI_VPROC glGetFloati_v = nullptr;
 PFNGLGETINTEGER64I_VPROC glGetInteger64i_v = nullptr;
 PFNGLGETPOINTERVPROC glGetPointerv = nullptr;
-PFNGLGETSTRINGPROC glGetString = nullptr;
+//PFNGLGETSTRINGPROC glGetString = nullptr;
 PFNGLGETSTRINGIPROC glGetStringi = nullptr;
 PFNGLGETINTERNALFORMATIVPROC glGetInternalformativ = nullptr;
 PFNGLGETINTERNALFORMATI64VPROC glGetInternalformati64v = nullptr;
