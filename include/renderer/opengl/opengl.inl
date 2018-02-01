@@ -116,7 +116,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::getIntegers");
 		std::copy(tmp.begin(), tmp.end(), data.begin());
 	}
-
+	*/
 	inline Handle OpenGL::createShader(const ShaderType type)
 	{
 		GLuint shaderHandle = glCreateShader(static_cast<GLenum>(type));
@@ -146,7 +146,7 @@ namespace ece
 		glCompileShader(handle);
 		OpenGL::checkErrors("OpenGL::compileShader");
 	}
-
+	
 	inline void OpenGL::deleteShader(const Handle handle)
 	{
 		glDeleteShader(handle);
@@ -170,14 +170,14 @@ namespace ece
 		glUseProgram(handle);
 		OpenGL::checkErrors("OpenGL::useProgram");
 	}
-
+/*
 	inline Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
 	{
 		auto location = glGetUniformLocation(handle, uniform.data());
 		OpenGL::checkErrors("OpenGL::getUniformLocation");
 		return static_cast<Handle>(location);
 	}
-
+	*/
 	inline void OpenGL::genVertexArrays(Handle & handle)
 	{
 		glGenVertexArrays(1, reinterpret_cast<GLuint *>(&handle));
@@ -204,7 +204,7 @@ namespace ece
 		glEnableVertexAttribArray(location);
 		OpenGL::checkErrors("OpenGL::enableVertexAttribArray");
 	}
-
+/*
 	inline void OpenGL::disableVertexAttribArray(const int location)
 	{
 		glDisableVertexAttribArray(location);
@@ -216,13 +216,19 @@ namespace ece
 		glDrawArrays(static_cast<GLenum>(mode), first, count);
 		OpenGL::checkErrors("OpenGL::drawArrays");
 	}
-
+	*/
+	inline void OpenGL::drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset)
+	{
+		glDrawElements(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<void *>(offset));
+		OpenGL::checkErrors("OpenGL::drawElements");
+	}
+	/*
 	template<class T> 
 	inline void OpenGL::uniform(const Handle uniform, const T value)
 	{
 		throw std::runtime_error("A uniform cannot be set with this type.");
 	}
-
+	*/
 	template<class T>
 	inline void OpenGL::bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage)
 	{
@@ -326,7 +332,7 @@ namespace ece
 		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::DOUBLE), normalized, offset, data.data());
 		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
 	}
-
+/*
 	template<>
 	inline void OpenGL::uniform(const Handle uniform, const int value)
 	{

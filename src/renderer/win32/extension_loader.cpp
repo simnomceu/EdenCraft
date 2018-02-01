@@ -58,6 +58,10 @@ namespace ece
 		this->_latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
 		this->_latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
 
+		// dummy calls
+		wglChoosePixelFormat(nullptr, nullptr, nullptr, 0, nullptr, nullptr); // create an infinite loop because it call getInstance while we are still in constructor
+		wglCreateContextAttribs(nullptr, nullptr, nullptr);
+
 		if (dummyContext != nullptr) {
 			wglMakeCurrent(nullptr, nullptr);
 			wglDeleteContext(dummyContext);
@@ -86,7 +90,6 @@ namespace ece
 			proc = GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
 			if (proc == nullptr) {
 				ServiceLoggerLocator::getService().logError(name + " cannot be loaded.");
-				throw std::runtime_error(name + " cannot be loaded.");
 			}
 		}
 		return static_cast<void *>(proc);

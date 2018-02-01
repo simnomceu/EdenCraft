@@ -56,19 +56,19 @@ namespace ece
 		static inline void getInteger(const Parameter parameter, int & data);
 		static inline std::string getString(const InfoGL parameter);
 
-/*		static inline void getIntegers(const Parameter parameter, std::vector<int> & data);
+/*		static inline void getIntegers(const Parameter parameter, std::vector<int> & data);*/
 
 		static inline Handle createShader(const ShaderType type);
 		static inline void shaderSource(const Handle handle, const std::string & source);
 		static inline void shaderSource(const Handle handle, const std::vector<std::string> & source);
 		static inline void compileShader(const Handle handle);
-		static inline void deleteShader(const Handle handle);*/
+		static inline void deleteShader(const Handle handle);
 
 		static inline Handle createProgram();
-/*		static inline void attachShader(const Handle program, const Handle shader);
+		static inline void attachShader(const Handle program, const Handle shader);
 		static inline void linkProgram(const Handle handle);
 		static inline void useProgram(const Handle handle);
-
+/*
 		static inline Handle getUniformLocation(const Handle handle, const std::string & uniform);
 		template<class T> static inline void uniform(const Handle uniform, const T value);
 		template<> static inline void uniform(const Handle uniform, const int value);
@@ -87,7 +87,7 @@ namespace ece
 		static inline Handle genBuffers();
 		static inline std::vector<Handle> genBuffers(const int count);
 		static inline void bindBuffer(const BufferType type, const Handle handle);
-/*		template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
+		template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
 		static inline void genVertexArrays(Handle & handle);
 		static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
 		static inline void bindVertexArray(const Handle handle);
@@ -106,9 +106,10 @@ namespace ece
 		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
 		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
 		static inline void enableVertexAttribArray(const int location);
-		static inline void disableVertexAttribArray(const int location);
+/*		static inline void disableVertexAttribArray(const int location);
 
 		static inline void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);*/
+		static inline void drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset);
 		
 	private:
 		OpenGL() = default;

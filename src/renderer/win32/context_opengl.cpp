@@ -54,7 +54,7 @@ namespace ece
 			0
 		};
 
-		int iPF;
+		int iPF = 0;
 		UINT num_formats_choosen;
 		if (!wglChoosePixelFormat(this->_data->_device, pixelAttribs, NULL, 1, &iPF, &num_formats_choosen) || !num_formats_choosen) {
 			throw std::runtime_error("There is no video mode available for this device.");

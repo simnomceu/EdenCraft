@@ -12,6 +12,7 @@ inline const GLubyte * glGetString(GLenum name);
 inline void glGetIntegerv(GLenum pname, GLint * data);
 inline void glGenBuffers(GLsizei n, GLuint * buffers);
 inline void glBindBuffer(GLenum target, GLuint buffer);
+inline void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
 
 inline GLuint glCreateProgram();
 
@@ -24,7 +25,21 @@ inline void glCullFace(GLenum mode);
 inline void glFrontFace(GLenum mode);
 inline void glDepthFunc(GLenum func);
 
+inline GLuint glCreateShader(GLenum shaderType);
+inline void glShaderSource(GLuint shader, GLsizei count, const GLchar ** string, const GLint * length);
+inline void glCompileShader(GLuint shader);
+inline void glDeleteShader(GLuint shader);
+inline void glAttachShader(GLuint program, GLuint shader);
+inline void glLinkProgram(GLuint program);
+inline void glUseProgram(GLuint program);
 
+inline void glGenVertexArrays(GLsizei n, GLuint *arrays);
+inline void glBindVertexArray(GLuint array);
+inline void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer);
+inline void glVertexAttribIPointer(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+inline void glVertexAttribLPointer(GLuint index, GLint size, GLenum type, GLsizei stride, const GLvoid * pointer);
+inline void glEnableVertexAttribArray(GLuint index);
+inline void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices);
 
 // Command Execution
 //extern PFNGLGETERRORPROC glGetError;
@@ -70,7 +85,7 @@ extern PFNGLBINDBUFFERSRANGEPROC glBindBuffersRange;
 extern PFNGLBINDBUFFERSBASEPROC glBindBuffersBase;
 extern PFNGLBUFFERSTORAGEPROC glBufferStorage;
 extern PFNGLNAMEDBUFFERSTORAGEPROC glNamedBufferStorage;
-extern PFNGLBUFFERDATAPROC glBufferData;
+//extern PFNGLBUFFERDATAPROC glBufferData;
 extern PFNGLNAMEDBUFFERDATAPROC glNamedBufferData;
 extern PFNGLBUFFERSUBDATAPROC glBufferSubData;
 extern PFNGLNAMEDBUFFERSUBDATAPROC glNamedBufferSubData;
@@ -101,19 +116,19 @@ extern PFNGLCOPYBUFFERSUBDATAPROC glCopyBufferSubData;
 extern PFNGLCOPYNAMEDBUFFERSUBDATAPROC glCopyNamedBufferSubData;
 
 // Shaders and Programs
-extern PFNGLCREATESHADERPROC glCreateShader;
-extern PFNGLSHADERSOURCEPROC glShaderSource;
-extern PFNGLCOMPILESHADERPROC glCompileShader;
+//extern PFNGLCREATESHADERPROC glCreateShader;
+//extern PFNGLSHADERSOURCEPROC glShaderSource;
+//extern PFNGLCOMPILESHADERPROC glCompileShader;
 extern PFNGLRELEASESHADERCOMPILERPROC glReleaseShaderCompiler;
-extern PFNGLDELETESHADERPROC glDeleteShader;
+//extern PFNGLDELETESHADERPROC glDeleteShader;
 extern PFNGLISSHADERPROC glIsShader;
 extern PFNGLSHADERBINARYPROC glShaderBinary;
 extern PFNGLSPECIALIZESHADERPROC glSpecializeShader;
 //extern PFNGLCREATEPROGRAMPROC glCreateProgram;
-extern PFNGLATTACHSHADERPROC glAttachShader;
+//extern PFNGLATTACHSHADERPROC glAttachShader;
 extern PFNGLDETACHSHADERPROC glDetachShader;
-extern PFNGLLINKPROGRAMPROC glLinkProgram;
-extern PFNGLUSEPROGRAMPROC glUseProgram;
+//extern PFNGLLINKPROGRAMPROC glLinkProgram;
+//extern PFNGLUSEPROGRAMPROC glUseProgram;
 extern PFNGLCREATESHADERPROGRAMVPROC glCreateShaderProgramv;
 extern PFNGLPROGRAMPARAMETERIPROC glProgramParameteri;
 extern PFNGLDELETEPROGRAMPROC glDeleteProgram;
@@ -497,9 +512,9 @@ extern PFNGLVERTEXATTRIBP3UIVPROC glVertexAttribP3uiv;
 extern PFNGLVERTEXATTRIBP4UIVPROC glVertexAttribP4uiv;
 
 // Vertex Arrays
-extern PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;
+//extern PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;
 extern PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArrays;
-extern PFNGLBINDVERTEXARRAYPROC glBindVertexArray;
+//extern PFNGLBINDVERTEXARRAYPROC glBindVertexArray;
 extern PFNGLCREATEVERTEXARRAYSPROC glCreateVertexArrays;
 extern PFNGLISVERTEXARRAYPROC glIsVertexArray;
 extern PFNGLVERTEXARRAYELEMENTBUFFERPROC glVertexArrayElementBuffer;
@@ -515,10 +530,10 @@ extern PFNGLBINDVERTEXBUFFERSPROC glBindVertexBuffers;
 extern PFNGLVERTEXARRAYVERTEXBUFFERSPROC glVertexArrayVertexBuffers;
 extern PFNGLVERTEXATTRIBBINDINGPROC glVertexAttribBinding;
 extern PFNGLVERTEXARRAYATTRIBBINDINGPROC glVertexArrayAttribBinding;
-extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
-extern PFNGLVERTEXATTRIBIPOINTERPROC glVertexAttribIPointer;
-extern PFNGLVERTEXATTRIBLPOINTERPROC glVertexAttribLPointer;
-extern PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
+//extern PFNGLVERTEXATTRIBPOINTERPROC glVertexAttribPointer;
+//extern PFNGLVERTEXATTRIBIPOINTERPROC glVertexAttribIPointer;
+//extern PFNGLVERTEXATTRIBLPOINTERPROC glVertexAttribLPointer;
+//extern PFNGLENABLEVERTEXATTRIBARRAYPROC glEnableVertexAttribArray;
 extern PFNGLENABLEVERTEXARRAYATTRIBPROC glEnableVertexArrayAttrib;
 extern PFNGLDISABLEVERTEXATTRIBARRAYPROC glDisableVertexAttribArray;
 extern PFNGLDISABLEVERTEXARRAYATTRIBPROC glDisableVertexArrayAttrib;
@@ -533,7 +548,7 @@ extern PFNGLDRAWARRAYSINDIRECTPROC glDrawArraysIndirect;
 extern PFNGLMULTIDRAWARRAYSPROC glMultiDrawArrays;
 extern PFNGLMULTIDRAWARRAYSINDIRECTPROC glMultiDrawArraysIndirect;
 extern PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC glMultiDrawArraysIndirectCount;
-extern PFNGLDRAWELEMENTSPROC glDrawElements;
+//extern PFNGLDRAWELEMENTSPROC glDrawElements;
 extern PFNGLDRAWELEMENTSINSTANCEDBASEINSTANCEPROC glDrawElementsInstancedBaseInstance;
 extern PFNGLDRAWELEMENTSINSTANCEDPROC glDrawElementsInstanced;
 extern PFNGLMULTIDRAWELEMENTSPROC glMultiDrawElements;
