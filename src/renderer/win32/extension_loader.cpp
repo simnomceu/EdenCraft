@@ -3,6 +3,7 @@
 #include "renderer/win32/wgl_loader.hpp"
 
 #include "renderer/win32/wgl_extension.hpp"
+#include "renderer/opengl/opengl_extension.hpp"
 #include "utility/log/service_logger.hpp"
 
 namespace ece
@@ -54,8 +55,8 @@ namespace ece
 		}
 
 		std::string versionPtr(reinterpret_cast<const char *>(glGetString(GL_VERSION)));
-		this->_latestVersionAvailable[0] = std::stoi(versionPtr.substr(0, 1));
-		this->_latestVersionAvailable[1] = std::stoi(versionPtr.substr(2, 1));
+		this->_latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
+		this->_latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
 
 		if (dummyContext != nullptr) {
 			wglMakeCurrent(nullptr, nullptr);
@@ -89,5 +90,10 @@ namespace ece
 			}
 		}
 		return static_cast<void *>(proc);
+	}
+
+	std::array<unsigned short int, 2> & getLatestVersionAvailable()
+	{
+		return WGLLoader::getInstance().getLatestVersionAvailable();
 	}
 }

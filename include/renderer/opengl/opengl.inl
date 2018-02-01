@@ -1,11 +1,11 @@
 #include "opengl.hpp"
 namespace ece
 {
-	inline int OpenGL::getLatestMinorVersion() { return OpenGL::_latestVersion[1]; }
+	inline unsigned short int OpenGL::getLatestMinorVersion() { return OpenGL::_latestVersion[1]; }
 
-	inline int OpenGL::getLatestMajorVersion() { return OpenGL::_latestVersion[0]; }
+	inline unsigned short int OpenGL::getLatestMajorVersion() { return OpenGL::_latestVersion[0]; }
 
-	template<class T> 
+	/*template<class T> 
 	void OpenGL::uniform(const UniformHandle uniform, const T value)
 	{
 		throw std::runtime_error("A uniform cannot be set with this type.");
@@ -153,5 +153,5 @@ namespace ece
 		}
 		glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::DOUBLE), normalized, offset, data.data());
 		OpenGL::checkErrors("OpenGL::vertexAttribPointer");
-	}
+	}*/
 }

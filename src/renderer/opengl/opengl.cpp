@@ -6,25 +6,12 @@
 
 namespace ece
 {
-	std::unique_ptr<OpenGLExtension> OpenGL::_extensions(nullptr);
-	std::array<int, 2> OpenGL::_latestVersion{2, 1};
+	std::array<unsigned short int, 2> OpenGL::_latestVersion{2, 1};
 
-	void OpenGL::init(const OptionOpenGL options, std::unique_ptr<OpenGLExtension> && extensions)
+	void OpenGL::init()
 	{
-		/*if (OpenGL::_extensions.get() == nullptr) {
-			#ifdef __unix__
-			OpenGL::_extensions = std::make_unique<GLXExtension>();
-			#elif __WINDOW__
-			OpenGL::_extensions = std::make_unique<WGLExtension>();
-			#elif __OSX__
-			OpenGL::_extensions = std::make_unique<AGLExtension>();
-			#else
-			OpenGL::_extensions = std::make_unique<WGLExtension>();
-			#endif
-		}*/
-		OpenGL::_extensions = std::move(extensions);
-		auto version = OpenGL::_extensions->init(options);
-		if (version != std::array<int, 2>{0, 0}) {
+		auto version = getLatestVersionAvailable();
+		if (version != std::array<unsigned short int, 2>{0, 0}) {
 			OpenGL::_latestVersion = version;
 		}
 	}
@@ -34,7 +21,7 @@ namespace ece
 		//if (!glGetError) {
 		//	throw OpenGLExtensionException("glGetError", COMMAND_EXECUTION);
 		//}
-		return OpenGL::_extensions->glGetError();
+		return glGetError();
 	}
 
 	void OpenGL::checkErrors(const std::string & location)
@@ -57,7 +44,7 @@ namespace ece
 		}
 	}
 
-	void OpenGL::clear(const Bitfield mask)
+/*	void OpenGL::clear(const Bitfield mask)
 	{
 		if (!glClear) {
 			throw OpenGLExtensionException("glClear", WHOLE_FRAMEBUFFER);
@@ -479,5 +466,5 @@ namespace ece
 		}
 		glDrawArrays(static_cast<GLenum>(mode), first, count);
 		OpenGL::checkErrors("OpenGL::drawArrays");
-	}
+	}*/
 }

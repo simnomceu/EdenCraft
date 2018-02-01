@@ -39,10 +39,10 @@ namespace ece
 	public:
 		~OpenGL() = default;
 
-		static void init(const OptionOpenGL options, std::unique_ptr<OpenGLExtension> && extensions);
+		static void init();
 
-		static inline int getLatestMinorVersion();
-		static inline int getLatestMajorVersion();
+		static inline unsigned short int getLatestMinorVersion();
+		static inline unsigned short int getLatestMajorVersion();
 
 		static unsigned int getError();
 		static void checkErrors(const std::string & location);
@@ -120,8 +120,7 @@ namespace ece
 		OpenGL(const OpenGL & copy) = default;
 		OpenGL(OpenGL && move) = default;
 
-		static std::unique_ptr<OpenGLExtension> _extensions;
-		static std::array<int, 2> _latestVersion;
+		static std::array<unsigned short int, 2> _latestVersion;
 
 		OpenGL & operator=(const OpenGL & copy) = default;
 		OpenGL & operator=(OpenGL && move) = default;

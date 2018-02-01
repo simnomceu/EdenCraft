@@ -1,7 +1,7 @@
 #include "renderer/opengl/opengl_extension.hpp"
 
 #include "utility/log/service_logger.hpp"
-
+/*
 namespace ece
 {
 	void OpenGLExtension::loadCommandExecutionExtensions()
@@ -739,7 +739,7 @@ namespace ece
 		glGetTransformFeedbacki_v = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKI_VPROC>(this->loadOpenGLProc("glGetTransformFeedbacki_v"));
 		glGetTransformFeedbacki64_v = reinterpret_cast<PFNGLGETTRANSFORMFEEDBACKI64_VPROC>(this->loadOpenGLProc("glGetTransformFeedbacki64_v"));
 	}
-}
+}*/
 
 
 // Command Execution
@@ -1428,7 +1428,7 @@ PFNGLGETINTEGERI_VPROC glGetIntegeri_v = nullptr;
 PFNGLGETFLOATI_VPROC glGetFloati_v = nullptr;
 PFNGLGETINTEGER64I_VPROC glGetInteger64i_v = nullptr;
 PFNGLGETPOINTERVPROC glGetPointerv = nullptr;
-PFNGLGETSTRINGPROC glGetString = nullptr;
+//PFNGLGETSTRINGPROC glGetString = nullptr;
 PFNGLGETSTRINGIPROC glGetStringi = nullptr;
 PFNGLGETINTERNALFORMATIVPROC glGetInternalformativ = nullptr;
 PFNGLGETINTERNALFORMATI64VPROC glGetInternalformati64v = nullptr;

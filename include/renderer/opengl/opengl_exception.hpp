@@ -9,7 +9,7 @@ namespace ece
 	class OpenGLExtensionException : public Exception
 	{
 	public:
-		OpenGLExtensionException(const std::string & extension, const OptionOpenGL option);
+		OpenGLExtensionException(const std::string & extension);
 	};
 }
 

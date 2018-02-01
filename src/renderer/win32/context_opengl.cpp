@@ -32,13 +32,7 @@ namespace ece
 
 	void ContextOpenGL::create(const RenderWindow & window)
 	{
-		OpenGL::init(COMMAND_EXECUTION | TIMER_QUERIES | SYNCHRONIZATION | ASYNCHRONOUS_QUERIES
-			| BUFFER_OBJECTS | SHADERS_AND_PROGRAMS | TEXTURES_AND_SAMPLERS | FRAMEBUFFER_OBJECTS
-			| VERTICES | VERTEX_ARRAYS | VERTEX_ATTRIBUTES | VERTEX_POST_PROCESSING | RASTERIZATION
-			| FRAGMENT_SHADERS | COMPUTE_SHADERS | PER_FRAGMENT_OPERATIONS | HINTS
-			| WHOLE_FRAMEBUFFER | READING_AND_COPYING_PIXELS | DEBUG_OUTPUT | STATE_AND_STATE_REQUESTS
-			| PLATFORM,
-			std::make_unique<WGLExtension>());
+		OpenGL::init();
 
 		// Create real context
 		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_windowId;

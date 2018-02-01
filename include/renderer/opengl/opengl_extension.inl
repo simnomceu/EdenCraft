@@ -1,3 +1,23 @@
+#include "renderer/opengl/extension_loader.hpp"
+
+inline GLenum glGetError()
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLGETERRORPROC>("glGetError");
+	if (proxy) {
+		throw std::runtime_error("glGetError symbol not loaded.");
+	}
+	return proxy();
+}
+
+inline const GLubyte * glGetString(GLenum name)
+{
+	static auto proxy = ece::loadOpenGLProc<PFNGLGETSTRINGPROC>("glGetString");
+	if (proxy) {
+		throw std::runtime_error("glGetString symbol not loaded.");
+	}
+	return proxy(name);
+}
+
 // Command Execution
 //extern PFNGLGETERRORPROC glGetError;
 extern PFNGLGETGRAPHICSRESETSTATUSPROC glGetGraphicsResetStatus;
@@ -684,7 +704,7 @@ extern PFNGLGETINTEGERI_VPROC glGetIntegeri_v;
 extern PFNGLGETFLOATI_VPROC glGetFloati_v;
 extern PFNGLGETINTEGER64I_VPROC glGetInteger64i_v;
 extern PFNGLGETPOINTERVPROC glGetPointerv;
-extern PFNGLGETSTRINGPROC glGetString;
+//extern PFNGLGETSTRINGPROC glGetString;
 extern PFNGLGETSTRINGIPROC glGetStringi;
 extern PFNGLGETINTERNALFORMATIVPROC glGetInternalformativ;
 extern PFNGLGETINTERNALFORMATI64VPROC glGetInternalformati64v;

@@ -2,8 +2,8 @@
 
 namespace ece
 {
-	OpenGLExtensionException::OpenGLExtensionException(const std::string & extension, const OptionOpenGL option)
+	OpenGLExtensionException::OpenGLExtensionException(const std::string & extension)
 	{
-		this->setMessage("The extension % is not loaded. Load % to use it.", extension, option);
+		this->setMessage("The extension % is not loaded", extension);
 	}
 }
