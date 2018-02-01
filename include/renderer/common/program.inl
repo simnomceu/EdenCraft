@@ -1,8 +1,8 @@
 namespace ece
 {
-	inline Program::Program(const ProgramHandle handle) : _handle(handle) {}
+	inline Program::Program(const Handle handle) : _handle(handle) {}
 
-	inline ProgramHandle Program::getHandle() const { return this->_handle; }
+	inline Handle Program::getHandle() const { return this->_handle; }
 
 	template<class T>
 	void Program::uniform(const std::string & uniform, const T & value)

@@ -7,13 +7,8 @@ namespace ece
 {
 	void BaseContextOpenGL::logInfos()
 	{
-		std::string renderer, version, shaderVersion;
-		OpenGL::getString(InfoGL::RENDERER, renderer);
-		OpenGL::getString(InfoGL::VERSION, version);
-		OpenGL::getString(InfoGL::SHADING_LANGUAGE_VERSION, shaderVersion);
-
-		ServiceLoggerLocator::getService().logInfo("Renderer: " + renderer);
-		ServiceLoggerLocator::getService().logInfo("OpenGL version supported " + version);
-		ServiceLoggerLocator::getService().logInfo("GLSL version supported " + shaderVersion);
+		ServiceLoggerLocator::getService().logInfo("Renderer: " + OpenGL::getString(InfoGL::RENDERER));
+		ServiceLoggerLocator::getService().logInfo("OpenGL version supported " + OpenGL::getString(InfoGL::VERSION));
+		ServiceLoggerLocator::getService().logInfo("GLSL version supported " + OpenGL::getString(InfoGL::SHADING_LANGUAGE_VERSION));
 	}
 }

@@ -23,7 +23,7 @@ namespace ece
 
 	inline ShaderType Shader::getType() const { return this->_type; }
 
-	inline ShaderHandle Shader::getHandle() const { return this->_handle; }
+	inline Handle Shader::getHandle() const { return this->_handle; }
 
 	inline bool Shader::isCompilationRequired() const { return this->_compilationRequired; }
 }

@@ -25,7 +25,7 @@ namespace ece
 		inline const std::string & getFilename() const;
 		inline const std::string & getSource() const;
 		inline ShaderType getType() const;
-		inline ShaderHandle getHandle() const;
+		inline Handle getHandle() const;
 		inline bool isCompilationRequired() const;
 		
 		void compile();
@@ -35,7 +35,7 @@ namespace ece
 		std::string _filename;
 		std::string _source;
 		ShaderType _type;
-		ShaderHandle _handle;
+		Handle _handle;
 		bool _compilationRequired;
 	};
 }

@@ -1,7 +1,14 @@
 #ifndef RENDERER_ENUM_HPP
 #define RENDERER_ENUM_HPP
 
+#include "GL/glcorearb.h"
+
 #include "utility/enum/enum_flags.hpp"
+#include "GL/glext.h"
+
+#ifdef _WIN32
+#	undef NO_ERROR
+#endif
 
 namespace ece
 {
@@ -403,6 +410,18 @@ namespace ece
 		NOTEQUAL = GL_NOTEQUAL,
 		GEQUAL = GL_GEQUAL,
 		ALWAYS = GL_ALWAYS
+	};
+
+	enum class ErrorGL : unsigned short int
+	{
+		NO_ERROR = GL_NO_ERROR,
+		INVALID_ENUM = GL_INVALID_ENUM,
+		INVALID_VALUE = GL_INVALID_VALUE,
+		INVALID_OPERATION = GL_INVALID_OPERATION,
+		INVALID_FRAMEBUFFER_OPERATION = GL_INVALID_FRAMEBUFFER_OPERATION,
+		OUT_OF_MEMORY = GL_OUT_OF_MEMORY,
+		STACK_UNDERFLOW = GL_STACK_UNDERFLOW,
+		STACK_OVERFLOW = GL_STACK_OVERFLOW
 	};
 }
 

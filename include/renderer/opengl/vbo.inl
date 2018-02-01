@@ -9,5 +9,5 @@ namespace ece
 
 	inline void VBO::setType(const BufferType type) { this->_type = type; }
 
-	inline VBOHandle VBO::getHandle() const { return this->_handle; }
+	inline Handle VBO::getHandle() const { return this->_handle; }
 }

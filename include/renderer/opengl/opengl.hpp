@@ -28,11 +28,7 @@
 namespace ece
 {
 
-	using ShaderHandle = unsigned short int;
-	using ProgramHandle = unsigned short int;
-	using UniformHandle = unsigned short int;
-	using VBOHandle = unsigned int;
-	using VAOHandle = unsigned int;
+	using Handle = unsigned short int;
 
 	class OpenGL
 	{
@@ -44,77 +40,77 @@ namespace ece
 		static inline unsigned short int getLatestMinorVersion();
 		static inline unsigned short int getLatestMajorVersion();
 
-		static unsigned int getError();
+		static inline ErrorGL getError();
 		static void checkErrors(const std::string & location);
 
-		static void clear(const Bitfield mask);
-		static void clearColor(const float r, const float g, const float b, const float a);
-		static void enable(const Capability cap);
-		static void disable(const Capability cap);
-		static void enableIndexed(const Capability cap, const unsigned short int index);
-		static void disableIndexed(const Capability cap, const unsigned short int index);
+		static inline void clear(const Bitfield mask);
+		static inline void clearColor(const float r, const float g, const float b, const float a);
+		static inline void enable(const Capability cap);
+		static inline void disable(const Capability cap);
+		static inline void enableIndexed(const Capability cap, const unsigned short int index);
+		static inline void disableIndexed(const Capability cap, const unsigned short int index);
 
-		static void cullFace(const CullFaceMode mode);
-		static void frontFace(const FrontFaceMode mode);
-		static void depthFunc(const DepthFunctionCondition condition);
+		static inline void cullFace(const CullFaceMode mode);
+		static inline void frontFace(const FrontFaceMode mode);
+		static inline void depthFunc(const DepthFunctionCondition condition);
 
-		static void getInteger(const Parameter parameter, int & data);
-		static void getString(const InfoGL parameter, std::string & data);
+		static inline void getInteger(const Parameter parameter, int & data);
+		static inline std::string getString(const InfoGL parameter);
 
-		static void getIntegers(const Parameter parameter, std::vector<int> & data);
+/*		static inline void getIntegers(const Parameter parameter, std::vector<int> & data);
 
-		static ShaderHandle createShader(const ShaderType type);
-		static void shaderSource(const ShaderHandle handle, const std::string & source);
-		static void shaderSource(const ShaderHandle handle, const std::vector<std::string> & source);
-		static void compileShader(const ShaderHandle handle);
-		static void deleteShader(const ShaderHandle handle);
+		static inline Handle createShader(const ShaderType type);
+		static inline void shaderSource(const Handle handle, const std::string & source);
+		static inline void shaderSource(const Handle handle, const std::vector<std::string> & source);
+		static inline void compileShader(const Handle handle);
+		static inline void deleteShader(const Handle handle);*/
 
-		static ProgramHandle createProgram();
-		static void attachShader(const ProgramHandle program, const ShaderHandle shader);
-		static void linkProgram(const ProgramHandle handle);
-		static void useProgram(const ProgramHandle handle);
+		static inline Handle createProgram();
+/*		static inline void attachShader(const Handle program, const Handle shader);
+		static inline void linkProgram(const Handle handle);
+		static inline void useProgram(const Handle handle);
 
-		static UniformHandle getUniformLocation(const ProgramHandle handle, const std::string & uniform);
-		template<class T> static void uniform(const UniformHandle uniform, const T value);
-		template<> static void uniform(const UniformHandle uniform, const int value);
-		template<> static void uniform(const UniformHandle uniform, const float value);
-		template<> static void uniform(const UniformHandle uniform, const bool value);
-		template<> static void uniform(const UniformHandle uniform, const IntVector2u value);
-		template<> static void uniform(const UniformHandle uniform, const IntVector3u value);
-		template<> static void uniform(const UniformHandle uniform, const IntVector4u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVector2u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVector3u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatVector4u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatMatrix2u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatMatrix3u value);
-		template<> static void uniform(const UniformHandle uniform, const FloatMatrix4u value);
+		static inline Handle getUniformLocation(const Handle handle, const std::string & uniform);
+		template<class T> static inline void uniform(const Handle uniform, const T value);
+		template<> static inline void uniform(const Handle uniform, const int value);
+		template<> static inline void uniform(const Handle uniform, const float value);
+		template<> static inline void uniform(const Handle uniform, const bool value);
+		template<> static inline void uniform(const Handle uniform, const IntVector2u value);
+		template<> static inline void uniform(const Handle uniform, const IntVector3u value);
+		template<> static inline void uniform(const Handle uniform, const IntVector4u value);
+		template<> static inline void uniform(const Handle uniform, const FloatVector2u value);
+		template<> static inline void uniform(const Handle uniform, const FloatVector3u value);
+		template<> static inline void uniform(const Handle uniform, const FloatVector4u value);
+		template<> static inline void uniform(const Handle uniform, const FloatMatrix2u value);
+		template<> static inline void uniform(const Handle uniform, const FloatMatrix3u value);
+		template<> static inline void uniform(const Handle uniform, const FloatMatrix4u value);*/
 
-		static void genBuffers(VBOHandle & handle);
-		static void genBuffers(const int count, std::vector<VBOHandle> & handles);
-		static void bindBuffer(const BufferType type, const VBOHandle handle);
-		template<class T> static void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
-		static void genVertexArrays(VAOHandle & handle);
-		static void genVertexArrays(const int count, std::vector<VAOHandle> & handles);
-		static void bindVertexArray(const VAOHandle handle);
-		template<class T> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset);
-		template<> static void vertexAttribPointer<short>(const int location, const int size, const bool normalized, const int offset);
-		template<> static void vertexAttribPointer<unsigned short>(const int location, const int size, const bool normalized, const int offset);
-		template<> static void vertexAttribPointer<int>(const int location, const int size, const bool normalized, const int offset);
-		template<> static void vertexAttribPointer<unsigned int>(const int location, const int size, const bool normalized, const int offset);
-		template<> static void vertexAttribPointer<float>(const int location, const int size, const bool normalized, const int offset);
-		template<> static void vertexAttribPointer<double>(const int location, const int size, const bool normalized, const int offset);
-		template<class T> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<T> & data);
-		template<> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short> & data);
-		template<> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short> & data);
-		template<> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<int> & data);
-		template<> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned int> & data);
-		template<> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
-		template<> static void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
-		static void enableVertexAttribArray(const int location);
-		static void disableVertexAttribArray(const int location);
+		static inline Handle genBuffers();
+		static inline std::vector<Handle> genBuffers(const int count);
+		static inline void bindBuffer(const BufferType type, const Handle handle);
+/*		template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
+		static inline void genVertexArrays(Handle & handle);
+		static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
+		static inline void bindVertexArray(const Handle handle);
+		template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset);
+		template<> static inline void vertexAttribPointer<short>(const int location, const int size, const bool normalized, const int offset);
+		template<> static inline void vertexAttribPointer<unsigned short>(const int location, const int size, const bool normalized, const int offset);
+		template<> static inline void vertexAttribPointer<int>(const int location, const int size, const bool normalized, const int offset);
+		template<> static inline void vertexAttribPointer<unsigned int>(const int location, const int size, const bool normalized, const int offset);
+		template<> static inline void vertexAttribPointer<float>(const int location, const int size, const bool normalized, const int offset);
+		template<> static inline void vertexAttribPointer<double>(const int location, const int size, const bool normalized, const int offset);
+		template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<T> & data);
+		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short> & data);
+		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short> & data);
+		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<int> & data);
+		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned int> & data);
+		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
+		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
+		static inline void enableVertexAttribArray(const int location);
+		static inline void disableVertexAttribArray(const int location);
 
-		static void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);
-
+		static inline void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);*/
+		
 	private:
 		OpenGL() = default;
 		OpenGL(const OpenGL & copy) = default;
