@@ -3,7 +3,7 @@
 
 inline BOOL wglChoosePixelFormat(HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats)
 {
-	static auto proxy = ece::loadOpenGLProc<PFNWGLCHOOSEPIXELFORMATARBPROC>("wglChoosePixelFormat");
+	static auto proxy = ece::loadOpenGLProc<PFNWGLCHOOSEPIXELFORMATARBPROC>("wglChoosePixelFormatARB");
 	if (!proxy) {
 		throw ece::OpenGLExtensionException("wglChoosePixelFormat");
 	}
@@ -12,7 +12,7 @@ inline BOOL wglChoosePixelFormat(HDC hdc, const int *piAttribIList, const FLOAT 
 
 inline HGLRC wglCreateContextAttribs(HDC hdc, HGLRC hShareContext, const int *attribList)
 {
-	static auto proxy = ece::loadOpenGLProc<PFNWGLCREATECONTEXTATTRIBSARBPROC>("wglCreateContextAttribs");
+	static auto proxy = ece::loadOpenGLProc<PFNWGLCREATECONTEXTATTRIBSARBPROC>("wglCreateContextAttribsARB");
 	if (!proxy) {
 		throw ece::OpenGLExtensionException("wglChoosePixelFormat");
 	}

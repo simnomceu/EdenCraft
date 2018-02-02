@@ -184,7 +184,7 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::genVertexArrays");
 	}
 
-	inline 	void OpenGL::genVertexArrays(const int count, std::vector<Handle>& handles)
+	inline void OpenGL::genVertexArrays(const int count, std::vector<Handle>& handles)
 	{
 		if (count != 0) {
 			handles.resize(handles.size() + count);
@@ -232,8 +232,7 @@ namespace ece
 	template<class T>
 	inline void OpenGL::bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage)
 	{
-		const GLvoid * dataPtr = data.data();
-		glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), dataPtr, static_cast<GLenum>(usage));
+		glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), data.data(), static_cast<GLenum>(usage));
 		OpenGL::checkErrors("OpenGL::bufferData");
 	}
 

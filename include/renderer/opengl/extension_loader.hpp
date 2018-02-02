@@ -5,12 +5,12 @@
 
 namespace ece
 {
-	inline void * loadOpenGLProc(const std::string & name);
+	void * loadOpenGLProc(const std::string & name);
 
 	template <class T>
 	inline T loadOpenGLProc(const std::string & name);
 
-	std::array<unsigned short int, 2> & getLatestVersionAvailable();
+	std::array<unsigned short int, 2> initLoader();
 }
 
 #include "renderer/opengl/extension_loader.inl"

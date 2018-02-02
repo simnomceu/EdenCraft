@@ -4,6 +4,6 @@ namespace ece
 {
 	IBO::IBO(): _handle(0)
 	{
-		OpenGL::genBuffers(this->_handle);
+		this->_handle = OpenGL::genBuffers();
 	}
 }

@@ -16,14 +16,23 @@ namespace ece
 
 		~WGLLoader();
 
-		HMODULE getLibrary();
+		FARPROC getProcAddress(const std::string & name);
+
+		void initDummyContext();
 		std::array<unsigned short int, 2> & getLatestVersionAvailable();
+		void terminateDummyContext();
 
 	private:
 		WGLLoader();
 
 		HMODULE _openglLib;
 		std::array<unsigned short int, 2> _latestVersionAvailable;
+
+		struct {
+			HDC device;
+			HGLRC context;
+			HWND window;
+		} _dummy;
 	};
 }
 

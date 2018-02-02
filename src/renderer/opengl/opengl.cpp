@@ -8,7 +8,7 @@ namespace ece
 
 	void OpenGL::init()
 	{
-		auto version = getLatestVersionAvailable();
+		auto version = initLoader();
 		if (version != std::array<unsigned short int, 2>{0, 0}) {
 			OpenGL::_latestVersion = version;
 		}
