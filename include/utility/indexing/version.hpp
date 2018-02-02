@@ -39,6 +39,11 @@
 #ifndef VERSION_HPP
 #define VERSION_HPP
 
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
+
 #include <array>
 
 namespace ece

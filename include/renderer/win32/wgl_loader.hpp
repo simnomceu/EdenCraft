@@ -7,6 +7,8 @@
 
 #include <array>
 
+#include "utility/indexing/version.hpp"
+
 namespace ece
 {
 	class WGLLoader
@@ -19,14 +21,14 @@ namespace ece
 		FARPROC getProcAddress(const std::string & name);
 
 		void initDummyContext();
-		std::array<unsigned short int, 2> & getLatestVersionAvailable();
+		Version<2> & getLatestVersionAvailable();
 		void terminateDummyContext();
 
 	private:
 		WGLLoader();
 
 		HMODULE _openglLib;
-		std::array<unsigned short int, 2> _latestVersionAvailable;
+		Version<2> _latestVersionAvailable;
 
 		struct {
 			HDC device;

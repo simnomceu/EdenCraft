@@ -2,14 +2,19 @@
 
 #include "utility/log/service_logger.hpp"
 
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
+
 namespace ece
 {
-	std::array<unsigned short int, 2> OpenGL::_latestVersion{2, 1};
+	Version<2> OpenGL::_latestVersion{2, 0};
 
-	void OpenGL::init()
+	void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 	{
-		auto version = initLoader();
-		if (version != std::array<unsigned short int, 2>{0, 0}) {
+		auto version = initLoader(minVersionGL, maxVersionGL);
+		if (version != Version<2>{0, 0}) {
 			OpenGL::_latestVersion = version;
 		}
 	}

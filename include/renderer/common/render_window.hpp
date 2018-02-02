@@ -22,6 +22,9 @@ namespace ece
 		RenderWindow & operator=(const RenderWindow & copy) = default;
 		RenderWindow & operator=(RenderWindow && move) = default;
 
+		inline void setContextMinimumVersion(const Version<2> & minVersion);
+		inline void setContextMaximumVersion(const Version<2> & maxVersion);
+
 		void open();
 		void clear();
 		void display();
@@ -35,5 +38,7 @@ namespace ece
 		std::shared_ptr<BaseContextOpenGL> _context;
 	};
 }
+
+#include "renderer/common/render_window.inl"
 
 #endif // RENDER_WINDOW_HPP

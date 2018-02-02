@@ -24,7 +24,7 @@ namespace ece
 		return GetProcAddress(this->_openglLib, name.data());
 	}
 
-	WGLLoader::WGLLoader() : _openglLib(nullptr), _latestVersionAvailable(), _dummy{nullptr, nullptr, nullptr}
+	WGLLoader::WGLLoader() : _openglLib(nullptr), _latestVersionAvailable{ 0, 0 }, _dummy{ nullptr, nullptr, nullptr }
 	{
 	}
 
@@ -72,12 +72,12 @@ namespace ece
 		wglCreateContextAttribs(nullptr, nullptr, nullptr); // dummy call
 	}
 
-	std::array<unsigned short int, 2> & WGLLoader::getLatestVersionAvailable()
+	Version<2> & WGLLoader::getLatestVersionAvailable()
 	{
-		if (this->_latestVersionAvailable == std::array<unsigned short int, 2>{ 0, 0 }) {
-		std::string versionPtr(reinterpret_cast<const char *>(glGetString(GL_VERSION)));
-		this->_latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
-		this->_latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
+		if (this->_latestVersionAvailable == Version<2>{ 0, 0 }) {
+			std::string versionPtr(reinterpret_cast<const char *>(glGetString(GL_VERSION)));
+			this->_latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
+			this->_latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
 		}
 		return this->_latestVersionAvailable;
 	}

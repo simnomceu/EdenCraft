@@ -32,7 +32,7 @@ namespace ece
 
 	void ContextOpenGL::create(const RenderWindow & window)
 	{
-		OpenGL::init();
+		OpenGL::init(this->_minVersion, this->_maxVersion);
 
 		// Create real context
 		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_windowId;

@@ -24,6 +24,7 @@
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/vector4u.hpp"
 #include "renderer/enum.hpp"
+#include "utility/indexing/version.hpp"
 
 namespace ece
 {
@@ -34,7 +35,7 @@ namespace ece
 	public:
 		~OpenGL() = default;
 
-		static void init();
+		static void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
 
 		static inline unsigned short int getLatestMinorVersion();
 		static inline unsigned short int getLatestMajorVersion();
@@ -116,7 +117,7 @@ namespace ece
 		OpenGL(const OpenGL & copy) = default;
 		OpenGL(OpenGL && move) = default;
 
-		static std::array<unsigned short int, 2> _latestVersion;
+		static Version<2> _latestVersion;
 
 		OpenGL & operator=(const OpenGL & copy) = default;
 		OpenGL & operator=(OpenGL && move) = default;

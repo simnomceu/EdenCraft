@@ -5,6 +5,11 @@
 #include "renderer/win32/wgl_extension.hpp"
 #include "utility/log/service_logger.hpp"
 
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
+
 namespace ece
 {
 	void * loadOpenGLProc(const std::string & name)
@@ -19,12 +24,12 @@ namespace ece
 		return static_cast<void *>(proc);
 	}
 
-	std::array<unsigned short int, 2> initLoader()
+	Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 	{
 		auto & loader = WGLLoader::getInstance();
 		loader.initDummyContext();
-		std::array<unsigned short int, 2> version = loader.getLatestVersionAvailable();
+		auto version = loader.getLatestVersionAvailable();
 		loader.terminateDummyContext();
-		return version;
+		return min(max(minVersionGL, version), maxVersionGL);
 	}
 }

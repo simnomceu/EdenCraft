@@ -19,6 +19,8 @@ int main()
 		settings._position = ece::IntVector2u{ 10, 10 };
 		settings._title = "WFL window testing";
 
+		window.setContextMaximumVersion(ece::Version<2>{4, 0});
+
 		window.open();
 		window.getVideoMode().setSamples(0);
 		window.updateVideoMode();

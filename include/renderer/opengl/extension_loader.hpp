@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "utility/indexing/version.hpp"
+
 namespace ece
 {
 	void * loadOpenGLProc(const std::string & name);
@@ -10,7 +12,7 @@ namespace ece
 	template <class T>
 	inline T loadOpenGLProc(const std::string & name);
 
-	std::array<unsigned short int, 2> initLoader();
+	Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
 }
 
 #include "renderer/opengl/extension_loader.inl"
