@@ -21,13 +21,13 @@ namespace ece
 
 		inline Handle getHandle() const;
 
-		void setStage(ShaderStage & shader);
+		virtual void setStage(ShaderStage & shader);
 		void link();
 		void use() const;
 
 		template<class T> void uniform(const std::string & uniform, const T & value);
 
-	private:
+	protected:
 		Handle _handle;
 	};
 }

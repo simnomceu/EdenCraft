@@ -1,7 +1,7 @@
 #include "core/application/application.hpp"
 
 #include "renderer/common/render_window.hpp"
-#include "renderer/common/shader.hpp"
+#include "renderer/common/enhanced_shader.hpp"
 #include "utility/log/service_logger.hpp"
 #include "renderer/opengl/vao.hpp"
 #include "renderer/common/renderer.hpp"
@@ -61,7 +61,7 @@ int main()
 		ece::ShaderStage fsSource, vsSource;
 		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../examples/more_cube/shader.frag");
 		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../examples/more_cube/shader.vert");
-		ece::Shader program;
+		ece::EnhancedShader program;
 		program.setStage(fsSource);
 		program.setStage(vsSource);
 		program.link();
