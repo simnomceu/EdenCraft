@@ -162,6 +162,14 @@ namespace ece
 		static const bool exists(const std::string & filename);
 
 		/**
+		 * @fn long long getLastModification(const std::string & filename)
+		 * @param[in] fileale The file to check for last time modification.
+		 * @return The last time it has been modified.
+		 * @brief Get the last time the file has been modified.
+		 */
+		static long long getLastTimeModification(const std::string & filename);
+
+		/**
 		 * @fn File & operator>>(T & value)
 		 * @tparam T The type of the value to read from the file.
 		 * @param value To put the reading to.
