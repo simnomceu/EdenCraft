@@ -9,7 +9,7 @@
 
 namespace ece
 {
-	Version<2> OpenGL::_latestVersion{2, 0};
+	Version<2> OpenGL::_latestVersion{3, 2};
 
 	void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 	{

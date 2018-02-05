@@ -17,7 +17,7 @@ int main()
 
 		ece::WindowSetting settings;
 		settings._position = ece::IntVector2u{ 10, 10 };
-		settings._title = "WFL window testing";
+		settings._title = "WGL window testing";
 
 		window.setContextMaximumVersion(ece::Version<2>{4, 0});
 

@@ -1,0 +1,4 @@
+#ifndef GL42_EXTENSION_HPP
+#define GL42_EXTENSION_HPP
+
+#endif // GL42_EXTENSION_HPP

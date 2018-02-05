@@ -2,9 +2,9 @@
 #define RENDERER_ENUM_HPP
 
 #include "GL/glcorearb.h"
+#include "GL/glext.h"
 
 #include "utility/enum/enum_flags.hpp"
-#include "GL/glext.h"
 
 #ifdef _WIN32
 #	undef NO_ERROR

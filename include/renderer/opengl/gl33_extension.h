@@ -1,0 +1,4 @@
+#ifndef GL33_EXTENSION_HPP
+#define GL33_EXTENSION_HPP
+
+#endif // GL33_EXTENSION_HPP
