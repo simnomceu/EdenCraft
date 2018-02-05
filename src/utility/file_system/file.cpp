@@ -136,7 +136,6 @@ namespace ece
 	long long File::getLastTimeModification(const std::string & filename)
 	{
 		// according to : https://stackoverflow.com/questions/40504281/c-how-to-check-the-last-modified-time-of-a-file
-		auto filename = "/path/to/file";
 		struct stat result;
 		if (stat(filename.c_str(), &result) == 0)
 		{
