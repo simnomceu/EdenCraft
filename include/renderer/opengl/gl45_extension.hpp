@@ -64,5 +64,12 @@ void glNamedFramebufferTextureLayer(GLuint framebuffer, GLenum attachment, GLuin
 GLenum glCheckNamedFramebufferStatus(GLuint framebuffer, GLenum target);
 void glGetNamedFramebufferAttachmentParameteriv(GLuint framebuffer, GLenum attachment, GLenum pname, GLint *params);
 void glGetNamedRenderbufferParameteriv(GLuint renderbuffer, GLenum pname, GLint *params);
+GLenum glGetGraphicsResetStatus();
+void glCreateBuffers(GLsizei n, GLuint *buffers);
+void glNamedBufferStorage(GLuint buffer, GLsizei size, const void *data, GLbitfield flags);
+void glClearNamedBufferSubData(GLuint buffer, GLenum internalformat, GLintptr offset, GLsizei size, GLenum format, GLenum type, const void *data);
+void glClearNamedBufferData(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, const void *data);
+void glCreateProgramPipelines(GLsizei n, GLuint *pipelines);
+void glMemoryBarrierByRegion(GLbitfield barriers);
 
 #endif // GL45_EXTENSION_HPP

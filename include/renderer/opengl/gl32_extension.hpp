@@ -86,6 +86,7 @@ void glMultiDrawElementsBaseVertex(GLenum mode, const GLsizei * count, GLenum ty
 void glGenBuffers(GLsizei n, GLuint * buffers);
 void glDeleteBuffers(GLsizei n, const GLuint * buffers);
 void glDeleteBuffers(GLsizei n, const GLuint * buffers);
+void glBindBuffer(GLenum target, GLuint buffer);
 void glBindBufferRange(GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
 void glBindBufferBase(GLenum target, GLuint index, GLuint buffer);
 void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage);
@@ -324,5 +325,6 @@ GLboolean glIsEnabled(GLenum cap);
 GLboolean glIsEnabledi(GLenum cap, GLuint index);
 const GLubyte *glGetString(GLenum name);
 const GLubyte *glGetStringi(GLenum name, GLuint index);
+void glQueryCounter(GLuint id, GLenum target);
 
 #endif // GL32_EXTENSION_HPP
