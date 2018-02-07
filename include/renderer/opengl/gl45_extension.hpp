@@ -3,6 +3,10 @@
 
 #include <GL/glcorearb.h>
 
+#include "utility/indexing/version.hpp"
+#include "renderer/opengl/extension_loader.hpp"
+#include "renderer/opengl/opengl_exception.hpp"
+
 inline void glEnableVertexArrayAttrib(GLuint vaobj, GLuint index);
 inline void glDisableVertexArrayAttrib(GLuint vaobj, GLuint index);
 inline void glNamedBufferData(GLuint buffer, GLsizei size, const GLvoid *data, GLenum usage);
@@ -66,7 +70,7 @@ inline void glGetNamedFramebufferAttachmentParameteriv(GLuint framebuffer, GLenu
 inline void glGetNamedRenderbufferParameteriv(GLuint renderbuffer, GLenum pname, GLint *params);
 inline GLenum glGetGraphicsResetStatus();
 inline void glCreateBuffers(GLsizei n, GLuint *buffers);
-inline void glNamedBufferStorage(GLuint buffer, GLsizei size, const GLLintptr offset, GLsizei size, GLenum format, GLenum type, const GLvoid *data);
+inline void glNamedBufferStorage(GLuint buffer, GLsizei size, const GLvoid * data, GLbitfield flags);
 inline void glClearNamedBufferData(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, const GLvoid *data);
 inline void glCreateProgramPipelines(GLsizei n, GLuint *pipelines);
 inline void glMemoryBarrierByRegion(GLbitfield barriers);
@@ -107,6 +111,13 @@ inline void glInvalidateNamedFramebufferData(GLuint framebuffer, GLsizei numAtta
 inline void glGetTransformFeedbackiv(GLuint xfb, GLenum pname, GLint *param);
 inline void glGetTransformFeedbacki_v(GLuint xfb, GLenum pname, GLuint index, GLint *param);
 inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pname, GLuint index, GLint64 *param);
+
+#define CALLGL45(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	return proxy(__VA_ARGS__);
 
 #include "renderer/opengl/gl45_extension.inl"
 
