@@ -3,6 +3,8 @@
 
 #include <GL/glcorearb.h>
 
+#include "utility/indexing/version.hpp"
+
 inline void glVertexAttrib1f(GLuint index, GLfloat v0);
 inline void glVertexAttrib1s(GLuint index, GLshort v0);
 inline void glVertexAttrib1d(GLuint index, GLdouble v0);
@@ -342,6 +344,13 @@ inline void glGetSamplerParameterIiv(GLuint sampler, GLenum pname, GLint * param
 inline void glGetSamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint * params);
 inline void glBindFragDataLocationIndexed(GLuint program, GLuint colorNumber, GLuint index, const GLchar *name);
 inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
+
+#define CALLGL32(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	return proxy(__VA_ARGS__);
 
 #include "renderer/opengl/gl32_extension.inl"
 

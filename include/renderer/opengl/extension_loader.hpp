@@ -7,10 +7,10 @@
 
 namespace ece
 {
-	void * loadOpenGLProc(const std::string & name);
+	void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
 
 	template <class T>
-	inline T loadOpenGLProc(const std::string & name);
+	inline T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
 
 	Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
 }

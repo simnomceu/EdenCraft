@@ -66,7 +66,7 @@ inline void glGetNamedFramebufferAttachmentParameteriv(GLuint framebuffer, GLenu
 inline void glGetNamedRenderbufferParameteriv(GLuint renderbuffer, GLenum pname, GLint *params);
 inline GLenum glGetGraphicsResetStatus();
 inline void glCreateBuffers(GLsizei n, GLuint *buffers);
-inline void glNamedBufferStorage(GLuint buffer, GLsizei size, const GLLintptr offset, GLsizei size, GLenum format, GLenum type, const GLvoid *data);
+inline void glNamedBufferStorage(GLuint buffer, GLsizei size, const GLvoid * data, GLbitfield flags);
 inline void glClearNamedBufferData(GLuint buffer, GLenum internalformat, GLenum format, GLenum type, const GLvoid *data);
 inline void glCreateProgramPipelines(GLsizei n, GLuint *pipelines);
 inline void glMemoryBarrierByRegion(GLbitfield barriers);
