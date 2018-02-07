@@ -17,9 +17,9 @@ void glGetVertexAttribLdv(GLuint index, GLenum pname, GLdouble *params);
 void glClearDepthf(GLfloat depth);
 void glGetFloati_v(GLenum target, GLuint index, GLfloat * data);
 void glGetDoublei_v(GLenum target, GLuint index, GLdouble * data);
-void glShaderBinary(GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
+void glShaderBinary(GLsizei count, const GLuint *shaders, GLenum binaryFormat, const GLvoid *binary, GLsizei length);
 void glReleaseShaderCompiler();
-GLuint glCreateShaderProgramv(GLenum type, GLsizei count, const char **strings);
+GLuint glCreateShaderProgramv(GLenum type, GLsizei count, const GLchar **strings);
 void glProgramParameteri(GLuint program, GLenum pname, GLint value);
 void glGenProgramPipelines(GLsizei n, GLuint *pipelines);
 void glDeleteProgramPipelines(GLsizei n, const GLuint *pipelines);
@@ -27,8 +27,8 @@ GLboolean glIsProgramPipeline(GLuint pipeline);
 void glBindProgramPipeline(GLuint pipeline);
 void glUseProgramStages(GLuint pipeline, GLbitfield stages, GLuint program);
 void glActiveShaderProgram(GLuint pipeline, GLuint program);
-void glGetProgramBinary(GLuint program, GLsizei bufsize, GLsizei *length, GLenum *binaryFormat, void *binary);
-void glProgramBinary(GLuint program, GLenum binaryFormat, const void *binary, GLsizei length);
+void glGetProgramBinary(GLuint program, GLsizei bufsize, GLsizei *length, GLenum *binaryFormat, GLvoid *binary);
+void glProgramBinary(GLuint program, GLenum binaryFormat, const GLvoid *binary, GLsizei length);
 void glProgramUniform1f(GLuint program, GLint location, GLfloat v0);
 void glProgramUniform2f(GLuint program, GLint location, GLfloat v0, GLfloat v1);
 void glProgramUniform3f(GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
@@ -65,5 +65,16 @@ void glProgramUniformMatrix4x3fv(GLuint program, GLint location, GLsizei count, 
 void glGetProgramPipelineiv(GLuint pipeline, GLenum pname, GLint *params);
 void glGetProgramPipelineInfoLog(GLuint pipeline, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 void glGetShaderPrecisionFormat(GLenum shaderType, GLenum precisionType, GLint *range, GLint *precision);
+void glValidateProgramPipeline(GLuint pipeline);
+void glDepthRangeArrayv(GLuint first, GLsizei count, const GLdouble *v);
+void glDepthRangeIndexed(GLuint index, GLdouble nearVal, GLdouble farVal);
+void glViewportArrayv(GLuint first, GLsizei count, const GLfloat *v);
+void glViewportIndexedf(GLuint index, GLfloat x, GLfloat y, GLfloat w, GLfloat h);
+void glViewportIndexedfv(GLuint index, const GLfloat *v);
+void glScissorArrayv(GLuint first, GLsizei count, const GLint *v);
+void glScissorIndexed(GLuint index, GLint left, GLint bottom, GLsizei width, GLsizei height);
+void glScissorIndexedv(GLuint index, const GLint *v);
+
+#include "renderer/opengl/gl41_extension.inl"
 
 #endif // GL41_EXTENSION_HPP

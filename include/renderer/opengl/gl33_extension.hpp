@@ -5,4 +5,6 @@
 
 void glVertexAttribDivisor(GLuint index, GLuint divisor);
 
+#include "renderer/opengl/gl33_extension.inl"
+
 #endif // GL33_EXTENSION_HPP
