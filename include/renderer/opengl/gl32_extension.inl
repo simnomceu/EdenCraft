@@ -1,3 +1,5 @@
+inline GLenum glGetError() { CALLGL32(PFNGLGETERRORPROC, "glGetError"); }
+
 inline void glVertexAttrib1f(GLuint index, GLfloat v0) { CALLGL32(PFNGLVERTEXATTRIB1FPROC, "glVertexAttrib1f", index, v0); }
 
 inline void glVertexAttrib1s(GLuint index, GLshort v0) { CALLGL32(PFNGLVERTEXATTRIB1SPROC, "glVertexAttrib1s", index, v0); }
@@ -206,242 +208,528 @@ inline void glGetBufferParameteriv(GLenum target, GLenum value, GLint * data) { 
 inline void glGetBufferParameteri64v(GLenum target, GLenum value, GLint64 * data) { CALLGL32(PFNGLGETBUFFERPARAMETERI64VPROC, "glGetBufferParameteri64v", target, value, data); }
 
 inline void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, GLvoid * data) { CALLGL32(PFNGLGETBUFFERSUBDATAPROC, "glGetBufferSubData", target, offset, size, data); }
-inline void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) { CALLGL32(PFNGL, "glGetBufferPointerv"); }
-inline GLboolean glIsVertexArray(GLuint array) { CALLGL32(PFNGL, "glIsVertexArray"); }
-inline void glDepthRange(GLdouble nearVal, GLdouble farVal) { CALLGL32(PFNGL, "glDepthRange"); }
-inline void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) { CALLGL32(PFNGL, "glViewport"); }
-inline void glClampColor(GLenum target, GLenum clamp) { CALLGL32(PFNGL, "glClampColor"); }
-inline void glProvokingVertex(GLenum provokeMode) { CALLGL32(PFNGL, "glProvokingVertex"); }
-inline void glBeginConditionalRender(GLuint id, GLenum mode) { CALLGL32(PFNGL, "glBeginConditionalRender"); }
-inline void glEndConditionalRender() { CALLGL32(PFNGL, "glEndConditionalRender"); }
-inline void glBeginTransformFeedback(GLenum primitiveMode) { CALLGL32(PFNGL, "glBeginTransformFeedback"); }
-inline void glEndTransformFeedback() { CALLGL32(PFNGL, "glEndTransformFeedback"); }
-inline void glBeginQuery(GLenum target, GLuint id) { CALLGL32(PFNGL, "glBeginQuery"); }
-inline void glEndQuery(GLenum target) { CALLGL32(PFNGL, "glEndQuery"); }
-inline void glGenQueries(GLsizei n, GLuint * ids) { CALLGL32(PFNGL, "glGenQueries"); }
-inline void glDeleteQueries(GLsizei n, const GLuint * ids) { CALLGL32(PFNGL, "glDeleteQueries"); }
-inline GLboolean glIsQuery(GLuint id) { CALLGL32(PFNGL, "glIsQuery"); }
-inline void glGetQueryiv(GLenum target, GLenum pname, GLint * params) { CALLGL32(PFNGL, "glGetQueryiv"); }
-inline void glGetQueryObjectiv(GLuint id, GLenum pname, GLint * params) { CALLGL32(PFNGL, "glGetQueryObjectiv"); }
-inline void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint * params) { CALLGL32(PFNGL, "glGetQueryObjectuiv"); }
-inline void glGetQueryObjecti64v(GLuint id, GLenum pname, GLint64 * params) { CALLGL32(PFNGL, "glGetQueryObjecti64v"); }
-inline void glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint64 * params) { CALLGL32(PFNGL, "glGetQueryObjectui64v"); }
-inline GLuint glCreateShader(GLenum shaderType) { CALLGL32(PFNGL, "glCreateShader"); }
-inline void glShaderSource(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) { CALLGL32(PFNGL, "glShaderSource"); }
-inline void glCompileShader(GLuint shader) { CALLGL32(PFNGL, "glCompileShader"); }
-inline void glDeleteShader(GLuint shader) { CALLGL32(PFNGL, "glDeleteShader"); }
-inline GLuint glCreateProgram() { CALLGL32(PFNGL, "glCreateProgram"); }
-inline void glAttachShader(GLuint program, GLuint shader) { CALLGL32(PFNGL, "glAttachShader"); }
-inline void glDetachShader(GLuint program, GLuint shader) { CALLGL32(PFNGL, "glDetachShader"); }
-inline void glLinkProgram(GLuint program) { CALLGL32(PFNGL, "glLinkProgram"); }
-inline void glUseProgram(GLuint program) { CALLGL32(PFNGL, "glUseProgram"); }
-inline void glDeleteProgram(GLuint program) { CALLGL32(PFNGL, "gl"); }
-inline void glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name) { CALLGL32(PFNGL, "glGetActiveAttrib"); }
-inline GLint glGetAttribLocation(GLuint program, const GLchar *name) { CALLGL32(PFNGL, "glGetAttribLocation"); }
-inline void glBindAttribLocation(GLuint program, GLuint index, const GLchar *name) { CALLGL32(PFNGL, "glBindAttribLocation"); }
-inline GLint glGetUniformLocation(GLuint program, const GLchar *name) { CALLGL32(PFNGL, "glGetUniformLocation"); }
-inline GLuint glGetUniformBlockIndex(GLuint program, const GLchar *uniformBlockName) { CALLGL32(PFNGL, "glGetUniformBlockIndex"); }
-inline void glGetActiveUniformBlockName(GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformBlockName) { CALLGL32(PFNGL, "glGetActiveUniformBlockName"); }
-inline void glGetActiveUniformBlockiv(GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint *params) { CALLGL32(PFNGL, "glGetActiveUniformBlockiv"); }
-inline void glGetUniformIndices(GLuint program, GLsizei uniformCount, const GLchar **uniformNames, GLuint *uniformIndices) { CALLGL32(PFNGL, "glGetUniformIndices"); }
-inline void glGetActiveUniformName(GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformName) { CALLGL32(PFNGL, "glGetActiveUniformName"); }
-inline void glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name) { CALLGL32(PFNGL, "glGetActiveUniform"); }
-inline void glGetActiveUniformsiv(GLuint program, GLsizei uniformCount, const GLuint *uniformIndices, GLenum pname, GLint *params) { CALLGL32(PFNGL, "glGetActiveUniformsiv"); }
-inline void glUniform1f(GLint location, GLfloat v0) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform2f(GLint location, GLfloat v0, GLfloat v1) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform1i(GLint location, GLint v0) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform2i(GLint location, GLint v0, GLint v1) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform1ui(GLint location, GLuint v0) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform2ui(GLint location, GLuint v0, GLuint v1) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform1fv(GLint location, GLsizei count, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform2fv(GLint location, GLsizei count, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform3fv(GLint location, GLsizei count, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform4fv(GLint location, GLsizei count, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform1iv(GLint location, GLsizei count, const GLint *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform2iv(GLint location, GLsizei count, const GLint *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform3iv(GLint location, GLsizei count, const GLint *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform4iv(GLint location, GLsizei count, const GLint *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform1uiv(GLint location, GLsizei count, const GLuint *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform2uiv(GLint location, GLsizei count, const GLuint *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform3uiv(GLint location, GLsizei count, const GLuint *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniform4uiv(GLint location, GLsizei count, const GLuint *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGL, "gl"); }
-inline void glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding) { CALLGL32(PFNGL, "gl"); }
-inline void glTransformFeedbackVaryings(GLuint program, GLsizei count, const GLchar **varyings, GLenum bufferMode) { CALLGL32(PFNGL, "gl"); }
-inline void glGetTransformFeedbackVarying(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, GLchar *name) { CALLGL32(PFNGL, "gl"); }
-inline void glValidateProgram(GLuint program) { CALLGL32(PFNGL, "gl"); }
-inline void glGetProgramiv(GLuint program, GLenum pname, GLint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glBindFragDataLocation(GLuint program, GLuint colorNumber, const GLchar * name) { CALLGL32(PFNGL, "gl"); }
-inline GLint glGetFragDataLocation(GLuint program, const GLchar * name) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsShader(GLuint shader) { CALLGL32(PFNGL, "gl"); }
-inline void glGetShaderiv(GLuint shader, GLenum pname, GLint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei *count, GLuint *shaders) { CALLGL32(PFNGL, "gl"); }
-inline void glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog) { CALLGL32(PFNGL, "gl"); }
-inline void glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source) { CALLGL32(PFNGL, "gl"); }
-inline void glGetVertexAttribdv(GLuint index, GLenum pname, GLdouble *params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetVertexAttribIiv(GLuint index, GLenum pname, GLint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetVertexAttribIuiv(GLuint index, GLenum pname, GLuint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** pointer) { CALLGL32(PFNGL, "gl"); }
-inline void glGetUniformfv(GLuint program, GLint location, GLfloat *params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetUniformiv(GLuint program, GLint location, GLint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetUniformuiv(GLuint program, GLint location, GLuint *params) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsProgram(GLuint program) { CALLGL32(PFNGL, "gl"); }
-inline void glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei *length, GLchar *infoLog) { CALLGL32(PFNGL, "gl"); }
-inline void glGetMultisamplefv(GLenum pname, GLuint index, GLfloat *val) { CALLGL32(PFNGL, "gl"); }
-inline void glPointSize(GLfloat size) { CALLGL32(PFNGL, "gl"); }
-inline void glPointParameterf(GLenum pname, GLfloat param) { CALLGL32(PFNGL, "gl"); }
-inline void glPointParameteri(GLenum pname, GLint param) { CALLGL32(PFNGL, "gl"); }
-inline void glPointParameterfv(GLenum pname, const GLfloat * params) { CALLGL32(PFNGL, "gl"); }
-inline void glPointParameteriv(GLenum pname, const GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glLineWidth(GLfloat width) { CALLGL32(PFNGL, "gl"); }
-inline void glFrontFace(GLenum mode) { CALLGL32(PFNGL, "gl"); }
-inline void glCullFace(GLenum mode) { CALLGL32(PFNGL, "gl"); }
-inline void glPolygonMode(GLenum face, GLenum mode) { CALLGL32(PFNGL, "gl"); }
-inline void glPolygonOffset(GLfloat factor, GLfloat units) { CALLGL32(PFNGL, "gl"); }
-inline void glPixelStoref(GLenum pname, GLfloat param) { CALLGL32(PFNGL, "gl"); }
-inline void glPixelStorei(GLenum pname, GLint param) { CALLGL32(PFNGL, "gl"); }
-inline void glActiveTexture(GLenum texture) { CALLGL32(PFNGL, "gl"); }
-inline void glTexImage3D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glTexImage2D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glTexImage1D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border) { CALLGL32(PFNGL, "gl"); }
-inline void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border) { CALLGL32(PFNGL, "gl"); }
-inline void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels) { CALLGL32(PFNGL, "gl"); }
-inline void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels) { CALLGL32(PFNGL, "gl"); }
-inline void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels) { CALLGL32(PFNGL, "gl"); }
-inline void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height) { CALLGL32(PFNGL, "gl"); }
-inline void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height) { CALLGL32(PFNGL, "gl"); }
-inline void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) { CALLGL32(PFNGL, "gl"); }
-inline void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glTexImage3DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations) { CALLGL32(PFNGL, "gl"); }
-inline void glTexImage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations) { CALLGL32(PFNGL, "gl"); }
-inline void glTexBuffer(GLenum target, GLenum internalFormat, GLuint buffer) { CALLGL32(PFNGL, "gl"); }
-inline void glTexParameterf(GLenum target, GLenum pname, GLfloat param) { CALLGL32(PFNGL, "gl"); }
-inline void glTexParameteri(GLenum target, GLenum pname, GLint param) { CALLGL32(PFNGL, "gl"); }
-inline void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) { CALLGL32(PFNGL, "gl"); }
-inline void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glTexParameterIiv(GLenum target, GLenum pname, const GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glTexParameterIuiv(GLenum target, GLenum pname, const GLuint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGenerateMipmap(GLenum target) { CALLGL32(PFNGL, "gl"); }
-inline void glBindTexture(GLenum target, GLuint texture) { CALLGL32(PFNGL, "gl"); }
-inline void glDeleteTextures(GLsizei n, const GLuint * textures) { CALLGL32(PFNGL, "gl"); }
-inline void glGenTextures(GLsizei n, GLuint * textures) { CALLGL32(PFNGL, "gl"); }
-inline void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetTexParameterIiv(GLenum target, GLenum pname, GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetTexParameterIuiv(GLenum target, GLenum pname, GLuint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels) { CALLGL32(PFNGL, "gl"); }
-inline void glGetCompressedTexImage(GLenum target, GLint level, GLvoid * pixels) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsTexture(GLuint texture) { CALLGL32(PFNGL, "gl"); }
-inline void glHint(GLenum target, GLenum mode) { CALLGL32(PFNGL, "gl"); }
-inline void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) { CALLGL32(PFNGL, "gl"); }
-inline void glReadBuffer(GLenum mode) { CALLGL32(PFNGL, "gl"); }
-inline void glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter) { CALLGL32(PFNGL, "gl"); }
-inline void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) { CALLGL32(PFNGL, "gl"); }
-inline void glSampleCoverage(GLfloat value, GLboolean invert) { CALLGL32(PFNGL, "gl"); }
-inline void glSampleMaski(GLuint maskNumber, GLbitfield mask) { CALLGL32(PFNGL, "gl"); }
-inline void glStencilFunc(GLenum func, GLint ref, GLuint mask) { CALLGL32(PFNGL, "gl"); }
-inline void glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) { CALLGL32(PFNGL, "gl"); }
-inline void glStencilOp(GLenum sfail, GLenum dpfail, GLenum dppass) { CALLGL32(PFNGL, "gl"); }
-inline void glStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) { CALLGL32(PFNGL, "gl"); }
-inline void glDepthFunc(GLenum func) { CALLGL32(PFNGL, "gl"); }
-inline void glBlendEquation(GLenum mode) { CALLGL32(PFNGL, "gl"); }
-inline void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha) { CALLGL32(PFNGL, "gl"); }
-inline void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) { CALLGL32(PFNGL, "gl"); }
-inline void glBlendFunc(GLenum sfactor, GLenum dfactor) { CALLGL32(PFNGL, "gl"); }
-inline void glBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) { CALLGL32(PFNGL, "gl"); }
-inline void glLogicOp(GLenum opcode) { CALLGL32(PFNGL, "gl"); }
-inline void glDrawBuffer(GLenum buf) { CALLGL32(PFNGL, "gl"); }
-inline void glDrawBuffers(GLsizei n, const GLenum *bufs) { CALLGL32(PFNGL, "gl"); }
-inline void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) { CALLGL32(PFNGL, "gl"); }
-inline void glColorMaski(GLuint buf, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) { CALLGL32(PFNGL, "gl"); }
-inline void glDepthMask(GLboolean flag) { CALLGL32(PFNGL, "gl"); }
-inline void glStencilMask(GLuint mask) { CALLGL32(PFNGL, "gl"); }
-inline void glStencilMaskSeparate(GLenum face, GLuint mask) { CALLGL32(PFNGL, "gl"); }
-inline void glClear(GLbitfield mask) { CALLGL32(PFNGL, "gl"); }
-inline void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) { CALLGL32(PFNGL, "gl"); }
-inline void glClearDepth(GLdouble depth) { CALLGL32(PFNGL, "gl"); }
-inline void glClearStencil(GLint s) { CALLGL32(PFNGL, "gl"); }
-inline void glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value) { CALLGL32(PFNGL, "gl"); }
-inline void glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * value) { CALLGL32(PFNGL, "gl"); }
-inline void glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * value) { CALLGL32(PFNGL, "gl"); }
-inline void glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) { CALLGL32(PFNGL, "gl"); }
-inline void glBindFramebuffer(GLenum target, GLuint framebuffer) { CALLGL32(PFNGL, "gl"); }
-inline void glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) { CALLGL32(PFNGL, "gl"); }
-inline void glGenFramebuffers(GLsizei n, GLuint *ids) { CALLGL32(PFNGL, "gl"); }
-inline void glBindRenderbuffer(GLenum target, GLuint renderbuffer) { CALLGL32(PFNGL, "gl"); }
-inline void glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) { CALLGL32(PFNGL, "gl"); }
-inline void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) { CALLGL32(PFNGL, "gl"); }
-inline void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height) { CALLGL32(PFNGL, "gl"); }
-inline void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height) { CALLGL32(PFNGL, "gl"); }
-inline void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer) { CALLGL32(PFNGL, "gl"); }
-inline void glFramebufferTexture(GLenum target, GLenum attachment, GLuint texture, GLint level) { CALLGL32(PFNGL, "gl"); }
-inline void glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) { CALLGL32(PFNGL, "gl"); }
-inline void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level) { CALLGL32(PFNGL, "gl"); }
-inline void glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint layer) { CALLGL32(PFNGL, "gl"); }
-inline void glFramebufferTextureLayer(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer) { CALLGL32(PFNGL, "gl"); }
-inline GLenum glCheckFramebufferStatus(GLenum target) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsFramebuffer(GLuint framebuffer) { CALLGL32(PFNGL, "gl"); }
-inline void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsRenderbuffer(GLuint renderbuffer) { CALLGL32(PFNGL, "gl"); }
-inline void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glFlush() { CALLGL32(PFNGL, "gl"); }
-inline void glFinish() { CALLGL32(PFNGL, "gl"); }
-inline GLsync glFenceSync(GLenum condition, GLbitfield flags) { CALLGL32(PFNGL, "gl"); }
-inline void glDeleteSync(GLsync sync) { CALLGL32(PFNGL, "gl"); }
-inline GLenum glClientWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout) { CALLGL32(PFNGL, "gl"); }
-inline void glWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout) { CALLGL32(PFNGL, "gl"); }
-inline void glGetSynciv(GLsync sync, GLenum pname, GLsizei bufSize, GLsizei *length, GLint *values) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsSync(GLsync sync) { CALLGL32(PFNGL, "gl"); }
-inline void glGetBooleanv(GLenum pname, GLboolean * data) { CALLGL32(PFNGL, "gl"); }
-inline void glGetDoublev(GLenum pname, GLdouble * data) { CALLGL32(PFNGL, "gl"); }
-inline void glGetFloatv(GLenum pname, GLfloat * data) { CALLGL32(PFNGL, "gl"); }
-inline void glGetIntegerv(GLenum pname, GLint * data) { CALLGL32(PFNGL, "gl"); }
-inline void glGetInteger64v(GLenum pname, GLint64 * data) { CALLGL32(PFNGL, "gl"); }
-inline void glGetBooleani_v(GLenum target, GLuint index, GLboolean * data) { CALLGL32(PFNGL, "gl"); }
-inline void glGetIntegeri_v(GLenum target, GLuint index, GLint * data) { CALLGL32(PFNGL, "gl"); }
-inline void glGetInteger64i_v(GLenum target, GLuint index, GLint64 * data) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsEnabled(GLenum cap) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsEnabledi(GLenum cap, GLuint index) { CALLGL32(PFNGL, "gl"); }
-inline const GLubyte *glGetString(GLenum name) { CALLGL32(PFNGL, "gl"); }
-inline const GLubyte *glGetStringi(GLenum name, GLuint index) { CALLGL32(PFNGL, "gl"); }
-inline void glQueryCounter(GLuint id, GLenum target) { CALLGL32(PFNGL, "gl"); }
-inline void glGenSamplers(GLsizei n, GLuint *samplers) { CALLGL32(PFNGL, "gl"); }
-inline void glBindSampler(GLuint unit, GLuint sampler) { CALLGL32(PFNGL, "gl"); }
-inline void glSamplerParameterf(GLuint sampler, GLenum pname, GLfloat param) { CALLGL32(PFNGL, "gl"); }
-inline void glSamplerParameteri(GLuint sampler, GLenum pname, GLint param) { CALLGL32(PFNGL, "gl"); }
-inline void glSamplerParameterfv(GLuint sampler, GLenum pname, const GLfloat * params) { CALLGL32(PFNGL, "gl"); }
-inline void glSamplerParameteriv(GLuint sampler, GLenum pname, const GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glSamplerParameterIiv(GLuint sampler, GLenum pname, const GLint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glSamplerParameterIuiv(GLuint sampler, GLenum pname, const GLuint *params) { CALLGL32(PFNGL, "gl"); }
-inline void glDeleteSamplers(GLsizei n, const GLuint * samplers) { CALLGL32(PFNGL, "gl"); }
-inline GLboolean glIsSampler(GLuint id) { CALLGL32(PFNGL, "gl"); }
-inline void glGetSamplerParameterfv(GLuint sampler, GLenum pname, GLfloat * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetSamplerParameteriv(GLuint sampler, GLenum pname, GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetSamplerParameterIiv(GLuint sampler, GLenum pname, GLint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glGetSamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint * params) { CALLGL32(PFNGL, "gl"); }
-inline void glBindFragDataLocationIndexed(GLuint program, GLuint colorNumber, GLuint index, const GLchar *name) { CALLGL32(PFNGL, "gl"); }
-inline GLint glGetFragDataIndex(GLuint program, const GLchar * name) { CALLGL32(PFNGL, "gl"); }
+
+inline void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid ** params) { CALLGL32(PFNGLGETBUFFERPOINTERVPROC, "glGetBufferPointerv", target, pname, params); }
+
+inline GLboolean glIsVertexArray(GLuint array) { CALLGL32(PFNGLISVERTEXARRAYPROC, "glIsVertexArray", array); }
+
+inline void glDepthRange(GLdouble nearVal, GLdouble farVal) { CALLGL32(PFNGLDEPTHRANGEPROC, "glDepthRange", nearVal, farVal); }
+
+inline void glViewport(GLint x, GLint y, GLsizei width, GLsizei height) { CALLGL32(PFNGLVIEWPORTPROC, "glViewport", x, y, width, height); }
+
+inline void glClampColor(GLenum target, GLenum clamp) { CALLGL32(PFNGLCLAMPCOLORPROC, "glClampColor", target, clamp); }
+
+inline void glProvokingVertex(GLenum provokeMode) { CALLGL32(PFNGLPROVOKINGVERTEXPROC, "glProvokingVertex", provokeMode); }
+
+inline void glBeginConditionalRender(GLuint id, GLenum mode) { CALLGL32(PFNGLBEGINCONDITIONALRENDERPROC, "glBeginConditionalRender", id, mode); }
+
+inline void glEndConditionalRender() { CALLGL32(PFNGLENDCONDITIONALRENDERPROC, "glEndConditionalRender"); }
+
+inline void glBeginTransformFeedback(GLenum primitiveMode) { CALLGL32(PFNGLBEGINTRANSFORMFEEDBACKPROC, "glBeginTransformFeedback", primitiveMode); }
+
+inline void glEndTransformFeedback() { CALLGL32(PFNGLENDTRANSFORMFEEDBACKPROC, "glEndTransformFeedback"); }
+
+inline void glBeginQuery(GLenum target, GLuint id) { CALLGL32(PFNGLBEGINQUERYPROC, "glBeginQuery", target, id); }
+
+inline void glEndQuery(GLenum target) { CALLGL32(PFNGLENDQUERYPROC, "glEndQuery", target); }
+
+inline void glGenQueries(GLsizei n, GLuint * ids) { CALLGL32(PFNGLGENQUERIESPROC, "glGenQueries", n, ids); }
+
+inline void glDeleteQueries(GLsizei n, const GLuint * ids) { CALLGL32(PFNGLDELETEQUERIESPROC, "glDeleteQueries", n, ids); }
+
+inline GLboolean glIsQuery(GLuint id) { CALLGL32(PFNGLISQUERYPROC, "glIsQuery", id); }
+
+inline void glGetQueryiv(GLenum target, GLenum pname, GLint * params) { CALLGL32(PFNGLGETQUERYIVPROC, "glGetQueryiv", target, pname, params); }
+
+inline void glGetQueryObjectiv(GLuint id, GLenum pname, GLint * params) { CALLGL32(PFNGLGETQUERYOBJECTIVPROC, "glGetQueryObjectiv", id, pname, params); }
+
+inline void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint * params) { CALLGL32(PFNGLGETQUERYOBJECTUIVPROC, "glGetQueryObjectuiv", id, pname, params); }
+
+inline void glGetQueryObjecti64v(GLuint id, GLenum pname, GLint64 * params) { CALLGL32(PFNGLGETQUERYOBJECTI64VPROC, "glGetQueryObjecti64v", id, pname, params); }
+
+inline void glGetQueryObjectui64v(GLuint id, GLenum pname, GLuint64 * params) { CALLGL32(PFNGLGETQUERYOBJECTUI64VPROC, "glGetQueryObjectui64v", id, pname, params); }
+
+inline GLuint glCreateShader(GLenum shaderType) { CALLGL32(PFNGLCREATESHADERPROC, "glCreateShader", shaderType); }
+
+inline void glShaderSource(GLuint shader, GLsizei count, const GLchar **string, const GLint *length) { CALLGL32(PFNGLSHADERSOURCEPROC, "glShaderSource", shader, count, string, length); }
+
+inline void glCompileShader(GLuint shader) { CALLGL32(PFNGLCOMPILESHADERPROC, "glCompileShader", shader); }
+
+inline void glDeleteShader(GLuint shader) { CALLGL32(PFNGLDELETESHADERPROC, "glDeleteShader", shader); }
+
+inline GLuint glCreateProgram() { CALLGL32(PFNGLCREATEPROGRAMPROC, "glCreateProgram"); }
+
+inline void glAttachShader(GLuint program, GLuint shader) { CALLGL32(PFNGLATTACHSHADERPROC, "glAttachShader", program, shader); }
+
+inline void glDetachShader(GLuint program, GLuint shader) { CALLGL32(PFNGLDETACHSHADERPROC, "glDetachShader", program, shader); }
+
+inline void glLinkProgram(GLuint program) { CALLGL32(PFNGLLINKPROGRAMPROC, "glLinkProgram", program); }
+
+inline void glUseProgram(GLuint program) { CALLGL32(PFNGLUSEPROGRAMPROC, "glUseProgram", program); }
+
+inline void glDeleteProgram(GLuint program) { CALLGL32(PFNGLDELETEPROGRAMPROC, "glDeleteProgram", program); }
+
+inline void glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name)
+	{ CALLGL32(PFNGLGETACTIVEATTRIBPROC, "glGetActiveAttrib", program, index, bufSize, length, size, type, name); }
+
+inline GLint glGetAttribLocation(GLuint program, const GLchar *name) { CALLGL32(PFNGLGETATTRIBLOCATIONPROC, "glGetAttribLocation", program, name); }
+
+inline void glBindAttribLocation(GLuint program, GLuint index, const GLchar *name) { CALLGL32(PFNGLBINDATTRIBLOCATIONPROC, "glBindAttribLocation", program, index, name); }
+
+inline GLint glGetUniformLocation(GLuint program, const GLchar *name) { CALLGL32(PFNGLGETUNIFORMLOCATIONPROC, "glGetUniformLocation", program, name); }
+
+inline GLuint glGetUniformBlockIndex(GLuint program, const GLchar *uniformBlockName) { CALLGL32(PFNGLGETUNIFORMBLOCKINDEXPROC, "glGetUniformBlockIndex", program, uniformBlockName); }
+
+inline void glGetActiveUniformBlockName(GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformBlockName)
+	{ CALLGL32(PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC, "glGetActiveUniformBlockName", program, uniformBlockIndex, bufSize, length, uniformBlockName); }
+
+inline void glGetActiveUniformBlockiv(GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint *params)
+	{ CALLGL32(PFNGLGETACTIVEUNIFORMBLOCKIVPROC, "glGetActiveUniformBlockiv", program, uniformBlockIndex, pname, params); }
+
+inline void glGetUniformIndices(GLuint program, GLsizei uniformCount, const GLchar **uniformNames, GLuint *uniformIndices)
+	{ CALLGL32(PFNGLGETUNIFORMINDICESPROC, "glGetUniformIndices", program, uniformCount, uniformNames, uniformIndices); }
+
+inline void glGetActiveUniformName(GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformName)
+	{ CALLGL32(PFNGLGETACTIVEUNIFORMNAMEPROC, "glGetActiveUniformName", program, uniformIndex, bufSize, length, uniformName); }
+
+inline void glGetActiveUniform(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name)
+	{ CALLGL32(PFNGLGETACTIVEUNIFORMPROC, "glGetActiveUniform", program, index, bufSize, length, size, type, name); }
+
+inline void glGetActiveUniformsiv(GLuint program, GLsizei uniformCount, const GLuint *uniformIndices, GLenum pname, GLint *params)
+	{ CALLGL32(PFNGLGETACTIVEUNIFORMSIVPROC, "glGetActiveUniformsiv", program, uniformCount, uniformIndices, pname, params); }
+
+inline void glUniform1f(GLint location, GLfloat v0) { CALLGL32(PFNGLUNIFORM1FPROC, "glUniform1f", location, v0); }
+
+inline void glUniform2f(GLint location, GLfloat v0, GLfloat v1) { CALLGL32(PFNGLUNIFORM2FPROC, "glUniform2f", location, v0, v1); }
+
+inline void glUniform3f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2) { CALLGL32(PFNGLUNIFORM3FPROC, "glUniform3f", location, v0, v1, v2); }
+
+inline void glUniform4f(GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3) { CALLGL32(PFNGLUNIFORM4FPROC, "glUniform4f", location, v0, v1, v2, v3); }
+
+inline void glUniform1i(GLint location, GLint v0) { CALLGL32(PFNGLUNIFORM1IPROC, "glUniform1i", location, v0); }
+
+inline void glUniform2i(GLint location, GLint v0, GLint v1) { CALLGL32(PFNGLUNIFORM2IPROC, "glUniform2i", location, v0, v1); }
+
+inline void glUniform3i(GLint location, GLint v0, GLint v1, GLint v2) { CALLGL32(PFNGLUNIFORM3IPROC, "glUniform3i", location, v0, v1, v2); }
+
+inline void glUniform4i(GLint location, GLint v0, GLint v1, GLint v2, GLint v3) { CALLGL32(PFNGLUNIFORM4IPROC, "glUniform4i", location, v0, v1, v2, v3); }
+
+inline void glUniform1ui(GLint location, GLuint v0) { CALLGL32(PFNGLUNIFORM1UIPROC, "glUniform1ui", location, v0); }
+
+inline void glUniform2ui(GLint location, GLuint v0, GLuint v1) { CALLGL32(PFNGLUNIFORM2UIPROC, "glUniform2ui", location, v0, v1); }
+
+inline void glUniform3ui(GLint location, GLuint v0, GLuint v1, GLuint v2) { CALLGL32(PFNGLUNIFORM3UIPROC, "glUniform3ui", location, v0, v1, v2); }
+
+inline void glUniform4ui(GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3) { CALLGL32(PFNGLUNIFORM4UIPROC, "glUniform4ui", location, v0, v1, v2, v3); }
+
+inline void glUniform1fv(GLint location, GLsizei count, const GLfloat *value) { CALLGL32(PFNGLUNIFORM1FVPROC, "glUniform1fv", location, count, value); }
+
+inline void glUniform2fv(GLint location, GLsizei count, const GLfloat *value) { CALLGL32(PFNGLUNIFORM2FVPROC, "glUniform2fv", location, count, value); }
+
+inline void glUniform3fv(GLint location, GLsizei count, const GLfloat *value) { CALLGL32(PFNGLUNIFORM3FVPROC, "glUniform3fv", location, count, value); }
+
+inline void glUniform4fv(GLint location, GLsizei count, const GLfloat *value) { CALLGL32(PFNGLUNIFORM4FVPROC, "glUniform4fv", location, count, value); }
+
+inline void glUniform1iv(GLint location, GLsizei count, const GLint *value) { CALLGL32(PFNGLUNIFORM1IVPROC, "glUniform1iv", location, count, value); }
+
+inline void glUniform2iv(GLint location, GLsizei count, const GLint *value) { CALLGL32(PFNGLUNIFORM2IVPROC, "glUniform2iv", location, count, value); }
+
+inline void glUniform3iv(GLint location, GLsizei count, const GLint *value) { CALLGL32(PFNGLUNIFORM3IVPROC, "glUniform3iv", location, count, value); }
+
+inline void glUniform4iv(GLint location, GLsizei count, const GLint *value) { CALLGL32(PFNGLUNIFORM4IVPROC, "glUniform4iv", location, count, value); }
+
+inline void glUniform1uiv(GLint location, GLsizei count, const GLuint *value) { CALLGL32(PFNGLUNIFORM1UIVPROC, "glUniform1uiv", location, count, value); }
+
+inline void glUniform2uiv(GLint location, GLsizei count, const GLuint *value) { CALLGL32(PFNGLUNIFORM2UIVPROC, "glUniform2uiv", location, count, value); }
+
+inline void glUniform3uiv(GLint location, GLsizei count, const GLuint *value) { CALLGL32(PFNGLUNIFORM3UIVPROC, "glUniform3uiv", location, count, value); }
+
+inline void glUniform4uiv(GLint location, GLsizei count, const GLuint *value) { CALLGL32(PFNGLUNIFORM4UIVPROC, "glUniform4uiv", location, count, value); }
+
+inline void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGLUNIFORMMATRIX2FVPROC, "glUniformMatrix2fv", location, count, transpose, value); }
+
+inline void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGLUNIFORMMATRIX3FVPROC, "glUniformMatrix3fv", location, count, transpose, value); }
+
+inline void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value) { CALLGL32(PFNGLUNIFORMMATRIX4FVPROC, "glUniformMatrix4fv", location, count, transpose, value); }
+
+inline void glUniformMatrix2x3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
+	{ CALLGL32(PFNGLUNIFORMMATRIX2X3FVPROC, "glUniformMatrix2x3fv", location, count, transpose, value); }
+
+inline void glUniformMatrix3x2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
+	{ CALLGL32(PFNGLUNIFORMMATRIX3X2FVPROC, "glUniformMatrix3x2fv", location, count, transpose, value); }
+
+inline void glUniformMatrix2x4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
+	{ CALLGL32(PFNGLUNIFORMMATRIX2X4FVPROC, "glUniformMatrix2x4fv", location, count, transpose, value); }
+
+inline void glUniformMatrix4x2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
+	{ CALLGL32(PFNGLUNIFORMMATRIX4X2FVPROC, "glUniformMatrix4x2fv", location, count, transpose, value); }
+
+inline void glUniformMatrix3x4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
+	{ CALLGL32(PFNGLUNIFORMMATRIX3X4FVPROC, "glUniformMatrix3x4fv", location, count, transpose, value); }
+
+inline void glUniformMatrix4x3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
+	{ CALLGL32(PFNGLUNIFORMMATRIX4X3FVPROC, "glUniformMatrix4x3fv", location, count, transpose, value); }
+
+inline void glUniformBlockBinding(GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding)
+	{ CALLGL32(PFNGLUNIFORMBLOCKBINDINGPROC, "glUniformBlockBinding", program, uniformBlockIndex, uniformBlockBinding); }
+
+inline void glTransformFeedbackVaryings(GLuint program, GLsizei count, const GLchar **varyings, GLenum bufferMode)
+	{ CALLGL32(PFNGLTRANSFORMFEEDBACKVARYINGSPROC, "glTransformFeedbackVaryings", program, count, varyings, bufferMode); }
+
+inline void glGetTransformFeedbackVarying(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, GLchar *name)
+	{ CALLGL32(PFNGLGETTRANSFORMFEEDBACKVARYINGPROC, "glGetTransformFeedbackVarying", program, index, bufSize, length, size, type, name); }
+
+inline void glValidateProgram(GLuint program) { CALLGL32(PFNGLVALIDATEPROGRAMPROC, "glValidateProgram", program); }
+
+inline void glGetProgramiv(GLuint program, GLenum pname, GLint *params) { CALLGL32(PFNGLGETPROGRAMIVPROC, "glGetProgramiv", program, pname, params); }
+
+inline void glBindFragDataLocation(GLuint program, GLuint colorNumber, const GLchar * name) { CALLGL32(PFNGLBINDFRAGDATALOCATIONPROC, "glBindFragDataLocation", program, colorNumber, name); }
+
+inline GLint glGetFragDataLocation(GLuint program, const GLchar * name) { CALLGL32(PFNGLGETFRAGDATALOCATIONPROC, "glGetFragDataLocation", program, name); }
+
+inline GLboolean glIsShader(GLuint shader) { CALLGL32(PFNGLISSHADERPROC, "glIsShader", shader); }
+
+inline void glGetShaderiv(GLuint shader, GLenum pname, GLint *params) { CALLGL32(PFNGLGETSHADERIVPROC, "glGetShaderiv", shader, pname, params); }
+
+inline void glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei *count, GLuint *shaders) { CALLGL32(PFNGLGETATTACHEDSHADERSPROC, "glGetAttachedShaders", program, maxCount, count, shaders); }
+
+inline void glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog) { CALLGL32(PFNGLGETSHADERINFOLOGPROC, "glGetShaderInfoLog", shader, maxLength, length, infoLog); }
+
+inline void glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source) { CALLGL32(PFNGLGETSHADERSOURCEPROC, "glGetShaderSource", shader, bufSize, length, source); }
+
+inline void glGetVertexAttribdv(GLuint index, GLenum pname, GLdouble *params) { CALLGL32(PFNGLGETVERTEXATTRIBDVPROC, "glGetVertexAttribdv", index, pname, params); }
+
+inline void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params) { CALLGL32(PFNGLGETVERTEXATTRIBFVPROC, "glGetVertexAttribfv", index, pname, params); }
+
+inline void glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params) { CALLGL32(PFNGLGETVERTEXATTRIBIVPROC, "glGetVertexAttribiv", index, pname, params); }
+
+inline void glGetVertexAttribIiv(GLuint index, GLenum pname, GLint *params) { CALLGL32(PFNGLGETVERTEXATTRIBIIVPROC, "glGetVertexAttribIiv", index, pname, params); }
+
+inline void glGetVertexAttribIuiv(GLuint index, GLenum pname, GLuint *params) { CALLGL32(PFNGLGETVERTEXATTRIBIUIVPROC, "glGetVertexAttribIuiv", index, pname, params); }
+
+inline void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** pointer) { CALLGL32(PFNGLGETVERTEXATTRIBPOINTERVPROC, "glGetVertexAttribPointerv", index, pname, pointer); }
+
+inline void glGetUniformfv(GLuint program, GLint location, GLfloat *params) { CALLGL32(PFNGLGETUNIFORMFVPROC, "glGetUniformfv", program, location, params); }
+
+inline void glGetUniformiv(GLuint program, GLint location, GLint *params) { CALLGL32(PFNGLGETUNIFORMIVPROC, "glGetUniformiv", program, location, params); }
+
+inline void glGetUniformuiv(GLuint program, GLint location, GLuint *params) { CALLGL32(PFNGLGETUNIFORMUIVPROC, "glGetUniformuiv", program, location, params); }
+
+inline GLboolean glIsProgram(GLuint program) { CALLGL32(PFNGLISPROGRAMPROC, "glIsProgram", program); }
+
+inline void glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei *length, GLchar *infoLog) { CALLGL32(PFNGLGETPROGRAMINFOLOGPROC, "glGetProgramInfoLog", program, maxLength, length, infoLog); }
+
+inline void glGetMultisamplefv(GLenum pname, GLuint index, GLfloat *val) { CALLGL32(PFNGLGETMULTISAMPLEFVPROC, "glGetMultisamplefv", pname, index, val); }
+
+inline void glPointSize(GLfloat size) { CALLGL32(PFNGLPOINTSIZEPROC, "glPointSize", size); }
+
+inline void glPointParameterf(GLenum pname, GLfloat param) { CALLGL32(PFNGLPOINTPARAMETERFPROC, "glPointParameterf", pname, param); }
+
+inline void glPointParameteri(GLenum pname, GLint param) { CALLGL32(PFNGLPOINTPARAMETERIPROC, "glPointParameteri", pname, param); }
+
+inline void glPointParameterfv(GLenum pname, const GLfloat * params) { CALLGL32(PFNGLPOINTPARAMETERFVPROC, "glPointParameterfv", pname, params); }
+
+inline void glPointParameteriv(GLenum pname, const GLint * params) { CALLGL32(PFNGLPOINTPARAMETERIVPROC, "glPointParameteriv", pname, params); }
+
+inline void glLineWidth(GLfloat width) { CALLGL32(PFNGLLINEWIDTHPROC, "glLineWidth", width); }
+
+inline void glFrontFace(GLenum mode) { CALLGL32(PFNGLFRONTFACEPROC, "glFrontFace", mode); }
+
+inline void glCullFace(GLenum mode) { CALLGL32(PFNGLCULLFACEPROC, "glCullFace", mode); }
+
+inline void glPolygonMode(GLenum face, GLenum mode) { CALLGL32(PFNGLPOLYGONMODEPROC, "glPolygonMode", face, mode); }
+
+inline void glPolygonOffset(GLfloat factor, GLfloat units) { CALLGL32(PFNGLPOLYGONOFFSETPROC, "glPolygonOffset", factor, units); }
+
+inline void glPixelStoref(GLenum pname, GLfloat param) { CALLGL32(PFNGLPIXELSTOREFPROC, "glPixelStoref", pname, param); }
+
+inline void glPixelStorei(GLenum pname, GLint param) { CALLGL32(PFNGLPIXELSTOREIPROC, "glPixelStorei", pname, param); }
+
+inline void glActiveTexture(GLenum texture) { CALLGL32(PFNGLACTIVETEXTUREPROC, "glActiveTexture", texture); }
+
+inline void glTexImage3D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const GLvoid * data)
+	{ CALLGL32(PFNGLTEXIMAGE3DPROC, "glTexImage3D", target, level, internalFormat, width, height, depth, border, format, type, data); }
+
+inline void glTexImage2D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data)
+	{ CALLGL32(PFNGLTEXIMAGE2DPROC, "glTexImage2D", target, level, internalFormat, width, height, border, format, type, data); }
+
+inline void glTexImage1D(GLenum target, GLint level, GLint internalFormat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid * data)
+	{ CALLGL32(PFNGLTEXIMAGE1DPROC, "glTexImage1D", target, level, internalFormat, width, border, format, type, data); }
+
+inline void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border)
+	{ CALLGL32(PFNGLCOPYTEXIMAGE2DPROC, "glCopyTexImage2D", target, level, internalformat, x, y, width, height, border); }
+
+inline void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border)
+	{ CALLGL32(PFNGLCOPYTEXIMAGE1DPROC, "glCopyTexImage1D", target, level, internalformat, x, y, width, border); }
+
+inline void glTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * pixels)
+	{ CALLGL32(PFNGLTEXSUBIMAGE3DPROC, "glTexSubImage3D", target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels); }
+
+inline void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels)
+	{ CALLGL32(PFNGLTEXSUBIMAGE2DPROC, "glTexSubImage2D", target, level, xoffset, yoffset, width, height, format, type, pixels); }
+
+inline void glTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid * pixels)
+	{ CALLGL32(PFNGLTEXSUBIMAGE1DPROC, "glTexSubImage1D", target, level, xoffset, width, format, type, pixels); }
+
+inline void glCopyTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height)
+	{ CALLGL32(PFNGLCOPYTEXSUBIMAGE3DPROC, "glCopyTexSubImage3D", target, level, xoffset, yoffset, zoffset, x, y, width, height); }
+
+inline void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height)
+	{ CALLGL32(PFNGLCOPYTEXSUBIMAGE2DPROC, "glCopyTexSubImage2D", target, level, xoffset, yoffset, x, y, width, height); }
+
+inline void glCopyTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width) 
+	{ CALLGL32(PFNGLCOPYTEXSUBIMAGE1DPROC, "glCopyTexSubImage1D", target, level, xoffset, x, y, width); }
+
+inline void glCompressedTexImage3D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid * data)
+	{ CALLGL32(PFNGLCOMPRESSEDTEXIMAGE3DPROC, "glCompressedTexImage3D", target, level, internalformat, width, height, depth, border, imageSize, data); }
+
+inline void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data)
+	{ CALLGL32(PFNGLCOMPRESSEDTEXIMAGE2DPROC, "glCompressedTexImage2D", target, level, internalformat, width, height, border, imageSize, data); }
+
+inline void glCompressedTexImage1D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid * data)
+	{ CALLGL32(PFNGLCOMPRESSEDTEXIMAGE1DPROC, "glCompressedTexImage1D", target, level, internalformat, width, border, imageSize, data); }
+
+inline void glCompressedTexSubImage3D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, 
+										const GLvoid * data) 
+	{ CALLGL32(PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC, "glCompressedTexSubImage3D", target, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, data); }
+
+inline void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid * data) 
+	{ CALLGL32(PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC, "glCompressedTexSubImage2D", target, level, xoffset, yoffset, width, height, format, imageSize, data); }
+
+inline void glCompressedTexSubImage1D(GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid * data)
+	{ CALLGL32(PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC, "glCompressedTexSubImage1D", target, level, xoffset, width, format, imageSize, data); }
+
+inline void glTexImage3DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations)
+	{ CALLGL32(PFNGLTEXIMAGE3DMULTISAMPLEPROC, "glTexImage3DMultisample", target, samples, internalformat, width, height, depth, fixedsamplelocations); }
+
+inline void glTexImage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations)
+	{ CALLGL32(PFNGLTEXIMAGE2DMULTISAMPLEPROC, "glTexImage2DMultisample", target, samples, internalformat, width, height, fixedsamplelocations); }
+
+inline void glTexBuffer(GLenum target, GLenum internalFormat, GLuint buffer) { CALLGL32(PFNGLTEXBUFFERPROC, "glTexBuffer", target, internalFormat, buffer); }
+
+inline void glTexParameterf(GLenum target, GLenum pname, GLfloat param) { CALLGL32(PFNGLTEXPARAMETERFPROC, "glTexParameterf", target, pname, param); }
+
+inline void glTexParameteri(GLenum target, GLenum pname, GLint param) { CALLGL32(PFNGLTEXPARAMETERIPROC, "glTexParameteri", target, pname, param); }
+
+inline void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * params) { CALLGL32(PFNGLTEXPARAMETERFVPROC, "glTexParameterfv", target, pname, params); }
+
+inline void glTexParameteriv(GLenum target, GLenum pname, const GLint * params) { CALLGL32(PFNGLTEXPARAMETERIVPROC, "glTexParameteriv", target, pname, params); }
+
+inline void glTexParameterIiv(GLenum target, GLenum pname, const GLint * params) { CALLGL32(PFNGLTEXPARAMETERIIVPROC, "glTexParameterIiv", target, pname, params); }
+
+inline void glTexParameterIuiv(GLenum target, GLenum pname, const GLuint * params) { CALLGL32(PFNGLTEXPARAMETERIUIVPROC, "glTexParameterIuiv", target, pname, params); }
+
+inline void glGenerateMipmap(GLenum target) { CALLGL32(PFNGLGENERATEMIPMAPPROC, "glGenerateMipmap", target); }
+
+inline void glBindTexture(GLenum target, GLuint texture) { CALLGL32(PFNGLBINDTEXTUREPROC, "glBindTexture", target, texture); }
+
+inline void glDeleteTextures(GLsizei n, const GLuint * textures) { CALLGL32(PFNGLDELETETEXTURESPROC, "glDeleteTextures", n, textures); }
+
+inline void glGenTextures(GLsizei n, GLuint * textures) { CALLGL32(PFNGLGENTEXTURESPROC, "glGenTextures", n, textures); }
+
+inline void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) { CALLGL32(PFNGLGETTEXPARAMETERFVPROC, "glGetTexParameterfv", target, pname, params); }
+
+inline void glGetTexParameteriv(GLenum target, GLenum pname, GLint * params) { CALLGL32(PFNGLGETTEXPARAMETERIVPROC, "glGetTexParameteriv", target, pname, params); }
+
+inline void glGetTexParameterIiv(GLenum target, GLenum pname, GLint * params) { CALLGL32(PFNGLGETTEXPARAMETERIIVPROC, "glGetTexParameterIiv", target, pname, params); }
+
+inline void glGetTexParameterIuiv(GLenum target, GLenum pname, GLuint * params) { CALLGL32(PFNGLGETTEXPARAMETERIUIVPROC, "glGetTexParameterIuiv", target, pname, params); }
+
+inline void glGetTexLevelParameterfv(GLenum target, GLint level, GLenum pname, GLfloat * params) { CALLGL32(PFNGLGETTEXLEVELPARAMETERFVPROC, "glGetTexLevelParameterfv", target, level, pname, params); }
+
+inline void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint * params) { CALLGL32(PFNGLGETTEXLEVELPARAMETERIVPROC, "glGetTexLevelParameteriv", target, level, pname, params); }
+
+inline void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels) { CALLGL32(PFNGLGETTEXIMAGEPROC, "glGetTexImage", target, level, format, type, pixels); }
+
+inline void glGetCompressedTexImage(GLenum target, GLint level, GLvoid * pixels) { CALLGL32(PFNGLGETCOMPRESSEDTEXIMAGEPROC, "glGetCompressedTexImage", target, level, pixels); }
+
+inline GLboolean glIsTexture(GLuint texture) { CALLGL32(PFNGLISTEXTUREPROC, "glIsTexture", texture); }
+
+inline void glHint(GLenum target, GLenum mode) { CALLGL32(PFNGLHINTPROC, "glHint", target, mode); }
+
+inline void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data)
+	{ CALLGL32(PFNGLREADPIXELSPROC, "glReadPixels", x, y, width, height, format, type, data); }
+
+inline void glReadBuffer(GLenum mode) { CALLGL32(PFNGLREADBUFFERPROC, "glReadBuffer", mode); }
+
+inline void glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter)
+	{ CALLGL32(PFNGLBLITFRAMEBUFFERPROC, "glBlitFramebuffer", srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter); }
+
+inline void glScissor(GLint x, GLint y, GLsizei width, GLsizei height) { CALLGL32(PFNGLSCISSORPROC, "glScissor", x, y, width, height); }
+
+inline void glSampleCoverage(GLfloat value, GLboolean invert) { CALLGL32(PFNGLSAMPLECOVERAGEPROC, "glSampleCoverage", value, invert); }
+
+inline void glSampleMaski(GLuint maskNumber, GLbitfield mask) { CALLGL32(PFNGLSAMPLEMASKIPROC, "glSampleMaski", maskNumber, mask); }
+
+inline void glStencilFunc(GLenum func, GLint ref, GLuint mask) { CALLGL32(PFNGLSTENCILFUNCPROC, "glStencilFunc", func, ref, mask); }
+
+inline void glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask) { CALLGL32(PFNGLSTENCILFUNCSEPARATEPROC, "glStencilFuncSeparate", face, func, ref, mask); }
+
+inline void glStencilOp(GLenum sfail, GLenum dpfail, GLenum dppass) { CALLGL32(PFNGLSTENCILOPPROC, "glStencilOp", sfail, dpfail, dppass); }
+
+inline void glStencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass) { CALLGL32(PFNGLSTENCILOPSEPARATEPROC, "glStencilOpSeparate", face, sfail, dpfail, dppass); }
+
+inline void glDepthFunc(GLenum func) { CALLGL32(PFNGLDEPTHFUNCPROC, "glDepthFunc", func); }
+
+inline void glBlendEquation(GLenum mode) { CALLGL32(PFNGLBLENDEQUATIONPROC, "glBlendEquation", mode); }
+
+inline void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha) { CALLGL32(PFNGLBLENDEQUATIONSEPARATEPROC, "glBlendEquationSeparate", modeRGB, modeAlpha); }
+
+inline void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha) { CALLGL32(PFNGLBLENDFUNCSEPARATEPROC, "glBlendFuncSeparate", srcRGB, dstRGB, srcAlpha, dstAlpha); }
+
+inline void glBlendFunc(GLenum sfactor, GLenum dfactor) { CALLGL32(PFNGLBLENDFUNCPROC, "glBlendFunc", sfactor, dfactor); }
+
+inline void glBlendColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) { CALLGL32(PFNGLBLENDCOLORPROC, "glBlendColor", red, green, blue, alpha); }
+
+inline void glLogicOp(GLenum opcode) { CALLGL32(PFNGLLOGICOPPROC, "glLogicOp", opcode); }
+
+inline void glDrawBuffer(GLenum buf) { CALLGL32(PFNGLDRAWBUFFERPROC, "glDrawBuffer", buf); }
+
+inline void glDrawBuffers(GLsizei n, const GLenum *bufs) { CALLGL32(PFNGLDRAWBUFFERSPROC, "glDrawBuffers", n, bufs); }
+
+inline void glColorMask(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) { CALLGL32(PFNGLCOLORMASKPROC, "glColorMask", red, green, blue, alpha); }
+
+inline void glColorMaski(GLuint buf, GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha) { CALLGL32(PFNGLCOLORMASKIPROC, "glColorMaski", buf, red, green, blue, alpha); }
+
+inline void glDepthMask(GLboolean flag) { CALLGL32(PFNGLDEPTHMASKPROC, "glDepthMask", flag); }
+
+inline void glStencilMask(GLuint mask) { CALLGL32(PFNGLSTENCILMASKPROC, "glStencilMask", mask); }
+
+inline void glStencilMaskSeparate(GLenum face, GLuint mask) { CALLGL32(PFNGLSTENCILMASKSEPARATEPROC, "glStencilMaskSeparate", face, mask); }
+
+inline void glClear(GLbitfield mask) { CALLGL32(PFNGLCLEARPROC, "glClear", mask); }
+
+inline void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) { CALLGL32(PFNGLCLEARCOLORPROC, "glClearColor", red, green, blue, alpha); }
+
+inline void glClearDepth(GLdouble depth) { CALLGL32(PFNGLCLEARDEPTHPROC, "glClearDepth", depth); }
+
+inline void glClearStencil(GLint s) { CALLGL32(PFNGLCLEARSTENCILPROC, "glClearStencil", s); }
+
+inline void glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value) { CALLGL32(PFNGLCLEARBUFFERIVPROC, "glClearBufferiv", buffer, drawbuffer, value); }
+
+inline void glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint * value) { CALLGL32(PFNGLCLEARBUFFERUIVPROC, "glClearBufferuiv", buffer, drawbuffer, value); }
+
+inline void glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat * value) { CALLGL32(PFNGLCLEARBUFFERFVPROC, "glClearBufferfv", buffer, drawbuffer, value); }
+
+inline void glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil) { CALLGL32(PFNGLCLEARBUFFERFIPROC, "glClearBufferfi", buffer, drawbuffer, depth, stencil); }
+
+inline void glBindFramebuffer(GLenum target, GLuint framebuffer) { CALLGL32(PFNGLBINDFRAMEBUFFERPROC, "glBindFramebuffer", target, framebuffer); }
+
+inline void glDeleteFramebuffers(GLsizei n, GLuint *framebuffers) { CALLGL32(PFNGLDELETEFRAMEBUFFERSPROC, "glDeleteFramebuffers", n, framebuffers); }
+
+inline void glGenFramebuffers(GLsizei n, GLuint *ids) { CALLGL32(PFNGLGENFRAMEBUFFERSPROC, "glGenFramebuffers", n, ids); }
+
+inline void glBindRenderbuffer(GLenum target, GLuint renderbuffer) { CALLGL32(PFNGLBINDRENDERBUFFERPROC, "glBindRenderbuffer", target, renderbuffer); }
+
+inline void glDeleteRenderbuffers(GLsizei n, GLuint *renderbuffers) { CALLGL32(PFNGLDELETERENDERBUFFERSPROC, "glDeleteRenderbuffers", n, renderbuffers); }
+
+inline void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers) { CALLGL32(PFNGLGENRENDERBUFFERSPROC, "glGenRenderbuffers", n, renderbuffers); }
+
+inline void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height)
+	{ CALLGL32(PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC, "glRenderbufferStorageMultisample", target, samples, internalformat, width, height); }
+
+inline void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height)
+	{ CALLGL32(PFNGLRENDERBUFFERSTORAGEPROC, "glRenderbufferStorage", target, internalformat, width, height); }
+
+inline void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer)
+	{ CALLGL32(PFNGLFRAMEBUFFERRENDERBUFFERPROC, "glFramebufferRenderbuffer", target, attachment, renderbuffertarget, renderbuffer); }
+
+inline void glFramebufferTexture(GLenum target, GLenum attachment, GLuint texture, GLint level) { CALLGL32(PFNGLFRAMEBUFFERTEXTUREPROC, "glFramebufferTexture", target, attachment, texture, level); }
+
+inline void glFramebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)
+	{ CALLGL32(PFNGLFRAMEBUFFERTEXTURE1DPROC, "glFramebufferTexture1D", target, attachment, textarget, texture, level); }
+
+inline void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)
+	{ CALLGL32(PFNGLFRAMEBUFFERTEXTURE2DPROC, "glFramebufferTexture2D", target, attachment, textarget, texture, level); }
+
+inline void glFramebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint layer)
+	{ CALLGL32(PFNGLFRAMEBUFFERTEXTURE3DPROC, "glFramebufferTexture3D", target, attachment, textarget, texture, level, layer); }
+
+inline void glFramebufferTextureLayer(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer)
+	{ CALLGL32(PFNGLFRAMEBUFFERTEXTURELAYERPROC, "glFramebufferTextureLayer", target, attachment, texture, level, layer); }
+
+inline GLenum glCheckFramebufferStatus(GLenum target) { CALLGL32(PFNGLCHECKFRAMEBUFFERSTATUSPROC, "glCheckFramebufferStatus", target); }
+
+inline GLboolean glIsFramebuffer(GLuint framebuffer) { CALLGL32(PFNGLISFRAMEBUFFERPROC, "glIsFramebuffer", framebuffer); }
+
+inline void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params)
+	{ CALLGL32(PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC, "glGetFramebufferAttachmentParameteriv", target, attachment, pname, params); }
+
+inline GLboolean glIsRenderbuffer(GLuint renderbuffer) { CALLGL32(PFNGLISRENDERBUFFERPROC, "glIsRenderbuffer", renderbuffer); }
+
+inline void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint *params) { CALLGL32(PFNGLGETRENDERBUFFERPARAMETERIVPROC, "glGetRenderbufferParameteriv", target, pname, params); }
+
+inline void glFlush() { CALLGL32(PFNGLFLUSHPROC, "glFlush"); }
+
+inline void glFinish() { CALLGL32(PFNGLFINISHPROC, "glFinish"); }
+
+inline GLsync glFenceSync(GLenum condition, GLbitfield flags) { CALLGL32(PFNGLFENCESYNCPROC, "glFenceSync", condition, flags); }
+
+inline void glDeleteSync(GLsync sync) { CALLGL32(PFNGLDELETESYNCPROC, "glDeleteSync", sync); }
+
+inline GLenum glClientWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout) { CALLGL32(PFNGLCLIENTWAITSYNCPROC, "glClientWaitSync", sync, flags, timeout); }
+
+inline void glWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout) { CALLGL32(PFNGLWAITSYNCPROC, "glWaitSync", sync, flags, timeout); }
+
+inline void glGetSynciv(GLsync sync, GLenum pname, GLsizei bufSize, GLsizei *length, GLint *values) { CALLGL32(PFNGLGETSYNCIVPROC, "glGetSynciv", sync, pname, bufSize, length, values); }
+
+inline GLboolean glIsSync(GLsync sync) { CALLGL32(PFNGLISSYNCPROC, "glIsSync", sync); }
+
+inline void glGetBooleanv(GLenum pname, GLboolean * data) { CALLGL32(PFNGLGETBOOLEANVPROC, "glGetBooleanv", pname, data); }
+
+inline void glGetDoublev(GLenum pname, GLdouble * data) { CALLGL32(PFNGLGETDOUBLEVPROC, "glGetDoublev", pname, data); }
+
+inline void glGetFloatv(GLenum pname, GLfloat * data) { CALLGL32(PFNGLGETFLOATVPROC, "glGetFloatv", pname, data); }
+
+inline void glGetIntegerv(GLenum pname, GLint * data) { CALLGL32(PFNGLGETINTEGERVPROC, "glGetIntegerv", pname, data); }
+
+inline void glGetInteger64v(GLenum pname, GLint64 * data) { CALLGL32(PFNGLGETINTEGER64VPROC, "glGetInteger64v", pname, data); }
+
+inline void glGetBooleani_v(GLenum target, GLuint index, GLboolean * data) { CALLGL32(PFNGLGETBOOLEANI_VPROC, "glGetBooleani_v", target, index, data); }
+
+inline void glGetIntegeri_v(GLenum target, GLuint index, GLint * data) { CALLGL32(PFNGLGETINTEGERI_VPROC, "glGetIntegeri_v", target, index, data); }
+
+inline void glGetInteger64i_v(GLenum target, GLuint index, GLint64 * data) { CALLGL32(PFNGLGETINTEGER64I_VPROC, "glGetInteger64i_v", target, index, data); }
+
+inline GLboolean glIsEnabled(GLenum cap) { CALLGL32(PFNGLISENABLEDPROC, "glIsEnabled", cap); }
+
+inline GLboolean glIsEnabledi(GLenum cap, GLuint index) { CALLGL32(PFNGLISENABLEDIPROC, "glIsEnabledi", cap, index); }
+
+inline const GLubyte *glGetString(GLenum name) { CALLGL32(PFNGLGETSTRINGPROC, "glGetString", name); }
+
+inline const GLubyte *glGetStringi(GLenum name, GLuint index) { CALLGL32(PFNGLGETSTRINGIPROC, "glGetStringi", name, index); }
+
+inline void glQueryCounter(GLuint id, GLenum target) { CALLGL32(PFNGLQUERYCOUNTERPROC, "glQueryCounter", id, target); }
+
+inline void glGenSamplers(GLsizei n, GLuint *samplers) { CALLGL32(PFNGLGENSAMPLERSPROC, "glGenSamplers", n, samplers); }
+
+inline void glBindSampler(GLuint unit, GLuint sampler) { CALLGL32(PFNGLBINDSAMPLERPROC, "glBindSampler", unit, sampler); }
+
+inline void glSamplerParameterf(GLuint sampler, GLenum pname, GLfloat param) { CALLGL32(PFNGLSAMPLERPARAMETERFPROC, "glSamplerParameterf", sampler, pname, param); }
+
+inline void glSamplerParameteri(GLuint sampler, GLenum pname, GLint param) { CALLGL32(PFNGLSAMPLERPARAMETERIPROC, "glSamplerParameteri", sampler, pname, param); }
+
+inline void glSamplerParameterfv(GLuint sampler, GLenum pname, const GLfloat * params) { CALLGL32(PFNGLSAMPLERPARAMETERFVPROC, "glSamplerParameterfv", sampler, pname, params); }
+
+inline void glSamplerParameteriv(GLuint sampler, GLenum pname, const GLint * params) { CALLGL32(PFNGLSAMPLERPARAMETERIVPROC, "glSamplerParameteriv", sampler, pname, params); }
+
+inline void glSamplerParameterIiv(GLuint sampler, GLenum pname, const GLint *params) { CALLGL32(PFNGLSAMPLERPARAMETERIIVPROC, "glSamplerParameteriv", sampler, pname, params); }
+
+inline void glSamplerParameterIuiv(GLuint sampler, GLenum pname, const GLuint *params) { CALLGL32(PFNGLSAMPLERPARAMETERIUIVPROC, "glSamplerParameterIuiv", sampler, pname, params); }
+
+inline void glDeleteSamplers(GLsizei n, const GLuint * samplers) { CALLGL32(PFNGLDELETESAMPLERSPROC, "glDeleteSamplers", n, samplers); }
+
+inline GLboolean glIsSampler(GLuint id) { CALLGL32(PFNGLISSAMPLERPROC, "glIsSampler", id); }
+
+inline void glGetSamplerParameterfv(GLuint sampler, GLenum pname, GLfloat * params) { CALLGL32(PFNGLGETSAMPLERPARAMETERFVPROC, "glGetSamplerParameterfv", sampler, pname, params); }
+
+inline void glGetSamplerParameteriv(GLuint sampler, GLenum pname, GLint * params) { CALLGL32(PFNGLGETSAMPLERPARAMETERIVPROC, "glGetSamplerParameteriv", sampler, pname, params); }
+
+inline void glGetSamplerParameterIiv(GLuint sampler, GLenum pname, GLint * params) { CALLGL32(PFNGLGETSAMPLERPARAMETERIIVPROC, "glGetSamplerParameterIiv", sampler, pname, params); }
+
+inline void glGetSamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint * params) { CALLGL32(PFNGLGETSAMPLERPARAMETERIUIVPROC, "glGetSamplerParameterIuiv", sampler, pname, params); }
+
+inline void glBindFragDataLocationIndexed(GLuint program, GLuint colorNumber, GLuint index, const GLchar * name)
+	{ CALLGL32(PFNGLBINDFRAGDATALOCATIONINDEXEDPROC, "glBindFragDataLocationIndexed", program, colorNumber, index, name); }
+
+inline GLint glGetFragDataIndex(GLuint program, const GLchar * name) { CALLGL32(PFNGLGETFRAGDATAINDEXPROC, "glGetFragDataIndex", program, name); }

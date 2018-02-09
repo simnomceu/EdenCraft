@@ -7,6 +7,7 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+inline GLenum glGetError();
 inline void glVertexAttrib1f(GLuint index, GLfloat v0);
 inline void glVertexAttrib1s(GLuint index, GLshort v0);
 inline void glVertexAttrib1d(GLuint index, GLdouble v0);
