@@ -41,14 +41,6 @@ namespace ece
 
 		static void checkErrors(const std::string & location);
 
-		static inline void depthFunc(const DepthFunctionCondition condition);
-
-		static inline void attachShader(const Handle program, const Handle shader);
-		static inline void linkProgram(const Handle handle);
-		static inline void useProgram(const Handle handle);
-
-		static inline Handle genBuffers();
-		static inline std::vector<Handle> genBuffers(const int count);
 		static inline void bindBuffer(const BufferType type, const Handle handle);
 		template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
 		static inline void genVertexArrays(Handle & handle);
@@ -68,10 +60,6 @@ namespace ece
 		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned int> & data);
 		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
 		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
-		static inline void enableVertexAttribArray(const int location);
-/*		static inline void disableVertexAttribArray(const int location);
-
-		static inline void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);*/
 
 		// NEW DEFINITION
 
@@ -138,14 +126,14 @@ namespace ece
 //		static inline void vertexAttribP4ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
 //		static inline void vertexAttribPointer(unsigned int index, int size, GLenum type, bool normalized, GLsizei stride, const void * pointer);
 //		static inline void vertexAttribIPointer(unsigned int index, int size, GLenum type, GLsizei stride, const void * pointer);
-//		static inline void enableVertexAttribArray(unsigned int index);
-//		static inline void disableVertexAttribArray(unsigned int index);
+		static inline void enableVertexAttribArray(const int location);
+		static inline void disableVertexAttribArray(const int location);
 		static inline void enable(const Capability cap);
 		static inline void disable(const Capability cap);
 		static inline void enableIndexed(const Capability cap, const unsigned short int index);
 		static inline void disableIndexed(const Capability cap, const unsigned short int index);
 //		static inline void primitiveRestartIndex(unsigned int index);
-//		static inline void drawArrays(GLenum mode, int first, GLsizei count);
+		static inline void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);
 //		static inline void multiDrawArrays(GLenum mode, const int * first, const GLsizei * count, GLsizei drawcount);
 		static inline void drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset);
 //		static inline void multiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount);
@@ -156,7 +144,8 @@ namespace ece
 //		static inline void drawRangeElementsBaseVertex(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, void * indices, int basevertex);
 //		static inline void drawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei primcount, int basevertex);
 //		static inline void multiDrawElementsBaseVertex(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount, const int * basevertex);
-//		static inline void genBuffers(GLsizei n, unsigned int * buffers);
+		static inline Handle genBuffers();
+		static inline std::vector<Handle> genBuffers(const int count);
 //		static inline void deleteBuffers(GLsizei n, const unsigned int * buffers);
 //		static inline void bindBuffer(GLenum target, unsigned int buffer);
 //		static inline void bindBufferRange(GLenum target, unsigned int index, unsigned int buffer, GLintptr offset, GLsizeiptr size);
@@ -201,10 +190,10 @@ namespace ece
 		static inline void compileShader(const Handle handle);
 		static inline void deleteShader(const Handle handle);
 		static inline Handle createProgram();
-//		static inline void attachShader(unsigned int program, unsigned int shader);
+		static inline void attachShader(const Handle program, const Handle shader);
 //		static inline void detachShader(unsigned int program, unsigned int shader);
-//		static inline void linkProgram(unsigned int program);
-//		static inline void useProgram(unsigned int program);
+		static inline void linkProgram(const Handle handle);
+		static inline void useProgram(const Handle handle);
 //		static inline void deleteProgram(unsigned int program);
 //		static inline void getActiveAttrib(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, int *size, GLenum *type, char *name);
 //		static inline int getAttribLocation(unsigned int program, const char *name);
@@ -337,7 +326,7 @@ namespace ece
 //		static inline void stencilFuncSeparate(GLenum face, GLenum func, int ref, unsigned int mask);
 //		static inline void stencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
 //		static inline void stencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
-//		static inline void depthFunc(GLenum func);
+		static inline void depthFunc(const DepthFunctionCondition condition);
 //		static inline void blendEquation(GLenum mode);
 //		static inline void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
 //		static inline void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);

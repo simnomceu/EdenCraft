@@ -5,53 +5,10 @@ namespace ece
 {
 	inline Version<2> & OpenGL::getLatestVersion() { return OpenGL::_latestVersion; }
 
-	inline Handle OpenGL::genBuffers()
-	{
-		GLuint handle = 0;
-		glGenBuffers(1, &handle);
-		OpenGL::checkErrors("OpenGL::genBuffers");
-		return static_cast<Handle>(handle);
-	}
-
-	inline std::vector<Handle> OpenGL::genBuffers(const int count)
-	{
-		std::vector<Handle> handles;
-		if (count != 0) {
-			handles.resize(handles.size() + count);
-			glGenBuffers(count, reinterpret_cast<GLuint *>(&handles.back() - count + 1));
-			OpenGL::checkErrors("OpenGL::genBuffers");
-		}
-		return handles;
-	}
-
 	inline void OpenGL::bindBuffer(const BufferType type, const Handle handle)
 	{
 		glBindBuffer(static_cast<GLenum>(type), static_cast<GLuint>(handle));
 		OpenGL::checkErrors("OpenGL::bindBuffer");
-	}
-
-	inline void OpenGL::depthFunc(const DepthFunctionCondition condition)
-	{
-		glDepthFunc(static_cast<GLenum>(condition));
-		OpenGL::checkErrors("OpenGL::depthFunc");
-	}
-
-	inline void OpenGL::attachShader(const Handle program, const Handle shader)
-	{
-		glAttachShader(program, shader);
-		OpenGL::checkErrors("OpenGL::attachShader");
-	}
-
-	inline void OpenGL::linkProgram(const Handle handle)
-	{
-		glLinkProgram(handle);
-		OpenGL::checkErrors("OpenGL::linkProgram");
-	}
-
-	inline void OpenGL::useProgram(const Handle handle)
-	{
-		glUseProgram(handle);
-		OpenGL::checkErrors("OpenGL::useProgram");
 	}
 /*
 	inline Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
@@ -82,24 +39,6 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::bindVertexArray");
 	}
 
-	inline void OpenGL::enableVertexAttribArray(const int location)
-	{
-		glEnableVertexAttribArray(location);
-		OpenGL::checkErrors("OpenGL::enableVertexAttribArray");
-	}
-/*
-	inline void OpenGL::disableVertexAttribArray(const int location)
-	{
-		glDisableVertexAttribArray(location);
-		OpenGL::checkErrors("OpenGL::disableVertexAttribArray");
-	}
-
-	inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const unsigned int count)
-	{
-		glDrawArrays(static_cast<GLenum>(mode), first, count);
-		OpenGL::checkErrors("OpenGL::drawArrays");
-	}
-	*/
 	/*
 	template<class T> 
 	inline void OpenGL::uniform(const Handle uniform, const T value)
@@ -275,9 +214,19 @@ namespace ece
 //	inline void OpenGL::vertexAttribP4ui(unsigned int /*index*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*value*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::vertexAttribPointer(unsigned int /*index*/, int /*size*/, GLenum /*type*/, bool /*normalized*/, GLsizei /*stride*/, const void * /*pointer*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::vertexAttribIPointer(unsigned int /*index*/, int /*size*/, GLenum /*type*/, GLsizei /*stride*/, const void * /*pointer*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::enableVertexAttribArray(unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::disableVertexAttribArray(unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
-//
+
+	inline void OpenGL::enableVertexAttribArray(const int location)
+	{
+		glEnableVertexAttribArray(location);
+		OpenGL::checkErrors("OpenGL::enableVertexAttribArray");
+	}
+
+	inline void OpenGL::disableVertexAttribArray(const int location)
+	{
+		glDisableVertexAttribArray(location);
+		OpenGL::checkErrors("OpenGL::disableVertexAttribArray");
+	}
+
 	inline void OpenGL::enable(const Capability cap)
 	{
 		glEnable(GLenum(cap));
@@ -303,7 +252,13 @@ namespace ece
 	}
 
 //	inline void OpenGL::primitiveRestartIndex(unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::drawArrays(GLenum /*mode*/, int /*first*/, GLsizei /*count*/) { static_assert(false, "Not implemented yet."); }
+
+	inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const unsigned int count)
+	{
+		glDrawArrays(GLenum(mode), first, count);
+		OpenGL::checkErrors("OpenGL::drawArrays");
+	}
+
 //	inline void OpenGL::multiDrawArrays(GLenum /*mode*/, const int * /*first*/, const GLsizei * /*count*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 
 	inline void OpenGL::drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset)
@@ -320,7 +275,26 @@ namespace ece
 //	inline void OpenGL::drawRangeElementsBaseVertex(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::drawElementsInstancedBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, GLsizei /*primcount*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::multiDrawElementsBaseVertex(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/, const int * /*basevertex*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::genBuffers(GLsizei /*n*/, unsigned int * /*buffers*/) { static_assert(false, "Not implemented yet."); }
+
+	inline Handle OpenGL::genBuffers()
+	{
+		GLuint handle = 0;
+		glGenBuffers(1, &handle);
+		OpenGL::checkErrors("OpenGL::genBuffers");
+		return Handle(handle);
+	}
+
+	inline std::vector<Handle> OpenGL::genBuffers(const int count)
+	{
+		std::vector<Handle> handles;
+		if (count != 0) {
+			handles.resize(handles.size() + count);
+			glGenBuffers(count, reinterpret_cast<GLuint *>(&handles.back() - count + 1));
+			OpenGL::checkErrors("OpenGL::genBuffers");
+		}
+		return handles;
+	}
+
 //	inline void OpenGL::deleteBuffers(GLsizei /*n*/, const unsigned int * /*buffers*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::bindBuffer(GLenum /*target*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::bindBufferRange(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/, GLintptr /*offset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
@@ -403,10 +377,26 @@ namespace ece
 		return Handle(programHandle);
 	}
 
-//	inline void OpenGL::attachShader(unsigned int /*program*/, unsigned int /*shader*/) { static_assert(false, "Not implemented yet."); }
+	inline void OpenGL::attachShader(const Handle program, const Handle shader)
+	{
+		glAttachShader(program, shader);
+		OpenGL::checkErrors("OpenGL::attachShader");
+	}
+
 //	inline void OpenGL::detachShader(unsigned int /*program*/, unsigned int /*shader*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::linkProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::useProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
+
+	inline void OpenGL::linkProgram(const Handle handle)
+	{
+		glLinkProgram(handle);
+		OpenGL::checkErrors("OpenGL::linkProgram");
+	}
+
+	inline void OpenGL::useProgram(const Handle handle)
+	{
+		glUseProgram(handle);
+		OpenGL::checkErrors("OpenGL::useProgram");
+	}
+
 //	inline void OpenGL::deleteProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getActiveAttrib(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
 //	inline int OpenGL::getAttribLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
@@ -550,7 +540,13 @@ namespace ece
 //	inline void OpenGL::stencilFuncSeparate(GLenum /*face*/, GLenum /*func*/, int /*ref*/, unsigned int /*mask*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::stencilOp(GLenum /*sfail*/, GLenum /*dpfail*/, GLenum /*dppass*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::stencilOpSeparate(GLenum /*face*/, GLenum /*sfail*/, GLenum /*dpfail*/, GLenum /*dppass*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::depthFunc(GLenum /*func*/) { static_assert(false, "Not implemented yet."); }
+
+	inline void OpenGL::depthFunc(const DepthFunctionCondition condition)
+	{
+		glDepthFunc(GLenum(condition));
+		OpenGL::checkErrors("OpenGL::depthFunc");
+	}
+
 //	inline void OpenGL::blendEquation(GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::blendEquationSeparate(GLenum /*modeRGB*/, GLenum /*modeAlpha*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::blendFuncSeparate(GLenum /*srcRGB*/, GLenum /*dstRGB*/, GLenum /*srcAlpha*/, GLenum /*dstAlpha*/) { static_assert(false, "Not implemented yet."); }
