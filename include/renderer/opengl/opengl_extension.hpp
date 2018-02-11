@@ -11,6 +11,4 @@
 #include "renderer/opengl/gl45_extension.hpp"
 #include "renderer/opengl/gl46_extension.hpp"
 
-#include "renderer/opengl/opengl_extension.inl"
-
 #endif // OPENGL_EXTENSION_HPP

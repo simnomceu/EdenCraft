@@ -7,7 +7,8 @@ namespace ece
 	void EnhancedShader::setStage(ShaderStage & shader)
 	{
 		// TODO: it should be the version of the current context an not the latest version available.
-		std::string versionTag = std::to_string(OpenGL::getLatestMajorVersion()) + std::to_string(OpenGL::getLatestMinorVersion()) + "0";
+		auto latestVersion = OpenGL::getLatestVersion();
+		std::string versionTag = std::to_string(latestVersion[0]) + std::to_string(latestVersion[1]) + "0";
 
 		std::string tag("#version ");
 		auto source = shader.getSource();

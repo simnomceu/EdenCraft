@@ -68,10 +68,12 @@ namespace ece
 			std::cout << "PixelFormat: " << iPF << std::endl;
 			throw std::runtime_error("The video mode cannot be used.");
 		}
+		
+		auto latestVersion = OpenGL::getLatestVersion();
 
 		const int glVersion[] = {
-			WGL_CONTEXT_MAJOR_VERSION_ARB, OpenGL::getLatestMajorVersion(),
-			WGL_CONTEXT_MINOR_VERSION_ARB, OpenGL::getLatestMinorVersion(),
+			WGL_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
+			WGL_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
 			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
 			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
 			0

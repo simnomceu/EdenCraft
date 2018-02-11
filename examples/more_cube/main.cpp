@@ -53,6 +53,40 @@ int main()
 
 		const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
 
+		/*const std::vector<float> points{ -0.5f, -0.5f, 0.5,
+										-0.5f,  0.5f, 0.5,
+										0.5f,  0.5f, 0.5,
+										0.5f, -0.5f,  0.5,
+										0.0f, 0.0f, -0.5,
+										0.0f,  1.0f, -0.5,
+										1.0f,  1.0f, -0.5,
+										1.0f, 0.0f,  -0.5,
+		};
+
+		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
+										  0.0f, 1.0f, 0.0f,
+										  0.0f, 0.0f, 1.0f,
+										  0.0f, 1.0f, 1.0f,
+										  1.0f, 0.0f, 0.0f,
+										  0.0f, 1.0f, 0.0f,
+										  0.0f, 0.0f, 1.0f,
+										  0.0f, 1.0f, 1.0f
+		};
+
+		const std::vector<unsigned int> index{ 0, 1, 2, 
+											   2, 3, 0,
+											   2, 7, 3,
+											   2, 6, 3,
+											   4, 5, 6,
+											   6, 7, 4,
+											   4, 5, 0,
+											   5, 1, 0,
+											   1, 5, 6,
+											   6, 2, 1,
+											   0, 4, 7,
+											   7, 3, 0
+		};*/
+
 		ece::VAO vao;
 		vao.addAttribute(0, 2, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
 		vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colours, ece::BufferUsage::STATIC_DRAW);

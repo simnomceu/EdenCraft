@@ -6,9 +6,8 @@ namespace ece
 {
 	Shader Renderer::getProgram() const
 	{
-		int handle = 0;
-		OpenGL::getInteger(Parameter::CURRENT_PROGRAM, handle);
-		return Shader(static_cast<Handle>(handle));
+		auto handle = OpenGL::getInteger(Parameter::CURRENT_PROGRAM);
+		return Shader(static_cast<Handle>(handle[0]));
 	}
 
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
