@@ -1,5 +1,5 @@
 /*
-	
+
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
 	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
 	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
@@ -14,9 +14,11 @@
 																 888      d88' `88b d88(  "8   888   d88(  "8 
 																 888      888ooo888 `"Y88b.    888   `"Y88b.  
 																 888      888    .o o.  )88b   888 . o.  )88b 
-																o888o     `Y8bod8P' 8""888P'   "888" 8""888P'
-
-				This file is part of EdenCraft Engine - Tests module.
+																o888o     `Y8bod8P' 8""888P'   "888" 8""888P' 
+                                                                       
+                                          
+                                     
+				This file is part of EdenCraft Engine - Tests.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
