@@ -26,6 +26,8 @@ namespace ece
 		void enableFaceCulling(const CullFaceMode cullFaceMode = CullFaceMode::BACK, const FrontFaceMode frontFaceMode = FrontFaceMode::CCW);
 		void disableFaceCulling();
 
+		void setPolygonMode(const PolygonMode mode);
+
 		void drawPrimitives(const PrimitiveMode mode, const VAO & vao);
 
 	private:

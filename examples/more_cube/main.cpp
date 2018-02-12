@@ -28,6 +28,7 @@ int main()
 		window.limitUPS(100);
 
 		ece::Renderer renderer;
+		renderer.setPolygonMode(ece::PolygonMode::LINE);
 
 		/*const std::vector<float> points{ 0.0f, 0.5f,
 										 0.5f, -0.5f,

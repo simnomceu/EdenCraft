@@ -491,7 +491,12 @@ namespace ece
 		OpenGL::checkErrors("OpenGL::cullFace");
 	}
 
-//	inline void OpenGL::polygonMode(GLenum /*face*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
+	inline void OpenGL::polygonMode(const PolygonMode mode)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GLenum(mode));
+		OpenGL::checkErrors("OpenGL::polygonMode");
+	}
+
 //	inline void OpenGL::polygonOffset(float /*factor*/, float /*units*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::pixelStoref(GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::pixelStorei(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }

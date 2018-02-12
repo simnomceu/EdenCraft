@@ -423,6 +423,13 @@ namespace ece
 		STACK_UNDERFLOW = GL_STACK_UNDERFLOW,
 		STACK_OVERFLOW = GL_STACK_OVERFLOW
 	};
+
+	enum  class PolygonMode : unsigned short int
+	{
+		POINT = GL_POINT,
+		LINE = GL_LINE,
+		FILL = GL_FILL
+	};
 }
 
 #endif // RENDERER_ENUM_HPP

@@ -274,7 +274,7 @@ namespace ece
 //		static inline void lineWidth(float width);
 		static inline void frontFace(const FrontFaceMode mode);
 		static inline void cullFace(const CullFaceMode mode);
-//		static inline void polygonMode(GLenum face, GLenum mode);
+		static inline void polygonMode(const PolygonMode mode);
 //		static inline void polygonOffset(float factor, float units);
 //		static inline void pixelStoref(GLenum pname, float param);
 //		static inline void pixelStorei(GLenum pname, int param);

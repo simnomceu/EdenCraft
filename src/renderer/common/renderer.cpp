@@ -22,6 +22,11 @@ namespace ece
 		OpenGL::disable(Capability::CULL_FACE);
 	}
 
+	void Renderer::setPolygonMode(const PolygonMode mode)
+	{
+		OpenGL::polygonMode(mode);
+	}
+
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
 	{
 		this->enableFaceCulling(CullFaceMode::BACK, FrontFaceMode::CW);
