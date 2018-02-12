@@ -1,13 +1,15 @@
 #ifndef BASE_CONTEXT_OPENGL_HPP
 #define BASE_CONTEXT_OPENGL_HPP
 
+#include <memory>
+
 #include "utility/indexing/version.hpp"
 
 namespace ece
 {
 	class RenderWindow;
 
-	class BaseContextOpenGL
+	class BaseContextOpenGL: public std::enable_shared_from_this<BaseContextOpenGL>
 	{
 	public:
 		inline BaseContextOpenGL();
@@ -24,6 +26,8 @@ namespace ece
 
 		virtual void create(const RenderWindow & window) = 0;
 		virtual void swapBuffers() = 0;
+
+		virtual void setCurrent() = 0;
 
 		void logInfos();
 

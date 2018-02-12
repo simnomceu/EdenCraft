@@ -10,11 +10,21 @@ namespace ece
 		return Shader(static_cast<Handle>(handle[0]));
 	}
 
-	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
+	void Renderer::enableFaceCulling(const CullFaceMode cullFaceMode, const FrontFaceMode frontFaceMode)
 	{
 		OpenGL::enable(Capability::CULL_FACE);
-		OpenGL::cullFace(CullFaceMode::BACK);
-		OpenGL::frontFace(FrontFaceMode::CW);
+		OpenGL::cullFace(cullFaceMode);
+		OpenGL::frontFace(frontFaceMode);
+	}
+
+	void Renderer::disableFaceCulling()
+	{
+		OpenGL::disable(Capability::CULL_FACE);
+	}
+
+	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
+	{
+		this->enableFaceCulling(CullFaceMode::BACK, FrontFaceMode::CW);
 
 		vao.bind();
 		vao.bindIndexBuffer();

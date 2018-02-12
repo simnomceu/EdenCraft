@@ -30,6 +30,8 @@ namespace ece
 {
 	using Handle = unsigned short int;
 
+	class BaseContextOpenGL;
+
 	class OpenGL
 	{
 	public:
@@ -38,6 +40,7 @@ namespace ece
 		static void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
 
 		static inline Version<2> & getLatestVersion();
+		static inline void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext);
 
 		static void checkErrors(const std::string & location);
 
@@ -693,6 +696,7 @@ namespace ece
 		OpenGL(OpenGL && move) = default;
 
 		static Version<2> _latestVersion;
+		static std::shared_ptr<BaseContextOpenGL> _currentContext;
 
 		OpenGL & operator=(const OpenGL & copy) = default;
 		OpenGL & operator=(OpenGL && move) = default;

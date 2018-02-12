@@ -23,6 +23,9 @@ namespace ece
 		Shader getProgram() const;
 		inline void setProgram(const Shader & program);
 
+		void enableFaceCulling(const CullFaceMode cullFaceMode = CullFaceMode::BACK, const FrontFaceMode frontFaceMode = FrontFaceMode::CCW);
+		void disableFaceCulling();
+
 		void drawPrimitives(const PrimitiveMode mode, const VAO & vao);
 
 	private:

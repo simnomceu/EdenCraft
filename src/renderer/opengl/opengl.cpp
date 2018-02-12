@@ -1,6 +1,7 @@
 #include "renderer/opengl/opengl.hpp"
 
 #include "utility/log/service_logger.hpp"
+#include "renderer/opengl/base_context_opengl.hpp"
 
 #ifdef _MSC_VER
 #	undef min
@@ -10,6 +11,7 @@
 namespace ece
 {
 	Version<2> OpenGL::_latestVersion{3, 2};
+	std::shared_ptr<BaseContextOpenGL> OpenGL::_currentContext;
 
 	void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 	{

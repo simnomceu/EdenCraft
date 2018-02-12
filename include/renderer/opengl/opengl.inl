@@ -5,6 +5,12 @@ namespace ece
 {
 	inline Version<2> & OpenGL::getLatestVersion() { return OpenGL::_latestVersion; }
 
+	inline void OpenGL::setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext)
+	{
+		OpenGL::_currentContext.reset();
+		OpenGL::_currentContext = currentContext;
+	}
+
 	inline void OpenGL::bindBuffer(const BufferType type, const Handle handle)
 	{
 		glBindBuffer(static_cast<GLenum>(type), static_cast<GLuint>(handle));

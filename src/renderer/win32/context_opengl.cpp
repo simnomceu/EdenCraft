@@ -102,4 +102,12 @@ namespace ece
 			ServiceLoggerLocator::getService().logError("Buffers not swapped !");
 		}
 	}
+
+	void ContextOpenGL::setCurrent()
+	{
+		if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
+			throw std::runtime_error("The context cannot be used.");
+		}
+		OpenGL::setCurrentContext(this->shared_from_this());
+	}
 }
