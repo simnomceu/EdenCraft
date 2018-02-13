@@ -79,23 +79,20 @@ namespace ece
 				++padding;
 			}
 			int psw = scanLineBytes + padding; // TODO: all here is not efficient at all
-			this->_buffer.resize(DIB.height * psw);
 
 			this->_width = psw / 3;
 			this->_height = DIB.height;
-			std::cout << "size :" << this->_width << "*" << this->_height << " pixels" << std::endl;
+			this->_buffer.resize(this->_width * this->_height);
 			long bufPos = 0, newPos = 0;
-			for (uint32_t y = 0; y < DIB.height; ++y) {
-				for (uint32_t x = 0; x < 3 * DIB.width; x+=3) {
-					newPos = y * 3 * DIB.width + x;
+			for (uint32_t y = 0; y < this->_height; ++y) {
+				for (uint32_t x = 0; x < 3 * this->_width; x+=3) {
 					bufPos = (DIB.height - y - 1) * psw + x;
+					newPos = y * this->_width + (this->_width - 1 - x / 3);
 					
-					this->_buffer[newPos].red = buffer[newPos + 2]; std::cout << static_cast<int>(this->_buffer[newPos].red) << "|";
-					this->_buffer[newPos].green = buffer[newPos + 1]; std::cout << static_cast<int>(this->_buffer[newPos].green) << "|";
-					this->_buffer[newPos].blue = buffer[newPos]; std::cout << static_cast<int>(this->_buffer[newPos].blue);
-					std::cout << " ";
+					this->_buffer[newPos].red = buffer[bufPos + 2];
+					this->_buffer[newPos].green = buffer[bufPos + 1];
+					this->_buffer[newPos].blue = buffer[bufPos];
 				}
-				std::cout << std::endl;
 			}
 		}
 		catch (FileException & e) {

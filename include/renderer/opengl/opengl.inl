@@ -528,9 +528,32 @@ namespace ece
 //	inline void OpenGL::texParameterIiv(GLenum /*target*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texParameterIuiv(GLenum /*target*/, GLenum /*pname*/, const unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::generateMipmap(GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::bindTexture(GLenum /*target*/, unsigned int /*texture*/) { static_assert(false, "Not implemented yet."); }
+	inline void OpenGL::bindTexture(const TextureTarget target, const Handle texture)
+	{
+		glBindTexture(GLenum(target), texture);
+		OpenGL::checkErrors("OpenGL::bindTexture");
+	}
 //	inline void OpenGL::deleteTextures(GLsizei /*n*/, const unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::genTextures(GLsizei /*n*/, unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
+
+	inline Handle OpenGL::genTexture()
+	{
+		GLuint handle;
+		glGenTextures(1, &handle);
+		OpenGL::checkErrors("OpenGL::genTexture");
+		return Handle(handle);
+	}
+
+	inline std::vector<Handle> OpenGL::genTextures(const unsigned int n)
+	{
+		std::vector<Handle> handles;
+		if (n != 0) {
+			handles.resize(handles.size() + n);
+			glGenTextures(n, reinterpret_cast<GLuint *>(&handles.back() - n + 1));
+			OpenGL::checkErrors("OpenGL::genTextures");
+		}
+		return handles;
+	}
+
 //	inline void OpenGL::getTexParameterfv(GLenum /*target*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getTexParameteriv(GLenum /*target*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getTexParameterIiv(GLenum /*target*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }

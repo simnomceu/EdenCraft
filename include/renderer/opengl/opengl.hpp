@@ -306,9 +306,10 @@ namespace ece
 //		static inline void texParameterIiv(GLenum target, GLenum pname, const int * params);
 //		static inline void texParameterIuiv(GLenum target, GLenum pname, const unsigned int * params);
 //		static inline void generateMipmap(GLenum target);
-//		static inline void bindTexture(GLenum target, unsigned int texture);
+		static inline void bindTexture(const TextureTarget target, const Handle texture);
 //		static inline void deleteTextures(GLsizei n, const unsigned int * textures);
-//		static inline void genTextures(GLsizei n, unsigned int * textures);
+		static inline Handle genTexture();
+		static inline std::vector<Handle> genTextures(const unsigned int n);
 //		static inline void getTexParameterfv(GLenum target, GLenum pname, float * params);
 //		static inline void getTexParameteriv(GLenum target, GLenum pname, int * params);
 //		static inline void getTexParameterIiv(GLenum target, GLenum pname, int * params);

@@ -111,18 +111,17 @@ int main()
 		renderer.setProgram(program);
 
 		ece::ParserBMP parserBMP;
-		parserBMP.loadFromFile("../examples/more_cube/test.bmp");
+		parserBMP.loadFromFile("../examples/more_cube/emma_watson.bmp");
 
-		unsigned int texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		auto texture = ece::OpenGL::genTexture();
+		ece::OpenGL::bindTexture(ece::TextureTarget::TEXTURE_2D, texture);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, parserBMP.getWidth(), parserBMP.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, &parserBMP.getBuffer()[0]);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		ece::OpenGL::checkErrors("glTexImage2D");
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		ece::OpenGL::checkErrors("glTexParameteri");
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		ece::OpenGL::checkErrors("glTexParameteri");
 
 
 		glUniform1i(glGetUniformLocation(program.getHandle(), "theTexture"), 0);
@@ -131,8 +130,6 @@ int main()
 		while (1) {
 			window.clear();
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture);
 			renderer.drawPrimitives(ece::PrimitiveMode::TRIANGLES, vao);
 			if (window.pollEvent(event)) {
 			}
