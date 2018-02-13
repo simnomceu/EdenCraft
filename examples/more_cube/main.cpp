@@ -5,6 +5,7 @@
 #include "utility/log/service_logger.hpp"
 #include "renderer/opengl/vao.hpp"
 #include "renderer/common/renderer.hpp"
+#include "utility/file_system/parser_bmp.hpp"
 
 #include <iostream>
 
@@ -28,7 +29,7 @@ int main()
 		window.limitUPS(100);
 
 		ece::Renderer renderer;
-		renderer.setPolygonMode(ece::PolygonMode::LINE);
+		//renderer.setPolygonMode(ece::PolygonMode::LINE);
 
 		/*const std::vector<float> points{ 0.0f, 0.5f,
 										 0.5f, -0.5f,
@@ -50,6 +51,12 @@ int main()
 										  0.0f, 1.0f, 0.0f,
 										  0.0f, 0.0f, 1.0f,
 										  0.0f, 1.0f, 1.0f
+		};
+
+		const std::vector<float> texPos{ 1.0f, 1.0f, 
+											1.0f, 0.0f,
+											0.0f, 0.0f,
+											0.0f, 1.0f
 		};
 
 		const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
@@ -91,6 +98,7 @@ int main()
 		ece::VAO vao;
 		vao.addAttribute(0, 2, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
 		vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colours, ece::BufferUsage::STATIC_DRAW);
+		vao.addAttribute(2, 2, false, 0, ece::BufferType::ARRAY_BUFFER, texPos, ece::BufferUsage::STATIC_DRAW);
 		vao.addIndices(index, ece::BufferUsage::STATIC_DRAW);
 
 		ece::ShaderStage fsSource, vsSource;
@@ -102,9 +110,29 @@ int main()
 		program.link();
 		renderer.setProgram(program);
 
+		ece::ParserBMP parserBMP;
+		parserBMP.loadFromFile("../examples/more_cube/test.bmp");
+
+		unsigned int texture;
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, parserBMP.getWidth(), parserBMP.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, &parserBMP.getBuffer()[0]);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+
+		glUniform1i(glGetUniformLocation(program.getHandle(), "theTexture"), 0);
+
 		ece::InputEvent event;
 		while (1) {
 			window.clear();
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture);
 			renderer.drawPrimitives(ece::PrimitiveMode::TRIANGLES, vao);
 			if (window.pollEvent(event)) {
 			}
