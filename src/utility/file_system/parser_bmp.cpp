@@ -87,7 +87,7 @@ namespace ece
 			for (uint32_t y = 0; y < this->_height; ++y) {
 				for (uint32_t x = 0; x < 3 * this->_width; x+=3) {
 					bufPos = (DIB.height - y - 1) * psw + x;
-					newPos = y * this->_width + (this->_width - 1 - x / 3);
+					newPos = y * this->_width + (this->_width - 1 - x / 3); // TODO: need to deal with flip vertically/horizontal regarding to OpenGL behaviour.
 					
 					this->_buffer[newPos].red = buffer[bufPos + 2];
 					this->_buffer[newPos].green = buffer[bufPos + 1];

@@ -269,6 +269,18 @@ namespace ece
 				this->pushEvent(newEvent);
 				break;
 			}
+			case WM_MOVE: {
+				break;
+			}
+			case WM_MOVING: {
+				break;
+			}
+			case WM_SIZE: {
+				break;
+			}
+			case WM_SIZING: {
+				break;
+			}
 			default: {
 				break;
 			}

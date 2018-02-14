@@ -6,6 +6,7 @@
 #include "renderer/opengl/vao.hpp"
 #include "renderer/common/renderer.hpp"
 #include "utility/file_system/parser_bmp.hpp"
+#include "renderer/common/texture2d.hpp"
 
 #include <iostream>
 
@@ -110,21 +111,12 @@ int main()
 		program.link();
 		renderer.setProgram(program);
 
-		ece::ParserBMP parserBMP;
-		parserBMP.loadFromFile("../examples/more_cube/emma_watson.bmp");
+		ece::Texture2D texture;
+		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../examples/more_cube/emma_watson.bmp");
+		texture.bind(ece::TextureTarget::TEXTURE_2D);
+		texture.update();
 
-		auto texture = ece::OpenGL::genTexture();
-		ece::OpenGL::bindTexture(ece::TextureTarget::TEXTURE_2D, texture);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, parserBMP.getWidth(), parserBMP.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, &parserBMP.getBuffer()[0]);
-		ece::OpenGL::checkErrors("glTexImage2D");
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		ece::OpenGL::checkErrors("glTexParameteri");
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		ece::OpenGL::checkErrors("glTexParameteri");
-
-
-		glUniform1i(glGetUniformLocation(program.getHandle(), "theTexture"), 0);
+		ece::OpenGL::uniform(glGetUniformLocation(program.getHandle(), "theTexture"), std::array<int, 1>{0});
 
 		ece::InputEvent event;
 		while (1) {

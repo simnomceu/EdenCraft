@@ -158,6 +158,7 @@ namespace ece
 	// New version
 
 	inline ErrorGL OpenGL::getError() { return ErrorGL(glGetError()); }
+
 //	inline void OpenGL::vertexAttrib1f(unsigned int /*index*/, float /*v0*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::vertexAttrib1s(unsigned int /*index*/, short /*v0*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::vertexAttrib1d(unsigned int /*index*/, double /*v0*/) { static_assert(false, "Not implemented yet."); }
@@ -235,25 +236,25 @@ namespace ece
 
 	inline void OpenGL::enable(const Capability cap)
 	{
-		glEnable(GLenum(cap));
+		glEnable(static_cast<GLenum>(cap));
 		OpenGL::checkErrors("OpenGL::enable");
 	}
 
 	inline void OpenGL::disable(const Capability cap)
 	{
-		glDisable(GLenum(cap));
+		glDisable(static_cast<GLenum>(cap));
 		OpenGL::checkErrors("OpenGL::disable");
 	}
 
 	inline void OpenGL::enableIndexed(const Capability cap, const unsigned short int index)
 	{
-		glEnablei(GLenum(cap), index);
+		glEnablei(static_cast<GLenum>(cap), index);
 		OpenGL::checkErrors("OpenGL::enableIndexed");
 	}
 
 	inline void OpenGL::disableIndexed(const Capability cap, const unsigned short int index)
 	{
-		glDisablei(GLenum(cap), index);
+		glDisablei(static_cast<GLenum>(cap), index);
 		OpenGL::checkErrors("OpenGL::disableIndexed");
 	}
 
@@ -261,7 +262,7 @@ namespace ece
 
 	inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const unsigned int count)
 	{
-		glDrawArrays(GLenum(mode), first, count);
+		glDrawArrays(static_cast<GLenum>(mode), first, count);
 		OpenGL::checkErrors("OpenGL::drawArrays");
 	}
 
@@ -269,7 +270,7 @@ namespace ece
 
 	inline void OpenGL::drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset)
 	{
-		glDrawElements(GLenum(mode), count, GLenum(type), reinterpret_cast<void *>(offset));
+		glDrawElements(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<void *>(offset));
 		OpenGL::checkErrors("OpenGL::drawElements");
 	}
 
@@ -342,7 +343,7 @@ namespace ece
 
 	inline Handle OpenGL::createShader(const ShaderType type)
 	{
-		GLuint shaderHandle = glCreateShader(GLenum(type));
+		GLuint shaderHandle = glCreateShader(static_cast<GLenum>(type));
 		OpenGL::checkErrors("OpenGL::createShader");
 		return Handle(shaderHandle);
 	}
@@ -415,18 +416,97 @@ namespace ece
 //	inline void OpenGL::getActiveUniformName(unsigned int /*program*/, unsigned int /*uniformIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformName*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getActiveUniform(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getActiveUniformsiv(unsigned int /*program*/, GLsizei /*uniformCount*/, const unsigned int * /*uniformIndices*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform1f(int /*location*/, float /*v0*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform2f(int /*location*/, float /*v0*/, float /*v1*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform3f(int /*location*/, float /*v0*/, float /*v1*/, float /*v2*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform4f(int /*location*/, float /*v0*/, float/* v1*/, float /*v2*/, float /*v3*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform1i(int /*location*/, int /*v0*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform2i(int /*location*/, int /*v0*/, int /*v1*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform3i(int /*location*/, int /*v0*/, int /*v1*/, int /*v2*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform4i(int /*location*/, int /*v0*/, int /*v1*/, int /*v2*/, int /*v3*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform1ui(int /*location*/, unsigned int /*v0*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform2ui(int /*location*/, unsigned int /*v0*/, unsigned int /*v1*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform3ui(int /*location*/, unsigned int /*v0*/, unsigned int /*v1*/, unsigned int /*v2*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::uniform4ui(int /*location*/, unsigned int /*v0*/, unsigned int /*v1*/, unsigned int /*v2*/, unsigned int /*v3*/) { static_assert(false, "Not implemented yet."); }
+	
+	template <class T, unsigned int S>
+	inline void OpenGL::uniform(const int location, const std::array<T, S> & v)
+	{
+		static_assert("No existing specialization for OpenGL::uniform.");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<float, 1> & v)
+	{
+		glUniform1f(location, v[0]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<float, 2> & v)
+	{
+		glUniform2f(location, v[0], v[1]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<float, 3> & v)
+	{
+		glUniform3f(location, v[0], v[1], v[2]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<float, 4> & v)
+	{
+		glUniform4f(location, v[0], v[1], v[2], v[3]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<int, 1> & v)
+	{
+		glUniform1i(location, v[0]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<int, 2> & v)
+	{
+		glUniform2i(location, v[0], v[1]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<int, 3> & v)
+	{
+		glUniform3i(location, v[0], v[1], v[2]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<int, 4> & v)
+	{
+		glUniform4i(location, v[0], v[1], v[2], v[3]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<unsigned int, 1> & v)
+	{
+		glUniform1ui(location, v[0]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<unsigned int, 2> & v)
+	{
+		glUniform2ui(location, v[0], v[1]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<unsigned int, 3> & v)
+	{
+		glUniform3ui(location, v[0], v[1], v[2]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const std::array<unsigned int, 4> & v)
+	{
+		glUniform4ui(location, v[0], v[1], v[2], v[3]);
+		OpenGL::checkErrors("OpenGL::uniform");
+	}
+
 //	inline void OpenGL::uniform1fv(int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::uniform2fv(int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::uniform3fv(int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
@@ -481,19 +561,19 @@ namespace ece
 
 	inline void OpenGL::frontFace(const FrontFaceMode mode)
 	{
-		glFrontFace(GLenum(mode));
+		glFrontFace(static_cast<GLenum>(mode));
 		OpenGL::checkErrors("OpenGL::frontFace");
 	}
 
 	inline void OpenGL::cullFace(const CullFaceMode mode)
 	{
-		glCullFace(GLenum(mode));
+		glCullFace(static_cast<GLenum>(mode));
 		OpenGL::checkErrors("OpenGL::cullFace");
 	}
 
 	inline void OpenGL::polygonMode(const PolygonMode mode)
 	{
-		glPolygonMode(GL_FRONT_AND_BACK, GLenum(mode));
+		glPolygonMode(GL_FRONT_AND_BACK, static_cast<GLenum>(mode));
 		OpenGL::checkErrors("OpenGL::polygonMode");
 	}
 
@@ -502,7 +582,14 @@ namespace ece
 //	inline void OpenGL::pixelStorei(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::activeTexture(GLenum /*texture*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texImage3D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::texImage2D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, GLsizei /*height*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
+	
+	inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data)
+	{
+		auto levelSec = (target == TextureTypeTarget::TEXTURE_RECTANGLE || target == TextureTypeTarget::PROXY_TEXTURE_RECTANGLE) ? 0 : level;
+		glTexImage2D(static_cast<GLenum>(target), levelSec, static_cast<unsigned int>(internalFormat), width, height, 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data);
+		OpenGL::checkErrors("OpenGL::texImage2D");
+	}
+
 //	inline void OpenGL::texImage1D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::copyTexImage2D(GLenum /*target*/, int /*level*/, GLenum /*internalformat*/, int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/, int /*border*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::copyTexImage1D(GLenum /*target*/, int /*level*/, GLenum /*internalformat*/, int /*x*/, int /*y*/, GLsizei /*width*/, int /*border*/) { static_assert(false, "Not implemented yet."); }
@@ -521,18 +608,41 @@ namespace ece
 //	inline void OpenGL::texImage3DMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, bool /*fixedsamplelocations*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texImage2DMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, bool /*fixedsamplelocations*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texBuffer(GLenum /*target*/, GLenum /*internalFormat*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::texParameterf(GLenum /*target*/, GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::texParameteri(GLenum /*target*/, GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
+	
+	template <class T> static inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const T param)
+	{
+		static_assert(false, "No existing specialization for OpenGL::texParameter");
+	}
+
+	template <> static inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param)
+	{
+		glTexParameterf(static_cast<GLenum>(target), static_cast<GLenum>(pname), param);
+		OpenGL::checkErrors("OpenGL::texParameter");
+	}
+
+	template <> static inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param)
+	{
+		glTexParameteri(static_cast<GLenum>(target), static_cast<GLenum>(pname), param);
+		OpenGL::checkErrors("OpenGL::texParameter");
+	}
+
 //	inline void OpenGL::texParameterfv(GLenum /*target*/, GLenum /*pname*/, const float * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texParameteriv(GLenum /*target*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texParameterIiv(GLenum /*target*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texParameterIuiv(GLenum /*target*/, GLenum /*pname*/, const unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::generateMipmap(GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
+	
+	inline void OpenGL::generateMipmap(const MipmapTarget target)
+	{
+		glGenerateMipmap(static_cast<GLenum>(target));
+		OpenGL::checkErrors("OpenGL::generateMipmap");
+	}
+
 	inline void OpenGL::bindTexture(const TextureTarget target, const Handle texture)
 	{
-		glBindTexture(GLenum(target), texture);
+		glBindTexture(static_cast<GLenum>(target), texture);
 		OpenGL::checkErrors("OpenGL::bindTexture");
 	}
+
 //	inline void OpenGL::deleteTextures(GLsizei /*n*/, const unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
 
 	inline Handle OpenGL::genTexture()
@@ -577,7 +687,7 @@ namespace ece
 
 	inline void OpenGL::depthFunc(const DepthFunctionCondition condition)
 	{
-		glDepthFunc(GLenum(condition));
+		glDepthFunc(static_cast<GLenum>(condition));
 		OpenGL::checkErrors("OpenGL::depthFunc");
 	}
 
