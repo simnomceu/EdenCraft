@@ -57,7 +57,7 @@ namespace ece
 
 	void WindowAdapter::setPosition(const IntVector2u & position)
 	{
-		bool success = SetWindowPos(this->_data->_windowId, 0, position[0], position[1], 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		bool success = SetWindowPos(this->_data->_windowId, HWND_NOTOPMOST, position[0], position[1], 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		if (!success) {
 			std::cout << "Error while moving window. (WGL)";
 			std::cout << " Code " << GetLastError() << std::endl;
