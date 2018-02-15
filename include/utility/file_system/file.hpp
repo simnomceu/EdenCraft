@@ -62,6 +62,7 @@ namespace ece
 		 * @brief Main constructor. The file is not defined, and no stream is opened.
 		 * @see File::File(const std::string & filename, const OpenMode & mode = File::in | File::out)
 		 * @see File::File(File && move)
+		 * @throw
 		 */
 		inline File();
 
@@ -72,6 +73,7 @@ namespace ece
 		 * @brief Constructor. Open a stream to the given file.
 		 * @see File::File()
 		 * @see File::File(File && move)
+		 * @throw
 		 */
 		explicit File(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
 
@@ -81,6 +83,7 @@ namespace ece
 		 * @see File::File()
 		 * @see File::File(const std::string & filename, const OpenMode & mode = File::in | File::out)
 		 * @see File::File(File && move)
+		 * @throw
 		 */
 		File(const File & copy);
 
@@ -90,6 +93,7 @@ namespace ece
 		 * @brief Move constructor. The stream is also moved.
 		 * @see File::File()
 		 * @see File::File(const std::string & filename, const OpenMode & mode = File::in | File::out)
+		 * @throw
 		 */
 		inline File(File && move);
 		
@@ -103,6 +107,7 @@ namespace ece
 		 * @fn File & operator=(const File & copy)
 		 * @brief This assigment operator is deleted. The class is not copyable.
 		 * @see File & operator=(File && move)
+		 * @throw
 		 */
 		File & operator=(const File & copy);
 
@@ -120,6 +125,7 @@ namespace ece
 		 * @param[out] mode The open mode to apply to the stream.
 		 * @return True if the file is opened, false else.
 		 * @brief Open a stream to the given file.
+		 * @throw
 		 */
 		const bool open(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
 		
@@ -127,12 +133,14 @@ namespace ece
 		 * @fn const bool isOpen() const
 		 * @return True, if the current file is opened, false else.
 		 * @brief Indicates if the current file is opened or not. If no file is set, it returns FALSE.
+		 * @throw
 		 */
 		inline const bool isOpen() const;
 
 		/** 
 		 * @fn void close()
 		 * @brief Close the current file and terminate the stream. If no file is opened, nothing happens.
+		 * @throw
 		 */
 		void close();
 		
@@ -140,6 +148,7 @@ namespace ece
 		 * @fn std::string parseToString()
 		 * @return The file content as a string.
 		 * @brief Get the entire content of the file as a string.
+		 * @throw
 		 */
 		std::string parseToString();
 
@@ -149,6 +158,7 @@ namespace ece
 		 * @return A vector of element extracted from the file. 
 		 * @brief Extracts a vector of element from the file. If the format doesn't match, an exception is hired.
 		 * If the file is not opened, an empty vector is returned.
+		 * @throw
 		 */
 		template<class T> std::vector<T> parseToVector();
 
@@ -158,6 +168,7 @@ namespace ece
 		 * @return True, if the file exists, or false else.
 		 * @remark To move in the future class Path as a member method.
 		 * @brief Check if the file is existing or not.
+		 * @throw
 		 */
 		static const bool exists(const std::string & filename);
 
@@ -166,6 +177,7 @@ namespace ece
 		 * @param[in] fileale The file to check for last time modification.
 		 * @return The last time it has been modified.
 		 * @brief Get the last time the file has been modified.
+		 * @throw
 		 */
 		static long long getLastTimeModification(const std::string & filename);
 
@@ -177,6 +189,7 @@ namespace ece
 		 * @brief Read the value from the file. If the type doesn't match, an exception is hired.
 		 * The file cursor goes after the element read. If the file is not opened an exception is hired.
 		 * @remark The behaviour is undefined for a binary file.
+		 * @throw
 		 */
 		template <class T> File & operator>>(T & value);
 
@@ -188,6 +201,7 @@ namespace ece
 		 * @brief Write the value in the file. If the type doesn't match, an exception is hired.
 		 * The file cursor goes after the element writen. If the file is not opened an exception is hired.
 		 * @remark The behaviour is undefined for a binary file.
+		 * @throw
 		 */
 		template <class T> File & operator<<(T & value);
 
@@ -198,6 +212,7 @@ namespace ece
 		 * @return The data read.
 		 * @brief Read the value from a specific number of bits in the file.
 		 * The file cursor goes after the element read. If the file is not opened an exception is hired.
+		 * @throw
 		 */
 		template <class T> T read(const unsigned int size = sizeof(T));
 
@@ -209,6 +224,7 @@ namespace ece
 		 * @brief Write the value in a specific number of bits in the file.
 		 * The file cursor goes after the element writen. If the file is not opened an exception is hired.
 		 * @remark The behaviour is undefined for a binary file.
+		 * @throw
 		 */
 		template <class T> void write(const T & value, const unsigned int size = sizeof(T));
 
@@ -236,7 +252,8 @@ namespace ece
 
 	/**
 	 * @remark That template specialization could be moved as a friend method of FloatVector3u.
-	 * @see std::vector<T> File::parseToVector();
+	 * @see std::vector<T> File::parseToVector()
+	 * @throw
 	 */
 	template<> std::vector<FloatVector3u> File::parseToVector<FloatVector3u>();
 }

@@ -62,6 +62,7 @@ namespace ece
 		 * @fn Parser(const Parser & copy)
 		 * @param[in] copy The parser to copy.
 		 * @brief Default copy constructor.
+		 * @throw
 		 */
 		Parser(const Parser & copy) = default;
 
@@ -69,12 +70,14 @@ namespace ece
 		 * @fn Parser(Parser && move)
 		 * @param[in] move The parser to move.
 		 * @brief Default move constructor.
+		 * @throw
 		 */
 		Parser(Parser && move) = default;
 
 		/**
 		 * @fn ~Parser()
 		 * @brief Default destructor.
+		 * @throw noexcept
 		 */
 		inline virtual ~Parser() noexcept = 0;
 
@@ -83,6 +86,7 @@ namespace ece
 		 * @param[in] copy The parser to copy from.
 		 * @return The parser copied.
 		 * @brief Default copy assigment operator.
+		 * @throw
 		 */
 		Parser & operator=(const Parser & copy) = default;
 
@@ -91,6 +95,7 @@ namespace ece
 		 * @param[in] move The parser to move.
 		 * @return The parser moved.
 		 * @brief Default move assigment operator.
+		 * @throw
 		 */
 		Parser & operator=(Parser && move) = default;
 
@@ -98,6 +103,7 @@ namespace ece
 		 * @fn void loadFromFile(const std::string & filename)
 		 * @param[in] filename The name of the file to load data from.
 		 * @brief Load and parse data from a file.
+		 * @throw
 		 */
 		virtual void loadFromFile(const std::string & filename) = 0;
 
@@ -105,6 +111,7 @@ namespace ece
 		 * @fn void loadFromString(const std::string & content)
 		 * @param[in] content The string content to load data from.
 		 * @brief Load and parse data from a string.
+		 * @throw
 		 */
 		virtual void loadFromString(const std::string & content) = 0;
 
@@ -112,6 +119,7 @@ namespace ece
 		 * @fn void loadFromMemory(const void * content)
 		 * @param[in] content The memory buffer to load data from.
 		 * @brief Load and parse data from memory.
+		 * @throw
 		 */
 		virtual void loadFromMemory(const void * content) = 0;
 
@@ -119,6 +127,7 @@ namespace ece
 		 * @fn void saveToFile(const std::string & filename)
 		 * @param[out] filename The name of the file to save into.
 		 * @brief Formate and save data into a file.
+		 * @throw
 		 */
 		virtual void saveToFile(const std::string & filename) = 0;
 
@@ -126,6 +135,7 @@ namespace ece
 		 * @fn void saveToString(std::string & content)
 		 * @param[out] content The string buffer to save into.
 		 * @brief Formate and save data into a string buffer.
+		 * @throw
 		 */
 		virtual void saveToString(std::string & content) = 0;
 
@@ -133,6 +143,7 @@ namespace ece
 		 * @fn void saveToMemory(void * content)
 		 * @param[out] content The memory to save into.
 		 * @brief Formate and save data into memory.
+		 * @throw
 		 */
 		virtual void saveToMemory(void * content) = 0;
 	};

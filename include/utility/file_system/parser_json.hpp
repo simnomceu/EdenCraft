@@ -57,6 +57,7 @@ namespace ece
 		/**
 		 * @fn ParserJSON()
 		 * @brief Unique constructor for a ParserJSON. No stream is opened, and no JSON tree is generated.
+		 * @throw
 		 */
 		inline constexpr ParserJSON();
 
@@ -65,6 +66,7 @@ namespace ece
 		 * @param[in] filename The name of the file to load data from.
 		 * @brief Load and parse data from a file.
 		 * @see void Parser::loadFromFile(const std::string & filename)
+		 * @throw
 		 */
 		virtual void loadFromFile(const std::string & filename) override;
 
@@ -73,6 +75,7 @@ namespace ece
 		 * @param[in] content The string content to load data from.
 		 * @brief Load and parse data from a string.
 		 * @see void Parser::loadFromString(const std::string & content)
+		 * @throw
 		 */
 		virtual void loadFromString(const std::string & content) override;
 
@@ -81,6 +84,7 @@ namespace ece
 		 * @param[in] content The memory buffer to load data from.
 		 * @brief Load and parse data from memory.
 		 * @see void Parser::loadFromMemory(const void * content)
+		 * @throw
 		 */
 		virtual void loadFromMemory(const void * content) override;
 
@@ -89,6 +93,7 @@ namespace ece
 		 * @param[out] filename The name of the file to save into.
 		 * @brief Formate and save data into a file.
 		 * @see void Parser::saveToFile(const std::string & filename)
+		 * @throw
 		 */
 		virtual void saveToFile(const std::string & filename) override;
 
@@ -97,6 +102,7 @@ namespace ece
 		 * @param[out] content The string buffer to save into.
 		 * @brief Formate and save data into a string buffer.
 		 * @see void Parser::saveToString(std::string & content)
+		 * @throw
 		 */
 		virtual void saveToString(std::string & content) override;
 
@@ -105,6 +111,7 @@ namespace ece
 		 * @param[out] content The memory to save into.
 		 * @brief Formate and save data into memory.
 		 * @see void Parser::saveToMemory(void * content)
+		 * @throw
 		 */
 		virtual void saveToMemory(void * content) override;
 
@@ -113,6 +120,7 @@ namespace ece
 		 * @return The root of the JSON tree from the current stream.
 		 * @brief An accessor to the root of the JSON tree generated. If no JSON file is opened, the pointer is nullptr.
 		 * @remark Decoupling JSONObject from this class, shall remove this method.
+		 * @throw
 		 */
 		inline std::shared_ptr<ObjectJSON> getObject() const;
 
