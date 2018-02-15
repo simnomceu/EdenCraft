@@ -41,8 +41,11 @@
 #include "utility/debug/exception.hpp"
 
 #include <iostream>
-#ifdef __linux__
-	#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#ifdef _WIN32
+#	define stat _stat
 #endif
 
 namespace ece
@@ -128,5 +131,16 @@ namespace ece
 
 		ret = stat(filename.c_str(), &info);
 		return 0 == ret;
+	}
+
+	long long File::getLastTimeModification(const std::string & filename)
+	{
+		// according to : https://stackoverflow.com/questions/40504281/c-how-to-check-the-last-modified-time-of-a-file
+		struct stat result;
+		if (stat(filename.c_str(), &result) == 0)
+		{
+			return result.st_mtime;
+		}
+		return -1;
 	}
 }

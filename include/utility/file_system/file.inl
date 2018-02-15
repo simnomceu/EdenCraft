@@ -71,6 +71,20 @@ namespace ece
 	}
 
 	template <class T>
+	T File::read(const unsigned int size)
+	{
+		T data;
+		this->_stream.read(reinterpret_cast<char *>(&data), size);
+		return data;
+	}
+
+	template <class T>
+	void File::write(const T & value, const unsigned int size)
+	{
+		this->_stream.write(reinterpret_cast<const char *>(value), size);
+	}
+
+	template <class T>
 	std::vector<T> File::parseToVector()
 	{
 		std::vector<T> content;
@@ -87,5 +101,10 @@ namespace ece
 			}
 		}
 		return content;
+	}
+
+	inline void File::moveCursorTo(const unsigned int position)
+	{
+		this->_stream.seekg(position);
 	}
 }

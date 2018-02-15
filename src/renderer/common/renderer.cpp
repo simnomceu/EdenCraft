@@ -42,20 +42,35 @@
 
 namespace ece
 {
-	Program Renderer::getProgram() const
+	Shader Renderer::getProgram() const
 	{
-		int handle = 0;
-		glGetIntegerv(GL_CURRENT_PROGRAM, &handle);
-		return Program(static_cast<ProgramHandle>(handle));
+		auto handle = OpenGL::getInteger(Parameter::CURRENT_PROGRAM);
+		return Shader(static_cast<Handle>(handle[0]));
+	}
+
+	void Renderer::enableFaceCulling(const CullFaceMode cullFaceMode, const FrontFaceMode frontFaceMode)
+	{
+		OpenGL::enable(Capability::CULL_FACE);
+		OpenGL::cullFace(cullFaceMode);
+		OpenGL::frontFace(frontFaceMode);
+	}
+
+	void Renderer::disableFaceCulling()
+	{
+		OpenGL::disable(Capability::CULL_FACE);
+	}
+
+	void Renderer::setPolygonMode(const PolygonMode mode)
+	{
+		OpenGL::polygonMode(mode);
 	}
 
 	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
 	{
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glFrontFace(GL_CW);
+		this->enableFaceCulling(CullFaceMode::BACK, FrontFaceMode::CW);
 
 		vao.bind();
-		glDrawArrays(mode, 0, 3);
+		vao.bindIndexBuffer();
+		OpenGL::drawElements(mode, vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
 	}
 }

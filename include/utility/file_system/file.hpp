@@ -162,12 +162,21 @@ namespace ece
 		static const bool exists(const std::string & filename);
 
 		/**
+		 * @fn long long getLastModification(const std::string & filename)
+		 * @param[in] fileale The file to check for last time modification.
+		 * @return The last time it has been modified.
+		 * @brief Get the last time the file has been modified.
+		 */
+		static long long getLastTimeModification(const std::string & filename);
+
+		/**
 		 * @fn File & operator>>(T & value)
 		 * @tparam T The type of the value to read from the file.
 		 * @param value To put the reading to.
 		 * @return The current file stream.
 		 * @brief Read the value from the file. If the type doesn't match, an exception is hired.
 		 * The file cursor goes after the element read. If the file is not opened an exception is hired.
+		 * @remark The behaviour is undefined for a binary file.
 		 */
 		template <class T> File & operator>>(T & value);
 
@@ -178,8 +187,38 @@ namespace ece
 		 * @return The current file stream.
 		 * @brief Write the value in the file. If the type doesn't match, an exception is hired.
 		 * The file cursor goes after the element writen. If the file is not opened an exception is hired.
+		 * @remark The behaviour is undefined for a binary file.
 		 */
 		template <class T> File & operator<<(T & value);
+
+		/** 
+		 * @fn T read(const unsigned int size = sizeof(T))
+		 * @tparam T The type of value to write in the file.
+		 * @param size The number of bits to read.
+		 * @return The data read.
+		 * @brief Read the value from a specific number of bits in the file.
+		 * The file cursor goes after the element read. If the file is not opened an exception is hired.
+		 */
+		template <class T> T read(const unsigned int size = sizeof(T));
+
+		/**
+		 * @fn File & operator<<(T & value)
+		 * @tparam T The type of the value to write in the file.
+		 * @param value The value to write in the file.
+		 * @return The current file stream.
+		 * @brief Write the value in a specific number of bits in the file.
+		 * The file cursor goes after the element writen. If the file is not opened an exception is hired.
+		 * @remark The behaviour is undefined for a binary file.
+		 */
+		template <class T> void write(const T & value, const unsigned int size = sizeof(T));
+
+		/**
+		 * @fn void moveCursorTo(const unsigned int position)
+		 * @param[in] position The position that the cursor needs  to reach.
+		 * @brief Move the file cursor to a specific position in the file.
+		 * @throw
+		 */
+		inline void moveCursorTo(const unsigned int position);
 
 	protected:
 		/**

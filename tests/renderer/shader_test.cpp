@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
+															ooooooooooooo                        .            
+															8'   888   `8                      .o8            
+																 888       .ooooo.   .oooo.o .o888oo  .oooo.o 
+																 888      d88' `88b d88(  "8   888   d88(  "8 
+																 888      888ooo888 `"Y88b.    888   `"Y88b.  
+																 888      888    .o o.  )88b   888 . o.  )88b 
+																o888o     `Y8bod8P' 8""888P'   "888" 8""888P' 
                                                                        
                                           
                                      
-				This file is part of EdenCraft Engine - Renderer module.
+				This file is part of EdenCraft Engine - Tests.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,40 +36,10 @@
 
 */
 
-#ifndef PROGRAM_HPP
-#define PROGRAM_HPP
+#include "Catch2/single_include/catch.hpp"
 
-#include "renderer/opengl/opengl.hpp"
 #include "renderer/common/shader.hpp"
 
-namespace ece
+SCENARIO("Shader", "[Renderer]")
 {
-	class Program
-	{
-	public:
-		Program();
-		inline Program(const ProgramHandle handle);
-		Program(const Program & copy) = default;
-		Program(Program && move) = default;
-
-		~Program() = default;
-
-		Program & operator=(const Program & copy) = default;
-		Program & operator=(Program && move) = default;
-
-		inline ProgramHandle getHandle() const;
-
-		void addShader(Shader & shader);
-		void link();
-		void use() const;
-
-		template<class T> void uniform(const std::string & uniform, const T & value);
-
-	private:
-		ProgramHandle _handle;
-	};
 }
-
-#include "renderer/common/program.inl"
-
-#endif // PROGRAM_HPP

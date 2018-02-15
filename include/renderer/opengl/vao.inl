@@ -36,6 +36,8 @@
 
 */
 
+#include "renderer/opengl/vbo.hpp"
+
 namespace ece
 {
 	template<class T> 
@@ -60,4 +62,6 @@ namespace ece
 
 		OpenGL::vertexAttribPointer<T>(location, size, normalized, offset, data);
 	}
+
+	inline unsigned int VAO::getNbVertices() const { return this->nbVertices; }
 }

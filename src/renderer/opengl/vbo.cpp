@@ -42,12 +42,12 @@ namespace ece
 {
 	VBO::VBO(const BufferType type): _handle(0), _type(type)
 	{
-		OpenGL::genBuffers(this->_handle);
+		this->_handle = OpenGL::genBuffers();
 	}
 
-	VBO::VBO() : _handle(0), _type(ARRAY_BUFFER)
+	VBO::VBO() : _handle(0), _type(BufferType::ARRAY_BUFFER)
 	{
-		OpenGL::genBuffers(this->_handle);
+		this->_handle = OpenGL::genBuffers();
 	}
 
 	void VBO::bind()

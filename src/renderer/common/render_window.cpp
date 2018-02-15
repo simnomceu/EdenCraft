@@ -72,7 +72,7 @@ namespace ece
 	void RenderWindow::clear()
 	{
 		if (this->isOpened()) {
-			glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
 		}
 	}
 
@@ -84,7 +84,7 @@ namespace ece
 	void RenderWindow::enableMSAA(const unsigned short int samples)
 	{
 		if (samples < 2) {
-			glDisable(GL_MULTISAMPLE);
+			OpenGL::disable(Capability::MULTISAMPLE);
 		}
 		this->_videoMode.setSamples(samples);
 	}

@@ -61,6 +61,8 @@ namespace ece
 		virtual void create(const RenderWindow & window) override;
 		virtual void swapBuffers() override;
 
+		virtual void setCurrent() override;
+
 	private:
 		Pimpl<DataContextOpenGL> _data;
 	};

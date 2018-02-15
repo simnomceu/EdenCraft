@@ -40,7 +40,7 @@
 #define RENDERER_HPP
 
 #include "renderer/opengl/opengl.hpp"
-#include "renderer/common/program.hpp"
+#include "renderer/common/shader.hpp"
 
 namespace ece
 {
@@ -58,8 +58,13 @@ namespace ece
 		Renderer & operator=(const Renderer & copy) = default;
 		Renderer & operator=(Renderer && move) = default;
 
-		Program getProgram() const;
-		inline void setProgram(const Program & program);
+		Shader getProgram() const;
+		inline void setProgram(const Shader & program);
+
+		void enableFaceCulling(const CullFaceMode cullFaceMode = CullFaceMode::BACK, const FrontFaceMode frontFaceMode = FrontFaceMode::CCW);
+		void disableFaceCulling();
+
+		void setPolygonMode(const PolygonMode mode);
 
 		void drawPrimitives(const PrimitiveMode mode, const VAO & vao);
 

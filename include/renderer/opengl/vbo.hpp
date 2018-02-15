@@ -39,7 +39,7 @@
 #ifndef VBO_HPP
 #define VBO_HPP
 
-#include "opengl.hpp"
+#include "renderer/opengl/opengl.hpp"
 
 namespace ece
 {
@@ -60,9 +60,10 @@ namespace ece
 		template<class T> void bufferData(const std::vector<T> & data, const BufferUsage usage);
 
 		inline void setType(const BufferType type);
-		inline VBOHandle getHandle() const;
+		inline Handle getHandle() const;
+
 	private:
-		VBOHandle _handle;
+		Handle _handle;
 		BufferType _type;
 	};
 }

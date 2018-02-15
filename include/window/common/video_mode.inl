@@ -42,7 +42,7 @@ namespace ece
 		_colorBits(32),
 		_depthBits(24),
 		_stencilBits(8),
-		_samples(16),
+		_samples(8), // TODO all these values should be defined from the default available to avoid an unknown device.
 		_doubleBuffering(true),
 		_changed(false)
 	{
