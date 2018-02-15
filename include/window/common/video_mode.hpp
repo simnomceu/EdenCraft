@@ -44,48 +44,228 @@ namespace ece
 	 * @class VideoMode
 	 * @brief Store all the parameters of the video mode for a window.
 	 * Store all the parameters of the video mode for a window. It is used for read and write operation.
-	 * The object is completely compatible with movable or copyable operations.
-	 * Setting values in VideoMode doesn't affect anything else than this object.
-	 **/
+	 */
 	class VideoMode
 	{
 	public:
-		inline VideoMode();
-		VideoMode(const VideoMode & copy) = default;
-		VideoMode(VideoMode && copy) = default;
-		inline ~VideoMode();
+		/**
+		 * @fn constexpr VideoMode()
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline constexpr VideoMode() noexcept;
 
-		VideoMode & operator=(const VideoMode & copy) = default;
-		VideoMode & operator=(VideoMode && copy) = default;
+		/**
+		 * @fn VideoMode(const VideoMode & copy) noexcept 
+		 * @param[in] copy The video mode to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		VideoMode(const VideoMode & copy) noexcept = default;
+		
+		/**
+		 * @fn VideoMode(VideoMode && copy) noexcept 
+		 * @param[in] move The video mode to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		VideoMode(VideoMode && move) noexcept = default;
 
+		/**
+		 * @fn ~VideoMode()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		inline ~VideoMode() noexcept;
+
+		/**
+		 * @fn VideoMode & operator=(const VideoMode & copy) noexcept 
+		 * @param[in] copy The video mode to copy from.
+		 * @return The video mode copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		VideoMode & operator=(const VideoMode & copy) noexcept = default;
+
+		/**
+		 * @fn VideoMode & operator=(VideoMode && move) noexcept
+		 * @param[in] move The video mode to move.
+		 * @return The video mode moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		VideoMode & operator=(VideoMode && move) noexcept = default;
+
+		/**
+		 * @fn bool operator==(const VideoMode & rightOperand) const
+		 * @param[in] rightoperand
+		 * @return
+		 * @brief
+		 * @throw
+		 */
 		bool operator==(const VideoMode & rightOperand) const;
+
+		/**
+		 * @fn bool operator!=(const VideoMode & rightOperand) const
+		 * @param[in] rightoperand
+		 * @return
+		 * @brief
+		 * @throw
+		 */
 		inline bool operator!=(const VideoMode & rightOperand) const;
 
+		/**
+		 * @fn void setRefreshRate(const unsigned short int refreshRate)
+		 * @param[in] refreshRate
+		 * @brief
+		 * @throw
+		 */
 		void setRefreshRate(const unsigned short int refreshRate);
+
+		/**
+		 * @fn void setColorBits(const unsigned short int colorBits)
+		 * @param[in] colorBits
+		 * @brief
+		 * @throw
+		 */
 		void setColorBits(const unsigned short int colorBits);
+
+		/**
+		 * @fn void setDepthBits(const unsigned short int dephtBits)
+		 * @param[in] dephtBits
+		 * @brief
+		 * @throw
+		 */
 		void setDepthBits(const unsigned short int dephtBits);
+
+		/**
+		 * @fn void setStencilBits(const unsigned short int stencilBits)
+		 * @param[in] stencilBits
+		 * @brief
+		 * @throw
+		 */
 		void setStencilBits(const unsigned short int stencilBits);
+
+		/**
+		 * @fn void setSamples(const unsigned short int samples)
+		 * @param[in] samples
+		 * @brief
+		 * @throw
+		 */
 		void setSamples(const unsigned short int samples);
+
+		/**
+		 * @fn void setDoubleBuffering(const bool doubleBuffering)
+		 * @param[in] doubleBuffering
+		 * @brief
+		 * @throw
+		 */
 		void setDoubleBuffering(const bool doubleBuffering);
 
-		inline unsigned short int getRefreshRate() const;
-		inline unsigned short int getColorBits() const;
-		inline unsigned short int getDepthBits() const;
-		inline unsigned short int getStencilBits() const;
-		inline unsigned short int getSamples() const;
-		inline bool isDoubleBufferingActivate() const;
+		/**
+		 * @fn unsigned short int getRefreshRate() const noexcept
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline unsigned short int getRefreshRate() const noexcept;
 
-		inline bool hasChanged() const;
-		inline void applyChanges();
+		/**
+		 * @fn unsigned short int getColorBits() const noexcept
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline unsigned short int getColorBits() const noexcept;
+
+		/**
+		 * @fn unsigned short int getDepthBits() const noexcept
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline unsigned short int getDepthBits() const noexcept;
+
+		/**
+		 * @fn unsigned short int getStencilBits() const noexcept
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline unsigned short int getStencilBits() const noexcept;
+
+		/**
+		 * @fn unsigned short int getSamples() const noexcept
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline unsigned short int getSamples() const noexcept;
+
+		/**
+		 * @fn bool isDoubleBufferingActivate() const noexcept
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline bool isDoubleBufferingActivate() const noexcept;
+		
+		/**
+		 * @fn bool hasChanged() const noexcept
+		 * @return
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline bool hasChanged() const noexcept;
+
+		/**
+		 * @fn void applyChanges() noexcept
+		 * @brief
+		 * @throw noexcept
+		 */
+		inline void applyChanges() noexcept;
 
 	private:
+		/**
+		 * @property _refreshRate
+		 * @brief
+		 */
 		unsigned short int _refreshRate;
-		unsigned short int _colorBits;
-		unsigned short int _depthBits;
-		unsigned short int _stencilBits;
-		unsigned short int _samples;
-		bool _doubleBuffering;
 
+		/**
+		 * @property _colorBits
+		 * @brief
+		 */
+		unsigned short int _colorBits;
+		
+		/**
+		 * @property _depthBits
+		 * @brief
+		 */
+		unsigned short int _depthBits;
+		
+		/**
+		 * @property _stencilBits
+		 * @brief
+		 */
+		unsigned short int _stencilBits;
+		
+		/**
+		 * @property _samples
+		 * @brief
+		 */
+		unsigned short int _samples;
+		
+		/**
+		 * @property _doubleBuffering
+		 * @brief
+		 */
+		bool _doubleBuffering;
+		
+		/**
+		 * @property _changed
+		 * @brief
+		 */
 		bool _changed;
 	};
 }

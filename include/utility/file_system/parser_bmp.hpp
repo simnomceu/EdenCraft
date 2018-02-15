@@ -221,19 +221,19 @@ namespace ece
 		};
 
 		/**
-		 * @attrib _buffer
+		 * @property _buffer
 		 * @brief The image pixels.
 		 */
 		std::vector<RGB24> _buffer;
 
 		/**
-		 * @attrib _width
+		 * @property _width
 		 * @brief The image width.
 		 */
 		unsigned int _width;
 
 		/**
-		 * @attrib _height
+		 * @property _height
 		 * @brief The image height.
 		 */
 		unsigned int _height;

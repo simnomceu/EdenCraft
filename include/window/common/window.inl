@@ -37,34 +37,37 @@
 
 namespace ece
 {
-	inline constexpr VideoMode::VideoMode() noexcept:
-		_refreshRate(),
-		_colorBits(32),
-		_depthBits(24),
-		_stencilBits(8),
-		_samples(8), // TODO all these values should be defined from the default available to avoid an unknown device.
-		_doubleBuffering(true),
-		_changed(false)
-	{
-	}
+	inline Window::Window(const Window & copy) noexcept:Emitter(copy), _adapter(static_cast<WindowAdapter*>(copy._adapter.get())), _ups(copy._ups) {}
 
-	inline VideoMode::~VideoMode() noexcept {}
+	inline Window::Window(Window && move) noexcept : Emitter(move), _adapter(std::move(_adapter)), _ups(std::move(move._ups)) {}
 
-	inline bool VideoMode::operator!=(const VideoMode & rightOperand) const { return !operator==(rightOperand); }
+	inline Window::~Window() noexcept {}
 
-	inline unsigned short int VideoMode::getRefreshRate() const noexcept { return this->_refreshRate; }
+	inline void Window::open(const WindowSetting & /*settings*/) {}
 
-	inline unsigned short int VideoMode::getColorBits() const noexcept { return this->_colorBits; }
+	inline bool Window::isOpened() const { return this->_adapter->isWindowCreated(); }
 
-	inline unsigned short int VideoMode::getDepthBits() const noexcept { return this->_depthBits; }
+	inline const std::string & Window::getTitle() const { return this->_adapter.get()->getTitle(); }
 
-	inline unsigned short int VideoMode::getStencilBits() const noexcept { return this->_stencilBits; }
+	inline void Window::setMinimumSize(const IntVector2u & /*size*/) { this->emit(WINDOW_RESIZED); }
 
-	inline unsigned short int VideoMode::getSamples() const noexcept { return this->_samples; }
+	inline void Window::setMaximumSize(const IntVector2u & /*size*/) { this->emit(WINDOW_RESIZED); }
 
-	inline bool VideoMode::isDoubleBufferingActivate() const noexcept { return this->_doubleBuffering; }
+	inline void Window::setFullscreen(const bool /*fullscreen*/) { this->emit(WINDOW_RESIZED); }
 
-	inline bool VideoMode::hasChanged() const noexcept { return this->_changed; }
+	inline void Window::enableDoubleClick(const bool /*enabled*/) {}
 
-	inline void VideoMode::applyChanges() noexcept { this->_changed = false; }
+	inline bool Window::isDoubleClickEnabled() const { return false; }
+
+	inline void Window::enableKeyRepeat(const bool enabled) { this->_adapter->enableKeyRepeat(enabled); }
+
+	inline bool Window::isKeyRepeatedEnabled() const { return false; }
+
+	inline void Window::limitUPS(const int limit) { this->_ups.setUPS(limit); }
+
+	inline std::weak_ptr<BaseWindowAdapter> Window::getAdapter() const { return this->_adapter; }
+
+	inline VideoMode & Window::getVideoMode() { return this->_videoMode; }
+
+	inline const VideoMode & Window::getVideoMode() const { return this->_videoMode; }
 }
