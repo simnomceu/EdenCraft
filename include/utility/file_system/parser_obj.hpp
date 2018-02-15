@@ -60,6 +60,7 @@ namespace ece
 		/**
 		 * @fn ParserOBJ()
 		 * @brief Unique constructor for a ParserOBJ. No OBJ is loaded.
+		 * @throw
 		 */
 		inline constexpr ParserOBJ();
 		
@@ -68,6 +69,7 @@ namespace ece
 		 * @param[in] filename The name of the file to load data from.
 		 * @brief Load and parse data from a file.
 		 * @see Parser::loadFromFile(const std::string & filename)
+		 * @throw
 		 */
 		virtual void loadFromFile(const std::string & filename) override;
 
@@ -76,6 +78,7 @@ namespace ece
 		 * @param[in] content The string content to load data from.
 		 * @brief Load and parse data from a string.
 		 * @see Parser::loadFromString(const std::string & content)
+		 * @throw
 		 */
 		virtual void loadFromString(const std::string & content) override;
 
@@ -84,6 +87,7 @@ namespace ece
 		 * @param[in] content The memory buffer to load data from.
 		 * @brief Load and parse data from memory.
 		 * @see Parser::loadFromMemory(const void * content)
+		 * @throw
 		 */
 		virtual void loadFromMemory(const void * content) override;
 
@@ -92,6 +96,7 @@ namespace ece
 		 * @param[out] filename The name of the file to save into.
 		 * @brief Formate and save data into a file.
 		 * @see Parser::saveToFile(const std::string & filename)
+		 * @throw
 		 */
 		virtual void saveToFile(const std::string & filename) override;
 
@@ -100,6 +105,7 @@ namespace ece
 		 * @param[out] content The string buffer to save into.
 		 * @brief Formate and save data into a string buffer.
 		 * @see saveToString(std::string & content)
+		 * @throw
 		 */
 		virtual void saveToString(std::string & content) override;
 
@@ -108,6 +114,7 @@ namespace ece
 		 * @param[out] content The memory to save into.
 		 * @brief Formate and save data into memory.
 		 * @see Parser::saveToMemory(void * content)
+		 * @throw
 		 */
 		virtual void saveToMemory(void * content) override;
 
@@ -116,6 +123,7 @@ namespace ece
 		 * @return The list of vertices of the current OBJ loaded.
 		 * @brief An accessor for the list of vertices of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
+		 * @throw
 		 */
 		inline const std::vector<float> & getVertices();
 		
@@ -124,6 +132,7 @@ namespace ece
 		 * @return The texture mapping of the current OBJ loaded.
 		 * @brief An accessor for the texture mapping of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
+		 * @throw
 		 */
 		inline const std::vector<float> & getTextures();
 
@@ -132,6 +141,7 @@ namespace ece
 		 * @return The list of normales of the current OBJ loaded.
 		 * @brief An accessor for the list of normales of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
+		 * @throw
 		 */
 		inline const std::vector<float> & getNormales();
 		
@@ -140,6 +150,7 @@ namespace ece
 		 * @return The list of faces of the current OBJ loaded.
 		 * @brief An accessor for the list of faces of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
+		 * @throw
 		 */
 		inline const std::vector<int> & getFaces();
 

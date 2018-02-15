@@ -36,7 +36,6 @@
 
 */
 
-namespace ece
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 

@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/opengl/opengl_extension.hpp"
 #include "opengl.hpp"
 
 namespace ece
