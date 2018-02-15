@@ -64,10 +64,6 @@
 #include "renderer/enum.hpp"
 #include "utility/indexing/version.hpp"
 
-#define checkErrors(func) \
-	func; \
-	OpenGL::checkErrors_(__FILE__, __LINE__, #func);
-
 namespace ece
 {
 	using Handle = unsigned short int;
@@ -83,9 +79,6 @@ namespace ece
 
 		static inline Version<2> & getLatestVersion();
 		static inline void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext);
-
-		static void checkErrors_(const char * file, const int line, const char * function);
-		static void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam);
 
 		static inline void bindBuffer(const BufferType type, const Handle handle);
 		template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);

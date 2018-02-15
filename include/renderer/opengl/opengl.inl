@@ -37,7 +37,8 @@
 */
 
 #include "renderer/opengl/opengl_extension.hpp"
-#include "opengl.hpp"
+#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl/debugging.hpp"
 
 namespace ece
 {

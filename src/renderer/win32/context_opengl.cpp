@@ -45,6 +45,7 @@
 #include "window/common/window_adapter.hpp"
 #include "window/win32/data_window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
+#include "renderer/opengl/debugging.hpp"
 
 #include <iostream>
 
@@ -133,7 +134,7 @@ namespace ece
 		{
 			checkErrors(glEnable(GL_DEBUG_OUTPUT));
 			checkErrors(glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS));
-			checkErrors(glDebugMessageCallback(OpenGL::glDebugOutput, nullptr));
+			checkErrors(glDebugMessageCallback(glDebugOutput, nullptr));
 			checkErrors(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
 		}
 
