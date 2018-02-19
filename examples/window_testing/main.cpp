@@ -65,13 +65,13 @@ int main()
 	while (1) {
 		for (auto & window : windows) {
 			while (window.pollEvent(event)) {
-				if (event._doubleTap != ece::InputEvent::ECE_TAP_NONE) {
+				if (event._doubleTap != ece::InputEvent::DoubleTap::ECE_TAP_NONE) {
 					std::cout << "double click !";
 				}
-				if (event._type == ece::InputEvent::ECE_KEY_PRESSED && event._key >= ece::Keyboard::A && event._key <= ece::Keyboard::Z) {
-					std::cout << char(event._key + 34);
+				if (event._type == ece::InputEvent::Type::ECE_KEY_PRESSED && event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
+					std::cout << char(static_cast<int>(event._key) + 34);
 				}
-				if (event._type == ece::InputEvent::ECE_MOUSE_MOVED) {
+				if (event._type == ece::InputEvent::Type::ECE_MOUSE_MOVED) {
 					std::cout << event._mousePosition[0] << "|" << event._mousePosition[1] << "  ";
 					std::cout << ece::Mouse::getPosition()[0] << "|" << ece::Mouse::getPosition()[1] << std::endl;
 				}
