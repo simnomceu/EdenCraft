@@ -35,36 +35,14 @@
 
 */
 
-namespace ece
-{
-	inline constexpr VideoMode::VideoMode() noexcept:
-		_refreshRate(),
-		_colorBits(32),
-		_depthBits(24),
-		_stencilBits(8),
-		_samples(8), // TODO all these values should be defined from the default available to avoid an unknown device.
-		_doubleBuffering(true),
-		_changed(false)
-	{
-	}
+#ifndef WINDOW_COMMON_HPP
+#define WINDOW_COMMON_HPP
 
-	inline VideoMode::~VideoMode() noexcept {}
+#include "window/common/event_queue.hpp"
+#include "window/common/ratio.hpp"
+#include "window/common/video_mode.hpp"
+#include "window/common/window.hpp"
+#include "window/common/window_adapter.hpp"
+#include "window/common/window_setting.hpp"
 
-	inline bool VideoMode::operator!=(const VideoMode & rightOperand) const { return !operator==(rightOperand); }
-
-	inline unsigned short int VideoMode::getRefreshRate() const noexcept { return this->_refreshRate; }
-
-	inline unsigned short int VideoMode::getColorBits() const noexcept { return this->_colorBits; }
-
-	inline unsigned short int VideoMode::getDepthBits() const noexcept { return this->_depthBits; }
-
-	inline unsigned short int VideoMode::getStencilBits() const noexcept { return this->_stencilBits; }
-
-	inline unsigned short int VideoMode::getSamples() const noexcept { return this->_samples; }
-
-	inline bool VideoMode::isDoubleBufferingEnabled() const noexcept { return this->_doubleBuffering; }
-
-	inline bool VideoMode::hasChanged() const noexcept { return this->_changed; }
-
-	inline void VideoMode::applyChanges() noexcept { this->_changed = false; }
-}
+#endif WINDOW_COMMON_HPP

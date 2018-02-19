@@ -98,7 +98,6 @@ namespace ece
 		 */
 		WindowAdapter & operator=(WindowAdapter && move) noexcept = default;
 
-
 		/**
 		 * @fn void createWindow()
 		 * @brief Generate a window.

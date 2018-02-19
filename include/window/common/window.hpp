@@ -183,7 +183,7 @@ namespace ece
 		 * @brief get The window title.
 		 * @throw
 		 */
-		inline std::string & getTitle() const;
+		inline const std::string & getTitle() const;
 
 		/**
 		 * @fn void setTitle(const std::string & title)

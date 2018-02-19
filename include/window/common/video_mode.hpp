@@ -98,129 +98,129 @@ namespace ece
 
 		/**
 		 * @fn bool operator==(const VideoMode & rightOperand) const
-		 * @param[in] rightoperand
-		 * @return
-		 * @brief
+		 * @param[in] rightoperand The video mode to compare to.
+		 * @return True, if both video modes are equal, false else.
+		 * @brief Compare two video modes for equality.
 		 * @throw
 		 */
 		bool operator==(const VideoMode & rightOperand) const;
 
 		/**
 		 * @fn bool operator!=(const VideoMode & rightOperand) const
-		 * @param[in] rightoperand
-		 * @return
-		 * @brief
+		 * @param[in] rightoperand The video mode to compare to.
+		 * @return True, if both video modes are not equal, false else.
+		 * @brief Compare two video modes for non-equality.
 		 * @throw
 		 */
 		inline bool operator!=(const VideoMode & rightOperand) const;
 
 		/**
 		 * @fn void setRefreshRate(const unsigned short int refreshRate)
-		 * @param[in] refreshRate
-		 * @brief
+		 * @param[in] refreshRate The rate of refreshing to set.
+		 * @brief Set the frame rate limit.
 		 * @throw
 		 */
 		void setRefreshRate(const unsigned short int refreshRate);
 
 		/**
 		 * @fn void setColorBits(const unsigned short int colorBits)
-		 * @param[in] colorBits
-		 * @brief
+		 * @param[in] colorBits The number of bits to set.
+		 * @brief Set the number of bits used for colors.
 		 * @throw
 		 */
 		void setColorBits(const unsigned short int colorBits);
 
 		/**
 		 * @fn void setDepthBits(const unsigned short int dephtBits)
-		 * @param[in] dephtBits
-		 * @brief
+		 * @param[in] dephtBits The number of bits to set.
+		 * @brief Set the number of bits used for the depth buffer.
 		 * @throw
 		 */
 		void setDepthBits(const unsigned short int dephtBits);
 
 		/**
 		 * @fn void setStencilBits(const unsigned short int stencilBits)
-		 * @param[in] stencilBits
-		 * @brief
+		 * @param[in] stencilBits The number of bits to set.
+		 * @brief Set the number of bits used for the stencil buffer.
 		 * @throw
 		 */
 		void setStencilBits(const unsigned short int stencilBits);
 
 		/**
 		 * @fn void setSamples(const unsigned short int samples)
-		 * @param[in] samples
-		 * @brief
+		 * @param[in] samples The number of samples to compute.
+		 * @brief Set the number of samples to compute for each frame.
 		 * @throw
 		 */
 		void setSamples(const unsigned short int samples);
 
 		/**
 		 * @fn void setDoubleBuffering(const bool doubleBuffering)
-		 * @param[in] doubleBuffering
-		 * @brief
+		 * @param[in] doubleBuffering The switch parameter to set.
+		 * @brief Enable or disable the double buffering.
 		 * @throw
 		 */
 		void setDoubleBuffering(const bool doubleBuffering);
 
 		/**
 		 * @fn unsigned short int getRefreshRate() const noexcept
-		 * @return
-		 * @brief
+		 * @return The current rate of refreshing.
+		 * @brief Get the current rate of refreshing frames.
 		 * @throw noexcept
 		 */
 		inline unsigned short int getRefreshRate() const noexcept;
 
 		/**
 		 * @fn unsigned short int getColorBits() const noexcept
-		 * @return
-		 * @brief
+		 * @return The number of bits.
+		 * @brief Get the number of bits used for the color.
 		 * @throw noexcept
 		 */
 		inline unsigned short int getColorBits() const noexcept;
 
 		/**
 		 * @fn unsigned short int getDepthBits() const noexcept
-		 * @return
-		 * @brief
+		 * @return The number of bits.
+		 * @brief Get he number if bits used for the depth buffer.
 		 * @throw noexcept
 		 */
 		inline unsigned short int getDepthBits() const noexcept;
 
 		/**
 		 * @fn unsigned short int getStencilBits() const noexcept
-		 * @return
-		 * @brief
+		 * @return The number of bits.
+		 * @brief Get he number if bits used for the stencil buffer.
 		 * @throw noexcept
 		 */
 		inline unsigned short int getStencilBits() const noexcept;
 
 		/**
 		 * @fn unsigned short int getSamples() const noexcept
-		 * @return
-		 * @brief
+		 * @return The number of samples to generate.
+		 * @brief Get the number of samples to generate for each frame.
 		 * @throw noexcept
 		 */
 		inline unsigned short int getSamples() const noexcept;
 
 		/**
-		 * @fn bool isDoubleBufferingActivate() const noexcept
-		 * @return
-		 * @brief
+		 * @fn bool isDoubleBufferingEnabled() const noexcept
+		 * @return True if the double buffering is enabled, false else.
+		 * @brief Check if the double buffering is enable or not.
 		 * @throw noexcept
 		 */
-		inline bool isDoubleBufferingActivate() const noexcept;
+		inline bool isDoubleBufferingEnabled() const noexcept;
 		
 		/**
 		 * @fn bool hasChanged() const noexcept
-		 * @return
-		 * @brief
+		 * @return True if the video mode has changed, false lse.
+		 * @brief Check if the video mode has changed or not since the last time it has been used.
 		 * @throw noexcept
 		 */
 		inline bool hasChanged() const noexcept;
 
 		/**
 		 * @fn void applyChanges() noexcept
-		 * @brief
+		 * @brief Apply the changes in the video mode.
 		 * @throw noexcept
 		 */
 		inline void applyChanges() noexcept;
@@ -228,43 +228,43 @@ namespace ece
 	private:
 		/**
 		 * @property _refreshRate
-		 * @brief
+		 * @brief The rate of refreshing for each frames.
 		 */
 		unsigned short int _refreshRate;
 
 		/**
 		 * @property _colorBits
-		 * @brief
+		 * @brief The number of bits used for the color.
 		 */
 		unsigned short int _colorBits;
 		
 		/**
 		 * @property _depthBits
-		 * @brief
+		 * @brief The number of bits used for the depth buffer.
 		 */
 		unsigned short int _depthBits;
 		
 		/**
 		 * @property _stencilBits
-		 * @brief
+		 * @brief The number of bits used for the stencil buffer.
 		 */
 		unsigned short int _stencilBits;
 		
 		/**
 		 * @property _samples
-		 * @brief
+		 * @brief The number of samples to generate for each frame.
 		 */
 		unsigned short int _samples;
 		
 		/**
 		 * @property _doubleBuffering
-		 * @brief
+		 * @brief If the double buffering is enabled or not.
 		 */
 		bool _doubleBuffering;
 		
 		/**
 		 * @property _changed
-		 * @brief
+		 * @brief  Tag to indicate that the video mode has changed without being updated.
 		 */
 		bool _changed;
 	};
