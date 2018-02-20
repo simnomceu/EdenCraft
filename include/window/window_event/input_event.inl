@@ -37,7 +37,7 @@
 
 namespace ece
 {
-	inline InputEvent::InputEvent() : 
+	inline InputEvent::InputEvent() noexcept:
 		_type(InputEvent::Type::ECE_TYPE_NONE),
 		_doubleTap(InputEvent::DoubleTap::ECE_TAP_NONE),
 		_mouseButton(Mouse::Button::ECE_MOUSE_NONE), 

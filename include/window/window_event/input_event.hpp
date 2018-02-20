@@ -44,9 +44,17 @@
 
 namespace ece
 {
+	/**
+	 * @class InputEvent
+	 * @brief Event from a user input.
+	 */
 	class InputEvent
 	{
 	public:
+		/**
+		 * @enum Type
+		 * @brief Type of event produced.
+		 */
 		enum class Type: short int
 		{
 			ECE_TYPE_NONE = -1,
@@ -58,6 +66,10 @@ namespace ece
 			ECE_KEY_RELEASED = 5,
 		};
 
+		/**
+		 * @enum DoubleTap
+		 * @brief Which part of the double tap is an event.
+		 */
 		enum class DoubleTap: short int
 		{
 			ECE_TAP_NONE = -1,
@@ -65,12 +77,82 @@ namespace ece
 			ECE_LAST_OF = 1
 		};
 
-		inline InputEvent();
+		/**
+		 * @fn InputEvent()
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline InputEvent() noexcept;
+		
+		/**
+		 * @fn InputEvent(const InputEvent & copy)
+		 * @param[in] copy The event to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
+		InputEvent(const InputEvent & copy) = default;
 
+		/**
+		 * @fn InputEvent(InputEvent && move) noexcept
+		 * @param[in] move The event to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		InputEvent(InputEvent && move) noexcept = default;
+
+		/**
+		 * @fn ~InputEvent() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~InputEvent() noexcept = default;
+
+		/**
+		 * @fn InputEvent & operator=(const InputEvent & copy) 
+		 * @param[in] copy The event to copy from.
+		 * @return The event copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
+		InputEvent & operator=(const InputEvent & copy) = default;
+		
+		/**
+		 * @fn InputEvent & operator=(InputEvent && move) noexcept 
+		 * @param[in] move The event to move.
+		 * @return The event moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		InputEvent & operator=(InputEvent && move) noexcept = default;
+
+		/**
+		 * @property _type
+		 * @brief The type of event produced.
+		 */
 		InputEvent::Type _type;
+
+		/**
+		 * @property _doubleTap
+		 * @brief If it is produced from a double tap event.
+		 */
 		DoubleTap _doubleTap;
+
+		/**
+		 * @property _mouseButton
+		 * @brief The mouse button pressed.
+		 */
 		Mouse::Button _mouseButton;
+
+		/**
+		 * @property _mousePosition
+		 * @brief The position of the mouse cursor.
+		 */
 		IntVector2u _mousePosition;
+
+		/**
+		 * @property _key
+		 * @brief The keyboard key pressed.
+		 */
 		Keyboard::Key _key;
 	};
 }

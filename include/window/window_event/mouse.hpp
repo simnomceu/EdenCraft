@@ -123,7 +123,7 @@ namespace ece
 	{
 		/**
 		 * @property EnumCount<Mouse::Button>::value
-		 * @brief The number of mouse buttons supported.
+		 * @brief The number of supported mouse buttons.
 		 */
 		static constexpr unsigned short int value = static_cast<unsigned short int>(Mouse::Button::ECE_MOUSE_BUTTON6) + 1;
 	};
