@@ -47,24 +47,93 @@
 
 namespace ece
 {
+	/**
+	 * @class Option
+	 * @brief A command line argument.
+	 */
 	class Option
 	{
 	public:
 		Option() = delete;
+		
+		/**
+		 * @fn Option(const std::string & name, const std::shared_ptr<OptionValue> & value, const std::function<void(const std::string &)> & command)
+		 * @param[in] name The name of the argument.
+		 * @param[in] value The set of valid values.
+		 * @param[in] command The command to execute with this argument.
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		inline Option(const std::string & name, const std::shared_ptr<OptionValue> & value, const std::function<void(const std::string &)> & command);
+
+		/**
+		 * @fn Option(const Option & copy)
+		 * @param[in] copy The option to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		Option(const Option & copy) = default;
+		
+		/**
+		 * Option(Option && move)
+		 * @param[in] move The option to move.
+		 * @brief Default move constructor.
+		 * @throw
+		 */
 		Option(Option && move) = default;
 
-		~Option() = default;
+		/**
+		 * @fn ~Option() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Option() noexcept = default;
 
+		/**
+		 * @fn Option & operator=(const Option & copy)
+		 * @param[in] copy The option to copy from.
+		 * @return The option copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		Option & operator=(const Option & copy) = default;
+
+		/**
+		 * @fn Option & operator=(Option && move)
+		 * @param[in] move The option to move.
+		 * @return The option moved.
+		 * @brief Default move assignment operator.
+		 * @throw
+		 */
 		Option & operator=(Option && move) = default;
 
+		/**
+		 * @fn bool apply(const std::string & optionName, const std::string & optionValue)
+		 * @param[in] optionName The name of the option to apply.
+		 * @param[in] optionValue The value of the option to apply.
+		 * @return True if the option is applied successfully, false if it does not match the option or if the value is incorrect.
+		 * @brief Try to apply the command linked to this option.
+		 * @throw
+		 */
 		bool apply(const std::string & optionName, const std::string & optionValue = "");
 
 	private:
+		/**
+		 * @property _name
+		 * @brief The option name.
+		 */
 		std::string _name;
+
+		/**
+		 * @property _value
+		 * @brief The option value.
+		 */
 		std::shared_ptr<OptionValue> _value;
+
+		/**
+		 * @property _command
+		 * @brief The command linked to the command line option.
+		 */
 		std::function<void(const std::string &)> _command;
 	};
 }
