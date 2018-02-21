@@ -49,32 +49,137 @@ namespace ece
 {
 	class Listener;
 
+	/**
+	 * @class Emitter
+	 * @brief An emitter to manage signals.
+	 */
 	class Emitter
 	{
 	public:
+		/**
+		 * @fn Emitter()
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		Emitter() = default;
+
+		/** 
+		 * @fn Emitter(const Emitter & copy)
+		 * @param[in] copy The emitter to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		Emitter(const Emitter & copy) = default;
+
+		/**
+		 * @fn Emitter(Emitter && move) 
+		 * @param[in] move The emitter to move.
+		 * @brief Default move constructor.
+		 * @throw
+		 */
 		Emitter(Emitter && move) = default;
+
 		inline virtual ~Emitter() = 0;
 
+		/**
+		 * @fn Emitter & operator=(const Emitter & copy) 
+		 * @param[in] copy The emitter to copy from.
+		 * @return The emitter copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		Emitter & operator=(const Emitter & copy) = default;
-		Emitter & operator=(Emitter && move) = default;
 
+		/**
+		 * @fn Emitter & operator=(Emitter && move) noexcept 
+		 * @param[in] move The emitter to move.
+		 * @return The emitter moved.
+		 * @brief Default move assignment operator.
+		 */
+		Emitter & operator=(Emitter && move) noexcept = default;
+		
+
+		/**
+		 * @fn void addSignal(const Signal::SignalID signal)
+		 * @param[in] signal The signal to regiser.
+		 * @brief Register a local signal and generate its global id.
+		 * @throw
+		 */
 		void addSignal(const Signal::SignalID signal);
+
+		/**
+		 * @fn void removeSignal(const Signal::SignalID signal)
+		 * @param[in] signal The signal to remove.
+		 * @brief Remove a signal.
+		 * It will be tagged dirty, to be destroyed later.
+		 * @throw
+		 */
 		void removeSignal(const Signal::SignalID signal);
 
+		/**
+		 * @fn void emit(const Signal::SignalID signal)
+		 * @param[in] signal The signal to emit.
+		 * @brief Broadcast the signal to all slots connected.
+		 * @throw
+		 */
 		void emit(const Signal::SignalID signal);
-
+		
+		/**
+		 * @fn const Signal::GlobalSignalID getSignal(const Signal::SignalID signal) const
+		 * @param[in] signal The local id of the signal.
+		 * @return The corresponding global id of the signal.
+		 * @brief Get the global id of the signal.
+		 * @throw
+		 */
 		const Signal::GlobalSignalID getSignal(const Signal::SignalID signal) const;
 
+		/**
+		 * @fn void clear()
+		 * @brief Disconnect and delete all signals of the emiter.
+		 * @throw
+		 */
 		void clear();
 
+		/**
+		 * @fn void connect(const Signal::SignalID signal, const Listener & listener, const Slot::SlotID slot)
+		 * @param[in] signal The signal to connect.
+		 * @param[in] listener The owner of the slot to connect.
+		 * @param[in] slot The slot to connect.
+		 * @brief Connect a signal to a slot from a listener.
+		 * If the connection already exists, nothing happen.
+		 * @throw
+		 */
 		void connect(const Signal::SignalID signal, const Listener & listener, const Slot::SlotID slot);
+
+		/**
+		 * @fn void disconnect(const Signal::SignalID signal, const Listener & listener, const Slot::SlotID slot)
+		 * @param[in] signal The signal to disconnect.
+		 * @param[in] listener The owner of the slot to disconnect.
+		 * @param[in] slot The slot to disconnect.
+		 * @brief Disconnect a signal from a slot.
+		 * If the connection does not exist, nothing happen.
+		 * @throw
+		 */
 		void disconnect(const Signal::SignalID signal, const Listener & listener, const Slot::SlotID slot);
+
+		/**
+		 * @fn void disconnectAll()
+		 * @brief Disconnect all signals from any slot.
+		 * @throw
+		 */
 		void disconnectAll();
 
 	private:
+		/**
+		 * @property _consumer
+		 * @brief Pass to access the event manager.
+		 */
 		EventManagerConsumer _consumer;
+
+		/**
+		 * @property _signals
+		 * @brief The list of signals of this emitter.
+		 */
 		std::map<Signal::SignalID, Signal::GlobalSignalID> _signals;
 	};
 }

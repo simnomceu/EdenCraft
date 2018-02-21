@@ -48,9 +48,9 @@ namespace ece
 	{
 		//return ServiceLocator<BaseEventManager, EventManagerNone>::getServicePtr();
 
-		if (ServiceLocator<BaseEventManager, EventManagerNone>::_service.get() == nullptr) {
+		if (ServiceLocator<BaseEventManager, BaseEventManager>::_service.get() == nullptr) {
 			throw MemoryAccessException("a service.");
 		}
-		return ServiceLocator<BaseEventManager, EventManagerNone>::_service;
+		return ServiceLocator<BaseEventManager, BaseEventManager>::_service;
 	}
 }

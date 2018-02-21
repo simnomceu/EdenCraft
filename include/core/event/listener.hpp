@@ -118,9 +118,9 @@ namespace ece
 
 		/**
 		 * @fn const Slot::GlobalSlotID getSlotID(const Slot::SlotID slot) const
-		 * @param[in] slot The local id id of the slot.
+		 * @param[in] slot The local id of the slot.
 		 * @return The corresponding global id of the slot.
-		 * @brief Get the local id of the slot.
+		 * @brief Get the global id of the slot.
 		 * @throw
 		 */
 		const Slot::GlobalSlotID getSlotID(const Slot::SlotID slot) const;
