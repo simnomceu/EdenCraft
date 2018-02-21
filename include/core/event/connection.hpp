@@ -45,29 +45,123 @@
 
 namespace ece
 {
+	/**
+	 * @class Connection
+	 * @brief A connection between a slot and a signal.
+	 */
 	class Connection final
 	{
 	public:
 		Connection() = delete;
-		inline Connection(const Slot::GlobalSlotID slot, const Signal::GlobalSignalID signal);
-		Connection(const Connection & copy) = default;
-		Connection(Connection && move) = default;
-		~Connection() = default;
 
-		Connection & operator=(const Connection & copy) = default;
-		Connection & operator=(Connection && move) = default;
+		/**
+		 * @fn Connection(const Slot::GlobalSlotID slot, const Signal::GlobalSignalID signal) noexcept
+		 * @param[in] slot The slot to connect to.
+		 * @param[in] signal The signal to connect to.
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline Connection(const Slot::GlobalSlotID slot, const Signal::GlobalSignalID signal) noexcept;
+		
+		/**
+		 * @fn Connection(const Connection & copy) noexcept
+		 * @param[in] copy The connection to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Connection(const Connection & copy) noexcept = default;
 
+		/**
+		 * @fn Connection(Connection && move) noexcept 
+		 * @param[in] move The connection to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Connection(Connection && move) noexcept = default;
+
+		/**
+		 * @fn ~Connection() noexcept 
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Connection() noexcept = default;
+
+		/**
+		 * @fn Connection & operator=(const Connection & copy) noexcept
+		 * @param[in] copy The connection to copy from.
+		 * @return The connection copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Connection & operator=(const Connection & copy) noexcept = default;
+
+		/**
+		 * @fn Connection & operator=(Connection && move) noexcept 
+		 * @param[in] move The connection to move.
+		 * @return The connection moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Connection & operator=(Connection && move) noexcept = default;
+
+		/**
+		 * @fn bool operator==(const Connection & rightOperand)
+		 * @param[in] rightOperand The connection to compare to.
+		 * @return True, if both connections are equal, false else.
+		 * @brief Check if both connections are equal or not.
+		 * @throw
+		 */
 		inline bool operator==(const Connection & rightOperand);
 
+		/**
+		 * @fn const Slot::GlobalSlotID getSlot() const
+		 * @return The connected slot.
+		 * @brief Get the connected slot related to this connection.
+		 * @throw
+		 */
 		inline const Slot::GlobalSlotID getSlot() const;
+
+		/**
+		 * @fn const Slot::GlobalSlotID getSignal() const
+		 * @return The connected signal.
+		 * @brief Get the connected signal related to this connection.
+		 * @throw
+		 */
 		inline const Slot::GlobalSlotID getSignal() const;
 
+		/**
+		 * @fn void setDirty(const bool dirty)
+		 * @param[in] dirty The new value of the tag.
+		 * @brief Modify the dirty tag of the connection.
+		 * @throw 
+		 */
 		inline void setDirty(const bool dirty);
+
+		/**
+		 * @fn const bool isDirty() const
+		 * @return True if the connection should be destroyed, else false.
+		 * @brief Check if the connection is dirt or not.
+		 * @throw
+		 */
 		inline const bool isDirty() const;
 
 	private:
+		/**
+		 * @property _slot
+		 * @brief The connected slot, related to this connection.
+		 */
 		Slot::GlobalSlotID _slot;
+
+		/**
+		 * @property _signal
+		 * @brief The connected signal, related to this connection.
+		 */
 		Signal::GlobalSignalID _signal;
+
+		/**
+		 * @property _dirty
+		 * @brief The dirty tag of the connection. If true, the connection need to be destroyed.
+		 */
 		bool _dirty;
 	};
 }

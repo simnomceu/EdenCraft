@@ -1,3 +1,4 @@
+#include "base_event_manager.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
@@ -36,32 +37,25 @@
 
 */
 
-#ifndef EVENT_MANAGER_NONE_HPP
-#define EVENT_MANAGER_NONE_HPP
-
-#include "core/event/base_event_manager.hpp"
-
 namespace ece
 {
-	class EventManagerNone : public BaseEventManager
-	{
-	public:
-		inline virtual const Slot::GlobalSlotID addSlot(const Slot::Handle & handle) override;
-		inline virtual const Signal::GlobalSignalID addSignal() override;
+	inline const Slot::GlobalSlotID BaseEventManager::addSlot(const Slot::Handle & /*handle*/) { return Slot::INVALID_SLOT; }
 
-		inline virtual void eraseSlot(const Listener & listener, const Slot::SlotID slot) override;
-		inline virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID signal) override;
+	inline const Signal::GlobalSignalID BaseEventManager::addSignal() { return 0; }
 
-		inline virtual void connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) override;
-		inline virtual void disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) override;
-		inline virtual void disconnectAll(const Listener & listener, const Slot::SlotID slot) override;
-		inline virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID signal) override;
+	inline void BaseEventManager::eraseSlot(const Listener & /*listener*/, const Slot::SlotID /*slot*/) {}
 
-		inline virtual void broadcast(const Emitter & emitter, const Signal::SignalID signal) override;
-		inline virtual void clear() override;
-	};
+	inline void BaseEventManager::eraseSignal(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::connect(const Listener & /*listener*/, const Slot::SlotID /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::disconnect(const Listener & /*listener*/, const Slot::SlotID /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::disconnectAll(const Listener & /*listener*/, const Slot::SlotID /*slot*/) {}
+
+	inline void BaseEventManager::disconnectAll(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::broadcast(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::clear() {}
 }
-
-#include "core/event/event_manager_none.inl"
-
-#endif // EVENT_MANAGER_NONE_HPP
