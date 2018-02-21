@@ -45,26 +45,95 @@
 
 namespace ece
 {
+	/**
+	 * @class ArgumentAnalyzer
+	 * @brief Parser to analyze and process the command line arguments passed.
+	 */
 	class ArgumentAnalyzer
 	{
 	public:
-		ArgumentAnalyzer() = default;
+		/**
+		 * @fn ArgumentAnalyzer() noexcept 
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		ArgumentAnalyzer() noexcept = default;
+
+		/**
+		 * @fn ArgumentAnalyzer(const ArgumentAnalyzer & copy)
+		 * @param[in] copy The analyzer to copy from.
+		 * @brief Default copy constructor.
+		 * @throw 
+		 */
 		ArgumentAnalyzer(const ArgumentAnalyzer & copy) = default;
-		ArgumentAnalyzer(ArgumentAnalyzer && move) = default;
 
-		~ArgumentAnalyzer() = default;
+		/**
+		 * @fn ArgumentAnalyzer(ArgumentAnalyzer && move) noexcept
+		 * @param[in] move The analyzer to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		ArgumentAnalyzer(ArgumentAnalyzer && move) noexcept = default;
 
+		/**
+		 * @fn ~ArgumentAnalyzer() noexcept 
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~ArgumentAnalyzer() noexcept = default;
+
+		/**
+		 * @fn ArgumentAnalyzer & operator=(const ArgumentAnalyzer & copy) 
+		 * @param[in] copy The analyzer to copy from.
+		 * @return The analyzer copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		ArgumentAnalyzer & operator=(const ArgumentAnalyzer & copy) = default;
-		ArgumentAnalyzer & operator=(ArgumentAnalyzer && move) = default;
 
+		/**
+		 * @fn ArgumentAnalyzer & operator=(ArgumentAnalyzer && move) noexcept
+		 * @param[in] move The analyzer to move.
+		 * @return The analyzer moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		ArgumentAnalyzer & operator=(ArgumentAnalyzer && move) noexcept = default;
+
+		/**
+		 * @fn void addOption(const Option & option)
+		 * @param[in] option The argument to add to the command line.
+		 * @brief Add an option argument available to the command line.
+		 * @throw
+		 */
 		inline void addOption(const Option & option);
 
+		/**
+		 * @fn void setParameters(int argc, char * argv[])
+		 * @param[in] argc The number of arguments to analyse.
+		 * @param[in] argv The parameters to analyze.
+		 * @brief Set the parameters to analyze.
+		 * @throw
+		 */
 		void setParameters(int argc, char * argv[]);
 
-		void analyse();
+		/**
+		 * @fn void analyze()
+		 * @brief Start to analyze the arguments.
+		 */
+		void analyze();
 
 	private:
+		/**
+		 * @property _options
+		 * @brief The available arguments for the application.
+		 */
 		std::vector<Option> _options;
+
+		/**
+		 * @property _parameters
+		 * @brief The arguments passed through the command line.
+		 */
 		std::vector<std::pair<std::string, std::string>> _parameters;
 	};
 }

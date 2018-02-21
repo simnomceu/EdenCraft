@@ -111,48 +111,56 @@ namespace ece
 		/**
 		 * @fn void preInit()
 		 * @brief Signal triggered before the initialization of the application.
+		 * @throw
 		 */
 		inline void preInit();
 
 		/**
 		 * @fn void postInit()
 		 * @brief Signal triggered after the initialization of the application.
+		 * @throw
 		 */
 		inline void postInit();
 
 		/**
 		 * @fn void preProcess()
 		 * @brief Signal triggered before the events processing of the application.
+		 * @throw
 		 */
 		inline void preProcess();
 
 		/**
 		 * @fn void preUpdate()
 		 * @brief Signal triggered before the logic update of the application.
+		 * @throw
 		 */
 		inline void preUpdate();
 
 		/**
 		 * @fn void postUpdate()
 		 * @brief Signal triggered after the logic update of the application.
+		 * @throw
 		 */
 		inline void postUpdate();
 
 		/**
 		 * @fn void postRender()
 		 * @brief Signal triggered before the initialization of the application.
+		 * @throw
 		 */
 		inline void postRender();
 
 		/**
 		 * @fn void preTerminate()
 		 * @brief Signal triggered before the termination of the application.
+		 * @throw
 		 */
 		inline void preTerminate();
 
 		/**
 		 * @fn void postTerminate()
 		 * @brief Signal triggered after the termination of the application.
+		 * @throw
 		 */
 		inline void postTerminate();
 
@@ -161,6 +169,7 @@ namespace ece
 		 * @param[in] listener The callback owner.
 		 * @param[in] slot The callback to call.
 		 * @brief Register a callback on pre-init event.
+		 * @throw
 		 */
 		inline void onPreInit(const Listener & listener, const unsigned int slot);
 
@@ -169,6 +178,7 @@ namespace ece
 		 * @param[in] listener The callback owner.
 		 * @param[in] slot The callback to call.
 		 * @brief Register a callback on post-init event.
+		 * @throw
 		 */
 		inline void onPostInit(const Listener & listener, const unsigned int slot);
 
@@ -177,6 +187,7 @@ namespace ece
 		 * @param[in] listener The callback owner.
 		 * @param[in] slot The callback to call.
 		 * @brief Register a callback on pre-process event.
+		 * @throw
 		 */
 		inline void onPreProcess(const Listener & listener, const unsigned int slot);
 
@@ -185,6 +196,7 @@ namespace ece
 		 * @param[in] listener The callback owner.
 		 * @param[in] slot The callback to call.
 		 * @brief Register a callback on pre-update event.
+		 * @throw
 		 */
 		inline void onPreUpdate(const Listener & listener, const unsigned int slot);
 
@@ -193,6 +205,7 @@ namespace ece
 		 * @param[in] listener The callback owner.
 		 * @param[in] slot The callback to call.
 		 * @brief Register a callback on post-update event.
+		 * @throw
 		 */
 		inline void onPostUpdate(const Listener & listener, const unsigned int slot);
 
@@ -201,6 +214,7 @@ namespace ece
 		 * @param[in] listener The callback owner.
 		 * @param[in] slot The callback to call.
 		 * @brief Register a callback on post-render event.
+		 * @throw
 		 */
 		inline void onPostRender(const Listener & listener, const unsigned int slot);
 
@@ -209,6 +223,7 @@ namespace ece
 		 * @param[in] listener The callback owner.
 		 * @param[in] slot The callback to call.
 		 * @brief Register a callback on pre-terminate event.
+		 * @throw
 		 */
 		inline void onPreTerminate(const Listener & listener, const unsigned int slot);
 
@@ -217,6 +232,7 @@ namespace ece
 		 * @param[in] listener The callback owner.
 		 * @param[in] slot The callback to call.
 		 * @brief Register a callback on post-terminate event.
+		 * @throw
 		 */
 		inline void onPostTerminate(const Listener & listener, const unsigned int slot);
 	};

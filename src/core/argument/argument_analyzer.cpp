@@ -61,7 +61,7 @@ namespace ece
 		}
 	}
 
-	void ArgumentAnalyzer::analyse()
+	void ArgumentAnalyzer::analyze()
 	{
 		for (auto it = this->_parameters.begin(); it != this->_parameters.end(); ++it) {
 			bool analyzed = false;

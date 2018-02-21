@@ -266,6 +266,7 @@ namespace ece
 		/**
 		 * @fn void terminate()
 		 * @brief Terminate the application.
+		 * @throw
 		 */
 		void terminate();
 
