@@ -41,6 +41,10 @@
 
 namespace ece
 {
+	/**
+	 * @class BaseSystem
+	 * @brief A system handle some specific kinds of components and do operations on them.
+	 */
 	class BaseSystem
 	{
 	public:

@@ -41,20 +41,61 @@
 
 namespace ece
 {
+	/**
+	 * @class BaseComponent
+	 * @brief
+	 */
 	class BaseComponent
 	{
 	public:
+		/**
+		 * @typedef ComponentID
+		 * @brief The id to handle a component.
+		 */
 		using ComponentID = unsigned int;
 
-		BaseComponent() = default;
-		inline BaseComponent(const ComponentID id);
-		inline virtual ~BaseComponent() = 0;
+		/**
+		 * @fn BaseComponent()
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		BaseComponent() noexcept = default;
 
+		/**
+		 * @fn BaseComponent(const ComponentID id)
+		 * @param[in] id The id to use.
+		 * @brief Build a component with a specific id.
+		 * @throw
+		 */
+		inline BaseComponent(const ComponentID id);
+
+		inline virtual ~BaseComponent() = 0;
+		
+		/**
+		 * @fn const ComponentID getID() const
+		 * @return The id to handle the component.
+		 * @brief Get The component id.
+		 * @throw
+		 */
 		inline const ComponentID getID() const;
+
+		/**
+		 * @fn const unsigned int getOwner() const
+		 * @return The entity owner.
+		 */
 		inline const unsigned int getOwner() const;
 
 	private:
+		/**
+		 * @property _id
+		 * @brief The id to handle the component.
+		 */
 		ComponentID _id;
+
+		/**
+		 * @property _owner
+		 * @brief The entity which own the component.
+		 */
 		unsigned int _owner;
 	};
 }

@@ -33,50 +33,16 @@
 
 				You should have received a copy of the GNU General Public License
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
-
 */
 
-#ifndef COMPONENT_TANK_HPP
-#define COMPONENT_TANK_HPP
+#ifndef ECS_HPP
+#define ECS_HPP
 
 #include "core/ecs/base_component.hpp"
-#include "utility/indexing/unique_id.hpp"
+#include "core/ecs/base_prototype.hpp"
+#include "core/ecs/base_system.hpp"
+#include "core/ecs/component.hpp"
+#include "core/ecs/component_tank.hpp"
+#include "core/ecs/world.hpp"
 
-#include <memory>
-#include <vector>
-
-namespace ece
-{
-	/**
-	 * @class ComponentTank
-	 * @brief Manage a list of components.
-	 */
-	class ComponentTank
-	{
-	public:
-		/**
-		 * @fn ComponentTank()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline ComponentTank();
-
-		/**
-		 * @fn ~ComponentTank
-		 * @brief Default destructor.
-		 * @throw
-		 */
-		inline ~ComponentTank();
-
-	private:
-		/**
-		 * @property _nextComponent
-		 * @brief To generate the next component.
-		 */
-		UniqueID _nextComponent;
-	};
-}
-
-#include "core/ecs/component_tank.inl"
-
-#endif // COMPONENT_TANK_HPP
+#endif // ECS_HPP
