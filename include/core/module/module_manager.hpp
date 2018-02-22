@@ -36,7 +36,6 @@
 
 */
 
-
 #ifndef MODULE_MANAGER_HPP
 #define MODULE_MANAGER_HPP
 

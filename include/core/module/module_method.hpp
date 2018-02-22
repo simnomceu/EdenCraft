@@ -36,7 +36,6 @@
 
 */
 
-
 #ifndef MODULE_METHOD_HPP
 #define MODULE_METHOD_HPP
 

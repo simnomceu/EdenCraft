@@ -36,7 +36,6 @@
 
 */
 
-
 #ifndef BASE_MODULE_HPP
 #define BASE_MODULE_HPP
 

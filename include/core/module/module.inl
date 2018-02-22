@@ -36,7 +36,6 @@
 
 */
 
-
 namespace ece
 {
 	template<class T>
