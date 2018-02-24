@@ -60,7 +60,7 @@ namespace ece
 	class ModuleMethod: protected ModuleMethodHandle<T>
 	{
 	public:
-		static constexpr ModuleMethodHandle<T> VOID;
+		static const ModuleMethodHandle<T> VOID;
 
 		ModuleMethod() = delete;
 

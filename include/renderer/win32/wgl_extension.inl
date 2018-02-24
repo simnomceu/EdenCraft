@@ -45,6 +45,9 @@ inline BOOL wglChoosePixelFormat(HDC hdc, const int *piAttribIList, const FLOAT 
 	if (!proxy) {
 		throw ece::OpenGLExtensionException("wglChoosePixelFormat");
 	}
+	if (hdc == nullptr) { // dummy call
+		return false;
+	}
 	return proxy(hdc, piAttribIList, pfAttribFList, nMaxFormats, piFormats, nNumFormats);
 }
 
@@ -53,6 +56,9 @@ inline HGLRC wglCreateContextAttribs(HDC hdc, HGLRC hShareContext, const int *at
 	static auto proxy = ece::loadOpenGLProc<PFNWGLCREATECONTEXTATTRIBSARBPROC>("wglCreateContextAttribsARB", ece::Version<2>{ 3, 2 });
 	if (!proxy) {
 		throw ece::OpenGLExtensionException("wglCreateContextAttribs");
+	}
+	if (hdc == nullptr) { // dummy call
+		return nullptr;
 	}
 	return proxy(hdc, hShareContext, attribList);
 }
