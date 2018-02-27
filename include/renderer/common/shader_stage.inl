@@ -39,13 +39,13 @@
 
 namespace ece
 {
-	inline ShaderStage::ShaderStage(): _filename(), _source(), _type(ShaderType::FRAGMENT_SHADER), _handle(), _compilationRequired(false) {}
+	inline constexpr ShaderStage::ShaderStage() noexcept: _filename(), _source(), _type(ShaderType::FRAGMENT_SHADER), _handle(), _compilationRequired(false) {}
 
-	inline ShaderStage::ShaderStage(const ShaderStage & copy) :
+	inline ShaderStage::ShaderStage(const ShaderStage & copy) noexcept :
 		_filename(copy._filename), _source(copy._source), _type(copy._type), _handle(copy._handle), 
 		_compilationRequired(copy._compilationRequired) {}
 
-	inline ShaderStage::ShaderStage(ShaderStage && move) :
+	inline ShaderStage::ShaderStage(ShaderStage && move) noexcept :
 		_filename(std::move(move._filename)), _source(std::move(move._source)), _type(move._type), _handle(move._handle), 
 		_compilationRequired(move._compilationRequired)
 	{
@@ -54,7 +54,7 @@ namespace ece
 		move._compilationRequired = false;
 	}
 
-	inline ShaderStage::~ShaderStage() { this->terminate(); }
+	inline ShaderStage::~ShaderStage() noexcept { this->terminate(); }
 
 	inline const std::string & ShaderStage::getFilename() const { return this->_filename; }
 

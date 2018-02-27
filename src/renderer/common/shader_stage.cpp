@@ -45,7 +45,7 @@
 
 namespace ece
 {
-	ShaderStage & ShaderStage::operator=(const ShaderStage & copy)
+	ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
 	{
 		this->_filename = copy._filename;
 		this->_source = copy._filename;
@@ -56,7 +56,7 @@ namespace ece
 		return *this;
 	}
 
-	ShaderStage & ShaderStage::operator=(ShaderStage && move)
+	ShaderStage & ShaderStage::operator=(ShaderStage && move) noexcept
 	{
 		this->_filename = std::move(move._filename);
 		this->_source = std::move(move._filename);
