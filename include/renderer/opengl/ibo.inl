@@ -39,6 +39,8 @@
 
 namespace ece
 {
+	inline IBO::IBO() : _handle(0) { this->_handle = OpenGL::genBuffers(); }
+
 	inline void IBO::bind() const { OpenGL::bindBuffer(BufferType::ELEMENT_ARRAY_BUFFER, this->_handle); }
 
 	inline void IBO::bufferData(const std::vector<unsigned int> & data, const BufferUsage usage)

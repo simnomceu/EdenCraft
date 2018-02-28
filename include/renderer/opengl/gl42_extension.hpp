@@ -58,6 +58,13 @@ inline void glDrawTransformFeedbackInstanced(GLenum mode, GLuint id, GLsizei pri
 inline void glDrawTransformFeedbackStreamInstanced(GLenum mode, GLuint id, GLuint stream, GLsizei primcount);
 inline void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint *params);
 
+/**
+ * fn CALLGL42(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.2 extension and call it.
+ */
 #define CALLGL42(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \

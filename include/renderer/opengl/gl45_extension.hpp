@@ -151,6 +151,13 @@ inline void glGetTransformFeedbackiv(GLuint xfb, GLenum pname, GLint *param);
 inline void glGetTransformFeedbacki_v(GLuint xfb, GLenum pname, GLuint index, GLint *param);
 inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pname, GLuint index, GLint64 *param);
 
+/**
+ * fn CALLGL45(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.5 extension and call it.
+ */
 #define CALLGL45(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
 	if (!proxy) { \

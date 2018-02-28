@@ -48,6 +48,13 @@
 
 inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
 
+/**
+ * fn CALLGL33(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 3.3 extension and call it.
+ */
 #define CALLGL33(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \

@@ -56,6 +56,13 @@ inline void glClearTexImage(GLuint texture, GLint level, GLenum format, GLenum t
 inline void glBindImageTextures(GLuint first, GLsizei count, const GLuint *textures);
 inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
 
+/**
+ * fn CALLGL44(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.4 extension and call it.
+ */
 #define CALLGL44(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \

@@ -43,11 +43,25 @@
 
 namespace ece
 {
+	/**
+	 * @class OpenGLExtensionException
+	 * @extends Exception
+	 * @brief An exception that occurs while calling opengl extensions.
+	 * @see Exception
+	 */
 	class OpenGLExtensionException : public Exception
 	{
 	public:
-		OpenGLExtensionException(const std::string & extension);
+		/**
+		 * @fn OpenGLExtensionException(const std::string & extension)
+		 * @param[in] extensions The name of the extension that triggers an error.
+		 * @brief Default constructor.
+		 * @throw
+		 */
+		inline OpenGLExtensionException(const std::string & extension);
 	};
 }
+
+#include "renderer/opengl/opengl_exception.inl"
 
 #endif // OPENGL_EXCEPTION_HPP

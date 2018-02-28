@@ -85,7 +85,7 @@ namespace ece
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~RenderWindow() noexcept = default;
+		~RenderWindow() noexcept;
 
 		/**
 		 * @fn RenderWindow & operator=(const RenderWindow & copy)

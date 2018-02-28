@@ -93,6 +93,13 @@ inline void glGetObjectLabel(GLenum identifier, GLuint name, GLsizei bifSize, GL
 inline void glGetObjectPtrLabel(GLvoid * ptr, GLsizei bifSize, GLsizei * length, GLchar * label);
 inline void glGetInternalformati64v(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint64 *params);
 
+/**
+ * fn CALLGL43(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.3 extension and call it.
+ */
 #define CALLGL43(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
 	if (!proxy) { \

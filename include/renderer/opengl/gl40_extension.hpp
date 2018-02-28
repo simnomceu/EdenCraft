@@ -76,6 +76,13 @@ inline  void glDrawTransformFeedback(GLenum mode, GLuint id);
 inline  void glDrawTransformFeedbackStream(GLenum mode, GLuint id, GLuint stream);
 inline  void glMinSampleShading(GLfloat value);
 
+/**
+ * fn CALLGL40(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.0 extension and call it.
+ */
 #define CALLGL40(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
 	if (!proxy) { \

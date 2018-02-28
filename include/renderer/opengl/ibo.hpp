@@ -47,7 +47,7 @@ namespace ece
 	class IBO
 	{
 	public:
-		IBO();
+		inline IBO();
 		IBO(const IBO & copy) noexcept = default;
 		IBO(IBO && move) noexcept = default;
 

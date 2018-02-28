@@ -118,6 +118,13 @@ inline void glScissorArrayv(GLuint first, GLsizei count, const GLint *v);
 inline void glScissorIndexed(GLuint index, GLint left, GLint bottom, GLsizei width, GLsizei height);
 inline void glScissorIndexedv(GLuint index, const GLint *v);
 
+/**
+ * fn CALLGL41(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.1 extension and call it.
+ */
 #define CALLGL41(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
 	if (!proxy) { \

@@ -50,7 +50,7 @@ namespace ece
 	{
 	}
 
-	RenderWindow::~RenderWindow()
+	RenderWindow::~RenderWindow() noexcept
 	{
 		this->_renderers.clear();
 	}
