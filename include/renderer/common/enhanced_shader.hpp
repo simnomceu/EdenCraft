@@ -44,19 +44,71 @@
 
 namespace ece
 {
+	/**
+	 * @class EnhancedShader
+	 * @€xtends Shader
+	 * @brief A shader program with automatic features, to enhance its use.
+	 * @see Shader
+	 */
 	class EnhancedShader: public Shader
 	{
 	public:
+		/**
+		 * @fn EnhancedShader() 
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		EnhancedShader() = default;
+
+		/**
+		 * @fn EnhancedShader(const EnhancedShader & copy) noexcept 
+		 * @param[in] copy The shader program to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
 		EnhancedShader(const EnhancedShader & copy) noexcept = default;
+
+		/**
+		 * @fn EnhancedShader(EnhancedShader && move) noexcept 
+		 * @param[in] move The shader program to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
 		EnhancedShader(EnhancedShader && move) noexcept = default;
 
+		/**
+		 * @fn ~EnhancedShader() noexcept 
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
 		~EnhancedShader() noexcept = default;
 
+		/**
+		 * @fn EnhancedShader & operator=(const EnhancedShader & copy) noexcept 
+		 * @param[in] copyy The shader program to copy from.
+		 * @return The shader program copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
 		EnhancedShader & operator=(const EnhancedShader & copy) noexcept = default;
-		EnhancedShader & operator=(EnhancedShader && move) noexcept = default;
 
-		virtual void setStage(ShaderStage & shader);
+		/**
+		 * @fn EnhancedShader & operator=(EnhancedShader && move) noexcept 
+		 * @param[in] move The shader program to move.
+		 * @return The shader program moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		EnhancedShader & operator=(EnhancedShader && move) noexcept = default;
+		
+		/**
+		 * @fn void setStage(ShaderStage & shader)
+		 * @param[in] shader The shader stage to add.
+		 * @brief Set a shader stage of the program.
+		 * @throw
+		 * @see void Shader::setStage(ShaderStage & shader)
+		 */
+		virtual void setStage(ShaderStage & shader) override;
 	};
 }
 

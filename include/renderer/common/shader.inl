@@ -38,7 +38,9 @@
 
 namespace ece
 {
-	inline Shader::Shader(const Handle handle) : _handle(handle) {}
+	inline Shader::Shader() : _handle(0) { this->_handle = OpenGL::createProgram(); }
+
+	inline Shader::Shader(const Handle handle) noexcept : _handle(handle) {}
 
 	inline Handle Shader::getHandle() const { return this->_handle; }
 
@@ -49,5 +51,15 @@ namespace ece
 		auto location = OpenGL::getUniformLocation(this->_handle, uniform);
 		OpenGL::uniform<T>(location, value);
 		// TODO: keep the uniform location to not get it twice. And set the uniforms only at linkage step. 
+	}
+
+	inline void Shader::link()
+	{
+		OpenGL::linkProgram(this->_handle);
+	}
+
+	inline void Shader::use() const
+	{
+		OpenGL::useProgram(this->_handle);
 	}
 }

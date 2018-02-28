@@ -48,31 +48,129 @@
 
 namespace ece
 {
+	/**
+	 * @class RenderWindow
+	 * @extends Window
+	 * @brief A window that include a renderer, to draw scenes.
+	 * @see Window
+	 */
 	class RenderWindow: public Window
 	{
 	public:
+		/**
+		 * @fn RenderWndow() 
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
 		RenderWindow();
+
+		/**
+		 * @fn RenderWindow(const RenderWindow & copy)
+		 * @param[in] copy The RenderWindow to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		RenderWindow(const RenderWindow & copy) = default;
-		RenderWindow(RenderWindow && move) = default;
 
-		~RenderWindow();
+		/**
+		 * @fn RenderWindow(RenderWindow && move) noexcept
+		 * @param[in] move The RenderWindow to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		RenderWindow(RenderWindow && move) noexcept = default;
 
+		/**
+		 * @fn ~RenderWindow()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~RenderWindow() noexcept = default;
+
+		/**
+		 * @fn RenderWindow & operator=(const RenderWindow & copy)
+		 * @param[in] copy The RenderWindow to copy from.
+		 * @return The RenderWindow copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		RenderWindow & operator=(const RenderWindow & copy) = default;
-		RenderWindow & operator=(RenderWindow && move) = default;
 
+		/**
+		 * @fn RenderWindow & operator=(RenderWindow && move) noexcept
+		 * @param[in] move The RenderWindow to move.
+		 * @return The RenderWindow moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		RenderWindow & operator=(RenderWindow && move) noexcept = default;
+
+		/**
+		 * @fn void setContextMinimumVersion(const Version<2> & minVersion)
+		 * @param[in] minVersion The minimum version to set.
+		 * @brief Define the required minimum version for the context to use.
+		 * @throw
+		 */
 		inline void setContextMinimumVersion(const Version<2> & minVersion);
-		inline void setContextMaximumVersion(const Version<2> & maxVersion);
 
+		/**
+		 * @fn void setContextMaximumVersion(const Version<2> & maxVersion)
+		 * @param[in] maxVersion The maximum version to set.
+		 * @brief Define the required maximum version for the context to use.
+		 * @throw
+		 */
+		inline void setContextMaximumVersion(const Version<2> & maxVersion);
+		
+		/**
+		 * @fn void open()
+		 * @brief Open the window.
+		 * If the window is already opened, nothing happen. Current window settings are used.
+		 * @throw
+		 * @see void Window::open()
+		 */
 		void open();
+
+		/**
+		 * @fn void clear()
+		 * @brief Clear the window.
+		 * @throw
+		 */
 		void clear();
+
+		/**
+		 * void display()
+		 * @brief Display the next frame in the window.
+		 * If multi-buffering is enable, it only switches the buffers.
+		 * @throw
+		 */
 		void display();
 
+		/**
+		 * @fn void enableMSAA(const unsigned short int samples)
+		 * @param[in] samples The number of samples to compute.
+		 * @brief Enable the MSAA rendering otpion. if samples is lower than or equalt to zero, MSAA is disable.
+		 */
 		void enableMSAA(const unsigned short int samples);
-
+		
+		/**
+		 * @fn void updateVideoMode()
+		 * @brief Update the window according to the current video mode.
+		 * @throw
+		 * @see void Window::updateVideoMode()
+		 */
 		virtual void updateVideoMode() override;
 
 	private:
+		/**
+		 * @property _renderers
+		 * @brief The list of renderers available for this render target.
+		 */
 		std::vector<std::shared_ptr<Renderer>> _renderers;
+
+		/**
+		 * @property _context
+		 * @brief The render context to use for rendering.
+		 */
 		std::shared_ptr<BaseContextOpenGL> _context;
 	};
 }

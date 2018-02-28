@@ -46,29 +46,108 @@ namespace ece
 {
 	class VAO;
 
+	/**
+	 * @class Renderer
+	 * @brief Manage objects that need to be rendered.
+	 */
 	class Renderer
 	{
 	public:
-		Renderer() = default;
-		Renderer(const Renderer & copy) = default;
-		Renderer(Renderer && move) = default;
+		/**
+		 * @fn constexpr Renderer() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		constexpr Renderer() noexcept = default;
 
-		~Renderer() = default;
+		/**
+		 * @fn Renderer(const Renderer & copy) noexcept
+		 * @param[in] copy The Renderer to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Renderer(const Renderer & copy) noexcept = default;
 
-		Renderer & operator=(const Renderer & copy) = default;
-		Renderer & operator=(Renderer && move) = default;
+		/**
+		 * @fn Renderer(Renderer && move) noexcept
+		 * @param[in] move The Renderer to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Renderer(Renderer && move) noexcept = default;
 
+		/**
+		 * @fn ~Renderer()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Renderer() noexcept = default;
+
+		/**
+		 * @fn Renderer & operator=(const Renderer & copy) noexcept
+		 * @param[in] copy The Renderer to copy from.
+		 * @return The Renderer copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Renderer & operator=(const Renderer & copy) noexcept = default;
+
+		/**
+		 * @fn Renderer & operator=(Renderer && move) noexcept
+		 * @param[in] move The Renderer to move.
+		 * @return The Renderer moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Renderer & operator=(Renderer && move) noexcept = default;
+
+		/**
+		 * @fn Shader getProgram() const
+		 * @return The current shader program.
+		 * @brief Get the current shader program used.
+		 * @throw
+		 */
 		Shader getProgram() const;
+
+		/**
+		 * @fn void setProgram(const Shader & program)
+		 * @param[in] program The shader program to use.
+		 * @brief Set the shader program to use for current rendering.
+		 * @throw 
+		 */
 		inline void setProgram(const Shader & program);
 
+		/**
+		 * @fn void enableFaceCulling(const CullFaceMode cullFaceMode, const FrontFaceMode frontFaceMode)
+		 * @param[in] cullFaceMode The culling face mode to use.
+		 * @param[in] frontFaceMode The front face mode to use.
+		 * @brief Enable face culling for rendering.
+		 * @throw
+		 */
 		void enableFaceCulling(const CullFaceMode cullFaceMode = CullFaceMode::BACK, const FrontFaceMode frontFaceMode = FrontFaceMode::CCW);
+
+		/**
+		 * @fn void disableFaceCulling()
+		 * @brief Disable face culling for rendering.
+		 * @throw
+		 */
 		void disableFaceCulling();
 
+		/**
+		 * @fn void setPolygonMode(const PolygonMode mode)
+		 * @param[in] mode The polygon mode to use.
+		 * @brief Changes the way to display polygons.
+		 * @throw
+		 */
 		void setPolygonMode(const PolygonMode mode);
 
+		/**
+		 * @fn void drawPrimitives(const PrimitiveMode mode, const VAO & vao)
+		 * @param[in] mode The primitive mode to use
+		 * @param[in] vao The list of primitives to draw.
+		 * @brief Draw a list of primitives on the current render target.
+		 */
 		void drawPrimitives(const PrimitiveMode mode, const VAO & vao);
-
-	private:
 	};
 }
 
