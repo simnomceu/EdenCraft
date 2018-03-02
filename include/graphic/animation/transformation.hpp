@@ -43,17 +43,60 @@
 
 namespace ece
 {
+	/**
+	 * @class Transformation
+	 * @brief A generic mathematical transformation.
+	 */
 	class Transformation
 	{
 	public:
-		Transformation() = default;
-		Transformation(const Transformation & copy) = default;
-		Transformation(Transformation && move) = default;
+		/**
+		 * @fn Transformation() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		Transformation() noexcept = default;
 
-		~Transformation() = default;
+		/**
+		 * @fn Transformation(const Transformation & copy) noexcept
+		 * @param[in] copy The transformation to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Transformation(const Transformation & copy) noexcept = default;
 
-		Transformation & operator=(const Transformation & copy) = default;
-		Transformation & operator=(Transformation && move) = default;
+		/**
+		 * @fn Transformation(Transformation && move) noexcept
+		 * @param[in] move The transformation to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Transformation(Transformation && move) noexcept = default;
+
+		/**
+		 * @fn ~Transformation() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Transformation() noexcept = default;
+
+		/**
+		 * @fn Transformation & operator=(const Transformation & copy) noexcept 
+		 * @param[in] copy The transformation to copy from.
+		 * @return The transformation copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Transformation & operator=(const Transformation & copy) noexcept = default;
+
+		/**
+		 * @fn Transformation & operator=(Transformation && move) noexcept 
+		 * @param[in] move The transformation to move.
+		 * @return The transformation moved.
+		 * @brief Default move assignment operator.
+		 * throw noexcept
+		 */
+		Transformation & operator=(Transformation && move) noexcept = default;
 	};
 }
 
