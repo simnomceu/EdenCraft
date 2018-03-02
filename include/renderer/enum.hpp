@@ -36,7 +36,6 @@
 
 */
 
-
 #ifndef RENDERER_ENUM_HPP
 #define RENDERER_ENUM_HPP
 
