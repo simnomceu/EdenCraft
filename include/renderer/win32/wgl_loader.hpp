@@ -50,25 +50,83 @@
 
 namespace ece
 {
+	/**
+	 * @class WGLoader
+	 * @brief OpenGL loader for Windows platform.
+	 */
 	class WGLLoader
 	{
 	public:
+		/**
+		 * @fn WGLLoader & getInstance()
+		 * @return The singleton. 
+		 * @brief Get the unique instance of the loader.
+		 * @throw
+		 */
 		static WGLLoader & getInstance();
 
-		~WGLLoader();
+		/**
+		 * @fn ~WGLLoader() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~WGLLoader() noexcept;
 
+		/**
+		 * @fn FARPROC getProcAddress(const std::string & name)
+		 * @param[in] name The name of the extension.
+		 * @return The OpenGL method loaded.
+		 * @brief Load an OpenGL extension from a Wndows platform.
+		 * @throw
+		 */
 		FARPROC getProcAddress(const std::string & name);
 
+		/**
+		 * @fn void initDummyContext()
+		 * @brief Create a dummy context to initialize the core of OpenGL.
+		 * @throw
+		 */
 		void initDummyContext();
+
+		/**
+		 * @fn Version<2> & getLatestVersionAvailable()
+		 * @return The latest version available of OpenGL.
+		 * @brief Get the latest version available of OpenGL.
+		 * @throw
+		 */
 		Version<2> & getLatestVersionAvailable();
+
+		/**
+		 * @fn void terminateDummyContext()
+		 * @brief Delete the dummycontext used to initialize the core of OpenGL.
+		 * @throw
+		 */
 		void terminateDummyContext();
 
 	private:
+		/**
+		 * @fn WGLLoader()
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		WGLLoader();
 
+		/**
+		 * @property _openglLib
+		 * @brief THe external library exposing OpenGL.
+		 */
 		HMODULE _openglLib;
+
+		/**
+		 * @property _latestVersionAvailable
+		 * @brief The latest version available of OpenGL.
+		 */
 		Version<2> _latestVersionAvailable;
 
+		/**
+		 * @property _dummy
+		 * @brief The dummy context to use.
+		 */
 		struct {
 			HDC device;
 			HGLRC context;

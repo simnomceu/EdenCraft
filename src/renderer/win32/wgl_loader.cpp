@@ -50,7 +50,7 @@ namespace ece
 		return instance;
 	}
 
-	WGLLoader::~WGLLoader()
+	WGLLoader::~WGLLoader() noexcept
 	{
 		if (this->_openglLib != nullptr) {
 			FreeLibrary(this->_openglLib);
