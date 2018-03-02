@@ -44,16 +44,6 @@
 #include <bitset>
 #include <array>
 
-/*#ifdef __unix__
-#include "renderer/x11/glx_extension.hpp"
-#elif __WINDOW__
-#include "renderer/win32/wgl_extension.hpp"
-#elif __OSX__
-#include "renderer/cocoa/agl_extension.hpp"
-#else
-#include "renderer/win32/wgl_extension.hpp"
-#endif*/
-
 #include "renderer/opengl/opengl_exception.hpp"
 #include "utility/mathematics/matrix2u.hpp"
 #include "utility/mathematics/matrix3u.hpp"
@@ -70,14 +60,42 @@ namespace ece
 
 	class BaseContextOpenGL;
 
+	/**
+	 * @class OpenGL
+	 * @brief Interface for all OpenGL extensions.
+	 */
 	class OpenGL
 	{
 	public:
-		~OpenGL() = default;
+		/**
+		 * @fn ~OpenGL() noexcept ~OpenGL() noexcept 
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~OpenGL() noexcept = default;
 
+		/**
+		 * @fn void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+		 * @param[in] minVersionGL The mandatory minimum version of OpenGL.
+		 * @param[in] maxVersionGL The mandatory maximum version of OpenGL.
+		 * @brief Initialize the driver to load OpenL calls.
+		 * @throw
+		 */
 		static void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
 
+		/**
+		 * @fn Version<2> & getLatestVersion()
+		 * @return The lastest version available of OpenGL.
+		 * @brief Get the most recent version available of OpenGL.
+		 * @throw
+		 */
 		static inline Version<2> & getLatestVersion();
+
+		/**
+		 * @fn void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext)
+		 * @param[in] currentContext The OpenGL context to use.
+		 * @brief Define a context as the one to currently use.
+		 */
 		static inline void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext);
 
 		static inline void bindBuffer(const BufferType type, const Handle handle);
@@ -732,15 +750,58 @@ namespace ece
 //		static inline void polygonOffsetClamp(float factor, float units, float clamp);
 		
 	private:
-		OpenGL() = default;
-		OpenGL(const OpenGL & copy) = default;
-		OpenGL(OpenGL && move) = default;
+		/**
+		 * @fn OpenGL() noexcept 
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		OpenGL() noexcept = default;
 
+		/**
+		 * @fn OpenGL(const OpenGL & copy) noexcept 
+		 * @param[in] copy The OpenGL instance to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		OpenGL(const OpenGL & copy) noexcept = default;
+
+		/**
+		 * @fn OpenGL(OpenGL && move) noexcept 
+		 * @param[in] move The OpenGL instance to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		OpenGL(OpenGL && move) noexcept = default;
+
+		/**
+		 * @fn OpenGL & operator=(const OpenGL & copy) noexcept 
+		 * @param[in] copy The OpenGL instance to copy from.
+		 * @return The OpenGL instance copied.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		OpenGL & operator=(const OpenGL & copy) noexcept = default;
+
+		/**
+		 * @fn OpenGL & operator=(OpenGL && move) noexcept 
+		 * @param[in] move The OpenGL instance to move.
+		 * @return The OpenGL instance moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		OpenGL & operator=(OpenGL && move) noexcept = default;
+
+		/**
+		 * @property _latestVersion
+		 * @brief The latest version available of OpenGL.
+		 */
 		static Version<2> _latestVersion;
-		static std::shared_ptr<BaseContextOpenGL> _currentContext;
 
-		OpenGL & operator=(const OpenGL & copy) = default;
-		OpenGL & operator=(OpenGL && move) = default;
+		/**
+		 * @property _currentContext
+		 * @brief The current OpenGL context used.
+		 */
+		static std::shared_ptr<BaseContextOpenGL> _currentContext;
 	};
 }
 
