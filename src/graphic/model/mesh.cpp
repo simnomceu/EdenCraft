@@ -67,7 +67,7 @@ namespace ece
 		return result;
 	}
 
-	Box3D Mesh::getAABB() const
+	Box3D Mesh::getBouncingBox() const
 	{
 		auto xMin = (*std::min_element(this->_vertices.begin(), this->_vertices.end(), [](const FloatVector3u &  a, const FloatVector3u & b){ return a[0] < b[0]; }))[0];
 		auto xMax = (*std::max_element(this->_vertices.begin(), this->_vertices.end(), [](const FloatVector3u &  a, const FloatVector3u & b) { return a[0] < b[0]; }))[0];
