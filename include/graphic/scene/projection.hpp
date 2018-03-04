@@ -46,25 +46,85 @@
 
 namespace ece
 {
+	/**
+	 * @class Projection
+	 * @brief
+	 */
 	class Projection
 	{
 	public:
-		inline Projection();
+		/**
+		 * @fn constexpr Projection() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline constexpr Projection() noexcept;
+
+		/**
+		 * @fn Projection(const Projection & copy)
+		 * @param[in] copy The Projection to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		Projection(const Projection & copy) = default;
-		Projection(Projection && move) = default;
 
-		~Projection() = default;
+		/**
+		 * @fn Projection(Projection && move) noexcept
+		 * @param[in] move The Projection to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Projection(Projection && move) noexcept = default;
 
+		/**
+		 * @fn ~Projection() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Projection() noexcept = default;
+
+		/**
+		 * @fn Projection & operator=(const Projection & copy)
+		 * @param[in] copy The Projection to copy from.
+		 * @return The Projection copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		Projection & operator=(const Projection & copy) = default;
-		Projection & operator=(Projection && move) = default;
 
+		/**
+		 * @fn Projection & operator=(Projection && move) noexcept
+		 * @param[in] move The Projection to move from.
+		 * @return The Projection moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Projection & operator=(Projection && move) noexcept = default;
+
+		/**
+		 * @fn void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
+		 * @param[in] FOV The field of view of the camera.
+		 * @param[in] ratio The ratio of the screen.
+		 * @param[in] nearClipping The nearest plan of the scene to capture.
+		 * @param[in] farClipping The furthest plan of the scene to capture.
+		 * @brief Set the projection matrix.
+		 * @throw
+		 */
 		inline void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
 
-		//inline const glm::mat4 & getProjection() const;
+		/**
+		 * @fn const FloatMatrix4u & getProjection() const
+		 * @return The projection matrix.
+		 * @brief Get the projection matrix.
+		 * @throw
+		 */
 		inline const FloatMatrix4u & getProjection() const;
 
 	private:
-		//glm::mat4 projection;
+		/**
+		 * @property _projection
+		 * @brief The projection matrix.
+		 */
 		FloatMatrix4u _projection;
 	};
 }

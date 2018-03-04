@@ -43,7 +43,7 @@
 
 namespace ece
 {
-	inline Projection::Projection(): _projection(FloatMatrix4u::Identity())
+	inline constexpr Projection::Projection() noexcept: _projection(FloatMatrix4u::Identity())
 	{
 		//this->projection = glm::perspective(20.0f, static_cast<float>(RATIO_4_3), 0.3f, 30.0f);
 		this->_projection = ece::perspective(20.0f, static_cast<float>(RATIO_4_3), 0.3f, 30.0f);

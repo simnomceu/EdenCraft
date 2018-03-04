@@ -44,38 +44,146 @@
 #include "graphic/model/movable.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/matrix4u.hpp"
-//#include "glm\glm.hpp"
 
 namespace ece
 {
-
+	/**
+	 * @class Camera
+	 * @brief
+	 */
 	class Camera
 	{
 	public:
-		inline Camera();
+		/**
+		 * @fn constexpr Camera() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline constexpr Camera() noexcept;
+
+		/**
+		 * @fn Camera(const Camera & copy)
+		 * @param[in] copy The Camera to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		Camera(const Camera & copy) = default;
-		Camera(Camera && move) = default;
 
-		~Camera() = default;
+		/**
+		 * @fn Camera(Camera && move) noexcept
+		 * @param[in] move The Camera to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Camera(Camera && move) noexcept = default;
 
+		/**
+		 * @fn ~Camera() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Camera() noexcept = default;
+
+		/**
+		 * @fn Camera & operator=(const Camera & copy)
+		 * @param[in] copy The Camera to copy from.
+		 * @return The Camera copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		Camera & operator=(const Camera & copy) = default;
-		Camera & operator=(Camera && move) = default;
 
+		/**
+		 * @fn Camera & operator=(Camera && move) noexcept
+		 * @param[in] move The Camera to move from.
+		 * @return The Camera moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Camera & operator=(Camera && move) noexcept = default;
+
+		/**
+		 * @fn void lookAt(const Movable & object)
+		 * @param[in] object The object target to look at.
+		 * @brief Look at the center of a specific object.
+		 * @throw
+		 */
 		inline void lookAt(const Movable & object);
+
+		/**
+		 * @fn void lookAt(const FloatVector3u & target)
+		 * @param[in] target The point in space to look at.
+		 * @brief Look at a specific location in space.
+		 * @throw
+		 */
 		inline void lookAt(const FloatVector3u & target);
+
+		/**
+		 * @fn void lookUpTo(const FloatVector3u & direction)
+		 * @param[in] direction The direction to look up to.
+		 * @brief Look up to a specific direction.
+		 * @throw
+		 */
 		inline void lookUpTo(const FloatVector3u & direction);
+
+		/**
+		 * @fn void moveTo(const Movable & object)
+		 * @param[in] object The object to move to.
+		 * @brief Move the camera to the specific object location.
+		 * @throw
+		 */
 		inline void moveTo(const Movable & object);
+
+		/**
+		 * @fn void moveTo(const FloatVector3u & position)
+		 * @param[in] position The position in space to move to.
+		 * @brief Move to a specific location in space.
+		 * @throw
+		 */
 		inline void moveTo(const FloatVector3u & position);
+
+		/**
+		 * @fn void moveIn(const FloatVector3u & direction)
+		 * @param[in] direction The direction to move in.
+		 * @brief Move in a direction.
+		 * @throw
+		 */
 		inline void moveIn(const FloatVector3u & direction);
 
-		//inline glm::mat4 getCamera() const;
+		/**
+		 * @fn FloatMatrix4u getCamera() const
+		 * @return The view matrix.
+		 * @brief Get the view matrix according to the camera.
+		 * @throw
+		 */
 		inline FloatMatrix4u getCamera() const;
 
 	private:
+		/**
+		 * @fn void updatePosition(const FloatVector3u & position, const FloatVector3u & target)
+		 * @param[in] position The position to set.
+		 * @param[in] target The target to look at.
+		 * @brief Update the view matrix.
+		 * @throw
+		 */
 		void updatePosition(const FloatVector3u & position, const FloatVector3u & target);
 
+		/**
+		 * @property _position
+		 * @brief The position of the camera.
+		 */
 		FloatVector3u _position;
+
+		/**
+		 * @property _target
+		 * @brief The target to look at.
+		 */
 		FloatVector3u _target;
+
+		/**
+		 * @property _upAxis
+		 * @brief The vector that defines the up axis.
+		 */
 		FloatVector3u _upAxis;
 	};
 }
