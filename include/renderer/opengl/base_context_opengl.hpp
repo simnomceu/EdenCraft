@@ -47,30 +47,89 @@ namespace ece
 {
 	class RenderWindow;
 
-	class BaseContextOpenGL: public std::enable_shared_from_this<BaseContextOpenGL>
+	/**
+	 * @class BaseContextOpenGL
+	 * @extends std::enable_shared_from_this<BaseContextOpenGL>
+	 * @brief Generic context for OpenGL.
+	 */
+	class BaseContextOpenGL : public std::enable_shared_from_this<BaseContextOpenGL>
 	{
 	public:
-		inline BaseContextOpenGL();
+		/**
+		 * @fn BaseContextOpenGL() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		BaseContextOpenGL() noexcept;
+
 		BaseContextOpenGL(const BaseContextOpenGL & copy) = delete;
 		BaseContextOpenGL(BaseContextOpenGL && move) = delete;
 
-		inline virtual ~BaseContextOpenGL() = 0;
+		/**
+		 * @fn ~BaseContextOpenGL() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~BaseContextOpenGL() noexcept = default;
 
-		BaseContextOpenGL & operator=(const BaseContextOpenGL & copy) = delete;
+		BaseContextOpenGL & operator=(const BaseContextOpenGL & copy) noexcept = delete;
 		BaseContextOpenGL & operator=(BaseContextOpenGL && move) = delete;
 
+		/** 
+		 * @fn void setMinVersion(const Version<2> & minVersion)
+		 * @param[in] minVersion The mandatory minimum version to set.
+		 * @brief Set a mandatory minimum version for OpenGL.
+		 * @throw
+		 */
 		inline void setMinVersion(const Version<2> & minVersion);
+
+		/** 
+		 * @fn void setMaxVersion(const Version<2> & maxVersion)
+		 * @param[in] maxVersion The mandatory maximum version to set.
+		 * @brief Set a mandatory maximum version for OpenGL.
+		 * @throw
+		 */
 		inline void setMaxVersion(const Version<2> & maxVersion);
 
+		/**
+		 * @fn void create(const RenderWindow & window)
+		 * @param[in] window The window to linked to.
+		 * @brief Create the OpenGL context for a window.
+		 * @throw
+		 */
 		virtual void create(const RenderWindow & window) = 0;
+
+		/**
+		 * @fn void swapBuffers()
+		 * @brief If multi buffering is enable, it swap between buffers to display the new frame.
+		 * @throw
+		 */
 		virtual void swapBuffers() = 0;
 
+		/**
+		 * @fn void setCurrent()
+		 * @brief Define this content as the current one.
+		 * @throw
+		 */
 		virtual void setCurrent() = 0;
 
+		/**
+		 * @fn void logInfos()
+		 * @brief Log the informations related to OpenGL and the device used.
+		 * @throw
+		 */
 		void logInfos();
 
 	protected:
+		/**
+		 * @property _minVersion
+		 * @brief The minimum version for OpenGL.
+		 */
 		Version<2> _minVersion;
+		/**
+		 * @property _maxVersion
+		 * @brief The maximum version for OpenGL.
+		 */
 		Version<2> _maxVersion;
 	};
 }
