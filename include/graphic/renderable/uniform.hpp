@@ -45,29 +45,125 @@
 
 namespace ece
 {
+	/**
+	 * @class Uniform
+	 * @tparam T the type of data of the uniform.
+	 * @brief A uniform as defined in OpenGL.
+	 */
 	template <class T>
-	class Uniform: public BaseUniform
+	class Uniform : public BaseUniform
 	{
 	public:
+		/**
+		 * @fn Uniform(const std::string & location, const T & data)
+		 * @param[in] location The location of the uniform.
+		 * @param[in] data The data to set.
+		 * @brief Build a uniform from its location and the data to set.
+		 * @throw
+		 */
 		Uniform(const std::string & location, const T & data);
-		Uniform() = default;
-		Uniform(const Uniform<T> & copy) = default;
-		Uniform(Uniform<T> && move) = default;
 
-		~Uniform() = default;
+		/**
+		 * @fn constexpr Uniform() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		constexpr Uniform() noexcept = default;
 
-		Uniform<T> & operator=(const Uniform<T> & copy) = default;
-		Uniform<T> & operator=(Uniform<T> && move) = default;
+		/**
+		 * @fn Uniform(const Uniform & copy) noexcept
+		 * @param[in] copy The Uniform to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Uniform(const Uniform & copy) noexcept = default;
 
+		/**
+		 * @fn Uniform(Uniform && move) noexcept
+		 * @param[in] move The Uniform to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Uniform(Uniform && move) noexcept = default;
+
+		/**
+		 * @fn ~Uniform() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Uniform() noexcept = default;
+
+		/**
+		 * @fn Uniform & operator=(const Uniform & copy) noexcept
+		 * @param[in] copy The Uniform to copy from.
+		 * @return The Uniform copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Uniform & operator=(const Uniform & copy) noexcept = default;
+
+		/**
+		 * @fn Uniform & operator=(Uniform && move) noexcept
+		 * @param[in] move The Uniform to move from.
+		 * @return The Uniform moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Uniform & operator=(Uniform && move) noexcept = default;
+
+		/**
+		 * @fn std::string getLocation() const 
+		 * @return The string location.
+		 * @brief Get the string location of the uniform.
+		 * @throw
+		 * @see std::string BaseUniform::getLocation() const
+		 */
 		virtual std::string getLocation() const override;
+
+		/**
+		 * @fn UniformType getType() const
+		 * @return The type of uniform.
+		 * @brief Get the type of uniform.
+		 * @throw
+		 * @see UniformType BaseUniform::getType() const
+		 */
 		virtual UniformType getType() const override;
+
+		/**
+		 * @fn T getData() const
+		 * @return The content of the uniform.
+		 * @brief Get the data content of the uniform.
+		 * @throw
+		 */
 		T getData() const;
 
+		/**
+		 * @fn void setLocation(const std::string & location)
+		 * @param[in] location The location to set.
+		 * @brief Set a new location for the uniform.
+		 * @throw
+		 */
 		void setLocation(const std::string & location);
+
+		/**
+		 * @fn void setData(const T & data)
+		 * @param[in] data The data to set.
+		 * @brief Set the content of the uniform.
+		 * @throw
+		 */
 		void setData(const T & data);
 
 	private:
+		/**
+		 * @property _location
+		 * @brief The location of the uniform.
+		 */
 		std::string _location;
+
+		/**
+		 * @property _data
+		 * @brief The content of the uniform.
+		 */
 		T _data;
 	};
 

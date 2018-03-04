@@ -46,23 +46,99 @@
 
 namespace ece
 {
+	/**
+	 * @class Vertex
+	 * @brief A vertex of a 3D object.
+	 */
 	class Vertex
 	{
 	public:
-		Vertex() = default;
-		Vertex(const Vertex & copy) = default;
-		Vertex(Vertex && move) = default;
+		/**
+		 * @fn constexpr Vertex() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		constexpr Vertex() noexcept = default;
 
-		~Vertex() = default;
+		/**
+		 * @fn Vertex(const Vertex & copy) noexcept
+		 * @param[in] copy The Vertex to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Vertex(const Vertex & copy) noexcept = default;
 
-		Vertex & operator=(const Vertex & copy) = default;
-		Vertex & operator=(Vertex && move) = default;
+		/**
+		 * @fn Vertex(Vertex && move) noexcept
+		 * @param[in] move The Vertex to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Vertex(Vertex && move) noexcept = default;
 
+		/**
+		 * @fn ~Vertex() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Vertex() noexcept = default;
+
+		/**
+		 * @fn Vertex & operator=(const Vertex & copy) noexcept
+		 * @param[in] copy The Vertex to copy from.
+		 * @return The Vertex copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Vertex & operator=(const Vertex & copy) noexcept = default;
+
+		/**
+		 * @fn Vertex & operator=(Vertex && move) noexcept
+		 * @param[in] move The Vertex to move from.
+		 * @return The Vertex moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Vertex & operator=(Vertex && move) noexcept = default;
+
+		/**
+		 * @fn std::vector<FloatVector3u> getPositions() const 
+		 * @return The positions.
+		 * @brief Get the list of vertice positions.
+		 * @throw
+		 */
 		virtual std::vector<FloatVector3u> getPositions() const = 0;
+
+		/**
+		 * @fn std::vector<FloatVector3u> getColors() const 
+		 * @return The colors.
+		 * @brief Get the list of vertice colors.
+		 * @throw
+		 */
 		virtual std::vector<FloatVector3u> getColors() const = 0;
+
+		/**
+		 * @fn std::vector<FloatVector3u> getNormals() const 
+		 * @return The normals.
+		 * @brief Get the list of vertice normals.
+		 * @throw
+		 */
 		virtual std::vector<FloatVector3u> getNormals() const = 0;
+
+		/**
+		 * @fn std::vector<FloatVector3u> getIndices() const 
+		 * @return The indices.
+		 * @brief Get the list of vertice indices.
+		 * @throw
+		 */
 		virtual std::vector<int> getIndices() const = 0;
 
+		/**
+		 * @fn bool is indexed() const
+		 * @return True if it is indexed, false else.
+		 * @brief Check if use the indexed mechanism or not.
+		 * @throw
+		 */
 		inline bool isIndexed() const;
 	};
 }

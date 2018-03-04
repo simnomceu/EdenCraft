@@ -43,6 +43,10 @@
 
 namespace ece
 {
+	/**
+	 * @enum UniformType
+	 * @brief The type of uniform.
+	 */
 	enum UniformType : unsigned short int
 	{
 		OTHER = 0,
@@ -53,19 +57,75 @@ namespace ece
 		MATRIX4x4 = 5
 	};
 
+	/**
+	 * @class BaseUniform
+	 * @brief
+	 */
 	class BaseUniform
 	{
 	public:
-		BaseUniform() = default;
-		BaseUniform(const BaseUniform & copy) = default;
-		BaseUniform(BaseUniform && move) = default;
+		/**
+		 * @fn constexpr BaseUniform() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		constexpr BaseUniform() noexcept = default;
 
-		~BaseUniform() = default;
+		/**
+		 * @fn BaseUniform(const BaseUniform & copy) noexcept
+		 * @param[in] copy The BaseUniform to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		BaseUniform(const BaseUniform & copy) noexcept = default;
 
-		BaseUniform & operator=(const BaseUniform & copy) = default;
-		BaseUniform & operator=(BaseUniform && move) = default;
+		/**
+		 * @fn BaseUniform(BaseUniform && move) noexcept
+		 * @param[in] move The BaseUniform to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		BaseUniform(BaseUniform && move) noexcept = default;
 
+		/**
+		 * @fn ~BaseUniform() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~BaseUniform() noexcept = default;
+
+		/**
+		 * @fn BaseUniform & operator=(const BaseUniform & copy) noexcept
+		 * @param[in] copy The BaseUniform to copy from.
+		 * @return The BaseUniform copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		BaseUniform & operator=(const BaseUniform & copy) noexcept = default;
+
+		/**
+		 * @fn BaseUniform & operator=(BaseUniform && move) noexcept
+		 * @param[in] move The BaseUniform to move from.
+		 * @return The BaseUniform moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		BaseUniform & operator=(BaseUniform && move) noexcept = default;
+
+		/**
+		 * @fn std::string getLocation() const 
+		 * @return The string location.
+		 * @brief Get the string location of the uniform.
+		 * @throw
+		 */
 		virtual std::string getLocation() const = 0;
+
+		/**
+		 * @fn UniformType getType() const
+		 * @return The type of uniform.
+		 * @brief Get the type of uniform.
+		 * @throw
+		 */
 		virtual UniformType getType() const = 0;
 	};
 }
