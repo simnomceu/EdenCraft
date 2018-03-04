@@ -36,7 +36,6 @@
 
 */
 
-
 #ifndef BASE_MODULE_HPP
 #define BASE_MODULE_HPP
 
@@ -44,24 +43,81 @@
 
 namespace ece
 {
-
+	/**
+	 * @class BaseModule
+	 * @brief Basic declaration for a module.
+	 */
 	class BaseModule
 	{
 	public:
-		inline BaseModule() = default;
-		BaseModule(const BaseModule & copy) = default;
-		BaseModule(BaseModule && move) = default;
+		/**
+		 * @fn BaseModule() noexcept 
+		 * @brief Default constructor.
+		 * @thrown noexcept
+		 */
+		inline BaseModule() noexcept = default;
 
-		~BaseModule() = default;
+		/**
+		 * @fn BaseModule(const BaseModule & copy) noexcept 
+		 * @param[in] copy The module to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		BaseModule(const BaseModule & copy) noexcept = default;
 
-		BaseModule & operator=(const BaseModule & copy) = default;
-		BaseModule & operator=(BaseModule && move) = default;
+		/**
+		 * @fn BaseModule(BaseModule && move) noexcept 
+		 * @param[in] move The module to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		BaseModule(BaseModule && move) noexcept = default;
 
+		/**
+		 * @fn ~BaseModule() noexcept 
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~BaseModule() noexcept = default;
+
+		/**
+		 * @fn BaseModule & operator=(const BaseModule & copy) noexcept 
+		 * @param[in] copy The module to copy from.
+		 * @return The module copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		BaseModule & operator=(const BaseModule & copy) noexcept = default;
+
+		/**
+		 * @fn BaseModule & operator=(BaseModule && move) noexcept 
+		 * @param[in] move The module to move from.
+		 * @return The module moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		BaseModule & operator=(BaseModule && move) noexcept = default;
+
+		/**
+		 * @fn void init() 
+		 * @brief Hook to initialize the module.
+		 * @throw
+		 */
 		virtual void init() = 0;
-		virtual void update() = 0;
-		virtual void terminate() = 0;
 
-	private:
+		/**
+		 * @fn void update() 
+		 * @brief Hook to update the module.
+		 * @throw
+		 */
+		virtual void update() = 0;
+
+		/**
+		 * @fn void terminate() 
+		 * @brief Hook to terminate the module.
+		 * @throw
+		 */
+		virtual void terminate() = 0;
 	};
 }
 

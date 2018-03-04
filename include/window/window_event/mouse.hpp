@@ -45,9 +45,17 @@
 
 namespace ece
 {
+	/**
+	 * @class Mouse
+	 * @brief A mouse input device.
+	 */
 	class Mouse
 	{
 	public:
+		/**
+		 * @enum Button
+		 * @brief The available mouse buttons.
+		 */
 		enum class Button: short int
 		{
 			ECE_MOUSE_NONE = -1,
@@ -63,22 +71,64 @@ namespace ece
 			ECE_MOUSE_BUTTON6 = 9
 		};
 
+		/**
+		 * @fn bool isKeyPressed(const Button code)
+		 * @param[in] code The button to check.
+		 * @return True if the button is currently pressed, false else.
+		 * @brief Check if a button is currently pressed or not.
+		 * @throw
+		 */
 		static bool isKeyPressed(const Button code);
+
+		/**
+		 * @fn void pressKey(const Button code, const bool state)
+		 * @param[in] code The button to modify.
+		 * @param[in] state The new staet of the button.
+		 * @brief Change the state of a mouse button.
+		 * @throw
+		 */
 		static void pressKey(const Button code, const bool state);
 
-		static IntVector2u & getPosition();
-		static void setPosition(const IntVector2u & position);
+		/**
+		 * @fn IntVector2u & getPosition()
+		 * @return Get the last registered position of the mouse cursor.
+		 * @throw
+		 */
+		static inline IntVector2u & getPosition();
+
+		/**
+		 * @fn void setPosition(const IntVector2u & position)
+		 * @param[in] position The position to set.
+		 * @brief Set the position of the mouse cursor.
+		 * @throw 
+		 */
+		static inline void setPosition(const IntVector2u & position);
 
 	private:
+		/**
+		 * @property _states
+		 * @brief The current state for each mouse button.
+		 */
 		static std::array<bool, 10> _states;
+
+		/**
+		 * @property _position
+		 * @brief The last registered position of the mouse cursor.
+		 */
 		static IntVector2u _position;
 	};
 
 	template <>
 	struct EnumCount<Mouse::Button>
 	{
+		/**
+		 * @property EnumCount<Mouse::Button>::value
+		 * @brief The number of supported mouse buttons.
+		 */
 		static constexpr unsigned short int value = static_cast<unsigned short int>(Mouse::Button::ECE_MOUSE_BUTTON6) + 1;
 	};
 }
+
+#include "window/window_event/mouse.inl"
 
 #endif // MOUSE_HPP

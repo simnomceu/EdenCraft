@@ -70,9 +70,4 @@ namespace ece
 			break;
 		}*/
 	}
-
-	void EventHandler::produceMouseButtonEvent(const int button, const int /*action*/, const int /*mods*/)
-	{
-		std::cerr << "button: " << button << std::endl;
-	}
 }

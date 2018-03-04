@@ -1,3 +1,4 @@
+#include "base_event_manager.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
@@ -36,7 +37,25 @@
 
 */
 
-
 namespace ece
 {
+	inline const Slot::GlobalSlotID BaseEventManager::addSlot(const Slot::Handle & /*handle*/) { return Slot::INVALID_SLOT; }
+
+	inline const Signal::GlobalSignalID BaseEventManager::addSignal() { return 0; }
+
+	inline void BaseEventManager::eraseSlot(const Listener & /*listener*/, const Slot::SlotID /*slot*/) {}
+
+	inline void BaseEventManager::eraseSignal(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::connect(const Listener & /*listener*/, const Slot::SlotID /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::disconnect(const Listener & /*listener*/, const Slot::SlotID /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::disconnectAll(const Listener & /*listener*/, const Slot::SlotID /*slot*/) {}
+
+	inline void BaseEventManager::disconnectAll(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::broadcast(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
+
+	inline void BaseEventManager::clear() {}
 }

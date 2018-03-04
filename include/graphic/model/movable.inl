@@ -40,7 +40,7 @@
 
 namespace ece
 {
-	inline Movable::Movable() : _position{ 0.0f, 0.0f, 0.0f } {}
+	inline constexpr Movable::Movable() noexcept : _position{ 0.0f, 0.0f, 0.0f } {}
 
 	inline Movable::~Movable() {}
 

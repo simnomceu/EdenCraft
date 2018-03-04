@@ -44,9 +44,17 @@
 
 namespace ece
 {
+	/**
+	 * @class Keyboard
+	 * @brief A keyboard input device.
+	 */
 	class Keyboard
 	{
 	public:
+		/**
+		 * @enum Key
+		 * @brief The available keyboard keys.
+		 */
 		enum class Key : short int
 		{
 			KEY_NONE = -1,
@@ -185,16 +193,39 @@ namespace ece
 			OEM_PERIOD = 131,
 		};
 
+		/**
+		 * @fn bool isKeyPressed(const Key code)
+		 * @param[in] code The key to check.
+		 * @return True if the key is currently pressed, false else.
+		 * @brief Check if a key is currently pressed or not.
+		 * @throw
+		 */
 		inline static bool isKeyPressed(const Key code);
+
+		/**
+		 * @fn void pressKey(const Button code, const bool state)
+		 * @param[in] code The button to modify.
+		 * @param[in] state The new staet of the button.
+		 * @brief Change the state of a mouse button.
+		 * @throw
+		 */
 		inline static void pressKey(const Key code, const bool state);
 
 	private:
+		/**
+		 * @property _states
+		 * @brief The current state for each keyboard key.
+		 */
 		static std::array<bool, 132> _states;
 	};
 
 	template <>
 	struct EnumCount<Keyboard::Key>
 	{
+		/**
+		 * @property EnumCount<Keyboard::Key>::value
+		 * @brief The number of supported keyboard keys.
+		 */
 		static constexpr unsigned short int value = static_cast<unsigned short int>(Keyboard::Key::OEM_PERIOD) + 1;
 	};
 }

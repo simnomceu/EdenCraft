@@ -114,6 +114,8 @@ namespace ece
 		 * @fn void loadFromFile(const std::string & filename)
 		 * @param[in] filename The name of the file to load data from.
 		 * @brief Load and parse data from a file.
+		 * @throw
+		 * @see void Parser::loadFromFile(const std::string & filename)
 		 */
 		virtual void loadFromFile(const std::string & filename) override;
 
@@ -121,6 +123,8 @@ namespace ece
 		 * @fn void loadFromString(const std::string & content)
 		 * @param[in] content The string content to load data from.
 		 * @brief Load and parse data from a string.
+		 * @throw
+		 * @see void Parser::loadFromString(const std::string & content)
 		 */
 		virtual void loadFromString(const std::string & content) override;
 
@@ -128,6 +132,8 @@ namespace ece
 		 * @fn void loadFromMemory(const void * content)
 		 * @param[in] content The memory buffer to load data from.
 		 * @brief Load and parse data from memory.
+		 * @throw
+		 * @see void Parser::loadFromMemory(const void * content)
 		 */
 		virtual void loadFromMemory(const void * content) override;
 
@@ -135,6 +141,8 @@ namespace ece
 		 * @fn void saveToFile(const std::string & filename)
 		 * @param[out] filename The name of the file to save into.
 		 * @brief Formate and save data into a file.
+		 * @throw
+		 * @see void Parser::saveToFile(const std::string & filename)
 		 */
 		virtual void saveToFile(const std::string & filename) override;
 
@@ -142,6 +150,8 @@ namespace ece
 		 * @fn void saveToString(std::string & content)
 		 * @param[out] content The string buffer to save into.
 		 * @brief Formate and save data into a string buffer.
+		 * @throw
+		 * @see void Parser::saveToString(std::string & content)
 		 */
 		virtual void saveToString(std::string & content) override;
 
@@ -149,14 +159,40 @@ namespace ece
 		 * @fn void saveToMemory(void * content)
 		 * @param[out] content The memory to save into.
 		 * @brief Formate and save data into memory.
+		 * @throw
+		 * @see void ParsersaveToString(std::string & content)
 		 */
 		virtual void saveToMemory(void * content) override;
 
+		/**
+		 * @fn std::vector<RGB24> & getBuffer()
+		 * @return The buffer of pixels.
+		 * @brief Get the buffer containing the image pixels.
+		 * @throw
+		 */
 		std::vector<RGB24> & getBuffer();
+
+		/**
+		 * @fn unsigned int getWidth() const
+		 * @return The image width.
+		 * @brief Get the image width.
+		 * @throw
+		 */
 		unsigned int getWidth() const;
+
+		/**
+		 * @fn unsigned int getHeight() const
+		 * @return The image height.
+		 * @brief Get the image height.
+		 * @throw
+		 */
 		unsigned int getHeight() const;
 
 	private:
+		/**
+		 * @struct BMPHeader
+		 * @brief The header of a BMP file according to the file format specification.
+		 */
 		struct BMPHeader
 		{
 			std::array<uint8_t, 2> magic;
@@ -165,6 +201,10 @@ namespace ece
 			uint32_t pixelsOffset;
 		};
 
+		/**
+		 * @struct BMPDIB
+		 * @brief The internal data about the image, according to the file format specification.
+		 */
 		struct BMPDIB
 		{
 			uint32_t size;
@@ -180,8 +220,22 @@ namespace ece
 			uint32_t nbMajorColors;
 		};
 
+		/**
+		 * @property _buffer
+		 * @brief The image pixels.
+		 */
 		std::vector<RGB24> _buffer;
+
+		/**
+		 * @property _width
+		 * @brief The image width.
+		 */
 		unsigned int _width;
+
+		/**
+		 * @property _height
+		 * @brief The image height.
+		 */
 		unsigned int _height;
 	};
 }

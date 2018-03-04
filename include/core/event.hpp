@@ -33,35 +33,18 @@
 
 				You should have received a copy of the GNU General Public License
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
-
 */
 
-#ifndef EVENT_MANAGER_NONE_HPP
-#define EVENT_MANAGER_NONE_HPP
+#ifndef CORE_EVENT_HPP
+#define CORE_EVENT_HPP
 
-#include "core/event/base_event_manager.hpp"
+#include "core/event/connection.hpp"
+#include "core/event/emitter.hpp"
+#include "core/event/event_manager.hpp"
+#include "core/event/event_manager_consumer.hpp"
+#include "core/event/event_service.hpp"
+#include "core/event/listener.hpp"
+#include "core/event/signal.hpp"
+#include "core/event/slot.hpp"
 
-namespace ece
-{
-	class EventManagerNone : public BaseEventManager
-	{
-	public:
-		inline virtual const Slot::GlobalSlotID addSlot(const Slot::Handle & handle) override;
-		inline virtual const Signal::GlobalSignalID addSignal() override;
-
-		inline virtual void eraseSlot(const Listener & listener, const Slot::SlotID slot) override;
-		inline virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID signal) override;
-
-		inline virtual void connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) override;
-		inline virtual void disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) override;
-		inline virtual void disconnectAll(const Listener & listener, const Slot::SlotID slot) override;
-		inline virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID signal) override;
-
-		inline virtual void broadcast(const Emitter & emitter, const Signal::SignalID signal) override;
-		inline virtual void clear() override;
-	};
-}
-
-#include "core/event/event_manager_none.inl"
-
-#endif // EVENT_MANAGER_NONE_HPP
+#endif // CORE_EVENT_HPP

@@ -48,22 +48,82 @@
 
 namespace ece
 {
+	/**
+	 * @class Animation
+	 * @brief A set of transformations.
+	 * @remark This class can be useful but it is not animation.
+	 */
 	class Animation
 	{
 	public:
+		/**
+		 * @fn Animation()
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
 		Animation() = default;
+
+		/**
+		 * @fn Animation(const Animation & copy)
+		 * @param[in] copy The Animation to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
 		Animation(const Animation & copy) = default;
+
+		/**
+		 * @fn Animation(Animation && move)
+		 * @param[in] move The Animation to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
 		Animation(Animation && move) = default;
 
-		~Animation() = default;
+		/**
+		 * @fn ~Animation() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Animation() noexcept = default;
 
+		/**
+		 * @fn Animation & operator=(const Animation & copy)
+		 * @param[in] copy The Animation to copy from.
+		 * @return The Animation copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
 		Animation & operator=(const Animation & copy) = default;
-		Animation & operator=(Animation && move) = default;
 
+		/**
+		 * @fn Animation & operator=(Animation && move) noexcept
+		 * @param[in] move The Animation to move from.
+		 * @return The Animation moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Animation & operator=(Animation && move) noexcept = default;
+
+		/**
+		 * @fn void add(const std::shared_ptr<Transformation> & transformation)
+		 * @param[in] transformation The transformation to add to.
+		 * @brief Add a new transformation to the existing set.
+		 * @throw
+		 */
 		void add(const std::shared_ptr<Transformation> & transformation);
+		
+		/**
+		 * @fn void clear()
+		 * @brief Remove all transformations from the set.
+		 * @throw
+		 */
 		void clear();
 
 	private:
+		/**
+		 * @property _transformations
+		 * @brief The set of transformations.
+		 */
 		std::queue<std::shared_ptr<Transformation>> _transformations;
 	};
 }

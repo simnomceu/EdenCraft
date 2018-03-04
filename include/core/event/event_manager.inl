@@ -39,9 +39,7 @@
 
 namespace ece
 {
-	inline EventManager::EventManager() : BaseEventManager(), _signals(), _slots(), _signalsAvailable(), _slotsAvailable()
-	{
-	}
+	inline EventManager::EventManager() : BaseEventManager(), _signals(), _slots(), _signalsAvailable(), _slotsAvailable() {}
 
 	inline const Slot::GlobalSlotID EventManager::getSlotID()
 	{

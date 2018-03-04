@@ -49,48 +49,160 @@ namespace ece
 {
 	class Mesh;
 	class Skeleton;
-	class Texture;
-	class ShaderEffect;
 	class Animation;
+	
+	/**
+	 * @class Object
+	 * @extends Renderable
+	 * @brief A renderable 3D object.
+	 */
+	class Object: public Renderable
+	{
+	public:
+		/**
+		 * @fn constexpr Object() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline constexpr Object() noexcept;
 
-    class Object: public Renderable
-    {
-    public:
-        inline Object();
-        Object(const Object & copy) = default;
-        Object(Object && move) = default;
+		/**
+		 * @fn Object(const Object & copy) noexcept
+		 * @param[in] copy The Object to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Object(const Object & copy) noexcept = default;
 
-        ~Object() = default;
+		/**
+		 * @fn Object(Object && move) noexcept
+		 * @param[in] move The Object to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Object(Object && move) noexcept = default;
 
-        Object & operator=(const Object & copy) = default;
-		Object & operator=(Object && move) = default;
+		/**
+		 * @fn ~Object() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Object() noexcept = default;
+
+		/**
+		 * @fn Object & operator=(const Object & copy) noexcept
+		 * @param[in] copy The Object to copy from.
+		 * @return The Object copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Object & operator=(const Object & copy) noexcept = default;
+
+		/**
+		 * @fn Object & operator=(Object && move) noexcept
+		 * @param[in] move The Object to move from.
+		 * @return The Object moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Object & operator=(Object && move) noexcept = default;
 
 		// NOTE: each element should be build externally from this class, and just "linked" to it when required.
+
+		/**
+		 * @fn void setMesh(const std::shared_ptr<Mesh> & mesh)
+		 * @param[in] mesh The mesh to use.
+		 * @brief Set the mesh of the 3D object.
+		 * @throw
+		 */
 		inline void setMesh(const std::shared_ptr<Mesh> & mesh);
+
+		/**
+		 * @fn void setSkeleton(const std::shared_ptr<Skeleton> & skeleton)
+		 * @param[in] skeleton The skeleton to use.
+		 * @brief Set the skeleton of the 3D object.
+		 * @throw
+		 */
 		inline void setSkeleton(const std::shared_ptr<Skeleton> & skeleton);
-		inline void setTexture(const std::shared_ptr<Texture> & texture);
-		inline void setShaderEffect(const std::shared_ptr<ShaderEffect> & shaderEffect);
+
+		/**
+		 * @fn void setAnimation(const std::shared_ptr<Animation> & animation)
+		 * @param[in] animation The animation to use.
+		 * @brief Set the animation of the 3D object.
+		 * @throw
+		 */
 		inline void setAnimation(const std::shared_ptr<Animation> & animation);
 
 		// NOTE: accessing one of the elements linked to this object should not modify the object itself
 		// but it should also not forbidding modification on the elements.
+
+		/**
+		 * @fn std::shared_ptr<Mesh> getMesh() const
+		 * @return The mesh of the object.
+		 * @brief Get the mesh of the object.
+		 * @throw
+		 */
 		inline std::shared_ptr<Mesh> getMesh() const;
+
+		/**
+		 * @fn std::shared_ptr<Mesh> getSkeleton() const
+		 * @return The skeleton of the object.
+		 * @brief Get the skeleton of the object.
+		 * @throw
+		 */
 		inline std::shared_ptr<Skeleton> getSkeleton() const;
-		inline std::shared_ptr<Texture> getTexture() const;
-		inline std::shared_ptr<ShaderEffect> getShaderEffect() const;
+
+		/**
+		 * @fn std::shared_ptr<Mesh> getAnimation() const
+		 * @return The animation of the object.
+		 * @brief Get the animation of the object.
+		 * @throw
+		 */
 		inline std::shared_ptr<Animation> getAnimation() const;
 
+		/**
+		 * @fn Vertex * getVertices() const
+		 * @return The list of vertices of the mesh.
+		 * @brief Get the list of the mesh that compose the object.
+		 * @throw
+		 */
 		inline virtual Vertex * getVertices() const override;
+
+		/**
+		 * @fn std::vector<BaseUniform *> getUniforms() const 
+		 * @return The list of uniforms associated to this object.
+		 * @brief Get the list of uniforms associated to this object.
+		 * @throw
+		 */
 		virtual std::vector<BaseUniform *> getUniforms() const override;
+
+		/**
+		 * @fn std::vector<ShaderSource *> getShaderSources() const 
+		 * @return The list of shaders to apply to this object.
+		 * @brief Get the list of shaders to apply to this object.
+		 * @throw
+		 */
 		virtual std::vector<ShaderSource *> getShaderSources() const override;
 
-    protected:
+	protected:
+		/**
+		 * @property _mesh
+		 * @brief The mesh of the object.
+		 */
 		std::shared_ptr<Mesh> _mesh;
+
+		/**
+		 * @property _skeleton
+		 * @brief The skeleton of the object.
+		 */
 		std::shared_ptr<Skeleton> _skeleton;
-		std::shared_ptr<Texture> _texture;
-		std::shared_ptr<ShaderEffect> _shaderEffect;
+
+		/**
+		 * @property _animation
+		 * @brief The animation to apply to the object.
+		 */
 		std::shared_ptr<Animation> _animation;
-    };
+	};
 }
 
 #include "graphic/model/object.inl"

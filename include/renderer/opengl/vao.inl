@@ -40,6 +40,12 @@
 
 namespace ece
 {
+	inline VAO::VAO() : _handle(0), _nbVertices(0), _ibo() { OpenGL::genVertexArrays(this->_handle); }
+
+	inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
+
+	inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
+
 	template<class T> 
 	void VAO::addAttribute(const int location, const int size, const bool normalized, const int offset,
 		const BufferType type, const std::vector<T> & data, const BufferUsage usage)
@@ -63,5 +69,5 @@ namespace ece
 		OpenGL::vertexAttribPointer<T>(location, size, normalized, offset, data);
 	}
 
-	inline unsigned int VAO::getNbVertices() const { return this->nbVertices; }
+	inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
 }

@@ -8,19 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															  .oooooo.                                  oooo         o8o            
-															 d8P'  `Y8b                                 `888         `"'            
-															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.  
-															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8 
-															888     ooooo  888      .oP"888   888   888  888   888   888  888       
-															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8 
-															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P' 
-																							  888                                   
-																							 o888o                                  
-                                                                       
+															  .oooooo.                                
+															 d8P'  `Y8b                               
+															888           .ooooo.  oooo d8b  .ooooo.  
+															888          d88' `88b `888""8P d88' `88b 
+															888          888   888  888     888ooo888 
+															`88b    ooo  888   888  888     888    .o 
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
                                           
-                                     
-				This file is part of EdenCraft Engine - Graphic module.
+                                          
+
+				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -35,16 +33,16 @@
 
 				You should have received a copy of the GNU General Public License
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
-
 */
 
-namespace ece
-{
-	inline Shader::Shader() : _filename(), _source(), _type(NULL_TYPE_SHADER) {}
+#ifndef ECS_HPP
+#define ECS_HPP
 
-	inline const std::string & Shader::getFilename() const { return this->_filename; }
+#include "core/ecs/base_component.hpp"
+#include "core/ecs/base_prototype.hpp"
+#include "core/ecs/base_system.hpp"
+#include "core/ecs/component.hpp"
+#include "core/ecs/component_tank.hpp"
+#include "core/ecs/world.hpp"
 
-	inline const std::string & Shader::getSource() const { return this->_source; }
-
-	inline const ShaderType & Shader::getType() const { return this->_type; }
-}
+#endif // ECS_HPP

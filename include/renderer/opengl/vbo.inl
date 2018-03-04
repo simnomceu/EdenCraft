@@ -38,6 +38,12 @@
 
 namespace ece
 {
+	inline VBO::VBO(const BufferType type) : _handle(0), _type(type) { this->_handle = OpenGL::genBuffers(); }
+
+	inline VBO::VBO() : _handle(0), _type(BufferType::ARRAY_BUFFER) { this->_handle = OpenGL::genBuffers(); }
+
+	inline void VBO::bind() { OpenGL::bindBuffer(this->_type, this->_handle); }
+
 	template<class T>
 	void VBO::bufferData(const std::vector<T>& data, const BufferUsage usage)
 	{

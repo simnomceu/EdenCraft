@@ -44,48 +44,228 @@ namespace ece
 	 * @class VideoMode
 	 * @brief Store all the parameters of the video mode for a window.
 	 * Store all the parameters of the video mode for a window. It is used for read and write operation.
-	 * The object is completely compatible with movable or copyable operations.
-	 * Setting values in VideoMode doesn't affect anything else than this object.
-	 **/
+	 */
 	class VideoMode
 	{
 	public:
-		inline VideoMode();
-		VideoMode(const VideoMode & copy) = default;
-		VideoMode(VideoMode && copy) = default;
-		inline ~VideoMode();
+		/**
+		 * @fn constexpr VideoMode()
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline constexpr VideoMode() noexcept;
 
-		VideoMode & operator=(const VideoMode & copy) = default;
-		VideoMode & operator=(VideoMode && copy) = default;
+		/**
+		 * @fn VideoMode(const VideoMode & copy) noexcept 
+		 * @param[in] copy The video mode to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		VideoMode(const VideoMode & copy) noexcept = default;
+		
+		/**
+		 * @fn VideoMode(VideoMode && copy) noexcept 
+		 * @param[in] move The video mode to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		VideoMode(VideoMode && move) noexcept = default;
 
+		/**
+		 * @fn ~VideoMode()
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		inline ~VideoMode() noexcept;
+
+		/**
+		 * @fn VideoMode & operator=(const VideoMode & copy) noexcept 
+		 * @param[in] copy The video mode to copy from.
+		 * @return The video mode copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		VideoMode & operator=(const VideoMode & copy) noexcept = default;
+
+		/**
+		 * @fn VideoMode & operator=(VideoMode && move) noexcept
+		 * @param[in] move The video mode to move.
+		 * @return The video mode moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		VideoMode & operator=(VideoMode && move) noexcept = default;
+
+		/**
+		 * @fn bool operator==(const VideoMode & rightOperand) const
+		 * @param[in] rightoperand The video mode to compare to.
+		 * @return True, if both video modes are equal, false else.
+		 * @brief Compare two video modes for equality.
+		 * @throw
+		 */
 		bool operator==(const VideoMode & rightOperand) const;
+
+		/**
+		 * @fn bool operator!=(const VideoMode & rightOperand) const
+		 * @param[in] rightoperand The video mode to compare to.
+		 * @return True, if both video modes are not equal, false else.
+		 * @brief Compare two video modes for non-equality.
+		 * @throw
+		 */
 		inline bool operator!=(const VideoMode & rightOperand) const;
 
+		/**
+		 * @fn void setRefreshRate(const unsigned short int refreshRate)
+		 * @param[in] refreshRate The rate of refreshing to set.
+		 * @brief Set the frame rate limit.
+		 * @throw
+		 */
 		void setRefreshRate(const unsigned short int refreshRate);
+
+		/**
+		 * @fn void setColorBits(const unsigned short int colorBits)
+		 * @param[in] colorBits The number of bits to set.
+		 * @brief Set the number of bits used for colors.
+		 * @throw
+		 */
 		void setColorBits(const unsigned short int colorBits);
+
+		/**
+		 * @fn void setDepthBits(const unsigned short int dephtBits)
+		 * @param[in] dephtBits The number of bits to set.
+		 * @brief Set the number of bits used for the depth buffer.
+		 * @throw
+		 */
 		void setDepthBits(const unsigned short int dephtBits);
+
+		/**
+		 * @fn void setStencilBits(const unsigned short int stencilBits)
+		 * @param[in] stencilBits The number of bits to set.
+		 * @brief Set the number of bits used for the stencil buffer.
+		 * @throw
+		 */
 		void setStencilBits(const unsigned short int stencilBits);
+
+		/**
+		 * @fn void setSamples(const unsigned short int samples)
+		 * @param[in] samples The number of samples to compute.
+		 * @brief Set the number of samples to compute for each frame.
+		 * @throw
+		 */
 		void setSamples(const unsigned short int samples);
+
+		/**
+		 * @fn void setDoubleBuffering(const bool doubleBuffering)
+		 * @param[in] doubleBuffering The switch parameter to set.
+		 * @brief Enable or disable the double buffering.
+		 * @throw
+		 */
 		void setDoubleBuffering(const bool doubleBuffering);
 
-		inline unsigned short int getRefreshRate() const;
-		inline unsigned short int getColorBits() const;
-		inline unsigned short int getDepthBits() const;
-		inline unsigned short int getStencilBits() const;
-		inline unsigned short int getSamples() const;
-		inline bool isDoubleBufferingActivate() const;
+		/**
+		 * @fn unsigned short int getRefreshRate() const noexcept
+		 * @return The current rate of refreshing.
+		 * @brief Get the current rate of refreshing frames.
+		 * @throw noexcept
+		 */
+		inline unsigned short int getRefreshRate() const noexcept;
 
-		inline bool hasChanged() const;
-		inline void applyChanges();
+		/**
+		 * @fn unsigned short int getColorBits() const noexcept
+		 * @return The number of bits.
+		 * @brief Get the number of bits used for the color.
+		 * @throw noexcept
+		 */
+		inline unsigned short int getColorBits() const noexcept;
+
+		/**
+		 * @fn unsigned short int getDepthBits() const noexcept
+		 * @return The number of bits.
+		 * @brief Get he number if bits used for the depth buffer.
+		 * @throw noexcept
+		 */
+		inline unsigned short int getDepthBits() const noexcept;
+
+		/**
+		 * @fn unsigned short int getStencilBits() const noexcept
+		 * @return The number of bits.
+		 * @brief Get he number if bits used for the stencil buffer.
+		 * @throw noexcept
+		 */
+		inline unsigned short int getStencilBits() const noexcept;
+
+		/**
+		 * @fn unsigned short int getSamples() const noexcept
+		 * @return The number of samples to generate.
+		 * @brief Get the number of samples to generate for each frame.
+		 * @throw noexcept
+		 */
+		inline unsigned short int getSamples() const noexcept;
+
+		/**
+		 * @fn bool isDoubleBufferingEnabled() const noexcept
+		 * @return True if the double buffering is enabled, false else.
+		 * @brief Check if the double buffering is enable or not.
+		 * @throw noexcept
+		 */
+		inline bool isDoubleBufferingEnabled() const noexcept;
+		
+		/**
+		 * @fn bool hasChanged() const noexcept
+		 * @return True if the video mode has changed, false lse.
+		 * @brief Check if the video mode has changed or not since the last time it has been used.
+		 * @throw noexcept
+		 */
+		inline bool hasChanged() const noexcept;
+
+		/**
+		 * @fn void applyChanges() noexcept
+		 * @brief Apply the changes in the video mode.
+		 * @throw noexcept
+		 */
+		inline void applyChanges() noexcept;
 
 	private:
+		/**
+		 * @property _refreshRate
+		 * @brief The rate of refreshing for each frames.
+		 */
 		unsigned short int _refreshRate;
-		unsigned short int _colorBits;
-		unsigned short int _depthBits;
-		unsigned short int _stencilBits;
-		unsigned short int _samples;
-		bool _doubleBuffering;
 
+		/**
+		 * @property _colorBits
+		 * @brief The number of bits used for the color.
+		 */
+		unsigned short int _colorBits;
+		
+		/**
+		 * @property _depthBits
+		 * @brief The number of bits used for the depth buffer.
+		 */
+		unsigned short int _depthBits;
+		
+		/**
+		 * @property _stencilBits
+		 * @brief The number of bits used for the stencil buffer.
+		 */
+		unsigned short int _stencilBits;
+		
+		/**
+		 * @property _samples
+		 * @brief The number of samples to generate for each frame.
+		 */
+		unsigned short int _samples;
+		
+		/**
+		 * @property _doubleBuffering
+		 * @brief If the double buffering is enabled or not.
+		 */
+		bool _doubleBuffering;
+		
+		/**
+		 * @property _changed
+		 * @brief  Tag to indicate that the video mode has changed without being updated.
+		 */
 		bool _changed;
 	};
 }

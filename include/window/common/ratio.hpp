@@ -40,6 +40,10 @@
 
 namespace ece
 {
+	/**
+	 * @typedef Ratio
+	 * @brief Screen ratio to be used with devices and windows.
+	 */
 	using Ratio = double;
 
 	static constexpr Ratio RATIO_4_3 = 4.0 / 3.0;

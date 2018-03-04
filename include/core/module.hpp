@@ -33,28 +33,13 @@
 
 				You should have received a copy of the GNU General Public License
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
-
 */
 
-namespace ece
-{
-	inline const Slot::GlobalSlotID  EventManagerNone::addSlot(const Slot::Handle & /*handle*/) { return 0; }
+#ifndef CORE_MODULE_HPP
+#define CORE_MODULE_HPP
 
-	inline const Signal::GlobalSignalID EventManagerNone::addSignal() { return 0; }
+#include "core/module/module.hpp"
+#include "core/module/module_manager.hpp"
+#include "core/module/module_method.hpp"
 
-	inline void EventManagerNone::eraseSlot(const Listener & /*listener*/, const Slot::SlotID /*slot*/) {}
-
-	inline void EventManagerNone::eraseSignal(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
-
-	inline void EventManagerNone::connect(const Listener & /*listener*/, const Slot::SlotID /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
-
-	inline void EventManagerNone::disconnect(const Listener & /*listener*/, const Slot::SlotID /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
-
-	inline void EventManagerNone::disconnectAll(const Listener & /*listener*/, const Slot::SlotID /*slot*/) {}
-
-	inline void EventManagerNone::disconnectAll(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
-
-	inline void EventManagerNone::broadcast(const Emitter & /*emitter*/, const Signal::SignalID /*signal*/) {}
-
-	inline void EventManagerNone::clear() {}
-}
+#endif // CORE_MODULE_HPP

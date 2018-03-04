@@ -43,18 +43,71 @@
 
 namespace ece
 {
+	/**
+	 * @class IntegerOptionValue
+	 * @extends OptionValue
+	 * @brief An option as an integer argument.
+	 */
 	class IntegerOptionValue: public OptionValue
 	{
 	public:
-		IntegerOptionValue() = default;
-		IntegerOptionValue(const IntegerOptionValue & copy) = default;
-		IntegerOptionValue(IntegerOptionValue && move) = default;
+		/**
+		 * @fn IntegerOptionValue() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		IntegerOptionValue() noexcept = default;
 
-		~IntegerOptionValue() = default;
+		/**
+		 * @fn IntegerOptionValue(const IntegerOptionValue & copy) noexcept 
+		 * @param[in] copy The option to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		IntegerOptionValue(const IntegerOptionValue & copy) noexcept = default;
 
-		IntegerOptionValue & operator=(const IntegerOptionValue & copy) = default;
-		IntegerOptionValue & operator=(IntegerOptionValue && move) = default;
+		/**
+		 * @fn IntegerOptionValue(IntegerOptionValue && move) noexcept 
+		 * @param[in] move The option to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		IntegerOptionValue(IntegerOptionValue && move) noexcept = default;
 
+		/**
+		 * @fn ~IntegerOptionValue() noexcept 
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~IntegerOptionValue() noexcept = default;
+
+		/**
+		 * @fn IntegerOptionValue & operator=(const IntegerOptionValue & copy) noexcept 
+		 * @param[in] copy The option to copy from.
+		 * @return The option copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		IntegerOptionValue & operator=(const IntegerOptionValue & copy) noexcept = default;
+
+		/**
+		 * @fn IntegerOptionValue & operator=(IntegerOptionValue && move) noexcept 
+		 * @param[in] move The option to move.
+		 * @return The option moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		IntegerOptionValue & operator=(IntegerOptionValue && move) noexcept = default;
+
+		/**
+		 * @fn bool isValid(const std::string & value)
+		 * @param[in] value The value to check.
+		 * @return True if the value is valid, false else.
+		 * @brief Check if the value of the argument is valid.
+		 * It should always be valid for a numerical value.
+		 * @throw noexcept
+		 * @see bool OptionValue::isValid(const std::string & value)
+		 */
 		inline virtual bool isValid(const std::string & value) override;
 	};
 }

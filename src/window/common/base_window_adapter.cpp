@@ -41,7 +41,7 @@ namespace ece
 {
 	BaseWindowAdapter::BaseWindowAdapter(): _keyRepeat(true), _eventQueue() {}
 
-	BaseWindowAdapter::~BaseWindowAdapter() {}
+	BaseWindowAdapter::~BaseWindowAdapter() noexcept {}
 
 	void BaseWindowAdapter::enableKeyRepeat(const bool enabled)
 	{

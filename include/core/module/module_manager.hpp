@@ -36,7 +36,6 @@
 
 */
 
-
 #ifndef MODULE_MANAGER_HPP
 #define MODULE_MANAGER_HPP
 
@@ -47,27 +46,116 @@
 
 namespace ece
 {
+	/**
+	 * @class ModuleManager
+	 * @brief Manage all the module  of an application.
+	 */
 	class ModuleManager
 	{
 	public:
-		ModuleManager() = default;
+		/**
+		 * @fn ModuleManager() noexcept 
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		ModuleManager() noexcept = default;
+
+		/**
+		 * @fn ModuleManager(const ModuleManager & copy) 
+		 * @param[in] copy The manager to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		ModuleManager(const ModuleManager & copy) = default;
-		ModuleManager(ModuleManager && move) = default;
 
-		~ModuleManager() = default;
+		/**
+		 * @fn ModuleManager(ModuleManager && move) noexcept 
+		 * @param[in] move The manager to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		ModuleManager(ModuleManager && move) noexcept = default;
 
+		/**
+		 * @fn ~ModuleManager() noexcept 
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~ModuleManager() noexcept = default;
+
+		/**
+		 * @fn ModuleManager & operator=(const ModuleManager & copy) 
+		 * @param[in] copy The manager to copy from.
+		 * @return The manager copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		ModuleManager & operator=(const ModuleManager & copy) = default;
-		ModuleManager & operator=(ModuleManager && move) = default;
 
+		/**
+		 * @fn ModuleManager & operator=(ModuleManager && move) noexcept 
+		 * @param[in] move The manager to move.
+		 * @return The manager moved.
+		 * @brief Default move assignment operator.
+		 * @throw
+		 */
+		ModuleManager & operator=(ModuleManager && move) noexcept = default;
+
+		/**
+		 * @fn T & add(const ModuleMethodHandle<T> & init, const ModuleMethodHandle<T> & update, const ModuleMethodHandle<T> & terminate)
+		 * @tparam T The object defined as a module.
+		 * @param[in] init The method to initialize the module.
+		 * @param[in] update The method to update the module.
+		 * @param[in] terminate The method to terminate the module.
+		 * @return The object referenced as a module, built.
+		 * @brief Build and register an object as a module.
+		 * @throw
+		 */
 		template <class T> T & add(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
+		
+		/**
+		 * @fn void remove()
+		 * @tparam T The object defined as a module.
+		 * @brief Remove a module from the application.
+		 * @throw
+		 */
 		template <class T> void remove();
+
+		/**
+		 * @fn T & get()
+		 * @tparam T The object defined as a module.
+		 * @return The object referenced as a module
+		 * @brief Get a module.
+		 * @throw
+		 */
 		template <class T> T & get();
 
+		/**
+		 * @fn void initAll()
+		 * @brief Initialize all the modules, in the order they have been registered.
+		 * @throw
+		 */
 		void initAll();
+
+		/**
+		 * @fn void updateAll()
+		 * @brief Update all the modules, in the order they have been registered.
+		 * @throw
+		 */
 		void updateAll();
+
+		/**
+		 * @fn void terminateAll()
+		 * @brief Terminate all the modules, in the order they have been registered.
+		 * @throw
+		 */
 		void terminateAll();
 
 	private:
+		/**
+		 * @property _modules
+		 * @brief The list of modules registered.
+		 */
 		std::vector<std::shared_ptr<BaseModule>> _modules;
 	};
 }

@@ -46,7 +46,7 @@ namespace ece
 			&& this->_depthBits == rightOperand.getDepthBits()
 			&& this->_stencilBits == rightOperand.getStencilBits()
 			&& this->_samples == rightOperand.getSamples()
-			&& this->_doubleBuffering == rightOperand.isDoubleBufferingActivate();
+			&& this->_doubleBuffering == rightOperand.isDoubleBufferingEnabled();
 	}
 
 	void VideoMode::setRefreshRate(const unsigned short int refreshRate)

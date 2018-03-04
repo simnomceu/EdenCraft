@@ -43,17 +43,51 @@
 
 namespace ece
 {
+	/**
+	 * @class Component
+	 * @extends BaseComponent
+	 * @tparam T The type of attribute that the component define.
+	 * @brief A component define an attribute of an entity.
+	 */
 	template<class T>
 	class Component: public BaseComponent
 	{
 	public:
+		/**
+		 * @fn Component()
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		Component();
+
+		/**
+		 * @fn ~Component()
+		 * @brief Default destructor.
+		 * @throw
+		 */
 		~Component();
 
+		/**
+		 * @fn const T & get()
+		 * @return The content of the component.
+		 * @brief Get the content of the component.
+		 * @throw
+		 */
 		const T & get();
-		void set(const T &  value);
+
+		/**
+		 * @fn void set(const T & value)
+		 * @param[in] value The new content of the component.
+		 * @brief Set the content of the component.
+		 * @throw
+		 */
+		void set(const T & value);
 
 	protected:
+		/**
+		 * @property _value
+		 * @brief The content of the component.
+		 */
 		T _value;
 	};
 }

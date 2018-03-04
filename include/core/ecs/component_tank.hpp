@@ -47,13 +47,32 @@
 
 namespace ece
 {
+	/**
+	 * @class ComponentTank
+	 * @brief Manage a list of components.
+	 */
 	class ComponentTank
 	{
 	public:
+		/**
+		 * @fn ComponentTank()
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		inline ComponentTank();
+
+		/**
+		 * @fn ~ComponentTank
+		 * @brief Default destructor.
+		 * @throw
+		 */
 		inline ~ComponentTank();
 
 	private:
+		/**
+		 * @property _nextComponent
+		 * @brief To generate the next component.
+		 */
 		UniqueID _nextComponent;
 	};
 }

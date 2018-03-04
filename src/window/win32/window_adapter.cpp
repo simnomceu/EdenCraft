@@ -43,7 +43,7 @@
 
 namespace ece
 {
-	WindowAdapter::WindowAdapter(): BaseWindowAdapter(), _data(makePimpl<DataWindowAdapter>(nullptr)) {}
+	WindowAdapter::WindowAdapter() noexcept: BaseWindowAdapter(), _data(makePimpl<DataWindowAdapter>(nullptr)) {}
 
 	void WindowAdapter::createWindow()
 	{

@@ -57,13 +57,4 @@ namespace ece
 		}
 		Mouse::_states[static_cast<unsigned int>(code)] = state;
 	}
-
-	IntVector2u & Mouse::getPosition()
-	{
-		return Mouse::_position;
-	}
-	void Mouse::setPosition(const IntVector2u & position)
-	{
-		Mouse::_position = position;
-	}
 }

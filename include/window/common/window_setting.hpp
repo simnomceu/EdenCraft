@@ -44,21 +44,83 @@
 
 namespace ece
 {
+	/**
+	 * @class WindowSetting
+	 * @brief Wrap the window settings that can be changed over the lifetime of the window.
+	 */
 	class WindowSetting
 	{
 	public:
+		/**
+		 * @fn WindowSetting()
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		WindowSetting() = default;
+
+		/**
+		 * @fn WindowSetting(const WindowSetting & copy)
+		 * @param[in] copy The settings to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		WindowSetting(const WindowSetting & copy) = default;
-		WindowSetting(WindowSetting && move) = default;
 
-		~WindowSetting() = default;
+		/**
+		 * @fn WindowSetting(WindowSetting && move) noexcept
+		 * @param[in] move The settings to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		WindowSetting(WindowSetting && move) noexcept = default;
 
+		/**
+		 * @fn ~WindowSetting() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~WindowSetting() noexcept = default;
+
+		/**
+		 * @fn WindowSetting & operator=(const WindowSetting & copy)
+		 * @param[in] copy The settings to copy from.
+		 * @return The settings copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		WindowSetting & operator=(const WindowSetting & copy) = default;
-		WindowSetting & operator=(WindowSetting && move) = default;
 
+		/**
+		 * @fn WindowSetting & operator=(WindowSetting && move) noexcept
+		 * @param[in] move The settings to move.
+		 * @return The settings moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		WindowSetting & operator=(WindowSetting && move) noexcept = default;
+
+		/**
+		 * @property _title
+		 * @brief The title to set to a window.
+		 */
 		std::string _title;
+
+		/**
+		 * @property _position
+		 * @brief The position to set to a window.
+		 */
 		IntVector2u _position;
+
+		/**
+		 * @property _minimumSize
+		 * @brief The minimum size to set to a window.
+		 */
 		IntVector2u _minimumSize;
+
+		/**
+		 * @property _maximumSize
+		 * @brief The maximum size to set to a window.
+		 */
 		IntVector2u _maximumSize;
 	};
 }

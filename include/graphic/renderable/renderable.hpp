@@ -49,20 +49,83 @@
 
 namespace ece
 {
+	/**
+	 * @class Renderable
+	 * @brief To define an object that can be rendered.
+	 */
 	class Renderable
 	{
 	public:
-		Renderable() = default;
-		Renderable(const Renderable & copy) = default;
-		Renderable(Renderable && move) = default;
+		/**
+		 * @fn constexpr Renderable() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		constexpr Renderable() noexcept = default;
 
-		~Renderable() = default;
+		/**
+		 * @fn Renderable(const Renderable & copy) noexcept
+		 * @param[in] copy The Renderable to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		Renderable(const Renderable & copy) noexcept = default;
 
-		Renderable & operator=(const Renderable & copy) = default;
-		Renderable & operator=(Renderable && move) = default;
+		/**
+		 * @fn Renderable(Renderable && move) noexcept
+		 * @param[in] move The Renderable to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Renderable(Renderable && move) noexcept = default;
 
+		/**
+		 * @fn ~Renderable() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~Renderable() noexcept = default;
+
+		/**
+		 * @fn Renderable & operator=(const Renderable & copy) noexcept
+		 * @param[in] copy The Renderable to copy from.
+		 * @return The Renderable copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		Renderable & operator=(const Renderable & copy) noexcept = default;
+
+		/**
+		 * @fn Renderable & operator=(Renderable && move) noexcept
+		 * @param[in] move The Renderable to move from.
+		 * @return The Renderable moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Renderable & operator=(Renderable && move) noexcept = default;
+
+		/**
+		 * @fn Vertex * getVertices() const 
+		 * @return The vertices.
+		 * @brief Get the vertices of an object.
+		 * @throw 
+		 */
 		virtual Vertex * getVertices() const = 0;
+
+		/**
+		 * @fn std::vector<BaseUniform *> getUniforms() const 
+		 * @return The list of uniforms.
+		 * @brief Get the list of uniforms of the object.
+		 * @throw
+		 */
 		virtual std::vector<BaseUniform *> getUniforms() const = 0;
+
+		/**
+		 * @fn std::vector<ShaderSource *> getShaderSources() const 
+		 * @return The list of shaders.
+		 * @brief Get the list of shaders of the object.
+		 * @throw
+		 */
 		virtual std::vector<ShaderSource *> getShaderSources() const = 0;
 	};
 }

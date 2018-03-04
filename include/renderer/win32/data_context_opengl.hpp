@@ -45,12 +45,38 @@
 
 namespace ece
 {
+	/**
+	 * @class DataContextOpenGL
+	 * @brief Windows implementation of the OpenL context.
+	 */
 	struct DataContextOpenGL
 	{
+		/**
+		 * DataContextOpenGL(HGLRC context, HDC device, HWND handle)
+		 * @param[in] context The OpenGL context.
+		 * @param[in] device The device used.
+		 * @param[in] handle The window concerned.
+		 * @brief Default constructor.
+		 * @throw
+		 */
 		inline DataContextOpenGL(HGLRC context, HDC device, HWND handle): _context(context), _device(device), _windowHandle(handle) {}
 
+		/**
+		 * @property _context
+		 * @brief The OpenGL context.
+		 */
 		HGLRC _context;
+
+		/**
+		 * @property _device
+		 * @brief The device used.
+		 */
 		HDC _device;
+
+		/**
+		 * @property _windowHandle
+		 * @brief The window concerned.
+		 */
 		HWND _windowHandle;
 	};
 }

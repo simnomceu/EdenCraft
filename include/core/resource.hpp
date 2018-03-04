@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
-                                                                       
+															  .oooooo.                                
+															 d8P'  `Y8b                               
+															888           .ooooo.  oooo d8b  .ooooo.  
+															888          d88' `88b `888""8P d88' `88b 
+															888          888   888  888     888ooo888 
+															`88b    ooo  888   888  888     888    .o 
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
                                           
-                                     
-				This file is part of EdenCraft Engine - Renderer module.
+                                          
+
+				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -33,25 +33,15 @@
 
 				You should have received a copy of the GNU General Public License
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
-
 */
 
-#include "renderer/opengl/vbo.hpp"
+#ifndef CORE_RESOURCE_HPP
+#define CORE_RESOURCE_HPP
 
-namespace ece
-{
-	VBO::VBO(const BufferType type): _handle(0), _type(type)
-	{
-		this->_handle = OpenGL::genBuffers();
-	}
+#include "core/resource/resource.hpp"
+#include "core/resource/resource_handler.hpp"
+#include "core/resource/resource_loader.hpp"
+#include "core/resource/resource_manager.hpp"
+#include "core/resource/resource_unloader.hpp"
 
-	VBO::VBO() : _handle(0), _type(BufferType::ARRAY_BUFFER)
-	{
-		this->_handle = OpenGL::genBuffers();
-	}
-
-	void VBO::bind()
-	{
-		OpenGL::bindBuffer(this->_type, this->_handle);
-	}
-}
+#endif // CORE_RESOURCE_HPP

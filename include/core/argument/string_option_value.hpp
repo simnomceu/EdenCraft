@@ -45,18 +45,71 @@
 
 namespace ece
 {
+	/**
+	 * @class StringOptionValue
+	 * @extends OptionValue
+	 * @brief An option as a string argument.
+	 */
 	class StringOptionValue: public OptionValue
 	{
 	public:
-		StringOptionValue() = default;
-		StringOptionValue(const StringOptionValue & copy) = default;
-		StringOptionValue(StringOptionValue && move) = default;
+		/**
+		 * @fn StringOptionValue() noexcept 
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		StringOptionValue() noexcept = default;
+		
+		/**
+		 * @fn StringOptionValue(const StringOptionValue & copy) noexcept 
+		 * @param[in] copy The option to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		StringOptionValue(const StringOptionValue & copy) noexcept = default;
 
-		~StringOptionValue() = default;
+		/**
+		 * @fn StringOptionValue(StringOptionValue && move) noexcept 
+		 * @param[in] move The option to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		StringOptionValue(StringOptionValue && move) noexcept = default;
 
-		StringOptionValue & operator=(const StringOptionValue & copy) = default;
-		StringOptionValue & operator=(StringOptionValue && move) = default;
+		/**
+		 * @fn ~StringOptionValue() noexcept 
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~StringOptionValue() noexcept = default;
 
+		/**
+		 * @fn StringOptionValue & operator=(const StringOptionValue & copy) noexcept 
+		 * @param[in] copy The option to copy from.
+		 * @return The option copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		StringOptionValue & operator=(const StringOptionValue & copy) noexcept = default;
+
+		/**
+		 * @fn StringOptionValue & operator=(StringOptionValue && move) noexcept 
+		 * @param[in] move The option to move.
+		 * @return The option moved.
+		 * @brief Default move assignent operator.
+		 * @throw noexcept
+		 */
+		StringOptionValue & operator=(StringOptionValue && move) noexcept = default;
+
+		/**
+		 * @fn bool isValid(const std::string & value)
+		 * @param[in] value The value to check.
+		 * @return True if the value is valid, false else.
+		 * @brief Check if the value of the argument is valid.
+		 * It should always be valid for a string.
+		 * @throw noexcept
+		 * @see bool OptionValue::isValid(const std::string & value)
+		 */
 		inline virtual bool isValid(const std::string & value) override;
 	};
 }

@@ -43,7 +43,7 @@
 
 namespace ece
 {
-	inline Camera::Camera() : _position{ 0.0f, 0.0f, 0.0f }, _target{ 0.0f, 0.0f, 0.0f }, _upAxis{ 0.0f, 1.0f, 0.0f } {}
+	inline constexpr Camera::Camera() noexcept: _position{ 0.0f, 0.0f, 0.0f }, _target{ 0.0f, 0.0f, 0.0f }, _upAxis{ 0.0f, 1.0f, 0.0f } {}
 
 	inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->_position, object.getPosition()); }
 

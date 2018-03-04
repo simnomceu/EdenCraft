@@ -39,9 +39,7 @@
 
 namespace ece
 {
-	inline Connection::Connection(const Slot::GlobalSlotID slot, const Signal::GlobalSignalID signal) : _slot(slot), _signal(signal), _dirty(false)
-	{
-	}
+	inline Connection::Connection(const Slot::GlobalSlotID slot, const Signal::GlobalSignalID signal)  noexcept: _slot(slot), _signal(signal), _dirty(false) {}
 
 	inline bool Connection::operator==(const Connection & rightOperand) { return this->_signal == rightOperand.getSignal() && this->_slot == rightOperand.getSlot(); }
 

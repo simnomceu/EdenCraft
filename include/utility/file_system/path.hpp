@@ -58,6 +58,7 @@ namespace ece
 		 * @fn Path currentPath()
 		 * @return The current path during runtime.
 		 * @brief Get the current location during runtime.
+		 * @throw
 		 */
 		static Path currentPath();
 		
@@ -65,6 +66,7 @@ namespace ece
 		 * @fn Path()
 		 * @brief Initialize an empty location. It is not a valid path.
 		 * @remark If make_path is implemented, this constructor should not exist.
+		 * @throw
 		 */
 		inline constexpr Path() noexcept;
 
@@ -72,6 +74,7 @@ namespace ece
 		 * @fn Path(const std::string & pathname)
 		 * @param[in] pathname The location to set.
 		 * @brief Initialize a path to a specific location. It doesn't mean the path is valid.
+		 * @throw
 		 */
 		explicit Path(const std::string & pathname);
 
@@ -79,6 +82,7 @@ namespace ece
 		 * @fn Path(const Path & copy)
 		 * @param[in] copy The path to copy.
 		 * @brief Default copy constructor.
+		 * @throw
 		 */
 		Path(const Path & copy) = default;
 
@@ -86,12 +90,14 @@ namespace ece
 		 * @fn Path(Path && move)
 		 * @param[in] move The path to move.
 		 * @brief Default move constructor.
+		 * @throw
 		 */
 		Path(Path && move) = default;
 
 		/**
 		 * @fn ~Path()
 		 * @brief Default destructor
+		 * @throw noexcept
 		 */
 		~Path() noexcept = default;
 
@@ -100,6 +106,7 @@ namespace ece
 		 * @param[in] copy The path to copy from.
 		 * @return The path copied
 		 * @brief Default copy assigment operator
+		 * @throw
 		 */
 		Path & operator=(const Path & copy) = default;
 
@@ -108,6 +115,7 @@ namespace ece
 		 * @param[in] move The path to move.
 		 * @return The path moved.
 		 * @brief Default move assigment operator.
+		 * @throw
 		 */
 		Path & operator=(Path && move) = default;
 
@@ -115,6 +123,7 @@ namespace ece
 		 * @fn int getDepth() const
 		 * @return The path depth
 		 * @brief Access the depth of the current path. It is equivalent to number of segment level in the path.
+		 * @throw
 		 */
 		inline int getDepth() const;
 
@@ -123,6 +132,7 @@ namespace ece
 		 * @return The current pathname.
 		 * @brief Access to the current pathname.
 		 * It returns the complete current path, whatever it is, folder or file. It doesn't mean the path is valid.
+		 * @throw
 		 */
 		std::string getPathname() const;
 
@@ -131,6 +141,7 @@ namespace ece
 		 * @return The current path.
 		 * @brief Access to the current path.
 		 * If it defines a file, it returns the path to this file. It doesn't mean the path is valid.
+		 * @throw
 		 */
 		std::string getPath() const;
 
@@ -138,6 +149,7 @@ namespace ece
 		 * @fn std::string getFilename() const
 		 * @return The filename defined by the path.
 		 * @brief Access to the filename defined by the path, or nothing if it defines a folder. It doesn't mean the path is valid.
+		 * @throw
 		 */
 		inline std::string getFilename() const;
 
@@ -147,6 +159,7 @@ namespace ece
 		 * @return A specific segment level of the path.
 		 * @brief Access to a part of the path.
 		 * @see const std::string & operator[](const int index) const
+		 * @throw
 		 */
 		inline std::string & operator[](const int index);
 
@@ -156,6 +169,7 @@ namespace ece
 		 * @return A specific segment level of the path.
 		 * @brief Access to a part of the path.
 		 * @see std::string & operator[](const int index)
+		 * @throw
 		 */
 		inline const std::string & operator[](const int index) const;
 
@@ -164,6 +178,7 @@ namespace ece
 		 * @return True, if it is a valid path, false else.
 		 * @brief Indicates if the path is valid, or not.
 		 * A valid path could defines a file, or a folder.
+		 * @throw
 		 */
 		inline bool exists() const;
 
@@ -171,6 +186,7 @@ namespace ece
 		 * @fn bool isFile() const
 		 * @return True if the current path defines a file, false else.
 		 * @brief Indicates if the current path is a file, or not.
+		 * @throw
 		 */
 		inline bool isFile() const;
 
@@ -178,6 +194,7 @@ namespace ece
 		 * @fn bool isFolder()
 		 * @return True if the current path defines a folder, false else.
 		 * @brief Indicates if the current path is a folder, or not.
+		 * @throw
 		 */
 		inline bool isFolder() const;
 
@@ -185,6 +202,7 @@ namespace ece
 		/**
 		 * @property _path
 		 * @brief Current path splitted to each segment level.
+		 * @throw
 		 */
 		std::vector<std::string> _path;
 	};

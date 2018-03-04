@@ -63,7 +63,7 @@ namespace ece
 
 		this->_lifecycle = std::make_shared<Lifecycle>();
 
-		auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyse);
+		auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
 		argumentAnalyzer.setParameters(argc, argv);
 	}
 

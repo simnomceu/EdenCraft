@@ -45,23 +45,70 @@
 
 namespace ece
 {
+	/**
+	 * @class Movable
+	 * @brief Define the ability to be moved.
+	 */
 	class Movable
 	{
 	public:
-		inline Movable();
+		/**
+		 * @fn constexpr Movable() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline constexpr Movable() noexcept;
+
+		/**
+		 * @fn Movable(const Movable & copy)
+		 * @param[in] copy The Movable to copy from.
+		 * @brief Default copy constructor.
+		 * @throw
+		 */
 		Movable(const Movable & copy) = default;
-		Movable(Movable && move) = default;
 
-		inline virtual ~Movable() = 0;
+		/**
+		 * @fn Movable(Movable && move) noexcept
+		 * @param[in] move The Movable to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		Movable(Movable && move) noexcept = default;
 
+		virtual ~Movable() noexcept = 0;
+
+		/**
+		 * @fn Movable & operator=(const Movable & copy)
+		 * @param[in] copy The Movable to copy from.
+		 * @return The Movable copied.
+		 * @brief Default copy assignment operator.
+		 * @throw
+		 */
 		Movable & operator=(const Movable & copy) = default;
-		Movable & operator=(Movable && move) = default;
 
+		/**
+		 * @fn Movable & operator=(Movable && move) noexcept
+		 * @param[in] move The Movable to move from.
+		 * @return The Movable moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		Movable & operator=(Movable && move) noexcept = default;
+
+		/**
+		 * @fn virtual const FloatVector3u & getPosition() const
+		 * @return The current position.
+		 * @brief Get The position of the object.
+		 * @throw
+		 */
 		inline virtual const FloatVector3u & getPosition() const;
 
 	protected:
-		virtual void computeCenter() = 0;
 
+		/**
+		 * @property _position
+		 * @brief The position of the object.
+		 */
 		FloatVector3u _position;
 	};
 }

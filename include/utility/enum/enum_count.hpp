@@ -43,12 +43,20 @@
 
 namespace ece
 {
+	/**
+	 * @class EnumCount
+	 * @tparam T The type of enumeration to extends.
+	 * @brief Trait class to define the count of an enumeration.
+	 */
 	template <typename T, typename = typename std::enable_if_t<std::is_enum_v<T>>>
 	struct EnumCount
 	{
 		static constexpr unsigned short int value = 0;
 	};
 
+	/**
+	 * @brief An helper to access the count value of an enumeration.
+	 */
 	template <typename T>
 	inline constexpr unsigned short int EnumCount_v = EnumCount<T>::value;
 }

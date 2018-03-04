@@ -45,6 +45,10 @@
 
 namespace ece
 {
+	/**
+	 * @enum ShaderType
+	 * @brief The type of shader.
+	 */
 	enum ShaderType : unsigned short int
 	{
 		COMPUTE_SHADER = 0,
@@ -56,19 +60,76 @@ namespace ece
 		NULL_TYPE_SHADER
 	};
 
+	/**
+	 * @class ShaderSource
+	 * @brief The sources of a shader program.
+	 * @remark Not sure this class is still useful.
+	 */
 	class ShaderSource
 	{
 	public:
-		ShaderSource() = default;
-		ShaderSource(const ShaderSource & copy) = default;
-		ShaderSource(ShaderSource && move) = default;
+		/**
+		 * @fn constexpr ShaderSource() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		constexpr ShaderSource() noexcept = default;
 
-		~ShaderSource() = default;
+		/**
+		 * @fn ShaderSource(const ShaderSource & copy) noexcept
+		 * @param[in] copy The ShaderSource to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		ShaderSource(const ShaderSource & copy) noexcept = default;
 
-		ShaderSource & operator=(const ShaderSource & copy) = default;
-		ShaderSource & operator=(ShaderSource && move) = default;
+		/**
+		 * @fn ShaderSource(ShaderSource && move) noexcept
+		 * @param[in] move The ShaderSource to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		ShaderSource(ShaderSource && move) noexcept = default;
 
+		/**
+		 * @fn ~ShaderSource() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~ShaderSource() noexcept = default;
+
+		/**
+		 * @fn ShaderSource & operator=(const ShaderSource & copy) noexcept
+		 * @param[in] copy The ShaderSource to copy from.
+		 * @return The ShaderSource copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		ShaderSource & operator=(const ShaderSource & copy) noexcept = default;
+
+		/**
+		 * @fn ShaderSource & operator=(ShaderSource && move) noexcept
+		 * @param[in] move The ShaderSource to move from.
+		 * @return The ShaderSource moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		ShaderSource & operator=(ShaderSource && move) noexcept = default;
+
+		/**
+		 * @fn const ShaderType & getType() const
+		 * @return The type of shader.
+		 * @brief Get the type of the shader.
+		 * @throw
+		 */
 		virtual const ShaderType & getType() const = 0;
+
+		/**
+		 * @fn const std::string & getSource() const 
+		 * @return The source.
+		 * @brief Get the source of the shader.
+		 * @throw
+		 */
 		virtual const std::string & getSource() const = 0;
 	};
 }
