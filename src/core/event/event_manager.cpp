@@ -1,22 +1,22 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                
-															 d8P'  `Y8b                               
-															888           .ooooo.  oooo d8b  .ooooo.  
-															888          d88' `88b `888""8P d88' `88b 
-															888          888   888  888     888ooo888 
-															`88b    ooo  888   888  888     888    .o 
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
-                                          
-                                          
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+
+
 
 				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -47,19 +47,19 @@
 
 namespace ece
 {
-	const Slot::GlobalSlotID  EventManager::addSlot(const Slot::Handle & handle)
+	Slot::GlobalSlotID EventManager::addSlot(const Slot::Handle & handle)
 	{
 		this->_slotsNotReady.push_back(Slot(this->getSlotID(), handle));
 		return this->_slotsNotReady.back().getId();
 	}
 
-	const Signal::GlobalSignalID EventManager::addSignal()
+	Signal::GlobalSignalID EventManager::addSignal()
 	{
 		this->_signalsNotReady.push_back(Signal(this->getSignalID()));
 		return this->_signalsNotReady.back().getId();
 	}
 
-	void EventManager::eraseSlot(const Listener & listener, const Slot::SlotID slot)
+	void EventManager::eraseSlot(const Listener & listener, const Slot::SlotID & slot)
 	{
 		if (!this->_slots.empty()) {
 			auto slotID = listener.getSlotID(slot);
@@ -76,7 +76,7 @@ namespace ece
 		}
 	}
 
-	void EventManager::eraseSignal(const Emitter & emitter, const Signal::SignalID signal)
+	void EventManager::eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
 	{
 		if (!this->_signals.empty()) {
 			auto signalID = emitter.getSignal(signal);
@@ -93,7 +93,7 @@ namespace ece
 		}
 	}
 
-	void EventManager::connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
+	void EventManager::connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
 	{
 
 		auto slotID = listener.getSlotID(slot);
@@ -102,7 +102,7 @@ namespace ece
 		this->_connectionsNotReady.push_back(Connection(slotID, signalID));
 	}
 
-	void EventManager::disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
+	void EventManager::disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
 	{
 		if (!this->_connections.empty()) {
 			auto slotID = listener.getSlotID(slot);
@@ -115,7 +115,7 @@ namespace ece
 		}
 	}
 
-	void EventManager::disconnectAll(const Listener & listener, const Slot::SlotID slot)
+	void EventManager::disconnectAll(const Listener & listener, const Slot::SlotID & slot)
 	{
 		if (!this->_connections.empty()) {
 			auto slotID = listener.getSlotID(slot);
@@ -127,7 +127,7 @@ namespace ece
 		}
 	}
 
-	void EventManager::disconnectAll(const Emitter & emitter, const Signal::SignalID signal)
+	void EventManager::disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
 	{
 		if (!this->_connections.empty()) {
 			auto signalID = emitter.getSignal(signal);
@@ -139,7 +139,7 @@ namespace ece
 		}
 	}
 
-	void EventManager::broadcast(const Emitter & emitter, const Signal::SignalID signal)
+	void EventManager::broadcast(const Emitter & emitter, const Signal::SignalID & signal)
 	{
 		this->clear();
 		if (!this->_signals.empty()) {

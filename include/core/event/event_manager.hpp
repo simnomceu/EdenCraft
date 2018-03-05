@@ -1,22 +1,22 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                
-															 d8P'  `Y8b                               
-															888           .ooooo.  oooo d8b  .ooooo.  
-															888          d88' `88b `888""8P d88' `88b 
-															888          888   888  888     888ooo888 
-															`88b    ooo  888   888  888     888    .o 
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
-                                          
-                                          
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+
+
 
 				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -64,48 +64,48 @@ namespace ece
 		inline EventManager();
 
 		/**
-		 * @fn const Slot::GlobalSlotID addSlot(const Slot::Handle & handle)
+		 * @fn Slot::GlobalSlotID addSlot(const Slot::Handle & handle)
 		 * @param[in] handle The action for the slot to create.
 		 * @return The global id of the slot created.
 		 * @brief Create and register a new slot.
 		 * @throw
-		 * @see const Slot::GlobalSlotID BaseEventManager::addSlot(const Slot::Handle & handle)
+		 * @see Slot::GlobalSlotID BaseEventManager::addSlot(const Slot::Handle & handle)
 		 */
-		virtual const Slot::GlobalSlotID addSlot(const Slot::Handle & handle) override;
+		virtual Slot::GlobalSlotID addSlot(const Slot::Handle & handle) override;
 
 		/**
-		 * @fn const Signal::GlobalSignalID addSignal()
+		 * @fn Signal::GlobalSignalID addSignal()
 		 * @return The global id of the signal created.
 		 * @brief Create and register a new signal.
 		 * @throw
-		 * @see const Signal::GlobalSignalID BaseEventManager::addSignal()
+		 * @see Signal::GlobalSignalID BaseEventManager::addSignal()
 		 */
-		virtual const Signal::GlobalSignalID addSignal() override;
+		virtual Signal::GlobalSignalID addSignal() override;
 
 		/**
-		 * @fn void eraseSlot(const Listener & listener, const Slot::SlotID slot)
+		 * @fn void eraseSlot(const Listener & listener, const Slot::SlotID & slot)
 		 * @param[in] listener The owner of the slot.
 		 * @param[in] slot The slot to erase.
 		 * @brief Erase a specific slot.
 		 * If that slot does not exist, nothing happens.
 		 * @throw
-		 * @see void BaseEventManager::eraseSlot(const Listener & listener, const Slot::SlotID slot)
+		 * @see void BaseEventManager::eraseSlot(const Listener & listener, const Slot::SlotID & slot)
 		 */
-		virtual void eraseSlot(const Listener & listener, const Slot::SlotID slot) override;
+		virtual void eraseSlot(const Listener & listener, const Slot::SlotID & slot) override;
 
 		/**
-		 * @fn void eraseSignal(const Emitter & emitter, const Signal::SignalID signal)
+		 * @fn void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
 		 * @param[in] emitter The owner of the signal.
 		 * @param[in] signal The signal to erase.
 		 * @brief Erase a specific signal.
 		 * If that signal does not exist, nothing happens.
 		 * @throw
-		 * @see void BaseEventManager::eraseSignal(const Emitter & emitter, const Signal::SignalID signal)
+		 * @see void BaseEventManager::eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
 		 */
-		virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID signal) override;
-		
+		virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal) override;
+
 		/**
-		 * @fn void connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
+		 * @fn void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
 		 * @param[in] listener The owner of the slot.
 		 * @param[in] slot The slot to connect.
 		 * @param[in] emitter The owner of the signal.
@@ -113,12 +113,12 @@ namespace ece
 		 * @brief Connect a signal and a slot together.
 		 * If they are already connected, nothing happens
 		 * @throw
-		 * @see void BaseEventManager::connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
+		 * @see void BaseEventManager::connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
 		 */
-		virtual void connect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) override;
+		virtual void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal) override;
 
 		/**
-		 * @fn void disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
+		 * @fn void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
 		 * @param[in] listener The owner of the slot.
 		 * @param[in] slot The slot to disconnect.
 		 * @param[in] emitter The owner of the signal.
@@ -126,41 +126,41 @@ namespace ece
 		 * @brief Disconnect a signal and a slot.
 		 * If they are not connected, nothing happens.
 		 * @throw
-		 * @see void BaseEventManager::disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal)
+		 * @see void BaseEventManager::disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
 		 */
-		virtual void disconnect(const Listener & listener, const Slot::SlotID slot, const Emitter & emitter, const Signal::SignalID signal) override;
+		virtual void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal) override;
 
 		/**
-		 * @fn void disconnectAll(const Listener & listener, const Slot::SlotID slot)
+		 * @fn void disconnectAll(const Listener & listener, const Slot::SlotID & slot)
 		 * @param[in] listener The owner of the slot.
 		 * @param[in] slot The slot to disconnect.
 		 * @brief Disconnect the slot from all signals connected.
 		 * If it is not connected, nothing happens.
 		 * @throw
-		 * @see void BaseEventManager::disconnectAll(const Listener & listener, const Slot::SlotID slot)
+		 * @see void BaseEventManager::disconnectAll(const Listener & listener, const Slot::SlotID & slot)
 		 */
-		virtual void disconnectAll(const Listener & listener, const Slot::SlotID slot) override;
+		virtual void disconnectAll(const Listener & listener, const Slot::SlotID & slot) override;
 
 		/**
-		 * @fn void disconnectAll(const Emitter & emitter, const Signal::SignalID signal) 
+		 * @fn void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
 		 * @param[in] emitter The owner of the signal.
 		 * @param[in] signal The signal to disconnect.
 		 * @brief Disconnect the signal from all slots connected.
 		 * If it is not connected, nothing happens.
 		 * @throw
-		 * @see void BaseEventManager::disconnectAll(const Emitter & emitter, const Signal::SignalID signal) 
+		 * @see void BaseEventManager::disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
 		 */
-		virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID signal) override;
+		virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal) override;
 
 		/**
-		 * @fn void broadcast(const Emitter & emitter, const Signal::SignalID signal)
+		 * @fn void broadcast(const Emitter & emitter, const Signal::SignalID & signal)
 		 * @param[in] emitter The owner of the signal.
 		 * @param[in] signal The signal to broadcast.
 		 * @brief Broadcast a signal to all slots connected, to trigger them.
 		 * @throw
-		 * @see void broadcast(const Emitter & emitter, const Signal::SignalID signal)
+		 * @see void broadcast(const Emitter & emitter, const Signal::SignalID & signal)
 		 */
-		virtual void broadcast(const Emitter & emitter, const Signal::SignalID signal) override;
+		virtual void broadcast(const Emitter & emitter, const Signal::SignalID & signal) override;
 
 		/**
 		 * @fn void clear()
@@ -172,22 +172,22 @@ namespace ece
 
 	private:
 		/**
-		 * @fn const Slot::GlobalSlotID getSlotID()
+		 * @fn Slot::GlobalSlotID getSlotID()
 		 * @return A slot id available.
 		 * @brief Generate a new slot id.
 		 * @throw
 		 * @remark Maybe renaming that method name which is not clear at all.
 		 */
-		inline const Slot::GlobalSlotID getSlotID();
+		inline Slot::GlobalSlotID getSlotID();
 
 		/**
-		 * @fn const Signal::GlobalSignalID getSignalID()
+		 * @fn Signal::GlobalSignalID getSignalID()
 		 * @return A signal id available.
 		 * @brief Generate a new signal id.
 		 * @throw
 		 * @remark Maybe renaming that method name which is not clear at all.
 		 */
-		inline const Signal::GlobalSignalID getSignalID();
+		inline Signal::GlobalSignalID getSignalID();
 
 		/**
 		 * @property _signals
