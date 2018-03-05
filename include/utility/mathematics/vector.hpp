@@ -1016,7 +1016,7 @@ namespace ece
 		 * @brief Apply a cross product operation between the two vectors.
 		 * @throw
 		 */
-		template <typename forward = T, typename = std::enable_if_t<HasCrossProduct<Size>::value>>
+		template <unsigned short int forward = Size, typename = std::enable_if_t<HasCrossProduct<forward>::value>>
 		inline Vector<T, Size, enabled> cross(const Vector<T, Size, enabled> & rightOperand) const;
 
 		/**

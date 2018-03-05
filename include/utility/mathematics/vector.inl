@@ -520,7 +520,7 @@ namespace ece
 	inline double Vector<T, Size, enabled>::magnitude() const { return std::sqrt(this->dot(*this)); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename forward, typename>
+	template <unsigned short int forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::cross(const Vector<T, Size, enabled> & rightOperand) const
 	{
 		return Vector<T, Size>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],
