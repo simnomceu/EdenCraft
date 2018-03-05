@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -51,7 +51,7 @@ namespace ece
 	 * @class File
 	 * @brief Handle file as a stream.
 	 * @remark Because of Single Responsability Principle, the filename should be encapsulated in another class (like Path)
-	 * @remark Something like Memory mapping could be implemented for big file: 
+	 * @remark Something like Memory mapping could be implemented for big file:
 	 *          http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2044.html
 	 */
 	class File
@@ -96,7 +96,7 @@ namespace ece
 		 * @throw
 		 */
 		inline File(File && move);
-		
+
 		/**
 		 * @fn ~File()
 		 * @brief Destructor. If the stream is still opened, it will be closed.
@@ -120,30 +120,30 @@ namespace ece
 		File & operator=(File && move);
 
 		/**
-		 * @fn const bool open(const std::string & filename, const OpenMode & mode)
+		 * @fn bool open(const std::string & filename, const OpenMode & mode)
 		 * @param[in] filename The name of the file to open.
 		 * @param[out] mode The open mode to apply to the stream.
 		 * @return True if the file is opened, false else.
 		 * @brief Open a stream to the given file.
 		 * @throw
 		 */
-		const bool open(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
-		
+		bool open(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
+
 		/**
-		 * @fn const bool isOpen() const
+		 * @fn bool isOpen() const
 		 * @return True, if the current file is opened, false else.
 		 * @brief Indicates if the current file is opened or not. If no file is set, it returns FALSE.
 		 * @throw
 		 */
-		inline const bool isOpen() const;
+		inline bool isOpen() const;
 
-		/** 
+		/**
 		 * @fn void close()
 		 * @brief Close the current file and terminate the stream. If no file is opened, nothing happens.
 		 * @throw
 		 */
 		void close();
-		
+
 		/**
 		 * @fn std::string parseToString()
 		 * @return The file content as a string.
@@ -155,7 +155,7 @@ namespace ece
 		/**
 		 * @fn std::vector<T> parseToVector()
 		 * @tparam T Type of the vector to return.
-		 * @return A vector of element extracted from the file. 
+		 * @return A vector of element extracted from the file.
 		 * @brief Extracts a vector of element from the file. If the format doesn't match, an exception is hired.
 		 * If the file is not opened, an empty vector is returned.
 		 * @throw
@@ -163,14 +163,14 @@ namespace ece
 		template<class T> std::vector<T> parseToVector();
 
 		/**
-		 * @fn const bool exists(const std::string & filename)
+		 * @fn bool exists(const std::string & filename)
 		 * @param[in] filename The file to check for existence.
 		 * @return True, if the file exists, or false else.
 		 * @remark To move in the future class Path as a member method.
 		 * @brief Check if the file is existing or not.
 		 * @throw
 		 */
-		static const bool exists(const std::string & filename);
+		static bool exists(const std::string & filename);
 
 		/**
 		 * @fn long long getLastModification(const std::string & filename)
@@ -205,7 +205,7 @@ namespace ece
 		 */
 		template <class T> File & operator<<(T & value);
 
-		/** 
+		/**
 		 * @fn T read(const unsigned int size = sizeof(T))
 		 * @tparam T The type of value to write in the file.
 		 * @param size The number of bits to read.
