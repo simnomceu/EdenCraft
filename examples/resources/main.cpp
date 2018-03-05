@@ -1,23 +1,23 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                                                                                  
-															`888   `Y88.                                                                                
-															 888   .d88'  .ooooo.   .oooo.o  .ooooo.  oooo  oooo  oooo d8b  .ooooo.   .ooooo.   .oooo.o 
-															 888ooo88P'  d88' `88b d88(  "8 d88' `88b `888  `888  `888""8P d88' `"Y8 d88' `88b d88(  "8 
-															 888`88b.    888ooo888 `"Y88b.  888   888  888   888   888     888       888ooo888 `"Y88b.  
-															 888  `88b.  888    .o o.  )88b 888   888  888   888   888     888   .o8 888    .o o.  )88b 
+															ooooooooo.
+															`888   `Y88.
+															 888   .d88'  .ooooo.   .oooo.o  .ooooo.  oooo  oooo  oooo d8b  .ooooo.   .ooooo.   .oooo.o
+															 888ooo88P'  d88' `88b d88(  "8 d88' `88b `888  `888  `888""8P d88' `"Y8 d88' `88b d88(  "8
+															 888`88b.    888ooo888 `"Y88b.  888   888  888   888   888     888       888ooo888 `"Y88b.
+															 888  `88b.  888    .o o.  )88b 888   888  888   888   888     888   .o8 888    .o o.  )88b
 															o888o  o888o `Y8bod8P' 8""888P' `Y8bod8P'  `V88V"V8P' d888b    `Y8bod8P' `Y8bod8P' 8""888P'
-                                                                       
-                                          
-                                     
+
+
+
 				This file is part of EdenCraft Engine - Resources sample.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -58,7 +58,7 @@ private:
 class IntLoader : public ece::ResourceLoader
 {
 public:
-	virtual ece::ResourceHandler load(const std::string & identifier) const override
+	virtual ece::ResourceHandler load(const std::string & /*identifier*/) const override
 	{
 		return ece::ResourceHandler(std::make_shared<IntResource>());
 	}
@@ -84,10 +84,10 @@ int main()
 	manager.registerUnloader("int", std::make_shared<IntUnloader>());
 
 	manager.loadResource("random.int");
-	auto & resource1 = manager.getResource("random.int");
-	
-	auto & resourceUnbind = std::static_pointer_cast<IntResource>(resource1.lock());
-	std::cout << "Resource is: " << resourceUnbind->getValue() << std::endl;
+	auto resource1 = manager.getResource("random.int");
+
+	auto resourceUnbind = std::static_pointer_cast<IntResource>(resource1.lock());
+	ece::ServiceLoggerLocator::getService().logInfo("Resource is: " + std::to_string(resourceUnbind->getValue()));
 
 	manager.unloadResource("random.int");
 	manager.clear();
