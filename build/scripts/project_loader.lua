@@ -74,12 +74,12 @@ function ProjectLoader:processProject(proj)
         }
 		filter { "system:windows", "files:**/cocoa/** or **/x11/**" }
 			flags {"ExcludeFromBuild"}
-		filter "system:linux"
-			excludes { "**/win32/**", "**/cocoa/**" }
-		filter "system:macosx"
-			excludes { "**/win32/**", "**/x11/**" }
+		filter { "system:linux", "files:**/cocoa/** or **/win32/**" }
+			flags {"ExcludeFromBuild"}
+		filter { "system:macosx", "files:**/x11/** or **/win32/**" }
+			flags {"ExcludeFromBuild"}
 		filter {}
-		
+
         links(dependencies)
 
         if proj.linkOptions then
