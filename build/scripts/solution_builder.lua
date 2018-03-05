@@ -11,8 +11,8 @@ function SolutionBuilder:build()
         includedirs { "../extlibs/include", "../include", "../extlibs" }
         configurations {"Debug", "Release"}
         platforms {"Win32", "Win64", "Unix32", "Unix64", "OSX"}
-		warnings 'Extra'
-		cppdialect 'C++17'
+    		warnings 'Extra'
+    		cppdialect 'C++17'
 
         filter {"platforms:Win32"}
             architecture "x86"
@@ -30,19 +30,19 @@ function SolutionBuilder:build()
             architecture "x86"
             system "linux"
             libdirs {"../extlibs/lib/gmake/x32"}
-			buildoptions {"-ansi", "-pedantic"}
+			buildoptions {"-pedantic"}
 
         filter {"platforms:Unix64"}
             architecture "x86_64"
             system "linux"
             libdirs {"../extlibs/lib/gmake/x64"}
-			buildoptions {"-ansi", "-pedantic"}
+			buildoptions {"-pedantic"}
 
         filter {"platforms:OSX"}
             architecture "x86_64"
             system "macosx"
             libdirs {"../extlibs/lib/gmake/x64"}
-			buildoptions {"-std=c++17", "-ansi", "-pedantic"}
+			buildoptions {"-std=c++17", "-pedantic"}
 
         filter {"configurations:Debug"}
             symbols "Default"
