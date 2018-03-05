@@ -6,13 +6,13 @@ SolutionBuilder = {}
 
 function SolutionBuilder:build()
     workspace "EdenCraft"
-        language "C++"
         location ""
         includedirs { "../extlibs/include", "../include", "../extlibs" }
         configurations {"Debug", "Release"}
         platforms {"Win32", "Win64", "Unix32", "Unix64", "OSX"}
-    		warnings 'Extra'
-    		cppdialect 'C++17'
+    	warnings 'Extra'
+        language "C++"
+    	cppdialect 'C++17'
 
         filter {"platforms:Win32"}
             architecture "x86"
