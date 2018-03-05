@@ -5,7 +5,7 @@
 settings = {
         name = "window_testing",
         type = "ConsoleApp",
-        dependencies = {"utility", "core", "window"}
+        dependencies = {"window", "core", "utility"}
 }
 
 return settings

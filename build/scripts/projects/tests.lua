@@ -5,7 +5,7 @@
 settings = {
         name = "tests",
         type = "Test",
-        dependencies = {"utility", "core", "window", "renderer", "graphic"}
+        dependencies = {"graphic", "renderer", "window", "core", "utility"}
 }
 
 return settings

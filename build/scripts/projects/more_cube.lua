@@ -5,7 +5,7 @@
 settings = {
         name = "more_cube",
         type = "ConsoleApp",
-        dependencies = {"utility", "core", "window", "renderer"},
+        dependencies = {"renderer", "window", "core", "utility"},
         extlibs = {"opengl32"}
 }
 

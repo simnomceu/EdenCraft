@@ -5,7 +5,7 @@
 settings = {
         name = "app",
         type = "ConsoleApp",
-        dependencies = {"utility", "core", "window", "renderer", "graphic"},
+        dependencies = {"graphic", "renderer", "window", "core", "utility"},
         extlibs = {"opengl32",}
 }
 

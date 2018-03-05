@@ -5,7 +5,7 @@
 settings = {
         name = "renderer",
         type = "StaticLib",
-        dependencies = {"utility", "core", "window"},
+        dependencies = {"window", "core", "utility"},
 }
 
 return settings

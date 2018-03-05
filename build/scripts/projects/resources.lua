@@ -5,7 +5,7 @@
 settings = {
         name = "resources",
         type = "ConsoleApp",
-        dependencies = {"utility", "core"}
+        dependencies = {"core", "utility"}
 }
 
 return settings
