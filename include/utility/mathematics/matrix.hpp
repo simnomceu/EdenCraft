@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -46,6 +46,7 @@
 
 #include <valarray>
 
+#include "utility/debug/exception.hpp"
 #include "utility/mathematics/vector.hpp"
 
 namespace ece
@@ -81,7 +82,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix();
-		
+
 		/**
 		 * @fn inline Matrix(const T & value)
 		 * @param[in] value The value to put in.
@@ -105,7 +106,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix(const Matrix<T, M, N, enabled> & copy) = default;
-		
+
 		/**
 		 * @fn Matrix(Matrix<T, M, N, enabled> && move) noexcept
 		 * @param[in] move The matrix to move.
@@ -113,7 +114,7 @@ namespace ece
 		 * @throw noexcept
 		 */
 		Matrix(Matrix<T, M, N, enabled> && move) noexcept = default;
-		
+
 		/**
 		 * @fn Matrix(std::valarray<T> && move)
 		 * @param[in] move The array of value to move.
@@ -137,7 +138,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<T, M, N, enabled> & operator=(const Matrix<T, M, N, enabled> & copy) = default;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator=(Matrix<T, M, N, enabled> && move) noexcept
 		 * @param[in] move The matrix to move.
@@ -146,7 +147,7 @@ namespace ece
 		 * @throw noexcept
 		 */
 		Matrix<T, M, N, enabled> & operator=(Matrix<T, M, N, enabled> && move) noexcept = default;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator=(const std::initializer_list<T> & il)
 		 * @param[in] il The list of elements to set in the matrix.
@@ -185,7 +186,7 @@ namespace ece
 
 		inline T & operator()(const unsigned int i, const unsigned int j);
 		inline T operator()(const unsigned int i, const unsigned int j) const;
-		
+
 //		inline Matrix<T, M, N, enabled> operator[](std::slice slicearr) const;
 
 		/**
@@ -206,9 +207,9 @@ namespace ece
 		 * @return A row of the matrix.
 		 * @brief Access a specific row of the matrix.
 		 * @throw
-		 */ 
+		 */
 		inline Vector<T, M> row(const unsigned int index) const;
-		
+
 		/**
 		 * @fn Vector<T, M> & row(const unsigned int index)
 		 * @param[in] index The index of the row to access.
@@ -217,7 +218,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Vector<T, M> row(const unsigned int index);
-		
+
 		/**
 		 * @fn const Vector<T, M> & column(const unsigned int index) const
 		 * @param[in] index The index of the column to access.
@@ -226,7 +227,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Vector<T, N> column(const unsigned int index) const;
-		
+
 		/**
 		 * @fn Vector<T, M> & column(const unsigned int index)
 		 * @param[in] index The index of the column to access.
@@ -276,7 +277,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator+=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator-=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The matrix to subtract to.
@@ -285,7 +286,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator-=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator*=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The matrix to multiply to.
@@ -294,7 +295,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator*=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator/=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The matrix to divide to.
@@ -303,7 +304,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator/=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator%=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The matrix of modulo to apply to.
@@ -312,7 +313,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator%=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator&=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The right hand side to apply to.
@@ -321,7 +322,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator&=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator|=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The right hand side to apply to.
@@ -330,7 +331,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator|=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator^=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The right hand side to apply to.
@@ -339,7 +340,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator^=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator<<=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The right hand side to apply to.
@@ -348,7 +349,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> & operator<<=(const Matrix<T, M, N, enabled> & v);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> & operator>>=(const Matrix<T, M, N, enabled> & v)
 		 * @param[in] v The right hand side to apply to.
@@ -461,12 +462,12 @@ namespace ece
 		 * @see http://en.cppreference.com/w/cpp/numeric/valarray/min
 		 */
 		using std::valarray<T>::min;
-		
+
 		/**
 		 * @see http://en.cppreference.com/w/cpp/numeric/valarray/max
 		 */
 		using std::valarray<T>::max;
-		
+
 		/**
 		 * @see http://en.cppreference.com/w/cpp/numeric/valarray/sum
 		 */
@@ -620,7 +621,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> operator-(const T & rhs) const;
-		
+
 		/**
 		 * @fn Vector<T, N> operator*(const Vector<T, N> & rhs) const
 		 * @param[in] rhs The right hand side to apply to.
@@ -747,7 +748,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator<(const Matrix<T, M, N, enabled> & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator<=(const Matrix<T, M, N, enabled> & rhs)
 		 * @param[in] rhs The matrix to compare to.
@@ -756,7 +757,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator<=(const Matrix<T, M, N, enabled> & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator>(const Matrix<T, M, N, enabled> & rhs)
 		 * @param[in] rhs The matrix to compare to.
@@ -765,7 +766,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator>(const Matrix<T, M, N, enabled> & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator>=(const Matrix<T, M, N, enabled> & rhs)
 		 * @param[in] rhs The matrix to compare to.
@@ -774,7 +775,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator>=(const Matrix<T, M, N, enabled> & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator==(const T & rhs)
 		 * @param[in] rhs The element to compare to.
@@ -783,7 +784,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator==(const T & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator!=(const T & rhs)
 		 * @param[in] rhs The element to compare to.
@@ -792,7 +793,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator!=(const T & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator<(const T & rhs)
 		 * @param[in] rhs The element to compare to.
@@ -801,7 +802,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator<(const T & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator<=(const T & rhs)
 		 * @param[in] rhs The element to compare to.
@@ -810,7 +811,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator<=(const T & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator>(const T & rhs)
 		 * @param[in] rhs The element to compare to.
@@ -819,7 +820,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator>(const T & rhs);
-		
+
 		/**
 		 * @fn Matrix<bool, M, N> operator>=(const T & rhs)
 		 * @param[in] rhs The element to compare to.
@@ -828,7 +829,7 @@ namespace ece
 		 * @throw
 		 */
 		Matrix<bool, M, N> operator>=(const T & rhs);
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> abs() const
 		 * @return A matrix of the absolute value of the members.
@@ -836,7 +837,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> abs() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> exp() const
 		 * @return A matrix with the exponential applied on each member.
@@ -844,7 +845,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> exp() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> log() const
 		 * @return A matrix with the logarithm applied on each member.
@@ -852,7 +853,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> log() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> log10() const
 		 * @return A matrix with the base 10 logarithm applied on each member.
@@ -860,7 +861,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> log10() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> pow(const Matrix<T, M, N, enabled> & exp) const
 		 * @param[in] exp The power to apply.
@@ -869,7 +870,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> pow(const Matrix<T, M, N, enabled> & exp) const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> pow(const T & exp) const
 		 * @param[in] exp The power to apply.
@@ -878,7 +879,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> pow(const T & exp) const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> sqrt() const
 		 * @return A matrix with the square root applied on each member.
@@ -886,7 +887,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> sqrt() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> sin() const
 		 * @return A matrix with the sine applied on each member.
@@ -894,7 +895,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> sin() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> cos() const
 		 * @return A matrix with the cosine applied on each member.
@@ -902,7 +903,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> cos() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> tan() const
 		 * @return A matrix with the tangent applied on each member.
@@ -910,7 +911,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> tan() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> asin() const
 		 * @return A matrix with the argument sine applied on each member.
@@ -918,7 +919,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> asin() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> acos() const
 		 * @return A matrix with the argument cosine applied on each member.
@@ -926,7 +927,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> acos() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> atan() const
 		 * @return A matrix with the argument tangent applied on each member.
@@ -934,7 +935,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> atan() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> atan2(const Matrix<T, M, N, enabled> & x) const
 		 * @param[in] x The x value to use.
@@ -943,7 +944,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> atan2(const Matrix<T, M, N, enabled> & x) const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> atan2(const T & x) const
 		 * @param[in] x The x value to use.
@@ -952,7 +953,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> atan2(const T & x) const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> sinh() const
 		 * @return A matrix with the hyperbolic sine applied on each member.
@@ -960,7 +961,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> sinh() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> cosh() const
 		 * @return A matrix with the hyperbolic cosine applied on each member.
@@ -968,7 +969,7 @@ namespace ece
 		 * @throw
 		 */
 		inline Matrix<T, M, N, enabled> cosh() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> tanh() const
 		 * @return A matrix with the hyperbolic tangent applied on each member.
@@ -993,7 +994,7 @@ namespace ece
 		 */
 		template <typename = std::enable_if_t<M == N>>
 		inline double determinant() const;
-		
+
 		/**
 		 * @fn Matrix<T, M, N, enabled> transpose() const
 		 * @return The transpose matrix.
@@ -1002,7 +1003,7 @@ namespace ece
 		 */
 		template <typename = std::enable_if_t<M == N>>
 		inline Matrix<T, M, N, enabled> transpose() const;
-		
+
 		/**
 		 * @fn Matrix<double, M, N> inverse(bool & invertible) const
 		 * @param[out] invertible Flag set to true if the matrix is invertible, false else.

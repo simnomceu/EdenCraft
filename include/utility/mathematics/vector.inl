@@ -53,7 +53,7 @@ namespace ece
 	template <class U>
 	inline Vector<T, Size, enabled>::Vector(const Vector<U, Size> & rhs): std::valarray<T>()
 	{
-		for (int i = 0; i < Size; ++i) {
+		for (unsigned int i = 0; i < Size; ++i) {
 			(*this)[i] = static_cast<T>(rhs[i]);
 		}
 	}

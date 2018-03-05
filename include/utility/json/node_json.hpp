@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -57,7 +57,7 @@ namespace ece
 	{
 	public:
 		NodeJSON() = delete;
-		
+
 		/**
 		 * @fn NodeJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>())
 		 * @param[in] parent The parent node of this node.
@@ -65,7 +65,7 @@ namespace ece
 		 * @throw noexcept
 		 */
 		inline NodeJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>()) noexcept;
-		
+
 		/**
 		 * @fn NodeJSON(const NodeJSON & copy)
 		 * @param[in] copy The node to copy from.
@@ -73,7 +73,7 @@ namespace ece
 		 * @throw noexcept
 		 */
 		inline NodeJSON(const NodeJSON & copy) noexcept;
-		
+
 		/**
 		 * @fn NodeJSON(NodeJSON && move)
 		 * @param[in] move The node to move.
@@ -97,7 +97,7 @@ namespace ece
 		 * @throw noexcept
 		 */
 		NodeJSON & operator=(const NodeJSON & copy) noexcept;
-		
+
 		/**
 		 * @fn NodeJSON & operator=(NodeJSON && move)
 		 * @param[in] move The node to move.
@@ -116,12 +116,12 @@ namespace ece
 		inline std::shared_ptr<NodeJSON> getParent() noexcept;
 
 		/**
-		 * @fn const bool hasParent() const
+		 * @fn bool hasParent() const
 		 * @return True if the node has a parent, false else.
 		 * @brief Indicates if a node has a parent or not.
 		 * @throw noexcept
 		 */
-		inline const bool hasParent() const noexcept;
+		inline bool hasParent() const noexcept;
 
 		/**
 		 * @pure
