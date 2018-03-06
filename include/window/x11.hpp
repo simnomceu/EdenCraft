@@ -38,4 +38,6 @@
 #ifndef WINDOW_X11_HPP
 #define WINDOW_X11_HPP
 
+#include "window/x11/data_window_adapter.hpp"
+
 #endif // WINDOW_WIN32_HPP

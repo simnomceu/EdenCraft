@@ -103,37 +103,42 @@ namespace ece
 
 	bool WindowAdapter::isWindowCreated() const
 	{
-		return this->_data->_connection != nullptr;
+		return BaseWindowAdapter::isWindowCreated();
 	}
 
 	void WindowAdapter::setTitle(const std::string & title)
 	{
+		BaseWindowAdapter::setTitle(title);
 	}
 
 	std::string WindowAdapter::getTitle() const
 	{
-		return "";
+		return BaseWindowAdapter::getTitle();
 	}
 
-	void WindowAdapter::setPosition(const IntVector2u & /*position*/)
+	void WindowAdapter::setPosition(const IntVector2u & position)
 	{
+		BaseWindowAdapter::setPosition(position);
 	}
 
 	IntVector2u WindowAdapter::getPosition() const
 	{
-		return IntVector2u();
+		return BaseWindowAdapter::getPosition();
 	}
 
 	void WindowAdapter::minimize()
 	{
+		BaseWindowAdapter::minimize();
 	}
 
 	void WindowAdapter::maximize()
 	{
+		BaseWindowAdapter::maximize();
 	}
 
-	void WindowAdapter::processEvent(const bool /*blocking*/)
+	void WindowAdapter::processEvent(const bool blocking)
 	{
+		BaseWindowAdapter::processEvent(blocking);
 	}
 
 	void WindowAdapter::processMessage(const WindowMessage & /*message*/)

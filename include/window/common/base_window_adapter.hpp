@@ -1,20 +1,20 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															oooooo   oooooo     oooo  o8o                    .o8                             
-															 `888.    `888.     .8'   `"'                   "888                             
-															  `888.   .8888.   .8'   oooo  ooo. .oo.    .oooo888   .ooooo.  oooo oooo    ooo 
-															   `888  .8'`888. .8'    `888  `888P"Y88b  d88' `888  d88' `88b  `88. `88.  .8'  
-																`888.8'  `888.8'      888   888   888  888   888  888   888   `88..]88..8'   
-																 `888'    `888'       888   888   888  888   888  888   888    `888'`888'    
-																  `8'      `8'       o888o o888o o888o `Y8bod88P" `Y8bod8P'     `8'  `8'    
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
+
+															oooooo   oooooo     oooo  o8o                    .o8
+															 `888.    `888.     .8'   `"'                   "888
+															  `888.   .8888.   .8'   oooo  ooo. .oo.    .oooo888   .ooooo.  oooo oooo    ooo
+															   `888  .8'`888. .8'    `888  `888P"Y88b  d88' `888  d88' `88b  `88. `88.  .8'
+																`888.8'  `888.8'      888   888   888  888   888  888   888   `88..]88..8'
+																 `888'    `888'       888   888   888  888   888  888   888    `888'`888'
+																  `8'      `8'       o888o o888o o888o `Y8bod88P" `Y8bod8P'     `8'  `8'
 
 
 				This file is part of EdenCraft Engine - Window module.
@@ -120,7 +120,7 @@ namespace ece
 		 * @throw
 		 * @see void BaseWindowAdapter::createWindow()
 		 */
-		virtual void createWindow() = 0;
+		inline virtual void createWindow();
 
 		/**
 		 * @fn void deleteWindow()
@@ -128,7 +128,7 @@ namespace ece
 		 * If that window does not exist, the behaviour is unknown.
 		 * @throw
 		 */
-		virtual void deleteWindow() = 0;
+		inline virtual void deleteWindow();
 
 		/**
 		 * @fn bool isWindowCreated() const
@@ -136,7 +136,7 @@ namespace ece
 		 * @brief Check if the window is existing or not.
 		 * @throw
 		 */
-		virtual bool isWindowCreated() const = 0;
+		inline virtual bool isWindowCreated() const;
 
 		/**
 		 * @fn void setTitle(const std::string & title)
@@ -144,7 +144,7 @@ namespace ece
 		 * @brief Set the window title.
 		 * @throw
 		 */
-		virtual void setTitle(const std::string & title) = 0;
+		inline virtual void setTitle(const std::string & title);
 
 		/**
 		 * @fn std::string getTitle() const
@@ -152,7 +152,7 @@ namespace ece
 		 * @brief Get the window title.
 		 * @throw
 		 */
-		virtual std::string getTitle() const = 0;
+		inline virtual std::string getTitle() const;
 
 		/**
 		 * @fn void setPosition(const IntVector2u & position)
@@ -160,29 +160,29 @@ namespace ece
 		 * @brief Set the window to the position.
 		 * throw
 		 */
-		virtual void setPosition(const IntVector2u & position) = 0;
-		 
+		inline virtual void setPosition(const IntVector2u & position);
+
 		/**
 		 * @fn IntVector2u getPosition() const
 		 * @return The window position.
 		 * @brief Get the position of the window.
 		 * @throw
 		 */
-		virtual IntVector2u getPosition() const = 0;
+		inline virtual IntVector2u getPosition() const;
 
 		/**
 		 * @fn void minimize()
 		 * @brief Set the window to its minimum size.
 		 * @throw
 		 */
-		virtual void minimize() = 0;
+		inline virtual void minimize();
 
 		/**
 		 * @fn void maximize()
 		 * @brief Set the window to its maximum size.
 		 * @throw
 		 */
-		virtual void maximize() = 0;
+		inline virtual void maximize();
 
 		/**
 		 * @fn void enableKeyRepeat(const bool enabled)
@@ -198,7 +198,7 @@ namespace ece
 		 * @brief Process a window event.
 		 * @throw
 		 */
-		virtual void processEvent(const bool blocking) = 0;
+		inline virtual void processEvent(const bool blocking);
 
 		/**
 		 * @fn bool hasEvents() const
@@ -223,7 +223,7 @@ namespace ece
 		 * @brief Get the platform implementation of the window.
 		 * @throw
 		 */
-		virtual Pimpl<DataWindowAdapter> & getImpl() = 0;
+		inline virtual Pimpl<DataWindowAdapter> & getImpl() = 0;
 
 	protected:
 		/**
@@ -257,5 +257,7 @@ namespace ece
 		EventQueue _eventQueue;
 	};
 }
+
+#include "window/common/base_window_adapter.inl"
 
 #endif // BASE_WINDOW_ADAPTER_HPP
