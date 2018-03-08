@@ -2,6 +2,8 @@
 
 -- project_loader.lua
 
+TableHelper = require("scripts/helpers/table")
+
 ProjectLoader = {projects = {}}
 
 function ProjectLoader:loadProjects()
@@ -22,7 +24,8 @@ function ProjectLoader:loadProjects()
           err = true
         end
         if not err then
-            ProjectLoader.projects[key] = f
+            print(string.lower(f.name));
+            ProjectLoader.projects[string.lower(f.name)] = f
         end
     end
 end
@@ -49,32 +52,7 @@ function ProjectLoader:processProject(proj)
 		proj.type = "ConsoleApp"
     end
 
-    local dependencies = {}
-    if proj.dependencies then
-        for key,dependency in pairs(proj.dependencies) do
-            table.insert(dependencies, dependency)
-        end
-    end
-    if proj.extlibs then
-        if proj.extlibs.common then
-            for key,extlib in pairs(proj.extlibs.common) do
-                table.insert(dependencies, extlib)
-            end
-        end
-        filter {"system:windows"}
-            if proj.extlibs.windows then
-                for key,extlib in pairs(proj.extlibs.windows) do
-                    table.insert(dependencies, extlib)
-                end
-            end
-        filter {"system:linux or macosx"}
-            if proj.extlibs.unix then
-                for key,extlib in pairs(proj.extlibs.unix) do
-                    table.insert(dependencies, extlib)
-                end
-            end
-        filter {}
-    end
+    local dependencies = GetDependencies(proj)
 
     project(proj.name)
         kind(proj.type)
@@ -112,6 +90,42 @@ function ProjectLoader:processProject(proj)
 	if proj.preprocessor then
 		defines(proj.preprocessor)
 	end
+end
+
+function GetDependencies(proj)
+    local dependencies = {}
+    if proj.extlibs then
+        if proj.extlibs.common then
+            for key,extlib in pairs(proj.extlibs.common) do
+                table.insert(dependencies, extlib)
+            end
+        end
+        filter {"system:windows"}
+            if proj.extlibs.windows then
+                for key,extlib in pairs(proj.extlibs.windows) do
+                    table.insert(dependencies, extlib)
+                end
+            end
+        filter {"system:linux or macosx"}
+            if proj.extlibs.unix then
+                for key,extlib in pairs(proj.extlibs.unix) do
+                    table.insert(dependencies, extlib)
+                end
+            end
+        filter {}
+    end
+    if proj.dependencies then
+        for key,dependency in pairs(proj.dependencies) do
+            table.insert(dependencies, dependency)
+            local subdependencies = GetDependencies(ProjectLoader.projects[dependency])
+            for subkey,subdependency in pairs(subdependencies) do
+               if not hasValue(dependencies, subdependency) then
+                    table.insert(dependencies, subdependency)
+                end
+            end
+        end
+    end
+    return dependencies
 end
 
 return ProjectLoader
