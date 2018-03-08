@@ -6,7 +6,9 @@ settings = {
         name = "window_testing",
         type = "ConsoleApp",
         dependencies = {"window", "core", "utility"},
-        extlibs = {"xcb", "X11"}
+        extlibs = {
+            unix = {"xcb", "X11"}
+        }
 }
 
 return settings

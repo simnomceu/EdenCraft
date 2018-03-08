@@ -52,13 +52,28 @@ function ProjectLoader:processProject(proj)
     local dependencies = {}
     if proj.dependencies then
         for key,dependency in pairs(proj.dependencies) do
-            table.insert(dependencies, string.lower(dependency))
+            table.insert(dependencies, dependency)
         end
     end
     if proj.extlibs then
-        for key,extlib in pairs(proj.extlibs) do
-            table.insert(dependencies, string.lower(extlib))
+        if proj.extlibs.common then
+            for key,extlib in pairs(proj.extlibs.common) do
+                table.insert(dependencies, extlib)
+            end
         end
+        filter {"system:windows"}
+            if proj.extlibs.windows then
+                for key,extlib in pairs(proj.extlibs.windows) do
+                    table.insert(dependencies, extlib)
+                end
+            end
+        filter {"system:linux or macosx"}
+            if proj.extlibs.unix then
+                for key,extlib in pairs(proj.extlibs.unix) do
+                    table.insert(dependencies, extlib)
+                end
+            end
+        filter {}
     end
 
     project(proj.name)
