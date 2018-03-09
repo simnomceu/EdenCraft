@@ -119,7 +119,7 @@ function GetDependencies(proj)
             table.insert(dependencies, dependency)
             local subdependencies = GetDependencies(ProjectLoader.projects[dependency])
             for subkey,subdependency in pairs(subdependencies) do
-               if not hasValue(dependencies, subdependency) then
+               if not TableHelper.hasValue(dependencies, subdependency) then
                     table.insert(dependencies, subdependency)
                 end
             end
