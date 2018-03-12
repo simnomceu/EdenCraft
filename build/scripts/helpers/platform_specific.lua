@@ -23,27 +23,27 @@ function PlatformSpecific:new(obj)
     return this
 end
 
-function PlatformSpecific:addCommonLibs(list)
-    assert(type(list) == "table", "PlatformSpecific:addCommonLibs expects a table.")
-    Table.append(self._common, list)
+function PlatformSpecific:addToCommon(list)
+    assert(type(list) == "table", "PlatformSpecific:addToCommon expects a table.")
+    self._common = Table.append(self._common, list)
 end
 
-function PlatformSpecific:addUnixLibs(list)
-    assert(type(list) == "table", "PlatformSpecific:addUnixLibs expects a table.")
-    Table.append(self._unix, list)
+function PlatformSpecific:addToUnix(list)
+    assert(type(list) == "table", "PlatformSpecific:addToUnix expects a table.")
+    self._unix = Table.append(self._unix, list)
 end
 
-function PlatformSpecific:addWindowsLibs(list)
-    assert(type(list) == "table", "PlatformSpecific:addWindowsLibs expects a table.")
-    Table.append(self._windows, list)
+function PlatformSpecific:addToWindows(list)
+    assert(type(list) == "table", "PlatformSpecific:addToWindows expects a table.")
+    self._windows = Table.append(self._windows, list)
 end
 
-function PlatformSpecific:getLibraries()
+function PlatformSpecific:getAll()
     local result = self._common
     filter {"system:windows"}
-        Table.append(result, self._windows)
+        result = Table.append(result, self._windows)
     filter {"system:linux or macosx"}
-        Table.append(result, self._unix)
+        result = Table.append(result, self._unix)
     filter {}
     return result
 end

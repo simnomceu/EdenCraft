@@ -17,7 +17,9 @@ function Project:new(obj)
         _name = "",
         _type = "",
         _dependencies = {},
-        _extlibs = PlatformSpecific:new()
+        _extlibs = PlatformSpecific:new(),
+        _linkOptions = PlatformSpecific:new(),
+        _preprocessors = PlatformSpecific:new()
     }
     setmetatable(this, Project)
     self.__index = self
@@ -46,7 +48,7 @@ end
 
 function Project:addDependencies(dependencies)
     assert(type(dependencies) == "table", "Project:addDependencies expects a table parameter.")
-    Table.append(self._dependencies, dependencies)
+    self._dependencies = Table.append(self._dependencies, dependencies)
 end
 
 function Project:getDependencies()
@@ -58,16 +60,50 @@ function Project:addExtlibs(target, extlibs)
     assert(target == "Windows" or target == "Unix" or target == "Common", "Extlibs can only be for 'Common', 'Windows', or 'Unix'.")
     assert(type(extlibs) == "table", "Project:addExtlibs expects a table parameter as second parameter.")
     if target == "Common" then
-        self._extlibs:addCommonLibs(extlibs)
+        self._extlibs:addToCommon(extlibs)
     elseif target == "Unix" then
-        self._extlibs:addUnixLibs(extlibs)
+        self._extlibs:addToUnix(extlibs)
     else
-        self._extlibs:addWindowsLibs(extlibs)
+        self._extlibs:addToWindows(extlibs)
     end
 end
 
 function Project:getExtlibs()
-    return self._extlibs:getLibraries()
+    return self._extlibs:getAll()
+end
+
+function Project:addLinkOptions(target, linkOptions)
+    assert(type(target) == "string", "Project:addLinkOptions expects a string parameter as first parameter.")
+    assert(target == "Windows" or target == "Unix" or target == "Common", "linkOption can only be for 'Common', 'Windows', or 'Unix'.")
+    assert(type(linkOptions) == "table", "Project:addLinkOptions expects a table parameter as second parameter.")
+    if target == "Common" then
+        self._linkOptions:addToCommon(linkOptions)
+    elseif target == "Unix" then
+        self._linkOptions:addToUnix(linkOptions)
+    else
+        self._linkOptions:addToWindows(linkOptions)
+    end
+end
+
+function Project:getLinkOptions()
+    return self._linkOptions:getAll()
+end
+
+function Project:addPreprocessors(target, preprocessors)
+    assert(type(target) == "string", "Project:addPreprocessors expects a string parameter as first parameter.")
+    assert(target == "Windows" or target == "Unix" or target == "Common", "linkOption can only be for 'Common', 'Windows', or 'Unix'.")
+    assert(type(preprocessors) == "table", "Project:addPreprocessors expects a table parameter as second parameter.")
+    if target == "Common" then
+        self._preprocessors:addToCommon(preprocessors)
+    elseif target == "Unix" then
+        self._preprocessors:addToUnix(preprocessors)
+    else
+        self._preprocessors:addToWindows(preprocessors)
+    end
+end
+
+function Project:getPreprocessors()
+    return self._preprocessors:getAll()
 end
 
 return Project

@@ -8,14 +8,13 @@ local Project = require "scripts.helpers.project"
 local ProjectLoader = {projects = {}}
 
 function ProjectLoader:loadProjects()
-    local projects = os.matchfiles("scripts/projects/*.lua")
-    for key,file in pairs(projects) do
+    local files = os.matchfiles("scripts/projects/*.lua")
+    for key,file in pairs(files) do
         local name = string.gsub(string.sub(file, 1, -5), '/', '.')
         local f = require(name)
         if not f then
             print("Error while loading "..file)
         else
-            print(string.lower(f:getName()));
             ProjectLoader.projects[string.lower(f:getName())] = f
         end
     end
@@ -66,38 +65,26 @@ function ProjectLoader:processProject(proj)
 
         links(dependencies)
 
-        if proj.linkOptions then
-            filter {"system:windows"}
-                if proj.linkOptions.windows then
-                    linkoptions { proj.linkOptions.windows }
-                end
-            filter {"system:linux or macosx"}
-                if proj.linkOptions.unix then
-                    linkoptions { proj.linkOptions.unix }
-                end
-            filter {}
-        end
-
-	if proj.preprocessor then
-		defines(proj.preprocessor)
-	end
+        linkoptions { proj:getLinkOptions() }
+        defines { proj:getPreprocessors() }
 end
 
 function ProjectLoader:GetDependencies(proj)
-    local dependencies = {}
-    Table:append(dependencies, proj:getExtlibs())
+    local tmpDep = proj:getExtlibs()
+    tmpDep = Table.append(tmpDep, proj:getDependencies())
 
-    Table:append(dependencies, proj:getDependencies())
     for key,dependency in pairs(proj:getDependencies()) do
-        local subdependencies = ProjectLoader:GetDependencies(ProjectLoader.projects[dependency])
-        for subkey,subdependency in pairs(subdependencies) do
-           if not TableHelper:hasValue(dependencies, subdependency) then
-                table.insert(dependencies, subdependency)
+        if Table.hasKey(ProjectLoader.projects, dependency) == true then
+            local subdependencies = ProjectLoader:GetDependencies(ProjectLoader.projects[dependency])
+            for subkey,subdependency in pairs(subdependencies) do
+                if not Table.hasValue(tmpDep, subdependency) then
+                    table.insert(tmpDep, subdependency)
+                end
             end
         end
     end
 
-    return dependencies
+    return tmpDep
 end
 
 return ProjectLoader
