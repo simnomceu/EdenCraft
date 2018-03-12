@@ -68,8 +68,8 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Dealing with screen ratio/resolution.
 + [ ] Handling video mode.
 + [ ] Win32 implementation of window.
-+ [ ] X11 implementation of Window (Xlib and XCB).
-+ [ ] Cocoa implementation of Window.
++ [ ] X11 implementation of window (Xlib and XCB).
++ [ ] Cocoa implementation of window.
 + [ ] Managing input devices events (Mouse, keyboard).
 ##### Renderer
 + [ ] Common interface for OpenGL context.
@@ -115,8 +115,25 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Renderer
 ##### Graphic
 ##### Audio
++ [ ] Audio buffers.
++ [ ] OGG parser.
++ [ ] MP3 parser (if it is free and opensource).
++ [ ] MIDI parser.
++ [ ] 3D sound emitter.
++ [ ] Spatialization.
++ [ ] Dealing with sound devices (input and output).
++ [ ] Playlisting.
++ [ ] Transitioning.
 
-### alpha-0.4.0 (aka. Network update)
+### alpha-0.4.0 (aka. Optimisation update)
+##### Utility
+##### Core
+##### Window
+##### Renderer
+##### Graphic
+##### Audio
+
+### alpha-0.5.0 (aka. Network update)
 ##### Utility
 ##### Core
 ##### Window
@@ -125,7 +142,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Audio
 ##### Network
 
-### alpha-0.5.0 (aka. Physic update)
+### alpha-0.6.0 (aka. Physic update)
 ##### Utility
 ##### Core
 ##### Window
@@ -135,7 +152,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Network
 ##### Physic
 
-### alpha-0.6.0 (aka. Intelligent update)
+### alpha-0.7.0 (aka. Intelligent update)
 ##### Utility
 ##### Core
 ##### Window
@@ -147,3 +164,6 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### IA
 
 ## Beta guideline
+
+### beta-1.0.0
++ [ ] Unit testing everywhere.
