@@ -2,10 +2,12 @@
 
 -- graphic.lua
 
-settings = {
-        name = "graphic",
-        type = "StaticLib",
-        dependencies = {"renderer", "window", "core", "utility"}
-}
+local Project = require "scripts.helpers.project"
+
+local settings = Project:new()
+
+settings:setName("graphic")
+settings:setType("StaticLib")
+settings:addDependencies{"renderer", "window", "core", "utility"}
 
 return settings

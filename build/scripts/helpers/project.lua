@@ -2,10 +2,10 @@
 
 -- project.lua
 
-local Extlib = require "scripts/helpers/extlib"
-local Table = require "scripts/helpers/table"
+local Table = require "scripts.helpers.table"
+local PlatformSpecific = require "scripts.helpers.platform_specific"
 
-Project = { id = "Project"}
+local Project = { id = "Project"}
 Project.__index = Project
 
 function Project:new(obj)
@@ -17,7 +17,7 @@ function Project:new(obj)
         _name = "",
         _type = "",
         _dependencies = {},
-        _extlibs = Extlib:new()
+        _extlibs = PlatformSpecific:new()
     }
     setmetatable(this, Project)
     self.__index = self
@@ -36,8 +36,12 @@ end
 
 function Project:setType(projectType)
     assert(type(projectType) == "string", "Project:setType expects a string parameter.")
-    assert(projectType == "StaticLib" or projectType == "SharedLib" or projectType == "ConsoleApp" or projectType == "WindowedApp", "A project type expects to be one of the following: 'ConsoleApp', 'WindowedApp', 'SharedLib', 'StaticLib'.")
+    assert(projectType == "StaticLib" or projectType == "SharedLib" or projectType == "ConsoleApp" or projectType == "WindowedApp" or projectType == "Test", "A project type expects to be one of the following: 'ConsoleApp', 'WindowedApp', 'SharedLib', 'StaticLib', 'Test'.")
     self._type = projectType
+end
+
+function Project:getType()
+    return self._type
 end
 
 function Project:addDependencies(dependencies)
@@ -50,9 +54,9 @@ function Project:getDependencies()
 end
 
 function Project:addExtlibs(target, extlibs)
-    assert(type(target) == "string", "Project:addExtlibs expects a string parameter.")
+    assert(type(target) == "string", "Project:addExtlibs expects a string parameter as first parameter.")
     assert(target == "Windows" or target == "Unix" or target == "Common", "Extlibs can only be for 'Common', 'Windows', or 'Unix'.")
-    assert(type(projectType) == "string", "Project:addExtlibs expects a table parameter.")
+    assert(type(extlibs) == "table", "Project:addExtlibs expects a table parameter as second parameter.")
     if target == "Common" then
         self._extlibs:addCommonLibs(extlibs)
     elseif target == "Unix" then

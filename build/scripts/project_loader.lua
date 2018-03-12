@@ -2,30 +2,21 @@
 
 -- project_loader.lua
 
-TableHelper = require("scripts/helpers/table")
+local Table = require "scripts.helpers.table"
+local Project = require "scripts.helpers.project"
 
-ProjectLoader = {projects = {}}
+local ProjectLoader = {projects = {}}
 
 function ProjectLoader:loadProjects()
     local projects = os.matchfiles("scripts/projects/*.lua")
     for key,file in pairs(projects) do
-        local f = require(string.sub(file, 1, -5))
-        local err = false
+        local name = string.gsub(string.sub(file, 1, -5), '/', '.')
+        local f = require(name)
         if not f then
             print("Error while loading "..file)
-            err = true
-        end
-        if f.name == nil then
-          print("the project name field is not correct in "..file)
-          err = true
-        end
-        if f.type == nil or (f.type ~= "StaticLib" and f.type ~= "ConsoleApp" and f.type ~= "Test") then
-          print("the project type field is not correct in "..file)
-          err = true
-        end
-        if not err then
-            print(string.lower(f.name));
-            ProjectLoader.projects[string.lower(f.name)] = f
+        else
+            print(string.lower(f:getName()));
+            ProjectLoader.projects[string.lower(f:getName())] = f
         end
     end
 end
@@ -38,24 +29,24 @@ end
 
 function ProjectLoader:processProject(proj)
     local includePath, srcPath
-    local projectName = string.lower(proj.name)
+    local projectName = string.lower(proj:getName())
 
-    if proj.type == "StaticLib" then
+    if proj:getType() == "StaticLib" then
         includePath = "../include/"..projectName
         srcPath = "../src/"..projectName
-    elseif proj.type == "ConsoleApp" then
+    elseif proj:getType() == "ConsoleApp" then
         includePath = "../examples/"..projectName
         srcPath = "../examples/"..projectName
 	else
 		includePath = "../"..projectName
 		srcPath = "../"..projectName
-		proj.type = "ConsoleApp"
+		proj:setType("ConsoleApp")
     end
 
-    local dependencies = GetDependencies(proj)
+    local dependencies = ProjectLoader:GetDependencies(proj)
 
-    project(proj.name)
-        kind(proj.type)
+    project(proj:getName())
+        kind(proj:getType())
         location("")
         files {
             includePath.."/**.inl",
@@ -92,39 +83,20 @@ function ProjectLoader:processProject(proj)
 	end
 end
 
-function GetDependencies(proj)
+function ProjectLoader:GetDependencies(proj)
     local dependencies = {}
-    if proj.extlibs then
-        if proj.extlibs.common then
-            for key,extlib in pairs(proj.extlibs.common) do
-                table.insert(dependencies, extlib)
-            end
-        end
-        filter {"system:windows"}
-            if proj.extlibs.windows then
-                for key,extlib in pairs(proj.extlibs.windows) do
-                    table.insert(dependencies, extlib)
-                end
-            end
-        filter {"system:linux or macosx"}
-            if proj.extlibs.unix then
-                for key,extlib in pairs(proj.extlibs.unix) do
-                    table.insert(dependencies, extlib)
-                end
-            end
-        filter {}
-    end
-    if proj.dependencies then
-        for key,dependency in pairs(proj.dependencies) do
-            table.insert(dependencies, dependency)
-            local subdependencies = GetDependencies(ProjectLoader.projects[dependency])
-            for subkey,subdependency in pairs(subdependencies) do
-               if not TableHelper.hasValue(dependencies, subdependency) then
-                    table.insert(dependencies, subdependency)
-                end
+    Table:append(dependencies, proj:getExtlibs())
+
+    Table:append(dependencies, proj:getDependencies())
+    for key,dependency in pairs(proj:getDependencies()) do
+        local subdependencies = ProjectLoader:GetDependencies(ProjectLoader.projects[dependency])
+        for subkey,subdependency in pairs(subdependencies) do
+           if not TableHelper:hasValue(dependencies, subdependency) then
+                table.insert(dependencies, subdependency)
             end
         end
     end
+
     return dependencies
 end
 

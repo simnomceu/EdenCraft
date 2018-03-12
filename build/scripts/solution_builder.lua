@@ -2,9 +2,9 @@
 
 -- solution_builder.lua
 
-SolutionBuilder = {}
+local SolutionBuilder = {}
 
-function SolutionBuilder:build()
+function SolutionBuilder.build()
     workspace "EdenCraft"
         location ""
         includedirs { "../extlibs/include", "../include", "../extlibs" }

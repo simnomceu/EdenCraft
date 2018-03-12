@@ -4,7 +4,7 @@
 
 local Table = {}
 
- Table.hasValue = function (table, value)
+function Table.hasValue (table, value)
     for key, val in pairs(table) do
         if val == value then
             return true
@@ -13,7 +13,7 @@ local Table = {}
     return false
 end
 
-Table.append = function (table1, table2)
+function Table.append (table1, table2)
     assert(type(table1) == "table", "concatene expects a table as first parameter.")
     assert(type(table2) == "table", "concatene expects a table as second parameter.")
     for key, value in pairs(table2) do
@@ -23,6 +23,14 @@ Table.append = function (table1, table2)
             table1[key] = value
         end
     end
+end
+
+function Table.size(table)
+  local count = 0
+  for _ in pairs(table) do
+      count = count + 1
+  end
+  return count
 end
 
 return Table
