@@ -35,90 +35,74 @@
 
 */
 
-#ifndef BASE_WINDOW_ADAPTER_HPP
-#define BASE_WINDOW_ADAPTER_HPP
+#ifndef X11_API_HPP
+#define X11_API_HPP
 
-#include <memory>
 #include <string>
 
-#include "window/window_event/input_event.hpp"
-#include "window/common/event_queue.hpp"
-#include "utility/pattern/pimpl.hpp"
+#include "utility/mathematics/vector2u.hpp"
 
 namespace ece
 {
-	/**
-	 * @struct DataWindowAdapter
-	 * @brief Platform implementaion of the window adapter.
-	 */
-	struct DataWindowAdapter;
+    /**
+     * @class X11API
+     * @brief
+     */
+    class X11API
+    {
+    public:
+        /**
+         * @fn constexpr X11API() noexcept
+         * @brief Default constructor.
+         * @throw noexcept
+         */
+        constexpr X11API() noexcept = default;
 
-	/**
-	 * @struct WindowMessage
-	 * @brief Platform implementation for a window message/notification, including input messages.
-	 */
-	struct WindowMessage;
+        /**
+         * @fn X11API(const X11API & copy) noexcept
+         * @param[in] copy The X11API to copy from.
+         * @brief Default copy constructor.
+         * @throw noexcept
+         */
+        X11API(const X11API & copy) noexcept = default;
 
-	/**
-	 * @class BaseWindowAdapter
-	 * @brief Base pattern for adapting window method to use the platform implementation.
-	 */
-	class BaseWindowAdapter
-	{
-	public:
-		/**
-		 * @fn BaseWindowAdapter()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		BaseWindowAdapter();
+        /**
+         * @fn X11API(X11API && move) noexcept
+         * @param[in] move The X11API to move.
+         * @brief Default copy constructor.
+         * @throw noexcept
+         */
+        X11API(X11API && move) noexcept = default;
 
-		/**
-		 * @fn BaseWindowAdapter(const BaseWindowAdapter & copy)
-		 * @param[in] copy The adapter to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		BaseWindowAdapter(const BaseWindowAdapter & copy) = default;
+        /**
+         * @fn ~X11API() noexcept
+         * @brief Default destructor.
+         * @throw noexcept
+         */
+        ~X11API() noexcept = default;
 
-		/**
-		 * @fn BaseWindowAdapter(BaseWindowAdapter && move)
-		 * @param[in] move The adapter to move.
-		 * @brief Default move constructor.
-		 * @throw
-		 */
-		BaseWindowAdapter(BaseWindowAdapter && move) = default;
+        /**
+         * @fn X11API & operator=(const X11API & copy) noexcept
+         * @param[in] copy The X11API to copy from.
+         * @return The X11API copied.
+         * @brief Default copy assignment operator.
+         * @throw noexcept
+         */
+        X11API & operator=(const X11API & copy) noexcept = default;
 
-		/**
-		 * @fn ~BaseWindowAdapter() noexcept
-		 * @brief Default destructor.
-		 * @throw
-		 */
-		virtual ~BaseWindowAdapter() noexcept = 0;
-
-		/**
-		 * @fn BaseWindowAdapter & operator=(const BaseWindowAdapter & copy)
-		 * @param[in] copy The adapter to copy from.
-		 * @return The adapter copied.
-		 * @brief Default copy assignment operator.
-		 * throw
-		 */
-		BaseWindowAdapter & operator=(const BaseWindowAdapter & copy) = default;
-
-		/**
-		 * @fn BaseWindowAdapter & operator=(BaseWindowAdapter && move)
-		 * @param[in] move The adapter to move.
-		 * @return The adapter moved.
-		 * @brief Default move assignment operator.
-		 * @throw
-		 */
-		BaseWindowAdapter & operator=(BaseWindowAdapter && move) = default;
+        /**
+         * @fn X11API & operator=(X11API && move) noexcept
+         * @param[in] move The X11API to move.
+         * @return The X11API moved.
+         * @brief Default copy assignment operator.
+         * @throw noexcept
+         */
+        X11API & operator=(X11API && move) noexcept = default;
 
 		/**
 		 * @fn void createWindow()
 		 * @brief Generate a window.
 		 * @throw
-		 * @see void BaseWindowAdapter::createWindow()
 		 */
 		virtual void createWindow() = 0;
 
@@ -185,77 +169,13 @@ namespace ece
 		virtual void maximize() = 0;
 
 		/**
-		 * @fn void enableKeyRepeat(const bool enabled)
-		 * @param[in] enabled Switch parameter to set.
-		 * @brief Enable or disable the key repeating.
-		 * @throw
-		 */
-		void enableKeyRepeat(const bool enabled);
-
-		/**
 		 * @fn void processEvent(const bool blocking)
 		 * @param[in] blocking Block the thread until an event has been processed.
 		 * @brief Process a window event.
 		 * @throw
 		 */
 		virtual void processEvent(const bool blocking) = 0;
-
-		/**
-		 * @fn bool hasEvents() const
-		 * @return True, if there is new events in the queue, false else.
-		 * @brief Check if there is new events to process or not.
-		 * @throw
-		 */
-		bool hasEvents() const;
-
-		/**
-		 * @fn InputEvent popEvent()
-		 * @return The first event of the queue.
-		 * @brief Get the first event of the queue to process.
-		 * It gets an empty event if the queue is empty.
-		 * @throw
-		 */
-		InputEvent popEvent();
-
-		/**
-		 * @fn Pimpl<DataWindowAdapter> & getImpl()
-		 * @return The platform implementation of the window.
-		 * @brief Get the platform implementation of the window.
-		 * @throw
-		 */
-		virtual Pimpl<DataWindowAdapter> & getImpl() = 0;
-
-	protected:
-		/**
-		 * @fn void pushEvent(const InputEvent & nextEvent)
-		 * @param[in] nextEvent The new event to add.
-		 * @brief Add a new event to the end of the queue.
-		 * @throw
-		 */
-		void pushEvent(const InputEvent & nextEvent);
-
-		/**
-		 * @fn InputEvent & lastEvent()
-		 * @return The last event of the queue.
-		 * @brief Get the last event of the queue.
-		 * It is not removed from the queue.
-		 * @throw
-		 */
-		InputEvent & lastEvent();
-
-		/**
-		 * @property _keyRepeat
-		 * @brief Switch parameter to enable or disable key repeating.
-		 */
-		bool _keyRepeat;
-
-	private:
-		/**
-		 * @property _eventQueue
-		 * @brief The queue of events produced by the window.
-		 */
-		EventQueue _eventQueue;
-	};
+    };
 }
 
-#endif // BASE_WINDOW_ADAPTER_HPP
+#endif // X11_API_HPP

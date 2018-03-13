@@ -38,29 +38,12 @@
 #ifndef DATA_WINDOW_ADAPTER_HPP
 #define DATA_WINDOW_ADAPTER_HPP
 
-/*#include <xcb/xcb.h>*/
-#include <X11/Xlib.h>
+#include <memory>
+
+#include "window/x11/x11_api.hpp"
 
 namespace ece
 {
-    /**
-     * @typedef XCBConnection
-     * @brief The connection to the X server.
-     */
-//    using XCBConnection = xcb_connection_t *;
-
-    /**
-     * @typedef XCVScreen
-     * @brief A screen device.
-     */
-//    using XCBScreen = xcb_screen_t *;
-
-    /**
-     * @typedef XCBWindow
-     * @brief A X window.
-     */
-//    using XCBWindow = xcb_window_t;
-
 	/**
 	 * @struct DataWindowAdapter
 	 * @brief X11 implementaion of the window adapter.
@@ -68,30 +51,35 @@ namespace ece
 	struct DataWindowAdapter
 	{
 		/**
-		 * @fn DataWindowAdapter()
+		 * @fn DataWindowAdapter(std::shared_ptr<X11API> && api)
+		 * @param[in] api The X11 API to use.
 		 * @brief Default constructor.
 		 * @throw
 		 */
-		inline DataWindowAdapter(): _windowId(), _connection(nullptr) {}
+		inline DataWindowAdapter(std::shared_ptr<X11API> && api): _api(std::move(api)) {}
 
 		/**
-		 * @property _windowId
-		 * @brief The handle of the window.
+		 * @fn DataWindowAdapter(const DataWindowAdapter & copy) noexcept
+		 * @param[in] copy The implementation to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
 		 */
-//        XCBWindow _windowId;
-        Window _windowId;
+		 DataWindowAdapter(const DataWindowAdapter & copy) noexcept = default;
 
-        /**
-         * @property _connection
-         * @brief The connection to the X server.
-         */
-//        XCBConnection _connection;
-        Display * _connection;
+ 		/**
+ 		 * @fn DataWindowAdapter(DataWindowAdapter && move) noexcept
+ 		 * @param[in] copy The implementation to move.
+ 		 * @brief Default move constructor.
+ 		 * @throw noexcept
+ 		 */
+ 		 DataWindowAdapter(DataWindowAdapter && move) noexcept = default;
+
+		std::shared_ptr<X11API> _api;
 	};
 
 	/**
 	 * @struct WindowMessage
-	 * @brief Win32 implementation for a window message/notification, including input messages.
+	 * @brief X11 implementation for a window message/notification, including input messages.
 	 */
 	struct WindowMessage
 	{

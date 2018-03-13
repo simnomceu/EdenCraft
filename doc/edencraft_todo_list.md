@@ -141,6 +141,11 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Graphic
 ##### Audio
 ##### Network
++ [ ] TCP implementation.
++ [ ] UDP implementation.
++ [ ] Packets serialization.
++ [ ] IRC implementation.
++ [ ] XMPP implementation.
 
 ### alpha-0.6.0 (aka. Physic update)
 ##### Utility
