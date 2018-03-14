@@ -10,33 +10,28 @@ addons:
       - build-essential
       - libx11-dev
       - libxcb1-dev
+      - g++-7
 
 sudo:
   required
 
 notifications:
-  email: true
+  email: false
 
 compiler: g++
 
 env:
-  global:
-    - COMPILER=g++-7
-  matrix:
-    - CONFIG=Debug
+  - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
   - chmod +x build/premake5
 
 install:
-  - sudo apt-get install -qq g++-7
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10
 
 script:
   - cd build && ./premake5 gmake
   - make config=debug_unix64 && cd ..
+  - g++ --version
 
 after_script:
   - cd build && ./clear_build.sh && cd ..
