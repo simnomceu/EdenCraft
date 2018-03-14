@@ -39,8 +39,10 @@
 #define X11_API_HPP
 
 #include <string>
+#include <vector>
 
 #include "utility/mathematics/vector2u.hpp"
+#include "window/window_event/input_event.hpp"
 
 namespace ece
 {
@@ -169,12 +171,13 @@ namespace ece
 		virtual void maximize() = 0;
 
 		/**
-		 * @fn void processEvent(const bool blocking)
+		 * @fn std::vector<InputEvent> processEvent(const bool blocking)
 		 * @param[in] blocking Block the thread until an event has been processed.
+         * @return The events obtained from the window.
 		 * @brief Process a window event.
 		 * @throw
 		 */
-		virtual void processEvent(const bool blocking) = 0;
+		virtual std::vector<InputEvent> processEvent(const bool blocking) = 0;
     };
 }
 

@@ -101,6 +101,9 @@ namespace ece
 
 	void WindowAdapter::processEvent(const bool blocking)
 	{
-		this->_data->_api->processEvent(blocking);
+		auto events = std::move(this->_data->_api->processEvent(blocking));
+		for (auto event : events) {
+			this->pushEvent(std::move(event));
+		}
 	}
 }

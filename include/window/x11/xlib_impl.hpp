@@ -194,13 +194,14 @@ namespace ece
 		virtual void maximize() override;
 
 		/**
-		 * @fn void processEvent(const bool blocking)
+		 * @fn std::vector<InputEvent> processEvent(const bool blocking)
 		 * @param[in] blocking Block the thread until an event has been processed.
+         * @return The events obtained from the window.
 		 * @brief Process a window event.
 		 * @throw
-         * @see void X11API::processEvent(const bool blocking)
+         * @see std::vector<InputEvent> X11API::processEvent(const bool blocking)
 		 */
-		virtual void processEvent(const bool blocking) override;
+		virtual std::vector<InputEvent> processEvent(const bool blocking) override;
 
         /**
          * @fn void logInfos()
@@ -219,12 +220,13 @@ namespace ece
         WindowMessage getNextMessage();
 
         /**
-         * @fn void processMessage(const WindowMessage & message)
+         * @fn InputEvent processMessage(const WindowMessage & message)
          * @param[in] message The window message to process.
+         * @return The window message standardized.
          * @brief Process a window message.
          * @throw
          */
-        void processMessage(const WindowMessage & message);
+        InputEvent processMessage(const WindowMessage & message);
 
     private:
 		/**

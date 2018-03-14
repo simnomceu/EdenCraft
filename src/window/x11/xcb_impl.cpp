@@ -123,7 +123,7 @@ namespace ece
         ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to maximize the window.");
     }
 
-	void XCBImpl::processEvent(const bool blocking)
+	std::vector<InputEvent> XCBImpl::processEvent(const bool blocking)
     {
         xcb_generic_event_t * e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
 
@@ -138,5 +138,6 @@ namespace ece
             free(e);
             e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
         }
+        return std::vector<InputEvent>();
     }
 }

@@ -147,23 +147,25 @@ the window, or the client calls XQueryPointer() or XGetMotionEvents().*/
         XSendEvent(this->_connection, XRootWindow(this->_connection, 0), false, SubstructureNotifyMask | SubstructureRedirectMask, &event);
     }
 
-	void XlibImpl::processEvent(const bool blocking)
+	std::vector<InputEvent> XlibImpl::processEvent(const bool blocking)
     {
+        std::vector<InputEvent> events;
         XMapWindow(this->_connection, this->_windowId);
         if (blocking) {
     		while (XPending(this->_connection)) { //while (XPending(this->_connection)) <= blocking || XEventsQueued() <= non blocking
             	auto message = this->getNextMessage();
-                this->processMessage(message);
+                events.push_back(std::move(this->processMessage(message)));
     	   	}
         }
         else {
             int n = XEventsQueued(this->_connection, QueuedAlready);
             for(int i = 0; i < n; ++i) {
                 auto message = this->getNextMessage();
-                this->processMessage(message);
+                events.push_back(std::move(this->processMessage(message)));
             }
         }
         XFlush(this->_connection);
+        return std::move(events);
     }
 
     void XlibImpl::logInfos()
@@ -187,8 +189,9 @@ the window, or the client calls XQueryPointer() or XGetMotionEvents().*/
 //        return std::move(WindowMessage{XEvent()});
     }
 
-    void XlibImpl::processMessage(const WindowMessage & message)
+    InputEvent XlibImpl::processMessage(const WindowMessage & message)
     {
+        InputEvent newEvent;
         if(message._impl.xany.window == this->_windowId) {
             switch(message._impl.type) {
             case KeyPress: {
@@ -204,7 +207,10 @@ the window, or the client calls XQueryPointer() or XGetMotionEvents().*/
                 break;
             }
             case MotionNotify: {
-                std::cout << message._impl.xmotion.x << " | " << message._impl.xmotion.y << std::endl;
+                newEvent._type = InputEvent::Type::ECE_MOUSE_MOVED;
+				newEvent._mousePosition[0] = message._impl.xmotion.x;
+				newEvent._mousePosition[1] = message._impl.xmotion.y;
+				Mouse::setPosition(this->getPosition() + newEvent._mousePosition);
                 break;
             }
             case EnterNotify: {
@@ -299,5 +305,6 @@ the window, or the client calls XQueryPointer() or XGetMotionEvents().*/
             }
             }
         }
+        return std::move(newEvent);
     }
 }
