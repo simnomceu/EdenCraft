@@ -56,7 +56,7 @@ namespace ece
                 throw std::runtime_error("No X server available for XCB implementation.");
 			}
 		}
-		if (this->_connection) {
+		if (!this->_connection) {
 			xcb_screen_t * screen = xcb_setup_roots_iterator(xcb_get_setup(this->_connection)).data;
 
 			this->_windowId = xcb_generate_id(this->_connection);
