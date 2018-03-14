@@ -124,7 +124,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Audio
 + [ ] Audio buffers.
 + [ ] OGG parser.
-+ [ ] MP3 parser (if it is free and opensource).
++ [ ] MP3 parser (if it is under public domain).
 + [ ] MIDI parser.
 + [ ] 3D sound emitter.
 + [ ] Spatialization.
