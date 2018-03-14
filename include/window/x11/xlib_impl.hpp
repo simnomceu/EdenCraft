@@ -45,6 +45,21 @@
 namespace ece
 {
     /**
+     * @struct WindowMessage
+     * @brief X11 implementation for a window message/notification, including input messages.
+     */
+     struct WindowMessage
+     {
+         /**
+          * @property _impl
+          * @brief Xlib implementation of the event.
+          */
+         XEvent _impl;
+
+         inline WindowMessage(const XEvent & impl): _impl(impl) {}
+     };
+
+    /**
      * @class XlibImpl
      * @extends X11API
      * @brief
@@ -186,6 +201,30 @@ namespace ece
          * @see void X11API::processEvent(const bool blocking)
 		 */
 		virtual void processEvent(const bool blocking) override;
+
+        /**
+         * @fn void logInfos()
+         * @brief Log infos about the connection to the X server.
+         * @throw
+         */
+        void logInfos();
+
+    protected:
+        /**
+         * @fn WindowMessage getNextMessage()
+         * @return The next window message.
+         * @brief Get the next window message available.
+         * @throw
+         */
+        WindowMessage getNextMessage();
+
+        /**
+         * @fn void processMessage(const WindowMessage & message)
+         * @param[in] message The window message to process.
+         * @brief Process a window message.
+         * @throw
+         */
+        void processMessage(const WindowMessage & message);
 
     private:
 		/**

@@ -1,20 +1,20 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															oooooo   oooooo     oooo  o8o                    .o8                             
-															 `888.    `888.     .8'   `"'                   "888                             
-															  `888.   .8888.   .8'   oooo  ooo. .oo.    .oooo888   .ooooo.  oooo oooo    ooo 
-															   `888  .8'`888. .8'    `888  `888P"Y88b  d88' `888  d88' `88b  `88. `88.  .8'  
-																`888.8'  `888.8'      888   888   888  888   888  888   888   `88..]88..8'   
-																 `888'    `888'       888   888   888  888   888  888   888    `888'`888'    
-																  `8'      `8'       o888o o888o o888o `Y8bod88P" `Y8bod8P'     `8'  `8'    
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
+
+															oooooo   oooooo     oooo  o8o                    .o8
+															 `888.    `888.     .8'   `"'                   "888
+															  `888.   .8888.   .8'   oooo  ooo. .oo.    .oooo888   .ooooo.  oooo oooo    ooo
+															   `888  .8'`888. .8'    `888  `888P"Y88b  d88' `888  d88' `88b  `88. `88.  .8'
+																`888.8'  `888.8'      888   888   888  888   888  888   888   `88..]88..8'
+																 `888'    `888'       888   888   888  888   888  888   888    `888'`888'
+																  `8'      `8'       o888o o888o o888o `Y8bod88P" `Y8bod8P'     `8'  `8'
 
 
 				This file is part of EdenCraft Engine - Window module.
@@ -43,6 +43,7 @@
 
 namespace ece
 {
+	// TODO: Refactor applying correctly use of Desktop Window Manager (DWM windowing system).
 	WindowAdapter::WindowAdapter() noexcept: BaseWindowAdapter(), _data(makePimpl<DataWindowAdapter>(nullptr)) {}
 
 	void WindowAdapter::createWindow()
@@ -145,11 +146,6 @@ namespace ece
 			DispatchMessage(&message);
 		}
 	}
-
-	/*bool WindowAdapter::hasEvents() const
-	{
-		return PeekMessage(nullptr, this->windowId, 0, 0, PM_NOREMOVE);
-	}*/
 
 	void registerPattern()
 	{
@@ -398,7 +394,7 @@ namespace ece
 		case VK_EXECUTE: // EXECUTE key
 		case VK_SNAPSHOT:
 			key = Keyboard::Key::PRINT_SCREEN;
-			break; 
+			break;
 		case VK_INSERT:
 			key = Keyboard::Key::INS;
 			break;
@@ -712,7 +708,7 @@ namespace ece
 			break;
 		case VK_OEM_1:
 			key = Keyboard::Key::OEM_1;
-			break; // £ $ ¤
+			break; // ï¿½ $ ï¿½
 		case VK_OEM_PLUS:
 			key = Keyboard::Key::OEM_PLUS;
 			break; // + = }
@@ -730,22 +726,22 @@ namespace ece
 			break; // : /
 		case VK_OEM_3:
 			key = Keyboard::Key::OEM_3;
-			break; // % ù
+			break; // % ï¿½
 		case VK_OEM_4:
 			key = Keyboard::Key::OEM_4;
-			break; // ° ) ]
+			break; // ï¿½ ) ]
 		case VK_OEM_5:
 			key = Keyboard::Key::OEM_5;
-			break; // µ *
+			break; // ï¿½ *
 		case VK_OEM_6:
 			key = Keyboard::Key::OEM_6;
-			break; // ^ ¨
+			break; // ^ ï¿½
 		case VK_OEM_7:
 			key = Keyboard::Key::OEM_7;
-			break; // ²
+			break; // ï¿½
 		case VK_OEM_8:
 			key = Keyboard::Key::OEM_8;
-			break; // § !
+			break; // ï¿½ !
 		case VK_OEM_102:
 			key = Keyboard::Key::OEM_102;
 			break; // > <

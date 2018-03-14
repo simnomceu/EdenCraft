@@ -76,14 +76,6 @@ namespace ece
 
 		std::shared_ptr<X11API> _api;
 	};
-
-	/**
-	 * @struct WindowMessage
-	 * @brief X11 implementation for a window message/notification, including input messages.
-	 */
-	struct WindowMessage
-	{
-	};
 }
 
 #endif // DATA_WINDOW_ADAPTER_HPP

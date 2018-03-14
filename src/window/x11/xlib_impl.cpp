@@ -51,15 +51,38 @@ namespace ece
 		if(!this->_connection) {
 			ServiceLoggerLocator::getService().logError("No X server available.");
 		}
+        this->logInfos();
 
 		this->_screen = DefaultScreen(this->_connection);
-		this->_windowId = XCreateSimpleWindow(this->_connection,
-													RootWindow(this->_connection, this->_screen),
-													0, 0, 320, 320,
-													1,
-													BlackPixel(this->_connection, this->_screen),
-													WhitePixel(this->_connection, this->_screen));
-		XSelectInput(this->_connection, this->_windowId, ExposureMask | KeyPressMask);
+
+        XSetWindowAttributes attributes;
+        attributes.colormap = XCreateColormap(this->_connection,
+                                           RootWindow(this->_connection, this->_screen),
+                                           DefaultVisual(this->_connection, this->_screen),
+                                           AllocNone);
+        attributes.border_pixel = 0;
+        attributes.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask
+                                | ButtonReleaseMask | EnterWindowMask | LeaveWindowMask
+                                | PointerMotionMask /*| PointerMotionHintMask <= PointerMotionHintMask specifies that the server should
+send only one MotionNotify event when the pointer moves, until a key or button state changes, the pointer leaves
+the window, or the client calls XQueryPointer() or XGetMotionEvents().*/
+                                | Button1MotionMask | Button2MotionMask | Button3MotionMask
+                                | Button4MotionMask | Button5MotionMask | ButtonMotionMask
+                                | KeymapStateMask | ExposureMask | VisibilityChangeMask
+                                | StructureNotifyMask | ResizeRedirectMask
+                                | SubstructureNotifyMask | SubstructureRedirectMask
+                                | FocusChangeMask | PropertyChangeMask | ColormapChangeMask
+                                | OwnerGrabButtonMask;
+
+		this->_windowId = XCreateWindow(this->_connection,
+									     RootWindow(this->_connection, this->_screen),
+										 0, 0, 320, 320,
+										 0,
+                                         DefaultDepth(this->_connection, this->_screen),
+                                         InputOutput,
+                                         DefaultVisual(this->_connection, this->_screen),
+										 CWBorderPixel | CWColormap | CWEventMask,
+                                         &attributes);
 		XMapWindow(this->_connection, this->_windowId);
     }
 
@@ -126,27 +149,154 @@ namespace ece
 
 	void XlibImpl::processEvent(const bool blocking)
     {
+        XMapWindow(this->_connection, this->_windowId);
         if (blocking) {
     		while (XPending(this->_connection)) { //while (XPending(this->_connection)) <= blocking || XEventsQueued() <= non blocking
-            	XEvent e;
-                XNextEvent(this->_connection, &e);
-    	      	if (e.type == Expose) {
-    	        	XFillRectangle(this->_connection, this->_windowId, DefaultGC(this->_connection, this->_screen), 20, 20, 10, 10);
-    	      	}
-    	      	if (e.type == KeyPress)
-    	        	break;
+            	auto message = this->getNextMessage();
+                this->processMessage(message);
     	   	}
         }
         else {
             int n = XEventsQueued(this->_connection, QueuedAlready);
             for(int i = 0; i < n; ++i) {
-                XEvent e;
-                XNextEvent(this->_connection, &e);
-    	      	if (e.type == Expose) {
-    	        	XFillRectangle(this->_connection, this->_windowId, DefaultGC(this->_connection, this->_screen), 20, 20, 10, 10);
-    	      	}
-    	      	if (e.type == KeyPress)
-    	        	break;
+                auto message = this->getNextMessage();
+                this->processMessage(message);
+            }
+        }
+        XFlush(this->_connection);
+    }
+
+    void XlibImpl::logInfos()
+    {
+        std::string owner(XServerVendor(this->_connection));
+        auto version = std::to_string(XVendorRelease(this->_connection));
+        ServiceLoggerLocator::getService().logInfo("Xserver from: " + owner + " - version " + version + ".");
+        auto major = std::to_string(XProtocolVersion(this->_connection));
+        auto minor = std::to_string(XProtocolRevision(this->_connection));
+        ServiceLoggerLocator::getService().logInfo("Protocol X version " + major + "." + minor + " used.");
+    }
+
+    WindowMessage XlibImpl::getNextMessage()
+    {
+        XEvent e;
+//        XPeekEvent(this->_connection, &e);
+//        if(e.xany.window == this->_windowId) {
+            XNextEvent(this->_connection, &e);
+            return std::move(WindowMessage{e});
+//        }
+//        return std::move(WindowMessage{XEvent()});
+    }
+
+    void XlibImpl::processMessage(const WindowMessage & message)
+    {
+        if(message._impl.xany.window == this->_windowId) {
+            switch(message._impl.type) {
+            case KeyPress: {
+                break;
+            }
+            case KeyRelease: {
+                break;
+            }
+            case ButtonPress: {
+                break;
+            }
+            case ButtonRelease: {
+                break;
+            }
+            case MotionNotify: {
+                std::cout << message._impl.xmotion.x << " | " << message._impl.xmotion.y << std::endl;
+                break;
+            }
+            case EnterNotify: {
+                break;
+            }
+            case LeaveNotify: {
+                break;
+            }
+            case FocusIn: {
+                break;
+            }
+            case FocusOut: {
+                break;
+            }
+            case KeymapNotify: {
+                break;
+            }
+            case Expose: {
+                break;
+            }
+            case GraphicsExpose: {
+                break;
+            }
+            case NoExpose: {
+                break;
+            }
+            case VisibilityNotify: {
+                break;
+            }
+            case CreateNotify: {
+                break;
+            }
+            case DestroyNotify: {
+                break;
+            }
+            case UnmapNotify: {
+                break;
+            }
+            case MapNotify: {
+                break;
+            }
+            case MapRequest: {
+                break;
+            }
+            case ReparentNotify: {
+                break;
+            }
+            case ConfigureNotify: {
+                break;
+            }
+            case ConfigureRequest: {
+                break;
+            }
+            case GravityNotify: {
+                break;
+            }
+            case ResizeRequest: {
+                break;
+            }
+            case CirculateNotify: {
+                break;
+            }
+            case CirculateRequest: {
+                break;
+            }
+            case PropertyNotify: {
+                break;
+            }
+            case SelectionClear: {
+                break;
+            }
+            case SelectionRequest: {
+                break;
+            }
+            case SelectionNotify: {
+                break;
+            }
+            case ColormapNotify: {
+                break;
+            }
+            case ClientMessage: {
+                break;
+            }
+            case MappingNotify: {
+                break;
+            }
+            case GenericEvent: {
+                break;
+            }
+            default: {
+                break;
+            }
             }
         }
     }

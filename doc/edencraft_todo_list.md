@@ -93,6 +93,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 
 ### alpha-0.2.0 (aka. Graphic update)
 ##### Utility
++ [ ] Fractal algorithms.
 ##### Core
 + [ ] Allowing strategy for the resource manager.
 + [ ] Caping memory allocated throw resource manager.
@@ -105,8 +106,14 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] PBR lighting model.
 + [ ] IBL implementation.
 + [ ] Light emitter (spot, directional, point).
++ [ ] Toon shading
++ [ ] Reflection and Refraction.
 ##### Graphic
 + [ ] Scene graph.
++ [ ] Procedural texture generation (2D and 3D, eg. terrains).
++ [ ] Skeleton for game animation.
++ [ ] Keyframes.
++ [ ] Cinematic camera (movements, travelling, etc...).
 
 ### alpha-0.3.0 (aka. Audio update)
 ##### Utility
