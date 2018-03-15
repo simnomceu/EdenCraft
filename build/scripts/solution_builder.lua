@@ -9,40 +9,30 @@ function SolutionBuilder.build()
         location ""
         includedirs { "../extlibs/include", "../include", "../extlibs" }
         configurations {"Debug", "Release"}
-        platforms {"Win32", "Win64", "Unix32", "Unix64", "OSX"}
+        platforms {"x86", "x64"}
     	warnings 'Extra'
         language "C++"
     	cppdialect 'C++17'
 
-        filter {"platforms:Win32"}
+        filter {"platforms:x86"}
             architecture "x86"
-            system "windows"
+
+        filter {"platforms:x64"}
+            architecture "x86_64"
+
+        filter {"action:vs*"}
+            buildoptions {"/MP", "/W4"}
+
+        filter {"action:gmake"}
+            buildoptions {"-pedantic", "-Wall"}
+
+        filter {"action:vs*", "platforms:x86"}
             libdirs {"../extlibs/lib/msvc/x86"}
-			buildoptions {"/MP"}
 
-        filter {"platforms:Win64"}
-            architecture "x86_64"
-            system "windows"
+        filter {"action:vs*", "platforms:x64"}
             libdirs {"../extlibs/lib/msvc/x64"}
-			buildoptions {"/MP"}
 
-        filter {"platforms:Unix32"}
-            architecture "x86"
-            system "linux"
-            libdirs {"../extlibs/lib/gmake/x32"}
-			buildoptions {"-pedantic"}
-
-        filter {"platforms:Unix64"}
-            architecture "x86_64"
-            system "linux"
-            libdirs {"../extlibs/lib/gmake/x64"}
-			buildoptions {"-pedantic"}
-
-        filter {"platforms:OSX"}
-            architecture "x86_64"
-            system "macosx"
-            libdirs {"../extlibs/lib/gmake/x64"}
-			buildoptions {"-std=c++17", "-pedantic"}
+        filter {}
 
         filter {"configurations:Debug"}
             symbols "Default"
