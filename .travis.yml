@@ -26,6 +26,7 @@ env:
   - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
 before_install:
+  - git submodule -q update --init --recursive
   - eval "${MATRIX_EVAL}"
   - chmod +x build/premake5
 

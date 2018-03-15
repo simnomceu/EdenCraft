@@ -13,6 +13,7 @@ platform:
     - x64
 
 install:
+    - cmd: git submodule -q update --init --recursive
     - cmd: cd build && make_vs16.bat && cd ..
 
 build:
