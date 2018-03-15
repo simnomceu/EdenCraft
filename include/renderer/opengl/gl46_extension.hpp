@@ -46,17 +46,30 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
-inline void glSpecializeShader(GLuint shader, const GLchar *pEntryPoint​, GLuint numSpecializationConstants​, const GLuint *pConstantIndex​, const GLuint *pConstantValue​);
+inline void glSpecializeShader(GLuint shader, const GLchar * pEntryPoint, GLuint numSpecializationConstants, const GLuint * pConstantIndex, const GLuint * pConstantValue);
 inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
 
 /**
- * fn CALLGL46(SIGNATURE, NAME, ...)
+ * fn CALLGL46(SIGNATURE, NAME)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @brief Load the opengl 4.6 extension and call it.
+ */
+#define CALLGL46(SIGNATURE, NAME) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	return proxy();
+
+/**
+ * fn CALLGL46_V(SIGNATURE, NAME, ...)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
  * @param[in] ... The parameters to forward to the function.
  * @brief Load the opengl 4.6 extension and call it.
  */
-#define CALLGL46(SIGNATURE, NAME, ...) \
+#define CALLGL46_V(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \

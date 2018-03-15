@@ -36,16 +36,26 @@
 
 */
 
-#ifdef _MSC_VER
-#	undef min
-#	undef max
-#endif
+#ifndef CONTEXT_OPENGL_HPP
+#define CONTEXT_OPENGL_HPP
+
+#include "renderer/opengl/base_context_opengl.hpp"
 
 namespace ece
 {
-	inline BaseContextOpenGL::BaseContextOpenGL() noexcept : _minVersion{ 3, 2 }, _maxVersion{ 4, 6 } {}
-
-	inline void BaseContextOpenGL::setMinVersion(const Version<2> & minVersion) { this->_minVersion = min(max(minVersion, Version<2>{ 3, 2 }), Version<2>{ 4, 6 }); }
-	
-	inline void BaseContextOpenGL::setMaxVersion(const Version<2> & maxVersion) { this->_maxVersion = min(max(maxVersion, Version<2>{ 3, 2 }), Version<2>{ 4, 6 }); }
+	/**
+	 * @class DataContextOpenGL
+	 * @brief GLX implementation of the OpenL context.
+	 */
+	struct DataContextOpenGL
+	{
+		/**
+		 * DataContextOpenGL()
+		 * @brief Default constructor.
+		 * @throw
+		 */
+		inline DataContextOpenGL() {}
+	};
 }
+
+#endif // CONTEXT_OPENGL_HPP

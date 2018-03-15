@@ -405,7 +405,7 @@ namespace ece
 	inline Vector<T, N> Matrix<T, M, N, enabled>::operator*(const Vector<T, N> & rhs) const
 	{
 		Vector<T, N> result;
-		for (auto i = 0; i < N; ++i) {
+		for (unsigned int i = 0; i < N; ++i) {
 			result[i] = (this->row(i) * rhs).sum();
 		}
 		return result;

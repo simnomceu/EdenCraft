@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -48,9 +48,9 @@ namespace ece
 
 	template <class T>
 	inline Quaternion<T>::Quaternion(const T angle, const Vector3u<T> & axis) noexcept :
-		_w(std::cos(angle/2)), 
-		_x(axis[0]*std::sin(angle/2)), 
-		_y(axis[1] * std::sin(angle / 2)), 
+		_w(std::cos(angle/2)),
+		_x(axis[0]*std::sin(angle/2)),
+		_y(axis[1] * std::sin(angle / 2)),
 		_z(axis[2] * std::sin(angle / 2)) {}
 
 	template <class T>
@@ -99,7 +99,7 @@ namespace ece
 	{
 		Vector3u<T> lh(this->_x, this->_y, this->_z);
 		Vector3u<T> rh(rightOperator._x, rightOperator._y, rightOperator._z);
-		auto product = (rh * this->_w) + (lh * rightOperand._w) + (lh * rh);
+		auto product = (rh * this->_w) + (lh * rightOperator._w) + (lh * rh);
 		return Quaternion<T>((this->_w * rightOperator._w) + lh.dot(rh), product._x, product._y, product._z);
 	}
 
@@ -164,14 +164,14 @@ namespace ece
 	inline T Quaternion<T>::real() const noexcept { return this->_w; }
 
 	template <class T>
-	inline T Quaternion<T>::angle() const noexcept { return 2 * std::arccos(this->_w); }
+	inline T Quaternion<T>::angle() const noexcept { return 2 * std::acos(this->_w); }
 
 	template <class T>
 	inline Vector3u<T> Quaternion<T>::axis() const noexcept
 	{
-		Vector3u<T>{ this->_x / arcsin(this->angle() / 2),
-					this->_y / arcsin(this->angle() / 2),
-					this->_z / arcsin(this->angle() / 2) };
+		Vector3u<T>{ this->_x / std::asin(this->angle() / 2),
+					this->_y / std::asin(this->angle() / 2),
+					this->_z / std::asin(this->angle() / 2) };
 	}
 
 	template <class T>
