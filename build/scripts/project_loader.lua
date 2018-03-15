@@ -42,8 +42,6 @@ function ProjectLoader:processProject(proj)
 		proj:setType("ConsoleApp")
     end
 
-    local dependencies = ProjectLoader:GetDependencies(proj)
-
     project(proj:getName())
         kind(proj:getType())
         location("")
@@ -63,7 +61,7 @@ function ProjectLoader:processProject(proj)
 			flags {"ExcludeFromBuild"}
 		filter {}
 
-        links(dependencies)
+        links(ProjectLoader:GetDependencies(proj))
 
         linkoptions { proj:getLinkOptions() }
         defines { proj:getPreprocessors() }

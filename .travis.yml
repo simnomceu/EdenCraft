@@ -11,6 +11,8 @@ addons:
       - libx11-dev
       - libxcb1-dev
       - g++-7
+      - libgl1-mesa-dev
+      - mesa-utils
 
 sudo:
   required

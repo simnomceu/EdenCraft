@@ -40,11 +40,11 @@ end
 
 function PlatformSpecific:getAll()
     local result = self._common
-    filter {"system:windows"}
+    if os.target() == "windows" then
         result = Table.append(result, self._windows)
-    filter {"system:linux or macosx"}
+    elseif os.target() == "linux" or os.target() == "macosx" then
         result = Table.append(result, self._unix)
-    filter {}
+    end
     return result
 end
 

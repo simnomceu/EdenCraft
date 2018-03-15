@@ -63,7 +63,7 @@ function Project:addExtlibs(target, extlibs)
         self._extlibs:addToCommon(extlibs)
     elseif target == "Unix" then
         self._extlibs:addToUnix(extlibs)
-    elseif target == "Window" then
+    elseif target == "Windows" then
         self._extlibs:addToWindows(extlibs)
     end
 end
