@@ -33,14 +33,13 @@ env:
 before_install:
   - git submodule -q update --init --recursive
   - eval "${MATRIX_EVAL}"
-  - chmod +x build/premake5
+  - chmod +x build/premake5_${TRAVIS_OS_NAME}
 
 install:
 
 script:
-  - cd build && ./premake5 gmake
+  - cd build && ./premake5_${TRAVIS_OS_NAME} gmake
   - make config=debug_unix64 && cd ..
-  - g++ --version
 
 after_script:
   - cd build && ./clear_build.sh && cd ..

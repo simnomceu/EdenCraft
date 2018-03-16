@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./premake5 codelite
+./premake5_linux codelite
