@@ -55,11 +55,11 @@ namespace ece
 	{
 	public:
 		/**
-		 * @fn constexpr ContextOpenGL() noexcept
+		 * @fn ContextOpenGL()
 		 * @brief Default constructor.
 		 * @throw noexcept
 		 */
-		constexpr ContextOpenGL() noexcept;
+		ContextOpenGL();
 
 		/**
 		 * @fn ContextOpenGL(const ContextOpenGL & copy) noexcept
@@ -82,7 +82,7 @@ namespace ece
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~ContextOpenGL() noexcept = default;
+		~ContextOpenGL() noexcept;
 
 		/**
 		 * @fn ContextOpenGL & operator=(const ContextOpenGL & copy) noexcept

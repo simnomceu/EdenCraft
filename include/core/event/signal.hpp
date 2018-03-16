@@ -1,22 +1,22 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                
-															 d8P'  `Y8b                               
-															888           .ooooo.  oooo d8b  .ooooo.  
-															888          d88' `88b `888""8P d88' `88b 
-															888          888   888  888     888ooo888 
-															`88b    ooo  888   888  888     888    .o 
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
-                                          
-                                          
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+
+
 
 				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -64,11 +64,11 @@ namespace ece
 		Signal() = delete;
 
 		/**
-		 * @fn Signal(const GlobalSignalID id)
+		 * @fn Signal(const GlobalSignalID & id)
 		 * @param[in] id The global id to use.
 		 * @brief Build a signal with a specific global id.
 		 */
-		inline Signal(const GlobalSignalID id);
+		inline Signal(const GlobalSignalID & id);
 
 		/**
 		 * @fn Signal(const Signal & copy)
@@ -79,7 +79,7 @@ namespace ece
 		Signal(const Signal & copy) = default;
 
 		/**
-		 * @fn Signal(Signal && move) 
+		 * @fn Signal(Signal && move)
 		 * @param[in] move The signal to move.
 		 * @brief Default move constructor.
 		 */
@@ -116,21 +116,21 @@ namespace ece
 		 * @brief Get the global id of the signal.
 		 * @throw
 		 */
-		inline const GlobalSignalID getId() const;
-		
+		inline const GlobalSignalID & getId() const;
+
 		/**
-		 * @fn const bool isDirty() const
+		 * @fn bool isDirty() const
 		 * @return True if the signal should be destroyed, else false.
 		 * @brief Check if the signal is dirt or not.
 		 * @throw
 		 */
-		inline const bool isDirty() const;
+		inline bool isDirty() const;
 
 		/**
 		 * @fn void setDirty(const bool dirty)
 		 * @param[in] dirty The new value of the tag.
 		 * @brief Modify the dirty tag of the signal.
-		 * @throw 
+		 * @throw
 		 */
 		inline void setDirty(const bool dirty);
 

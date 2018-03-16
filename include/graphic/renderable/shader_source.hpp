@@ -1,25 +1,25 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                  oooo         o8o            
-															 d8P'  `Y8b                                 `888         `"'            
-															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.  
-															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8 
-															888     ooooo  888      .oP"888   888   888  888   888   888  888       
-															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8 
-															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P' 
-																							  888                                   
-																							 o888o                                  
-                                                                       
-                                          
-                                     
+															  .oooooo.                                  oooo         o8o
+															 d8P'  `Y8b                                 `888         `"'
+															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
+															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
+															888     ooooo  888      .oP"888   888   888  888   888   888  888
+															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
+															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
+																							  888
+																							 o888o
+
+
+
 				This file is part of EdenCraft Engine - Graphic module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -43,23 +43,10 @@
 
 #include <string>
 
+#include "renderer/enum.hpp"
+
 namespace ece
 {
-	/**
-	 * @enum ShaderType
-	 * @brief The type of shader.
-	 */
-	enum ShaderType : unsigned short int
-	{
-		COMPUTE_SHADER = 0,
-		FRAGMENT_SHADER = 1,
-		GEOMETRY_SHADER = 2,
-		VERTEX_SHADER = 3,
-		TESS_EVALUATION_SHADER = 4,
-		TESS_CONTROL_SHADER = 5,
-		NULL_TYPE_SHADER
-	};
-
 	/**
 	 * @class ShaderSource
 	 * @brief The sources of a shader program.
@@ -125,7 +112,7 @@ namespace ece
 		virtual const ShaderType & getType() const = 0;
 
 		/**
-		 * @fn const std::string & getSource() const 
+		 * @fn const std::string & getSource() const
 		 * @return The source.
 		 * @brief Get the source of the shader.
 		 * @throw

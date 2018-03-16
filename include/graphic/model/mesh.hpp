@@ -1,25 +1,25 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                  oooo         o8o            
-															 d8P'  `Y8b                                 `888         `"'            
-															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.  
-															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8 
-															888     ooooo  888      .oP"888   888   888  888   888   888  888       
-															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8 
-															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P' 
-																							  888                                   
-																							 o888o                                  
-                                                                       
-                                          
-                                     
+															  .oooooo.                                  oooo         o8o
+															 d8P'  `Y8b                                 `888         `"'
+															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
+															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
+															888     ooooo  888      .oP"888   888   888  888   888   888  888
+															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
+															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
+																							  888
+																							 o888o
+
+
+
 				This file is part of EdenCraft Engine - Graphic module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -117,12 +117,12 @@ namespace ece
 		bool loadFromFile(const std::string & filename);
 
 		/**
-		 * @fn const unsigned int size() const
+		 * @fn unsigned int size() const
 		 * @return The number of vertices of the mesh.
 		 * @brief Get the number of vertices of the mesh.
 		 * @throw
 		 */
-		inline const unsigned int size() const;
+		inline unsigned int size() const;
 
 		/**
 		 * @fn Box3D getBouncingBox() const
@@ -133,7 +133,7 @@ namespace ece
 		Box3D getBouncingBox() const;
 
 		/**
-		 * @fn std::vector<FloatVector3u> getPositions() const 
+		 * @fn std::vector<FloatVector3u> getPositions() const
 		 * @return The list of vertices of the mesh.
 		 * @brief Get the list of vertices of the mesh.
 		 * @throw
@@ -141,7 +141,7 @@ namespace ece
 		inline virtual std::vector<FloatVector3u> getPositions() const override;
 
 		/**
-		 * @fn std::vector<FloatVector3u> getColors() const 
+		 * @fn std::vector<FloatVector3u> getColors() const
 		 * @return The list of vertex colors of the mesh.
 		 * @brief Get the list of vertex colors of the mesh.
 		 * @throw
@@ -149,7 +149,7 @@ namespace ece
 		inline virtual std::vector<FloatVector3u> getColors() const override;
 
 		/**
-		 * @fn std::vector<FloatVector3u> getNormals() const 
+		 * @fn std::vector<FloatVector3u> getNormals() const
 		 * @return The list of vertex normals of the mesh.
 		 * @brief Get the list of vertex normals of the mesh.
 		 * @throw
@@ -157,7 +157,7 @@ namespace ece
 		inline virtual std::vector<FloatVector3u> getNormals() const override;
 
 		/**
-		 * @fn std::vector<int> getIndices() const 
+		 * @fn std::vector<int> getIndices() const
 		 * @return The list of indices of the mesh.
 		 * @brief Get the list of indices of the mesh.
 		 * @throw

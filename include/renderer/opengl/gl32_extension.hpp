@@ -1,23 +1,23 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
-                                                                       
-                                          
-                                     
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+
+
+
 				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -234,8 +234,8 @@ inline void glGetAttachedShaders(GLuint program, GLsizei maxCount, GLsizei *coun
 inline void glGetShaderInfoLog(GLuint shader, GLsizei maxLength, GLsizei *length, GLchar *infoLog);
 inline void glGetShaderSource(GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source);
 inline void glGetVertexAttribdv(GLuint index, GLenum pname, GLdouble *params);
-inline void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params); 
-inline void glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params); 
+inline void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params);
+inline void glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params);
 inline void glGetVertexAttribIiv(GLuint index, GLenum pname, GLint *params);
 inline void glGetVertexAttribIuiv(GLuint index, GLenum pname, GLuint *params);
 inline void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid ** pointer);
@@ -247,7 +247,7 @@ inline void glGetProgramInfoLog(GLuint program, GLsizei maxLength, GLsizei *leng
 inline void glGetMultisamplefv(GLenum pname, GLuint index, GLfloat *val);
 inline void glPointSize(GLfloat size);
 inline void glPointParameterf(GLenum pname, GLfloat param);
-inline void glPointParameteri(GLenum pname, GLint param); 
+inline void glPointParameteri(GLenum pname, GLint param);
 inline void glPointParameterfv(GLenum pname, const GLfloat * params);
 inline void glPointParameteriv(GLenum pname, const GLint * params);
 inline void glLineWidth(GLfloat width);
@@ -391,10 +391,23 @@ inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
  * fn CALLGL32(SIGNATURE, NAME, ...)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
+ * @brief Load the opengl 3.2 extension and call it.
+ */
+#define CALLGL32(SIGNATURE, NAME) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	return proxy();
+
+/**
+ * fn CALLGL32_V(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
  * @param[in] ... The parameters to forward to the function.
  * @brief Load the opengl 3.2 extension and call it.
  */
-#define CALLGL32(SIGNATURE, NAME, ...) \
+#define CALLGL32_V(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \

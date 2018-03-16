@@ -1,22 +1,22 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-																  .o.                             
-																 .888.                            
-																.8"888.     oo.ooooo.  oo.ooooo.  
-															   .8' `888.     888' `88b  888' `88b 
-															  .88ooo8888.    888   888  888   888 
-															 .8'     `888.   888   888  888   888 
-															o88o     o8888o  888bod8P'  888bod8P' 
-																			 888        888       
-																			o888o      o888o     
+																  .o.
+																 .888.
+																.8"888.     oo.ooooo.  oo.ooooo.
+															   .8' `888.     888' `88b  888' `88b
+															  .88ooo8888.    888   888  888   888
+															 .8'     `888.   888   888  888   888
+															o88o     o8888o  888bod8P'  888bod8P'
+																			 888        888
+																			o888o      o888o
 
 				This file is part of EdenCraft Engine - App sample.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -43,17 +43,8 @@
 #include <vector>
 #include "core/application/application.hpp"
 #include "core/event/listener.hpp"
-#include "window/window_refactor/window.hpp"
+#include "window/common/window.hpp"
 #include "core/event/listener.hpp"
-
-/**
- * @class	Game
- *
- * @brief	A game.
- *
- * @author	PIERRE
- * @date	14/08/2016
- */
 
 class Game: public ece::Application, public ece::Listener
 {

@@ -2,11 +2,13 @@
 
 -- more_cube.lua
 
-settings = {
-        name = "more_cube",
-        type = "ConsoleApp",
-        dependencies = {"utility", "core", "window", "renderer"},
-        extlibs = {"opengl32"}
-}
+local Project = require "scripts.helpers.project"
+
+local settings = Project:new()
+
+settings:setName("more_cube")
+settings:setType("ConsoleApp")
+settings:addDependencies{"renderer", "window", "core", "utility"}
+
 
 return settings

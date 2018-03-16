@@ -1,23 +1,23 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
-                                                                       
-                                          
-                                     
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+
+
+
 				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -68,7 +68,7 @@ namespace ece
 	{
 	public:
 		/**
-		 * @fn ~OpenGL() noexcept ~OpenGL() noexcept 
+		 * @fn ~OpenGL() noexcept ~OpenGL() noexcept
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
@@ -104,19 +104,7 @@ namespace ece
 		static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
 		static inline void bindVertexArray(const Handle handle);
 		template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset);
-		template<> static inline void vertexAttribPointer<short>(const int location, const int size, const bool normalized, const int offset);
-		template<> static inline void vertexAttribPointer<unsigned short>(const int location, const int size, const bool normalized, const int offset);
-		template<> static inline void vertexAttribPointer<int>(const int location, const int size, const bool normalized, const int offset);
-		template<> static inline void vertexAttribPointer<unsigned int>(const int location, const int size, const bool normalized, const int offset);
-		template<> static inline void vertexAttribPointer<float>(const int location, const int size, const bool normalized, const int offset);
-		template<> static inline void vertexAttribPointer<double>(const int location, const int size, const bool normalized, const int offset);
 		template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<T> & data);
-		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short> & data);
-		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short> & data);
-		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<int> & data);
-		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned int> & data);
-		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
-		template<> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
 
 		// NEW DEFINITION
 
@@ -255,7 +243,7 @@ namespace ece
 //		static inline void getActiveAttrib(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, int *size, GLenum *type, char *name);
 //		static inline int getAttribLocation(unsigned int program, const char *name);
 //		static inline void bindAttribLocation(unsigned int program, unsigned int index, const char *name);
-//		static inline int getUniformLocation(unsigned int program, const char *name);
+		static inline Handle getUniformLocation(const Handle handle, const std::string & name);
 //		static inline unsigned int getUniformBlockIndex(unsigned int program, const char *uniformBlockName);
 //		static inline void getActiveUniformBlockName(unsigned int program, unsigned int uniformBlockIndex, GLsizei bufSize, GLsizei *length, char *uniformBlockName);
 //		static inline void getActiveUniformBlockiv(unsigned int program, unsigned int uniformBlockIndex, GLenum pname, int *params);
@@ -264,18 +252,6 @@ namespace ece
 //		static inline void getActiveUniform(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, int *size, GLenum *type, char *name);
 //		static inline void getActiveUniformsiv(unsigned int program, GLsizei uniformCount, const unsigned int *uniformIndices, GLenum pname, int *params);
 		template <class T, unsigned int S> static inline void uniform(const int location, const std::array<T, S> & v);
-		template <> static inline void uniform(const int location, const std::array<float, 1> & v);
-		template <> static inline void uniform(const int location, const std::array<float, 2> & v);
-		template <> static inline void uniform(const int location, const std::array<float, 3> & v);
-		template <> static inline void uniform(const int location, const std::array<float, 4> & v);
-		template <> static inline void uniform(const int location, const std::array<int, 1> & v);
-		template <> static inline void uniform(const int location, const std::array<int, 2> & v);
-		template <> static inline void uniform(const int location, const std::array<int, 3> & v);
-		template <> static inline void uniform(const int location, const std::array<int, 4> & v);
-		template <> static inline void uniform(const int location, const std::array<unsigned int, 1> & v);
-		template <> static inline void uniform(const int location, const std::array<unsigned int, 2> & v);
-		template <> static inline void uniform(const int location, const std::array<unsigned int, 3> & v);
-		template <> static inline void uniform(const int location, const std::array<unsigned int, 4> & v);
 //		static inline void uniform1fv(int location, GLsizei count, const float *value);
 //		static inline void uniform2fv(int location, GLsizei count, const float *value);
 //		static inline void uniform3fv(int location, GLsizei count, const float *value);
@@ -355,8 +331,6 @@ namespace ece
 //		static inline void texImage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, bool fixedsamplelocations);
 //		static inline void texBuffer(GLenum target, GLenum internalFormat, unsigned int buffer);
 		template <class T> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const T param);
-		template <> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const float param);
-		template <> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const int param);
 //		static inline void texParameterf(GLenum target, GLenum pname, float param);
 //		static inline void texParameteri(GLenum target, GLenum pname, int param);
 //		static inline void texParameterfv(GLenum target, GLenum pname, const float * params);
@@ -466,7 +440,7 @@ namespace ece
 //		static inline void getSamplerParameterIuiv(unsigned int sampler, GLenum pname, unsigned int * params);
 //		static inline void bindFragDataLocationIndexed(unsigned int program, unsigned int colorNumber, unsigned int index, const char *name);
 //		static inline int getFragDataIndex(unsigned int program, const char * name);
-//		
+//
 //		static inline void vertexAttribDivisor(unsigned int index, unsigned int divisor);
 //
 //		static inline void getUniformdv(unsigned int program, int location, double *params);
@@ -748,17 +722,17 @@ namespace ece
 //
 //		static inline void specializeShader(unsigned int shader, const char *pEntryPoint​, unsigned int numSpecializationConstants​, const unsigned int *pConstantIndex​, const unsigned int *pConstantValue​);
 //		static inline void polygonOffsetClamp(float factor, float units, float clamp);
-		
+
 	private:
 		/**
-		 * @fn OpenGL() noexcept 
+		 * @fn OpenGL() noexcept
 		 * @brief Default constructor.
 		 * @throw noexcept
 		 */
 		OpenGL() noexcept = default;
 
 		/**
-		 * @fn OpenGL(const OpenGL & copy) noexcept 
+		 * @fn OpenGL(const OpenGL & copy) noexcept
 		 * @param[in] copy The OpenGL instance to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
@@ -766,7 +740,7 @@ namespace ece
 		OpenGL(const OpenGL & copy) noexcept = default;
 
 		/**
-		 * @fn OpenGL(OpenGL && move) noexcept 
+		 * @fn OpenGL(OpenGL && move) noexcept
 		 * @param[in] move The OpenGL instance to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
@@ -774,7 +748,7 @@ namespace ece
 		OpenGL(OpenGL && move) noexcept = default;
 
 		/**
-		 * @fn OpenGL & operator=(const OpenGL & copy) noexcept 
+		 * @fn OpenGL & operator=(const OpenGL & copy) noexcept
 		 * @param[in] copy The OpenGL instance to copy from.
 		 * @return The OpenGL instance copied.
 		 * @brief Default move assignment operator.
@@ -783,7 +757,7 @@ namespace ece
 		OpenGL & operator=(const OpenGL & copy) noexcept = default;
 
 		/**
-		 * @fn OpenGL & operator=(OpenGL && move) noexcept 
+		 * @fn OpenGL & operator=(OpenGL && move) noexcept
 		 * @param[in] move The OpenGL instance to move.
 		 * @return The OpenGL instance moved.
 		 * @brief Default move assignment operator.
@@ -803,6 +777,34 @@ namespace ece
 		 */
 		static std::shared_ptr<BaseContextOpenGL> _currentContext;
 	};
+
+
+	template<> inline void OpenGL::vertexAttribPointer<short int>(const int location, const int size, const bool normalized, const int offset);
+	template<> inline void OpenGL::vertexAttribPointer<unsigned short int>(const int location, const int size, const bool normalized, const int offset);
+	template<> inline void OpenGL::vertexAttribPointer<int>(const int location, const int size, const bool normalized, const int offset);
+	template<> inline void OpenGL::vertexAttribPointer<unsigned int>(const int location, const int size, const bool normalized, const int offset);
+	template<> inline void OpenGL::vertexAttribPointer<float>(const int location, const int size, const bool normalized, const int offset);
+	template<> inline void OpenGL::vertexAttribPointer<double>(const int location, const int size, const bool normalized, const int offset);
+	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short int> & data);
+	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short int> & data);
+	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<int> & data);
+	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned int> & data);
+	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
+	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
+	template<> inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v);
+	template<> inline void OpenGL::uniform<float, 2>(const int location, const std::array<float, 2> & v);
+	template<> inline void OpenGL::uniform<float, 3>(const int location, const std::array<float, 3> & v);
+	template<> inline void OpenGL::uniform<float, 4>(const int location, const std::array<float, 4> & v);
+	template<> inline void OpenGL::uniform<int, 1>(const int location, const std::array<int, 1> & v);
+	template<> inline void OpenGL::uniform<int, 2>(const int location, const std::array<int, 2> & v);
+	template<> inline void OpenGL::uniform<int, 3>(const int location, const std::array<int, 3> & v);
+	template<> inline void OpenGL::uniform<int, 4>(const int location, const std::array<int, 4> & v);
+	template<> inline void OpenGL::uniform<unsigned int, 1>(const int location, const std::array<unsigned int, 1> & v);
+	template<> inline void OpenGL::uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
+	template<> inline void OpenGL::uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
+	template<> inline void OpenGL::uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
+	template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param);
+	template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param);
 }
 
 #include "renderer/opengl/opengl.inl"

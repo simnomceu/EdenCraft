@@ -1,25 +1,25 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                  oooo         o8o            
-															 d8P'  `Y8b                                 `888         `"'            
-															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.  
-															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8 
-															888     ooooo  888      .oP"888   888   888  888   888   888  888       
-															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8 
-															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P' 
-																							  888                                   
-																							 o888o                                  
-                                                                       
-                                          
-                                     
+															  .oooooo.                                  oooo         o8o
+															 d8P'  `Y8b                                 `888         `"'
+															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
+															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
+															888     ooooo  888      .oP"888   888   888  888   888   888  888
+															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
+															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
+																							  888
+																							 o888o
+
+
+
 				This file is part of EdenCraft Engine - Graphic module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -43,7 +43,7 @@
 
 namespace ece
 {
-	inline constexpr Camera::Camera() noexcept: _position{ 0.0f, 0.0f, 0.0f }, _target{ 0.0f, 0.0f, 0.0f }, _upAxis{ 0.0f, 1.0f, 0.0f } {}
+	inline Camera::Camera() noexcept: _position(), _target(), _upAxis{ 0.0f, 1.0f, 0.0f } {}
 
 	inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->_position, object.getPosition()); }
 
@@ -57,8 +57,8 @@ namespace ece
 
 	inline void Camera::moveIn(const FloatVector3u & direction) { this->updatePosition(this->_position + direction, this->_target); }
 
-	/*inline glm::mat4 Camera::getCamera() const 
-	{ 
+	/*inline glm::mat4 Camera::getCamera() const
+	{
 		return glm::lookAt(glm::vec3(this->position[X], this->position[Y], this->position[Z]),
 							glm::vec3(this->target[X], this->target[Y], this->target[Z]),
 							glm::vec3(this->upAxis[X], this->upAxis[Y], this->upAxis[Z]));

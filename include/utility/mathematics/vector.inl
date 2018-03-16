@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -53,7 +53,7 @@ namespace ece
 	template <class U>
 	inline Vector<T, Size, enabled>::Vector(const Vector<U, Size> & rhs): std::valarray<T>()
 	{
-		for (int i = 0; i < Size; ++i) {
+		for (unsigned int i = 0; i < Size; ++i) {
 			(*this)[i] = static_cast<T>(rhs[i]);
 		}
 	}
@@ -122,12 +122,12 @@ namespace ece
 		{ return Vector<T, Size, enabled>(std::move(std::valarray<T>::operator-())); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator~() const noexcept
 		{ return Vector<T, Size, enabled>(std::move(std::valarray<T>::operator~())); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<bool, Size> Vector<T, Size, enabled>::operator!() const noexcept
 		{ return Vector<bool, Size>(std::move(std::valarray<T>::operator!())); }
 
@@ -160,7 +160,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator%=(const Vector<T, Size, enabled> & v)
 	{
 		std::valarray<T>::operator%=(v);
@@ -168,7 +168,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator&=(const Vector<T, Size, enabled> & v)
 	{
 		std::valarray<T>::operator&=(v);
@@ -176,15 +176,15 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator|=(const Vector<T, Size, enabled> & v)
 	{
 		std::valarray<T>::operator|=(v);
 		return *this;
 	}
-		
+
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator^=(const Vector<T, Size, enabled> & v)
 	{
 		std::valarray<T>::operator^=(v);
@@ -192,7 +192,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator<<=(const Vector<T, Size, enabled> & v)
 	{
 		std::valarray<T>::operator<<=(v);
@@ -200,7 +200,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator>>=(const Vector<T, Size, enabled> & v)
 	{
 		std::valarray<T>::operator>>=(v);
@@ -236,7 +236,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator%=(const T & val)
 	{
 		std::valarray<T>::operator%=(val);
@@ -244,7 +244,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator&=(const T & val)
 	{
 		std::valarray<T>::operator&=(val);
@@ -252,7 +252,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator|=(const T & val)
 	{
 		std::valarray<T>::operator|=(val);
@@ -260,7 +260,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator^=(const T & val)
 	{
 		std::valarray<T>::operator^=(val);
@@ -268,7 +268,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator<<=(const T & val)
 	{
 		std::valarray<T>::operator<<=(val);
@@ -276,7 +276,7 @@ namespace ece
 	}
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> & Vector<T, Size, enabled>::operator>>=(const T & val)
 	{
 		std::valarray<T>::operator>>=(val);
@@ -312,42 +312,42 @@ namespace ece
 		{ return Vector<T, Size, enabled>(std::move(std::operator/(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator%(const Vector<T, Size, enabled> & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator%(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator&(const Vector<T, Size, enabled> & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator&(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator|(const Vector<T, Size, enabled> & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator|(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator^(const Vector<T, Size, enabled> & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator^(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator<<(const Vector<T, Size, enabled> & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator<<(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator>>(const Vector<T, Size, enabled> & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator>>(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<bool, Size> Vector<T, Size, enabled>::operator&&(const Vector<T, Size, enabled> & rhs) const
 		{ return Vector<bool, Size>(std::move(std::operator&&(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<bool, Size> Vector<T, Size, enabled>::operator||(const Vector<T, Size, enabled> & rhs) const
 		{ return Vector<bool, Size>(std::move(std::operator||(*this, rhs))); }
 
@@ -368,42 +368,42 @@ namespace ece
 		{ return Vector<T, Size, enabled>(std::move(std::operator/(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator%(const T & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator%(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator&(const T & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator&(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator|(const T & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator|(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator^(const T & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator^(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator<<(const T & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator<<(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::operator>>(const T & rhs) const
 		{ return Vector<T, Size, enabled>(std::move(std::operator>>(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<bool, Size> Vector<T, Size, enabled>::operator&&(const T & rhs) const
 		{ return Vector<bool, Size>(std::move(std::operator&&(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<bool, Size> Vector<T, Size, enabled>::operator||(const T & rhs) const
 		{ return Vector<bool, Size>(std::move(std::operator||(*this, rhs))); }
 
@@ -459,7 +459,7 @@ namespace ece
 		{ return Vector<bool, Size>(std::move(std::operator>=(*this, rhs))); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <typename forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::abs() const { return Vector<T, Size, enabled>(std::move(std::abs(*this))); }
 
 	template <class T, unsigned int Size, typename enabled>
@@ -520,7 +520,7 @@ namespace ece
 	inline double Vector<T, Size, enabled>::magnitude() const { return std::sqrt(this->dot(*this)); }
 
 	template <class T, unsigned int Size, typename enabled>
-	template <typename>
+	template <unsigned short int forward, typename>
 	inline Vector<T, Size, enabled> Vector<T, Size, enabled>::cross(const Vector<T, Size, enabled> & rightOperand) const
 	{
 		return Vector<T, Size>{(*this)[1] * rightOperand[2] - (*this)[2] * rightOperand[1],

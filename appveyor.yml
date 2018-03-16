@@ -1,12 +1,8 @@
 version: edencraft-{branch}-rev{build}
 
-branches:
-    only:
-        - feature/graphics
-
 max_jobs: 1
 
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 configuration:
     - Debug
@@ -17,8 +13,9 @@ platform:
     - x64
 
 install:
-    - cmd: cd build && makeVS14.bat && cd ..
-    
+    - cmd: git submodule -q update --init --recursive
+    - cmd: cd build && make_vs16.bat && cd ..
+
 build:
     project: build/EdenCraft.sln
     parallel: true

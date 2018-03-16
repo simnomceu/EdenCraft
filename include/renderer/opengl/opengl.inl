@@ -1,23 +1,23 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
-                                                                       
-                                          
-                                     
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+
+
+
 				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -54,14 +54,7 @@ namespace ece
 	{
 		checkErrors(glBindBuffer(static_cast<GLenum>(type), static_cast<GLuint>(handle)));
 	}
-/*
-	inline Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
-	{
-		auto location = glGetUniformLocation(handle, uniform.data());
-		OpenGL::checkErrors("OpenGL::getUniformLocation");
-		return static_cast<Handle>(location);
-	}
-	*/
+
 	inline void OpenGL::genVertexArrays(Handle & handle)
 	{
 		checkErrors(glGenVertexArrays(1, reinterpret_cast<GLuint *>(&handle)));
@@ -81,7 +74,7 @@ namespace ece
 	}
 
 	/*
-	template<class T> 
+	template<class T>
 	inline void OpenGL::uniform(const Handle uniform, const T value)
 	{
 		throw std::runtime_error("A uniform cannot be set with this type.");
@@ -100,13 +93,13 @@ namespace ece
 	}
 
 	template<>
-	inline void OpenGL::vertexAttribPointer<short>(const int location, const int size, const bool normalized, const int offset)
+	inline void OpenGL::vertexAttribPointer<short int>(const int location, const int size, const bool normalized, const int offset)
 	{
 		checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::SHORT), normalized, offset, nullptr));
 	}
 
 	template<>
-	inline void OpenGL::vertexAttribPointer<unsigned short>(const int location, const int size, const bool normalized, const int offset)
+	inline void OpenGL::vertexAttribPointer<unsigned short int>(const int location, const int size, const bool normalized, const int offset)
 	{
 		checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_SHORT), normalized, offset, nullptr));
 	}
@@ -142,13 +135,13 @@ namespace ece
 	}
 
 	template<>
-	inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short> & data)
+	inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short int> & data)
 	{
 		checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::SHORT), normalized, offset, data.data()));
 	}
 
 	template<>
-	inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short> & data)
+	inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short int> & data)
 	{
 		checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_SHORT), normalized, offset, data.data()));
 	}
@@ -411,7 +404,13 @@ namespace ece
 //	inline void OpenGL::getActiveAttrib(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
 //	inline int OpenGL::getAttribLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::bindAttribLocation(unsigned int /*program*/, unsigned int /*index*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
-//	inline int OpenGL::getUniformLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
+
+	inline Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
+	{
+		auto location = checkErrors(glGetUniformLocation(handle, uniform.data()));
+		return std::move(static_cast<Handle>(location));
+	}
+
 //	inline unsigned int OpenGL::getUniformBlockIndex(unsigned int /*program*/, const char * /*uniformBlockName*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getActiveUniformBlockName(unsigned int /*program*/, unsigned int /*uniformBlockIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformBlockName*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getActiveUniformBlockiv(unsigned int /*program*/, unsigned int /*uniformBlockIndex*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
@@ -419,7 +418,7 @@ namespace ece
 //	inline void OpenGL::getActiveUniformName(unsigned int /*program*/, unsigned int /*uniformIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformName*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getActiveUniform(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getActiveUniformsiv(unsigned int /*program*/, GLsizei /*uniformCount*/, const unsigned int * /*uniformIndices*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-	
+
 	template <class T, unsigned int S>
 	inline void OpenGL::uniform(const int location, const std::array<T, S> & v)
 	{
@@ -427,73 +426,73 @@ namespace ece
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<float, 1> & v)
+	inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v)
 	{
 		checkErrors(glUniform1f(location, v[0]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<float, 2> & v)
+	inline void OpenGL::uniform<float, 2>(const int location, const std::array<float, 2> & v)
 	{
 		checkErrors(glUniform2f(location, v[0], v[1]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<float, 3> & v)
+	inline void OpenGL::uniform<float, 3>(const int location, const std::array<float, 3> & v)
 	{
 		checkErrors(glUniform3f(location, v[0], v[1], v[2]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<float, 4> & v)
+	inline void OpenGL::uniform<float, 4>(const int location, const std::array<float, 4> & v)
 	{
 		checkErrors(glUniform4f(location, v[0], v[1], v[2], v[3]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<int, 1> & v)
+	inline void OpenGL::uniform<int, 1>(const int location, const std::array<int, 1> & v)
 	{
 		checkErrors(glUniform1i(location, v[0]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<int, 2> & v)
+	inline void OpenGL::uniform<int, 2>(const int location, const std::array<int, 2> & v)
 	{
 		checkErrors(glUniform2i(location, v[0], v[1]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<int, 3> & v)
+	inline void OpenGL::uniform<int, 3>(const int location, const std::array<int, 3> & v)
 	{
 		checkErrors(glUniform3i(location, v[0], v[1], v[2]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<int, 4> & v)
+	inline void OpenGL::uniform<int, 4>(const int location, const std::array<int, 4> & v)
 	{
 		checkErrors(glUniform4i(location, v[0], v[1], v[2], v[3]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<unsigned int, 1> & v)
+	inline void OpenGL::uniform<unsigned int, 1>(const int location, const std::array<unsigned int, 1> & v)
 	{
 		checkErrors(glUniform1ui(location, v[0]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<unsigned int, 2> & v)
+	inline void OpenGL::uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v)
 	{
 		checkErrors(glUniform2ui(location, v[0], v[1]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<unsigned int, 3> & v)
+	inline void OpenGL::uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v)
 	{
 		checkErrors(glUniform3ui(location, v[0], v[1], v[2]));
 	}
 
 	template <>
-	inline void OpenGL::uniform(const int location, const std::array<unsigned int, 4> & v)
+	inline void OpenGL::uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v)
 	{
 		checkErrors(glUniform4ui(location, v[0], v[1], v[2], v[3]));
 	}
@@ -570,7 +569,7 @@ namespace ece
 //	inline void OpenGL::pixelStorei(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::activeTexture(GLenum /*texture*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texImage3D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-	
+
 	inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data)
 	{
 		auto levelSec = (target == TextureTypeTarget::TEXTURE_RECTANGLE || target == TextureTypeTarget::PROXY_TEXTURE_RECTANGLE) ? 0 : level;
@@ -595,18 +594,18 @@ namespace ece
 //	inline void OpenGL::texImage3DMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, bool /*fixedsamplelocations*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texImage2DMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, bool /*fixedsamplelocations*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texBuffer(GLenum /*target*/, GLenum /*internalFormat*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
-	
-	template <class T> static inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const T param)
+
+	template <class T> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const T param)
 	{
-		static_assert(false, "No existing specialization for OpenGL::texParameter");
+		static_assert("No existing specialization for OpenGL::texParameter");
 	}
 
-	template <> static inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param)
+	template <> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param)
 	{
 		checkErrors(glTexParameterf(static_cast<GLenum>(target), static_cast<GLenum>(pname), param));
 	}
 
-	template <> static inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param)
+	template <> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param)
 	{
 		checkErrors(glTexParameteri(static_cast<GLenum>(target), static_cast<GLenum>(pname), param));
 	}
@@ -615,7 +614,7 @@ namespace ece
 //	inline void OpenGL::texParameteriv(GLenum /*target*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texParameterIiv(GLenum /*target*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texParameterIuiv(GLenum /*target*/, GLenum /*pname*/, const unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-	
+
 	inline void OpenGL::generateMipmap(const MipmapTarget target)
 	{
 		checkErrors(glGenerateMipmap(static_cast<GLenum>(target)));

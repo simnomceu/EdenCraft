@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -62,8 +62,8 @@ namespace ece
 		 * @brief Unique constructor for a ParserOBJ. No OBJ is loaded.
 		 * @throw
 		 */
-		inline constexpr ParserOBJ();
-		
+		inline ParserOBJ();
+
 		/**
 		 * @fn void loadFromFile(const std::string & filename)
 		 * @param[in] filename The name of the file to load data from.
@@ -126,7 +126,7 @@ namespace ece
 		 * @throw
 		 */
 		inline const std::vector<float> & getVertices();
-		
+
 		/**
 		 * @fn const std::vector<float> & getTextures()
 		 * @return The texture mapping of the current OBJ loaded.
@@ -144,7 +144,7 @@ namespace ece
 		 * @throw
 		 */
 		inline const std::vector<float> & getNormales();
-		
+
 		/**
 		 * @fn const std::vector<int> & getFaces()
 		 * @return The list of faces of the current OBJ loaded.
@@ -161,21 +161,21 @@ namespace ece
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
 		std::vector<float> _vertices;
-		
+
 		/**
 		 * @property _textures
 		 * @brief The texture mapping of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
 		std::vector<float> _textures;
-		
+
 		/**
 		 * @property _normales
 		 * @brief The list of normales of the current OBJ loaded.
 		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
 		 */
 		std::vector<float> _normales;
-		
+
 		/**
 		 * @property _faces
 		 * @brief The list of faces of the current OBJ loaded.

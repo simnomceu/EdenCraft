@@ -2,27 +2,20 @@
 
 -- project_loader.lua
 
-ProjectLoader = {projects = {}}
+local Table = require "scripts.helpers.table"
+local Project = require "scripts.helpers.project"
+
+local ProjectLoader = {projects = {}}
 
 function ProjectLoader:loadProjects()
-    local projects = os.matchfiles("scripts/projects/*.lua")
-    for key,file in pairs(projects) do
-        local f = require(string.sub(file, 1, -5))
-        local err = false
+    local files = os.matchfiles("scripts/projects/*.lua")
+    for key,file in pairs(files) do
+        local name = string.gsub(string.sub(file, 1, -5), '/', '.')
+        local f = require(name)
         if not f then
             print("Error while loading "..file)
-            err = true
-        end
-        if f.name == nil then
-          print("the project name field is not correct in "..file)
-          err = true
-        end
-        if f.type == nil or (f.type ~= "StaticLib" and f.type ~= "ConsoleApp" and f.type ~= "Test") then
-          print("the project type field is not correct in "..file)
-          err = true
-        end
-        if not err then
-            ProjectLoader.projects[key] = f
+        else
+            ProjectLoader.projects[string.lower(f:getName())] = f
         end
     end
 end
@@ -35,34 +28,22 @@ end
 
 function ProjectLoader:processProject(proj)
     local includePath, srcPath
-    local projectName = string.lower(proj.name)
+    local projectName = string.lower(proj:getName())
 
-    if proj.type == "StaticLib" then
+    if proj:getType() == "StaticLib" then
         includePath = "../include/"..projectName
         srcPath = "../src/"..projectName
-    elseif proj.type == "ConsoleApp" then
+    elseif proj:getType() == "ConsoleApp" then
         includePath = "../examples/"..projectName
         srcPath = "../examples/"..projectName
 	else
 		includePath = "../"..projectName
 		srcPath = "../"..projectName
-		proj.type = "ConsoleApp"
+		proj:setType("ConsoleApp")
     end
 
-    local dependencies = {}
-    if proj.dependencies then
-        for key,dependency in pairs(proj.dependencies) do
-            table.insert(dependencies, string.lower(dependency))
-        end
-    end
-    if proj.extlibs then
-        for key,extlib in pairs(proj.extlibs) do
-            table.insert(dependencies, string.lower(extlib))
-        end
-    end
-
-    project(proj.name)
-        kind(proj.type)
+    project(proj:getName())
+        kind(proj:getType())
         location("")
         files {
             includePath.."/**.inl",
@@ -74,29 +55,34 @@ function ProjectLoader:processProject(proj)
         }
 		filter { "system:windows", "files:**/cocoa/** or **/x11/**" }
 			flags {"ExcludeFromBuild"}
-		filter "system:linux"
-			excludes { "**/win32/**", "**/cocoa/**" }
-		filter "system:macosx"
-			excludes { "**/win32/**", "**/x11/**" }
+		filter { "system:linux", "files:**/cocoa/** or **/win32/**" }
+			flags {"ExcludeFromBuild"}
+		filter { "system:macosx", "files:**/x11/** or **/win32/**" }
+			flags {"ExcludeFromBuild"}
 		filter {}
-		
-        links(dependencies)
 
-        if proj.linkOptions then
-            filter {"system:windows"}
-                if proj.linkOptions.windows then
-                    linkoptions { proj.linkOptions.windows }
+        links(ProjectLoader:GetDependencies(proj))
+
+        linkoptions { proj:getLinkOptions() }
+        defines { proj:getPreprocessors() }
+end
+
+function ProjectLoader:GetDependencies(proj)
+    local tmpDep = proj:getExtlibs()
+    tmpDep = Table.append(tmpDep, proj:getDependencies())
+
+    for key,dependency in pairs(proj:getDependencies()) do
+        if Table.hasKey(ProjectLoader.projects, dependency) == true then
+            local subdependencies = ProjectLoader:GetDependencies(ProjectLoader.projects[dependency])
+            for subkey,subdependency in pairs(subdependencies) do
+                if not Table.hasValue(tmpDep, subdependency) then
+                    table.insert(tmpDep, subdependency)
                 end
-            filter {"system:linux or macosx"}
-                if proj.linkOptions.unix then
-                    linkoptions { proj.linkOptions.unix }
-                end
-            filter {}
+            end
         end
+    end
 
-	if proj.preprocessor then
-		defines(proj.preprocessor)
-	end
+    return tmpDep
 end
 
 return ProjectLoader

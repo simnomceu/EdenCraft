@@ -126,8 +126,6 @@ namespace ece
 		* @see http://en.cppreference.com/w/cpp/container/queue/back
 		*/
 		using std::queue<InputEvent>::back;
-
-	private:
 	};
 }
 
