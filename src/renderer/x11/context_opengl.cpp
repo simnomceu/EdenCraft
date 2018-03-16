@@ -55,10 +55,16 @@ namespace ece
 
 	ContextOpenGL::~ContextOpenGL() noexcept
 	{
+		if (this->_data->_context) {
+			glXMakeCurrent(this->_data->_display, 0, 0);
+			glXDestroyContext(this->_data->_display, this->_data->_context);
+		}
+		this->_data->_windowHandle = 0;
 	}
 
 	void ContextOpenGL::create(const RenderWindow & /*window*/)
 	{
+		OpenGL::init(this->_minVersion, this->_maxVersion);
 	}
 
 	void ContextOpenGL::swapBuffers()

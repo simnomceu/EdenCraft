@@ -54,8 +54,55 @@ namespace ece
 	{
 	}
 
-
-	GLXLoader::GLXLoader()
+	GLXLoader::GLXLoader(): _latestVersionAvailable{ 0, 0 }, _dummy{ nullptr, 0, 0 }
 	{
+	}
+
+	void GLXLoader::initDummyContext()
+	{
+		this->_dummy.display = XOpenDisplay(0);
+		this->_dummy.window = XCreateSimpleWindow(this->_dummy.display, DefaultRootWindow(this->_dummy.display), 0, 0, 0, 0, 0, 0, 0);
+		if (this->_dummy.window) {
+			static int visual_attribs[] = {
+		        GLX_RENDER_TYPE, GLX_RGBA_BIT,
+		        GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+		        GLX_DOUBLEBUFFER, true,
+		        GLX_RED_SIZE, 1,
+		        GLX_GREEN_SIZE, 1,
+		        GLX_BLUE_SIZE, 1,
+		        None
+		    };
+
+			int nbFBConfig = 0;
+    		GLXFBConfig * FBConfig = glXChooseFBConfig(this->_dummy.display, DefaultScreen(this->_dummy.display), visual_attribs, &nbFBConfig);
+			if (!FBConfig) {
+				throw std::runtime_error("No frame buffer configuration choosen for OpenGL dummy context.");
+			}
+			XVisualInfo * visualInfo = glXGetVisualFromFBConfig(this->_dummy.display, FBConfig[0]);
+			this->_dummy.context = glXCreateContext(this->_dummy.display, visualInfo, 0, GL_TRUE);
+		}
+
+		glXCreateContextAttribs(nullptr, 0, 0, false, nullptr); //dummy call
+	}
+
+	Version<2> & GLXLoader::getLatestVersionAvailable()
+	{
+		if (this->_latestVersionAvailable == Version<2>{ 0, 0 }) {
+			std::string versionPtr(reinterpret_cast<const char *>(glGetString(GL_VERSION)));
+			this->_latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
+			this->_latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
+		}
+		return this->_latestVersionAvailable;
+	}
+
+	void GLXLoader::terminateDummyContext()
+	{
+		if (this->_dummy.context) {
+			glXMakeCurrent(this->_dummy.display, 0, 0);
+			glXDestroyContext(this->_dummy.display, this->_dummy.context);
+
+			this->_dummy.display = nullptr;
+			XDestroyWindow(this->_dummy.display, this->_dummy.window);
+		}
 	}
 }

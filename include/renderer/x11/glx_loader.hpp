@@ -40,6 +40,11 @@
 #ifndef GLX_LOADER_HPP
 #define GLX_LOADER_HPP
 
+#include "GL/glcorearb.h"
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <GL/glx.h>
 #include <array>
 
 #include "utility/indexing/version.hpp"
@@ -68,6 +73,27 @@ namespace ece
 		 */
 		~GLXLoader() noexcept;
 
+		/**
+		 * @fn void initDummyContext()
+		 * @brief Create a dummy context to initialize the core of OpenGL.
+		 * @throw
+		 */
+		void initDummyContext();
+
+		/**
+		 * @fn Version<2> & getLatestVersionAvailable()
+		 * @return The latest version available of OpenGL.
+		 * @brief Get the latest version available of OpenGL.
+		 * @throw
+		 */
+		Version<2> & getLatestVersionAvailable();
+
+		/**
+		 * @fn void terminateDummyContext()
+		 * @brief Delete the dummycontext used to initialize the core of OpenGL.
+		 * @throw
+		 */
+		void terminateDummyContext();
 	private:
 		/**
 		 * @fn GLXLoader()
@@ -76,6 +102,22 @@ namespace ece
 		 */
 		GLXLoader();
 
+
+		/**
+		 * @property _latestVersionAvailable
+		 * @brief The latest version available of OpenGL.
+		 */
+		Version<2> _latestVersionAvailable;
+
+		/**
+		 * @property _dummy
+		 * @brief The dummy context to use.
+		 */
+		struct {
+			Display * display;
+			GLXContext context;
+			Window window;
+		} _dummy;
 	};
 }
 
