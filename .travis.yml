@@ -20,7 +20,12 @@ sudo:
 notifications:
   email: false
 
-compiler: g++
+compiler:
+  - g++
+
+os:
+  - linux
+  - osx
 
 env:
   - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
