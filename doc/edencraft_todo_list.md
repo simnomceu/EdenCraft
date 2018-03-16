@@ -167,6 +167,8 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ### alpha-0.7.0 (aka. Intelligent update)
 ##### Utility
 ##### Core
++ [ ] Lua binding.
++ [ ] Python binding.
 ##### Window
 ##### Renderer
 ##### Graphic
@@ -174,6 +176,9 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Network
 ##### Physic
 ##### IA
++ [ ] Single layer perceptron (Feedforward).
++ [ ] Multi layer perceptron (Feedforward).
++ [ ] Back propagation.
 
 ## Beta guideline
 
