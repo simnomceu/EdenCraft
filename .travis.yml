@@ -31,12 +31,13 @@ os:
   - osx
 
 env:
-  - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-#  - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-  - CONFIG="debug"
-  - CONFIG="release"
-  - PLATFORM="x86"
-  - PLATFORM="x64"
+  matrix:
+    - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    #  - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+    - CONFIG="debug"
+    - CONFIG="release"
+#    - PLATFORM="x86"
+    - PLATFORM="x64"
 
 matrix:
   exclude:
