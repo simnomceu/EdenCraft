@@ -36,36 +36,26 @@
 
 */
 
-#include "renderer/opengl/context_opengl.hpp"
-#include "renderer/x11/data_context_opengl.hpp"
 
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/x11/glx_loader.hpp"
+
 #include "renderer/x11/glx_extension.hpp"
-#include "renderer/common/render_window.hpp"
-#include "window/common/window_adapter.hpp"
-#include "window/x11/data_window_adapter.hpp"
-#include "utility/log/service_logger.hpp"
-#include "renderer/opengl/debugging.hpp"
+#include "renderer/opengl/opengl_extension.hpp"
 
 namespace ece
 {
-	ContextOpenGL::ContextOpenGL(): BaseContextOpenGL(), _data(makePimpl<DataContextOpenGL>())
+	GLXLoader & GLXLoader::getInstance()
+	{
+		static GLXLoader instance;
+		return instance;
+	}
+
+	GLXLoader::~GLXLoader() noexcept
 	{
 	}
 
-	ContextOpenGL::~ContextOpenGL() noexcept
-	{
-	}
 
-	void ContextOpenGL::create(const RenderWindow & /*window*/)
-	{
-	}
-
-	void ContextOpenGL::swapBuffers()
-	{
-	}
-
-	void ContextOpenGL::setCurrent()
+	GLXLoader::GLXLoader()
 	{
 	}
 }

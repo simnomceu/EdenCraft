@@ -36,36 +36,47 @@
 
 */
 
-#include "renderer/opengl/context_opengl.hpp"
-#include "renderer/x11/data_context_opengl.hpp"
 
-#include "renderer/opengl/opengl.hpp"
-#include "renderer/x11/glx_extension.hpp"
-#include "renderer/common/render_window.hpp"
-#include "window/common/window_adapter.hpp"
-#include "window/x11/data_window_adapter.hpp"
-#include "utility/log/service_logger.hpp"
-#include "renderer/opengl/debugging.hpp"
+#ifndef GLX_LOADER_HPP
+#define GLX_LOADER_HPP
+
+#include <array>
+
+#include "utility/indexing/version.hpp"
 
 namespace ece
 {
-	ContextOpenGL::ContextOpenGL(): BaseContextOpenGL(), _data(makePimpl<DataContextOpenGL>())
+	/**
+	 * @class GLXoader
+	 * @brief OpenGL loader for Windows platform.
+	 */
+	class GLXLoader
 	{
-	}
+	public:
+		/**
+		 * @fn GLXLoader & getInstance()
+		 * @return The singleton.
+		 * @brief Get the unique instance of the loader.
+		 * @throw
+		 */
+		static GLXLoader & getInstance();
 
-	ContextOpenGL::~ContextOpenGL() noexcept
-	{
-	}
+		/**
+		 * @fn ~GLXLoader() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~GLXLoader() noexcept;
 
-	void ContextOpenGL::create(const RenderWindow & /*window*/)
-	{
-	}
+	private:
+		/**
+		 * @fn GLXLoader()
+		 * @brief Default constructor.
+		 * @throw
+		 */
+		GLXLoader();
 
-	void ContextOpenGL::swapBuffers()
-	{
-	}
-
-	void ContextOpenGL::setCurrent()
-	{
-	}
+	};
 }
+
+#endif // GLX_LOADER_HPP

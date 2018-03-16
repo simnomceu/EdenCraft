@@ -36,36 +36,23 @@
 
 */
 
-#include "renderer/opengl/context_opengl.hpp"
-#include "renderer/x11/data_context_opengl.hpp"
 
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl/extension_loader.hpp"
+
+#include "renderer/x11/glx_loader.hpp"
+
 #include "renderer/x11/glx_extension.hpp"
-#include "renderer/common/render_window.hpp"
-#include "window/common/window_adapter.hpp"
-#include "window/x11/data_window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
-#include "renderer/opengl/debugging.hpp"
 
 namespace ece
 {
-	ContextOpenGL::ContextOpenGL(): BaseContextOpenGL(), _data(makePimpl<DataContextOpenGL>())
+	void * loadOpenGLProc(const std::string & /*name*/, const Version<2> & /*requiredVersion*/)
 	{
+		return nullptr;
 	}
 
-	ContextOpenGL::~ContextOpenGL() noexcept
+	Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 	{
-	}
-
-	void ContextOpenGL::create(const RenderWindow & /*window*/)
-	{
-	}
-
-	void ContextOpenGL::swapBuffers()
-	{
-	}
-
-	void ContextOpenGL::setCurrent()
-	{
+		return max(minVersionGL, maxVersionGL);
 	}
 }

@@ -23,7 +23,7 @@ notifications:
   email: false
 
 compiler:
-  - gcc
+  - g++
 #  - clang
 
 os:
@@ -39,12 +39,6 @@ env:
     - CONFIG="debug"
     - CONFIG="release"
 #    - PLATFORM="x86"
-
-matrix:
-  exclude:
-    - os: osx
-      env:
-        - PLATFORM="x86"
 
 before_install:
   - git submodule -q update --init --recursive

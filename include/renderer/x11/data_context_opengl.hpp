@@ -36,8 +36,8 @@
 
 */
 
-#ifndef CONTEXT_OPENGL_HPP
-#define CONTEXT_OPENGL_HPP
+#ifndef DATA_CONTEXT_OPENGL_HPP
+#define DATA_CONTEXT_OPENGL_HPP
 
 #include "renderer/opengl/base_context_opengl.hpp"
 
@@ -58,4 +58,4 @@ namespace ece
 	};
 }
 
-#endif // CONTEXT_OPENGL_HPP
+#endif // DATA_CONTEXT_OPENGL_HPP
