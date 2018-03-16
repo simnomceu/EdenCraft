@@ -4,6 +4,10 @@
 *.vcxproj.user
 *.sln
 
+# Makefile project
+*.make
+Makefile
+
 # Compiled Object files
 *.slo
 *.lo
@@ -25,8 +29,8 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
+#*.a
+#*.lib
 
 #crash
 *.ipch
@@ -46,16 +50,15 @@ ipch/
 .vs/
 
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
-x86/
+#x64/
+#x86/
 bld/
 [Bb]in/
 [Oo]bj/
-[Ll]og/
 
 # User-specific files
 *.suo
@@ -74,4 +77,9 @@ bld/
 *.nuget.targets
 
 # Visual Paradigm project
-resources/uml/*
+resource/uml/*
+resource/documents/*
+
+# Git merge tool
+*.bak
+*.orig

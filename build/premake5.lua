@@ -1,47 +1,18 @@
 #!lua
 
---premake5.lua
-workspace "EdenCraft"
-	configurations { "Debug", "Release" }
-	platforms { "Win64", "Lnx64" }
-	location ""
-	architecture "x86_64"
-	language "c++"
+-- premake5.lua
 
-	filter { "configurations:Debug" }
-		symbols "On"
+local Table = require "scripts.helpers.table"
+local PlatformSpecific = require "scripts.helpers.platform_specific"
+local Project = require "scripts.helpers.project"
 
-	filter { "configurations:Release" }
-		optimize "On"
+local SolutionBuilder = require "scripts.solution_builder"
+local ProjectLoader = require "scripts.project_loader"
 
-	filter { "platforms:Win64" }
-		system "Windows"
-	
-	filter { "platforms:Lnx64" }
-		system "Linux"
-
-	filter { }
-
-	includedirs { "../include" }
-	libdirs { "../lib" }
-
-project "App"
-	kind "ConsoleApp"
-	location ""
-	files {
-		"../src/App/**.cpp",
-		"../include/App/**.hpp",
-		"../include/App/**.inl"
-	}
-	links { "Core", "glew32", "glfw3", "freeglut" }
-
-
-project "Core"
-	kind "StaticLib"
-	location ""
-	files {
-		"../src/Core/**.cpp",
-		"../include/Core/**.hpp",
-		"../include/Core/**.inl"
-	}
-	links { "glew32", "glfw3", "freeglut" }
+print("Start building solution ...")
+SolutionBuilder.build()
+print("Start loading projects ...")
+ProjectLoader:loadProjects()
+print("Start processing projects ...")
+ProjectLoader:process()
+print("Building solution completed ...")

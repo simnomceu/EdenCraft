@@ -1,0 +1,41 @@
+language: cpp
+
+dist: trusty
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - build-essential
+      - libx11-dev
+      - libxcb1-dev
+      - g++-7
+      - libgl1-mesa-dev
+      - mesa-utils
+
+sudo:
+  required
+
+notifications:
+  email: false
+
+compiler: g++
+
+env:
+  - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+before_install:
+  - git submodule -q update --init --recursive
+  - eval "${MATRIX_EVAL}"
+  - chmod +x build/premake5
+
+install:
+
+script:
+  - cd build && ./premake5 gmake
+  - make config=debug_unix64 && cd ..
+  - g++ --version
+
+after_script:
+  - cd build && ./clear_build.sh && cd ..
