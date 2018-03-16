@@ -6,6 +6,7 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty-5.0
     packages:
       - build-essential
       - libx11-dev
@@ -13,6 +14,7 @@ addons:
       - g++-7
       - libgl1-mesa-dev
       - mesa-utils
+      - clang-5.0
 
 sudo:
   required
@@ -21,7 +23,8 @@ notifications:
   email: false
 
 compiler:
-  - g++
+  - gcc
+#  - clang
 
 os:
   - linux
@@ -29,6 +32,16 @@ os:
 
 env:
   - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+#  - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+  - CONFIG="debug"
+  - CONFIG="release"
+  - PLATFORM="x86"
+  - PLATFORM="x64"
+
+matrix:
+  exclude:
+    - os: osx
+    - PLATFORM: x86
 
 before_install:
   - git submodule -q update --init --recursive
@@ -39,7 +52,7 @@ install:
 
 script:
   - cd build && ./premake5_${TRAVIS_OS_NAME} gmake
-  - make config=debug_unix64 && cd ..
+  - make config=${CONFIG}_${PLATFORM} && cd ..
 
 after_script:
   - cd build && ./clear_build.sh && cd ..
