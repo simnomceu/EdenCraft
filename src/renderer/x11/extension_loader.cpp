@@ -66,6 +66,7 @@ namespace ece
 		auto & loader = GLXLoader::getInstance();
 		loader.initDummyContext();
 		auto version = loader.getLatestVersionAvailable();
+				std::cout << version[0] << "." << version[1] << std::endl;
 		loader.terminateDummyContext();
 		return min(max(minVersionGL, version), maxVersionGL);
 	}

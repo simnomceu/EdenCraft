@@ -69,7 +69,6 @@ namespace ece
 		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_api->getWindowHandle();
 		this->_data->_display = window.getAdapter().lock()->getImpl()->_api->getDevice();
 
-		int nbFramebufferConfigs = 0;
 		const int visualAttribs[] = {
 			GLX_X_RENDERABLE, GL_TRUE,
 			GLX_RENDER_TYPE, GLX_RGBA_BIT,
@@ -87,11 +86,22 @@ namespace ece
 			GLX_SAMPLES, window.getVideoMode().getSamples(), // Number of samples,
 			None
 		};
+		int nbFramebufferConfigs = 0;
+		GLXFBConfig * framebufferConfig = nullptr;
 
-		auto framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
+		int glxMajor = 0, glxMinor = 0;
+		glXQueryVersion(this->_data->_display, &glxMajor, &glxMinor);
+
+		if((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
+			framebufferConfig = glXGetFBConfigs(this->_data->_display, DefaultScreen(this->_data->_display), &nbFramebufferConfigs);
+		} else {
+			framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
+		}
+
 		if (!framebufferConfig) {
 			throw std::runtime_error("There is no video mode available for this device.");
 		}
+		std::cout << "ok" << std::endl;
 
 		auto latestVersion = OpenGL::getLatestVersion();
 		const int glVersion[] = {
@@ -99,6 +109,8 @@ namespace ece
 	        GLX_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
 	        None
 	    };
+
+		std::cout << glVersion[0] << "." << glVersion[1] << std::endl;
 
 		this->_data->_context = glXCreateContextAttribs(this->_data->_display, framebufferConfig[0], nullptr, true, glVersion);
 		if (this->_data->_context == nullptr) {

@@ -10,6 +10,7 @@ settings:setName("renderer")
 settings:setType("StaticLib")
 settings:addDependencies{"window", "core", "utility"}
 settings:addExtlibs("Windows", {"opengl32"})
-settings:addExtlibs("Unix", {"GL"})
+settings:addExtlibs("Linux", {"GL"})
+settings:addExtlibs("MacOSX", {"GL"})
 
 return settings

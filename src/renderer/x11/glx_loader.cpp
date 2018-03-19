@@ -65,12 +65,13 @@ namespace ece
 		this->_dummy.window = XCreateSimpleWindow(this->_dummy.display, DefaultRootWindow(this->_dummy.display), 0, 0, 1, 1, 0, 0, 0);
 		if (this->_dummy.window) {
 			const int visual_attribs[] = {
+				GLX_X_RENDERABLE, GL_TRUE,
 		        GLX_RENDER_TYPE, GLX_RGBA_BIT,
 		        GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
 		        GLX_DOUBLEBUFFER, true,
-		        GLX_RED_SIZE, 1,
-		        GLX_GREEN_SIZE, 1,
-		        GLX_BLUE_SIZE, 1,
+		        GLX_RED_SIZE, 8,
+		        GLX_GREEN_SIZE, 8,
+		        GLX_BLUE_SIZE, 8,
 		        None
 		    };
 
@@ -79,9 +80,12 @@ namespace ece
 
 			int glxMajor = 0, glxMinor = 0;
 			glXQueryVersion(this->_dummy.display, &glxMajor, &glxMinor);
+
 			if((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
-				ServiceLoggerLocator::getService().logWarning("GLX 1.3 is not available. Most recent version is GLX " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
+				ServiceLoggerLocator::getService().logWarning("GLX 1.3 or greater is not available. Most recent version is GLX " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
 				FBConfig = glXGetFBConfigs(this->_dummy.display, DefaultScreen(this->_dummy.display), &nbFBConfig);
+				int visualId = 0;
+        		glXGetFBConfigAttrib(this->_dummy.display, FBConfig[0], GLX_VISUAL_ID, &visualId);
 			} else {
 				ServiceLoggerLocator::getService().logInfo("GLX version: " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
 				FBConfig = glXChooseFBConfig(this->_dummy.display, DefaultScreen(this->_dummy.display), visual_attribs, &nbFBConfig);
@@ -91,7 +95,7 @@ namespace ece
 				throw std::runtime_error("No frame buffer configuration choosen for OpenGL dummy context.");
 			}
 			XVisualInfo * visualInfo = glXGetVisualFromFBConfig(this->_dummy.display, FBConfig[0]);
-			this->_dummy.context = glXCreateContext(this->_dummy.display, visualInfo, 0, true);
+			this->_dummy.context = glXCreateContext(this->_dummy.display, visualInfo, nullptr, true);
 		}
 
 		glXCreateContextAttribs(nullptr, 0, 0, false, nullptr); //dummy call
