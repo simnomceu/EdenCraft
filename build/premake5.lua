@@ -20,7 +20,7 @@ newoption {
     default = "static",
     allowed = {
         { "static", "Static libraries" },
-        { "Shared", "Shared libraries" }
+        { "shared", "Shared libraries" }
     }
 }
 

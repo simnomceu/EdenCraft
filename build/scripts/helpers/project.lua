@@ -38,7 +38,7 @@ end
 
 function Project:setType(projectType)
     assert(type(projectType) == "string", "Project:setType expects a string parameter.")
-    assert(projectType == "StaticLib" or projectType == "SharedLib" or projectType == "ConsoleApp" or projectType == "WindowedApp" or projectType == "Test", "A project type expects to be one of the following: 'ConsoleApp', 'WindowedApp', 'SharedLib', 'StaticLib', 'Test'.")
+    assert(projectType == "Lib" or projectType == "ConsoleApp" or projectType == "WindowedApp" or projectType == "Test", "A project type expects to be one of the following: 'ConsoleApp', 'WindowedApp', 'Lib', 'Test'.")
     self._type = projectType
 end
 
