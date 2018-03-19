@@ -21,7 +21,7 @@ function SolutionBuilder.build()
             architecture "x86_64"
 
         filter {"action:vs*"}
-            buildoptions {"/MP", "/W4"}
+            buildoptions {"/MP", "/W4", "/WX"}
 
         filter {"action:gmake"}
             buildoptions {"-pedantic", "-Wall"}

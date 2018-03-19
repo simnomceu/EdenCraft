@@ -42,6 +42,8 @@
 
 #include "renderer/opengl/base_context_opengl.hpp"
 
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 #include <GL/glx.h>
 #include <X11/Xlib.h>
 
@@ -76,7 +78,7 @@ namespace ece
 		 * @property _windowHandle
 		 * @brief The window concerned.
 		 */
-		Window _windowHandle;
+		::Window _windowHandle;
 	};
 }
 

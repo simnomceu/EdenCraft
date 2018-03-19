@@ -46,13 +46,27 @@
 
 namespace ece
 {
-	void * loadOpenGLProc(const std::string & /*name*/, const Version<2> & /*requiredVersion*/)
+	void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 	{
-		return nullptr;
+		auto addr = name.data();
+		auto proc = glXGetProcAddress(reinterpret_cast<const GLubyte *>(addr));
+		if (proc == nullptr) {
+			if (requiredVersion > ece::Version<2>{ 3, 2} && GLXLoader::getInstance().getLatestVersionAvailable() < requiredVersion) {
+				ServiceLoggerLocator::getService().logError(name + " is not available. You need at least a " + std::to_string(requiredVersion[0]) + "." + std::to_string(requiredVersion[1]) + " context.");
+			}
+			else {
+				ServiceLoggerLocator::getService().logError(name + " cannot be loaded.");
+			}
+		}
+		return reinterpret_cast<void *>(proc);
 	}
 
 	Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 	{
-		return max(minVersionGL, maxVersionGL);
+		auto & loader = GLXLoader::getInstance();
+		loader.initDummyContext();
+		auto version = loader.getLatestVersionAvailable();
+		loader.terminateDummyContext();
+		return min(max(minVersionGL, version), maxVersionGL);
 	}
 }

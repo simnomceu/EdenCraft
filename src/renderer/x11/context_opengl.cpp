@@ -62,16 +62,78 @@ namespace ece
 		this->_data->_windowHandle = 0;
 	}
 
-	void ContextOpenGL::create(const RenderWindow & /*window*/)
+	void ContextOpenGL::create(const RenderWindow & window)
 	{
 		OpenGL::init(this->_minVersion, this->_maxVersion);
+
+		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_api->getWindowHandle();
+		this->_data->_display = window.getAdapter().lock()->getImpl()->_api->getDevice();
+
+		int nbFramebufferConfigs = 0;
+		const int visualAttribs[] = {
+			GLX_X_RENDERABLE, GL_TRUE,
+			GLX_RENDER_TYPE, GLX_RGBA_BIT,
+			GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+			GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+			GLX_DOUBLEBUFFER, true,
+			GLX_BUFFER_SIZE, 32,
+			GLX_ALPHA_SIZE, 8,
+			GLX_RED_SIZE, 8,
+			GLX_GREEN_SIZE, 8,
+			GLX_BLUE_SIZE, 8,
+			GLX_DEPTH_SIZE, 24,
+			GLX_STENCIL_SIZE, 8,
+			GLX_SAMPLE_BUFFERS, window.getVideoMode().getSamples() > 1 ? true : false, // Enable MSAA or not
+			GLX_SAMPLES, window.getVideoMode().getSamples(), // Number of samples,
+			None
+		};
+
+		auto framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
+		if (!framebufferConfig) {
+			throw std::runtime_error("There is no video mode available for this device.");
+		}
+
+		auto latestVersion = OpenGL::getLatestVersion();
+		const int glVersion[] = {
+	        GLX_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
+	        GLX_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
+	        None
+	    };
+
+		this->_data->_context = glXCreateContextAttribs(this->_data->_display, framebufferConfig[0], nullptr, true, glVersion);
+		if (this->_data->_context == nullptr) {
+			throw std::runtime_error("The context cannot be created.");
+		}
+		glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context);
+
+		this->logInfos();
+
+		GLint flags;
+		glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+		if (flags && GL_CONTEXT_FLAG_DEBUG_BIT)
+		{
+			checkErrors(glEnable(GL_DEBUG_OUTPUT));
+			checkErrors(glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS));
+			checkErrors(glDebugMessageCallback(glDebugOutput, nullptr));
+			checkErrors(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
+		}
+
+		OpenGL::enable(Capability::DEPTH_TEST);
+		OpenGL::depthFunc(DepthFunctionCondition::LESS);
+
+		OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 
 	void ContextOpenGL::swapBuffers()
 	{
+		glXSwapBuffers(this->_data->_display, this->_data->_windowHandle);
 	}
 
 	void ContextOpenGL::setCurrent()
 	{
+		if (!glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context)) {
+			throw std::runtime_error("The context cannot be used.");
+		}
+		OpenGL::setCurrentContext(this->shared_from_this());
 	}
 }

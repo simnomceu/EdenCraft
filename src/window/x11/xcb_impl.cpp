@@ -47,6 +47,16 @@ namespace ece
     {
     }
 
+    Window XCBImpl::getWindowHandle() const
+    {
+        return 0;
+    }
+
+    Display * XCBImpl::getDevice() const
+    {
+        return nullptr;
+    }
+
 	void XCBImpl::createWindow()
     {
 		if (!this->_connection) {

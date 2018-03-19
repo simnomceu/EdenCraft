@@ -46,7 +46,7 @@ inline GLXContext glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXC
 		throw ece::OpenGLExtensionException("glXCreateContextAttribsARB");
 	}
 	if (dpy == nullptr) { // dummy call
-		return nullptr;
+		return 0;
 	}
 	return proxy(dpy, config, share_context, direct, attrib_list);
 }
