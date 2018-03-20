@@ -68,7 +68,7 @@ inline GLint glGetProgramResourceLocationIndex(GLuint program, GLenum programInt
 inline void glShaderStorageBlockBinding(GLuint program, GLuint storageBlockIndex, GLuint storageBlockBinding)
 	{ CALLGL43_V(PFNGLSHADERSTORAGEBLOCKBINDINGPROC, "glShaderStorageBlockBinding", program, storageBlockIndex, storageBlockBinding); }
 
-inline void glGetPointerv(GLenum pname, GLvoid ** params) { CALLGL43_V(PFNGLGETPOINTERVEXTPROC, "glGetPointervEXT", pname, params); }
+inline void glGetPointerv(GLenum pname, GLvoid ** params) { CALLGL43_V(PFNGLGETPOINTERVPROC, "glGetPointerv", pname, params); }
 
 inline void glTexBufferRange(GLenum target, GLenum internalFormat, GLuint buffer, GLintptr offset, GLsizeiptr size)
 	{ CALLGL43_V(PFNGLTEXBUFFERRANGEPROC, "glTexBufferRange", target, internalFormat, buffer, offset, size); }

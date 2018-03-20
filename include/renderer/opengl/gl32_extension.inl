@@ -179,7 +179,7 @@ inline void glDisablei(GLenum cap, GLuint index) { CALLGL32_V(PFNGLDISABLEIPROC,
 
 inline void glPrimitiveRestartIndex(GLuint index) { CALLGL32_V(PFNGLPRIMITIVERESTARTINDEXPROC, "glPrimitiveRestartIndex", index); }
 
-inline void glDrawArrays(GLenum mode, GLint first, GLsizei count) { CALLGL32_V(PFNGLDRAWARRAYSEXTPROC, "glDrawArraysEXT", mode, first, count); }
+inline void glDrawArrays(GLenum mode, GLint first, GLsizei count) { CALLGL32_V(PFNGLDRAWARRAYSPROC, "glDrawArrays", mode, first, count); }
 
 inline void glMultiDrawArrays(GLenum mode, const GLint * first, const GLsizei * count, GLsizei drawcount) { CALLGL32_V(PFNGLMULTIDRAWARRAYSPROC, "glMultiDrawArrays", mode, first, count, drawcount); }
 
@@ -478,7 +478,7 @@ inline void glCullFace(GLenum mode) { CALLGL32_V(PFNGLCULLFACEPROC, "glCullFace"
 
 inline void glPolygonMode(GLenum face, GLenum mode) { CALLGL32_V(PFNGLPOLYGONMODEPROC, "glPolygonMode", face, mode); }
 
-inline void glPolygonOffset(GLfloat factor, GLfloat units) { CALLGL32_V(PFNGLPOLYGONOFFSETEXTPROC, "glPolygonOffsetEXT", factor, units); }
+inline void glPolygonOffset(GLfloat factor, GLfloat units) { CALLGL32_V(PFNGLPOLYGONOFFSETPROC, "glPolygonOffset", factor, units); }
 
 inline void glPixelStoref(GLenum pname, GLfloat param) { CALLGL32_V(PFNGLPIXELSTOREFPROC, "glPixelStoref", pname, param); }
 
@@ -562,9 +562,9 @@ inline void glGenerateMipmap(GLenum target) { CALLGL32_V(PFNGLGENERATEMIPMAPPROC
 
 inline void glBindTexture(GLenum target, GLuint texture) { CALLGL32_V(PFNGLBINDTEXTUREPROC, "glBindTexture", target, texture); }
 
-inline void glDeleteTextures(GLsizei n, const GLuint * textures) { CALLGL32_V(PFNGLDELETETEXTURESEXTPROC, "glDeleteTexturesEXT", n, textures); }
+inline void glDeleteTextures(GLsizei n, const GLuint * textures) { CALLGL32_V(PFNGLDELETETEXTURESPROC, "glDeleteTextures", n, textures); }
 
-inline void glGenTextures(GLsizei n, GLuint * textures) { CALLGL32_V(PFNGLGENTEXTURESEXTPROC, "glGenTexturesEXT", n, textures); }
+inline void glGenTextures(GLsizei n, GLuint * textures) { CALLGL32_V(PFNGLGENTEXTURESPROC, "glGenTextures", n, textures); }
 
 inline void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat * params) { CALLGL32_V(PFNGLGETTEXPARAMETERFVPROC, "glGetTexParameterfv", target, pname, params); }
 
@@ -582,7 +582,7 @@ inline void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type
 
 inline void glGetCompressedTexImage(GLenum target, GLint level, GLvoid * pixels) { CALLGL32_V(PFNGLGETCOMPRESSEDTEXIMAGEPROC, "glGetCompressedTexImage", target, level, pixels); }
 
-inline GLboolean glIsTexture(GLuint texture) { R_CALLGL32_V(PFNGLISTEXTUREEXTPROC, "glIsTextureEXT", texture); }
+inline GLboolean glIsTexture(GLuint texture) { R_CALLGL32_V(PFNGLISTEXTUREPROC, "glIsTexture", texture); }
 
 inline void glHint(GLenum target, GLenum mode) { CALLGL32_V(PFNGLHINTPROC, "glHint", target, mode); }
 

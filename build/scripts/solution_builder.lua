@@ -21,10 +21,10 @@ function SolutionBuilder.build()
             architecture "x86_64"
 
         filter {"action:vs*"}
-            buildoptions {"/MP", "/W4", "/WX"}
+            buildoptions {"/MP"}
 
         filter {"action:gmake"}
-            buildoptions {"-pedantic", "-Wall"}
+            buildoptions {"-pedantic"}
 
         filter {"action:vs*", "platforms:x86"}
             libdirs {"../extlibs/lib/msvc/x86"}
@@ -36,10 +36,12 @@ function SolutionBuilder.build()
 
         filter {"configurations:Debug"}
             symbols "Default"
+            warnings "Extra"
 
         filter {"configurations:Release"}
     		optimize "On"
     		symbols "Off"
+            warnings "Off"
 
         filter {}
 end
