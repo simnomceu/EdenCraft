@@ -7,7 +7,7 @@ local SolutionBuilder = {}
 function SolutionBuilder.build()
     workspace "EdenCraft"
         location ""
-        includedirs { "../extlibs/OpenGL-Registry/api", "../extlibs/include", "../include", "../extlibs" }
+        includedirs { "../extlibs/OpenGL-Registry/api", "../include", "../extlibs" }
         configurations {"Debug", "Release"}
         platforms {"x86", "x64"}
     	warnings 'Extra'
@@ -27,10 +27,8 @@ function SolutionBuilder.build()
             buildoptions {"-pedantic"}
 
         filter {"action:vs*", "platforms:x86"}
-            libdirs {"../extlibs/lib/msvc/x86"}
 
         filter {"action:vs*", "platforms:x64"}
-            libdirs {"../extlibs/lib/msvc/x64"}
 
         filter {}
 
