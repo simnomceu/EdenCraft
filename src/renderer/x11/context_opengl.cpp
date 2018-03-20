@@ -134,6 +134,14 @@ namespace ece
 		OpenGL::depthFunc(DepthFunctionCondition::LESS);
 
 		OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+		this->_created = true;
+	}
+
+	void ContextOpenGL::terminate()
+	{
+
+		this->_created = false;
 	}
 
 	void ContextOpenGL::swapBuffers()

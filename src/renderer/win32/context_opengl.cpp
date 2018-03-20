@@ -49,8 +49,10 @@
 
 namespace ece
 {
-	ContextOpenGL::ContextOpenGL(): BaseContextOpenGL(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
+	ContextOpenGL::ContextOpenGL() noexcept : BaseContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
 	{
+		this->setMinVersion({ 3, 2 });
+		this->setMaxVersion({ 4, 6 });
 	}
 
 	ContextOpenGL::~ContextOpenGL() noexcept
@@ -139,6 +141,14 @@ namespace ece
 		OpenGL::depthFunc(DepthFunctionCondition::LESS);
 
 		OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+		this->_created = true;
+	}
+
+	void ContextOpenGL::terminate()
+	{
+		// TODO To be completed.
+		this->_created = false;
 	}
 
 	void ContextOpenGL::swapBuffers()
@@ -150,6 +160,7 @@ namespace ece
 
 	void ContextOpenGL::setCurrent()
 	{
+		make_assert(this->isCreated(), "only an existing context can be used.");
 		if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
 			throw std::runtime_error("The context cannot be used.");
 		}

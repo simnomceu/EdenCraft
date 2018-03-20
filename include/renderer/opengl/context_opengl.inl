@@ -36,16 +36,11 @@
 
 */
 
-#ifdef _MSC_VER
-#	undef min
-#	undef max
-#endif
-
 namespace ece
 {
-	inline BaseContextOpenGL::BaseContextOpenGL() noexcept : _minVersion{ 3, 2 }, _maxVersion{ 4, 6 } {}
-
-	inline void BaseContextOpenGL::setMinVersion(const Version<2> & minVersion) { this->_minVersion = min(max(minVersion, Version<2>{ 3, 2 }), Version<2>{ 4, 6 }); }
-	
-	inline void BaseContextOpenGL::setMaxVersion(const Version<2> & maxVersion) { this->_maxVersion = min(max(maxVersion, Version<2>{ 3, 2 }), Version<2>{ 4, 6 }); }
+	/*inline ContextOpenGL::ContextOpenGL() noexcept : BaseContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
+	{
+		this->setMinVersion({3, 2});
+		this->setMaxVersion({4, 6});
+	}*/
 }
