@@ -1,23 +1,15 @@
-REM Visual Studio 2015 project
-del "./*.vcxproj"
-del "./*.vcxproj.filters"
-del "./*.vcxproj.user"
-del "./*.sln"
-del "./*.VC.db"
-del "./*.VC.opendb"
-rd "./UxTheme.pdb/" /s /q
-rd "./.vs/" /s /q
+REM Visual Studio 2015/2017 project
+rd "./vs2015/" /s /q
+rd "./vs2017/" /s /q
 
 REM CodeLite project
-del "./*.project"
-del "./*.workspace"
+del "./codelite/" /s /q
 
 REM Compilation files
-rd "./bin/" /s /q
-rd "./obj/" /s /q
+rd "../bin/" /s /q
+rd "../obj/" /s /q
 
 REM Gmake project
-del "./*.make"
-del "Makefile"
+del "./gmake/" /s /q
 
 timeout /t 5

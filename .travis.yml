@@ -49,7 +49,7 @@ install:
 
 script:
   - cd build && ./premake5_${TRAVIS_OS_NAME} gmake
-  - make config=${CONFIG}_${PLATFORM} && cd ..
+  - cd gmake && make config=${CONFIG}_${PLATFORM} && cd ../..
 
 after_script:
   - cd build && ./clear_build.sh && cd ..

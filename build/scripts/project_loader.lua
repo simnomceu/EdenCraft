@@ -52,7 +52,9 @@ function ProjectLoader:processProject(proj)
         else
             kind(proj:getType())
         end
-        location("")
+        location("./" .. _ACTION)
+        objdir "../obj/%{cfg.system}/%{cfg.buildcfg}"
+        targetdir "../bin/%{cfg.system}/%{cfg.buildcfg}"
         files {
             includePath.."/**.inl",
             includePath.."/**.hpp",

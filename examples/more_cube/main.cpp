@@ -141,8 +141,8 @@ int main()
 		vao.addIndices(index, ece::BufferUsage::STATIC_DRAW);
 
 		ece::ShaderStage fsSource, vsSource;
-		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../examples/more_cube/shader.frag");
-		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../examples/more_cube/shader.vert");
+		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/shader.frag");
+		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../../examples/more_cube/shader.vert");
 		ece::EnhancedShader program;
 		program.setStage(fsSource);
 		program.setStage(vsSource);
@@ -150,7 +150,7 @@ int main()
 		renderer.setProgram(program);
 
 		ece::Texture2D texture;
-		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../examples/more_cube/emma_watson.bmp");
+		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
 		texture.bind(ece::TextureTarget::TEXTURE_2D);
 		texture.update();
 
