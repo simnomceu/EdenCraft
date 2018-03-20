@@ -7,7 +7,7 @@ local SolutionBuilder = {}
 function SolutionBuilder.build()
     workspace "EdenCraft"
         location ""
-        includedirs { "../extlibs/include", "../include", "../extlibs" }
+        includedirs { "../extlibs/OpenGL-Registry/api", "../extlibs/include", "../include", "../extlibs" }
         configurations {"Debug", "Release"}
         platforms {"x86", "x64"}
     	warnings 'Extra'
