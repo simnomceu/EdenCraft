@@ -35,6 +35,7 @@ function SolutionBuilder.build()
         filter {"configurations:Debug"}
             symbols "Default"
             warnings "Extra"
+            flags { "FatalWarnings" }
 
         filter {"configurations:Release"}
     		optimize "On"
