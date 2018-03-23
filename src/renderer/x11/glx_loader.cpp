@@ -62,43 +62,70 @@ namespace ece
 	void GLXLoader::initDummyContext()
 	{
 		this->_dummy.display = XOpenDisplay(nullptr);
-		this->_dummy.window = XCreateSimpleWindow(this->_dummy.display, DefaultRootWindow(this->_dummy.display), 0, 0, 1, 1, 0, 0, 0);
-		if (this->_dummy.window) {
+
+		int nbFBConfig = 0;
+		GLXFBConfig * FBConfig = nullptr;
+
+		int glxMajor = 0, glxMinor = 0;
+		glXQueryVersion(this->_dummy.display, &glxMajor, &glxMinor);
+
+		if((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
+			ServiceLoggerLocator::getService().logWarning("GLX 1.3 or greater is not available. Most recent version is GLX " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
+			const int visual_attribs[] = {
+		        GLX_RENDER_TYPE, GLX_RGBA_BIT,
+		        GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+				GLX_RED_SIZE, 1,
+				GLX_GREEN_SIZE, 1,
+				GLX_BLUE_SIZE, 1,
+		        None
+		    };
+			FBConfig = glXChooseFBConfig(this->_dummy.display, DefaultScreen(this->_dummy.display), visual_attribs, &nbFBConfig);
+		} else {
+			ServiceLoggerLocator::getService().logInfo("GLX version: " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
 			const int visual_attribs[] = {
 				GLX_X_RENDERABLE, GL_TRUE,
 		        GLX_RENDER_TYPE, GLX_RGBA_BIT,
 		        GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+				GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
 		        GLX_DOUBLEBUFFER, true,
-		        GLX_RED_SIZE, 8,
-		        GLX_GREEN_SIZE, 8,
-		        GLX_BLUE_SIZE, 8,
+				GLX_RED_SIZE, 8,
+				GLX_GREEN_SIZE, 8,
+				GLX_BLUE_SIZE, 8,
+				GLX_ALPHA_SIZE, 8,
+				GLX_DEPTH_SIZE, 24,
+				GLX_STENCIL_SIZE, 8,
 		        None
 		    };
-
-			int nbFBConfig = 0;
-    		GLXFBConfig * FBConfig = nullptr;
-
-			int glxMajor = 0, glxMinor = 0;
-			glXQueryVersion(this->_dummy.display, &glxMajor, &glxMinor);
-
-			if((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
-				ServiceLoggerLocator::getService().logWarning("GLX 1.3 or greater is not available. Most recent version is GLX " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
-				FBConfig = glXGetFBConfigs(this->_dummy.display, DefaultScreen(this->_dummy.display), &nbFBConfig);
-				int visualId = 0;
-        		glXGetFBConfigAttrib(this->_dummy.display, FBConfig[0], GLX_VISUAL_ID, &visualId);
-			} else {
-				ServiceLoggerLocator::getService().logInfo("GLX version: " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
-				FBConfig = glXChooseFBConfig(this->_dummy.display, DefaultScreen(this->_dummy.display), visual_attribs, &nbFBConfig);
-			}
-
-			if (!FBConfig) {
-				throw std::runtime_error("No frame buffer configuration choosen for OpenGL dummy context.");
-			}
-			XVisualInfo * visualInfo = glXGetVisualFromFBConfig(this->_dummy.display, FBConfig[0]);
-			this->_dummy.context = glXCreateContext(this->_dummy.display, visualInfo, nullptr, true);
+			FBConfig = glXChooseFBConfig(this->_dummy.display, DefaultScreen(this->_dummy.display), visual_attribs, &nbFBConfig);
 		}
 
-		glXCreateContextAttribs(nullptr, 0, 0, false, nullptr); //dummy call
+		if (!FBConfig) {
+			throw std::runtime_error("No frame buffer configuration choosen for OpenGL dummy context.");
+		}
+		XVisualInfo * visualInfo = glXGetVisualFromFBConfig(this->_dummy.display, FBConfig[0]);
+
+		XSetWindowAttributes windowsAttributes;
+    	windowsAttributes.colormap = XCreateColormap(this->_dummy.display, RootWindow(this->_dummy.display, visualInfo->screen), visualInfo->visual, AllocNone);
+    	windowsAttributes.border_pixel = 0;
+    	windowsAttributes.event_mask = StructureNotifyMask;
+
+		this->_dummy.window = XCreateWindow(this->_dummy.display,
+											RootWindow(this->_dummy.display, visualInfo->screen),
+											0, 0, 1, 1,
+											0,
+											visualInfo->depth,
+											InputOutput,
+											visualInfo->visual,
+											CWBorderPixel|CWColormap|CWEventMask,
+											&windowsAttributes);
+		XMapWindow(this->_dummy.display, this->_dummy.window);
+
+		this->_dummy.context = glXCreateNewContext(this->_dummy.display, FBConfig[0], GLX_RGBA_TYPE, nullptr, true);
+
+		glXMakeCurrent(this->_dummy.display, this->_dummy.window, this->_dummy.context);
+		glXCreateContextAttribs(nullptr, 0, nullptr, false, nullptr); //dummy call
+
+		XFree(FBConfig);
 	}
 
 	Version<2> & GLXLoader::getLatestVersionAvailable()
@@ -119,6 +146,7 @@ namespace ece
 		if (this->_dummy.context) {
 			glXMakeCurrent(this->_dummy.display, 0, 0);
 			glXDestroyContext(this->_dummy.display, this->_dummy.context);
+			XUnmapWindow(this->_dummy.display, this->_dummy.window);
 			XDestroyWindow(this->_dummy.display, this->_dummy.window);
 
 			this->_dummy.display = nullptr;

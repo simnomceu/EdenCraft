@@ -49,7 +49,7 @@
 
 namespace ece
 {
-	ContextOpenGL::ContextOpenGL(): BaseContextOpenGL(), _data(makePimpl<DataContextOpenGL>())
+	ContextOpenGL::ContextOpenGL() noexcept: BaseContext(), _data(makePimpl<DataContextOpenGL>())
 	{
 	}
 
@@ -69,53 +69,72 @@ namespace ece
 		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_api->getWindowHandle();
 		this->_data->_display = window.getAdapter().lock()->getImpl()->_api->getDevice();
 
-		const int visualAttribs[] = {
-			GLX_X_RENDERABLE, GL_TRUE,
-			GLX_RENDER_TYPE, GLX_RGBA_BIT,
-			GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-			GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-			GLX_DOUBLEBUFFER, true,
-			GLX_BUFFER_SIZE, 32,
-			GLX_ALPHA_SIZE, 8,
-			GLX_RED_SIZE, 8,
-			GLX_GREEN_SIZE, 8,
-			GLX_BLUE_SIZE, 8,
-			GLX_DEPTH_SIZE, 24,
-			GLX_STENCIL_SIZE, 8,
-			GLX_SAMPLE_BUFFERS, window.getVideoMode().getSamples() > 1 ? true : false, // Enable MSAA or not
-			GLX_SAMPLES, window.getVideoMode().getSamples(), // Number of samples,
-			None
-		};
 		int nbFramebufferConfigs = 0;
 		GLXFBConfig * framebufferConfig = nullptr;
 
 		int glxMajor = 0, glxMinor = 0;
 		glXQueryVersion(this->_data->_display, &glxMajor, &glxMinor);
-
 		if((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
-			framebufferConfig = glXGetFBConfigs(this->_data->_display, DefaultScreen(this->_data->_display), &nbFramebufferConfigs);
+			const int visualAttribs[] = {
+				GLX_X_RENDERABLE, GL_TRUE,
+		        GLX_RENDER_TYPE, GLX_RGBA_BIT,
+		        GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+				GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+		        GLX_DOUBLEBUFFER, true,
+				GLX_RED_SIZE, 8,
+				GLX_GREEN_SIZE, 8,
+				GLX_BLUE_SIZE, 8,
+				GLX_DEPTH_SIZE, 24,
+				GLX_STENCIL_SIZE, 8,
+		        None
+			};
+			framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
 		} else {
+			const int visualAttribs[] = {
+				GLX_X_RENDERABLE, GL_TRUE,
+				GLX_RENDER_TYPE, GLX_RGBA_BIT,
+				GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+				GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+				GLX_DOUBLEBUFFER, true,
+				GLX_BUFFER_SIZE, 32,
+				GLX_ALPHA_SIZE, 8,
+				GLX_RED_SIZE, 8,
+				GLX_GREEN_SIZE, 8,
+				GLX_BLUE_SIZE, 8,
+				GLX_DEPTH_SIZE, 24,
+				GLX_STENCIL_SIZE, 8,
+				GLX_SAMPLE_BUFFERS, window.getVideoMode().getSamples() > 1 ? true : false, // Enable MSAA or not
+				GLX_SAMPLES, window.getVideoMode().getSamples(), // Number of samples,
+				None
+			};
 			framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
 		}
 
 		if (!framebufferConfig) {
 			throw std::runtime_error("There is no video mode available for this device.");
 		}
+
+		auto glxExts = std::string(glXQueryExtensionsString(this->_data->_display, DefaultScreen(this->_data->_display)));
+		if (glxExts.find("GLX_ARB_create_context") == std::string::npos) {
+			std::cout << "aie aie aie" << std::endl;
+			this->_data->_context = glXCreateNewContext(this->_data->_display, framebufferConfig[0], GLX_RGBA_TYPE, nullptr, true);
+		}
+		else {
+			auto latestVersion = OpenGL::getLatestVersion();
+			const int glVersion[] = {
+		        GLX_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
+		        GLX_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
+				GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
+		        None
+		    };
+			this->_data->_context = glXCreateContextAttribs(this->_data->_display, framebufferConfig[0], nullptr, true, glVersion);
+		}
+
 		std::cout << "ok" << std::endl;
-
-		auto latestVersion = OpenGL::getLatestVersion();
-		const int glVersion[] = {
-	        GLX_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
-	        GLX_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
-	        None
-	    };
-
-		std::cout << glVersion[0] << "." << glVersion[1] << std::endl;
-
-		this->_data->_context = glXCreateContextAttribs(this->_data->_display, framebufferConfig[0], nullptr, true, glVersion);
 		if (this->_data->_context == nullptr) {
 			throw std::runtime_error("The context cannot be created.");
 		}
+		std::cout << "ok" << std::endl;
 		glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context);
 
 		this->logInfos();
