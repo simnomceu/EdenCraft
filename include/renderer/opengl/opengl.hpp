@@ -58,7 +58,7 @@ namespace ece
 {
 	using Handle = unsigned short int;
 
-	class BaseContextOpenGL;
+	class BaseContext;
 
 	/**
 	 * @class OpenGL
@@ -96,7 +96,7 @@ namespace ece
 		 * @param[in] currentContext The OpenGL context to use.
 		 * @brief Define a context as the one to currently use.
 		 */
-		static inline void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext);
+		static inline void setCurrentContext(const std::shared_ptr<BaseContext> & currentContext);
 
 		static inline void bindBuffer(const BufferType type, const Handle handle);
 		template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
@@ -775,7 +775,7 @@ namespace ece
 		 * @property _currentContext
 		 * @brief The current OpenGL context used.
 		 */
-		static std::shared_ptr<BaseContextOpenGL> _currentContext;
+		static std::shared_ptr<BaseContext> _currentContext;
 	};
 
 

@@ -1,23 +1,23 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
-                                                                       
-                                          
-                                     
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+
+
+
 				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -39,7 +39,7 @@
 #ifndef CONTEXT_OPENGL_HPP
 #define CONTEXT_OPENGL_HPP
 
-#include "renderer/opengl/base_context_opengl.hpp"
+#include "renderer/common/base_context.hpp"
 #include "utility/pattern/pimpl.hpp"
 
 namespace ece
@@ -48,18 +48,19 @@ namespace ece
 
 	/**
 	 * @class ContextOpenGL
-	 * @extends BaseContextOpenGL
+	 * @extends std::enable_shared_from_this<BaseContextOpenGL>
+	 * @extends BaseContext
 	 * @brief An OpenGL context with an implementation depending of the platform.
 	 */
-	class ContextOpenGL : public BaseContextOpenGL
+	class ContextOpenGL : public BaseContext
 	{
 	public:
 		/**
-		 * @fn ContextOpenGL()
+		 * @fn ContextOpenGL() noexcept
 		 * @brief Default constructor.
 		 * @throw noexcept
 		 */
-		ContextOpenGL();
+		ContextOpenGL() noexcept;
 
 		/**
 		 * @fn ContextOpenGL(const ContextOpenGL & copy) noexcept
@@ -101,21 +102,38 @@ namespace ece
 		 * @throw noexcept
 		 */
 		ContextOpenGL & operator=(ContextOpenGL && move) noexcept = default;
-		
+
+        /**
+         * @fn Version<2> getCurrentVersion() const;
+         * @return The current version of the render context.
+         * @brief Get the version used of the render context.
+         * @throw
+		 * @see Version<2> BaseContext::getCurrentVersion() const
+         */
+		virtual Version<2> getCurrentVersion() const override;
+
 		/**
 		 * @fn void create(const RenderWindow & window)
 		 * @param[in] window The window to linked to.
 		 * @brief Create the OpenGL context for a window.
 		 * @throw
-		 * @see void BaseContextOpenGL::create(const RenderWindow & window)
+		 * @see void BaseContext::create(const RenderWindow & window)
 		 */
 		virtual void create(const RenderWindow & window) override;
+
+        /**
+         * @fn void terminate()
+         * @brief Delete the render context.
+         * @throw
+		 * @see void BaseContext::terminate()
+         */
+         virtual void terminate() override;
 
 		/**
 		 * @fn void swapBuffers()
 		 * @brief If multi buffering is enable, it swap between buffers to display the new frame.
 		 * @throw
-		 * @see void BaseContextOpenGL::swapBuffers()
+		 * @see void BaseContext::swapBuffers()
 		 */
 		virtual void swapBuffers() override;
 
@@ -123,9 +141,17 @@ namespace ece
 		 * @fn void setCurrent()
 		 * @brief Define this content as the current one.
 		 * @throw
-		 * @see void BaseContextOpenGL::setCurrent()
+		 * @see void BaseContext::setCurrent()
 		 */
 		virtual void setCurrent() override;
+
+		/**
+		 * @fn void logInfos()
+		 * @brief Log the informations related to OpenGL and the device used.
+		 * @throw
+		 * @see void BaseContext::logInfos()
+		 */
+		virtual void logInfos() const override;
 
 	private:
 		/**
@@ -135,5 +161,7 @@ namespace ece
 		Pimpl<DataContextOpenGL> _data;
 	};
 }
+
+#include "renderer/opengl/context_opengl.inl"
 
 #endif // !CONTEXT_OPENGL_HPP

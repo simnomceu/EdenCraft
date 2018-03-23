@@ -56,9 +56,9 @@ inline void glEndQueryIndexed(GLenum target, GLuint index) { CALLGL40_V(PFNGLEND
 inline void glGetQueryIndexediv(GLenum target, GLuint index, GLenum pname, GLint * params) { CALLGL40_V(PFNGLGETQUERYINDEXEDIVPROC, "glGetQueryIndexediv", target, index, pname, params); }
 
 inline GLint glGetSubroutineUniformLocation(GLuint program, GLenum shadertype, const GLchar *name)
-	{ CALLGL40_V(PFNGLGETSUBROUTINEUNIFORMLOCATIONPROC, "glGetSubroutineUniformLocation", program, shadertype, name); }
+	{ R_CALLGL40_V(PFNGLGETSUBROUTINEUNIFORMLOCATIONPROC, "glGetSubroutineUniformLocation", program, shadertype, name); }
 
-inline GLuint glGetSubroutineIndex(GLuint program, GLenum shadertype, const GLchar *name) { CALLGL40_V(PFNGLGETSUBROUTINEINDEXPROC, "glGetSubroutineIndex", program, shadertype, name); }
+inline GLuint glGetSubroutineIndex(GLuint program, GLenum shadertype, const GLchar *name) { R_CALLGL40_V(PFNGLGETSUBROUTINEINDEXPROC, "glGetSubroutineIndex", program, shadertype, name); }
 
 inline void glGetActiveSubroutineName(GLuint program, GLenum shadertype, GLuint index, GLsizei bufsize, GLsizei *length, GLchar *name)
 	{ CALLGL40_V(PFNGLGETACTIVESUBROUTINENAMEPROC, "glGetActiveSubroutineName", program, shadertype, index, bufsize, length, name); }
@@ -77,24 +77,24 @@ inline void glGetProgramStageiv(GLuint program, GLenum shadertype, GLenum pname,
 
 inline void glPatchParameteri(GLenum pname, GLint value) { CALLGL40_V(PFNGLPATCHPARAMETERIPROC, "glPatchParameteri", pname, value); }
 
-inline  void glPatchParameterfv(GLenum pname, const GLfloat *values) { CALLGL40_V(PFNGLPATCHPARAMETERFVPROC, "glPatchParameterfv", pname, values); }
+inline void glPatchParameterfv(GLenum pname, const GLfloat *values) { CALLGL40_V(PFNGLPATCHPARAMETERFVPROC, "glPatchParameterfv", pname, values); }
 
-inline  void glDrawArraysIndirect(GLenum mode, const void * indirect) { CALLGL40_V(PFNGLDRAWARRAYSINDIRECTPROC, "glDrawArraysIndirect", mode, indirect); }
+inline void glDrawArraysIndirect(GLenum mode, const void * indirect) { CALLGL40_V(PFNGLDRAWARRAYSINDIRECTPROC, "glDrawArraysIndirect", mode, indirect); }
 
-inline  void glGenTransformFeedbacks(GLsizei n, GLuint *ids) { CALLGL40_V(PFNGLGENTRANSFORMFEEDBACKSPROC, "glGenTransformFeedbacks", n, ids); }
+inline void glGenTransformFeedbacks(GLsizei n, GLuint *ids) { CALLGL40_V(PFNGLGENTRANSFORMFEEDBACKSPROC, "glGenTransformFeedbacks", n, ids); }
 
-inline  void glDeleteTransformFeedbacks(GLsizei n, const GLuint *ids) { CALLGL40_V(PFNGLDELETETRANSFORMFEEDBACKSPROC, "glDeleteTransformFeedbacks", n, ids); }
+inline void glDeleteTransformFeedbacks(GLsizei n, const GLuint *ids) { CALLGL40_V(PFNGLDELETETRANSFORMFEEDBACKSPROC, "glDeleteTransformFeedbacks", n, ids); }
 
-inline  GLboolean glIsTransformFeedback(GLuint id) { CALLGL40_V(PFNGLISTRANSFORMFEEDBACKPROC, "glIsTransformFeedback", id); }
+inline GLboolean glIsTransformFeedback(GLuint id) { R_CALLGL40_V(PFNGLISTRANSFORMFEEDBACKPROC, "glIsTransformFeedback", id); }
 
-inline  void glBindTransformFeedback(GLenum target, GLuint id) { CALLGL40_V(PFNGLBINDTRANSFORMFEEDBACKPROC, "glBindTransformFeedback", target, id); }
+inline void glBindTransformFeedback(GLenum target, GLuint id) { CALLGL40_V(PFNGLBINDTRANSFORMFEEDBACKPROC, "glBindTransformFeedback", target, id); }
 
-inline  void glPauseTransformFeedback() { CALLGL40(PFNGLPAUSETRANSFORMFEEDBACKPROC, "glPauseTransformFeedback"); }
+inline void glPauseTransformFeedback() { CALLGL40(PFNGLPAUSETRANSFORMFEEDBACKPROC, "glPauseTransformFeedback"); }
 
-inline  void glResumeTransformFeedback() { CALLGL40(PFNGLRESUMETRANSFORMFEEDBACKPROC, "glResumeTransformFeedback"); }
+inline void glResumeTransformFeedback() { CALLGL40(PFNGLRESUMETRANSFORMFEEDBACKPROC, "glResumeTransformFeedback"); }
 
-inline  void glDrawTransformFeedback(GLenum mode, GLuint id) { CALLGL40_V(PFNGLDRAWTRANSFORMFEEDBACKPROC, "glDrawTransformFeedback", mode, id); }
+inline void glDrawTransformFeedback(GLenum mode, GLuint id) { CALLGL40_V(PFNGLDRAWTRANSFORMFEEDBACKPROC, "glDrawTransformFeedback", mode, id); }
 
-inline  void glDrawTransformFeedbackStream(GLenum mode, GLuint id, GLuint stream) { CALLGL40_V(PFNGLDRAWTRANSFORMFEEDBACKSTREAMPROC, "glDrawTransformFeedbackStream", mode, id, stream); }
+inline void glDrawTransformFeedbackStream(GLenum mode, GLuint id, GLuint stream) { CALLGL40_V(PFNGLDRAWTRANSFORMFEEDBACKSTREAMPROC, "glDrawTransformFeedbackStream", mode, id, stream); }
 
-inline  void glMinSampleShading(GLfloat value) { CALLGL40_V(PFNGLMINSAMPLESHADINGPROC, "glMinSampleShading", value); }
+inline void glMinSampleShading(GLfloat value) { CALLGL40_V(PFNGLMINSAMPLESHADINGPROC, "glMinSampleShading", value); }

@@ -36,67 +36,25 @@
 
 */
 
-#include "renderer/common/render_window.hpp"
-
-#include "renderer/opengl/context_opengl.hpp"
-
-#include "renderer/opengl/opengl.hpp"
-#include "utility/log/service_logger.hpp"
-#include "window/common/video_mode.hpp"
+#include "utility/debug/assertion.hpp"
 
 namespace ece
 {
-	RenderWindow::RenderWindow(): _context(std::make_shared<ContextOpenGL>())
-	{
-	}
+	inline BaseContext::BaseContext() noexcept: std::enable_shared_from_this<BaseContext>(), _minVersion(), _maxVersion() {}
 
-	RenderWindow::~RenderWindow() noexcept
-	{
-		this->_renderers.clear();
-	}
+    inline void BaseContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
+    {
+        make_assert(minVersion <= maxVersion, "Minimum version should be smaller than or equal to maximum version.");
 
-	void RenderWindow::open()
-	{
-		Window::open();
-		try {
-			this->_context->create(*this);
-		}
-		catch (Exception & /*e*/) {
-			throw;
-		}
-		catch (std::runtime_error & e) {
-			ServiceLoggerLocator::getService().logError(e.what());
-		}
-	}
+        this->setMinVersion(minVersion);
+        this->setMaxVersion(maxVersion);
+    }
 
-	void RenderWindow::clear()
-	{
-		if (this->isOpened()) {
-			OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
-		}
-	}
+    inline void BaseContext::setMinVersion(const Version<2> & minVersion) noexcept { this->_minVersion = minVersion; }
 
-	void RenderWindow::display()
-	{
-		this->_context->swapBuffers();
-	}
+    inline void BaseContext::setMaxVersion(const Version<2> & maxVersion) noexcept { this->_maxVersion = maxVersion; }
 
-	void RenderWindow::enableMSAA(const unsigned short int samples)
-	{
-		if (samples < 2) {
-			OpenGL::disable(Capability::MULTISAMPLE);
-		}
-		this->_videoMode.setSamples(samples);
-	}
+	inline void BaseContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
 
-	void RenderWindow::updateVideoMode()
-	{
-		if (this->_videoMode.hasChanged()) {
-			this->_context.reset();
-			this->close();
-			this->_context = std::make_shared<ContextOpenGL>();
-			this->open();
-			this->_videoMode.applyChanges();
-		}
-	}
+	bool BaseContext::isCreated() const noexcept { return this->_created; }
 }

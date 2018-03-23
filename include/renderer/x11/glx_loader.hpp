@@ -36,67 +36,89 @@
 
 */
 
-#include "renderer/common/render_window.hpp"
 
-#include "renderer/opengl/context_opengl.hpp"
+#ifndef GLX_LOADER_HPP
+#define GLX_LOADER_HPP
 
-#include "renderer/opengl/opengl.hpp"
-#include "utility/log/service_logger.hpp"
-#include "window/common/video_mode.hpp"
+#include "GL/glcorearb.h"
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <GL/glx.h>
+#include <array>
+
+#include "utility/indexing/version.hpp"
 
 namespace ece
 {
-	RenderWindow::RenderWindow(): _context(std::make_shared<ContextOpenGL>())
+	/**
+	 * @class GLXoader
+	 * @brief OpenGL loader for Windows platform.
+	 */
+	class GLXLoader
 	{
-	}
+	public:
+		/**
+		 * @fn GLXLoader & getInstance()
+		 * @return The singleton.
+		 * @brief Get the unique instance of the loader.
+		 * @throw
+		 */
+		static GLXLoader & getInstance();
 
-	RenderWindow::~RenderWindow() noexcept
-	{
-		this->_renderers.clear();
-	}
+		/**
+		 * @fn ~GLXLoader() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~GLXLoader() noexcept;
 
-	void RenderWindow::open()
-	{
-		Window::open();
-		try {
-			this->_context->create(*this);
-		}
-		catch (Exception & /*e*/) {
-			throw;
-		}
-		catch (std::runtime_error & e) {
-			ServiceLoggerLocator::getService().logError(e.what());
-		}
-	}
+		/**
+		 * @fn void initDummyContext()
+		 * @brief Create a dummy context to initialize the core of OpenGL.
+		 * @throw
+		 */
+		void initDummyContext();
 
-	void RenderWindow::clear()
-	{
-		if (this->isOpened()) {
-			OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
-		}
-	}
+		/**
+		 * @fn Version<2> & getLatestVersionAvailable()
+		 * @return The latest version available of OpenGL.
+		 * @brief Get the latest version available of OpenGL.
+		 * @throw
+		 */
+		Version<2> & getLatestVersionAvailable();
 
-	void RenderWindow::display()
-	{
-		this->_context->swapBuffers();
-	}
+		/**
+		 * @fn void terminateDummyContext()
+		 * @brief Delete the dummycontext used to initialize the core of OpenGL.
+		 * @throw
+		 */
+		void terminateDummyContext();
+	private:
+		/**
+		 * @fn GLXLoader()
+		 * @brief Default constructor.
+		 * @throw
+		 */
+		GLXLoader();
 
-	void RenderWindow::enableMSAA(const unsigned short int samples)
-	{
-		if (samples < 2) {
-			OpenGL::disable(Capability::MULTISAMPLE);
-		}
-		this->_videoMode.setSamples(samples);
-	}
 
-	void RenderWindow::updateVideoMode()
-	{
-		if (this->_videoMode.hasChanged()) {
-			this->_context.reset();
-			this->close();
-			this->_context = std::make_shared<ContextOpenGL>();
-			this->open();
-			this->_videoMode.applyChanges();
-		}
-	}
+		/**
+		 * @property _latestVersionAvailable
+		 * @brief The latest version available of OpenGL.
+		 */
+		Version<2> _latestVersionAvailable;
+
+		/**
+		 * @property _dummy
+		 * @brief The dummy context to use.
+		 */
+		struct {
+			Display * display;
+			GLXContext context;
+			Window window;
+		} _dummy;
+	};
 }
+
+#endif // GLX_LOADER_HPP

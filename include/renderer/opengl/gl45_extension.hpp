@@ -162,6 +162,19 @@ inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pname, GLuint index, 
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
+	proxy();
+
+/**
+ * fn R_CALLGL45(SIGNATURE, NAME)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @brief Load the opengl 4.5 extension and call it.
+ */
+#define R_CALLGL45(SIGNATURE, NAME) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
 	return proxy();
 
 /**
@@ -172,6 +185,20 @@ inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pname, GLuint index, 
  * @brief Load the opengl 4.5 extension and call it.
  */
 #define CALLGL45_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	proxy(__VA_ARGS__);
+
+/**
+ * fn R_CALLGL45_V(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.5 extension and call it.
+ */
+#define R_CALLGL45_V(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \

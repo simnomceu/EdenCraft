@@ -60,6 +60,19 @@ inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
+	proxy();
+
+/**
+ * fn R_CALLGL46(SIGNATURE, NAME)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @brief Load the opengl 4.6 extension and call it.
+ */
+#define R_CALLGL46(SIGNATURE, NAME) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
 	return proxy();
 
 /**
@@ -70,6 +83,20 @@ inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
  * @brief Load the opengl 4.6 extension and call it.
  */
 #define CALLGL46_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	proxy(__VA_ARGS__);
+
+/**
+ * fn R_CALLGL46_V(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.6 extension and call it.
+ */
+#define R_CALLGL46_V(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \

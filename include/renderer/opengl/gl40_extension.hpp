@@ -87,6 +87,19 @@ inline  void glMinSampleShading(GLfloat value);
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
+	proxy();
+
+/**
+ * fn R_CALLGL40(SIGNATURE, NAME)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @brief Load the opengl 4.0 extension and call it.
+ */
+#define R_CALLGL40(SIGNATURE, NAME) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
 	return proxy();
 
 /**
@@ -97,6 +110,20 @@ inline  void glMinSampleShading(GLfloat value);
  * @brief Load the opengl 4.0 extension and call it.
  */
 #define CALLGL40_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	proxy(__VA_ARGS__);
+
+/**
+ * fn R_CALLGL40_V(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.0 extension and call it.
+ */
+#define R_CALLGL40_V(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \

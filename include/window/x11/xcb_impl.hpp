@@ -38,6 +38,7 @@
 #ifndef XCB_IMPL_HPP
 #define XCB_IMPL_HPP
 
+#include <X11/Xlib.h>
 #include <xcb/xcb.h>
 
 #include "window/x11/x11_api.hpp"
@@ -99,6 +100,21 @@ namespace ece
          * @throw noexcept
          */
         XCBImpl & operator=(XCBImpl && move) noexcept = default;
+        /**
+         * Window getWindowHandle() const
+         * @return The window ID of the internal API.
+         * @brief Get the window ID of the internal API.
+         * @throw
+         */
+        virtual Window getWindowHandle() const override;
+
+        /**
+         * Display * getDevice() const
+         * @return The device associated to the window.
+         * @brief Get the device associated to the window.
+         * @throw
+         */
+        virtual Display * getDevice() const override;
 
 		/**
 		 * @fn void createWindow()

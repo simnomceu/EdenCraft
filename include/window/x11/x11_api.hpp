@@ -40,6 +40,7 @@
 
 #include <string>
 #include <vector>
+#include <X11/Xlib.h>
 
 #include "utility/mathematics/vector2u.hpp"
 #include "window/window_event/input_event.hpp"
@@ -100,6 +101,22 @@ namespace ece
          * @throw noexcept
          */
         X11API & operator=(X11API && move) noexcept = default;
+
+        /**
+         * Window getWindowHandle() const
+         * @return The window ID of the internal API.
+         * @brief Get the window ID of the internal API.
+         * @throw
+         */
+        virtual ::Window getWindowHandle() const = 0;
+
+        /**
+         * Display * getDevice() const
+         * @return The device associated to the window.
+         * @brief Get the device associated to the window.
+         * @throw
+         */
+        virtual Display * getDevice() const = 0;
 
 		/**
 		 * @fn void createWindow()

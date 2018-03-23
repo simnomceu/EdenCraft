@@ -115,6 +115,22 @@ namespace ece
          */
         XlibImpl & operator=(XlibImpl && move) noexcept = default;
 
+        /**
+         * Window getWindowHandle() const
+         * @return The window ID of the internal API.
+         * @brief Get the window ID of the internal API.
+         * @throw
+         */
+        virtual Window getWindowHandle() const override;
+
+        /**
+         * Display * getDevice() const
+         * @return The device associated to the window.
+         * @brief Get the device associated to the window.
+         * @throw
+         */
+        virtual Display * getDevice() const override;
+
 		/**
 		 * @fn void createWindow()
 		 * @brief Generate a window.

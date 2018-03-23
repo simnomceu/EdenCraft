@@ -67,6 +67,19 @@ inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffe
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
+	proxy();
+
+/**
+ * fn R_CALLGL44(SIGNATURE, NAME)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @brief Load the opengl 4.4 extension and call it.
+ */
+#define R_CALLGL44(SIGNATURE, NAME) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
 	return proxy();
 
 /**
@@ -77,6 +90,20 @@ inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffe
  * @brief Load the opengl 4.4 extension and call it.
  */
 #define CALLGL44_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	proxy(__VA_ARGS__);
+
+/**
+ * fn R_CALLGL44_V(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 4.4 extension and call it.
+ */
+#define R_CALLGL44_V(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \

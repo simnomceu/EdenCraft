@@ -30,7 +30,7 @@ function ProjectLoader:processProject(proj)
     local includePath, srcPath
     local projectName = string.lower(proj:getName())
 
-    if proj:getType() == "StaticLib" then
+    if proj:getType() == "Lib" then
         includePath = "../include/"..projectName
         srcPath = "../src/"..projectName
     elseif proj:getType() == "ConsoleApp" then
@@ -43,8 +43,18 @@ function ProjectLoader:processProject(proj)
     end
 
     project(proj:getName())
-        kind(proj:getType())
-        location("")
+        if proj:getType() == "Lib" then
+            if _OPTIONS["libs"] == "static" then
+                kind "StaticLib"
+            elseif _OPTIONS["libs"] == "shared" then
+                kind "SharedLib"
+            end
+        else
+            kind(proj:getType())
+        end
+        location("./" .. _ACTION)
+        objdir "../obj/%{cfg.system}/%{cfg.buildcfg}"
+        targetdir "../bin/%{cfg.system}/%{cfg.buildcfg}"
         files {
             includePath.."/**.inl",
             includePath.."/**.hpp",

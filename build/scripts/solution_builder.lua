@@ -6,8 +6,8 @@ local SolutionBuilder = {}
 
 function SolutionBuilder.build()
     workspace "EdenCraft"
-        location ""
-        includedirs { "../extlibs/include", "../include", "../extlibs" }
+        location("./" .. _ACTION)
+        includedirs { "../extlibs/OpenGL-Registry/api", "../include", "../extlibs" }
         configurations {"Debug", "Release"}
         platforms {"x86", "x64"}
     	warnings 'Extra'
@@ -21,25 +21,26 @@ function SolutionBuilder.build()
             architecture "x86_64"
 
         filter {"action:vs*"}
-            buildoptions {"/MP", "/W4"}
+            buildoptions {"/MP"}
 
         filter {"action:gmake"}
-            buildoptions {"-pedantic", "-Wall"}
+            buildoptions {"-pedantic"}
 
         filter {"action:vs*", "platforms:x86"}
-            libdirs {"../extlibs/lib/msvc/x86"}
 
         filter {"action:vs*", "platforms:x64"}
-            libdirs {"../extlibs/lib/msvc/x64"}
 
         filter {}
 
         filter {"configurations:Debug"}
             symbols "Default"
+            warnings "Extra"
+            flags { "FatalWarnings" }
 
         filter {"configurations:Release"}
     		optimize "On"
     		symbols "Off"
+            warnings "Off"
 
         filter {}
 end
