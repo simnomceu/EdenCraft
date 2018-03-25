@@ -40,6 +40,7 @@
 #define VECTOR_OPERATOR_HPP
 
 #include "utility/template_expression/vector_expression.hpp"
+#include "utility/template_expression/vector.hpp"
 
 namespace ece
 {
@@ -51,8 +52,8 @@ namespace ece
 	 * @tparam T2 The type of elements in the right hand side element.
 	 * @brief The sum of to vector.
 	 */
-	template <class E1, class E2, typename T1, typename T2>
-	class VectorSum
+	template <typename T1, typename T2, unsigned int Size>
+	class VectorSum: public VectorExpression<VectorSum<T1, T2, Size>, std::common_type_t<T1, T2>>
 	{
 	public:
 		/**
@@ -61,6 +62,15 @@ namespace ece
 		 * @throw noexcept
 		 */
 		constexpr VectorSum() noexcept = default;
+
+		/**
+		 * @fn VectorSum(const E1 & lhs, const E2 & rhs) noexcept
+		 * @param[in] lhs Left hand side of the vector sum operation.
+		 * @param[in] rhs Right hand side of the vector sum operation.
+		 * @brief Build a vector sum expression from to factors.
+		 * @throw noexcept
+		 */
+		inline VectorSum(const Vector<T1, Size> & lhs, const Vector<T2, Size> & rhs) noexcept;
 
 		/**
 		 * @fn VectorSum(const VectorSum & copy) noexcept
@@ -103,17 +113,19 @@ namespace ece
 		 */
 		VectorSum & operator=(VectorSum && move) noexcept = default;
 
-		inline std::common_type<T1, T2> operator[](const unsigned int index) const;
+		inline std::common_type_t<T1, T2> operator[](const unsigned int index) const;
 
 		inline unsigned int size() const;
 
 	protected:
-		const E1 & _lhs;
-		const E2 & _rhs;
+		const Vector<T1, Size> & _lhs;
+		const Vector<T2, Size> & _rhs;
 	};
 
-	template <class E1, class E2, typename T1, typename T2>
-	VectorSum<E1, E2, T1, T2> operator+(const E1 &)
+	template <typename T1, typename T2, unsigned int Size>
+	VectorSum<T1, T2, Size> operator+(const Vector<T1, Size> & lhs, const Vector<T2, Size> & rhs);
 }
+
+#include "utility/template_expression/vector_operator.inl"
 
 #endif // VECTOR_OPERATOR_HPP

@@ -47,7 +47,21 @@ namespace ece
 	}
 
 	template <typename E, unsigned int Size, typename enabled>
-	Vector<E, Size, enabled>::Vector(std::initializer_list<E> il) noexcept: _elements(reinterpret_cast<std::array<E>>(il)) {}
+	Vector<E, Size, enabled>::Vector(std::initializer_list<E> il) noexcept: _elements()
+	{
+		for (unsigned int i = 0; i < il.size(); ++i) {
+			this->_elements[i] = *(il.begin() + i);
+		}
+	}
+
+	template <typename E, unsigned int Size, typename enabled>
+	Vector<E, Size, enabled> & Vector<E, Size, enabled>::operator=(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept
+	{
+		for (unsigned int i = 0; i < rhs.size(); ++i) {
+			this->_elements[i] = rhs[i];
+		}
+		return *this;
+	}
 
 	template <typename E, unsigned int Size, typename enabled>
 	inline E Vector<E, Size, enabled>::operator[](const unsigned int index) const { return this->_elements[index]; }

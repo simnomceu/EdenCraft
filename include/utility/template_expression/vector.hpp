@@ -66,7 +66,7 @@ namespace ece
 		/**
 		 * @fn Vector(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept
 		 * @param[in] The vector expression to cast.
-		 * @brief Build avec tor from a vector expression, forcing its evaluation.
+		 * @brief Build a vector from a vector expression, forcing its evaluation.
 		 * @throw noexcept
 		 */
 		Vector(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept;
@@ -80,20 +80,20 @@ namespace ece
 		Vector(std::initializer_list<E> il) noexcept;
 
 		/**
-		 * @fn Vector(const Vector & copy) noexcept
+		 * @fn Vector(const Vector<E, Size, enabled> & copy) noexcept
 		 * @param[in] copy The Vector to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		Vector(const Vector & copy) noexcept = default;
+		Vector(const Vector<E, Size, enabled> & copy) noexcept = default;
 
 		/**
-		 * @fn Vector(Vector && move) noexcept
+		 * @fn Vector(Vector<E, Size, enabled> && move) noexcept
 		 * @param[in] move The Vector to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		Vector(Vector && move) noexcept = default;
+		Vector(Vector<E, Size, enabled> && move) noexcept = default;
 
 		/**
 		 * @fn ~Vector() noexcept
@@ -109,16 +109,25 @@ namespace ece
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		Vector & operator=(const Vector & copy) noexcept = default;
+		Vector<E, Size, enabled> & operator=(const Vector<E, Size, enabled> & copy) noexcept = default;
 
 		/**
-		 * @fn Vector & operator=(Vector && move) noexcept
+		 * @fn Vector<E, Size, enabled> & operator=(Vector<E, Size, enabled> && move) noexcept
 		 * @param[in] move The Vector to move.
 		 * @return The Vector moved.
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		Vector & operator=(Vector && move) noexcept = default;
+		Vector<E, Size, enabled> & operator=(Vector<E, Size, enabled> && move) noexcept = default;
+
+		/**
+		 * @fn Vector<E, Size, enabled> & operator=(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept
+		 * @param[in] rhs The vector expression to cast.
+		 * @return The vector built.
+		 * @brief Build a vector from a vector expression, forcing its evaluation.
+		 * @throw noexcept
+		 */
+		Vector<E, Size, enabled> & operator=(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept;
 
 		/**
 		* @fn E operator[](const unsigned int index) const
