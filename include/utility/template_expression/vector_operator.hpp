@@ -40,7 +40,6 @@
 #define VECTOR_OPERATOR_HPP
 
 #include "utility/template_expression/vector_expression.hpp"
-#include "utility/template_expression/vector.hpp"
 
 namespace ece
 {
@@ -48,20 +47,18 @@ namespace ece
 	 * @class VectorSum
 	 * @tparam E1 The type of the left hand side element of the operation.
 	 * @tparam E2 The type of the right hand side element of the operation.
-	 * @tparam T1 The type of elements in the left hand side element.
-	 * @tparam T2 The type of elements in the right hand side element.
 	 * @brief The sum of to vector.
 	 */
-	template <typename T1, typename T2, unsigned int Size>
-	class VectorSum: public VectorExpression<VectorSum<T1, T2, Size>, std::common_type_t<T1, T2>>
-	{
-	public:
+//	template <class E1, class E2>
+//	class VectorSum: public VectorExpression<VectorSum<E1, E2>>
+//	{
+//	public:
 		/**
 		 * @fn constexpr VectorSum() noexcept
 		 * @brief Default constructor.
 		 * @throw noexcept
 		 */
-		constexpr VectorSum() noexcept = default;
+//		constexpr VectorSum() noexcept = default;
 
 		/**
 		 * @fn VectorSum(const E1 & lhs, const E2 & rhs) noexcept
@@ -70,7 +67,7 @@ namespace ece
 		 * @brief Build a vector sum expression from to factors.
 		 * @throw noexcept
 		 */
-		inline VectorSum(const Vector<T1, Size> & lhs, const Vector<T2, Size> & rhs) noexcept;
+//		inline VectorSum(const E1 & lhs, const E2 & rhs) noexcept;
 
 		/**
 		 * @fn VectorSum(const VectorSum & copy) noexcept
@@ -78,7 +75,7 @@ namespace ece
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		VectorSum(const VectorSum & copy) noexcept = default;
+//		VectorSum(const VectorSum & copy) noexcept = default;
 
 		/**
 		 * @fn VectorSum(VectorSum && move) noexcept
@@ -86,14 +83,14 @@ namespace ece
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		VectorSum(VectorSum && move) noexcept = default;
+//		VectorSum(VectorSum && move) noexcept = default;
 
 		/**
 		 * @fn ~VectorSum() noexcept
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~VectorSum() noexcept = default;
+//		~VectorSum() noexcept = default;
 
 		/**
 		 * @fn VectorSum & operator=(const VectorSum & copy) noexcept
@@ -102,7 +99,7 @@ namespace ece
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		VectorSum & operator=(const VectorSum & copy) noexcept = default;
+//		VectorSum & operator=(const VectorSum & copy) noexcept = default;
 
 		/**
 		 * @fn VectorSum & operator=(VectorSum && move) noexcept
@@ -111,19 +108,42 @@ namespace ece
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		VectorSum & operator=(VectorSum && move) noexcept = default;
+//		VectorSum & operator=(VectorSum && move) noexcept = default;
 
-		inline std::common_type_t<T1, T2> operator[](const unsigned int index) const;
+//		inline auto operator[](const unsigned int index) const;
 
-		inline unsigned int size() const;
+//		inline unsigned int size() const;
 
-	protected:
-		const Vector<T1, Size> & _lhs;
-		const Vector<T2, Size> & _rhs;
-	};
+//	protected:
+//		const E1 & _lhs;
+//		const E2 & _rhs;
+//	};
 
-	template <typename T1, typename T2, unsigned int Size>
-	VectorSum<T1, T2, Size> operator+(const Vector<T1, Size> & lhs, const Vector<T2, Size> & rhs);
+//	template <class E1, class E2>
+//	VectorSum<E1, E2> operator+(const E1 & lhs, const E2 & rhs);
+
+#define LXR_OPERATOR(NAME, OPERATOR) \
+	template <class E1, class E2> \
+	class NAME : public VectorExpression<VectorSum<E1, E2>> \
+	{ \
+	public: \
+		NAME() = delete; \
+		inline NAME(const E1 & lhs, const E2 & rhs) noexcept: _lhs(lhs), _rhs(rhs) {} \
+		NAME(const NAME & copy) noexcept = default; \
+		NAME(NAME && move) noexcept = default; \
+		~NAME() noexcept = default; \
+		NAME & operator=(const NAME & copy) noexcept = default; \
+		NAME & operator=(NAME && move) noexcept = default; \
+		inline auto operator[](const unsigned int index) const { return this->_lhs[index] OPERATOR this->_rhs[index]; } \
+		inline unsigned int size() const { return this->_lhs.size(); } \
+	\
+	protected: \
+		const E1 & _lhs; \
+		const E2 & _rhs; \
+	}; \
+ \
+	template <class E1, class E2> \
+	inline NAME<E1, E2> operator OPERATOR (const E1 & lhs, const E2 & rhs) { return NAME<E1, E2>(lhs, rhs); }
 }
 
 #include "utility/template_expression/vector_operator.inl"

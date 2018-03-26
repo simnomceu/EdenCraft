@@ -38,15 +38,15 @@
 
 namespace ece
 {
-	template <class E, typename T, typename enabled>
-	inline E VectorExpression<E, T, enabled>::operator[](const unsigned int index) const { return static_cast<const E &>(*this)[index]; }
+	template <class E>
+	inline auto VectorExpression<E>::operator[](const unsigned int index) const { return static_cast<const E &>(*this)[index]; }
 
-	template <class E, typename T, typename enabled>
-	inline unsigned int VectorExpression<E, T, enabled>::size() const noexcept { return static_cast<const E &>(*this).size(); }
+	template <class E>
+	inline unsigned int VectorExpression<E>::size() const noexcept { return static_cast<const E &>(*this).size(); }
 
-	template <class E, typename T, typename enabled>
-	inline VectorExpression<E, T, enabled>::operator E & () noexcept { return static_cast<E &>(*this); }
+	template <class E>
+	inline VectorExpression<E>::operator E & () noexcept { return static_cast<E &>(*this); }
 
-	template <class E, typename T, typename enabled>
-	inline VectorExpression<E, T, enabled>::operator const E & () noexcept { return static_cast<const E &>(*this); }
+	template <class E>
+	inline VectorExpression<E>::operator const E & () noexcept { return static_cast<const E &>(*this); }
 }

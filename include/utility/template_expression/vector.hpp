@@ -42,6 +42,7 @@
 #include <array>
 
 #include "utility/template_expression/vector_expression.hpp"
+#include "utility/template_expression/vector_operator.hpp"
 
 namespace ece
 {
@@ -53,7 +54,7 @@ namespace ece
 	 * @brief An arithmetic vector.
 	 */
 	template <typename E, unsigned int Size, typename enabled = std::enable_if<std::is_arithmetic_v<E>>>
-	class Vector : public VectorExpression<Vector<E, Size, enabled>, E>
+	class Vector : public VectorExpression<Vector<E, Size, enabled>>
 	{
 	public:
 		/**
@@ -64,12 +65,20 @@ namespace ece
 		constexpr Vector() noexcept = default;
 
 		/**
+		 * @fn constexpr Vector(const E value) noexcept
+		 * @param[in] value The value to assign to all the members of the vector.
+		 * @brief Build a vector with the same value for all members.
+		 * @throw noexcept
+		 */
+		inline constexpr Vector(const E value) noexcept;
+
+		/**
 		 * @fn Vector(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept
 		 * @param[in] The vector expression to cast.
 		 * @brief Build a vector from a vector expression, forcing its evaluation.
 		 * @throw noexcept
 		 */
-		Vector(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept;
+		Vector(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept;
 
 		/**
 		 * @fn Vector(std::initializer_list<E> il) noexcep
@@ -127,7 +136,7 @@ namespace ece
 		 * @brief Build a vector from a vector expression, forcing its evaluation.
 		 * @throw noexcept
 		 */
-		Vector<E, Size, enabled> & operator=(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept;
+		Vector<E, Size, enabled> & operator=(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept;
 
 		/**
 		* @fn E operator[](const unsigned int index) const
@@ -158,6 +167,12 @@ namespace ece
 	protected:
 		std::array<E, Size> _elements;
 	};
+
+	LXR_OPERATOR(VectorSum, +)
+	LXR_OPERATOR(VectorSubtract, -)
+	LXR_OPERATOR(VectorMultiply, *)
+	LXR_OPERATOR(VectorDivide, /)
+	LXR_OPERATOR(VectorModulo, %)
 }
 
 #include "utility/template_expression/vector.inl"

@@ -46,10 +46,9 @@ namespace ece
 	/**
 	 * @class VectorExpression
 	 * @tparam E The child template type of the Curiously Reccuring Template Pattern.
-	 * @tparam T The type of the element in the child template type.
 	 * @brief
 	 */
-	template <class E, typename T, typename enabled = typename std::enable_if_t<std::is_arithmetic_v<T>>>
+	template <class E>
 	class VectorExpression
 	{
 	public:
@@ -102,13 +101,13 @@ namespace ece
 		VectorExpression & operator=(VectorExpression && move) noexcept = default;
 
 		/**
-		 * @fn E operator[](const unsigned int index) const
+		 * @fn auto operator[](const unsigned int index) const
 		 * @param[in] index The index of the element to access.
 		 * @return The element wished.
 		 * @brief Get the element at the index.
 		 * @throw
 		 */
-		inline E operator[](const unsigned int index) const;
+		inline auto operator[](const unsigned int index) const;
 
 		/**
 		 * @fn unsigned int size() const noexcept

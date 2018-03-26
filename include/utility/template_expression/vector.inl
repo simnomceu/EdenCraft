@@ -39,7 +39,10 @@
 namespace ece
 {
 	template <typename E, unsigned int Size, typename enabled>
-	Vector<E, Size, enabled>::Vector(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept: _elements()
+	inline constexpr Vector<E, Size, enabled>::Vector(const E value) noexcept: _elements() { this->_elements.fill(value); }
+
+	template <typename E, unsigned int Size, typename enabled>
+	Vector<E, Size, enabled>::Vector(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept: _elements()
 	{
 		for (unsigned int i = 0; i < rhs.size(); ++i) {
 			this->_elements[i] = rhs[i];
@@ -55,7 +58,7 @@ namespace ece
 	}
 
 	template <typename E, unsigned int Size, typename enabled>
-	Vector<E, Size, enabled> & Vector<E, Size, enabled>::operator=(const VectorExpression<Vector<E, Size, enabled>, E> & rhs) noexcept
+	Vector<E, Size, enabled> & Vector<E, Size, enabled>::operator=(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept
 	{
 		for (unsigned int i = 0; i < rhs.size(); ++i) {
 			this->_elements[i] = rhs[i];
