@@ -157,22 +157,20 @@ namespace ece
 		inline E & operator[](const unsigned int index);
 
 		/**
-		* @fn unsigned int size() const noexcept
+		* @fn constexpr unsigned int size() const noexcept
 		* @return The number of element in the expression result.
 		* @brief Get he number of elements.
 		* @throw noexcept
 		*/
-		inline unsigned int size() const noexcept;
+		inline constexpr unsigned int size() const noexcept;
 
 	protected:
 		std::array<E, Size> _elements;
 	};
 
-	LXR_OPERATOR(VectorSum, +)
-	LXR_OPERATOR(VectorSubtract, -)
-	LXR_OPERATOR(VectorMultiply, *)
+/*	LXR_OPERATOR(VectorMultiply, *)
 	LXR_OPERATOR(VectorDivide, /)
-	LXR_OPERATOR(VectorModulo, %)
+	LXR_OPERATOR(VectorModulo, %)*/
 }
 
 #include "utility/template_expression/vector.inl"

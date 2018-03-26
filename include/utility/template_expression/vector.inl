@@ -73,5 +73,5 @@ namespace ece
 	inline E & Vector<E, Size, enabled>::operator[](const unsigned int index) { return this->_elements[index]; }
 
 	template <typename E, unsigned int Size, typename enabled>
-	inline unsigned int Vector<E, Size, enabled>::size() const noexcept { return this->_elements.size(); }
+	inline constexpr unsigned int Vector<E, Size, enabled>::size() const noexcept { return Size; }
 }

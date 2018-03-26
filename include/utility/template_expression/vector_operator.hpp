@@ -47,18 +47,13 @@ namespace ece
 	 * @class VectorSum
 	 * @tparam E1 The type of the left hand side element of the operation.
 	 * @tparam E2 The type of the right hand side element of the operation.
-	 * @brief The sum of to vector.
+	 * @brief The sum of two vector.
 	 */
-//	template <class E1, class E2>
-//	class VectorSum: public VectorExpression<VectorSum<E1, E2>>
-//	{
-//	public:
-		/**
-		 * @fn constexpr VectorSum() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-//		constexpr VectorSum() noexcept = default;
+	template <class E1, class E2>
+	class VectorSum: public VectorExpression<VectorSum<E1, E2>>
+	{
+	public:
+		VectorSum() = delete;
 
 		/**
 		 * @fn VectorSum(const E1 & lhs, const E2 & rhs) noexcept
@@ -67,83 +62,52 @@ namespace ece
 		 * @brief Build a vector sum expression from to factors.
 		 * @throw noexcept
 		 */
-//		inline VectorSum(const E1 & lhs, const E2 & rhs) noexcept;
+		inline VectorSum(const E1 & lhs, const E2 & rhs) noexcept;
+
+		inline auto operator[](const unsigned int index) const;
+
+		inline unsigned int size() const;
+
+	protected:
+		const E1 & _lhs;
+		const E2 & _rhs;
+	};
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorSum<E1, E2> operator+(const E1 & lhs, const E2 & rhs);
+
+	/**
+	* @class VectorSubtract
+	* @tparam E1 The type of the left hand side element of the operation.
+	* @tparam E2 The type of the right hand side element of the operation.
+	* @brief The subtraction of two vector.
+	*/
+	template <class E1, class E2>
+	class VectorSubtract : public VectorExpression<VectorSubtract<E1, E2>>
+	{
+	public:
+		VectorSubtract() = delete;
 
 		/**
-		 * @fn VectorSum(const VectorSum & copy) noexcept
-		 * @param[in] copy The VectorSum to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-//		VectorSum(const VectorSum & copy) noexcept = default;
+		* @fn VectorSubtract(const E1 & lhs, const E2 & rhs) noexcept
+		* @param[in] lhs Left hand side of the vector subtraction operation.
+		* @param[in] rhs Right hand side of the vector subtraction operation.
+		* @brief Build a vector subtraction expression from to factors.
+		* @throw noexcept
+		*/
+		inline VectorSubtract(const E1 & lhs, const E2 & rhs) noexcept;
 
-		/**
-		 * @fn VectorSum(VectorSum && move) noexcept
-		 * @param[in] move The VectorSum to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-//		VectorSum(VectorSum && move) noexcept = default;
+		inline auto operator[](const unsigned int index) const;
 
-		/**
-		 * @fn ~VectorSum() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-//		~VectorSum() noexcept = default;
+		inline unsigned int size() const;
 
-		/**
-		 * @fn VectorSum & operator=(const VectorSum & copy) noexcept
-		 * @param[in] copy The VectorSum to copy from.
-		 * @return The VectorSum copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-//		VectorSum & operator=(const VectorSum & copy) noexcept = default;
+	protected:
+		const E1 & _lhs;
+		const E2 & _rhs;
+	};
 
-		/**
-		 * @fn VectorSum & operator=(VectorSum && move) noexcept
-		 * @param[in] move The VectorSum to move.
-		 * @return The VectorSum moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-//		VectorSum & operator=(VectorSum && move) noexcept = default;
-
-//		inline auto operator[](const unsigned int index) const;
-
-//		inline unsigned int size() const;
-
-//	protected:
-//		const E1 & _lhs;
-//		const E2 & _rhs;
-//	};
-
-//	template <class E1, class E2>
-//	VectorSum<E1, E2> operator+(const E1 & lhs, const E2 & rhs);
-
-#define LXR_OPERATOR(NAME, OPERATOR) \
-	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>> \
-	class NAME : public VectorExpression<VectorSum<E1, E2>> \
-	{ \
-	public: \
-		NAME() = delete; \
-		inline NAME(const E1 & lhs, const E2 & rhs) noexcept: _lhs(lhs), _rhs(rhs) {} \
-		NAME(const NAME & copy) noexcept = default; \
-		NAME(NAME && move) noexcept = default; \
-		~NAME() noexcept = default; \
-		NAME & operator=(const NAME & copy) noexcept = default; \
-		NAME & operator=(NAME && move) noexcept = default; \
-		inline auto operator[](const unsigned int index) const { return this->_lhs[index] OPERATOR this->_rhs[index]; } \
-		inline unsigned int size() const { return this->_lhs.size(); } \
-	\
-	protected: \
-		const E1 & _lhs; \
-		const E2 & _rhs; \
-	}; \
- \
-	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>> \
-	inline NAME<E1, E2> operator OPERATOR (const E1 & lhs, const E2 & rhs) { return NAME<E1, E2>(lhs, rhs); }
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorSubtract<E1, E2> operator-(const E1 & lhs, const E2 & rhs);
 }
 
 #include "utility/template_expression/vector_operator.inl"
