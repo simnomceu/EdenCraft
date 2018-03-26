@@ -123,7 +123,7 @@ namespace ece
 //	VectorSum<E1, E2> operator+(const E1 & lhs, const E2 & rhs);
 
 #define LXR_OPERATOR(NAME, OPERATOR) \
-	template <class E1, class E2> \
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>> \
 	class NAME : public VectorExpression<VectorSum<E1, E2>> \
 	{ \
 	public: \
@@ -142,7 +142,7 @@ namespace ece
 		const E2 & _rhs; \
 	}; \
  \
-	template <class E1, class E2> \
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>> \
 	inline NAME<E1, E2> operator OPERATOR (const E1 & lhs, const E2 & rhs) { return NAME<E1, E2>(lhs, rhs); }
 }
 
