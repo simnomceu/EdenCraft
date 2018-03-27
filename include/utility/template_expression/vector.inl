@@ -74,4 +74,7 @@ namespace ece
 
 	template <typename E, unsigned int Size, typename enabled>
 	inline constexpr unsigned int Vector<E, Size, enabled>::size() const noexcept { return Size; }
+
+	template <unsigned int Size, class E1, class E2, typename enabled>
+	VectorOperation<Vector<E1, Size>, Vector<E2, Size>, std::plus<>> operator+(const Vector<E1, Size> & lhs, const Vector<E2, Size> & rhs) { return VectorOperation<Vector<E1, Size>, Vector<E2, Size>, std::plus<>>(lhs, rhs); }
 }

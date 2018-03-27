@@ -1,26 +1,26 @@
 namespace ece
 {
-	template <class E1, class E2>
-	inline VectorSum<E1, E2>::VectorSum(const E1 & lhs, const E2 & rhs) noexcept: _lhs(lhs), _rhs(rhs) {}
+	template <class E1, class E2, class Op>
+	inline VectorOperation<E1, E2, Op>::VectorOperation(const E1 & lhs, const E2 & rhs) noexcept: VectorExpression<VectorOperation<E1, E2, Op>>(), _lhs(lhs), _rhs(rhs) {}
 
-	template <class E1, class E2>
-	inline auto VectorSum<E1, E2>::operator[](const unsigned int index) const { return this->_lhs[index] + this->_rhs[index]; }
+	template <class E1, class E2, class Op>
+	auto VectorOperation<E1, E2, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs[index], this->_rhs[index]); }
 
-	template <class E1, class E2>
-	inline unsigned int VectorSum<E1, E2>::size() const { return this->_lhs.size(); }
-
-	template <class E1, class E2, typename enabled>
-	VectorSum<E1, E2> operator+(const E1 & lhs, const E2 & rhs) { return VectorSum<E1, E2>(lhs, rhs); }
-
-	template <class E1, class E2>
-	inline VectorSubtract<E1, E2>::VectorSubtract(const E1 & lhs, const E2 & rhs) noexcept: _lhs(lhs), _rhs(rhs) {}
-
-	template <class E1, class E2>
-	inline auto VectorSubtract<E1, E2>::operator[](const unsigned int index) const { return this->_lhs[index] - this->_rhs[index]; }
-
-	template <class E1, class E2>
-	inline unsigned int VectorSubtract<E1, E2>::size() const { return this->_lhs.size(); }
+	template <class E1, class E2, class Op>
+	inline unsigned int VectorOperation<E1, E2, Op>::size() const { return this->_lhs.size(); }
 
 	template <class E1, class E2, typename enabled>
-	VectorSubtract<E1, E2> operator-(const E1 & lhs, const E2 & rhs) { return VectorSubtract<E1, E2>(lhs, rhs); }
+	VectorOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::minus<>>(lhs, rhs); }
+
+	template <class E, class Op>
+	inline VectorUnaryOperation<E, Op>::VectorUnaryOperation(const E & lhs) noexcept: VectorExpression<VectorUnaryOperation<E, Op>>(), _lhs(lhs) {}
+
+	template <class E, class Op>
+	auto VectorUnaryOperation<E, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs[index]); }
+
+	template <class E, class Op>
+	inline unsigned int VectorUnaryOperation<E, Op>::size() const { return this->_lhs.size(); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, std::negate<>> operator-(const E & lhs) { return VectorUnaryOperation<E, std::negate<>>(lhs); }
 }

@@ -168,9 +168,8 @@ namespace ece
 		std::array<E, Size> _elements;
 	};
 
-/*	LXR_OPERATOR(VectorMultiply, *)
-	LXR_OPERATOR(VectorDivide, /)
-	LXR_OPERATOR(VectorModulo, %)*/
+	template <unsigned int Size, class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<Vector<E1, Size>, Vector<E2, Size>, std::plus<>> operator+(const Vector<E1, Size> & lhs, const Vector<E2, Size> & rhs);
 }
 
 #include "utility/template_expression/vector.inl"

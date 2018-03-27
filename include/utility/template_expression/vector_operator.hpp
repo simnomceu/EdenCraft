@@ -39,75 +39,199 @@
 #ifndef VECTOR_OPERATOR_HPP
 #define VECTOR_OPERATOR_HPP
 
+#include <functional>
+
 #include "utility/template_expression/vector_expression.hpp"
 
 namespace ece
 {
 	/**
-	 * @class VectorSum
-	 * @tparam E1 The type of the left hand side element of the operation.
-	 * @tparam E2 The type of the right hand side element of the operation.
-	 * @brief The sum of two vector.
+	 * @class VectorOperation
+	 * @extends VectorExpression<VectorOperation<E1, E2, Op>>
+	 * @tparam E1 The type of the first factor of the operation.
+	 * @tparam E2 The type of the second factor of the operation.
+	 * @tparam Op The operation to apply to.
+	 * @brief Vector operation.
 	 */
-	template <class E1, class E2>
-	class VectorSum: public VectorExpression<VectorSum<E1, E2>>
+	template <class E1, class E2, class Op>
+	class VectorOperation: public VectorExpression<VectorOperation<E1, E2, Op>>
 	{
 	public:
-		VectorSum() = delete;
+		constexpr VectorOperation() noexcept = delete;
 
 		/**
-		 * @fn VectorSum(const E1 & lhs, const E2 & rhs) noexcept
-		 * @param[in] lhs Left hand side of the vector sum operation.
-		 * @param[in] rhs Right hand side of the vector sum operation.
-		 * @brief Build a vector sum expression from to factors.
+		 * @fn VectorOperation(const E1 & lhs, const E2 & rhs) noexcept
+		 * @param[in] lhs The left-hand side of the operation.
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @brief Build an operation from two vector factors.
 		 * @throw noexcept
 		 */
-		inline VectorSum(const E1 & lhs, const E2 & rhs) noexcept;
-
-		inline auto operator[](const unsigned int index) const;
-
-		inline unsigned int size() const;
-
-	protected:
-		const E1 & _lhs;
-		const E2 & _rhs;
-	};
-
-	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
-	VectorSum<E1, E2> operator+(const E1 & lhs, const E2 & rhs);
-
-	/**
-	* @class VectorSubtract
-	* @tparam E1 The type of the left hand side element of the operation.
-	* @tparam E2 The type of the right hand side element of the operation.
-	* @brief The subtraction of two vector.
-	*/
-	template <class E1, class E2>
-	class VectorSubtract : public VectorExpression<VectorSubtract<E1, E2>>
-	{
-	public:
-		VectorSubtract() = delete;
+		VectorOperation(const E1 & lhs, const E2 & rhs) noexcept;
 
 		/**
-		* @fn VectorSubtract(const E1 & lhs, const E2 & rhs) noexcept
-		* @param[in] lhs Left hand side of the vector subtraction operation.
-		* @param[in] rhs Right hand side of the vector subtraction operation.
-		* @brief Build a vector subtraction expression from to factors.
-		* @throw noexcept
-		*/
-		inline VectorSubtract(const E1 & lhs, const E2 & rhs) noexcept;
+		 * @fn VectorOperation(const VectorOperation & copy) noexcept
+		 * @param[in] copy The VectorOperation to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		VectorOperation(const VectorOperation & copy) noexcept = default;
 
+		/**
+		 * @fn VectorOperation(VectorOperation && move) noexcept
+		 * @param[in] move The VectorOperation to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		VectorOperation(VectorOperation && move) noexcept = default;
+
+		/**
+		 * @fn ~VectorOperation() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~VectorOperation() noexcept = default;
+
+		/**
+		 * @fn VectorOperation & operator=(const VectorOperation & copy) noexcept
+		 * @param[in] copy The VectorOperation to copy from.
+		 * @return The VectorOperation copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		VectorOperation & operator=(const VectorOperation & copy) noexcept = default;
+
+		/**
+		 * @fn VectorOperation & operator=(VectorOperation && move) noexcept
+		 * @param[in] move The VectorOperation to move.
+		 * @return The VectorOperation moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		VectorOperation & operator=(VectorOperation && move) noexcept = default;
+
+		/**
+		 * @fn auto operator[](const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The computed element of the resulting vector.
+		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+		 * @throw
+		 */
 		inline auto operator[](const unsigned int index) const;
 
+		/**
+		 * @fn unsigned int size() const
+		 * @return The size of the resulting vector.
+		 * @brief Get the size of the resulting vector.
+		 * @throw
+		 */
 		inline unsigned int size() const;
 
-	protected:
+	private:
+		/**
+		 * @property _lhs
+		 * @brief The left-hand side of the operation.
+		 */
 		const E1 & _lhs;
+		
+		/**
+		 * @property _rhs
+		 * @brief The right-hand side of the operation.
+		 */
 		const E2 & _rhs;
 	};
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
-	VectorSubtract<E1, E2> operator-(const E1 & lhs, const E2 & rhs);
+	VectorOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs);
+	
+	/**
+	 * @class VectorUnaryOperation
+	 * @extends VectorExpression<VectorUnaryOperation<E, Op>>
+	 * @tparam E The type of the first factor of the operation.
+	 * @tparam Op The operation to apply to.
+	 * @brief Vector operation.
+	 */
+	template <class E, class Op>
+	class VectorUnaryOperation: public VectorExpression<VectorUnaryOperation<E, Op>>
+	{
+	public:
+		constexpr VectorUnaryOperation() noexcept = delete;
+
+		/**
+		 * @fn VectorUnaryOperation(const E & lhs) noexcept
+		 * @param[in] lhs The left-hand side of the operation.
+		 * @brief Build an operation from a vector factor.
+		 * @throw noexcept
+		 */
+		VectorUnaryOperation(const E & lhs) noexcept;
+
+		/**
+		 * @fn VectorUnaryOperation(const VectorUnaryOperation & copy) noexcept
+		 * @param[in] copy The VectorUnaryOperation to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
+		VectorUnaryOperation(const VectorUnaryOperation & copy) noexcept = default;
+
+		/**
+		 * @fn VectorUnaryOperation(VectorUnaryOperation && move) noexcept
+		 * @param[in] move The VectorUnaryOperation to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
+		VectorUnaryOperation(VectorUnaryOperation && move) noexcept = default;
+
+		/**
+		 * @fn ~VectorUnaryOperation() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~VectorUnaryOperation() noexcept = default;
+
+		/**
+		 * @fn VectorUnaryOperation & operator=(const VectorUnaryOperation & copy) noexcept
+		 * @param[in] copy The VectorUnaryOperation to copy from.
+		 * @return The VectorUnaryOperation copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		VectorUnaryOperation & operator=(const VectorUnaryOperation & copy) noexcept = default;
+
+		/**
+		 * @fn VectorUnaryOperation & operator=(VectorUnaryOperation && move) noexcept
+		 * @param[in] move The VectorUnaryOperation to move.
+		 * @return The VectorUnaryOperation moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		VectorUnaryOperation & operator=(VectorUnaryOperation && move) noexcept = default;
+
+		/**
+		 * @fn auto operator[](const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The computed element of the resulting vector.
+		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+		 * @throw
+		 */
+		inline auto operator[](const unsigned int index) const;
+
+		/**
+		 * @fn unsigned int size() const
+		 * @return The size of the resulting vector.
+		 * @brief Get the size of the resulting vector.
+		 * @throw
+		 */
+		inline unsigned int size() const;
+
+	private:
+		/**
+		 * @property _lhs
+		 * @brief The left-hand side of the operation.
+		 */
+		const E & _lhs;
+	};
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, std::negate<>> operator-(const E & lhs);
 }
 
 #include "utility/template_expression/vector_operator.inl"
