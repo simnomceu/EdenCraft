@@ -36,10 +36,12 @@
 
 */
 
+#include <type_traits>
+
 namespace ece
 {
 	template <typename E, unsigned int Size, typename enabled>
-	inline constexpr Vector<E, Size, enabled>::Vector(const E value) noexcept: _elements() { this->_elements.fill(value); }
+	inline constexpr Vector<E, Size, enabled>::Vector(const E value) noexcept: _elements() { this ->_elements.fill(value); }
 
 	template <typename E, unsigned int Size, typename enabled>
 	Vector<E, Size, enabled>::Vector(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept: _elements()
@@ -75,6 +77,21 @@ namespace ece
 	template <typename E, unsigned int Size, typename enabled>
 	inline constexpr unsigned int Vector<E, Size, enabled>::size() const noexcept { return Size; }
 
-	template <unsigned int Size, class E1, class E2, typename enabled>
-	VectorOperation<Vector<E1, Size>, Vector<E2, Size>, std::plus<>> operator+(const Vector<E1, Size> & lhs, const Vector<E2, Size> & rhs) { return VectorOperation<Vector<E1, Size>, Vector<E2, Size>, std::plus<>>(lhs, rhs); }
+	template <class E1, class E2, typename enabled>
+	auto operator+(const E1 & lhs, const E2 & rhs) { return std::move(VectorOperation<
+																					std::conditional<
+																						std::is_base_of_v<VectorExpression<E1>, E1>, 
+																						E1, 
+																						Vector<E1, VectorCountV<E2>>
+																					>::type, 
+		std::conditional<
+		std::is_base_of_v<VectorExpression<E2>, E2>,
+		E2,
+		Vector<E2, VectorCountV<E1>>
+		>::type,
+																					std::plus<>
+																		>(lhs, rhs)); }
+
+	template <class E1, class E2, typename enabled>
+	decltype(auto) operator-(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::minus<>>(lhs, rhs); }
 }

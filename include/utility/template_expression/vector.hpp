@@ -46,6 +46,15 @@
 
 namespace ece
 {
+	template <class E>
+	struct VectorCount
+	{
+		static constexpr size_t value = 0;
+	};
+
+	template <class E>
+	static constexpr size_t VectorCountV = VectorCount<E>::value;
+
 	/**
 	 * @class Vector
 	 * @tparam E The type of elements in the vector.
@@ -167,9 +176,18 @@ namespace ece
 	protected:
 		std::array<E, Size> _elements;
 	};
+	
+	template <typename E, unsigned int Size>
+	struct VectorCount<Vector<E, Size>>
+	{
+		static constexpr size_t value = Size;
+	};
 
-	template <unsigned int Size, class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
-	VectorOperation<Vector<E1, Size>, Vector<E2, Size>, std::plus<>> operator+(const Vector<E1, Size> & lhs, const Vector<E2, Size> & rhs);
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	auto operator+(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	decltype(auto) operator-(const E1 & lhs, const E2 & rhs);
 }
 
 #include "utility/template_expression/vector.inl"

@@ -139,9 +139,6 @@ namespace ece
 		 */
 		const E2 & _rhs;
 	};
-
-	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
-	VectorOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs);
 	
 	/**
 	 * @class VectorUnaryOperation
