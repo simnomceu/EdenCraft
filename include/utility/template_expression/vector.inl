@@ -93,5 +93,5 @@ namespace ece
 																		>(lhs, rhs)); }
 
 	template <class E1, class E2, typename enabled>
-	decltype(auto) operator-(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::minus<>>(lhs, rhs); }
+	decltype(auto) operator-(const E1 & lhs, const E2 & rhs) { return VectorOperation<ValueReference<E1>, ValueReference<E2>, std::minus<>>(lhs, rhs); }
 }

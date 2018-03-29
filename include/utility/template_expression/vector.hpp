@@ -176,6 +176,24 @@ namespace ece
 	protected:
 		std::array<E, Size> _elements;
 	};
+
+	template <typename E>
+	struct VectorCount<VectorExpression<E>>
+	{
+		static constexpr size_t value = VectorCountV<E>;
+	};
+
+	template <class E1, class E2, class Op>
+	struct VectorCount<VectorOperation<E1, E2, Op>>
+	{
+		static constexpr size_t value = VectorCountV<E1>;
+	};
+
+	template <class E1, class Op>
+	struct VectorCount<VectorUnaryOperation<E1, Op>>
+	{
+		static constexpr size_t value = VectorCountV<E1>;
+	};
 	
 	template <typename E, unsigned int Size>
 	struct VectorCount<Vector<E, Size>>

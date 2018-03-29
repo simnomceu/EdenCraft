@@ -131,13 +131,13 @@ namespace ece
 		 * @property _lhs
 		 * @brief The left-hand side of the operation.
 		 */
-		const E1 & _lhs;
+		const E1 _lhs;
 		
 		/**
 		 * @property _rhs
 		 * @brief The right-hand side of the operation.
 		 */
-		const E2 & _rhs;
+		const E2 _rhs;
 	};
 	
 	/**
@@ -224,7 +224,7 @@ namespace ece
 		 * @property _lhs
 		 * @brief The left-hand side of the operation.
 		 */
-		const E & _lhs;
+		const E _lhs;
 	};
 
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
