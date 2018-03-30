@@ -167,6 +167,16 @@ namespace ece
 		*/
 		inline constexpr unsigned int size() const noexcept;
 
+		inline E min() const noexcept;
+
+		inline E max() const noexcept;
+
+		inline E sum() const noexcept;
+
+		inline Vector<E, Size, enabled> shift(const int count) const noexcept;
+		
+		inline Vector<E, Size, enabled> cshift(const int count) const noexcept;
+
 	protected:
 		std::array<E, Size> _elements;
 	};
@@ -206,6 +216,12 @@ namespace ece
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_integral_v<E2>>>
 	E1 & operator^=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_integral_v<E2>>>
+	E1 & operator<<=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_integral_v<E2>>>
+	E1 & operator>>=(E1 & lhs, const E2 & rhs);
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
 	VectorOperation<E1, E2, std::plus<>> operator+(const E1 & lhs, const E2 & rhs);

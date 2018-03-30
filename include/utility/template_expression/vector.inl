@@ -37,6 +37,7 @@
 */
 
 #include <type_traits>
+#include <algorithm>
 
 namespace ece
 {
@@ -79,6 +80,47 @@ namespace ece
 
 	template <typename E, unsigned int Size, typename enabled>
 	inline constexpr unsigned int Vector<E, Size, enabled>::size() const noexcept { return Size; }
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline E Vector<E, Size, enabled>::min() const noexcept { return std::min_element(this->_elements.begin(), this->_elements.end()); }
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline E Vector<E, Size, enabled>::max() const noexcept { return std::max_element(this->_elements.begin(), this->_elements.end()); }
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline E Vector<E, Size, enabled>::sum() const noexcept { return std::accumulate(this->_elements.begin(), this->_elements.end(), 0); }
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline Vector<E, Size, enabled> Vector<E, Size, enabled>::shift(const int count) const noexcept
+	{
+		Vector<E, Size, enabled> result;
+		for (unsigned int i = 0; i < static_cast<unsigned int>(std::max(0, count - 1)); ++i) {
+			result[i] = count >= 0 ? this->_elements[i + count] : 0;
+		}
+		for (unsigned int i = static_cast<unsigned int>(std::max(0, count - 1)); i < std::min(Size, Size + count - 1); ++i) {
+			result[i] = count >= 0 ? this->_elements[i + count] : this->_elements[i - count];
+		}
+		for (unsigned int i = std::min(Size, Size + count - 1); i < Size; ++i) {
+			result[i] = count >= 0 ? 0 : this->_elements[i - count];
+		}
+		return std::move(result);
+	}
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline Vector<E, Size, enabled> Vector<E, Size, enabled>::cshift(const int count) const noexcept
+	{
+		Vector<E, Size, enabled> result;
+		for (unsigned int i = 0; i < static_cast<unsigned int>(std::max(0, count)); ++i) {
+			result[i] = count >= 0 ? this->_elements[i + count - 1] : this->_elements[Size - count - 1 + i];
+		}
+		for (unsigned int i = static_cast<unsigned int>(std::max(0, count)); i < std::min(Size, Size + count); ++i) {
+			result[i] = count >= 0 ? this->_elements[i + count - 1] : this->_elements[i - count - 1];
+		}
+		for (unsigned int i = std::min(Size, Size + count); i < Size; ++i) {
+			result[i] = count >= 0 ? this->_elements[Size + count - 1 + i] : this->_elements[i - count - 1];
+		}
+		return std::move(result);
+	}
 
 	template <class E, typename enabled>
 	VectorUnaryOperation<E, unary_plus<>> operator+(const E & lhs) { return VectorUnaryOperation<E, unary_plus<>>(lhs); }
@@ -166,6 +208,26 @@ namespace ece
 	E1 & operator^=(E1 & lhs, const E2 & rhs)
 	{
 		VectorOperation<E1, E2, std::bit_xor<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator<<=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, bitwise_left_shift<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator>>=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, bitwise_right_shift<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
 			lhs[i] = result[i];
 		}

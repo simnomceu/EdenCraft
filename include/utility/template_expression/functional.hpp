@@ -51,7 +51,33 @@ namespace ece
 	struct unary_plus<void>
 	{
 		template <class T>
-		constexpr auto operator()(T && value) const -> decltype(std::forward(value)) { return std::forward(value); }
+		constexpr auto operator()(T && value) const -> decltype(+std::forward(value)) { return +std::forward(value); }
+	};
+
+	template <class T1 = void, class T2 = void>
+	struct bitwise_left_shift
+	{
+		constexpr T1 operator()(const T1 & lhs, const T2 & rhs) const { return (lhs << rhs); }
+	};
+
+	template <>
+	struct bitwise_left_shift<void, void>
+	{
+		template <class T1, class T2>
+		constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward(lhs) << std::forward(rhs)) { return std::forward(lhs) << std::forward(rhs); }
+	};
+
+	template <class T1 = void, class T2 = void>
+	struct bitwise_right_shift
+	{
+		constexpr T1 operator()(const T1 & lhs, const T2 & rhs) const { return (lhs >> rhs); }
+	};
+
+	template <>
+	struct bitwise_right_shift<void, void>
+	{
+		template <class T1, class T2>
+		constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward(lhs) >> std::forward(rhs)) { return std::forward(lhs) >> std::forward(rhs); }
 	};
 }
 

@@ -11,12 +11,15 @@ int main()
 	ece::Vector<float, 3> b = { 2.1f, 4.5f, 7.2f };
 	ece::Vector<int, 3> c = 1;
 
-	auto && result = -(7 + a + 1 + ece::Vector<int, 3>{ 1, 1, 1 }  + b - ece::Vector<int, 3>(1));
+//	auto && result = -(7 + a + 1 + ece::Vector<int, 3>{ 1, 1, 1 }  + b - ece::Vector<int, 3>(1));
 	auto resultBis = +a + c;
 
+	ece::Vector<int, 5> test = { 1, 2, 3, 4, 5 };
+	test = test.shift(3);
+
 	std::cout << "{ ";
-	for (unsigned int i = 0; i < result.size(); ++i) {
-		std::cout << result[i] << " ";
+	for (unsigned int i = 0; i < test.size(); ++i) {
+		std::cout << test[i] << " ";
 	}
 	std::cout << "}" << std::endl;
 
