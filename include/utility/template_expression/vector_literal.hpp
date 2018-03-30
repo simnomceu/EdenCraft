@@ -36,100 +36,88 @@
 
 */
 
-#ifndef VALUE_REFERENCE_HPP
-#define VALUE_REFERENCE_HPP
+#ifndef VECTOR_LITERAL_HPP
+#define VECTOR_LITERAL_HPP
+
+#include "utility/template_expression/vector_expression.hpp"
 
 namespace ece
 {
 	/**
-	 * @class ValueReference
+	 * @class VectorLiteral
 	 * @brief
 	 */
-	template <class E>
-	class ValueReference
+	template <typename E>
+	class VectorLiteral: public VectorExpression<VectorLiteral<E>>
 	{
 	public:
-		constexpr ValueReference() noexcept = delete;
-		
-		/**
-		 * @fn ValueReference(const E & value)
-		 * @param[in] value The value to reference.
-		 * @brief Build a referenced value. If it is a temporary value, it creates a stored value.
-		 * @throw
-		 */
-		ValueReference(const E & value);
+		constexpr VectorLiteral() noexcept = delete;
+
+		VectorLiteral(const E value) noexcept;
 
 		/**
-		* @fn ValueReference(const E value)
-		* @param[in] value The value to reference.
-		* @brief Build a referenced value. If it is a temporary value, it creates a stored value.
-		* @throw
-		*/
-		ValueReference(const E value);
-
-		/**
-		* @fn ValueReference(E && value)
-		* @param[in] value The value to reference.
-		* @brief Build a referenced value. If it is a temporary value, it creates a stored value.
-		* @throw
-		*/
-		ValueReference(E && value);
-
-		/**
-		 * @fn ValueReference(const ValueReference & copy) noexcept
-		 * @param[in] copy The ValueReference to copy from.
+		 * @fn VectorLiteral(const VectorLiteral & copy) noexcept
+		 * @param[in] copy The VectorLiteral to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		ValueReference(const ValueReference & copy) noexcept = default;
+		VectorLiteral(const VectorLiteral & copy) noexcept = default;
 
 		/**
-		 * @fn ValueReference(ValueReference && move) noexcept
-		 * @param[in] move The ValueReference to move.
+		 * @fn VectorLiteral(VectorLiteral && move) noexcept
+		 * @param[in] move The VectorLiteral to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		ValueReference(ValueReference && move) noexcept = default;
+		VectorLiteral(VectorLiteral && move) noexcept = default;
 
 		/**
-		 * @fn ~ValueReference() noexcept
+		 * @fn ~VectorLiteral() noexcept
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~ValueReference() noexcept;
+		~VectorLiteral() noexcept = default;
 
 		/**
-		 * @fn ValueReference & operator=(const ValueReference & copy) noexcept
-		 * @param[in] copy The ValueReference to copy from.
-		 * @return The ValueReference copied.
+		 * @fn VectorLiteral & operator=(const VectorLiteral & copy) noexcept
+		 * @param[in] copy The VectorLiteral to copy from.
+		 * @return The VectorLiteral copied.
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		ValueReference & operator=(const ValueReference & copy) noexcept = default;
+		VectorLiteral & operator=(const VectorLiteral & copy) noexcept = default;
 
 		/**
-		 * @fn ValueReference & operator=(ValueReference && move) noexcept
-		 * @param[in] move The ValueReference to move.
-		 * @return The ValueReference moved.
+		 * @fn VectorLiteral & operator=(VectorLiteral && move) noexcept
+		 * @param[in] move The VectorLiteral to move.
+		 * @return The VectorLiteral moved.
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		ValueReference & operator=(ValueReference && move) noexcept = default;
+		VectorLiteral & operator=(VectorLiteral && move) noexcept = default;
 
 		/**
-		 * @fn const E & ref() const
-		 * @return The referenced object.
-		 * @brief Get the referenced object.
-		 * @throw
-		 */
-		const E & ref() const;
+		* @fn auto operator[](const unsigned int index) const
+		* @param[in] index The index of the element to access.
+		* @return The computed element of the resulting vector.
+		* @brief Compute and return the element at the index in the resulting vector of the operation.
+		* @throw
+		*/
+		E operator[](const unsigned int index) const;
+
+		/**
+		* @fn unsigned int size() const
+		* @return The size of the resulting vector.
+		* @brief Get the size of the resulting vector.
+		* @throw
+		*/
+		inline unsigned int size() const;
 
 	private:
-		E * _value;
-		E & _reference;
+		E _value;
 	};
 }
 
-#include "utility/template_expression/value_reference.inl"
+#include "utility/template_expression/vector_literal.inl"
 
-#endif // VALUE_REFERENCE_HPP
+#endif // VECTOR_LITERAL_HPP

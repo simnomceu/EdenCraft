@@ -42,6 +42,7 @@
 #include <functional>
 
 #include "utility/template_expression/vector_expression.hpp"
+#include "utility/template_expression/vector_literal.hpp"
 
 namespace ece
 {
@@ -131,13 +132,13 @@ namespace ece
 		 * @property _lhs
 		 * @brief The left-hand side of the operation.
 		 */
-		const E1 _lhs;
+		std::conditional_t<std::is_arithmetic_v<E1>, VectorLiteral<E1>, const E1 &> _lhs;
 		
 		/**
 		 * @property _rhs
 		 * @brief The right-hand side of the operation.
 		 */
-		const E2 _rhs;
+		std::conditional_t<std::is_arithmetic_v<E2>, VectorLiteral<E2>, const E2 &> _rhs;
 	};
 	
 	/**
@@ -224,11 +225,8 @@ namespace ece
 		 * @property _lhs
 		 * @brief The left-hand side of the operation.
 		 */
-		const E _lhs;
+		std::conditional_t<std::is_arithmetic_v<E>, VectorLiteral<E>, const E &> _lhs;
 	};
-
-	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
-	VectorUnaryOperation<E, std::negate<>> operator-(const E & lhs);
 }
 
 #include "utility/template_expression/vector_operator.inl"

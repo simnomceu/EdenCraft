@@ -40,21 +40,15 @@
 #define NEW_VECTOR_HPP
 
 #include <array>
+#include <type_traits>
 
 #include "utility/template_expression/vector_expression.hpp"
 #include "utility/template_expression/vector_operator.hpp"
+#include "utility/template_expression/vector_literal.hpp"
+#include "utility/template_expression/functional.hpp"
 
 namespace ece
 {
-	template <class E>
-	struct VectorCount
-	{
-		static constexpr size_t value = 0;
-	};
-
-	template <class E>
-	static constexpr size_t VectorCountV = VectorCount<E>::value;
-
 	/**
 	 * @class Vector
 	 * @tparam E The type of elements in the vector.
@@ -62,7 +56,7 @@ namespace ece
 	 * @extends VectorExpression<Vector, E>
 	 * @brief An arithmetic vector.
 	 */
-	template <typename E, unsigned int Size, typename enabled = std::enable_if<std::is_arithmetic_v<E>>>
+	template <typename E, unsigned int Size, typename enabled = typename std::enable_if_t<std::is_arithmetic<E>::value>>
 	class Vector : public VectorExpression<Vector<E, Size, enabled>>
 	{
 	public:
@@ -71,7 +65,7 @@ namespace ece
 		 * @brief Default constructor.
 		 * @throw noexcept
 		 */
-		constexpr Vector() noexcept = default;
+		constexpr Vector() noexcept;
 
 		/**
 		 * @fn constexpr Vector(const E value) noexcept
@@ -177,35 +171,47 @@ namespace ece
 		std::array<E, Size> _elements;
 	};
 
-	template <typename E>
-	struct VectorCount<VectorExpression<E>>
-	{
-		static constexpr size_t value = VectorCountV<E>;
-	};
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, unary_plus<>> operator+(const E & lhs);
 
-	template <class E1, class E2, class Op>
-	struct VectorCount<VectorOperation<E1, E2, Op>>
-	{
-		static constexpr size_t value = VectorCountV<E1>;
-	};
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, std::negate<>> operator-(const E & lhs);
 
-	template <class E1, class Op>
-	struct VectorCount<VectorUnaryOperation<E1, Op>>
-	{
-		static constexpr size_t value = VectorCountV<E1>;
-	};
-	
-	template <typename E, unsigned int Size>
-	struct VectorCount<Vector<E, Size>>
-	{
-		static constexpr size_t value = Size;
-	};
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, std::bit_not<>> operator~(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, std::logical_not<>> operator!(const E & lhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1>>>
+	E1 & operator+=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1>>>
+	E1 & operator-=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_arithmetic_v<E2>>>
+	E1 & operator*=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_arithmetic_v<E2>>>
+	E1 & operator/=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_integral_v<E2>>>
+	E1 & operator%=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_integral_v<E2>>>
+	E1 & operator&=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_integral_v<E2>>>
+	E1 & operator|=(E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_integral_v<E2>>>
+	E1 & operator^=(E1 & lhs, const E2 & rhs);
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
-	auto operator+(const E1 & lhs, const E2 & rhs);
+	VectorOperation<E1, E2, std::plus<>> operator+(const E1 & lhs, const E2 & rhs);
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
-	decltype(auto) operator-(const E1 & lhs, const E2 & rhs);
+	VectorOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs);
 }
 
 #include "utility/template_expression/vector.inl"

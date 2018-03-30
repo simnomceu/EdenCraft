@@ -40,11 +40,14 @@
 
 namespace ece
 {
-	template <typename E, unsigned int Size, typename enabled>
-	inline constexpr Vector<E, Size, enabled>::Vector(const E value) noexcept: _elements() { this ->_elements.fill(value); }
+	template<typename E, unsigned int Size, typename enabled>
+	inline constexpr Vector<E, Size, enabled>::Vector() noexcept: VectorExpression<Vector<E, Size, enabled>>(), _elements() { this->_elements.fill(0); }
 
 	template <typename E, unsigned int Size, typename enabled>
-	Vector<E, Size, enabled>::Vector(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept: _elements()
+	inline constexpr Vector<E, Size, enabled>::Vector(const E value) noexcept: VectorExpression<Vector<E, Size, enabled>>(), _elements() { this ->_elements.fill(value); }
+
+	template <typename E, unsigned int Size, typename enabled>
+	Vector<E, Size, enabled>::Vector(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept: VectorExpression<Vector<E, Size, enabled>>(), _elements()
 	{
 		for (unsigned int i = 0; i < rhs.size(); ++i) {
 			this->_elements[i] = rhs[i];
@@ -77,21 +80,101 @@ namespace ece
 	template <typename E, unsigned int Size, typename enabled>
 	inline constexpr unsigned int Vector<E, Size, enabled>::size() const noexcept { return Size; }
 
-	template <class E1, class E2, typename enabled>
-	auto operator+(const E1 & lhs, const E2 & rhs) { return std::move(VectorOperation<
-																					std::conditional<
-																						std::is_base_of_v<VectorExpression<E1>, E1>, 
-																						E1, 
-																						Vector<E1, VectorCountV<E2>>
-																					>::type, 
-		std::conditional<
-		std::is_base_of_v<VectorExpression<E2>, E2>,
-		E2,
-		Vector<E2, VectorCountV<E1>>
-		>::type,
-																					std::plus<>
-																		>(lhs, rhs)); }
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, unary_plus<>> operator+(const E & lhs) { return VectorUnaryOperation<E, unary_plus<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, std::negate<>> operator-(const E & lhs) { return VectorUnaryOperation<E, std::negate<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, std::bit_not<>> operator~(const E & lhs) { return VectorUnaryOperation<E, std::bit_not<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, std::bit_not<>> operator!(const E & lhs) { return VectorUnaryOperation<E, std::logical_not<>>(lhs); }
 
 	template <class E1, class E2, typename enabled>
-	decltype(auto) operator-(const E1 & lhs, const E2 & rhs) { return VectorOperation<ValueReference<E1>, ValueReference<E2>, std::minus<>>(lhs, rhs); }
+	E1 & operator+=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, std::plus<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator-=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, std::minus<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator*=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, std::multiplies<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator/=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, std::divides<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator%=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, std::divides<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator&=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, std::bit_and<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator|=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, std::bit_or<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	E1 & operator^=(E1 & lhs, const E2 & rhs)
+	{
+		VectorOperation<E1, E2, std::bit_xor<>> result(lhs, rhs);
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			lhs[i] = result[i];
+		}
+		return lhs;
+	}
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::plus<>> operator+(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::plus<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::minus<>>(lhs, rhs); }
 }

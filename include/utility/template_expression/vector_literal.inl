@@ -38,18 +38,12 @@
 
 namespace ece
 {
-	template <class E>
-	ValueReference<E>::ValueReference(const E & value): _value(nullptr), _reference(value) {}
+	template <typename E>
+	VectorLiteral<E>::VectorLiteral(const E value) noexcept: VectorExpression<VectorLiteral<E>>(), _value(value) { }
 
-	template <class E>
-	ValueReference<E>::ValueReference(const E value) : _value(new E(value)), _reference(this->_value) {}
+	template <typename E>
+	E VectorLiteral<E>::operator[](const unsigned int /*index*/) const { return this->_value; }
 
-	template <class E>
-	ValueReference<E>::ValueReference(E && value) : _value(new E(value)), _reference(this->_value) {}
-
-	template <class E>
-	ValueReference<E>::~ValueReference() { delete(this->_value); }
-
-	template <class E>
-	const E & ValueReference<E>::ref() const { return this->_reference; }
+	template <typename E>
+	inline unsigned int VectorLiteral<E>::size() const { return 0; }
 }
