@@ -177,6 +177,10 @@ namespace ece
 		
 		inline Vector<E, Size, enabled> cshift(const int count) const noexcept;
 
+		inline Vector<E, Size, enabled> apply(E func(E)) const noexcept;
+
+		inline Vector<E, Size, enabled> apply(E func(const E &)) const noexcept;
+
 	protected:
 		std::array<E, Size> _elements;
 	};
@@ -228,6 +232,54 @@ namespace ece
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
 	VectorOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::multiplies<>> operator*(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::divides<>> operator/(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::modulus<>> operator%(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::bit_and<>> operator&(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::bit_or<>> operator|(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::bit_xor<>> operator^(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, bitwise_left_shift<>> operator<<(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, bitwise_right_shift<>> operator<<(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::logical_and<>> operator&&(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::logical_or<>> operator||(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::equal_to<>> operator==(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::not_equal_to<>> operator!=(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::greater<>> operator>(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::less<>> operator<(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::greater_equal<>> operator>=(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
+	VectorOperation<E1, E2, std::less_equal<>> operator<=(const E1 & lhs, const E2 & rhs);
 }
 
 #include "utility/template_expression/vector.inl"

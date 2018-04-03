@@ -94,14 +94,8 @@ namespace ece
 	inline Vector<E, Size, enabled> Vector<E, Size, enabled>::shift(const int count) const noexcept
 	{
 		Vector<E, Size, enabled> result;
-		for (unsigned int i = 0; i < static_cast<unsigned int>(std::max(0, count - 1)); ++i) {
-			result[i] = count >= 0 ? this->_elements[i + count] : 0;
-		}
-		for (unsigned int i = static_cast<unsigned int>(std::max(0, count - 1)); i < std::min(Size, Size + count - 1); ++i) {
-			result[i] = count >= 0 ? this->_elements[i + count] : this->_elements[i - count];
-		}
-		for (unsigned int i = std::min(Size, Size + count - 1); i < Size; ++i) {
-			result[i] = count >= 0 ? 0 : this->_elements[i - count];
+		for (int i = 0; i < static_cast<int>(Size); ++i) {
+			result[i] = count + i < 0 || count + i >= Size ? 0 : this->_elements[count + i];
 		}
 		return std::move(result);
 	}
@@ -110,14 +104,28 @@ namespace ece
 	inline Vector<E, Size, enabled> Vector<E, Size, enabled>::cshift(const int count) const noexcept
 	{
 		Vector<E, Size, enabled> result;
-		for (unsigned int i = 0; i < static_cast<unsigned int>(std::max(0, count)); ++i) {
-			result[i] = count >= 0 ? this->_elements[i + count - 1] : this->_elements[Size - count - 1 + i];
+		for (int i = 0; i < static_cast<int>(Size); ++i) {
+			result[i] = (count + i < 0 || count + i >= Size) ? (count + i < 0 ? this->_elements[Size + count + i] : this->_elements[(count + i) % (Size)]) : this->_elements[count + i];
 		}
-		for (unsigned int i = static_cast<unsigned int>(std::max(0, count)); i < std::min(Size, Size + count); ++i) {
-			result[i] = count >= 0 ? this->_elements[i + count - 1] : this->_elements[i - count - 1];
+		return std::move(result);
+	}
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline Vector<E, Size, enabled> Vector<E, Size, enabled>::apply(E func(E)) const noexcept
+	{
+		Vector<E, Size, enabled> result;
+		for (unsigned int i = 0; i < Size; ++i) {
+			result[i] = func(this->_elements[i]);
 		}
-		for (unsigned int i = std::min(Size, Size + count); i < Size; ++i) {
-			result[i] = count >= 0 ? this->_elements[Size + count - 1 + i] : this->_elements[i - count - 1];
+		return std::move(result);
+	}
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline Vector<E, Size, enabled> Vector<E, Size, enabled>::apply(E func(const E &)) const noexcept
+	{
+		Vector<E, Size, enabled> result;
+		for (unsigned int i = 0; i < Size; ++i) {
+			result[i] = func(this->_elements[i]);
 		}
 		return std::move(result);
 	}
@@ -239,4 +247,52 @@ namespace ece
 
 	template <class E1, class E2, typename enabled>
 	VectorOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::minus<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::multiplies<>> operator*(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::multiplies<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::divides<>> operator/(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::divides<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::modulus<>> operator%(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::modulus<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::bit_and<>> operator&(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::bit_and<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::bit_or<>> operator|(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::bit_or<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::bit_xor<>> operator^(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::bit_xor<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, bitwise_left_shift<>> operator<<(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, bitwise_left_shift<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, bitwise_right_shift<>> operator>>(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, bitwise_right_shift<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::logical_and<>> operator&&(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::logical_and<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::logical_or<>> operator||(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::logical_or<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::equal_to<>> operator==(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::equal_to<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::not_equal_to<>> operator!=(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::not_equal_to<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::greater<>> operator>(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::greater<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::less<>> operator<(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::less<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::greater_equal<>> operator>=(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::greater_equal<>>(lhs, rhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, std::less_equal<>> operator<=(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::less_equal<>>(lhs, rhs); }
 }
