@@ -45,5 +45,5 @@ namespace ece
 	E VectorLiteral<E>::operator[](const unsigned int /*index*/) const { return this->_value; }
 
 	template <typename E>
-	inline unsigned int VectorLiteral<E>::size() const { return 0; }
+	inline constexpr unsigned int VectorLiteral<E>::size() const { return 0; }
 }

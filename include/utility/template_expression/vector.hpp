@@ -39,8 +39,14 @@
 #ifndef NEW_VECTOR_HPP
 #define NEW_VECTOR_HPP
 
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
+
 #include <array>
 #include <type_traits>
+#include <cmath>
 
 #include "utility/template_expression/vector_expression.hpp"
 #include "utility/template_expression/vector_operator.hpp"
@@ -81,7 +87,8 @@ namespace ece
 		 * @brief Build a vector from a vector expression, forcing its evaluation.
 		 * @throw noexcept
 		 */
-		Vector(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept;
+		template <class E2, typename enabledBis = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E2>, E2>>>
+		Vector(const E2 & rhs) noexcept;
 
 		/**
 		 * @fn Vector(std::initializer_list<E> il) noexcep
@@ -181,6 +188,8 @@ namespace ece
 
 		inline Vector<E, Size, enabled> apply(E func(const E &)) const noexcept;
 
+		inline auto magnitude() const;
+
 	protected:
 		std::array<E, Size> _elements;
 	};
@@ -264,10 +273,10 @@ namespace ece
 	VectorOperation<E1, E2, std::logical_or<>> operator||(const E1 & lhs, const E2 & rhs);
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
-	VectorOperation<E1, E2, std::equal_to<>> operator==(const E1 & lhs, const E2 & rhs);
+	bool operator==(const E1 & lhs, const E2 & rhs);
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
-	VectorOperation<E1, E2, std::not_equal_to<>> operator!=(const E1 & lhs, const E2 & rhs);
+	bool operator!=(const E1 & lhs, const E2 & rhs);
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
 	VectorOperation<E1, E2, std::greater<>> operator>(const E1 & lhs, const E2 & rhs);
@@ -280,6 +289,77 @@ namespace ece
 
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> || std::is_base_of_v<VectorExpression<E2>, E2>>>
 	VectorOperation<E1, E2, std::less_equal<>> operator<=(const E1 & lhs, const E2 & rhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, absolute<>> abs(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, exponential<>> exp(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, logarithm<>> log(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, logarithm10<>> log10(const E & lhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1>>>
+	VectorOperation<E1, E2, power<>> pow(const E1 & lhs, const E2 & rhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, square_root<>> sqrt(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, sinus<>> sin(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, cosinus<>> cos(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, tangent<>> tan(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, arcsinus<>> asin(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, arccosinus<>> acos(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, arctangent<>> atan(const E & lhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1>>>
+	VectorOperation<E1, E2, arctangent2<>> atan2(const E1 & lhs, const E2 & rhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, sinus_hyperbolic<>> sinh(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, cosinus_hyperbolic<>> cosh(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, tangent_hyperbolic<>> tanh(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, arcsinus_hyperbolic<>> asinh(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, arccosinus_hyperbolic<>> acosh(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorUnaryOperation<E, arctangent_hyperbolic<>> atanh(const E & lhs);
+
+	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E>, E>>>
+	VectorOperation<E, E, std::divides<>> normalize(const E & lhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
+	E1 cross(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
+	auto dot(const E1 & lhs, const E2 & rhs);
+
+	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E1>, E1> && std::is_base_of_v<VectorExpression<E2>, E2>>>
+	auto distanceFrom(const E1 & lhs, const E2 & rhs);
+
+//	distanceFrom
 }
 
 #include "utility/template_expression/vector.inl"

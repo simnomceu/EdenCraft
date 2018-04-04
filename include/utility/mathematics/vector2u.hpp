@@ -39,7 +39,7 @@
 #ifndef VERTEX2U_HPP
 #define VERTEX2U_HPP
 
-#include "utility/mathematics/vector.hpp"
+#include "utility/template_expression/vector.hpp"
 
 namespace ece
 {

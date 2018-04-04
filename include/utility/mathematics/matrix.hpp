@@ -47,7 +47,7 @@
 #include <valarray>
 
 #include "utility/debug/exception.hpp"
-#include "utility/mathematics/vector.hpp"
+#include "utility/template_expression/vector.hpp"
 
 namespace ece
 {

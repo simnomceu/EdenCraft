@@ -38,6 +38,7 @@
 
 #include <type_traits>
 #include <algorithm>
+#include <numeric>
 
 namespace ece
 {
@@ -48,7 +49,8 @@ namespace ece
 	inline constexpr Vector<E, Size, enabled>::Vector(const E value) noexcept: VectorExpression<Vector<E, Size, enabled>>(), _elements() { this ->_elements.fill(value); }
 
 	template <typename E, unsigned int Size, typename enabled>
-	Vector<E, Size, enabled>::Vector(const VectorExpression<Vector<E, Size, enabled>> & rhs) noexcept: VectorExpression<Vector<E, Size, enabled>>(), _elements()
+	template <class E2, typename enabledBis>
+	Vector<E, Size, enabled>::Vector(const E2 & rhs) noexcept: VectorExpression<Vector<E, Size, enabled>>(), _elements()
 	{
 		for (unsigned int i = 0; i < rhs.size(); ++i) {
 			this->_elements[i] = rhs[i];
@@ -88,7 +90,7 @@ namespace ece
 	inline E Vector<E, Size, enabled>::max() const noexcept { return std::max_element(this->_elements.begin(), this->_elements.end()); }
 
 	template <typename E, unsigned int Size, typename enabled>
-	inline E Vector<E, Size, enabled>::sum() const noexcept { return std::accumulate(this->_elements.begin(), this->_elements.end(), 0); }
+	inline E Vector<E, Size, enabled>::sum() const noexcept { return std::accumulate(this->_elements.begin(), this->_elements.end(), static_cast<E>(0)); }
 
 	template <typename E, unsigned int Size, typename enabled>
 	inline Vector<E, Size, enabled> Vector<E, Size, enabled>::shift(const int count) const noexcept
@@ -130,6 +132,9 @@ namespace ece
 		return std::move(result);
 	}
 
+	template <typename E, unsigned int Size, typename enabled>
+	inline auto Vector<E, Size, enabled>::magnitude() const { return std::sqrt(dot(*this, *this)); }
+
 	template <class E, typename enabled>
 	VectorUnaryOperation<E, unary_plus<>> operator+(const E & lhs) { return VectorUnaryOperation<E, unary_plus<>>(lhs); }
 
@@ -147,7 +152,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, std::plus<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -157,7 +162,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, std::minus<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -167,7 +172,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, std::multiplies<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -177,7 +182,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, std::divides<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -187,7 +192,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, std::divides<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -197,7 +202,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, std::bit_and<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -207,7 +212,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, std::bit_or<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -217,7 +222,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, std::bit_xor<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -227,7 +232,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, bitwise_left_shift<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -237,7 +242,7 @@ namespace ece
 	{
 		VectorOperation<E1, E2, bitwise_right_shift<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = result[i];
+			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
 		}
 		return lhs;
 	}
@@ -279,10 +284,18 @@ namespace ece
 	VectorOperation<E1, E2, std::logical_or<>> operator||(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::logical_or<>>(lhs, rhs); }
 
 	template <class E1, class E2, typename enabled>
-	VectorOperation<E1, E2, std::equal_to<>> operator==(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::equal_to<>>(lhs, rhs); }
+	bool operator==(const E1 & lhs, const E2 & rhs) 
+	{
+		VectorOperation<E1, E2, std::equal_to<>> result(lhs, rhs);
+		bool equals = true;
+		for (unsigned int i = 0; i < result.size(); ++i) {
+			equals = equals && result[i];
+		}
+		return equals;
+	}
 
 	template <class E1, class E2, typename enabled>
-	VectorOperation<E1, E2, std::not_equal_to<>> operator!=(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::not_equal_to<>>(lhs, rhs); }
+	bool operator!=(const E1 & lhs, const E2 & rhs) { return !operator==(lhs, rhs); }
 
 	template <class E1, class E2, typename enabled>
 	VectorOperation<E1, E2, std::greater<>> operator>(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::greater<>>(lhs, rhs); }
@@ -295,4 +308,73 @@ namespace ece
 
 	template <class E1, class E2, typename enabled>
 	VectorOperation<E1, E2, std::less_equal<>> operator<=(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, std::less_equal<>>(lhs, rhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, absolute<>> abs(const E & lhs) { return VectorUnaryOperation<E, absolute<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, exponential<>> exp(const E & lhs) { return VectorUnaryOperation<E, exponential<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, logarithm<>> log(const E & lhs) { return VectorUnaryOperation<E, logarithm<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, logarithm10<>> log10(const E & lhs) { return VectorUnaryOperation<E, logarithm10<>>(lhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, power<>> pow(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, power<>>(lhs, rhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, square_root<>> sqrt(const E & lhs) { return VectorUnaryOperation<E, square_root<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, sinus<>> sin(const E & lhs) { return VectorUnaryOperation<E, sinus<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, cosinus<>> cos(const E & lhs) { return VectorUnaryOperation<E, cosinus<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, tangent<>> tan(const E & lhs) { return VectorUnaryOperation<E, tangent<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, arcsinus<>> asin(const E & lhs) { return VectorUnaryOperation<E, arcsinus<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, arccosinus<>> acos(const E & lhs) { return VectorUnaryOperation<E, arccosinus<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, arctangent<>> atan(const E & lhs) { return VectorUnaryOperation<E, arctangent<>>(lhs); }
+
+	template <class E1, class E2, typename enabled>
+	VectorOperation<E1, E2, arctangent2<>> atan2(const E1 & lhs, const E2 & rhs) { return VectorOperation<E1, E2, arctangent2<>>(lhs, rhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, sinus_hyperbolic<>> sinh(const E & lhs) { return VectorUnaryOperation<E, sinus_hyperbolic<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, cosinus_hyperbolic<>> cosh(const E & lhs) { return VectorUnaryOperation<E, cosinus_hyperbolic<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, tangent_hyperbolic<>> tanh(const E & lhs) { return VectorUnaryOperation<E, tangent_hyperbolic<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, arcsinus_hyperbolic<>> asinh(const E & lhs) { return VectorUnaryOperation<E, arcsinus_hyperbolic<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, arccosinus_hyperbolic<>> acosh(const E & lhs) { return VectorUnaryOperation<E, arccosinus_hyperbolic<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorUnaryOperation<E, arctangent_hyperbolic<>> atanh(const E & lhs) { return VectorUnaryOperation<E, arctangent_hyperbolic<>>(lhs); }
+
+	template <class E, typename enabled>
+	VectorOperation<E, E, std::divides<>> normalize(const E & lhs) { return VectorOperation<E, E, std::divides<>>(lhs, lhs.magnitude()); }
+
+	template <class E1, class E2, typename enabled>
+	E1 cross(const E1 & lhs, const E2 & rhs) { return E1{ lhs[1] * rhs[2] - lhs[2] * rhs[1], lhs[2] * rhs[0] - lhs[0] * rhs[2], lhs[0] * rhs[1] - lhs[1] * rhs[0] }; }
+
+	template <class E1, class E2, typename enabled>
+	auto dot(const E1 & lhs, const E2 & rhs) { return E1(lhs * rhs).sum(); }
+
+	template <class E1, class E2, typename enabled>
+	auto distanceFrom(const E1 & lhs, const E2 & rhs) { return (lhs - rhs).magnitude(); }
 }

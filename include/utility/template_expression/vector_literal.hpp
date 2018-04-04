@@ -106,12 +106,12 @@ namespace ece
 		E operator[](const unsigned int index) const;
 
 		/**
-		* @fn unsigned int size() const
+		* @fn constexpr unsigned int size() const
 		* @return The size of the resulting vector.
 		* @brief Get the size of the resulting vector.
 		* @throw
 		*/
-		inline unsigned int size() const;
+		inline constexpr unsigned int size() const;
 
 	private:
 		E _value;

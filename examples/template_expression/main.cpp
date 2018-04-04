@@ -11,7 +11,7 @@ int main()
 	ece::Vector<float, 3> b = { 2.1f, 4.5f, 7.2f };
 	ece::Vector<int, 3> c = 1;
 
-	auto && result = -(7 + a + 1 + ece::Vector<int, 3>{ 1, 1, 1 }  + b - ece::Vector<int, 3>(1));
+	auto && result = ece::abs(-(7 + a + 1 + ece::Vector<int, 3>{ 1, 1, 1 }  + b - ece::Vector<int, 3>(1)));
 	auto resultBis = +a + c;
 
 	std::cout << "{ ";

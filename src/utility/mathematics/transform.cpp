@@ -46,17 +46,17 @@ namespace ece
 	{
 		FloatVector3u x, y, z;
 		z = eye - target;
-		z.normalize();
+		z = normalize(z);
 		y = upAxis;
-		x = y.cross(z);
-		y = z.cross(x);
-		x.normalize();
-		y.normalize();
+		x = cross(y, z);
+		y = cross(z, x);
+		x = normalize(x);
+		y = normalize(y);
 
 		return FloatMatrix4u{ x[0], y[0], z[0], 0.0f,
 							   x[1], y[1], z[1], 0.0f,
 							   x[2], y[2], z[2], 0.0f,
-							   -x.dot(eye), -y.dot(eye), -z.dot(eye), 1.0f };
+							   -dot(x, eye), -dot(y, eye), -dot(z, eye), 1.0f };
 	}
 
 	FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)

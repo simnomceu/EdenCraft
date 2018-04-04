@@ -51,7 +51,7 @@ namespace ece
 	struct unary_plus<void>
 	{
 		template <class T>
-		constexpr auto operator()(T && value) const -> decltype(+std::forward(value)) { return +std::forward(value); }
+		constexpr auto operator()(T && value) const -> decltype(+std::forward<T>(value)) { return +std::forward<T>(value); }
 	};
 
 	template <class T1 = void, class T2 = void>
@@ -64,7 +64,7 @@ namespace ece
 	struct bitwise_left_shift<void, void>
 	{
 		template <class T1, class T2>
-		constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward(lhs) << std::forward(rhs)) { return std::forward(lhs) << std::forward(rhs); }
+		constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward<T1>(lhs) << std::forward<T2>(rhs)) { return std::forward<T1>(lhs) << std::forward<T2>(rhs); }
 	};
 
 	template <class T1 = void, class T2 = void>
@@ -77,7 +77,254 @@ namespace ece
 	struct bitwise_right_shift<void, void>
 	{
 		template <class T1, class T2>
-		constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward(lhs) >> std::forward(rhs)) { return std::forward(lhs) >> std::forward(rhs); }
+		constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward<T1>(lhs) >> std::forward<T2>(rhs)) { return std::forward<T1>(lhs) >> std::forward<T2>(rhs); }
+	};
+
+	template <class T = void>
+	struct absolute
+	{
+		constexpr T operator()(const T & value) const { return value >= 0 ? value : -value; }
+	};
+
+	template <>
+	struct absolute<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::forward<T>(value) >= 0 ? std::forward<T>(value) : -std::forward<T>(value)) { return std::forward<T>(value) >= 0 ? std::forward<T>(value) : -std::forward<T>(value); }
+	};
+
+	template <class T = void>
+	struct exponential
+	{
+		constexpr T operator()(const T & value) const { return std::exp(value); }
+	};
+
+	template <>
+	struct exponential<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::exp(std::forward<T>(value))) { return std::exp(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct logarithm
+	{
+		constexpr T operator()(const T & value) const { return std::log(value); }
+	};
+
+	template <>
+	struct logarithm<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::log(std::forward<T>(value))) { return std::log(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct logarithm10
+	{
+		constexpr T operator()(const T & value) const { return std::log10(value); }
+	};
+
+	template <>
+	struct logarithm10<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::log10(std::forward<T>(value))) { return std::log10(std::forward<T>(value)); }
+	};
+
+	template <class T1 = void, class T2 = void>
+	struct power
+	{
+		constexpr T1 operator()(const T1 & value, const T2 & exponent) const { return std::pow(value, exponent); }
+	};
+
+	template <>
+	struct power<void, void>
+	{
+		template <class T1, class T2>
+		constexpr auto operator()(T1 && value, const T2 & exponent) const -> decltype(std::pow(std::forward<T1>(value), std::forward<T2>(exponent))) { return std::pow(std::forward<T1>(value), std::forward<T2>(exponent)); }
+	};
+
+	template <class T = void>
+	struct square_root
+	{
+		constexpr T operator()(const T & value) const { return std::sqrt(value); }
+	};
+
+	template <>
+	struct square_root<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::sqrt(std::forward<T>(value))) { return std::sqrt(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct sinus
+	{
+		constexpr T operator()(const T & value) const { return std::sin(value); }
+	};
+
+	template <>
+	struct sinus<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::sin(std::forward<T>(value))) { return std::sin(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct cosinus
+	{
+		constexpr T operator()(const T & value) const { return std::cos(value); }
+	};
+
+	template <>
+	struct cosinus<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::cos(std::forward<T>(value))) { return std::cos(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct tangent
+	{
+		constexpr T operator()(const T & value) const { return std::tan(value); }
+	};
+
+	template <>
+	struct tangent<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::tan(std::forward<T>(value))) { return std::tan(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct arcsinus
+	{
+		constexpr T operator()(const T & value) const { return std::asin(value); }
+	};
+
+	template <>
+	struct arcsinus<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::asin(std::forward<T>(value))) { return std::asin(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct arccosinus
+	{
+		constexpr T operator()(const T & value) const { return std::acos(value); }
+	};
+
+	template <>
+	struct arccosinus<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::acos(std::forward<T>(value))) { return std::acos(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct arctangent
+	{
+		constexpr T operator()(const T & value) const { return std::atan(value); }
+	};
+
+	template <>
+	struct arctangent<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::atan(std::forward<T>(value))) { return std::atan(std::forward<T>(value)); }
+	};
+
+	template <class T1 = void, class T2 = void>
+	struct arctangent2
+	{
+		constexpr T1 operator()(const T1 & value, const T2 & x) const { return std::atan2(value, x); }
+	};
+
+	template <>
+	struct arctangent2<void, void>
+	{
+		template <class T1, class T2>
+		constexpr auto operator()(T1 && value, T2 && x) const -> decltype(std::atan2(std::forward<T1>(value), std::forward<T2>(x))) { return std::atan2(std::forward<T1>(value), std::forward<T2>(x)); }
+	};
+
+	template <class T = void>
+	struct sinus_hyperbolic
+	{
+		constexpr T operator()(const T & value) const { return std::sinh(value); }
+	};
+
+	template <>
+	struct sinus_hyperbolic<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::sinh(std::forward<T>(value))) { return std::sinh(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct cosinus_hyperbolic
+	{
+		constexpr T operator()(const T & value) const { return std::cosh(value); }
+	};
+
+	template <>
+	struct cosinus_hyperbolic<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::cosh(std::forward<T>(value))) { return std::cosh(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct tangent_hyperbolic
+	{
+		constexpr T operator()(const T & value) const { return std::tanh(value); }
+	};
+
+	template <>
+	struct tangent_hyperbolic<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::tanh(std::forward<T>(value))) { return std::tanh(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct arcsinus_hyperbolic
+	{
+		constexpr T operator()(const T & value) const { return std::asinh(value); }
+	};
+
+	template <>
+	struct arcsinus_hyperbolic<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::asinh(std::forward<T>(value))) { return std::asinh(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct arccosinus_hyperbolic
+	{
+		constexpr T operator()(const T & value) const { return std::acosh(value); }
+	};
+
+	template <>
+	struct arccosinus_hyperbolic<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::acosh(std::forward<T>(value))) { return std::acosh(std::forward<T>(value)); }
+	};
+
+	template <class T = void>
+	struct arctangent_hyperbolic
+	{
+		constexpr T operator()(const T & value) const { return std::atanh(value); }
+	};
+
+	template <>
+	struct arctangent_hyperbolic<void>
+	{
+		template <class T>
+		constexpr auto operator()(T && value) const -> decltype(std::atanh(std::forward<T>(value))) { return std::atanh(std::forward<T>(value)); }
 	};
 }
 
