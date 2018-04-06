@@ -40,6 +40,8 @@
 #include <algorithm>
 #include <numeric>
 
+#include "utility/template_expression/vector_filter.hpp"
+
 namespace ece
 {
 	template<typename E, unsigned int Size, typename enabled>
@@ -79,6 +81,12 @@ namespace ece
 
 	template <typename E, unsigned int Size, typename enabled>
 	inline E & Vector<E, Size, enabled>::operator[](const unsigned int index) { return this->_elements[index]; }
+
+	template <typename E, unsigned int Size, typename enabled>
+	VectorFilter<E, Size, enabled> Vector<E, Size, enabled>::operator[](Vector<bool, Size, enabled> && filter) { return VectorFilter<E, Size, enabled>(*this, std::move(filter)); }
+
+	template <typename E, unsigned int Size, typename enabled>
+	VectorFilter<E, Size, enabled> Vector<E, Size, enabled>::operator[](std::initializer_list<E> && il) { return VectorFilter<E, Size, enabled>(*this, std::move(il)); }
 
 	template <typename E, unsigned int Size, typename enabled>
 	inline constexpr unsigned int Vector<E, Size, enabled>::size() const noexcept { return Size; }

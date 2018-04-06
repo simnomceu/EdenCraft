@@ -55,6 +55,8 @@
 
 namespace ece
 {
+	template <typename E, unsigned int Size, typename enabled> class VectorFilter;
+
 	/**
 	 * @class Vector
 	 * @tparam E The type of elements in the vector.
@@ -87,7 +89,7 @@ namespace ece
 		 * @brief Build a vector from a vector expression, forcing its evaluation.
 		 * @throw noexcept
 		 */
-		template <class E2, typename enabledBis = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E2>, E2>>>
+		template <class E2, typename enabledBis = typename std::enable_if_t<std::is_base_of_v<VectorExpression<E2>, E2> && !std::is_same_v<E2, Vector<E, Size, enabled>>>>
 		Vector(const E2 & rhs) noexcept;
 
 		/**
@@ -165,6 +167,10 @@ namespace ece
 		* @throw
 		*/
 		inline E & operator[](const unsigned int index);
+
+		VectorFilter<E, Size, enabled> operator[](Vector<bool, Size, enabled> && filter);
+
+		VectorFilter<E, Size, enabled> operator[](std::initializer_list<E> && il);
 
 		/**
 		* @fn constexpr unsigned int size() const noexcept
