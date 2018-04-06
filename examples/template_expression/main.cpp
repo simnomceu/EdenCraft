@@ -1,11 +1,8 @@
-#include "utility/log.hpp"
+#include "utility/template_expression/matrix.hpp"
 #include "utility/template_expression/vector.hpp"
-#include "utility/template_expression/vector_operator.hpp"
 
 int main()
 {
-	ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
-
 	ece::Vector<int, 3> a = { 1, 5, 3 };
 	a *= 2;
 	ece::Vector<float, 3> b = { 2.1f, 4.5f, 7.2f };
@@ -29,6 +26,11 @@ int main()
 		std::cout << result[i] << " ";
 	}
 	std::cout << "}" << std::endl;
+
+	// ==============================
+
+	ece::Matrix<int, 2, 2> matrix = { 0, 1, 1, 0 };
+	matrix[matrix <= 0] += 5;
 
 	return EXIT_SUCCESS;
 }
