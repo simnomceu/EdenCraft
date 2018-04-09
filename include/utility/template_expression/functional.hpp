@@ -39,6 +39,9 @@
 #ifndef FUNCTIONAL_HPP
 #define FUNCTIONAL_HPP
 
+#include <utility>
+#include <cmath>
+
 namespace ece
 {
 	template <class T = void>
