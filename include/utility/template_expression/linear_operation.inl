@@ -36,14 +36,19 @@
 
 */
 
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
+
 namespace ece
 {
-	template <typename E>
-	VectorLiteral<E>::VectorLiteral(const E value) noexcept: VectorExpression<VectorLiteral<E>>(), _value(value) { }
+	template <class E1, class E2, class Op>
+	inline LinearOperation<E1, E2, Op>::LinearOperation(const E1 & lhs, const E2 & rhs) noexcept: LinearExpression<LinearOperation<E1, E2, Op>>(), _lhs(lhs), _rhs(rhs) {}
 
-	template <typename E>
-	E VectorLiteral<E>::operator[](const unsigned int /*index*/) const { return this->_value; }
+	template <class E1, class E2, class Op>
+	auto LinearOperation<E1, E2, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs[index], this->_rhs[index]); }
 
-	template <typename E>
-	inline constexpr unsigned int VectorLiteral<E>::size() const { return 0; }
+	template <class E1, class E2, class Op>
+	inline unsigned int LinearOperation<E1, E2, Op>::size() const { return std::max(this->_lhs.size(), this->_rhs.size()); }
 }

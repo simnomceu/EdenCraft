@@ -1,6 +1,8 @@
 #include "utility/template_expression/matrix.hpp"
 #include "utility/template_expression/vector.hpp"
 
+#include <iostream>
+
 int main()
 {
 	ece::Vector<int, 3> a = { 1, 5, 3 };
@@ -30,7 +32,15 @@ int main()
 	// ==============================
 
 	ece::Matrix<int, 2, 2> matrix = { 0, 1, 1, 0 };
+	ece::Matrix<float, 2, 2> matrixBis = { 2.1f, 4.5f, 7.2f, 5.7f };
 	matrix[matrix <= 0] += 5;
+	auto && resultMat = ece::abs(-(7 + matrix + 1 + ece::Matrix<int, 2, 2>{ 1, 1, 1, 1 }  + matrixBis - ece::Matrix<int, 2, 2>(1)));
+
+	std::cout << "resultMat: { ";
+	for (unsigned int i = 0; i < resultMat.size(); ++i) {
+		std::cout << resultMat[i] << " ";
+	}
+	std::cout << "}" << std::endl;
 
 	return EXIT_SUCCESS;
 }

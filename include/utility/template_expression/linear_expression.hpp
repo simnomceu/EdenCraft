@@ -36,98 +36,105 @@
 
 */
 
-#ifndef VECTOR_FILTER_HPP
-#define VECTOR_FILTER_HPP
+#ifndef LINEAR_EXPRESSION_HPP
+#define LINEAR_EXPRESSION_HPP
 
 #include <type_traits>
 
 namespace ece
 {
-	template <typename E, unsigned int Size, typename enabled> class Vector;
-
 	/**
-	 * @class VectorFilter
+	 * @class LinearExpression
+	 * @tparam E The child template type of the Curiously Reccuring Template Pattern.
 	 * @brief
 	 */
-	template <typename E, unsigned int Size, typename enabled = typename std::enable_if_t<std::is_arithmetic<E>::value>>
-	class VectorFilter
+	template <class E>
+	class LinearExpression
 	{
 	public:
-		constexpr VectorFilter() noexcept = delete;
-
-		VectorFilter(Vector<E, Size> & vector, Vector<bool, Size> && filter);
-
-		VectorFilter(Vector<E, Size> & vector, std::initializer_list<E> && il);
+		/**
+		 * @fn constexpr LinearExpression() noexcept
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		constexpr LinearExpression() noexcept = default;
 
 		/**
-		 * @fn VectorFilter(const VectorFilter & copy) noexcept
-		 * @param[in] copy The VectorFilter to copy from.
+		 * @fn LinearExpression(const LinearExpression & copy) noexcept
+		 * @param[in] copy The LinearExpression to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		VectorFilter(const VectorFilter & copy) noexcept = default;
+		LinearExpression(const LinearExpression & copy) noexcept = default;
 
 		/**
-		 * @fn VectorFilter(VectorFilter && move) noexcept
-		 * @param[in] move The VectorFilter to move.
+		 * @fn LinearExpression(LinearExpression && move) noexcept
+		 * @param[in] move The LinearExpression to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		VectorFilter(VectorFilter && move) noexcept = default;
+		LinearExpression(LinearExpression && move) noexcept = default;
 
 		/**
-		 * @fn ~VectorFilter() noexcept
+		 * @fn ~LinearExpression() noexcept
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~VectorFilter() noexcept = default;
+		~LinearExpression() noexcept = default;
 
 		/**
-		 * @fn VectorFilter & operator=(const VectorFilter & copy) noexcept
-		 * @param[in] copy The VectorFilter to copy from.
-		 * @return The VectorFilter copied.
+		 * @fn LinearExpression & operator=(const LinearExpression & copy) noexcept
+		 * @param[in] copy The LinearExpression to copy from.
+		 * @return The LinearExpression copied.
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		VectorFilter & operator=(const VectorFilter & copy) noexcept = default;
+		LinearExpression & operator=(const LinearExpression & copy) noexcept = default;
 
 		/**
-		 * @fn VectorFilter & operator=(VectorFilter && move) noexcept
-		 * @param[in] move The VectorFilter to move.
-		 * @return The VectorFilter moved.
+		 * @fn LinearExpression & operator=(LinearExpression && move) noexcept
+		 * @param[in] move The LinearExpression to move.
+		 * @return The LinearExpression moved.
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		VectorFilter & operator=(VectorFilter && move) noexcept = default;
+		LinearExpression & operator=(LinearExpression && move) noexcept = default;
 
-		template <class T> Vector<E, Size> & operator=(const T & rhs);
+		/**
+		 * @fn auto operator[](const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The element wished.
+		 * @brief Get the element at the index.
+		 * @throw
+		 */
+		inline auto operator[](const unsigned int index) const;
 
-		template <class T> Vector<E, Size> & operator+=(const T & rhs);
+		/**
+		 * @fn unsigned int size() const noexcept
+		 * @return The number of element in the expression result.
+		 * @brief Get he number of elements.
+		 * @throw noexcept
+		 */
+		inline unsigned int size() const noexcept;
 
-		template <class T> Vector<E, Size> & operator-=(const T & rhs);
+		/**
+		 * @fn operator E & () noexcept
+		 * @return The child class object.
+		 * @brief Downcast to the child class.
+		 * @throw noexcept
+		 */
+		inline operator E & () noexcept;
 
-		template <class T> Vector<E, Size> & operator*=(const T & rhs);
-
-		template <class T> Vector<E, Size> & operator/=(const T & rhs);
-
-		template <class T> Vector<E, Size> & operator%=(const T & rhs);
-
-		template <class T> Vector<E, Size> & operator&=(const T & rhs);
-
-		template <class T> Vector<E, Size> & operator|=(const T & rhs);
-
-		template <class T> Vector<E, Size> & operator^=(const T & rhs);
-
-		template <class T> Vector<E, Size> & operator<<=(const T & rhs);
-
-		template <class T> Vector<E, Size> & operator>>=(const T & rhs);
-
-	private:
-		Vector<E, Size> & _vector;
-		Vector<bool, Size> _filter;
+		/**
+		* @fn operator const E & () noexcept
+		* @return The child class object.
+		* @brief Downcast to the child class.
+		* @throw noexcept
+		*/
+		inline operator const E & () noexcept;
 	};
 }
 
-#include "utility/template_expression/vector_filter.inl"
+#include "utility/template_expression/linear_expression.inl"
 
-#endif // VECTOR_FILTER_HPP
+#endif // LINEAR_EXPRESSION_HPP

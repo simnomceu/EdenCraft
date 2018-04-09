@@ -32,92 +32,104 @@
 				GNU General Public License for more details.
 
 				You should have received a copy of the GNU General Public License
-				along with this program.If not, see <http://www.gnu.org/licenses/>.
+				along with this program.If noE, see <http://www.gnu.org/licenses/>.
 
 */
 
-#ifndef VECTOR_LITERAL_HPP
-#define VECTOR_LITERAL_HPP
+#ifndef FILTER_HPP
+#define FILTER_HPP
 
-#include "utility/template_expression/vector_expression.hpp"
+#include <type_traits>
+
+#include "utility/template_expression/linear_expression.hpp"
 
 namespace ece
 {
+	template <typename E, unsigned int Size, typename enabled> class Vector;
+
 	/**
-	 * @class VectorLiteral
+	 * @class VectorFilter
 	 * @brief
 	 */
-	template <typename E>
-	class VectorLiteral: public VectorExpression<VectorLiteral<E>>
+	template <class Container, unsigned int Size, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<Container>, Container>>>
+	class Filter
 	{
 	public:
-		constexpr VectorLiteral() noexcept = delete;
+		constexpr Filter() noexcept = delete;
 
-		VectorLiteral(const E value) noexcept;
+		Filter(Container & vector, Vector<bool, Size, enabled> && filter);
+
+		Filter(Container & vector, std::initializer_list<unsigned int> && il);
 
 		/**
-		 * @fn VectorLiteral(const VectorLiteral & copy) noexcept
-		 * @param[in] copy The VectorLiteral to copy from.
+		 * @fn Filter(const Filter & copy) noexcept
+		 * @param[in] copy The VectorFilter to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		VectorLiteral(const VectorLiteral & copy) noexcept = default;
+		Filter(const Filter<Container, Size, enabled> & copy) noexcept = default;
 
 		/**
-		 * @fn VectorLiteral(VectorLiteral && move) noexcept
-		 * @param[in] move The VectorLiteral to move.
+		 * @fn VectorFilter(VectorFilter && move) noexcept
+		 * @param[in] move The Filter to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		VectorLiteral(VectorLiteral && move) noexcept = default;
+		Filter(Filter<Container, Size, enabled> && move) noexcept = default;
 
 		/**
-		 * @fn ~VectorLiteral() noexcept
+		 * @fn ~Filter() noexcept
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~VectorLiteral() noexcept = default;
+		~Filter() noexcept = default;
 
 		/**
-		 * @fn VectorLiteral & operator=(const VectorLiteral & copy) noexcept
-		 * @param[in] copy The VectorLiteral to copy from.
-		 * @return The VectorLiteral copied.
+		 * @fn Filter & operator=(const Filter & copy) noexcept
+		 * @param[in] copy The Filter to copy from.
+		 * @return The Filter copied.
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		VectorLiteral & operator=(const VectorLiteral & copy) noexcept = default;
+		Filter<Container, Size, enabled> & operator=(const Filter<Container, Size, enabled> & copy) noexcept = default;
 
 		/**
-		 * @fn VectorLiteral & operator=(VectorLiteral && move) noexcept
-		 * @param[in] move The VectorLiteral to move.
-		 * @return The VectorLiteral moved.
+		 * @fn Filter & operator=(Filter && move) noexcept
+		 * @param[in] move The Filter to move.
+		 * @return The Filter moved.
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		VectorLiteral & operator=(VectorLiteral && move) noexcept = default;
+		Filter<Container, Size, enabled> & operator=(Filter<Container, Size, enabled> && move) noexcept = default;
 
-		/**
-		* @fn auto operator[](const unsigned int index) const
-		* @param[in] index The index of the element to access.
-		* @return The computed element of the resulting vector.
-		* @brief Compute and return the element at the index in the resulting vector of the operation.
-		* @throw
-		*/
-		E operator[](const unsigned int index) const;
+		template <class T> Container & operator=(const T & rhs);
 
-		/**
-		* @fn constexpr unsigned int size() const
-		* @return The size of the resulting vector.
-		* @brief Get the size of the resulting vector.
-		* @throw
-		*/
-		inline constexpr unsigned int size() const;
+		template <class T> Container & operator+=(const T & rhs);
+
+		template <class T> Container & operator-=(const T & rhs);
+
+		template <class T> Container & operator*=(const T & rhs);
+
+		template <class T> Container & operator/=(const T & rhs);
+
+		template <class T> Container & operator%=(const T & rhs);
+
+		template <class T> Container & operator&=(const T & rhs);
+
+		template <class T> Container & operator|=(const T & rhs);
+
+		template <class T> Container & operator^=(const T & rhs);
+
+		template <class T> Container & operator<<=(const T & rhs);
+
+		template <class T> Container & operator>>=(const T & rhs);
 
 	private:
-		E _value;
+		Container & _container;
+		Vector<bool, Size, enabled> _filter;
 	};
 }
 
-#include "utility/template_expression/vector_literal.inl"
+#include "utility/template_expression/filter.inl"
 
-#endif // VECTOR_LITERAL_HPP
+#endif // VECTOR_FILTER_HPP

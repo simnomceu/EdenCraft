@@ -36,105 +36,112 @@
 
 */
 
-#ifndef VECTOR_EXPRESSION_HPP
-#define VECTOR_EXPRESSION_HPP
+#ifndef LINEAR_OPERATION_HPP
+#define LINEAR_OPERATION_HPP
 
-#include <type_traits>
+#include <functional>
+
+#include "utility/template_expression/linear_expression.hpp"
+#include "utility/template_expression/literal.hpp"
 
 namespace ece
 {
 	/**
-	 * @class VectorExpression
-	 * @tparam E The child template type of the Curiously Reccuring Template Pattern.
-	 * @brief
+	 * @class LinearOperation
+	 * @extends LinearExpression<LinearOperation<E1, E2, Op>>
+	 * @tparam E1 The type of the first factor of the operation.
+	 * @tparam E2 The type of the second factor of the operation.
+	 * @tparam Op The operation to apply to.
+	 * @brief Vector operation.
 	 */
-	template <class E>
-	class VectorExpression
+	template <class E1, class E2, class Op>
+	class LinearOperation: public LinearExpression<LinearOperation<E1, E2, Op>>
 	{
 	public:
-		/**
-		 * @fn constexpr VectorExpression() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		constexpr VectorExpression() noexcept = default;
+		constexpr LinearOperation() noexcept = delete;
 
 		/**
-		 * @fn VectorExpression(const VectorExpression & copy) noexcept
-		 * @param[in] copy The VectorExpression to copy from.
+		 * @fn LinearOperation(const E1 & lhs, const E2 & rhs) noexcept
+		 * @param[in] lhs The left-hand side of the operation.
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @brief Build an operation from two vector factors.
+		 * @throw noexcept
+		 */
+		LinearOperation(const E1 & lhs, const E2 & rhs) noexcept;
+
+		/**
+		 * @fn LinearOperation(const LinearOperation & copy) noexcept
+		 * @param[in] copy The LinearOperation to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		VectorExpression(const VectorExpression & copy) noexcept = default;
+		LinearOperation(const LinearOperation & copy) noexcept = default;
 
 		/**
-		 * @fn VectorExpression(VectorExpression && move) noexcept
-		 * @param[in] move The VectorExpression to move.
+		 * @fn LinearOperation(LinearOperation && move) noexcept
+		 * @param[in] move The LinearOperation to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		VectorExpression(VectorExpression && move) noexcept = default;
+		LinearOperation(LinearOperation && move) noexcept = default;
 
 		/**
-		 * @fn ~VectorExpression() noexcept
+		 * @fn ~LinearOperation() noexcept
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~VectorExpression() noexcept = default;
+		~LinearOperation() noexcept = default;
 
 		/**
-		 * @fn VectorExpression & operator=(const VectorExpression & copy) noexcept
-		 * @param[in] copy The VectorExpression to copy from.
-		 * @return The VectorExpression copied.
+		 * @fn LinearOperation & operator=(const LinearOperation & copy) noexcept
+		 * @param[in] copy The LinearOperation to copy from.
+		 * @return The LinearOperation copied.
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		VectorExpression & operator=(const VectorExpression & copy) noexcept = default;
+		LinearOperation & operator=(const LinearOperation & copy) noexcept = default;
 
 		/**
-		 * @fn VectorExpression & operator=(VectorExpression && move) noexcept
-		 * @param[in] move The VectorExpression to move.
-		 * @return The VectorExpression moved.
+		 * @fn LinearOperation & operator=(LinearOperation && move) noexcept
+		 * @param[in] move The LinearOperation to move.
+		 * @return The LinearOperation moved.
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		VectorExpression & operator=(VectorExpression && move) noexcept = default;
+		LinearOperation & operator=(LinearOperation && move) noexcept = default;
 
 		/**
 		 * @fn auto operator[](const unsigned int index) const
 		 * @param[in] index The index of the element to access.
-		 * @return The element wished.
-		 * @brief Get the element at the index.
+		 * @return The computed element of the resulting vector.
+		 * @brief Compute and return the element at the index in the resulting vector of the operation.
 		 * @throw
 		 */
 		inline auto operator[](const unsigned int index) const;
 
 		/**
-		 * @fn unsigned int size() const noexcept
-		 * @return The number of element in the expression result.
-		 * @brief Get he number of elements.
-		 * @throw noexcept
+		 * @fn unsigned int size() const
+		 * @return The size of the resulting vector.
+		 * @brief Get the size of the resulting vector.
+		 * @throw
 		 */
-		inline unsigned int size() const noexcept;
+		inline unsigned int size() const;
 
+	private:
 		/**
-		 * @fn operator E & () noexcept
-		 * @return The child class object.
-		 * @brief Downcast to the child class.
-		 * @throw noexcept
+		 * @property _lhs
+		 * @brief The left-hand side of the operation.
 		 */
-		inline operator E & () noexcept;
-
+		std::conditional_t<std::is_arithmetic_v<E1>, Literal<E1>, const E1 &> _lhs;
+		
 		/**
-		* @fn operator const E & () noexcept
-		* @return The child class object.
-		* @brief Downcast to the child class.
-		* @throw noexcept
-		*/
-		inline operator const E & () noexcept;
+		 * @property _rhs
+		 * @brief The right-hand side of the operation.
+		 */
+		std::conditional_t<std::is_arithmetic_v<E2>, Literal<E2>, const E2 &> _rhs;
 	};
 }
 
-#include "utility/template_expression/vector_expression.inl"
+#include "utility/template_expression/linear_operation.inl"
 
-#endif // VECTOR_EXPRESSION_HPP
+#endif // LINEAR_OPERATION_HPP

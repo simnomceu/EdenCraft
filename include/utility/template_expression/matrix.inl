@@ -38,6 +38,56 @@
 
 namespace ece
 {
-template <typename E, unsigned int M, unsigned int N, typename enabled>
-    Matrix<E, M, N, enabled>::Matrix(std::initializer_list<E> il) noexcept: Vector<E, M * N, enabled>(il) {}
+	template<typename E, unsigned int M, unsigned int N, typename enabled>
+	inline constexpr Matrix<E, M, N, enabled>::Matrix() noexcept: LinearExpression<Matrix<E, M, N, enabled>>(), _elements() { this->_elements.fill(0); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline constexpr Matrix<E, M, N, enabled>::Matrix(const E value) noexcept : LinearExpression<Matrix<E, M, N, enabled>>(), _elements() { this->_elements.fill(value); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	template <class E2, typename enabledBis>
+	Matrix<E, M, N, enabled>::Matrix(const E2 & rhs) noexcept : LinearExpression<Matrix<E, M, N, enabled>>(), _elements()
+	{
+		for (unsigned int i = 0; i < rhs.size(); ++i) {
+			this->_elements[i] = rhs[i];
+		}
+	}
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	Matrix<E, M, N, enabled>::Matrix(std::initializer_list<E> il) noexcept: LinearExpression<Matrix<E, M, N, enabled>>(), _elements()
+	{
+		for (unsigned int i = 0; i < il.size(); ++i) {
+			this->_elements[i] = *(il.begin() + i);
+		}
+	}
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	Matrix<E, M, N, enabled> & Matrix<E, M, N, enabled>::operator=(const LinearExpression<Matrix<E, M, N, enabled>> & rhs) noexcept
+	{
+		for (unsigned int i = 0; i < rhs.size(); ++i) {
+			this->_elements[i] = rhs[i];
+		}
+		return *this;
+	}
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E Matrix<E, M, N, enabled>::operator[](const unsigned int index) const { return this->_elements[index]; }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E & Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return this->_elements[index]; }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](Matrix<bool, M, N, enabled> && filter) { return Filter<Matrix<E, M, N, enabled>, M * N>(*this, std::move(filter)); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](std::initializer_list<unsigned int> && il) { return Filter<Matrix<E, M, N, enabled>, M * N>(*this, std::move(il)); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline constexpr unsigned int Matrix<E, M, N, enabled>::size() const noexcept { return M * N; }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline auto Matrix<E, M, N, enabled>::begin() noexcept { return this->_elements.begin(); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline auto Matrix<E, M, N, enabled>::end() noexcept { return this->_elements.end(); }
 }
