@@ -48,8 +48,11 @@ namespace ece
 	template <typename E, unsigned int Size, typename enabled> class Vector;
 
 	/**
-	 * @class VectorFilter
-	 * @brief
+	 * @class Filter
+	 * @tparam Container The type of container (linked to the linear expressions) to filter.
+	 * @tparam Size The complete size of the container.
+	 * @tparam enabled The filter is available only for linear expressions.
+	 * @brief A filter for container, to handle only some of its elements.
 	 */
 	template <class Container, unsigned int Size, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<Container>, Container>>>
 	class Filter
@@ -57,20 +60,32 @@ namespace ece
 	public:
 		constexpr Filter() noexcept = delete;
 
-		Filter(Container & vector, Vector<bool, Size, enabled> && filter);
-
-		Filter(Container & vector, std::initializer_list<unsigned int> && il);
+		/**
+		 * @fn Filter(Container & container, Vector<bool, Size, enabled> && filter)
+		 * @param[in] container The container to filter.
+		 * @param[in] filter The filter to use.
+		 * @brief Build a filtered container.
+		 */
+		Filter(Container & container, Vector<bool, Size, enabled> && filter);
+		
+		/**
+		 * @fn Filter(Container & container, std::initializer_list<unsigned int> && il)
+		 * @param[in] container The container to filter.
+		 * @param[in] il The filter to use.
+		 * @brief Build a filtered container.
+		 */
+		Filter(Container & container, std::initializer_list<unsigned int> && il);
 
 		/**
-		 * @fn Filter(const Filter & copy) noexcept
-		 * @param[in] copy The VectorFilter to copy from.
+		 * @fn Filter(const Filter<Container, Size, enabled> & copy) noexcept
+		 * @param[in] copy The filter to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
 		Filter(const Filter<Container, Size, enabled> & copy) noexcept = default;
 
 		/**
-		 * @fn VectorFilter(VectorFilter && move) noexcept
+		 * @fn Filter(Filter<Container, Size, enabled> && move) noexcept
 		 * @param[in] move The Filter to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
@@ -85,7 +100,7 @@ namespace ece
 		~Filter() noexcept = default;
 
 		/**
-		 * @fn Filter & operator=(const Filter & copy) noexcept
+		 * @fn Filter<Container, Size, enabled> & operator=(const Filter<Container, Size, enabled> & copy) noexcept
 		 * @param[in] copy The Filter to copy from.
 		 * @return The Filter copied.
 		 * @brief Default copy assignment operator.
@@ -94,7 +109,7 @@ namespace ece
 		Filter<Container, Size, enabled> & operator=(const Filter<Container, Size, enabled> & copy) noexcept = default;
 
 		/**
-		 * @fn Filter & operator=(Filter && move) noexcept
+		 * @fn Filter<Container, Size, enabled> & operator=(Filter<Container, Size, enabled> && move) noexcept
 		 * @param[in] move The Filter to move.
 		 * @return The Filter moved.
 		 * @brief Default move assignment operator.
@@ -102,30 +117,116 @@ namespace ece
 		 */
 		Filter<Container, Size, enabled> & operator=(Filter<Container, Size, enabled> && move) noexcept = default;
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator+=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the addition assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator+=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator-=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the subtraction assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator-=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator*=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the multiplication assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator*=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator/=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the division assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator/=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator%=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the modulo assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator%=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator&=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the bitwise and assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator&=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator|=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the bitwise or assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator|=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator^=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the bitwise xor assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator^=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator<<=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the bitwise left shift assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator<<=(const T & rhs);
 
+		/**
+		 * @tparam T The type of the right-hand side of the operation.
+		 * @fn Container & operator>>=(const T & rhs)
+		 * @param[in] rhs The right-hand side of the operation.
+		 * @return The filtered container modified.
+		 * @brief Apply the bitwise right shift assigment operation to the filtered container.
+		 */
 		template <class T> Container & operator>>=(const T & rhs);
 
 	private:
+		/**
+		 * @property _container
+		 * @brief The container to filter.
+		 */
 		Container & _container;
+
+		/**
+		 * @property _filter
+		 * @brief The filter to use.
+		 */
 		Vector<bool, Size, enabled> _filter;
 	};
 }

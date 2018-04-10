@@ -41,10 +41,10 @@
 namespace ece
 {
 	template <class Container, unsigned int Size, typename enabled>
-	Filter<Container, Size, enabled>::Filter(Container & vector, Vector<bool, Size, enabled> && filter): _container(vector), _filter(std::move(filter)) {}
+	Filter<Container, Size, enabled>::Filter(Container & container, Vector<bool, Size, enabled> && filter): _container(container), _filter(std::move(filter)) {}
 
 	template <class Container, unsigned int Size, typename enabled>
-	Filter<Container, Size, enabled>::Filter(Container & vector, std::initializer_list<unsigned int> && il) : _container(vector), _filter(false)
+	Filter<Container, Size, enabled>::Filter(Container & container, std::initializer_list<unsigned int> && il) : _container(container), _filter(false)
 	{
 		for (auto it : il) {
 			if (it < this->_container.size()) {
