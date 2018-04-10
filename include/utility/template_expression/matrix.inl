@@ -38,6 +38,16 @@
 
 namespace ece
 {
+	template <class E, unsigned int M, unsigned int N, typename enabled>
+	inline Matrix<E, M, N, enabled> Matrix<E, M, N, enabled>::Identity()
+	{
+		Matrix<E, M, N, enabled> tmp;
+		for (unsigned int i = 0; i < M; ++i) {
+			tmp[i][i] = 1;
+		}
+		return  tmp;
+	}
+
 	template<typename E, unsigned int M, unsigned int N, typename enabled>
 	inline constexpr Matrix<E, M, N, enabled>::Matrix() noexcept: LinearExpression<Matrix<E, M, N, enabled>>(), _elements() { this->_elements.fill(0); }
 
@@ -70,12 +80,16 @@ namespace ece
 		return *this;
 	}
 
-/*	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	inline E Matrix<E, M, N, enabled>::operator[](const unsigned int index) const { return this->_elements[index]; }*/
-
-/*	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	inline E & Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return this->_elements[index]; }*/
-
+	template <class E, unsigned int M, unsigned int N, typename enabled>
+	inline Matrix<E, M, N, enabled> & Matrix<E, M, N, enabled>::setIdentity()
+	{
+		for (unsigned int i = 0; i < M; ++i) {
+			for (unsigned int j = 0; j < N; ++j) {
+				(*this)[i][j] = i == j ? 1 : 0;
+			}
+		}
+		return *this;
+	}
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
 	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, N * index, M, 1); }
 
@@ -105,4 +119,115 @@ namespace ece
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
 	inline auto Matrix<E, M, N, enabled>::end() noexcept { return this->_elements.end(); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E Matrix<E, M, N, enabled>::min() const noexcept { return std::min_element(this->_elements.begin(), this->_elements.end()); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E Matrix<E, M, N, enabled>::max() const noexcept { return std::max_element(this->_elements.begin(), this->_elements.end()); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E Matrix<E, M, N, enabled>::sum() const noexcept { return std::accumulate(this->_elements.begin(), this->_elements.end(), static_cast<E>(0)); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline Matrix<E, M, N, enabled> Matrix<E, M, N, enabled>::shift(const int count) const noexcept
+	{
+		Matrix<E, M, N, enabled> result;
+		for (unsigned int i = 0; i < M * N; ++i) {
+			result[i] = count + i < 0 || count + i >= M * N ? 0 : this->_elements[count + i];
+		}
+		return std::move(result);
+	}
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline Matrix<E, M, N, enabled> Matrix<E, M, N, enabled>::cshift(const int count) const noexcept
+	{
+		Matrix<E, M, N, enabled> result;
+		for (unsigned int i = 0; i < M * N; ++i) {
+			result[i] = (count + i < 0 || count + i >= M * N) ? (count + i < 0 ? this->_elements[M * N + count + i] : this->_elements[(count + i) % (M * N)]) : this->_elements[count + i];
+		}
+		return std::move(result);
+	}
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline Matrix<E, M, N, enabled> Matrix<E, M, N, enabled>::apply(E func(E)) const noexcept
+	{
+		Matrix<E, M, N, enabled> result;
+		for (unsigned int i = 0; i < M * N; ++i) {
+			result[i] = func(this->_elements[i]);
+		}
+		return std::move(result);
+	}
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline Matrix<E, M, N, enabled> Matrix<E, M, N, enabled>::apply(E func(const E &)) const noexcept
+	{
+		Matrix<E, M, N, enabled> result;
+		for (unsigned int i = 0; i < M * N; ++i) {
+			result[i] = func(this->_elements[i]);
+		}
+		return std::move(result);
+	}
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	template <typename>
+	inline E Matrix<E, M, N, enabled>::trace() const
+	{
+		E result = 0;
+		for (unsigned int i = 0; i < M; ++i) {
+			result += this->_elements[i * M + i];
+		}
+		return result;
+	}
+
+	template <class E, unsigned int M, unsigned int N, typename enabled>
+	template <typename>
+	inline double Matrix<E, M, N, enabled>::determinant() const
+	{
+		ece::determinant<E, M> det;
+		return det(*this);
+	}
+
+	template <class E, unsigned int M, unsigned int N, typename enabled>
+	template <typename>
+	inline Matrix<E, M, N, enabled> Matrix<E, M, N, enabled>::transpose() const
+	{
+		ece::transpose<E, M> transposed;
+		return transposed(*this);
+	}
+
+	template <class E, unsigned int M, unsigned int N, typename enabled>
+	template <typename>
+	inline Matrix<double, M, N> Matrix<E, M, N, enabled>::inverse(bool & invertible) const
+	{
+		ece::inverse<E, M> inversed;
+		return inversed(*this, invertible);
+	}
+
+	template <class E, unsigned int M, unsigned int N, typename enabled>
+	inline void Matrix<E, M, N, enabled>::fill(const E & value)
+	{
+		for (unsigned int i = 0; i < M * N; ++i) {
+			this->_elements[i] = value;
+		}
+	}
+
+	template<class T, unsigned int Size>
+	inline double determinant<T, Size>::operator()(const Matrix<T, Size, Size> & matrix) const
+	{
+		return 0.0;
+	}
+
+	template<class T, unsigned int Size>
+	inline Matrix<T, Size, Size> transpose<T, Size>::operator()(const Matrix<T, Size, Size> & matrix) const
+	{
+		return Matrix<T, Size, Size>();
+	}
+
+	template<class T, unsigned int Size>
+	inline Matrix<double, Size, Size> inverse<T, Size>::operator()(const Matrix<T, Size, Size> & matrix, bool & invertible) const
+	{
+		invertible = false;
+		return Matrix<double, Size, Size>();
+	}
 }

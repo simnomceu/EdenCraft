@@ -39,7 +39,7 @@
 #ifndef MATRIX2U_HPP
 #define MATRIX2U_HPP
 
-#include "utility/mathematics/matrix.hpp"
+#include "utility/template_expression/matrix.hpp"
 
 namespace ece
 {

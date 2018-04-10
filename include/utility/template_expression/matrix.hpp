@@ -58,6 +58,15 @@ namespace ece
 	{
 	public:
 		/**
+		* @fn Matrix<T, M, N, enabled> Identity()
+		* @return An identity matrix.
+		* @brief Build an identity matrix.
+		* The matrix is filled with 0, except for the diagonal which is filled with 1.
+		* @throw
+		*/
+		static inline Matrix<E, M, N, enabled> Identity();
+
+		/**
 		 * @fn constexpr Matrix() noexcept
 		 * @brief Default constructor.
 		 * @throw noexcept
@@ -115,13 +124,13 @@ namespace ece
 		Matrix<E, M, N, enabled> & operator=(const LinearExpression<Matrix<E, M, N, enabled>> & rhs) noexcept;
 
 		/**
-		* @fn E operator[](const unsigned int index) const
-		* @param[in] index The index of the element to access.
-		* @return The element wished.
-		* @brief Get the element at the index.
+		* @fn Matrix<T, M, N, enabled> & setIdentity()
+		* @return This matrix.
+		* @brief Set this matrix as an identity matrix.
+		* The matrix is filled with 0, except for the diagonal which is filled with 1.
 		* @throw
 		*/
-//		inline E operator[](const unsigned int index) const;
+		inline Matrix<E, M, N, enabled> & setIdentity();
 
 		/**
 		* @fn E & operator[](const unsigned int index)
@@ -155,8 +164,104 @@ namespace ece
 		inline auto begin() noexcept;
 		inline auto end() noexcept;
 
+		inline E min() const noexcept;
+
+		inline E max() const noexcept;
+
+		inline E sum() const noexcept;
+
+		inline Matrix<E, M, N, enabled> shift(const int count) const noexcept;
+
+		inline Matrix<E, M, N, enabled> cshift(const int count) const noexcept;
+
+		inline Matrix<E, M, N, enabled> apply(E func(E)) const noexcept;
+
+		inline Matrix<E, M, N, enabled> apply(E func(const E &)) const noexcept;
+
+		/**
+		* @fn E trace() const
+		* @return The trace of the matrix.
+		* @brief Get the trace of the matrix.
+		* @throw
+		*/
+		template <typename = std::enable_if_t<M == N>>
+		inline E trace() const;
+
+		/**
+		* @fn double determinant() const
+		* @return The determinant of the matrix.
+		* @brief Get the determinant of the matrix.
+		* @throw
+		*/
+		template <typename = std::enable_if_t<M == N>>
+		inline double determinant() const;
+
+		/**
+		* @fn Matrix<E, M, N, enabled> transpose() const
+		* @return The transpose matrix.
+		* @brief Get the transpose matrix of the current matrix.
+		* @throw
+		*/
+		template <typename = std::enable_if_t<M == N>>
+		inline Matrix<E, M, N, enabled> transpose() const;
+
+		/**
+		* @fn Matrix<double, M, N> inverse(bool & invertible) const
+		* @param[out] invertible Flag set to true if the matrix is invertible, false else.
+		* @return The inverse matrix, or an empty matrix.
+		* @brief Get the inverse matrix.
+		* @throw
+		*/
+		template <typename = std::enable_if_t<M == N>>
+		inline Matrix<double, M, N> inverse(bool & invertible) const;
+
+		/**
+		* @fn void fill(const E & value)
+		* @param[in] value The value to put in.
+		* @brief Fill the matrix with this value.
+		* @throw
+		*/
+		inline void fill(const E & value);
+
 	protected:
 		std::array<E, M * N> _elements;
+	};
+
+	/**
+	* @class determinant
+	* @tparam T The type of member in the matrix handled.
+	* @tparam M The width of the matrix handled.
+	* @tparam N The height of the matrix handled.
+	* @brief An helper to computer the determinant.
+	*/
+	template <class T, unsigned int Size>
+	struct determinant
+	{
+		inline double operator()(const Matrix<T, Size, Size> & matrix) const;
+	};
+
+	/**
+	* @class transpose
+	* @tparam T The type of member in the matrix handled.
+	* @tparam Size The size of the square matrix handled.
+	* @brief An helper to compute the transposed matrix.
+	*/
+	template <class T, unsigned int Size>
+	struct transpose
+	{
+		inline Matrix<T, Size, Size> operator()(const Matrix<T, Size, Size> & matrix) const;
+	};
+
+	/**
+	* @class transpose
+	* @tparam T The type of member in the matrix handled.
+	* @tparam Size The size of the square matrix handled.
+	* @brief An helper to compute the inverse matrix.
+	*/
+	template <class T, unsigned int Size>
+	struct inverse
+	{
+		inline Matrix<double, Size, Size> operator()(const Matrix<T, Size, Size> & matrix, bool & invertible) const;
 	};
 }
 
