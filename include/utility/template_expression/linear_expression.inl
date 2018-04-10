@@ -39,7 +39,10 @@
 namespace ece
 {
 	template <class E>
-	inline auto LinearExpression<E>::operator[](const unsigned int index) const { return static_cast<const E &>(*this)[index]; }
+	inline auto LinearExpression<E>::operator[](const unsigned int index) const { return static_cast<const E &>(*this).cell(index); }
+
+	template <class E>
+	inline auto LinearExpression<E>::cell(const unsigned int index) const { return (*this)[index]; }
 
 	template <class E>
 	inline unsigned int LinearExpression<E>::size() const noexcept { return static_cast<const E &>(*this).size(); }

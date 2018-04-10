@@ -36,83 +36,65 @@
 
 */
 
-#ifndef MATRIX_HPP
-#define MATRIX_HPP
+#ifndef SLICE_HPP
+#define SLICE_HPP
 
-#include <utility>
-#include <type_traits>
-
-#include "utility/template_expression/linear_expression.hpp"
-#include "utility/template_expression/filter.hpp"
 #include "utility/template_expression/vector.hpp"
-#include "utility/template_expression/slice.hpp"
 
 namespace ece
 {
 	/**
-	 * @class Matrix
+	 * @class Slice
 	 * @brief
 	 */
-	template <typename E, unsigned int M, unsigned int N, typename enabled = typename std::enable_if_t<std::is_arithmetic<E>::value>>
-	class Matrix: public LinearExpression<Matrix<E, M, N, enabled>>
+	template <class Container>
+	class Slice : public LinearExpression<Slice<Container>>
 	{
 	public:
-		/**
-		 * @fn constexpr Matrix() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		constexpr Matrix() noexcept;
+		constexpr Slice() noexcept = delete;
 
-		inline constexpr Matrix(const E value) noexcept;
-
-		template <class E2, typename enabledBis = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E2>, E2> && !std::is_same_v<E2, Matrix<E, M, N, enabled>>>>
-		Matrix(const E2 & rhs) noexcept;
-
-		Matrix(std::initializer_list<E> il) noexcept;
+		Slice(Container & container, unsigned int beginning, unsigned int size, unsigned int shift);
 
 		/**
-		 * @fn Matrix(const Matrix<E, M, N, enabled> & copy) noexcept
-		 * @param[in] copy The Matrix to copy from.
+		 * @fn Slice(const Slice & copy) noexcept
+		 * @param[in] copy The Slice to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		Matrix(const Matrix<E, M, N, enabled> & copy) noexcept = default;
+		Slice(const Slice & copy) noexcept = default;
 
 		/**
-		 * @fn Matrix(Matrix<E, M, N, enabled> && move) noexcept
-		 * @param[in] move The Matrix to move.
+		 * @fn Slice(Slice && move) noexcept
+		 * @param[in] move The Slice to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		Matrix(Matrix<E, M, N, enabled> && move) noexcept = default;
+		Slice(Slice && move) noexcept = default;
 
 		/**
-		 * @fn ~Matrix() noexcept
+		 * @fn ~Slice() noexcept
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~Matrix() noexcept = default;
+		~Slice() noexcept = default;
 
 		/**
-		 * @fn Matrix<E, M, N, enabled> & operator=(const Matrix<E, M, N, enabled> & copy) noexcept
-		 * @param[in] copy The Matrix to copy from.
-		 * @return The Matrix copied.
+		 * @fn Slice & operator=(const Slice & copy) noexcept
+		 * @param[in] copy The Slice to copy from.
+		 * @return The Slice copied.
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		Matrix<E, M, N, enabled> & operator=(const Matrix<E, M, N, enabled> & copy) noexcept = default;
+		Slice & operator=(const Slice & copy) noexcept = default;
 
 		/**
-		 * @fn Matrix<E, M, N, enabled> & operator=(Matrix<E, M, N, enabled> && move) noexcept
-		 * @param[in] move The Matrix to move.
-		 * @return The Matrix moved.
+		 * @fn Slice & operator=(Slice && move) noexcept
+		 * @param[in] move The Slice to move.
+		 * @return The Slice moved.
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		Matrix<E, M, N, enabled> & operator=(Matrix<E, M, N, enabled> && move) noexcept = default;
-
-		Matrix<E, M, N, enabled> & operator=(const LinearExpression<Matrix<E, M, N, enabled>> & rhs) noexcept;
+		Slice & operator=(Slice && move) noexcept = default;
 
 		/**
 		* @fn E operator[](const unsigned int index) const
@@ -121,28 +103,7 @@ namespace ece
 		* @brief Get the element at the index.
 		* @throw
 		*/
-//		inline E operator[](const unsigned int index) const;
-
-		/**
-		* @fn E & operator[](const unsigned int index)
-		* @param[in] index The index of the element to access.
-		* @return The element wished.
-		* @brief Get the element at the index.
-		* @throw
-		*/
-		inline Slice<Matrix<E, M, N, enabled>> operator[](const unsigned int index);
-
-		inline Slice<Matrix<E, M, N, enabled>> row(const unsigned int index);
-
-		inline Slice<Matrix<E, M, N, enabled>> collumn(const unsigned int index);
-
-		Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](Matrix<bool, M, N, enabled> && filter);
-
-		Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](std::initializer_list<unsigned int> && il);
-
-		inline E cell(const unsigned int index) const;
-
-		inline E & cell(const unsigned int index);
+		inline auto operator[](const unsigned int index) const;
 
 		/**
 		* @fn constexpr unsigned int size() const noexcept
@@ -156,10 +117,14 @@ namespace ece
 		inline auto end() noexcept;
 
 	protected:
-		std::array<E, M * N> _elements;
+		Container & _container;
+
+		unsigned int _beginning;
+		unsigned int _size;
+		unsigned int _shift;
 	};
 }
 
-#include "utility/template_expression/matrix.inl"
+#include "utility/template_expression/slice.inl"
 
-#endif // MATRIX_HPP
+#endif // SLICE_HPP

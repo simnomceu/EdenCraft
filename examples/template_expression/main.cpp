@@ -31,7 +31,9 @@ int main()
 
 	// ==============================
 
-	ece::Matrix<int, 2, 2> matrix = { 0, 1, 1, 0 };
+	ece::Matrix<int, 2, 2> matrix = { 0, 1, 2, 0 };
+	ece::Matrix<int, 2, 3> rectMatrix = { 0, 1, 2, 3, 4, 5 };
+	std::cout << rectMatrix[0][0] << " | " << rectMatrix[0][1] << " | " << rectMatrix[0][2] << std::endl << "---------" << std::endl << rectMatrix[1][0] << " | " << rectMatrix[1][1] << " | " << rectMatrix[1][2] << std::endl;
 	ece::Matrix<float, 2, 2> matrixBis = { 2.1f, 4.5f, 7.2f, 5.7f };
 	matrix[matrix <= 0] += 5;
 	auto && resultMat = ece::abs(-(7 + matrix + 1 + ece::Matrix<int, 2, 2>{ 1, 1, 1, 1 }  + matrixBis - ece::Matrix<int, 2, 2>(1)));

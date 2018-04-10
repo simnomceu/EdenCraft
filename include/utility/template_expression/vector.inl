@@ -55,7 +55,7 @@ namespace ece
 	Vector<E, Size, enabled>::Vector(const E2 & rhs) noexcept: LinearExpression<Vector<E, Size, enabled>>(), _elements()
 	{
 		for (unsigned int i = 0; i < rhs.size(); ++i) {
-			this->_elements[i] = rhs[i];
+			this->_elements[i] = rhs.cell(i);
 		}
 	}
 
@@ -81,6 +81,9 @@ namespace ece
 
 	template <typename E, unsigned int Size, typename enabled>
 	inline E & Vector<E, Size, enabled>::operator[](const unsigned int index) { return this->_elements[index]; }
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline E Vector<E, Size, enabled>::cell(const unsigned int index) const { return this->_elements[index]; }
 
 	template <typename E, unsigned int Size, typename enabled>
 	Filter<Vector<E, Size, enabled>, Size, enabled> Vector<E, Size, enabled>::operator[](Vector<bool, Size, enabled> && filter) { return Filter<Vector<E, Size, enabled>, Size>(*this, std::move(filter)); }
@@ -147,11 +150,22 @@ namespace ece
 	}
 
 	template <typename E, unsigned int Size, typename enabled>
-	inline auto Vector<E, Size, enabled>::magnitude() const { return std::sqrt(dot(*this, *this)); }
+	inline auto Vector<E, Size, enabled>::magnitude() const { return std::sqrt(this->dot(*this)); }
 
 	template <typename E, unsigned int Size, typename enabled>
 	template <class E2, typename enabledBis>
-	inline auto Vector<E, Size, enabled>::distanceFrom(const E2 & rhs) { return ((*this) - rhs).magnitude(); }
+	inline auto Vector<E, Size, enabled>::distanceFrom(const E2 & rhs) const { return ((*this) - rhs).magnitude(); }
+
+	template <typename E, unsigned int Size, typename enabled>
+	LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>> Vector<E, Size, enabled>::normalize() const { return LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>>(*this, this->magnitude()); }
+
+	template <typename E, unsigned int Size, typename enabled>
+	template <class E2, typename enabledBis>
+	Vector<E, Size, enabled> Vector<E, Size, enabled>::cross(const E2 & rhs) const { return Vector<E, Size, enabled>{ (*this)[1] * rhs[2] - (*this)[2] * rhs[1], (*this)[2] * rhs[0] - (*this)[0] * rhs[2], (*this)[0] * rhs[1] - (*this)[1] * rhs[0] }; }
+
+	template <typename E, unsigned int Size, typename enabled>
+	template <class E2, typename enabledBis>
+	auto Vector<E, Size, enabled>::dot(const E2 & rhs) const { return Vector<E, Size, enabled>((*this) * rhs).sum(); }
 
 	template <class E, typename enabled>
 	LinearUnaryOperation<E, unary_plus<>> operator+(const E & lhs) { return LinearUnaryOperation<E, unary_plus<>>(lhs); }
@@ -383,13 +397,4 @@ namespace ece
 
 	template <class E, typename enabled>
 	LinearUnaryOperation<E, arctangent_hyperbolic<>> atanh(const E & lhs) { return LinearUnaryOperation<E, arctangent_hyperbolic<>>(lhs); }
-
-	template <class E, typename enabled>
-	LinearOperation<E, E, std::divides<>> normalize(const E & lhs) { return LinearOperation<E, E, std::divides<>>(lhs, lhs.magnitude()); }
-
-	template <class E1, class E2, typename enabled>
-	E1 cross(const E1 & lhs, const E2 & rhs) { return E1{ lhs[1] * rhs[2] - lhs[2] * rhs[1], lhs[2] * rhs[0] - lhs[0] * rhs[2], lhs[0] * rhs[1] - lhs[1] * rhs[0] }; }
-
-	template <class E1, class E2, typename enabled>
-	auto dot(const E1 & lhs, const E2 & rhs) { return E1(lhs * rhs).sum(); }
 }

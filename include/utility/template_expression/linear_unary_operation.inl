@@ -43,7 +43,10 @@ namespace ece
 	inline LinearUnaryOperation<E, Op>::LinearUnaryOperation(const E & lhs) noexcept: LinearExpression<LinearUnaryOperation<E, Op>>(), _lhs(lhs) {}
 
 	template <class E, class Op>
-	auto LinearUnaryOperation<E, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs[index]); }
+	auto LinearUnaryOperation<E, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs.cell(index)); }
+
+	template <class E, class Op>
+	auto LinearUnaryOperation<E, Op>::cell(const unsigned int index) const { return (*this)[index]; }
 
 	template <class E, class Op>
 	inline unsigned int LinearUnaryOperation<E, Op>::size() const { return this->_lhs.size(); }

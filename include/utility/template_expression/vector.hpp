@@ -169,6 +169,8 @@ namespace ece
 		*/
 		inline E & operator[](const unsigned int index);
 
+		inline E cell(const unsigned int index) const;
+
 		Filter<Vector<E, Size, enabled>, Size, enabled> operator[](Vector<bool, Size, enabled> && filter);
 
 		Filter<Vector<E, Size, enabled>, Size, enabled> operator[](std::initializer_list<unsigned int> && il);
@@ -201,7 +203,15 @@ namespace ece
 		inline auto magnitude() const;
 
 		template <class E2, typename enabledBis = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E2>, E2>>>
-		inline auto distanceFrom(const E2 & rhs);
+		inline auto distanceFrom(const E2 & rhs) const;
+
+		LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>> normalize() const;
+
+		template <class E2, typename enabledBis = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E2>, E2>>>
+		Vector<E, Size, enabled> cross(const E2 & rhs) const;
+
+		template <class E2, typename enabledBis = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E2>, E2>>>
+		auto dot(const E2 & rhs) const;
 
 	protected:
 		std::array<E, Size> _elements;
@@ -359,15 +369,6 @@ namespace ece
 
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, arctangent_hyperbolic<>> atanh(const E & lhs);
-
-	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
-	LinearOperation<E, E, std::divides<>> normalize(const E & lhs);
-
-	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_base_of_v<LinearExpression<E2>, E2>>>
-	E1 cross(const E1 & lhs, const E2 & rhs);
-
-	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_base_of_v<LinearExpression<E2>, E2>>>
-	auto dot(const E1 & lhs, const E2 & rhs);
 }
 
 #include "utility/template_expression/vector.inl"

@@ -105,6 +105,8 @@ namespace ece
 		*/
 		E operator[](const unsigned int index) const;
 
+		E cell(const unsigned int index) const;
+
 		/**
 		* @fn constexpr unsigned int size() const
 		* @return The size of the resulting vector.

@@ -45,5 +45,8 @@ namespace ece
 	E Literal<E>::operator[](const unsigned int /*index*/) const { return this->_value; }
 
 	template <typename E>
+	E Literal<E>::cell(const unsigned int /*index*/) const { return this->_value; }
+
+	template <typename E>
 	inline constexpr unsigned int Literal<E>::size() const { return 0; }
 }

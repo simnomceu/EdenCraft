@@ -109,6 +109,8 @@ namespace ece
 		 */
 		inline auto operator[](const unsigned int index) const;
 
+		inline auto cell(const unsigned int index) const;
+
 		/**
 		 * @fn unsigned int size() const noexcept
 		 * @return The number of element in the expression result.

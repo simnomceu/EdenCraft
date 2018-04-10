@@ -117,6 +117,8 @@ namespace ece
 		*/
 		inline auto operator[](const unsigned int index) const;
 
+		inline auto cell(const unsigned int index) const;
+
 		/**
 		* @fn unsigned int size() const
 		* @return The size of the resulting vector.

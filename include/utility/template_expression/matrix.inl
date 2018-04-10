@@ -49,7 +49,7 @@ namespace ece
 	Matrix<E, M, N, enabled>::Matrix(const E2 & rhs) noexcept : LinearExpression<Matrix<E, M, N, enabled>>(), _elements()
 	{
 		for (unsigned int i = 0; i < rhs.size(); ++i) {
-			this->_elements[i] = rhs[i];
+			this->_elements[i] = rhs.cell(i);
 		}
 	}
 
@@ -70,17 +70,32 @@ namespace ece
 		return *this;
 	}
 
-	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	inline E Matrix<E, M, N, enabled>::operator[](const unsigned int index) const { return this->_elements[index]; }
+/*	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E Matrix<E, M, N, enabled>::operator[](const unsigned int index) const { return this->_elements[index]; }*/
+
+/*	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E & Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return this->_elements[index]; }*/
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	inline E & Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return this->_elements[index]; }
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, N * index, M, 1); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, N * index, M, 1); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::collumn(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, index, M, N); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
 	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](Matrix<bool, M, N, enabled> && filter) { return Filter<Matrix<E, M, N, enabled>, M * N>(*this, std::move(filter)); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
 	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](std::initializer_list<unsigned int> && il) { return Filter<Matrix<E, M, N, enabled>, M * N>(*this, std::move(il)); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E Matrix<E, M, N, enabled>::cell(const unsigned int index) const { return this->_elements[index]; }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline E & Matrix<E, M, N, enabled>::cell(const unsigned int index) { return this->_elements[index]; }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
 	inline constexpr unsigned int Matrix<E, M, N, enabled>::size() const noexcept { return M * N; }

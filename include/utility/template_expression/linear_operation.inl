@@ -47,7 +47,10 @@ namespace ece
 	inline LinearOperation<E1, E2, Op>::LinearOperation(const E1 & lhs, const E2 & rhs) noexcept: LinearExpression<LinearOperation<E1, E2, Op>>(), _lhs(lhs), _rhs(rhs) {}
 
 	template <class E1, class E2, class Op>
-	auto LinearOperation<E1, E2, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs[index], this->_rhs[index]); }
+	auto LinearOperation<E1, E2, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs.cell(index), this->_rhs.cell(index)); }
+
+	template <class E1, class E2, class Op>
+	auto LinearOperation<E1, E2, Op>::cell(const unsigned int index) const { return (*this)[index]; }
 
 	template <class E1, class E2, class Op>
 	inline unsigned int LinearOperation<E1, E2, Op>::size() const { return std::max(this->_lhs.size(), this->_rhs.size()); }
