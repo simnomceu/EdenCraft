@@ -45,7 +45,9 @@ namespace ece
 {
 	/**
 	 * @class Slice
-	 * @brief
+	 * @tparam Container The type of container to slice.
+	 * @extends LinearExpression<Slice<Container>>
+	 * @brief A slice of a container.
 	 */
 	template <class Container>
 	class Slice : public LinearExpression<Slice<Container>>
@@ -53,7 +55,16 @@ namespace ece
 	public:
 		constexpr Slice() noexcept = delete;
 
-		Slice(Container & container, unsigned int beginning, unsigned int size, unsigned int shift);
+		/**
+		 * @fn Slice(Container & container, unsigned int beginning, unsigned int size, unsigned int shift)
+		 * @param[in] container The container to slice.
+		 * @param[in] beginning Where to begin to slice the container.
+		 * @param[in] size The size of the slice.
+		 * @param[in] shift The shift between each element of the slice in the container.
+		 * @brief Build a slice of the container.
+		 * @throw noexcept
+		 */
+		Slice(Container & container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
 
 		/**
 		 * @fn Slice(const Slice & copy) noexcept
@@ -97,30 +108,72 @@ namespace ece
 		Slice & operator=(Slice && move) noexcept = default;
 
 		/**
-		* @fn E operator[](const unsigned int index) const
-		* @param[in] index The index of the element to access.
-		* @return The element wished.
-		* @brief Get the element at the index.
-		* @throw
-		*/
+		 * @fn auto operator[](const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The element wished.
+		 * @brief Get the element at the index.
+		 * @throw
+		 * @see auto Slice<Container>::cell(const unsigned int index) const
+		 */
 		inline auto operator[](const unsigned int index) const;
 
 		/**
-		* @fn constexpr unsigned int size() const noexcept
-		* @return The number of element in the expression result.
-		* @brief Get he number of elements.
-		* @throw noexcept
-		*/
+		 * @fn auto cell(const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The element wished.
+		 * @brief Get the element at the index.
+		 * @throw
+		 * @see auto Slice<Container>::operator[](const unsigned int index) const
+		 */
+		inline auto cell(const unsigned int index) const;
+
+		/**
+		 * @fn constexpr unsigned int size() const noexcept
+		 * @return The number of element in the expression result.
+		 * @brief Get he number of elements.
+		 * @throw noexcept
+		 */
 		inline constexpr unsigned int size() const noexcept;
 
+		/**
+		 * @fn auto begin() noexcept
+		 * @return An iterator to the beginning of the slice.
+		 * @brief Get an iterator to the beginning of the slice.
+		 * @throw noexcept
+		 */
 		inline auto begin() noexcept;
+		
+		/**
+		 * @fn auto end() noexcept
+		 * @return An iterator to the end of the slice.
+		 * @brief Get an iterator to the end of the slice.
+		 * @throw noexcept
+		 */
 		inline auto end() noexcept;
 
 	protected:
+		/**
+		 * @property _container
+		 * @brief The contaner to slice.
+		 */
 		Container & _container;
 
+		/**
+		 * @property _beginning
+		 * @brief The beginning of the slice in the container.
+		 */
 		unsigned int _beginning;
+
+		/**
+		 * @property _size
+		 * @brief The size of the slice.
+		 */
 		unsigned int _size;
+
+		/**
+		 * @property _shift
+		 * @brief The shift between each element of the slice in the container.
+		 */
 		unsigned int _shift;
 	};
 }

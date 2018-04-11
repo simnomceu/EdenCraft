@@ -97,7 +97,7 @@ namespace ece
 	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, N * index, M, 1); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::collumn(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, index, M, N); }
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::column(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, index, M, N); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
 	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](Matrix<bool, M, N, enabled> && filter) { return Filter<Matrix<E, M, N, enabled>, M * N>(*this, std::move(filter)); }

@@ -45,7 +45,9 @@ namespace ece
 {
 	/**
 	 * @class Literal
-	 * @brief
+	 * @tparam The type of literal to store.
+	 * @extends LinearExpression<Literal<E>>
+	 * @brief A literal is a container to handle a scalar as a linear expression that can be integrated in
 	 */
 	template <typename E>
 	class Literal : public LinearExpression<Literal<E>>
@@ -53,6 +55,12 @@ namespace ece
 	public:
 		constexpr Literal() noexcept = delete;
 
+		/**
+		 * @fn Literal(const E value) noexcept
+		 * @param[in] value The value to store.
+		 * @brief Store a scalar as a linear expression.
+		 * @throw noexcept
+		 */
 		Literal(const E value) noexcept;
 
 		/**
@@ -97,25 +105,38 @@ namespace ece
 		Literal & operator=(Literal && move) noexcept = default;
 
 		/**
-		* @fn auto operator[](const unsigned int index) const
-		* @param[in] index The index of the element to access.
-		* @return The computed element of the resulting vector.
-		* @brief Compute and return the element at the index in the resulting vector of the operation.
-		* @throw
-		*/
+		 * @fn auto operator[](const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The computed element of the resulting vector.
+		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+		 * @throw
+		 * @see E Literal<E>::cell(const unsigned int index) const
+		 */
 		E operator[](const unsigned int index) const;
-
+		
+		/**
+		 * @fn auto cell(const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The computed element of the resulting vector.
+		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+		 * @throw
+		 * @see E Literal<E>::operator[](const unsigned int index) const
+		*/
 		E cell(const unsigned int index) const;
 
 		/**
-		* @fn constexpr unsigned int size() const
-		* @return The size of the resulting vector.
-		* @brief Get the size of the resulting vector.
-		* @throw
-		*/
+		 * @fn constexpr unsigned int size() const
+		 * @return The size of the resulting vector.
+		 * @brief Get the size of the resulting vector.
+		 * @throw
+		 */
 		inline constexpr unsigned int size() const;
 
 	private:
+		/**
+		 * @property _value
+		 * @brief The scalar stored as a linear expression.
+		 */
 		E _value;
 	};
 }

@@ -47,12 +47,12 @@
 namespace ece
 {
 	/**
-	* @class LinearUnaryOperation
-	* @extends LinearExpression<LinearUnaryOperation<E, Op>>
-	* @tparam E The type of the first factor of the operation.
-	* @tparam Op The operation to apply to.
-	* @brief Vector operation.
-	*/
+	 * @class LinearUnaryOperation
+	 * @extends LinearExpression<LinearUnaryOperation<E, Op>>
+	 * @tparam E The type of the first factor of the operation.
+	 * @tparam Op The operation to apply to.
+	 * @brief Vector operation.
+	 */
 	template <class E, class Op>
 	class LinearUnaryOperation : public LinearExpression<LinearUnaryOperation<E, Op>>
 	{
@@ -60,78 +60,87 @@ namespace ece
 		constexpr LinearUnaryOperation() noexcept = delete;
 
 		/**
-		* @fn LinearUnaryOperation(const E & lhs) noexcept
-		* @param[in] lhs The left-hand side of the operation.
-		* @brief Build an operation from a vector factor.
-		* @throw noexcept
-		*/
+		 * @fn LinearUnaryOperation(const E & lhs) noexcept
+		 * @param[in] lhs The left-hand side of the operation.
+		 * @brief Build an operation from a vector factor.
+		 * @throw noexcept
+		 */
 		LinearUnaryOperation(const E & lhs) noexcept;
 
 		/**
-		* @fn LinearUnaryOperation(const LinearUnaryOperation & copy) noexcept
-		* @param[in] copy The LinearUnaryOperation to copy from.
-		* @brief Default copy constructor.
-		* @throw noexcept
-		*/
+		 * @fn LinearUnaryOperation(const LinearUnaryOperation & copy) noexcept
+		 * @param[in] copy The LinearUnaryOperation to copy from.
+		 * @brief Default copy constructor.
+		 * @throw noexcept
+		 */
 		LinearUnaryOperation(const LinearUnaryOperation & copy) noexcept = default;
 
 		/**
-		* @fn LinearUnaryOperation(LinearUnaryOperation && move) noexcept
-		* @param[in] move The LinearUnaryOperation to move.
-		* @brief Default move constructor.
-		* @throw noexcept
-		*/
+		 * @fn LinearUnaryOperation(LinearUnaryOperation && move) noexcept
+		 * @param[in] move The LinearUnaryOperation to move.
+		 * @brief Default move constructor.
+		 * @throw noexcept
+		 */
 		LinearUnaryOperation(LinearUnaryOperation && move) noexcept = default;
 
 		/**
-		* @fn ~LinearUnaryOperation() noexcept
-		* @brief Default destructor.
-		* @throw noexcept
-		*/
+		 * @fn ~LinearUnaryOperation() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
 		~LinearUnaryOperation() noexcept = default;
 
 		/**
-		* @fn LinearUnaryOperation & operator=(const LinearUnaryOperation & copy) noexcept
-		* @param[in] copy The LinearUnaryOperation to copy from.
-		* @return The LinearUnaryOperation copied.
-		* @brief Default copy assignment operator.
-		* @throw noexcept
-		*/
+		 * @fn LinearUnaryOperation & operator=(const LinearUnaryOperation & copy) noexcept
+		 * @param[in] copy The LinearUnaryOperation to copy from.
+		 * @return The LinearUnaryOperation copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
 		LinearUnaryOperation & operator=(const LinearUnaryOperation & copy) noexcept = default;
 
 		/**
-		* @fn LinearUnaryOperation & operator=(LinearUnaryOperation && move) noexcept
-		* @param[in] move The LinearUnaryOperation to move.
-		* @return The LinearUnaryOperation moved.
-		* @brief Default move assignment operator.
-		* @throw noexcept
-		*/
+		 * @fn LinearUnaryOperation & operator=(LinearUnaryOperation && move) noexcept
+		 * @param[in] move The LinearUnaryOperation to move.
+		 * @return The LinearUnaryOperation moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
 		LinearUnaryOperation & operator=(LinearUnaryOperation && move) noexcept = default;
 
 		/**
-		* @fn auto operator[](const unsigned int index) const
-		* @param[in] index The index of the element to access.
-		* @return The computed element of the resulting vector.
-		* @brief Compute and return the element at the index in the resulting vector of the operation.
-		* @throw
-		*/
+		 * @fn auto operator[](const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The computed element of the resulting vector.
+		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+		 * @throw
+		 * @see auto LinearUnaryOperation<E, Op>::cell(const unsigned int index) const
+		 */
 		inline auto operator[](const unsigned int index) const;
-
+		
+		/**
+		 * @fn auto cell(const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The computed element of the resulting vector.
+		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+		 * @throw
+		 * @see auto LinearUnaryOperation<E, Op>::operator[](const unsigned int index) const
+		 */
 		inline auto cell(const unsigned int index) const;
 
 		/**
-		* @fn unsigned int size() const
-		* @return The size of the resulting vector.
-		* @brief Get the size of the resulting vector.
-		* @throw
-		*/
+		 * @fn unsigned int size() const
+		 * @return The size of the resulting vector.
+		 * @brief Get the size of the resulting vector.
+		 * @throw
+		 */
 		inline unsigned int size() const;
 
 	private:
 		/**
-		* @property _lhs
-		* @brief The left-hand side of the operation.
-		*/
+		 * @property _lhs
+		 * @brief The left-hand side of the operation.
+		 */
 		std::conditional_t<std::is_arithmetic_v<E>, Literal<E>, const E &> _lhs;
 	};
 }

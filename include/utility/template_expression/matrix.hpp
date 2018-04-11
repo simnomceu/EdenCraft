@@ -51,19 +51,23 @@ namespace ece
 {
 	/**
 	 * @class Matrix
-	 * @brief
+	 * @tparam E The type of elements in the matrix.
+	 * @tparam M The number of rows of the matrix.
+	 * @tparam N The number of columns of the matrix.
+	 * @extends LinearExpression<Matrix<E, M, N, enabled>>
+	 * @brief A mathematical matrix, that can be handled in row-major order and column-major order.
 	 */
 	template <typename E, unsigned int M, unsigned int N, typename enabled = typename std::enable_if_t<std::is_arithmetic<E>::value>>
 	class Matrix: public LinearExpression<Matrix<E, M, N, enabled>>
 	{
 	public:
 		/**
-		* @fn Matrix<T, M, N, enabled> Identity()
-		* @return An identity matrix.
-		* @brief Build an identity matrix.
-		* The matrix is filled with 0, except for the diagonal which is filled with 1.
-		* @throw
-		*/
+		 * @fn Matrix<T, M, N, enabled> Identity()
+		 * @return An identity matrix.
+		 * @brief Build an identity matrix.
+		 * The matrix is filled with 0, except for the diagonal which is filled with 1.
+		 * @throw
+		 */
 		static inline Matrix<E, M, N, enabled> Identity();
 
 		/**
@@ -73,11 +77,30 @@ namespace ece
 		 */
 		constexpr Matrix() noexcept;
 
+		/**
+		 * @fn constexpr Matrix(const E value) noexcept
+		 * @param[in] value The value to fill the matrix with.
+		 * @brief Build a matrix filled with a specific value.
+		 * @throw noexcept
+		 */
 		inline constexpr Matrix(const E value) noexcept;
 
+		/**
+		 * @fn Matrix(const E2 & rhs) noexcept
+		 * @tparam E2 The type of the linear expression to cast.
+		 * @param[in] rhs The linear expression to cast.
+		 * @brief Cast a linear expression into a matrix (if possible).
+		 * @throw noexcept
+		 */
 		template <class E2, typename enabledBis = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E2>, E2> && !std::is_same_v<E2, Matrix<E, M, N, enabled>>>>
 		Matrix(const E2 & rhs) noexcept;
 
+		/**
+		 * @fn Matrix(std::initializer_list<E> il) noexcept
+		 * @param[in] il A list of elements to set the matrix.
+		 * @brief Build a matrix from a list of elements.
+		 * @throw noexcept
+		 */
 		Matrix(std::initializer_list<E> il) noexcept;
 
 		/**
@@ -121,30 +144,58 @@ namespace ece
 		 */
 		Matrix<E, M, N, enabled> & operator=(Matrix<E, M, N, enabled> && move) noexcept = default;
 
+		/**
+		 * @fn Matrix<E, M, N, enabled> & operator=(const LinearExpression<Matrix<E, M, N, enabled>> & rhs) noexcept
+		 * @param[in] rhs The linear expression to set to.
+		 * @return The matrix modified.
+		 * @brief Set the matrix from another linear expression.
+		 * @throw noexcept
+		 */
 		Matrix<E, M, N, enabled> & operator=(const LinearExpression<Matrix<E, M, N, enabled>> & rhs) noexcept;
 
 		/**
-		* @fn Matrix<T, M, N, enabled> & setIdentity()
-		* @return This matrix.
-		* @brief Set this matrix as an identity matrix.
-		* The matrix is filled with 0, except for the diagonal which is filled with 1.
-		* @throw
-		*/
+		 * @fn Matrix<T, M, N, enabled> & setIdentity()
+		 * @return This matrix.
+		 * @brief Set this matrix as an identity matrix.
+		 * The matrix is filled with 0, except for the diagonal which is filled with 1.
+		 * @throw
+		 */
 		inline Matrix<E, M, N, enabled> & setIdentity();
 
 		/**
-		* @fn E & operator[](const unsigned int index)
-		* @param[in] index The index of the element to access.
-		* @return The element wished.
-		* @brief Get the element at the index.
-		* @throw
-		*/
+		 * @fn E & operator[](const unsigned int index)
+		 * @param[in] index The index of the element to access.
+		 * @return The element wished.
+		 * @brief Get the element at the index.
+		 * @throw
+		 */
 		inline Slice<Matrix<E, M, N, enabled>> operator[](const unsigned int index);
 
+		/**
+		 * Slice<Matrix<E, M, N, enabled>> row(const unsigned int index)
+		 * @param[in] index The index of the row to get.
+		 * @return A slice of the matrix which is a row.
+		 * @brief Get a row of the matrix.
+		 * @throw
+		 */
 		inline Slice<Matrix<E, M, N, enabled>> row(const unsigned int index);
+		
+		/**
+		 * Slice<Matrix<E, M, N, enabled>> column(const unsigned int index)
+		 * @param[in] index The index of the column to get.
+		 * @return A slice of the matrix which is a row.
+		 * @brief Get a column of the matrix.
+		 * @throw
+		 */
+		inline Slice<Matrix<E, M, N, enabled>> column(const unsigned int index);
 
-		inline Slice<Matrix<E, M, N, enabled>> collumn(const unsigned int index);
-
+		/**
+		 * @fn Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](Matrix<bool, M, N, enabled> && filter)
+		 * @param[in] filter The filter to apply.
+		 * @return The matrix filtered.
+		 * @brief Get the matrix filtered.
+		 * @throw
+		 */
 		Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](Matrix<bool, M, N, enabled> && filter);
 
 		Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](std::initializer_list<unsigned int> && il);
@@ -154,11 +205,11 @@ namespace ece
 		inline E & cell(const unsigned int index);
 
 		/**
-		* @fn constexpr unsigned int size() const noexcept
-		* @return The number of element in the expression result.
-		* @brief Get he number of elements.
-		* @throw noexcept
-		*/
+		 * @fn constexpr unsigned int size() const noexcept
+		 * @return The number of element in the expression result.
+		 * @brief Get he number of elements.
+		 * @throw noexcept
+		 */
 		inline constexpr unsigned int size() const noexcept;
 
 		inline auto begin() noexcept;
@@ -179,48 +230,48 @@ namespace ece
 		inline Matrix<E, M, N, enabled> apply(E func(const E &)) const noexcept;
 
 		/**
-		* @fn E trace() const
-		* @return The trace of the matrix.
-		* @brief Get the trace of the matrix.
-		* @throw
-		*/
+		 * @fn E trace() const
+		 * @return The trace of the matrix.
+		 * @brief Get the trace of the matrix.
+		 * @throw
+		 */
 		template <typename = std::enable_if_t<M == N>>
 		inline E trace() const;
 
 		/**
-		* @fn double determinant() const
-		* @return The determinant of the matrix.
-		* @brief Get the determinant of the matrix.
-		* @throw
-		*/
+		 * @fn double determinant() const
+		 * @return The determinant of the matrix.
+		 * @brief Get the determinant of the matrix.
+		 * @throw
+		 */
 		template <typename = std::enable_if_t<M == N>>
 		inline double determinant() const;
 
 		/**
-		* @fn Matrix<E, M, N, enabled> transpose() const
-		* @return The transpose matrix.
-		* @brief Get the transpose matrix of the current matrix.
-		* @throw
-		*/
+		 * @fn Matrix<E, M, N, enabled> transpose() const
+		 * @return The transpose matrix.
+		 * @brief Get the transpose matrix of the current matrix.
+		 * @throw
+		 */
 		template <typename = std::enable_if_t<M == N>>
 		inline Matrix<E, M, N, enabled> transpose() const;
 
 		/**
-		* @fn Matrix<double, M, N> inverse(bool & invertible) const
-		* @param[out] invertible Flag set to true if the matrix is invertible, false else.
-		* @return The inverse matrix, or an empty matrix.
-		* @brief Get the inverse matrix.
-		* @throw
-		*/
+		 * @fn Matrix<double, M, N> inverse(bool & invertible) const
+		 * @param[out] invertible Flag set to true if the matrix is invertible, false else.
+		 * @return The inverse matrix, or an empty matrix.
+		 * @brief Get the inverse matrix.
+		 * @throw
+		 */
 		template <typename = std::enable_if_t<M == N>>
 		inline Matrix<double, M, N> inverse(bool & invertible) const;
 
 		/**
-		* @fn void fill(const E & value)
-		* @param[in] value The value to put in.
-		* @brief Fill the matrix with this value.
-		* @throw
-		*/
+		 * @fn void fill(const E & value)
+		 * @param[in] value The value to put in.
+		 * @brief Fill the matrix with this value.
+		 * @throw
+		 */
 		inline void fill(const E & value);
 
 	protected:
@@ -228,12 +279,12 @@ namespace ece
 	};
 
 	/**
-	* @class determinant
-	* @tparam T The type of member in the matrix handled.
-	* @tparam M The width of the matrix handled.
-	* @tparam N The height of the matrix handled.
-	* @brief An helper to computer the determinant.
-	*/
+	 * @class determinant
+	 * @tparam T The type of member in the matrix handled.
+	 * @tparam M The width of the matrix handled.
+	 * @tparam N The height of the matrix handled.
+	 * @brief An helper to computer the determinant.
+	 */
 	template <class T, unsigned int Size>
 	struct determinant
 	{
@@ -241,11 +292,11 @@ namespace ece
 	};
 
 	/**
-	* @class transpose
-	* @tparam T The type of member in the matrix handled.
-	* @tparam Size The size of the square matrix handled.
-	* @brief An helper to compute the transposed matrix.
-	*/
+	 * @class transpose
+	 * @tparam T The type of member in the matrix handled.
+	 * @tparam Size The size of the square matrix handled.
+	 * @brief An helper to compute the transposed matrix.
+	 */
 	template <class T, unsigned int Size>
 	struct transpose
 	{
@@ -253,11 +304,11 @@ namespace ece
 	};
 
 	/**
-	* @class transpose
-	* @tparam T The type of member in the matrix handled.
-	* @tparam Size The size of the square matrix handled.
-	* @brief An helper to compute the inverse matrix.
-	*/
+	 * @class transpose
+	 * @tparam T The type of member in the matrix handled.
+	 * @tparam Size The size of the square matrix handled.
+	 * @brief An helper to compute the inverse matrix.
+	 */
 	template <class T, unsigned int Size>
 	struct inverse
 	{

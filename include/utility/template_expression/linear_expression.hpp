@@ -106,9 +106,18 @@ namespace ece
 		 * @return The element wished.
 		 * @brief Get the element at the index.
 		 * @throw
+		 * @see auto LinearExpression<E>::cell(const unsigned int index) const
 		 */
 		inline auto operator[](const unsigned int index) const;
 
+		/**
+		 * @fn auto cell(const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The element wished.
+		 * @brief Get the element at the index.
+		 * @throw
+		 * @see auto LinearExpression<E>::operator[](const unsigned int index) const
+		 */
 		inline auto cell(const unsigned int index) const;
 
 		/**

@@ -40,6 +40,7 @@
 #define FILTER_HPP
 
 #include <type_traits>
+#include <initializer_list>
 
 #include "utility/template_expression/linear_expression.hpp"
 

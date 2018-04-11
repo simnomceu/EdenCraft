@@ -1,5 +1,4 @@
-#include "utility/template_expression/matrix.hpp"
-#include "utility/template_expression/vector.hpp"
+#include "utility/template_expression.hpp"
 
 #include <iostream>
 

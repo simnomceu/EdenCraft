@@ -116,9 +116,18 @@ namespace ece
 		 * @return The computed element of the resulting vector.
 		 * @brief Compute and return the element at the index in the resulting vector of the operation.
 		 * @throw
+		 * @see auto LinearOperation<E1, E2, Op>::cell(const unsigned int index) const
 		 */
 		inline auto operator[](const unsigned int index) const;
-
+		
+		/**
+		 * @fn auto cell(const unsigned int index) const
+		 * @param[in] index The index of the element to access.
+		 * @return The computed element of the resulting vector.
+		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+		 * @throw
+		 * @see auto LinearOperation<E1, E2, Op>::operator[](const unsigned int index) const
+		 */
 		inline auto cell(const unsigned int index) const;
 
 		/**
