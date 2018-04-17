@@ -5,11 +5,11 @@ rm -rf ./vs2015/
 rm -rf ./vs2017/
 
 # CodeLite project
-rm -f ./codelite/
+rm -rf ./codelite/
 
 # Compilation files
 rm -rf ../bin/
 rm -rf ../obj/
 
 # Gmake project
-rm -f ./gmake/
+rm -rf ./gmake/

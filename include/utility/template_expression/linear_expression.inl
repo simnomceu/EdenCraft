@@ -36,39 +36,20 @@
 
 */
 
-#ifndef VERTEX2U_HPP
-#define VERTEX2U_HPP
-
-#include "utility/template_expression/vector.hpp"
-
 namespace ece
 {
-	/**
-	 * @typedef Vector2u
-	 * @brief A 2D Vector.
-	 */
-	template <class T>
-	using Vector2u = Vector<T, 2>;
+	template <class E>
+	inline auto LinearExpression<E>::operator[](const unsigned int index) const { return static_cast<const E &>(*this).cell(index); }
 
-	/**
-	 * @typedef IntVector2u
-	 */
-	using IntVector2u = Vector2u<int>;
-	
-	/**
-	 * @typedef UintVector2u
-	 */
-	using UintVector2u = Vector2u<unsigned int>;
-	
-	/**
-	 * @typedef FloatVector2u
-	 */
-	using FloatVector2u = Vector2u<float>;
+	template <class E>
+	inline auto LinearExpression<E>::cell(const unsigned int index) const { return (*this)[index]; }
 
-	/**
-	 * @typedef DoubleVector2u
-	 */
-	using DoubleVector2u = Vector2u<double>;
+	template <class E>
+	inline unsigned int LinearExpression<E>::size() const noexcept { return static_cast<const E &>(*this).size(); }
+
+	template <class E>
+	inline LinearExpression<E>::operator E & () noexcept { return static_cast<E &>(*this); }
+
+	template <class E>
+	inline LinearExpression<E>::operator const E & () noexcept { return static_cast<const E &>(*this); }
 }
-
-#endif // VERTEX2U_HPP

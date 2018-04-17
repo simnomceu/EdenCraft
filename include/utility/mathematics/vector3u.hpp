@@ -39,16 +39,10 @@
 #ifndef VERTEX3U_HPP
 #define VERTEX3U_HPP
 
-#include "utility/mathematics/vector.hpp"
+#include "utility/template_expression/vector.hpp"
 
 namespace ece
-{
-	template <>
-	struct HasCrossProduct<3>
-	{
-		static const bool value = true;
-	};
-	
+{	
 	/**
 	 * @typedef Vector3u
 	 * @brief A 3D Vector.

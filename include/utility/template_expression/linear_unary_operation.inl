@@ -36,39 +36,18 @@
 
 */
 
-#ifndef VERTEX2U_HPP
-#define VERTEX2U_HPP
-
-#include "utility/template_expression/vector.hpp"
 
 namespace ece
 {
-	/**
-	 * @typedef Vector2u
-	 * @brief A 2D Vector.
-	 */
-	template <class T>
-	using Vector2u = Vector<T, 2>;
+	template <class E, class Op>
+	inline LinearUnaryOperation<E, Op>::LinearUnaryOperation(const E & lhs) noexcept: LinearExpression<LinearUnaryOperation<E, Op>>(), _lhs(lhs) {}
 
-	/**
-	 * @typedef IntVector2u
-	 */
-	using IntVector2u = Vector2u<int>;
-	
-	/**
-	 * @typedef UintVector2u
-	 */
-	using UintVector2u = Vector2u<unsigned int>;
-	
-	/**
-	 * @typedef FloatVector2u
-	 */
-	using FloatVector2u = Vector2u<float>;
+	template <class E, class Op>
+	auto LinearUnaryOperation<E, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs.cell(index)); }
 
-	/**
-	 * @typedef DoubleVector2u
-	 */
-	using DoubleVector2u = Vector2u<double>;
+	template <class E, class Op>
+	auto LinearUnaryOperation<E, Op>::cell(const unsigned int index) const { return (*this)[index]; }
+
+	template <class E, class Op>
+	inline unsigned int LinearUnaryOperation<E, Op>::size() const { return this->_lhs.size(); }
 }
-
-#endif // VERTEX2U_HPP

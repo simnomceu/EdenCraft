@@ -1,3 +1,4 @@
+#include "slice.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -38,23 +39,28 @@
 
 namespace ece
 {
-	template<class T>
-	inline double determinant<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const { return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]; }
+	template<class Container>
+	Slice<Container>::Slice(Container & container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept:
+		LinearExpression<Slice<Container>>(), _container(container), _beginning(beginning), _size(size), _shift(shift) {}
 
-	template<class T>
-	inline Matrix<T, 2, 2> transpose<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const { return Matrix<T, 2, 2>{ matrix[0][0], matrix[1][0], matrix[0][1], matrix[1][1] }; }
+	template<class Container>
+	inline auto Slice<Container>::operator[](const unsigned int index) const { return this->_container.cell(this->_beginning + index * this->_shift); }
 
-	template<class T>
-	inline Matrix<double, 2, 2> inverse<T, 2>::operator()(const Matrix<T, 2, 2> & matrix, bool & invertible) const
-	{
-		auto det = matrix.determinant();
-		invertible = (det != 0.0);
-		if (invertible) {
-			return Matrix<double, 2, 2>{ static_cast<double>(matrix[1][1]), -static_cast<double>(matrix[0][1]),
-				-static_cast<double>(matrix[1][0]), static_cast<double>(matrix[0][0]) } *(1.0f / det);
-		}
-		else {
-			return Matrix<double, 2, 2>();
-		}
-	}
+	template<class Container>
+	inline auto Slice<Container>::cell(const unsigned int index) const { return (*this)[index]; }
+
+    template<class Container>
+    inline auto & Slice<Container>::operator[](const unsigned int index) { return this->_container.cell(this->_beginning + index * this->_shift); }
+
+    template<class Container>
+    inline auto & Slice<Container>::cell(const unsigned int index) { return (*this)[index]; }
+
+	template<class Container>
+	inline constexpr unsigned int Slice<Container>::size() const noexcept { return this->_size; }
+
+	template<class Container>
+	inline auto Slice<Container>::begin() noexcept { return this->_container.begin(); }
+
+	template<class Container>
+	inline auto Slice<Container>::end() noexcept { return this->_container.end(); }
 }

@@ -36,39 +36,22 @@
 
 */
 
-#ifndef VERTEX2U_HPP
-#define VERTEX2U_HPP
-
-#include "utility/template_expression/vector.hpp"
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
 
 namespace ece
 {
-	/**
-	 * @typedef Vector2u
-	 * @brief A 2D Vector.
-	 */
-	template <class T>
-	using Vector2u = Vector<T, 2>;
+	template <class E1, class E2, class Op>
+	inline LinearOperation<E1, E2, Op>::LinearOperation(const E1 & lhs, const E2 & rhs) noexcept: LinearExpression<LinearOperation<E1, E2, Op>>(), _lhs(lhs), _rhs(rhs) {}
 
-	/**
-	 * @typedef IntVector2u
-	 */
-	using IntVector2u = Vector2u<int>;
-	
-	/**
-	 * @typedef UintVector2u
-	 */
-	using UintVector2u = Vector2u<unsigned int>;
-	
-	/**
-	 * @typedef FloatVector2u
-	 */
-	using FloatVector2u = Vector2u<float>;
+	template <class E1, class E2, class Op>
+	auto LinearOperation<E1, E2, Op>::operator[](const unsigned int index) const { return std::invoke(Op(), this->_lhs.cell(index), this->_rhs.cell(index)); }
 
-	/**
-	 * @typedef DoubleVector2u
-	 */
-	using DoubleVector2u = Vector2u<double>;
+	template <class E1, class E2, class Op>
+	auto LinearOperation<E1, E2, Op>::cell(const unsigned int index) const { return (*this)[index]; }
+
+	template <class E1, class E2, class Op>
+	inline unsigned int LinearOperation<E1, E2, Op>::size() const { return std::max(this->_lhs.size(), this->_rhs.size()); }
 }
-
-#endif // VERTEX2U_HPP

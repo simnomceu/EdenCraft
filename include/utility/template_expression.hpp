@@ -36,39 +36,17 @@
 
 */
 
-#ifndef VERTEX2U_HPP
-#define VERTEX2U_HPP
+#ifndef TEMPLATE_EXPRESSION_HPP
+#define TEMPLATE_EXPRESSION_HPP
 
+#include "utility/template_expression/filter.hpp"
+#include "utility/template_expression/functional.hpp"
+#include "utility/template_expression/linear_expression.hpp"
+#include "utility/template_expression/linear_operation.hpp"
+#include "utility/template_expression/linear_unary_operation.hpp"
+#include "utility/template_expression/literal.hpp"
+#include "utility/template_expression/slice.hpp"
 #include "utility/template_expression/vector.hpp"
+#include "utility/template_expression/matrix.hpp"
 
-namespace ece
-{
-	/**
-	 * @typedef Vector2u
-	 * @brief A 2D Vector.
-	 */
-	template <class T>
-	using Vector2u = Vector<T, 2>;
-
-	/**
-	 * @typedef IntVector2u
-	 */
-	using IntVector2u = Vector2u<int>;
-	
-	/**
-	 * @typedef UintVector2u
-	 */
-	using UintVector2u = Vector2u<unsigned int>;
-	
-	/**
-	 * @typedef FloatVector2u
-	 */
-	using FloatVector2u = Vector2u<float>;
-
-	/**
-	 * @typedef DoubleVector2u
-	 */
-	using DoubleVector2u = Vector2u<double>;
-}
-
-#endif // VERTEX2U_HPP
+#endif // TEMPLATE_EXPRESSION_HPP

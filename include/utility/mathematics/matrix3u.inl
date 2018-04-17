@@ -43,20 +43,20 @@ namespace ece
 	template<class T>
 	inline double determinant<T, 3>::operator()(const Matrix<T, 3, 3> & matrix) const
 	{
-		return matrix(0, 0) * matrix(1, 1) * matrix(2, 2)
-			+ matrix(0, 1) * matrix(1, 2) * matrix(2, 0)
-			+ matrix(0, 2) * matrix(1, 0) * matrix(2, 1)
-			- matrix(0, 2) * matrix(1, 1) * matrix(2, 0)
-			- matrix(0, 1) * matrix(1, 0) * matrix(2, 2)
-			- matrix(0, 0) * matrix(1, 2) * matrix(2, 1);
+		return matrix[0][0] * matrix[1][1] * matrix[2][2]
+			+ matrix[0][1] * matrix[1][2] * matrix[2][0]
+			+ matrix[0][2] * matrix[1][0] * matrix[2][1]
+			- matrix[0][2] * matrix[1][1] * matrix[2][0]
+			- matrix[0][1] * matrix[1][0] * matrix[2][2]
+			- matrix[0][0] * matrix[1][2] * matrix[2][1];
 	}
 
 	template<class T>
 	inline Matrix<T, 3, 3> transpose<T, 3>::operator()(const Matrix<T, 3, 3> & matrix) const
 	{
-		return Matrix<T, 3, 3>{ matrix(0, 0), matrix(1, 0), matrix(2, 0),
-			matrix(0, 1), matrix(1, 1), matrix(2, 1),
-			matrix(0, 2), matrix(1, 2), matrix(2, 2) };
+		return Matrix<T, 3, 3>{ matrix[0][0], matrix[1][0], matrix[2][0],
+			matrix[0][1], matrix[1][1], matrix[2][1],
+			matrix[0][2], matrix[1][2], matrix[2][2] };
 	}
 
 	template<class T>
@@ -65,15 +65,15 @@ namespace ece
 		auto det = matrix.determinant();
 		invertible = (det != 0);
 		if (invertible) {
-			double a11 = matrix(1, 1) * matrix(2, 2) - matrix(1, 2) * matrix(2, 1);
-			double a12 = matrix(0, 2) * matrix(2, 1) - matrix(0, 1) * matrix(2, 2);
-			double a13 = matrix(0, 1) * matrix(1, 2) - matrix(0, 2) * matrix(1, 1);
-			double a21 = matrix(1, 2) * matrix(2, 0) - matrix(1, 0) * matrix(2, 2);
-			double a22 = matrix(0, 0) * matrix(2, 2) - matrix(0, 2) * matrix(2, 0);
-			double a23 = matrix(0, 2) * matrix(1, 0) - matrix(0, 0) * matrix(1, 2);
-			double a31 = matrix(1, 0) * matrix(2, 1) - matrix(1, 1) * matrix(2, 0);
-			double a32 = matrix(0, 1) * matrix(2, 0) - matrix(0, 0) * matrix(2, 1);
-			double a33 = matrix(0, 0) * matrix(1, 1) - matrix(0, 1) * matrix(1, 0);
+			double a11 = matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1];
+			double a12 = matrix[0][2] * matrix[2][1] - matrix[0][1] * matrix[2][2];
+			double a13 = matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1];
+			double a21 = matrix[1][2] * matrix[2][0] - matrix[1][0] * matrix[2][2];
+			double a22 = matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0];
+			double a23 = matrix[0][2] * matrix[1][0] - matrix[0][0] * matrix[1][2];
+			double a31 = matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0];
+			double a32 = matrix[0][1] * matrix[2][0] - matrix[0][0] * matrix[2][1];
+			double a33 = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
 
 			return Matrix<double, 3, 3>{ a11, a12, a13,
 				a21, a22, a23,
