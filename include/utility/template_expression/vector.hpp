@@ -388,7 +388,7 @@ namespace ece
 	LinearUnaryOperation<E, std::logical_not<>> operator!(const E & lhs);
 
     /**
-     * @fn E1 & operator+=(E1 & lhs, const E2 & rhs);
+     * @fn E1 & operator+=(E1 & lhs, const E2 & rhs)
      * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
      * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
      * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
@@ -399,141 +399,521 @@ namespace ece
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1>>>
 	E1 & operator+=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator-=(E1 & lhs, const E2 & rhs);
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the subtraction of the two elements into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1>>>
 	E1 & operator-=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator*=(E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the multiplication of the two elements, member-to-member into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_arithmetic_v<E2>>>
 	E1 & operator*=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator/=(E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the division of the two elements, member-to-member into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_arithmetic_v<E2>>>
 	E1 & operator/=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator%=(E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the modulo of the two elements, member-to-member into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_integral_v<E2>>>
 	E1 & operator%=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator&=(E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the bit-and of the two elements, member-to-member into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_integral_v<E2>>>
 	E1 & operator&=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator|=(E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the bit-or of the two elements, member-to-member into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_integral_v<E2>>>
 	E1 & operator|=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator^=(E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the bit-xor of the two elements, member-to-member into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_integral_v<E2>>>
 	E1 & operator^=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator<<=(E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the biwise left shift of the two elements, member-to-member into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_integral_v<E2>>>
 	E1 & operator<<=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn E1 & operator>>=(E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the biwise right shift of the two elements, member-to-member into the left-hand side.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> && std::is_integral_v<E2>>>
 	E1 & operator>>=(E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::plus<>> operator+(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the sum of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::plus<>> operator+(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the subtraction of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::minus<>> operator-(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::multiplies<>> operator*(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the multiplication of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::multiplies<>> operator*(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::divides<>> operator/(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the division of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::divides<>> operator/(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::modulus<>> operator%(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the modulo of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::modulus<>> operator%(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::bit_and<>> operator&(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the bit-and of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::bit_and<>> operator&(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::bit_or<>> operator|(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the bit-or of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::bit_or<>> operator|(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::bit_nor<>> operator^(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the bit-nor of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::bit_xor<>> operator^(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, bitwise_left_shift<>> operator<<(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the bitwise left shift of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, bitwise_left_shift<>> operator<<(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, bitwise_right_shift<>> operator>>(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the bitwise right shift of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, bitwise_right_shift<>> operator<<(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::logical_and<>> operator&&(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the logical-and of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::logical_and<>> operator&&(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::logical_or<>> operator||(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the logical-or of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::logical_or<>> operator||(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn bool operator==(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return True, if both are equal member-to-member, else false.
+     * @brief Check if two linear expression are equal or not.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	bool operator==(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn bool operator!=(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return True, if both are different member-to-member, else false.
+     * @brief Check if two linear expression are different or not.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	bool operator!=(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::greater<>> operator>(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the logical-greater of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::greater<>> operator>(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::less<>> operator<(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the logical-less of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::less<>> operator<(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::greater_equal<>> operator>=(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the logical-greater-or-equal of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::greater_equal<>> operator>=(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, std::less_equal<>> operator<=(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the logical-less-or-equal of the two factors.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1> || std::is_base_of_v<LinearExpression<E2>, E2>>>
 	LinearOperation<E1, E2, std::less_equal<>> operator<=(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, absolute<>> abs(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear absolute operation.
+     * @brief Apply the absolute operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, absolute<>> abs(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, exponential<>> exp(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear exponential operation.
+     * @brief Apply the exponential operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, exponential<>> exp(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, logarithm<>> log(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear logarithm operation.
+     * @brief Apply the logarithm operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, logarithm<>> log(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, logarithm10<>> log10(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear logarithm 10 operation.
+     * @brief Apply the logarithm 10 operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, logarithm10<>> log10(const E & lhs);
 
+    /**
+     * @fn LinearOperation<E1, E2, power<>> pow(const E1 & lhs, const E2 & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear power operation.
+     * @brief Apply the power operation on the linear expression.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1>>>
 	LinearOperation<E1, E2, power<>> pow(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, square_root<>> sqrt(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear square root operation.
+     * @brief Apply the square root operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, square_root<>> sqrt(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, sinus<>> sin(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear sinus operation.
+     * @brief Apply the sinus operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, sinus<>> sin(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, cosinus<>> cos(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear cosinus operation.
+     * @brief Apply the cosinus operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, cosinus<>> cos(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, tangent<>> tan(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear tangent operation.
+     * @brief Apply the tangent operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, tangent<>> tan(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, arcsinus<>> asin(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear arcsinus operation.
+     * @brief Apply the arcsinus operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, arcsinus<>> asin(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, arccosinus<>> acos(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear arccosinus operation.
+     * @brief Apply the arccosinus operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, arccosinus<>> acos(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, arctangent<>> atan(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear arctangent operation.
+     * @brief Apply the arctangent operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, arctangent<>> atan(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, arctangent<>> atan(const E & lhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear arctangent 2 operation.
+     * @brief Apply the arctangent 2 operation on the linear expression.
+     */
 	template <class E1, class E2, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E1>, E1>>>
 	LinearOperation<E1, E2, arctangent2<>> atan2(const E1 & lhs, const E2 & rhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, sinus_hyperbolic<>> sinh(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear sinus hyperbolic operation.
+     * @brief Apply the sinus hyperbolic operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, sinus_hyperbolic<>> sinh(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, cosinus_hyperbolic<>> cosh(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear cosinus hyperbolic operation.
+     * @brief Apply the cosinus hyperbolic operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, cosinus_hyperbolic<>> cosh(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, tangent_hyperbolic<>> tanh(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear tangent hyperbolic operation.
+     * @brief Apply the tangent hyperbolic operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, tangent_hyperbolic<>> tanh(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, arcsinus_hyperbolic<>> asinh(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear arcsinus hyperbolic operation.
+     * @brief Apply the arcsinus hyperbolic operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, arcsinus_hyperbolic<>> asinh(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, arccosinus_hyperbolic<>> acosh(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear arccosinus hyperbolic operation.
+     * @brief Apply the arccosinus hyperbolic operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, arccosinus_hyperbolic<>> acosh(const E & lhs);
 
+    /**
+     * @fn LinearUnaryOperation<E, arctangent_hyperbolic<>> atanh(const E & lhs)
+     * @tparam E The type of the left-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @return The linear arctangent hyperbolic operation.
+     * @brief Apply the arctangent hyperbolic operation on the linear expression.
+     */
 	template <class E, typename enabled = typename std::enable_if_t<std::is_base_of_v<LinearExpression<E>, E>>>
 	LinearUnaryOperation<E, arctangent_hyperbolic<>> atanh(const E & lhs);
 }
