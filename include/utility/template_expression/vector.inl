@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -84,6 +84,9 @@ namespace ece
 
 	template <typename E, unsigned int Size, typename enabled>
 	inline E Vector<E, Size, enabled>::cell(const unsigned int index) const { return this->_elements[index]; }
+
+	template <typename E, unsigned int Size, typename enabled>
+	inline E & Vector<E, Size, enabled>::cell(const unsigned int index) { return this->_elements[index]; }
 
 	template <typename E, unsigned int Size, typename enabled>
 	Filter<Vector<E, Size, enabled>, Size, enabled> Vector<E, Size, enabled>::operator[](Vector<bool, Size, enabled> && filter) { return Filter<Vector<E, Size, enabled>, Size>(*this, std::move(filter)); }
@@ -316,7 +319,7 @@ namespace ece
 	LinearOperation<E1, E2, std::logical_or<>> operator||(const E1 & lhs, const E2 & rhs) { return LinearOperation<E1, E2, std::logical_or<>>(lhs, rhs); }
 
 	template <class E1, class E2, typename enabled>
-	bool operator==(const E1 & lhs, const E2 & rhs) 
+	bool operator==(const E1 & lhs, const E2 & rhs)
 	{
 		LinearOperation<E1, E2, std::equal_to<>> result(lhs, rhs);
 		bool equals = true;

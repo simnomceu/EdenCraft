@@ -128,6 +128,26 @@ namespace ece
 		inline auto cell(const unsigned int index) const;
 
 		/**
+		 * @fn auto & operator[](const unsigned int index)
+		 * @param[in] index The index of the element to access.
+		 * @return The element wished.
+		 * @brief Get the element at the index.
+		 * @throw
+		 * @see auto & Slice<Container>::cell(const unsigned int index)
+		 */
+		inline auto & operator[](const unsigned int index);
+
+		/**
+		 * @fn auto & cell(const unsigned int index)
+		 * @param[in] index The index of the element to access.
+		 * @return The element wished.
+		 * @brief Get the element at the index.
+		 * @throw
+		 * @see auto & Slice<Container>::operator[](const unsigned int index)
+		 */
+		inline auto & cell(const unsigned int index);
+
+		/**
 		 * @fn constexpr unsigned int size() const noexcept
 		 * @return The number of element in the expression result.
 		 * @brief Get he number of elements.
@@ -142,7 +162,7 @@ namespace ece
 		 * @throw noexcept
 		 */
 		inline auto begin() noexcept;
-		
+
 		/**
 		 * @fn auto end() noexcept
 		 * @return An iterator to the end of the slice.
