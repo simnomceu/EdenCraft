@@ -1,3 +1,4 @@
+#include "matrix.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -229,5 +230,46 @@ namespace ece
 	{
 		invertible = false;
 		return Matrix<double, Size, Size>();
+	}
+
+	template<typename E1, typename E2, unsigned int Size>
+	Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size>& lhs, const Matrix<E2, Size, Size>& rhs)
+	{
+		Matrix<E1, Size, Size> result;
+		for (unsigned int i = 0; i < Size; ++i) {
+			for (unsigned int j = 0; j < Size; ++j) {
+				for (unsigned int k = 0; k < Size; ++k) {
+					result[i][j] += lhs.row(i)[k] * rhs.column(j)[k];
+				}
+			}
+		}
+		lhs = std::move(result);
+		return lhs;
+	}
+
+	template<typename E1, typename E2, unsigned int Size>
+	Matrix<E1, Size, Size> operator*(const Matrix<E1, Size, Size>& lhs, const Matrix<E2, Size, Size>& rhs)
+	{
+		Matrix<E1, Size, Size> result;
+		for (unsigned int i = 0; i < Size; ++i) {
+			for (unsigned int j = 0; j < Size; ++j) {
+				for (unsigned int k = 0; k < Size; ++k) {
+					result[i][j] += lhs.row(i)[k] * rhs.column(j)[k];
+				}
+			}
+		}
+		return std::move(result);
+	}
+
+	template<typename E1, typename E2, unsigned int Size>
+	Vector<E1, Size> operator*(const Matrix<E1, Size, Size>& lhs, const Vector<E2, Size>& rhs)
+	{
+		Vector<E1, Size> result;
+		for (unsigned int i = 0; i < Size; ++i) {
+			for (unsigned int j = 0; j < Size; ++j) {
+				result[j] += lhs[i][j] * rhs[j];
+			}
+		}
+		return std::move(result);
 	}
 }

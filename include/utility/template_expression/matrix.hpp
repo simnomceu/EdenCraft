@@ -314,6 +314,42 @@ namespace ece
 	{
 		inline Matrix<double, Size, Size> operator()(const Matrix<T, Size, Size> & matrix, bool & invertible) const;
 	};
+
+    /**
+     * @fn Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size> & lhs, const Matrix<E2, Size, Size> & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The left-hand side modified.
+     * @brief Apply the multiplication of the two elements, member-to-member into the left-hand side.
+     */
+	template <typename E1, typename E2, unsigned int Size>
+	Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size> & lhs, const Matrix<E2, Size, Size> & rhs);
+
+	/**
+	* @fn Matrix<E1, Size, Size> operator*(const Matrix<E1, Size, Size> & lhs, const Matrix<E2, Size, Size> & rhs)
+	* @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+	* @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+	* @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+	* @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+	* @return The linear operation on the two linear expressions.
+	* @brief Create the linear expression of the multiplication of the two factors.
+	*/
+	template <typename E1, typename E2, unsigned int Size>
+	Matrix<E1, Size, Size> operator*(const Matrix<E1, Size, Size> & lhs, const Matrix<E2, Size, Size> & rhs);
+
+    /**
+     * @fn Vector<E1, Size> operator*(const Matrix<E1, Size, Size> & lhs, const Vector<E2, Size> & rhs)
+     * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
+     * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
+     * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
+     * @param[in] rhs The right-hand side linear expression to apply the unary operation to.
+     * @return The linear operation on the two linear expressions.
+     * @brief Create the linear expression of the multiplication of the two factors.
+     */
+	template <typename E1, typename E2, unsigned int Size>
+	Vector<E1, Size> operator*(const Matrix<E1, Size, Size> & lhs, const Vector<E2, Size> & rhs);
 }
 
 #include "utility/template_expression/matrix.inl"
