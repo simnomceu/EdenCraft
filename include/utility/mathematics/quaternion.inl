@@ -49,7 +49,7 @@ namespace ece
 	template <class T>
 	inline Quaternion<T>::Quaternion(const T angle, const Vector3u<T> & axis) noexcept :
 		_w(std::cos(angle/2)),
-		_x(axis[0]*std::sin(angle/2)),
+		_x(axis[0] * std::sin(angle/2)),
 		_y(axis[1] * std::sin(angle / 2)),
 		_z(axis[2] * std::sin(angle / 2)) {}
 

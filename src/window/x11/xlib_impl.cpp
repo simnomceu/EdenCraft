@@ -45,6 +45,16 @@ namespace ece
     {
     }
 
+    Window XlibImpl::getWindowHandle() const
+    {
+        return this->_windowId;
+    }
+
+    Display * XlibImpl::getDevice() const
+    {
+        return this->_connection;
+    }
+
 	void XlibImpl::createWindow()
     {
 		this->_connection = XOpenDisplay(nullptr);

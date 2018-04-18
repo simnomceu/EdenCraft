@@ -40,7 +40,7 @@
 #ifndef GL32_EXTENSION_HPP
 #define GL32_EXTENSION_HPP
 
-#include <GL/glcorearb.h>
+#include "GL/glcorearb.h"
 
 #include "utility/indexing/version.hpp"
 #include "renderer/opengl/extension_loader.hpp"
@@ -398,6 +398,19 @@ inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
+	proxy();
+
+/**
+ * fn R_CALLGL32(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @brief Load the opengl 3.2 extension and call it.
+ */
+#define R_CALLGL32(SIGNATURE, NAME) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
 	return proxy();
 
 /**
@@ -408,6 +421,20 @@ inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
  * @brief Load the opengl 3.2 extension and call it.
  */
 #define CALLGL32_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+	if (!proxy) { \
+		throw ece::OpenGLExtensionException(NAME); \
+	} \
+	proxy(__VA_ARGS__);
+
+/**
+ * fn R_CALLGL32_V(SIGNATURE, NAME, ...)
+ * @param[in] SIGNATURE The opengl function to call.
+ * @param[in] NAME The name of the opengl function.
+ * @param[in] ... The parameters to forward to the function.
+ * @brief Load the opengl 3.2 extension and call it.
+ */
+#define R_CALLGL32_V(SIGNATURE, NAME, ...) \
 	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \

@@ -51,7 +51,7 @@ inline void glGetProgramInterfaceiv(GLuint program, GLenum programInterface, GLe
 	{ CALLGL43_V(PFNGLGETPROGRAMINTERFACEIVPROC, "glGetProgramInterfaceiv", program, programInterface, pname, params); }
 
 inline GLuint glGetProgramResourceIndex(GLuint program, GLenum programInterface, const GLchar * name)
-	{ CALLGL43_V(PFNGLGETPROGRAMRESOURCEINDEXPROC, "glGetProgramResourceIndex", program, programInterface, name); }
+	{ R_CALLGL43_V(PFNGLGETPROGRAMRESOURCEINDEXPROC, "glGetProgramResourceIndex", program, programInterface, name); }
 
 inline void glGetProgramResourceName(GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei * length, GLchar * name)
 	{ CALLGL43_V(PFNGLGETPROGRAMRESOURCENAMEPROC, "glGetProgramResourceName", program, programInterface, index, bufSize, length, name); }
@@ -60,10 +60,10 @@ inline void glGetProgramResourceiv(GLuint program, GLenum programInterface, GLui
 	{ CALLGL43_V(PFNGLGETPROGRAMRESOURCEIVPROC, "glGetProgramResourceiv", program, programInterface, index, propCount, props, bufSize, length, params); }
 
 inline GLint glGetProgramResourceLocation(GLuint program, GLenum programInterface, const GLchar * name)
-	{ CALLGL43_V(PFNGLGETPROGRAMRESOURCELOCATIONPROC, "glGetProgramResourceLocation", program, programInterface, name); }
+	{ R_CALLGL43_V(PFNGLGETPROGRAMRESOURCELOCATIONPROC, "glGetProgramResourceLocation", program, programInterface, name); }
 
 inline GLint glGetProgramResourceLocationIndex(GLuint program, GLenum programInterface, const GLchar * name)
-	{ CALLGL43_V(PFNGLGETPROGRAMRESOURCELOCATIONPROC, "glGetProgramResourceLocationIndex", program, programInterface, name); }
+	{ R_CALLGL43_V(PFNGLGETPROGRAMRESOURCELOCATIONPROC, "glGetProgramResourceLocationIndex", program, programInterface, name); }
 
 inline void glShaderStorageBlockBinding(GLuint program, GLuint storageBlockIndex, GLuint storageBlockBinding)
 	{ CALLGL43_V(PFNGLSHADERSTORAGEBLOCKBINDINGPROC, "glShaderStorageBlockBinding", program, storageBlockIndex, storageBlockBinding); }
@@ -149,7 +149,7 @@ inline void glObjectLabel(GLenum identifier, GLuint name, GLsizei length, const 
 inline void glObjectPtrLabel(GLvoid * ptr, GLsizei length, const GLchar * label) { CALLGL43_V(PFNGLOBJECTPTRLABELPROC, "glObjectPtrLabel", ptr, length, label); }
 
 inline GLuint glGetDebugMessageLog(GLuint count, GLsizei bufSize, GLenum *sources, GLenum *types, GLuint *ids, GLenum *severities, GLsizei *lengths, GLchar *messageLog)
-	{ CALLGL43_V(PFNGLGETDEBUGMESSAGELOGPROC, "glGetDebugMessageLog", count, bufSize, sources, types, ids, severities, lengths, messageLog); }
+	{ R_CALLGL43_V(PFNGLGETDEBUGMESSAGELOGPROC, "glGetDebugMessageLog", count, bufSize, sources, types, ids, severities, lengths, messageLog); }
 
 inline void glGetObjectLabel(GLenum identifier, GLuint name, GLsizei bifSize, GLsizei * length, GLchar * label)
 	{ CALLGL43_V(PFNGLGETOBJECTLABELPROC, "glGetObjectLabel", identifier, name, bifSize, length, label); }

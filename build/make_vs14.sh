@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./premake5 vs2015
+./premake5_linux vs2015

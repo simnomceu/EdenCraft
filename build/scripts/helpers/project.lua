@@ -38,7 +38,7 @@ end
 
 function Project:setType(projectType)
     assert(type(projectType) == "string", "Project:setType expects a string parameter.")
-    assert(projectType == "StaticLib" or projectType == "SharedLib" or projectType == "ConsoleApp" or projectType == "WindowedApp" or projectType == "Test", "A project type expects to be one of the following: 'ConsoleApp', 'WindowedApp', 'SharedLib', 'StaticLib', 'Test'.")
+    assert(projectType == "Lib" or projectType == "ConsoleApp" or projectType == "WindowedApp" or projectType == "Test", "A project type expects to be one of the following: 'ConsoleApp', 'WindowedApp', 'Lib', 'Test'.")
     self._type = projectType
 end
 
@@ -57,14 +57,16 @@ end
 
 function Project:addExtlibs(target, extlibs)
     assert(type(target) == "string", "Project:addExtlibs expects a string parameter as first parameter.")
-    assert(target == "Windows" or target == "Unix" or target == "Common", "Extlibs can only be for 'Common', 'Windows', or 'Unix'.")
+    assert(target == "Windows" or target == "Linux" or target == "MacOSX" or target == "Common", "Extlibs can only be for 'Common', 'Windows', 'Linux', or 'MacOSX'.")
     assert(type(extlibs) == "table", "Project:addExtlibs expects a table parameter as second parameter.")
     if target == "Common" then
         self._extlibs:addToCommon(extlibs)
-    elseif target == "Unix" then
+    elseif target == "Linux" then
         self._extlibs:addToUnix(extlibs)
     elseif target == "Windows" then
         self._extlibs:addToWindows(extlibs)
+    elseif target == "MacOSX" then
+        self._preprocessors:addToMacOSX(extlibs)
     end
 end
 
@@ -74,14 +76,16 @@ end
 
 function Project:addLinkOptions(target, linkOptions)
     assert(type(target) == "string", "Project:addLinkOptions expects a string parameter as first parameter.")
-    assert(target == "Windows" or target == "Unix" or target == "Common", "linkOption can only be for 'Common', 'Windows', or 'Unix'.")
+    assert(target == "Windows" or target == "Linux" or target == "MacOSX" or target == "Common", "linkOption can only be for 'Common', 'Windows', 'Linux', or 'MacOSX'.")
     assert(type(linkOptions) == "table", "Project:addLinkOptions expects a table parameter as second parameter.")
     if target == "Common" then
         self._linkOptions:addToCommon(linkOptions)
-    elseif target == "Unix" then
+    elseif target == "Linux" then
         self._linkOptions:addToUnix(linkOptions)
-    else
+    elseif target == "Windows" then
         self._linkOptions:addToWindows(linkOptions)
+    elseif target == "MacOSX" then
+        self._preprocessors:addToMacOSX(linkOptions)
     end
 end
 
@@ -91,14 +95,16 @@ end
 
 function Project:addPreprocessors(target, preprocessors)
     assert(type(target) == "string", "Project:addPreprocessors expects a string parameter as first parameter.")
-    assert(target == "Windows" or target == "Unix" or target == "Common", "linkOption can only be for 'Common', 'Windows', or 'Unix'.")
+    assert(target == "Windows" or target == "Linux" or target == "MacOSX" or target == "Common", "linkOption can only be for 'Common', 'Windows', 'Linux', or 'MacOSX'.")
     assert(type(preprocessors) == "table", "Project:addPreprocessors expects a table parameter as second parameter.")
     if target == "Common" then
         self._preprocessors:addToCommon(preprocessors)
-    elseif target == "Unix" then
+    elseif target == "Linux" then
         self._preprocessors:addToUnix(preprocessors)
-    else
+    elseif target == "Windows" then
         self._preprocessors:addToWindows(preprocessors)
+    elseif target == "MacOSX" then
+        self._preprocessors:addToMacOSX(preprocessors)
     end
 end
 

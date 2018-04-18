@@ -118,7 +118,7 @@ namespace ece
 		 * @throw
 		 * @see std::string BaseUniform::getLocation() const
 		 */
-		virtual std::string getLocation() const override;
+//		virtual std::string getLocation() const override;
 
 		/**
 		 * @fn UniformType getType() const

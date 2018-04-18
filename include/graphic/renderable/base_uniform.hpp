@@ -118,7 +118,7 @@ namespace ece
 		 * @brief Get the string location of the uniform.
 		 * @throw
 		 */
-		virtual std::string getLocation() const = 0;
+//		virtual std::string getLocation() const = 0;
 
 		/**
 		 * @fn UniformType getType() const

@@ -46,12 +46,12 @@ namespace ece
 	{
 		FloatVector3u x, y, z;
 		z = eye - target;
-		z.normalize();
+		z = z.normalize();
 		y = upAxis;
 		x = y.cross(z);
 		y = z.cross(x);
-		x.normalize();
-		y.normalize();
+		x = x.normalize();
+		y = y.normalize();
 
 		return FloatMatrix4u{ x[0], y[0], z[0], 0.0f,
 							   x[1], y[1], z[1], 0.0f,

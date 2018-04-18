@@ -71,7 +71,7 @@ inline void glShaderBinary(GLsizei count, const GLuint *shaders, GLenum binaryFo
 
 inline void glReleaseShaderCompiler() { CALLGL41(PFNGLRELEASESHADERCOMPILERPROC, "glReleaseShaderCompiler"); }
 
-inline GLuint glCreateShaderProgramv(GLenum type, GLsizei count, const GLchar **strings) { CALLGL41_V(PFNGLCREATESHADERPROGRAMVPROC, "glCreateShaderProgramv", type, count, strings); }
+inline GLuint glCreateShaderProgramv(GLenum type, GLsizei count, const GLchar **strings) { R_CALLGL41_V(PFNGLCREATESHADERPROGRAMVPROC, "glCreateShaderProgramv", type, count, strings); }
 
 inline void glProgramParameteri(GLuint program, GLenum pname, GLint value) { CALLGL41_V(PFNGLPROGRAMPARAMETERIPROC, "glProgramParameteri", program, pname, value); }
 
@@ -79,7 +79,7 @@ inline void glGenProgramPipelines(GLsizei n, GLuint *pipelines) { CALLGL41_V(PFN
 
 inline void glDeleteProgramPipelines(GLsizei n, const GLuint *pipelines) { CALLGL41_V(PFNGLDELETEPROGRAMPIPELINESPROC, "glDeleteProgramPipelines", n, pipelines); }
 
-inline GLboolean glIsProgramPipeline(GLuint pipeline) { CALLGL41_V(PFNGLISPROGRAMPIPELINEPROC, "glIsProgramPipeline", pipeline); }
+inline GLboolean glIsProgramPipeline(GLuint pipeline) { R_CALLGL41_V(PFNGLISPROGRAMPIPELINEPROC, "glIsProgramPipeline", pipeline); }
 
 inline void glBindProgramPipeline(GLuint pipeline) { CALLGL41_V(PFNGLBINDPROGRAMPIPELINEPROC, "glBindProgramPipeline", pipeline); }
 

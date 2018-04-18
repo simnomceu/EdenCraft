@@ -51,7 +51,7 @@ inline void * glMapNamedBuffer(GLuint buffer, GLenum access) { CALLGL45_V(PFNGLM
 
 inline void glFlushMappedNamedBufferRange(GLuint buffer, GLintptr offset, GLsizei length) { CALLGL45_V(PFNGLFLUSHMAPPEDNAMEDBUFFERRANGEPROC, "glFlushMappedNamedBufferRange", buffer, offset, length); }
 
-inline GLboolean glUnmapNamedBuffer(GLuint buffer) { CALLGL45_V(PFNGLUNMAPNAMEDBUFFERPROC, "glUnmapNamedBuffer", buffer); }
+inline GLboolean glUnmapNamedBuffer(GLuint buffer) { R_CALLGL45_V(PFNGLUNMAPNAMEDBUFFERPROC, "glUnmapNamedBuffer", buffer); }
 
 inline void glCopyNamedBufferSubData(GLuint readBuffer, GLuint writeBuffer, GLintptr readOffset, GLintptr writeOffset, GLsizei size)
 	{ CALLGL45_V(PFNGLCOPYNAMEDBUFFERSUBDATAPROC, "glCopyNamedBufferSubData", readBuffer, writeBuffer, readOffset, writeOffset, size); }
@@ -182,7 +182,7 @@ inline void glNamedFramebufferTexture(GLuint framebuffer, GLenum attachment, GLu
 inline void glNamedFramebufferTextureLayer(GLuint framebuffer, GLenum attachment, GLuint texture, GLint level, GLint layer)
 	{ CALLGL45_V(PFNGLNAMEDFRAMEBUFFERTEXTURELAYERPROC, "glNamedFramebufferTextureLayer", framebuffer, attachment, texture, level, layer); }
 
-inline GLenum glCheckNamedFramebufferStatus(GLuint framebuffer, GLenum target) { CALLGL45_V(PFNGLCHECKNAMEDFRAMEBUFFERSTATUSPROC, "glCheckNamedFramebufferStatus", framebuffer, target); }
+inline GLenum glCheckNamedFramebufferStatus(GLuint framebuffer, GLenum target) { R_CALLGL45_V(PFNGLCHECKNAMEDFRAMEBUFFERSTATUSPROC, "glCheckNamedFramebufferStatus", framebuffer, target); }
 
 inline void glGetNamedFramebufferAttachmentParameteriv(GLuint framebuffer, GLenum attachment, GLenum pname, GLint * params)
 	{ CALLGL45_V(PFNGLGETNAMEDFRAMEBUFFERATTACHMENTPARAMETERIVPROC, "glGetNamedFramebufferAttachmentParameteriv", framebuffer, attachment, pname, params); }
@@ -190,7 +190,7 @@ inline void glGetNamedFramebufferAttachmentParameteriv(GLuint framebuffer, GLenu
 inline void glGetNamedRenderbufferParameteriv(GLuint renderbuffer, GLenum pname, GLint * params)
 	{ CALLGL45_V(PFNGLGETNAMEDRENDERBUFFERPARAMETERIVPROC, "glGetNamedRenderbufferParameteriv", renderbuffer, pname, params); }
 
-inline GLenum glGetGraphicsResetStatus() { CALLGL45(PFNGLGETGRAPHICSRESETSTATUSPROC, "glGetGraphicsResetStatus"); }
+inline GLenum glGetGraphicsResetStatus() { R_CALLGL45(PFNGLGETGRAPHICSRESETSTATUSPROC, "glGetGraphicsResetStatus"); }
 
 inline void glCreateBuffers(GLsizei n, GLuint * buffers) { CALLGL45_V(PFNGLCREATEBUFFERSPROC, "glCreateBuffers", n, buffers); }
 

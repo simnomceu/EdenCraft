@@ -39,6 +39,10 @@
 #ifndef GLX_EXTENSION_HPP
 #define GLX_EXTENSION_HPP
 
+#include <GL/glx.h>
+#include "GL/glxext.h"
+
+inline GLXContext glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list);
 
 #include "renderer/x11/glx_extension.inl"
 

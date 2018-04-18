@@ -7,8 +7,11 @@ local Project = require "scripts.helpers.project"
 local settings = Project:new()
 
 settings:setName("window")
-settings:setType("StaticLib")
+settings:setType("Lib")
 settings:addDependencies{"core", "utility"}
-settings:addExtlibs("Unix", {"xcb", "X11"})
+settings:addExtlibs("Linux", {"xcb", "X11"})
+settings:addPreprocessors("Windows", {"X11_API", "DWM_API"})
+settings:addPreprocessors("Linux", {"X11_API"})
+settings:addPreprocessors("MacOSX", {"X11_API"})
 
 return settings

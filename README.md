@@ -1,6 +1,7 @@
 # EdenCraft
 
 [![Github Releases](https://img.shields.io/github/release/Isilin/edencraft.svg)](https://github.com/Isilin/EdenCraft/releases)
+[![Github (pre-releases](https://img.shields.io/github/release/Isilin/edencraft/all.svg?label=nightly)](https://github.com/Isilin/EdenCraft/releases)
 [![Build Status](https://travis-ci.org/Isilin/EdenCraft.svg?branch=master)](https://travis-ci.org/Isilin/EdenCraft)
 [![Build status](https://ci.appveyor.com/api/projects/status/h14mj302e5x0amy4/branch/master?svg=true)](https://ci.appveyor.com/project/Isilin/edencraft/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/Isilin/EdenCraft/badge.svg?branch=master)](https://coveralls.io/github/Isilin/EdenCraft?branch=master)
@@ -24,8 +25,8 @@ Tutorials and documentation is not available yet. Work in progress.
 Bugs can be reported on the Github issue tracker here: [![GitHub issues](https://img.shields.io/github/issues/Isilin/edencraft.svg)](https://github.com/Isilin/EdenCraft/issues)
 
 ## Authors
-IsilinBN
-Alcyone - http://alcyone.toile-libre.org/
+* IsilinBN
+* Alcyone - http://alcyone.toile-libre.org/
 
 ## Copyright and Licensing
 The EdenCraft Engine is delivered under the [GNU-GPLv3](https://www.gnu.org/licenses/gpl-3.0.fr.html).

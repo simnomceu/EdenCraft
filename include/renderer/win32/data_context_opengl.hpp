@@ -39,7 +39,7 @@
 #ifndef DATA_CONTEXT_OPENGL_HPP
 #define DATA_CONTEXT_OPENGL_HPP
 
-#include "renderer/opengl/base_context_opengl.hpp"
+#include "renderer/opengl/context_opengl.hpp"
 
 #include <Windows.h>
 

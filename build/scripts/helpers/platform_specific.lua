@@ -15,7 +15,8 @@ function PlatformSpecific:new(obj)
     local this = obj or {
         _common = {},
         _unix = {},
-        _windows = {}
+        _windows = {},
+        _macosx = {}
     }
     setmetatable(this, PlatformSpecific)
     self.__index = self
@@ -38,12 +39,19 @@ function PlatformSpecific:addToWindows(list)
     self._windows = Table.append(self._windows, list)
 end
 
+function PlatformSpecific:addToMacOSX(list)
+    assert(type(list) == "table", "PlatformSpecific:addToMacOSX expects a table.")
+    self._macosx = Table.append(self._macosx, list)
+end
+
 function PlatformSpecific:getAll()
     local result = self._common
     if os.target() == "windows" then
         result = Table.append(result, self._windows)
-    elseif os.target() == "linux" or os.target() == "macosx" then
+    elseif os.target() == "linux" then
         result = Table.append(result, self._unix)
+    elseif os.target() == "macosx" then
+        result = Table.append(result, self._macosx)
     end
     return result
 end

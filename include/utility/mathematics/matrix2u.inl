@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -39,16 +39,10 @@
 namespace ece
 {
 	template<class T>
-	inline double determinant<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const
-	{
-		return matrix(0, 0) * matrix(1, 1) - matrix(0, 1) * matrix(1, 0);
-	}
+	inline double determinant<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const { return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]; }
 
 	template<class T>
-	inline Matrix<T, 2, 2> transpose<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const
-	{
-		return Matrix<T, 2, 2>{ matrix(0, 0), matrix(1, 0), matrix(0, 1), matrix(1, 1) };
-	}
+	inline Matrix<T, 2, 2> transpose<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const { return Matrix<T, 2, 2>{ matrix[0][0], matrix[1][0], matrix[0][1], matrix[1][1] }; }
 
 	template<class T>
 	inline Matrix<double, 2, 2> inverse<T, 2>::operator()(const Matrix<T, 2, 2> & matrix, bool & invertible) const
@@ -56,8 +50,8 @@ namespace ece
 		auto det = matrix.determinant();
 		invertible = (det != 0.0);
 		if (invertible) {
-			return Matrix<double, 2, 2>{ static_cast<double>(matrix(1, 1)), -static_cast<double>(matrix(0, 1)),
-				-static_cast<double>(matrix(1, 0)), static_cast<double>(matrix(0, 0)) } *(1.0f / det);
+			return Matrix<double, 2, 2>{ static_cast<double>(matrix[1][1]), -static_cast<double>(matrix[0][1]),
+				-static_cast<double>(matrix[1][0]), static_cast<double>(matrix[0][0]) } *(1.0f / det);
 		}
 		else {
 			return Matrix<double, 2, 2>();
