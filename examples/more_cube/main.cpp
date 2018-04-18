@@ -38,15 +38,10 @@
 
 #include "core/application/application.hpp"
 
-#include "renderer/common/render_window.hpp"
-#include "renderer/common/enhanced_shader.hpp"
-#include "utility/log/service_logger.hpp"
+#include "renderer/common.hpp"
+#include "utility/log.hpp"
 #include "renderer/opengl/vao.hpp"
-#include "renderer/common/renderer.hpp"
-#include "utility/file_system/parser_bmp.hpp"
-#include "renderer/common/texture2d.hpp"
-
-#include <iostream>
+#include "renderer/image.hpp"
 
 int main()
 {
