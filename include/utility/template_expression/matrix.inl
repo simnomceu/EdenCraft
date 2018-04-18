@@ -91,20 +91,36 @@ namespace ece
 		}
 		return *this;
 	}
-	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, N * index, M, 1); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, N * index, M, 1); }
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::column(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(*this, index, M, N); }
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::operator[](const unsigned int index) const { return Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](Matrix<bool, M, N, enabled> && filter) { return Filter<Matrix<E, M, N, enabled>, M * N>(*this, std::move(filter)); }
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
-	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](std::initializer_list<unsigned int> && il) { return Filter<Matrix<E, M, N, enabled>, M * N>(*this, std::move(il)); }
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) const { return Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::column(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(this, index, M, N); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::column(const unsigned int index) const { return Slice<Matrix<E, M, N, enabled>>(this, index, M, N); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](Matrix<bool, M, N, enabled> && filter) { return Filter<Matrix<E, M, N, enabled>, M * N>(this, std::move(filter)); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](Matrix<bool, M, N, enabled> && filter) const { return Filter<Matrix<E, M, N, enabled>, M * N>(this, std::move(filter)); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](std::initializer_list<unsigned int> && il) { return Filter<Matrix<E, M, N, enabled>, M * N>(this, std::move(il)); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](std::initializer_list<unsigned int> && il) const { return Filter<Matrix<E, M, N, enabled>, M * N>(this, std::move(il)); }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
 	inline E Matrix<E, M, N, enabled>::cell(const unsigned int index) const { return this->_elements[index]; }
@@ -233,7 +249,7 @@ namespace ece
 	}
 
 	template<typename E1, typename E2, unsigned int Size>
-	Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size>& lhs, Matrix<E2, Size, Size>& rhs)
+	Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size>& lhs, const Matrix<E2, Size, Size>& rhs)
 	{
 		Matrix<E1, Size, Size> result;
 		for (unsigned int i = 0; i < Size; ++i) {
@@ -248,7 +264,7 @@ namespace ece
 	}
 
 	template<typename E1, typename E2, unsigned int Size>
-	Matrix<E1, Size, Size> operator*(Matrix<E1, Size, Size>& lhs, Matrix<E2, Size, Size>& rhs)
+	Matrix<E1, Size, Size> operator*(const Matrix<E1, Size, Size>& lhs, const Matrix<E2, Size, Size>& rhs)
 	{
 		Matrix<E1, Size, Size> result;
 		for (unsigned int i = 0; i < Size; ++i) {
@@ -262,7 +278,7 @@ namespace ece
 	}
 
 	template<typename E1, typename E2, unsigned int Size>
-	Vector<E1, Size> operator*(Matrix<E1, Size, Size>& lhs, Vector<E2, Size>& rhs)
+	Vector<E1, Size> operator*(const Matrix<E1, Size, Size>& lhs, const Vector<E2, Size>& rhs)
 	{
 		Vector<E1, Size> result;
 		for (unsigned int i = 0; i < Size; ++i) {

@@ -172,6 +172,15 @@ namespace ece
 		inline Slice<Matrix<E, M, N, enabled>> operator[](const unsigned int index);
 
 		/**
+		* @fn E & operator[](const unsigned int index) const
+		* @param[in] index The index of the element to access.
+		* @return The element wished.
+		* @brief Get the element at the index.
+		* @throw
+		*/
+		inline Slice<Matrix<E, M, N, enabled>> operator[](const unsigned int index) const;
+
+		/**
 		 * Slice<Matrix<E, M, N, enabled>> row(const unsigned int index)
 		 * @param[in] index The index of the row to get.
 		 * @return A slice of the matrix which is a row.
@@ -179,6 +188,15 @@ namespace ece
 		 * @throw
 		 */
 		inline Slice<Matrix<E, M, N, enabled>> row(const unsigned int index);
+
+		/**
+		* Slice<Matrix<E, M, N, enabled>> row(const unsigned int index) const
+		* @param[in] index The index of the row to get.
+		* @return A slice of the matrix which is a row.
+		* @brief Get a row of the matrix.
+		* @throw
+		*/
+		inline Slice<Matrix<E, M, N, enabled>> row(const unsigned int index) const;
 		
 		/**
 		 * Slice<Matrix<E, M, N, enabled>> column(const unsigned int index)
@@ -190,6 +208,15 @@ namespace ece
 		inline Slice<Matrix<E, M, N, enabled>> column(const unsigned int index);
 
 		/**
+		* Slice<Matrix<E, M, N, enabled>> column(const unsigned int index) const
+		* @param[in] index The index of the column to get.
+		* @return A slice of the matrix which is a row.
+		* @brief Get a column of the matrix.
+		* @throw
+		*/
+		inline Slice<Matrix<E, M, N, enabled>> column(const unsigned int index) const;
+
+		/**
 		 * @fn Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](Matrix<bool, M, N, enabled> && filter)
 		 * @param[in] filter The filter to apply.
 		 * @return The matrix filtered.
@@ -198,7 +225,18 @@ namespace ece
 		 */
 		Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](Matrix<bool, M, N, enabled> && filter);
 
+		/**
+		* @fn Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](Matrix<bool, M, N, enabled> && filter) const
+		* @param[in] filter The filter to apply.
+		* @return The matrix filtered.
+		* @brief Get the matrix filtered.
+		* @throw
+		*/
+		Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](Matrix<bool, M, N, enabled> && filter) const;
+
 		Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](std::initializer_list<unsigned int> && il);
+
+		Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](std::initializer_list<unsigned int> && il) const;
 
 		inline E cell(const unsigned int index) const;
 
@@ -316,7 +354,7 @@ namespace ece
 	};
 
     /**
-     * @fn Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size> & lhs, Matrix<E2, Size, Size> & rhs)
+     * @fn Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size> & lhs, const Matrix<E2, Size, Size> & rhs)
      * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
      * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
      * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
@@ -325,10 +363,10 @@ namespace ece
      * @brief Apply the multiplication of the two elements, member-to-member into the left-hand side.
      */
 	template <typename E1, typename E2, unsigned int Size>
-	Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size> & lhs, Matrix<E2, Size, Size> & rhs);
+	Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size> & lhs, const Matrix<E2, Size, Size> & rhs);
 
 	/**
-	* @fn Matrix<E1, Size, Size> operator*(Matrix<E1, Size, Size> & lhs, Matrix<E2, Size, Size> & rhs)
+	* @fn Matrix<E1, Size, Size> operator*(const Matrix<E1, Size, Size> & lhs, const Matrix<E2, Size, Size> & rhs)
 	* @tparam E1 The type of the left-hand side linear expression concerned by the operation.
 	* @tparam E2 The type of the right-hand side linear expression concerned by the operation.
 	* @param[in] lhs The left-hand side linear expression to apply the unary operation to.
@@ -337,10 +375,10 @@ namespace ece
 	* @brief Create the linear expression of the multiplication of the two factors.
 	*/
 	template <typename E1, typename E2, unsigned int Size>
-	Matrix<E1, Size, Size> operator*(Matrix<E1, Size, Size> & lhs, Matrix<E2, Size, Size> & rhs);
+	Matrix<E1, Size, Size> operator*(const Matrix<E1, Size, Size> & lhs, const Matrix<E2, Size, Size> & rhs);
 
     /**
-     * @fn Vector<E1, Size> operator*(Matrix<E1, Size, Size> & lhs, Vector<E2, Size> & rhs)
+     * @fn Vector<E1, Size> operator*(const Matrix<E1, Size, Size> & lhs, const Vector<E2, Size> & rhs)
      * @tparam E1 The type of the left-hand side linear expression concerned by the operation.
      * @tparam E2 The type of the right-hand side linear expression concerned by the operation.
      * @param[in] lhs The left-hand side linear expression to apply the unary operation to.
@@ -349,7 +387,7 @@ namespace ece
      * @brief Create the linear expression of the multiplication of the two factors.
      */
 	template <typename E1, typename E2, unsigned int Size>
-	Vector<E1, Size> operator*(Matrix<E1, Size, Size> & lhs, Vector<E2, Size> & rhs);
+	Vector<E1, Size> operator*(const Matrix<E1, Size, Size> & lhs, const Vector<E2, Size> & rhs);
 }
 
 #include "utility/template_expression/matrix.inl"

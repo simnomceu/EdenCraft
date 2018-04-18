@@ -187,7 +187,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, std::plus<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -197,7 +197,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, std::minus<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -207,7 +207,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, std::multiplies<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -217,7 +217,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, std::divides<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -227,7 +227,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, std::divides<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -237,7 +237,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, std::bit_and<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -247,7 +247,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, std::bit_or<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -257,7 +257,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, std::bit_xor<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -267,7 +267,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, bitwise_left_shift<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -277,7 +277,7 @@ namespace ece
 	{
 		LinearOperation<E1, E2, bitwise_right_shift<>> result(lhs, rhs);
 		for (unsigned int i = 0; i < lhs.size(); ++i) {
-			lhs[i] = static_cast<std::decay_t<decltype(lhs[i])>>(result[i]);
+			lhs.cell(i) = static_cast<std::decay_t<decltype(lhs.cell(i))>>(result.cell(i));
 		}
 		return lhs;
 	}
@@ -321,10 +321,10 @@ namespace ece
 	template <class E1, class E2, typename enabled>
 	bool operator==(const E1 & lhs, const E2 & rhs)
 	{
-		LinearOperation<E1, E2, std::equal_to<>> result(lhs, rhs);
+		//LinearOperation<E1, E2, std::equal_to<>> result(lhs, rhs);
 		bool equals = true;
-		for (unsigned int i = 0; i < result.size(); ++i) {
-			equals = equals && result[i];
+		for (unsigned int i = 0; i < lhs.size(); ++i) {
+			equals = equals && (lhs.cell(i) == rhs.cell(i));//result.cell(i);
 		}
 		return equals;
 	}

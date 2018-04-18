@@ -56,7 +56,7 @@ namespace ece
 		constexpr Slice() noexcept = delete;
 
 		/**
-		 * @fn Slice(Container & container, unsigned int beginning, unsigned int size, unsigned int shift)
+		 * @fn Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift)
 		 * @param[in] container The container to slice.
 		 * @param[in] beginning Where to begin to slice the container.
 		 * @param[in] size The size of the slice.
@@ -64,7 +64,18 @@ namespace ece
 		 * @brief Build a slice of the container.
 		 * @throw noexcept
 		 */
-		Slice(Container & container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
+		Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
+
+		/**
+		 * @fn Slice(const Container * container, unsigned int beginning, unsigned int size, unsigned int shift)
+		 * @param[in] container The container to slice.
+		 * @param[in] beginning Where to begin to slice the container.
+		 * @param[in] size The size of the slice.
+		 * @param[in] shift The shift between each element of the slice in the container.
+		 * @brief Build a slice of the container.
+		 * @throw noexcept
+		 */
+		Slice(const Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
 
 		/**
 		 * @fn Slice(const Slice & copy) noexcept
@@ -176,7 +187,7 @@ namespace ece
 		 * @property _container
 		 * @brief The contaner to slice.
 		 */
-		Container & _container;
+		Container * _container;
 
 		/**
 		 * @property _beginning
