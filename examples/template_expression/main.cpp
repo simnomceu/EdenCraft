@@ -43,5 +43,26 @@ int main()
 	}
 	std::cout << "}" << std::endl;
 
+	// =============================
+	ece::Matrix<int, 3, 3> first{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	auto second = ece::Matrix<float, 3, 3>::Identity();
+	first *= second;
+
+	std::cout << "identity: { ";
+	for (unsigned int i = 0; i < first.size(); ++i) {
+		std::cout << first.cell(i) << " ";
+	}
+	std::cout << "}" << std::endl;
+
+	// =============================
+	ece::Vector<float, 3> unit{ 1.0f, 1.0f, 1.0f };
+	auto matvec = first * unit;
+
+	std::cout << "identity: { ";
+	for (unsigned int i = 0; i < matvec.size(); ++i) {
+		std::cout << matvec[i] << " ";
+	}
+	std::cout << "}" << std::endl;
+
 	return EXIT_SUCCESS;
 }

@@ -55,7 +55,7 @@ namespace ece
 	Vector<E, Size, enabled>::Vector(const E2 & rhs) noexcept: LinearExpression<Vector<E, Size, enabled>>(), _elements()
 	{
 		for (unsigned int i = 0; i < rhs.size(); ++i) {
-			this->_elements[i] = rhs.cell(i);
+			this->_elements[i] = static_cast<E>(rhs.cell(i));
 		}
 	}
 

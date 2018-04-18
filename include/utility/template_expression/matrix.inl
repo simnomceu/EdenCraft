@@ -233,13 +233,13 @@ namespace ece
 	}
 
 	template<typename E1, typename E2, unsigned int Size>
-	Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size>& lhs, const Matrix<E2, Size, Size>& rhs)
+	Matrix<E1, Size, Size> & operator*=(Matrix<E1, Size, Size>& lhs, Matrix<E2, Size, Size>& rhs)
 	{
 		Matrix<E1, Size, Size> result;
 		for (unsigned int i = 0; i < Size; ++i) {
 			for (unsigned int j = 0; j < Size; ++j) {
 				for (unsigned int k = 0; k < Size; ++k) {
-					result[i][j] += lhs.row(i)[k] * rhs.column(j)[k];
+					result[i][j] += lhs.row(i)[k] * static_cast<E1>(rhs.column(j)[k]);
 				}
 			}
 		}
@@ -248,13 +248,13 @@ namespace ece
 	}
 
 	template<typename E1, typename E2, unsigned int Size>
-	Matrix<E1, Size, Size> operator*(const Matrix<E1, Size, Size>& lhs, const Matrix<E2, Size, Size>& rhs)
+	Matrix<E1, Size, Size> operator*(Matrix<E1, Size, Size>& lhs, Matrix<E2, Size, Size>& rhs)
 	{
 		Matrix<E1, Size, Size> result;
 		for (unsigned int i = 0; i < Size; ++i) {
 			for (unsigned int j = 0; j < Size; ++j) {
 				for (unsigned int k = 0; k < Size; ++k) {
-					result[i][j] += lhs.row(i)[k] * rhs.column(j)[k];
+					result[i][j] += lhs.row(i)[k] * static_cast<E1>(rhs.column(j)[k]);
 				}
 			}
 		}
@@ -262,12 +262,12 @@ namespace ece
 	}
 
 	template<typename E1, typename E2, unsigned int Size>
-	Vector<E1, Size> operator*(const Matrix<E1, Size, Size>& lhs, const Vector<E2, Size>& rhs)
+	Vector<E1, Size> operator*(Matrix<E1, Size, Size>& lhs, Vector<E2, Size>& rhs)
 	{
 		Vector<E1, Size> result;
 		for (unsigned int i = 0; i < Size; ++i) {
 			for (unsigned int j = 0; j < Size; ++j) {
-				result[j] += lhs[i][j] * rhs[j];
+				result[j] += lhs.row(j)[i] * static_cast<E1>(rhs[j]);
 			}
 		}
 		return std::move(result);
