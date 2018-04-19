@@ -1,4 +1,3 @@
-#include "dynamic_2d_array.hpp"
 /*
 	
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
@@ -77,6 +76,12 @@ namespace ece
 
 	template <class E>
 	inline const E * Dynamic2DArray<E>::operator[](const size_t index) const { return this->_buffer + (index * this->_width); }
+
+	template<class E>
+	inline E * Dynamic2DArray<E>::data() noexcept { return this->_buffer; }
+
+	template<class E>
+	inline const E * Dynamic2DArray<E>::data() const noexcept { return this->_buffer; }
 	
 	template<class E>
 	inline size_t Dynamic2DArray<E>::getWidth() const noexcept { return this->_width; }

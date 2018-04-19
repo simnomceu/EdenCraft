@@ -121,6 +121,22 @@ namespace ece
 		inline const E * operator[](const size_t index) const;
 
 		/**
+		 * @fn E * data()
+		 * @return The array of data.
+		 * @brief Access directly the array of data in memory.
+		 * @throw noexcept
+		 */
+		inline E * data() noexcept;
+
+		/**
+		 * @fn const E * data() const
+		 * @return The array of data.
+		 * @brief Access directly the array of data in memory.
+		 * @throw noexcept
+		 */
+		inline const E * data() const noexcept;
+
+		/**
 		 * @fn size_t getWidth() const noexcept
 		 * @return The width of the container.
 		 * @brief Get the width of the two dimensional array.

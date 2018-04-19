@@ -37,29 +37,12 @@
 */
 
 #include <algorithm>
+#include "image.hpp"
 
 namespace ece
 {
-	template <class E>
-	inline E * Image<E>::operator[](const size_t index) { return this->_buffer[index]; }
-
-	template <class E>
-	inline const E * Image<E>::operator[](const size_t index) const { return this->_buffer[index]; }
-
 	template<class E>
-	inline size_t Image<E>::getWidth() const noexcept { return this->_width; }
-
-	template<class E>
-	inline size_t Image<E>::getHeight() const noexcept { return this->_height; }
-
-	template<class E>
-	void Image<E>::resize(const size_t width, const size_t height)
-	{
-		this->_buffer.resize(width, height);
-
-		this->_width = width;
-		this->_height = height;
-	}
+	inline constexpr Image<E>::Image() noexcept: Dynamic2DArray<E>(0, 0) {}
 
 	template<class E>
 	void Image<E>::flipHorizontally()

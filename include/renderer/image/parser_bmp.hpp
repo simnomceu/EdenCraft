@@ -44,6 +44,8 @@
 #include <cstddef>
 
 #include "utility/file_system/parser.hpp"
+#include "renderer/image/image.hpp"
+#include "renderer/image/pixel_format.hpp"
 
 namespace ece
 {
@@ -56,19 +58,12 @@ namespace ece
 	class ParserBMP : public Parser
 	{
 	public:
-		struct RGB24 // TODO: only useful for Bitmap 24bits
-		{
-			std::byte red;
-			std::byte green;
-			std::byte blue;
-		};
-
 		/**
 		 * @fn ParserBMP() noexcept
 		 * @brief Default constructor.
 		 * @throw noexcept
 		 */
-		ParserBMP() noexcept = default;
+		constexpr ParserBMP() noexcept = default;
 
 		/**
 		 * @fn ParserBMP(const ParserBMP & copy)
@@ -166,28 +161,20 @@ namespace ece
 		virtual void saveToMemory(void * content) override;
 
 		/**
-		 * @fn std::vector<RGB24> & getBuffer()
-		 * @return The buffer of pixels.
-		 * @brief Get the buffer containing the image pixels.
-		 * @throw
+		 * @fn Image<RGB24> & getImage()
+		 * @return The image currently loaded.
+		 * @brief Get the image currently loaded.
+		 * @throw noexcept 
 		 */
-		std::vector<RGB24> & getBuffer();
+		inline Image<RGB24> & getImage() noexcept;
 
 		/**
-		 * @fn unsigned int getWidth() const
-		 * @return The image width.
-		 * @brief Get the image width.
-		 * @throw
+		 * @fn const Image<RGB24> & getImage() const
+		 * @return The image currently loaded.
+		 * @brief Get the image currently loaded.
+		 * @throw noexcept 
 		 */
-		unsigned int getWidth() const;
-
-		/**
-		 * @fn unsigned int getHeight() const
-		 * @return The image height.
-		 * @brief Get the image height.
-		 * @throw
-		 */
-		unsigned int getHeight() const;
+		inline const Image<RGB24> & getImage() const noexcept;
 
 	private:
 		/**
@@ -221,24 +208,10 @@ namespace ece
 			uint32_t nbMajorColors;
 		};
 
-		/**
-		 * @property _buffer
-		 * @brief The image pixels.
-		 */
-		std::vector<RGB24> _buffer;
-
-		/**
-		 * @property _width
-		 * @brief The image width.
-		 */
-		unsigned int _width;
-
-		/**
-		 * @property _height
-		 * @brief The image height.
-		 */
-		unsigned int _height;
+		Image<RGB24> _image;
 	};
 }
+
+#include "renderer/image/parser_bmp.inl"
 
 #endif // PARSER_BMP_HPP

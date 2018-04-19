@@ -43,7 +43,7 @@
 
 #include "utility/indexing/dynamic_2d_array.hpp"
 
-namespace
+namespace ece
 {
 	/**
 	 * @class Image
@@ -51,10 +51,15 @@ namespace
 	 * @brief
 	 */
 	template <class E>
-	class Image
+	class Image: public Dynamic2DArray<E>
 	{
 	public:
-		constexpr Image() noexcept = delete;
+		/**
+		 * @fn constexpr Image() noexcept 
+		 * @brief Default constructor.
+		 * @throw noexcept
+		 */
+		inline constexpr Image() noexcept;
 
 		/**
 		 * @fn Image(const Image<E> & copy) noexcept
@@ -98,50 +103,6 @@ namespace
 		Image<E> & operator=(Image<E> && move) noexcept = default;
 
 		/**
-		* @fn E * operator[](const size_t index)
-		* @param[in] index The index of the line of pixel to access.
-		* @return A pointer to the line of pixel in the image.
-		* @brief Get a line of the image.
-		* @throw
-		*/
-		inline E * operator[](const size_t index);
-
-		/**
-		* @fn const E * operator[](const size_t index) const
-		* @param[in] index The index of the line of pixel to access.
-		* @return A pointer to the line of pixel in the image.
-		* @brief Get a line of the image.
-		* @throw
-		*/
-		inline const E * operator[](const size_t index) const;
-
-		/**
-		* @fn size_t getWidth() const noexcept
-		* @return The width of the image.
-		* @brief Get the width of the image.
-		* @throw noexcept
-		*/
-		inline size_t getWidth() const noexcept;
-
-		/**
-		* @fn size_t getHeight() const noexcept
-		* @return The height of the image.
-		* @brief Get the height of the image.
-		* @throw noexcept
-		*/
-		inline size_t getHeight() const noexcept;
-
-		/**
-		* @fn void resize(const size_t width, const size_t height)
-		* @param[in] width The new width of the image.
-		* @param[in] height The new height of the image.
-		* @brief Resize the image.
-		* If it is smaller, some pixels are lose, if it is bigger, new pixels are initialized to the default value.
-		* @throw
-		*/
-		void resize(const size_t width, const size_t height);
-
-		/**
 		 * @fn void flipHorizontally()
 		 * @brief Flip the image horizontally (from left to right).
 		 * @throw
@@ -168,11 +129,6 @@ namespace
 		 * @throw
 		 */
 		void rotateOnLeft();
-
-	protected:
-		Dynamic2DArray<E> _buffer;
-		size_t width;
-		size_t height;
 	};
 }
 
