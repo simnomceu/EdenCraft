@@ -67,7 +67,7 @@ namespace ece
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		Dynamic2DArray(const Dynamic2DArray<E> & copy) noexcept = default;
+		Dynamic2DArray(const Dynamic2DArray<E> & copy) noexcept;
 
 		/**
 		 * @fn Dynamic2DArray(Dynamic2DArray<E> && move) noexcept
@@ -91,7 +91,7 @@ namespace ece
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		Dynamic2DArray<E> & operator=(const Dynamic2DArray<E> & copy) noexcept = default;
+		Dynamic2DArray<E> & operator=(const Dynamic2DArray<E> & copy) noexcept;
 
 		/**
 		 * @fn Dynamic2DArray<E> & operator=(Dynamic2DArray<E> && move) noexcept

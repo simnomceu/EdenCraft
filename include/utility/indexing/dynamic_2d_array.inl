@@ -48,7 +48,29 @@ namespace ece
 	}
 
 	template<class E>
+	Dynamic2DArray<E>::Dynamic2DArray(const Dynamic2DArray<E>& copy) noexcept: _buffer(new E[copy.getWidth() * copy.getHeight()]()), _width(copy.getWidth()), _height(copy.getHeight())
+	{
+		for (size_t j = 0; j < height; ++j) {
+			for (size_t i = 0; i < width; ++i) {
+				this->_buffer[j * width + i] = copy[j][i];
+			}
+		}
+	}
+
+	template<class E>
 	inline Dynamic2DArray<E>::~Dynamic2DArray() noexcept { delete[] this->_buffer; }
+
+	template<class E>
+	inline Dynamic2DArray<E>& Dynamic2DArray<E>::operator=(const Dynamic2DArray<E>& copy) noexcept
+	{
+		this->_width = copy.getWidth();
+		this->_height = copy.getHeight();
+		for (size_t j = 0; j < height; ++j) {
+			for (size_t i = 0; i < width; ++i) {
+				this->_buffer[j * width + i] = copy[j][i];
+			}
+		}
+	}
 
 	template <class E>
 	inline E * Dynamic2DArray<E>::operator[](const size_t index) { return this->_buffer + (index * this->_width); }

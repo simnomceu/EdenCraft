@@ -39,6 +39,7 @@
 #ifndef INDEXING_HPP
 #define INDEXING_HPP
 
+#include "utility/indexing/dynamic_2d_array.hpp"
 #include "utility/indexing/index2u.hpp"
 #include "utility/indexing/index3u.hpp"
 #include "utility/indexing/unique_id.hpp"
