@@ -36,67 +36,66 @@
 
 */
 
-#include "renderer/common/render_window.hpp"
-
-#include "renderer/opengl/context_opengl.hpp"
-
-#include "renderer/opengl/opengl.hpp"
-#include "utility/log/service_logger.hpp"
-#include "window/common/video_mode.hpp"
+#ifndef RENDARABLE_HPP
+#define RENDERABLE_HPP
 
 namespace ece
 {
-	RenderWindow::RenderWindow(): _context(std::make_shared<ContextOpenGL>())
-	{
-	}
+    /**
+     * @class Renderable
+     * @brief
+     */
+    class Renderable
+    {
+    public:
+        /**
+         * @fn constexpr Renderable() noexcept
+         * @brief Default constructor.
+         * @throw noexcept
+         */
+        constexpr Renderable() noexcept = default;
 
-	RenderWindow::~RenderWindow() noexcept
-	{
-		this->_renderers.clear();
-	}
+        /**
+         * @fn Renderable(const Renderable & copy) noexcept
+         * @param[in] copy The Renderable to copy from.
+         * @brief Default copy constructor.
+         * @throw noexcept
+         */
+        Renderable(const Renderable & copy) noexcept = default;
 
-	void RenderWindow::open()
-	{
-		Window::open();
-		try {
-			this->_context->create(*this);
-		}
-		catch (Exception & /*e*/) {
-			throw;
-		}
-		catch (std::runtime_error & e) {
-			ServiceLoggerLocator::getService().logError(e.what());
-		}
-	}
+        /**
+         * @fn Renderable(Renderable && move) noexcept
+         * @param[in] move The Renderable to move.
+         * @brief Default move constructor.
+         * @throw noexcept
+         */
+        Renderable(Renderable && move) noexcept = default;
 
-	void RenderWindow::clear(const Color & /*color*/)
-	{
-		if (this->isOpened()) {
-			OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
-		}
-	}
+        /**
+         * @fn ~Renderable() noexcept
+         * @brief Default destructor.
+         * @throw noexcept
+         */
+        ~Renderable() noexcept = default;
 
-	void RenderWindow::display()
-	{
-		this->_context->swapBuffers();
-	}
+        /**
+         * @fn Renderable & operator=(const Renderable & copy) noexcept
+         * @param[in] The Renderable to copy from.
+         * @return The Renderable copied.
+         * @brief Default copy assignment operator.
+         * @throw noexcept
+         */
+        Renderable & operator=(const Renderable & copy) noexcept = default;
 
-	void RenderWindow::enableMSAA(const unsigned short int samples)
-	{
-		if (samples < 2) {
-			OpenGL::disable(Capability::MULTISAMPLE);
-		}
-		this->_videoMode.setSamples(samples);
-	}
-
-	void RenderWindow::updateVideoMode()
-	{
-		if (this->_videoMode.hasChanged()) {
-			this->_context.reset();
-			this->close();
-			this->_context = std::make_shared<ContextOpenGL>();
-			this->open();
-			this->_videoMode.applyChanges();
-		}
-	}
+        /**
+         * @fn Renderable & operator=(Renderable && move) noexcept
+         * @param[in] The Renderable to move.
+         * @return The Renderable moved.
+         * @brief Default move assignment operator.
+         * @throw noexcept
+         */
+        Renderable & operator=(Renderable && move) noexcept = default;
+    };
 }
+
+#endif // RENDERABLE_HPP

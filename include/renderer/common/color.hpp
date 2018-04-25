@@ -45,23 +45,23 @@ namespace ece
 {
     using Color = RGB24;
 
-    static constexpr Color WHITE = { 255, 255, 255 };
-    static constexpr Color SILVER = { 192, 192, 192 };
-    static constexpr Color GRAY = { 128, 128, 128 };
-    static constexpr Color BLACK = { 0, 0, 0 };
-    static constexpr Color RED = { 255, 255, 255 };
-    static constexpr Color MAROON = { 128, 0, 0 };
-    static constexpr Color YELLOW = { 255, 255, 0 };
-    static constexpr Color OLIVE = { 128, 128, 0 };
-    static constexpr Color LIME = { 192, 255, 0 };
-    static constexpr Color GREEN = { 0, 255, 0 };
-    static constexpr Color CYAN = { 0, 255, 255 };
-    static constexpr Color TEAL = { 0, 128, 128 };
-    static constexpr Color BLUE = { 0, 0, 255 };
-    static constexpr Color NAVY = { 0, 0, 128 };
-    static constexpr Color FUSHIA = { 255, 0, 255 };
-    static constexpr Color PURPLE = { 128, 0, 128 };
-    static constexpr Color VIOLET = { 128, 0, 255 };
+    static const Color WHITE( 255, 255, 255 );
+    static const Color SILVER( 192, 192, 192 );
+    static const Color GRAY( 128, 128, 128 );
+    static const Color BLACK( 0, 0, 0 );
+    static const Color RED( 255, 255, 255 );
+    static const Color MAROON( 128, 0, 0 );
+    static const Color YELLOW( 255, 255, 0 );
+    static const Color OLIVE( 128, 128, 0 );
+    static const Color LIME( 192, 255, 0 );
+    static const Color GREEN( 0, 255, 0 );
+    static const Color CYAN( 0, 255, 255 );
+    static const Color TEAL( 0, 128, 128 );
+    static const Color BLUE( 0, 0, 255 );
+    static const Color NAVY( 0, 0, 128 );
+    static const Color FUSHIA( 255, 0, 255 );
+    static const Color PURPLE( 128, 0, 128 );
+    static const Color VIOLET( 128, 0, 255 );
 }
 
 #endif // COLOR_HPP

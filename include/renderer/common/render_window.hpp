@@ -45,16 +45,17 @@
 #include "window/common/window.hpp"
 #include "renderer/common/renderer.hpp"
 #include "renderer/common/base_context.hpp"
+#include "renderer/common/render_target.hpp"
 
 namespace ece
 {
 	/**
 	 * @class RenderWindow
-	 * @extends Window
+	 * @extends Window RenderTarget
 	 * @brief A window that include a renderer, to draw scenes.
 	 * @see Window
 	 */
-	class RenderWindow: public Window
+	class RenderWindow: public Window, public RenderTarget
 	{
 	public:
 		/**
@@ -130,12 +131,30 @@ namespace ece
 		 */
 		void open();
 
-		/**
-		 * @fn void clear()
-		 * @brief Clear the window.
-		 * @throw
-		 */
-		void clear();
+        /**
+         * @fn FloatVector2u getSize() const
+         * @return The size of the render target.
+         * @brief Get the size of the render target.
+         * @throw
+         */
+        virtual FloatVector2u getSize() const override;
+
+        /**
+         * @fn void clear(const Color & color = BLACK)
+         * @param[in] color The color to use to clean the render target.
+         * @brief Clean the render target using a specific color.
+         * @throw
+         */
+        virtual void clear(const Color & color = BLACK) override;
+
+        /**
+         * @fn void draw(Drawable & drawable, const RenderState & states = RenderState())
+         * @param[in/out] drawable The drawable to draw to the render target.
+         * @param[in] states The states to apply to the render for drawing.
+         * @brief Draw an object to the render target.
+         * @throw
+         */
+        virtual void draw(Drawable & drawable, const RenderState & states = RenderState()) override;
 
 		/**
 		 * void display()

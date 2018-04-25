@@ -36,67 +36,72 @@
 
 */
 
-#include "renderer/common/render_window.hpp"
+#ifndef RENDER_STATE_HPP
+#define RENDER_STATE_HPP
 
-#include "renderer/opengl/context_opengl.hpp"
-
-#include "renderer/opengl/opengl.hpp"
-#include "utility/log/service_logger.hpp"
-#include "window/common/video_mode.hpp"
+#include "renderer/enum.hpp"
 
 namespace ece
 {
-	RenderWindow::RenderWindow(): _context(std::make_shared<ContextOpenGL>())
-	{
-	}
+    /**
+     * @class RenderState
+     * @brief
+     */
+    class RenderState
+    {
+    public:
+        /**
+         * @fn constexpr RenderState() noexcept
+         * @brief Default constructor.
+         * @throw noexcept
+         */
+        constexpr RenderState() noexcept;
 
-	RenderWindow::~RenderWindow() noexcept
-	{
-		this->_renderers.clear();
-	}
+        /**
+         * @fn RenderState(const RenderState & copy) noexcept
+         * @param[in] copy The RenderState to copy from.
+         * @brief Default copy constructor.
+         * @throw noexcept
+         */
+        RenderState(const RenderState & copy) noexcept = default;
 
-	void RenderWindow::open()
-	{
-		Window::open();
-		try {
-			this->_context->create(*this);
-		}
-		catch (Exception & /*e*/) {
-			throw;
-		}
-		catch (std::runtime_error & e) {
-			ServiceLoggerLocator::getService().logError(e.what());
-		}
-	}
+        /**
+         * @fn RenderState(RenderState && move) noexcept
+         * @param[in] move The RenderState to move.
+         * @brief Default move constructor.
+         * @throw noexcept
+         */
+        RenderState(RenderState && move) noexcept = default;
 
-	void RenderWindow::clear(const Color & /*color*/)
-	{
-		if (this->isOpened()) {
-			OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
-		}
-	}
+        /**
+         * @fn ~RenderState() noexcept
+         * @brief Default destructor.
+         * @throw noexcept
+         */
+        ~RenderState() noexcept = default;
 
-	void RenderWindow::display()
-	{
-		this->_context->swapBuffers();
-	}
+        /**
+         * @fn RenderState & operator=(const RenderState & copy) noexcept
+         * @param[in] The RenderState to copy from.
+         * @return The RenderState copied.
+         * @brief Default copy assignment operator.
+         * @throw noexcept
+         */
+        RenderState & operator=(const RenderState & copy) noexcept = default;
 
-	void RenderWindow::enableMSAA(const unsigned short int samples)
-	{
-		if (samples < 2) {
-			OpenGL::disable(Capability::MULTISAMPLE);
-		}
-		this->_videoMode.setSamples(samples);
-	}
+        /**
+         * @fn RenderState & operator=(RenderState && move) noexcept
+         * @param[in] The RenderState to move.
+         * @return The RenderState moved.
+         * @brief Default move assignment operator.
+         * @throw noexcept
+         */
+        RenderState & operator=(RenderState && move) noexcept = default;
 
-	void RenderWindow::updateVideoMode()
-	{
-		if (this->_videoMode.hasChanged()) {
-			this->_context.reset();
-			this->close();
-			this->_context = std::make_shared<ContextOpenGL>();
-			this->open();
-			this->_videoMode.applyChanges();
-		}
-	}
+        bool _faceCulling;
+        CullFaceMode _cullFaceMode;
+        FrontFaceMode _frontFaceMode;
+    };
 }
+
+#endif // RENDER_STATE_HPP
