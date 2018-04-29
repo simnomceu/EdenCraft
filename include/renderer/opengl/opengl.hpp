@@ -56,6 +56,9 @@
 
 namespace ece
 {
+    using namespace utility::mathematics;
+    using namespace utility::indexing;
+
 	using Handle = unsigned short int;
 
 	class BaseContext;

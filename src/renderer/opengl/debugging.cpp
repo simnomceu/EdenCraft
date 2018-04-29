@@ -5,6 +5,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
 	void checkErrors_(const char * file, const int line, const char * function)
 	{
 		auto error(OpenGL::getError());

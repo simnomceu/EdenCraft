@@ -46,6 +46,11 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using namespace utility::indexing;
+}
+
 inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
 
 /**

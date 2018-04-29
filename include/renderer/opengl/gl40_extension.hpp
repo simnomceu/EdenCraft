@@ -46,6 +46,11 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using namespace utility::indexing;
+}
+
 inline void glGetUniformdv(GLuint program, GLint location, GLdouble *params);
 inline void glBlendEquationi(GLuint buf, GLenum mode);
 inline void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha);

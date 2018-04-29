@@ -45,6 +45,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
 	GLXLoader & GLXLoader::getInstance()
 	{
 		static GLXLoader instance;
@@ -136,7 +138,7 @@ namespace ece
 				std::string versionPtr(reinterpret_cast<const char *>(version));
 				this->_latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
 				this->_latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
-			}
+            }
 		}
 		return this->_latestVersionAvailable;
 	}

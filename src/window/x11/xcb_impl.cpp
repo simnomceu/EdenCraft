@@ -43,6 +43,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
     XCBImpl::XCBImpl() noexcept: _windowId(0), _connection(nullptr)
     {
     }

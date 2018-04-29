@@ -47,6 +47,8 @@
 
 namespace ece
 {
+    using namespace utility::pattern;
+    
 	/**
 	 * @struct DataWindowAdapter
 	 * @brief Platform implementaion of the window adapter.

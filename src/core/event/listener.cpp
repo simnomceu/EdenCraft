@@ -45,6 +45,8 @@
 
 namespace ece
 {
+    using namespace utility::debug;
+    
 	void Listener::addSlot(const Slot::SlotID & slot, const Slot::Handle & handle)
 	{
 		try {

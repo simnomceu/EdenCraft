@@ -46,6 +46,11 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using namespace utility::indexing;
+}
+
 inline void glEnableVertexArrayAttrib(GLuint vaobj, GLuint index);
 inline void glDisableVertexArrayAttrib(GLuint vaobj, GLuint index);
 inline void glNamedBufferData(GLuint buffer, GLsizei size, const GLvoid *data, GLenum usage);

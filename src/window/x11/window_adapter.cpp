@@ -45,6 +45,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
 	WindowAdapter::WindowAdapter() noexcept: BaseWindowAdapter(), _data(makePimpl<DataWindowAdapter>(std::make_shared<XCBImpl>())) {}
 
 	void WindowAdapter::createWindow()

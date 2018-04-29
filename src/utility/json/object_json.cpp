@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -42,45 +42,51 @@
 
 namespace ece
 {
-	std::shared_ptr<NodeJSON> ObjectJSON::addNull(const std::string & key)
-	{
-		this->_children[key] = std::make_shared<NullJSON>(key, nullptr, this->shared_from_this());
-		return this->_children[key];
-	}
+    namespace utility
+    {
+        namespace json
+        {
+        	std::shared_ptr<NodeJSON> ObjectJSON::addNull(const std::string & key)
+        	{
+        		this->_children[key] = std::make_shared<NullJSON>(key, nullptr, this->shared_from_this());
+        		return this->_children[key];
+        	}
 
-	std::shared_ptr<NodeJSON> ObjectJSON::addBoolean(const std::string & key, const bool value)
-	{
-		this->_children[key] = std::make_shared<BooleanJSON>(key, value, this->shared_from_this());
-		return this->_children[key];
-	}
+        	std::shared_ptr<NodeJSON> ObjectJSON::addBoolean(const std::string & key, const bool value)
+        	{
+        		this->_children[key] = std::make_shared<BooleanJSON>(key, value, this->shared_from_this());
+        		return this->_children[key];
+        	}
 
-	std::shared_ptr<NodeJSON> ObjectJSON::addInteger(const std::string & key, const int value)
-	{
-		this->_children[key] = std::make_shared<IntegerJSON>(key, value, this->shared_from_this());
-		return this->_children[key];
-	}
+        	std::shared_ptr<NodeJSON> ObjectJSON::addInteger(const std::string & key, const int value)
+        	{
+        		this->_children[key] = std::make_shared<IntegerJSON>(key, value, this->shared_from_this());
+        		return this->_children[key];
+        	}
 
-	std::shared_ptr<NodeJSON> ObjectJSON::addDouble(const std::string & key, const double value)
-	{
-		this->_children[key] = std::make_shared<DoubleJSON>(key, value, this->shared_from_this());
-		return this->_children[key];
-	}
+        	std::shared_ptr<NodeJSON> ObjectJSON::addDouble(const std::string & key, const double value)
+        	{
+        		this->_children[key] = std::make_shared<DoubleJSON>(key, value, this->shared_from_this());
+        		return this->_children[key];
+        	}
 
-	std::shared_ptr<NodeJSON> ObjectJSON::addString(const std::string & key, const std::string & value)
-	{
-		this->_children[key] = std::make_shared<StringJSON>(key, value, this->shared_from_this());
-		return this->_children[key];
-	}
+        	std::shared_ptr<NodeJSON> ObjectJSON::addString(const std::string & key, const std::string & value)
+        	{
+        		this->_children[key] = std::make_shared<StringJSON>(key, value, this->shared_from_this());
+        		return this->_children[key];
+        	}
 
-	std::shared_ptr<NodeJSON> ObjectJSON::addObject(const std::string & key)
-	{
-		this->_children[key] = std::make_shared<ObjectJSON>(this->shared_from_this());
-		return this->_children[key];
-	}
+        	std::shared_ptr<NodeJSON> ObjectJSON::addObject(const std::string & key)
+        	{
+        		this->_children[key] = std::make_shared<ObjectJSON>(this->shared_from_this());
+        		return this->_children[key];
+        	}
 
-	std::shared_ptr<NodeJSON> ObjectJSON::addArray(const std::string & key)
-	{
-		this->_children[key] = std::make_shared<ArrayJSON>(this->shared_from_this());
-		return this->_children[key];
-	}
-}
+        	std::shared_ptr<NodeJSON> ObjectJSON::addArray(const std::string & key)
+        	{
+        		this->_children[key] = std::make_shared<ArrayJSON>(this->shared_from_this());
+        		return this->_children[key];
+        	}
+        } // namespace json
+    } // namespace utility
+} // namespace ece

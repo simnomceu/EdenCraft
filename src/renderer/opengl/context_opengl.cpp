@@ -44,6 +44,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
 	Version<2> ContextOpenGL::getCurrentVersion() const
 	{
 		// TODO To be completed

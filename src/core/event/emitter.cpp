@@ -46,6 +46,8 @@
 
 namespace ece
 {
+    using namespace utility::debug;
+    
 	void Emitter::addSignal(const Signal::SignalID & signal)
 	{
 		try {

@@ -46,6 +46,11 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using namespace utility::indexing;
+}
+
 inline void glSpecializeShader(GLuint shader, const GLchar * pEntryPoint, GLuint numSpecializationConstants, const GLuint * pConstantIndex, const GLuint * pConstantValue);
 inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
 

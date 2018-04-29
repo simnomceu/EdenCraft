@@ -1,20 +1,20 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															oooooo   oooooo     oooo  o8o                    .o8                             
-															 `888.    `888.     .8'   `"'                   "888                             
-															  `888.   .8888.   .8'   oooo  ooo. .oo.    .oooo888   .ooooo.  oooo oooo    ooo 
-															   `888  .8'`888. .8'    `888  `888P"Y88b  d88' `888  d88' `88b  `88. `88.  .8'  
-																`888.8'  `888.8'      888   888   888  888   888  888   888   `88..]88..8'   
-																 `888'    `888'       888   888   888  888   888  888   888    `888'`888'    
-																  `8'      `8'       o888o o888o o888o `Y8bod88P" `Y8bod8P'     `8'  `8'    
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
+
+															oooooo   oooooo     oooo  o8o                    .o8
+															 `888.    `888.     .8'   `"'                   "888
+															  `888.   .8888.   .8'   oooo  ooo. .oo.    .oooo888   .ooooo.  oooo oooo    ooo
+															   `888  .8'`888. .8'    `888  `888P"Y88b  d88' `888  d88' `88b  `88. `88.  .8'
+																`888.8'  `888.8'      888   888   888  888   888  888   888   `88..]88..8'
+																 `888'    `888'       888   888   888  888   888  888   888    `888'`888'
+																  `8'      `8'       o888o o888o o888o `Y8bod88P" `Y8bod8P'     `8'  `8'
 
 
 				This file is part of EdenCraft Engine - Window module.
@@ -44,6 +44,8 @@
 
 namespace ece
 {
+    using namespace utility::mathematics;
+    
 	/**
 	 * @class InputEvent
 	 * @brief Event from a user input.
@@ -83,7 +85,7 @@ namespace ece
 		 * @throw noexcept
 		 */
 		inline InputEvent() noexcept;
-		
+
 		/**
 		 * @fn InputEvent(const InputEvent & copy)
 		 * @param[in] copy The event to copy from.
@@ -108,16 +110,16 @@ namespace ece
 		~InputEvent() noexcept = default;
 
 		/**
-		 * @fn InputEvent & operator=(const InputEvent & copy) 
+		 * @fn InputEvent & operator=(const InputEvent & copy)
 		 * @param[in] copy The event to copy from.
 		 * @return The event copied.
 		 * @brief Default copy assignment operator.
 		 * @throw
 		 */
 		InputEvent & operator=(const InputEvent & copy) = default;
-		
+
 		/**
-		 * @fn InputEvent & operator=(InputEvent && move) noexcept 
+		 * @fn InputEvent & operator=(InputEvent && move) noexcept
 		 * @param[in] move The event to move.
 		 * @return The event moved.
 		 * @brief Default move assignment operator.

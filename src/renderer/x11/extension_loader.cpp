@@ -46,6 +46,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
 	void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 	{
 		auto addr = name.data();

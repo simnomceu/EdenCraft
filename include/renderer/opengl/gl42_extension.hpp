@@ -45,6 +45,11 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using namespace utility::indexing;
+}
+
 inline void glGetActiveAtomicCounterBufferiv(GLuint program, GLuint bufferIndex, GLenum pname, GLint *params);
 inline void glMemoryBarrier(GLbitfield barriers);
 inline void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);

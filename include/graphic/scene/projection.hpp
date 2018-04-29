@@ -46,6 +46,8 @@
 
 namespace ece
 {
+    using namespace utility::mathematics;
+
 	/**
 	 * @class Projection
 	 * @brief

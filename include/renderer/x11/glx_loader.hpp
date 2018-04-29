@@ -51,6 +51,8 @@
 
 namespace ece
 {
+    using namespace utility::indexing;
+    
 	/**
 	 * @class GLXoader
 	 * @brief OpenGL loader for Windows platform.

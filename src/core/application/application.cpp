@@ -48,6 +48,9 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    using namespace utility::debug;
+
 	Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
 	{
 		ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());

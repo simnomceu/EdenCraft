@@ -38,15 +38,21 @@
 
 namespace ece
 {
-	inline NodeJSON::NodeJSON(const std::weak_ptr<NodeJSON>& parent) noexcept : std::enable_shared_from_this<NodeJSON>(), _parent(parent) {}
+    namespace utility
+    {
+        namespace json
+        {
+        	inline NodeJSON::NodeJSON(const std::weak_ptr<NodeJSON>& parent) noexcept : std::enable_shared_from_this<NodeJSON>(), _parent(parent) {}
 
-	inline NodeJSON::NodeJSON(const NodeJSON & copy) noexcept : std::enable_shared_from_this<NodeJSON>(copy), _parent(copy._parent) {}
+        	inline NodeJSON::NodeJSON(const NodeJSON & copy) noexcept : std::enable_shared_from_this<NodeJSON>(copy), _parent(copy._parent) {}
 
-	inline NodeJSON::NodeJSON(NodeJSON && move) noexcept : std::enable_shared_from_this<NodeJSON>(move), _parent(std::move(move._parent)) {}
+        	inline NodeJSON::NodeJSON(NodeJSON && move) noexcept : std::enable_shared_from_this<NodeJSON>(move), _parent(std::move(move._parent)) {}
 
-	inline NodeJSON::~NodeJSON() noexcept { this->_parent.reset(); }
+        	inline NodeJSON::~NodeJSON() noexcept { this->_parent.reset(); }
 
-	inline std::shared_ptr<NodeJSON> NodeJSON::getParent() noexcept { return this->_parent.lock(); }
+        	inline std::shared_ptr<NodeJSON> NodeJSON::getParent() noexcept { return this->_parent.lock(); }
 
-	inline bool NodeJSON::hasParent() const noexcept { return !this->_parent.expired(); }
-}
+        	inline bool NodeJSON::hasParent() const noexcept { return !this->_parent.expired(); }
+        } // namespace json
+    } // namespace utility
+} // namespace ece

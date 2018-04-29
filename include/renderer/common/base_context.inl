@@ -40,6 +40,8 @@
 
 namespace ece
 {
+    using namespace utility::debug;
+
 	inline BaseContext::BaseContext() noexcept: std::enable_shared_from_this<BaseContext>(), _minVersion(), _maxVersion() {}
 
     inline void BaseContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)

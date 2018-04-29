@@ -46,6 +46,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
 	RenderWindow::RenderWindow(): _context(std::make_shared<ContextOpenGL>())
 	{
 	}

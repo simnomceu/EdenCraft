@@ -50,6 +50,9 @@
 
 namespace ece
 {
+    using namespace utility::mathematics;
+    using namespace utility::time;
+    
 	class InputEvent;
 
 	/**

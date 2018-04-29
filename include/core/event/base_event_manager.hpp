@@ -46,6 +46,8 @@
 
 namespace ece
 {
+    using namespace utility::indexing;
+    
 	class EventManagerConsumer;
 	class Listener;
 	class Emitter;

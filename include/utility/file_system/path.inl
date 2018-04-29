@@ -49,19 +49,25 @@
 
 namespace ece
 {
-	inline Path::Path() noexcept: _path() {}
+    namespace utility
+    {
+        namespace file_system
+        {
+        	inline Path::Path() noexcept: _path() {}
 
-	inline int Path::getDepth() const { return this->isFile() ? this->_path.size() - 1 : this->_path.size(); }
+        	inline int Path::getDepth() const { return this->isFile() ? this->_path.size() - 1 : this->_path.size(); }
 
-	inline std::string Path::getFilename() const { return this->isFile() ? this->_path.back() : "" ; }
+        	inline std::string Path::getFilename() const { return this->isFile() ? this->_path.back() : "" ; }
 
-	inline std::string & Path::operator[](const int index) { return this->_path[index]; }
+        	inline std::string & Path::operator[](const int index) { return this->_path[index]; }
 
-	inline const std::string & Path::operator[](const int index) const { return this->_path[index]; }
+        	inline const std::string & Path::operator[](const int index) const { return this->_path[index]; }
 
-	inline bool Path::exists() const { return this->isFile() || this->isFolder(); }
+        	inline bool Path::exists() const { return this->isFile() || this->isFolder(); }
 
-	inline bool Path::isFile() const { return false; }
+        	inline bool Path::isFile() const { return false; }
 
-	inline bool Path::isFolder() const { return false; }
-}
+        	inline bool Path::isFolder() const { return false; }
+        } // namespace file_system
+    } // namespace utility
+} // namespace ece

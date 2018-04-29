@@ -47,6 +47,8 @@
 
 namespace ece
 {
+    using namespace utility::mathematics;
+
 	/**
 	 * @class Camera
 	 * @brief

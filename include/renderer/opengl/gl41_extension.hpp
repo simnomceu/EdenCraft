@@ -46,6 +46,11 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using namespace utility::indexing;
+}
+
 inline void glVertexAttribL1d(GLuint index, GLdouble v0);
 inline void glVertexAttribL2d(GLuint index, GLdouble v0, GLdouble v1);
 inline void glVertexAttribL3d(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2);

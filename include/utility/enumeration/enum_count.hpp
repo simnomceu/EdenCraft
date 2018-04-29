@@ -36,23 +36,35 @@
 
 */
 
+#ifndef ENUM_COUNT_HPP
+#define ENUM_COUNT_HPP
+
+#include <type_traits>
+
 namespace ece
 {
     namespace utility
     {
-        namespace indexing
+        namespace enumeration
         {
-        	inline constexpr Index2u::Index2u() noexcept: _i(0), _j(0) {}
-
-        	inline Index2u::Index2u(const int i, const int j) noexcept: _i(i), _j(j) {}
-
-        	inline int Index2u::get(const int maxI) noexcept { return this->_j * maxI + this->_i; }
-
-        	inline void Index2u::set(const int maxI, const int index)
+        	/**
+        	 * @class EnumCount
+        	 * @tparam T The type of enumeration to extends.
+        	 * @brief Trait class to define the count of an enumeration.
+        	 */
+        	template <typename T, typename = typename std::enable_if_t<std::is_enum_v<T>>>
+        	struct EnumCount
         	{
-        		this->_j = index / maxI;
-        		this->_i = index - (this->_j * maxI);
-        	}
-        } // namespace indexing
+        		static constexpr unsigned short int value = 0;
+        	};
+
+        	/**
+        	 * @brief An helper to access the count value of an enumeration.
+        	 */
+        	template <typename T>
+        	inline constexpr unsigned short int EnumCount_v = EnumCount<T>::value;
+        } // namespace enumeration
     } // namespace utility
 } // namespace ece
+
+#endif // ENUM_COUNT_HPP

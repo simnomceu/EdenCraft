@@ -41,6 +41,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
     XlibImpl::XlibImpl() noexcept: _windowId(0), _connection(nullptr), _screen(0)
     {
     }

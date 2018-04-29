@@ -39,52 +39,58 @@
 #ifndef UTILITY_ENUM_HPP
 #define UTILITY_ENUM_HPP
 
-#include "utility/enum/enum_flags.hpp"
+#include "utility/enumeration/enum_count.hpp"
+#include "utility/enumeration/enum_flags.hpp"
 
 #include <fstream>
 
 namespace ece
 {
-	/**
-	* @enum OpenMode
-	* @brief Alias to Standard Library openmode.
-	* @see http://en.cppreference.com/w/cpp/io/ios_base/openmode
-	*/
-	EnumFlagsT(/*std::ios_base::openmode*/unsigned short int, OpenMode)
-	{
-		app = std::fstream::app, /*< @brief "Seek to the end of stream before each write". */
-		binary = std::fstream::binary, /*< @brief "Open in binary mode". */
-		in = std::fstream::in, /*< @brief "Open for reading". */
-		out = std::fstream::out, /*< @brief "Open for writing". */
-		trunc = std::fstream::trunc, /*< @brief "Discard the contents of the stream when opening". */
-		ate = std::fstream::ate /*< @brief "Seek to the end of stream immediately after open". */
-	};
+    namespace utility
+    {
+        using namespace enumeration;
 
-	enum FileCodeError : unsigned short int
-	{
-		BAD_PATH = 0,
-		PARSE_ERROR = 1
-	};
+    	/**
+    	* @enum OpenMode
+    	* @brief Alias to Standard Library openmode.
+    	* @see http://en.cppreference.com/w/cpp/io/ios_base/openmode
+    	*/
+    	EnumFlagsT(/*std::ios_base::openmode*/unsigned short int, OpenMode)
+    	{
+    		app = std::fstream::app, /*< @brief "Seek to the end of stream before each write". */
+    		binary = std::fstream::binary, /*< @brief "Open in binary mode". */
+    		in = std::fstream::in, /*< @brief "Open for reading". */
+    		out = std::fstream::out, /*< @brief "Open for writing". */
+    		trunc = std::fstream::trunc, /*< @brief "Discard the contents of the stream when opening". */
+    		ate = std::fstream::ate /*< @brief "Seek to the end of stream immediately after open". */
+    	};
 
-	enum ResourceType : unsigned short int
-	{
-		SHADER = 0,
-		PROGRAM = 1,
-		MESH = 2,
-		TEXTURE = 3,
-		ANIMATION = 4
-	};
+    	enum FileCodeError : unsigned short int
+    	{
+    		BAD_PATH = 0,
+    		PARSE_ERROR = 1
+    	};
 
-	enum TypeNodeJSON : unsigned short int
-	{
-		NULL_JSON = 0,
-		BOOLEAN_JSON = 1,
-		INTEGER_JSON = 2,
-		DOUBLE_JSON = 3,
-		STRING_JSON = 4,
-		OBJECT_JSON = 5,
-		ARRAY_JSON = 6
-	};
-}
+    	enum ResourceType : unsigned short int
+    	{
+    		SHADER = 0,
+    		PROGRAM = 1,
+    		MESH = 2,
+    		TEXTURE = 3,
+    		ANIMATION = 4
+    	};
+
+    	enum TypeNodeJSON : unsigned short int
+    	{
+    		NULL_JSON = 0,
+    		BOOLEAN_JSON = 1,
+    		INTEGER_JSON = 2,
+    		DOUBLE_JSON = 3,
+    		STRING_JSON = 4,
+    		OBJECT_JSON = 5,
+    		ARRAY_JSON = 6
+    	};
+    } // namespace utility
+} // namespace ece
 
 #endif // UTILITY_ENUM_HPP

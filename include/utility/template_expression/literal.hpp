@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -43,103 +43,109 @@
 
 namespace ece
 {
-	/**
-	 * @class Literal
-	 * @tparam The type of literal to store.
-	 * @extends LinearExpression<Literal<E>>
-	 * @brief A literal is a container to handle a scalar as a linear expression that can be integrated in
-	 */
-	template <typename E>
-	class Literal : public LinearExpression<Literal<E>>
-	{
-	public:
-		constexpr Literal() noexcept = delete;
+    namespace utility
+    {
+        namespace template_expression
+        {
+        	/**
+        	 * @class Literal
+        	 * @tparam The type of literal to store.
+        	 * @extends LinearExpression<Literal<E>>
+        	 * @brief A literal is a container to handle a scalar as a linear expression that can be integrated in
+        	 */
+        	template <typename E>
+        	class Literal : public LinearExpression<Literal<E>>
+        	{
+        	public:
+        		constexpr Literal() noexcept = delete;
 
-		/**
-		 * @fn Literal(const E value) noexcept
-		 * @param[in] value The value to store.
-		 * @brief Store a scalar as a linear expression.
-		 * @throw noexcept
-		 */
-		Literal(const E value) noexcept;
+        		/**
+        		 * @fn Literal(const E value) noexcept
+        		 * @param[in] value The value to store.
+        		 * @brief Store a scalar as a linear expression.
+        		 * @throw noexcept
+        		 */
+        		Literal(const E value) noexcept;
 
-		/**
-		 * @fn Literal(const Literal & copy) noexcept
-		 * @param[in] copy The Literal to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Literal(const Literal & copy) noexcept = default;
+        		/**
+        		 * @fn Literal(const Literal & copy) noexcept
+        		 * @param[in] copy The Literal to copy from.
+        		 * @brief Default copy constructor.
+        		 * @throw noexcept
+        		 */
+        		Literal(const Literal & copy) noexcept = default;
 
-		/**
-		 * @fn Literal(Literal && move) noexcept
-		 * @param[in] move The Literal to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Literal(Literal && move) noexcept = default;
+        		/**
+        		 * @fn Literal(Literal && move) noexcept
+        		 * @param[in] move The Literal to move.
+        		 * @brief Default move constructor.
+        		 * @throw noexcept
+        		 */
+        		Literal(Literal && move) noexcept = default;
 
-		/**
-		 * @fn ~Literal() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Literal() noexcept = default;
+        		/**
+        		 * @fn ~Literal() noexcept
+        		 * @brief Default destructor.
+        		 * @throw noexcept
+        		 */
+        		~Literal() noexcept = default;
 
-		/**
-		 * @fn Literal & operator=(const Literal & copy) noexcept
-		 * @param[in] copy The Literal to copy from.
-		 * @return The Literal copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Literal & operator=(const Literal & copy) noexcept = default;
+        		/**
+        		 * @fn Literal & operator=(const Literal & copy) noexcept
+        		 * @param[in] copy The Literal to copy from.
+        		 * @return The Literal copied.
+        		 * @brief Default copy assignment operator.
+        		 * @throw noexcept
+        		 */
+        		Literal & operator=(const Literal & copy) noexcept = default;
 
-		/**
-		 * @fn Literal & operator=(Literal && move) noexcept
-		 * @param[in] move The Literal to move.
-		 * @return The Literal moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Literal & operator=(Literal && move) noexcept = default;
+        		/**
+        		 * @fn Literal & operator=(Literal && move) noexcept
+        		 * @param[in] move The Literal to move.
+        		 * @return The Literal moved.
+        		 * @brief Default move assignment operator.
+        		 * @throw noexcept
+        		 */
+        		Literal & operator=(Literal && move) noexcept = default;
 
-		/**
-		 * @fn auto operator[](const unsigned int index) const
-		 * @param[in] index The index of the element to access.
-		 * @return The computed element of the resulting vector.
-		 * @brief Compute and return the element at the index in the resulting vector of the operation.
-		 * @throw
-		 * @see E Literal<E>::cell(const unsigned int index) const
-		 */
-		E operator[](const unsigned int index) const;
-		
-		/**
-		 * @fn auto cell(const unsigned int index) const
-		 * @param[in] index The index of the element to access.
-		 * @return The computed element of the resulting vector.
-		 * @brief Compute and return the element at the index in the resulting vector of the operation.
-		 * @throw
-		 * @see E Literal<E>::operator[](const unsigned int index) const
-		*/
-		E cell(const unsigned int index) const;
+        		/**
+        		 * @fn auto operator[](const unsigned int index) const
+        		 * @param[in] index The index of the element to access.
+        		 * @return The computed element of the resulting vector.
+        		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+        		 * @throw
+        		 * @see E Literal<E>::cell(const unsigned int index) const
+        		 */
+        		E operator[](const unsigned int index) const;
 
-		/**
-		 * @fn constexpr unsigned int size() const
-		 * @return The size of the resulting vector.
-		 * @brief Get the size of the resulting vector.
-		 * @throw
-		 */
-		inline constexpr unsigned int size() const;
+        		/**
+        		 * @fn auto cell(const unsigned int index) const
+        		 * @param[in] index The index of the element to access.
+        		 * @return The computed element of the resulting vector.
+        		 * @brief Compute and return the element at the index in the resulting vector of the operation.
+        		 * @throw
+        		 * @see E Literal<E>::operator[](const unsigned int index) const
+        		*/
+        		E cell(const unsigned int index) const;
 
-	private:
-		/**
-		 * @property _value
-		 * @brief The scalar stored as a linear expression.
-		 */
-		E _value;
-	};
-}
+        		/**
+        		 * @fn constexpr unsigned int size() const
+        		 * @return The size of the resulting vector.
+        		 * @brief Get the size of the resulting vector.
+        		 * @throw
+        		 */
+        		inline constexpr unsigned int size() const;
+
+        	private:
+        		/**
+        		 * @property _value
+        		 * @brief The scalar stored as a linear expression.
+        		 */
+        		E _value;
+        	};
+        } // namespace template_expression
+    } // namespace utility
+} // namespace ece
 
 #include "utility/template_expression/literal.inl"
 

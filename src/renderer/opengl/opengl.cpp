@@ -48,6 +48,8 @@
 
 namespace ece
 {
+    using namespace utility::log;
+    
 	Version<2> OpenGL::_latestVersion{3, 2};
 	std::shared_ptr<BaseContext> OpenGL::_currentContext;
 

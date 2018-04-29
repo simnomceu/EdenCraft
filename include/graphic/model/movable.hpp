@@ -45,6 +45,7 @@
 
 namespace ece
 {
+    using namespace utility::mathematics;
 	/**
 	 * @class Movable
 	 * @brief Define the ability to be moved.

@@ -50,6 +50,8 @@
 
 namespace ece
 {
+    using namespace utility::mathematics;
+    
 	/**
 	 * @class Mesh
 	 * @extends Vertex

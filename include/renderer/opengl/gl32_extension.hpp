@@ -46,6 +46,11 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using namespace utility::indexing;
+}
+
 inline GLenum glGetError();
 inline void glVertexAttrib1f(GLuint index, GLfloat v0);
 inline void glVertexAttrib1s(GLuint index, GLshort v0);

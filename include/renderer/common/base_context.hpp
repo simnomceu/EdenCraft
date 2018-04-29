@@ -45,6 +45,8 @@
 
 namespace ece
 {
+    using namespace utility::indexing;
+    
 	class RenderWindow;
 
 	/**

@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -38,19 +38,25 @@
 
 namespace ece
 {
-	inline ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
+    namespace utility
+    {
+        namespace json
+        {
+        	inline ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
 
-	inline bool ArrayJSON::isAtomic() const noexcept { return false; }
+        	inline bool ArrayJSON::isAtomic() const noexcept { return false; }
 
-	inline TypeNodeJSON ArrayJSON::getType() const noexcept { return TypeNodeJSON::ARRAY_JSON; }
+        	inline TypeNodeJSON ArrayJSON::getType() const noexcept { return TypeNodeJSON::ARRAY_JSON; }
 
-	inline IteratorArrayJSON ArrayJSON::begin() noexcept { return this->_children.begin(); }
+        	inline IteratorArrayJSON ArrayJSON::begin() noexcept { return this->_children.begin(); }
 
-	inline IteratorArrayJSON ArrayJSON::end() noexcept { return this->_children.end(); }
+        	inline IteratorArrayJSON ArrayJSON::end() noexcept { return this->_children.end(); }
 
-	inline std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key) { return this->_children[key]; }
+        	inline std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key) { return this->_children[key]; }
 
-	inline void ArrayJSON::clear() noexcept { this->_children.clear(); }
+        	inline void ArrayJSON::clear() noexcept { this->_children.clear(); }
 
-	inline unsigned int ArrayJSON::size() const noexcept { return this->_children.size(); }
-}
+        	inline unsigned int ArrayJSON::size() const noexcept { return this->_children.size(); }
+        } // namespace json
+    } // namespace utility
+} // namespace ece

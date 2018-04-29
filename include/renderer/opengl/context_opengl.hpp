@@ -44,6 +44,8 @@
 
 namespace ece
 {
+    using namespace utility::pattern;
+    
 	struct DataContextOpenGL;
 
 	/**

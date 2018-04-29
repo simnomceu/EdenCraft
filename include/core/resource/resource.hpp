@@ -45,6 +45,7 @@
 
 namespace ece
 {
+    using namespace utility;
 	/**
 	 * @class Resource
 	 * @brief A resource is an external content that can be loaded and saved.
@@ -53,7 +54,7 @@ namespace ece
 	{
 	public:
 		/**
-		 * @fn Resource() 
+		 * @fn Resource()
 		 * @brief Default constructor.
 		 * @throw noexcept
 		 */

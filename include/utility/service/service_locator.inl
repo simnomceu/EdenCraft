@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -40,36 +40,44 @@
 
 namespace ece
 {
-	template <class Base, class Null>
-	std::shared_ptr<Base> ServiceLocator<Base, Null>::_service = std::shared_ptr<Null>();
+    namespace utility
+    {
+        using namespace debug;
 
-	template <class Base, class Null>
-	inline void ServiceLocator<Base, Null>::provide(const std::shared_ptr<Base> & service)
-	{
-		ServiceLocator<Base, Null>::_service = service;
-	}
+        namespace service
+        {
+        	template <class Base, class Null>
+        	std::shared_ptr<Base> ServiceLocator<Base, Null>::_service = std::shared_ptr<Null>();
 
-	template <class Base, class Null>
-	Base & ServiceLocator<Base, Null>::getService()
-	{
-		if (ServiceLocator<Base, Null>::_service.get() == nullptr) {
-			throw MemoryAccessException("A service.");
-		}
-		return *ServiceLocator<Base, Null>::_service;
-	}
+        	template <class Base, class Null>
+        	inline void ServiceLocator<Base, Null>::provide(const std::shared_ptr<Base> & service)
+        	{
+        		ServiceLocator<Base, Null>::_service = service;
+        	}
 
-	/*template <class Base, class Null>
-	std::weak_ptr<Base> ServiceLocator<Base, Null>::getServicePtr()
-	{
-	if (ServiceLocator<Base, Null>::service.get() == nullptr) {
-	throw std::exception("Invalid pointer to a service.");
-	}
-	return ServiceLocator<Base, Null>::service;
-	}*/
+        	template <class Base, class Null>
+        	Base & ServiceLocator<Base, Null>::getService()
+        	{
+        		if (ServiceLocator<Base, Null>::_service.get() == nullptr) {
+        			throw MemoryAccessException("A service.");
+        		}
+        		return *ServiceLocator<Base, Null>::_service;
+        	}
 
-	template <class Base, class Null>
-	inline void ServiceLocator<Base, Null>::stop()
-	{
-		ServiceLocator<Base, Null>::_service = std::shared_ptr<Null>();
-	}
-}
+        	/*template <class Base, class Null>
+        	std::weak_ptr<Base> ServiceLocator<Base, Null>::getServicePtr()
+        	{
+        	if (ServiceLocator<Base, Null>::service.get() == nullptr) {
+        	throw std::exception("Invalid pointer to a service.");
+        	}
+        	return ServiceLocator<Base, Null>::service;
+        	}*/
+
+        	template <class Base, class Null>
+        	inline void ServiceLocator<Base, Null>::stop()
+        	{
+        		ServiceLocator<Base, Null>::_service = std::shared_ptr<Null>();
+        	}
+        } // namespace service
+    } // namespace utility
+} // namespace ece
