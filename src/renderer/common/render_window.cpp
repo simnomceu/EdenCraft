@@ -39,10 +39,10 @@
 #include "renderer/common/render_window.hpp"
 
 #include "renderer/opengl/context_opengl.hpp"
-
 #include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
 #include "window/common/video_mode.hpp"
+#include "renderer/common/drawable.hpp"
 
 namespace ece
 {
@@ -69,12 +69,29 @@ namespace ece
 		}
 	}
 
-	void RenderWindow::clear(const Color & /*color*/)
+    FloatVector2u RenderWindow::getSize() const
+    {
+        return this->getSettings()._minimumSize;
+    }
+
+	void RenderWindow::clear(const Color & color)
 	{
 		if (this->isOpened()) {
+            OpenGL::clearColor(static_cast<unsigned short int>(color.red) / 255.0f,
+                                    static_cast<unsigned short int>(color.green) / 255.0f,
+                                    static_cast<unsigned short int>(color.blue) / 255.0f,
+                                    static_cast<unsigned short int>(color.alpha) / 100.0f);
 			OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
 		}
 	}
+
+    void RenderWindow::draw(Drawable & drawable, const RenderState & states)
+    {
+        this->loadRenderState(states);
+
+        drawable.draw();
+        // TODO : render the drawable here (using code in renderer.cpp)
+    }
 
 	void RenderWindow::display()
 	{

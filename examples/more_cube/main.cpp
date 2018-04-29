@@ -42,6 +42,19 @@
 #include "utility/log.hpp"
 #include "renderer/opengl/vao.hpp"
 #include "renderer/image.hpp"
+#include "renderer/common/drawable.hpp"
+
+class ImplDrawable : public ece::Drawable
+{
+public:
+    ImplDrawable(): Drawable() {}
+
+    virtual ~ImplDrawable() {}
+
+    inline void setVAO(const ece::VAO & vao) { this->_vao = vao; }
+
+    inline void setMode(const ece::PrimitiveMode & mode) { this->_mode = mode; }
+};
 
 int main()
 {
@@ -62,7 +75,6 @@ int main()
 		window.setSettings(settings);
 		window.limitUPS(100);
 
-		ece::Renderer renderer;
 		//renderer.setPolygonMode(ece::PolygonMode::LINE);
 
 		/*const std::vector<float> points{ 0.0f, 0.5f,
@@ -151,11 +163,15 @@ int main()
 
 		ece::OpenGL::uniform<int, 1>(glGetUniformLocation(program.getHandle(), "theTexture"), std::array<int, 1>{0});
 
+        ImplDrawable drawable;
+        drawable.setVAO(vao);
+        drawable.setMode(ece::PrimitiveMode::TRIANGLES);
+
 		ece::InputEvent event;
 		while (1) {
 			window.clear();
 
-			renderer.drawPrimitives(ece::PrimitiveMode::TRIANGLES, vao);
+            window.draw(drawable);
 			if (window.pollEvent(event)) {
 			}
 			window.display();

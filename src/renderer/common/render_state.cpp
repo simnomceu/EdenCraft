@@ -40,9 +40,16 @@
 
 namespace ece
 {
-    constexpr RenderState::RenderState() noexcept:
+    RenderState::RenderState() noexcept:
         _faceCulling(true),
         _cullFaceMode(CullFaceMode::BACK),
         _frontFaceMode(FrontFaceMode::CW)
     {}
+
+    bool RenderState::operator==(const RenderState & rhs) const noexcept
+    {
+        return this->_faceCulling == rhs._faceCulling
+            && this->_cullFaceMode == rhs._cullFaceMode
+            && this->_frontFaceMode == rhs._frontFaceMode;
+    }
 }

@@ -36,56 +36,76 @@
 
 */
 
-#ifndef IMAGE_FORMAT_HPP
-#define IMAGE_FORMAT_HPP
+#ifndef DRAWABLE_HPP
+#define DRAWABLE_HPP
 
-#include <cstddef>
+#include "renderer/opengl/vao.hpp"
+#include "renderer/enum.hpp"
 
 namespace ece
 {
-	struct RGB24
-	{
-		std::byte red;
-		std::byte green;
-		std::byte blue;
+    /**
+     * @class Drawable
+     * @brief
+     */
+    class Drawable
+    {
+    public:
+        /**
+         * @fn Drawable() noexcept
+         * @brief Default constructor.
+         * @throw noexcept
+         */
+        Drawable() noexcept;
 
-        inline RGB24(): red(), green(), blue() {}
+        /**
+         * @fn Drawable(const Drawable & copy) noexcept
+         * @param[in] copy The Drawable to copy from.
+         * @brief Default copy constructor.
+         * @throw noexcept
+         */
+        Drawable(const Drawable & copy) noexcept = default;
 
-        inline RGB24(const unsigned short int r, const unsigned short int g, const unsigned short int b):
-            red(static_cast<std::byte>(r)), green(static_cast<std::byte>(g)), blue(static_cast<std::byte>(b)) {}
-	};
+        /**
+         * @fn Drawable(Drawable && move) noexcept
+         * @param[in] move The Drawable to move.
+         * @brief Default move constructor.
+         * @throw noexcept
+         */
+        Drawable(Drawable && move) noexcept = default;
 
-	struct RGBA32 : public RGB24
-	{
-		std::byte alpha;
+        /**
+         * @fn ~Drawable() noexcept
+         * @brief Default destructor.
+         * @throw noexcept
+         */
+        virtual ~Drawable() noexcept = 0;
 
-        inline RGBA32(): RGB24(), alpha() {}
+        /**
+         * @fn Drawable & operator=(const Drawable & copy) noexcept
+         * @param[in] The Drawable to copy from.
+         * @return The Drawable copied.
+         * @brief Default copy assignment operator.
+         * @throw noexcept
+         */
+        Drawable & operator=(const Drawable & copy) noexcept = default;
 
-        inline RGBA32(const unsigned short int r, const unsigned short int g, const unsigned short int b, const unsigned short int a):
-            RGB24(r, g, b), alpha(static_cast<std::byte>(a)) {}
-	};
+        /**
+         * @fn Drawable & operator=(Drawable && move) noexcept
+         * @param[in] The Drawable to move.
+         * @return The Drawable moved.
+         * @brief Default move assignment operator.
+         * @throw noexcept
+         */
+        Drawable & operator=(Drawable && move) noexcept = default;
 
-	struct HSV
-	{
-		unsigned short int hue;
-		unsigned short int saturation;
-		unsigned short int value;
-	};
+        void draw();
 
-	struct HSL
-	{
-		unsigned short int hue;
-		unsigned short int saturation;
-		unsigned short int lightness;
-	};
+    protected:
+        VAO _vao;
 
-	struct CMYK
-	{
-		unsigned short int cyan;
-		unsigned short int magenta;
-		unsigned short int yellow;
-		unsigned short int key;
-	};
+        PrimitiveMode _mode;
+    };
 }
 
-#endif // IMAGE_FORMAT_HPP
+#endif // DRAWABLE_HPP

@@ -60,7 +60,7 @@ namespace ece
          * @brief Default constructor.
          * @throw noexcept
          */
-        constexpr RenderTarget() noexcept = default;
+        RenderTarget() noexcept = default;
 
         /**
          * @fn RenderTarget(const RenderTarget & copy) noexcept
@@ -130,6 +130,9 @@ namespace ece
 
     protected:
         void loadRenderState(const RenderState & states);
+
+    private:
+        RenderState _currentState;
     };
 }
 

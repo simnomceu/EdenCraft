@@ -51,11 +51,11 @@ namespace ece
     {
     public:
         /**
-         * @fn constexpr RenderState() noexcept
+         * @fn RenderState() noexcept
          * @brief Default constructor.
          * @throw noexcept
          */
-        constexpr RenderState() noexcept;
+        RenderState() noexcept;
 
         /**
          * @fn RenderState(const RenderState & copy) noexcept
@@ -98,10 +98,16 @@ namespace ece
          */
         RenderState & operator=(RenderState && move) noexcept = default;
 
+        bool operator==(const RenderState & rhs) const noexcept;
+
+        inline bool operator!=(const RenderState & rhs) const noexcept;
+
         bool _faceCulling;
         CullFaceMode _cullFaceMode;
         FrontFaceMode _frontFaceMode;
     };
 }
+
+#include "renderer/common/render_state.inl"
 
 #endif // RENDER_STATE_HPP

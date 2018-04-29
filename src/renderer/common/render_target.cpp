@@ -37,17 +37,22 @@
 */
 
 #include "renderer/common/render_target.hpp"
+#include "renderer/opengl/opengl.hpp"
 
 namespace ece
 {
     void RenderTarget::loadRenderState(const RenderState & states)
     {
-        if (states._faceCulling) {
-        	OpenGL::enable(Capability::CULL_FACE);
-    		OpenGL::cullFace(states._cullFaceMode);
-    		OpenGL::frontFace(states._frontFaceMode);
-        } else {
-        	OpenGL::disable(Capability::CULL_FACE);
+        if (states != this->_currentState) {
+            if (states._faceCulling) {
+            	OpenGL::enable(Capability::CULL_FACE);
+        		OpenGL::cullFace(states._cullFaceMode);
+        		OpenGL::frontFace(states._frontFaceMode);
+            } else {
+            	OpenGL::disable(Capability::CULL_FACE);
+            }
+
+            this->_currentState = states;
         }
     }
 }
