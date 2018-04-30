@@ -51,6 +51,8 @@
 
 namespace ece
 {
+	using utility::log::ServiceLoggerLocator;
+
 	void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 	{
 		auto proc = wglGetProcAddress(name.data());

@@ -43,10 +43,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace pattern;
-    }
+	using namespace utility::pattern;
 }
 
 #endif // PATTERN_HPP

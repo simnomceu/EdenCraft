@@ -46,7 +46,7 @@ namespace ece
 {
     namespace utility
     {
-        using namespace json;
+        using json::ObjectJSON;
 
         namespace file_system
         {

@@ -45,10 +45,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace service;
-    }
+	using namespace utility::service;
 }
 
 #endif // SERVICE_HPP

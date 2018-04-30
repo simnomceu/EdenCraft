@@ -49,8 +49,7 @@ namespace ece
 {
     namespace utility
     {
-        using namespace mathematics;
-        using namespace enumeration;
+        using mathematics::FloatVector3u;
 
         namespace file_system
         {

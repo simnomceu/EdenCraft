@@ -42,7 +42,7 @@ namespace ece
 {
     namespace utility
     {
-        using namespace debug;
+        using debug::MemoryAccessException;
 
         namespace service
         {

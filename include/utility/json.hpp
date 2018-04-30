@@ -46,10 +46,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace json;
-    }
+	using namespace utility::json;
 }
 
 #endif // JSON_HPP

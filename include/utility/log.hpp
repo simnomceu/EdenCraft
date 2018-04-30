@@ -45,10 +45,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace log;
-    }
+	using namespace utility::log;
 }
 
 #endif // LOG_HPP

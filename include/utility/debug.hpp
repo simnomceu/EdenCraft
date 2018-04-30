@@ -44,10 +44,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace debug;
-    }
+	using namespace utility::debug;
 }
 
 #endif // DEBUG

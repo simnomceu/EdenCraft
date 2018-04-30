@@ -46,10 +46,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace indexing;
-    }
+	using namespace utility::indexing;
 }
 
 #endif // INDEXING_HPP

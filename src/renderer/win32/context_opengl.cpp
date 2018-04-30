@@ -49,6 +49,8 @@
 
 namespace ece
 {
+	using utility::log::ServiceLoggerLocator;
+
 	ContextOpenGL::ContextOpenGL() noexcept : BaseContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
 	{
 		this->setMinVersion({ 3, 2 });

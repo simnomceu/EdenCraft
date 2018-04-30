@@ -43,8 +43,6 @@
 #include "renderer/opengl/vao.hpp"
 #include "renderer/image.hpp"
 
-using namespace ece::utility;
-
 int main()
 {
 	try {
@@ -164,10 +162,10 @@ int main()
 		}
 	}
 	catch (std::runtime_error & e) {
-		ServiceLoggerLocator::getService().logError(e.what());
+		ece::ServiceLoggerLocator::getService().logError(e.what());
 	}
 	catch (std::exception & e) {
-		ServiceLoggerLocator::getService().logError(e.what());
+		ece::ServiceLoggerLocator::getService().logError(e.what());
 	}
 
 	return 0;

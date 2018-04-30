@@ -54,10 +54,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace mathematics;
-    }
+	using namespace utility::mathematics;
 }
 
 #endif // MATHEMATICS_HPP

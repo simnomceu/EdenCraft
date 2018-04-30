@@ -50,9 +50,10 @@ namespace ece
 {
     namespace utility
     {
-        using namespace debug;
-        using namespace json;
-        using namespace file_system;
+        using debug::FileException;
+        using json::ObjectJSON;
+		using json::StringJSON;
+        using file_system::ParserJSON;
 
         namespace locale
         {

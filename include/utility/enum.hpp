@@ -46,10 +46,10 @@
 
 namespace ece
 {
+	using namespace utility::enumeration;
+
     namespace utility
     {
-        using namespace enumeration;
-
     	/**
     	* @enum OpenMode
     	* @brief Alias to Standard Library openmode.

@@ -51,10 +51,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace template_expression;
-    }
+	using namespace utility::template_expression;
 }
 
 #endif // TEMPLATE_EXPRESSION_HPP

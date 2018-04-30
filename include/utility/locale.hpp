@@ -45,10 +45,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace locale;
-    }
+	using namespace utility::locale;
 }
 
 #endif // LOCALE_HPP

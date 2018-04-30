@@ -47,7 +47,8 @@ namespace ece
 {
     namespace utility
     {
-        using namespace service;
+        using service::ServiceFactory;
+		using service::ServiceLocator;
         
         namespace log
         {

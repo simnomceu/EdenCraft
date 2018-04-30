@@ -52,7 +52,7 @@ namespace ece
 {
     namespace utility
     {
-        using namespace debug;
+        using debug::FileException;
 
         namespace file_system
         {

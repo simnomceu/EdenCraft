@@ -45,10 +45,7 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        using namespace time;
-    }
+	using namespace utility::time;
 }
 
 #endif // TIME_HPP
