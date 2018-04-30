@@ -47,6 +47,11 @@
 #include "utility/template_expression/vector.hpp"
 #include "utility/template_expression/slice.hpp"
 
+#ifdef _MSC_VER
+	#undef min
+	#undef max
+#endif
+
 namespace ece
 {
 	/**
