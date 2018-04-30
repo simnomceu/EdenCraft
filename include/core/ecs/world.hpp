@@ -48,61 +48,67 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
-
-	/**
-	 * @class World
-	 * @brief The environment were all entities are being.
-	 */
-	class World
+	namespace core
 	{
-	public:
-		/**
-		 * @typedef Entity
-		 * @brief Define an entity of the world.
-		 */
-		using Entity = unsigned int;
+		namespace ecs
+		{
+			using utility::indexing::UniqueID;
 
-		/**
-		 * @fn World()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline World();
+			/**
+			 * @class World
+			 * @brief The environment were all entities are being.
+			 */
+			class World
+			{
+			public:
+				/**
+				 * @typedef Entity
+				 * @brief Define an entity of the world.
+				 */
+				using Entity = unsigned int;
 
-		/**
-		 * @fn ~World()
-		 * @brief Default destructor.
-		 * @throw
-		 */
-		inline ~World();
+				/**
+				 * @fn World()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline World();
 
-	private:
-		/**
-		 * @property _systems
-		 * @brief The list of system running in the world.
-		 */
-		std::vector<std::unique_ptr<BaseSystem>> _systems;
+				/**
+				 * @fn ~World()
+				 * @brief Default destructor.
+				 * @throw
+				 */
+				inline ~World();
 
-		/**
-		 * @property _components
-		 * @brief The list of components composing all the entities of the world.
-		 */
-		ComponentTank _components;
+			private:
+				/**
+				 * @property _systems
+				 * @brief The list of system running in the world.
+				 */
+				std::vector<std::unique_ptr<BaseSystem>> _systems;
 
-		/**
-		 * @property _entities
-		 * @brief The list of entities being in the world.
-		 */
-		std::vector<Entity> _entities;
+				/**
+				 * @property _components
+				 * @brief The list of components composing all the entities of the world.
+				 */
+				ComponentTank _components;
 
-		/**
-		 * @property _entityGenerator
-		 * @brief To create a new entity.
-		 */
-		UniqueID _entityGenerator;
-	};
-}
+				/**
+				 * @property _entities
+				 * @brief The list of entities being in the world.
+				 */
+				std::vector<Entity> _entities;
+
+				/**
+				 * @property _entityGenerator
+				 * @brief To create a new entity.
+				 */
+				UniqueID _entityGenerator;
+			};
+		} // namespace ecs
+	} // namespace core
+} // namespace ece
 
 #include "core/ecs/world.inl"
 

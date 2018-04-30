@@ -44,14 +44,20 @@
 
 namespace ece
 {
-    using namespace utility::debug;
-
-	const std::shared_ptr<BaseEventManager> EventManagerConsumer::consume()
+	namespace core
 	{
-		// TODO: Guard if the EventManager doesn't exist anymore.
-		if (this->_eventManager.expired()) {
-			throw MemoryAccessException("EventManager", "EventManagerConsumer");
-		}
-		return this->_eventManager.lock();
-	}
-}
+		namespace event
+		{
+			using utility::debug::MemoryAccessException;
+
+			const std::shared_ptr<BaseEventManager> EventManagerConsumer::consume()
+			{
+				// TODO: Guard if the EventManager doesn't exist anymore.
+				if (this->_eventManager.expired()) {
+					throw MemoryAccessException("EventManager", "EventManagerConsumer");
+				}
+				return this->_eventManager.lock();
+			}
+		} // namespace event
+	} // namespace core
+} // namespace ece

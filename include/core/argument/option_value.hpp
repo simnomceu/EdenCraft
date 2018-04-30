@@ -43,71 +43,77 @@
 
 namespace ece
 {
-	/**
-	 * @class OptionValue
-	 * @brief An option for a console argument.
-	 */
-	class OptionValue
+	namespace core
 	{
-	public:
-		/**
-		 * @fn OptionValue() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		OptionValue() noexcept = default;
+		namespace argument
+		{
+			/**
+			 * @class OptionValue
+			 * @brief An option for a console argument.
+			 */
+			class OptionValue
+			{
+			public:
+				/**
+				 * @fn OptionValue() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				OptionValue() noexcept = default;
 
-		/**
-		 * @fn OptionValue(const OptionValue & copy) noexcept
-		 * @param[in] copy The option to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		OptionValue(const OptionValue & copy) noexcept = default;
+				/**
+				 * @fn OptionValue(const OptionValue & copy) noexcept
+				 * @param[in] copy The option to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				OptionValue(const OptionValue & copy) noexcept = default;
 
-		/**
-		 * @fn OptionValue(OptionValue && move) noexcept
-		 * @param[in] move The option to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		OptionValue(OptionValue && move) noexcept = default;
+				/**
+				 * @fn OptionValue(OptionValue && move) noexcept
+				 * @param[in] move The option to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				OptionValue(OptionValue && move) noexcept = default;
 
-		/**
-		 * @fn ~OptionValue() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~OptionValue() noexcept = default;
+				/**
+				 * @fn ~OptionValue() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~OptionValue() noexcept = default;
 
-		/**
-		 * @fn OptionValue & operator=(const OptionValue & copy) noexcept 
-		 * @param[in] copy The option to copy from.
-		 * @return The option copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		OptionValue & operator=(const OptionValue & copy) noexcept = delete;
+				/**
+				 * @fn OptionValue & operator=(const OptionValue & copy) noexcept
+				 * @param[in] copy The option to copy from.
+				 * @return The option copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				OptionValue & operator=(const OptionValue & copy) noexcept = delete;
 
-		/**
-		 * @fn OptionValue & operator=(OptionValue && move) noexcept
-		 * @param[in] move The option to move.
-		 * @return The option moved.
-		 * @brief Default move  assignment operator.
-		 * @throw noexcept
-		 */
-		OptionValue & operator=(OptionValue && move) noexcept = delete;
-		
-		/**
-		 * @fn bool isValid(const std::string & value)
-		 * @param[in] value The value to check.
-		 * @return True if the value is valid, false else.
-		 * @brief Check if the value of the argument is valid.
-		 * @throw noexcept
-		 * @see bool OptionValue::isValid(const std::string & value)
-		 */
-		virtual bool isValid(const std::string & value) = 0;
-	};
-}
+				/**
+				 * @fn OptionValue & operator=(OptionValue && move) noexcept
+				 * @param[in] move The option to move.
+				 * @return The option moved.
+				 * @brief Default move  assignment operator.
+				 * @throw noexcept
+				 */
+				OptionValue & operator=(OptionValue && move) noexcept = delete;
+
+				/**
+				 * @fn bool isValid(const std::string & value)
+				 * @param[in] value The value to check.
+				 * @return True if the value is valid, false else.
+				 * @brief Check if the value of the argument is valid.
+				 * @throw noexcept
+				 * @see bool OptionValue::isValid(const std::string & value)
+				 */
+				virtual bool isValid(const std::string & value) = 0;
+			};
+		} // namespace argument
+	} // namespace core
+} // namespace ece
 
 #endif // OPTION_VALUE_HPP

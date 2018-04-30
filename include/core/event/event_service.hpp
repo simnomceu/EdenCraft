@@ -45,32 +45,39 @@
 
 namespace ece
 {
-    using namespace utility::service;
-
-	class EventManagerConsumer;
-
-	/**
-	 * @typedef EventServiceFactory
-	 * @brief A factory to build an event manager as a service.
-	 */
-	typedef ServiceFactory<BaseEventManager> EventServiceFactory;
-
-	/**
-	 * @class EventServiceLocator
-	 * @extends ServiceLocator<BaseEventManager, BaseEventManager>
-	 * @brief Provide a service to access event management.
-	 */
-	class EventServiceLocator : public ServiceLocator<BaseEventManager, BaseEventManager>
+	namespace core
 	{
-	public:
-		/**
-		 * @fn std::weak_ptr<BaseEventManager> getServicePtr(EventManagerConsumer & consumer)
-		 * @param[in] consumer A pass to access the service.
-		 * @return The naked pointer to the service.
-		 * @brief Get a naked pointer to the current service.
-		 */
-		static std::weak_ptr<BaseEventManager> getServicePtr(EventManagerConsumer & consumer);
-	};
-}
+		namespace event
+		{
+			using utility::service::ServiceFactory;
+			using utility::service::ServiceLocator;
+
+			class EventManagerConsumer;
+
+			/**
+			 * @typedef EventServiceFactory
+			 * @brief A factory to build an event manager as a service.
+			 */
+			typedef ServiceFactory<BaseEventManager> EventServiceFactory;
+
+			/**
+			 * @class EventServiceLocator
+			 * @extends ServiceLocator<BaseEventManager, BaseEventManager>
+			 * @brief Provide a service to access event management.
+			 */
+			class EventServiceLocator : public ServiceLocator<BaseEventManager, BaseEventManager>
+			{
+			public:
+				/**
+				 * @fn std::weak_ptr<BaseEventManager> getServicePtr(EventManagerConsumer & consumer)
+				 * @param[in] consumer A pass to access the service.
+				 * @return The naked pointer to the service.
+				 * @brief Get a naked pointer to the current service.
+				 */
+				static std::weak_ptr<BaseEventManager> getServicePtr(EventManagerConsumer & consumer);
+			};
+		} // namespace event
+	} // namespace core
+} // namespace ece
 
 #endif // EVENT_SERVICE_HPP

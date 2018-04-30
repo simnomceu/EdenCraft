@@ -42,6 +42,9 @@
 
 namespace ece
 {
+	using core::event::Emitter;
+	using core::event::Signal;
+
 	/**
 	 * @class EventHandler
 	 * @extends Emitter

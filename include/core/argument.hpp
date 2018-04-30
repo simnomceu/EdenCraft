@@ -45,4 +45,9 @@
 #include "core/argument/option_value.hpp"
 #include "core/argument/string_option_value.hpp"
 
+namespace ece
+{
+	using namespace core::argument;
+}
+
 #endif // ARGUMENT_HPP

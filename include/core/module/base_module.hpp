@@ -43,82 +43,88 @@
 
 namespace ece
 {
-	/**
-	 * @class BaseModule
-	 * @brief Basic declaration for a module.
-	 */
-	class BaseModule
+	namespace core
 	{
-	public:
-		/**
-		 * @fn BaseModule() noexcept 
-		 * @brief Default constructor.
-		 * @thrown noexcept
-		 */
-		inline BaseModule() noexcept = default;
+		namespace module
+		{
+			/**
+			 * @class BaseModule
+			 * @brief Basic declaration for a module.
+			 */
+			class BaseModule
+			{
+			public:
+				/**
+				 * @fn BaseModule() noexcept
+				 * @brief Default constructor.
+				 * @thrown noexcept
+				 */
+				inline BaseModule() noexcept = default;
 
-		/**
-		 * @fn BaseModule(const BaseModule & copy) noexcept 
-		 * @param[in] copy The module to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		BaseModule(const BaseModule & copy) noexcept = default;
+				/**
+				 * @fn BaseModule(const BaseModule & copy) noexcept
+				 * @param[in] copy The module to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				BaseModule(const BaseModule & copy) noexcept = default;
 
-		/**
-		 * @fn BaseModule(BaseModule && move) noexcept 
-		 * @param[in] move The module to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		BaseModule(BaseModule && move) noexcept = default;
+				/**
+				 * @fn BaseModule(BaseModule && move) noexcept
+				 * @param[in] move The module to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				BaseModule(BaseModule && move) noexcept = default;
 
-		/**
-		 * @fn ~BaseModule() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~BaseModule() noexcept = default;
+				/**
+				 * @fn ~BaseModule() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~BaseModule() noexcept = default;
 
-		/**
-		 * @fn BaseModule & operator=(const BaseModule & copy) noexcept 
-		 * @param[in] copy The module to copy from.
-		 * @return The module copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		BaseModule & operator=(const BaseModule & copy) noexcept = default;
+				/**
+				 * @fn BaseModule & operator=(const BaseModule & copy) noexcept
+				 * @param[in] copy The module to copy from.
+				 * @return The module copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				BaseModule & operator=(const BaseModule & copy) noexcept = default;
 
-		/**
-		 * @fn BaseModule & operator=(BaseModule && move) noexcept 
-		 * @param[in] move The module to move from.
-		 * @return The module moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		BaseModule & operator=(BaseModule && move) noexcept = default;
+				/**
+				 * @fn BaseModule & operator=(BaseModule && move) noexcept
+				 * @param[in] move The module to move from.
+				 * @return The module moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				BaseModule & operator=(BaseModule && move) noexcept = default;
 
-		/**
-		 * @fn void init() 
-		 * @brief Hook to initialize the module.
-		 * @throw
-		 */
-		virtual void init() = 0;
+				/**
+				 * @fn void init()
+				 * @brief Hook to initialize the module.
+				 * @throw
+				 */
+				virtual void init() = 0;
 
-		/**
-		 * @fn void update() 
-		 * @brief Hook to update the module.
-		 * @throw
-		 */
-		virtual void update() = 0;
+				/**
+				 * @fn void update()
+				 * @brief Hook to update the module.
+				 * @throw
+				 */
+				virtual void update() = 0;
 
-		/**
-		 * @fn void terminate() 
-		 * @brief Hook to terminate the module.
-		 * @throw
-		 */
-		virtual void terminate() = 0;
-	};
-}
+				/**
+				 * @fn void terminate()
+				 * @brief Hook to terminate the module.
+				 * @throw
+				 */
+				virtual void terminate() = 0;
+			};
+		} // namespace module
+	} // namespace core
+} // namespace ece
 
 #endif // BASE_MODULE_HPP

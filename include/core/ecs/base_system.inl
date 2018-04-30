@@ -38,5 +38,11 @@
 
 namespace ece
 {
-	inline BaseSystem::~BaseSystem() {}
-}
+	namespace core
+	{
+		namespace ecs
+		{
+			inline BaseSystem::~BaseSystem() {}
+		} // namespace ecs
+	} // namespace core
+} // namespace ece

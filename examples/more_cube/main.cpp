@@ -36,7 +36,7 @@
 
 */
 
-#include "core/application/application.hpp"
+#include "core/application.hpp"
 
 #include "renderer/common.hpp"
 #include "utility/log.hpp"

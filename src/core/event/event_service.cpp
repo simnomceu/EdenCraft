@@ -44,15 +44,21 @@
 
 namespace ece
 {
-    using namespace utility::debug;
-    
-	std::weak_ptr<BaseEventManager> EventServiceLocator::getServicePtr(EventManagerConsumer & /*consumer*/)
+	namespace core
 	{
-		//return ServiceLocator<BaseEventManager, EventManagerNone>::getServicePtr();
+		namespace event
+		{
+			using utility::debug::MemoryAccessException;
 
-		if (ServiceLocator<BaseEventManager, BaseEventManager>::_service.get() == nullptr) {
-			throw MemoryAccessException("a service.");
-		}
-		return ServiceLocator<BaseEventManager, BaseEventManager>::_service;
-	}
-}
+			std::weak_ptr<BaseEventManager> EventServiceLocator::getServicePtr(EventManagerConsumer & /*consumer*/)
+			{
+				//return ServiceLocator<BaseEventManager, EventManagerNone>::getServicePtr();
+
+				if (ServiceLocator<BaseEventManager, BaseEventManager>::_service.get() == nullptr) {
+					throw MemoryAccessException("a service.");
+				}
+				return ServiceLocator<BaseEventManager, BaseEventManager>::_service;
+			}
+		} // namespace event
+	} // namespace core
+} // namespace ece

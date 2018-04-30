@@ -49,135 +49,141 @@
 
 namespace ece
 {
-	/**
-	 * @class ResourceManager
-	 * @brief Manage all resources, and their loaders/unloaders, regarding the file extension.
-	 */
-	class ResourceManager
+	namespace core
 	{
-	public:
-		/**
-		 * @fn ResourceManager() 
-		 * @brief Default constructor.
-		 * @throw 
-		 */
-		ResourceManager() = default;
+		namespace resource
+		{
+			/**
+			 * @class ResourceManager
+			 * @brief Manage all resources, and their loaders/unloaders, regarding the file extension.
+			 */
+			class ResourceManager
+			{
+			public:
+				/**
+				 * @fn ResourceManager()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				ResourceManager() = default;
 
-		ResourceManager(const ResourceManager & copy) = delete;
-		
-		/**
-		 * @fn ResourceManager(ResourceManager && move) 
-		 * @param[in] move The manger to move.
-		 * @brief Default move constructor.
-		 * @throw
-		 */
-		ResourceManager(ResourceManager && move) = default;
+				ResourceManager(const ResourceManager & copy) = delete;
 
-		/**
-		 * @fn ~ResourceManager() noexcept 
-		 * @brief Default destructor.
-		 */
-		~ResourceManager() noexcept = default;
+				/**
+				 * @fn ResourceManager(ResourceManager && move)
+				 * @param[in] move The manger to move.
+				 * @brief Default move constructor.
+				 * @throw
+				 */
+				ResourceManager(ResourceManager && move) = default;
 
-		ResourceManager & operator=(const ResourceManager & copy) = delete;
-		
-		/**
-		 * @fn ResourceManager & operator=(ResourceManager && move) 
-		 * @param[in] move The manger to move.
-		 * @return The manager moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		ResourceManager & operator=(ResourceManager && move) noexcept = default;
-		
-		/**
-		 * @fn void loadResource(const std::string & identifier)
-		 * @param[in] identifier The string that identify a resource. Usually it is the filename of the resource.
-		 * @brief Load a resource, using its identifier.
-		 * If a resource with this identifier already exist, nothing happen.
-		 * @throw
-		 */
-		void loadResource(const std::string & identifier);
+				/**
+				 * @fn ~ResourceManager() noexcept
+				 * @brief Default destructor.
+				 */
+				~ResourceManager() noexcept = default;
 
-		/**
-		 * @fn void loadResource(const std::string & identifier, const std::shared_ptr<ResourceLoader> & loader);
-		 * @param[in] identifier The string that identify a resource. Usually, it is the filename of the resource.
-		 * @param[in] loader The loader to use.
-		 * @brief Load the resource, using a specific loader.
-		 * If a resource with this identifier already exist, nothing happen.
-		 * @throw
-		 */
-		void loadResource(const std::string & identifier, const std::shared_ptr<ResourceLoader> & loader);
+				ResourceManager & operator=(const ResourceManager & copy) = delete;
 
-		/**
-		 * @fn void unloadResource(const std::string & identifier)
-		 * @param[in] identifier The string that identify a resource. Usually, it is the filename of the resource.
-		 * @brief Unload a resource using its identfier.
-		 * If the resource with this identifier does not exist, nothing happen.
-		 */
-		void unloadResource(const std::string & identifier);
+				/**
+				 * @fn ResourceManager & operator=(ResourceManager && move)
+				 * @param[in] move The manger to move.
+				 * @return The manager moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ResourceManager & operator=(ResourceManager && move) noexcept = default;
 
-		/**
-		 * @fn void unloadResource(const std::string & identifier, const std::shared_ptr<ResourceUnloader> & unloader)
-		 * @param[in] identifier The string that identify a resource. Usually, it is the filename of the resource.
-		 * @param[in] loader The unloader to use.
-		 * @brief Unload a resource, using a specific unloader.
-		 * If the resource with this identifier does not exist, nothing happen.
-		 */
-		void unloadResource(const std::string & identifier, const std::shared_ptr<ResourceUnloader> & unloader);
+				/**
+				 * @fn void loadResource(const std::string & identifier)
+				 * @param[in] identifier The string that identify a resource. Usually it is the filename of the resource.
+				 * @brief Load a resource, using its identifier.
+				 * If a resource with this identifier already exist, nothing happen.
+				 * @throw
+				 */
+				void loadResource(const std::string & identifier);
 
-		/**
-		 * @fn std::weak_ptr<Resource> getResource(const std::string & identifier)
-		 * @param[in] identifier The identifier of the resource.
-		 * @brief Get the resource attached to that identifier.
-		 * @throw
-		 */
-		std::weak_ptr<Resource> getResource(const std::string & identifier);
+				/**
+				 * @fn void loadResource(const std::string & identifier, const std::shared_ptr<ResourceLoader> & loader);
+				 * @param[in] identifier The string that identify a resource. Usually, it is the filename of the resource.
+				 * @param[in] loader The loader to use.
+				 * @brief Load the resource, using a specific loader.
+				 * If a resource with this identifier already exist, nothing happen.
+				 * @throw
+				 */
+				void loadResource(const std::string & identifier, const std::shared_ptr<ResourceLoader> & loader);
 
-		/**
-		 * @fn void clear()
-		 * @brief Clear the maanger, to delete all resources, loaders, and unloaders.
-		 * @throw
-		 */
-		void clear();
+				/**
+				 * @fn void unloadResource(const std::string & identifier)
+				 * @param[in] identifier The string that identify a resource. Usually, it is the filename of the resource.
+				 * @brief Unload a resource using its identfier.
+				 * If the resource with this identifier does not exist, nothing happen.
+				 */
+				void unloadResource(const std::string & identifier);
 
-		/**
-		 * @fn void registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader)
-		 * @param[in] extension The file extension to attach.
-		 * @param[in] loader The loader to register.
-		 * @brief Register a loader and attach its use to a specific file extension.
-		 * @throw
-		 */
-		void registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader);
+				/**
+				 * @fn void unloadResource(const std::string & identifier, const std::shared_ptr<ResourceUnloader> & unloader)
+				 * @param[in] identifier The string that identify a resource. Usually, it is the filename of the resource.
+				 * @param[in] loader The unloader to use.
+				 * @brief Unload a resource, using a specific unloader.
+				 * If the resource with this identifier does not exist, nothing happen.
+				 */
+				void unloadResource(const std::string & identifier, const std::shared_ptr<ResourceUnloader> & unloader);
 
-		/**
-		 * @fn void registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader)
-		 * @param[in] extension The file extension to attach.
-		 * @param[in] unloader The unloader to register.
-		 * @brief Register an unloader and attach its use to a specific file extension.
-		 * @throw
-		 */
-		void registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader);
+				/**
+				 * @fn std::weak_ptr<Resource> getResource(const std::string & identifier)
+				 * @param[in] identifier The identifier of the resource.
+				 * @brief Get the resource attached to that identifier.
+				 * @throw
+				 */
+				std::weak_ptr<Resource> getResource(const std::string & identifier);
 
-	private:
-		/**
-		 * @property _resources
-		 * @brief The list of resources currently loaded.
-		 */
-		std::map<std::string, ResourceHandler> _resources;
+				/**
+				 * @fn void clear()
+				 * @brief Clear the maanger, to delete all resources, loaders, and unloaders.
+				 * @throw
+				 */
+				void clear();
 
-		/**
-		 * @property _loaders
-		 * @brief The list of registered loaders.
-		 */
-		std::map<std::string, std::shared_ptr<ResourceLoader>> _loaders;
+				/**
+				 * @fn void registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader)
+				 * @param[in] extension The file extension to attach.
+				 * @param[in] loader The loader to register.
+				 * @brief Register a loader and attach its use to a specific file extension.
+				 * @throw
+				 */
+				void registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader);
 
-		/**
-		 * @property _unloaders
-		 * @brief The list of registered unloaders.
-		 */
-		std::map<std::string, std::shared_ptr<ResourceUnloader>> _unloaders;
-	};
-}
+				/**
+				 * @fn void registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader)
+				 * @param[in] extension The file extension to attach.
+				 * @param[in] unloader The unloader to register.
+				 * @brief Register an unloader and attach its use to a specific file extension.
+				 * @throw
+				 */
+				void registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader);
+
+			private:
+				/**
+				 * @property _resources
+				 * @brief The list of resources currently loaded.
+				 */
+				std::map<std::string, ResourceHandler> _resources;
+
+				/**
+				 * @property _loaders
+				 * @brief The list of registered loaders.
+				 */
+				std::map<std::string, std::shared_ptr<ResourceLoader>> _loaders;
+
+				/**
+				 * @property _unloaders
+				 * @brief The list of registered unloaders.
+				 */
+				std::map<std::string, std::shared_ptr<ResourceUnloader>> _unloaders;
+			};
+		} // namespace resource
+	} // namespace core
+} // namespace ece
 
 #endif // RESOURCE_MANAGER_HPP

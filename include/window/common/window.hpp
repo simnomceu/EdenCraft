@@ -50,8 +50,10 @@
 
 namespace ece
 {
-    using namespace utility::mathematics;
-    using namespace utility::time;
+    using utility::mathematics::IntVector2u;
+    using utility::time::UpdatePerSecond;
+	using core::event::Emitter;
+	using core::event::Signal;
     
 	class InputEvent;
 

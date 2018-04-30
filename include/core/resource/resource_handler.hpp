@@ -46,92 +46,98 @@
 
 namespace ece
 {
-	/**
-	 * @class ResourceHandler
-	 * @brief To handle a resource.
-	 * @remark How useful is it ?
-	 */
-	class ResourceHandler
+	namespace core
 	{
-	public:
-		/**
-		 * @fn ResourceHandler() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		ResourceHandler() noexcept = default;
+		namespace resource
+		{
+			/**
+			 * @class ResourceHandler
+			 * @brief To handle a resource.
+			 * @remark How useful is it ?
+			 */
+			class ResourceHandler
+			{
+			public:
+				/**
+				 * @fn ResourceHandler() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				ResourceHandler() noexcept = default;
 
-		/**
-		 * @fn ResourceHandler(const std::shared_ptr<Resource> & resource)
-		 * @param[in] resource The resource to handle
-		 * @brief Build a handler for a specific resource.
-		 * @throw
-		 */
-		inline ResourceHandler(const std::shared_ptr<Resource> & resource);
+				/**
+				 * @fn ResourceHandler(const std::shared_ptr<Resource> & resource)
+				 * @param[in] resource The resource to handle
+				 * @brief Build a handler for a specific resource.
+				 * @throw
+				 */
+				inline ResourceHandler(const std::shared_ptr<Resource> & resource);
 
-		/**
-		 * @fn ResourceHandler(const ResourceHandler & copy) noexcept 
-		 * @param[in] copy The handler to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		ResourceHandler(const ResourceHandler & copy) noexcept = default;
+				/**
+				 * @fn ResourceHandler(const ResourceHandler & copy) noexcept
+				 * @param[in] copy The handler to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				ResourceHandler(const ResourceHandler & copy) noexcept = default;
 
-		/**
-		 * @fn ResourceHandler(ResourceHandler && move) noexcept 
-		 * @param[in] move The handler to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		ResourceHandler(ResourceHandler && move) noexcept = default;
+				/**
+				 * @fn ResourceHandler(ResourceHandler && move) noexcept
+				 * @param[in] move The handler to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ResourceHandler(ResourceHandler && move) noexcept = default;
 
-		/**
-		 * @fn ~ResourceHandler() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~ResourceHandler() noexcept = default;
+				/**
+				 * @fn ~ResourceHandler() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~ResourceHandler() noexcept = default;
 
-		/**
-		 * @fn ResourceHandler & operator=(const ResourceHandler & copy) noexcept 
-		 * @param[in] copy The handler to copy from.
-		 * @return The handler copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		ResourceHandler & operator=(const ResourceHandler & copy) noexcept = default;
+				/**
+				 * @fn ResourceHandler & operator=(const ResourceHandler & copy) noexcept
+				 * @param[in] copy The handler to copy from.
+				 * @return The handler copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				ResourceHandler & operator=(const ResourceHandler & copy) noexcept = default;
 
-		/**
-		 * @fn ResourceHandler & operator=(ResourceHandler && move) noexcept 
-		 * @param[in] move The handler to move.
-		 * @return The handler moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		ResourceHandler & operator=(ResourceHandler && move) noexcept = default;
+				/**
+				 * @fn ResourceHandler & operator=(ResourceHandler && move) noexcept
+				 * @param[in] move The handler to move.
+				 * @return The handler moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ResourceHandler & operator=(ResourceHandler && move) noexcept = default;
 
-		/**
-		 * @fn std::weak_ptr<Resource> operator->()
-		 * @return The resource handled.
-		 * @brief Get The resource handled.
-		 */
-		inline std::weak_ptr<Resource> operator->();
+				/**
+				 * @fn std::weak_ptr<Resource> operator->()
+				 * @return The resource handled.
+				 * @brief Get The resource handled.
+				 */
+				inline std::weak_ptr<Resource> operator->();
 
-		/**
-		 * @fn std::weak_ptr<Resource> operator*()
-		 * @return The resource handled.
-		 * @brief Get The resource handled.
-		 */
-		inline std::weak_ptr<Resource> operator*();
+				/**
+				 * @fn std::weak_ptr<Resource> operator*()
+				 * @return The resource handled.
+				 * @brief Get The resource handled.
+				 */
+				inline std::weak_ptr<Resource> operator*();
 
-	private:
-		/**
-		 * @property _resource
-		 * @brief The resource handled
-		 */
-		std::shared_ptr<Resource> _resource;
-	};
-}
+			private:
+				/**
+				 * @property _resource
+				 * @brief The resource handled
+				 */
+				std::shared_ptr<Resource> _resource;
+			};
+		} // namespace resource
+	} // namespace core
+} // namespace ece
 
 #include "core/resource/resource_handler.inl"
 

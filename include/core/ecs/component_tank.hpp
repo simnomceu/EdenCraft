@@ -47,37 +47,43 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
-
-	/**
-	 * @class ComponentTank
-	 * @brief Manage a list of components.
-	 */
-	class ComponentTank
+	namespace core
 	{
-	public:
-		/**
-		 * @fn ComponentTank()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline ComponentTank();
+		namespace ecs
+		{
+			using utility::indexing::UniqueID;
 
-		/**
-		 * @fn ~ComponentTank
-		 * @brief Default destructor.
-		 * @throw
-		 */
-		inline ~ComponentTank();
+			/**
+			 * @class ComponentTank
+			 * @brief Manage a list of components.
+			 */
+			class ComponentTank
+			{
+			public:
+				/**
+				 * @fn ComponentTank()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline ComponentTank();
 
-	private:
-		/**
-		 * @property _nextComponent
-		 * @brief To generate the next component.
-		 */
-		UniqueID _nextComponent;
-	};
-}
+				/**
+				 * @fn ~ComponentTank
+				 * @brief Default destructor.
+				 * @throw
+				 */
+				inline ~ComponentTank();
+
+			private:
+				/**
+				 * @property _nextComponent
+				 * @brief To generate the next component.
+				 */
+				UniqueID _nextComponent;
+			};
+		} // namespace ecs
+	} // namespace core
+} // namespace ece
 
 #include "core/ecs/component_tank.inl"
 
