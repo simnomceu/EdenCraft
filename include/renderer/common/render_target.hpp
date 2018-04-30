@@ -45,8 +45,8 @@
 
 namespace ece
 {
-
-    class Drawable;
+    // TODO: Renderable vs Drawable ?
+    class Renderable;
 
     /**
      * @class RenderTarget
@@ -120,13 +120,13 @@ namespace ece
         virtual void clear(const Color & color = BLACK) = 0;
 
         /**
-         * @fn void draw(Drawable & drawable, const RenderState & states = RenderState())
-         * @param[in/out] drawable The drawable to draw to the render target.
+         * @fn void draw(Renderable & renderable, const RenderState & states = RenderState())
+         * @param[in/out] renderable The drawable to draw to the render target.
          * @param[in] states The states to apply to the render for drawing.
          * @brief Draw an object to the render target.
          * @throw
          */
-        virtual void draw(Drawable & drawable, const RenderState & states = RenderState()) = 0;
+        virtual void draw(Renderable & renderable, const RenderState & states = RenderState()) = 0;
 
     protected:
         void loadRenderState(const RenderState & states);

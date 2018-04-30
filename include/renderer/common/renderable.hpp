@@ -36,8 +36,12 @@
 
 */
 
-#ifndef RENDARABLE_HPP
+#ifndef RENDERABLE_HPP
 #define RENDERABLE_HPP
+
+#include "renderer/opengl/vao.hpp"
+#include "renderer/enum.hpp"
+#include "renderer/common/enhanced_shader.hpp"
 
 namespace ece
 {
@@ -49,11 +53,11 @@ namespace ece
     {
     public:
         /**
-         * @fn constexpr Renderable() noexcept
+         * @fn Renderable() noexcept
          * @brief Default constructor.
          * @throw noexcept
          */
-        constexpr Renderable() noexcept = default;
+        Renderable() noexcept;
 
         /**
          * @fn Renderable(const Renderable & copy) noexcept
@@ -76,7 +80,7 @@ namespace ece
          * @brief Default destructor.
          * @throw noexcept
          */
-        ~Renderable() noexcept = default;
+        virtual ~Renderable() noexcept = 0;
 
         /**
          * @fn Renderable & operator=(const Renderable & copy) noexcept
@@ -95,6 +99,18 @@ namespace ece
          * @throw noexcept
          */
         Renderable & operator=(Renderable && move) noexcept = default;
+
+        void draw();
+
+        void normalize(const unsigned int width, const unsigned int height) const noexcept;
+
+    protected:
+        VAO _vao;
+        bool _normalized;
+
+        PrimitiveMode _mode;
+
+        EnhancedShader _program;
     };
 }
 

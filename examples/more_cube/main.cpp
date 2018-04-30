@@ -40,21 +40,8 @@
 
 #include "renderer/common.hpp"
 #include "utility/log.hpp"
-#include "renderer/opengl/vao.hpp"
 #include "renderer/image.hpp"
-#include "renderer/common/drawable.hpp"
-
-class ImplDrawable : public ece::Drawable
-{
-public:
-    ImplDrawable(): Drawable() {}
-
-    virtual ~ImplDrawable() {}
-
-    inline void setVAO(const ece::VAO & vao) { this->_vao = vao; }
-
-    inline void setMode(const ece::PrimitiveMode & mode) { this->_mode = mode; }
-};
+#include "graphic/renderable/sprite.hpp"
 
 int main()
 {
@@ -75,103 +62,16 @@ int main()
 		window.setSettings(settings);
 		window.limitUPS(100);
 
-		//renderer.setPolygonMode(ece::PolygonMode::LINE);
-
-		/*const std::vector<float> points{ 0.0f, 0.5f,
-										 0.5f, -0.5f,
-										-0.5f, -0.5f };
-
-		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
-										  0.0f, 1.0f, 0.0f,
-										  0.0f, 0.0f, 1.0f };
-
-		const std::vector<unsigned int> index{ 0, 1, 2 };*/
-
-		const std::vector<float> points{ -0.5f, -0.5f,
-										 -0.5f,  0.5f,
-										  0.5f,  0.5f,
-										  0.5f, -0.5f
-		};
-
-		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
-										  0.0f, 1.0f, 0.0f,
-										  0.0f, 0.0f, 1.0f,
-										  0.0f, 1.0f, 1.0f
-		};
-
-		const std::vector<float> texPos{ 1.0f, 1.0f,
-											1.0f, 0.0f,
-											0.0f, 0.0f,
-											0.0f, 1.0f
-		};
-
-		const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
-
-		/*const std::vector<float> points{ -0.5f, -0.5f, 0.5,
-										-0.5f,  0.5f, 0.5,
-										0.5f,  0.5f, 0.5,
-										0.5f, -0.5f,  0.5,
-										0.0f, 0.0f, -0.5,
-										0.0f,  1.0f, -0.5,
-										1.0f,  1.0f, -0.5,
-										1.0f, 0.0f,  -0.5,
-		};
-
-		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
-										  0.0f, 1.0f, 0.0f,
-										  0.0f, 0.0f, 1.0f,
-										  0.0f, 1.0f, 1.0f,
-										  1.0f, 0.0f, 0.0f,
-										  0.0f, 1.0f, 0.0f,
-										  0.0f, 0.0f, 1.0f,
-										  0.0f, 1.0f, 1.0f
-		};
-
-		const std::vector<unsigned int> index{ 0, 1, 2,
-											   2, 3, 0,
-											   2, 7, 3,
-											   2, 6, 3,
-											   4, 5, 6,
-											   6, 7, 4,
-											   4, 5, 0,
-											   5, 1, 0,
-											   1, 5, 6,
-											   6, 2, 1,
-											   0, 4, 7,
-											   7, 3, 0
-		};*/
-
-		ece::VAO vao;
-		vao.addAttribute(0, 2, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
-		vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colours, ece::BufferUsage::STATIC_DRAW);
-		vao.addAttribute(2, 2, false, 0, ece::BufferType::ARRAY_BUFFER, texPos, ece::BufferUsage::STATIC_DRAW);
-		vao.addIndices(index, ece::BufferUsage::STATIC_DRAW);
-
-		ece::ShaderStage fsSource, vsSource;
-		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/shader.frag");
-		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../../examples/more_cube/shader.vert");
-		ece::EnhancedShader program;
-		program.setStage(fsSource);
-		program.setStage(vsSource);
-		program.link();
-		renderer.setProgram(program);
-
 		ece::Texture2D texture;
 		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
-		texture.bind(ece::TextureTarget::TEXTURE_2D);
-		texture.update();
 
-		ece::OpenGL::uniform<int, 1>(glGetUniformLocation(program.getHandle(), "theTexture"), std::array<int, 1>{0});
-
-        ImplDrawable drawable;
-        drawable.setVAO(vao);
-        drawable.setMode(ece::PrimitiveMode::TRIANGLES);
+        ece::Sprite sprite(texture);
 
 		ece::InputEvent event;
 		while (1) {
 			window.clear();
 
-            window.draw(drawable);
+            window.draw(sprite);
 			if (window.pollEvent(event)) {
 			}
 			window.display();

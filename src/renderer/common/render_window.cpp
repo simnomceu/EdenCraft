@@ -42,7 +42,7 @@
 #include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
 #include "window/common/video_mode.hpp"
-#include "renderer/common/drawable.hpp"
+#include "renderer/common/renderable.hpp"
 
 namespace ece
 {
@@ -85,11 +85,12 @@ namespace ece
 		}
 	}
 
-    void RenderWindow::draw(Drawable & drawable, const RenderState & states)
+    void RenderWindow::draw(Renderable & renderable, const RenderState & states)
     {
         this->loadRenderState(states);
 
-        drawable.draw();
+        renderable.normalize(this->getSettings()._minimumSize[0], this->getSettings()._minimumSize[1]);
+        renderable.draw();
         // TODO : render the drawable here (using code in renderer.cpp)
     }
 

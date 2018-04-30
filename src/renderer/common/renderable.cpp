@@ -36,18 +36,29 @@
 
 */
 
-#include "renderer/common/drawable.hpp"
+#include "renderer/common/renderable.hpp"
 
 namespace ece
 {
-    Drawable::Drawable() noexcept: _vao(), _mode() {}
-    
-    Drawable::~Drawable() {}
+    Renderable::Renderable() noexcept: _vao(), _normalized(false), _mode(), _program() {}
 
-    void Drawable::draw()
+    Renderable::~Renderable() {}
+
+    void Renderable::draw()
     {
+        this->_program.use();
 		this->_vao.bind();
 		this->_vao.bindIndexBuffer();
 		OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+    }
+
+    void Renderable::normalize(const unsigned int width, const unsigned int height) const noexcept
+    {
+        if (this->_normalized) {
+            ece::OpenGL::uniform<int, 2>(glGetUniformLocation(this->_program.getHandle(), "targetSize"), std::array<int, 2>{static_cast<int>(width), static_cast<int>(height)});
+        }
+        else {
+            ece::OpenGL::uniform<int, 2>(glGetUniformLocation(this->_program.getHandle(), "targetSize"), std::array<int, 2>{0, 0});
+        }
     }
 }
