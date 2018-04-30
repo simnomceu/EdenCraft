@@ -44,120 +44,126 @@
 
 namespace ece
 {
-    using namespace utility::mathematics;
-    
-	/**
-	 * @class InputEvent
-	 * @brief Event from a user input.
-	 */
-	class InputEvent
+	namespace window
 	{
-	public:
-		/**
-		 * @enum Type
-		 * @brief Type of event produced.
-		 */
-		enum class Type: short int
+		namespace window_event
 		{
-			ECE_TYPE_NONE = -1,
-			ECE_MOUSE_PRESSED = 0,
-			ECE_MOUSE_RELEASED = 1,
-			ECE_MOUSE_MOVED = 2,
-			ECE_MOUSE_SCROLLED = 3,
-			ECE_KEY_PRESSED = 4,
-			ECE_KEY_RELEASED = 5,
-		};
+			using utility::mathematics::IntVector2u;
 
-		/**
-		 * @enum DoubleTap
-		 * @brief Which part of the double tap is an event.
-		 */
-		enum class DoubleTap: short int
-		{
-			ECE_TAP_NONE = -1,
-			ECE_FIRST_OF = 0,
-			ECE_LAST_OF = 1
-		};
+			/**
+			 * @class InputEvent
+			 * @brief Event from a user input.
+			 */
+			class InputEvent
+			{
+			public:
+				/**
+				 * @enum Type
+				 * @brief Type of event produced.
+				 */
+				enum class Type : short int
+				{
+					ECE_TYPE_NONE = -1,
+					ECE_MOUSE_PRESSED = 0,
+					ECE_MOUSE_RELEASED = 1,
+					ECE_MOUSE_MOVED = 2,
+					ECE_MOUSE_SCROLLED = 3,
+					ECE_KEY_PRESSED = 4,
+					ECE_KEY_RELEASED = 5,
+				};
 
-		/**
-		 * @fn InputEvent()
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline InputEvent() noexcept;
+				/**
+				 * @enum DoubleTap
+				 * @brief Which part of the double tap is an event.
+				 */
+				enum class DoubleTap : short int
+				{
+					ECE_TAP_NONE = -1,
+					ECE_FIRST_OF = 0,
+					ECE_LAST_OF = 1
+				};
 
-		/**
-		 * @fn InputEvent(const InputEvent & copy)
-		 * @param[in] copy The event to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		InputEvent(const InputEvent & copy) = default;
+				/**
+				 * @fn InputEvent()
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline InputEvent() noexcept;
 
-		/**
-		 * @fn InputEvent(InputEvent && move) noexcept
-		 * @param[in] move The event to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		InputEvent(InputEvent && move) noexcept = default;
+				/**
+				 * @fn InputEvent(const InputEvent & copy)
+				 * @param[in] copy The event to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				InputEvent(const InputEvent & copy) = default;
 
-		/**
-		 * @fn ~InputEvent() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~InputEvent() noexcept = default;
+				/**
+				 * @fn InputEvent(InputEvent && move) noexcept
+				 * @param[in] move The event to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				InputEvent(InputEvent && move) noexcept = default;
 
-		/**
-		 * @fn InputEvent & operator=(const InputEvent & copy)
-		 * @param[in] copy The event to copy from.
-		 * @return The event copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		InputEvent & operator=(const InputEvent & copy) = default;
+				/**
+				 * @fn ~InputEvent() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~InputEvent() noexcept = default;
 
-		/**
-		 * @fn InputEvent & operator=(InputEvent && move) noexcept
-		 * @param[in] move The event to move.
-		 * @return The event moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		InputEvent & operator=(InputEvent && move) noexcept = default;
+				/**
+				 * @fn InputEvent & operator=(const InputEvent & copy)
+				 * @param[in] copy The event to copy from.
+				 * @return The event copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				InputEvent & operator=(const InputEvent & copy) = default;
 
-		/**
-		 * @property _type
-		 * @brief The type of event produced.
-		 */
-		InputEvent::Type _type;
+				/**
+				 * @fn InputEvent & operator=(InputEvent && move) noexcept
+				 * @param[in] move The event to move.
+				 * @return The event moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				InputEvent & operator=(InputEvent && move) noexcept = default;
 
-		/**
-		 * @property _doubleTap
-		 * @brief If it is produced from a double tap event.
-		 */
-		DoubleTap _doubleTap;
+				/**
+				 * @property _type
+				 * @brief The type of event produced.
+				 */
+				InputEvent::Type _type;
 
-		/**
-		 * @property _mouseButton
-		 * @brief The mouse button pressed.
-		 */
-		Mouse::Button _mouseButton;
+				/**
+				 * @property _doubleTap
+				 * @brief If it is produced from a double tap event.
+				 */
+				DoubleTap _doubleTap;
 
-		/**
-		 * @property _mousePosition
-		 * @brief The position of the mouse cursor.
-		 */
-		IntVector2u _mousePosition;
+				/**
+				 * @property _mouseButton
+				 * @brief The mouse button pressed.
+				 */
+				Mouse::Button _mouseButton;
 
-		/**
-		 * @property _key
-		 * @brief The keyboard key pressed.
-		 */
-		Keyboard::Key _key;
-	};
-}
+				/**
+				 * @property _mousePosition
+				 * @brief The position of the mouse cursor.
+				 */
+				IntVector2u _mousePosition;
+
+				/**
+				 * @property _key
+				 * @brief The keyboard key pressed.
+				 */
+				Keyboard::Key _key;
+			};
+		} // namespace window_event
+	} // namespace window
+} // namespace ece
 
 #include "window/window_event/input_event.inl"
 

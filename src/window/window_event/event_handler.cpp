@@ -41,33 +41,39 @@
 
 namespace ece
 {
-	EventHandler & EventHandler::getInstance()
+	namespace window
 	{
-		static EventHandler handler;
-		return handler;
-	}
+		namespace window_event
+		{
+			EventHandler & EventHandler::getInstance()
+			{
+				static EventHandler handler;
+				return handler;
+			}
 
-	EventHandler::EventHandler()
-	{
-		this->addSignal(KEY_PRESSED);
-		this->addSignal(KEY_RELEASED);
-		this->addSignal(MOUSE_BUTTON_PRESSED);
-		this->addSignal(MOUSE_BUTTON_RELEASED);
-		this->addSignal(MOUSE_WHEEL_SCROLLED);
-	}
+			EventHandler::EventHandler()
+			{
+				this->addSignal(KEY_PRESSED);
+				this->addSignal(KEY_RELEASED);
+				this->addSignal(MOUSE_BUTTON_PRESSED);
+				this->addSignal(MOUSE_BUTTON_RELEASED);
+				this->addSignal(MOUSE_WHEEL_SCROLLED);
+			}
 
-	void EventHandler::produceKeyEvent(const int key, const int /*scancode*/, const int /*action*/, const int /*mods*/)
-	{
-		std::cerr << "key: " << key << std::endl;
-/*		switch (action) {
-		case GLFW_PRESS:
-			this->emit(KEY_PRESSED);
-			break;
-		case GLFW_RELEASE:
-			this->emit(KEY_RELEASED);
-			break;
-		default:
-			break;
-		}*/
-	}
-}
+			void EventHandler::produceKeyEvent(const int key, const int /*scancode*/, const int /*action*/, const int /*mods*/)
+			{
+				std::cerr << "key: " << key << std::endl;
+				/*		switch (action) {
+						case GLFW_PRESS:
+							this->emit(KEY_PRESSED);
+							break;
+						case GLFW_RELEASE:
+							this->emit(KEY_RELEASED);
+							break;
+						default:
+							break;
+						}*/
+			}
+		} // namespace window_event
+	} // namespace window
+} // namespace ece

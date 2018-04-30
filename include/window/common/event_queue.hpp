@@ -44,89 +44,97 @@
 
 namespace ece
 {
-	/**
-	 * @class EventQueue
-	 * @extends std::queue<InputEvent>
-	 * @brief To manage the events produced by window inputs.
-	 * @see InputEvent
-	 * @see http://en.cppreference.com/w/cpp/container/queue
-	 */
-	class EventQueue: private std::queue<InputEvent>
+	namespace window
 	{
-	public:
-		/**
-		 * @fn EventQueue()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		EventQueue() = default;
+		namespace common
+		{
+			using window_event::InputEvent;
 
-		/**
-		 * @fn EventQueue(const EventQueue & copy)
-		 * @param[in] copy The queue to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		EventQueue(const EventQueue & copy) = default;
+			/**
+			 * @class EventQueue
+			 * @extends std::queue<InputEvent>
+			 * @brief To manage the events produced by window inputs.
+			 * @see InputEvent
+			 * @see http://en.cppreference.com/w/cpp/container/queue
+			 */
+			class EventQueue : private std::queue<InputEvent>
+			{
+			public:
+				/**
+				 * @fn EventQueue()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				EventQueue() = default;
 
-		/**
-		 * @fn EventQueue(EventQueue && move)
-		 * @param[in] move The queue to move.
-		 * @brief Default move constructor.
-		 * @throw
-		 */
-		EventQueue(EventQueue && move) = default;
+				/**
+				 * @fn EventQueue(const EventQueue & copy)
+				 * @param[in] copy The queue to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				EventQueue(const EventQueue & copy) = default;
 
-		/**
-		 * @fn ~EventQueue() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~EventQueue() noexcept = default;
+				/**
+				 * @fn EventQueue(EventQueue && move)
+				 * @param[in] move The queue to move.
+				 * @brief Default move constructor.
+				 * @throw
+				 */
+				EventQueue(EventQueue && move) = default;
 
-		/**
-		 * @fn EventQueue & operator=(const EventQueue & copy)
-		 * @param[in] copy The queue to copy from.
-		 * @return The queue copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		EventQueue & operator=(const EventQueue & copy) = default;
+				/**
+				 * @fn ~EventQueue() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~EventQueue() noexcept = default;
 
-		/**
-		 * @fn EventQueue & operator=(EventQueue && move) noexcept
-		 * @param[in] move The queue to move.
-		 * @return The queue moved.
-		 * @brief Default move assignment operator.
-		 * @throw
-		 */
-		EventQueue & operator=(EventQueue && move) noexcept = default;
+				/**
+				 * @fn EventQueue & operator=(const EventQueue & copy)
+				 * @param[in] copy The queue to copy from.
+				 * @return The queue copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				EventQueue & operator=(const EventQueue & copy) = default;
 
-		/**
-		 * @see http://en.cppreference.com/w/cpp/container/queue/push
-		 */
-		using std::queue<InputEvent>::push;
+				/**
+				 * @fn EventQueue & operator=(EventQueue && move) noexcept
+				 * @param[in] move The queue to move.
+				 * @return The queue moved.
+				 * @brief Default move assignment operator.
+				 * @throw
+				 */
+				EventQueue & operator=(EventQueue && move) noexcept = default;
 
-		/**
-		* @see http://en.cppreference.com/w/cpp/container/queue/pop
-		*/
-		using std::queue<InputEvent>::pop;
+				/**
+				 * @see http://en.cppreference.com/w/cpp/container/queue/push
+				 */
+				using std::queue<InputEvent>::push;
 
-		/**
-		* @see http://en.cppreference.com/w/cpp/container/queue/empty
-		*/
-		using std::queue<InputEvent>::empty;
+				/**
+				* @see http://en.cppreference.com/w/cpp/container/queue/pop
+				*/
+				using std::queue<InputEvent>::pop;
 
-		/**
-		* @see http://en.cppreference.com/w/cpp/container/queue/front
-		*/
-		using std::queue<InputEvent>::front;
+				/**
+				* @see http://en.cppreference.com/w/cpp/container/queue/empty
+				*/
+				using std::queue<InputEvent>::empty;
 
-		/**
-		* @see http://en.cppreference.com/w/cpp/container/queue/back
-		*/
-		using std::queue<InputEvent>::back;
-	};
-}
+				/**
+				* @see http://en.cppreference.com/w/cpp/container/queue/front
+				*/
+				using std::queue<InputEvent>::front;
+
+				/**
+				* @see http://en.cppreference.com/w/cpp/container/queue/back
+				*/
+				using std::queue<InputEvent>::back;
+			};
+		} // namespace common
+	} // namespace window
+} // namespace ece
 
 #endif // EVENT_QUEUE_HPP

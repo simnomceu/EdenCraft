@@ -43,4 +43,9 @@
 #include "window/window_event/keyboard.hpp"
 #include "window/window_event/mouse.hpp"
 
+namespace ece
+{
+	using namespace window::window_event;
+}
+
 #endif // WINDOW_EVENT_HPP

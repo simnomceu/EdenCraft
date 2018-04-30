@@ -42,6 +42,8 @@
 #include "utility/log.hpp"
 #include "renderer/opengl/vao.hpp"
 #include "renderer/image.hpp"
+#include "window/common.hpp"
+#include "window/window_event.hpp"
 
 int main()
 {

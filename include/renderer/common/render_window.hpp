@@ -48,6 +48,8 @@
 
 namespace ece
 {
+	using window::common::Window;
+
 	/**
 	 * @class RenderWindow
 	 * @extends Window

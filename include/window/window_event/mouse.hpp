@@ -45,98 +45,105 @@
 
 namespace ece
 {
-    using namespace utility::mathematics;
-    using namespace utility::enumeration;
-
-	/**
-	 * @class Mouse
-	 * @brief A mouse input device.
-	 */
-	class Mouse
+	namespace window
 	{
-	public:
-		/**
-		 * @enum Button
-		 * @brief The available mouse buttons.
-		 */
-		enum class Button: short int
+		namespace window_event
 		{
-			ECE_MOUSE_NONE = -1,
-			ECE_MOUSE_LEFT = 0,
-			ECE_MOUSE_RIGHT = 1,
-			ECE_MOUSE_WHEEL = 2,
-			ECE_MOUSE_BUTTON0 = 3,
-			ECE_MOUSE_BUTTON1 = 4,
-			ECE_MOUSE_BUTTON2 = 5,
-			ECE_MOUSE_BUTTON3 = 6,
-			ECE_MOUSE_BUTTON4 = 7,
-			ECE_MOUSE_BUTTON5 = 8,
-			ECE_MOUSE_BUTTON6 = 9
-		};
+			using utility::mathematics::IntVector2u;
 
-		/**
-		 * @fn bool isKeyPressed(const Button code)
-		 * @param[in] code The button to check.
-		 * @return True if the button is currently pressed, false else.
-		 * @brief Check if a button is currently pressed or not.
-		 * @throw
-		 */
-		static bool isKeyPressed(const Button code);
+			/**
+			 * @class Mouse
+			 * @brief A mouse input device.
+			 */
+			class Mouse
+			{
+			public:
+				/**
+				 * @enum Button
+				 * @brief The available mouse buttons.
+				 */
+				enum class Button : short int
+				{
+					ECE_MOUSE_NONE = -1,
+					ECE_MOUSE_LEFT = 0,
+					ECE_MOUSE_RIGHT = 1,
+					ECE_MOUSE_WHEEL = 2,
+					ECE_MOUSE_BUTTON0 = 3,
+					ECE_MOUSE_BUTTON1 = 4,
+					ECE_MOUSE_BUTTON2 = 5,
+					ECE_MOUSE_BUTTON3 = 6,
+					ECE_MOUSE_BUTTON4 = 7,
+					ECE_MOUSE_BUTTON5 = 8,
+					ECE_MOUSE_BUTTON6 = 9
+				};
 
-		/**
-		 * @fn void pressKey(const Button code, const bool state)
-		 * @param[in] code The button to modify.
-		 * @param[in] state The new staet of the button.
-		 * @brief Change the state of a mouse button.
-		 * @throw
-		 */
-		static void pressKey(const Button code, const bool state);
+				/**
+				 * @fn bool isKeyPressed(const Button code)
+				 * @param[in] code The button to check.
+				 * @return True if the button is currently pressed, false else.
+				 * @brief Check if a button is currently pressed or not.
+				 * @throw
+				 */
+				static bool isKeyPressed(const Button code);
 
-		/**
-		 * @fn IntVector2u & getPosition()
-		 * @return Get the last registered position of the mouse cursor.
-		 * @throw
-		 */
-		static inline IntVector2u & getPosition();
+				/**
+				 * @fn void pressKey(const Button code, const bool state)
+				 * @param[in] code The button to modify.
+				 * @param[in] state The new staet of the button.
+				 * @brief Change the state of a mouse button.
+				 * @throw
+				 */
+				static void pressKey(const Button code, const bool state);
 
-		/**
-		 * @fn void setPosition(const IntVector2u & position)
-		 * @param[in] position The position to set.
-		 * @brief Set the position of the mouse cursor.
-		 * @throw
-		 */
-		static inline void setPosition(const IntVector2u & position);
+				/**
+				 * @fn IntVector2u & getPosition()
+				 * @return Get the last registered position of the mouse cursor.
+				 * @throw
+				 */
+				static inline IntVector2u & getPosition();
 
-	private:
-		/**
-		 * @property _states
-		 * @brief The current state for each mouse button.
-		 */
-		static std::array<bool, 10> _states;
+				/**
+				 * @fn void setPosition(const IntVector2u & position)
+				 * @param[in] position The position to set.
+				 * @brief Set the position of the mouse cursor.
+				 * @throw
+				 */
+				static inline void setPosition(const IntVector2u & position);
 
-		/**
-		 * @property _position
-		 * @brief The last registered position of the mouse cursor.
-		 */
-		static IntVector2u _position;
-	};
+			private:
+				/**
+				 * @property _states
+				 * @brief The current state for each mouse button.
+				 */
+				static std::array<bool, 10> _states;
 
-    namespace utility
-    {
-        namespace enumeration
-        {
-        	template <>
-        	struct EnumCount<Mouse::Button>
-        	{
-        		/**
-        		 * @property EnumCount<Mouse::Button>::value
-        		 * @brief The number of supported mouse buttons.
-        		 */
-        		static constexpr unsigned short int value = static_cast<unsigned short int>(Mouse::Button::ECE_MOUSE_BUTTON6) + 1;
-        	};
-        }
-    }
-}
+				/**
+				 * @property _position
+				 * @brief The last registered position of the mouse cursor.
+				 */
+				static IntVector2u _position;
+			};
+		} // namespace window_event
+	} // namespace window
+
+	namespace utility
+	{
+		namespace enumeration
+		{
+			using window::window_event::Mouse;
+
+			template <>
+			struct EnumCount<Mouse::Button>
+			{
+				/**
+				* @property EnumCount<Mouse::Button>::value
+				* @brief The number of supported mouse buttons.
+				*/
+				static constexpr unsigned short int value = static_cast<unsigned short int>(Mouse::Button::ECE_MOUSE_BUTTON6) + 1;
+			};
+		} // namespace enumeration
+	} // namespace utility
+} // namespace ece
 
 #include "window/window_event/mouse.inl"
 

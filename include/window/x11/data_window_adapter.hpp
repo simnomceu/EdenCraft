@@ -44,38 +44,46 @@
 
 namespace ece
 {
-	/**
-	 * @struct DataWindowAdapter
-	 * @brief X11 implementaion of the window adapter.
-	 */
-	struct DataWindowAdapter
+	namespace window
 	{
-		/**
-		 * @fn DataWindowAdapter(std::shared_ptr<X11API> && api)
-		 * @param[in] api The X11 API to use.
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline DataWindowAdapter(std::shared_ptr<X11API> && api): _api(std::move(api)) {}
+		namespace common
+		{
+			using x11::X11API;
 
-		/**
-		 * @fn DataWindowAdapter(const DataWindowAdapter & copy) noexcept
-		 * @param[in] copy The implementation to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		 DataWindowAdapter(const DataWindowAdapter & copy) noexcept = default;
+			/**
+			 * @struct DataWindowAdapter
+			 * @brief X11 implementaion of the window adapter.
+			 */
+			struct DataWindowAdapter
+			{
+				/**
+				 * @fn DataWindowAdapter(std::shared_ptr<X11API> && api)
+				 * @param[in] api The X11 API to use.
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline DataWindowAdapter(std::shared_ptr<X11API> && api) : _api(std::move(api)) {}
 
- 		/**
- 		 * @fn DataWindowAdapter(DataWindowAdapter && move) noexcept
- 		 * @param[in] copy The implementation to move.
- 		 * @brief Default move constructor.
- 		 * @throw noexcept
- 		 */
- 		 DataWindowAdapter(DataWindowAdapter && move) noexcept = default;
+				/**
+				 * @fn DataWindowAdapter(const DataWindowAdapter & copy) noexcept
+				 * @param[in] copy The implementation to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				DataWindowAdapter(const DataWindowAdapter & copy) noexcept = default;
 
-		std::shared_ptr<X11API> _api;
-	};
-}
+				/**
+				 * @fn DataWindowAdapter(DataWindowAdapter && move) noexcept
+				 * @param[in] copy The implementation to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				DataWindowAdapter(DataWindowAdapter && move) noexcept = default;
+
+				std::shared_ptr<X11API> _api;
+			};
+		} // namespace common
+	} // namespace window
+} // namespace ece
 
 #endif // DATA_WINDOW_ADAPTER_HPP

@@ -39,37 +39,43 @@
 
 namespace ece
 {
-	BaseWindowAdapter::BaseWindowAdapter(): _keyRepeat(true), _eventQueue() {}
-
-	BaseWindowAdapter::~BaseWindowAdapter() noexcept {}
-
-	void BaseWindowAdapter::enableKeyRepeat(const bool enabled)
+	namespace window
 	{
-		this->_keyRepeat = enabled;
-	}
+		namespace common
+		{
+			BaseWindowAdapter::BaseWindowAdapter() : _keyRepeat(true), _eventQueue() {}
 
-	bool BaseWindowAdapter::hasEvents() const
-	{
-		return !this->_eventQueue.empty();
-	}
+			BaseWindowAdapter::~BaseWindowAdapter() noexcept {}
 
-	InputEvent BaseWindowAdapter::popEvent()
-	{
-		if (!this->hasEvents()) {
-			throw std::exception();
-		}
-		auto firstEvent = this->_eventQueue.front();
-		this->_eventQueue.pop();
-		return firstEvent;
-	}
+			void BaseWindowAdapter::enableKeyRepeat(const bool enabled)
+			{
+				this->_keyRepeat = enabled;
+			}
 
-	void BaseWindowAdapter::pushEvent(const InputEvent & nextEvent)
-	{
-		this->_eventQueue.push(nextEvent);
-	}
+			bool BaseWindowAdapter::hasEvents() const
+			{
+				return !this->_eventQueue.empty();
+			}
 
-	InputEvent & BaseWindowAdapter::lastEvent()
-	{
-		return this->_eventQueue.back();
-	}
-}
+			InputEvent BaseWindowAdapter::popEvent()
+			{
+				if (!this->hasEvents()) {
+					throw std::exception();
+				}
+				auto firstEvent = this->_eventQueue.front();
+				this->_eventQueue.pop();
+				return firstEvent;
+			}
+
+			void BaseWindowAdapter::pushEvent(const InputEvent & nextEvent)
+			{
+				this->_eventQueue.push(nextEvent);
+			}
+
+			InputEvent & BaseWindowAdapter::lastEvent()
+			{
+				return this->_eventQueue.back();
+			}
+		} // namespace common
+	} // namespace window
+} // namespace ece
