@@ -42,11 +42,15 @@
 
 namespace ece
 {
-    Sprite::Sprite(const Texture2D & texture, const Rectangle<float> & bounds): Renderable(), _texture(texture), _bounds(bounds)
+    Sprite::Sprite(const Texture2D & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip): Renderable(), _texture(texture), _bounds(bounds), _textureClip(textureClip)
     {
         if (this->_bounds == Rectangle<float>()) {
             this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture.getWidth()), static_cast<float>(this->_texture.getHeight()));
         }
+
+		if (this->_textureClip == Rectangle<float>()) {
+			this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture.getWidth()), static_cast<float>(this->_texture.getHeight()));
+		}
 
         this->_texture.bind(ece::TextureTarget::TEXTURE_2D);
 		this->_texture.update();
@@ -59,10 +63,10 @@ namespace ece
 			this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY()
 		};
 
-		const std::vector<float> texPos{ 0.0f, 0.0f,
-										 0.0f, 1.0f,
-										 1.0f, 1.0f,
-										 1.0f, 0.0f
+		const std::vector<float> texPos{ this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight(),
+										 this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
+										 (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
+										 (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
 		};
 
 		const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };

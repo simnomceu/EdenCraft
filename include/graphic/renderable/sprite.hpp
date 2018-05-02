@@ -56,15 +56,15 @@ namespace ece
     public:
         constexpr Sprite() noexcept = delete;
 
-        Sprite(const Texture2D & texture, const Rectangle<float> & bounds = Rectangle<float>());
+        Sprite(const Texture2D & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
 
         /**
-         * @fn Sprite(const Sprite & copy) noexcept
+         * @fn Sprite(const Sprite & copy)
          * @param[in] copy The Sprite to copy from.
          * @brief Default copy constructor.
-         * @throw noexcept
+         * @throw
          */
-        Sprite(const Sprite & copy) noexcept = default;
+        Sprite(const Sprite & copy) = default;
 
         /**
          * @fn Sprite(Sprite && move) noexcept
@@ -82,14 +82,14 @@ namespace ece
         ~Sprite() noexcept = default;
 
         /**
-         * @fn Sprite & operator=(const Sprite & copy) noexcept
+         * @fn Sprite & operator=(const Sprite & copy)
          * @param[in] The Sprite to copy from.
          * @return The Sprite copied.
          * @brief Default copy assignment operator.
-         * @throw noexcept
+         * @throw
          */
-        Sprite & operator=(const Sprite & copy) noexcept = default;
-
+        Sprite & operator=(const Sprite & copy) = default;
+		
         /**
          * @fn Sprite & operator=(Sprite && move) noexcept
          * @param[in] The Sprite to move.
@@ -101,6 +101,8 @@ namespace ece
 
     private:
         Texture2D _texture;
+		Rectangle<float> _textureClip;
+
         Rectangle<float> _bounds;
     };
 }

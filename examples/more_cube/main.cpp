@@ -67,7 +67,8 @@ int main()
 
 		std::vector<ece::Sprite> sprites;
 		for (unsigned short int i = 0; i < 10; ++i) {
-			sprites.emplace(sprites.begin() + i, texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())));
+			sprites.emplace(sprites.begin() + i, texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())),
+				ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
 		}
 
 		ece::InputEvent event;
