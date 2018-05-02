@@ -98,6 +98,8 @@ namespace ece
 
 	void Texture2D::update()
 	{
+		// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
+		// TODO: adding properties for each texParameter here ?
 		ece::OpenGL::texImage2D(this->_type, 0, ece::PixelInternalFormat::RGB, this->_width, this->_height, ece::PixelFormat::RGB, ece::PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
 		ece::OpenGL::generateMipmap(ece::MipmapTarget::TEXTURE_2D);
 		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_WRAP_S, GL_REPEAT);

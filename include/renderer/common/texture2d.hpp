@@ -167,6 +167,9 @@ namespace ece
 		 */
 		inline void bind(const TextureTarget target);
 
+		template <typename T> void setParameter(const TextureParameter name, const T value);
+		template <typename T> void setParameter(const TextureParameter name, const std::vector<T> & value);
+
 		/**
 		 * @fn void update()
 		 * @brief Update the texture settings.

@@ -609,8 +609,21 @@ namespace ece
 		checkErrors(glTexParameteri(static_cast<GLenum>(target), static_cast<GLenum>(pname), param));
 	}
 
-//	inline void OpenGL::texParameterfv(GLenum /*target*/, GLenum /*pname*/, const float * /*params*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::texParameteriv(GLenum /*target*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
+	template <class T> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<T> & param)
+	{
+		static_assert("No existing specialization for OpenGL::texParameter");
+	}
+
+	template <> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<float> & param)
+	{
+		checkErrors(glTexParameterfv(static_cast<GLenum>(target), static_cast<GLenum>(pname), param.data()));
+	}
+
+	template <> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<int> & param)
+	{
+		checkErrors(glTexParameteriv(static_cast<GLenum>(target), static_cast<GLenum>(pname), param.data()));
+	}
+
 //	inline void OpenGL::texParameterIiv(GLenum /*target*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::texParameterIuiv(GLenum /*target*/, GLenum /*pname*/, const unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
 

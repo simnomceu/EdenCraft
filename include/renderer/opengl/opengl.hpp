@@ -331,10 +331,7 @@ namespace ece
 //		static inline void texImage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, bool fixedsamplelocations);
 //		static inline void texBuffer(GLenum target, GLenum internalFormat, unsigned int buffer);
 		template <class T> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const T param);
-//		static inline void texParameterf(GLenum target, GLenum pname, float param);
-//		static inline void texParameteri(GLenum target, GLenum pname, int param);
-//		static inline void texParameterfv(GLenum target, GLenum pname, const float * params);
-//		static inline void texParameteriv(GLenum target, GLenum pname, const int * params);
+		template <class T> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<T> & param);
 //		static inline void texParameterIiv(GLenum target, GLenum pname, const int * params);
 //		static inline void texParameterIuiv(GLenum target, GLenum pname, const unsigned int * params);
 		static inline void generateMipmap(const MipmapTarget target);

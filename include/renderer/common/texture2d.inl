@@ -64,4 +64,18 @@ namespace ece
 	inline Handle Texture2D::getHandle() const { return this->_handle; }
 
 	inline void Texture2D::bind(const TextureTarget target) { OpenGL::bindTexture(target, this->_handle); }
+
+	template <typename T>
+	void Texture2D::setParameter(const TextureParameter name, const T value)
+	{
+		this->bind(ece::TextureTarget::TEXTURE_2D);
+		OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, name, value);
+	}
+	
+	template <typename T>
+	void Texture2D::setParameter(const TextureParameter name, const std::vector<T> & value)
+	{
+		this->bind(ece::TextureTarget::TEXTURE_2D);
+		OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, name, value);
+	}
 }
