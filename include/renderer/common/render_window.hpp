@@ -137,7 +137,7 @@ namespace ece
          * @brief Get the size of the render target.
          * @throw
          */
-        virtual FloatVector2u getSize() const override;
+        virtual IntVector2u getSize() const override;
 
         /**
          * @fn void clear(const Color & color = BLACK)

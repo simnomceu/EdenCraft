@@ -104,12 +104,12 @@ namespace ece
         RenderTarget & operator=(RenderTarget && move) noexcept = default;
 
         /**
-         * @fn FloatVector2u getSize() const
+         * @fn IntVector2u getSize() const
          * @return The size of the render target.
          * @brief Get the size of the render target.
          * @throw
          */
-        virtual FloatVector2u getSize() const = 0;
+        virtual IntVector2u getSize() const = 0;
 
         /**
          * @fn void clear(const Color & color = BLACK)

@@ -48,6 +48,8 @@ namespace ece
 	inline bool Window::isOpened() const { return this->_adapter->isWindowCreated(); }
 
 	inline std::string Window::getTitle() const { return std::move(this->_adapter.get()->getTitle()); }
+	
+	inline IntVector2u Window::getSize() const { return std::move(this->_adapter.get()->getSize()); }
 
 	inline void Window::setMinimumSize(const IntVector2u & /*size*/) { this->emit(WINDOW_RESIZED); }
 

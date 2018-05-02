@@ -202,6 +202,14 @@ namespace ece
 		void setPosition(const IntVector2u & position);
 
 		/**
+		 * @fn IntVector2u getSize() const
+		 * @return The current size of the window.
+		 * @brief Get the current size of the window.
+		 * @throw
+		 */
+		inline IntVector2u getSize() const;
+
+		/**
 		 * @fn void setMinimumSize(const IntVector2u & size)
 		 * @param[in] size The minimum size to set.
 		 * @brief Set the minimum size that the window could reach.

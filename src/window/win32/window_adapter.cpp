@@ -113,6 +113,18 @@ namespace ece
 		return IntVector2u{ bounds.left, bounds.top };
 	}
 
+	IntVector2u WindowAdapter::getSize() const
+	{
+		RECT bounds;
+		bool success = GetWindowRect(this->_data->_windowId, &bounds);
+		if (!success) {
+			std::cout << "Error while retrieving window bounds. (WGL)";
+			std::cout << " Code " << GetLastError() << std::endl;
+		}
+
+		return IntVector2u{ bounds.right - bounds.left, bounds.bottom - bounds.top };
+	}
+
 	void WindowAdapter::minimize()
 	{
 		bool success = ShowWindow(this->_data->_windowId, SW_RESTORE | SW_SHOWMINIMIZED);

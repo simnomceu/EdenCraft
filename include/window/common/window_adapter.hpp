@@ -161,6 +161,14 @@ namespace ece
 		virtual IntVector2u getPosition() const override;
 
 		/**
+		 * @fn IntVector2u getSize() const
+		 * @return The window size.
+		 * @brief Get the size of the window.
+		 * @throw
+		 */
+		virtual IntVector2u getSize() const override;
+
+		/**
 		 * @fn void minimize()
 		 * @brief Set the window to its minimum size.
 		 * @throw

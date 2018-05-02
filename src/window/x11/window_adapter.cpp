@@ -89,6 +89,11 @@ namespace ece
 		return this->_data->_api->getPosition();
 	}
 
+	IntVector2u WindowAdapter::getSize() const
+	{
+		return this->_data->_api->getSize();
+	}
+
 	void WindowAdapter::minimize()
 	{
 		this->_data->_api->minimize();

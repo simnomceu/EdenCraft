@@ -123,6 +123,14 @@ namespace ece
         return IntVector2u{pos->x, pos->y};
     }
 
+	IntVector2u XCBImpl::getSize() const
+	{
+		auto cookie = xcb_get_geometry(this->_connection, this->_windowId);
+		auto pos = xcb_get_geometry_reply(this->_connection, cookie, nullptr);
+
+		return IntVector2u{ pos->width, pos->height };
+	}
+
 	void XCBImpl::minimize()
     {
         ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to minimize the window.");

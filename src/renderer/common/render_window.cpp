@@ -46,7 +46,7 @@
 
 namespace ece
 {
-	RenderWindow::RenderWindow(): _context(std::make_shared<ContextOpenGL>())
+	RenderWindow::RenderWindow(): Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>())
 	{
 	}
 
@@ -69,9 +69,9 @@ namespace ece
 		}
 	}
 
-    FloatVector2u RenderWindow::getSize() const
+    IntVector2u RenderWindow::getSize() const
     {
-        return this->getSettings()._minimumSize;
+        return Window::getSize();
     }
 
 	void RenderWindow::clear(const Color & color)
@@ -89,7 +89,7 @@ namespace ece
     {
         this->loadRenderState(states);
 
-        renderable.normalize(this->getSettings()._minimumSize[0], this->getSettings()._minimumSize[1]);
+        renderable.normalize(this->getSize());
         renderable.draw();
         // TODO : render the drawable here (using code in renderer.cpp)
     }
