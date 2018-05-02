@@ -40,7 +40,7 @@
 
 namespace ece
 {
-    Renderable::Renderable() noexcept: _vao(), _normalized(false), _mode(), _program() {}
+    Renderable::Renderable() noexcept: _vao(), _normalized(true), _mode(), _program() {}
 
     Renderable::~Renderable() {}
 
@@ -52,13 +52,9 @@ namespace ece
 		OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
     }
 
-    void Renderable::normalize(const unsigned int width, const unsigned int height) const noexcept
+    void Renderable::normalize(const IntVector2u & windowSize) const noexcept
     {
-        if (this->_normalized) {
-            ece::OpenGL::uniform<int, 2>(glGetUniformLocation(this->_program.getHandle(), "targetSize"), std::array<int, 2>{static_cast<int>(width), static_cast<int>(height)});
-        }
-        else {
-            ece::OpenGL::uniform<int, 2>(glGetUniformLocation(this->_program.getHandle(), "targetSize"), std::array<int, 2>{0, 0});
-        }
+		// TODO: replacing it by the clip space matrix transformation (e.g. projection matrix)
+		ece::OpenGL::uniform<int, 2>(glGetUniformLocation(this->_program.getHandle(), "targetSize"), std::array<int, 2>{windowSize[0] / 2, windowSize[1] / 2});
     }
 }

@@ -102,7 +102,7 @@ namespace ece
 
         void draw();
 
-        void normalize(const unsigned int width, const unsigned int height) const noexcept;
+        void normalize(const IntVector2u & windowSize) const noexcept;
 
     protected:
         VAO _vao;

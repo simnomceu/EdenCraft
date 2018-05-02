@@ -45,7 +45,7 @@ namespace ece
     Sprite::Sprite(const Texture2D & texture, const Rectangle<float> & bounds): Renderable(), _texture(texture), _bounds(bounds)
     {
         if (this->_bounds == Rectangle<float>()) {
-            this->_bounds = Rectangle<float>(0.0f, 0.0f, this->_texture.getWidth(), this->_texture.getHeight());
+            this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture.getWidth()), static_cast<float>(this->_texture.getHeight()));
         }
 
         this->_texture.bind(ece::TextureTarget::TEXTURE_2D);
@@ -53,13 +53,13 @@ namespace ece
 
         this->_mode = ece::PrimitiveMode::TRIANGLES;
 
-        // TODO : set size and position according to render_target size.
-        const std::vector<float> points{ -0.5f, -0.5f,
-										 -0.5f,  0.5f,
-										  0.5f,  0.5f,
-										  0.5f, -0.5f
+		const std::vector<float> points{ this->_bounds.getX(), this->_bounds.getY(),
+			this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight(),
+			this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight(),
+			this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY()
 		};
 
+		// TODO : texture coordinates inversed because of ParserBMP bug, should not be inversed.
 		const std::vector<float> texPos{ 1.0f, 1.0f,
 											1.0f, 0.0f,
 											0.0f, 0.0f,
