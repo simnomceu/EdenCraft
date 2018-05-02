@@ -85,11 +85,10 @@ namespace ece
 			for (uint32_t y = 0; y < this->_image.getHeight(); ++y) {
 				for (uint32_t x = 0; x < 3 * this->_image.getWidth(); x+=3) {
 					bufPos = (DIB.height - y - 1) * psw + x;
-					// TODO: need to deal with flip vertically/horizontal regarding to OpenGL behaviour.
 					
-					this->_image[y][this->_image.getWidth() - 1 - x / 3].red = buffer[bufPos + 2];
-					this->_image[y][this->_image.getWidth() - 1 - x / 3].green = buffer[bufPos + 1];
-					this->_image[y][this->_image.getWidth() - 1 - x / 3].blue = buffer[bufPos];
+					this->_image[this->_image.getHeight() - 1 - y][x / 3].red = buffer[bufPos + 2];
+					this->_image[this->_image.getHeight() - 1 - y][x / 3].green = buffer[bufPos + 1];
+					this->_image[this->_image.getHeight() - 1 - y][x / 3].blue = buffer[bufPos];
 				}
 			}
 		}

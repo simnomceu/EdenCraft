@@ -59,11 +59,10 @@ namespace ece
 			this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY()
 		};
 
-		// TODO : texture coordinates inversed because of ParserBMP bug, should not be inversed.
-		const std::vector<float> texPos{ 1.0f, 1.0f,
-											1.0f, 0.0f,
-											0.0f, 0.0f,
-											0.0f, 1.0f
+		const std::vector<float> texPos{ 0.0f, 0.0f,
+										 0.0f, 1.0f,
+										 1.0f, 1.0f,
+										 1.0f, 0.0f
 		};
 
 		const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
