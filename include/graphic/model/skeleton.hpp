@@ -43,62 +43,67 @@
 
 namespace ece
 {
-	/**
-	 * @class Skeleton
-	 * @brief
-	 */
-	class Skeleton
+	namespace graphic
 	{
-	public:
-		/**
-		 * @fn constexpr Skeleton() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		constexpr Skeleton() noexcept = default;
+		namespace model
+		{
+			/**
+			 * @class Skeleton
+			 * @brief
+			 */
+			class Skeleton
+			{
+			public:
+				/**
+				 * @fn constexpr Skeleton() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr Skeleton() noexcept = default;
 
-		/**
-		 * @fn Skeleton(const Skeleton & copy) noexcept
-		 * @param[in] copy The Skeleton to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Skeleton(const Skeleton & copy) noexcept = default;
+				/**
+				 * @fn Skeleton(const Skeleton & copy) noexcept
+				 * @param[in] copy The Skeleton to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Skeleton(const Skeleton & copy) noexcept = default;
 
-		/**
-		 * @fn Skeleton(Skeleton && move) noexcept
-		 * @param[in] move The Skeleton to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Skeleton(Skeleton && move) noexcept = default;
+				/**
+				 * @fn Skeleton(Skeleton && move) noexcept
+				 * @param[in] move The Skeleton to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Skeleton(Skeleton && move) noexcept = default;
 
-		/**
-		 * @fn ~Skeleton() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Skeleton() noexcept = default;
+				/**
+				 * @fn ~Skeleton() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Skeleton() noexcept = default;
 
-		/**
-		 * @fn Skeleton & operator=(const Skeleton & copy) noexcept
-		 * @param[in] copy The Skeleton to copy from.
-		 * @return The Skeleton copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Skeleton & operator=(const Skeleton & copy) noexcept = default;
+				/**
+				 * @fn Skeleton & operator=(const Skeleton & copy) noexcept
+				 * @param[in] copy The Skeleton to copy from.
+				 * @return The Skeleton copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Skeleton & operator=(const Skeleton & copy) noexcept = default;
 
-		/**
-		 * @fn Skeleton & operator=(Skeleton && move) noexcept
-		 * @param[in] move The Skeleton to move from.
-		 * @return The Skeleton moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Skeleton & operator=(Skeleton && move) noexcept = default;
-	};
-
-}
+				/**
+				 * @fn Skeleton & operator=(Skeleton && move) noexcept
+				 * @param[in] move The Skeleton to move from.
+				 * @return The Skeleton moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Skeleton & operator=(Skeleton && move) noexcept = default;
+			};
+		} // namespace model
+	} // namespace graphic
+} // namespace ece
 
 #endif // SKELETON_HPP

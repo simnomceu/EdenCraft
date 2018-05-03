@@ -44,26 +44,37 @@
 
 namespace ece
 {
-	void Camera::updatePosition(const FloatVector3u & position, const FloatVector3u & target)
+	namespace graphic
 	{
-		this->_position = position;
-		this->_target = target;
+		namespace scene
+		{
+			using utility::debug::BadInputException;
+			using utility::mathematics::UP;
+			using utility::mathematics::RIGHT;
+			using utility::mathematics::FRONT;
 
-		FloatVector3u direction = target - position;
-		direction = direction.normalize();
-		if (direction == this->_upAxis) {
-			if (direction == UP) {
-				this->_upAxis = RIGHT;
+			void Camera::updatePosition(const FloatVector3u & position, const FloatVector3u & target)
+			{
+				this->_position = position;
+				this->_target = target;
+
+				FloatVector3u direction = target - position;
+				direction = direction.normalize();
+				if (direction == this->_upAxis) {
+					if (direction == UP) {
+						this->_upAxis = RIGHT;
+					}
+					else if (direction == RIGHT) {
+						this->_upAxis = FRONT;
+					}
+					else if (direction == FRONT) {
+						this->_upAxis = UP;
+					}
+					else {
+						throw BadInputException("Computation of the up axis is wrong !");
+					}
+				}
 			}
-			else if (direction == RIGHT) {
-				this->_upAxis = FRONT;
-			}
-			else if (direction == FRONT) {
-				this->_upAxis = UP;
-			}
-			else {
-				throw BadInputException("Computation of the up axis is wrong !");
-			}
-		}
-	}
-}
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece

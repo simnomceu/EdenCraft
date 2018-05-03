@@ -40,5 +40,11 @@
 
 namespace ece
 {
-	inline bool Vertex::isIndexed() const { return this->getIndices().size() > 0; }
-}
+	namespace graphic
+	{
+		namespace renderable
+		{
+			inline bool Vertex::isIndexed() const { return this->getIndices().size() > 0; }
+		} // namespace renderable
+	} // namespace graphic
+} // namespace ece
