@@ -140,12 +140,13 @@ namespace ece
         virtual IntVector2u getSize() const override;
 
         /**
-         * @fn void clear(const Color & color = BLACK)
+         * @fn void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>())
          * @param[in] color The color to use to clean the render target.
+		 * @param[in] scissorArea The area of the render target to limit the cleaning.
          * @brief Clean the render target using a specific color.
          * @throw
          */
-        virtual void clear(const Color & color = BLACK) override;
+        virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) override;
 
         /**
          * @fn void draw(Renderable & renderable, const RenderState & states = RenderState())

@@ -212,7 +212,7 @@ namespace ece
 //		static inline void getBufferPointerv(GLenum target, GLenum pname, void ** params);
 //		static inline bool isVertexArray(unsigned int array);
 //		static inline void depthRange(double nearVal, double farVal);
-//		static inline void viewport(int x, int y, GLsizei width, GLsizei height);
+		static inline void viewport(const int x, const int y, const unsigned int width, const unsigned int height);
 //		static inline void clampColor(GLenum target, GLenum clamp);
 //		static inline void provokingVertex(GLenum provokeMode);
 //		static inline void beginConditionalRender(unsigned int id, GLenum mode);
@@ -352,7 +352,7 @@ namespace ece
 //		static inline void readPixels(int x, int y, GLsizei width, GLsizei height, GLenum format, GLenum type, void * data);
 //		static inline void readBuffer(GLenum mode);
 //		static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, GLbitfield mask, GLenum filter);
-//		static inline void scissor(int x, int y, GLsizei width, GLsizei height);
+		static inline void scissor(const int x, const int y, const unsigned int width, const unsigned int height);
 //		static inline void sampleCoverage(float value, bool invert);
 //		static inline void sampleMaski(unsigned int maskNumber, GLbitfield mask);
 //		static inline void stencilFunc(GLenum func, int ref, unsigned int mask);

@@ -45,10 +45,10 @@ namespace ece
 	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : _x(x), _y(y), _w(w), _h(h) {}
 
     template <typename T>
-    inline bool Rectangle<T>::operator==(const Rectangle<T> & rhs) const noexcept
-    {
-        return this->_x == rhs._x && this->_y == rhs._y && this->_w == rhs._w && this->_h == rhs._h;
-    }
+    inline bool Rectangle<T>::operator==(const Rectangle<T> & rhs) const noexcept { return this->_x == rhs._x && this->_y == rhs._y && this->_w == rhs._w && this->_h == rhs._h; }
+
+	template <typename T>
+	inline bool Rectangle<T>::operator!=(const Rectangle<T> & rhs) const noexcept { return !this->operator==(rhs); }
 
 	template<typename T>
 	inline T Rectangle<T>::getX() const noexcept { return this->_x; }

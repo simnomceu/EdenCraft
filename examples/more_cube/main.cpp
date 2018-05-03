@@ -62,6 +62,10 @@ int main()
 		window.setSettings(settings);
 		window.limitUPS(100);
 
+		ece::Viewport viewport;
+		viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 0.5f, 1.0f));
+		window.setViewport(viewport);
+
 		ece::Texture2D texture;
 		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
 
@@ -73,7 +77,7 @@ int main()
 
 		ece::InputEvent event;
 		while (1) {
-			window.clear();
+			window.clear(ece::SILVER);
 
 			for (unsigned short int i = 0; i < 10; ++i) {
 				window.draw(sprites[i]);

@@ -327,7 +327,12 @@ namespace ece
 //	inline void OpenGL::getBufferPointerv(GLenum /*target*/, GLenum /*pname*/, void ** /*params*/) { static_assert(false, "Not implemented yet."); }
 //	inline bool OpenGL::isVertexArray(unsigned int /*array*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::depthRange(double /*nearVal*/, double /*farVal*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::viewport(int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
+
+	inline void OpenGL::viewport(const int x, const int y, const unsigned int width, const unsigned int height)
+	{
+		checkErrors(glViewport(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
+	}
+
 //	inline void OpenGL::clampColor(GLenum /*target*/, GLenum /*clamp*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::provokingVertex(GLenum /*provokeMode*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::beginConditionalRender(unsigned int /*id*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
@@ -669,8 +674,13 @@ namespace ece
 //	inline void OpenGL::readPixels(int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLenum /*type*/, void * /*data*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::readBuffer(GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::blitFramebuffer(int /*srcX0*/, int /*srcY0*/, int /*srcX1*/, int /*srcY1*/, int /*dstX0*/, int /*dstY0*/, int /*dstX1*/, int /*dstY1*/, GLbitfield /*mask*/, GLenum /*filter*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::scissor(int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::sampleCoverage(float /*value*/, bool /*invert*/) { static_assert(false, "Not implemented yet."); }
+
+	inline void OpenGL::scissor(const int x, const int y, const unsigned int width, const unsigned int height)
+	{
+		checkErrors(glScissor(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
+	}
+
+	//	inline void OpenGL::sampleCoverage(float /*value*/, bool /*invert*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::sampleMaski(unsigned int /*maskNumber*/, GLbitfield /*mask*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::stencilFunc(GLenum /*func*/, int /*ref*/, unsigned int /*mask*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::stencilFuncSeparate(GLenum /*face*/, GLenum /*func*/, int /*ref*/, unsigned int /*mask*/) { static_assert(false, "Not implemented yet."); }

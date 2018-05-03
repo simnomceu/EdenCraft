@@ -42,6 +42,7 @@
 #include "utility/mathematics/vector2u.hpp"
 #include "renderer/common/color.hpp"
 #include "renderer/common/render_state.hpp"
+#include "renderer/common/viewport.hpp"
 
 namespace ece
 {
@@ -60,7 +61,7 @@ namespace ece
          * @brief Default constructor.
          * @throw noexcept
          */
-        RenderTarget() noexcept = default;
+        RenderTarget() noexcept;
 
         /**
          * @fn RenderTarget(const RenderTarget & copy) noexcept
@@ -112,12 +113,13 @@ namespace ece
         virtual IntVector2u getSize() const = 0;
 
         /**
-         * @fn void clear(const Color & color = BLACK)
+         * @fn void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>())
          * @param[in] color The color to use to clean the render target.
+		 * @param[in] scissorArea The area of the render target to limit the cleaning.
          * @brief Clean the render target using a specific color.
          * @throw
          */
-        virtual void clear(const Color & color = BLACK) = 0;
+        virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) = 0;
 
         /**
          * @fn void draw(Renderable & renderable, const RenderState & states = RenderState())
@@ -128,12 +130,23 @@ namespace ece
          */
         virtual void draw(Renderable & renderable, const RenderState & states = RenderState()) = 0;
 
+		Viewport getDefaultViewport() const;
+
+		void setViewport(const Viewport & viewport);
+
+		inline const Viewport & getCurrentViewport() const;
+
     protected:
         void loadRenderState(const RenderState & states);
+
+		Viewport _currentViewport;
+		bool _viewportHasChanged;
 
     private:
         RenderState _currentState;
     };
 }
+
+#include "renderer/common/render_target.inl"
 
 #endif // RENDER_TARGET_HPP

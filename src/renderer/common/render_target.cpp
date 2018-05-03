@@ -41,6 +41,10 @@
 
 namespace ece
 {
+	RenderTarget::RenderTarget() noexcept: _currentViewport(), _viewportHasChanged(false), _currentState()
+	{
+	}
+
     void RenderTarget::loadRenderState(const RenderState & states)
     {
         if (states != this->_currentState) {
@@ -55,4 +59,17 @@ namespace ece
             this->_currentState = states;
         }
     }
+
+	Viewport RenderTarget::getDefaultViewport() const
+	{
+		Viewport default;
+		default.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
+		return default;
+	}
+
+	void RenderTarget::setViewport(const Viewport & viewport)
+	{
+		this->_currentViewport = viewport;
+		this->_viewportHasChanged = true;
+	}
 }
