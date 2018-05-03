@@ -40,7 +40,7 @@
 
 #include "graphic/model/object.hpp"
 
-#include "graphic/renderable/uniform.hpp"
+#include "renderer/common/uniform.hpp"
 
 namespace ece
 {

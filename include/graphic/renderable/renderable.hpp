@@ -44,7 +44,7 @@
 #include <vector>
 
 #include "graphic/renderable/vertex.hpp"
-#include "graphic/renderable/base_uniform.hpp"
+#include "renderer/common/base_uniform.hpp"
 #include "graphic/renderable/shader_source.hpp"
 
 namespace ece
