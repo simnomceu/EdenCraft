@@ -44,4 +44,9 @@
 #include "graphic/animation/rotation.hpp"
 #include "graphic/animation/transformation.hpp"
 
+namespace ece
+{
+	using namespace graphic::animation;
+}
+
 #endif // GRAPHIC_ANIMATION_HPP

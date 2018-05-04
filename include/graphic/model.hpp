@@ -47,4 +47,9 @@
 #include "graphic/model/object.hpp"
 #include "graphic/model/skeleton.hpp"
 
+namespace ece
+{
+	using namespace graphic::model;
+}
+
 #endif // GRAPHIC_MODEL_HPP

@@ -47,4 +47,9 @@
 #include "graphic/renderable/uniform.hpp"
 #include "graphic/renderable/vertex.hpp"
 
+namespace ece
+{
+	using namespace graphic::renderable;
+}
+
 #endif // GRAPHIC_RENDERABLE_HPP

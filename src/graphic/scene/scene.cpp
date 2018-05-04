@@ -45,15 +45,24 @@
 
 namespace ece
 {
-	Scene::Scene() noexcept: _camera(), _objects()
+	namespace graphic
 	{
-		// TODO : change the resolution ratio to be adapted to window size
-		this->_camera.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
-	}
+		namespace scene
+		{
+			using utility::mathematics::FloatVector3u;
+			using model::Object;
 
-	Object * Scene::addObject()
-	{
-		this->_objects.push_back(new Object());
-		return static_cast<Object *>(this->_objects.back());
-	}
-}
+			Scene::Scene() noexcept: _camera(), _objects()
+			{
+				// TODO : change the resolution ratio to be adapted to window size
+				this->_camera.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
+			}
+
+			Object * Scene::addObject()
+			{
+				this->_objects.push_back(new Object());
+				return static_cast<Object *>(this->_objects.back());
+			}
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece

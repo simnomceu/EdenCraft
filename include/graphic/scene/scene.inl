@@ -40,7 +40,13 @@
 
 namespace ece
 {
-	inline Camera & Scene::getCamera() { return this->_camera; }
+	namespace graphic
+	{
+		namespace scene
+		{
+			inline Camera & Scene::getCamera() { return this->_camera; }
 
-	inline std::vector<Renderable *> & Scene::getObjects() { return this->_objects; }
-}
+			inline std::vector<Renderable *> & Scene::getObjects() { return this->_objects; }
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece
