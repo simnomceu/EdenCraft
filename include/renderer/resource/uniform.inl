@@ -38,113 +38,25 @@
 
 */
 
-#ifndef SCENE_HPP
-#define SCENE_HPP
-
-#include "graphic/scene/camera.hpp"
-#include "renderer/common/projection.hpp"
-
-#include <vector>
-
 namespace ece
 {
-	class Renderable;
-	class Object;
-
-	/**
-	 * @class Scene
-	 * @brief
-	 */
-	class Scene
+	template<class T>
+	inline Uniform<T>::Uniform(const Handle owner, const std::string & location, const T & data): BaseUniform(), _location(location)
 	{
-	public:
-		/**
-		 * @fn Scene() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		Scene() noexcept;
+		this->setData(data);
+	}
 
-		/**
-		 * @fn Scene(const Scene & copy)
-		 * @param[in] copy The Scene to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Scene(const Scene & copy) = default;
+	template <class T>
+	T Uniform<T>::getData() const
+	{
+		guard();
+		return OpenGL::getUniform<T>(this->_owner, this->getLocation());
+	}
 
-		/**
-		 * @fn Scene(Scene && move) noexcept
-		 * @param[in] move The Scene to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Scene(Scene && move) noexcept = default;
-
-		/**
-		 * @fn ~Scene() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Scene() noexcept = default;
-
-		/**
-		 * @fn Scene & operator=(const Scene & copy)
-		 * @param[in] copy The Scene to copy from.
-		 * @return The Scene copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Scene & operator=(const Scene & copy) = default;
-
-		/**
-		 * @fn Scene & operator=(Scene && move) noexcept
-		 * @param[in] move The Scene to move from.
-		 * @return The Scene moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Scene & operator=(Scene && move) noexcept = default;
-
-		/**
-		 * @fn Object * addObject()
-		 * @return The new object created.
-		 * @brief Add a new empty object to the scene.
-		 * @throw
-		 */
-		Object * addObject();
-
-		/**
-		 * @fn Camera & getCamera()
-		 * @return The camera of the scene.
-		 * @brief Get the camera of the scene.
-		 * @throw
-		 */
-		inline Camera & getCamera();
-
-		/**
-		 * @fn std::vector<Renderable *> & getObjects()
-		 * @return The list of objects of the scene.
-		 * @brief Get the list of objects of the scene.
-		 * @throw
-		 */
-		inline std::vector<Renderable *> & getObjects();
-
-	private:
-		/**
-		 * @property _camera
-		 * @rief The camera of the scene.
-		 */
-		Camera _camera;
-
-		/**
-		 * @property _objects
-		 * @brief The list of objects in the scene.
-		 */
-		std::vector<Renderable *> _objects;
-	};
+	template<class T>
+	inline void Uniform<T>::setData(const T & data)
+	{
+		guard();
+		OpenGL::uniform<T>(this->getLocation(), data);
+	}
 }
-
-#include "graphic/scene/scene.inl"
-
-#endif // SCENE_HPP

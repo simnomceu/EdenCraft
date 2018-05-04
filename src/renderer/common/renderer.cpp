@@ -38,7 +38,7 @@
 
 #include "renderer/common/renderer.hpp"
 
-#include "renderer/opengl/vao.hpp"
+#include "renderer/resource/vao.hpp"
 
 namespace ece
 {

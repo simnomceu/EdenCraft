@@ -40,32 +40,13 @@
 
 namespace ece
 {
-	template<class T>
-	inline Uniform<T>::Uniform(const std::string & location, const T & data): BaseUniform(), _location(location), _data(data)
-	{
-	}
+	inline bool BaseUniform::isOwned() const noexcept { return this->_owner != 0; }
 
-	template <class T>
-	std::string Uniform<T>::getLocation() const
-	{
-		return this->_location;
-	}
+	inline Handle BaseUniform::getOwner() const noexcept { return this->_owner; }
 
-	template <class T>
-	T Uniform<T>::getData() const
-	{
-		return this->_data;
-	}
+	inline const std::string & BaseUniform::getName() const noexcept { return this->_name; }
 
-	template<class T>
-	inline void Uniform<T>::setLocation(const std::string & location)
-	{
-		this->_location = location;
-	}
+	inline void BaseUniform::setOwner(const Handle owner) { this->_owner = owner; }
 
-	template<class T>
-	inline void Uniform<T>::setData(const T & data)
-	{
-		this->_data = data;
-	}
+	inline void BaseUniform::setName(const std::string & name) { this->_name = name; }
 }

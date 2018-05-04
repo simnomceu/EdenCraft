@@ -39,9 +39,10 @@
 #ifndef RENDERABLE_HPP
 #define RENDERABLE_HPP
 
-#include "renderer/opengl/vao.hpp"
+#include "renderer/resource/vao.hpp"
 #include "renderer/enum.hpp"
-#include "renderer/common/enhanced_shader.hpp"
+#include "renderer/resource/enhanced_shader.hpp"
+#include "renderer/common/projection.hpp"
 
 namespace ece
 {
@@ -102,11 +103,10 @@ namespace ece
 
         void draw();
 
-        void normalize(const IntVector2u & windowSize) const noexcept;
+		void setProjection(const Projection & projection) const noexcept;
 
     protected:
         VAO _vao;
-        bool _normalized;
 
         PrimitiveMode _mode;
 

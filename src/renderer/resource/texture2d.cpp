@@ -36,38 +36,77 @@
 
 */
 
-#include "renderer/opengl/vbo.hpp"
+
+#include "renderer/resource/texture2d.hpp"
+
+#include "renderer/image/parser_bmp.hpp"
 
 namespace ece
 {
-	inline VAO::VAO() : _handle(0), _nbVertices(0), _ibo() { OpenGL::genVertexArrays(this->_handle); }
-
-	inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
-
-	inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
-
-	template<class T> 
-	void VAO::addAttribute(const int location, const int size, const bool normalized, const int offset,
-		const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+	Texture2D & Texture2D::operator=(const Texture2D & copy)
 	{
-		this->bind();
-		OpenGL::enableVertexAttribArray(location);
+		this->_filename = copy._filename;
+		this->_data = copy._data;
+		this->_width = copy._width;
+		this->_height = copy._height;
+		this->_type = copy._type;
+		this->_handle = copy._handle;
 
-		VBO vbo(type);
-		vbo.bufferData(data, usage);
-		OpenGL::vertexAttribPointer<T>(location, size, normalized, offset);
+		return *this;
 	}
 
-	template<class T>
-	void VAO::addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset,
-		const BufferType type, std::vector<T> & data, const BufferUsage usage)
+	Texture2D & Texture2D::operator=(Texture2D && move) noexcept
 	{
-		// BUG: somewhere here
-		this->bind();
-		OpenGL::enableVertexAttribArray(location);
+		this->_filename = std::move(move._filename);
+		this->_data = std::move(move._data);
+		this->_width = move._width;
+		this->_height = move._height;
+		this->_type = move._type;
+		this->_handle = move._handle;
 
-		OpenGL::vertexAttribPointer<T>(location, size, normalized, offset, data);
+		move._data.clear();
+		move._handle = 0;
+
+		return *this;
 	}
 
-	inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
+	void Texture2D::loadFromFile(const TextureTypeTarget type, const std::string & filename)
+	{
+		this->terminate();
+
+		if (this->_filename != filename) {
+			this->_filename = filename;
+
+			this->_data.clear();
+
+			ece::ParserBMP parserBMP;
+			parserBMP.loadFromFile(filename);
+
+			auto & image = parserBMP.getImage();
+			auto buffer = image.data();
+			for (size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
+				this->_data.push_back(buffer[i].red);
+				this->_data.push_back(buffer[i].green);
+				this->_data.push_back(buffer[i].blue);
+			}
+
+			this->_width = image.getWidth();
+			this->_height = image.getHeight();
+			this->_type = type;
+		}
+	}
+
+	void Texture2D::update()
+	{
+		// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
+		// TODO: adding properties for each texParameter here ?
+		ece::OpenGL::texImage2D(this->_type, 0, ece::PixelInternalFormat::RGB, this->_width, this->_height, ece::PixelFormat::RGB, ece::PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
+		ece::OpenGL::generateMipmap(ece::MipmapTarget::TEXTURE_2D);
+		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_WRAP_S, GL_REPEAT);
+		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_WRAP_T, GL_REPEAT);
+		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_MAG_FILTER, GL_NEAREST);
+		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+	}
+
+	void Texture2D::terminate() {}
 }

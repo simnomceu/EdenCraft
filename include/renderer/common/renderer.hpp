@@ -40,7 +40,7 @@
 #define RENDERER_HPP
 
 #include "renderer/opengl/opengl.hpp"
-#include "renderer/common/shader.hpp"
+#include "renderer/resource/shader.hpp"
 
 namespace ece
 {

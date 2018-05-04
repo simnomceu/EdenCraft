@@ -129,6 +129,12 @@ namespace ece
 	inline E & Matrix<E, M, N, enabled>::cell(const unsigned int index) { return this->_elements[index]; }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline constexpr E * Matrix<E, M, N, enabled>::data() noexcept { return this->_elements.data(); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
+	inline constexpr const E * Matrix<E, M, N, enabled>::data() const noexcept { return this->_elements.data(); }
+
+	template <typename E, unsigned int M, unsigned int N, typename enabled>
 	inline constexpr unsigned int Matrix<E, M, N, enabled>::size() const noexcept { return M * N; }
 
 	template <typename E, unsigned int M, unsigned int N, typename enabled>
@@ -283,7 +289,7 @@ namespace ece
 		Vector<E1, Size> result;
 		for (unsigned int i = 0; i < Size; ++i) {
 			for (unsigned int j = 0; j < Size; ++j) {
-				result[j] += lhs.row(j)[i] * static_cast<E1>(rhs[j]);
+				result[j] += lhs.row(j)[i] * static_cast<E1>(rhs[i]);
 			}
 		}
 		return std::move(result);

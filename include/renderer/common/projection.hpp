@@ -46,6 +46,8 @@
 
 namespace ece
 {
+	template <typename T> class Rectangle;
+
 	/**
 	 * @class Projection
 	 * @brief
@@ -102,7 +104,7 @@ namespace ece
 		Projection & operator=(Projection && move) noexcept = default;
 
 		/**
-		 * @fn void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
+		 * @fn void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
 		 * @param[in] FOV The field of view of the camera.
 		 * @param[in] ratio The ratio of the screen.
 		 * @param[in] nearClipping The nearest plan of the scene to capture.
@@ -110,7 +112,17 @@ namespace ece
 		 * @brief Set the projection matrix.
 		 * @throw
 		 */
-		inline void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
+		inline void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
+
+		/**
+		 * @fn void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
+		 * @param[in] screen The screen rectangle to project the rendering.
+		 * @param[in] nearClipping Nearest distance of the frustum view.
+		 * @param[in] farClipping Furthest distance of the frustum view.
+		 * @brief Set the projection matrix.
+		 * @throw
+		 */
+		inline void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
 
 		/**
 		 * @fn const FloatMatrix4u & getProjection() const
@@ -129,6 +141,6 @@ namespace ece
 	};
 }
 
-#include "graphic/scene/projection.inl"
+#include "renderer/common/projection.inl"
 
 #endif // PROJECTION_HPP

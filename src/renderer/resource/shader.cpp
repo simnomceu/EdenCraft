@@ -36,7 +36,7 @@
 
 */
 
-#include "renderer/common/shader.hpp"
+#include "renderer/resource/shader.hpp"
 
 namespace ece
 {

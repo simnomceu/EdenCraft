@@ -79,11 +79,9 @@ namespace ece
 		float right = screen.getX() + screen.getWidth();
 		float top = screen.getY() + screen.getHeight();
 
-		return FloatMatrix4u{ 2.0f / screen.getWidth(), 0.0f, 0.0f, 0.0f,
-							 0.0f, 2.0f / screen.getHeight(), 0.0f, 0.0f,
-							 0.0f, 0.0f, -2.0f / (farClipping - nearClipping), 0.0f,
-							 -(right + screen.getX()) / (right - screen.getX()),
-							 -(top + screen.getY()) / (top - screen.getY()),
-							 -(farClipping + nearClipping) / (farClipping - nearClipping), 1.0f };
+		return FloatMatrix4u{ 2.0f / screen.getWidth(), 0.0f, 0.0f, -(right + screen.getX()) / screen.getWidth(),
+							 0.0f, 2.0f / screen.getHeight(), 0.0f, -(top + screen.getY()) / screen.getHeight(),
+							 0.0f, 0.0f, 2.0f / (farClipping - nearClipping), -(farClipping + nearClipping) / (farClipping - nearClipping),
+							 0.0f, 0.0f, 0.0f, 1.0f };
 	}
 }

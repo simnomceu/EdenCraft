@@ -39,11 +39,14 @@
 #ifndef RENDERER_COMMON_HPP
 #define RENDERER_COMMON_HPP
 
+#include "renderer/common/base_context.hpp"
+#include "renderer/common/color.hpp"
+#include "renderer/common/projection.hpp"
+#include "renderer/common/render_state.hpp"
+#include "renderer/common/render_target.hpp"
 #include "renderer/common/render_window.hpp"
+#include "renderer/common/renderable.hpp"
 #include "renderer/common/renderer.hpp"
-#include "renderer/common/shader.hpp"
-#include "renderer/common/enhanced_shader.hpp"
-#include "renderer/common/shader_stage.hpp"
-#include "renderer/common/texture2d.hpp"
+#include "renderer/common/viewport.hpp"
 
 #endif // RENDERER_COMMON_HPP

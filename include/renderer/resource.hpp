@@ -36,17 +36,14 @@
 
 */
 
-#include "renderer/opengl/vao.hpp"
+#ifndef RENDERER_RESOURCE_HPP
+#define RENDERER_RESOURCE_HPP
 
-namespace ece
-{
-	void VAO::addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
-	{
-		if (this->_nbVertices == 0) {
-			this->_nbVertices = data.size();
-		}
+#include "renderer/resource/base_uniform.hpp"
+#include "renderer/resource/enhanced_shader.hpp"
+#include "renderer/resource/shader.hpp"
+#include "renderer/resource/shader_stage.hpp"
+#include "renderer/resource/texture2d.hpp"
+#include "renderer/resource/uniform.hpp"
 
-		this->bind();
-		this->_ibo.bufferData(data, usage);
-	}
-}
+#endif // RENDERER_RESOURCE_HPP

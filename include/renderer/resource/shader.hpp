@@ -36,117 +36,125 @@
 
 */
 
-#ifndef VBO_HPP
-#define VBO_HPP
+#ifndef SHADER_HPP
+#define SHADER_HPP
 
 #include "renderer/opengl/opengl.hpp"
+#include "renderer/resource/shader_stage.hpp"
 
 namespace ece
 {
 	/**
-	 * @class VBO
-	 * @brief A vertex buffer object as defined in OpenGL
+	 * @class Shader
+	 * @brief A shader program, as a combination of shader stages.
 	 */
-	class VBO
+	class Shader
 	{
 	public:
-		inline VBO(const BufferType type);
-
 		/**
-		 * @fn VBO()
+		 * @fn Shader()
 		 * @brief Default constructor.
 		 * @throw
 		 */
-		VBO();
+		inline Shader();
 
 		/**
-		 * @fn VBO(const VBO & copy) noexcept
-		 * @param[in] copy The VBO to copy from.
+		 * @fn Shader(const Handle handle) noexcept
+		 * @param[in] handle The id to use.
+		 * @brief Build a shader program with a specific id.
+		 * @throw noexcept
+		 */
+		inline Shader(const Handle handle) noexcept;
+
+		/**
+		 * @fn Shader(const Shader & copy) noexcept
+		 * @param[in] copy The shader program to copy from.
 		 * @brief Default copy constructor.
 		 * @throw noexcept
 		 */
-		VBO(const VBO & copy) noexcept = default;
+		Shader(const Shader & copy) noexcept = default;
 
 		/**
-		 * @fn VBO(VBO && move) noexcept
-		 * @param[in] move The VBO to move.
+		 * @fn Shader(Shader && move) noexcept 
+		 * @param[in] move The shader program to move.
 		 * @brief Default move constructor.
 		 * @throw noexcept
 		 */
-		VBO(VBO && move) noexcept = default;
+		Shader(Shader && move) noexcept = default;
 
 		/**
-		 * @fn ~VBO()
+		 * @fn ~Shader() noexcept 
 		 * @brief Default destructor.
 		 * @throw noexcept
 		 */
-		~VBO() noexcept = default;
+		~Shader() noexcept = default;
 
 		/**
-		 * @fn VBO & operator=(const VBO & copy) noexcept
-		 * @param[in] copy The VBO to copy from.
-		 * @return The VBO copied.
+		 * @fn Shader & operator=(const Shader & copy) noexcept 
+		 * @param[in] copy The shader program to copy from.
+		 * @return The shader program copied.
 		 * @brief Default copy assignment operator.
 		 * @throw noexcept
 		 */
-		VBO & operator=(const VBO & copy) noexcept = default;
+		Shader & operator=(const Shader & copy) noexcept = default;
 
 		/**
-		 * @fn VBO & operator=(VBO && move) noexcept
-		 * @param[in] move The VBO to move.
-		 * @return The VBO moved.
+		 * @fn Shader & operator=(Shader && move) noexcept 
+		 * @param[in] move The shader program to move.
+		 * @return The shader program moved.
 		 * @brief Default move assignment operator.
 		 * @throw noexcept
 		 */
-		VBO & operator=(VBO && move) noexcept = default;
-
-		/**
-		 * @fn void bind()
-		 * @brief Put the VBO in a buffer to be used.
-		 * @throw
-		 */
-		inline void bind();
-
-		/**
-		 * @fn void bufferData(const std::vector<T> & data, const BufferUsage usage)
-		 * @tparam T The type of data to set.
-		 * @param[in] data The data to set.
-		 * @param[in] usage The kind of usage the buffer.
-		 * @brief Set data in the VBO.
-		 */
-		template<class T> void bufferData(const std::vector<T> & data, const BufferUsage usage);
-
-		/**
-		 * @fn void setType(const BufferType type)
-		 * @param[in] type The type to set.
-		 * @brief Change the type of buffer.
-		 * @throw
-		 */
-		inline void setType(const BufferType type);
+		Shader & operator=(Shader && move) noexcept = default;
 
 		/**
 		 * @fn Handle getHandle() const
-		 * @return The id of the VBO.
-		 * @brief Get the id of the VBO.
+		 * @return The id of the shader program.
+		 * @brief Get the id of the shader program.
 		 * @throw
 		 */
 		inline Handle getHandle() const;
 
-	private:
 		/**
-		 * @property _handle
-		 * @brief The id of the VBO.
+		 * @fn void setStage(ShaderStage & shader)
+		 * @param[in] shader The shader stage to add.
+		 * @brief Set a shader stage of the program.
+		 * @throw
 		 */
-		Handle _handle;
+		virtual void setStage(ShaderStage & shader);
 
 		/**
-		 * @property _type
-		 * @brief The type of VBO to use.
+		 * @fn void link()
+		 * @brief Link the shader program.
+		 * @throw
 		 */
-		BufferType _type;
+		inline void link();
+
+		/**
+		 * @fn void use() const
+		 * @brief Put the shader program in a buffer to be used.
+		 * @throw
+		 */
+		inline void use() const;
+
+		/**
+		 * @fn void uniform(const std::string & uniform, const T & value)
+		 * @tparam T The type of value to set.
+		 * @param[in] uniform The name of the uniform to set.
+		 * @param[in] value The value to set.
+		 * @brief Set the value of a uniform from the shader program.
+		 */
+		template<class T> void uniform(const std::string & uniform, const T & value);
+
+	protected:
+		/**
+		 * @property _handle
+		 * @brief The id of the shader program.
+		 */
+		Handle _handle;
 	};
 }
 
-#include "renderer/opengl/vbo.inl"
+#include "renderer/resource/shader.inl"
 
-#endif // VBO_HPP
+#endif // SHADER_HPP

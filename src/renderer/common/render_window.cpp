@@ -100,6 +100,7 @@ namespace ece
 		}
 		if (scissorArea == Rectangle<float>()) {
 			OpenGL::scissor(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+			OpenGL::enable(Capability::SCISSOR_TEST);
 		}
 
 		if (this->isOpened()) {
@@ -115,7 +116,6 @@ namespace ece
     {
         this->loadRenderState(states);
 
-        renderable.normalize(this->getSize());
         renderable.draw();
         // TODO : render the drawable here (using code in renderer.cpp)
     }

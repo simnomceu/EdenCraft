@@ -36,30 +36,102 @@
 
 */
 
+
+#ifndef IBO_HPP
+#define IBO_HPP
+
+#include "renderer/opengl/opengl.hpp"
+
 namespace ece
 {
-	inline Shader::Shader() : _handle(0) { this->_handle = OpenGL::createProgram(); }
-
-	inline Shader::Shader(const Handle handle) noexcept : _handle(handle) {}
-
-	inline Handle Shader::getHandle() const { return this->_handle; }
-
-	template<class T>
-	void Shader::uniform(const std::string & uniform, const T & value)
+	/**
+	 * @class IBO
+	 * @brief Index buffer object as defined in OpenGL.
+	 */
+	class IBO
 	{
-		this->use();
-		auto location = OpenGL::getUniformLocation(this->_handle, uniform);
-		OpenGL::uniform<T>(location, value);
-		// TODO: keep the uniform location to not get it twice. And set the uniforms only at linkage step. 
-	}
+	public:
+		/**
+		 * @fn IBO()
+		 * @brief Default constructor.
+		 * @throw
+		 */
+		inline IBO();
 
-	inline void Shader::link()
-	{
-		OpenGL::linkProgram(this->_handle);
-	}
+		/**
+		 * @fn IBO(const IBO & copy) noexcept 
+		 * @param[in] copy The index buffer object to copy from.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		IBO(const IBO & copy) noexcept = default;
 
-	inline void Shader::use() const
-	{
-		OpenGL::useProgram(this->_handle);
-	}
+		/**
+		 * @fn IBO(IBO && move) noexcept 
+		 * @param[in] move The index buffer object to move.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		IBO(IBO && move) noexcept = default;
+
+		/**
+		 * @fn ~IBO() noexcept
+		 * @brief Default destructor.
+		 * @throw noexcept
+		 */
+		~IBO() noexcept = default;
+
+		/**
+		 * @fn IBO & operator=(const IBO & copy) noexcept 
+		 * @param[in] copy The index buffer object to copy from.
+		 * @return The index buffer object copied.
+		 * @brief Default copy assignment operator.
+		 * @throw noexcept
+		 */
+		IBO & operator=(const IBO & copy) noexcept = default;
+
+		/**
+		 * @fn IBO & operator=(IBO && move) noexcept 
+		 * @param[in] move The index buffer object to copy.
+		 * @return The index buffer object moved.
+		 * @brief Default move assignment operator.
+		 * @throw noexcept
+		 */
+		IBO & operator=(IBO && move) noexcept = default;
+
+		/**
+		 * @fn void bind() const
+		 * @brief Put the IBO in a buffer to be used.
+		 * @throw
+		 */
+		inline void bind() const;
+
+		/**
+		 * @fn void bufferData(const std::vector<unsigned int> & data, const BufferUsage usage)
+		 * @param[in] data The indices to set.
+		 * @param[in] usage The usage of the buffer.
+		 * @brief Set the buffer data.
+		 * @throw
+		 */
+		inline void bufferData(const std::vector<unsigned int> & data, const BufferUsage usage);
+
+		/**
+		 * @fn Handle getHandle() const
+		 * @return The id of the index buffer object.
+		 * @brief Get the id of the index buffer object.
+		 * @throw
+		 */
+		inline Handle getHandle() const;
+
+	private:
+		/**
+		 * @property _handle
+		 * @brief The id of the index buffer object.
+		 */
+		Handle _handle;
+	};
 }
+
+#include "renderer/resource/ibo.inl"
+
+#endif // IBO_HPP

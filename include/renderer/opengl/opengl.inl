@@ -72,13 +72,6 @@ namespace ece
 		checkErrors(glBindVertexArray(handle));
 	}
 
-	/*
-	template<class T>
-	inline void OpenGL::uniform(const Handle uniform, const T value)
-	{
-		throw std::runtime_error("A uniform cannot be set with this type.");
-	}
-	*/
 	template<class T>
 	inline void OpenGL::bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage)
 	{
@@ -513,6 +506,67 @@ namespace ece
 //	inline void OpenGL::uniform2uiv(int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::uniform3uiv(int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::uniform4uiv(int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
+
+	template <class T, unsigned int M, unsigned int N>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<T, M, N> & v)
+	{
+		static_assert("No existing specialization for OpenGL::uniform.");
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 2> & v)
+	{
+		checkErrors(glUniformMatrix2fv(location, 1, transpose, v.data()));
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 3> & v)
+	{
+		checkErrors(glUniformMatrix3fv(location, 1, transpose, v.data()));
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 4> & v)
+	{
+		checkErrors(glUniformMatrix4fv(location, 1, transpose, v.data()));
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 3> & v)
+	{
+		checkErrors(glUniformMatrix2x3fv(location, 1, transpose, v.data()));
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 2> & v)
+	{
+		checkErrors(glUniformMatrix3x2fv(location, 1, transpose, v.data()));
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 4> & v)
+	{
+		checkErrors(glUniformMatrix2x4fv(location, 1, transpose, v.data()));
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 2> & v)
+	{
+		checkErrors(glUniformMatrix4x2fv(location, 1, transpose, v.data()));
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 4> & v)
+	{
+		checkErrors(glUniformMatrix3x4fv(location, 1, transpose, v.data()));
+	}
+
+	template <>
+	inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 3> & v)
+	{
+		checkErrors(glUniformMatrix4x3fv(location, 1, transpose, v.data()));
+	}
+
 //	inline void OpenGL::uniformMatrix2fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::uniformMatrix3fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::uniformMatrix4fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
@@ -526,7 +580,14 @@ namespace ece
 //	inline void OpenGL::transformFeedbackVaryings(unsigned int /*program*/, GLsizei /*count*/, const char ** /*varyings*/, GLenum /*bufferMode*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::getTransformFeedbackVarying(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, GLsizei * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
 //	inline void OpenGL::validateProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
-//	inline void OpenGL::getProgramiv(unsigned int /*program*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
+
+	inline std::vector<int> OpenGL::getProgramiv(const Handle program, const ProgramParameter pname)
+	{
+		std::vector<int> result;
+		checkErrors(glGetProgramiv(static_cast<GLuint>(program), static_cast<GLenum>(pname), result.data()));
+		return std::move(result);
+	}
+
 //	inline void OpenGL::bindFragDataLocation(unsigned int /*program*/, unsigned int /*colorNumber*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 //	inline int OpenGL::getFragDataLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 //	inline bool OpenGL::isShader(unsigned int /*shader*/) { static_assert(false, "Not implemented yet."); }

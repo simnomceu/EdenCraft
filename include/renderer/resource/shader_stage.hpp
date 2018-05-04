@@ -206,6 +206,6 @@ namespace ece
 	};
 }
 
-#include "renderer/common/shader_stage.inl"
+#include "renderer/resource/shader_stage.inl"
 
 #endif // SHADER_STAGE_HPP

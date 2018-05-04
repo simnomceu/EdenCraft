@@ -247,6 +247,10 @@ namespace ece
 
 		inline E & cell(const unsigned int index);
 
+		inline constexpr E * data() noexcept;
+
+		inline constexpr const E * data() const noexcept;
+
 		/**
 		 * @fn constexpr unsigned int size() const noexcept
 		 * @return The number of element in the expression result.

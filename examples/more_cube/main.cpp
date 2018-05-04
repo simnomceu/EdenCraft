@@ -66,6 +66,9 @@ int main()
 		viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 0.5f, 1.0f));
 		window.setViewport(viewport);
 
+		ece::Projection projection;
+		projection.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), -1.0f, 1.0f); // TODO: using window.getViewportSize() ?
+
 		ece::Texture2D texture;
 		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
 
@@ -73,11 +76,12 @@ int main()
 		for (unsigned short int i = 0; i < 10; ++i) {
 			sprites.emplace(sprites.begin() + i, texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())),
 				ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
+			sprites[i].setProjection(projection);
 		}
 
 		ece::InputEvent event;
 		while (1) {
-			window.clear(ece::SILVER);
+			window.clear(ece::FUSHIA);
 
 			for (unsigned short int i = 0; i < 10; ++i) {
 				window.draw(sprites[i]);

@@ -37,76 +37,86 @@
 */
 
 
-#include "renderer/common/texture2d.hpp"
+#include "renderer/resource/shader_stage.hpp"
 
-#include "renderer/image/parser_bmp.hpp"
+#include "utility/file_system/file.hpp"
+#include "utility/debug/exception.hpp"
+#include "utility/log/service_logger.hpp"
 
 namespace ece
 {
-	Texture2D & Texture2D::operator=(const Texture2D & copy)
+	ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
 	{
 		this->_filename = copy._filename;
-		this->_data = copy._data;
-		this->_width = copy._width;
-		this->_height = copy._height;
+		this->_source = copy._filename;
 		this->_type = copy._type;
 		this->_handle = copy._handle;
+		this->_compilationRequired = copy._compilationRequired;
 
 		return *this;
 	}
 
-	Texture2D & Texture2D::operator=(Texture2D && move) noexcept
+	ShaderStage & ShaderStage::operator=(ShaderStage && move) noexcept
 	{
 		this->_filename = std::move(move._filename);
-		this->_data = std::move(move._data);
-		this->_width = move._width;
-		this->_height = move._height;
+		this->_source = std::move(move._filename);
 		this->_type = move._type;
 		this->_handle = move._handle;
+		this->_compilationRequired = move._compilationRequired;
 
-		move._data.clear();
+		move._filename.clear();
 		move._handle = 0;
+		move._compilationRequired = false;
 
 		return *this;
 	}
 
-	void Texture2D::loadFromFile(const TextureTypeTarget type, const std::string & filename)
+	void ShaderStage::loadFromFile(const ShaderType type, const std::string & filename)
 	{
 		this->terminate();
 
 		if (this->_filename != filename) {
 			this->_filename = filename;
 
-			this->_data.clear();
-
-			ece::ParserBMP parserBMP;
-			parserBMP.loadFromFile(filename);
-
-			auto & image = parserBMP.getImage();
-			auto buffer = image.data();
-			for (size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
-				this->_data.push_back(buffer[i].red);
-				this->_data.push_back(buffer[i].green);
-				this->_data.push_back(buffer[i].blue);
+			this->_source.clear();
+			File shaderFile;
+			try {
+				shaderFile.open(this->_filename);
+				this->_source = shaderFile.parseToString();
+				shaderFile.close();
 			}
-
-			this->_width = image.getWidth();
-			this->_height = image.getHeight();
+			catch (FileException & e) {
+				ServiceLoggerLocator::getService().logError(e.what());
+			}
 			this->_type = type;
+			this->_compilationRequired = true;
 		}
 	}
 
-	void Texture2D::update()
+	void ShaderStage::loadFromString(const ShaderType type, const std::string & sourceCode)
 	{
-		// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
-		// TODO: adding properties for each texParameter here ?
-		ece::OpenGL::texImage2D(this->_type, 0, ece::PixelInternalFormat::RGB, this->_width, this->_height, ece::PixelFormat::RGB, ece::PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
-		ece::OpenGL::generateMipmap(ece::MipmapTarget::TEXTURE_2D);
-		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_WRAP_S, GL_REPEAT);
-		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_WRAP_T, GL_REPEAT);
-		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_MAG_FILTER, GL_NEAREST);
-		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+		this->terminate();
+
+		this->_filename = "";
+		this->_source = sourceCode;
+		this->_type = type;
+		this->_compilationRequired = true;
 	}
 
-	void Texture2D::terminate() {}
+	void ShaderStage::compile()
+	{
+		this->_handle = OpenGL::createShader(this->_type);
+		OpenGL::shaderSource(this->_handle, this->_source);		
+		OpenGL::compileShader(this->_handle);
+		this->_compilationRequired = false;
+	}
+
+	void ShaderStage::terminate()
+	{
+		if (this->_handle != 0) {
+			OpenGL::deleteShader(this->_handle);
+			this->_handle = 0;
+			this->_compilationRequired = true;
+		}
+	}
 }

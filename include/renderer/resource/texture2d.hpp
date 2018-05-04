@@ -223,6 +223,6 @@ namespace ece
 	};
 }
 
-#include "renderer/common/texture2d.inl"
+#include "renderer/resource/texture2d.inl"
 
 #endif // TEXTURE_HPP

@@ -264,6 +264,7 @@ namespace ece
 //		static inline void uniform2uiv(int location, GLsizei count, const unsigned int *value);
 //		static inline void uniform3uiv(int location, GLsizei count, const unsigned int *value);
 //		static inline void uniform4uiv(int location, GLsizei count, const unsigned int *value);
+		template <class T, unsigned int M, unsigned int N> static inline void uniform(const int location, const bool transpose, const Matrix<T, M, N> & v);
 //		static inline void uniformMatrix2fv(int location, GLsizei count, bool transpose, const float *value);
 //		static inline void uniformMatrix3fv(int location, GLsizei count, bool transpose, const float *value);
 //		static inline void uniformMatrix4fv(int location, GLsizei count, bool transpose, const float *value);
@@ -277,7 +278,7 @@ namespace ece
 //		static inline void transformFeedbackVaryings(unsigned int program, GLsizei count, const char **varyings, GLenum bufferMode);
 //		static inline void getTransformFeedbackVarying(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, char *name);
 //		static inline void validateProgram(unsigned int program);
-//		static inline void getProgramiv(unsigned int program, GLenum pname, int *params);
+		static inline std::vector<int> getProgramiv(const Handle program, const ProgramParameter pname);
 //		static inline void bindFragDataLocation(unsigned int program, unsigned int colorNumber, const char * name);
 //		static inline int getFragDataLocation(unsigned int program, const char * name);
 //		static inline bool isShader(unsigned int shader);
@@ -800,6 +801,15 @@ namespace ece
 	template<> inline void OpenGL::uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
 	template<> inline void OpenGL::uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
 	template<> inline void OpenGL::uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 2> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 3> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 4> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 3> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 2> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 4> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 2> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 4> & v);
+	template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 3> & v);
 	template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param);
 	template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param);
 }

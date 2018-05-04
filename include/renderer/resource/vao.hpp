@@ -39,7 +39,7 @@
 #ifndef VAO_HPP
 #define VAO_HPP
 
-#include "renderer/opengl/ibo.hpp"
+#include "renderer/resource/ibo.hpp"
 
 namespace ece
 {
@@ -180,6 +180,6 @@ namespace ece
 	};
 }
 
-#include "renderer/opengl/vao.inl"
+#include "renderer/resource/vao.inl"
 
 #endif // VAO_HPP
