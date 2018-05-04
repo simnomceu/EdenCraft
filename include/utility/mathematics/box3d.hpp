@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -43,95 +43,101 @@
 
 namespace ece
 {
-	/**
-	 * @class Box3D
-	 * @brief Box in a 3D space, defined by two vertices.
-	 * @remark Need to be refactored as a templated class.
-	 *      *-------b
-	 *     /|      /|
-	 *	  / |     / |
-	 *   *--|----*  |
-	 *   |  *----|--*
-	 *   | /     | /
-	 *   a-------*
-	 */
-	class Box3D
-	{
-	public:
-		Box3D() = delete;
+    namespace utility
+    {
+        namespace mathematics
+        {
+        	/**
+        	 * @class Box3D
+        	 * @brief Box in a 3D space, defined by two vertices.
+        	 * @remark Need to be refactored as a templated class.
+        	 *      *-------b
+        	 *     /|      /|
+        	 *	  / |     / |
+        	 *   *--|----*  |
+        	 *   |  *----|--*
+        	 *   | /     | /
+        	 *   a-------*
+        	 */
+        	class Box3D
+        	{
+        	public:
+        		Box3D() = delete;
 
-		/**
-		 * @fn Box3D(const FloatVector3u & a, const FloatVector3u & b)
-		 * @param[in] a The left-bottom vertex of the box
-		 * @param[in] b The right-top vertex of the box
-		 * @brief  Build a box in 3D space.
-		 * @throw
-		 */
-		inline Box3D(const FloatVector3u & a, const FloatVector3u & b);
+        		/**
+        		 * @fn Box3D(const FloatVector3u & a, const FloatVector3u & b)
+        		 * @param[in] a The left-bottom vertex of the box
+        		 * @param[in] b The right-top vertex of the box
+        		 * @brief  Build a box in 3D space.
+        		 * @throw
+        		 */
+        		inline Box3D(const FloatVector3u & a, const FloatVector3u & b);
 
-		/**
-		 * @fn Box3D(const Box3D & copy)
-		 * @param[in] copy The box to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Box3D(const Box3D & copy) = default;
+        		/**
+        		 * @fn Box3D(const Box3D & copy)
+        		 * @param[in] copy The box to copy from.
+        		 * @brief Default copy constructor.
+        		 * @throw
+        		 */
+        		Box3D(const Box3D & copy) = default;
 
-		/**
-		 * @fn Box3D(Box3D && move) noexcept
-		 * @param[in] move The box to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Box3D(Box3D && move) noexcept = default;
+        		/**
+        		 * @fn Box3D(Box3D && move) noexcept
+        		 * @param[in] move The box to move.
+        		 * @brief Default move constructor.
+        		 * @throw noexcept
+        		 */
+        		Box3D(Box3D && move) noexcept = default;
 
-		/**
-		 * @fn ~Box3D() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Box3D() noexcept = default;
+        		/**
+        		 * @fn ~Box3D() noexcept
+        		 * @brief Default destructor.
+        		 * @throw noexcept
+        		 */
+        		~Box3D() noexcept = default;
 
-		/**
-		 * @fn Box3D & operator=(const Box3D & copy)
-		 * @param[in] copy The box to copy from.
-		 * @return The box copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Box3D & operator=(const Box3D & copy) = default;
+        		/**
+        		 * @fn Box3D & operator=(const Box3D & copy)
+        		 * @param[in] copy The box to copy from.
+        		 * @return The box copied.
+        		 * @brief Default copy assignment operator.
+        		 * @throw
+        		 */
+        		Box3D & operator=(const Box3D & copy) = default;
 
-		/**
-		 * @fn Box3D & operator=(Box3D && move) noexcept
-		 * @param[in] move The box to move.
-		 * @return The box moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Box3D & operator=(Box3D && move) noexcept = default;
+        		/**
+        		 * @fn Box3D & operator=(Box3D && move) noexcept
+        		 * @param[in] move The box to move.
+        		 * @return The box moved.
+        		 * @brief Default move assignment operator.
+        		 * @throw noexcept
+        		 */
+        		Box3D & operator=(Box3D && move) noexcept = default;
 
-		/**
-		 * @fn FloatVector3u getCenter() const
-		 * @return The center of the box.
-		 * @brief Get the center of the box as a 3D vertex.
-		 * @throw noexcept.
-		 */
-		inline FloatVector3u getCenter() const noexcept;
+        		/**
+        		 * @fn FloatVector3u getCenter() const
+        		 * @return The center of the box.
+        		 * @brief Get the center of the box as a 3D vertex.
+        		 * @throw noexcept.
+        		 */
+        		inline FloatVector3u getCenter() const noexcept;
 
-	private:
-		/**
-		 * @property _a
-		 * @brief The left-bottom vertex of the box.
-		 */
-		FloatVector3u _a;
+        	private:
+        		/**
+        		 * @property _a
+        		 * @brief The left-bottom vertex of the box.
+        		 */
+        		FloatVector3u _a;
 
-		/**
-		 * @property _b
-		 * @brief The right-top vertex of the box.
-		 */
-		FloatVector3u _b;
-	};
-}
+        		/**
+        		 * @property _b
+        		 * @brief The right-top vertex of the box.
+        		 */
+        		FloatVector3u _b;
+        	};
+        } // namespace mathematics
+    } // namespace utility
+} // namespace ece
 
 #include "utility/mathematics/box3d.inl"
 

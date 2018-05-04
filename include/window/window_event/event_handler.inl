@@ -37,5 +37,11 @@
 
 namespace ece
 {
-	inline void EventHandler::produceMouseButtonEvent(const int button, const int /*action*/, const int /*mods*/) { std::cerr << "button: " << button << std::endl; }
-}
+	namespace window
+	{
+		namespace window_event
+		{
+			inline void EventHandler::produceMouseButtonEvent(const int button, const int /*action*/, const int /*mods*/) { std::cerr << "button: " << button << std::endl; }
+		} // namespace window_event
+	} // namespace window
+} // namespace ece

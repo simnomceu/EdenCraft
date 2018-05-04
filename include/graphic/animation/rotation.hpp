@@ -45,62 +45,68 @@
 
 namespace ece
 {
-	/**
-	 * @class Rotation
-	 * @extends Transformation
-	 * @brief Define a mathematic rotation.
-	 */
-	class Rotation: public Transformation
+	namespace graphic
 	{
-	public:
-		/**
-		 * @fn Rotation() noexcept 
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		Rotation() noexcept = default;
+		namespace animation
+		{
+			/**
+			 * @class Rotation
+			 * @extends Transformation
+			 * @brief Define a mathematic rotation.
+			 */
+			class Rotation : public Transformation
+			{
+			public:
+				/**
+				 * @fn Rotation() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				Rotation() noexcept = default;
 
-		/**
-		 * @fn Rotation(const Rotation & copy) noexcept 
-		 * @param[in] copy The rotation to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Rotation(const Rotation & copy) noexcept = default;
+				/**
+				 * @fn Rotation(const Rotation & copy) noexcept
+				 * @param[in] copy The rotation to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Rotation(const Rotation & copy) noexcept = default;
 
-		/**
-		 * @fn Rotation(Rotation && move) noexcept 
-		 * @param[in] move The rotation to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Rotation(Rotation && move) noexcept = default;
+				/**
+				 * @fn Rotation(Rotation && move) noexcept
+				 * @param[in] move The rotation to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Rotation(Rotation && move) noexcept = default;
 
-		/**
-		 * @fn ~Rotation() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Rotation() noexcept = default;
+				/**
+				 * @fn ~Rotation() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Rotation() noexcept = default;
 
-		/**
-		 * @fn Rotation & operator=(const Rotation & copy) noexcept 
-		 * @param[in] coppy The rotation to copy from.
-		 * @return The rotation copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Rotation & operator=(const Rotation & copy) noexcept = default;
+				/**
+				 * @fn Rotation & operator=(const Rotation & copy) noexcept
+				 * @param[in] coppy The rotation to copy from.
+				 * @return The rotation copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Rotation & operator=(const Rotation & copy) noexcept = default;
 
-		/**
-		 * @fn Rotation & operator=(Rotation && move) noexcept 
-		 * @param[in] move The rotation to move.
-		 * @return The rotation moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Rotation & operator=(Rotation && move) noexcept = default;
-	};
-}
+				/**
+				 * @fn Rotation & operator=(Rotation && move) noexcept
+				 * @param[in] move The rotation to move.
+				 * @return The rotation moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Rotation & operator=(Rotation && move) noexcept = default;
+			};
+		} // namespace animation
+	} // namespace graphic
+} // namespace ece
 
 #endif // ROTATION_HPP

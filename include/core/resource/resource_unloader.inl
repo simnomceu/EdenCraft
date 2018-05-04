@@ -39,5 +39,11 @@
 
 namespace ece
 {
-	inline ResourceUnloader::~ResourceUnloader() {}
-}
+	namespace core
+	{
+		namespace resource
+		{
+			inline ResourceUnloader::~ResourceUnloader() {}
+		} // namespace resource
+	} // namespace core
+} // namespace ece

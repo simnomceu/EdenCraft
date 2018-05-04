@@ -40,34 +40,40 @@
 
 namespace ece
 {
-	inline VAO::VAO() : _handle(0), _nbVertices(0), _ibo() { OpenGL::genVertexArrays(this->_handle); }
-
-	inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
-
-	inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
-
-	template<class T> 
-	void VAO::addAttribute(const int location, const int size, const bool normalized, const int offset,
-		const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+	namespace renderer
 	{
-		this->bind();
-		OpenGL::enableVertexAttribArray(location);
+		namespace opengl
+		{
+			inline VAO::VAO() : _handle(0), _nbVertices(0), _ibo() { OpenGL::genVertexArrays(this->_handle); }
 
-		VBO vbo(type);
-		vbo.bufferData(data, usage);
-		OpenGL::vertexAttribPointer<T>(location, size, normalized, offset);
-	}
+			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 
-	template<class T>
-	void VAO::addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset,
-		const BufferType type, std::vector<T> & data, const BufferUsage usage)
-	{
-		// BUG: somewhere here
-		this->bind();
-		OpenGL::enableVertexAttribArray(location);
+			inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
 
-		OpenGL::vertexAttribPointer<T>(location, size, normalized, offset, data);
-	}
+			template<class T>
+			void VAO::addAttribute(const int location, const int size, const bool normalized, const int offset,
+				const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+			{
+				this->bind();
+				OpenGL::enableVertexAttribArray(location);
 
-	inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
-}
+				VBO vbo(type);
+				vbo.bufferData(data, usage);
+				OpenGL::vertexAttribPointer<T>(location, size, normalized, offset);
+			}
+
+			template<class T>
+			void VAO::addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset,
+				const BufferType type, std::vector<T> & data, const BufferUsage usage)
+			{
+				// BUG: somewhere here
+				this->bind();
+				OpenGL::enableVertexAttribArray(location);
+
+				OpenGL::vertexAttribPointer<T>(location, size, normalized, offset, data);
+			}
+
+			inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

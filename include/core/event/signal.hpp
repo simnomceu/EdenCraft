@@ -41,113 +41,119 @@
 
 namespace ece
 {
-	/**
-	 * @class Signal
-	 * @brief The signal is an event which can triggered action linked to.
-	 */
-	class Signal final
+	namespace core
 	{
-	public:
-		/**
-		 * @typedef SignalID
-		 * @brief The id of the signal, relative to its owner.
-		 */
-		using SignalID = unsigned int;
+		namespace event
+		{
+			/**
+			 * @class Signal
+			 * @brief The signal is an event which can triggered action linked to.
+			 */
+			class Signal final
+			{
+			public:
+				/**
+				 * @typedef SignalID
+				 * @brief The id of the signal, relative to its owner.
+				 */
+				using SignalID = unsigned int;
 
-		/**
-		 * @typedef GlobalSignalID
-		 * @brief The global id of the signal.
-		 */
-		using GlobalSignalID = unsigned int;
+				/**
+				 * @typedef GlobalSignalID
+				 * @brief The global id of the signal.
+				 */
+				using GlobalSignalID = unsigned int;
 
-		static const Signal::GlobalSignalID INVALID_SIGNAL = 0;
-		Signal() = delete;
+				static const Signal::GlobalSignalID INVALID_SIGNAL = 0;
+				Signal() = delete;
 
-		/**
-		 * @fn Signal(const GlobalSignalID & id)
-		 * @param[in] id The global id to use.
-		 * @brief Build a signal with a specific global id.
-		 */
-		inline Signal(const GlobalSignalID & id);
+				/**
+				 * @fn Signal(const GlobalSignalID & id)
+				 * @param[in] id The global id to use.
+				 * @brief Build a signal with a specific global id.
+				 */
+				inline Signal(const GlobalSignalID & id);
 
-		/**
-		 * @fn Signal(const Signal & copy)
-		 * @param[in] copy The signal to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Signal(const Signal & copy) = default;
+				/**
+				 * @fn Signal(const Signal & copy)
+				 * @param[in] copy The signal to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Signal(const Signal & copy) = default;
 
-		/**
-		 * @fn Signal(Signal && move)
-		 * @param[in] move The signal to move.
-		 * @brief Default move constructor.
-		 */
-		Signal(Signal && move) = default;
+				/**
+				 * @fn Signal(Signal && move)
+				 * @param[in] move The signal to move.
+				 * @brief Default move constructor.
+				 */
+				Signal(Signal && move) = default;
 
-		/**
-		 * @fn ~Signal()
-		 * @brief Default destructor.
-		 * @throw
-		 */
-		~Signal() = default;
+				/**
+				 * @fn ~Signal()
+				 * @brief Default destructor.
+				 * @throw
+				 */
+				~Signal() = default;
 
-		/**
-		 * @fn Signal & operator=(const Signal & copy)
-		 * @param[in] copy The signal to copy from.
-		 * @return The signal copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Signal & operator=(const Signal & copy) = default;
+				/**
+				 * @fn Signal & operator=(const Signal & copy)
+				 * @param[in] copy The signal to copy from.
+				 * @return The signal copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Signal & operator=(const Signal & copy) = default;
 
-		/**
-		 * @fn Signal & operator=(Signal && move)
-		 * @param[in] move The signal to move.
-		 * @return The signal moved.
-		 * @brief Default move assignment operator.
-		 * @throw
-		 */
-		Signal & operator=(Signal && move) = default;
+				/**
+				 * @fn Signal & operator=(Signal && move)
+				 * @param[in] move The signal to move.
+				 * @return The signal moved.
+				 * @brief Default move assignment operator.
+				 * @throw
+				 */
+				Signal & operator=(Signal && move) = default;
 
-		/**
-		 * @fn const GlobalSignalID & getId() const
-		 * @return The global id of the signal.
-		 * @brief Get the global id of the signal.
-		 * @throw
-		 */
-		inline const GlobalSignalID & getId() const;
+				/**
+				 * @fn const GlobalSignalID & getId() const
+				 * @return The global id of the signal.
+				 * @brief Get the global id of the signal.
+				 * @throw
+				 */
+				inline const GlobalSignalID & getId() const;
 
-		/**
-		 * @fn bool isDirty() const
-		 * @return True if the signal should be destroyed, else false.
-		 * @brief Check if the signal is dirt or not.
-		 * @throw
-		 */
-		inline bool isDirty() const;
+				/**
+				 * @fn bool isDirty() const
+				 * @return True if the signal should be destroyed, else false.
+				 * @brief Check if the signal is dirt or not.
+				 * @throw
+				 */
+				inline bool isDirty() const;
 
-		/**
-		 * @fn void setDirty(const bool dirty)
-		 * @param[in] dirty The new value of the tag.
-		 * @brief Modify the dirty tag of the signal.
-		 * @throw
-		 */
-		inline void setDirty(const bool dirty);
+				/**
+				 * @fn void setDirty(const bool dirty)
+				 * @param[in] dirty The new value of the tag.
+				 * @brief Modify the dirty tag of the signal.
+				 * @throw
+				 */
+				inline void setDirty(const bool dirty);
 
-	private:
-		/**
-		 * @property _id
-		 * @brief The global id of the signal.
-		 */
-		GlobalSignalID _id;
+			private:
+				/**
+				 * @property _id
+				 * @brief The global id of the signal.
+				 */
+				GlobalSignalID _id;
 
-		/**
-		 * @property _dirty
-		 * @brief The dirty tag of the signal. If true, the signal need to be destroyed.
-		 */
-		bool _dirty;
-	};
-}
+				/**
+				 * @property _dirty
+				 * @brief The dirty tag of the signal. If true, the signal need to be destroyed.
+				 */
+				bool _dirty;
+			};
+		} // namespace event
+	} // namespace core
+} // namespace ece
 
 #include "core/event/signal.inl"
 

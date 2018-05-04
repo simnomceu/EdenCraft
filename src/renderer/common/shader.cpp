@@ -40,12 +40,18 @@
 
 namespace ece
 {
-	void Shader::setStage(ShaderStage & shader)
+	namespace renderer
 	{
-		if (shader.isCompilationRequired()) {
-			shader.compile();
-		}
-		OpenGL::attachShader(this->_handle, shader.getHandle());
-		shader.terminate();
-	}
-}
+		namespace common
+		{
+			void Shader::setStage(ShaderStage & shader)
+			{
+				if (shader.isCompilationRequired()) {
+					shader.compile();
+				}
+				OpenGL::attachShader(this->_handle, shader.getHandle());
+				shader.terminate();
+			}
+		} // namespace common
+	} // renderer
+} // namespace ece

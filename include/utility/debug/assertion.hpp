@@ -43,30 +43,36 @@
 
 namespace ece
 {
-    /**
-     * @class AssertionException
-     * @extends Exception
-     * @brief An exception risen on assertion failure.
-     * @see Exception
-     */
-    class AssertionException : public Exception
+    namespace utility
     {
-	public:
-        /**
-         * @fn AssertionException(const std::string & expression, const std::string file, const int line, const std::string & message)
-         * @param[in] expression The expression of the assertion that failed.
-         * @param[in] file The source file of the assertion.
-         * @param[in] line The line of the assertion in the file.
-         * @param[in] message A description message of the failure.
-         * @brief An exception used on assertion failure.
-          @throw
-         */
-        AssertionException(const std::string & expression, const std::string file, const int line, const std::string & message);
-	};
+        namespace debug
+        {
+            /**
+             * @class AssertionException
+             * @extends Exception
+             * @brief An exception risen on assertion failure.
+             * @see Exception
+             */
+            class AssertionException : public Exception
+            {
+        	public:
+                /**
+                 * @fn AssertionException(const std::string & expression, const std::string file, const int line, const std::string & message)
+                 * @param[in] expression The expression of the assertion that failed.
+                 * @param[in] file The source file of the assertion.
+                 * @param[in] line The line of the assertion in the file.
+                 * @param[in] message A description message of the failure.
+                 * @brief An exception used on assertion failure.
+                  @throw
+                 */
+                AssertionException(const std::string & expression, const std::string file, const int line, const std::string & message);
+        	};
 
-#define make_assert(EXPRESSION, MESSAGE) \
-    if (!(EXPRESSION)) { \
-        throw AssertionException(#EXPRESSION, __FILE__, __LINE__, MESSAGE); \
-    }
-}
+        #define make_assert(EXPRESSION, MESSAGE) \
+            if (!(EXPRESSION)) { \
+                throw AssertionException(#EXPRESSION, __FILE__, __LINE__, MESSAGE); \
+            }
+        } // namespace debug
+    } // namespace utility
+} // namespace ece
 #endif // ASSERTION_HPP

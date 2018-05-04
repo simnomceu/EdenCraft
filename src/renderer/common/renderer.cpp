@@ -42,35 +42,43 @@
 
 namespace ece
 {
-	Shader Renderer::getProgram() const
+	namespace renderer
 	{
-		auto handle = OpenGL::getInteger(Parameter::CURRENT_PROGRAM);
-		return Shader(static_cast<Handle>(handle[0]));
-	}
+		namespace common
+		{
+			using opengl::VAO;
 
-	void Renderer::enableFaceCulling(const CullFaceMode cullFaceMode, const FrontFaceMode frontFaceMode)
-	{
-		OpenGL::enable(Capability::CULL_FACE);
-		OpenGL::cullFace(cullFaceMode);
-		OpenGL::frontFace(frontFaceMode);
-	}
+			Shader Renderer::getProgram() const
+			{
+				auto handle = OpenGL::getInteger(Parameter::CURRENT_PROGRAM);
+				return Shader(static_cast<Handle>(handle[0]));
+			}
 
-	void Renderer::disableFaceCulling()
-	{
-		OpenGL::disable(Capability::CULL_FACE);
-	}
+			void Renderer::enableFaceCulling(const CullFaceMode cullFaceMode, const FrontFaceMode frontFaceMode)
+			{
+				OpenGL::enable(Capability::CULL_FACE);
+				OpenGL::cullFace(cullFaceMode);
+				OpenGL::frontFace(frontFaceMode);
+			}
 
-	void Renderer::setPolygonMode(const PolygonMode mode)
-	{
-		OpenGL::polygonMode(mode);
-	}
+			void Renderer::disableFaceCulling()
+			{
+				OpenGL::disable(Capability::CULL_FACE);
+			}
 
-	void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
-	{
-		this->enableFaceCulling(CullFaceMode::BACK, FrontFaceMode::CW);
+			void Renderer::setPolygonMode(const PolygonMode mode)
+			{
+				OpenGL::polygonMode(mode);
+			}
 
-		vao.bind();
-		vao.bindIndexBuffer();
-		OpenGL::drawElements(mode, vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
-	}
-}
+			void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
+			{
+				this->enableFaceCulling(CullFaceMode::BACK, FrontFaceMode::CW);
+
+				vao.bind();
+				vao.bindIndexBuffer();
+				OpenGL::drawElements(mode, vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+			}
+		} // common
+	} // renderer
+} // ece

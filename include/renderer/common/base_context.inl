@@ -40,21 +40,29 @@
 
 namespace ece
 {
-	inline BaseContext::BaseContext() noexcept: std::enable_shared_from_this<BaseContext>(), _minVersion(), _maxVersion() {}
+	namespace renderer
+	{
+		namespace common
+		{
+			using namespace utility::debug;
 
-    inline void BaseContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
-    {
-        make_assert(minVersion <= maxVersion, "Minimum version should be smaller than or equal to maximum version.");
+			inline BaseContext::BaseContext() noexcept: std::enable_shared_from_this<BaseContext>(), _minVersion(), _maxVersion() {}
 
-        this->setMinVersion(minVersion);
-        this->setMaxVersion(maxVersion);
-    }
+			inline void BaseContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
+			{
+				make_assert(minVersion <= maxVersion, "Minimum version should be smaller than or equal to maximum version.");
 
-    inline void BaseContext::setMinVersion(const Version<2> & minVersion) noexcept { this->_minVersion = minVersion; }
+				this->setMinVersion(minVersion);
+				this->setMaxVersion(maxVersion);
+			}
 
-    inline void BaseContext::setMaxVersion(const Version<2> & maxVersion) noexcept { this->_maxVersion = maxVersion; }
+			inline void BaseContext::setMinVersion(const Version<2> & minVersion) noexcept { this->_minVersion = minVersion; }
 
-	inline void BaseContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
+			inline void BaseContext::setMaxVersion(const Version<2> & maxVersion) noexcept { this->_maxVersion = maxVersion; }
 
-	bool BaseContext::isCreated() const noexcept { return this->_created; }
-}
+			inline void BaseContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
+
+			bool BaseContext::isCreated() const noexcept { return this->_created; }
+		} // namespace common
+	} // namespace renderer
+} // namespace ece

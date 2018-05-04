@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -50,94 +50,102 @@
 
 namespace ece
 {
-	void ParserOBJ::loadFromFile(const std::string & filename)
-	{
+    namespace utility
+    {
+        using debug::FileException;
 
-		std::ifstream file(filename, std::ios::out);
-		if (!file.is_open()) {
-			throw FileException(FileCodeError::BAD_PATH, filename);
-		}
-		std::string line, command;
-		while (file.good()) {
-			getline(file, line);
-			if (line.size() >= 2) {
-				command = line.substr(0, 2);
-				std::istringstream stream(line.substr(2));
+        namespace file_system
+        {
+        	void ParserOBJ::loadFromFile(const std::string & filename)
+        	{
 
-				// TODO add checks for the format of the file
+        		std::ifstream file(filename, std::ios::out);
+        		if (!file.is_open()) {
+        			throw FileException(FileCodeError::BAD_PATH, filename);
+        		}
+        		std::string line, command;
+        		while (file.good()) {
+        			getline(file, line);
+        			if (line.size() >= 2) {
+        				command = line.substr(0, 2);
+        				std::istringstream stream(line.substr(2));
 
-				if (command == "v ") {
-					float vertice[3];
-					stream >> vertice[0] >> vertice[1] >> vertice[2];
-					this->_vertices.push_back(vertice[0]);
-					this->_vertices.push_back(vertice[1]);
-					this->_vertices.push_back(vertice[2]);
-				}
-				else if (command == "vt") {
-					float texture[2];
-					stream >> texture[0] >> texture[1];
-					this->_textures.push_back(texture[0]);
-					this->_textures.push_back(texture[1]);
-				}
-				else if (command == "vn") {
-					float normale[3];
-					stream >> normale[0] >> normale[1] >> normale[2];
-					this->_normales.push_back(normale[0]);
-					this->_normales.push_back(normale[1]);
-					this->_normales.push_back(normale[2]);
-				}
-				else if (command == "f ") {
-					int face[9];
-					sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &face[0], &face[1], &face[2], &face[3], &face[4],
-						&face[5], &face[6], &face[7], &face[8]);
-					this->_faces.push_back(face[0] * 3);
-//					this->_faces.push_back(face[1]);
-//					this->_faces.push_back(face[2]);
-					this->_faces.push_back(face[3] * 3);
-//					this->_faces.push_back(face[4]);
-//					this->_faces.push_back(face[5]);
-					this->_faces.push_back(face[6] * 3);
-//					this->_faces.push_back(face[7]);
-//					this->_faces.push_back(face[8]);
+        				// TODO add checks for the format of the file
 
-					// TODO check that it uses existing vertices, normales, and textures.
-				}
-				else if (command == "g ") {
+        				if (command == "v ") {
+        					float vertice[3];
+        					stream >> vertice[0] >> vertice[1] >> vertice[2];
+        					this->_vertices.push_back(vertice[0]);
+        					this->_vertices.push_back(vertice[1]);
+        					this->_vertices.push_back(vertice[2]);
+        				}
+        				else if (command == "vt") {
+        					float texture[2];
+        					stream >> texture[0] >> texture[1];
+        					this->_textures.push_back(texture[0]);
+        					this->_textures.push_back(texture[1]);
+        				}
+        				else if (command == "vn") {
+        					float normale[3];
+        					stream >> normale[0] >> normale[1] >> normale[2];
+        					this->_normales.push_back(normale[0]);
+        					this->_normales.push_back(normale[1]);
+        					this->_normales.push_back(normale[2]);
+        				}
+        				else if (command == "f ") {
+        					int face[9];
+        					sscanf_s(line.substr(2).c_str(), "%i/%i/%i %i/%i/%i %i/%i/%i", &face[0], &face[1], &face[2], &face[3], &face[4],
+        						&face[5], &face[6], &face[7], &face[8]);
+        					this->_faces.push_back(face[0] * 3);
+        //					this->_faces.push_back(face[1]);
+        //					this->_faces.push_back(face[2]);
+        					this->_faces.push_back(face[3] * 3);
+        //					this->_faces.push_back(face[4]);
+        //					this->_faces.push_back(face[5]);
+        					this->_faces.push_back(face[6] * 3);
+        //					this->_faces.push_back(face[7]);
+        //					this->_faces.push_back(face[8]);
 
-				}
-				else if (command == "o ") {
+        					// TODO check that it uses existing vertices, normales, and textures.
+        				}
+        				else if (command == "g ") {
 
-				}
-				else if (line.size() > 6 && line.substr(0, 6) == "usemtl") {
+        				}
+        				else if (command == "o ") {
 
-				}
-			}
-		}
-		// TODO care about objects groups and faces groups
-	}
+        				}
+        				else if (line.size() > 6 && line.substr(0, 6) == "usemtl") {
 
-	void ParserOBJ::loadFromString(const std::string & /*content*/)
-	{
-		/* NOT IMPLEMENTED YET*/
-	}
+        				}
+        			}
+        		}
+        		// TODO care about objects groups and faces groups
+        	}
 
-	void ParserOBJ::loadFromMemory(const void * /*content*/)
-	{
-		/* NOT IMPLEMENTED YET*/
-	}
+        	void ParserOBJ::loadFromString(const std::string & /*content*/)
+        	{
+        		/* NOT IMPLEMENTED YET*/
+        	}
 
-	void ParserOBJ::saveToFile(const std::string & /*filename*/)
-	{
-		/* NOT IMPLEMENTED YET*/
-	}
+        	void ParserOBJ::loadFromMemory(const void * /*content*/)
+        	{
+        		/* NOT IMPLEMENTED YET*/
+        	}
 
-	void ParserOBJ::saveToString(std::string & /*content*/)
-	{
-		/* NOT IMPLEMENTED YET*/
-	}
+        	void ParserOBJ::saveToFile(const std::string & /*filename*/)
+        	{
+        		/* NOT IMPLEMENTED YET*/
+        	}
 
-	void ParserOBJ::saveToMemory(void * /*content*/)
-	{
-		/* NOT IMPLEMENTED YET*/
-	}
-}
+        	void ParserOBJ::saveToString(std::string & /*content*/)
+        	{
+        		/* NOT IMPLEMENTED YET*/
+        	}
+
+        	void ParserOBJ::saveToMemory(void * /*content*/)
+        	{
+        		/* NOT IMPLEMENTED YET*/
+        	}
+        } // namespace file_system
+    } // namespace utility
+} // namespace ece

@@ -38,15 +38,21 @@
 
 namespace ece
 {
-	template<class T>
-	Component<T>::Component() : BaseComponent(), _value() {}
+	namespace core
+	{
+		namespace ecs
+		{
+			template<class T>
+			Component<T>::Component() : BaseComponent(), _value() {}
 
-	template<class T>
-	Component<T>::~Component() {}
+			template<class T>
+			Component<T>::~Component() {}
 
-	template<class T>
-	const T & Component<T>::get() { return this->_value; }
+			template<class T>
+			const T & Component<T>::get() { return this->_value; }
 
-	template<class T>
-	void Component<T>::set(const T & value) { this->_value = value; }
-}
+			template<class T>
+			void Component<T>::set(const T & value) { this->_value = value; }
+		} // namespace ecs
+	} // namespace core
+} // namespace ece

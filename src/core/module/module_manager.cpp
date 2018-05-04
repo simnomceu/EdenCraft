@@ -41,24 +41,30 @@
 
 namespace ece
 {
-	void ModuleManager::initAll()
+	namespace core
 	{
-		for (auto element : this->_modules) {
-			element->init();
-		}
-	}
+		namespace module
+		{
+			void ModuleManager::initAll()
+			{
+				for (auto element : this->_modules) {
+					element->init();
+				}
+			}
 
-	void ModuleManager::updateAll()
-	{
-		for (auto element : this->_modules) {
-			element->update();
-		}
-	}
+			void ModuleManager::updateAll()
+			{
+				for (auto element : this->_modules) {
+					element->update();
+				}
+			}
 
-	void ModuleManager::terminateAll()
-	{
-		for (auto element : this->_modules) {
-			element->terminate();
-		}
-	}
-}
+			void ModuleManager::terminateAll()
+			{
+				for (auto element : this->_modules) {
+					element->terminate();
+				}
+			}
+		} // namespace module
+	} // namespace core
+} // namespace ece

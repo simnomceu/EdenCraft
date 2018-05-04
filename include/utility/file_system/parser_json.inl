@@ -38,7 +38,13 @@
 
 namespace ece
 {
-	inline ParserJSON::ParserJSON() noexcept: _pathname(), _contentJSON() {}
+    namespace utility
+    {
+        namespace file_system
+        {
+           inline ParserJSON::ParserJSON() noexcept: _pathname(), _contentJSON() {}
 
-	inline std::shared_ptr<ObjectJSON> ParserJSON::getObject() const { return this->_contentJSON; }
-}
+           inline std::shared_ptr<ObjectJSON> ParserJSON::getObject() const { return this->_contentJSON; }
+        } // namespace file_system
+    } // namespace utility
+} // namespace ece

@@ -46,4 +46,9 @@
 #include "renderer/common/shader_stage.hpp"
 #include "renderer/common/texture2d.hpp"
 
+namespace ece
+{
+	using namespace renderer::common;
+}
+
 #endif // RENDERER_COMMON_HPP

@@ -44,19 +44,25 @@
 
 namespace ece
 {
-	inline Object::Object() noexcept: _mesh(), _skeleton(nullptr), _animation(nullptr) {}
+	namespace graphic
+	{
+		namespace model
+		{
+			inline Object::Object() noexcept: _mesh(), _skeleton(nullptr), _animation(nullptr) {}
 
-	inline void Object::setMesh(const std::shared_ptr<Mesh> & mesh) { this->_mesh = mesh; }
+			inline void Object::setMesh(const std::shared_ptr<Mesh> & mesh) { this->_mesh = mesh; }
 
-	inline void Object::setSkeleton(const std::shared_ptr<Skeleton> & skeleton) { this->_skeleton = skeleton; }
+			inline void Object::setSkeleton(const std::shared_ptr<Skeleton> & skeleton) { this->_skeleton = skeleton; }
 
-	inline void Object::setAnimation(const std::shared_ptr<Animation> & animation) { this->_animation = animation; }
+			inline void Object::setAnimation(const std::shared_ptr<Animation> & animation) { this->_animation = animation; }
 
-	inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
+			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
 
-	inline std::shared_ptr<Skeleton> Object::getSkeleton() const { return this->_skeleton; }
+			inline std::shared_ptr<Skeleton> Object::getSkeleton() const { return this->_skeleton; }
 
-	inline std::shared_ptr<Animation> Object::getAnimation() const { return this->_animation; }
+			inline std::shared_ptr<Animation> Object::getAnimation() const { return this->_animation; }
 
-	inline Vertex * Object::getVertices() const { return this->_mesh.get(); }
-}
+			inline Vertex * Object::getVertices() const { return this->_mesh.get(); }
+		} // namespace model
+	} // namespace graphic
+} // namespace ece

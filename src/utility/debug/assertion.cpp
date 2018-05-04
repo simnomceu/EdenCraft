@@ -40,8 +40,14 @@
 
 namespace ece
 {
-    AssertionException::AssertionException(const std::string & expression, const std::string file, const int line, const std::string & message): Exception()
+    namespace utility
     {
-        this->setMessage("Assertion failure: % at %:%. %", expression, file, line, message);
-    }
-}
+        namespace debug
+        {
+            AssertionException::AssertionException(const std::string & expression, const std::string file, const int line, const std::string & message): Exception()
+            {
+                this->setMessage("Assertion failure: % at %:%. %", expression, file, line, message);
+            }
+        } // namespace debug
+    } // namespace utility
+} // namespace ece

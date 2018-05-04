@@ -46,6 +46,12 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
+}
+
 inline void glEnableVertexArrayAttrib(GLuint vaobj, GLuint index);
 inline void glDisableVertexArrayAttrib(GLuint vaobj, GLuint index);
 inline void glNamedBufferData(GLuint buffer, GLsizei size, const GLvoid *data, GLenum usage);
@@ -158,7 +164,7 @@ inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pname, GLuint index, 
  * @brief Load the opengl 4.5 extension and call it.
  */
 #define CALLGL45(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -171,7 +177,7 @@ inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pname, GLuint index, 
  * @brief Load the opengl 4.5 extension and call it.
  */
 #define R_CALLGL45(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -185,7 +191,7 @@ inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pname, GLuint index, 
  * @brief Load the opengl 4.5 extension and call it.
  */
 #define CALLGL45_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -199,7 +205,7 @@ inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pname, GLuint index, 
  * @brief Load the opengl 4.5 extension and call it.
  */
 #define R_CALLGL45_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 5 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \

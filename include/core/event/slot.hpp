@@ -45,140 +45,146 @@
 
 namespace ece
 {
-	class Emitter;
-
-	/**
-	 * @class Slot
-	 * @brief
-	 */
-	class Slot final
+	namespace core
 	{
-	public:
-		/**
-		 * @typedef SlotID
-		 * @brief Id to handle the slot, relating to its owner.
-		 */
-		using SlotID = unsigned int;
+		namespace event
+		{
+			class Emitter;
 
-		/**
-		 * @typedef GlobalSlotID
-		 * @brief Global id of the slot.
-		 */
-		using GlobalSlotID = unsigned int;
+			/**
+			 * @class Slot
+			 * @brief
+			 */
+			class Slot final
+			{
+			public:
+				/**
+				 * @typedef SlotID
+				 * @brief Id to handle the slot, relating to its owner.
+				 */
+				using SlotID = unsigned int;
 
-		/**
-		 * @typedef Handle
-		 * @brief The action of the slot.
-		 */
-		using Handle = std::function<void(const Emitter & emitter, const Signal::SignalID signal)>;
+				/**
+				 * @typedef GlobalSlotID
+				 * @brief Global id of the slot.
+				 */
+				using GlobalSlotID = unsigned int;
 
-		static const Slot::GlobalSlotID INVALID_SLOT = 0;
+				/**
+				 * @typedef Handle
+				 * @brief The action of the slot.
+				 */
+				using Handle = std::function<void(const Emitter & emitter, const Signal::SignalID signal)>;
 
-		Slot() = delete;
+				static const Slot::GlobalSlotID INVALID_SLOT = 0;
 
-		/**
-		 * @fn Slot(const GlobalSlotID & id, const Handle & handle)
-		 * @param[in] id The global id of the slot.
-		 * @param[in] handle The action of the slot.
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline Slot(const GlobalSlotID & id, const Handle & handle);
+				Slot() = delete;
 
-		/**
-		 * @fn Slot(const Slot & copy)
-		 * @param[in] copy The slot to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Slot(const Slot & copy) = default;
+				/**
+				 * @fn Slot(const GlobalSlotID & id, const Handle & handle)
+				 * @param[in] id The global id of the slot.
+				 * @param[in] handle The action of the slot.
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline Slot(const GlobalSlotID & id, const Handle & handle);
 
-		/**
-		 * @fn Slot(Slot && move)
-		 * @param[in] move The slot to move.
-		 * @brief Default move constructor.
-		 * @throw
-		 */
-		Slot(Slot && move) = default;
+				/**
+				 * @fn Slot(const Slot & copy)
+				 * @param[in] copy The slot to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Slot(const Slot & copy) = default;
 
-		/**
-		 * @fn ~Slot() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Slot() noexcept = default;
+				/**
+				 * @fn Slot(Slot && move)
+				 * @param[in] move The slot to move.
+				 * @brief Default move constructor.
+				 * @throw
+				 */
+				Slot(Slot && move) = default;
 
-		/**
-		 * @fn Slot & operator=(const Slot & copy)
-		 * @param[in] copy The slot to copy from.
-		 * @return The slot copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Slot & operator=(const Slot & copy) = default;
+				/**
+				 * @fn ~Slot() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Slot() noexcept = default;
 
-		/**
-		 * @fn Slot & operator=(Slot && move)
-		 * @param[in] move The slot to move.
-		 * @return The slot moved.
-		 * @brief Default move assignment operator.
-		 * @throw
-		 */
-		Slot & operator=(Slot && move) = default;
+				/**
+				 * @fn Slot & operator=(const Slot & copy)
+				 * @param[in] copy The slot to copy from.
+				 * @return The slot copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Slot & operator=(const Slot & copy) = default;
 
-		/**
-		 * @fn void trigger(const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] emitter The emitter of the signal.
-		 * @param[in] signal The signal which trigger the slot.
-		 * @brief Trigger the slot.
-		 * @throw
-		 */
-		inline void trigger(const Emitter & emitter, const Signal::SignalID & signal);
+				/**
+				 * @fn Slot & operator=(Slot && move)
+				 * @param[in] move The slot to move.
+				 * @return The slot moved.
+				 * @brief Default move assignment operator.
+				 * @throw
+				 */
+				Slot & operator=(Slot && move) = default;
 
-		/**
-		 * @fn const GlobalSlotID & getId() const
-		 * @return The global id of the slot.
-		 * @brief Get the global id of the slot.
-		 * @throw
-		 */
-		inline const GlobalSlotID & getId() const;
+				/**
+				 * @fn void trigger(const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] emitter The emitter of the signal.
+				 * @param[in] signal The signal which trigger the slot.
+				 * @brief Trigger the slot.
+				 * @throw
+				 */
+				inline void trigger(const Emitter & emitter, const Signal::SignalID & signal);
 
-		/**
-		 * @fn bool isDirty() const
-		 * @return True if the slot should be destroyed, else false.
-		 * @brief Check if the slot is dirt or not.
-		 * @throw
-		 */
-		inline bool isDirty() const;
+				/**
+				 * @fn const GlobalSlotID & getId() const
+				 * @return The global id of the slot.
+				 * @brief Get the global id of the slot.
+				 * @throw
+				 */
+				inline const GlobalSlotID & getId() const;
 
-		/**
-		 * @fn void setDirty(const bool dirty)
-		 * @param[in] dirty The new value of the tag.
-		 * @brief Modify the dirty tag of the slot.
-		 * @throw
-		 */
-		inline void setDirty(const bool dirty);
+				/**
+				 * @fn bool isDirty() const
+				 * @return True if the slot should be destroyed, else false.
+				 * @brief Check if the slot is dirt or not.
+				 * @throw
+				 */
+				inline bool isDirty() const;
 
-	private:
-		/**
-		 * @property _id
-		 * @brief The global id of the slot.
-		 */
-		GlobalSlotID _id;
+				/**
+				 * @fn void setDirty(const bool dirty)
+				 * @param[in] dirty The new value of the tag.
+				 * @brief Modify the dirty tag of the slot.
+				 * @throw
+				 */
+				inline void setDirty(const bool dirty);
 
-		/**
-		 * @property _handle
-		 * @brief The action of the slot.
-		 */
-		Handle _handle;
+			private:
+				/**
+				 * @property _id
+				 * @brief The global id of the slot.
+				 */
+				GlobalSlotID _id;
 
-		/**
-		 * @property _dirty
-		 * @brief The dirty tag of the slot. If true, the slot need to be destroyed.
-		 */
-		bool _dirty;
-	};
-}
+				/**
+				 * @property _handle
+				 * @brief The action of the slot.
+				 */
+				Handle _handle;
+
+				/**
+				 * @property _dirty
+				 * @brief The dirty tag of the slot. If true, the slot need to be destroyed.
+				 */
+				bool _dirty;
+			};
+		} // namespace event
+	} // namespace core
+} // namespace ece
 
 #include "core/event/slot.inl"
 

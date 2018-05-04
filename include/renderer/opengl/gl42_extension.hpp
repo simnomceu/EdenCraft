@@ -45,6 +45,12 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
+}
+
 inline void glGetActiveAtomicCounterBufferiv(GLuint program, GLuint bufferIndex, GLenum pname, GLint *params);
 inline void glMemoryBarrier(GLbitfield barriers);
 inline void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
@@ -65,7 +71,7 @@ inline void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum p
  * @brief Load the opengl 4.2 extension and call it.
  */
 #define CALLGL42(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -78,7 +84,7 @@ inline void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum p
  * @brief Load the opengl 4.2 extension and call it.
  */
 #define R_CALLGL42(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -92,7 +98,7 @@ inline void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum p
  * @brief Load the opengl 4.2 extension and call it.
  */
 #define CALLGL42_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -106,7 +112,7 @@ inline void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum p
  * @brief Load the opengl 4.2 extension and call it.
  */
 #define R_CALLGL42_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \

@@ -45,4 +45,9 @@
 #include "window/common/window_adapter.hpp"
 #include "window/common/window_setting.hpp"
 
-#endif WINDOW_COMMON_HPP
+namespace ece
+{
+	using namespace window::common;
+}
+
+#endif // WINDOW_COMMON_HPP

@@ -38,5 +38,11 @@
 
 namespace ece
 {
-	inline void ArgumentAnalyzer::addOption(const Option & option) { this->_options.push_back(option); }
-}
+	namespace core
+	{
+		namespace argument
+		{
+			inline void ArgumentAnalyzer::addOption(const Option & option) { this->_options.push_back(option); }
+		} // namespace argument
+	} // namespace core
+} // namespace ece

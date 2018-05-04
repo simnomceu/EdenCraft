@@ -47,155 +47,164 @@
 
 namespace ece
 {
-    /**
-     * @class X11API
-     * @brief
-     */
-    class X11API
-    {
-    public:
-        /**
-         * @fn constexpr X11API() noexcept
-         * @brief Default constructor.
-         * @throw noexcept
-         */
-        constexpr X11API() noexcept = default;
+	namespace window
+	{
+		namespace x11
+		{
+			using utility::mathematics::IntVector2u;
+			using window::window_event::InputEvent;
 
-        /**
-         * @fn X11API(const X11API & copy) noexcept
-         * @param[in] copy The X11API to copy from.
-         * @brief Default copy constructor.
-         * @throw noexcept
-         */
-        X11API(const X11API & copy) noexcept = default;
+			/**
+			 * @class X11API
+			 * @brief
+			 */
+			class X11API
+			{
+			public:
+				/**
+				 * @fn constexpr X11API() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr X11API() noexcept = default;
 
-        /**
-         * @fn X11API(X11API && move) noexcept
-         * @param[in] move The X11API to move.
-         * @brief Default copy constructor.
-         * @throw noexcept
-         */
-        X11API(X11API && move) noexcept = default;
+				/**
+				 * @fn X11API(const X11API & copy) noexcept
+				 * @param[in] copy The X11API to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				X11API(const X11API & copy) noexcept = default;
 
-        /**
-         * @fn ~X11API() noexcept
-         * @brief Default destructor.
-         * @throw noexcept
-         */
-        ~X11API() noexcept = default;
+				/**
+				 * @fn X11API(X11API && move) noexcept
+				 * @param[in] move The X11API to move.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				X11API(X11API && move) noexcept = default;
 
-        /**
-         * @fn X11API & operator=(const X11API & copy) noexcept
-         * @param[in] copy The X11API to copy from.
-         * @return The X11API copied.
-         * @brief Default copy assignment operator.
-         * @throw noexcept
-         */
-        X11API & operator=(const X11API & copy) noexcept = default;
+				/**
+				 * @fn ~X11API() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~X11API() noexcept = default;
 
-        /**
-         * @fn X11API & operator=(X11API && move) noexcept
-         * @param[in] move The X11API to move.
-         * @return The X11API moved.
-         * @brief Default copy assignment operator.
-         * @throw noexcept
-         */
-        X11API & operator=(X11API && move) noexcept = default;
+				/**
+				 * @fn X11API & operator=(const X11API & copy) noexcept
+				 * @param[in] copy The X11API to copy from.
+				 * @return The X11API copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				X11API & operator=(const X11API & copy) noexcept = default;
 
-        /**
-         * Window getWindowHandle() const
-         * @return The window ID of the internal API.
-         * @brief Get the window ID of the internal API.
-         * @throw
-         */
-        virtual ::Window getWindowHandle() const = 0;
+				/**
+				 * @fn X11API & operator=(X11API && move) noexcept
+				 * @param[in] move The X11API to move.
+				 * @return The X11API moved.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				X11API & operator=(X11API && move) noexcept = default;
 
-        /**
-         * Display * getDevice() const
-         * @return The device associated to the window.
-         * @brief Get the device associated to the window.
-         * @throw
-         */
-        virtual Display * getDevice() const = 0;
+				/**
+				 * Window getWindowHandle() const
+				 * @return The window ID of the internal API.
+				 * @brief Get the window ID of the internal API.
+				 * @throw
+				 */
+				virtual ::Window getWindowHandle() const = 0;
 
-		/**
-		 * @fn void createWindow()
-		 * @brief Generate a window.
-		 * @throw
-		 */
-		virtual void createWindow() = 0;
+				/**
+				 * Display * getDevice() const
+				 * @return The device associated to the window.
+				 * @brief Get the device associated to the window.
+				 * @throw
+				 */
+				virtual Display * getDevice() const = 0;
 
-		/**
-		 * @fn void deleteWindow()
-		 * @brief Delete a window.
-		 * If that window does not exist, the behaviour is unknown.
-		 * @throw
-		 */
-		virtual void deleteWindow() = 0;
+				/**
+				 * @fn void createWindow()
+				 * @brief Generate a window.
+				 * @throw
+				 */
+				virtual void createWindow() = 0;
 
-		/**
-		 * @fn bool isWindowCreated() const
-		 * @return True if window exist, false else.
-		 * @brief Check if the window is existing or not.
-		 * @throw
-		 */
-		virtual bool isWindowCreated() const = 0;
+				/**
+				 * @fn void deleteWindow()
+				 * @brief Delete a window.
+				 * If that window does not exist, the behaviour is unknown.
+				 * @throw
+				 */
+				virtual void deleteWindow() = 0;
 
-		/**
-		 * @fn void setTitle(const std::string & title)
-		 * @param[in] title The title to set.
-		 * @brief Set the window title.
-		 * @throw
-		 */
-		virtual void setTitle(const std::string & title) = 0;
+				/**
+				 * @fn bool isWindowCreated() const
+				 * @return True if window exist, false else.
+				 * @brief Check if the window is existing or not.
+				 * @throw
+				 */
+				virtual bool isWindowCreated() const = 0;
 
-		/**
-		 * @fn std::string getTitle() const
-		 * @return The title of the window.
-		 * @brief Get the window title.
-		 * @throw
-		 */
-		virtual std::string getTitle() const = 0;
+				/**
+				 * @fn void setTitle(const std::string & title)
+				 * @param[in] title The title to set.
+				 * @brief Set the window title.
+				 * @throw
+				 */
+				virtual void setTitle(const std::string & title) = 0;
 
-		/**
-		 * @fn void setPosition(const IntVector2u & position)
-		 * @param[in] position The position to set the window to.
-		 * @brief Set the window to the position.
-		 * throw
-		 */
-		virtual void setPosition(const IntVector2u & position) = 0;
+				/**
+				 * @fn std::string getTitle() const
+				 * @return The title of the window.
+				 * @brief Get the window title.
+				 * @throw
+				 */
+				virtual std::string getTitle() const = 0;
 
-		/**
-		 * @fn IntVector2u getPosition() const
-		 * @return The window position.
-		 * @brief Get the position of the window.
-		 * @throw
-		 */
-		virtual IntVector2u getPosition() const = 0;
+				/**
+				 * @fn void setPosition(const IntVector2u & position)
+				 * @param[in] position The position to set the window to.
+				 * @brief Set the window to the position.
+				 * throw
+				 */
+				virtual void setPosition(const IntVector2u & position) = 0;
 
-		/**
-		 * @fn void minimize()
-		 * @brief Set the window to its minimum size.
-		 * @throw
-		 */
-		virtual void minimize() = 0;
+				/**
+				 * @fn IntVector2u getPosition() const
+				 * @return The window position.
+				 * @brief Get the position of the window.
+				 * @throw
+				 */
+				virtual IntVector2u getPosition() const = 0;
 
-		/**
-		 * @fn void maximize()
-		 * @brief Set the window to its maximum size.
-		 * @throw
-		 */
-		virtual void maximize() = 0;
+				/**
+				 * @fn void minimize()
+				 * @brief Set the window to its minimum size.
+				 * @throw
+				 */
+				virtual void minimize() = 0;
 
-		/**
-		 * @fn std::vector<InputEvent> processEvent(const bool blocking)
-		 * @param[in] blocking Block the thread until an event has been processed.
-         * @return The events obtained from the window.
-		 * @brief Process a window event.
-		 * @throw
-		 */
-		virtual std::vector<InputEvent> processEvent(const bool blocking) = 0;
-    };
-}
+				/**
+				 * @fn void maximize()
+				 * @brief Set the window to its maximum size.
+				 * @throw
+				 */
+				virtual void maximize() = 0;
+
+				/**
+				 * @fn std::vector<InputEvent> processEvent(const bool blocking)
+				 * @param[in] blocking Block the thread until an event has been processed.
+				 * @return The events obtained from the window.
+				 * @brief Process a window event.
+				 * @throw
+				 */
+				virtual std::vector<InputEvent> processEvent(const bool blocking) = 0;
+			};
+		} // namespace x11
+	} // namespace window
+} // namespace ece
 
 #endif // X11_API_HPP

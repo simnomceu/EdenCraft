@@ -39,5 +39,11 @@
 
 namespace ece
 {
-	inline ResourceLoader::~ResourceLoader() {}
-}
+	namespace core
+	{
+		namespace resource
+		{
+			inline ResourceLoader::~ResourceLoader() {}
+		} // namespace resource
+	} // namespace core
+} // namespace ece

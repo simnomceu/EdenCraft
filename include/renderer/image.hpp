@@ -1,5 +1,5 @@
 /*
-	
+
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
 	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
 	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															ooooo     ooo     .    o8o  oooo   o8o      .
-															`888'     `8'   .o8    `"'  `888   `"'    .o8
-															 888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo
-															 888       8    888   `888   888  `888    888    `88.  .8'
-															 888       8    888    888   888   888    888     `88..8'
-															 `88.    .8'    888 .  888   888   888    888 .    `888'
-															   `YbodP'      "888" o888o o888o o888o   "888"     .8'
-																											.o..P'
-																											`Y8P'
-
-				This file is part of EdenCraft Engine - Utility module.
+															ooooooooo.                               .o8                                        
+															`888   `Y88.                            "888                                        
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
+                                                                       
+                                          
+                                     
+				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,29 +36,16 @@
 
 */
 
-#ifndef ENUM_COUNT_HPP
-#define ENUM_COUNT_HPP
+#ifndef RENDERER_IMAGE_HPP
+#define RENDERER_IMAGE_HPP
 
-#include <type_traits>
+#include "renderer/image/parser_bmp.hpp"
+#include "renderer/image/image.hpp"
+#include "renderer/image/pixel_format.hpp"
 
 namespace ece
 {
-	/**
-	 * @class EnumCount
-	 * @tparam T The type of enumeration to extends.
-	 * @brief Trait class to define the count of an enumeration.
-	 */
-	template <typename T, typename = typename std::enable_if_t<std::is_enum_v<T>>>
-	struct EnumCount
-	{
-		static constexpr unsigned short int value = 0;
-	};
-
-	/**
-	 * @brief An helper to access the count value of an enumeration.
-	 */
-	template <typename T>
-	inline constexpr unsigned short int EnumCount_v = EnumCount<T>::value;
+	using namespace renderer::image;
 }
 
-#endif // ENUM_COUNT_HPP
+#endif // RENDERER_IMAGE_HPP

@@ -38,11 +38,17 @@
 
 namespace ece
 {
-	inline BaseComponent::BaseComponent(const ComponentID /*id*/) {}
+	namespace core
+	{
+		namespace ecs
+		{
+			inline BaseComponent::BaseComponent(const ComponentID /*id*/) {}
 
-	inline BaseComponent::~BaseComponent() {}
+			inline BaseComponent::~BaseComponent() {}
 
-	inline BaseComponent::ComponentID BaseComponent::getID() const { return this->_id; }
+			inline BaseComponent::ComponentID BaseComponent::getID() const { return this->_id; }
 
-	inline unsigned int BaseComponent::getOwner() const { return this->_owner; }
-}
+			inline unsigned int BaseComponent::getOwner() const { return this->_owner; }
+		} // namespace ecs
+	} // namespace core
+} // namespace ece

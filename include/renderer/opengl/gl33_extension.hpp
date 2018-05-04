@@ -46,6 +46,12 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
+}
+
 inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
 
 /**
@@ -55,7 +61,7 @@ inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
  * @brief Load the opengl 3.3 extension and call it.
  */
 #define CALLGL33(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -68,7 +74,7 @@ inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
  * @brief Load the opengl 3.3 extension and call it.
  */
 #define R_CALLGL33(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -82,7 +88,7 @@ inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
  * @brief Load the opengl 3.3 extension and call it.
  */
 #define CALLGL33_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -96,7 +102,7 @@ inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
  * @brief Load the opengl 3.3 extension and call it.
  */
 #define R_CALLGL33_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \

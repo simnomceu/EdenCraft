@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -43,123 +43,128 @@
 
 namespace ece
 {
-	/**
-	 * @class UpdatePerSecond
-	 * @brief UPS counter.
-	 */
-	class UpdatePerSecond
-	{
-	public:
-		UpdatePerSecond() = delete;
+    namespace utility
+    {
+        namespace time
+        {
+        	/**
+        	 * @class UpdatePerSecond
+        	 * @brief UPS counter.
+        	 */
+        	class UpdatePerSecond
+        	{
+        	public:
+        		UpdatePerSecond() = delete;
 
-		/**
-		 * @fn UpdatePerSecond(const int UPS)
-		 * @param[in] UPS
-		 * @brief 
-		 * @throw
-		 */
-		inline UpdatePerSecond(const int UPS);
+        		/**
+        		 * @fn UpdatePerSecond(const int UPS)
+        		 * @param[in] UPS
+        		 * @brief
+        		 * @throw
+        		 */
+        		inline UpdatePerSecond(const int UPS);
 
-		/**
-		 * @fn UpdatePerSecond(const UpdatePerSecond & copy) noexcept
-		 * @param[in] copy The counter to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		UpdatePerSecond(const UpdatePerSecond & copy) noexcept = default;
+        		/**
+        		 * @fn UpdatePerSecond(const UpdatePerSecond & copy) noexcept
+        		 * @param[in] copy The counter to copy from.
+        		 * @brief Default copy constructor.
+        		 * @throw noexcept
+        		 */
+        		UpdatePerSecond(const UpdatePerSecond & copy) noexcept = default;
 
-		/**
-		 * @fn UpdatePerSecond(UpdatePerSecond && move) noexcept
-		 * @param[in] move The counter to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		UpdatePerSecond(UpdatePerSecond && move) noexcept = default;
+        		/**
+        		 * @fn UpdatePerSecond(UpdatePerSecond && move) noexcept
+        		 * @param[in] move The counter to move.
+        		 * @brief Default move constructor.
+        		 * @throw noexcept
+        		 */
+        		UpdatePerSecond(UpdatePerSecond && move) noexcept = default;
 
-		/**
-		 * @fn ~UpdatePerSecond() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~UpdatePerSecond() noexcept = default;
+        		/**
+        		 * @fn ~UpdatePerSecond() noexcept
+        		 * @brief Default destructor.
+        		 * @throw noexcept
+        		 */
+        		~UpdatePerSecond() noexcept = default;
 
-		/**
-		 * @fn UpdatePerSecond & operator=(const UpdatePerSecond & copy) noexcept 
-		 * @param[in] copy The counter to copy from.
-		 * @return The counter copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		UpdatePerSecond & operator=(const UpdatePerSecond & copy) noexcept = default;
-		
-		/**
-		 * @fn UpdatePerSecond & operator=(UpdatePerSecond && move) noexcept
-		 * @param[in] move The counter to move.
-		 * @return The counter moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		UpdatePerSecond & operator=(UpdatePerSecond && move) noexcept = default;
+        		/**
+        		 * @fn UpdatePerSecond & operator=(const UpdatePerSecond & copy) noexcept
+        		 * @param[in] copy The counter to copy from.
+        		 * @return The counter copied.
+        		 * @brief Default copy assignment operator.
+        		 * @throw noexcept
+        		 */
+        		UpdatePerSecond & operator=(const UpdatePerSecond & copy) noexcept = default;
 
-		/**
-		 * @fn bool isReadyToUpdate()
-		 * @return True if The UPS limit is reach, false else.
-		 * @brief Indicates if the counter has reached the limit or not.
-		 * @throw
-		 */
-		bool isReadyToUpdate();
+        		/**
+        		 * @fn UpdatePerSecond & operator=(UpdatePerSecond && move) noexcept
+        		 * @param[in] move The counter to move.
+        		 * @return The counter moved.
+        		 * @brief Default move assignment operator.
+        		 * @throw noexcept
+        		 */
+        		UpdatePerSecond & operator=(UpdatePerSecond && move) noexcept = default;
 
-		/**
-		 * @fn int getLimit() const noexcept
-		 * @return The UPS limit set.
-		 * @brief Get the current limit set.
-		 * @throw noexcept.
-		 */
-		inline int getLimit() const noexcept;
+        		/**
+        		 * @fn bool isReadyToUpdate()
+        		 * @return True if The UPS limit is reach, false else.
+        		 * @brief Indicates if the counter has reached the limit or not.
+        		 * @throw
+        		 */
+        		bool isReadyToUpdate();
 
-		/**
-		 * @fn double getUPS() const noexcept
-		 * @return The current UPS.
-		 * @brief Get the current UPS.
-		 * @throw noexcept.
-		 */
-		inline double getUPS() const noexcept;
+        		/**
+        		 * @fn int getLimit() const noexcept
+        		 * @return The UPS limit set.
+        		 * @brief Get the current limit set.
+        		 * @throw noexcept.
+        		 */
+        		inline int getLimit() const noexcept;
 
-		/**
-		 * @fn void setUPS(const int limit)
-		 * @param[in] limit The UPS limit to set.
-		 * @brief Set the UPS limit.
-		 * @throw
-		 */
-		void setUPS(const int limit);
+        		/**
+        		 * @fn double getUPS() const noexcept
+        		 * @return The current UPS.
+        		 * @brief Get the current UPS.
+        		 * @throw noexcept.
+        		 */
+        		inline double getUPS() const noexcept;
 
-	private:
-		/**
-		 * @property _chrono
-		 * @brief Chrono used to measure the elapsed time between two frames.
-		 */
-		Chrono _chrono;
+        		/**
+        		 * @fn void setUPS(const int limit)
+        		 * @param[in] limit The UPS limit to set.
+        		 * @brief Set the UPS limit.
+        		 * @throw
+        		 */
+        		void setUPS(const int limit);
 
-		/**
-		 * @property _rate
-		 * @brief The framerate of the counter.
-		 */
-		float _rate;
+        	private:
+        		/**
+        		 * @property _chrono
+        		 * @brief Chrono used to measure the elapsed time between two frames.
+        		 */
+        		Chrono _chrono;
 
-		/**
-		 * @property _nbFrames
-		 * @brief The number of frames since the counter started.
-		 */
-		long int _nbFrames;
+        		/**
+        		 * @property _rate
+        		 * @brief The framerate of the counter.
+        		 */
+        		float _rate;
 
-		/**
-		 * @property _average
-		 * @brief The average UPS computed.
-		 */
-		double _average;
-	};
+        		/**
+        		 * @property _nbFrames
+        		 * @brief The number of frames since the counter started.
+        		 */
+        		long int _nbFrames;
 
-}
+        		/**
+        		 * @property _average
+        		 * @brief The average UPS computed.
+        		 */
+        		double _average;
+        	};
+        } // namespace time
+    } // namespace utility
+} // namespace ece
 
 #include "utility/time/update_per_second.inl"
 

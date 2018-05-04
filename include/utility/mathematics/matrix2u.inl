@@ -38,23 +38,29 @@
 
 namespace ece
 {
-	template<class T>
-	inline double determinant<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const { return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]; }
+    namespace utility
+    {
+        namespace template_expression
+        {
+        	template<class T>
+        	inline double Determinant<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const { return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]; }
 
-	template<class T>
-	inline Matrix<T, 2, 2> transpose<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const { return Matrix<T, 2, 2>{ matrix[0][0], matrix[1][0], matrix[0][1], matrix[1][1] }; }
+        	template<class T>
+        	inline Matrix<T, 2, 2> Transpose<T, 2>::operator()(const Matrix<T, 2, 2> & matrix) const { return Matrix<T, 2, 2>{ matrix[0][0], matrix[1][0], matrix[0][1], matrix[1][1] }; }
 
-	template<class T>
-	inline Matrix<double, 2, 2> inverse<T, 2>::operator()(const Matrix<T, 2, 2> & matrix, bool & invertible) const
-	{
-		auto det = matrix.determinant();
-		invertible = (det != 0.0);
-		if (invertible) {
-			return Matrix<double, 2, 2>{ static_cast<double>(matrix[1][1]), -static_cast<double>(matrix[0][1]),
-				-static_cast<double>(matrix[1][0]), static_cast<double>(matrix[0][0]) } *(1.0f / det);
-		}
-		else {
-			return Matrix<double, 2, 2>();
-		}
-	}
-}
+        	template<class T>
+        	inline Matrix<double, 2, 2> Inverse<T, 2>::operator()(const Matrix<T, 2, 2> & matrix, bool & invertible) const
+        	{
+        		auto det = matrix.determinant();
+        		invertible = (det != 0.0);
+        		if (invertible) {
+        			return Matrix<double, 2, 2>{ static_cast<double>(matrix[1][1]), -static_cast<double>(matrix[0][1]),
+        				-static_cast<double>(matrix[1][0]), static_cast<double>(matrix[0][0]) } *(1.0f / det);
+        		}
+        		else {
+        			return Matrix<double, 2, 2>();
+        		}
+        	}
+        } // namespace mathematics
+    } // namespace utility
+} // namespace ece

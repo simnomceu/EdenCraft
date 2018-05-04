@@ -44,4 +44,9 @@
 #include "core/resource/resource_manager.hpp"
 #include "core/resource/resource_unloader.hpp"
 
+namespace ece
+{
+	using namespace core::resource;
+}
+
 #endif // CORE_RESOURCE_HPP

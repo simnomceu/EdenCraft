@@ -39,17 +39,23 @@
 
 namespace ece
 {
-	inline EventManager::EventManager() : BaseEventManager(), _signals(), _slots(), _signalsAvailable(), _slotsAvailable() {}
-
-	inline Slot::GlobalSlotID EventManager::getSlotID()
+	namespace core
 	{
-		auto id = this->_slotsAvailable.next();
-		return id;
-	}
+		namespace event
+		{
+			inline EventManager::EventManager() : BaseEventManager(), _signals(), _slots(), _signalsAvailable(), _slotsAvailable() {}
 
-	inline Signal::GlobalSignalID EventManager::getSignalID()
-	{
-		auto id = this->_signalsAvailable.next();
-		return id;
-	}
-}
+			inline Slot::GlobalSlotID EventManager::getSlotID()
+			{
+				auto id = this->_slotsAvailable.next();
+				return id;
+			}
+
+			inline Signal::GlobalSignalID EventManager::getSignalID()
+			{
+				auto id = this->_signalsAvailable.next();
+				return id;
+			}
+		} // namespace event
+	} // namespace core
+} // namespace ece

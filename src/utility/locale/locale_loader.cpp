@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -48,46 +48,57 @@
 
 namespace ece
 {
-	std::string LocaleLoader::_path = "";
+    namespace utility
+    {
+        using debug::FileException;
+        using json::ObjectJSON;
+		using json::StringJSON;
+        using file_system::ParserJSON;
 
-	void LocaleLoader::setPath(const std::string & path) noexcept
-	{
-		LocaleLoader::_path = path;
-	}
+        namespace locale
+        {
+        	std::string LocaleLoader::_path = "";
 
-	LocaleLoader::LocaleLoader(const std::string & filename, const Localization & locale): _locale(locale), _resource(), _filename(filename)
-	{
-		this->_locale = locale;
-		std::string file = LocaleLoader::_path + this->_filename + "_" 
-							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
-		this->generateResource(file);
-	}
+        	void LocaleLoader::setPath(const std::string & path) noexcept
+        	{
+        		LocaleLoader::_path = path;
+        	}
 
-	void LocaleLoader::changeLocale(const Localization & locale)
-	{
-		this->_locale = locale;
-		std::string file = LocaleLoader::_path + this->_filename + "_" 
-							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
-		this->generateResource(file);
-	}
+        	LocaleLoader::LocaleLoader(const std::string & filename, const Localization & locale): _locale(locale), _resource(), _filename(filename)
+        	{
+        		this->_locale = locale;
+        		std::string file = LocaleLoader::_path + this->_filename + "_"
+        							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
+        		this->generateResource(file);
+        	}
 
-	void LocaleLoader::generateResource(const std::string & file)
-	{
-		this->_resource.clear();
-		try {
-			ParserJSON parser;
-			parser.loadFromFile(file);
-			std::shared_ptr<ObjectJSON> jsonObject = parser.getObject();
+        	void LocaleLoader::changeLocale(const Localization & locale)
+        	{
+        		this->_locale = locale;
+        		std::string file = LocaleLoader::_path + this->_filename + "_"
+        							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
+        		this->generateResource(file);
+        	}
 
-			for (auto it = jsonObject->begin(); it != jsonObject->end(); ++it) {
-				if (it->second->getType() == TypeNodeJSON::STRING_JSON) {
-					auto element = std::static_pointer_cast<StringJSON>(it->second);
-					this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
-				}
-			}
-		}
-		catch (FileException & e) {
-			std::cerr << e.what() << std::endl;
-		}
-	}
-}
+        	void LocaleLoader::generateResource(const std::string & file)
+        	{
+        		this->_resource.clear();
+        		try {
+        			ParserJSON parser;
+        			parser.loadFromFile(file);
+        			std::shared_ptr<ObjectJSON> jsonObject = parser.getObject();
+
+        			for (auto it = jsonObject->begin(); it != jsonObject->end(); ++it) {
+        				if (it->second->getType() == TypeNodeJSON::STRING_JSON) {
+        					auto element = std::static_pointer_cast<StringJSON>(it->second);
+        					this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
+        				}
+        			}
+        		}
+        		catch (FileException & e) {
+        			std::cerr << e.what() << std::endl;
+        		}
+        	}
+        } // namespace locale
+    } // namespace utility
+} // namespace ece

@@ -44,102 +44,110 @@
 
 namespace ece
 {
-	/**
-	 * @class ParserJSON
-	 * @extends Parser
-	 * @brief A parser to load/save JSON tree from/to memory, file, or string.
-	 * @see Parser
-	 * @remarks Have to break coupling with ObjectJSON.
-	 */
-	class ParserJSON: public Parser
-	{
-	public:
-		/**
-		 * @fn ParserJSON() noexcept
-		 * @brief Unique constructor for a ParserJSON. No stream is opened, and no JSON tree is generated.
-		 * @throw noexcept
-		 */
-		inline ParserJSON() noexcept;
+    namespace utility
+    {
+        using json::ObjectJSON;
 
-		/**
-		 * @fn void loadFromFile(const std::string & filename)
-		 * @param[in] filename The name of the file to load data from.
-		 * @brief Load and parse data from a file.
-		 * @see void Parser::loadFromFile(const std::string & filename)
-		 * @throw
-		 */
-		virtual void loadFromFile(const std::string & filename) override;
+        namespace file_system
+        {
+        	/**
+        	 * @class ParserJSON
+        	 * @extends Parser
+        	 * @brief A parser to load/save JSON tree from/to memory, file, or string.
+        	 * @see Parser
+        	 * @remarks Have to break coupling with ObjectJSON.
+        	 */
+        	class ParserJSON: public Parser
+        	{
+        	public:
+        		/**
+        		 * @fn ParserJSON() noexcept
+        		 * @brief Unique constructor for a ParserJSON. No stream is opened, and no JSON tree is generated.
+        		 * @throw noexcept
+        		 */
+        		inline ParserJSON() noexcept;
 
-		/**
-		 * @fn void loadFromString(const std::string & content)
-		 * @param[in] content The string content to load data from.
-		 * @brief Load and parse data from a string.
-		 * @see void Parser::loadFromString(const std::string & content)
-		 * @throw
-		 */
-		virtual void loadFromString(const std::string & content) override;
+        		/**
+        		 * @fn void loadFromFile(const std::string & filename)
+        		 * @param[in] filename The name of the file to load data from.
+        		 * @brief Load and parse data from a file.
+        		 * @see void Parser::loadFromFile(const std::string & filename)
+        		 * @throw
+        		 */
+        		virtual void loadFromFile(const std::string & filename) override;
 
-		/**
-		 * @fn void loadFromMemory(const void * content)
-		 * @param[in] content The memory buffer to load data from.
-		 * @brief Load and parse data from memory.
-		 * @see void Parser::loadFromMemory(const void * content)
-		 * @throw
-		 */
-		virtual void loadFromMemory(const void * content) override;
+        		/**
+        		 * @fn void loadFromString(const std::string & content)
+        		 * @param[in] content The string content to load data from.
+        		 * @brief Load and parse data from a string.
+        		 * @see void Parser::loadFromString(const std::string & content)
+        		 * @throw
+        		 */
+        		virtual void loadFromString(const std::string & content) override;
 
-		/**
-		 * @fn void saveToFile(const std::string & filename)
-		 * @param[out] filename The name of the file to save into.
-		 * @brief Formate and save data into a file.
-		 * @see void Parser::saveToFile(const std::string & filename)
-		 * @throw
-		 */
-		virtual void saveToFile(const std::string & filename) override;
+        		/**
+        		 * @fn void loadFromMemory(const void * content)
+        		 * @param[in] content The memory buffer to load data from.
+        		 * @brief Load and parse data from memory.
+        		 * @see void Parser::loadFromMemory(const void * content)
+        		 * @throw
+        		 */
+        		virtual void loadFromMemory(const void * content) override;
 
-		/**
-		 * @fn void saveToString(std::string & content)
-		 * @param[out] content The string buffer to save into.
-		 * @brief Formate and save data into a string buffer.
-		 * @see void Parser::saveToString(std::string & content)
-		 * @throw
-		 */
-		virtual void saveToString(std::string & content) override;
+        		/**
+        		 * @fn void saveToFile(const std::string & filename)
+        		 * @param[out] filename The name of the file to save into.
+        		 * @brief Formate and save data into a file.
+        		 * @see void Parser::saveToFile(const std::string & filename)
+        		 * @throw
+        		 */
+        		virtual void saveToFile(const std::string & filename) override;
 
-		/**
-		 * @fn void saveToMemory(void * content)
-		 * @param[out] content The memory to save into.
-		 * @brief Formate and save data into memory.
-		 * @see void Parser::saveToMemory(void * content)
-		 * @throw
-		 */
-		virtual void saveToMemory(void * content) override;
+        		/**
+        		 * @fn void saveToString(std::string & content)
+        		 * @param[out] content The string buffer to save into.
+        		 * @brief Formate and save data into a string buffer.
+        		 * @see void Parser::saveToString(std::string & content)
+        		 * @throw
+        		 */
+        		virtual void saveToString(std::string & content) override;
 
-		/**
-		 * @fn std::shared_ptr<ObjectJSON> getObject() const
-		 * @return The root of the JSON tree from the current stream.
-		 * @brief An accessor to the root of the JSON tree generated. If no JSON file is opened, the pointer is nullptr.
-		 * @remark Decoupling JSONObject from this class, shall remove this method.
-		 * @throw
-		 */
-		inline std::shared_ptr<ObjectJSON> getObject() const;
+        		/**
+        		 * @fn void saveToMemory(void * content)
+        		 * @param[out] content The memory to save into.
+        		 * @brief Formate and save data into memory.
+        		 * @see void Parser::saveToMemory(void * content)
+        		 * @throw
+        		 */
+        		virtual void saveToMemory(void * content) override;
 
-	protected:
-		/**
-		 * @property _pathname
-		 * @brief The pathname of the JSON file opened. It is empty if not stream is opened.
-		 * @remark It should not be an internal property as the JSON object can be loaded throw different ways (memory, ...).
-		 */
-		std::string _pathname;
+        		/**
+        		 * @fn std::shared_ptr<ObjectJSON> getObject() const
+        		 * @return The root of the JSON tree from the current stream.
+        		 * @brief An accessor to the root of the JSON tree generated. If no JSON file is opened, the pointer is nullptr.
+        		 * @remark Decoupling JSONObject from this class, shall remove this method.
+        		 * @throw
+        		 */
+        		inline std::shared_ptr<ObjectJSON> getObject() const;
 
-		/**
-		 * @property _contentJSON
-		 * @brief The root of the last JSON parsed. If no JSON has been parsed yet, the property is empty.
-		 * @remark It should not be an internal property but an output of the Parser.
-		 */
-		std::shared_ptr<ObjectJSON> _contentJSON;
-	};
-}
+        	protected:
+        		/**
+        		 * @property _pathname
+        		 * @brief The pathname of the JSON file opened. It is empty if not stream is opened.
+        		 * @remark It should not be an internal property as the JSON object can be loaded throw different ways (memory, ...).
+        		 */
+        		std::string _pathname;
+
+        		/**
+        		 * @property _contentJSON
+        		 * @brief The root of the last JSON parsed. If no JSON has been parsed yet, the property is empty.
+        		 * @remark It should not be an internal property but an output of the Parser.
+        		 */
+        		std::shared_ptr<ObjectJSON> _contentJSON;
+        	};
+        } // namespace file_system
+    } // namespace utility
+} // namespace ece
 
 #include "utility/file_system/parser_json.inl"
 

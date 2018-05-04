@@ -46,116 +46,124 @@
 
 namespace ece
 {
-	class EventManagerConsumer;
-	class Listener;
-	class Emitter;
-
-	/**
-	 * @class BaseEventManager
-	 * @brief Base classe for default event manger service providing.
-	 * @remark I'm not convinced it should be this kind of service here.
-	 */
-	class BaseEventManager
+	namespace core
 	{
-	public:
-		/**
-		 * @fn Slot::GlobalSlotID addSlot(const Slot::Handle & handle)
-		 * @param[in] handle The action for the slot to create.
-		 * @return The global id of the slot created.
-		 * @brief Create and register a new slot.
-		 * @throw
-		 */
-		virtual inline Slot::GlobalSlotID addSlot(const Slot::Handle & handle);
+		namespace event
+		{
+			using utility::indexing::UniqueID;
 
-		/**
-		 * @fn Signal::GlobalSignalID addSignal()
-		 * @return The global id of the signal created.
-		 * @brief Create and register a new signal.
-		 * @throw
-		 */
-		virtual inline Signal::GlobalSignalID addSignal();
+			class EventManagerConsumer;
+			class Listener;
+			class Emitter;
 
-		/**
-		 * @fn void eraseSlot(const Listener & listener, const Slot::SlotID & slot)
-		 * @param[in] listener The owner of the slot.
-		 * @param[in] slot The slot to erase.
-		 * @brief Erase a specific slot.
-		 * If that slot does not exist, nothing happens.
-		 * @throw
-		 */
-		virtual inline void eraseSlot(const Listener & listener, const Slot::SlotID & slot);
+			/**
+			 * @class BaseEventManager
+			 * @brief Base classe for default event manger service providing.
+			 * @remark I'm not convinced it should be this kind of service here.
+			 */
+			class BaseEventManager
+			{
+			public:
+				/**
+				 * @fn Slot::GlobalSlotID addSlot(const Slot::Handle & handle)
+				 * @param[in] handle The action for the slot to create.
+				 * @return The global id of the slot created.
+				 * @brief Create and register a new slot.
+				 * @throw
+				 */
+				virtual inline Slot::GlobalSlotID addSlot(const Slot::Handle & handle);
 
-		/**
-		 * @fn void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to erase.
-		 * @brief Erase a specific signal.
-		 * If that signal does not exist, nothing happens.
-		 * @throw
-		 */
-		virtual inline void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal);
+				/**
+				 * @fn Signal::GlobalSignalID addSignal()
+				 * @return The global id of the signal created.
+				 * @brief Create and register a new signal.
+				 * @throw
+				 */
+				virtual inline Signal::GlobalSignalID addSignal();
 
-		/**
-		 * @fn void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] listener The owner of the slot.
-		 * @param[in] slot The slot to connect.
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to connect.
-		 * @brief Connect a signal and a slot together.
-		 * If they are already connected, nothing happens
-		 * @throw
-		 */
-		virtual inline void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal);
+				/**
+				 * @fn void eraseSlot(const Listener & listener, const Slot::SlotID & slot)
+				 * @param[in] listener The owner of the slot.
+				 * @param[in] slot The slot to erase.
+				 * @brief Erase a specific slot.
+				 * If that slot does not exist, nothing happens.
+				 * @throw
+				 */
+				virtual inline void eraseSlot(const Listener & listener, const Slot::SlotID & slot);
 
-		/**
-		 * @fn void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] listener The owner of the slot.
-		 * @param[in] slot The slot to disconnect.
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to disconnect.
-		 * @brief Disconnect a signal and a slot.
-		 * If they are not connected, nothing happens.
-		 * @throw
-		 */
-		virtual inline void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal);
+				/**
+				 * @fn void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to erase.
+				 * @brief Erase a specific signal.
+				 * If that signal does not exist, nothing happens.
+				 * @throw
+				 */
+				virtual inline void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal);
 
-		/**
-		 * @fn void disconnectAll(const Listener & listener, const Slot::SlotID & slot)
-		 * @param[in] listener The owner of the slot.
-		 * @param[in] slot The slot to disconnect.
-		 * @brief Disconnect the slot from all signals connected.
-		 * If it is not connected, nothing happens.
-		 * @throw
-		 */
-		virtual inline void disconnectAll(const Listener & listener, const Slot::SlotID & slot);
+				/**
+				 * @fn void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] listener The owner of the slot.
+				 * @param[in] slot The slot to connect.
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to connect.
+				 * @brief Connect a signal and a slot together.
+				 * If they are already connected, nothing happens
+				 * @throw
+				 */
+				virtual inline void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal);
 
-		/**
-		 * @fn void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to disconnect.
-		 * @brief Disconnect the signal from all slots connected.
-		 * If it is not connected, nothing happens.
-		 * @throw
-		 */
-		virtual inline void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal);
+				/**
+				 * @fn void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] listener The owner of the slot.
+				 * @param[in] slot The slot to disconnect.
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to disconnect.
+				 * @brief Disconnect a signal and a slot.
+				 * If they are not connected, nothing happens.
+				 * @throw
+				 */
+				virtual inline void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal);
 
-		/**
-		 * @fn void broadcast(const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to broadcast.
-		 * @brief Broadcast a signal to all slots connected, to trigger them.
-		 * @throw
-		 */
-		virtual void broadcast(const Emitter & emitter, const Signal::SignalID & signal);
+				/**
+				 * @fn void disconnectAll(const Listener & listener, const Slot::SlotID & slot)
+				 * @param[in] listener The owner of the slot.
+				 * @param[in] slot The slot to disconnect.
+				 * @brief Disconnect the slot from all signals connected.
+				 * If it is not connected, nothing happens.
+				 * @throw
+				 */
+				virtual inline void disconnectAll(const Listener & listener, const Slot::SlotID & slot);
 
-		/**
-		 * @fn void clear()
-		 * @brief Clear the entire manager, and erase all slots, signals, and connections.
-		 * @throw
-		 */
-		virtual void clear();
-	};
-}
+				/**
+				 * @fn void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to disconnect.
+				 * @brief Disconnect the signal from all slots connected.
+				 * If it is not connected, nothing happens.
+				 * @throw
+				 */
+				virtual inline void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal);
+
+				/**
+				 * @fn void broadcast(const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to broadcast.
+				 * @brief Broadcast a signal to all slots connected, to trigger them.
+				 * @throw
+				 */
+				virtual void broadcast(const Emitter & emitter, const Signal::SignalID & signal);
+
+				/**
+				 * @fn void clear()
+				 * @brief Clear the entire manager, and erase all slots, signals, and connections.
+				 * @throw
+				 */
+				virtual void clear();
+			};
+		} // namespace event
+	} // namespace core
+} // namespace ece
 
 #include "core/event/base_event_manager.inl"
 

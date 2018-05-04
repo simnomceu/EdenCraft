@@ -42,101 +42,110 @@
 
 namespace ece
 {
-	/**
-	 * @class EventHandler
-	 * @extends Emitter
-	 * @brief Manage input events.
-	 * @remark Need to be refactored as it seems to be useless in this state.
-	 */
-	class EventHandler: public Emitter
+	namespace window
 	{
-	public:
-		const Signal::SignalID KEY_PRESSED = 0;
-		const Signal::SignalID KEY_RELEASED = 1;
-		const Signal::SignalID MOUSE_BUTTON_PRESSED = 2;
-		const Signal::SignalID MOUSE_BUTTON_RELEASED = 3;
-		const Signal::SignalID MOUSE_WHEEL_SCROLLED = 4;
+		namespace window_event
+		{
+			using core::event::Emitter;
+			using core::event::Signal;
 
-		/**
-		 * @fn EventHandler & getInstance()
-		 * @return The unique instance of the handler
-		 * @brief Get the unique instance of the handler.
-		 * @throw
-		 */
-		static EventHandler & getInstance();
+			/**
+			 * @class EventHandler
+			 * @extends Emitter
+			 * @brief Manage input events.
+			 * @remark Need to be refactored as it seems to be useless in this state.
+			 */
+			class EventHandler : public Emitter
+			{
+			public:
+				const Signal::SignalID KEY_PRESSED = 0;
+				const Signal::SignalID KEY_RELEASED = 1;
+				const Signal::SignalID MOUSE_BUTTON_PRESSED = 2;
+				const Signal::SignalID MOUSE_BUTTON_RELEASED = 3;
+				const Signal::SignalID MOUSE_WHEEL_SCROLLED = 4;
 
-		/**
-		 * @fn EventHandler(const EventHandler & copy)
-		 * @param[in] copy The handler to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		EventHandler(const EventHandler & copy) = default;
+				/**
+				 * @fn EventHandler & getInstance()
+				 * @return The unique instance of the handler
+				 * @brief Get the unique instance of the handler.
+				 * @throw
+				 */
+				static EventHandler & getInstance();
 
-		/**
-		 * @fn EventHandler(EventHandler && move)
-		 * @param[in] move
-		 * @brief Default move constructor.
-		 * @throw
-		 */
-		EventHandler(EventHandler && move) = default;
+				/**
+				 * @fn EventHandler(const EventHandler & copy)
+				 * @param[in] copy The handler to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				EventHandler(const EventHandler & copy) = default;
 
-		/**
-		 * @fn ~EventHandler()
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline ~EventHandler() noexcept = default;
+				/**
+				 * @fn EventHandler(EventHandler && move)
+				 * @param[in] move
+				 * @brief Default move constructor.
+				 * @throw
+				 */
+				EventHandler(EventHandler && move) = default;
 
-		/**
-		 * @fn EventHandler & operator=(const EventHandler & copy)
-		 * @param[in] copy The handler to copy from.
-		 * @return The handler copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		EventHandler & operator=(const EventHandler & copy) = default;
+				/**
+				 * @fn ~EventHandler()
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline ~EventHandler() noexcept = default;
 
-		/**
-		 * @fn EventHandler & operator=(EventHandler && move) noexcept
-		 * @param[in] move The handler to move.
-		 * @return The handler moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		EventHandler & operator=(EventHandler && move) noexcept = default;
+				/**
+				 * @fn EventHandler & operator=(const EventHandler & copy)
+				 * @param[in] copy The handler to copy from.
+				 * @return The handler copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				EventHandler & operator=(const EventHandler & copy) = default;
 
-		/**
-		 * void produceKeyEvent(const int key, const int scancode, const int action, const int mods)
-		 * @param[in] key The keyboard keycode of the event.
-		 * @param[in] scancode The keyboard keycode of the event for special keys.
-		 * @param[in] action The action performed on the key (pressed, released, double tap, ...).
-		 * @param[in] mods The keymode used (alt, ctrl, shift, ...).
-		 * @brief Produce a keyboard key event.
-		 * @throw
-		 */
-		void produceKeyEvent(const int key, const int scancode, const int action, const int mods);
+				/**
+				 * @fn EventHandler & operator=(EventHandler && move) noexcept
+				 * @param[in] move The handler to move.
+				 * @return The handler moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				EventHandler & operator=(EventHandler && move) noexcept = default;
 
-		/**
-		 * @fn void produceMouseButtonEvent(const int button, const int action, const int mods)
-		 * @param[in] button The mouse button of the event.
-		 * @param[in] action The action performed on the key (pressed, released, double tap, ...).
-		 * @param[in] mods he keymode used (alt, ctrl, shift, ...).
-		 * @brief Produce a mouse button event.
-		 * @throw
-		 */
-		inline void produceMouseButtonEvent(const int button, const int action, const int mods);
+				/**
+				 * void produceKeyEvent(const int key, const int scancode, const int action, const int mods)
+				 * @param[in] key The keyboard keycode of the event.
+				 * @param[in] scancode The keyboard keycode of the event for special keys.
+				 * @param[in] action The action performed on the key (pressed, released, double tap, ...).
+				 * @param[in] mods The keymode used (alt, ctrl, shift, ...).
+				 * @brief Produce a keyboard key event.
+				 * @throw
+				 */
+				void produceKeyEvent(const int key, const int scancode, const int action, const int mods);
 
-	private:
-		/**
-		 * @fn EventHandler()
-		 * @brief Default constructor.
-		 * It is private to guarantee the singleton.
-		 * @throw
-		 */
-		EventHandler();
-	};
-}
+				/**
+				 * @fn void produceMouseButtonEvent(const int button, const int action, const int mods)
+				 * @param[in] button The mouse button of the event.
+				 * @param[in] action The action performed on the key (pressed, released, double tap, ...).
+				 * @param[in] mods he keymode used (alt, ctrl, shift, ...).
+				 * @brief Produce a mouse button event.
+				 * @throw
+				 */
+				inline void produceMouseButtonEvent(const int button, const int action, const int mods);
+
+			private:
+				/**
+				 * @fn EventHandler()
+				 * @brief Default constructor.
+				 * It is private to guarantee the singleton.
+				 * @throw
+				 */
+				EventHandler();
+			};
+		} // namespace windpw_event
+	} // namespace window
+} // namespace ece
 
 #include "window/window_event/event_handler.inl"
 

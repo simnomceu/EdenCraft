@@ -41,13 +41,19 @@
 
 namespace ece
 {
-	/**
-	 * @class Prototype
-	 * @brief A prototype to build an entity with a base list of components.
-	 */
-	class BasePrototype
+	namespace core
 	{
-	};
-}
+		namespace ecs
+		{
+			/**
+			 * @class Prototype
+			 * @brief A prototype to build an entity with a base list of components.
+			 */
+			class BasePrototype
+			{
+			};
+		} // namespace ecs
+	} // namespace core
+} // namespace ece
 
 #endif // BASE_PROTOTYPE_HPP

@@ -48,74 +48,87 @@
 
 namespace ece
 {
-	Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
+	namespace core
 	{
-		ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
-		EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
+		namespace application
+		{
+			using utility::log::ServiceLoggerLocator;
+			using utility::log::ServiceLoggerFactory;
+			using utility::log::Logger;
+			using core::event::EventServiceLocator;
+			using core::event::EventServiceFactory;
+			using core::event::EventManager;
 
-		this->_lifecycle = std::make_shared<Lifecycle>();
-	}
+			Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
+			{
+				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
+				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
 
-	Application::Application(int argc, char * argv[]) : _running(false), _moduleManager(), _lifecycle(nullptr)
-	{
-		ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
-		EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
+				this->_lifecycle = std::make_shared<Lifecycle>();
+			}
 
-		this->_lifecycle = std::make_shared<Lifecycle>();
+			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager(), _lifecycle(nullptr)
+			{
+				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
+				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
 
-		auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
-		argumentAnalyzer.setParameters(argc, argv);
-	}
+				this->_lifecycle = std::make_shared<Lifecycle>();
 
-	void Application::run()
-	{
-		// TODO : add balancer to reduce usage of processor.
-		this->_lifecycle->preInit();
-		this->init();
-		this->_lifecycle->postInit();
+				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
+				argumentAnalyzer.setParameters(argc, argv);
+			}
 
-		while (this->isRunning()) {
-			this->_lifecycle->preProcess();
-			this->processEvents();
-			this->_lifecycle->preUpdate();
-			this->update();
-			this->_lifecycle->postUpdate();
-			this->render();
-			this->_lifecycle->postRender();
-		}
+			void Application::run()
+			{
+				// TODO : add balancer to reduce usage of processor.
+				this->_lifecycle->preInit();
+				this->init();
+				this->_lifecycle->postInit();
 
-		this->_lifecycle->preTerminate();
-		this->terminate();
-		this->_lifecycle->preTerminate();
-	}
+				while (this->isRunning()) {
+					this->_lifecycle->preProcess();
+					this->processEvents();
+					this->_lifecycle->preUpdate();
+					this->update();
+					this->_lifecycle->postUpdate();
+					this->render();
+					this->_lifecycle->postRender();
+				}
 
-	void Application::init()
-	{
-		try {
-			this->_moduleManager.initAll();
-		}
-		catch (std::runtime_error & e) {
-			ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
-		}
-		this->_running = true;
-	}
+				this->_lifecycle->preTerminate();
+				this->terminate();
+				this->_lifecycle->preTerminate();
+			}
 
-	void Application::update()
-	{
-		this->_moduleManager.updateAll();
-	}
+			void Application::init()
+			{
+				try {
+					this->_moduleManager.initAll();
+				}
+				catch (std::runtime_error & e) {
+					ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
+				}
+				this->_running = true;
+			}
 
-	void Application::processEvents()
-	{
-		//EventServiceLocator::getService().clear();
-	}
+			void Application::update()
+			{
+				this->_moduleManager.updateAll();
+			}
 
-	void Application::render()
-	{
-	}
+			void Application::processEvents()
+			{
+				//EventServiceLocator::getService().clear();
+			}
 
-	void Application::terminate()
-	{
-		this->_moduleManager.terminateAll();
-	}
-}
+			void Application::render()
+			{
+			}
+
+			void Application::terminate()
+			{
+				this->_moduleManager.terminateAll();
+			}
+		} // namespace application
+	} // namespace core
+} // namespace ece

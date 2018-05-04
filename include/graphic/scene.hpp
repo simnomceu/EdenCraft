@@ -45,4 +45,9 @@
 #include "graphic/scene/projection.hpp"
 #include "graphic/scene/scene.hpp"
 
+namespace ece
+{
+	using namespace graphic::scene;
+}
+
 #endif // GRAPHIC_SCENE_HPP

@@ -46,88 +46,97 @@
 
 namespace ece
 {
-	/**
-	 * @class Projection
-	 * @brief
-	 */
-	class Projection
+	namespace graphic
 	{
-	public:
-		/**
-		 * @fn Projection() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline Projection() noexcept;
+		namespace scene
+		{
+			using utility::mathematics::FloatMatrix4u;
+			using window::common::Ratio;
 
-		/**
-		 * @fn Projection(const Projection & copy)
-		 * @param[in] copy The Projection to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Projection(const Projection & copy) = default;
+			/**
+			 * @class Projection
+			 * @brief
+			 */
+			class Projection
+			{
+			public:
+				/**
+				 * @fn Projection() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline Projection() noexcept;
 
-		/**
-		 * @fn Projection(Projection && move) noexcept
-		 * @param[in] move The Projection to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Projection(Projection && move) noexcept = default;
+				/**
+				 * @fn Projection(const Projection & copy)
+				 * @param[in] copy The Projection to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Projection(const Projection & copy) = default;
 
-		/**
-		 * @fn ~Projection() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Projection() noexcept = default;
+				/**
+				 * @fn Projection(Projection && move) noexcept
+				 * @param[in] move The Projection to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Projection(Projection && move) noexcept = default;
 
-		/**
-		 * @fn Projection & operator=(const Projection & copy)
-		 * @param[in] copy The Projection to copy from.
-		 * @return The Projection copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Projection & operator=(const Projection & copy) = default;
+				/**
+				 * @fn ~Projection() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Projection() noexcept = default;
 
-		/**
-		 * @fn Projection & operator=(Projection && move) noexcept
-		 * @param[in] move The Projection to move from.
-		 * @return The Projection moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Projection & operator=(Projection && move) noexcept = default;
+				/**
+				 * @fn Projection & operator=(const Projection & copy)
+				 * @param[in] copy The Projection to copy from.
+				 * @return The Projection copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Projection & operator=(const Projection & copy) = default;
 
-		/**
-		 * @fn void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
-		 * @param[in] FOV The field of view of the camera.
-		 * @param[in] ratio The ratio of the screen.
-		 * @param[in] nearClipping The nearest plan of the scene to capture.
-		 * @param[in] farClipping The furthest plan of the scene to capture.
-		 * @brief Set the projection matrix.
-		 * @throw
-		 */
-		inline void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
+				/**
+				 * @fn Projection & operator=(Projection && move) noexcept
+				 * @param[in] move The Projection to move from.
+				 * @return The Projection moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Projection & operator=(Projection && move) noexcept = default;
 
-		/**
-		 * @fn const FloatMatrix4u & getProjection() const
-		 * @return The projection matrix.
-		 * @brief Get the projection matrix.
-		 * @throw
-		 */
-		inline const FloatMatrix4u & getProjection() const;
+				/**
+				 * @fn void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
+				 * @param[in] FOV The field of view of the camera.
+				 * @param[in] ratio The ratio of the screen.
+				 * @param[in] nearClipping The nearest plan of the scene to capture.
+				 * @param[in] farClipping The furthest plan of the scene to capture.
+				 * @brief Set the projection matrix.
+				 * @throw
+				 */
+				inline void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
 
-	private:
-		/**
-		 * @property _projection
-		 * @brief The projection matrix.
-		 */
-		FloatMatrix4u _projection;
-	};
-}
+				/**
+				 * @fn const FloatMatrix4u & getProjection() const
+				 * @return The projection matrix.
+				 * @brief Get the projection matrix.
+				 * @throw
+				 */
+				inline const FloatMatrix4u & getProjection() const;
+
+			private:
+				/**
+				 * @property _projection
+				 * @brief The projection matrix.
+				 */
+				FloatMatrix4u _projection;
+			};
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece
 
 #include "graphic/scene/projection.inl"
 

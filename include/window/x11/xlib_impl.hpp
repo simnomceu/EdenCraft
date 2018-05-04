@@ -44,225 +44,236 @@
 
 namespace ece
 {
-    /**
-     * @struct WindowMessage
-     * @brief X11 implementation for a window message/notification, including input messages.
-     */
-     struct WindowMessage
-     {
-         /**
-          * @property _impl
-          * @brief Xlib implementation of the event.
-          */
-         XEvent _impl;
+	namespace window
+	{
+		namespace common
+		{
+			/**
+			 * @struct WindowMessage
+			 * @brief X11 implementation for a window message/notification, including input messages.
+			 */
+			struct WindowMessage
+			{
+				/**
+				 * @property _impl
+				 * @brief Xlib implementation of the event.
+				 */
+				XEvent _impl;
 
-         inline WindowMessage(const XEvent & impl): _impl(impl) {}
-     };
+				inline WindowMessage(const XEvent & impl) : _impl(impl) {}
+			};
+		} // namespace common
 
-    /**
-     * @class XlibImpl
-     * @extends X11API
-     * @brief
-     */
-    class XlibImpl: public X11API
-    {
-    public:
-        /**
-         * @fn XlibImpl() noexcept
-         * @brief Default constructor.
-         * @throw noexcept
-         */
-        XlibImpl() noexcept;
+		namespace x11
+		{
+			using common::WindowMessage;
 
-        /**
-         * @fn XlibImpl(const XlibImpl & copy) noexcept
-         * @param[in] copy The XlibImpl to copy from.
-         * @brief Default copy constructor.
-         * @throw noexcept
-         */
-        XlibImpl(const XlibImpl & copy) noexcept = default;
+			/**
+			 * @class XlibImpl
+			 * @extends X11API
+			 * @brief
+			 */
+			class XlibImpl : public X11API
+			{
+			public:
+				/**
+				 * @fn XlibImpl() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				XlibImpl() noexcept;
 
-        /**
-         * @fn XlibImpl(XlibImpl && move) noexcept
-         * @param[in] move The XlibImpl to move.
-         * @brief Default copy constructor.
-         * @throw noexcept
-         */
-        XlibImpl(XlibImpl && move) noexcept = default;
+				/**
+				 * @fn XlibImpl(const XlibImpl & copy) noexcept
+				 * @param[in] copy The XlibImpl to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				XlibImpl(const XlibImpl & copy) noexcept = default;
 
-        /**
-         * @fn ~XlibImpl() noexcept
-         * @brief Default destructor.
-         * @throw noexcept
-         */
-        ~XlibImpl() noexcept = default;
+				/**
+				 * @fn XlibImpl(XlibImpl && move) noexcept
+				 * @param[in] move The XlibImpl to move.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				XlibImpl(XlibImpl && move) noexcept = default;
 
-        /**
-         * @fn XlibImpl & operator=(const XlibImpl & copy) noexcept
-         * @param[in] copy The XlibImpl to copy from.
-         * @return The XlibImpl copied.
-         * @brief Default copy assignment operator.
-         * @throw noexcept
-         */
-        XlibImpl & operator=(const XlibImpl & copy) noexcept = default;
+				/**
+				 * @fn ~XlibImpl() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~XlibImpl() noexcept = default;
 
-        /**
-         * @fn XlibImpl & operator=(XlibImpl && move) noexcept
-         * @param[in] move The XlibImpl to move.
-         * @return The XlibImpl moved.
-         * @brief Default copy assignment operator.
-         * @throw noexcept
-         */
-        XlibImpl & operator=(XlibImpl && move) noexcept = default;
+				/**
+				 * @fn XlibImpl & operator=(const XlibImpl & copy) noexcept
+				 * @param[in] copy The XlibImpl to copy from.
+				 * @return The XlibImpl copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				XlibImpl & operator=(const XlibImpl & copy) noexcept = default;
 
-        /**
-         * Window getWindowHandle() const
-         * @return The window ID of the internal API.
-         * @brief Get the window ID of the internal API.
-         * @throw
-         */
-        virtual Window getWindowHandle() const override;
+				/**
+				 * @fn XlibImpl & operator=(XlibImpl && move) noexcept
+				 * @param[in] move The XlibImpl to move.
+				 * @return The XlibImpl moved.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				XlibImpl & operator=(XlibImpl && move) noexcept = default;
 
-        /**
-         * Display * getDevice() const
-         * @return The device associated to the window.
-         * @brief Get the device associated to the window.
-         * @throw
-         */
-        virtual Display * getDevice() const override;
+				/**
+				 * Window getWindowHandle() const
+				 * @return The window ID of the internal API.
+				 * @brief Get the window ID of the internal API.
+				 * @throw
+				 */
+				virtual Window getWindowHandle() const override;
 
-		/**
-		 * @fn void createWindow()
-		 * @brief Generate a window.
-		 * @throw
-         * @see void X11API::createWindow()
-		 */
-		virtual void createWindow() override;
+				/**
+				 * Display * getDevice() const
+				 * @return The device associated to the window.
+				 * @brief Get the device associated to the window.
+				 * @throw
+				 */
+				virtual Display * getDevice() const override;
 
-		/**
-		 * @fn void deleteWindow()
-		 * @brief Delete a window.
-		 * If that window does not exist, the behaviour is unknown.
-		 * @throw
-         * @see void X11API::deleteWindow()
-		 */
-		virtual void deleteWindow() override;
+				/**
+				 * @fn void createWindow()
+				 * @brief Generate a window.
+				 * @throw
+				 * @see void X11API::createWindow()
+				 */
+				virtual void createWindow() override;
 
-		/**
-		 * @fn bool isWindowCreated() const
-		 * @return True if window exist, false else.
-		 * @brief Check if the window is existing or not.
-		 * @throw
-         * @see bool X11API::isWindowCreated() const
-		 */
-		virtual bool isWindowCreated() const override;
+				/**
+				 * @fn void deleteWindow()
+				 * @brief Delete a window.
+				 * If that window does not exist, the behaviour is unknown.
+				 * @throw
+				 * @see void X11API::deleteWindow()
+				 */
+				virtual void deleteWindow() override;
 
-		/**
-		 * @fn void setTitle(const std::string & title)
-		 * @param[in] title The title to set.
-		 * @brief Set the window title.
-		 * @throw
-         * @see void X11API::setTitle(const std::string & title)
-		 */
-		virtual void setTitle(const std::string & title) override;
+				/**
+				 * @fn bool isWindowCreated() const
+				 * @return True if window exist, false else.
+				 * @brief Check if the window is existing or not.
+				 * @throw
+				 * @see bool X11API::isWindowCreated() const
+				 */
+				virtual bool isWindowCreated() const override;
 
-		/**
-		 * @fn std::string getTitle() const
-		 * @return The title of the window.
-		 * @brief Get the window title.
-		 * @throw
-         * @see std::string X11API::getTitle() const
-		 */
-		virtual std::string getTitle() const override;
+				/**
+				 * @fn void setTitle(const std::string & title)
+				 * @param[in] title The title to set.
+				 * @brief Set the window title.
+				 * @throw
+				 * @see void X11API::setTitle(const std::string & title)
+				 */
+				virtual void setTitle(const std::string & title) override;
 
-		/**
-		 * @fn void setPosition(const IntVector2u & position)
-		 * @param[in] position The position to set the window to.
-		 * @brief Set the window to the position.
-		 * throw
-         * @see void X11API::setPosition(const IntVector2u & position)
-		 */
-		virtual void setPosition(const IntVector2u & position) override;
+				/**
+				 * @fn std::string getTitle() const
+				 * @return The title of the window.
+				 * @brief Get the window title.
+				 * @throw
+				 * @see std::string X11API::getTitle() const
+				 */
+				virtual std::string getTitle() const override;
 
-		/**
-		 * @fn IntVector2u getPosition() const
-		 * @return The window position.
-		 * @brief Get the position of the window.
-		 * @throw
-         * @see IntVector2u X11API::getPosition() const
-		 */
-		virtual IntVector2u getPosition() const override;
+				/**
+				 * @fn void setPosition(const IntVector2u & position)
+				 * @param[in] position The position to set the window to.
+				 * @brief Set the window to the position.
+				 * throw
+				 * @see void X11API::setPosition(const IntVector2u & position)
+				 */
+				virtual void setPosition(const IntVector2u & position) override;
 
-		/**
-		 * @fn void minimize()
-		 * @brief Set the window to its minimum size.
-		 * @throw
-         * @see void X11API minimize()
-		 */
-		virtual void minimize() override;
+				/**
+				 * @fn IntVector2u getPosition() const
+				 * @return The window position.
+				 * @brief Get the position of the window.
+				 * @throw
+				 * @see IntVector2u X11API::getPosition() const
+				 */
+				virtual IntVector2u getPosition() const override;
 
-		/**
-		 * @fn void maximize()
-		 * @brief Set the window to its maximum size.
-		 * @throw
-         * @see void X11API::maximize()
-		 */
-		virtual void maximize() override;
+				/**
+				 * @fn void minimize()
+				 * @brief Set the window to its minimum size.
+				 * @throw
+				 * @see void X11API minimize()
+				 */
+				virtual void minimize() override;
 
-		/**
-		 * @fn std::vector<InputEvent> processEvent(const bool blocking)
-		 * @param[in] blocking Block the thread until an event has been processed.
-         * @return The events obtained from the window.
-		 * @brief Process a window event.
-		 * @throw
-         * @see std::vector<InputEvent> X11API::processEvent(const bool blocking)
-		 */
-		virtual std::vector<InputEvent> processEvent(const bool blocking) override;
+				/**
+				 * @fn void maximize()
+				 * @brief Set the window to its maximum size.
+				 * @throw
+				 * @see void X11API::maximize()
+				 */
+				virtual void maximize() override;
 
-        /**
-         * @fn void logInfos()
-         * @brief Log infos about the connection to the X server.
-         * @throw
-         */
-        void logInfos();
+				/**
+				 * @fn std::vector<InputEvent> processEvent(const bool blocking)
+				 * @param[in] blocking Block the thread until an event has been processed.
+				 * @return The events obtained from the window.
+				 * @brief Process a window event.
+				 * @throw
+				 * @see std::vector<InputEvent> X11API::processEvent(const bool blocking)
+				 */
+				virtual std::vector<InputEvent> processEvent(const bool blocking) override;
 
-    protected:
-        /**
-         * @fn WindowMessage getNextMessage()
-         * @return The next window message.
-         * @brief Get the next window message available.
-         * @throw
-         */
-        WindowMessage getNextMessage();
+				/**
+				 * @fn void logInfos()
+				 * @brief Log infos about the connection to the X server.
+				 * @throw
+				 */
+				void logInfos();
 
-        /**
-         * @fn InputEvent processMessage(const WindowMessage & message)
-         * @param[in] message The window message to process.
-         * @return The window message standardized.
-         * @brief Process a window message.
-         * @throw
-         */
-        InputEvent processMessage(const WindowMessage & message);
+			protected:
+				/**
+				 * @fn WindowMessage getNextMessage()
+				 * @return The next window message.
+				 * @brief Get the next window message available.
+				 * @throw
+				 */
+				WindowMessage getNextMessage();
 
-    private:
-		/**
-		 * @property _windowId
-		 * @brief The handle of the window.
-		 */
-        Window _windowId;
+				/**
+				 * @fn InputEvent processMessage(const WindowMessage & message)
+				 * @param[in] message The window message to process.
+				 * @return The window message standardized.
+				 * @brief Process a window message.
+				 * @throw
+				 */
+				InputEvent processMessage(const WindowMessage & message);
 
-        /**
-         * @property _connection
-         * @brief The connection to the X server.
-         */
-        Display * _connection;
+			private:
+				/**
+				 * @property _windowId
+				 * @brief The handle of the window.
+				 */
+				Window _windowId;
 
-        /**
-         * @property _screen
-         * @brief The screen associated.
-         */
-         int _screen;
-    };
-}
+				/**
+				 * @property _connection
+				 * @brief The connection to the X server.
+				 */
+				Display * _connection;
+
+				/**
+				 * @property _screen
+				 * @brief The screen associated.
+				 */
+				int _screen;
+			};
+		} // namespace x11
+	} // namespace window
+} // namespace ece
 
 #endif // XLIB_IMPL_HPP
