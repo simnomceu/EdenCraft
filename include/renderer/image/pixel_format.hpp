@@ -43,39 +43,45 @@
 
 namespace ece
 {
-	struct RGB24
+	namespace renderer
 	{
-		std::byte red;
-		std::byte green;
-		std::byte blue;
-	};
+		namespace image
+		{
+			struct RGB24
+			{
+				std::byte red;
+				std::byte green;
+				std::byte blue;
+			};
 
-	struct RGBA32 : public RGB24
-	{
-		std::byte alpha;
-	};
+			struct RGBA32 : public RGB24
+			{
+				std::byte alpha;
+			};
 
-	struct HSV
-	{
-		unsigned short int hue;
-		unsigned short int saturation;
-		unsigned short int value;
-	};
+			struct HSV
+			{
+				unsigned short int hue;
+				unsigned short int saturation;
+				unsigned short int value;
+			};
 
-	struct HSL
-	{
-		unsigned short int hue;
-		unsigned short int saturation;
-		unsigned short int lightness;
-	};
+			struct HSL
+			{
+				unsigned short int hue;
+				unsigned short int saturation;
+				unsigned short int lightness;
+			};
 
-	struct CMYK
-	{
-		unsigned short int cyan;
-		unsigned short int magenta;
-		unsigned short int yellow;
-		unsigned short int key;
-	};
-}
+			struct CMYK
+			{
+				unsigned short int cyan;
+				unsigned short int magenta;
+				unsigned short int yellow;
+				unsigned short int key;
+			};
+		} // namespace image
+	} // namespace renderer
+} // namespace ece
 
 #endif // IMAGE_FORMAT_HPP

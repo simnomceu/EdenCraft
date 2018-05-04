@@ -38,5 +38,11 @@
 
 namespace ece
 {
-	inline void Renderer::setProgram(const Shader & program) { program.use(); }
-}
+	namespace renderer
+	{
+		namespace common
+		{
+			inline void Renderer::setProgram(const Shader & program) { program.use(); }
+		} // namespace common
+	} // namespace renderer
+} // namespace ece

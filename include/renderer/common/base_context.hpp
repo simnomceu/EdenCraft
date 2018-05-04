@@ -45,142 +45,148 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
-    
-	class RenderWindow;
-
-	/**
-	 * @class BaseContext
-	 * @brief Generic render context.
-	 */
-	class BaseContext: public std::enable_shared_from_this<BaseContext>
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn BaseContext() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline BaseContext() noexcept;
+		namespace common
+		{
+			using utility::indexing::Version;
 
-		BaseContext(const BaseContext & copy) = delete;
-		BaseContext(BaseContext && move) = delete;
+			class RenderWindow;
 
-		/**
-		 * @fn ~BaseContext() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~BaseContext() noexcept = default;
+			/**
+			 * @class BaseContext
+			 * @brief Generic render context.
+			 */
+			class BaseContext : public std::enable_shared_from_this<BaseContext>
+			{
+			public:
+				/**
+				 * @fn BaseContext() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline BaseContext() noexcept;
 
-		BaseContext & operator=(const BaseContext & copy) noexcept = delete;
-		BaseContext & operator=(BaseContext && move) = delete;
+				BaseContext(const BaseContext & copy) = delete;
+				BaseContext(BaseContext && move) = delete;
 
-        /**
-         * @fn void capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
-         * @param[in] minVersion The mandatory minimum version to set.
-		 * @param[in] maxVersion The mandatory maximum version to set.
-         * @brief Cap the minimum and the maximum versions for the render context.
-         * @throw
-         */
-         inline void capVersion(const Version<2> & minVersion, const Version<2> & maxVersion);
+				/**
+				 * @fn ~BaseContext() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~BaseContext() noexcept = default;
 
-		/**
-		 * @fn void setMinVersion(const Version<2> & minVersion) noexcept
-		 * @param[in] minVersion The mandatory minimum version to set.
-		 * @brief Set a mandatory minimum version for the render context.
-		 * @throw noexcept
-		 */
-		inline void setMinVersion(const Version<2> & minVersion) noexcept;
+				BaseContext & operator=(const BaseContext & copy) noexcept = delete;
+				BaseContext & operator=(BaseContext && move) = delete;
 
-		/**
-		 * @fn void setMaxVersion(const Version<2> & maxVersion) noexcept
-		 * @param[in] maxVersion The mandatory maximum version to set.
-		 * @brief Set a mandatory maximum version for the render context.
-		 * @throw noexcept
-		 */
-		inline void setMaxVersion(const Version<2> & maxVersion) noexcept;
+				/**
+				 * @fn void capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
+				 * @param[in] minVersion The mandatory minimum version to set.
+				 * @param[in] maxVersion The mandatory maximum version to set.
+				 * @brief Cap the minimum and the maximum versions for the render context.
+				 * @throw
+				 */
+				inline void capVersion(const Version<2> & minVersion, const Version<2> & maxVersion);
 
-		/**
-		 * @fn void targetVersion(const Version<2> & target)
-		 * @param[in] target The version to target.
-		 * @brief Target a version, as close as possible.
-		 * @throw
-		 */
-		inline void targetVersion(const Version<2> & target);
+				/**
+				 * @fn void setMinVersion(const Version<2> & minVersion) noexcept
+				 * @param[in] minVersion The mandatory minimum version to set.
+				 * @brief Set a mandatory minimum version for the render context.
+				 * @throw noexcept
+				 */
+				inline void setMinVersion(const Version<2> & minVersion) noexcept;
 
-        /**
-         * @fn Version<2> getCurrentVersion() const;
-         * @return The current version of the render context.
-         * @brief Get the version used of the render context.
-         * @throw
-         */
-		virtual Version<2> getCurrentVersion() const = 0;
+				/**
+				 * @fn void setMaxVersion(const Version<2> & maxVersion) noexcept
+				 * @param[in] maxVersion The mandatory maximum version to set.
+				 * @brief Set a mandatory maximum version for the render context.
+				 * @throw noexcept
+				 */
+				inline void setMaxVersion(const Version<2> & maxVersion) noexcept;
 
-		/**
-		 * @fn void create(const RenderWindow & window)
-		 * @param[in] window The window to linked to.
-		 * @brief Create the context for a window.
-		 * @throw
-		 */
-		virtual void create(const RenderWindow & window) = 0;
+				/**
+				 * @fn void targetVersion(const Version<2> & target)
+				 * @param[in] target The version to target.
+				 * @brief Target a version, as close as possible.
+				 * @throw
+				 */
+				inline void targetVersion(const Version<2> & target);
 
-        /**
-         * @fn void terminate()
-         * @brief Delete the render context.
-         * @throw
-         */
-         virtual void terminate() = 0;
+				/**
+				 * @fn Version<2> getCurrentVersion() const;
+				 * @return The current version of the render context.
+				 * @brief Get the version used of the render context.
+				 * @throw
+				 */
+				virtual Version<2> getCurrentVersion() const = 0;
 
-		 /**
-		  * @fn bool isCreated() const noexcept
-		  * @return True if the context is created, false else.
-		  * @brief Checks if the context is created or not.
-		  * @throw noexcept
-		  */
-		 inline bool isCreated() const noexcept;
+				/**
+				 * @fn void create(const RenderWindow & window)
+				 * @param[in] window The window to linked to.
+				 * @brief Create the context for a window.
+				 * @throw
+				 */
+				virtual void create(const RenderWindow & window) = 0;
 
-		/**
-		 * @fn void swapBuffers()
-		 * @brief If multi-buffering is enable, it swap between buffers to display the new frame.
-		 * @throw
-		 */
-		virtual void swapBuffers() = 0;
+				/**
+				 * @fn void terminate()
+				 * @brief Delete the render context.
+				 * @throw
+				 */
+				virtual void terminate() = 0;
 
-		/**
-		 * @fn void setCurrent()
-		 * @brief Define this content as the current one.
-		 * @throw
-		 */
-		virtual void setCurrent() = 0;
+				/**
+				 * @fn bool isCreated() const noexcept
+				 * @return True if the context is created, false else.
+				 * @brief Checks if the context is created or not.
+				 * @throw noexcept
+				 */
+				inline bool isCreated() const noexcept;
 
-		/**
-		 * @fn void logInfos()
-		 * @brief Log the informations related to the render context and the device used.
-		 * @throw
-		 */
-		virtual void logInfos() const = 0;
+				/**
+				 * @fn void swapBuffers()
+				 * @brief If multi-buffering is enable, it swap between buffers to display the new frame.
+				 * @throw
+				 */
+				virtual void swapBuffers() = 0;
 
-	protected:
-		/**
-		 * @property _minVersion
-		 * @brief The minimum version for the render context.
-		 */
-		Version<2> _minVersion;
+				/**
+				 * @fn void setCurrent()
+				 * @brief Define this content as the current one.
+				 * @throw
+				 */
+				virtual void setCurrent() = 0;
 
-		/**
-		 * @property _maxVersion
-		 * @brief The maximum version for the render context.
-		 */
-		Version<2> _maxVersion;
+				/**
+				 * @fn void logInfos()
+				 * @brief Log the informations related to the render context and the device used.
+				 * @throw
+				 */
+				virtual void logInfos() const = 0;
 
-		/**
-		 * @property _created
-		 * @brief A flag to check if the context exists or not.
-		 */
-		bool _created;
-	};
-}
+			protected:
+				/**
+				 * @property _minVersion
+				 * @brief The minimum version for the render context.
+				 */
+				Version<2> _minVersion;
+
+				/**
+				 * @property _maxVersion
+				 * @brief The maximum version for the render context.
+				 */
+				Version<2> _maxVersion;
+
+				/**
+				 * @property _created
+				 * @brief A flag to check if the context exists or not.
+				 */
+				bool _created;
+			};
+		} // namespace common
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/common/base_context.inl"
 

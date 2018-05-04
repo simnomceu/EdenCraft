@@ -48,7 +48,8 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
 }
 
 inline void glSpecializeShader(GLuint shader, const GLchar * pEntryPoint, GLuint numSpecializationConstants, const GLuint * pConstantIndex, const GLuint * pConstantValue);
@@ -61,7 +62,7 @@ inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
  * @brief Load the opengl 4.6 extension and call it.
  */
 #define CALLGL46(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -74,7 +75,7 @@ inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
  * @brief Load the opengl 4.6 extension and call it.
  */
 #define R_CALLGL46(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -88,7 +89,7 @@ inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
  * @brief Load the opengl 4.6 extension and call it.
  */
 #define CALLGL46_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -102,7 +103,7 @@ inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
  * @brief Load the opengl 4.6 extension and call it.
  */
 #define R_CALLGL46_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \

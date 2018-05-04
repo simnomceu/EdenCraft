@@ -46,38 +46,44 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
-    
-	/**
-	 * @fn void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
-	 * @param[in] name The name of the extension.
-	 * @param[in] requiredVersion The required version of the extension.
-	 * @brief Load the OpenGL extension according to the version available.
-	 * @throw
-	 */
-	void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
+	namespace renderer
+	{
+		namespace opengl
+		{
+			using namespace utility::indexing;
 
-	/**
-	 * @fn T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
-	 * tparam The type of method of the extension.
-	 * @param[in] name The name of the extension.
-	 * @param[in] requiredVersion The required version of the extension.
-	 * @brief Load the OpenGL extension according to the version available.
-	 * @throw
-	 */
-	template <class T>
-	inline T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
+			/**
+			 * @fn void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
+			 * @param[in] name The name of the extension.
+			 * @param[in] requiredVersion The required version of the extension.
+			 * @brief Load the OpenGL extension according to the version available.
+			 * @throw
+			 */
+			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
 
-	/**
-	 * @fn Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-	 * @param[in] minVersionGL The minimum required version of OpenGL.
-	 * @param[in] maxVersionGL The maximum required version of OpenGL.
-	 * @return The version targeted to initialize OpenGL.
-	 * @brief Initialize the OpenGL extensions loader.
-	 * @throw
-	 */
-	Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
-}
+			/**
+			 * @fn T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
+			 * tparam The type of method of the extension.
+			 * @param[in] name The name of the extension.
+			 * @param[in] requiredVersion The required version of the extension.
+			 * @brief Load the OpenGL extension according to the version available.
+			 * @throw
+			 */
+			template <class T>
+			inline T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
+
+			/**
+			 * @fn Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+			 * @param[in] minVersionGL The minimum required version of OpenGL.
+			 * @param[in] maxVersionGL The maximum required version of OpenGL.
+			 * @return The version targeted to initialize OpenGL.
+			 * @brief Initialize the OpenGL extensions loader.
+			 * @throw
+			 */
+			Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/opengl/extension_loader.inl"
 

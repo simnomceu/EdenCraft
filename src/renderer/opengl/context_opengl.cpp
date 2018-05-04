@@ -44,18 +44,24 @@
 
 namespace ece
 {
-    using namespace utility::log;
-    
-	Version<2> ContextOpenGL::getCurrentVersion() const
+	namespace renderer
 	{
-		// TODO To be completed
-		return Version<2>();
-	}
+		namespace opengl
+		{
+			using utility::log::ServiceLoggerLocator;
 
-	void ContextOpenGL::logInfos() const
-	{
-		ServiceLoggerLocator::getService().logInfo("Renderer: " + OpenGL::getString(InfoGL::RENDERER));
-		ServiceLoggerLocator::getService().logInfo("OpenGL version supported " + OpenGL::getString(InfoGL::VERSION));
-		ServiceLoggerLocator::getService().logInfo("GLSL version supported " + OpenGL::getString(InfoGL::SHADING_LANGUAGE_VERSION));
-	}
-}
+			Version<2> ContextOpenGL::getCurrentVersion() const
+			{
+				// TODO To be completed
+				return Version<2>();
+			}
+
+			void ContextOpenGL::logInfos() const
+			{
+				ServiceLoggerLocator::getService().logInfo("Renderer: " + OpenGL::getString(InfoGL::RENDERER));
+				ServiceLoggerLocator::getService().logInfo("OpenGL version supported " + OpenGL::getString(InfoGL::VERSION));
+				ServiceLoggerLocator::getService().logInfo("GLSL version supported " + OpenGL::getString(InfoGL::SHADING_LANGUAGE_VERSION));
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

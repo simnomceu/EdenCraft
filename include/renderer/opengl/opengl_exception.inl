@@ -38,8 +38,14 @@
 
 namespace ece
 {
-	inline OpenGLExtensionException::OpenGLExtensionException(const std::string & extension)
+	namespace renderer
 	{
-		this->setMessage("The extension % is not loaded", extension);
-	}
-}
+		namespace opengl
+		{
+			inline OpenGLExtensionException::OpenGLExtensionException(const std::string & extension)
+			{
+				this->setMessage("The extension % is not loaded", extension);
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

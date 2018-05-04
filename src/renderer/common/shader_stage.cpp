@@ -45,82 +45,89 @@
 
 namespace ece
 {
-    using namespace utility::file_system;
-    using namespace utility::debug;
-    using namespace utility::log;
-
-	ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
+	namespace renderer
 	{
-		this->_filename = copy._filename;
-		this->_source = copy._filename;
-		this->_type = copy._type;
-		this->_handle = copy._handle;
-		this->_compilationRequired = copy._compilationRequired;
+		namespace common
+		{
+			using utility::file_system::File;
+			using utility::debug::FileException;
+			using utility::log::ServiceLoggerLocator;
+			using renderer::opengl::OpenGL;
 
-		return *this;
-	}
+			ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
+			{
+				this->_filename = copy._filename;
+				this->_source = copy._filename;
+				this->_type = copy._type;
+				this->_handle = copy._handle;
+				this->_compilationRequired = copy._compilationRequired;
 
-	ShaderStage & ShaderStage::operator=(ShaderStage && move) noexcept
-	{
-		this->_filename = std::move(move._filename);
-		this->_source = std::move(move._filename);
-		this->_type = move._type;
-		this->_handle = move._handle;
-		this->_compilationRequired = move._compilationRequired;
-
-		move._filename.clear();
-		move._handle = 0;
-		move._compilationRequired = false;
-
-		return *this;
-	}
-
-	void ShaderStage::loadFromFile(const ShaderType type, const std::string & filename)
-	{
-		this->terminate();
-
-		if (this->_filename != filename) {
-			this->_filename = filename;
-
-			this->_source.clear();
-			File shaderFile;
-			try {
-				shaderFile.open(this->_filename);
-				this->_source = shaderFile.parseToString();
-				shaderFile.close();
+				return *this;
 			}
-			catch (FileException & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
+
+			ShaderStage & ShaderStage::operator=(ShaderStage && move) noexcept
+			{
+				this->_filename = std::move(move._filename);
+				this->_source = std::move(move._filename);
+				this->_type = move._type;
+				this->_handle = move._handle;
+				this->_compilationRequired = move._compilationRequired;
+
+				move._filename.clear();
+				move._handle = 0;
+				move._compilationRequired = false;
+
+				return *this;
 			}
-			this->_type = type;
-			this->_compilationRequired = true;
-		}
-	}
 
-	void ShaderStage::loadFromString(const ShaderType type, const std::string & sourceCode)
-	{
-		this->terminate();
+			void ShaderStage::loadFromFile(const ShaderType type, const std::string & filename)
+			{
+				this->terminate();
 
-		this->_filename = "";
-		this->_source = sourceCode;
-		this->_type = type;
-		this->_compilationRequired = true;
-	}
+				if (this->_filename != filename) {
+					this->_filename = filename;
 
-	void ShaderStage::compile()
-	{
-		this->_handle = OpenGL::createShader(this->_type);
-		OpenGL::shaderSource(this->_handle, this->_source);
-		OpenGL::compileShader(this->_handle);
-		this->_compilationRequired = false;
-	}
+					this->_source.clear();
+					File shaderFile;
+					try {
+						shaderFile.open(this->_filename);
+						this->_source = shaderFile.parseToString();
+						shaderFile.close();
+					}
+					catch (FileException & e) {
+						ServiceLoggerLocator::getService().logError(e.what());
+					}
+					this->_type = type;
+					this->_compilationRequired = true;
+				}
+			}
 
-	void ShaderStage::terminate()
-	{
-		if (this->_handle != 0) {
-			OpenGL::deleteShader(this->_handle);
-			this->_handle = 0;
-			this->_compilationRequired = true;
-		}
-	}
-}
+			void ShaderStage::loadFromString(const ShaderType type, const std::string & sourceCode)
+			{
+				this->terminate();
+
+				this->_filename = "";
+				this->_source = sourceCode;
+				this->_type = type;
+				this->_compilationRequired = true;
+			}
+
+			void ShaderStage::compile()
+			{
+				this->_handle = OpenGL::createShader(this->_type);
+				OpenGL::shaderSource(this->_handle, this->_source);
+				OpenGL::compileShader(this->_handle);
+				this->_compilationRequired = false;
+			}
+
+			void ShaderStage::terminate()
+			{
+				if (this->_handle != 0) {
+					OpenGL::deleteShader(this->_handle);
+					this->_handle = 0;
+					this->_compilationRequired = true;
+				}
+			}
+		} // common
+	} // renderer
+} // ece

@@ -50,91 +50,97 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
-    
-	/**
-	 * @class WGLoader
-	 * @brief OpenGL loader for Windows platform.
-	 */
-	class WGLLoader
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn WGLLoader & getInstance()
-		 * @return The singleton.
-		 * @brief Get the unique instance of the loader.
-		 * @throw
-		 */
-		static WGLLoader & getInstance();
+		namespace opengl
+		{
+			using utility::indexing::Version;
 
-		/**
-		 * @fn ~WGLLoader() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~WGLLoader() noexcept;
+			/**
+			 * @class WGLoader
+			 * @brief OpenGL loader for Windows platform.
+			 */
+			class WGLLoader
+			{
+			public:
+				/**
+				 * @fn WGLLoader & getInstance()
+				 * @return The singleton.
+				 * @brief Get the unique instance of the loader.
+				 * @throw
+				 */
+				static WGLLoader & getInstance();
 
-		/**
-		 * @fn FARPROC getProcAddress(const std::string & name)
-		 * @param[in] name The name of the extension.
-		 * @return The OpenGL method loaded.
-		 * @brief Load an OpenGL extension from a Wndows platform.
-		 * @throw
-		 */
-		FARPROC getProcAddress(const std::string & name);
+				/**
+				 * @fn ~WGLLoader() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~WGLLoader() noexcept;
 
-		/**
-		 * @fn void initDummyContext()
-		 * @brief Create a dummy context to initialize the core of OpenGL.
-		 * @throw
-		 */
-		void initDummyContext();
+				/**
+				 * @fn FARPROC getProcAddress(const std::string & name)
+				 * @param[in] name The name of the extension.
+				 * @return The OpenGL method loaded.
+				 * @brief Load an OpenGL extension from a Wndows platform.
+				 * @throw
+				 */
+				FARPROC getProcAddress(const std::string & name);
 
-		/**
-		 * @fn Version<2> & getLatestVersionAvailable()
-		 * @return The latest version available of OpenGL.
-		 * @brief Get the latest version available of OpenGL.
-		 * @throw
-		 */
-		Version<2> & getLatestVersionAvailable();
+				/**
+				 * @fn void initDummyContext()
+				 * @brief Create a dummy context to initialize the core of OpenGL.
+				 * @throw
+				 */
+				void initDummyContext();
 
-		/**
-		 * @fn void terminateDummyContext()
-		 * @brief Delete the dummycontext used to initialize the core of OpenGL.
-		 * @throw
-		 */
-		void terminateDummyContext();
+				/**
+				 * @fn Version<2> & getLatestVersionAvailable()
+				 * @return The latest version available of OpenGL.
+				 * @brief Get the latest version available of OpenGL.
+				 * @throw
+				 */
+				Version<2> & getLatestVersionAvailable();
 
-	private:
-		/**
-		 * @fn WGLLoader()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		WGLLoader();
+				/**
+				 * @fn void terminateDummyContext()
+				 * @brief Delete the dummycontext used to initialize the core of OpenGL.
+				 * @throw
+				 */
+				void terminateDummyContext();
 
-		/**
-		 * @property _openglLib
-		 * @brief THe external library exposing OpenGL.
-		 */
-		HMODULE _openglLib;
+			private:
+				/**
+				 * @fn WGLLoader()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				WGLLoader();
 
-		/**
-		 * @property _latestVersionAvailable
-		 * @brief The latest version available of OpenGL.
-		 */
-		Version<2> _latestVersionAvailable;
+				/**
+				 * @property _openglLib
+				 * @brief THe external library exposing OpenGL.
+				 */
+				HMODULE _openglLib;
 
-		/**
-		 * @property _dummy
-		 * @brief The dummy context to use.
-		 */
-		struct {
-			HDC device;
-			HGLRC context;
-			HWND window;
-		} _dummy;
-	};
-}
+				/**
+				 * @property _latestVersionAvailable
+				 * @brief The latest version available of OpenGL.
+				 */
+				Version<2> _latestVersionAvailable;
+
+				/**
+				 * @property _dummy
+				 * @brief The dummy context to use.
+				 */
+				struct {
+					HDC device;
+					HGLRC context;
+					HWND window;
+				} _dummy;
+			};
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
 
 #endif // WGL_LOADER_HPP

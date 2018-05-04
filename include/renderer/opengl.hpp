@@ -58,4 +58,9 @@
 #include "renderer/opengl/vao.hpp"
 #include "renderer/opengl/vbo.hpp"
 
+namespace ece
+{
+	using namespace renderer::opengl;
+}
+
 #endif // RENDERER_OPENGL_HPP

@@ -39,9 +39,15 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+	using renderer::opengl::OpenGLExtensionException;
+	using utility::indexing::Version;
+}
+
 inline BOOL wglChoosePixelFormat(HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats)
 {
-	static auto proxy = ece::loadOpenGLProc<PFNWGLCHOOSEPIXELFORMATARBPROC>("wglChoosePixelFormatARB", ece::Version<2>{ 3, 2 });
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<PFNWGLCHOOSEPIXELFORMATARBPROC>("wglChoosePixelFormatARB", ece::Version<2>{ 3, 2 });
 	if (!proxy) {
 		throw ece::OpenGLExtensionException("wglChoosePixelFormat");
 	}
@@ -53,7 +59,7 @@ inline BOOL wglChoosePixelFormat(HDC hdc, const int *piAttribIList, const FLOAT 
 
 inline HGLRC wglCreateContextAttribs(HDC hdc, HGLRC hShareContext, const int *attribList)
 {
-	static auto proxy = ece::loadOpenGLProc<PFNWGLCREATECONTEXTATTRIBSARBPROC>("wglCreateContextAttribsARB", ece::Version<2>{ 3, 2 });
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<PFNWGLCREATECONTEXTATTRIBSARBPROC>("wglCreateContextAttribsARB", ece::Version<2>{ 3, 2 });
 	if (!proxy) {
 		throw ece::OpenGLExtensionException("wglCreateContextAttribs");
 	}

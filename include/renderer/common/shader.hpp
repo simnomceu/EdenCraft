@@ -44,116 +44,124 @@
 
 namespace ece
 {
-	/**
-	 * @class Shader
-	 * @brief A shader program, as a combination of shader stages.
-	 */
-	class Shader
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn Shader()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline Shader();
+		namespace common
+		{
+			using opengl::Handle;
 
-		/**
-		 * @fn Shader(const Handle handle) noexcept
-		 * @param[in] handle The id to use.
-		 * @brief Build a shader program with a specific id.
-		 * @throw noexcept
-		 */
-		inline Shader(const Handle handle) noexcept;
+			/**
+			 * @class Shader
+			 * @brief A shader program, as a combination of shader stages.
+			 */
+			class Shader
+			{
+			public:
+				/**
+				 * @fn Shader()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline Shader();
 
-		/**
-		 * @fn Shader(const Shader & copy) noexcept
-		 * @param[in] copy The shader program to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Shader(const Shader & copy) noexcept = default;
+				/**
+				 * @fn Shader(const Handle handle) noexcept
+				 * @param[in] handle The id to use.
+				 * @brief Build a shader program with a specific id.
+				 * @throw noexcept
+				 */
+				inline Shader(const Handle handle) noexcept;
 
-		/**
-		 * @fn Shader(Shader && move) noexcept 
-		 * @param[in] move The shader program to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Shader(Shader && move) noexcept = default;
+				/**
+				 * @fn Shader(const Shader & copy) noexcept
+				 * @param[in] copy The shader program to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Shader(const Shader & copy) noexcept = default;
 
-		/**
-		 * @fn ~Shader() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Shader() noexcept = default;
+				/**
+				 * @fn Shader(Shader && move) noexcept
+				 * @param[in] move The shader program to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Shader(Shader && move) noexcept = default;
 
-		/**
-		 * @fn Shader & operator=(const Shader & copy) noexcept 
-		 * @param[in] copy The shader program to copy from.
-		 * @return The shader program copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Shader & operator=(const Shader & copy) noexcept = default;
+				/**
+				 * @fn ~Shader() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Shader() noexcept = default;
 
-		/**
-		 * @fn Shader & operator=(Shader && move) noexcept 
-		 * @param[in] move The shader program to move.
-		 * @return The shader program moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Shader & operator=(Shader && move) noexcept = default;
+				/**
+				 * @fn Shader & operator=(const Shader & copy) noexcept
+				 * @param[in] copy The shader program to copy from.
+				 * @return The shader program copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Shader & operator=(const Shader & copy) noexcept = default;
 
-		/**
-		 * @fn Handle getHandle() const
-		 * @return The id of the shader program.
-		 * @brief Get the id of the shader program.
-		 * @throw
-		 */
-		inline Handle getHandle() const;
+				/**
+				 * @fn Shader & operator=(Shader && move) noexcept
+				 * @param[in] move The shader program to move.
+				 * @return The shader program moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Shader & operator=(Shader && move) noexcept = default;
 
-		/**
-		 * @fn void setStage(ShaderStage & shader)
-		 * @param[in] shader The shader stage to add.
-		 * @brief Set a shader stage of the program.
-		 * @throw
-		 */
-		virtual void setStage(ShaderStage & shader);
+				/**
+				 * @fn Handle getHandle() const
+				 * @return The id of the shader program.
+				 * @brief Get the id of the shader program.
+				 * @throw
+				 */
+				inline Handle getHandle() const;
 
-		/**
-		 * @fn void link()
-		 * @brief Link the shader program.
-		 * @throw
-		 */
-		inline void link();
+				/**
+				 * @fn void setStage(ShaderStage & shader)
+				 * @param[in] shader The shader stage to add.
+				 * @brief Set a shader stage of the program.
+				 * @throw
+				 */
+				virtual void setStage(ShaderStage & shader);
 
-		/**
-		 * @fn void use() const
-		 * @brief Put the shader program in a buffer to be used.
-		 * @throw
-		 */
-		inline void use() const;
+				/**
+				 * @fn void link()
+				 * @brief Link the shader program.
+				 * @throw
+				 */
+				inline void link();
 
-		/**
-		 * @fn void uniform(const std::string & uniform, const T & value)
-		 * @tparam T The type of value to set.
-		 * @param[in] uniform The name of the uniform to set.
-		 * @param[in] value The value to set.
-		 * @brief Set the value of a uniform from the shader program.
-		 */
-		template<class T> void uniform(const std::string & uniform, const T & value);
+				/**
+				 * @fn void use() const
+				 * @brief Put the shader program in a buffer to be used.
+				 * @throw
+				 */
+				inline void use() const;
 
-	protected:
-		/**
-		 * @property _handle
-		 * @brief The id of the shader program.
-		 */
-		Handle _handle;
-	};
-}
+				/**
+				 * @fn void uniform(const std::string & uniform, const T & value)
+				 * @tparam T The type of value to set.
+				 * @param[in] uniform The name of the uniform to set.
+				 * @param[in] value The value to set.
+				 * @brief Set the value of a uniform from the shader program.
+				 */
+				template<class T> void uniform(const std::string & uniform, const T & value);
+
+			protected:
+				/**
+				 * @property _handle
+				 * @brief The id of the shader program.
+				 */
+				Handle _handle;
+			};
+		} // namespace common
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/common/shader.inl"
 

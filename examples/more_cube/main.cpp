@@ -43,6 +43,11 @@
 #include "renderer/opengl.hpp"
 #include "window/common.hpp"
 
+namespace ece
+{
+	using namespace renderer;
+}
+
 int main()
 {
 	try {

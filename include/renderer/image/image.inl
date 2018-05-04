@@ -40,52 +40,58 @@
 
 namespace ece
 {
-	template<class E>
-	inline constexpr Image<E>::Image() noexcept: Dynamic2DArray<E>(0, 0) {}
-
-	template<class E>
-	void Image<E>::flipHorizontally()
+	namespace renderer
 	{
-		for (size_t j = 0; j < this->_height; ++j) {
-			for (size_t i = 0; i < this->_width / 2; ++i) {
-				std::swap(this->_buffer[j][i], this->_buffer[j][this->_width - 1 - i]);
+		namespace image
+		{
+			template<class E>
+			inline constexpr Image<E>::Image() noexcept: Dynamic2DArray<E>(0, 0) {}
+
+			template<class E>
+			void Image<E>::flipHorizontally()
+			{
+				for (size_t j = 0; j < this->_height; ++j) {
+					for (size_t i = 0; i < this->_width / 2; ++i) {
+						std::swap(this->_buffer[j][i], this->_buffer[j][this->_width - 1 - i]);
+					}
+				}
 			}
-		}
-	}
 
-	template<class E>
-	void Image<E>::flipVertically()
-	{
-		for (size_t j = 0; j < this->_height / 2; ++j) {
-			for (size_t i = 0; i < this->_width; ++i) {
-				std::swap(this->_buffer[j][i], this->_buffer[this->_height - 1 - j][i]);
+			template<class E>
+			void Image<E>::flipVertically()
+			{
+				for (size_t j = 0; j < this->_height / 2; ++j) {
+					for (size_t i = 0; i < this->_width; ++i) {
+						std::swap(this->_buffer[j][i], this->_buffer[this->_height - 1 - j][i]);
+					}
+				}
 			}
-		}
-	}
 
-	template<class E>
-	void Image<E>::rotateOnRight()
-	{
-		Dynamic2DArray<E> dirty(this->_buffer);
+			template<class E>
+			void Image<E>::rotateOnRight()
+			{
+				Dynamic2DArray<E> dirty(this->_buffer);
 
-		this->_buffer.resize(dirty.getHeight(), dirty.getWidth());
-		for (size_t j = 0; j < dirty.getHeight(); ++j) {
-			for (size_t i = 0; i < dirty.getWidth(); ++i) {
-				this->_buffer[i][this->_width - 1 - j] = dirty[j][i];
+				this->_buffer.resize(dirty.getHeight(), dirty.getWidth());
+				for (size_t j = 0; j < dirty.getHeight(); ++j) {
+					for (size_t i = 0; i < dirty.getWidth(); ++i) {
+						this->_buffer[i][this->_width - 1 - j] = dirty[j][i];
+					}
+				}
 			}
-		}
-	}
 
-	template<class E>
-	void Image<E>::rotateOnLeft()
-	{
-		Dynamic2DArray<E> dirty(this->_buffer);
+			template<class E>
+			void Image<E>::rotateOnLeft()
+			{
+				Dynamic2DArray<E> dirty(this->_buffer);
 
-		this->_buffer.resize(dirty.getHeight(), dirty.getWidth());
-		for (size_t j = 0; j < dirty.getHeight(); ++j) {
-			for (size_t i = 0; i < dirty.getWidth(); ++i) {
-				this->_buffer[this->height - 1 - i][j] = dirty[j][i];
+				this->_buffer.resize(dirty.getHeight(), dirty.getWidth());
+				for (size_t j = 0; j < dirty.getHeight(); ++j) {
+					for (size_t i = 0; i < dirty.getWidth(); ++i) {
+						this->_buffer[this->height - 1 - i][j] = dirty[j][i];
+					}
+				}
 			}
-		}
-	}
-}
+		} // namespace image
+	} // namespace renderer
+} // namespace ece

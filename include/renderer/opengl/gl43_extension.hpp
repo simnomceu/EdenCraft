@@ -48,7 +48,8 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
 }
 
 inline void glClearBufferSubData(GLenum target, GLenum internalformat, GLintptr offset, GLsizeiptr size, GLenum format, GLenum type, const GLvoid * data);
@@ -105,7 +106,7 @@ inline void glGetInternalformati64v(GLenum target, GLenum internalformat, GLenum
  * @brief Load the opengl 4.3 extension and call it.
  */
 #define CALLGL43(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -118,7 +119,7 @@ inline void glGetInternalformati64v(GLenum target, GLenum internalformat, GLenum
  * @brief Load the opengl 4.3 extension and call it.
  */
 #define R_CALLGL43(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -132,7 +133,7 @@ inline void glGetInternalformati64v(GLenum target, GLenum internalformat, GLenum
  * @brief Load the opengl 4.3 extension and call it.
  */
 #define CALLGL43_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -146,7 +147,7 @@ inline void glGetInternalformati64v(GLenum target, GLenum internalformat, GLenum
  * @brief Load the opengl 4.3 extension and call it.
  */
 #define R_CALLGL43_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \

@@ -48,16 +48,22 @@
 
 namespace ece
 {
-    using namespace utility::log;
-    
-	Version<2> OpenGL::_latestVersion{3, 2};
-	std::shared_ptr<BaseContext> OpenGL::_currentContext;
-
-	void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+	namespace renderer
 	{
-		auto version = initLoader(minVersionGL, maxVersionGL);
-		if (version != Version<2>{0, 0}) {
-			OpenGL::_latestVersion = version;
-		}
-	}
-}
+		namespace opengl
+		{
+			using utility::log::ServiceLoggerLocator;
+
+			Version<2> OpenGL::_latestVersion{ 3, 2 };
+			std::shared_ptr<BaseContext> OpenGL::_currentContext;
+
+			void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+			{
+				auto version = initLoader(minVersionGL, maxVersionGL);
+				if (version != Version<2>{0, 0}) {
+					OpenGL::_latestVersion = version;
+				}
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

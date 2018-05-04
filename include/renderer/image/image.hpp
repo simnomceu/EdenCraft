@@ -45,94 +45,100 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
-    
-	/**
-	 * @class Image
-	 * @tparam E The color format to use.
-	 * @brief
-	 */
-	template <class E>
-	class Image: public Dynamic2DArray<E>
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn constexpr Image() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline constexpr Image() noexcept;
+		namespace image
+		{
+			using utility::indexing::Dynamic2DArray;
 
-		/**
-		 * @fn Image(const Image<E> & copy) noexcept
-		 * @param[in] copy The Image to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Image(const Image<E> & copy) noexcept = default;
+			/**
+			 * @class Image
+			 * @tparam E The color format to use.
+			 * @brief
+			 */
+			template <class E>
+			class Image : public Dynamic2DArray<E>
+			{
+			public:
+				/**
+				 * @fn constexpr Image() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline constexpr Image() noexcept;
 
-		/**
-		 * @fn Image(Image<E> && move) noexcept
-		 * @param[in] move The Image to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Image(Image<E> && move) noexcept = default;
+				/**
+				 * @fn Image(const Image<E> & copy) noexcept
+				 * @param[in] copy The Image to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Image(const Image<E> & copy) noexcept = default;
 
-		/**
-		 * @fn ~Image() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Image() noexcept = default;
+				/**
+				 * @fn Image(Image<E> && move) noexcept
+				 * @param[in] move The Image to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Image(Image<E> && move) noexcept = default;
 
-		/**
-		 * @fn Image<E> & operator=(const Image<E> & copy) noexcept
-		 * @param[in] copy The Image to copy from.
-		 * @return The Image copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Image<E> & operator=(const Image<E> & copy) noexcept = default;
+				/**
+				 * @fn ~Image() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Image() noexcept = default;
 
-		/**
-		 * @fn Image<E> & operator=(Image<E> && move) noexcept
-		 * @param[in] move The Image to move.
-		 * @return The Image moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Image<E> & operator=(Image<E> && move) noexcept = default;
+				/**
+				 * @fn Image<E> & operator=(const Image<E> & copy) noexcept
+				 * @param[in] copy The Image to copy from.
+				 * @return The Image copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Image<E> & operator=(const Image<E> & copy) noexcept = default;
 
-		/**
-		 * @fn void flipHorizontally()
-		 * @brief Flip the image horizontally (from left to right).
-		 * @throw
-		 */
-		void flipHorizontally();
+				/**
+				 * @fn Image<E> & operator=(Image<E> && move) noexcept
+				 * @param[in] move The Image to move.
+				 * @return The Image moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Image<E> & operator=(Image<E> && move) noexcept = default;
 
-		/**
-		 * @fn void flipVertically()
-		 * @brief Flip the image horizontally (from left to right).
-		 * @throw
-		 */
-		void flipVertically();
+				/**
+				 * @fn void flipHorizontally()
+				 * @brief Flip the image horizontally (from left to right).
+				 * @throw
+				 */
+				void flipHorizontally();
 
-		/**
-		 * @fn void rotateOnRight()
-		 * @brief Rotate the image of 90� on the right.
-		 * @throw
-		 */
-		void rotateOnRight();
+				/**
+				 * @fn void flipVertically()
+				 * @brief Flip the image horizontally (from left to right).
+				 * @throw
+				 */
+				void flipVertically();
 
-		/**
-		 * @fn void rotateOnLeft()
-		 * @brief Rotate the image of 90� on the left.
-		 * @throw
-		 */
-		void rotateOnLeft();
-	};
-}
+				/**
+				 * @fn void rotateOnRight()
+				 * @brief Rotate the image of 90� on the right.
+				 * @throw
+				 */
+				void rotateOnRight();
+
+				/**
+				 * @fn void rotateOnLeft()
+				 * @brief Rotate the image of 90� on the left.
+				 * @throw
+				 */
+				void rotateOnLeft();
+			};
+		} // namespace image
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/image/image.inl"
 

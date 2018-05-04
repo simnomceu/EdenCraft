@@ -42,87 +42,94 @@
 
 namespace ece
 {
-    using namespace utility::file_system;
-    using namespace utility;
-
-	void ParserBMP::loadFromFile(const std::string & filename)
+	namespace renderer
 	{
-		File file;
+		namespace image
+		{
+			using utility::file_system::File;
+			using utility::debug::FileException;
+			using utility::OpenMode;
 
-		BMPHeader header;
-		BMPDIB DIB;
-		std::vector<std::byte> buffer;
+			void ParserBMP::loadFromFile(const std::string & filename)
+			{
+				File file;
 
-		// see http://tipsandtricks.runicsoft.com/Cpp/BitmapTutorial.html
-		// see http://www.di.unito.it/~marcog/SM/BMPformat-Wiki.pdf
-		// see https://upload.wikimedia.org/wikipedia/commons/c/c4/BMPfileFormat.png
-		// see https://en.wikipedia.org/wiki/BMP_file_format
+				BMPHeader header;
+				BMPDIB DIB;
+				std::vector<std::byte> buffer;
 
-		try {
-			if (!file.open(filename, OpenMode::binary | OpenMode::in | OpenMode::out)) {
-				throw std::runtime_error(filename + " has not been opened.");
-			}
-			header.magic[0] = file.read<uint8_t>();
-			header.magic[1] = file.read<uint8_t>();
-			header.size = file.read<uint32_t>();
-			header.reserved = file.read<uint32_t>();
-			header.pixelsOffset = file.read<uint32_t>();
+				// see http://tipsandtricks.runicsoft.com/Cpp/BitmapTutorial.html
+				// see http://www.di.unito.it/~marcog/SM/BMPformat-Wiki.pdf
+				// see https://upload.wikimedia.org/wikipedia/commons/c/c4/BMPfileFormat.png
+				// see https://en.wikipedia.org/wiki/BMP_file_format
 
-			DIB = file.read<BMPDIB>();
+				try {
+					if (!file.open(filename, OpenMode::binary | OpenMode::in | OpenMode::out)) {
+						throw std::runtime_error(filename + " has not been opened.");
+					}
+					header.magic[0] = file.read<uint8_t>();
+					header.magic[1] = file.read<uint8_t>();
+					header.size = file.read<uint32_t>();
+					header.reserved = file.read<uint32_t>();
+					header.pixelsOffset = file.read<uint32_t>();
 
-			buffer.resize(header.size - header.pixelsOffset);
-			file.moveCursorTo(header.pixelsOffset);
-			for (size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
-				buffer[i] = file.read<std::byte>();
-			}
+					DIB = file.read<BMPDIB>();
 
-			int padding = 0;
-			int scanLineBytes = DIB.width * 3;
-			while ((scanLineBytes + padding) % 4 != 0) {
-				++padding;
-			}
-			int psw = scanLineBytes + padding; // TODO: all here is not efficient at all
+					buffer.resize(header.size - header.pixelsOffset);
+					file.moveCursorTo(header.pixelsOffset);
+					for (size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
+						buffer[i] = file.read<std::byte>();
+					}
 
-			this->_image.resize(psw / 3, DIB.height);
-			long bufPos = 0;
-			for (uint32_t y = 0; y < this->_image.getHeight(); ++y) {
-				for (uint32_t x = 0; x < 3 * this->_image.getWidth(); x+=3) {
-					bufPos = (DIB.height - y - 1) * psw + x;
-					// TODO: need to deal with flip vertically/horizontal regarding to OpenGL behaviour.
+					int padding = 0;
+					int scanLineBytes = DIB.width * 3;
+					while ((scanLineBytes + padding) % 4 != 0) {
+						++padding;
+					}
+					int psw = scanLineBytes + padding; // TODO: all here is not efficient at all
 
-					this->_image[y][this->_image.getWidth() - 1 - x / 3].red = buffer[bufPos + 2];
-					this->_image[y][this->_image.getWidth() - 1 - x / 3].green = buffer[bufPos + 1];
-					this->_image[y][this->_image.getWidth() - 1 - x / 3].blue = buffer[bufPos];
+					this->_image.resize(psw / 3, DIB.height);
+					long bufPos = 0;
+					for (uint32_t y = 0; y < this->_image.getHeight(); ++y) {
+						for (uint32_t x = 0; x < 3 * this->_image.getWidth(); x += 3) {
+							bufPos = (DIB.height - y - 1) * psw + x;
+							// TODO: need to deal with flip vertically/horizontal regarding to OpenGL behaviour.
+
+							this->_image[y][this->_image.getWidth() - 1 - x / 3].red = buffer[bufPos + 2];
+							this->_image[y][this->_image.getWidth() - 1 - x / 3].green = buffer[bufPos + 1];
+							this->_image[y][this->_image.getWidth() - 1 - x / 3].blue = buffer[bufPos];
+						}
+					}
+				}
+				catch (FileException & e) {
+					throw e;
 				}
 			}
-		}
-		catch (FileException & e) {
-			throw e;
-		}
-	}
 
-	void ParserBMP::loadFromString(const std::string & /*content*/)
-	{
+			void ParserBMP::loadFromString(const std::string & /*content*/)
+			{
 
-	}
+			}
 
-	void ParserBMP::loadFromMemory(const void * /*content*/)
-	{
+			void ParserBMP::loadFromMemory(const void * /*content*/)
+			{
 
-	}
+			}
 
-	void ParserBMP::saveToFile(const std::string & /*filename*/)
-	{
+			void ParserBMP::saveToFile(const std::string & /*filename*/)
+			{
 
-	}
+			}
 
-	void ParserBMP::saveToString(std::string & /*content*/)
-	{
+			void ParserBMP::saveToString(std::string & /*content*/)
+			{
 
-	}
+			}
 
-	void ParserBMP::saveToMemory(void * /*content*/)
-	{
+			void ParserBMP::saveToMemory(void * /*content*/)
+			{
 
-	}
-}
+			}
+		} // namespace image
+	} // namespace renderer
+} // namespace ece

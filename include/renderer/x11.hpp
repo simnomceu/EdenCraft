@@ -36,16 +36,16 @@
 
 */
 
-#ifndef RENDERER_IMAGE_HPP
-#define RENDERER_IMAGE_HPP
+#ifndef RENDERER_X11_HPP
+#define RENDERER_X11_HPP
 
-#include "renderer/image/parser_bmp.hpp"
-#include "renderer/image/image.hpp"
-#include "renderer/image/pixel_format.hpp"
+#include "renderer/x11/data_context_opengl.hpp"
+#include "renderer/x11/glx_extension.hpp"
+#include "renderer/x11/glx_loader.hpp"
 
 namespace ece
 {
-	using namespace renderer::image;
+	namespace using renderer::x11;
 }
 
-#endif // RENDERER_IMAGE_HPP
+#endif // RENDERER_X11_HPP

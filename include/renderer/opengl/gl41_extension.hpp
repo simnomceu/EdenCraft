@@ -48,7 +48,8 @@
 
 namespace ece
 {
-    using namespace utility::indexing;
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
 }
 
 inline void glVertexAttribL1d(GLuint index, GLdouble v0);
@@ -130,7 +131,7 @@ inline void glScissorIndexedv(GLuint index, const GLint *v);
  * @brief Load the opengl 4.1 extension and call it.
  */
 #define CALLGL41(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -143,7 +144,7 @@ inline void glScissorIndexedv(GLuint index, const GLint *v);
  * @brief Load the opengl 4.1 extension and call it.
  */
 #define R_CALLGL41(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -157,7 +158,7 @@ inline void glScissorIndexedv(GLuint index, const GLint *v);
  * @brief Load the opengl 4.1 extension and call it.
  */
 #define CALLGL41_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -171,7 +172,7 @@ inline void glScissorIndexedv(GLuint index, const GLint *v);
  * @brief Load the opengl 4.1 extension and call it.
  */
 #define R_CALLGL41_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 1 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
