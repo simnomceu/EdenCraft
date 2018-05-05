@@ -44,70 +44,76 @@
 
 namespace ece
 {
-	/**
-	 * @class ResourceUnloader
-	 * @brief To unload a resource.
-	 */
-	class ResourceUnloader
+	namespace core
 	{
-	public:
-		/**
-		 * @fn ResourceUnloader() noexcept 
-		 * brief Default constructor.
-		 * @throw noexcept
-		 */
-		ResourceUnloader() noexcept = default;
+		namespace resource
+		{
+			/**
+			 * @class ResourceUnloader
+			 * @brief To unload a resource.
+			 */
+			class ResourceUnloader
+			{
+			public:
+				/**
+				 * @fn ResourceUnloader() noexcept
+				 * brief Default constructor.
+				 * @throw noexcept
+				 */
+				ResourceUnloader() noexcept = default;
 
-		/**
-		 * @fn ResourceUnloader(const ResourceUnloader & copy) noexcept 
-		 * @param[in] copy The unloader to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		ResourceUnloader(const ResourceUnloader & copy) noexcept = default;
+				/**
+				 * @fn ResourceUnloader(const ResourceUnloader & copy) noexcept
+				 * @param[in] copy The unloader to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				ResourceUnloader(const ResourceUnloader & copy) noexcept = default;
 
-		/**
-		 * @fn ResourceUnloader(ResourceUnloader && move) noexcept 
-		 * @param[in] move The unloader to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		ResourceUnloader(ResourceUnloader && move) noexcept = default;
+				/**
+				 * @fn ResourceUnloader(ResourceUnloader && move) noexcept
+				 * @param[in] move The unloader to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ResourceUnloader(ResourceUnloader && move) noexcept = default;
 
-		/**
-		 * @fn ~ResourceUnloader() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		inline virtual ~ResourceUnloader() noexcept = 0;
+				/**
+				 * @fn ~ResourceUnloader() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				inline virtual ~ResourceUnloader() noexcept = 0;
 
-		/**
-		 * @fn ResourceUnloader & operator=(const ResourceUnloader & copy) noexcept 
-		 * @param[in] copy The unloader to copy from.
-		 * @return The unloader copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		ResourceUnloader & operator=(const ResourceUnloader & copy) noexcept = default;
+				/**
+				 * @fn ResourceUnloader & operator=(const ResourceUnloader & copy) noexcept
+				 * @param[in] copy The unloader to copy from.
+				 * @return The unloader copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				ResourceUnloader & operator=(const ResourceUnloader & copy) noexcept = default;
 
-		/**
-		 * @fn ResourceUnloader & operator=(ResourceUnloader && move) noexcept
-		 * @param[in] move The unloader to move.
-		 * @return The unloader moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		ResourceUnloader & operator=(ResourceUnloader && move) noexcept = default;
+				/**
+				 * @fn ResourceUnloader & operator=(ResourceUnloader && move) noexcept
+				 * @param[in] move The unloader to move.
+				 * @return The unloader moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ResourceUnloader & operator=(ResourceUnloader && move) noexcept = default;
 
-		/**
-		 * @fn void unload(ResourceHandler & handler) const 
-		 * @param[in] handler The resource to unload.
-		 * @brief Unload the resource.
-		 * @throw
-		 */
-		virtual void unload(ResourceHandler & handler) const = 0;
-	};
-}
+				/**
+				 * @fn void unload(ResourceHandler & handler) const
+				 * @param[in] handler The resource to unload.
+				 * @brief Unload the resource.
+				 * @throw
+				 */
+				virtual void unload(ResourceHandler & handler) const = 0;
+			};
+		} // namespace resource
+	} // namespace core
+} // namespace ece
 
 #include "core/resource/resource_unloader.inl"
 

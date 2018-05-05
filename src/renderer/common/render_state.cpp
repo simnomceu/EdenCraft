@@ -40,16 +40,22 @@
 
 namespace ece
 {
-    RenderState::RenderState() noexcept:
-        _faceCulling(true),
-        _cullFaceMode(CullFaceMode::BACK),
-        _frontFaceMode(FrontFaceMode::CW)
-    {}
+	namespace renderer
+	{
+		namespace common
+		{
+			RenderState::RenderState() noexcept:
+			_faceCulling(true),
+				_cullFaceMode(CullFaceMode::BACK),
+				_frontFaceMode(FrontFaceMode::CW)
+			{}
 
-    bool RenderState::operator==(const RenderState & rhs) const noexcept
-    {
-        return this->_faceCulling == rhs._faceCulling
-            && this->_cullFaceMode == rhs._cullFaceMode
-            && this->_frontFaceMode == rhs._frontFaceMode;
-    }
-}
+			bool RenderState::operator==(const RenderState & rhs) const noexcept
+			{
+				return this->_faceCulling == rhs._faceCulling
+					&& this->_cullFaceMode == rhs._cullFaceMode
+					&& this->_frontFaceMode == rhs._frontFaceMode;
+			}
+		} // namespace common
+	} // namesapce renderer
+} // namespace ece

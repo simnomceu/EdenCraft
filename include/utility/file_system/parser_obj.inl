@@ -38,13 +38,19 @@
 
 namespace ece
 {
-	inline ParserOBJ::ParserOBJ() : _vertices(), _textures(), _normales(), _faces() {}
+    namespace utility
+    {
+        namespace file_system
+        {
+        	inline ParserOBJ::ParserOBJ() : _vertices(), _textures(), _normales(), _faces() {}
 
-	inline const std::vector<float>& ParserOBJ::getVertices() { return this->_vertices; }
+        	inline const std::vector<float>& ParserOBJ::getVertices() { return this->_vertices; }
 
-	inline const std::vector<float>& ParserOBJ::getTextures() { return this->_textures; }
+        	inline const std::vector<float>& ParserOBJ::getTextures() { return this->_textures; }
 
-	inline const std::vector<float>& ParserOBJ::getNormales() { return this->_normales; }
+        	inline const std::vector<float>& ParserOBJ::getNormales() { return this->_normales; }
 
-	inline const std::vector<int>& ParserOBJ::getFaces() { return this->_faces; }
-}
+        	inline const std::vector<int>& ParserOBJ::getFaces() { return this->_faces; }
+        } // namespace file_system
+    } // namespace utility
+} // namespace ece

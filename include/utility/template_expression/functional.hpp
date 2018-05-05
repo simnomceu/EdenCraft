@@ -44,406 +44,412 @@
 
 namespace ece
 {
-	/**
-	 * @struct unary_plus
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the unary plus operation.
-	 */
-	template <class T = void>
-	struct unary_plus
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+    namespace utility
+    {
+        namespace template_expression
+        {
+        	/**
+        	 * @struct unary_plus
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the unary plus operation.
+        	 */
+        	template <class T = void>
+        	struct unary_plus
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct unary_plus<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(+std::forward<T>(value));
-	};
-	
-	/**
-	 * @struct bitwise_left_shift
-	 * @tparam T1 The type of element to apply the operation to.
-	 * @tparam T2 The type of the shif to apply.
-	 * @brief Structure operation for the bitwise left shift operation.
-	 */
-	template <class T1 = void, class T2 = void>
-	struct bitwise_left_shift
-	{
-		inline constexpr T1 operator()(const T1 & lhs, const T2 & rhs) const;
-	};
+        	template <>
+        	struct unary_plus<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(+std::forward<T>(value));
+        	};
 
-	template <>
-	struct bitwise_left_shift<void, void>
-	{
-		template <class T1, class T2>
-		inline constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward<T1>(lhs) << std::forward<T2>(rhs));
-	};
-	
-	/**
-	 * @struct bitwise_right_shift
-	 * @tparam T1 The type of element to apply the operation to.
-	 * @tparam T2 The type of the shif to apply.
-	 * @brief Structure operation for the bitwise right shift operation.
-	 */
-	template <class T1 = void, class T2 = void>
-	struct bitwise_right_shift
-	{
-		inline constexpr T1 operator()(const T1 & lhs, const T2 & rhs) const;
-	};
+        	/**
+        	 * @struct bitwise_left_shift
+        	 * @tparam T1 The type of element to apply the operation to.
+        	 * @tparam T2 The type of the shif to apply.
+        	 * @brief Structure operation for the bitwise left shift operation.
+        	 */
+        	template <class T1 = void, class T2 = void>
+        	struct bitwise_left_shift
+        	{
+        		inline constexpr T1 operator()(const T1 & lhs, const T2 & rhs) const;
+        	};
 
-	template <>
-	struct bitwise_right_shift<void, void>
-	{
-		template <class T1, class T2>
-		inline constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward<T1>(lhs) >> std::forward<T2>(rhs));
-	};
-	
-	/**
-	 * @struct absolute
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the absolute operation.
-	 */
-	template <class T = void>
-	struct absolute
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct bitwise_left_shift<void, void>
+        	{
+        		template <class T1, class T2>
+        		inline constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward<T1>(lhs) << std::forward<T2>(rhs));
+        	};
 
-	template <>
-	struct absolute<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::forward<T>(value) >= 0 ? std::forward<T>(value) : -std::forward<T>(value));
-	};
-	
-	/**
-	 * @struct exponential
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the exponential operation.
-	 */
-	template <class T = void>
-	struct exponential
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	/**
+        	 * @struct bitwise_right_shift
+        	 * @tparam T1 The type of element to apply the operation to.
+        	 * @tparam T2 The type of the shif to apply.
+        	 * @brief Structure operation for the bitwise right shift operation.
+        	 */
+        	template <class T1 = void, class T2 = void>
+        	struct bitwise_right_shift
+        	{
+        		inline constexpr T1 operator()(const T1 & lhs, const T2 & rhs) const;
+        	};
 
-	template <>
-	struct exponential<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::exp(std::forward<T>(value)));
-	};
+        	template <>
+        	struct bitwise_right_shift<void, void>
+        	{
+        		template <class T1, class T2>
+        		inline constexpr auto operator()(T1 && lhs, T2 && rhs) const -> decltype(std::forward<T1>(lhs) >> std::forward<T2>(rhs));
+        	};
 
-	/**
-	 * @struct logarithm
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the logarithm operation.
-	 */
-	template <class T = void>
-	struct logarithm
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	/**
+        	 * @struct absolute
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the absolute operation.
+        	 */
+        	template <class T = void>
+        	struct absolute
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct logarithm<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::log(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct logarithm10
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the base 10 logarithm operation.
-	 */
-	template <class T = void>
-	struct logarithm10
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct absolute<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::forward<T>(value) >= 0 ? std::forward<T>(value) : -std::forward<T>(value));
+        	};
 
-	template <>
-	struct logarithm10<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::log10(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct power
-	 * @tparam T1 The type of element to apply the operation to.
-	 * @tparam T2 The type of the exponent to apply.
-	 * @brief Structure operation for the power operation.
-	 */
-	template <class T1 = void, class T2 = void>
-	struct power
-	{
-		inline constexpr T1 operator()(const T1 & value, const T2 & exponent) const;
-	};
+        	/**
+        	 * @struct exponential
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the exponential operation.
+        	 */
+        	template <class T = void>
+        	struct exponential
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct power<void, void>
-	{
-		template <class T1, class T2>
-		inline constexpr auto operator()(T1 && value, const T2 & exponent) const -> decltype(std::pow(std::forward<T1>(value), std::forward<T2>(exponent)));
-	};
-	
-	/**
-	 * @struct square_root
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the square root operation.
-	 */
-	template <class T = void>
-	struct square_root
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct exponential<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::exp(std::forward<T>(value)));
+        	};
 
-	template <>
-	struct square_root<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::sqrt(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct sinus
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the sinus operation.
-	 */
-	template <class T = void>
-	struct sinus
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	/**
+        	 * @struct logarithm
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the logarithm operation.
+        	 */
+        	template <class T = void>
+        	struct logarithm
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct sinus<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::sin(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct cosinus
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the cosinus operation.
-	 */
-	template <class T = void>
-	struct cosinus
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct logarithm<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::log(std::forward<T>(value)));
+        	};
 
-	template <>
-	struct cosinus<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::cos(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct tangent
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the tangent operation.
-	 */
-	template <class T = void>
-	struct tangent
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	/**
+        	 * @struct logarithm10
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the base 10 logarithm operation.
+        	 */
+        	template <class T = void>
+        	struct logarithm10
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct tangent<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::tan(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct arcsinus
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the arcsinus operation.
-	 */
-	template <class T = void>
-	struct arcsinus
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct logarithm10<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::log10(std::forward<T>(value)));
+        	};
 
-	template <>
-	struct arcsinus<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::asin(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct arccosinus
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the arccosinus operation.
-	 */
-	template <class T = void>
-	struct arccosinus
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	/**
+        	 * @struct power
+        	 * @tparam T1 The type of element to apply the operation to.
+        	 * @tparam T2 The type of the exponent to apply.
+        	 * @brief Structure operation for the power operation.
+        	 */
+        	template <class T1 = void, class T2 = void>
+        	struct power
+        	{
+        		inline constexpr T1 operator()(const T1 & value, const T2 & exponent) const;
+        	};
 
-	template <>
-	struct arccosinus<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::acos(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct arctangent
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the arctangent operation.
-	 */
-	template <class T = void>
-	struct arctangent
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct power<void, void>
+        	{
+        		template <class T1, class T2>
+        		inline constexpr auto operator()(T1 && value, const T2 & exponent) const -> decltype(std::pow(std::forward<T1>(value), std::forward<T2>(exponent)));
+        	};
 
-	template <>
-	struct arctangent<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::atan(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct arctangent2
-	 * @tparam T1 The type of element to apply the operation to.
-	 * @tparam T2 The type of the x element to apply to.
-	 * @brief Structure operation for the arctangent operation.
-	 */
-	template <class T1 = void, class T2 = void>
-	struct arctangent2
-	{
-		inline constexpr T1 operator()(const T1 & value, const T2 & x) const;
-	};
+        	/**
+        	 * @struct square_root
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the square root operation.
+        	 */
+        	template <class T = void>
+        	struct square_root
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct arctangent2<void, void>
-	{
-		template <class T1, class T2>
-		inline constexpr auto operator()(T1 && value, T2 && x) const -> decltype(std::atan2(std::forward<T1>(value), std::forward<T2>(x)));
-	};
-	
-	/**
-	 * @struct sinus_hyperbolic
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the sinus hyperbolic operation.
-	 */
-	template <class T = void>
-	struct sinus_hyperbolic
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct square_root<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::sqrt(std::forward<T>(value)));
+        	};
 
-	template <>
-	struct sinus_hyperbolic<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::sinh(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct cosinus_hyperbolic
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the cosinus hyperbolic operation.
-	 */
-	template <class T = void>
-	struct cosinus_hyperbolic
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	/**
+        	 * @struct sinus
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the sinus operation.
+        	 */
+        	template <class T = void>
+        	struct sinus
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct cosinus_hyperbolic<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::cosh(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct tangent_hyperbolic
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the tangent hyperbolic operation.
-	 */
-	template <class T = void>
-	struct tangent_hyperbolic
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct sinus<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::sin(std::forward<T>(value)));
+        	};
 
-	template <>
-	struct tangent_hyperbolic<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::tanh(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct arcsinus_hyperbolic
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the arcsinus hyperbolic operation.
-	 */
-	template <class T = void>
-	struct arcsinus_hyperbolic
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	/**
+        	 * @struct cosinus
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the cosinus operation.
+        	 */
+        	template <class T = void>
+        	struct cosinus
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct arcsinus_hyperbolic<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::asinh(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct arccosinus_hyperbolic
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the arccosinus hyperbolic operation.
-	 */
-	template <class T = void>
-	struct arccosinus_hyperbolic
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	template <>
+        	struct cosinus<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::cos(std::forward<T>(value)));
+        	};
 
-	template <>
-	struct arccosinus_hyperbolic<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::acosh(std::forward<T>(value)));
-	};
-	
-	/**
-	 * @struct arctangent_hyperbolic
-	 * @tparam T The type of element to apply the operation to.
-	 * @brief Structure operation for the arctangent hyperbolic operation.
-	 */
-	template <class T = void>
-	struct arctangent_hyperbolic
-	{
-		inline constexpr T operator()(const T & value) const;
-	};
+        	/**
+        	 * @struct tangent
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the tangent operation.
+        	 */
+        	template <class T = void>
+        	struct tangent
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
 
-	template <>
-	struct arctangent_hyperbolic<void>
-	{
-		template <class T>
-		inline constexpr auto operator()(T && value) const -> decltype(std::atanh(std::forward<T>(value)));
-	};
-}
+        	template <>
+        	struct tangent<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::tan(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct arcsinus
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the arcsinus operation.
+        	 */
+        	template <class T = void>
+        	struct arcsinus
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct arcsinus<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::asin(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct arccosinus
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the arccosinus operation.
+        	 */
+        	template <class T = void>
+        	struct arccosinus
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct arccosinus<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::acos(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct arctangent
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the arctangent operation.
+        	 */
+        	template <class T = void>
+        	struct arctangent
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct arctangent<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::atan(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct arctangent2
+        	 * @tparam T1 The type of element to apply the operation to.
+        	 * @tparam T2 The type of the x element to apply to.
+        	 * @brief Structure operation for the arctangent operation.
+        	 */
+        	template <class T1 = void, class T2 = void>
+        	struct arctangent2
+        	{
+        		inline constexpr T1 operator()(const T1 & value, const T2 & x) const;
+        	};
+
+        	template <>
+        	struct arctangent2<void, void>
+        	{
+        		template <class T1, class T2>
+        		inline constexpr auto operator()(T1 && value, T2 && x) const -> decltype(std::atan2(std::forward<T1>(value), std::forward<T2>(x)));
+        	};
+
+        	/**
+        	 * @struct sinus_hyperbolic
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the sinus hyperbolic operation.
+        	 */
+        	template <class T = void>
+        	struct sinus_hyperbolic
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct sinus_hyperbolic<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::sinh(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct cosinus_hyperbolic
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the cosinus hyperbolic operation.
+        	 */
+        	template <class T = void>
+        	struct cosinus_hyperbolic
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct cosinus_hyperbolic<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::cosh(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct tangent_hyperbolic
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the tangent hyperbolic operation.
+        	 */
+        	template <class T = void>
+        	struct tangent_hyperbolic
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct tangent_hyperbolic<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::tanh(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct arcsinus_hyperbolic
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the arcsinus hyperbolic operation.
+        	 */
+        	template <class T = void>
+        	struct arcsinus_hyperbolic
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct arcsinus_hyperbolic<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::asinh(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct arccosinus_hyperbolic
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the arccosinus hyperbolic operation.
+        	 */
+        	template <class T = void>
+        	struct arccosinus_hyperbolic
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct arccosinus_hyperbolic<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::acosh(std::forward<T>(value)));
+        	};
+
+        	/**
+        	 * @struct arctangent_hyperbolic
+        	 * @tparam T The type of element to apply the operation to.
+        	 * @brief Structure operation for the arctangent hyperbolic operation.
+        	 */
+        	template <class T = void>
+        	struct arctangent_hyperbolic
+        	{
+        		inline constexpr T operator()(const T & value) const;
+        	};
+
+        	template <>
+        	struct arctangent_hyperbolic<void>
+        	{
+        		template <class T>
+        		inline constexpr auto operator()(T && value) const -> decltype(std::atanh(std::forward<T>(value)));
+        	};
+        } // namespace template_expression
+    } // namespace utility
+} // namespace ece
 
 #include "utility/template_expression/functional.inl"
 

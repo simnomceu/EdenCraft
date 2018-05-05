@@ -40,13 +40,19 @@
 
 namespace ece
 {
-	void VAO::addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
+	namespace renderer
 	{
-		if (this->_nbVertices == 0) {
-			this->_nbVertices = data.size();
-		}
+		namespace resource
+		{
+			void VAO::addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
+			{
+				if (this->_nbVertices == 0) {
+					this->_nbVertices = data.size();
+				}
 
-		this->bind();
-		this->_ibo.bufferData(data, usage);
-	}
-}
+				this->bind();
+				this->_ibo.bufferData(data, usage);
+			}
+		} // namespace resource
+	} // namespace renderer
+} // namesapce ece

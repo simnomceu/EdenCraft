@@ -46,6 +46,12 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
+}
+
 inline GLenum glGetError();
 inline void glVertexAttrib1f(GLuint index, GLfloat v0);
 inline void glVertexAttrib1s(GLuint index, GLshort v0);
@@ -394,7 +400,7 @@ inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
  * @brief Load the opengl 3.2 extension and call it.
  */
 #define CALLGL32(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -407,7 +413,7 @@ inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
  * @brief Load the opengl 3.2 extension and call it.
  */
 #define R_CALLGL32(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -421,7 +427,7 @@ inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
  * @brief Load the opengl 3.2 extension and call it.
  */
 #define CALLGL32_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -435,7 +441,7 @@ inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
  * @brief Load the opengl 3.2 extension and call it.
  */
 #define R_CALLGL32_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \

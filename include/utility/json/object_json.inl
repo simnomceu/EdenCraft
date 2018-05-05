@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -38,21 +38,27 @@
 
 namespace ece
 {
-	inline ObjectJSON::ObjectJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
+    namespace utility
+    {
+        namespace json
+        {
+        	inline ObjectJSON::ObjectJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
 
-	inline void ObjectJSON::remove(const std::string & key) { this->_children.erase(key); }
+        	inline void ObjectJSON::remove(const std::string & key) { this->_children.erase(key); }
 
-	inline bool ObjectJSON::isAtomic() const noexcept { return false; }
+        	inline bool ObjectJSON::isAtomic() const noexcept { return false; }
 
-	inline TypeNodeJSON ObjectJSON::getType() const noexcept { return TypeNodeJSON::OBJECT_JSON; }
+        	inline TypeNodeJSON ObjectJSON::getType() const noexcept { return TypeNodeJSON::OBJECT_JSON; }
 
-	inline IteratorObjectJSON ObjectJSON::begin() noexcept { return this->_children.begin(); }
+        	inline IteratorObjectJSON ObjectJSON::begin() noexcept { return this->_children.begin(); }
 
-	inline IteratorObjectJSON ObjectJSON::end() noexcept { return this->_children.end(); }
+        	inline IteratorObjectJSON ObjectJSON::end() noexcept { return this->_children.end(); }
 
-	inline std::shared_ptr<NodeJSON> ObjectJSON::operator[](const std::string & key) { return this->_children[key]; }
+        	inline std::shared_ptr<NodeJSON> ObjectJSON::operator[](const std::string & key) { return this->_children[key]; }
 
-	inline void ObjectJSON::clear() noexcept { this->_children.clear(); }
+        	inline void ObjectJSON::clear() noexcept { this->_children.clear(); }
 
-	inline unsigned int ObjectJSON::size() const noexcept { return this->_children.size(); }
-}
+        	inline unsigned int ObjectJSON::size() const noexcept { return this->_children.size(); }
+        } // namespace json
+    } // namespace utility
+} // namespace ece

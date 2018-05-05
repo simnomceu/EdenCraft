@@ -47,78 +47,86 @@
 
 namespace ece
 {
-	/**
-	 * @class ShaderSource
-	 * @brief The sources of a shader program.
-	 * @remark Not sure this class is still useful.
-	 */
-	class ShaderSource
+	namespace graphic
 	{
-	public:
-		/**
-		 * @fn constexpr ShaderSource() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		constexpr ShaderSource() noexcept = default;
+		namespace renderable
+		{
+			using renderer::ShaderType;
 
-		/**
-		 * @fn ShaderSource(const ShaderSource & copy) noexcept
-		 * @param[in] copy The ShaderSource to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		ShaderSource(const ShaderSource & copy) noexcept = default;
+			/**
+			 * @class ShaderSource
+			 * @brief The sources of a shader program.
+			 * @remark Not sure this class is still useful.
+			 */
+			class ShaderSource
+			{
+			public:
+				/**
+				 * @fn constexpr ShaderSource() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr ShaderSource() noexcept = default;
 
-		/**
-		 * @fn ShaderSource(ShaderSource && move) noexcept
-		 * @param[in] move The ShaderSource to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		ShaderSource(ShaderSource && move) noexcept = default;
+				/**
+				 * @fn ShaderSource(const ShaderSource & copy) noexcept
+				 * @param[in] copy The ShaderSource to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				ShaderSource(const ShaderSource & copy) noexcept = default;
 
-		/**
-		 * @fn ~ShaderSource() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~ShaderSource() noexcept = default;
+				/**
+				 * @fn ShaderSource(ShaderSource && move) noexcept
+				 * @param[in] move The ShaderSource to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ShaderSource(ShaderSource && move) noexcept = default;
 
-		/**
-		 * @fn ShaderSource & operator=(const ShaderSource & copy) noexcept
-		 * @param[in] copy The ShaderSource to copy from.
-		 * @return The ShaderSource copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		ShaderSource & operator=(const ShaderSource & copy) noexcept = default;
+				/**
+				 * @fn ~ShaderSource() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~ShaderSource() noexcept = default;
 
-		/**
-		 * @fn ShaderSource & operator=(ShaderSource && move) noexcept
-		 * @param[in] move The ShaderSource to move from.
-		 * @return The ShaderSource moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		ShaderSource & operator=(ShaderSource && move) noexcept = default;
+				/**
+				 * @fn ShaderSource & operator=(const ShaderSource & copy) noexcept
+				 * @param[in] copy The ShaderSource to copy from.
+				 * @return The ShaderSource copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				ShaderSource & operator=(const ShaderSource & copy) noexcept = default;
 
-		/**
-		 * @fn const ShaderType & getType() const
-		 * @return The type of shader.
-		 * @brief Get the type of the shader.
-		 * @throw
-		 */
-		virtual const ShaderType & getType() const = 0;
+				/**
+				 * @fn ShaderSource & operator=(ShaderSource && move) noexcept
+				 * @param[in] move The ShaderSource to move from.
+				 * @return The ShaderSource moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ShaderSource & operator=(ShaderSource && move) noexcept = default;
 
-		/**
-		 * @fn const std::string & getSource() const
-		 * @return The source.
-		 * @brief Get the source of the shader.
-		 * @throw
-		 */
-		virtual const std::string & getSource() const = 0;
-	};
-}
+				/**
+				 * @fn const ShaderType & getType() const
+				 * @return The type of shader.
+				 * @brief Get the type of the shader.
+				 * @throw
+				 */
+				virtual const ShaderType & getType() const = 0;
+
+				/**
+				 * @fn const std::string & getSource() const
+				 * @return The source.
+				 * @brief Get the source of the shader.
+				 * @throw
+				 */
+				virtual const std::string & getSource() const = 0;
+			};
+		} // namespace renderable
+	} // namespace graphic
+} // namespace ece
 
 #endif // SHADER_SOURCE_HPP

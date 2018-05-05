@@ -46,70 +46,76 @@
 
 namespace ece
 {
-	/**
-	 * @class ResourceLoader
-	 * @brief To load a resource.
-	 */
-	class ResourceLoader
+	namespace core
 	{
-	public:
-		/**
-		 * @fn ResourceLoader() noexcept 
-		 * brief Default constructor.
-		 * @throw noexcept
-		 */
-		ResourceLoader() = default;
+		namespace resource
+		{
+			/**
+			 * @class ResourceLoader
+			 * @brief To load a resource.
+			 */
+			class ResourceLoader
+			{
+			public:
+				/**
+				 * @fn ResourceLoader() noexcept
+				 * brief Default constructor.
+				 * @throw noexcept
+				 */
+				ResourceLoader() = default;
 
-		/**
-		 * @fn ResourceLoader(const ResourceLoader & copy) noexcept 
-		 * @param[in] copy The loader to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		ResourceLoader(const ResourceLoader & copy) = default;
+				/**
+				 * @fn ResourceLoader(const ResourceLoader & copy) noexcept
+				 * @param[in] copy The loader to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				ResourceLoader(const ResourceLoader & copy) = default;
 
-		/**
-		 * @fn ResourceLoader(ResourceLoader && move) noexcept 
-		 * @param[in] move The loader to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		ResourceLoader(ResourceLoader && move) = default;
+				/**
+				 * @fn ResourceLoader(ResourceLoader && move) noexcept
+				 * @param[in] move The loader to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ResourceLoader(ResourceLoader && move) = default;
 
-		/**
-		 * @fn ~ResourceLoader() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		inline virtual ~ResourceLoader() = 0;
-		
-		/**
-		 * @fn ResourceLoader & operator=(const ResourceLoader & copy) noexcept 
-		 * @param[in] copy The loader to copy from.
-		 * @return The loader copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		ResourceLoader & operator=(const ResourceLoader & copy) = default;
+				/**
+				 * @fn ~ResourceLoader() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				inline virtual ~ResourceLoader() = 0;
 
-		/**
-		 * @fn ResourceLoader & operator=(ResourceLoader && move) noexcept
-		 * @param[in] move The loader to move.
-		 * @return The loader moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		ResourceLoader & operator=(ResourceLoader && move) = default;
-		
-		/**
-		 * @fn void load(ResourceHandler & handler) const 
-		 * @param[in] handler The resource to load.
-		 * @brief Load the resource.
-		 * @throw
-		 */
-		virtual ResourceHandler load(const std::string & identifier) const = 0;
-	};
-}
+				/**
+				 * @fn ResourceLoader & operator=(const ResourceLoader & copy) noexcept
+				 * @param[in] copy The loader to copy from.
+				 * @return The loader copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				ResourceLoader & operator=(const ResourceLoader & copy) = default;
+
+				/**
+				 * @fn ResourceLoader & operator=(ResourceLoader && move) noexcept
+				 * @param[in] move The loader to move.
+				 * @return The loader moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ResourceLoader & operator=(ResourceLoader && move) = default;
+
+				/**
+				 * @fn void load(ResourceHandler & handler) const
+				 * @param[in] handler The resource to load.
+				 * @brief Load the resource.
+				 * @throw
+				 */
+				virtual ResourceHandler load(const std::string & identifier) const = 0;
+			};
+		} // namespace resource
+	} // namespace core
+} // namespace ece
 
 #include "core/resource/resource_loader.inl"
 

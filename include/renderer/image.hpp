@@ -40,5 +40,12 @@
 #define RENDERER_IMAGE_HPP
 
 #include "renderer/image/parser_bmp.hpp"
+#include "renderer/image/image.hpp"
+#include "renderer/image/pixel_format.hpp"
+
+namespace ece
+{
+	using namespace renderer::image;
+}
 
 #endif // RENDERER_IMAGE_HPP

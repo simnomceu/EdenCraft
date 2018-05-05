@@ -38,7 +38,13 @@
 
 namespace ece
 {
-	inline ComponentTank::ComponentTank() : _nextComponent() {}
+	namespace core
+	{
+		namespace ecs
+		{
+			inline ComponentTank::ComponentTank() : _nextComponent() {}
 
-	inline ComponentTank::~ComponentTank() {}
-}
+			inline ComponentTank::~ComponentTank() {}
+		} // namespace ecs
+	} // namespace core
+} // namespace ece

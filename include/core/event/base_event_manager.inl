@@ -39,23 +39,29 @@
 
 namespace ece
 {
-	inline Slot::GlobalSlotID BaseEventManager::addSlot(const Slot::Handle & /*handle*/) { return Slot::INVALID_SLOT; }
+	namespace core
+	{
+		namespace event
+		{
+			inline Slot::GlobalSlotID BaseEventManager::addSlot(const Slot::Handle & /*handle*/) { return Slot::INVALID_SLOT; }
 
-	inline Signal::GlobalSignalID BaseEventManager::addSignal() { return 0; }
+			inline Signal::GlobalSignalID BaseEventManager::addSignal() { return 0; }
 
-	inline void BaseEventManager::eraseSlot(const Listener & /*listener*/, const Slot::SlotID & /*slot*/) {}
+			inline void BaseEventManager::eraseSlot(const Listener & /*listener*/, const Slot::SlotID & /*slot*/) {}
 
-	inline void BaseEventManager::eraseSignal(const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
+			inline void BaseEventManager::eraseSignal(const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
 
-	inline void BaseEventManager::connect(const Listener & /*listener*/, const Slot::SlotID & /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
+			inline void BaseEventManager::connect(const Listener & /*listener*/, const Slot::SlotID & /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
 
-	inline void BaseEventManager::disconnect(const Listener & /*listener*/, const Slot::SlotID & /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
+			inline void BaseEventManager::disconnect(const Listener & /*listener*/, const Slot::SlotID & /*slot*/, const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
 
-	inline void BaseEventManager::disconnectAll(const Listener & /*listener*/, const Slot::SlotID & /*slot*/) {}
+			inline void BaseEventManager::disconnectAll(const Listener & /*listener*/, const Slot::SlotID & /*slot*/) {}
 
-	inline void BaseEventManager::disconnectAll(const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
+			inline void BaseEventManager::disconnectAll(const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
 
-	inline void BaseEventManager::broadcast(const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
+			inline void BaseEventManager::broadcast(const Emitter & /*emitter*/, const Signal::SignalID & /*signal*/) {}
 
-	inline void BaseEventManager::clear() {}
-}
+			inline void BaseEventManager::clear() {}
+		} // namespace event
+	} // namespace core
+} // namespace ece

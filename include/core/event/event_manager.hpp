@@ -48,196 +48,202 @@
 
 namespace ece
 {
-	/**
-	 * @class EventManager
-	 * @extends BaseEventManager
-	 * @brief To manage events through a service.
-	 */
-	class EventManager: public BaseEventManager
+	namespace core
 	{
-	public:
-		/**
-		 * @fn EventManager()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline EventManager();
+		namespace event
+		{
+			/**
+			 * @class EventManager
+			 * @extends BaseEventManager
+			 * @brief To manage events through a service.
+			 */
+			class EventManager : public BaseEventManager
+			{
+			public:
+				/**
+				 * @fn EventManager()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline EventManager();
 
-		/**
-		 * @fn Slot::GlobalSlotID addSlot(const Slot::Handle & handle)
-		 * @param[in] handle The action for the slot to create.
-		 * @return The global id of the slot created.
-		 * @brief Create and register a new slot.
-		 * @throw
-		 * @see Slot::GlobalSlotID BaseEventManager::addSlot(const Slot::Handle & handle)
-		 */
-		virtual Slot::GlobalSlotID addSlot(const Slot::Handle & handle) override;
+				/**
+				 * @fn Slot::GlobalSlotID addSlot(const Slot::Handle & handle)
+				 * @param[in] handle The action for the slot to create.
+				 * @return The global id of the slot created.
+				 * @brief Create and register a new slot.
+				 * @throw
+				 * @see Slot::GlobalSlotID BaseEventManager::addSlot(const Slot::Handle & handle)
+				 */
+				virtual Slot::GlobalSlotID addSlot(const Slot::Handle & handle) override;
 
-		/**
-		 * @fn Signal::GlobalSignalID addSignal()
-		 * @return The global id of the signal created.
-		 * @brief Create and register a new signal.
-		 * @throw
-		 * @see Signal::GlobalSignalID BaseEventManager::addSignal()
-		 */
-		virtual Signal::GlobalSignalID addSignal() override;
+				/**
+				 * @fn Signal::GlobalSignalID addSignal()
+				 * @return The global id of the signal created.
+				 * @brief Create and register a new signal.
+				 * @throw
+				 * @see Signal::GlobalSignalID BaseEventManager::addSignal()
+				 */
+				virtual Signal::GlobalSignalID addSignal() override;
 
-		/**
-		 * @fn void eraseSlot(const Listener & listener, const Slot::SlotID & slot)
-		 * @param[in] listener The owner of the slot.
-		 * @param[in] slot The slot to erase.
-		 * @brief Erase a specific slot.
-		 * If that slot does not exist, nothing happens.
-		 * @throw
-		 * @see void BaseEventManager::eraseSlot(const Listener & listener, const Slot::SlotID & slot)
-		 */
-		virtual void eraseSlot(const Listener & listener, const Slot::SlotID & slot) override;
+				/**
+				 * @fn void eraseSlot(const Listener & listener, const Slot::SlotID & slot)
+				 * @param[in] listener The owner of the slot.
+				 * @param[in] slot The slot to erase.
+				 * @brief Erase a specific slot.
+				 * If that slot does not exist, nothing happens.
+				 * @throw
+				 * @see void BaseEventManager::eraseSlot(const Listener & listener, const Slot::SlotID & slot)
+				 */
+				virtual void eraseSlot(const Listener & listener, const Slot::SlotID & slot) override;
 
-		/**
-		 * @fn void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to erase.
-		 * @brief Erase a specific signal.
-		 * If that signal does not exist, nothing happens.
-		 * @throw
-		 * @see void BaseEventManager::eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
-		 */
-		virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal) override;
+				/**
+				 * @fn void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to erase.
+				 * @brief Erase a specific signal.
+				 * If that signal does not exist, nothing happens.
+				 * @throw
+				 * @see void BaseEventManager::eraseSignal(const Emitter & emitter, const Signal::SignalID & signal)
+				 */
+				virtual void eraseSignal(const Emitter & emitter, const Signal::SignalID & signal) override;
 
-		/**
-		 * @fn void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] listener The owner of the slot.
-		 * @param[in] slot The slot to connect.
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to connect.
-		 * @brief Connect a signal and a slot together.
-		 * If they are already connected, nothing happens
-		 * @throw
-		 * @see void BaseEventManager::connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
-		 */
-		virtual void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal) override;
+				/**
+				 * @fn void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] listener The owner of the slot.
+				 * @param[in] slot The slot to connect.
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to connect.
+				 * @brief Connect a signal and a slot together.
+				 * If they are already connected, nothing happens
+				 * @throw
+				 * @see void BaseEventManager::connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
+				 */
+				virtual void connect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal) override;
 
-		/**
-		 * @fn void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] listener The owner of the slot.
-		 * @param[in] slot The slot to disconnect.
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to disconnect.
-		 * @brief Disconnect a signal and a slot.
-		 * If they are not connected, nothing happens.
-		 * @throw
-		 * @see void BaseEventManager::disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
-		 */
-		virtual void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal) override;
+				/**
+				 * @fn void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] listener The owner of the slot.
+				 * @param[in] slot The slot to disconnect.
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to disconnect.
+				 * @brief Disconnect a signal and a slot.
+				 * If they are not connected, nothing happens.
+				 * @throw
+				 * @see void BaseEventManager::disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
+				 */
+				virtual void disconnect(const Listener & listener, const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal) override;
 
-		/**
-		 * @fn void disconnectAll(const Listener & listener, const Slot::SlotID & slot)
-		 * @param[in] listener The owner of the slot.
-		 * @param[in] slot The slot to disconnect.
-		 * @brief Disconnect the slot from all signals connected.
-		 * If it is not connected, nothing happens.
-		 * @throw
-		 * @see void BaseEventManager::disconnectAll(const Listener & listener, const Slot::SlotID & slot)
-		 */
-		virtual void disconnectAll(const Listener & listener, const Slot::SlotID & slot) override;
+				/**
+				 * @fn void disconnectAll(const Listener & listener, const Slot::SlotID & slot)
+				 * @param[in] listener The owner of the slot.
+				 * @param[in] slot The slot to disconnect.
+				 * @brief Disconnect the slot from all signals connected.
+				 * If it is not connected, nothing happens.
+				 * @throw
+				 * @see void BaseEventManager::disconnectAll(const Listener & listener, const Slot::SlotID & slot)
+				 */
+				virtual void disconnectAll(const Listener & listener, const Slot::SlotID & slot) override;
 
-		/**
-		 * @fn void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to disconnect.
-		 * @brief Disconnect the signal from all slots connected.
-		 * If it is not connected, nothing happens.
-		 * @throw
-		 * @see void BaseEventManager::disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
-		 */
-		virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal) override;
+				/**
+				 * @fn void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to disconnect.
+				 * @brief Disconnect the signal from all slots connected.
+				 * If it is not connected, nothing happens.
+				 * @throw
+				 * @see void BaseEventManager::disconnectAll(const Emitter & emitter, const Signal::SignalID & signal)
+				 */
+				virtual void disconnectAll(const Emitter & emitter, const Signal::SignalID & signal) override;
 
-		/**
-		 * @fn void broadcast(const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] emitter The owner of the signal.
-		 * @param[in] signal The signal to broadcast.
-		 * @brief Broadcast a signal to all slots connected, to trigger them.
-		 * @throw
-		 * @see void broadcast(const Emitter & emitter, const Signal::SignalID & signal)
-		 */
-		virtual void broadcast(const Emitter & emitter, const Signal::SignalID & signal) override;
+				/**
+				 * @fn void broadcast(const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] emitter The owner of the signal.
+				 * @param[in] signal The signal to broadcast.
+				 * @brief Broadcast a signal to all slots connected, to trigger them.
+				 * @throw
+				 * @see void broadcast(const Emitter & emitter, const Signal::SignalID & signal)
+				 */
+				virtual void broadcast(const Emitter & emitter, const Signal::SignalID & signal) override;
 
-		/**
-		 * @fn void clear()
-		 * @brief Clear the entire manager, and erase all slots, signals, and connections.
-		 * @throw
-		 * @see void clear()
-		 */
-		virtual void clear() override;
+				/**
+				 * @fn void clear()
+				 * @brief Clear the entire manager, and erase all slots, signals, and connections.
+				 * @throw
+				 * @see void clear()
+				 */
+				virtual void clear() override;
 
-	private:
-		/**
-		 * @fn Slot::GlobalSlotID getSlotID()
-		 * @return A slot id available.
-		 * @brief Generate a new slot id.
-		 * @throw
-		 * @remark Maybe renaming that method name which is not clear at all.
-		 */
-		inline Slot::GlobalSlotID getSlotID();
+			private:
+				/**
+				 * @fn Slot::GlobalSlotID getSlotID()
+				 * @return A slot id available.
+				 * @brief Generate a new slot id.
+				 * @throw
+				 * @remark Maybe renaming that method name which is not clear at all.
+				 */
+				inline Slot::GlobalSlotID getSlotID();
 
-		/**
-		 * @fn Signal::GlobalSignalID getSignalID()
-		 * @return A signal id available.
-		 * @brief Generate a new signal id.
-		 * @throw
-		 * @remark Maybe renaming that method name which is not clear at all.
-		 */
-		inline Signal::GlobalSignalID getSignalID();
+				/**
+				 * @fn Signal::GlobalSignalID getSignalID()
+				 * @return A signal id available.
+				 * @brief Generate a new signal id.
+				 * @throw
+				 * @remark Maybe renaming that method name which is not clear at all.
+				 */
+				inline Signal::GlobalSignalID getSignalID();
 
-		/**
-		 * @property _signals
-		 * @brief The list of signals registered.
-		 */
-		std::vector<Signal> _signals;
+				/**
+				 * @property _signals
+				 * @brief The list of signals registered.
+				 */
+				std::vector<Signal> _signals;
 
-		/**
-		 * @property _slots
-		 * @brief The list of slots registered.
-		 */
-		std::vector<Slot> _slots;
+				/**
+				 * @property _slots
+				 * @brief The list of slots registered.
+				 */
+				std::vector<Slot> _slots;
 
-		/**
-		 * @property _connections
-		 * @brief The list of connections registered.
-		 */
-		std::vector<Connection> _connections;
+				/**
+				 * @property _connections
+				 * @brief The list of connections registered.
+				 */
+				std::vector<Connection> _connections;
 
-		/**
-		 * @property _signalsNotReady
-		 * @brief The list of signals that need to be initialized.
-		 */
-		std::vector<Signal> _signalsNotReady;
+				/**
+				 * @property _signalsNotReady
+				 * @brief The list of signals that need to be initialized.
+				 */
+				std::vector<Signal> _signalsNotReady;
 
-		/**
-		 * @property _slotsNotReady
-		 * @brief The list of slots that need to be initialized.
-		 */
-		std::vector<Slot> _slotsNotReady;
+				/**
+				 * @property _slotsNotReady
+				 * @brief The list of slots that need to be initialized.
+				 */
+				std::vector<Slot> _slotsNotReady;
 
-		/**
-		 * @property _connectionsNotReady
-		 * @brief The list of connections that need to be initialized.
-		 */
-		std::vector<Connection> _connectionsNotReady;
+				/**
+				 * @property _connectionsNotReady
+				 * @brief The list of connections that need to be initialized.
+				 */
+				std::vector<Connection> _connectionsNotReady;
 
-		/**
-		 * @property _signalsAvailable
-		 * @brief To generate the next available signal id.
-		 */
-		UniqueID _signalsAvailable;
+				/**
+				 * @property _signalsAvailable
+				 * @brief To generate the next available signal id.
+				 */
+				UniqueID _signalsAvailable;
 
-		/**
-		 * @property _slotsAvailable
-		 * @brief To generate the next available slot id.
-		 */
-		UniqueID _slotsAvailable;
-	};
-}
+				/**
+				 * @property _slotsAvailable
+				 * @brief To generate the next available slot id.
+				 */
+				UniqueID _slotsAvailable;
+			};
+		} // namespace event
+	} // namespace core
+} // namespace ece
 
 #include "core/event/event_manager.inl"
 

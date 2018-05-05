@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -44,88 +44,94 @@
 #include "utility/log/base_logger.hpp"
 
 namespace ece
-{	
-	/**
-	 * @class Logger
-	 * @extends BaseLogger
-	 * @brief Logger implementation.
-	 * @see BaseLogger
-	 */
-	class Logger: public BaseLogger
-	{
-	public:
-		/**
-		 * @fn Logger()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		Logger() = default;
+{
+    namespace utility
+    {
+        namespace log
+        {
+        	/**
+        	 * @class Logger
+        	 * @extends BaseLogger
+        	 * @brief Logger implementation.
+        	 * @see BaseLogger
+        	 */
+        	class Logger: public BaseLogger
+        	{
+        	public:
+        		/**
+        		 * @fn Logger()
+        		 * @brief Default constructor.
+        		 * @throw
+        		 */
+        		Logger() = default;
 
-		/**
-		 * @fn Logger(const Logger & copy)
-		 * @param[in] copy The logger to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Logger(const Logger & copy) = default;
+        		/**
+        		 * @fn Logger(const Logger & copy)
+        		 * @param[in] copy The logger to copy from.
+        		 * @brief Default copy constructor.
+        		 * @throw
+        		 */
+        		Logger(const Logger & copy) = default;
 
-		/**
-		 * @fn Logger(Logger && move) noexcept
-		 * @param[in] move The logger to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Logger(Logger && move) noexcept = default;
+        		/**
+        		 * @fn Logger(Logger && move) noexcept
+        		 * @param[in] move The logger to move.
+        		 * @brief Default move constructor.
+        		 * @throw noexcept
+        		 */
+        		Logger(Logger && move) noexcept = default;
 
-		/**
-		 * @fn ~Logger()
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Logger() noexcept = default;
+        		/**
+        		 * @fn ~Logger()
+        		 * @brief Default destructor.
+        		 * @throw noexcept
+        		 */
+        		~Logger() noexcept = default;
 
-		/**
-		 * @fn Logger & operator=(const Logger & copy)
-		 * @param[in] copy The logger to copy from.
-		 * @return The logger copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Logger & operator=(const Logger & copy) = default;
+        		/**
+        		 * @fn Logger & operator=(const Logger & copy)
+        		 * @param[in] copy The logger to copy from.
+        		 * @return The logger copied.
+        		 * @brief Default copy assignment operator.
+        		 * @throw
+        		 */
+        		Logger & operator=(const Logger & copy) = default;
 
-		/**
-		 * @fn Logger & operator=(Logger && move)
-		 * @param[in] move The logger to move.
-		 * @return The logger moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Logger & operator=(Logger && move) noexcept = default;
-		
-		/**
-		 * @fn void logError(const std::string & data)
-		 * @param[in] data The data to log.
-		 * @brief Log data with the tag ERROR.
-		 * @throw
-		 */
-		virtual void logError(const std::string & data) override;
-		
-		/**
-		 * @fn void logWarning(const std::string & data)
-		 * @param[in] data The data to log.
-		 * @brief Log data with the tag WARNING.
-		 * @throw
-		 */
-		virtual void logWarning(const std::string & data) override;
-		
-		/**
-		 * @fn void logInfo(const std::string & data)
-		 * @param[in] data The data to log.
-		 * @brief Log data with the tag INFO.
-		 * @throw
-		 */
-		virtual void logInfo(const std::string & data) override;
-	};
-}
+        		/**
+        		 * @fn Logger & operator=(Logger && move)
+        		 * @param[in] move The logger to move.
+        		 * @return The logger moved.
+        		 * @brief Default move assignment operator.
+        		 * @throw noexcept
+        		 */
+        		Logger & operator=(Logger && move) noexcept = default;
+
+        		/**
+        		 * @fn void logError(const std::string & data)
+        		 * @param[in] data The data to log.
+        		 * @brief Log data with the tag ERROR.
+        		 * @throw
+        		 */
+        		virtual void logError(const std::string & data) override;
+
+        		/**
+        		 * @fn void logWarning(const std::string & data)
+        		 * @param[in] data The data to log.
+        		 * @brief Log data with the tag WARNING.
+        		 * @throw
+        		 */
+        		virtual void logWarning(const std::string & data) override;
+
+        		/**
+        		 * @fn void logInfo(const std::string & data)
+        		 * @param[in] data The data to log.
+        		 * @brief Log data with the tag INFO.
+        		 * @throw
+        		 */
+        		virtual void logInfo(const std::string & data) override;
+        	};
+        } // namespace log
+    } // namespace utility
+} // namespace ece
 
 #endif // LOGGER_HPP

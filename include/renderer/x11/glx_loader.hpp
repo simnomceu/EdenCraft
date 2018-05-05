@@ -51,74 +51,82 @@
 
 namespace ece
 {
-	/**
-	 * @class GLXoader
-	 * @brief OpenGL loader for Windows platform.
-	 */
-	class GLXLoader
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn GLXLoader & getInstance()
-		 * @return The singleton.
-		 * @brief Get the unique instance of the loader.
-		 * @throw
-		 */
-		static GLXLoader & getInstance();
+		namespace x11
+		{
+			using utility::indexing::Version;
 
-		/**
-		 * @fn ~GLXLoader() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~GLXLoader() noexcept;
+			/**
+			 * @class GLXoader
+			 * @brief OpenGL loader for Windows platform.
+			 */
+			class GLXLoader
+			{
+			public:
+				/**
+				 * @fn GLXLoader & getInstance()
+				 * @return The singleton.
+				 * @brief Get the unique instance of the loader.
+				 * @throw
+				 */
+				static GLXLoader & getInstance();
 
-		/**
-		 * @fn void initDummyContext()
-		 * @brief Create a dummy context to initialize the core of OpenGL.
-		 * @throw
-		 */
-		void initDummyContext();
+				/**
+				 * @fn ~GLXLoader() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~GLXLoader() noexcept;
 
-		/**
-		 * @fn Version<2> & getLatestVersionAvailable()
-		 * @return The latest version available of OpenGL.
-		 * @brief Get the latest version available of OpenGL.
-		 * @throw
-		 */
-		Version<2> & getLatestVersionAvailable();
+				/**
+				 * @fn void initDummyContext()
+				 * @brief Create a dummy context to initialize the core of OpenGL.
+				 * @throw
+				 */
+				void initDummyContext();
 
-		/**
-		 * @fn void terminateDummyContext()
-		 * @brief Delete the dummycontext used to initialize the core of OpenGL.
-		 * @throw
-		 */
-		void terminateDummyContext();
-	private:
-		/**
-		 * @fn GLXLoader()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		GLXLoader();
+				/**
+				 * @fn Version<2> & getLatestVersionAvailable()
+				 * @return The latest version available of OpenGL.
+				 * @brief Get the latest version available of OpenGL.
+				 * @throw
+				 */
+				Version<2> & getLatestVersionAvailable();
+
+				/**
+				 * @fn void terminateDummyContext()
+				 * @brief Delete the dummycontext used to initialize the core of OpenGL.
+				 * @throw
+				 */
+				void terminateDummyContext();
+			private:
+				/**
+				 * @fn GLXLoader()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				GLXLoader();
 
 
-		/**
-		 * @property _latestVersionAvailable
-		 * @brief The latest version available of OpenGL.
-		 */
-		Version<2> _latestVersionAvailable;
+				/**
+				 * @property _latestVersionAvailable
+				 * @brief The latest version available of OpenGL.
+				 */
+				Version<2> _latestVersionAvailable;
 
-		/**
-		 * @property _dummy
-		 * @brief The dummy context to use.
-		 */
-		struct {
-			Display * display;
-			GLXContext context;
-			Window window;
-		} _dummy;
-	};
-}
+				/**
+				 * @property _dummy
+				 * @brief The dummy context to use.
+				 */
+				struct {
+					Display * display;
+					GLXContext context;
+					Window window;
+				} _dummy;
+			};
+		} // namespace x11
+	} // namespace renderer
+} // namespace ece
 
 #endif // GLX_LOADER_HPP

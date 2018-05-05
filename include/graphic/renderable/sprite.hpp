@@ -47,64 +47,74 @@
 
 namespace ece
 {
-    /**
-     * @class Sprite
-     * @brief
-     */
-    class Sprite: public Renderable
-    {
-    public:
-        constexpr Sprite() noexcept = delete;
+	namespace graphic
+	{
+		namespace renderable
+		{
+			using renderer::common::Renderable;
+			using renderer::resource::Texture2D;
+			using utility::mathematics::Rectangle;
 
-        Sprite(const Texture2D & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
+			/**
+			 * @class Sprite
+			 * @brief
+			 */
+			class Sprite : public Renderable
+			{
+			public:
+				constexpr Sprite() noexcept = delete;
 
-        /**
-         * @fn Sprite(const Sprite & copy)
-         * @param[in] copy The Sprite to copy from.
-         * @brief Default copy constructor.
-         * @throw
-         */
-        Sprite(const Sprite & copy) = default;
+				Sprite(const Texture2D & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
 
-        /**
-         * @fn Sprite(Sprite && move) noexcept
-         * @param[in] move The Sprite to move.
-         * @brief Default move constructor.
-         * @throw noexcept
-         */
-        Sprite(Sprite && move) noexcept = default;
+				/**
+				 * @fn Sprite(const Sprite & copy)
+				 * @param[in] copy The Sprite to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Sprite(const Sprite & copy) = default;
 
-        /**
-         * @fn ~Sprite() noexcept
-         * @brief Default destructor.
-         * @throw noexcept
-         */
-        ~Sprite() noexcept = default;
+				/**
+				 * @fn Sprite(Sprite && move) noexcept
+				 * @param[in] move The Sprite to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Sprite(Sprite && move) noexcept = default;
 
-        /**
-         * @fn Sprite & operator=(const Sprite & copy)
-         * @param[in] The Sprite to copy from.
-         * @return The Sprite copied.
-         * @brief Default copy assignment operator.
-         * @throw
-         */
-        Sprite & operator=(const Sprite & copy) = default;
-		
-        /**
-         * @fn Sprite & operator=(Sprite && move) noexcept
-         * @param[in] The Sprite to move.
-         * @return The Sprite moved.
-         * @brief Default move assignment operator.
-         * @throw noexcept
-         */
-        Sprite & operator=(Sprite && move) noexcept = default;
+				/**
+				 * @fn ~Sprite() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Sprite() noexcept = default;
 
-    private:
-        Texture2D _texture;
-		Rectangle<float> _textureClip;
+				/**
+				 * @fn Sprite & operator=(const Sprite & copy)
+				 * @param[in] The Sprite to copy from.
+				 * @return The Sprite copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Sprite & operator=(const Sprite & copy) = default;
 
-        Rectangle<float> _bounds;
-    };
-}
+				/**
+				 * @fn Sprite & operator=(Sprite && move) noexcept
+				 * @param[in] The Sprite to move.
+				 * @return The Sprite moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Sprite & operator=(Sprite && move) noexcept = default;
+
+			private:
+				Texture2D _texture;
+				Rectangle<float> _textureClip;
+
+				Rectangle<float> _bounds;
+			};
+		} // namespace renderable
+	} // namespace graphic
+} // namespace ece
 
 #endif // SPRITE_HPP

@@ -49,37 +49,43 @@
 
 namespace ece
 {
-	/**
-	 * @class DataContextOpenGL
-	 * @brief GLX implementation of the OpenL context.
-	 */
-	struct DataContextOpenGL
+	namespace renderer
 	{
-		/**
-		 * DataContextOpenGL()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline DataContextOpenGL(): _context() {}
+		namespace opengl
+		{
+			/**
+			 * @class DataContextOpenGL
+			 * @brief GLX implementation of the OpenL context.
+			 */
+			struct DataContextOpenGL
+			{
+				/**
+				 * DataContextOpenGL()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline DataContextOpenGL() : _context() {}
 
-		/**
-		 * @property _context
-		 * @brief The OpenGL context.
-		 */
-		GLXContext _context;
+				/**
+				 * @property _context
+				 * @brief The OpenGL context.
+				 */
+				GLXContext _context;
 
-		/**
-		 * @property _display
-		 * @brief The device used.
-		 */
-		Display * _display;
+				/**
+				 * @property _display
+				 * @brief The device used.
+				 */
+				Display * _display;
 
-		/**
-		 * @property _windowHandle
-		 * @brief The window concerned.
-		 */
-		::Window _windowHandle;
-	};
-}
+				/**
+				 * @property _windowHandle
+				 * @brief The window concerned.
+				 */
+				::Window _windowHandle;
+			};
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
 
 #endif // DATA_CONTEXT_OPENGL_HPP

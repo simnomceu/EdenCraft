@@ -46,100 +46,116 @@
 
 namespace ece
 {
-	template <typename T> class Rectangle;
-
-	/**
-	 * @class Projection
-	 * @brief
-	 */
-	class Projection
+	namespace utility
 	{
-	public:
-		/**
-		 * @fn Projection() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline Projection() noexcept;
+		namespace mathematics
+		{
+			template <typename T> class Rectangle;
+		}
+	}
 
-		/**
-		 * @fn Projection(const Projection & copy)
-		 * @param[in] copy The Projection to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Projection(const Projection & copy) = default;
+	namespace renderer
+	{
+		namespace common
+		{
+			using utility::mathematics::FloatMatrix4u;
+			using window::common::Ratio;
+			using utility::mathematics::Rectangle;
 
-		/**
-		 * @fn Projection(Projection && move) noexcept
-		 * @param[in] move The Projection to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Projection(Projection && move) noexcept = default;
+			/**
+			 * @class Projection
+			 * @brief
+			 */
+			class Projection
+			{
+			public:
+				/**
+				 * @fn Projection() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline Projection() noexcept;
 
-		/**
-		 * @fn ~Projection() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Projection() noexcept = default;
+				/**
+				 * @fn Projection(const Projection & copy)
+				 * @param[in] copy The Projection to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Projection(const Projection & copy) = default;
 
-		/**
-		 * @fn Projection & operator=(const Projection & copy)
-		 * @param[in] copy The Projection to copy from.
-		 * @return The Projection copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Projection & operator=(const Projection & copy) = default;
+				/**
+				 * @fn Projection(Projection && move) noexcept
+				 * @param[in] move The Projection to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Projection(Projection && move) noexcept = default;
 
-		/**
-		 * @fn Projection & operator=(Projection && move) noexcept
-		 * @param[in] move The Projection to move from.
-		 * @return The Projection moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Projection & operator=(Projection && move) noexcept = default;
+				/**
+				 * @fn ~Projection() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Projection() noexcept = default;
 
-		/**
-		 * @fn void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
-		 * @param[in] FOV The field of view of the camera.
-		 * @param[in] ratio The ratio of the screen.
-		 * @param[in] nearClipping The nearest plan of the scene to capture.
-		 * @param[in] farClipping The furthest plan of the scene to capture.
-		 * @brief Set the projection matrix.
-		 * @throw
-		 */
-		inline void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
+				/**
+				 * @fn Projection & operator=(const Projection & copy)
+				 * @param[in] copy The Projection to copy from.
+				 * @return The Projection copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Projection & operator=(const Projection & copy) = default;
 
-		/**
-		 * @fn void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
-		 * @param[in] screen The screen rectangle to project the rendering.
-		 * @param[in] nearClipping Nearest distance of the frustum view.
-		 * @param[in] farClipping Furthest distance of the frustum view.
-		 * @brief Set the projection matrix.
-		 * @throw
-		 */
-		inline void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
+				/**
+				 * @fn Projection & operator=(Projection && move) noexcept
+				 * @param[in] move The Projection to move from.
+				 * @return The Projection moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Projection & operator=(Projection && move) noexcept = default;
 
-		/**
-		 * @fn const FloatMatrix4u & getProjection() const
-		 * @return The projection matrix.
-		 * @brief Get the projection matrix.
-		 * @throw
-		 */
-		inline const FloatMatrix4u & getProjection() const;
+				/**
+				 * @fn void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
+				 * @param[in] FOV The field of view of the camera.
+				 * @param[in] ratio The ratio of the screen.
+				 * @param[in] nearClipping The nearest plan of the scene to capture.
+				 * @param[in] farClipping The furthest plan of the scene to capture.
+				 * @brief Set the projection matrix.
+				 * @throw
+				 */
+				inline void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
 
-	private:
-		/**
-		 * @property _projection
-		 * @brief The projection matrix.
-		 */
-		FloatMatrix4u _projection;
-	};
-}
+				/**
+				 * @fn void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
+				 * @param[in] screen The screen rectangle to project the rendering.
+				 * @param[in] nearClipping Nearest distance of the frustum view.
+				 * @param[in] farClipping Furthest distance of the frustum view.
+				 * @brief Set the projection matrix.
+				 * @throw
+				 */
+				inline void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
+
+				/**
+				 * @fn const FloatMatrix4u & getProjection() const
+				 * @return The projection matrix.
+				 * @brief Get the projection matrix.
+				 * @throw
+				 */
+				inline const FloatMatrix4u & getProjection() const;
+
+			private:
+				/**
+				 * @property _projection
+				 * @brief The projection matrix.
+				 */
+				FloatMatrix4u _projection;
+			};
+		} // namespace common
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/common/projection.inl"
 

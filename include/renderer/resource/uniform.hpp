@@ -45,89 +45,95 @@
 
 namespace ece
 {
-	/**
-	 * @class Uniform
-	 * @tparam T the type of data of the uniform.
-	 * @brief A uniform as defined in OpenGL.
-	 */
-	template <class T>
-	class Uniform : public BaseUniform
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn Uniform(const Handle owner, const std::string & location, const T & data)
-		 * @param[in] location The location of the uniform.
-		 * @param[in] data The data to set.
-		 * @brief Build a uniform from its location and the data to set.
-		 * @throw
-		 */
-		Uniform(const Handle owner, const std::string & location, const T & data);
+		namespace resource
+		{
+			/**
+			 * @class Uniform
+			 * @tparam T the type of data of the uniform.
+			 * @brief A uniform as defined in OpenGL.
+			 */
+			template <class T>
+			class Uniform : public BaseUniform
+			{
+			public:
+				/**
+				 * @fn Uniform(const Handle owner, const std::string & location, const T & data)
+				 * @param[in] location The location of the uniform.
+				 * @param[in] data The data to set.
+				 * @brief Build a uniform from its location and the data to set.
+				 * @throw
+				 */
+				Uniform(const Handle owner, const std::string & location, const T & data);
 
-		/**
-		 * @fn constexpr Uniform() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		constexpr Uniform() noexcept = default;
+				/**
+				 * @fn constexpr Uniform() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr Uniform() noexcept = default;
 
-		/**
-		 * @fn Uniform(const Uniform & copy) noexcept
-		 * @param[in] copy The Uniform to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Uniform(const Uniform & copy) noexcept = default;
+				/**
+				 * @fn Uniform(const Uniform & copy) noexcept
+				 * @param[in] copy The Uniform to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Uniform(const Uniform & copy) noexcept = default;
 
-		/**
-		 * @fn Uniform(Uniform && move) noexcept
-		 * @param[in] move The Uniform to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Uniform(Uniform && move) noexcept = default;
+				/**
+				 * @fn Uniform(Uniform && move) noexcept
+				 * @param[in] move The Uniform to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Uniform(Uniform && move) noexcept = default;
 
-		/**
-		 * @fn ~Uniform() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Uniform() noexcept = default;
+				/**
+				 * @fn ~Uniform() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Uniform() noexcept = default;
 
-		/**
-		 * @fn Uniform & operator=(const Uniform & copy) noexcept
-		 * @param[in] copy The Uniform to copy from.
-		 * @return The Uniform copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Uniform & operator=(const Uniform & copy) noexcept = default;
+				/**
+				 * @fn Uniform & operator=(const Uniform & copy) noexcept
+				 * @param[in] copy The Uniform to copy from.
+				 * @return The Uniform copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Uniform & operator=(const Uniform & copy) noexcept = default;
 
-		/**
-		 * @fn Uniform & operator=(Uniform && move) noexcept
-		 * @param[in] move The Uniform to move from.
-		 * @return The Uniform moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Uniform & operator=(Uniform && move) noexcept = default;
+				/**
+				 * @fn Uniform & operator=(Uniform && move) noexcept
+				 * @param[in] move The Uniform to move from.
+				 * @return The Uniform moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Uniform & operator=(Uniform && move) noexcept = default;
 
-		/**
-		 * @fn T getData() const
-		 * @return The content of the uniform.
-		 * @brief Get the data content of the uniform.
-		 * @throw
-		 */
-		T getData() const;
+				/**
+				 * @fn T getData() const
+				 * @return The content of the uniform.
+				 * @brief Get the data content of the uniform.
+				 * @throw
+				 */
+				T getData() const;
 
-		/**
-		 * @fn void setData(const T & data)
-		 * @param[in] data The data to set.
-		 * @brief Set the content of the uniform.
-		 * @throw
-		 */
-		void setData(const T & data);
-	};
-}
+				/**
+				 * @fn void setData(const T & data)
+				 * @param[in] data The data to set.
+				 * @brief Set the content of the uniform.
+				 * @throw
+				 */
+				void setData(const T & data);
+			};
+		} // namespace renderer
+	} // namespace resource
+} // namespace ece
 
 #include "renderer/resource/uniform.inl"
 

@@ -40,13 +40,19 @@
 
 namespace ece
 {
-	inline bool BaseUniform::isOwned() const noexcept { return this->_owner != 0; }
+	namespace renderer
+	{
+		namespace resource
+		{
+			inline bool BaseUniform::isOwned() const noexcept { return this->_owner != 0; }
 
-	inline Handle BaseUniform::getOwner() const noexcept { return this->_owner; }
+			inline Handle BaseUniform::getOwner() const noexcept { return this->_owner; }
 
-	inline const std::string & BaseUniform::getName() const noexcept { return this->_name; }
+			inline const std::string & BaseUniform::getName() const noexcept { return this->_name; }
 
-	inline void BaseUniform::setOwner(const Handle owner) { this->_owner = owner; }
+			inline void BaseUniform::setOwner(const Handle owner) { this->_owner = owner; }
 
-	inline void BaseUniform::setName(const std::string & name) { this->_name = name; }
-}
+			inline void BaseUniform::setName(const std::string & name) { this->_name = name; }
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece

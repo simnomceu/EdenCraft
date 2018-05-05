@@ -40,23 +40,31 @@
 
 namespace ece
 {
-	template<class T>
-	inline Uniform<T>::Uniform(const Handle owner, const std::string & location, const T & data): BaseUniform(), _location(location)
+	namespace renderer
 	{
-		this->setData(data);
-	}
+		namespace resource
+		{
+			using opengl::OpenGL;
 
-	template <class T>
-	T Uniform<T>::getData() const
-	{
-		guard();
-		return OpenGL::getUniform<T>(this->_owner, this->getLocation());
-	}
+			template<class T>
+			inline Uniform<T>::Uniform(const Handle owner, const std::string & location, const T & data) : BaseUniform()
+			{
+				this->setData(data);
+			}
 
-	template<class T>
-	inline void Uniform<T>::setData(const T & data)
-	{
-		guard();
-		OpenGL::uniform<T>(this->getLocation(), data);
-	}
-}
+			template <class T>
+			T Uniform<T>::getData() const
+			{
+				guard();
+				return T();// OpenGL::getUniform<T>(this->_owner, this->getLocation());
+			}
+
+			template<class T>
+			inline void Uniform<T>::setData(const T & data)
+			{
+				guard();
+				OpenGL::uniform<T>(this->getLocation(), data);
+			}
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece

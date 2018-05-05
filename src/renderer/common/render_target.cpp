@@ -41,35 +41,44 @@
 
 namespace ece
 {
-	RenderTarget::RenderTarget() noexcept: _currentViewport(), _viewportHasChanged(false), _currentState()
+	namespace renderer
 	{
-	}
+		namespace common
+		{
+			using opengl::OpenGL;
 
-    void RenderTarget::loadRenderState(const RenderState & states)
-    {
-        if (states != this->_currentState) {
-            if (states._faceCulling) {
-            	OpenGL::enable(Capability::CULL_FACE);
-        		OpenGL::cullFace(states._cullFaceMode);
-        		OpenGL::frontFace(states._frontFaceMode);
-            } else {
-            	OpenGL::disable(Capability::CULL_FACE);
-            }
+			RenderTarget::RenderTarget() noexcept: _currentViewport(), _viewportHasChanged(false), _currentState()
+			{
+			}
 
-            this->_currentState = states;
-        }
-    }
+			void RenderTarget::loadRenderState(const RenderState & states)
+			{
+				if (states != this->_currentState) {
+					if (states._faceCulling) {
+						OpenGL::enable(Capability::CULL_FACE);
+						OpenGL::cullFace(states._cullFaceMode);
+						OpenGL::frontFace(states._frontFaceMode);
+					}
+					else {
+						OpenGL::disable(Capability::CULL_FACE);
+					}
 
-	Viewport RenderTarget::getDefaultViewport() const
-	{
-		Viewport default;
-		default.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
-		return default;
-	}
+					this->_currentState = states;
+				}
+			}
 
-	void RenderTarget::setViewport(const Viewport & viewport)
-	{
-		this->_currentViewport = viewport;
-		this->_viewportHasChanged = true;
-	}
-}
+			Viewport RenderTarget::getDefaultViewport() const
+			{
+				Viewport dummy;
+				dummy.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
+				return dummy;
+			}
+
+			void RenderTarget::setViewport(const Viewport & viewport)
+			{
+				this->_currentViewport = viewport;
+				this->_viewportHasChanged = true;
+			}
+		} // namespace common
+	} // namespace renderer
+} // namespace ece

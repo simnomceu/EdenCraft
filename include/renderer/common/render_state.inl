@@ -38,5 +38,11 @@
 
 namespace ece
 {
-    inline bool RenderState::operator!=(const RenderState & rhs) const noexcept { return !this->operator==(rhs); }
-}
+	namespace renderer
+	{
+		namespace common
+		{
+			inline bool RenderState::operator!=(const RenderState & rhs) const noexcept { return !this->operator==(rhs); }
+		} // namespace common
+	} // namespace renderer
+} // namespace ece

@@ -43,171 +43,177 @@
 
 namespace ece
 {
-	/**
-	 * @class Slice
-	 * @tparam Container The type of container to slice.
-	 * @extends LinearExpression<Slice<Container>>
-	 * @brief A slice of a container.
-	 */
-	template <class Container>
-	class Slice : public LinearExpression<Slice<Container>>
-	{
-	public:
-		constexpr Slice() noexcept = delete;
+    namespace utility
+    {
+        namespace template_expression
+        {
+        	/**
+        	 * @class Slice
+        	 * @tparam Container The type of container to slice.
+        	 * @extends LinearExpression<Slice<Container>>
+        	 * @brief A slice of a container.
+        	 */
+        	template <class Container>
+        	class Slice : public LinearExpression<Slice<Container>>
+        	{
+        	public:
+        		constexpr Slice() noexcept = delete;
 
-		/**
-		 * @fn Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift)
-		 * @param[in] container The container to slice.
-		 * @param[in] beginning Where to begin to slice the container.
-		 * @param[in] size The size of the slice.
-		 * @param[in] shift The shift between each element of the slice in the container.
-		 * @brief Build a slice of the container.
-		 * @throw noexcept
-		 */
-		Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
+        		/**
+        		 * @fn Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift)
+        		 * @param[in] container The container to slice.
+        		 * @param[in] beginning Where to begin to slice the container.
+        		 * @param[in] size The size of the slice.
+        		 * @param[in] shift The shift between each element of the slice in the container.
+        		 * @brief Build a slice of the container.
+        		 * @throw noexcept
+        		 */
+        		Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
 
-		/**
-		 * @fn Slice(const Container * container, unsigned int beginning, unsigned int size, unsigned int shift)
-		 * @param[in] container The container to slice.
-		 * @param[in] beginning Where to begin to slice the container.
-		 * @param[in] size The size of the slice.
-		 * @param[in] shift The shift between each element of the slice in the container.
-		 * @brief Build a slice of the container.
-		 * @throw noexcept
-		 */
-		Slice(const Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
+        		/**
+        		 * @fn Slice(const Container * container, unsigned int beginning, unsigned int size, unsigned int shift)
+        		 * @param[in] container The container to slice.
+        		 * @param[in] beginning Where to begin to slice the container.
+        		 * @param[in] size The size of the slice.
+        		 * @param[in] shift The shift between each element of the slice in the container.
+        		 * @brief Build a slice of the container.
+        		 * @throw noexcept
+        		 */
+        		Slice(const Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
 
-		/**
-		 * @fn Slice(const Slice & copy) noexcept
-		 * @param[in] copy The Slice to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Slice(const Slice & copy) noexcept = default;
+        		/**
+        		 * @fn Slice(const Slice & copy) noexcept
+        		 * @param[in] copy The Slice to copy from.
+        		 * @brief Default copy constructor.
+        		 * @throw noexcept
+        		 */
+        		Slice(const Slice & copy) noexcept = default;
 
-		/**
-		 * @fn Slice(Slice && move) noexcept
-		 * @param[in] move The Slice to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Slice(Slice && move) noexcept = default;
+        		/**
+        		 * @fn Slice(Slice && move) noexcept
+        		 * @param[in] move The Slice to move.
+        		 * @brief Default move constructor.
+        		 * @throw noexcept
+        		 */
+        		Slice(Slice && move) noexcept = default;
 
-		/**
-		 * @fn ~Slice() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Slice() noexcept = default;
+        		/**
+        		 * @fn ~Slice() noexcept
+        		 * @brief Default destructor.
+        		 * @throw noexcept
+        		 */
+        		~Slice() noexcept = default;
 
-		/**
-		 * @fn Slice & operator=(const Slice & copy) noexcept
-		 * @param[in] copy The Slice to copy from.
-		 * @return The Slice copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Slice & operator=(const Slice & copy) noexcept = default;
+        		/**
+        		 * @fn Slice & operator=(const Slice & copy) noexcept
+        		 * @param[in] copy The Slice to copy from.
+        		 * @return The Slice copied.
+        		 * @brief Default copy assignment operator.
+        		 * @throw noexcept
+        		 */
+        		Slice & operator=(const Slice & copy) noexcept = default;
 
-		/**
-		 * @fn Slice & operator=(Slice && move) noexcept
-		 * @param[in] move The Slice to move.
-		 * @return The Slice moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Slice & operator=(Slice && move) noexcept = default;
+        		/**
+        		 * @fn Slice & operator=(Slice && move) noexcept
+        		 * @param[in] move The Slice to move.
+        		 * @return The Slice moved.
+        		 * @brief Default move assignment operator.
+        		 * @throw noexcept
+        		 */
+        		Slice & operator=(Slice && move) noexcept = default;
 
-		/**
-		 * @fn auto operator[](const unsigned int index) const
-		 * @param[in] index The index of the element to access.
-		 * @return The element wished.
-		 * @brief Get the element at the index.
-		 * @throw
-		 * @see auto Slice<Container>::cell(const unsigned int index) const
-		 */
-		inline auto operator[](const unsigned int index) const;
+        		/**
+        		 * @fn auto operator[](const unsigned int index) const
+        		 * @param[in] index The index of the element to access.
+        		 * @return The element wished.
+        		 * @brief Get the element at the index.
+        		 * @throw
+        		 * @see auto Slice<Container>::cell(const unsigned int index) const
+        		 */
+        		inline auto operator[](const unsigned int index) const;
 
-		/**
-		 * @fn auto cell(const unsigned int index) const
-		 * @param[in] index The index of the element to access.
-		 * @return The element wished.
-		 * @brief Get the element at the index.
-		 * @throw
-		 * @see auto Slice<Container>::operator[](const unsigned int index) const
-		 */
-		inline auto cell(const unsigned int index) const;
+        		/**
+        		 * @fn auto cell(const unsigned int index) const
+        		 * @param[in] index The index of the element to access.
+        		 * @return The element wished.
+        		 * @brief Get the element at the index.
+        		 * @throw
+        		 * @see auto Slice<Container>::operator[](const unsigned int index) const
+        		 */
+        		inline auto cell(const unsigned int index) const;
 
-		/**
-		 * @fn auto & operator[](const unsigned int index)
-		 * @param[in] index The index of the element to access.
-		 * @return The element wished.
-		 * @brief Get the element at the index.
-		 * @throw
-		 * @see auto & Slice<Container>::cell(const unsigned int index)
-		 */
-		inline auto & operator[](const unsigned int index);
+        		/**
+        		 * @fn auto & operator[](const unsigned int index)
+        		 * @param[in] index The index of the element to access.
+        		 * @return The element wished.
+        		 * @brief Get the element at the index.
+        		 * @throw
+        		 * @see auto & Slice<Container>::cell(const unsigned int index)
+        		 */
+        		inline auto & operator[](const unsigned int index);
 
-		/**
-		 * @fn auto & cell(const unsigned int index)
-		 * @param[in] index The index of the element to access.
-		 * @return The element wished.
-		 * @brief Get the element at the index.
-		 * @throw
-		 * @see auto & Slice<Container>::operator[](const unsigned int index)
-		 */
-		inline auto & cell(const unsigned int index);
+        		/**
+        		 * @fn auto & cell(const unsigned int index)
+        		 * @param[in] index The index of the element to access.
+        		 * @return The element wished.
+        		 * @brief Get the element at the index.
+        		 * @throw
+        		 * @see auto & Slice<Container>::operator[](const unsigned int index)
+        		 */
+        		inline auto & cell(const unsigned int index);
 
-		/**
-		 * @fn constexpr unsigned int size() const noexcept
-		 * @return The number of element in the expression result.
-		 * @brief Get he number of elements.
-		 * @throw noexcept
-		 */
-		inline constexpr unsigned int size() const noexcept;
+        		/**
+        		 * @fn constexpr unsigned int size() const noexcept
+        		 * @return The number of element in the expression result.
+        		 * @brief Get he number of elements.
+        		 * @throw noexcept
+        		 */
+        		inline constexpr unsigned int size() const noexcept;
 
-		/**
-		 * @fn auto begin() noexcept
-		 * @return An iterator to the beginning of the slice.
-		 * @brief Get an iterator to the beginning of the slice.
-		 * @throw noexcept
-		 */
-		inline auto begin() noexcept;
+        		/**
+        		 * @fn auto begin() noexcept
+        		 * @return An iterator to the beginning of the slice.
+        		 * @brief Get an iterator to the beginning of the slice.
+        		 * @throw noexcept
+        		 */
+        		inline auto begin() noexcept;
 
-		/**
-		 * @fn auto end() noexcept
-		 * @return An iterator to the end of the slice.
-		 * @brief Get an iterator to the end of the slice.
-		 * @throw noexcept
-		 */
-		inline auto end() noexcept;
+        		/**
+        		 * @fn auto end() noexcept
+        		 * @return An iterator to the end of the slice.
+        		 * @brief Get an iterator to the end of the slice.
+        		 * @throw noexcept
+        		 */
+        		inline auto end() noexcept;
 
-	protected:
-		/**
-		 * @property _container
-		 * @brief The contaner to slice.
-		 */
-		Container * _container;
+        	protected:
+        		/**
+        		 * @property _container
+        		 * @brief The contaner to slice.
+        		 */
+        		Container * _container;
 
-		/**
-		 * @property _beginning
-		 * @brief The beginning of the slice in the container.
-		 */
-		unsigned int _beginning;
+        		/**
+        		 * @property _beginning
+        		 * @brief The beginning of the slice in the container.
+        		 */
+        		unsigned int _beginning;
 
-		/**
-		 * @property _size
-		 * @brief The size of the slice.
-		 */
-		unsigned int _size;
+        		/**
+        		 * @property _size
+        		 * @brief The size of the slice.
+        		 */
+        		unsigned int _size;
 
-		/**
-		 * @property _shift
-		 * @brief The shift between each element of the slice in the container.
-		 */
-		unsigned int _shift;
-	};
-}
+        		/**
+        		 * @property _shift
+        		 * @brief The shift between each element of the slice in the container.
+        		 */
+        		unsigned int _shift;
+        	};
+        } // namespace utility
+    } // namespace template_expression
+} // namespace ece
 
 #include "utility/template_expression/slice.inl"
 

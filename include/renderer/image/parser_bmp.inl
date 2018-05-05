@@ -38,7 +38,13 @@
 
 namespace ece
 {
-	inline Image<RGB24> & ParserBMP::getImage() noexcept { return this->_image; }
+	namespace renderer
+	{
+		namespace image
+		{
+			inline Image<RGB24> & ParserBMP::getImage() noexcept { return this->_image; }
 
-	inline const Image<RGB24> & ParserBMP::getImage() const noexcept { return this->_image; }
-}
+			inline const Image<RGB24> & ParserBMP::getImage() const noexcept { return this->_image; }
+		} // namespace image
+	} // namespace renderer
+} // namespace ece

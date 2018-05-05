@@ -49,4 +49,9 @@
 #include "renderer/common/renderer.hpp"
 #include "renderer/common/viewport.hpp"
 
+namespace ece
+{
+	using namespace renderer::common;
+}
+
 #endif // RENDERER_COMMON_HPP

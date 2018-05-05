@@ -38,6 +38,12 @@
 
 namespace ece
 {
-	// TODO: error on this destructor virtual pure
-	inline Listener::~Listener() { this->clear(); }
-}
+	namespace core
+	{
+		namespace event
+		{
+			// TODO: error on this destructor virtual pure
+			inline Listener::~Listener() { this->clear(); }
+		} // namespace event
+	} // namespace core
+} // namespace ece

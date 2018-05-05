@@ -40,170 +40,176 @@
 
 namespace ece
 {
-	template <class Container, unsigned int Size, typename enabled>
-	Filter<Container, Size, enabled>::Filter(Container & container, Vector<bool, Size, enabled> && filter): _container(container), _filter(std::move(filter)) {}
+    namespace utility
+    {
+        namespace template_expression
+        {
+        	template <class Container, unsigned int Size, typename enabled>
+        	Filter<Container, Size, enabled>::Filter(Container & container, Vector<bool, Size, enabled> && filter): _container(container), _filter(std::move(filter)) {}
 
-	template <class Container, unsigned int Size, typename enabled>
-	Filter<Container, Size, enabled>::Filter(Container & container, std::initializer_list<unsigned int> && il) : _container(container), _filter(false)
-	{
-		for (auto it : il) {
-			if (it < this->_container.size()) {
-				this->_filter[it] = true;
-			}
-		}
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	Filter<Container, Size, enabled>::Filter(Container & container, std::initializer_list<unsigned int> && il) : _container(container), _filter(false)
+        	{
+        		for (auto it : il) {
+        			if (it < this->_container.size()) {
+        				this->_filter[it] = true;
+        			}
+        		}
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it = rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it = rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator+=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it += rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator+=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it += rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator-=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it = -rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator-=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it = -rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator*=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it *= rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator*=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it *= rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator/=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it /= rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator/=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it /= rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator%=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it %= rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator%=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it %= rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator&=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it &= rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator&=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it &= rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator|=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it |= rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator|=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it |= rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator^=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it ^= rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator^=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it ^= rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator<<=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it <<= rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator<<=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it <<= rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
 
-	template <class Container, unsigned int Size, typename enabled>
-	template <class T>
-	Container & Filter<Container, Size, enabled>::operator>>=(const T & rhs)
-	{
-		int i = 0;
-		for (auto & it : this->_container) {
-			if (this->_filter[i]) {
-				it >>= rhs;
-			}
-			++i;
-		}
-		return this->_container;
-	}
-}
+        	template <class Container, unsigned int Size, typename enabled>
+        	template <class T>
+        	Container & Filter<Container, Size, enabled>::operator>>=(const T & rhs)
+        	{
+        		int i = 0;
+        		for (auto & it : this->_container) {
+        			if (this->_filter[i]) {
+        				it >>= rhs;
+        			}
+        			++i;
+        		}
+        		return this->_container;
+        	}
+        } // namespace template_expression
+    } // namespace utility
+} // namespace ece

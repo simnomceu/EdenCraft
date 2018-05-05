@@ -38,27 +38,33 @@
 
 namespace ece
 {
-	template<typename T>
-	inline constexpr Rectangle<T>::Rectangle() noexcept : _x(0), _y(0), _w(0), _h(0) {}
+    namespace utility
+    {
+        namespace mathematics
+        {
+        	template<typename T>
+        	inline constexpr Rectangle<T>::Rectangle() noexcept : _x(0), _y(0), _w(0), _h(0) {}
 
-	template<typename T>
-	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : _x(x), _y(y), _w(w), _h(h) {}
+        	template<typename T>
+        	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : _x(x), _y(y), _w(w), _h(h) {}
 
-    template <typename T>
-    inline bool Rectangle<T>::operator==(const Rectangle<T> & rhs) const noexcept { return this->_x == rhs._x && this->_y == rhs._y && this->_w == rhs._w && this->_h == rhs._h; }
+			template <typename T>
+			inline bool Rectangle<T>::operator==(const Rectangle<T> & rhs) const noexcept { return this->_x == rhs._x && this->_y == rhs._y && this->_w == rhs._w && this->_h == rhs._h; }
 
-	template <typename T>
-	inline bool Rectangle<T>::operator!=(const Rectangle<T> & rhs) const noexcept { return !this->operator==(rhs); }
+			template <typename T>
+			inline bool Rectangle<T>::operator!=(const Rectangle<T> & rhs) const noexcept { return !this->operator==(rhs); }
 
-	template<typename T>
-	inline T Rectangle<T>::getX() const noexcept { return this->_x; }
+			template<typename T>
+			inline T Rectangle<T>::getX() const noexcept { return this->_x; }
 
-	template<typename T>
-	inline T Rectangle<T>::getY() const noexcept { return this->_y; }
+        	template<typename T>
+        	inline T Rectangle<T>::getY() const noexcept { return this->_y; }
 
-	template<typename T>
-	inline T Rectangle<T>::getWidth() const noexcept { return this->_w; }
+        	template<typename T>
+        	inline T Rectangle<T>::getWidth() const noexcept { return this->_w; }
 
-	template<typename T>
-	inline T Rectangle<T>::getHeight() const noexcept { return this->_h; }
-}
+        	template<typename T>
+        	inline T Rectangle<T>::getHeight() const noexcept { return this->_h; }
+        } // namespace mathematics
+    } // namespace utility
+} // namespace ece

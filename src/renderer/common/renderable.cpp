@@ -40,20 +40,28 @@
 
 namespace ece
 {
-    Renderable::Renderable() noexcept: _vao(), _mode(), _program() {}
-
-    Renderable::~Renderable() {}
-
-    void Renderable::draw()
-    {
-        this->_program.use();
-		this->_vao.bind();
-		this->_vao.bindIndexBuffer();
-		OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
-    }
-
-	void Renderable::setProjection(const Projection & projection) const noexcept
+	namespace renderer
 	{
-		ece::OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "projectionMatrix"), true, projection.getProjection());
-	}
-}
+		namespace common
+		{
+			using opengl::OpenGL;
+
+			Renderable::Renderable() noexcept: _vao(), _mode(), _program() {}
+
+			Renderable::~Renderable() {}
+
+			void Renderable::draw()
+			{
+				this->_program.use();
+				this->_vao.bind();
+				this->_vao.bindIndexBuffer();
+				OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+			}
+
+			void Renderable::setProjection(const Projection & projection) const noexcept
+			{
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "projectionMatrix"), true, projection.getProjection());
+			}
+		} // namespace common
+	} // namespace renderer
+} // namespace ece

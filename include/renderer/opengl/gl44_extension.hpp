@@ -46,6 +46,12 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
+}
+
 inline void glBindBuffersRange(GLenum target, GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLintptr *sizes);
 inline void glBindBuffersBase(GLenum target, GLuint first, GLsizei count, const GLuint *buffers);
 inline void glBufferStorage(GLenum target, GLsizeiptr size, const GLvoid * data, GLbitfield flags);
@@ -63,7 +69,7 @@ inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffe
  * @brief Load the opengl 4.4 extension and call it.
  */
 #define CALLGL44(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -76,7 +82,7 @@ inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffe
  * @brief Load the opengl 4.4 extension and call it.
  */
 #define R_CALLGL44(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -90,7 +96,7 @@ inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffe
  * @brief Load the opengl 4.4 extension and call it.
  */
 #define CALLGL44_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -104,7 +110,7 @@ inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffe
  * @brief Load the opengl 4.4 extension and call it.
  */
 #define R_CALLGL44_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \

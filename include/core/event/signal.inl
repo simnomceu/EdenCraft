@@ -38,11 +38,17 @@
 
 namespace ece
 {
-	inline Signal::Signal(const GlobalSignalID & id) : _id(id), _dirty(false) {}
+	namespace core
+	{
+		namespace event
+		{
+			inline Signal::Signal(const GlobalSignalID & id) : _id(id), _dirty(false) {}
 
-	inline const Signal::GlobalSignalID & Signal::getId() const { return this->_id; }
+			inline const Signal::GlobalSignalID & Signal::getId() const { return this->_id; }
 
-	inline bool Signal::isDirty() const { return this->_dirty; }
+			inline bool Signal::isDirty() const { return this->_dirty; }
 
-	inline void Signal::setDirty(const bool dirty) { this->_dirty = dirty; }
-}
+			inline void Signal::setDirty(const bool dirty) { this->_dirty = dirty; }
+		} // namespace event
+	} // namespace core
+} // namespace ece

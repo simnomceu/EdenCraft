@@ -46,101 +46,112 @@
 
 namespace ece
 {
-	RenderWindow::RenderWindow(): Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>())
+	namespace renderer
 	{
-	}
-
-	RenderWindow::~RenderWindow() noexcept
-	{
-		this->_renderers.clear();
-	}
-
-	void RenderWindow::open()
-	{
-		Window::open();
-		try {
-			this->_context->create(*this);
-		}
-		catch (Exception & /*e*/) {
-			throw;
-		}
-		catch (std::runtime_error & e) {
-			ServiceLoggerLocator::getService().logError(e.what());
-		}
-
-		this->_currentViewport.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
-		this->_viewportHasChanged = true;
-	}
-
-    IntVector2u RenderWindow::getSize() const
-    {
-        return Window::getSize();
-    }
-
-	void RenderWindow::clear(const Color & color, const Rectangle<float> & scissorArea)
-	{
-		Rectangle<float> viewport;
-		if (this->_currentViewport.isRatioUsed()) {
-			viewport = Rectangle<float>(0.0f, 0.0f, this->getSize()[0] * this->_currentViewport.getViewportRatio().getWidth(), this->getSize()[1] * this->_currentViewport.getViewportRatio().getHeight());
-		}
-		else {
-			viewport = this->_currentViewport.getViewport();
-		}
-
-		if (this->_viewportHasChanged)
+		namespace common
 		{
-			OpenGL::viewport(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
-			
-			if (scissorArea != Rectangle<float>()) {
-				OpenGL::scissor(static_cast<int>(scissorArea.getX()), static_cast<int>(scissorArea.getY()), static_cast<int>(scissorArea.getWidth()), static_cast<int>(scissorArea.getHeight()));
-				OpenGL::enable(Capability::SCISSOR_TEST);
+			using opengl::ContextOpenGL;
+			using opengl::OpenGL;
+			using utility::log::ServiceLoggerLocator;
+			using window::common::VideoMode;
+
+			RenderWindow::RenderWindow() : Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>())
+			{
 			}
 
-			this->_viewportHasChanged = false;
-		}
-		if (scissorArea == Rectangle<float>()) {
-			OpenGL::scissor(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
-			OpenGL::enable(Capability::SCISSOR_TEST);
-		}
+			RenderWindow::~RenderWindow() noexcept
+			{
+				this->_renderers.clear();
+			}
 
-		if (this->isOpened()) {
-            OpenGL::clearColor(static_cast<float>(color.red) / 255.0f,
-                                    static_cast<float>(color.green) / 255.0f,
-                                    static_cast<float>(color.blue) / 255.0f,
-                                    static_cast<float>(color.alpha) / 100.0f);
-			OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
-		}
-	}
+			void RenderWindow::open()
+			{
+				Window::open();
+				try {
+					this->_context->create(*this);
+				}
+				catch (Exception & /*e*/) {
+					throw;
+				}
+				catch (std::runtime_error & e) {
+					ServiceLoggerLocator::getService().logError(e.what());
+				}
 
-    void RenderWindow::draw(Renderable & renderable, const RenderState & states)
-    {
-        this->loadRenderState(states);
+				this->_currentViewport.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
+				this->_viewportHasChanged = true;
+			}
 
-        renderable.draw();
-        // TODO : render the drawable here (using code in renderer.cpp)
-    }
+			IntVector2u RenderWindow::getSize() const
+			{
+				return Window::getSize();
+			}
 
-	void RenderWindow::display()
-	{
-		this->_context->swapBuffers();
-	}
+			void RenderWindow::clear(const Color & color, const Rectangle<float> & scissorArea)
+			{
+				Rectangle<float> viewport;
+				if (this->_currentViewport.isRatioUsed()) {
+					viewport = Rectangle<float>(0.0f, 0.0f, this->getSize()[0] * this->_currentViewport.getViewportRatio().getWidth(), this->getSize()[1] * this->_currentViewport.getViewportRatio().getHeight());
+				}
+				else {
+					viewport = this->_currentViewport.getViewport();
+				}
 
-	void RenderWindow::enableMSAA(const unsigned short int samples)
-	{
-		if (samples < 2) {
-			OpenGL::disable(Capability::MULTISAMPLE);
-		}
-		this->_videoMode.setSamples(samples);
-	}
+				if (this->_viewportHasChanged)
+				{
+					OpenGL::viewport(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+			
+					if (scissorArea != Rectangle<float>()) {
+						OpenGL::scissor(static_cast<int>(scissorArea.getX()), static_cast<int>(scissorArea.getY()), static_cast<int>(scissorArea.getWidth()), static_cast<int>(scissorArea.getHeight()));
+						OpenGL::enable(Capability::SCISSOR_TEST);
+					}
 
-	void RenderWindow::updateVideoMode()
-	{
-		if (this->_videoMode.hasChanged()) {
-			this->_context.reset();
-			this->close();
-			this->_context = std::make_shared<ContextOpenGL>();
-			this->open();
-			this->_videoMode.applyChanges();
-		}
-	}
-}
+					this->_viewportHasChanged = false;
+				}
+				if (scissorArea == Rectangle<float>()) {
+					OpenGL::scissor(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+					OpenGL::enable(Capability::SCISSOR_TEST);
+				}
+
+				if (this->isOpened()) {
+					OpenGL::clearColor(static_cast<float>(color.red) / 255.0f,
+											static_cast<float>(color.green) / 255.0f,
+											static_cast<float>(color.blue) / 255.0f,
+											static_cast<float>(color.alpha) / 100.0f);
+					OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
+				}
+			}
+
+			void RenderWindow::draw(Renderable & renderable, const RenderState & states)
+			{
+				this->loadRenderState(states);
+
+				renderable.draw();
+				// TODO : render the drawable here (using code in renderer.cpp)
+			}
+
+			void RenderWindow::display()
+			{
+				this->_context->swapBuffers();
+			}
+
+			void RenderWindow::enableMSAA(const unsigned short int samples)
+			{
+				if (samples < 2) {
+					OpenGL::disable(Capability::MULTISAMPLE);
+				}
+				this->_videoMode.setSamples(samples);
+			}
+
+			void RenderWindow::updateVideoMode()
+			{
+				if (this->_videoMode.hasChanged()) {
+					this->_context.reset();
+					this->close();
+					this->_context = std::make_shared<ContextOpenGL>();
+					this->open();
+					this->_videoMode.applyChanges();
+				}
+			}
+		} // namespace common
+	} // namespace renderer
+} // ece

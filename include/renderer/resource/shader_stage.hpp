@@ -46,165 +46,173 @@
 
 namespace ece
 {
-	/**
-	 * @class ShaderStage
-	 * @brief A shader stage is a step in the render pipeline.
-	 */
-	class ShaderStage
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn ShaderStage() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline ShaderStage() noexcept;
+		namespace resource
+		{
+			using opengl::Handle;
 
-		/**
-		 * @fn ShaderStage(const ShaderStage & copy) noexcept
-		 * @param[in] copy The stage to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		inline ShaderStage(const ShaderStage & copy) noexcept;
+			/**
+			 * @class ShaderStage
+			 * @brief A shader stage is a step in the render pipeline.
+			 */
+			class ShaderStage
+			{
+			public:
+				/**
+				 * @fn ShaderStage() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline ShaderStage() noexcept;
 
-		/**
-		 * @fn ShaderStage(ShaderStage && move) noexcept
-		 * @param[in] move The stage to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		inline ShaderStage(ShaderStage && move) noexcept;
+				/**
+				 * @fn ShaderStage(const ShaderStage & copy) noexcept
+				 * @param[in] copy The stage to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				inline ShaderStage(const ShaderStage & copy) noexcept;
 
-		/**
-		 * @fn ~ShaderStage() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		inline ~ShaderStage() noexcept;
+				/**
+				 * @fn ShaderStage(ShaderStage && move) noexcept
+				 * @param[in] move The stage to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				inline ShaderStage(ShaderStage && move) noexcept;
 
-		/**
-		 * @fn ShaderStage & operator=(const ShaderStage & copy) noexcept
-		 * @param[in] copy The stage to copy from.
-		 * @return The stage copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		ShaderStage & operator=(const ShaderStage & copy) noexcept;
+				/**
+				 * @fn ~ShaderStage() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				inline ~ShaderStage() noexcept;
 
-		/**
-		 * @fn ShaderStage & operator=(ShaderStage && move) noexcept
-		 * @param[in] move The stage to move.
-		 * @return The stage moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		ShaderStage & operator=(ShaderStage && move) noexcept;
+				/**
+				 * @fn ShaderStage & operator=(const ShaderStage & copy) noexcept
+				 * @param[in] copy The stage to copy from.
+				 * @return The stage copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				ShaderStage & operator=(const ShaderStage & copy) noexcept;
 
-		/**
-		 * @fn void loadFromFile(const ShaderType type, const std::string & filename)
-		 * @param[in] type The stage to define.
-		 * @param[in] filename The file that contain the source of the shader stage.
-		 * @brief Load the stage from a source file.
-		 * @throw
-		 */
-		void loadFromFile(const ShaderType type, const std::string & filename);
+				/**
+				 * @fn ShaderStage & operator=(ShaderStage && move) noexcept
+				 * @param[in] move The stage to move.
+				 * @return The stage moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ShaderStage & operator=(ShaderStage && move) noexcept;
 
-		/**
-		 * @fn void loadFromFile(const ShaderType type, const std::string & sourceCode)
-		 * @param[in] type The stage to define.
-		 * @param[in] sourceCode The source of the shader stage.
-		 * @brief Load the stage from a string.
-		 * @throw
-		 */
-		void loadFromString(const ShaderType type, const std::string & sourceCode);
+				/**
+				 * @fn void loadFromFile(const ShaderType type, const std::string & filename)
+				 * @param[in] type The stage to define.
+				 * @param[in] filename The file that contain the source of the shader stage.
+				 * @brief Load the stage from a source file.
+				 * @throw
+				 */
+				void loadFromFile(const ShaderType type, const std::string & filename);
 
-		/**
-		 * @fn const std::string & getFilename() const
-		 * @return The filename containing the source.
-		 * @brief Get the filename containing the source.
-		 * @throw
-		 */
-		inline const std::string & getFilename() const;
+				/**
+				 * @fn void loadFromFile(const ShaderType type, const std::string & sourceCode)
+				 * @param[in] type The stage to define.
+				 * @param[in] sourceCode The source of the shader stage.
+				 * @brief Load the stage from a string.
+				 * @throw
+				 */
+				void loadFromString(const ShaderType type, const std::string & sourceCode);
 
-		/**
-		 * @fn const std::string & getSource() const
-		 * @return The source of the stage.
-		 * @brief Get the source of the stage.
-		 * @throw
-		 */
-		inline const std::string & getSource() const;
+				/**
+				 * @fn const std::string & getFilename() const
+				 * @return The filename containing the source.
+				 * @brief Get the filename containing the source.
+				 * @throw
+				 */
+				inline const std::string & getFilename() const;
 
-		/**
-		 * @fn ShaderType getType() const
-		 * @return The type of stage.
-		 * @brief Get the type of stage.
-		 * @throw
-		 */
-		inline ShaderType getType() const;
+				/**
+				 * @fn const std::string & getSource() const
+				 * @return The source of the stage.
+				 * @brief Get the source of the stage.
+				 * @throw
+				 */
+				inline const std::string & getSource() const;
 
-		/**
-		 * @fn Handle getHandle() const
-		 * @return The id of the stage.
-		 * @brief Get the id of the shader stage.
-		 * @throw
-		 */
-		inline Handle getHandle() const;
+				/**
+				 * @fn ShaderType getType() const
+				 * @return The type of stage.
+				 * @brief Get the type of stage.
+				 * @throw
+				 */
+				inline ShaderType getType() const;
 
-		/**
-		 * @fn bool isCompilationRequired() const
-		 * @return True, if compilation of the shader stage is required, else false.
-		 * @brief Check if it is required to compile the shader stage or not.
-		 * @throw
-		 */
-		inline bool isCompilationRequired() const;
+				/**
+				 * @fn Handle getHandle() const
+				 * @return The id of the stage.
+				 * @brief Get the id of the shader stage.
+				 * @throw
+				 */
+				inline Handle getHandle() const;
 
-		/**
-		 * @fn void compile()
-		 * @brief Compile the shader stage.
-		 * @throw
-		 */
-		void compile();
+				/**
+				 * @fn bool isCompilationRequired() const
+				 * @return True, if compilation of the shader stage is required, else false.
+				 * @brief Check if it is required to compile the shader stage or not.
+				 * @throw
+				 */
+				inline bool isCompilationRequired() const;
 
-		/**
-		 * @fn void terminate()
-		 * @brief Clear and delete the shader stage.
-		 * @throw
-		 */
-		void terminate();
+				/**
+				 * @fn void compile()
+				 * @brief Compile the shader stage.
+				 * @throw
+				 */
+				void compile();
 
-	private:
-		/**
-		 * @property _filename
-		 * @brief The file that contains the source.
-		 */
-		std::string _filename;
+				/**
+				 * @fn void terminate()
+				 * @brief Clear and delete the shader stage.
+				 * @throw
+				 */
+				void terminate();
 
-		/**
-		 * @property _source
-		 * @brief The source of the shader stage.
-		 */
-		std::string _source;
+			private:
+				/**
+				 * @property _filename
+				 * @brief The file that contains the source.
+				 */
+				std::string _filename;
 
-		/**
-		 * @property _ type
-		 * @brief The type of shader stage.
-		 */
-		ShaderType _type;
+				/**
+				 * @property _source
+				 * @brief The source of the shader stage.
+				 */
+				std::string _source;
 
-		/**
-		 * @property _handle
-		 * @brief The id of the shader stage.
-		 */
-		Handle _handle;
+				/**
+				 * @property _ type
+				 * @brief The type of shader stage.
+				 */
+				ShaderType _type;
 
-		/**
-		 * @property _compilationRequired
-		 * @brief Tag to indicate that the stage need to be compiled.
-		 */
-		bool _compilationRequired;
-	};
-}
+				/**
+				 * @property _handle
+				 * @brief The id of the shader stage.
+				 */
+				Handle _handle;
+
+				/**
+				 * @property _compilationRequired
+				 * @brief Tag to indicate that the stage need to be compiled.
+				 */
+				bool _compilationRequired;
+			};
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/resource/shader_stage.inl"
 

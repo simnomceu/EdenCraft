@@ -49,122 +49,133 @@
 
 namespace ece
 {
-	ContextOpenGL::ContextOpenGL() noexcept : BaseContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
+	namespace renderer
 	{
-		this->setMinVersion({ 3, 2 });
-		this->setMaxVersion({ 4, 6 });
-	}
-
-	ContextOpenGL::~ContextOpenGL() noexcept
-	{
-		if (this->_data->_context != nullptr) {
-			wglMakeCurrent(nullptr, nullptr);
-			wglDeleteContext(this->_data->_context);
-			this->_data->_context = nullptr;
-		}
-		if (this->_data->_device != nullptr) {
-			ReleaseDC(this->_data->_windowHandle, this->_data->_device);
-			this->_data->_device = nullptr;
-		}
-		this->_data->_windowHandle = nullptr;
-	}
-
-	void ContextOpenGL::create(const RenderWindow & window)
-	{
-		OpenGL::init(this->_minVersion, this->_maxVersion);
-
-		// Create real context
-		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_windowId;
-		this->_data->_device = GetDC(this->_data->_windowHandle);
-		if (!this->_data->_device) {
-			throw std::runtime_error("The device associated to that window cannot be used or there is not device.");
-		}
-
-		const int pixelAttribs[] = {
-			WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
-			WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-			WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
-			WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-			WGL_COLOR_BITS_ARB, 32,
-			WGL_DEPTH_BITS_ARB, 24,
-			WGL_STENCIL_BITS_ARB, 8,
-			WGL_SAMPLE_BUFFERS_ARB, window.getVideoMode().getSamples() > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
-			WGL_SAMPLES_ARB, window.getVideoMode().getSamples(), // Number of samples
-			0
-		};
-
-		int iPF = 0;
-		UINT num_formats_choosen;
-		if (!wglChoosePixelFormat(this->_data->_device, pixelAttribs, NULL, 1, &iPF, &num_formats_choosen) || !num_formats_choosen) {
-			throw std::runtime_error("There is no video mode available for this device.");
-		}
-
-		PIXELFORMATDESCRIPTOR pfd;
-		memset(&pfd, 0, sizeof(pfd));
-		DescribePixelFormat(this->_data->_device, iPF, sizeof(pfd), &pfd);
-
-		if (!SetPixelFormat(this->_data->_device, iPF, &pfd)) {
-			throw std::runtime_error("The video mode cannot be used.");
-		}
-
-		auto latestVersion = OpenGL::getLatestVersion();
-
-		const int glVersion[] = {
-			WGL_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
-			WGL_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
-			WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
-			WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
-			0
-		};
-		// TODO: deal with shared context, like for restarting window (MSAA requirements)
-		this->_data->_context = wglCreateContextAttribs(this->_data->_device, nullptr, glVersion);
-		if (this->_data->_context == nullptr) {
-			throw std::runtime_error("The context cannot be created.");
-		}
-		if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
-			throw std::runtime_error("The created context cannot be used.");
-		}
-
-		this->logInfos();
-
-		GLint flags;
-		glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-		if (flags && GL_CONTEXT_FLAG_DEBUG_BIT)
+		namespace opengl
 		{
-			checkErrors(glEnable(GL_DEBUG_OUTPUT));
-			checkErrors(glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS));
-			checkErrors(glDebugMessageCallback(glDebugOutput, nullptr));
-			checkErrors(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
-		}
+			using utility::log::ServiceLoggerLocator;
+			using utility::debug::AssertionException;
+			using utility::pattern::makePimpl;
 
-		OpenGL::enable(Capability::DEPTH_TEST);
-		OpenGL::depthFunc(DepthFunctionCondition::LESS);
+			ContextOpenGL::ContextOpenGL() noexcept : BaseContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
+			{
+				this->setMinVersion({ 3, 2 });
+				this->setMaxVersion({ 4, 6 });
+			}
 
+			ContextOpenGL::~ContextOpenGL() noexcept
+			{
+				if (this->_data->_context != nullptr) {
+					wglMakeCurrent(nullptr, nullptr);
+					wglDeleteContext(this->_data->_context);
+					this->_data->_context = nullptr;
+				}
+				if (this->_data->_device != nullptr) {
+					ReleaseDC(this->_data->_windowHandle, this->_data->_device);
+					this->_data->_device = nullptr;
+				}
+				this->_data->_windowHandle = nullptr;
+			}
+
+			void ContextOpenGL::create(const RenderWindow & window)
+			{
+				OpenGL::init(this->_minVersion, this->_maxVersion);
+
+				// Create real context
+				this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_windowId;
+				this->_data->_device = GetDC(this->_data->_windowHandle);
+				if (!this->_data->_device) {
+					throw std::runtime_error("The device associated to that window cannot be used or there is not device.");
+				}
+
+				const int pixelAttribs[] = {
+					WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+					WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+					WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+					WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+					WGL_COLOR_BITS_ARB, 32,
+					WGL_DEPTH_BITS_ARB, 24,
+					WGL_STENCIL_BITS_ARB, 8,
+					WGL_SAMPLE_BUFFERS_ARB, window.getVideoMode().getSamples() > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
+					WGL_SAMPLES_ARB, window.getVideoMode().getSamples(), // Number of samples
+					0
+				};
+
+				int iPF = 0;
+				UINT num_formats_choosen;
+				if (!wglChoosePixelFormat(this->_data->_device, pixelAttribs, NULL, 1, &iPF, &num_formats_choosen) || !num_formats_choosen) {
+					throw std::runtime_error("There is no video mode available for this device.");
+				}
+
+				PIXELFORMATDESCRIPTOR pfd;
+				memset(&pfd, 0, sizeof(pfd));
+				DescribePixelFormat(this->_data->_device, iPF, sizeof(pfd), &pfd);
+
+				if (!SetPixelFormat(this->_data->_device, iPF, &pfd)) {
+					throw std::runtime_error("The video mode cannot be used.");
+				}
+
+				auto latestVersion = OpenGL::getLatestVersion();
+
+				const int glVersion[] = {
+					WGL_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
+					WGL_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
+					WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
+					WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+					0
+				};
+				// TODO: deal with shared context, like for restarting window (MSAA requirements)
+				this->_data->_context = wglCreateContextAttribs(this->_data->_device, nullptr, glVersion);
+				if (this->_data->_context == nullptr) {
+					throw std::runtime_error("The context cannot be created.");
+				}
+				if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
+					throw std::runtime_error("The created context cannot be used.");
+				}
+
+				this->logInfos();
+
+				GLint flags;
+				glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+				if (flags && GL_CONTEXT_FLAG_DEBUG_BIT)
+				{
+					checkErrors(glEnable(GL_DEBUG_OUTPUT));
+					checkErrors(glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS));
+					checkErrors(glDebugMessageCallback(glDebugOutput, nullptr));
+					checkErrors(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
+				}
+
+				OpenGL::enable(Capability::DEPTH_TEST);
+				OpenGL::depthFunc(DepthFunctionCondition::LESS);
 		OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glViewport(0, 0, window.getSize()[0], window.getSize()[1]);
 
-		this->_created = true;
-	}
+				OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-	void ContextOpenGL::terminate()
-	{
-		// TODO To be completed.
-		this->_created = false;
-	}
+				this->_created = true;
+			}
 
-	void ContextOpenGL::swapBuffers()
-	{
-		if (!SwapBuffers(this->_data->_device)) {
-			ServiceLoggerLocator::getService().logError("Buffers not swapped !");
-		}
-	}
+			void ContextOpenGL::terminate()
+			{
+				// TODO To be completed.
+				this->_created = false;
+			}
 
-	void ContextOpenGL::setCurrent()
-	{
-		make_assert(this->isCreated(), "only an existing context can be used.");
-		if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
-			throw std::runtime_error("The context cannot be used.");
-		}
-		OpenGL::setCurrentContext(this->shared_from_this());
-	}
-}
+			void ContextOpenGL::swapBuffers()
+			{
+				if (!SwapBuffers(this->_data->_device)) {
+					ServiceLoggerLocator::getService().logError("Buffers not swapped !");
+				}
+			}
+
+			void ContextOpenGL::setCurrent()
+			{
+				make_assert(this->isCreated(), "only an existing context can be used.");
+				if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
+					throw std::runtime_error("The context cannot be used.");
+				}
+				OpenGL::setCurrentContext(this->shared_from_this());
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

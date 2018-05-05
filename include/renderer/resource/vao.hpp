@@ -43,142 +43,148 @@
 
 namespace ece
 {
-	/**
-	 * @class VAO
-	 * @brief A vertex array object as defined in OpenGL.
-	 */
-	class VAO
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn VAO() 
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		VAO();
+		namespace resource
+		{
+			/**
+			 * @class VAO
+			 * @brief A vertex array object as defined in OpenGL.
+			 */
+			class VAO
+			{
+			public:
+				/**
+				 * @fn VAO()
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				VAO();
 
-		/**
-		 * @fn VAO(const VAO & copy) noexcept
-		 * @param[in] copy The VAO to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		VAO(const VAO & copy) noexcept = default;
+				/**
+				 * @fn VAO(const VAO & copy) noexcept
+				 * @param[in] copy The VAO to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				VAO(const VAO & copy) noexcept = default;
 
-		/**
-		 * @fn VAO(VAO && move) noexcept
-		 * @param[in] move The VAO to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		VAO(VAO && move) noexcept = default;
+				/**
+				 * @fn VAO(VAO && move) noexcept
+				 * @param[in] move The VAO to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				VAO(VAO && move) noexcept = default;
 
-		/**
-		 * @fn ~VAO()
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~VAO() noexcept = default;
+				/**
+				 * @fn ~VAO()
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~VAO() noexcept = default;
 
-		/**
-		 * @fn VAO & operator=(const VAO & copy) noexcept
-		 * @param[in] copy The VAO to copy from.
-		 * @return The VAO copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		VAO & operator=(const VAO & copy) noexcept = default;
+				/**
+				 * @fn VAO & operator=(const VAO & copy) noexcept
+				 * @param[in] copy The VAO to copy from.
+				 * @return The VAO copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				VAO & operator=(const VAO & copy) noexcept = default;
 
-		/**
-		 * @fn VAO & operator=(VAO && move) noexcept
-		 * @param[in] move The VAO to move.
-		 * @return The VAO moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		VAO & operator=(VAO && move) noexcept = default;
+				/**
+				 * @fn VAO & operator=(VAO && move) noexcept
+				 * @param[in] move The VAO to move.
+				 * @return The VAO moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				VAO & operator=(VAO && move) noexcept = default;
 
-		/**
-		 * @fn void bind() const
-		 * @brief Put the vao in a buffer to be used.
-		 * @throw
-		 */
-		inline void bind() const;
+				/**
+				 * @fn void bind() const
+				 * @brief Put the vao in a buffer to be used.
+				 * @throw
+				 */
+				inline void bind() const;
 
-		/**
-		 * @fn void bindIndexBuffer() const
-		 * @brief Use the index buffer set.
-		 * @throw
-		 */
-		inline void bindIndexBuffer() const;
+				/**
+				 * @fn void bindIndexBuffer() const
+				 * @brief Use the index buffer set.
+				 * @throw
+				 */
+				inline void bindIndexBuffer() const;
 
-		/**
-		 * @fn void addAttribute(const int location, const int size, const bool normalized, const int offset, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
-		 * @tparam T The type of data to add to the vertex array, using a VBO.
-		 * @param[in] location The index of the VAO to modify.
-		 * @param[in] size The size of a vertex.
-		 * @param[in] normalized If fixed-point values has to be normalized or not
-		 * @param[in] offset The offset between two vertex.
-		 * @param[in] type The type of data.
-		 * @param[in] data The array of vertex.
-		 * @param[in] usage The usage of the buffer.
-		 * @brief Add a list of vertex as a VBO in the vertex array object.
-		 * @throw
-		 */
-		template<class T> void addAttribute(const int location, const int size, const bool normalized, const int offset, const BufferType type, const std::vector<T> & data, const BufferUsage usage);
-		
-		/**
-		 * @fn void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage)
-		 * @tparam T The type of data to add to the vertex array without VBO.
-		 * @param[in] location The index of the VAO to modify.
-		 * @param[in] size The size of a vertex.
-		 * @param[in] normalized If fixed-point values has to be normalized or not
-		 * @param[in] offset The offset between two vertex.
-		 * @param[in] type The type of data.
-		 * @param[in] data The array of vertex.
-		 * @param[in] usage The usage of the buffer.
-		 * @brief Add a list of vertex DIRECTLY in the vertex array object.
-		 * @throw
-		 */
-		template<class T> void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage);
-		
-		/**
-		 * @fn void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
-		 * @param[in] data The list of indices.
-		 * @param[in] usage The usage of the buffer.
-		 * @brief Add an index buffer object to the VAO.
-		 * @throw
-		 */
-		void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage);
+				/**
+				 * @fn void addAttribute(const int location, const int size, const bool normalized, const int offset, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+				 * @tparam T The type of data to add to the vertex array, using a VBO.
+				 * @param[in] location The index of the VAO to modify.
+				 * @param[in] size The size of a vertex.
+				 * @param[in] normalized If fixed-point values has to be normalized or not
+				 * @param[in] offset The offset between two vertex.
+				 * @param[in] type The type of data.
+				 * @param[in] data The array of vertex.
+				 * @param[in] usage The usage of the buffer.
+				 * @brief Add a list of vertex as a VBO in the vertex array object.
+				 * @throw
+				 */
+				template<class T> void addAttribute(const int location, const int size, const bool normalized, const int offset, const BufferType type, const std::vector<T> & data, const BufferUsage usage);
 
-		/**
-		 * @fn unsigned int getNbVertices() const
-		 * @return The number of vertices of the object.
-		 * @brief Get the number of vertices of the object.
-		 * @throw
-		 */
-		inline unsigned int getNbVertices() const;
+				/**
+				 * @fn void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage)
+				 * @tparam T The type of data to add to the vertex array without VBO.
+				 * @param[in] location The index of the VAO to modify.
+				 * @param[in] size The size of a vertex.
+				 * @param[in] normalized If fixed-point values has to be normalized or not
+				 * @param[in] offset The offset between two vertex.
+				 * @param[in] type The type of data.
+				 * @param[in] data The array of vertex.
+				 * @param[in] usage The usage of the buffer.
+				 * @brief Add a list of vertex DIRECTLY in the vertex array object.
+				 * @throw
+				 */
+				template<class T> void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage);
 
-	private:
-		/**
-		 * @property _handle
-		 * @brief The id of the handle.
-		 */
-		Handle _handle;
+				/**
+				 * @fn void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
+				 * @param[in] data The list of indices.
+				 * @param[in] usage The usage of the buffer.
+				 * @brief Add an index buffer object to the VAO.
+				 * @throw
+				 */
+				void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage);
 
-		/**
-		 * @property _nbVertices
-		 * @brief The number of vertices of the object.
-		 */
-		unsigned int _nbVertices;
+				/**
+				 * @fn unsigned int getNbVertices() const
+				 * @return The number of vertices of the object.
+				 * @brief Get the number of vertices of the object.
+				 * @throw
+				 */
+				inline unsigned int getNbVertices() const;
 
-		/**
-		 * @property _ibo
-		 * @brief The index buffer object to use.
-		 */
-		IBO _ibo;
-	};
-}
+			private:
+				/**
+				 * @property _handle
+				 * @brief The id of the handle.
+				 */
+				Handle _handle;
+
+				/**
+				 * @property _nbVertices
+				 * @brief The number of vertices of the object.
+				 */
+				unsigned int _nbVertices;
+
+				/**
+				 * @property _ibo
+				 * @brief The index buffer object to use.
+				 */
+				IBO _ibo;
+			};
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/resource/vao.inl"
 

@@ -38,5 +38,11 @@
 
 namespace ece
 {
-	inline const Viewport & RenderTarget::getCurrentViewport() const { return this->_currentViewport; }
-}
+	namespace renderer
+	{
+		namespace common
+		{
+			inline const Viewport & RenderTarget::getCurrentViewport() const { return this->_currentViewport; }
+		} // namespace common
+	} // namespace renderer
+} // namespace ece

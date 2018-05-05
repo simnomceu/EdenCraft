@@ -43,49 +43,55 @@
 
 namespace ece
 {
-	struct RGB24
+	namespace renderer
 	{
-		std::byte red;
-		std::byte green;
-		std::byte blue;
+		namespace image
+		{
+			struct RGB24
+			{
+				std::byte red;
+				std::byte green;
+				std::byte blue;
 
-        inline RGB24(): red(), green(), blue() {}
+				inline RGB24(): red(), green(), blue() {}
 
-        inline RGB24(const unsigned short int r, const unsigned short int g, const unsigned short int b):
-            red(static_cast<std::byte>(r)), green(static_cast<std::byte>(g)), blue(static_cast<std::byte>(b)) {}
-	};
+				inline RGB24(const unsigned short int r, const unsigned short int g, const unsigned short int b):
+					red(static_cast<std::byte>(r)), green(static_cast<std::byte>(g)), blue(static_cast<std::byte>(b)) {}
+			};
 
-	struct RGBA32 : public RGB24
-	{
-		std::byte alpha;
+			struct RGBA32 : public RGB24
+			{
+				std::byte alpha;
 
-        inline RGBA32(): RGB24(), alpha() {}
+				inline RGBA32(): RGB24(), alpha() {}
 
-        inline RGBA32(const unsigned short int r, const unsigned short int g, const unsigned short int b, const unsigned short int a):
-            RGB24(r, g, b), alpha(static_cast<std::byte>(a)) {}
-	};
+				inline RGBA32(const unsigned short int r, const unsigned short int g, const unsigned short int b, const unsigned short int a):
+					RGB24(r, g, b), alpha(static_cast<std::byte>(a)) {}
+			};
 
-	struct HSV
-	{
-		unsigned short int hue;
-		unsigned short int saturation;
-		unsigned short int value;
-	};
+			struct HSV
+			{
+				unsigned short int hue;
+				unsigned short int saturation;
+				unsigned short int value;
+			};
 
-	struct HSL
-	{
-		unsigned short int hue;
-		unsigned short int saturation;
-		unsigned short int lightness;
-	};
+			struct HSL
+			{
+				unsigned short int hue;
+				unsigned short int saturation;
+				unsigned short int lightness;
+			};
 
-	struct CMYK
-	{
-		unsigned short int cyan;
-		unsigned short int magenta;
-		unsigned short int yellow;
-		unsigned short int key;
-	};
-}
+			struct CMYK
+			{
+				unsigned short int cyan;
+				unsigned short int magenta;
+				unsigned short int yellow;
+				unsigned short int key;
+			};
+		} // namespace image
+	} // namespace renderer
+} // namespace ece
 
 #endif // IMAGE_FORMAT_HPP

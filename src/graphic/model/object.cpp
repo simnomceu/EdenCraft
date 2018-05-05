@@ -44,9 +44,15 @@
 
 namespace ece
 {
-	std::vector<BaseUniform *> Object::getUniforms() const
+	namespace graphic
 	{
-		// TODO : this method has been generated automatically.
-		return std::vector<BaseUniform *>();
-	}
-}
+		namespace model
+		{
+			std::vector<BaseUniform *> Object::getUniforms() const
+			{
+				// TODO : this method has been generated automatically.
+				return std::vector<BaseUniform *>();
+			}
+		}// namespace model
+	} // namespace graphic
+} // namespace ece

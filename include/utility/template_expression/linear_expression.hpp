@@ -43,108 +43,114 @@
 
 namespace ece
 {
-	/**
-	 * @class LinearExpression
-	 * @tparam E The child template type of the Curiously Reccuring Template Pattern.
-	 * @brief
-	 */
-	template <class E>
-	class LinearExpression
-	{
-	public:
-		/**
-		 * @fn constexpr LinearExpression() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		constexpr LinearExpression() noexcept = default;
+    namespace utility
+    {
+        namespace template_expression
+        {
+        	/**
+        	 * @class LinearExpression
+        	 * @tparam E The child template type of the Curiously Reccuring Template Pattern.
+        	 * @brief
+        	 */
+        	template <class E>
+        	class LinearExpression
+        	{
+        	public:
+        		/**
+        		 * @fn constexpr LinearExpression() noexcept
+        		 * @brief Default constructor.
+        		 * @throw noexcept
+        		 */
+        		constexpr LinearExpression() noexcept = default;
 
-		/**
-		 * @fn LinearExpression(const LinearExpression & copy) noexcept
-		 * @param[in] copy The LinearExpression to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		LinearExpression(const LinearExpression & copy) noexcept = default;
+        		/**
+        		 * @fn LinearExpression(const LinearExpression & copy) noexcept
+        		 * @param[in] copy The LinearExpression to copy from.
+        		 * @brief Default copy constructor.
+        		 * @throw noexcept
+        		 */
+        		LinearExpression(const LinearExpression & copy) noexcept = default;
 
-		/**
-		 * @fn LinearExpression(LinearExpression && move) noexcept
-		 * @param[in] move The LinearExpression to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		LinearExpression(LinearExpression && move) noexcept = default;
+        		/**
+        		 * @fn LinearExpression(LinearExpression && move) noexcept
+        		 * @param[in] move The LinearExpression to move.
+        		 * @brief Default move constructor.
+        		 * @throw noexcept
+        		 */
+        		LinearExpression(LinearExpression && move) noexcept = default;
 
-		/**
-		 * @fn ~LinearExpression() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~LinearExpression() noexcept = default;
+        		/**
+        		 * @fn ~LinearExpression() noexcept
+        		 * @brief Default destructor.
+        		 * @throw noexcept
+        		 */
+        		~LinearExpression() noexcept = default;
 
-		/**
-		 * @fn LinearExpression & operator=(const LinearExpression & copy) noexcept
-		 * @param[in] copy The LinearExpression to copy from.
-		 * @return The LinearExpression copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		LinearExpression & operator=(const LinearExpression & copy) noexcept = default;
+        		/**
+        		 * @fn LinearExpression & operator=(const LinearExpression & copy) noexcept
+        		 * @param[in] copy The LinearExpression to copy from.
+        		 * @return The LinearExpression copied.
+        		 * @brief Default copy assignment operator.
+        		 * @throw noexcept
+        		 */
+        		LinearExpression & operator=(const LinearExpression & copy) noexcept = default;
 
-		/**
-		 * @fn LinearExpression & operator=(LinearExpression && move) noexcept
-		 * @param[in] move The LinearExpression to move.
-		 * @return The LinearExpression moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		LinearExpression & operator=(LinearExpression && move) noexcept = default;
+        		/**
+        		 * @fn LinearExpression & operator=(LinearExpression && move) noexcept
+        		 * @param[in] move The LinearExpression to move.
+        		 * @return The LinearExpression moved.
+        		 * @brief Default move assignment operator.
+        		 * @throw noexcept
+        		 */
+        		LinearExpression & operator=(LinearExpression && move) noexcept = default;
 
-		/**
-		 * @fn auto operator[](const unsigned int index) const
-		 * @param[in] index The index of the element to access.
-		 * @return The element wished.
-		 * @brief Get the element at the index.
-		 * @throw
-		 * @see auto LinearExpression<E>::cell(const unsigned int index) const
-		 */
-		inline auto operator[](const unsigned int index) const;
+        		/**
+        		 * @fn auto operator[](const unsigned int index) const
+        		 * @param[in] index The index of the element to access.
+        		 * @return The element wished.
+        		 * @brief Get the element at the index.
+        		 * @throw
+        		 * @see auto LinearExpression<E>::cell(const unsigned int index) const
+        		 */
+        		inline auto operator[](const unsigned int index) const;
 
-		/**
-		 * @fn auto cell(const unsigned int index) const
-		 * @param[in] index The index of the element to access.
-		 * @return The element wished.
-		 * @brief Get the element at the index.
-		 * @throw
-		 * @see auto LinearExpression<E>::operator[](const unsigned int index) const
-		 */
-		inline auto cell(const unsigned int index) const;
+        		/**
+        		 * @fn auto cell(const unsigned int index) const
+        		 * @param[in] index The index of the element to access.
+        		 * @return The element wished.
+        		 * @brief Get the element at the index.
+        		 * @throw
+        		 * @see auto LinearExpression<E>::operator[](const unsigned int index) const
+        		 */
+        		inline auto cell(const unsigned int index) const;
 
-		/**
-		 * @fn unsigned int size() const noexcept
-		 * @return The number of element in the expression result.
-		 * @brief Get he number of elements.
-		 * @throw noexcept
-		 */
-		inline unsigned int size() const noexcept;
+        		/**
+        		 * @fn unsigned int size() const noexcept
+        		 * @return The number of element in the expression result.
+        		 * @brief Get he number of elements.
+        		 * @throw noexcept
+        		 */
+        		inline unsigned int size() const noexcept;
 
-		/**
-		 * @fn operator E & () noexcept
-		 * @return The child class object.
-		 * @brief Downcast to the child class.
-		 * @throw noexcept
-		 */
-		inline operator E & () noexcept;
+        		/**
+        		 * @fn operator E & () noexcept
+        		 * @return The child class object.
+        		 * @brief Downcast to the child class.
+        		 * @throw noexcept
+        		 */
+        		inline operator E & () noexcept;
 
-		/**
-		* @fn operator const E & () noexcept
-		* @return The child class object.
-		* @brief Downcast to the child class.
-		* @throw noexcept
-		*/
-		inline operator const E & () noexcept;
-	};
-}
+        		/**
+        		* @fn operator const E & () noexcept
+        		* @return The child class object.
+        		* @brief Downcast to the child class.
+        		* @throw noexcept
+        		*/
+        		inline operator const E & () noexcept;
+        	};
+        } // namespace template_expression
+    } // namespace utility
+} // namespace ece
 
 #include "utility/template_expression/linear_expression.inl"
 

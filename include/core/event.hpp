@@ -47,4 +47,9 @@
 #include "core/event/signal.hpp"
 #include "core/event/slot.hpp"
 
+namespace ece
+{
+	using namespace core::event;
+}
+
 #endif // CORE_EVENT_HPP

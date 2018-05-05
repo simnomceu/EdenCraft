@@ -46,6 +46,12 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+    using utility::indexing::Version;
+	using renderer::opengl::OpenGLExtensionException;
+}
+
 inline void glGetUniformdv(GLuint program, GLint location, GLdouble *params);
 inline void glBlendEquationi(GLuint buf, GLenum mode);
 inline void glBlendEquationSeparatei(GLuint buf, GLenum modeRGB, GLenum modeAlpha);
@@ -83,7 +89,7 @@ inline  void glMinSampleShading(GLfloat value);
  * @brief Load the opengl 4.0 extension and call it.
  */
 #define CALLGL40(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -96,7 +102,7 @@ inline  void glMinSampleShading(GLfloat value);
  * @brief Load the opengl 4.0 extension and call it.
  */
 #define R_CALLGL40(SIGNATURE, NAME) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -110,7 +116,7 @@ inline  void glMinSampleShading(GLfloat value);
  * @brief Load the opengl 4.0 extension and call it.
  */
 #define CALLGL40_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
@@ -124,7 +130,7 @@ inline  void glMinSampleShading(GLfloat value);
  * @brief Load the opengl 4.0 extension and call it.
  */
 #define R_CALLGL40_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 0 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \

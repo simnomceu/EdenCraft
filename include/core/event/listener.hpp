@@ -46,135 +46,141 @@
 
 namespace ece
 {
-	class Emitter;
-
-	/**
-	 * @class Listener
-	 * @brief A listener to manage slots.
-	 */
-	class Listener
+	namespace core
 	{
-	public:
-		/**
-		 * @fn Listener()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		Listener() = default;
+		namespace event
+		{
+			class Emitter;
 
-		/**
-		 * @fn Listener(const Listener & copy)
-		 * @param[in] copy The listener to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Listener(const Listener & copy) = default;
+			/**
+			 * @class Listener
+			 * @brief A listener to manage slots.
+			 */
+			class Listener
+			{
+			public:
+				/**
+				 * @fn Listener()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				Listener() = default;
 
-		/**
-		 * @fn Listener(Listener && move)
-		 * @param[in] move The listener to move.
-		 * @brief Default move constructor.
-		 * @throw
-		 */
-		Listener(Listener && move) = default;
+				/**
+				 * @fn Listener(const Listener & copy)
+				 * @param[in] copy The listener to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Listener(const Listener & copy) = default;
 
-		inline virtual ~Listener() = 0;
+				/**
+				 * @fn Listener(Listener && move)
+				 * @param[in] move The listener to move.
+				 * @brief Default move constructor.
+				 * @throw
+				 */
+				Listener(Listener && move) = default;
 
-		/**
-		 * @fn Listener & operator=(const Listener & copy)
-		 * @param[in] copy The listener to copy from.
-		 * @return The listener copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Listener & operator=(const Listener & copy) = default;
+				inline virtual ~Listener() = 0;
 
-		/**
-		 * @fn Listener & operator=(Listener && move) noexcept
-		 * @param[in] move The listener to move.
-		 * @return The listener moved.
-		 * @brief Default move assignment operator.
-		 * @throw
-		 */
-		Listener & operator=(Listener && move) noexcept = default;
+				/**
+				 * @fn Listener & operator=(const Listener & copy)
+				 * @param[in] copy The listener to copy from.
+				 * @return The listener copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Listener & operator=(const Listener & copy) = default;
 
-		/**
-		 * @fn void addSlot(const Slot::SlotID & slot, const Slot::Handle & handle)
-		 * @param[in] slot The slot to regiser.
-		 * @param[in] handle The action of the slot to register.
-		 * @brief Register a local slot and generate its global id.
-		 * @throw
-		 */
-		void addSlot(const Slot::SlotID & slot, const Slot::Handle & handle);
+				/**
+				 * @fn Listener & operator=(Listener && move) noexcept
+				 * @param[in] move The listener to move.
+				 * @return The listener moved.
+				 * @brief Default move assignment operator.
+				 * @throw
+				 */
+				Listener & operator=(Listener && move) noexcept = default;
 
-		/**
-		 * @fn void removeSlot(const Slot::SlotID & slot)
-		 * @param[in] slot The slot to remove.
-		 * @brief Remove a slot.
-		 * It will be tagged dirty, to be destroyed later.
-		 * @throw
-		 */
-		void removeSlot(const Slot::SlotID & slot);
+				/**
+				 * @fn void addSlot(const Slot::SlotID & slot, const Slot::Handle & handle)
+				 * @param[in] slot The slot to regiser.
+				 * @param[in] handle The action of the slot to register.
+				 * @brief Register a local slot and generate its global id.
+				 * @throw
+				 */
+				void addSlot(const Slot::SlotID & slot, const Slot::Handle & handle);
 
-		/**
-		 * @fn Slot::GlobalSlotID getSlotID(const Slot::SlotID & slot) const
-		 * @param[in] slot The local id of the slot.
-		 * @return The corresponding global id of the slot.
-		 * @brief Get the global id of the slot.
-		 * @throw
-		 */
-		Slot::GlobalSlotID getSlotID(const Slot::SlotID & slot) const;
+				/**
+				 * @fn void removeSlot(const Slot::SlotID & slot)
+				 * @param[in] slot The slot to remove.
+				 * @brief Remove a slot.
+				 * It will be tagged dirty, to be destroyed later.
+				 * @throw
+				 */
+				void removeSlot(const Slot::SlotID & slot);
 
-		/**
-		 * @fn void connect(const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] slot The slot to connect.
-		 * @param[in] emitter The owner of the signal to connect.
-		 * @param[in] signal The signal to connect.
-		 * @brief Connect a slot to a signal from an emitter.
-		 * If the connection already exists, nothing happen.
-		 * @throw
-		 */
-		void connect(const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal);
+				/**
+				 * @fn Slot::GlobalSlotID getSlotID(const Slot::SlotID & slot) const
+				 * @param[in] slot The local id of the slot.
+				 * @return The corresponding global id of the slot.
+				 * @brief Get the global id of the slot.
+				 * @throw
+				 */
+				Slot::GlobalSlotID getSlotID(const Slot::SlotID & slot) const;
 
-		/**
-		 * @fn void disconnect(const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
-		 * @param[in] slot The slot to disconnect.
-		 * @param[in] emitter The owner of the signal to disconnect.
-		 * @param[in] signal The signal to disconnect.
-		 * @brief Disconnect a slot from a signal.
-		 * If the connection does not exist, nothing happen.
-		 * @throw
-		 */
-		void disconnect(const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal);
+				/**
+				 * @fn void connect(const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] slot The slot to connect.
+				 * @param[in] emitter The owner of the signal to connect.
+				 * @param[in] signal The signal to connect.
+				 * @brief Connect a slot to a signal from an emitter.
+				 * If the connection already exists, nothing happen.
+				 * @throw
+				 */
+				void connect(const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal);
 
-		/**
-		 * @fn void disconnectAll()
-		 * @brief Disconnect all slots from any signal.
-		 * @throw
-		 */
-		void disconnectAll();
+				/**
+				 * @fn void disconnect(const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal)
+				 * @param[in] slot The slot to disconnect.
+				 * @param[in] emitter The owner of the signal to disconnect.
+				 * @param[in] signal The signal to disconnect.
+				 * @brief Disconnect a slot from a signal.
+				 * If the connection does not exist, nothing happen.
+				 * @throw
+				 */
+				void disconnect(const Slot::SlotID & slot, const Emitter & emitter, const Signal::SignalID & signal);
 
-		/**
-		 * @fn void clear()
-		 * @brief Disconnect and delete all slots of the listener.
-		 * @throw
-		 */
-		void clear();
+				/**
+				 * @fn void disconnectAll()
+				 * @brief Disconnect all slots from any signal.
+				 * @throw
+				 */
+				void disconnectAll();
 
-	private:
-		/**
-		 * @property _consumer
-		 * @brief Pass to access the event manager.
-		 */
-		EventManagerConsumer _consumer;
+				/**
+				 * @fn void clear()
+				 * @brief Disconnect and delete all slots of the listener.
+				 * @throw
+				 */
+				void clear();
 
-		/**
-		 * @property _slots
-		 * @brief The list of slots of this listener.
-		 */
-		std::map<Slot::SlotID, Slot::GlobalSlotID> _slots;
-	};
-}
+			private:
+				/**
+				 * @property _consumer
+				 * @brief Pass to access the event manager.
+				 */
+				EventManagerConsumer _consumer;
+
+				/**
+				 * @property _slots
+				 * @brief The list of slots of this listener.
+				 */
+				std::map<Slot::SlotID, Slot::GlobalSlotID> _slots;
+			};
+		} // namespace event
+	} // namespace core
+} // namespace core
 
 #include "core/event/listener.inl"
 

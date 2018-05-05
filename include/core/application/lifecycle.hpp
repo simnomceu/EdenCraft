@@ -44,199 +44,209 @@
 
 namespace ece
 {
-	/**
-	 * @class Lifecycle
-	 * @extends Emitter
-	 * @brief Lifecycle of an application.
-	 * @remark Need to be refactored as it seems to have renderer dependencies that it shouldn't.
-	 */
-	class Lifecycle: public Emitter
+	namespace core
 	{
-	public:
-		const Signal::SignalID PRE_INIT = 0;
-		const Signal::SignalID POST_INIT = 1;
-		const Signal::SignalID PRE_PROCESS = 2;
-		const Signal::SignalID PRE_UPDATE = 3;
-		const Signal::SignalID POST_UPDATE = 4;
-		const Signal::SignalID POST_RENDER = 5;
-		const Signal::SignalID PRE_TERMINATE = 6;
-		const Signal::SignalID POST_TERMINATE = 7;
+		namespace application
+		{
+			using event::Emitter;
+			using event::Signal;
+			using event::Listener;
 
-		/**
-		 * @fn Lifecycle()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		Lifecycle();
+			/**
+			 * @class Lifecycle
+			 * @extends Emitter
+			 * @brief Lifecycle of an application.
+			 * @remark Need to be refactored as it seems to have renderer dependencies that it shouldn't.
+			 */
+			class Lifecycle : public Emitter
+			{
+			public:
+				const Signal::SignalID PRE_INIT = 0;
+				const Signal::SignalID POST_INIT = 1;
+				const Signal::SignalID PRE_PROCESS = 2;
+				const Signal::SignalID PRE_UPDATE = 3;
+				const Signal::SignalID POST_UPDATE = 4;
+				const Signal::SignalID POST_RENDER = 5;
+				const Signal::SignalID PRE_TERMINATE = 6;
+				const Signal::SignalID POST_TERMINATE = 7;
 
-		/**
-		 * @fn Lifecycle(const Lifecycle & copy)
-		 * @param[in] copy The lifecycle to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Lifecycle(const Lifecycle & copy) = default;
+				/**
+				 * @fn Lifecycle()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				Lifecycle();
 
-		/**
-		 * @fn Lifecycle(Lifecycle && move)
-		 * @param[in] move The lifecycle to move.
-		 * @brief Default move constructor.
-		 * @throw
-		 */
-		Lifecycle(Lifecycle && move) = default;
+				/**
+				 * @fn Lifecycle(const Lifecycle & copy)
+				 * @param[in] copy The lifecycle to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Lifecycle(const Lifecycle & copy) = default;
 
-		/**
-		 * @fn ~Lifecycle() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Lifecycle() noexcept = default;
+				/**
+				 * @fn Lifecycle(Lifecycle && move)
+				 * @param[in] move The lifecycle to move.
+				 * @brief Default move constructor.
+				 * @throw
+				 */
+				Lifecycle(Lifecycle && move) = default;
 
-		/**
-		 * @fn Lifecycle & operator=(const Lifecycle & copy) noexcept
-		 * @param[in] copy The lifecycle to copy from.
-		 * @return The lifecycle copied.
-		 * @throw noexcept
-		 */
-		Lifecycle & operator=(const Lifecycle & copy) noexcept = default;
+				/**
+				 * @fn ~Lifecycle() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Lifecycle() noexcept = default;
 
-		/**
-		 * @fn Lifecycle & operator=(Lifecycle && move) noexcept
-		 * @param[in] move The lifecycle to move.
-		 * @return The lifecycle moved.
-		 * @throw
-		 */
-		Lifecycle & operator=(Lifecycle && move) noexcept = default;
+				/**
+				 * @fn Lifecycle & operator=(const Lifecycle & copy) noexcept
+				 * @param[in] copy The lifecycle to copy from.
+				 * @return The lifecycle copied.
+				 * @throw noexcept
+				 */
+				Lifecycle & operator=(const Lifecycle & copy) noexcept = default;
 
-		/**
-		 * @fn void preInit()
-		 * @brief Signal triggered before the initialization of the application.
-		 * @throw
-		 */
-		inline void preInit();
+				/**
+				 * @fn Lifecycle & operator=(Lifecycle && move) noexcept
+				 * @param[in] move The lifecycle to move.
+				 * @return The lifecycle moved.
+				 * @throw
+				 */
+				Lifecycle & operator=(Lifecycle && move) noexcept = default;
 
-		/**
-		 * @fn void postInit()
-		 * @brief Signal triggered after the initialization of the application.
-		 * @throw
-		 */
-		inline void postInit();
+				/**
+				 * @fn void preInit()
+				 * @brief Signal triggered before the initialization of the application.
+				 * @throw
+				 */
+				inline void preInit();
 
-		/**
-		 * @fn void preProcess()
-		 * @brief Signal triggered before the events processing of the application.
-		 * @throw
-		 */
-		inline void preProcess();
+				/**
+				 * @fn void postInit()
+				 * @brief Signal triggered after the initialization of the application.
+				 * @throw
+				 */
+				inline void postInit();
 
-		/**
-		 * @fn void preUpdate()
-		 * @brief Signal triggered before the logic update of the application.
-		 * @throw
-		 */
-		inline void preUpdate();
+				/**
+				 * @fn void preProcess()
+				 * @brief Signal triggered before the events processing of the application.
+				 * @throw
+				 */
+				inline void preProcess();
 
-		/**
-		 * @fn void postUpdate()
-		 * @brief Signal triggered after the logic update of the application.
-		 * @throw
-		 */
-		inline void postUpdate();
+				/**
+				 * @fn void preUpdate()
+				 * @brief Signal triggered before the logic update of the application.
+				 * @throw
+				 */
+				inline void preUpdate();
 
-		/**
-		 * @fn void postRender()
-		 * @brief Signal triggered before the initialization of the application.
-		 * @throw
-		 */
-		inline void postRender();
+				/**
+				 * @fn void postUpdate()
+				 * @brief Signal triggered after the logic update of the application.
+				 * @throw
+				 */
+				inline void postUpdate();
 
-		/**
-		 * @fn void preTerminate()
-		 * @brief Signal triggered before the termination of the application.
-		 * @throw
-		 */
-		inline void preTerminate();
+				/**
+				 * @fn void postRender()
+				 * @brief Signal triggered before the initialization of the application.
+				 * @throw
+				 */
+				inline void postRender();
 
-		/**
-		 * @fn void postTerminate()
-		 * @brief Signal triggered after the termination of the application.
-		 * @throw
-		 */
-		inline void postTerminate();
+				/**
+				 * @fn void preTerminate()
+				 * @brief Signal triggered before the termination of the application.
+				 * @throw
+				 */
+				inline void preTerminate();
 
-		/**
-		 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on pre-init event.
-		 * @throw
-		 */
-		inline void onPreInit(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void postTerminate()
+				 * @brief Signal triggered after the termination of the application.
+				 * @throw
+				 */
+				inline void postTerminate();
 
-		/**
-		 * @fn void onPostInit(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on post-init event.
-		 * @throw
-		 */
-		inline void onPostInit(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
+				 * @param[in] listener The callback owner.
+				 * @param[in] slot The callback to call.
+				 * @brief Register a callback on pre-init event.
+				 * @throw
+				 */
+				inline void onPreInit(const Listener & listener, const unsigned int slot);
 
-		/**
-		 * @fn void onPreProcess(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on pre-process event.
-		 * @throw
-		 */
-		inline void onPreProcess(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPostInit(const Listener & listener, const unsigned int slot)
+				 * @param[in] listener The callback owner.
+				 * @param[in] slot The callback to call.
+				 * @brief Register a callback on post-init event.
+				 * @throw
+				 */
+				inline void onPostInit(const Listener & listener, const unsigned int slot);
 
-		/**
-		 * @fn void onPreUpdate(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on pre-update event.
-		 * @throw
-		 */
-		inline void onPreUpdate(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPreProcess(const Listener & listener, const unsigned int slot)
+				 * @param[in] listener The callback owner.
+				 * @param[in] slot The callback to call.
+				 * @brief Register a callback on pre-process event.
+				 * @throw
+				 */
+				inline void onPreProcess(const Listener & listener, const unsigned int slot);
 
-		/**
-		 * @fn void onPostUpdate(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on post-update event.
-		 * @throw
-		 */
-		inline void onPostUpdate(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPreUpdate(const Listener & listener, const unsigned int slot)
+				 * @param[in] listener The callback owner.
+				 * @param[in] slot The callback to call.
+				 * @brief Register a callback on pre-update event.
+				 * @throw
+				 */
+				inline void onPreUpdate(const Listener & listener, const unsigned int slot);
 
-		/**
-		 * @fn void onPostRender(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on post-render event.
-		 * @throw
-		 */
-		inline void onPostRender(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPostUpdate(const Listener & listener, const unsigned int slot)
+				 * @param[in] listener The callback owner.
+				 * @param[in] slot The callback to call.
+				 * @brief Register a callback on post-update event.
+				 * @throw
+				 */
+				inline void onPostUpdate(const Listener & listener, const unsigned int slot);
 
-		/**
-		 * @fn void onPreTerminate(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on pre-terminate event.
-		 * @throw
-		 */
-		inline void onPreTerminate(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPostRender(const Listener & listener, const unsigned int slot)
+				 * @param[in] listener The callback owner.
+				 * @param[in] slot The callback to call.
+				 * @brief Register a callback on post-render event.
+				 * @throw
+				 */
+				inline void onPostRender(const Listener & listener, const unsigned int slot);
 
-		/**
-		 * @fn void onPostTerminate(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on post-terminate event.
-		 * @throw
-		 */
-		inline void onPostTerminate(const Listener & listener, const unsigned int slot);
-	};
-}
+				/**
+				 * @fn void onPreTerminate(const Listener & listener, const unsigned int slot)
+				 * @param[in] listener The callback owner.
+				 * @param[in] slot The callback to call.
+				 * @brief Register a callback on pre-terminate event.
+				 * @throw
+				 */
+				inline void onPreTerminate(const Listener & listener, const unsigned int slot);
+
+				/**
+				 * @fn void onPostTerminate(const Listener & listener, const unsigned int slot)
+				 * @param[in] listener The callback owner.
+				 * @param[in] slot The callback to call.
+				 * @brief Register a callback on post-terminate event.
+				 * @throw
+				 */
+				inline void onPostTerminate(const Listener & listener, const unsigned int slot);
+			};
+		} // namespace application
+	} // namespace core
+} // namespace ece
 
 #include "core/application/lifecycle.inl"
 

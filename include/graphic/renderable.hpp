@@ -45,4 +45,9 @@
 #include "graphic/renderable/shader_source.hpp"
 #include "graphic/renderable/vertex.hpp"
 
+namespace ece
+{
+	using namespace graphic::renderable;
+}
+
 #endif // GRAPHIC_RENDERABLE_HPP

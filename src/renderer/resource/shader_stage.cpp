@@ -1,23 +1,23 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
-                                                                       
-                                          
-                                     
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+
+
+
 				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -45,78 +45,89 @@
 
 namespace ece
 {
-	ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
+	namespace renderer
 	{
-		this->_filename = copy._filename;
-		this->_source = copy._filename;
-		this->_type = copy._type;
-		this->_handle = copy._handle;
-		this->_compilationRequired = copy._compilationRequired;
+		namespace resource
+		{
+			using utility::file_system::File;
+			using utility::debug::FileException;
+			using utility::log::ServiceLoggerLocator;
+			using renderer::opengl::OpenGL;
 
-		return *this;
-	}
+			ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
+			{
+				this->_filename = copy._filename;
+				this->_source = copy._filename;
+				this->_type = copy._type;
+				this->_handle = copy._handle;
+				this->_compilationRequired = copy._compilationRequired;
 
-	ShaderStage & ShaderStage::operator=(ShaderStage && move) noexcept
-	{
-		this->_filename = std::move(move._filename);
-		this->_source = std::move(move._filename);
-		this->_type = move._type;
-		this->_handle = move._handle;
-		this->_compilationRequired = move._compilationRequired;
-
-		move._filename.clear();
-		move._handle = 0;
-		move._compilationRequired = false;
-
-		return *this;
-	}
-
-	void ShaderStage::loadFromFile(const ShaderType type, const std::string & filename)
-	{
-		this->terminate();
-
-		if (this->_filename != filename) {
-			this->_filename = filename;
-
-			this->_source.clear();
-			File shaderFile;
-			try {
-				shaderFile.open(this->_filename);
-				this->_source = shaderFile.parseToString();
-				shaderFile.close();
+				return *this;
 			}
-			catch (FileException & e) {
-				ServiceLoggerLocator::getService().logError(e.what());
+
+			ShaderStage & ShaderStage::operator=(ShaderStage && move) noexcept
+			{
+				this->_filename = std::move(move._filename);
+				this->_source = std::move(move._filename);
+				this->_type = move._type;
+				this->_handle = move._handle;
+				this->_compilationRequired = move._compilationRequired;
+
+				move._filename.clear();
+				move._handle = 0;
+				move._compilationRequired = false;
+
+				return *this;
 			}
-			this->_type = type;
-			this->_compilationRequired = true;
-		}
-	}
 
-	void ShaderStage::loadFromString(const ShaderType type, const std::string & sourceCode)
-	{
-		this->terminate();
+			void ShaderStage::loadFromFile(const ShaderType type, const std::string & filename)
+			{
+				this->terminate();
 
-		this->_filename = "";
-		this->_source = sourceCode;
-		this->_type = type;
-		this->_compilationRequired = true;
-	}
+				if (this->_filename != filename) {
+					this->_filename = filename;
 
-	void ShaderStage::compile()
-	{
-		this->_handle = OpenGL::createShader(this->_type);
-		OpenGL::shaderSource(this->_handle, this->_source);		
-		OpenGL::compileShader(this->_handle);
-		this->_compilationRequired = false;
-	}
+					this->_source.clear();
+					File shaderFile;
+					try {
+						shaderFile.open(this->_filename);
+						this->_source = shaderFile.parseToString();
+						shaderFile.close();
+					}
+					catch (FileException & e) {
+						ServiceLoggerLocator::getService().logError(e.what());
+					}
+					this->_type = type;
+					this->_compilationRequired = true;
+				}
+			}
 
-	void ShaderStage::terminate()
-	{
-		if (this->_handle != 0) {
-			OpenGL::deleteShader(this->_handle);
-			this->_handle = 0;
-			this->_compilationRequired = true;
-		}
-	}
-}
+			void ShaderStage::loadFromString(const ShaderType type, const std::string & sourceCode)
+			{
+				this->terminate();
+
+				this->_filename = "";
+				this->_source = sourceCode;
+				this->_type = type;
+				this->_compilationRequired = true;
+			}
+
+			void ShaderStage::compile()
+			{
+				this->_handle = OpenGL::createShader(this->_type);
+				OpenGL::shaderSource(this->_handle, this->_source);
+				OpenGL::compileShader(this->_handle);
+				this->_compilationRequired = false;
+			}
+
+			void ShaderStage::terminate()
+			{
+				if (this->_handle != 0) {
+					OpenGL::deleteShader(this->_handle);
+					this->_handle = 0;
+					this->_compilationRequired = true;
+				}
+			}
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece

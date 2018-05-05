@@ -41,16 +41,22 @@
 
 namespace ece
 {
-	/**
-	 * @class BaseSystem
-	 * @brief A system handle some specific kinds of components and do operations on them.
-	 */
-	class BaseSystem
+	namespace core
 	{
-	public:
-		inline virtual ~BaseSystem() = 0;
-	};
-}
+		namespace ecs
+		{
+			/**
+			 * @class BaseSystem
+			 * @brief A system handle some specific kinds of components and do operations on them.
+			 */
+			class BaseSystem
+			{
+			public:
+				inline virtual ~BaseSystem() = 0;
+			};
+		} // namespace ecs
+	} // namespace core
+} // namespace ece
 
 #include "core/ecs/base_system.inl"
 

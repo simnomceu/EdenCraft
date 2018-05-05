@@ -42,16 +42,24 @@
 
 namespace ece
 {
-	Handle BaseUniform::getLocation() const
+	namespace renderer
 	{
-		guard();
-		return OpenGL::getUniformLocation(this->_owner, this->_name);
-	}
+		namespace resource
+		{
+			using opengl::OpenGL;
 
-	void BaseUniform::guard() const
-	{
-		if (this->_owner != OpenGL::getInteger(Parameter::CURRENT_PROGRAM)[0]) {
-			throw std::runtime_error("The current shader program is not the owner of this uniform.");
-		}
-	}
-}
+			Handle BaseUniform::getLocation() const
+			{
+				guard();
+				return OpenGL::getUniformLocation(this->_owner, this->_name);
+			}
+
+			void BaseUniform::guard() const
+			{
+				if (this->_owner != OpenGL::getInteger(Parameter::CURRENT_PROGRAM)[0]) {
+					throw std::runtime_error("The current shader program is not the owner of this uniform.");
+				}
+			}
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece

@@ -38,20 +38,26 @@
 
 namespace ece
 {
-	inline VBO::VBO(const BufferType type) : _handle(0), _type(type) { this->_handle = OpenGL::genBuffers(); }
-
-	inline VBO::VBO() : _handle(0), _type(BufferType::ARRAY_BUFFER) { this->_handle = OpenGL::genBuffers(); }
-
-	inline void VBO::bind() { OpenGL::bindBuffer(this->_type, this->_handle); }
-
-	template<class T>
-	void VBO::bufferData(const std::vector<T>& data, const BufferUsage usage)
+	namespace renderer
 	{
-		this->bind();
-		OpenGL::bufferData(this->_type, data, usage);
-	}
+		namespace resource
+		{
+			inline VBO::VBO(const BufferType type) : _handle(0), _type(type) { this->_handle = OpenGL::genBuffers(); }
 
-	inline void VBO::setType(const BufferType type) { this->_type = type; }
+			inline VBO::VBO() : _handle(0), _type(BufferType::ARRAY_BUFFER) { this->_handle = OpenGL::genBuffers(); }
 
-	inline Handle VBO::getHandle() const { return this->_handle; }
-}
+			inline void VBO::bind() { OpenGL::bindBuffer(this->_type, this->_handle); }
+
+			template<class T>
+			void VBO::bufferData(const std::vector<T>& data, const BufferUsage usage)
+			{
+				this->bind();
+				OpenGL::bufferData(this->_type, data, usage);
+			}
+
+			inline void VBO::setType(const BufferType type) { this->_type = type; }
+
+			inline Handle VBO::getHandle() const { return this->_handle; }
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece

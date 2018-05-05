@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -47,51 +47,57 @@
 
 namespace ece
 {
-	void Logger::logError(const std::string & data)
-	{
-		std::time_t result = std::time(nullptr);
-		tm today;
-		localtime_s(&today, &result);
+    namespace utility
+    {
+        namespace log
+        {
+        	void Logger::logError(const std::string & data)
+        	{
+        		std::time_t result = std::time(nullptr);
+        		tm today;
+        		localtime_s(&today, &result);
 
-		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
-		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
-		std::string year = std::to_string(today.tm_year + 1900);
-		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
-		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
-		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
+        		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
+        		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
+        		std::string year = std::to_string(today.tm_year + 1900);
+        		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
+        		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
+        		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][ERROR]" << data << std::endl;
-	}
+        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][ERROR]" << data << std::endl;
+        	}
 
-	void Logger::logWarning(const std::string & data)
-	{
-		std::time_t result = std::time(nullptr);
-		tm today;
-		localtime_s(&today, &result);
+        	void Logger::logWarning(const std::string & data)
+        	{
+        		std::time_t result = std::time(nullptr);
+        		tm today;
+        		localtime_s(&today, &result);
 
-		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
-		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
-		std::string year = std::to_string(today.tm_year + 1900);
-		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
-		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
-		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
+        		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
+        		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
+        		std::string year = std::to_string(today.tm_year + 1900);
+        		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
+        		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
+        		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][WARNING]" << data << std::endl;
-	}
+        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][WARNING]" << data << std::endl;
+        	}
 
-	void Logger::logInfo(const std::string & data)
-	{
-		std::time_t result = std::time(nullptr);
-		tm today;
-		localtime_s(&today, &result);
+        	void Logger::logInfo(const std::string & data)
+        	{
+        		std::time_t result = std::time(nullptr);
+        		tm today;
+        		localtime_s(&today, &result);
 
-		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
-		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
-		std::string year = std::to_string(today.tm_year + 1900);
-		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
-		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
-		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
+        		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
+        		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
+        		std::string year = std::to_string(today.tm_year + 1900);
+        		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
+        		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
+        		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
 
-		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][INFO]" << data << std::endl;
-	}
-}
+        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][INFO]" << data << std::endl;
+        	}
+        } // namespace log
+    } // namespace utility
+} // namespace ece

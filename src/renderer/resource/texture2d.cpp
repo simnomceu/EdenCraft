@@ -43,70 +43,79 @@
 
 namespace ece
 {
-	Texture2D & Texture2D::operator=(const Texture2D & copy)
+	namespace renderer
 	{
-		this->_filename = copy._filename;
-		this->_data = copy._data;
-		this->_width = copy._width;
-		this->_height = copy._height;
-		this->_type = copy._type;
-		this->_handle = copy._handle;
+		namespace resource
+		{
+			using renderer::image::ParserBMP;
+			using renderer::opengl::OpenGL;
 
-		return *this;
-	}
+			Texture2D & Texture2D::operator=(const Texture2D & copy)
+			{
+				this->_filename = copy._filename;
+				this->_data = copy._data;
+				this->_width = copy._width;
+				this->_height = copy._height;
+				this->_type = copy._type;
+				this->_handle = copy._handle;
 
-	Texture2D & Texture2D::operator=(Texture2D && move) noexcept
-	{
-		this->_filename = std::move(move._filename);
-		this->_data = std::move(move._data);
-		this->_width = move._width;
-		this->_height = move._height;
-		this->_type = move._type;
-		this->_handle = move._handle;
-
-		move._data.clear();
-		move._handle = 0;
-
-		return *this;
-	}
-
-	void Texture2D::loadFromFile(const TextureTypeTarget type, const std::string & filename)
-	{
-		this->terminate();
-
-		if (this->_filename != filename) {
-			this->_filename = filename;
-
-			this->_data.clear();
-
-			ece::ParserBMP parserBMP;
-			parserBMP.loadFromFile(filename);
-
-			auto & image = parserBMP.getImage();
-			auto buffer = image.data();
-			for (size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
-				this->_data.push_back(buffer[i].red);
-				this->_data.push_back(buffer[i].green);
-				this->_data.push_back(buffer[i].blue);
+				return *this;
 			}
 
-			this->_width = image.getWidth();
-			this->_height = image.getHeight();
-			this->_type = type;
-		}
-	}
+			Texture2D & Texture2D::operator=(Texture2D && move) noexcept
+			{
+				this->_filename = std::move(move._filename);
+				this->_data = std::move(move._data);
+				this->_width = move._width;
+				this->_height = move._height;
+				this->_type = move._type;
+				this->_handle = move._handle;
 
-	void Texture2D::update()
-	{
-		// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
-		// TODO: adding properties for each texParameter here ?
-		ece::OpenGL::texImage2D(this->_type, 0, ece::PixelInternalFormat::RGB, this->_width, this->_height, ece::PixelFormat::RGB, ece::PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
-		ece::OpenGL::generateMipmap(ece::MipmapTarget::TEXTURE_2D);
-		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_WRAP_S, GL_REPEAT);
-		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_WRAP_T, GL_REPEAT);
-		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_MAG_FILTER, GL_NEAREST);
-		ece::OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, ece::TextureParameter::TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-	}
+				move._data.clear();
+				move._handle = 0;
 
-	void Texture2D::terminate() {}
-}
+				return *this;
+			}
+
+			void Texture2D::loadFromFile(const TextureTypeTarget type, const std::string & filename)
+			{
+				this->terminate();
+
+				if (this->_filename != filename) {
+					this->_filename = filename;
+
+					this->_data.clear();
+
+					ParserBMP parserBMP;
+					parserBMP.loadFromFile(filename);
+
+					auto & image = parserBMP.getImage();
+					auto buffer = image.data();
+					for (size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
+						this->_data.push_back(buffer[i].red);
+						this->_data.push_back(buffer[i].green);
+						this->_data.push_back(buffer[i].blue);
+					}
+
+					this->_width = image.getWidth();
+					this->_height = image.getHeight();
+					this->_type = type;
+				}
+			}
+
+			void Texture2D::update()
+			{
+				// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
+				// TODO: adding properties for each texParameter here ?
+				OpenGL::texImage2D(this->_type, 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
+				OpenGL::generateMipmap(MipmapTarget::TEXTURE_2D);
+				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_WRAP_S, GL_REPEAT);
+				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_WRAP_T, GL_REPEAT);
+				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_MAG_FILTER, GL_NEAREST);
+				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+			}
+
+			void Texture2D::terminate() {}
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece

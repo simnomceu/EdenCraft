@@ -36,12 +36,22 @@
 
 */
 
-#include "core/application/application.hpp"
+#include "core/application.hpp"
 
 #include "renderer/common.hpp"
 #include "utility/log.hpp"
 #include "renderer/image.hpp"
 #include "graphic/renderable/sprite.hpp"
+
+namespace ece
+{
+	using namespace renderer;
+
+	using window::common::WindowSetting;
+	using renderer::resource::Texture2D;
+	using window::window_event::InputEvent;
+	using graphic::renderable::Sprite;
+}
 
 int main()
 {

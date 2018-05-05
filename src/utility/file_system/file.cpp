@@ -50,97 +50,105 @@
 
 namespace ece
 {
-	File::File(const File & copy) : _filename(copy._filename), _stream()
-	{
-		this->_stream.copyfmt(copy._stream);
-		this->_stream.clear(copy._stream.rdstate());
-		this->_stream.basic_fstream<char>::basic_ios<char>::rdbuf(copy._stream.rdbuf());
-	}
+    namespace utility
+    {
+        using debug::FileException;
 
-	File & File::operator=(const File & copy)
-	{
-		this->_filename = copy._filename;
-		this->_stream.copyfmt(copy._stream);
-		this->_stream.clear(copy._stream.rdstate());
-		this->_stream.basic_fstream<char>::basic_ios<char>::rdbuf(copy._stream.rdbuf());
-		return *this;
-	}
+        namespace file_system
+        {
+        	File::File(const File & copy) : _filename(copy._filename), _stream()
+        	{
+        		this->_stream.copyfmt(copy._stream);
+        		this->_stream.clear(copy._stream.rdstate());
+        		this->_stream.basic_fstream<char>::basic_ios<char>::rdbuf(copy._stream.rdbuf());
+        	}
 
-	File & File::operator=(File && move)
-	{
-		this->_filename = std::move(move._filename);
-		this->_stream = std::move(move._stream);
-		move.close();
-		return *this;
-	}
+        	File & File::operator=(const File & copy)
+        	{
+        		this->_filename = copy._filename;
+        		this->_stream.copyfmt(copy._stream);
+        		this->_stream.clear(copy._stream.rdstate());
+        		this->_stream.basic_fstream<char>::basic_ios<char>::rdbuf(copy._stream.rdbuf());
+        		return *this;
+        	}
 
-	bool File::open(const std::string & filename, const OpenMode & mode)
-	{
-		this->_stream.close();
-		if (!File::exists(filename)) {
-			throw FileException(BAD_PATH, filename);
-		}
-		this->_filename = filename;
-		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
-		return this->isOpen();
-	}
+        	File & File::operator=(File && move)
+        	{
+        		this->_filename = std::move(move._filename);
+        		this->_stream = std::move(move._stream);
+        		move.close();
+        		return *this;
+        	}
 
-	void File::close()
-	{
-		if (this->isOpen()) {
-			this->_stream.close();
-		}
-	}
+        	bool File::open(const std::string & filename, const OpenMode & mode)
+        	{
+        		this->_stream.close();
+        		if (!File::exists(filename)) {
+        			throw FileException(BAD_PATH, filename);
+        		}
+        		this->_filename = filename;
+        		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
+        		return this->isOpen();
+        	}
 
-	std::string File::parseToString()
-	{
-		std::string content = "";
-		if (this->isOpen()) {
-			while (this->_stream.good()) {
-				std::string line;
-				std::getline(this->_stream, line);
-				content.append(line + "\n");
-			}
-		}
-		return content;
-	}
+        	void File::close()
+        	{
+        		if (this->isOpen()) {
+        			this->_stream.close();
+        		}
+        	}
 
-	template<>
-	std::vector<FloatVector3u> File::parseToVector<FloatVector3u>()
-	{
-		std::vector<FloatVector3u> content;
-		if (this->isOpen()) {
-			FloatVector3u value;
-			try {
-				while (this->_stream.good()) {
-					*this >> value[0] >> value[1] >> value[2];
-					content.push_back(value);
-				}
-			}
-			catch (std::exception & e) {
-				throw FileException(PARSE_ERROR, this->_filename + " (" + e.what() + ")");
-			}
-		}
-		return content;
-	}
+        	std::string File::parseToString()
+        	{
+        		std::string content = "";
+        		if (this->isOpen()) {
+        			while (this->_stream.good()) {
+        				std::string line;
+        				std::getline(this->_stream, line);
+        				content.append(line + "\n");
+        			}
+        		}
+        		return content;
+        	}
 
-	bool File::exists(const std::string & filename)
-	{
-		struct stat info;
-		int ret = -1;
+        	template<>
+        	std::vector<FloatVector3u> File::parseToVector<FloatVector3u>()
+        	{
+        		std::vector<FloatVector3u> content;
+        		if (this->isOpen()) {
+        			FloatVector3u value;
+        			try {
+        				while (this->_stream.good()) {
+        					*this >> value[0] >> value[1] >> value[2];
+        					content.push_back(value);
+        				}
+        			}
+        			catch (std::exception & e) {
+        				throw FileException(PARSE_ERROR, this->_filename + " (" + e.what() + ")");
+        			}
+        		}
+        		return content;
+        	}
 
-		ret = stat(filename.c_str(), &info);
-		return 0 == ret;
-	}
+        	bool File::exists(const std::string & filename)
+        	{
+        		struct stat info;
+        		int ret = -1;
 
-	long long File::getLastTimeModification(const std::string & filename)
-	{
-		// according to : https://stackoverflow.com/questions/40504281/c-how-to-check-the-last-modified-time-of-a-file
-		struct stat result;
-		if (stat(filename.c_str(), &result) == 0)
-		{
-			return result.st_mtime;
-		}
-		return -1;
-	}
-}
+        		ret = stat(filename.c_str(), &info);
+        		return 0 == ret;
+        	}
+
+        	long long File::getLastTimeModification(const std::string & filename)
+        	{
+        		// according to : https://stackoverflow.com/questions/40504281/c-how-to-check-the-last-modified-time-of-a-file
+        		struct stat result;
+        		if (stat(filename.c_str(), &result) == 0)
+        		{
+        			return result.st_mtime;
+        		}
+        		return -1;
+        	}
+        } // namespace file_system
+    } // namespace utility
+} // namespace ece

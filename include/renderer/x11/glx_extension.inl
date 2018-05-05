@@ -39,9 +39,15 @@
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
+namespace ece
+{
+	using renderer::opengl::OpenGLExtensionException;
+	using utility::indexing::Version;
+}
+
 inline GLXContext glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list)
 {
-    static auto proxy = ece::loadOpenGLProc<PFNGLXCREATECONTEXTATTRIBSARBPROC>("glXCreateContextAttribsARB", ece::Version<2>{ 3, 2 });
+    static auto proxy = ece::renderer::opengl::loadOpenGLProc<PFNGLXCREATECONTEXTATTRIBSARBPROC>("glXCreateContextAttribsARB", ece::Version<2>{ 3, 2 });
     if (!proxy) {
 		throw ece::OpenGLExtensionException("glXCreateContextAttribsARB");
 	}

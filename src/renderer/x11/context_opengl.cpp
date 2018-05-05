@@ -49,127 +49,138 @@
 
 namespace ece
 {
-	ContextOpenGL::ContextOpenGL() noexcept: BaseContext(), _data(makePimpl<DataContextOpenGL>())
+	namespace renderer
 	{
-	}
-
-	ContextOpenGL::~ContextOpenGL() noexcept
-	{
-		if (this->_data->_context) {
-			glXMakeCurrent(this->_data->_display, 0, 0);
-			glXDestroyContext(this->_data->_display, this->_data->_context);
-		}
-		this->_data->_windowHandle = 0;
-	}
-
-	void ContextOpenGL::create(const RenderWindow & window)
-	{
-		OpenGL::init(this->_minVersion, this->_maxVersion);
-
-		this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_api->getWindowHandle();
-		this->_data->_display = window.getAdapter().lock()->getImpl()->_api->getDevice();
-
-		int nbFramebufferConfigs = 0;
-		GLXFBConfig * framebufferConfig = nullptr;
-
-		int glxMajor = 0, glxMinor = 0;
-		glXQueryVersion(this->_data->_display, &glxMajor, &glxMinor);
-		if((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
-			const int visualAttribs[] = {
-				GLX_X_RENDERABLE, GL_TRUE,
-		        GLX_RENDER_TYPE, GLX_RGBA_BIT,
-		        GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-				GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-		        GLX_DOUBLEBUFFER, true,
-				GLX_RED_SIZE, 8,
-				GLX_GREEN_SIZE, 8,
-				GLX_BLUE_SIZE, 8,
-				GLX_DEPTH_SIZE, 24,
-				GLX_STENCIL_SIZE, 8,
-		        None
-			};
-			framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
-		} else {
-			const int visualAttribs[] = {
-				GLX_X_RENDERABLE, GL_TRUE,
-				GLX_RENDER_TYPE, GLX_RGBA_BIT,
-				GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-				GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-				GLX_DOUBLEBUFFER, true,
-				GLX_BUFFER_SIZE, 32,
-				GLX_ALPHA_SIZE, 8,
-				GLX_RED_SIZE, 8,
-				GLX_GREEN_SIZE, 8,
-				GLX_BLUE_SIZE, 8,
-				GLX_DEPTH_SIZE, 24,
-				GLX_STENCIL_SIZE, 8,
-				GLX_SAMPLE_BUFFERS, window.getVideoMode().getSamples() > 1 ? true : false, // Enable MSAA or not
-				GLX_SAMPLES, window.getVideoMode().getSamples(), // Number of samples,
-				None
-			};
-			framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
-		}
-
-		if (!framebufferConfig) {
-			throw std::runtime_error("There is no video mode available for this device.");
-		}
-
-		auto glxExts = std::string(glXQueryExtensionsString(this->_data->_display, DefaultScreen(this->_data->_display)));
-		if (glxExts.find("GLX_ARB_create_context") == std::string::npos) {
-			this->_data->_context = glXCreateNewContext(this->_data->_display, framebufferConfig[0], GLX_RGBA_TYPE, nullptr, true);
-		}
-		else {
-			auto latestVersion = OpenGL::getLatestVersion();
-			const int glVersion[] = {
-		        GLX_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
-		        GLX_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
-				GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-		        None
-		    };
-			this->_data->_context = glXCreateContextAttribs(this->_data->_display, framebufferConfig[0], nullptr, true, glVersion);
-		}
-
-		if (this->_data->_context == nullptr) {
-			throw std::runtime_error("The context cannot be created.");
-		}
-		glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context);
-
-		this->logInfos();
-
-		GLint flags;
-		glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-		if (flags && GL_CONTEXT_FLAG_DEBUG_BIT)
+		namespace opengl
 		{
-			checkErrors(glEnable(GL_DEBUG_OUTPUT));
-			checkErrors(glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS));
-			checkErrors(glDebugMessageCallback(glDebugOutput, nullptr));
-			checkErrors(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
-		}
+			using utility::log::ServiceLoggerLocator;
+			using utility::debug::AssertionException;
+			using utility::pattern::makePimpl;
 
-		OpenGL::enable(Capability::DEPTH_TEST);
-		OpenGL::depthFunc(DepthFunctionCondition::LESS);
+			ContextOpenGL::ContextOpenGL() noexcept: BaseContext(), _data(makePimpl<DataContextOpenGL>())
+			{
+			}
 
-		OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			ContextOpenGL::~ContextOpenGL() noexcept
+			{
+				if (this->_data->_context) {
+					glXMakeCurrent(this->_data->_display, 0, 0);
+					glXDestroyContext(this->_data->_display, this->_data->_context);
+				}
+				this->_data->_windowHandle = 0;
+			}
 
-		this->_created = true;
-	}
+			void ContextOpenGL::create(const RenderWindow & window)
+			{
+				OpenGL::init(this->_minVersion, this->_maxVersion);
 
-	void ContextOpenGL::terminate()
-	{
+				this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_api->getWindowHandle();
+				this->_data->_display = window.getAdapter().lock()->getImpl()->_api->getDevice();
 
-		this->_created = false;
-	}
+				int nbFramebufferConfigs = 0;
+				GLXFBConfig * framebufferConfig = nullptr;
 
-	void ContextOpenGL::swapBuffers()
-	{
-		glXSwapBuffers(this->_data->_display, this->_data->_windowHandle);
-	}
+				int glxMajor = 0, glxMinor = 0;
+				glXQueryVersion(this->_data->_display, &glxMajor, &glxMinor);
+				if ((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
+					const int visualAttribs[] = {
+						GLX_X_RENDERABLE, GL_TRUE,
+						GLX_RENDER_TYPE, GLX_RGBA_BIT,
+						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+						GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+						GLX_DOUBLEBUFFER, true,
+						GLX_RED_SIZE, 8,
+						GLX_GREEN_SIZE, 8,
+						GLX_BLUE_SIZE, 8,
+						GLX_DEPTH_SIZE, 24,
+						GLX_STENCIL_SIZE, 8,
+						None
+					};
+					framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
+				}
+				else {
+					const int visualAttribs[] = {
+						GLX_X_RENDERABLE, GL_TRUE,
+						GLX_RENDER_TYPE, GLX_RGBA_BIT,
+						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+						GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+						GLX_DOUBLEBUFFER, true,
+						GLX_BUFFER_SIZE, 32,
+						GLX_ALPHA_SIZE, 8,
+						GLX_RED_SIZE, 8,
+						GLX_GREEN_SIZE, 8,
+						GLX_BLUE_SIZE, 8,
+						GLX_DEPTH_SIZE, 24,
+						GLX_STENCIL_SIZE, 8,
+						GLX_SAMPLE_BUFFERS, window.getVideoMode().getSamples() > 1 ? true : false, // Enable MSAA or not
+						GLX_SAMPLES, window.getVideoMode().getSamples(), // Number of samples,
+						None
+					};
+					framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
+				}
 
-	void ContextOpenGL::setCurrent()
-	{
-		if (!glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context)) {
-			throw std::runtime_error("The context cannot be used.");
-		}
-		OpenGL::setCurrentContext(this->shared_from_this());
-	}
-}
+				if (!framebufferConfig) {
+					throw std::runtime_error("There is no video mode available for this device.");
+				}
+
+				auto glxExts = std::string(glXQueryExtensionsString(this->_data->_display, DefaultScreen(this->_data->_display)));
+				if (glxExts.find("GLX_ARB_create_context") == std::string::npos) {
+					this->_data->_context = glXCreateNewContext(this->_data->_display, framebufferConfig[0], GLX_RGBA_TYPE, nullptr, true);
+				}
+				else {
+					auto latestVersion = OpenGL::getLatestVersion();
+					const int glVersion[] = {
+						GLX_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
+						GLX_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
+						GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
+						None
+					};
+					this->_data->_context = glXCreateContextAttribs(this->_data->_display, framebufferConfig[0], nullptr, true, glVersion);
+				}
+
+				if (this->_data->_context == nullptr) {
+					throw std::runtime_error("The context cannot be created.");
+				}
+				glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context);
+
+				this->logInfos();
+
+				GLint flags;
+				glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+				if (flags && GL_CONTEXT_FLAG_DEBUG_BIT)
+				{
+					checkErrors(glEnable(GL_DEBUG_OUTPUT));
+					checkErrors(glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS));
+					checkErrors(glDebugMessageCallback(glDebugOutput, nullptr));
+					checkErrors(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
+				}
+
+				OpenGL::enable(Capability::DEPTH_TEST);
+				OpenGL::depthFunc(DepthFunctionCondition::LESS);
+
+				OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+				this->_created = true;
+			}
+
+			void ContextOpenGL::terminate()
+			{
+
+				this->_created = false;
+			}
+
+			void ContextOpenGL::swapBuffers()
+			{
+				glXSwapBuffers(this->_data->_display, this->_data->_windowHandle);
+			}
+
+			void ContextOpenGL::setCurrent()
+			{
+				if (!glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context)) {
+					throw std::runtime_error("The context cannot be used.");
+				}
+				OpenGL::setCurrentContext(this->shared_from_this());
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

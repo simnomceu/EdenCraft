@@ -38,5 +38,11 @@
 
 namespace ece
 {
-	inline bool StringOptionValue::isValid(const std::string & /*value*/) { return true; }
-}
+	namespace core
+	{
+		namespace argument
+		{
+			inline bool StringOptionValue::isValid(const std::string & /*value*/) { return true; }
+		} // namespace argument
+	} // namespace core
+} // namespace ce

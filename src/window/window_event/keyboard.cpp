@@ -39,5 +39,11 @@
 
 namespace ece
 {
-	std::array<bool, 132> Keyboard::_states = std::array<bool, 132>();
-}
+	namespace window
+	{
+		namespace window_event
+		{
+			std::array<bool, 132> Keyboard::_states = std::array<bool, 132>();
+		} // namespace window_event
+	} // namespace window
+} // namespace ece

@@ -44,123 +44,134 @@
 
 namespace ece
 {
-	struct DataContextOpenGL;
-
-	/**
-	 * @class ContextOpenGL
-	 * @extends std::enable_shared_from_this<BaseContextOpenGL>
-	 * @extends BaseContext
-	 * @brief An OpenGL context with an implementation depending of the platform.
-	 */
-	class ContextOpenGL : public BaseContext
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn ContextOpenGL() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		ContextOpenGL() noexcept;
+		namespace opengl
+		{
+			using common::BaseContext;
+			using common::RenderWindow;
+			using utility::pattern::Pimpl;
+			using utility::indexing::Version;
 
-		/**
-		 * @fn ContextOpenGL(const ContextOpenGL & copy) noexcept
-		 * @param[in] copy The ContextOpenGL to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		ContextOpenGL(const ContextOpenGL & copy) noexcept = default;
+			struct DataContextOpenGL;
 
-		/**
-		 * @fn ContextOpenGL(ContextOpenGL && move) noexcept
-		 * @param[in] move The ContextOpenGL to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		ContextOpenGL(ContextOpenGL && move) noexcept = default;
+			/**
+			 * @class ContextOpenGL
+			 * @extends std::enable_shared_from_this<BaseContextOpenGL>
+			 * @extends BaseContext
+			 * @brief An OpenGL context with an implementation depending of the platform.
+			 */
+			class ContextOpenGL : public BaseContext
+			{
+			public:
+				/**
+				 * @fn ContextOpenGL() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				ContextOpenGL() noexcept;
 
-		/**
-		 * @fn ~ContextOpenGL() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~ContextOpenGL() noexcept;
+				/**
+				 * @fn ContextOpenGL(const ContextOpenGL & copy) noexcept
+				 * @param[in] copy The ContextOpenGL to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				ContextOpenGL(const ContextOpenGL & copy) noexcept = default;
 
-		/**
-		 * @fn ContextOpenGL & operator=(const ContextOpenGL & copy) noexcept
-		 * @param[in] copy The ContextOpenGL to copy from.
-		 * @return The ContextOpenGL copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		ContextOpenGL & operator=(const ContextOpenGL & copy) noexcept = default;
+				/**
+				 * @fn ContextOpenGL(ContextOpenGL && move) noexcept
+				 * @param[in] move The ContextOpenGL to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ContextOpenGL(ContextOpenGL && move) noexcept = default;
 
-		/**
-		 * @fn ContextOpenGL & operator=(ContextOpenGL && move) noexcept
-		 * @param[in] move The ContextOpenGL to move from.
-		 * @return The ContextOpenGL moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		ContextOpenGL & operator=(ContextOpenGL && move) noexcept = default;
+				/**
+				 * @fn ~ContextOpenGL() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~ContextOpenGL() noexcept;
 
-        /**
-         * @fn Version<2> getCurrentVersion() const;
-         * @return The current version of the render context.
-         * @brief Get the version used of the render context.
-         * @throw
-		 * @see Version<2> BaseContext::getCurrentVersion() const
-         */
-		virtual Version<2> getCurrentVersion() const override;
+				/**
+				 * @fn ContextOpenGL & operator=(const ContextOpenGL & copy) noexcept
+				 * @param[in] copy The ContextOpenGL to copy from.
+				 * @return The ContextOpenGL copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				ContextOpenGL & operator=(const ContextOpenGL & copy) noexcept = default;
 
-		/**
-		 * @fn void create(const RenderWindow & window)
-		 * @param[in] window The window to linked to.
-		 * @brief Create the OpenGL context for a window.
-		 * @throw
-		 * @see void BaseContext::create(const RenderWindow & window)
-		 */
-		virtual void create(const RenderWindow & window) override;
+				/**
+				 * @fn ContextOpenGL & operator=(ContextOpenGL && move) noexcept
+				 * @param[in] move The ContextOpenGL to move from.
+				 * @return The ContextOpenGL moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ContextOpenGL & operator=(ContextOpenGL && move) noexcept = default;
 
-        /**
-         * @fn void terminate()
-         * @brief Delete the render context.
-         * @throw
-		 * @see void BaseContext::terminate()
-         */
-         virtual void terminate() override;
+				/**
+				 * @fn Version<2> getCurrentVersion() const;
+				 * @return The current version of the render context.
+				 * @brief Get the version used of the render context.
+				 * @throw
+				 * @see Version<2> BaseContext::getCurrentVersion() const
+				 */
+				virtual Version<2> getCurrentVersion() const override;
 
-		/**
-		 * @fn void swapBuffers()
-		 * @brief If multi buffering is enable, it swap between buffers to display the new frame.
-		 * @throw
-		 * @see void BaseContext::swapBuffers()
-		 */
-		virtual void swapBuffers() override;
+				/**
+				 * @fn void create(const RenderWindow & window)
+				 * @param[in] window The window to linked to.
+				 * @brief Create the OpenGL context for a window.
+				 * @throw
+				 * @see void BaseContext::create(const RenderWindow & window)
+				 */
+				virtual void create(const RenderWindow & window) override;
 
-		/**
-		 * @fn void setCurrent()
-		 * @brief Define this content as the current one.
-		 * @throw
-		 * @see void BaseContext::setCurrent()
-		 */
-		virtual void setCurrent() override;
+				/**
+				 * @fn void terminate()
+				 * @brief Delete the render context.
+				 * @throw
+				 * @see void BaseContext::terminate()
+				 */
+				virtual void terminate() override;
 
-		/**
-		 * @fn void logInfos()
-		 * @brief Log the informations related to OpenGL and the device used.
-		 * @throw
-		 * @see void BaseContext::logInfos()
-		 */
-		virtual void logInfos() const override;
+				/**
+				 * @fn void swapBuffers()
+				 * @brief If multi buffering is enable, it swap between buffers to display the new frame.
+				 * @throw
+				 * @see void BaseContext::swapBuffers()
+				 */
+				virtual void swapBuffers() override;
 
-	private:
-		/**
-		 * @property _data
-		 * @brief The platform implentation for the OpenGL context.
-		 */
-		Pimpl<DataContextOpenGL> _data;
-	};
-}
+				/**
+				 * @fn void setCurrent()
+				 * @brief Define this content as the current one.
+				 * @throw
+				 * @see void BaseContext::setCurrent()
+				 */
+				virtual void setCurrent() override;
+
+				/**
+				 * @fn void logInfos()
+				 * @brief Log the informations related to OpenGL and the device used.
+				 * @throw
+				 * @see void BaseContext::logInfos()
+				 */
+				virtual void logInfos() const override;
+
+			private:
+				/**
+				 * @property _data
+				 * @brief The platform implentation for the OpenGL context.
+				 */
+				Pimpl<DataContextOpenGL> _data;
+			};
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/opengl/context_opengl.inl"
 

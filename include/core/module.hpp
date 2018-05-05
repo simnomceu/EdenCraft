@@ -42,4 +42,9 @@
 #include "core/module/module_manager.hpp"
 #include "core/module/module_method.hpp"
 
+namespace ece
+{
+	using namespace core::module;
+}
+
 #endif // CORE_MODULE_HPP

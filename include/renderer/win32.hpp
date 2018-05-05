@@ -43,4 +43,9 @@
 #include "renderer/win32/wgl_extension.hpp"
 #include "renderer/win32/wgl_loader.hpp"
 
+namespace ece
+{
+	using namespace renderer::win32;
+}
+
 #endif // RENDERER_WIN32_HPP

@@ -42,4 +42,9 @@
 #include "core/application/application.hpp"
 #include "core/application/lifecycle.hpp"
 
+namespace ece
+{
+	using namespace core::application;
+}
+
 #endif // CORE_APPLICATION_HPP

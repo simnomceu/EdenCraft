@@ -38,5 +38,11 @@
 
 namespace ece
 {
-	inline EventManagerConsumer::EventManagerConsumer() : _eventManager(EventServiceLocator::getServicePtr(*this)) {}
-}
+	namespace core
+	{
+		namespace event
+		{
+			inline EventManagerConsumer::EventManagerConsumer() : _eventManager(EventServiceLocator::getServicePtr(*this)) {}
+		} // namespace event
+	} // namespace core
+} // namespace ece

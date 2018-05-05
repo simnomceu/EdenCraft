@@ -43,70 +43,76 @@
 
 namespace ece
 {
-    /**
-     * @class RenderState
-     * @brief
-     */
-    class RenderState
-    {
-    public:
-        /**
-         * @fn RenderState() noexcept
-         * @brief Default constructor.
-         * @throw noexcept
-         */
-        RenderState() noexcept;
+	namespace renderer
+	{
+		namespace common
+		{
+			/**
+			 * @class RenderState
+			 * @brief
+			 */
+			class RenderState
+			{
+			public:
+				/**
+				 * @fn RenderState() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				RenderState() noexcept;
 
-        /**
-         * @fn RenderState(const RenderState & copy) noexcept
-         * @param[in] copy The RenderState to copy from.
-         * @brief Default copy constructor.
-         * @throw noexcept
-         */
-        RenderState(const RenderState & copy) noexcept = default;
+				/**
+				 * @fn RenderState(const RenderState & copy) noexcept
+				 * @param[in] copy The RenderState to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				RenderState(const RenderState & copy) noexcept = default;
 
-        /**
-         * @fn RenderState(RenderState && move) noexcept
-         * @param[in] move The RenderState to move.
-         * @brief Default move constructor.
-         * @throw noexcept
-         */
-        RenderState(RenderState && move) noexcept = default;
+				/**
+				 * @fn RenderState(RenderState && move) noexcept
+				 * @param[in] move The RenderState to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				RenderState(RenderState && move) noexcept = default;
 
-        /**
-         * @fn ~RenderState() noexcept
-         * @brief Default destructor.
-         * @throw noexcept
-         */
-        ~RenderState() noexcept = default;
+				/**
+				 * @fn ~RenderState() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~RenderState() noexcept = default;
 
-        /**
-         * @fn RenderState & operator=(const RenderState & copy) noexcept
-         * @param[in] The RenderState to copy from.
-         * @return The RenderState copied.
-         * @brief Default copy assignment operator.
-         * @throw noexcept
-         */
-        RenderState & operator=(const RenderState & copy) noexcept = default;
+				/**
+				 * @fn RenderState & operator=(const RenderState & copy) noexcept
+				 * @param[in] The RenderState to copy from.
+				 * @return The RenderState copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				RenderState & operator=(const RenderState & copy) noexcept = default;
 
-        /**
-         * @fn RenderState & operator=(RenderState && move) noexcept
-         * @param[in] The RenderState to move.
-         * @return The RenderState moved.
-         * @brief Default move assignment operator.
-         * @throw noexcept
-         */
-        RenderState & operator=(RenderState && move) noexcept = default;
+				/**
+				 * @fn RenderState & operator=(RenderState && move) noexcept
+				 * @param[in] The RenderState to move.
+				 * @return The RenderState moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				RenderState & operator=(RenderState && move) noexcept = default;
 
-        bool operator==(const RenderState & rhs) const noexcept;
+				bool operator==(const RenderState & rhs) const noexcept;
 
-        inline bool operator!=(const RenderState & rhs) const noexcept;
+				inline bool operator!=(const RenderState & rhs) const noexcept;
 
-        bool _faceCulling;
-        CullFaceMode _cullFaceMode;
-        FrontFaceMode _frontFaceMode;
-    };
-}
+				bool _faceCulling;
+				CullFaceMode _cullFaceMode;
+				FrontFaceMode _frontFaceMode;
+			};
+		} // namespace common
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/common/render_state.inl"
 

@@ -39,43 +39,51 @@
 
 namespace ece
 {
-	inline Texture2D::Texture2D()noexcept : _filename(), _data(), _width(), _height(), _type(TextureTypeTarget::TEXTURE_2D), _handle(ece::OpenGL::genTexture()) {}
-
-	inline Texture2D::Texture2D(const Texture2D & copy) : _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), _type(copy._type), 
-															_handle(copy._handle) {}
-
-	inline Texture2D::Texture2D(Texture2D && move) noexcept : _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), _height(move._height), _type(move._type), 
-															_handle(move._handle)
+	namespace renderer
 	{
-		move._data.clear();
-		move._handle = 0;
-	}
+		namespace resource
+		{
+			using opengl::OpenGL;
 
-	inline const std::string & Texture2D::getFilename() const { return this->_filename; }
+			inline Texture2D::Texture2D()noexcept : _filename(), _data(), _width(), _height(), _type(TextureTypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture()) {}
 
-	inline const std::vector<std::byte> & Texture2D::getData() const { return this->_data; }
+			inline Texture2D::Texture2D(const Texture2D & copy) : _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), _type(copy._type),
+				_handle(copy._handle) {}
 
-	inline unsigned int Texture2D::getWidth() const { return this->_width; }
+			inline Texture2D::Texture2D(Texture2D && move) noexcept : _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), _height(move._height), _type(move._type),
+				_handle(move._handle)
+			{
+				move._data.clear();
+				move._handle = 0;
+			}
 
-	inline unsigned int Texture2D::getHeight() const { return this->_height; }
+			inline const std::string & Texture2D::getFilename() const { return this->_filename; }
 
-	inline TextureTypeTarget Texture2D::getType() const { return this->_type; }
+			inline const std::vector<std::byte> & Texture2D::getData() const { return this->_data; }
 
-	inline Handle Texture2D::getHandle() const { return this->_handle; }
+			inline unsigned int Texture2D::getWidth() const { return this->_width; }
 
-	inline void Texture2D::bind(const TextureTarget target) { OpenGL::bindTexture(target, this->_handle); }
+			inline unsigned int Texture2D::getHeight() const { return this->_height; }
 
-	template <typename T>
-	void Texture2D::setParameter(const TextureParameter name, const T value)
-	{
-		this->bind(ece::TextureTarget::TEXTURE_2D);
-		OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, name, value);
-	}
-	
-	template <typename T>
-	void Texture2D::setParameter(const TextureParameter name, const std::vector<T> & value)
-	{
-		this->bind(ece::TextureTarget::TEXTURE_2D);
-		OpenGL::texParameter(ece::TextureTarget::TEXTURE_2D, name, value);
-	}
-}
+			inline TextureTypeTarget Texture2D::getType() const { return this->_type; }
+
+			inline Handle Texture2D::getHandle() const { return this->_handle; }
+
+			inline void Texture2D::bind(const TextureTarget target) { OpenGL::bindTexture(target, this->_handle); }
+
+			template <typename T>
+			void Texture2D::setParameter(const TextureParameter name, const T value)
+			{
+				this->bind(TextureTarget::TEXTURE_2D);
+				OpenGL::texParameter(TextureTarget::TEXTURE_2D, name, value);
+			}
+
+			template <typename T>
+			void Texture2D::setParameter(const TextureParameter name, const std::vector<T> & value)
+			{
+				this->bind(TextureTarget::TEXTURE_2D);
+				OpenGL::texParameter(TextureTarget::TEXTURE_2D, name, value);
+			}
+		} // namespace resource
+	} // namespace renderer
+} // namespace ece

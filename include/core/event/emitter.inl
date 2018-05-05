@@ -38,5 +38,11 @@
 
 namespace ece
 {
-	inline Emitter::~Emitter() {}
-}
+	namespace core
+	{
+		namespace event
+		{
+			inline Emitter::~Emitter() {}
+		} // namespace event
+	} // namespace core
+} // namespace ece

@@ -45,4 +45,9 @@
 #include "core/ecs/component_tank.hpp"
 #include "core/ecs/world.hpp"
 
+namespace ece
+{
+	using namespace core::ecs;
+}
+
 #endif // ECS_HPP

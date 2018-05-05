@@ -45,145 +45,151 @@
 
 namespace ece
 {
-	// TODO add parser MKL
+    namespace utility
+    {
+        namespace file_system
+        {
+        	// TODO add parser MKL
 
-	/**
-	 * @class ParserOBJ
-	 * @extends Parser
-	 * @brief A parser to load/save OBJ Wavefront structure from/to memory, file, or string.
-	 * @remark The OBJ Wavefront structure is so much more complexe and should be refactored.
-	 * @see Parser
-	 */
-	class ParserOBJ: public Parser
-	{
-	public:
-		/**
-		 * @fn ParserOBJ()
-		 * @brief Unique constructor for a ParserOBJ. No OBJ is loaded.
-		 * @throw
-		 */
-		inline ParserOBJ();
+        	/**
+        	 * @class ParserOBJ
+        	 * @extends Parser
+        	 * @brief A parser to load/save OBJ Wavefront structure from/to memory, file, or string.
+        	 * @remark The OBJ Wavefront structure is so much more complexe and should be refactored.
+        	 * @see Parser
+        	 */
+        	class ParserOBJ: public Parser
+        	{
+        	public:
+        		/**
+        		 * @fn ParserOBJ()
+        		 * @brief Unique constructor for a ParserOBJ. No OBJ is loaded.
+        		 * @throw
+        		 */
+        		inline ParserOBJ();
 
-		/**
-		 * @fn void loadFromFile(const std::string & filename)
-		 * @param[in] filename The name of the file to load data from.
-		 * @brief Load and parse data from a file.
-		 * @see Parser::loadFromFile(const std::string & filename)
-		 * @throw
-		 */
-		virtual void loadFromFile(const std::string & filename) override;
+        		/**
+        		 * @fn void loadFromFile(const std::string & filename)
+        		 * @param[in] filename The name of the file to load data from.
+        		 * @brief Load and parse data from a file.
+        		 * @see Parser::loadFromFile(const std::string & filename)
+        		 * @throw
+        		 */
+        		virtual void loadFromFile(const std::string & filename) override;
 
-		/**
-		 * @fn void loadFromString(const std::string & content)
-		 * @param[in] content The string content to load data from.
-		 * @brief Load and parse data from a string.
-		 * @see Parser::loadFromString(const std::string & content)
-		 * @throw
-		 */
-		virtual void loadFromString(const std::string & content) override;
+        		/**
+        		 * @fn void loadFromString(const std::string & content)
+        		 * @param[in] content The string content to load data from.
+        		 * @brief Load and parse data from a string.
+        		 * @see Parser::loadFromString(const std::string & content)
+        		 * @throw
+        		 */
+        		virtual void loadFromString(const std::string & content) override;
 
-		/**
-		 * @fn void loadFromMemory(const void * content)
-		 * @param[in] content The memory buffer to load data from.
-		 * @brief Load and parse data from memory.
-		 * @see Parser::loadFromMemory(const void * content)
-		 * @throw
-		 */
-		virtual void loadFromMemory(const void * content) override;
+        		/**
+        		 * @fn void loadFromMemory(const void * content)
+        		 * @param[in] content The memory buffer to load data from.
+        		 * @brief Load and parse data from memory.
+        		 * @see Parser::loadFromMemory(const void * content)
+        		 * @throw
+        		 */
+        		virtual void loadFromMemory(const void * content) override;
 
-		/**
-		 * @fn void saveToFile(const std::string & filename)
-		 * @param[out] filename The name of the file to save into.
-		 * @brief Formate and save data into a file.
-		 * @see Parser::saveToFile(const std::string & filename)
-		 * @throw
-		 */
-		virtual void saveToFile(const std::string & filename) override;
+        		/**
+        		 * @fn void saveToFile(const std::string & filename)
+        		 * @param[out] filename The name of the file to save into.
+        		 * @brief Formate and save data into a file.
+        		 * @see Parser::saveToFile(const std::string & filename)
+        		 * @throw
+        		 */
+        		virtual void saveToFile(const std::string & filename) override;
 
-		/**
-		 * @fn void saveToString(std::string & content)
-		 * @param[out] content The string buffer to save into.
-		 * @brief Formate and save data into a string buffer.
-		 * @see saveToString(std::string & content)
-		 * @throw
-		 */
-		virtual void saveToString(std::string & content) override;
+        		/**
+        		 * @fn void saveToString(std::string & content)
+        		 * @param[out] content The string buffer to save into.
+        		 * @brief Formate and save data into a string buffer.
+        		 * @see saveToString(std::string & content)
+        		 * @throw
+        		 */
+        		virtual void saveToString(std::string & content) override;
 
-		/**
-		 * @fn void saveToMemory(void * content)
-		 * @param[out] content The memory to save into.
-		 * @brief Formate and save data into memory.
-		 * @see Parser::saveToMemory(void * content)
-		 * @throw
-		 */
-		virtual void saveToMemory(void * content) override;
+        		/**
+        		 * @fn void saveToMemory(void * content)
+        		 * @param[out] content The memory to save into.
+        		 * @brief Formate and save data into memory.
+        		 * @see Parser::saveToMemory(void * content)
+        		 * @throw
+        		 */
+        		virtual void saveToMemory(void * content) override;
 
-		/**
-		 * @fn const std::vector<float> & getVertices()
-		 * @return The list of vertices of the current OBJ loaded.
-		 * @brief An accessor for the list of vertices of the current OBJ loaded.
-		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
-		 * @throw
-		 */
-		inline const std::vector<float> & getVertices();
+        		/**
+        		 * @fn const std::vector<float> & getVertices()
+        		 * @return The list of vertices of the current OBJ loaded.
+        		 * @brief An accessor for the list of vertices of the current OBJ loaded.
+        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
+        		 * @throw
+        		 */
+        		inline const std::vector<float> & getVertices();
 
-		/**
-		 * @fn const std::vector<float> & getTextures()
-		 * @return The texture mapping of the current OBJ loaded.
-		 * @brief An accessor for the texture mapping of the current OBJ loaded.
-		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
-		 * @throw
-		 */
-		inline const std::vector<float> & getTextures();
+        		/**
+        		 * @fn const std::vector<float> & getTextures()
+        		 * @return The texture mapping of the current OBJ loaded.
+        		 * @brief An accessor for the texture mapping of the current OBJ loaded.
+        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
+        		 * @throw
+        		 */
+        		inline const std::vector<float> & getTextures();
 
-		/**
-		 * @fn const std::vector<float> & getNormales()
-		 * @return The list of normales of the current OBJ loaded.
-		 * @brief An accessor for the list of normales of the current OBJ loaded.
-		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
-		 * @throw
-		 */
-		inline const std::vector<float> & getNormales();
+        		/**
+        		 * @fn const std::vector<float> & getNormales()
+        		 * @return The list of normales of the current OBJ loaded.
+        		 * @brief An accessor for the list of normales of the current OBJ loaded.
+        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
+        		 * @throw
+        		 */
+        		inline const std::vector<float> & getNormales();
 
-		/**
-		 * @fn const std::vector<int> & getFaces()
-		 * @return The list of faces of the current OBJ loaded.
-		 * @brief An accessor for the list of faces of the current OBJ loaded.
-		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
-		 * @throw
-		 */
-		inline const std::vector<int> & getFaces();
+        		/**
+        		 * @fn const std::vector<int> & getFaces()
+        		 * @return The list of faces of the current OBJ loaded.
+        		 * @brief An accessor for the list of faces of the current OBJ loaded.
+        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
+        		 * @throw
+        		 */
+        		inline const std::vector<int> & getFaces();
 
-	private:
-		/**
-		 * @property _vertices
-		 * @brief The list of vertices of the current OBJ loaded.
-		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
-		 */
-		std::vector<float> _vertices;
+        	private:
+        		/**
+        		 * @property _vertices
+        		 * @brief The list of vertices of the current OBJ loaded.
+        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
+        		 */
+        		std::vector<float> _vertices;
 
-		/**
-		 * @property _textures
-		 * @brief The texture mapping of the current OBJ loaded.
-		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
-		 */
-		std::vector<float> _textures;
+        		/**
+        		 * @property _textures
+        		 * @brief The texture mapping of the current OBJ loaded.
+        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
+        		 */
+        		std::vector<float> _textures;
 
-		/**
-		 * @property _normales
-		 * @brief The list of normales of the current OBJ loaded.
-		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
-		 */
-		std::vector<float> _normales;
+        		/**
+        		 * @property _normales
+        		 * @brief The list of normales of the current OBJ loaded.
+        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
+        		 */
+        		std::vector<float> _normales;
 
-		/**
-		 * @property _faces
-		 * @brief The list of faces of the current OBJ loaded.
-		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
-		 */
-		std::vector<int> _faces;
-	};
-}
+        		/**
+        		 * @property _faces
+        		 * @brief The list of faces of the current OBJ loaded.
+        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
+        		 */
+        		std::vector<int> _faces;
+        	};
+        } // namespace file_system
+    } // namespace utility
+} // namespace ece
 
 #include "utility/file_system/parser_obj.inl"
 
