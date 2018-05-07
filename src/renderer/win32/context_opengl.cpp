@@ -45,7 +45,6 @@
 #include "window/common/window_adapter.hpp"
 #include "window/win32/data_window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
-#include "renderer/opengl/debugging.hpp"
 
 namespace ece
 {
