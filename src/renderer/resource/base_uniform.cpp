@@ -56,7 +56,7 @@ namespace ece
 
 			void BaseUniform::guard() const
 			{
-				if (this->_owner != OpenGL::getInteger(Parameter::CURRENT_PROGRAM)[0]) {
+				if (static_cast<int>(this->_owner) != OpenGL::getInteger(Parameter::CURRENT_PROGRAM)[0]) {
 					throw std::runtime_error("The current shader program is not the owner of this uniform.");
 				}
 			}

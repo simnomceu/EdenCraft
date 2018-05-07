@@ -70,7 +70,7 @@ namespace ece
 			using utility::indexing::Version;
 			using common::BaseContext;
 
-			using Handle = unsigned short int;
+			using Handle = unsigned int;
 
 			class BaseContext;
 

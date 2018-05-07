@@ -55,19 +55,19 @@ namespace ece
 
 			inline void OpenGL::bindBuffer(const BufferType type, const Handle handle)
 			{
-				checkErrors(glBindBuffer(static_cast<GLenum>(type), static_cast<GLuint>(handle)));
+				checkErrors(glBindBuffer(static_cast<GLenum>(type), handle));
 			}
 
 			inline void OpenGL::genVertexArrays(Handle & handle)
 			{
-				checkErrors(glGenVertexArrays(1, reinterpret_cast<GLuint *>(&handle)));
+				checkErrors(glGenVertexArrays(1, &handle));
 			}
 
 			inline void OpenGL::genVertexArrays(const int count, std::vector<Handle>& handles)
 			{
 				if (count != 0) {
 					handles.resize(handles.size() + count);
-					checkErrors(glGenVertexArrays(count, reinterpret_cast<GLuint *>(&handles.back() - count + 1)));
+					checkErrors(glGenVertexArrays(count, &handles.back() - count + 1));
 				}
 			}
 
@@ -288,9 +288,9 @@ namespace ece
 
 			inline Handle OpenGL::genBuffers()
 			{
-				GLuint handle = 0;
+				Handle handle = 0;
 				checkErrors(glGenBuffers(1, &handle));
-				return static_cast<Handle>(handle);
+				return handle;
 			}
 
 			inline std::vector<Handle> OpenGL::genBuffers(const int count)
@@ -298,7 +298,7 @@ namespace ece
 				std::vector<Handle> handles;
 				if (count != 0) {
 					handles.resize(handles.size() + count);
-					checkErrors(glGenBuffers(count, reinterpret_cast<GLuint *>(&handles.back() - count + 1)));
+					checkErrors(glGenBuffers(count, &handles.back() - count + 1));
 				}
 				return handles;
 			}
@@ -349,8 +349,8 @@ namespace ece
 
 			inline Handle OpenGL::createShader(const ShaderType type)
 			{
-				GLuint shaderHandle = checkErrors(glCreateShader(static_cast<GLenum>(type)));
-				return static_cast<Handle>(shaderHandle);
+				Handle shaderHandle = checkErrors(glCreateShader(static_cast<GLenum>(type)));
+				return shaderHandle;
 			}
 
 			inline void OpenGL::shaderSource(const Handle handle, const std::string & source)
@@ -380,8 +380,8 @@ namespace ece
 
 			inline Handle OpenGL::createProgram()
 			{
-				auto programHandle = checkErrors(glCreateProgram());
-				return static_cast<Handle>(programHandle);
+				Handle programHandle = checkErrors(glCreateProgram());
+				return programHandle;
 			}
 
 			inline void OpenGL::attachShader(const Handle program, const Handle shader)
@@ -408,8 +408,8 @@ namespace ece
 
 			inline Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
 			{
-				auto location = checkErrors(glGetUniformLocation(handle, uniform.data()));
-				return std::move(static_cast<Handle>(location));
+				Handle location = checkErrors(glGetUniformLocation(handle, uniform.data()));
+				return std::move(location);
 			}
 
 			//	inline unsigned int OpenGL::getUniformBlockIndex(unsigned int /*program*/, const char * /*uniformBlockName*/) { static_assert(false, "Not implemented yet."); }
@@ -588,7 +588,7 @@ namespace ece
 			inline std::vector<int> OpenGL::getProgramiv(const Handle program, const ProgramParameter pname)
 			{
 				std::vector<int> result;
-				checkErrors(glGetProgramiv(static_cast<GLuint>(program), static_cast<GLenum>(pname), result.data()));
+				checkErrors(glGetProgramiv(program, static_cast<GLenum>(pname), result.data()));
 				return std::move(result);
 			}
 
@@ -711,9 +711,9 @@ namespace ece
 
 			inline Handle OpenGL::genTexture()
 			{
-				GLuint handle;
+				Handle handle;
 				checkErrors(glGenTextures(1, &handle));
-				return static_cast<Handle>(handle);
+				return handle;
 			}
 
 			inline std::vector<Handle> OpenGL::genTextures(const unsigned int n)
@@ -721,7 +721,7 @@ namespace ece
 				std::vector<Handle> handles;
 				if (n != 0) {
 					handles.resize(handles.size() + n);
-					checkErrors(glGenTextures(n, reinterpret_cast<GLuint *>(&handles.back() - n + 1)));
+					checkErrors(glGenTextures(n, &handles.back() - n + 1));
 				}
 				return handles;
 			}
