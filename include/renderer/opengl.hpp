@@ -51,12 +51,9 @@
 #include "renderer/opengl/gl44_extension.hpp"
 #include "renderer/opengl/gl45_extension.hpp"
 #include "renderer/opengl/gl46_extension.hpp"
-#include "renderer/opengl/ibo.hpp"
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 #include "renderer/opengl/opengl_extension.hpp"
-#include "renderer/opengl/vao.hpp"
-#include "renderer/opengl/vbo.hpp"
 
 namespace ece
 {

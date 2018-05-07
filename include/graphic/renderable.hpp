@@ -41,8 +41,8 @@
 #ifndef GRAPHIC_RENDERABLE_HPP
 #define GRAPHIC_RENDERABLE_HPP
 
-#include "graphic/renderable/renderable.hpp"
 #include "graphic/renderable/shader_source.hpp"
+#include "graphic/renderable/sprite.hpp"
 #include "graphic/renderable/vertex.hpp"
 
 namespace ece

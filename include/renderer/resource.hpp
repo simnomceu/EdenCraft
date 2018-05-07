@@ -41,9 +41,17 @@
 
 #include "renderer/resource/base_uniform.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
+#include "renderer/resource/ibo.hpp"
 #include "renderer/resource/shader.hpp"
 #include "renderer/resource/shader_stage.hpp"
 #include "renderer/resource/texture2d.hpp"
 #include "renderer/resource/uniform.hpp"
+#include "renderer/resource/vao.hpp"
+#include "renderer/resource/vbo.hpp"
+
+namespace ece
+{
+	using namespace renderer::resource;
+}
 
 #endif // RENDERER_RESOURCE_HPP
