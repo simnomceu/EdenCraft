@@ -37,7 +37,7 @@
 */
 
 #include "renderer/opengl/opengl_extension.hpp"
-#include "renderer/opengl/debugging.hpp"
+#include "renderer/debug/debugging.hpp"
 
 namespace ece
 {
@@ -45,6 +45,8 @@ namespace ece
 	{
 		namespace opengl
 		{
+			using namespace debug;
+
 			inline Version<2> & OpenGL::getLatestVersion() { return OpenGL::_latestVersion; }
 
 			inline void OpenGL::setCurrentContext(const std::shared_ptr<BaseContext> & currentContext)

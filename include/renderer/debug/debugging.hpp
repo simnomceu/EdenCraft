@@ -7,7 +7,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace debug
 		{
 			/**
 			 * @fn checkErrors(func)

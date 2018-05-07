@@ -36,30 +36,14 @@
 
 */
 
-#ifndef RENDERER_OPENGL_HPP
-#define RENDERER_OPENGL_HPP
+#ifndef RENDERER_DEBUG_HPP
+#define RENDERER_DEBUG_HPP
 
-#include "renderer/opengl/context_opengl.hpp"
-#include "renderer/opengl/extension_loader.hpp"
-#include "renderer/opengl/gl32_extension.hpp"
-#include "renderer/opengl/gl33_extension.hpp"
-#include "renderer/opengl/gl40_extension.hpp"
-#include "renderer/opengl/gl41_extension.hpp"
-#include "renderer/opengl/gl42_extension.hpp"
-#include "renderer/opengl/gl43_extension.hpp"
-#include "renderer/opengl/gl44_extension.hpp"
-#include "renderer/opengl/gl45_extension.hpp"
-#include "renderer/opengl/gl46_extension.hpp"
-#include "renderer/opengl/ibo.hpp"
-#include "renderer/opengl/opengl.hpp"
-#include "renderer/opengl/opengl_exception.hpp"
-#include "renderer/opengl/opengl_extension.hpp"
-#include "renderer/opengl/vao.hpp"
-#include "renderer/opengl/vbo.hpp"
+#include "renderer/debug/debugging.hpp"
 
 namespace ece
 {
-	using namespace renderer::opengl;
+	using namespace renderer::debug;
 }
 
-#endif // RENDERER_OPENGL_HPP
+#endif // RENDERER_DEBUG_HPP
