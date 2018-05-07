@@ -138,6 +138,8 @@ namespace ece
 				 */
 				inline Handle getHandle() const;
 
+				inline void terminate();
+
 			private:
 				/**
 				 * @property _handle

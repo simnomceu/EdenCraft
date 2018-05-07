@@ -303,7 +303,16 @@ namespace ece
 				return handles;
 			}
 
-			//	inline void OpenGL::deleteBuffers(GLsizei /*n*/, const unsigned int * /*buffers*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::deleteBuffer(const Handle buffer)
+			{
+				checkErrors(glDeleteBuffers(1, &buffer));
+			}
+
+			inline void OpenGL::deleteBuffers(const std::vector<Handle> & buffers)
+			{
+				checkErrors(glDeleteBuffers(buffers.size(), buffers.data()));
+			}
+
 			//	inline void OpenGL::bindBuffer(GLenum /*target*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindBufferRange(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/, GLintptr /*offset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindBufferBase(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }

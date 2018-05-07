@@ -58,6 +58,12 @@ namespace ece
 			inline void VBO::setType(const BufferType type) { this->_type = type; }
 
 			inline Handle VBO::getHandle() const { return this->_handle; }
+
+			inline void VBO::terminate()
+			{
+				OpenGL::deleteBuffer(this->_handle);
+				this->_handle = 0;
+			}
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

@@ -205,7 +205,8 @@ namespace ece
 				//		static inline void multiDrawElementsBaseVertex(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount, const int * basevertex);
 				static inline Handle genBuffers();
 				static inline std::vector<Handle> genBuffers(const int count);
-				//		static inline void deleteBuffers(GLsizei n, const unsigned int * buffers);
+				static inline void deleteBuffer(const Handle buffer);
+				static inline void deleteBuffers(const std::vector<Handle> & buffers);
 				//		static inline void bindBuffer(GLenum target, unsigned int buffer);
 				//		static inline void bindBufferRange(GLenum target, unsigned int index, unsigned int buffer, GLintptr offset, GLsizeiptr size);
 				//		static inline void bindBufferBase(GLenum target, unsigned int index, unsigned int buffer);
