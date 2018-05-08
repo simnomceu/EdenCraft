@@ -38,12 +38,19 @@
 
 #include "renderer/common/renderable.hpp"
 
+#include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics/transform.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace common
 		{
+			using utility::mathematics::FloatMatrix4u;
+			using utility::mathematics::FloatVector3u;
+			using utility::mathematics::rotate;
+			using utility::mathematics::translate;
 			using opengl::OpenGL;
 
 			Renderable::Renderable() noexcept: _vao(), _mode(), _program() {}
@@ -60,7 +67,9 @@ namespace ece
 
 			void Renderable::setProjection(const Projection & projection) const noexcept
 			{
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "projectionMatrix"), true, projection.getProjection());
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, translate(FloatVector3u{80.0f, 0.0f, 0.0f}) * rotate(FloatVector3u{ 0.0f, 0.0f, 1.0f }, 45.0f));
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "view"), true, FloatMatrix4u::Identity());
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "projection"), true, projection.getProjection());
 			}
 		} // namespace common
 	} // namespace renderer

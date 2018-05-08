@@ -398,7 +398,10 @@ namespace ece
 				checkErrors(glAttachShader(program, shader));
 			}
 
-			//	inline void OpenGL::detachShader(unsigned int /*program*/, unsigned int /*shader*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::detachShader(const Handle program, const Handle shader)
+			{
+				checkErrors(glDetachShader(program, shader));
+			}
 
 			inline void OpenGL::linkProgram(const Handle handle)
 			{
@@ -597,7 +600,15 @@ namespace ece
 			inline std::vector<int> OpenGL::getProgramiv(const Handle program, const ProgramParameter pname)
 			{
 				std::vector<int> result;
-				checkErrors(glGetProgramiv(program, static_cast<GLenum>(pname), result.data()));
+				if (pname == ProgramParameter::COMPUTE_WORK_GROUP_SIZE) {
+					result.resize(3);
+					checkErrors(glGetProgramiv(static_cast<GLuint>(program), static_cast<GLenum>(pname), result.data()));
+				}
+				else {
+					int dummy;
+					checkErrors(glGetProgramiv(static_cast<GLuint>(program), static_cast<GLenum>(pname), &dummy));
+					result.push_back(std::move(dummy));
+				}
 				return std::move(result);
 			}
 
@@ -605,7 +616,21 @@ namespace ece
 			//	inline int OpenGL::getFragDataLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline bool OpenGL::isShader(unsigned int /*shader*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getShaderiv(unsigned int /*shader*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getAttachedShaders(unsigned int /*program*/, GLsizei /*maxCount*/, GLsizei * /*count*/, unsigned int * /*shaders*/) { static_assert(false, "Not implemented yet."); }
+
+			inline std::vector<Handle> OpenGL::getAttachedShaders(const Handle program)
+			{
+				std::vector<Handle> result;
+				GLsizei size;
+
+				std::array<GLuint, 6> shaders;
+				checkErrors(glGetAttachedShaders(static_cast<GLuint>(program), 6, &size, shaders.data()));
+				for (unsigned int i = 0; i < static_cast<unsigned int>(size); ++i) {
+					result.push_back(std::move(static_cast<Handle>(shaders[i])));
+				}
+
+				return std::move(result);
+			}
+
 			//	inline void OpenGL::getShaderInfoLog(unsigned int /*shader*/, GLsizei /*maxLength*/, GLsizei * /*length*/, char * /*infoLog*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getShaderSource(unsigned int /*shader*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*source*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getVertexAttribdv(unsigned int /*index*/, GLenum /*pname*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }

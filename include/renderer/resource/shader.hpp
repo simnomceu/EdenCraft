@@ -50,6 +50,8 @@ namespace ece
 		{
 			using opengl::Handle;
 
+			class BaseUniform;
+
 			/**
 			 * @class Shader
 			 * @brief A shader program, as a combination of shader stages.
@@ -73,12 +75,12 @@ namespace ece
 				inline Shader(const Handle handle) noexcept;
 
 				/**
-				 * @fn Shader(const Shader & copy) noexcept
+				 * @fn Shader(const Shader & copy)
 				 * @param[in] copy The shader program to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Shader(const Shader & copy) noexcept = default;
+				Shader(const Shader & copy) = default;
 
 				/**
 				 * @fn Shader(Shader && move) noexcept
@@ -93,16 +95,16 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Shader() noexcept = default;
+				~Shader() noexcept;
 
 				/**
-				 * @fn Shader & operator=(const Shader & copy) noexcept
+				 * @fn Shader & operator=(const Shader & copy)
 				 * @param[in] copy The shader program to copy from.
 				 * @return The shader program copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Shader & operator=(const Shader & copy) noexcept = default;
+				Shader & operator=(const Shader & copy) = default;
 
 				/**
 				 * @fn Shader & operator=(Shader && move) noexcept
@@ -122,19 +124,27 @@ namespace ece
 				inline Handle getHandle() const;
 
 				/**
-				 * @fn void setStage(ShaderStage & shader)
-				 * @param[in] shader The shader stage to add.
+				 * @fn void setStage(ShaderStage & stage)
+				 * @param[in] stage The shader stage to add.
 				 * @brief Set a shader stage of the program.
 				 * @throw
 				 */
-				virtual void setStage(ShaderStage & shader);
+				virtual void setStage(ShaderStage & stage);
 
 				/**
 				 * @fn void link()
 				 * @brief Link the shader program.
 				 * @throw
 				 */
-				inline void link();
+				void link();
+
+				/**
+				 * @fn bool isLinked() const
+				 * @return True, if the program has been linked successfully, false else.
+				 * @brief check if the program has been linked successfully or not.
+				 * @throw noexcept
+				 */
+				inline bool isLinked() const noexcept;
 
 				/**
 				 * @fn void use() const
@@ -152,12 +162,23 @@ namespace ece
 				 */
 				template<class T> void uniform(const std::string & uniform, const T & value);
 
+				/**
+				 * @fn void terminate()
+				 * @brief Delete the shader program.
+				 * @throw
+				 */
+				void terminate();
+
 			protected:
 				/**
 				 * @property _handle
 				 * @brief The id of the shader program.
 				 */
 				Handle _handle;
+
+				std::vector<std::unique_ptr<BaseUniform>> _uniforms;
+
+				bool _linkedSuccessfully;
 			};
 		} // namespace resource
 	} // namespace renderer

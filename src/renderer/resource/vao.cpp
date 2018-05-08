@@ -53,6 +53,13 @@ namespace ece
 				this->bind();
 				this->_ibo.bufferData(data, usage);
 			}
+
+			void VAO::terminate()
+			{
+				this->_ibo.terminate();
+				// TODO: terminate vbos ?
+				OpenGL::deleteBuffer(this->_handle);
+			}
 		} // namespace resource
 	} // namespace renderer
 } // namesapce ece

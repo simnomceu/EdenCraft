@@ -40,7 +40,7 @@
 #ifndef IBO_HPP
 #define IBO_HPP
 
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/resource/object_opengl.hpp"
 
 namespace ece
 {
@@ -48,13 +48,11 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::Handle;
-
 			/**
 			 * @class IBO
 			 * @brief Index buffer object as defined in OpenGL.
 			 */
-			class IBO
+			class IBO: public ObjectOpenGL
 			{
 			public:
 				/**
@@ -110,7 +108,7 @@ namespace ece
 				 * @brief Put the IBO in a buffer to be used.
 				 * @throw
 				 */
-				inline void bind() const;
+				inline virtual void bind() const override;
 
 				/**
 				 * @fn void bufferData(const std::vector<unsigned int> & data, const BufferUsage usage)
@@ -121,20 +119,7 @@ namespace ece
 				 */
 				inline void bufferData(const std::vector<unsigned int> & data, const BufferUsage usage);
 
-				/**
-				 * @fn Handle getHandle() const
-				 * @return The id of the index buffer object.
-				 * @brief Get the id of the index buffer object.
-				 * @throw
-				 */
-				inline Handle getHandle() const;
-
-			private:
-				/**
-				 * @property _handle
-				 * @brief The id of the index buffer object.
-				 */
-				Handle _handle;
+				inline virtual void terminate() override;
 			};
 		} // namespace resource
 	} // namespace renderer

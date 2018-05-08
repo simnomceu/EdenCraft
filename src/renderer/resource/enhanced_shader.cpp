@@ -47,14 +47,14 @@ namespace ece
 	{
 		namespace resource
 		{
-			void EnhancedShader::setStage(ShaderStage & shader)
+			void EnhancedShader::setStage(ShaderStage & stage)
 			{
 				// TODO: it should be the version of the current context an not the latest version available.
 				auto latestVersion = OpenGL::getLatestVersion();
 				std::string versionTag = std::to_string(latestVersion[0]) + std::to_string(latestVersion[1]) + "0";
 
 				std::string tag("#version ");
-				auto source = shader.getSource();
+				auto source = stage.getSource();
 				auto pos = source.find(tag);
 				if (pos != std::string::npos) {
 					source.replace(pos + tag.size(), 3, versionTag.data());
@@ -62,9 +62,9 @@ namespace ece
 				else {
 					source = tag + versionTag + "\n" + source;
 				}
-				shader.loadFromString(shader.getType(), source);
+				stage.loadFromString(stage.getType(), source);
 
-				Shader::setStage(shader);
+				Shader::setStage(stage);
 			}
 		} // namespace resource
 	} // namespace renderer

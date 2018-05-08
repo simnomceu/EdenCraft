@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VAO::VAO() : _handle(0), _nbVertices(0), _ibo() { OpenGL::genVertexArrays(this->_handle); }
+			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _ibo() { OpenGL::genVertexArrays(this->_handle); }
 
 			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 

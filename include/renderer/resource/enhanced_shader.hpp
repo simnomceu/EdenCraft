@@ -65,12 +65,12 @@ namespace ece
 				EnhancedShader() = default;
 
 				/**
-				 * @fn EnhancedShader(const EnhancedShader & copy) noexcept
+				 * @fn EnhancedShader(const EnhancedShader & copy)
 				 * @param[in] copy The shader program to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				EnhancedShader(const EnhancedShader & copy) noexcept = default;
+				EnhancedShader(const EnhancedShader & copy) = default;
 
 				/**
 				 * @fn EnhancedShader(EnhancedShader && move) noexcept
@@ -88,13 +88,13 @@ namespace ece
 				~EnhancedShader() noexcept = default;
 
 				/**
-				 * @fn EnhancedShader & operator=(const EnhancedShader & copy) noexcept
+				 * @fn EnhancedShader & operator=(const EnhancedShader & copy)
 				 * @param[in] copyy The shader program to copy from.
 				 * @return The shader program copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				EnhancedShader & operator=(const EnhancedShader & copy) noexcept = default;
+				EnhancedShader & operator=(const EnhancedShader & copy) = default;
 
 				/**
 				 * @fn EnhancedShader & operator=(EnhancedShader && move) noexcept
@@ -106,13 +106,13 @@ namespace ece
 				EnhancedShader & operator=(EnhancedShader && move) noexcept = default;
 
 				/**
-				 * @fn void setStage(ShaderStage & shader)
-				 * @param[in] shader The shader stage to add.
+				 * @fn void setStage(ShaderStage & stage)
+				 * @param[in] stage The shader stage to add.
 				 * @brief Set a shader stage of the program.
 				 * @throw
-				 * @see void Shader::setStage(ShaderStage & shader)
+				 * @see void Shader::setStage(ShaderStage & stage)
 				 */
-				virtual void setStage(ShaderStage & shader) override;
+				virtual void setStage(ShaderStage & stage) override;
 			};
 		} // namespace resource
 	} // namespace renderer

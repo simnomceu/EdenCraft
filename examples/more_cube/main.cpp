@@ -81,11 +81,10 @@ int main()
 		ece::Texture2D texture;
 		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
 
-		std::vector<ece::Sprite> sprites;
+		std::vector<std::shared_ptr<ece::Sprite>> sprites(10);
 		for (unsigned short int i = 0; i < 10; ++i) {
-			sprites.emplace(sprites.begin() + i, texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())),
-				ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
-			sprites[i].setProjection(projection);
+			sprites[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
+			sprites[i]->setProjection(projection);
 		}
 
 		ece::InputEvent event;
@@ -93,7 +92,7 @@ int main()
 			window.clear(ece::FUSHIA);
 
 			for (unsigned short int i = 0; i < 10; ++i) {
-				window.draw(sprites[i]);
+				window.draw(*sprites[i]);
 			}
 			if (window.pollEvent(event)) {
 			}

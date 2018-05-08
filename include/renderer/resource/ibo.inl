@@ -45,7 +45,7 @@ namespace ece
 		{
 			using opengl::OpenGL;
 
-			inline IBO::IBO() : _handle(0) { this->_handle = OpenGL::genBuffers(); }
+			inline IBO::IBO() : ObjectOpenGL() { this->_handle = OpenGL::genBuffers(); }
 
 			inline void IBO::bind() const { OpenGL::bindBuffer(BufferType::ELEMENT_ARRAY_BUFFER, this->_handle); }
 
@@ -55,7 +55,7 @@ namespace ece
 				OpenGL::bufferData(BufferType::ELEMENT_ARRAY_BUFFER, data, usage);
 			}
 
-			inline Handle IBO::getHandle() const { return this->_handle; }
+			inline void IBO::terminate() {}
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

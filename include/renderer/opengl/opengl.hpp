@@ -251,7 +251,7 @@ namespace ece
 				static inline void deleteShader(const Handle handle);
 				static inline Handle createProgram();
 				static inline void attachShader(const Handle program, const Handle shader);
-				//		static inline void detachShader(unsigned int program, unsigned int shader);
+				static inline void detachShader(const Handle program, const Handle shader);
 				static inline void linkProgram(const Handle handle);
 				static inline void useProgram(const Handle handle);
 				//		static inline void deleteProgram(unsigned int program);
@@ -298,7 +298,7 @@ namespace ece
 				//		static inline int getFragDataLocation(unsigned int program, const char * name);
 				//		static inline bool isShader(unsigned int shader);
 				//		static inline void getShaderiv(unsigned int shader, GLenum pname, int *params);
-				//		static inline void getAttachedShaders(unsigned int program, GLsizei maxCount, GLsizei *count, unsigned int *shaders);
+				static inline std::vector<Handle> getAttachedShaders(const Handle program);
 				//		static inline void getShaderInfoLog(unsigned int shader, GLsizei maxLength, GLsizei *length, char *infoLog);
 				//		static inline void getShaderSource(unsigned int shader, GLsizei bufSize, GLsizei *length, char *source);
 				//		static inline void getVertexAttribdv(unsigned int index, GLenum pname, double *params);

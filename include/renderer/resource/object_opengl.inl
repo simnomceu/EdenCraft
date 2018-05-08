@@ -8,17 +8,19 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
+															  .oooooo.                                  oooo         o8o            
+															 d8P'  `Y8b                                 `888         `"'            
+															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.  
+															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8 
+															888     ooooo  888      .oP"888   888   888  888   888   888  888       
+															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8 
+															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P' 
+																							  888                                   
+																							 o888o                                  
                                                                        
                                           
                                      
-				This file is part of EdenCraft Engine - Renderer module.
+				This file is part of EdenCraft Engine - Graphic module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,36 +38,15 @@
 
 */
 
-#include <algorithm>
-
-#include "renderer/resource/uniform.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace resource
 		{
-			using opengl::OpenGL;
+			inline constexpr ObjectOpenGL::ObjectOpenGL() noexcept : _handle(0) {}
 
-			inline Shader::Shader() : _handle(0), _uniforms(), _linkedSuccessfully(false) { this->_handle = OpenGL::createProgram(); }
-
-			inline Shader::Shader(const Handle handle) noexcept : _handle(handle) {}
-
-			inline Handle Shader::getHandle() const { return this->_handle; }
-
-			template<class T>
-			void Shader::uniform(const std::string & uniform, const T & value)
-			{
-				// TODO: need to be sure that the program as been linked successfully.
-				this->use();
-
-				OpenGL::uniform<T>(uniform, value);
-			}
-
-			inline bool Shader::isLinked() const noexcept { return this->_linkedSuccessfully; }
-
-			inline void Shader::use() const { OpenGL::useProgram(this->_handle); }
+			inline Handle  ObjectOpenGL::getHandle() const { return this->_handle; }
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

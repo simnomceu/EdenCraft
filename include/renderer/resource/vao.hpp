@@ -40,6 +40,7 @@
 #define VAO_HPP
 
 #include "renderer/resource/ibo.hpp"
+#include "renderer/resource/object_opengl.hpp"
 
 namespace ece
 {
@@ -51,7 +52,7 @@ namespace ece
 			 * @class VAO
 			 * @brief A vertex array object as defined in OpenGL.
 			 */
-			class VAO
+			class VAO: public ObjectOpenGL
 			{
 			public:
 				/**
@@ -107,7 +108,7 @@ namespace ece
 				 * @brief Put the vao in a buffer to be used.
 				 * @throw
 				 */
-				inline void bind() const;
+				virtual inline void bind() const override;
 
 				/**
 				 * @fn void bindIndexBuffer() const
@@ -163,13 +164,9 @@ namespace ece
 				 */
 				inline unsigned int getNbVertices() const;
 
-			private:
-				/**
-				 * @property _handle
-				 * @brief The id of the handle.
-				 */
-				Handle _handle;
+				virtual void terminate() override;
 
+			private:
 				/**
 				 * @property _nbVertices
 				 * @brief The number of vertices of the object.

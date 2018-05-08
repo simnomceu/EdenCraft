@@ -39,7 +39,7 @@
 #ifndef VBO_HPP
 #define VBO_HPP
 
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/resource/object_opengl.hpp"
 
 namespace ece
 {
@@ -47,23 +47,16 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::Handle;
-
 			/**
 			 * @class VBO
 			 * @brief A vertex buffer object as defined in OpenGL
 			 */
-			class VBO
+			class VBO: public ObjectOpenGL
 			{
 			public:
-				inline VBO(const BufferType type);
+				VBO() = delete;
 
-				/**
-				 * @fn VBO()
-				 * @brief Default constructor.
-				 * @throw
-				 */
-				VBO();
+				inline VBO(const BufferType type = BufferType::ARRAY_BUFFER);
 
 				/**
 				 * @fn VBO(const VBO & copy) noexcept
@@ -111,7 +104,7 @@ namespace ece
 				 * @brief Put the VBO in a buffer to be used.
 				 * @throw
 				 */
-				inline void bind();
+				inline virtual void bind() const override;
 
 				/**
 				 * @fn void bufferData(const std::vector<T> & data, const BufferUsage usage)
@@ -130,23 +123,9 @@ namespace ece
 				 */
 				inline void setType(const BufferType type);
 
-				/**
-				 * @fn Handle getHandle() const
-				 * @return The id of the VBO.
-				 * @brief Get the id of the VBO.
-				 * @throw
-				 */
-				inline Handle getHandle() const;
-
-				inline void terminate();
+				inline virtual void terminate() override;
 
 			private:
-				/**
-				 * @property _handle
-				 * @brief The id of the VBO.
-				 */
-				Handle _handle;
-
 				/**
 				 * @property _type
 				 * @brief The type of VBO to use.

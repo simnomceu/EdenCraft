@@ -88,6 +88,41 @@ namespace ece
 									 0.0f, 0.0f, 2.0f / (farClipping - nearClipping), -(farClipping + nearClipping) / (farClipping - nearClipping),
 									 0.0f, 0.0f, 0.0f, 1.0f };
 			}
+
+			FloatMatrix4u scale(const FloatVector3u &  scale)
+			{
+				FloatMatrix4u matrix;
+				matrix[0][0] = scale[0];
+				matrix[1][1] = scale[1];
+				matrix[2][2] = scale[2];
+				matrix[3][3] = 1.0f;
+				return std::move(matrix);
+			}
+
+			FloatMatrix4u translate(const FloatVector3u & translation)
+			{
+				auto matrix = FloatMatrix4u::Identity();
+				matrix[0][3] = translation[0];
+				matrix[1][3] = translation[1];
+				matrix[2][3] = translation[2];
+				return matrix;
+			}
+
+			FloatMatrix4u rotate(const FloatVector3u & axis, const float angle)
+			{
+				FloatMatrix4u matrix;
+				matrix[0][0] = std::cos(angle) + axis[0] * axis[0] * (1 - std::cos(angle));
+				matrix[0][1] = axis[0] * axis[1] * (1 - std::cos(angle)) - axis[2] * std::sin(angle);
+				matrix[0][2] = axis[0] * axis[2] * (1 - std::cos(angle)) + axis[1] * std::sin(angle);
+				matrix[1][0] = axis[0] * axis[1] * (1 - std::cos(angle)) + axis[2] * std::sin(angle);
+				matrix[1][1] = std::cos(angle) + axis[1] * axis[1] * (1 - std::cos(angle));
+				matrix[1][2] = axis[1] * axis[2] * (1 - std::cos(angle)) - axis[0] * std::sin(angle);
+				matrix[2][0] = axis[0] * axis[2] * (1 - std::cos(angle)) - axis[1] * std::sin(angle);
+				matrix[2][1] = axis[1] * axis[2] * (1 - std::cos(angle)) + axis[0] * std::sin(angle);
+				matrix[2][2] = std::cos(angle) + axis[2] * axis[2] * (1 - std::cos(angle));
+				matrix[3][3] = 1.0f;
+				return matrix;
+			}
 		} // namespace mathematics
 	} // namespace utility
 } // namespace ece
