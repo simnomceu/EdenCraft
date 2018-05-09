@@ -1,154 +1,33 @@
 #!lua
 
---premake5.lua
-workspace "EdenCraft"
-	configurations { "Debug", "Release" }
-	platforms { "x86", "x64" }
-	location ""
-	language "C++"
+-- premake5.lua
 
-	filter{ "platforms:x86" }
-		architecture "x86"
-		libdirs { "../extlibs/lib/msvc/x86" }
-		
-	filter { "platforms:x64" }
-		architecture "x86_64"
-		libdirs { "../extlibs/lib/msvc/x64" }
-	
-	filter { "configurations:Debug" }
-		symbols "Default"
+local Table = require "scripts.helpers.table"
+local PlatformSpecific = require "scripts.helpers.platform_specific"
+local Project = require "scripts.helpers.project"
+-- local Pair, Option = require "scripts.helpers.option"
 
-	filter { "configurations:Release" }
-		optimize "On"
-		symbols "Off"
+local SolutionBuilder = require "scripts.solution_builder"
+local ProjectLoader = require "scripts.project_loader"
+--local OptionLoader = require "scripts.option_loader"
 
-	filter { "x64" }
-		system "Windows"
+print("Load CLI options ...")
+--OptionLoader:loadOptions()
+newoption {
+    trigger = "libs",
+    value = "Type",
+    description = "Choose to compile static or shared libraries for the engine",
+    default = "static",
+    allowed = {
+        { "static", "Static libraries" },
+        { "shared", "Shared libraries" }
+    }
+}
 
-	filter { }
-
-	includedirs { "../extlibs/include" }
-
-project "App"
-	kind "ConsoleApp"
-	location ""
-	files {
-		"../examples/App/**.cpp",
-		"../examples/App/**.hpp",
-		"../examples/App/**.inl"
-	}
-	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
-	links { "opengl32", "glew32s", "glfw3", "Utility", "Core", "Window", "Network", "Graphic", "Renderer" }
-	includedirs { "../include/Utility", "../include/Core", "../include/Window", "../include/Network", "../include/Graphic", "../include/Renderer", "../examples/App" } 
-	
-project "Internationalization"
-	kind "ConsoleApp"
-	location ""
-	files {
-		"../examples/Internationalization/**.cpp",
-		"../examples/Internationalization/**.hpp",
-		"../examples/Internationalization/**.inl"
-	}
-	linkoptions { "/NODEFAULTLIB:libcmt.lib" }
-	links { "Utility" }
-	includedirs { "../include/Utility", "../include/examples/Internationalization" }
-	
-project "Argumentalization"
-	kind "ConsoleApp"
-	location ""
-	files {
-		"../examples/Argumentalization/**.cpp",
-		"../examples/Argumentalization/**.hpp",
-		"../examples/Argumentalization/**.inl"
-	}
-	links { "Core", "Utility" }
-	includedirs { "../include/Core", "../include/Utility", "../examples/Argumentalization" }
-	
-project "Resources"
-	kind "ConsoleApp"
-	location ""
-	files {
-		"../examples/Resources/**.cpp",
-		"../examples/Resources/**.hpp",
-		"../examples/Resources/**.inl"
-	}
-	links { "Core", "Utility" }
-	includedirs { "../include/Core", "../include/Utility", "../examples/Resources" }
-
-project "Core"
-	kind "StaticLib"
-	location ""
-	files {
-		"../src/Core/**.cpp",
-		"../include/Core/**.inl",
-		"../include/Core/**.hpp"
-	}
-	includedirs { "../include/Core", "../include/Utility" }
-	links { "Utility" }
-	
-project "Utility"
-	kind "StaticLib"
-	location ""
-	files {
-		"../src/Utility/**.cpp",
-		"../include/Utility/**.inl",
-		"../include/Utility/**.hpp"
-	}
-	includedirs { "../include/Utility" }
-	links { }
-	
-project "Window"
-	kind "StaticLib"
-	location ""
-	files {
-		"../src/Window/**.cpp",
-		"../include/Window/**.inl",
-		"../include/Window/**.hpp"
-	}
-	includedirs { "../include/Window", "../include/Utility", "../include/Core" }
-	links { "Utility", "Core" }
-	defines { "GLEW_STATIC" }
-	
-project "Network"
-	kind "StaticLib"
-	location ""
-	files {
-		"../src/Network/**.cpp",
-		"../include/Network/**.hpp",
-		"../include/Network/**.inl",
-	}
-	includedirs { "../include/Network", "../include/Utility", "../include/Core" }
-	links { "Utility", "Core" }
-	
-project "Graphic"
-	kind "StaticLib"
-	location ""
-	files {
-		"../src/Graphic/**.cpp",
-		"../include/Graphic/**.inl",
-		"../include/Graphic/**.hpp"
-	}
-	includedirs { "../include/Graphic", "../include/Utility", "../include/Core", "../include/Window" }
-	links { "Utility", "Core", "Window" }
-	
-project "Renderer"
-	kind "StaticLib"
-	location ""
-	files {
-		"../src/Renderer/**.cpp",
-		"../include/Renderer/**.inl",
-		"../include/Renderer/**.hpp"
-	}
-	includedirs { "../include/Renderer", "../include/Utility", "../include/Core", "../include/Graphic", "../include/Window" }
-	links { "Utility", "Core", "Graphic", "Window" }
-		
-project "Test"
-	kind "ConsoleApp"
-	location ""
-	files {
-		"../tests/**.cpp",
-		"../tests/**.hpp",
-		"../tests/**.inl"
-	}
-	includedirs { "../include/Utility", "../include/Core", "../include/Graphic", "../include/Window", "../include/Renderer" }
-	links { "Utility", "Core", "Graphic", "Window", "Renderer" }
+print("Start building solution ...")
+SolutionBuilder.build()
+print("Start loading projects ...")
+ProjectLoader:loadProjects()
+print("Start processing projects ...")
+ProjectLoader:process()
+print("Building solution completed ...")

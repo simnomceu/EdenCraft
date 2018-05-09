@@ -1,34 +1,55 @@
-language:
-  cpp
+language: cpp
 
-dist: 
-  trusty
+dist: trusty
 
 addons:
   apt:
     sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty-5.0
     packages:
-      - libglew1.13
-      - libglfw-dev
+      - build-essential
+      - libx11-dev
+      - libxcb1-dev
+      - g++-7
+      - libgl1-mesa-dev
+      - mesa-utils
+      - clang-5.0
 
 sudo:
   required
 
 notifications:
-  email: true
+  email: false
 
 compiler:
-  - gcc
+  - g++
+#  - clang
+
+os:
+  - linux
+  - osx
 
 env:
   global:
+    - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - PLATFORM="x64"
   matrix:
-    - CONFIG=Debug
-    - CONFIG=Release
+    #  - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+    - CONFIG="debug"
+    - CONFIG="release"
+#    - PLATFORM="x86"
+
+before_install:
+  - git submodule -q update --init --recursive
+  - eval "${MATRIX_EVAL}"
+  - chmod +x build/premake5_${TRAVIS_OS_NAME}
+
+install:
 
 script:
-  - cd build && makeGmake.sh
-  - make all && cd ..
+  - cd build && ./premake5_${TRAVIS_OS_NAME} gmake
+  - cd gmake && make config=${CONFIG}_${PLATFORM} && cd ../..
 
 after_script:
-  - cd build && clear_build.sh && cd ..
+  - cd build && ./clear_build.sh && cd ..
