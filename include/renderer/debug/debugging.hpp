@@ -18,7 +18,9 @@ namespace ece
 			 */
 #define checkErrors(func) \
 				func; \
-				checkErrors_(__FILE__, __LINE__, #func);
+                #ifdef ECE_DEBUG
+				    checkErrors_(__FILE__, __LINE__, #func);
+                #endif
 
 			 /**
 			  * @fn void checkErrors_(const char * file, const int line, const char * function)
