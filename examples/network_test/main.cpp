@@ -268,7 +268,7 @@ void PrintIpHeader(char* Buffer)
 
 	memset(&dest, 0, sizeof(dest));
 	dest.sin_addr.s_addr = iphdr->ip_destaddr;
-
+	/*
 	fprintf(logfile, "\n");
 	fprintf(logfile, "IP Header\n");
 	fprintf(logfile, " |-IP Version : %d\n", (unsigned int)iphdr->ip_version);
@@ -284,6 +284,22 @@ void PrintIpHeader(char* Buffer)
 	fprintf(logfile, " |-Checksum : %d\n", ntohs(iphdr->ip_checksum));
 	fprintf(logfile, " |-Source IP : %s\n", inet_ntoa(source.sin_addr));
 	fprintf(logfile, " |-Destination IP : %s\n", inet_ntoa(dest.sin_addr));
+	*/
+	printf("\n");
+	printf("IP Header\n");
+	printf(" |-IP Version : %d\n", (unsigned int)iphdr->ip_version);
+	printf(" |-IP Header Length : %d DWORDS or %d Bytes\n", (unsigned int)iphdr->ip_header_len, ((unsigned int)(iphdr->ip_header_len)) * 4);
+	printf(" |-Type Of Service : %d\n", (unsigned int)iphdr->ip_tos);
+	printf(" |-IP Total Length : %d Bytes(Size of Packet)\n", ntohs(iphdr->ip_total_length));
+	printf(" |-Identification : %d\n", ntohs(iphdr->ip_id));
+	printf(" |-Reserved ZERO Field : %d\n", (unsigned int)iphdr->ip_reserved_zero);
+	printf(" |-Dont Fragment Field : %d\n", (unsigned int)iphdr->ip_dont_fragment);
+	printf(" |-More Fragment Field : %d\n", (unsigned int)iphdr->ip_more_fragment);
+	printf(" |-TTL : %d\n", (unsigned int)iphdr->ip_ttl);
+	printf(" |-Protocol : %d\n", (unsigned int)iphdr->ip_protocol);
+	printf(" |-Checksum : %d\n", ntohs(iphdr->ip_checksum));
+	printf(" |-Source IP : %s\n", inet_ntoa(source.sin_addr));
+	printf(" |-Destination IP : %s\n", inet_ntoa(dest.sin_addr));
 }
 
 void PrintTcpPacket(char* Buffer, int Size)
@@ -294,7 +310,7 @@ void PrintTcpPacket(char* Buffer, int Size)
 	iphdrlen = iphdr->ip_header_len * 4;
 
 	tcpheader = (TCP_HDR*)(Buffer + iphdrlen);
-
+	/*
 	fprintf(logfile, "\n\n***********************TCP Packet*************************\n");
 
 	PrintIpHeader(Buffer);
@@ -333,6 +349,45 @@ void PrintTcpPacket(char* Buffer, int Size)
 		, (Size - tcpheader->data_offset * 4 - iphdr->ip_header_len * 4));
 
 	fprintf(logfile, "\n###########################################################");
+	*/
+	printf("\n\n***********************TCP Packet*************************\n");
+
+	PrintIpHeader(Buffer);
+
+	printf("\n");
+	printf("TCP Header\n");
+	printf(" |-Source Port : %u\n", ntohs(tcpheader->source_port));
+	printf(" |-Destination Port : %u\n", ntohs(tcpheader->dest_port));
+	printf(" |-Sequence Number : %u\n", ntohl(tcpheader->sequence));
+	printf(" |-Acknowledge Number : %u\n", ntohl(tcpheader->acknowledge));
+	printf(" |-Header Length : %d DWORDS or %d BYTES\n"
+		, (unsigned int)tcpheader->data_offset, (unsigned int)tcpheader->data_offset * 4);
+	printf(" |-CWR Flag : %d\n", (unsigned int)tcpheader->cwr);
+	printf(" |-ECN Flag : %d\n", (unsigned int)tcpheader->ecn);
+	printf(" |-Urgent Flag : %d\n", (unsigned int)tcpheader->urg);
+	printf(" |-Acknowledgement Flag : %d\n", (unsigned int)tcpheader->ack);
+	printf(" |-Push Flag : %d\n", (unsigned int)tcpheader->psh);
+	printf(" |-Reset Flag : %d\n", (unsigned int)tcpheader->rst);
+	printf(" |-Synchronise Flag : %d\n", (unsigned int)tcpheader->syn);
+	printf(" |-Finish Flag : %d\n", (unsigned int)tcpheader->fin);
+	printf(" |-Window : %d\n", ntohs(tcpheader->window));
+	printf(" |-Checksum : %d\n", ntohs(tcpheader->checksum));
+	printf(" |-Urgent Pointer : %d\n", tcpheader->urgent_pointer);
+	printf("\n");
+	printf(" DATA Dump ");
+	printf("\n");
+
+	printf("IP Header\n");
+	PrintData(Buffer, iphdrlen);
+
+	printf("TCP Header\n");
+	PrintData(Buffer + iphdrlen, tcpheader->data_offset * 4);
+
+	printf("Data Payload\n");
+	PrintData(Buffer + iphdrlen + tcpheader->data_offset * 4
+		, (Size - tcpheader->data_offset * 4 - iphdr->ip_header_len * 4));
+
+	printf("\n###########################################################");
 }
 
 void PrintUdpPacket(char *Buffer, int Size)
@@ -343,7 +398,7 @@ void PrintUdpPacket(char *Buffer, int Size)
 	iphdrlen = iphdr->ip_header_len * 4;
 
 	udpheader = (UDP_HDR *)(Buffer + iphdrlen);
-
+	/*
 	fprintf(logfile, "\n\n***********************UDP Packet*************************\n");
 
 	PrintIpHeader(Buffer);
@@ -368,6 +423,31 @@ void PrintUdpPacket(char *Buffer, int Size)
 	PrintData(Buffer + iphdrlen + sizeof(UDP_HDR), (Size - sizeof(UDP_HDR) - iphdr->ip_header_len * 4));
 
 	fprintf(logfile, "\n###########################################################");
+	*/
+	printf("\n\n***********************UDP Packet*************************\n");
+
+	PrintIpHeader(Buffer);
+
+	printf("\nUDP Header\n");
+	printf(" |-Source Port : %d\n", ntohs(udpheader->source_port));
+	printf(" |-Destination Port : %d\n", ntohs(udpheader->dest_port));
+	printf(" |-UDP Length : %d\n", ntohs(udpheader->udp_length));
+	printf(" |-UDP Checksum : %d\n", ntohs(udpheader->udp_checksum));
+
+	printf("\n");
+	printf("IP Header\n");
+
+	PrintData(Buffer, iphdrlen);
+
+	printf("UDP Header\n");
+
+	PrintData(Buffer + iphdrlen, sizeof(UDP_HDR));
+
+	printf("Data Payload\n");
+
+	PrintData(Buffer + iphdrlen + sizeof(UDP_HDR), (Size - sizeof(UDP_HDR) - iphdr->ip_header_len * 4));
+
+	printf("\n###########################################################");
 }
 
 void PrintIcmpPacket(char* Buffer, int Size)
@@ -378,7 +458,7 @@ void PrintIcmpPacket(char* Buffer, int Size)
 	iphdrlen = iphdr->ip_header_len * 4;
 
 	icmpheader = (ICMP_HDR*)(Buffer + iphdrlen);
-
+	/*
 	fprintf(logfile, "\n\n***********************ICMP Packet*************************\n");
 	PrintIpHeader(Buffer);
 
@@ -412,6 +492,41 @@ void PrintIcmpPacket(char* Buffer, int Size)
 	PrintData(Buffer + iphdrlen + sizeof(ICMP_HDR), (Size - sizeof(ICMP_HDR) - iphdr->ip_header_len * 4));
 
 	fprintf(logfile, "\n###########################################################");
+	*/
+
+	printf("\n\n***********************ICMP Packet*************************\n");
+	PrintIpHeader(Buffer);
+
+	printf("\n");
+
+	printf("ICMP Header\n");
+	printf(" |-Type : %d", (unsigned int)(icmpheader->type));
+
+	if ((unsigned int)(icmpheader->type) == 11)
+	{
+		printf(" (TTL Expired)\n");
+	}
+	else if ((unsigned int)(icmpheader->type) == 0)
+	{
+		printf(" (ICMP Echo Reply)\n");
+	}
+
+	printf(" |-Code : %d\n", (unsigned int)(icmpheader->code));
+	printf(" |-Checksum : %d\n", ntohs(icmpheader->checksum));
+	printf(" |-ID : %d\n", ntohs(icmpheader->id));
+	printf(" |-Sequence : %d\n", ntohs(icmpheader->seq));
+	printf("\n");
+
+	printf("IP Header\n");
+	PrintData(Buffer, iphdrlen);
+
+	printf("UDP Header\n");
+	PrintData(Buffer + iphdrlen, sizeof(ICMP_HDR));
+
+	printf("Data Payload\n");
+	PrintData(Buffer + iphdrlen + sizeof(ICMP_HDR), (Size - sizeof(ICMP_HDR) - iphdr->ip_header_len * 4));
+
+	printf("\n###########################################################");
 }
 
 /*
@@ -421,7 +536,7 @@ void PrintData(char* data, int Size)
 {
 	char a, line[17], c;
 	int k;
-
+	/*
 	//loop over each character and print
 	for (i = 0; i < Size; i++)
 	{
@@ -454,4 +569,38 @@ void PrintData(char* data, int Size)
 	}
 
 	fprintf(logfile, "\n");
+	*/
+
+	//loop over each character and print
+	for (i = 0; i < Size; i++)
+	{
+		c = data[i];
+
+		//Print the hex value for every character , with a space. Important to make unsigned
+		printf(" %.2x", (unsigned char)c);
+
+		//Add the character to data line. Important to make unsigned
+		a = (c >= 32 && c <= 128) ? (unsigned char)c : '.';
+
+		line[i % 16] = a;
+
+		//if last character of a line , then print the line - 16 characters in 1 line
+		if ((i != 0 && (i + 1) % 16 == 0) || i == Size - 1)
+		{
+			line[i % 16 + 1] = '\0';
+
+			//print a big gap of 10 characters between hex and characters
+			printf("          ");
+
+			//Print additional spaces for last lines which might be less than 16 characters in length
+			for (k = strlen(line); k < 16; k++)
+			{
+				printf("   ");
+			}
+
+			printf("%s \n", line);
+		}
+	}
+
+	printf("\n");
 }
