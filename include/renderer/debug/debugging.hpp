@@ -15,11 +15,14 @@ namespace ece
 			 * @brief Carry out an opengl call and check possible errors.
 			 * @throw
 			 */
+#ifdef ECE_DEBUG
 #define checkErrors(func) \
 				func; \
-                #ifdef ECE_DEBUG
-				    checkErrors_(__FILE__, __LINE__, #func);
-                #endif
+				checkErrors_(__FILE__, __LINE__, #func);
+#else
+#define checkErrors(func) \
+				func;
+#endif
 
 			 /**
 			  * @fn void checkErrors_(const char * file, const int line, const char * function)
