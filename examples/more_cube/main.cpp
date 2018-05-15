@@ -81,19 +81,30 @@ int main()
 		ece::Texture2D texture;
 		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
 
+		// ece::RenderQueue queue;
 		std::vector<std::shared_ptr<ece::Sprite>> sprites(10);
 		for (unsigned short int i = 0; i < 10; ++i) {
+			// ece::Sprite sprite;
 			sprites[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
 			sprites[i]->setProjection(projection);
+			// queue.insert(sprite)
 		}
 
+		// ForwardRendering technique;
+
 		ece::InputEvent event;
-		while (1) {
+		while (1) { // while(window.isOpened())
 			window.clear(ece::FUSHIA);
 
 			for (unsigned short int i = 0; i < 10; ++i) {
 				window.draw(*sprites[i]);
 			}
+			// technique.draw(queue)
+
+			/*
+
+			*/
+
 			if (window.pollEvent(event)) {
 			}
 			window.display();
