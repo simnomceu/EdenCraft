@@ -111,17 +111,18 @@ namespace ece
 					std::cout << " Code " << GetLastError() << std::endl;
 				}
 			}
-	IntVector2u WindowAdapter::getSize() const
-	{
-		RECT bounds;
-		bool success = GetWindowRect(this->_data->_windowId, &bounds);
-		if (!success) {
-			std::cout << "Error while retrieving window bounds. (WGL)";
-			std::cout << " Code " << GetLastError() << std::endl;
-		}
 
-		return IntVector2u{ bounds.right - bounds.left, bounds.bottom - bounds.top };
-	}
+			IntVector2u WindowAdapter::getSize() const
+			{
+				RECT bounds;
+				bool success = GetWindowRect(this->_data->_windowId, &bounds);
+				if (!success) {
+					std::cout << "Error while retrieving window bounds. (WGL)";
+					std::cout << " Code " << GetLastError() << std::endl;
+				}
+
+				return IntVector2u{ bounds.right - bounds.left, bounds.bottom - bounds.top };
+			}
 
 			IntVector2u WindowAdapter::getPosition() const
 			{
@@ -291,6 +292,10 @@ namespace ece
 						break;
 					}
 					case WM_SIZING: {
+						break;
+					}
+					case WM_CLOSE: {
+						this->deleteWindow();
 						break;
 					}
 					default: {

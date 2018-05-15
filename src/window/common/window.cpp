@@ -49,7 +49,7 @@ namespace ece
 		{
 			using window_event::InputEvent;
 
-			Window::Window() noexcept:Emitter(), _adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0)
+			Window::Window() noexcept:Emitter(), _adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false)
 			{
 				this->addSignal(WINDOW_OPENED);
 				this->addSignal(WINDOW_CLOSED);
@@ -63,6 +63,7 @@ namespace ece
 				Emitter::operator=(copy);
 				this->_adapter.reset(copy._adapter.get());
 				this->_ups = copy._ups;
+				this->_isOpened = copy._isOpened;
 
 				return *this;
 			}
@@ -72,6 +73,7 @@ namespace ece
 				Emitter::operator=(move);
 				this->_adapter = std::move(move._adapter);
 				this->_ups = std::move(move._ups);
+				this->_isOpened = std::move(move._isOpened);
 
 				return *this;
 			}
@@ -81,7 +83,7 @@ namespace ece
 				//		ece::WindowServiceLocator::getService().provideVideoMode(videoMode);
 				if (!this->isOpened()) {
 					this->_adapter->createWindow();
-
+					this->_isOpened = true;
 					//			WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 					//			WindowServiceLocator::getService().registerEventHandler(this->windowId);
 					this->emit(WINDOW_OPENED);
@@ -92,6 +94,7 @@ namespace ece
 			{
 				if (this->isOpened()) {
 					this->_adapter->deleteWindow();
+					this->_isOpened = false;
 					this->emit(WINDOW_CLOSED);
 				}
 			}

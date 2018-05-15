@@ -209,13 +209,14 @@ namespace ece
 				 * (0, 0) is usually defined in the top-left corner of the screen.
 				 */
 				void setPosition(const IntVector2u & position);
-		/**
-		 * @fn IntVector2u getSize() const
-		 * @return The current size of the window.
-		 * @brief Get the current size of the window.
-		 * @throw
-		 */
-		inline IntVector2u getSize() const;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The current size of the window.
+				 * @brief Get the current size of the window.
+				 * @throw
+				 */
+				inline IntVector2u getSize() const;
 
 				/**
 				 * @fn void setMinimumSize(const IntVector2u & size)
@@ -366,6 +367,12 @@ namespace ece
 				 * @brief The statistics about updates per second of the window.
 				 */
 				UpdatePerSecond _ups;
+
+				/**
+				 * @property _isOpened
+				 * @brief A tag to indicate that the window is opened or not.
+				 */
+				bool _isOpened;
 			};
 		} // namespace common
 	} // namespace core

@@ -41,19 +41,19 @@ namespace ece
 	{
 		namespace common
 		{
-			inline Window::Window(const Window & copy) noexcept:Emitter(copy), _adapter(static_cast<WindowAdapter*>(copy._adapter.get())), _ups(copy._ups) {}
+			inline Window::Window(const Window & copy) noexcept:Emitter(copy), _adapter(static_cast<WindowAdapter*>(copy._adapter.get())), _ups(copy._ups), _isOpened(copy._isOpened) {}
 
-			inline Window::Window(Window && move) noexcept : Emitter(move), _adapter(std::move(_adapter)), _ups(std::move(move._ups)) {}
+			inline Window::Window(Window && move) noexcept : Emitter(move), _adapter(std::move(_adapter)), _ups(std::move(move._ups)), _isOpened(move._isOpened) {}
 
 			inline Window::~Window() noexcept {}
 
 			inline void Window::open(const WindowSetting & /*settings*/) {}
+			
+			inline bool Window::isOpened() const { return this->_isOpened && this->_adapter->isWindowCreated(); }
 
-			inline bool Window::isOpened() const { return this->_adapter->isWindowCreated(); }
-
-	inline std::string Window::getTitle() const { return std::move(this->_adapter.get()->getTitle()); }
+			inline std::string Window::getTitle() const { return std::move(this->_adapter.get()->getTitle()); }
 	
-	inline IntVector2u Window::getSize() const { return std::move(this->_adapter.get()->getSize()); }
+			inline IntVector2u Window::getSize() const { return std::move(this->_adapter.get()->getSize()); }
 
 			inline void Window::setMinimumSize(const IntVector2u & /*size*/) { this->emit(WINDOW_RESIZED); }
 

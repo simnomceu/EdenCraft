@@ -93,17 +93,13 @@ int main()
 		// ForwardRendering technique;
 
 		ece::InputEvent event;
-		while (1) { // while(window.isOpened())
+		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
 			window.clear(ece::FUSHIA);
 
 			for (unsigned short int i = 0; i < 10; ++i) {
 				window.draw(*sprites[i]);
 			}
 			// technique.draw(queue)
-
-			/*
-
-			*/
 
 			if (window.pollEvent(event)) {
 			}
