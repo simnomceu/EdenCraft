@@ -1,4 +1,3 @@
-#include "chain_list.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -44,19 +43,20 @@ namespace ece
 		namespace container
 		{
 			template <class T>
-			constexpr ChainList<T>::ChainList() noexcept: std::enable_shared_from_this<ChainList<T>>(), _data(nullptr), _next(nullptr) {}
+			constexpr ChainList<T>::ChainList() noexcept: std::enable_shared_from_this<ChainList<T>>(), _data(nullptr), _next(nullptr), _previous(nullptr) {}
 
 			template<class T>
-			ChainList<T>::ChainList(const ChainList<T> & copy) noexcept: std::enable_shared_from_this<ChainList<T>>(), _data(new T(*copy._data)), _next(new T(*copy._next)) {}
+			ChainList<T>::ChainList(const ChainList<T> & copy) noexcept: std::enable_shared_from_this<ChainList<T>>(), _data(new T(*copy._data)), _next(new T(*copy._next)), _previous(new T(*copy._previous)) {}
 
 			template<class T>
-			ChainList<T>::ChainList(ChainList<T> && move) noexcept: std::enable_shared_from_this<ChainList<T>>(), _data(std::move(move._data)), _next(std::move(move._next)) {}
+			ChainList<T>::ChainList(ChainList<T> && move) noexcept: std::enable_shared_from_this<ChainList<T>>(), _data(std::move(move._data)), _next(std::move(move._next)), _previous(std::move(move._previous)) {}
 
 			template<class T>
 			ChainList<T>::~ChainList() noexcept
 			{
 				this->_data.reset();
-				this->next.reset();
+				this->_next.reset();
+				this->_previous.next();
 			}
 
 			template<class T>
@@ -64,6 +64,7 @@ namespace ece
 			{
 				this->_data = std::make_shared<T>(*copy._data);
 				this->_next = std::make_shared<T>(*copy._next);
+				this->_previous = std::make_shared<T>(*copy._previous);
 			}
 
 			template<class T>
@@ -71,6 +72,7 @@ namespace ece
 			{
 				this->_data = std::move(move._data);
 				this->_next = std::move(move._next);
+				this->_previous = std::move(move._previous);
 			}
 
 			template<class T>

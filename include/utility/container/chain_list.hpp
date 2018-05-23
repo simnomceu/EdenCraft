@@ -142,8 +142,8 @@ namespace ece
 				void swap(Iterator<T> lhs, Iterator<T> rhs);
 
 			protected:
-				std::shared_ptr<T> _data;
-				std::shared_ptr<ChainList<T>> _next;
+				std::shared_ptr<T> _head;
+				std::shared_ptr<T> _tail;
 			};
 
 			/**
