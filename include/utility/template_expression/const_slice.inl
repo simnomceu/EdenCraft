@@ -43,29 +43,23 @@ namespace ece
         namespace template_expression
         {
         	template<class Container>
-        	Slice<Container>::Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept:
-        		LinearExpression<Slice<Container>>(), _container(container), _beginning(beginning), _size(size), _shift(shift) {}
+        	ConstSlice<Container>::ConstSlice(const Container & container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept:
+        		LinearExpression<ConstSlice<Container>>(), _container(container), _beginning(beginning), _size(size), _shift(shift) {}
 
         	template<class Container>
-        	inline auto Slice<Container>::operator[](const unsigned int index) const { return this->_container->cell(this->_beginning + index * this->_shift); }
+        	inline auto ConstSlice<Container>::operator[](const unsigned int index) const { return this->_container.cell(this->_beginning + index * this->_shift); }
 
         	template<class Container>
-        	inline auto Slice<Container>::cell(const unsigned int index) const { return (*this)[index]; }
-
-            template<class Container>
-            inline auto & Slice<Container>::operator[](const unsigned int index) { return this->_container->cell(this->_beginning + index * this->_shift); }
-
-            template<class Container>
-            inline auto & Slice<Container>::cell(const unsigned int index) { return (*this)[index]; }
+        	inline auto ConstSlice<Container>::cell(const unsigned int index) const { return (*this)[index]; }
 
         	template<class Container>
-        	inline constexpr unsigned int Slice<Container>::size() const noexcept { return this->_size; }
+        	inline constexpr unsigned int ConstSlice<Container>::size() const noexcept { return this->_size; }
 
         	template<class Container>
-        	inline auto Slice<Container>::begin() noexcept { return this->_container->begin(); }
+        	inline auto ConstSlice<Container>::begin() const noexcept { return this->_container.begin(); }
 
         	template<class Container>
-        	inline auto Slice<Container>::end() noexcept { return this->_container->end(); }
+        	inline auto ConstSlice<Container>::end() const noexcept { return this->_container.end(); }
         } // namespace template_expression
     } // namespace utility
 } // namespace ece

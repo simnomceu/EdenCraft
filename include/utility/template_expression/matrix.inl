@@ -99,19 +99,19 @@ namespace ece
 			inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::operator[](const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1); }
 
 			template <typename E, unsigned int M, unsigned int N, typename enabled>
-			inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::operator[](const unsigned int index) const { return Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1); }
+			inline ConstSlice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::operator[](const unsigned int index) const { return ConstSlice<Matrix<E, M, N, enabled>>(*this, N * index, M, 1); }
 
 			template <typename E, unsigned int M, unsigned int N, typename enabled>
-			inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1); }
+			inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) { return std::move(Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1)); }
 
 			template <typename E, unsigned int M, unsigned int N, typename enabled>
-			inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) const { return Slice<Matrix<E, M, N, enabled>>(this, N * index, M, 1); }
+			inline ConstSlice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::row(const unsigned int index) const { return std::move(ConstSlice<Matrix<E, M, N, enabled>>(*this, N * index, M, 1)); }
 
 			template <typename E, unsigned int M, unsigned int N, typename enabled>
-			inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::column(const unsigned int index) { return Slice<Matrix<E, M, N, enabled>>(this, index, M, N); }
+			inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::column(const unsigned int index) { return std::move(Slice<Matrix<E, M, N, enabled>>(this, index, M, N)); }
 
 			template <typename E, unsigned int M, unsigned int N, typename enabled>
-			inline Slice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::column(const unsigned int index) const { return Slice<Matrix<E, M, N, enabled>>(this, index, M, N); }
+			inline ConstSlice<Matrix<E, M, N, enabled>> Matrix<E, M, N, enabled>::column(const unsigned int index) const { return std::move(ConstSlice<Matrix<E, M, N, enabled>>(*this, index, M, N)); }
 
 			template <typename E, unsigned int M, unsigned int N, typename enabled>
 			Filter<Matrix<E, M, N, enabled>, M * N, enabled> Matrix<E, M, N, enabled>::operator[](Matrix<bool, M, N, enabled> && filter) { return Filter<Matrix<E, M, N, enabled>, M * N>(this, std::move(filter)); }
@@ -277,9 +277,11 @@ namespace ece
 			{
 				Matrix<E1, Size, Size> result;
 				for (unsigned int i = 0; i < Size; ++i) {
+					auto row = lhs.row(i);
 					for (unsigned int j = 0; j < Size; ++j) {
+						auto column = rhs.column(j);
 						for (unsigned int k = 0; k < Size; ++k) {
-							result[i][j] += lhs.row(i)[k] * static_cast<E1>(rhs.column(j)[k]);
+							result[i][j] += row[k] * static_cast<E1>(column[k]);
 						}
 					}
 				}

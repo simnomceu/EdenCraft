@@ -41,11 +41,13 @@
 
 #include <utility>
 #include <type_traits>
+#include <iostream>
 
 #include "utility/template_expression/linear_expression.hpp"
 #include "utility/template_expression/filter.hpp"
 #include "utility/template_expression/vector.hpp"
 #include "utility/template_expression/slice.hpp"
+#include "utility/template_expression/const_slice.hpp"
 
 #ifdef _MSC_VER
 	#undef min
@@ -181,13 +183,13 @@ namespace ece
         		inline Slice<Matrix<E, M, N, enabled>> operator[](const unsigned int index);
 
         		/**
-        		* @fn E & operator[](const unsigned int index) const
+        		* @fn ConstSlice<Matrix<E, M, N, enabled>> operator[](const unsigned int index) const
         		* @param[in] index The index of the element to access.
         		* @return The element wished.
         		* @brief Get the element at the index.
         		* @throw
         		*/
-        		inline Slice<Matrix<E, M, N, enabled>> operator[](const unsigned int index) const;
+        		inline ConstSlice<Matrix<E, M, N, enabled>> operator[](const unsigned int index) const;
 
         		/**
         		 * Slice<Matrix<E, M, N, enabled>> row(const unsigned int index)
@@ -199,13 +201,13 @@ namespace ece
         		inline Slice<Matrix<E, M, N, enabled>> row(const unsigned int index);
 
         		/**
-        		* Slice<Matrix<E, M, N, enabled>> row(const unsigned int index) const
+        		* ConstSlice<Matrix<E, M, N, enabled>> row(const unsigned int index) const
         		* @param[in] index The index of the row to get.
         		* @return A slice of the matrix which is a row.
         		* @brief Get a row of the matrix.
         		* @throw
         		*/
-        		inline Slice<Matrix<E, M, N, enabled>> row(const unsigned int index) const;
+        		inline ConstSlice<Matrix<E, M, N, enabled>> row(const unsigned int index) const;
 
         		/**
         		 * Slice<Matrix<E, M, N, enabled>> column(const unsigned int index)
@@ -217,13 +219,13 @@ namespace ece
         		inline Slice<Matrix<E, M, N, enabled>> column(const unsigned int index);
 
         		/**
-        		* Slice<Matrix<E, M, N, enabled>> column(const unsigned int index) const
+        		* ConstSlice<Matrix<E, M, N, enabled>> column(const unsigned int index) const
         		* @param[in] index The index of the column to get.
         		* @return A slice of the matrix which is a row.
         		* @brief Get a column of the matrix.
         		* @throw
         		*/
-        		inline Slice<Matrix<E, M, N, enabled>> column(const unsigned int index) const;
+        		inline ConstSlice<Matrix<E, M, N, enabled>> column(const unsigned int index) const;
 
         		/**
         		 * @fn Filter<Matrix<E, M, N, enabled>, M * N, enabled> operator[](Matrix<bool, M, N, enabled> && filter)

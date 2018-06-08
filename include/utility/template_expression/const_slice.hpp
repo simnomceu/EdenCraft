@@ -36,13 +36,12 @@
 
 */
 
-#ifndef SLICE_HPP
-#define SLICE_HPP
+#ifndef CONST_SLICE_HPP
+#define CONST_SLICE_HPP
 
 #include "utility/template_expression/vector.hpp"
 
 #include <iostream>
-#include <memory>
 
 namespace ece
 {
@@ -51,19 +50,19 @@ namespace ece
         namespace template_expression
         {
         	/**
-        	 * @class Slice
+        	 * @class ConstSlice
         	 * @tparam Container The type of container to slice.
-        	 * @extends LinearExpression<Slice<Container>>
+        	 * @extends LinearExpression<ConstSlice<Container>>
         	 * @brief A slice of a container.
         	 */
         	template <class Container>
-        	class Slice : public LinearExpression<Slice<Container>>
+        	class ConstSlice : public LinearExpression<ConstSlice<Container>>
         	{
         	public:
-        		constexpr Slice() noexcept = delete;
+        		constexpr ConstSlice() noexcept = delete;
 
         		/**
-        		 * @fn Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift)
+        		 * @fn ConstSlice(const Container & container,, unsigned int beginning, unsigned int size, unsigned int shift)
         		 * @param[in] container The container to slice.
         		 * @param[in] beginning Where to begin to slice the container.
         		 * @param[in] size The size of the slice.
@@ -71,48 +70,48 @@ namespace ece
         		 * @brief Build a slice of the container.
         		 * @throw noexcept
         		 */
-        		Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
+        		ConstSlice(const Container & container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
 
         		/**
-        		 * @fn Slice(const Slice & copy) noexcept
-        		 * @param[in] copy The Slice to copy from.
+        		 * @fn ConstSlice(const ConstSlice & copy) noexcept
+        		 * @param[in] copy The ConstSlice to copy from.
         		 * @brief Default copy constructor.
         		 * @throw noexcept
         		 */
-        		Slice(const Slice & copy) noexcept = default;
+        		ConstSlice(const ConstSlice & copy) noexcept = default;
 
         		/**
-        		 * @fn Slice(Slice && move) noexcept
-        		 * @param[in] move The Slice to move.
+        		 * @fn ConstSlice(ConstSlice && move) noexcept
+        		 * @param[in] move The ConstSlice to move.
         		 * @brief Default move constructor.
         		 * @throw noexcept
         		 */
-        		Slice(Slice && move) noexcept = default;
+        		ConstSlice(ConstSlice && move) noexcept = default;
 
         		/**
-        		 * @fn ~Slice() noexcept
+        		 * @fn ~ConstSlice() noexcept
         		 * @brief Default destructor.
         		 * @throw noexcept
         		 */
-				~Slice() noexcept = default;
+				~ConstSlice() noexcept = default;
 
         		/**
-        		 * @fn Slice & operator=(const Slice & copy) noexcept
-        		 * @param[in] copy The Slice to copy from.
-        		 * @return The Slice copied.
+        		 * @fn ConstSlice & operator=(const ConstSlice & copy) noexcept
+        		 * @param[in] copy The ConstSlice to copy from.
+        		 * @return The ConstSlice copied.
         		 * @brief Default copy assignment operator.
         		 * @throw noexcept
         		 */
-        		Slice & operator=(const Slice & copy) noexcept = default;
+        		ConstSlice & operator=(const ConstSlice & copy) noexcept = default;
 
         		/**
-        		 * @fn Slice & operator=(Slice && move) noexcept
-        		 * @param[in] move The Slice to move.
-        		 * @return The Slice moved.
+        		 * @fn ConstSlice & operator=(ConstSlice && move) noexcept
+        		 * @param[in] move The ConstSlice to move.
+        		 * @return The ConstSlice moved.
         		 * @brief Default move assignment operator.
         		 * @throw noexcept
         		 */
-        		Slice & operator=(Slice && move) noexcept = default;
+        		ConstSlice & operator=(ConstSlice && move) noexcept = default;
 
         		/**
         		 * @fn auto operator[](const unsigned int index) const
@@ -120,7 +119,7 @@ namespace ece
         		 * @return The element wished.
         		 * @brief Get the element at the index.
         		 * @throw
-        		 * @see auto Slice<Container>::cell(const unsigned int index) const
+        		 * @see auto ConstSlice<Container>::cell(const unsigned int index) const
         		 */
         		inline auto operator[](const unsigned int index) const;
 
@@ -130,29 +129,9 @@ namespace ece
         		 * @return The element wished.
         		 * @brief Get the element at the index.
         		 * @throw
-        		 * @see auto Slice<Container>::operator[](const unsigned int index) const
+        		 * @see auto ConstSlice<Container>::operator[](const unsigned int index) const
         		 */
         		inline auto cell(const unsigned int index) const;
-
-        		/**
-        		 * @fn auto & operator[](const unsigned int index)
-        		 * @param[in] index The index of the element to access.
-        		 * @return The element wished.
-        		 * @brief Get the element at the index.
-        		 * @throw
-        		 * @see auto & Slice<Container>::cell(const unsigned int index)
-        		 */
-        		inline auto & operator[](const unsigned int index);
-
-        		/**
-        		 * @fn auto & cell(const unsigned int index)
-        		 * @param[in] index The index of the element to access.
-        		 * @return The element wished.
-        		 * @brief Get the element at the index.
-        		 * @throw
-        		 * @see auto & Slice<Container>::operator[](const unsigned int index)
-        		 */
-        		inline auto & cell(const unsigned int index);
 
         		/**
         		 * @fn constexpr unsigned int size() const noexcept
@@ -168,7 +147,7 @@ namespace ece
         		 * @brief Get an iterator to the beginning of the slice.
         		 * @throw noexcept
         		 */
-        		inline auto begin() noexcept;
+        		inline auto begin() const noexcept;
 
         		/**
         		 * @fn auto end() noexcept
@@ -176,14 +155,14 @@ namespace ece
         		 * @brief Get an iterator to the end of the slice.
         		 * @throw noexcept
         		 */
-        		inline auto end() noexcept;
+        		inline auto end() const noexcept;
 
         	protected:
         		/**
         		 * @property _container
         		 * @brief The contaner to slice.
         		 */
-        		Container * _container;
+				Container _container;
 
         		/**
         		 * @property _beginning
@@ -207,6 +186,6 @@ namespace ece
     } // namespace template_expression
 } // namespace ece
 
-#include "utility/template_expression/slice.inl"
+#include "utility/template_expression/const_slice.inl"
 
-#endif // SLICE_HPP
+#endif // CONST_SLICE_HPP
