@@ -51,11 +51,9 @@ namespace ece
 				FloatVector3u x, y, z;
 				z = eye - target;
 				z = z.normalize();
-				y = upAxis;
-				x = y.cross(z);
-				y = z.cross(x);
+				x = upAxis.cross(z);
 				x = x.normalize();
-				y = y.normalize();
+				y = z.cross(x);
 
 				return FloatMatrix4u{ x[0], y[0], z[0], 0.0f,
 									   x[1], y[1], z[1], 0.0f,
@@ -65,16 +63,13 @@ namespace ece
 
 			FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)
 			{
-				float scale = static_cast<float>(std::tan(FOV * 0.5f * PI / 180.0f)) * nearClipping;
-				Rectangle<float> screen(-ratio * scale, -scale, 2.0f * std::fabs(-ratio * scale), 2 * std::fabs(scale));
-				float right = screen.getX() + screen.getWidth();
-				float top = screen.getY() + screen.getHeight();
+				const float tanFOV = static_cast<float>(std::tan(FOV * 0.5f * PI / 180.0f));
+				const float rangeClipping = nearClipping - farClipping;
 
-				return FloatMatrix4u{ 2.0f * nearClipping / screen.getWidth(), 0.0f, 0.0f, 0.0f,
-									 0.0f, 2.0f * nearClipping / screen.getHeight(), 0.0f, 0.0f,
-									 (right + screen.getX()) / (right - screen.getX()), (top + screen.getY()) / (top - screen.getY()),
-									 -(farClipping + nearClipping) / (farClipping - nearClipping), -1.0f,
-									 0.0f, 0.0f, -2.0f * farClipping * nearClipping / (farClipping - nearClipping), 0.0f };
+				return FloatMatrix4u{ 1.0f / (tanFOV * ratio), 0.0f, 0.0f, 0.0f,
+									 0.0f, 1.0f / tanFOV, 0.0f, 0.0f,
+									 0.0f, 0.0f, (-nearClipping - farClipping) / -rangeClipping, -1.0f,
+									 0.0f, 0.0f, 2.0f * farClipping * nearClipping / rangeClipping, 0.0f };
 			}
 
 
@@ -83,10 +78,10 @@ namespace ece
 				float right = screen.getX() + screen.getWidth();
 				float top = screen.getY() + screen.getHeight();
 
-				return FloatMatrix4u{ 2.0f / screen.getWidth(), 0.0f, 0.0f, -(right + screen.getX()) / screen.getWidth(),
-									 0.0f, 2.0f / screen.getHeight(), 0.0f, -(top + screen.getY()) / screen.getHeight(),
-									 0.0f, 0.0f, 2.0f / (farClipping - nearClipping), -(farClipping + nearClipping) / (farClipping - nearClipping),
-									 0.0f, 0.0f, 0.0f, 1.0f };
+				return FloatMatrix4u{ 2.0f / screen.getWidth(), 0.0f, 0.0f, 0.0f,
+									 0.0f, 2.0f / screen.getHeight(), 0.0f, 0.0f,
+									 0.0f, 0.0f, 2.0f / (farClipping - nearClipping), 0.0f,
+									 -(right + screen.getX()) / screen.getWidth(), -(top + screen.getY()) / screen.getHeight(), -(farClipping + nearClipping) / (farClipping - nearClipping), 1.0f };
 			}
 
 			FloatMatrix4u scale(const FloatVector3u &  scale)

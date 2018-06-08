@@ -38,7 +38,6 @@
 
 */
 
-//#include "glm\gtc\matrix_transform.hpp"
 #include "utility/mathematics/transform.hpp"
 
 namespace ece
@@ -60,13 +59,6 @@ namespace ece
 			inline void Camera::moveTo(const FloatVector3u & position) { this->updatePosition(position, this->_target); }
 
 			inline void Camera::moveIn(const FloatVector3u & direction) { this->updatePosition(this->_position + direction, this->_target); }
-
-			/*inline glm::mat4 Camera::getCamera() const
-			{
-				return glm::lookAt(glm::vec3(this->position[X], this->position[Y], this->position[Z]),
-									glm::vec3(this->target[X], this->target[Y], this->target[Z]),
-									glm::vec3(this->upAxis[X], this->upAxis[Y], this->upAxis[Z]));
-			}*/
 
 			inline FloatMatrix4u Camera::getView() const { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
 

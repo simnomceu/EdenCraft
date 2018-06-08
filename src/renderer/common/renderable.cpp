@@ -49,11 +49,12 @@ namespace ece
 		{
 			using utility::mathematics::FloatMatrix4u;
 			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::rotate;
-			using utility::mathematics::translate;
 			using opengl::OpenGL;
 
-			Renderable::Renderable() noexcept: _vao(), _mode(), _program() {}
+			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model()
+			{
+				this->_model.setIdentity();
+			}
 
 			Renderable::~Renderable() {}
 
@@ -65,11 +66,17 @@ namespace ece
 				OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
 			}
 
-			void Renderable::setCamera(const FloatVector3u & view, const FloatVector3u & projection) const noexcept
+			void Renderable::setCamera(const FloatMatrix4u & view, const FloatMatrix4u & projection) const noexcept
 			{
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, translate(FloatVector3u{80.0f, 0.0f, 0.0f}) * rotate(FloatVector3u{ 0.0f, 0.0f, 1.0f }, 45.0f));
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "view"), true, view);
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "projection"), true, projection);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "view"), false, view);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "projection"), false, projection);
+			}
+
+			void Renderable::applyTransformation(const FloatMatrix4u & transformation)
+			{
+				this->_model = transformation * this->_model;
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
 			}
 		} // namespace common
 	} // namespace renderer

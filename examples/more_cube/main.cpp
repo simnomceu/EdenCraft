@@ -51,6 +51,8 @@ namespace ece
 
 	using window::common::WindowSetting;
 	using window::window_event::InputEvent;
+	using utility::mathematics::rotate;
+	using utility::mathematics::translate;
 }
 
 int main()
@@ -77,8 +79,9 @@ int main()
 		window.setViewport(viewport);
 
 		ece::Camera camera;
-		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), -1.0f, 1.0f); // TODO: using window.getViewportSize() ?
-        camera.moveTo(ece::FloatVector3u{0.0f, 5.0f, 5.0f});
+//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
+		camera.setPerspective(120, window.getSize()[0] / window.getSize()[1], 0.1, 100.0);
+        camera.moveTo(ece::FloatVector3u{0.0f, 0.0f, 99.0f});
         camera.lookAt(ece::FloatVector3u{0.0f, 0.0f, 0.0f});
 
 		ece::Texture2D texture;
@@ -89,6 +92,7 @@ int main()
 		for (unsigned short int i = 0; i < 10; ++i) {
 			// ece::Sprite sprite;
 			sprites[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
+			sprites[i]->applyTransformation(ece::translate(ece::FloatVector3u{ -80.0f, -80.0f, 0.0f }));
 			sprites[i]->setCamera(camera.getView(), camera.getProjection());
 			// queue.insert(sprite)
 		}
@@ -100,6 +104,7 @@ int main()
 			window.clear(ece::FUSHIA);
 
 			for (unsigned short int i = 0; i < 10; ++i) {
+				sprites[i]->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 0.0f, 1.0f }, i * 0.001f));
 				window.draw(*sprites[i]);
 			}
 			// technique.draw(queue)

@@ -89,7 +89,7 @@ namespace ece
 			{
 				for (unsigned int i = 0; i < M; ++i) {
 					for (unsigned int j = 0; j < N; ++j) {
-						(*this)[i][j] = i == j ? 1 : 0;
+						(*this)[i][j] = (i == j) ? static_cast<E>(1) : static_cast<E>(0);
 					}
 				}
 				return *this;
