@@ -147,8 +147,8 @@ namespace ece
 
 				OpenGL::enable(Capability::DEPTH_TEST);
 				OpenGL::depthFunc(DepthFunctionCondition::LESS);
-		OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glViewport(0, 0, window.getSize()[0], window.getSize()[1]);
+				OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
+				glViewport(0, 0, window.getSize()[0], window.getSize()[1]);
 
 				OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
