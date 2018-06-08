@@ -51,7 +51,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace x11
+		namespace opengl
 		{
 			/**
 			 * @class DataContextOpenGL
@@ -84,7 +84,7 @@ namespace ece
 				 */
 				::Window _windowHandle;
 			};
-		} // namespace x11
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 

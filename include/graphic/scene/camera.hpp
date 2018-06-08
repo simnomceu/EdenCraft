@@ -44,6 +44,7 @@
 #include "graphic/model/movable.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/matrix4u.hpp"
+#include "renderer/common/projection.hpp"
 
 namespace ece
 {
@@ -54,6 +55,9 @@ namespace ece
 			using model::Movable;
 			using utility::mathematics::FloatVector3u;
 			using utility::mathematics::FloatMatrix4u;
+            using renderer::common::Projection;
+			using window::common::Ratio;
+			using utility::mathematics::Rectangle;
 
 			/**
 			 * @class Camera
@@ -159,13 +163,41 @@ namespace ece
 				inline void moveIn(const FloatVector3u & direction);
 
 				/**
-				 * @fn FloatMatrix4u getCamera() const
+				 * @fn FloatMatrix4u getView() const
 				 * @return The view matrix.
 				 * @brief Get the view matrix according to the camera.
 				 * @throw
 				 */
-				inline FloatMatrix4u getCamera() const;
+				inline FloatMatrix4u getView() const;
 
+                /**
+                 * @fn void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
+                 * @param[in] FOV The field of view of the camera.
+                 * @param[in] ratio The ratio of the screen.
+                 * @param[in] nearClipping The nearest plan of the scene to capture.
+                 * @param[in] farClipping The furthest plan of the scene to capture.
+                 * @brief Set the projection matrix.
+                 * @throw
+                 */
+                inline void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
+
+                /**
+                 * @fn void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
+                 * @param[in] screen The screen rectangle to project the rendering.
+                 * @param[in] nearClipping Nearest distance of the frustum view.
+                 * @param[in] farClipping Furthest distance of the frustum view.
+                 * @brief Set the projection matrix.
+                 * @throw
+                 */
+                inline void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
+
+                /**
+                 * @fn const FloatMatrix4u & getProjection() const
+                 * @return The projection matrix.
+                 * @brief Get the projection matrix.
+                 * @throw
+                 */
+                inline const FloatMatrix4u & getProjection() const;
 			private:
 				/**
 				 * @fn void updatePosition(const FloatVector3u & position, const FloatVector3u & target)
@@ -193,6 +225,12 @@ namespace ece
 				 * @brief The vector that defines the up axis.
 				 */
 				FloatVector3u _upAxis;
+
+                /**
+                 * @property _projection
+                 * @brief The projection of the scene in a 2D plane by the camera.
+                 */
+                Projection _projection;
 			};
 		} // namespace scene
 	} // namespace graphic

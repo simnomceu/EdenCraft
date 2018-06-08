@@ -51,6 +51,8 @@ namespace ece
 	{
 		namespace renderable
 		{
+			using renderer::ShaderType;
+
 			/**
 			 * @class ShaderSource
 			 * @brief The sources of a shader program.

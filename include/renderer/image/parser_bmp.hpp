@@ -53,7 +53,7 @@ namespace ece
 	{
 		namespace image
 		{
-			using namespace utility::file_system;
+			using utility::file_system::Parser;
 
 			/**
 			 * @class ParserBMP
@@ -69,7 +69,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr ParserBMP() noexcept = default;
+				ParserBMP() noexcept = default;
 
 				/**
 				 * @fn ParserBMP(const ParserBMP & copy)

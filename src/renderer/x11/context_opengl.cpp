@@ -53,6 +53,10 @@ namespace ece
 	{
 		namespace opengl
 		{
+			using utility::log::ServiceLoggerLocator;
+			using utility::debug::AssertionException;
+			using utility::pattern::makePimpl;
+
 			ContextOpenGL::ContextOpenGL() noexcept: BaseContext(), _data(makePimpl<DataContextOpenGL>())
 			{
 			}

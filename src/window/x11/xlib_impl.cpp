@@ -135,11 +135,23 @@ namespace ece
 
 			IntVector2u XlibImpl::getPosition() const
 			{
-				IntVector2u result;
+				int x = 0, y = 0;
+				unsigned int w = 0, h = 0, border = 0, depth = 0;
 				Window dummy;
-				XTranslateCoordinates(this->_connection, XRootWindow(this->_connection, 0), this->_windowId, 0, 0, &result[0], &result[1], &dummy);
+				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
+		//        XTranslateCoordinates(this->_connection, XRootWindow(this->_connection, 0), this->_windowId, 0, 0, &result[0], &result[1], &dummy);
 
-				return result;
+				return IntVector2u{ x, y };
+			}
+
+			IntVector2u XlibImpl::getSize() const
+			{
+				int x = 0, y = 0;
+				unsigned int w = 0, h = 0, border = 0, depth = 0;
+				Window dummy;
+				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
+
+				return IntVector2u{ static_cast<int>(w), static_cast<int>(h) };
 			}
 
 			void XlibImpl::minimize()
@@ -260,9 +272,11 @@ namespace ece
 						break;
 					}
 					case DestroyNotify: {
+						std::cout << std::endl << std::endl << ">>>>>>>>>>>>>>>>>>>>>>>>>>> DESTROY <<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl;
 						break;
 					}
 					case UnmapNotify: {
+						std::cout << std::endl << std::endl << ">>>>>>>>>>>>>>>>>>>>>>>>>>> UNMAP <<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl;
 						break;
 					}
 					case MapNotify: {

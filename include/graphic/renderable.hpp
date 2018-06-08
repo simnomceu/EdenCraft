@@ -41,10 +41,8 @@
 #ifndef GRAPHIC_RENDERABLE_HPP
 #define GRAPHIC_RENDERABLE_HPP
 
-#include "graphic/renderable/base_uniform.hpp"
-#include "graphic/renderable/renderable.hpp"
 #include "graphic/renderable/shader_source.hpp"
-#include "graphic/renderable/uniform.hpp"
+#include "graphic/renderable/sprite.hpp"
 #include "graphic/renderable/vertex.hpp"
 
 namespace ece

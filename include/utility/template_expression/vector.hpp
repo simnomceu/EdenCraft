@@ -314,12 +314,12 @@ namespace ece
         		inline auto distanceFrom(const E2 & rhs) const;
 
                 /**
-                 * @fn LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>> normalize() const
+                 * @fn Vector<E, Size, enabled> normalize() const
                  * @return The linear operation of normalization.
                  * @brief Get the linear operation of normalization of the vector.
                  * @throw
                  */
-        		LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>> normalize() const;
+				Vector<E, Size, enabled> normalize() const;
 
                 /**
                  * @fn Vector<E, Size, enabled> cross(const E2 & rhs) const

@@ -42,7 +42,7 @@
 #define SCENE_HPP
 
 #include "graphic/scene/camera.hpp"
-#include "graphic/scene/projection.hpp"
+#include "renderer/common/projection.hpp"
 
 #include <vector>
 
@@ -50,11 +50,6 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace renderable
-		{
-			class Renderable;
-		}
-
 		namespace model
 		{
 			class Object;
@@ -62,7 +57,6 @@ namespace ece
 
 		namespace scene
 		{
-			using renderable::Renderable;
 			using model::Object;
 
 			/**
@@ -142,7 +136,7 @@ namespace ece
 				 * @brief Get the list of objects of the scene.
 				 * @throw
 				 */
-				inline std::vector<Renderable *> & getObjects();
+				inline std::vector<Object *> & getObjects();
 
 			private:
 				/**
@@ -155,7 +149,7 @@ namespace ece
 				 * @property _objects
 				 * @brief The list of objects in the scene.
 				 */
-				std::vector<Renderable *> _objects;
+				std::vector<Object *> _objects;
 			};
 		} // namespace scene
 	} // namespace graphic

@@ -108,6 +108,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Light emitter (spot, directional, point).
 + [ ] Toon shading
 + [ ] Reflection and Refraction.
++ [ ] Shader AST.
 ##### Graphic
 + [ ] Scene graph.
 + [ ] Procedural texture generation (2D and 3D, eg. terrains).
@@ -184,3 +185,11 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 
 ### beta-1.0.0
 + [ ] Unit testing everywhere.
+##### Utility
+##### Core
+##### Window
+##### Renderer
+##### Graphic
+##### Audio
+##### Network
+##### Physic

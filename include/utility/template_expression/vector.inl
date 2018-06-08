@@ -164,7 +164,7 @@ namespace ece
         	inline auto Vector<E, Size, enabled>::distanceFrom(const E2 & rhs) const { return ((*this) - rhs).magnitude(); }
 
         	template <typename E, unsigned int Size, typename enabled>
-        	LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>> Vector<E, Size, enabled>::normalize() const { return LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>>(*this, this->magnitude()); }
+			Vector<E, Size, enabled> Vector<E, Size, enabled>::normalize() const { return (*this) / Vector<E, Size, enabled>(this->magnitude()); }
 
         	template <typename E, unsigned int Size, typename enabled>
         	template <class E2, typename enabledBis>

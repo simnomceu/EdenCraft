@@ -42,54 +42,82 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        namespace mathematics
-        {
-        	FloatMatrix4u lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis)
-        	{
-        		FloatVector3u x, y, z;
-        		z = eye - target;
-        		z = z.normalize();
-        		y = upAxis;
-        		x = y.cross(z);
-        		y = z.cross(x);
-        		x = x.normalize();
-        		y = y.normalize();
+	namespace utility
+	{
+		namespace mathematics
+		{
+			FloatMatrix4u lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis)
+			{
+				FloatVector3u x, y, z;
+				z = eye - target;
+				z = z.normalize();
+				x = upAxis.cross(z);
+				x = x.normalize();
+				y = z.cross(x);
 
-        		return FloatMatrix4u{ x[0], y[0], z[0], 0.0f,
-        							   x[1], y[1], z[1], 0.0f,
-        							   x[2], y[2], z[2], 0.0f,
-        							   -x.dot(eye), -y.dot(eye), -z.dot(eye), 1.0f };
-        	}
+				return FloatMatrix4u{ x[0], y[0], z[0], 0.0f,
+									   x[1], y[1], z[1], 0.0f,
+									   x[2], y[2], z[2], 0.0f,
+									   -x.dot(eye), -y.dot(eye), -z.dot(eye), 1.0f };
+			}
 
-        	FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)
-        	{
-        		float scale = static_cast<float>(std::tan(FOV * 0.5f * PI / 180.0f)) * nearClipping;
-        		Rectangle<float> screen(-ratio * scale, -scale, 2.0f * std::fabs(-ratio * scale), 2 * std::fabs(scale));
-        		float right = screen.getX() + screen.getWidth();
-        		float top = screen.getY() + screen.getHeight();
+			FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)
+			{
+				const float tanFOV = static_cast<float>(std::tan(FOV * 0.5f * PI / 180.0f));
+				const float rangeClipping = nearClipping - farClipping;
 
-        		return FloatMatrix4u{ 2.0f * nearClipping / screen.getWidth(), 0.0f, 0.0f, 0.0f,
-        							 0.0f, 2.0f * nearClipping / screen.getHeight(), 0.0f, 0.0f,
-        							 (right + screen.getX()) / (right - screen.getX()), (top + screen.getY()) / (top - screen.getY()),
-        							 -(farClipping + nearClipping) / (farClipping - nearClipping), -1.0f,
-        							 0.0f, 0.0f, -2.0f * farClipping * nearClipping / (farClipping - nearClipping), 0.0f };
-        	}
+				return FloatMatrix4u{ 1.0f / (tanFOV * ratio), 0.0f, 0.0f, 0.0f,
+									 0.0f, 1.0f / tanFOV, 0.0f, 0.0f,
+									 0.0f, 0.0f, (-nearClipping - farClipping) / -rangeClipping, -1.0f,
+									 0.0f, 0.0f, 2.0f * farClipping * nearClipping / rangeClipping, 0.0f };
+			}
 
 
-        	FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
-        	{
-        		float right = screen.getX() + screen.getWidth();
-        		float top = screen.getY() + screen.getHeight();
+			FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
+			{
+				float right = screen.getX() + screen.getWidth();
+				float top = screen.getY() + screen.getHeight();
 
-        		return FloatMatrix4u{ 2.0f / screen.getWidth(), 0.0f, 0.0f, 0.0f,
-        							 0.0f, 2.0f / screen.getHeight(), 0.0f, 0.0f,
-        							 0.0f, 0.0f, -2.0f / (farClipping - nearClipping), 0.0f,
-        							 -(right + screen.getX()) / (right - screen.getX()),
-        							 -(top + screen.getY()) / (top - screen.getY()),
-        							 -(farClipping + nearClipping) / (farClipping - nearClipping), 1.0f };
-        	}
-        } // namespace mathematics
-    } // namespace utility
+				return FloatMatrix4u{ 2.0f / screen.getWidth(), 0.0f, 0.0f, 0.0f,
+									 0.0f, 2.0f / screen.getHeight(), 0.0f, 0.0f,
+									 0.0f, 0.0f, 2.0f / (farClipping - nearClipping), 0.0f,
+									 -(right + screen.getX()) / screen.getWidth(), -(top + screen.getY()) / screen.getHeight(), -(farClipping + nearClipping) / (farClipping - nearClipping), 1.0f };
+			}
+
+			FloatMatrix4u scale(const FloatVector3u &  scale)
+			{
+				FloatMatrix4u matrix;
+				matrix[0][0] = scale[0];
+				matrix[1][1] = scale[1];
+				matrix[2][2] = scale[2];
+				matrix[3][3] = 1.0f;
+				return std::move(matrix);
+			}
+
+			FloatMatrix4u translate(const FloatVector3u & translation)
+			{
+				auto matrix = FloatMatrix4u::Identity();
+				matrix[0][3] = translation[0];
+				matrix[1][3] = translation[1];
+				matrix[2][3] = translation[2];
+				return matrix;
+			}
+
+			FloatMatrix4u rotate(const FloatVector3u & axis, const float angle)
+			{
+				FloatMatrix4u matrix;
+				matrix[0][0] = std::cos(angle) + axis[0] * axis[0] * (1 - std::cos(angle));
+				matrix[0][1] = axis[0] * axis[1] * (1 - std::cos(angle)) - axis[2] * std::sin(angle);
+				matrix[0][2] = axis[0] * axis[2] * (1 - std::cos(angle)) + axis[1] * std::sin(angle);
+				matrix[1][0] = axis[0] * axis[1] * (1 - std::cos(angle)) + axis[2] * std::sin(angle);
+				matrix[1][1] = std::cos(angle) + axis[1] * axis[1] * (1 - std::cos(angle));
+				matrix[1][2] = axis[1] * axis[2] * (1 - std::cos(angle)) - axis[0] * std::sin(angle);
+				matrix[2][0] = axis[0] * axis[2] * (1 - std::cos(angle)) - axis[1] * std::sin(angle);
+				matrix[2][1] = axis[1] * axis[2] * (1 - std::cos(angle)) + axis[0] * std::sin(angle);
+				matrix[2][2] = std::cos(angle) + axis[2] * axis[2] * (1 - std::cos(angle));
+				matrix[3][3] = 1.0f;
+				return matrix;
+			}
+		} // namespace mathematics
+	} // namespace utility
 } // namespace ece

@@ -65,53 +65,51 @@ namespace ece
 
 		namespace opengl
 		{
-			using utility::mathematics::Matrix2u;
-			using utility::mathematics::Matrix3u;
-			using utility::mathematics::Matrix4u;
-			using utility::mathematics::Vector2u;
-			using utility::mathematics::Vector3u;
-			using utility::mathematics::Vector4u;
+			using namespace utility::mathematics;
+			using namespace utility::template_expression;
 			using utility::indexing::Version;
 			using common::BaseContext;
 
-			using Handle = unsigned short int;
+			using Handle = unsigned int;
+
+			class BaseContext;
 
 			/**
-			 * @class OpenGL
-			 * @brief Interface for all OpenGL extensions.
-			 */
+			* @class OpenGL
+			* @brief Interface for all OpenGL extensions.
+			*/
 			class OpenGL
 			{
 			public:
 				/**
-				 * @fn ~OpenGL() noexcept ~OpenGL() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
+				* @fn ~OpenGL() noexcept ~OpenGL() noexcept
+				* @brief Default destructor.
+				* @throw noexcept
+				*/
 				~OpenGL() noexcept = default;
 
 				/**
-				 * @fn void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-				 * @param[in] minVersionGL The mandatory minimum version of OpenGL.
-				 * @param[in] maxVersionGL The mandatory maximum version of OpenGL.
-				 * @brief Initialize the driver to load OpenL calls.
-				 * @throw
-				 */
+				* @fn void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+				* @param[in] minVersionGL The mandatory minimum version of OpenGL.
+				* @param[in] maxVersionGL The mandatory maximum version of OpenGL.
+				* @brief Initialize the driver to load OpenL calls.
+				* @throw
+				*/
 				static void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
 
 				/**
-				 * @fn Version<2> & getLatestVersion()
-				 * @return The lastest version available of OpenGL.
-				 * @brief Get the most recent version available of OpenGL.
-				 * @throw
-				 */
+				* @fn Version<2> & getLatestVersion()
+				* @return The lastest version available of OpenGL.
+				* @brief Get the most recent version available of OpenGL.
+				* @throw
+				*/
 				static inline Version<2> & getLatestVersion();
 
 				/**
-				 * @fn void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext)
-				 * @param[in] currentContext The OpenGL context to use.
-				 * @brief Define a context as the one to currently use.
-				 */
+				* @fn void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext)
+				* @param[in] currentContext The OpenGL context to use.
+				* @brief Define a context as the one to currently use.
+				*/
 				static inline void setCurrentContext(const std::shared_ptr<BaseContext> & currentContext);
 
 				static inline void bindBuffer(const BufferType type, const Handle handle);
@@ -207,7 +205,8 @@ namespace ece
 				//		static inline void multiDrawElementsBaseVertex(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount, const int * basevertex);
 				static inline Handle genBuffers();
 				static inline std::vector<Handle> genBuffers(const int count);
-				//		static inline void deleteBuffers(GLsizei n, const unsigned int * buffers);
+				static inline void deleteBuffer(const Handle buffer);
+				static inline void deleteBuffers(const std::vector<Handle> & buffers);
 				//		static inline void bindBuffer(GLenum target, unsigned int buffer);
 				//		static inline void bindBufferRange(GLenum target, unsigned int index, unsigned int buffer, GLintptr offset, GLsizeiptr size);
 				//		static inline void bindBufferBase(GLenum target, unsigned int index, unsigned int buffer);
@@ -228,7 +227,7 @@ namespace ece
 				//		static inline void getBufferPointerv(GLenum target, GLenum pname, void ** params);
 				//		static inline bool isVertexArray(unsigned int array);
 				//		static inline void depthRange(double nearVal, double farVal);
-				//		static inline void viewport(int x, int y, GLsizei width, GLsizei height);
+				static inline void viewport(const int x, const int y, const unsigned int width, const unsigned int height);
 				//		static inline void clampColor(GLenum target, GLenum clamp);
 				//		static inline void provokingVertex(GLenum provokeMode);
 				//		static inline void beginConditionalRender(unsigned int id, GLenum mode);
@@ -252,7 +251,7 @@ namespace ece
 				static inline void deleteShader(const Handle handle);
 				static inline Handle createProgram();
 				static inline void attachShader(const Handle program, const Handle shader);
-				//		static inline void detachShader(unsigned int program, unsigned int shader);
+				static inline void detachShader(const Handle program, const Handle shader);
 				static inline void linkProgram(const Handle handle);
 				static inline void useProgram(const Handle handle);
 				//		static inline void deleteProgram(unsigned int program);
@@ -280,6 +279,7 @@ namespace ece
 				//		static inline void uniform2uiv(int location, GLsizei count, const unsigned int *value);
 				//		static inline void uniform3uiv(int location, GLsizei count, const unsigned int *value);
 				//		static inline void uniform4uiv(int location, GLsizei count, const unsigned int *value);
+				template <class T, unsigned int M, unsigned int N> static inline void uniform(const int location, const bool transpose, const Matrix<T, M, N> & v);
 				//		static inline void uniformMatrix2fv(int location, GLsizei count, bool transpose, const float *value);
 				//		static inline void uniformMatrix3fv(int location, GLsizei count, bool transpose, const float *value);
 				//		static inline void uniformMatrix4fv(int location, GLsizei count, bool transpose, const float *value);
@@ -293,12 +293,12 @@ namespace ece
 				//		static inline void transformFeedbackVaryings(unsigned int program, GLsizei count, const char **varyings, GLenum bufferMode);
 				//		static inline void getTransformFeedbackVarying(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, char *name);
 				//		static inline void validateProgram(unsigned int program);
-				//		static inline void getProgramiv(unsigned int program, GLenum pname, int *params);
+				static inline std::vector<int> getProgramiv(const Handle program, const ProgramParameter pname);
 				//		static inline void bindFragDataLocation(unsigned int program, unsigned int colorNumber, const char * name);
 				//		static inline int getFragDataLocation(unsigned int program, const char * name);
 				//		static inline bool isShader(unsigned int shader);
 				//		static inline void getShaderiv(unsigned int shader, GLenum pname, int *params);
-				//		static inline void getAttachedShaders(unsigned int program, GLsizei maxCount, GLsizei *count, unsigned int *shaders);
+				static inline std::vector<Handle> getAttachedShaders(const Handle program);
 				//		static inline void getShaderInfoLog(unsigned int shader, GLsizei maxLength, GLsizei *length, char *infoLog);
 				//		static inline void getShaderSource(unsigned int shader, GLsizei bufSize, GLsizei *length, char *source);
 				//		static inline void getVertexAttribdv(unsigned int index, GLenum pname, double *params);
@@ -347,10 +347,7 @@ namespace ece
 				//		static inline void texImage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, bool fixedsamplelocations);
 				//		static inline void texBuffer(GLenum target, GLenum internalFormat, unsigned int buffer);
 				template <class T> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const T param);
-				//		static inline void texParameterf(GLenum target, GLenum pname, float param);
-				//		static inline void texParameteri(GLenum target, GLenum pname, int param);
-				//		static inline void texParameterfv(GLenum target, GLenum pname, const float * params);
-				//		static inline void texParameteriv(GLenum target, GLenum pname, const int * params);
+				template <class T> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<T> & param);
 				//		static inline void texParameterIiv(GLenum target, GLenum pname, const int * params);
 				//		static inline void texParameterIuiv(GLenum target, GLenum pname, const unsigned int * params);
 				static inline void generateMipmap(const MipmapTarget target);
@@ -371,7 +368,7 @@ namespace ece
 				//		static inline void readPixels(int x, int y, GLsizei width, GLsizei height, GLenum format, GLenum type, void * data);
 				//		static inline void readBuffer(GLenum mode);
 				//		static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, GLbitfield mask, GLenum filter);
-				//		static inline void scissor(int x, int y, GLsizei width, GLsizei height);
+				static inline void scissor(const int x, const int y, const unsigned int width, const unsigned int height);
 				//		static inline void sampleCoverage(float value, bool invert);
 				//		static inline void sampleMaski(unsigned int maskNumber, GLbitfield mask);
 				//		static inline void stencilFunc(GLenum func, int ref, unsigned int mask);
@@ -741,56 +738,56 @@ namespace ece
 
 			private:
 				/**
-				 * @fn OpenGL() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
+				* @fn OpenGL() noexcept
+				* @brief Default constructor.
+				* @throw noexcept
+				*/
 				OpenGL() noexcept = default;
 
 				/**
-				 * @fn OpenGL(const OpenGL & copy) noexcept
-				 * @param[in] copy The OpenGL instance to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
+				* @fn OpenGL(const OpenGL & copy) noexcept
+				* @param[in] copy The OpenGL instance to copy from.
+				* @brief Default copy constructor.
+				* @throw noexcept
+				*/
 				OpenGL(const OpenGL & copy) noexcept = default;
 
 				/**
-				 * @fn OpenGL(OpenGL && move) noexcept
-				 * @param[in] move The OpenGL instance to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
+				* @fn OpenGL(OpenGL && move) noexcept
+				* @param[in] move The OpenGL instance to move.
+				* @brief Default move constructor.
+				* @throw noexcept
+				*/
 				OpenGL(OpenGL && move) noexcept = default;
 
 				/**
-				 * @fn OpenGL & operator=(const OpenGL & copy) noexcept
-				 * @param[in] copy The OpenGL instance to copy from.
-				 * @return The OpenGL instance copied.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
+				* @fn OpenGL & operator=(const OpenGL & copy) noexcept
+				* @param[in] copy The OpenGL instance to copy from.
+				* @return The OpenGL instance copied.
+				* @brief Default move assignment operator.
+				* @throw noexcept
+				*/
 				OpenGL & operator=(const OpenGL & copy) noexcept = default;
 
 				/**
-				 * @fn OpenGL & operator=(OpenGL && move) noexcept
-				 * @param[in] move The OpenGL instance to move.
-				 * @return The OpenGL instance moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
+				* @fn OpenGL & operator=(OpenGL && move) noexcept
+				* @param[in] move The OpenGL instance to move.
+				* @return The OpenGL instance moved.
+				* @brief Default move assignment operator.
+				* @throw noexcept
+				*/
 				OpenGL & operator=(OpenGL && move) noexcept = default;
 
 				/**
-				 * @property _latestVersion
-				 * @brief The latest version available of OpenGL.
-				 */
+				* @property _latestVersion
+				* @brief The latest version available of OpenGL.
+				*/
 				static Version<2> _latestVersion;
 
 				/**
-				 * @property _currentContext
-				 * @brief The current OpenGL context used.
-				 */
+				* @property _currentContext
+				* @brief The current OpenGL context used.
+				*/
 				static std::shared_ptr<BaseContext> _currentContext;
 			};
 
@@ -819,6 +816,15 @@ namespace ece
 			template<> inline void OpenGL::uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
 			template<> inline void OpenGL::uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
 			template<> inline void OpenGL::uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 2> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 3> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 4> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 3> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 2> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 4> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 2> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 4> & v);
+			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 3> & v);
 			template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param);
 			template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param);
 		} // namespace opengl

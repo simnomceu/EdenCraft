@@ -47,6 +47,11 @@
 #include "utility/template_expression/vector.hpp"
 #include "utility/template_expression/slice.hpp"
 
+#ifdef _MSC_VER
+	#undef min
+	#undef max
+#endif
+
 namespace ece
 {
     namespace utility
@@ -244,7 +249,11 @@ namespace ece
 
         		inline E cell(const unsigned int index) const;
 
-        		inline E & cell(const unsigned int index);
+				inline E & cell(const unsigned int index);
+
+				inline constexpr E * data() noexcept;
+
+				inline constexpr const E * data() const noexcept;
 
         		/**
         		 * @fn constexpr unsigned int size() const noexcept

@@ -154,6 +154,13 @@ namespace ece
 				 * @see void BaseWindowAdapter::setPosition(const IntVector2u & position)
 				 */
 				virtual void setPosition(const IntVector2u & position) override;
+		/**
+		 * @fn IntVector2u getSize() const
+		 * @return The window size.
+		 * @brief Get the size of the window.
+		 * @throw
+		 */
+		virtual IntVector2u getSize() const override;
 
 				/**
 				 * @fn IntVector2u getPosition() const

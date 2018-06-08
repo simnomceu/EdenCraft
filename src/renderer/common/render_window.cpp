@@ -39,10 +39,10 @@
 #include "renderer/common/render_window.hpp"
 
 #include "renderer/opengl/context_opengl.hpp"
-
 #include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
 #include "window/common/video_mode.hpp"
+#include "renderer/common/renderable.hpp"
 
 namespace ece
 {
@@ -55,7 +55,7 @@ namespace ece
 			using utility::log::ServiceLoggerLocator;
 			using window::common::VideoMode;
 
-			RenderWindow::RenderWindow() : _context(std::make_shared<ContextOpenGL>())
+			RenderWindow::RenderWindow() : Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>())
 			{
 			}
 
@@ -76,13 +76,57 @@ namespace ece
 				catch (std::runtime_error & e) {
 					ServiceLoggerLocator::getService().logError(e.what());
 				}
+
+				this->_currentViewport.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
+				this->_viewportHasChanged = true;
 			}
 
-			void RenderWindow::clear()
+			IntVector2u RenderWindow::getSize() const
 			{
+				return Window::getSize();
+			}
+
+			void RenderWindow::clear(const Color & color, const Rectangle<float> & scissorArea)
+			{
+				Rectangle<float> viewport;
+				if (this->_currentViewport.isRatioUsed()) {
+					viewport = Rectangle<float>(0.0f, 0.0f, this->getSize()[0] * this->_currentViewport.getViewportRatio().getWidth(), this->getSize()[1] * this->_currentViewport.getViewportRatio().getHeight());
+				}
+				else {
+					viewport = this->_currentViewport.getViewport();
+				}
+
+				if (this->_viewportHasChanged)
+				{
+					OpenGL::viewport(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+			
+					if (scissorArea != Rectangle<float>()) {
+						OpenGL::scissor(static_cast<int>(scissorArea.getX()), static_cast<int>(scissorArea.getY()), static_cast<int>(scissorArea.getWidth()), static_cast<int>(scissorArea.getHeight()));
+						OpenGL::enable(Capability::SCISSOR_TEST);
+					}
+
+					this->_viewportHasChanged = false;
+				}
+				if (scissorArea == Rectangle<float>()) {
+					OpenGL::scissor(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+					OpenGL::enable(Capability::SCISSOR_TEST);
+				}
+
 				if (this->isOpened()) {
+					OpenGL::clearColor(static_cast<float>(color.red) / 255.0f,
+											static_cast<float>(color.green) / 255.0f,
+											static_cast<float>(color.blue) / 255.0f,
+											static_cast<float>(color.alpha) / 100.0f);
 					OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
 				}
+			}
+
+			void RenderWindow::draw(Renderable & renderable, const RenderState & states)
+			{
+				this->loadRenderState(states);
+
+				renderable.draw();
+				// TODO : render the drawable here (using code in renderer.cpp)
 			}
 
 			void RenderWindow::display()

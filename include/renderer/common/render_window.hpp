@@ -45,6 +45,7 @@
 #include "window/common/window.hpp"
 #include "renderer/common/renderer.hpp"
 #include "renderer/common/base_context.hpp"
+#include "renderer/common/render_target.hpp"
 
 namespace ece
 {
@@ -56,11 +57,11 @@ namespace ece
 
 			/**
 			 * @class RenderWindow
-			 * @extends Window
+			 * @extends Window RenderTarget
 			 * @brief A window that include a renderer, to draw scenes.
 			 * @see Window
 			 */
-			class RenderWindow : public Window
+			class RenderWindow : public Window, public RenderTarget
 			{
 			public:
 				/**
@@ -128,20 +129,39 @@ namespace ece
 				inline void setContextMaximumVersion(const Version<2> & maxVersion);
 
 				/**
-				 * @fn void open()
-				 * @brief Open the window.
-				 * If the window is already opened, nothing happen. Current window settings are used.
-				 * @throw
-				 * @see void Window::open()
-				 */
+				* @fn void open()
+				* @brief Open the window.
+				* If the window is already opened, nothing happen. Current window settings are used.
+				* @throw
+				* @see void Window::open()
+				*/
 				void open();
 
 				/**
-				 * @fn void clear()
-				 * @brief Clear the window.
+				 * @fn FloatVector2u getSize() const
+				 * @return The size of the render target.
+				 * @brief Get the size of the render target.
 				 * @throw
 				 */
-				void clear();
+				virtual IntVector2u getSize() const override;
+
+				/**
+				 * @fn void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>())
+				 * @param[in] color The color to use to clean the render target.
+				 * @param[in] scissorArea The area of the render target to limit the cleaning.
+				 * @brief Clean the render target using a specific color.
+				 * @throw
+				 */
+				virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) override;
+
+				/**
+				 * @fn void draw(Renderable & renderable, const RenderState & states = RenderState())
+				 * @param[in/out] renderable The drawable to draw to the render target.
+				 * @param[in] states The states to apply to the render for drawing.
+				 * @brief Draw an object to the render target.
+				 * @throw
+				 */
+				virtual void draw(Renderable & renderable, const RenderState & states = RenderState()) override;
 
 				/**
 				 * void display()

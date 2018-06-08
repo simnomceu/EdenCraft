@@ -92,6 +92,11 @@ namespace ece
 			{
 				this->_data->_api->setPosition(position);
 			}
+	IntVector2u WindowAdapter::getSize() const
+	{
+		return this->_data->_api->getSize();
+	}
+
 
 			IntVector2u WindowAdapter::getPosition() const
 			{

@@ -42,7 +42,6 @@
 #define GRAPHIC_SCENE_HPP
 
 #include "graphic/scene/camera.hpp"
-#include "graphic/scene/projection.hpp"
 #include "graphic/scene/scene.hpp"
 
 namespace ece

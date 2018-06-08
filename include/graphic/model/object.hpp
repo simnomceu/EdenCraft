@@ -43,7 +43,8 @@
 
 #include <memory>
 
-#include "graphic/renderable/renderable.hpp"
+#include "renderer/resource/base_uniform.hpp"
+#include "graphic/renderable/vertex.hpp"
 
 namespace ece
 {
@@ -51,8 +52,7 @@ namespace ece
 	{
 		namespace model
 		{
-			using renderable::Renderable;
-			using renderable::BaseUniform;
+			using renderer::resource::BaseUniform;
 			using renderable::Vertex;
 			
 			class Mesh;
@@ -64,7 +64,7 @@ namespace ece
 			 * @extends Renderable
 			 * @brief A renderable 3D object.
 			 */
-			class Object : public Renderable
+			class Object
 			{
 			public:
 				/**
@@ -174,7 +174,7 @@ namespace ece
 				 * @brief Get the list of the mesh that compose the object.
 				 * @throw
 				 */
-				inline virtual Vertex * getVertices() const override;
+				inline Vertex * getVertices() const;
 
 				/**
 				 * @fn std::vector<BaseUniform *> getUniforms() const
@@ -182,7 +182,7 @@ namespace ece
 				 * @brief Get the list of uniforms associated to this object.
 				 * @throw
 				 */
-				virtual std::vector<BaseUniform *> getUniforms() const override;
+				std::vector<BaseUniform *> getUniforms() const;
 
 			protected:
 				/**

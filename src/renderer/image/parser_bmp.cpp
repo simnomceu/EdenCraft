@@ -40,6 +40,8 @@
 
 #include "utility/file_system/file.hpp"
 
+#include <sstream>
+
 namespace ece
 {
 	namespace renderer
@@ -91,13 +93,12 @@ namespace ece
 					this->_image.resize(psw / 3, DIB.height);
 					long bufPos = 0;
 					for (uint32_t y = 0; y < this->_image.getHeight(); ++y) {
-						for (uint32_t x = 0; x < 3 * this->_image.getWidth(); x += 3) {
+						for (uint32_t x = 0; x < 3 * this->_image.getWidth(); x+=3) {
 							bufPos = (DIB.height - y - 1) * psw + x;
-							// TODO: need to deal with flip vertically/horizontal regarding to OpenGL behaviour.
-
-							this->_image[y][this->_image.getWidth() - 1 - x / 3].red = buffer[bufPos + 2];
-							this->_image[y][this->_image.getWidth() - 1 - x / 3].green = buffer[bufPos + 1];
-							this->_image[y][this->_image.getWidth() - 1 - x / 3].blue = buffer[bufPos];
+					
+							this->_image[this->_image.getHeight() - 1 - y][x / 3].red = buffer[bufPos + 2];
+							this->_image[this->_image.getHeight() - 1 - y][x / 3].green = buffer[bufPos + 1];
+							this->_image[this->_image.getHeight() - 1 - y][x / 3].blue = buffer[bufPos];
 						}
 					}
 				}
@@ -106,9 +107,48 @@ namespace ece
 				}
 			}
 
-			void ParserBMP::loadFromString(const std::string & /*content*/)
+			void ParserBMP::loadFromString(const std::string & content)
 			{
+				std::stringstream stream;
+				stream << content;
 
+
+				BMPHeader header;
+				BMPDIB DIB;
+				std::vector<std::byte> buffer;
+
+				stream >> header.magic[0] >> header.magic[1];
+				stream >> header.size;
+				stream >> header.reserved;
+				stream >> header.pixelsOffset;
+				stream >> DIB.size >> DIB.width >> DIB.height >> DIB.planes >> DIB.bpp >> DIB.compression >> DIB.imageSize >> DIB.xPixelPerMeter >> DIB.yPixelPerMeter >> DIB.nbColors >> DIB.nbMajorColors;;
+
+				buffer.resize(header.size - header.pixelsOffset);
+				stream.seekg(header.pixelsOffset);
+				for (size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
+					unsigned int dummy;
+					stream >> dummy;
+					buffer[i] = static_cast<std::byte>(dummy);
+				}
+
+				int padding = 0;
+				int scanLineBytes = DIB.width * 3;
+				while ((scanLineBytes + padding) % 4 != 0) {
+					++padding;
+				}
+				int psw = scanLineBytes + padding; // TODO: all here is not efficient at all
+
+				this->_image.resize(psw / 3, DIB.height);
+				long bufPos = 0;
+				for (uint32_t y = 0; y < this->_image.getHeight(); ++y) {
+					for (uint32_t x = 0; x < 3 * this->_image.getWidth(); x += 3) {
+						bufPos = (DIB.height - y - 1) * psw + x;
+
+						this->_image[this->_image.getHeight() - 1 - y][x / 3].red = buffer[bufPos + 2];
+						this->_image[this->_image.getHeight() - 1 - y][x / 3].green = buffer[bufPos + 1];
+						this->_image[this->_image.getHeight() - 1 - y][x / 3].blue = buffer[bufPos];
+					}
+				}
 			}
 
 			void ParserBMP::loadFromMemory(const void * /*content*/)

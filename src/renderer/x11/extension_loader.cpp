@@ -51,6 +51,7 @@ namespace ece
 		namespace opengl
 		{
 			using utility::log::ServiceLoggerLocator;
+			using x11::GLXLoader;
 
 			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 			{

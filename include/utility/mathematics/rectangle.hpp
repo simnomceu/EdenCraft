@@ -120,14 +120,17 @@ namespace ece
         		 **/
         		Rectangle & operator=(Rectangle && rightOperand) noexcept = default;
 
-        		/**
-        		  * @fn T getX() const noexcept
-        		  * @return The position on the x-axis. The value returned is of the same type used to define the rectangle.
-        		  * @brief Access to the position of the rectangle on the x-axis.
-        		  * @throw noexcept
-        		  **/
-        		inline T getX() const noexcept;
+				inline bool operator==(const Rectangle<T> & rhs) const noexcept;
 
+				inline bool operator!=(const Rectangle<T> & rhs) const noexcept;
+
+				/**
+				  * @fn T getX() const noexcept
+				  * @return The position on the x-axis. The value returned is of the same type used to define the rectangle.
+				  * @brief Access to the position of the rectangle on the x-axis.
+				  * @throw noexcept
+				  **/
+				inline T getX() const noexcept;
 
         		/**
         		 * @fn T getY() const noexcept

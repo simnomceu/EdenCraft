@@ -84,6 +84,12 @@ namespace ece
         	 * @brief Get an orthographic projection matrix of the frustum view.
         	 */
         	FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
+
+			FloatMatrix4u scale(const FloatVector3u &  scale);
+
+			FloatMatrix4u translate(const FloatVector3u & translation);
+
+			FloatMatrix4u rotate(const FloatVector3u & axis, const float angle);
         } // namespace mathematics
     } // namespace utility
 } // namespace ece
