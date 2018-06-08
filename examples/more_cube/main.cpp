@@ -42,6 +42,7 @@
 #include "utility/log.hpp"
 #include "renderer/image.hpp"
 #include "graphic/renderable.hpp"
+#include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
 
 namespace ece
@@ -75,8 +76,10 @@ int main()
 		viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 0.5f, 1.0f));
 		window.setViewport(viewport);
 
-		ece::Projection projection;
-		projection.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), -1.0f, 1.0f); // TODO: using window.getViewportSize() ?
+		ece::Camera camera;
+		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), -1.0f, 1.0f); // TODO: using window.getViewportSize() ?
+        camera.moveTo(ece::FloatVector3u{0.0f, 5.0f, 5.0f});
+        camera.lookAt(ece::FloatVector3u{0.0f, 0.0f, 0.0f});
 
 		ece::Texture2D texture;
 		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
@@ -86,7 +89,7 @@ int main()
 		for (unsigned short int i = 0; i < 10; ++i) {
 			// ece::Sprite sprite;
 			sprites[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
-			sprites[i]->setProjection(projection);
+			sprites[i]->setCamera(camera.getView(), camera.getProjection());
 			// queue.insert(sprite)
 		}
 

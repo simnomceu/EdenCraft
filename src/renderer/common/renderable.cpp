@@ -65,11 +65,11 @@ namespace ece
 				OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
 			}
 
-			void Renderable::setProjection(const Projection & projection) const noexcept
+			void Renderable::setCamera(const FloatVector3u & view, const FloatVector3u & projection) const noexcept
 			{
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, translate(FloatVector3u{80.0f, 0.0f, 0.0f}) * rotate(FloatVector3u{ 0.0f, 0.0f, 1.0f }, 45.0f));
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "view"), true, FloatMatrix4u::Identity());
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "projection"), true, projection.getProjection());
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "view"), true, view);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "projection"), true, projection);
 			}
 		} // namespace common
 	} // namespace renderer

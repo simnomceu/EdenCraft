@@ -42,7 +42,7 @@
 #include "renderer/resource/vao.hpp"
 #include "renderer/enum.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
-#include "renderer/common/projection.hpp"
+#include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {
@@ -52,7 +52,7 @@ namespace ece
 		{
 			using resource::VAO;
 			using resource::EnhancedShader;
-			using common::Projection;
+            using utility::mathematics::FloatVector3u;
 
 			/**
 			 * @class Renderable
@@ -111,7 +111,7 @@ namespace ece
 
 				void draw();
 
-				void setProjection(const Projection & projection) const noexcept;
+                void setCamera(const FloatVector3u & view, const FloatVector3u & projection) const noexcept;
 
 			protected:
 				VAO _vao;

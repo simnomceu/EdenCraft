@@ -47,7 +47,7 @@ namespace ece
 	{
 		namespace scene
 		{
-			inline Camera::Camera() noexcept: _position(), _target(), _upAxis{ 0.0f, 1.0f, 0.0f } {}
+			inline Camera::Camera() noexcept: _position(), _target(), _upAxis{ 0.0f, 1.0f, 0.0f }, _projection() {}
 
 			inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->_position, object.getPosition()); }
 
@@ -68,7 +68,13 @@ namespace ece
 									glm::vec3(this->upAxis[X], this->upAxis[Y], this->upAxis[Z]));
 			}*/
 
-			inline FloatMatrix4u Camera::getCamera() const { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
+			inline FloatMatrix4u Camera::getView() const { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
+
+            inline void Camera::setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping) { this->_projection.setPerspective(FOV, ratio, nearClipping, farClipping); }
+
+            inline void Camera::setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping) { this->_projection.setOrthographic(screen, nearClipping, farClipping); }
+
+            inline const FloatMatrix4u & Camera::getProjection() const { return this->_projection.getProjection(); }
 		} // namespace scene
 	} // namespace camera
 } // namespace ece
