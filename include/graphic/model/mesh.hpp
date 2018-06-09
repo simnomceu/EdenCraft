@@ -42,11 +42,10 @@
 #define MESH_HPP
 
 #include <vector>
-#include <iostream>
 
+#include "utility/mathematics/vector2u.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/box3d.hpp"
-#include "graphic/renderable/vertex.hpp"
 
 namespace ece
 {
@@ -54,19 +53,26 @@ namespace ece
 	{
 		namespace model
 		{
+			using utility::mathematics::FloatVector2u;
 			using utility::mathematics::FloatVector3u;
 			using utility::mathematics::Box3D;
-			using renderable::Vertex;
 
 			/**
 			 * @class Mesh
-			 * @extends Vertex
 			 * @brief A mesh as defined in 3D modelling.
 			 * @remark It has to be refactored soon, as it is redudnant with Renderer.
 			 */
-			class Mesh : public Vertex
+			class Mesh
 			{
 			public:
+				struct Vertex
+				{
+					FloatVector3u _position;
+					FloatVector3u _color;
+					FloatVector3u _normal;
+					FloatVector2u _textureCoordinate;
+				};
+
 				/**
 				 * @fn Mesh() noexcept
 				 * @brief Default constructor.
@@ -116,15 +122,6 @@ namespace ece
 				Mesh & operator=(Mesh && move) noexcept = default;
 
 				/**
-				 * @fn bool loadFromFile(const std::string & filename)
-				 * @param[in] filename The name of the file to read.
-				 * @return True, if the mesh has been loaded successfully, else false.
-				 * @brief Load a mesh from a specific file.
-				 * @throw
-				 */
-				bool loadFromFile(const std::string & filename);
-
-				/**
 				 * @fn unsigned int size() const
 				 * @return The number of vertices of the mesh.
 				 * @brief Get the number of vertices of the mesh.
@@ -140,50 +137,12 @@ namespace ece
 				 */
 				Box3D getBouncingBox() const;
 
-				/**
-				 * @fn std::vector<FloatVector3u> getPositions() const
-				 * @return The list of vertices of the mesh.
-				 * @brief Get the list of vertices of the mesh.
-				 * @throw
-				 */
-				inline virtual std::vector<FloatVector3u> getPositions() const override;
-
-				/**
-				 * @fn std::vector<FloatVector3u> getColors() const
-				 * @return The list of vertex colors of the mesh.
-				 * @brief Get the list of vertex colors of the mesh.
-				 * @throw
-				 */
-				inline virtual std::vector<FloatVector3u> getColors() const override;
-
-				/**
-				 * @fn std::vector<FloatVector3u> getNormals() const
-				 * @return The list of vertex normals of the mesh.
-				 * @brief Get the list of vertex normals of the mesh.
-				 * @throw
-				 */
-				inline virtual std::vector<FloatVector3u> getNormals() const override;
-
-				/**
-				 * @fn std::vector<int> getIndices() const
-				 * @return The list of indices of the mesh.
-				 * @brief Get the list of indices of the mesh.
-				 * @throw
-				 */
-				inline virtual std::vector<int> getIndices() const override;
-
 			private:
 				/**
 				 * @property _vertices
 				 * @brief The list of vertices of the mesh.
 				 */
-				std::vector<FloatVector3u> _vertices;
-
-				/**
-				 * @property _colors
-				 * @brief The list of vertex colors of the mesh.
-				 */
-				std::vector<FloatVector3u> _colors;
+				std::vector<Vertex> _vertices;
 			};
 		} // namespace model
 	} // namespace graphic
