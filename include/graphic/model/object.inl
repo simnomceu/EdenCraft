@@ -61,8 +61,6 @@ namespace ece
 			inline std::shared_ptr<Skeleton> Object::getSkeleton() const { return this->_skeleton; }
 
 			inline std::shared_ptr<Animation> Object::getAnimation() const { return this->_animation; }
-
-			inline Vertex * Object::getVertices() const { return this->_mesh.get(); }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

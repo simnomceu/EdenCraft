@@ -43,7 +43,6 @@
 
 #include "graphic/renderable/shader_source.hpp"
 #include "graphic/renderable/sprite.hpp"
-#include "graphic/renderable/vertex.hpp"
 
 namespace ece
 {

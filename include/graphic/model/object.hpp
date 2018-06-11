@@ -44,7 +44,6 @@
 #include <memory>
 
 #include "renderer/resource/base_uniform.hpp"
-#include "graphic/renderable/vertex.hpp"
 
 namespace ece
 {
@@ -53,7 +52,6 @@ namespace ece
 		namespace model
 		{
 			using renderer::resource::BaseUniform;
-			using renderable::Vertex;
 			
 			class Mesh;
 			class Skeleton;
@@ -167,14 +165,6 @@ namespace ece
 				 * @throw
 				 */
 				inline std::shared_ptr<Animation> getAnimation() const;
-
-				/**
-				 * @fn Vertex * getVertices() const
-				 * @return The list of vertices of the mesh.
-				 * @brief Get the list of the mesh that compose the object.
-				 * @throw
-				 */
-				inline Vertex * getVertices() const;
 
 				/**
 				 * @fn std::vector<BaseUniform *> getUniforms() const
