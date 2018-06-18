@@ -47,7 +47,9 @@ namespace ece
 {
     namespace utility
     {
-        namespace file_system
+		using file_system::Parser;
+
+        namespace wavefront
         {
         	// TODO add parser MKL
 
@@ -187,10 +189,10 @@ namespace ece
         		 */
         		std::vector<int> _faces;
         	};
-        } // namespace file_system
+        } // namespace wavefront
     } // namespace utility
 } // namespace ece
 
-#include "utility/file_system/parser_obj.inl"
+#include "utility/wavefront/parser_obj.inl"
 
 #endif // PARSER_OBJ_HPP

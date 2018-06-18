@@ -36,7 +36,7 @@
 
 */
 
-#include "utility/file_system/parser_obj.hpp"
+#include "utility/wavefront/parser_obj.hpp"
 
 #include "utility/file_system/file.hpp"
 #include "utility/enum.hpp"
@@ -55,7 +55,7 @@ namespace ece
     {
         using debug::FileException;
 
-        namespace file_system
+        namespace wavefront
         {
         	void ParserOBJ::loadFromFile(const std::string & filename)
         	{
@@ -147,6 +147,6 @@ namespace ece
         	{
         		/* NOT IMPLEMENTED YET*/
         	}
-        } // namespace file_system
+        } // namespace wavefront
     } // namespace utility
 } // namespace ece
