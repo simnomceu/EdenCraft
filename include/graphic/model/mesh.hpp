@@ -73,6 +73,8 @@ namespace ece
 					FloatVector2u _textureCoordinate;
 				};
 
+				using Face = std::vector<unsigned int>;
+
 				/**
 				 * @fn Mesh() noexcept
 				 * @brief Default constructor.
@@ -137,6 +139,8 @@ namespace ece
 				 */
 				Box3D getBouncingBox() const;
 
+				inline void addVertex(const Vertex & vertex);
+				inline void addVertex(Vertex && vertex);
 			private:
 				/**
 				 * @property _vertices

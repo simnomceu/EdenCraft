@@ -43,6 +43,10 @@ namespace ece
         namespace wavefront
         {
         	inline ParserOBJ::ParserOBJ() : _objects(), _currentObject(this->_objects.end()) {}
+
+			inline std::vector<ObjectOBJ> & ParserOBJ::getObjects() { return this->_objects; }
+
+			inline const std::vector<ObjectOBJ> & ParserOBJ::getObjects() const { return this->_objects; }
         } // namespace wavefront
     } // namespace utility
 } // namespace ece

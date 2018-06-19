@@ -124,26 +124,36 @@ namespace ece
 				inline void addVertex(FloatVector4u && v);
 
 				inline int getNumberOfVertices() const;
+				inline std::vector<FloatVector4u> & getVertices();
+				inline const std::vector<FloatVector4u> & getVertices() const;
 
 				inline void addVertexTexture(const FloatVector3u & vt);
 				inline void addVertexTexture(FloatVector3u && vt);
 
 				inline int getNumberOfVerticesTexture() const;
+				inline std::vector<FloatVector3u> & getVerticesTexture();
+				inline const std::vector<FloatVector3u> & getVerticesTexture() const;
 
 				inline void addVertexNormal(const FloatVector3u & vn);
 				inline void addVertexNormal(FloatVector3u && vn);
 
 				inline int getNumberOfVerticesNormal() const;
+				inline std::vector<FloatVector3u> & getVerticesNormal();
+				inline const std::vector<FloatVector3u> & getVerticesNormal() const;
 
 				inline void addVertexSpaceParameter(const FloatVector3u & vp);
 				inline void addVertexSpaceParameter(FloatVector3u && vp);
 
 				inline int getNumberOfVerticesSpaceParameter() const;
+				inline std::vector<FloatVector3u> & getVerticesSpaceParameter();
+				inline const std::vector<FloatVector3u> & getVerticesSpaceParameter() const;
 
 				inline void addFace(const Face & f);
 				inline void addFace(Face && f);
 
 				inline int getNumberOfFaces() const;
+				inline std::vector<Face> & getFaces();
+				inline const std::vector<Face> & getFaces() const;
 			private:
 				std::string _o; // object name
 

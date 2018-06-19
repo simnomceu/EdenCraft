@@ -52,11 +52,19 @@ namespace ece
 
 			inline int ObjectOBJ::getNumberOfVertices() const { return this->_v.size(); }
 
+			inline std::vector<FloatVector4u> & ObjectOBJ::getVertices() { return this->_v; }
+
+			inline const std::vector<FloatVector4u> & ObjectOBJ::getVertices() const { return this->_v; }
+
 			inline void ObjectOBJ::addVertexTexture(const FloatVector3u & vt) { this->_vt.push_back(vt); }
 
 			inline void ObjectOBJ::addVertexTexture(FloatVector3u && vt) { this->_vt.push_back(std::move(vt)); }
 
 			inline int ObjectOBJ::getNumberOfVerticesTexture() const { return this->_vt.size(); }
+
+			inline std::vector<FloatVector3u> & ObjectOBJ::getVerticesTexture() { return this->_vt; }
+
+			inline const std::vector<FloatVector3u> & ObjectOBJ::getVerticesTexture() const { return this->_vt; }
 
 			inline void ObjectOBJ::addVertexNormal(const FloatVector3u & vn) { this->_vn.push_back(vn); }
 
@@ -64,17 +72,29 @@ namespace ece
 
 			inline int ObjectOBJ::getNumberOfVerticesNormal() const { return this->_vn.size(); }
 
+			inline std::vector<FloatVector3u> & ObjectOBJ::getVerticesNormal() { return this->_vn; }
+
+			inline const std::vector<FloatVector3u> & ObjectOBJ::getVerticesNormal() const { return this->_vn; }
+
 			inline void ObjectOBJ::addVertexSpaceParameter(const FloatVector3u & vp) { this->_vp.push_back(vp); }
 
 			inline void ObjectOBJ::addVertexSpaceParameter(FloatVector3u && vp) { this->_vp.push_back(std::move(vp)); }
 
 			inline int ObjectOBJ::getNumberOfVerticesSpaceParameter() const { return this->_vp.size(); }
 
-			inline void ObjectOBJ::addFace(const Face & f) { this->_f.push_back(f); }
+			inline std::vector<FloatVector3u> & ObjectOBJ::getVerticesSpaceParameter() { return this->_vp; }
 
-			inline void ObjectOBJ::addFace(Face && f) { this->_f.push_back(std::move(f)); }
+			inline const std::vector<FloatVector3u> & ObjectOBJ::getVerticesSpaceParameter() const { return this->_vp; }
+
+			inline void ObjectOBJ::addFace(const ObjectOBJ::Face & f) { this->_f.push_back(f); }
+
+			inline void ObjectOBJ::addFace(ObjectOBJ::Face && f) { this->_f.push_back(std::move(f)); }
 
 			inline int ObjectOBJ::getNumberOfFaces() const { return this->_f.size(); }
+
+			inline std::vector<ObjectOBJ::Face> & ObjectOBJ::getFaces() { return this->_f; }
+
+			inline const std::vector<ObjectOBJ::Face> & ObjectOBJ::getFaces() const { return this->_f; }
 		} // namespace wavefront
 	} // namespace utility
 } // namespace ece

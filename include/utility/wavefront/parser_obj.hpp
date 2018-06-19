@@ -39,7 +39,6 @@
 #ifndef PARSER_OBJ_HPP
 #define PARSER_OBJ_HPP
 
-#include "utility/file_system/parser.hpp"
 #include "utility/wavefront/object_obj.hpp"
 
 #include <vector>
@@ -48,8 +47,6 @@ namespace ece
 {
     namespace utility
     {
-		using file_system::Parser;
-
         namespace wavefront
         {
         	// TODO add parser MKL
@@ -61,7 +58,7 @@ namespace ece
         	 * @remark The OBJ Wavefront structure is so much more complexe and should be refactored.
         	 * @see Parser
         	 */
-        	class ParserOBJ: public Parser
+        	class ParserOBJ
         	{
         	public:
         		/**
@@ -72,58 +69,23 @@ namespace ece
         		inline ParserOBJ();
 
         		/**
-        		 * @fn void loadFromFile(const std::string & filename)
-        		 * @param[in] filename The name of the file to load data from.
-        		 * @brief Load and parse data from a file.
-        		 * @see Parser::loadFromFile(const std::string & filename)
+        		 * @fn void load(std::istream & stream)
+        		 * @param[in] stream The stream to load through.
+        		 * @brief Load and parse data through a stream.
         		 * @throw
         		 */
-        		virtual void loadFromFile(const std::string & filename) override;
+        		void load(std::istream & stream);
 
         		/**
-        		 * @fn void loadFromString(const std::string & content)
-        		 * @param[in] content The string content to load data from.
-        		 * @brief Load and parse data from a string.
-        		 * @see Parser::loadFromString(const std::string & content)
+        		 * @fn void save(const std::ostream & stream)
+        		 * @param[inout] stream The stream to save through.
+        		 * @brief Formate and save data through a stream.
         		 * @throw
         		 */
-        		virtual void loadFromString(const std::string & content) override;
+        		void save(std::ostream & stream);
 
-        		/**
-        		 * @fn void loadFromMemory(const void * content)
-        		 * @param[in] content The memory buffer to load data from.
-        		 * @brief Load and parse data from memory.
-        		 * @see Parser::loadFromMemory(const void * content)
-        		 * @throw
-        		 */
-        		virtual void loadFromMemory(const void * content) override;
-
-        		/**
-        		 * @fn void saveToFile(const std::string & filename)
-        		 * @param[out] filename The name of the file to save into.
-        		 * @brief Formate and save data into a file.
-        		 * @see Parser::saveToFile(const std::string & filename)
-        		 * @throw
-        		 */
-        		virtual void saveToFile(const std::string & filename) override;
-
-        		/**
-        		 * @fn void saveToString(std::string & content)
-        		 * @param[out] content The string buffer to save into.
-        		 * @brief Formate and save data into a string buffer.
-        		 * @see saveToString(std::string & content)
-        		 * @throw
-        		 */
-        		virtual void saveToString(std::string & content) override;
-
-        		/**
-        		 * @fn void saveToMemory(void * content)
-        		 * @param[out] content The memory to save into.
-        		 * @brief Formate and save data into memory.
-        		 * @see Parser::saveToMemory(void * content)
-        		 * @throw
-        		 */
-        		virtual void saveToMemory(void * content) override;
+				inline std::vector<ObjectOBJ> & getObjects();
+				inline const std::vector<ObjectOBJ> & getObjects() const;
 
         	private:
 				std::vector<ObjectOBJ> _objects;

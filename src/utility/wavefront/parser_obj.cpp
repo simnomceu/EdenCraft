@@ -38,28 +38,21 @@
 
 #include "utility/wavefront/parser_obj.hpp"
 
-#include "utility/file_system/file.hpp"
-#include "utility/enum.hpp"
-
+#include <iostream>
 #include <sstream>
+#include <string>
 
 namespace ece
 {
     namespace utility
     {
-        using debug::FileException;
-
         namespace wavefront
         {
-        	void ParserOBJ::loadFromFile(const std::string & filename)
+        	void ParserOBJ::load(std::istream & stream)
         	{
-        		std::ifstream file(filename, std::ios::out);
-        		if (!file.is_open()) {
-        			throw FileException(FileCodeError::BAD_PATH, filename);
-        		}
         		std::string line;
-        		while (file.good()) {
-        			getline(file, line);
+        		while (stream.good()) {
+        			std::getline(stream, line);
 					this->processLine(line);
         		}
 				std::cerr << "Object: " << this->_currentObject->getName() << std::endl;
@@ -68,31 +61,7 @@ namespace ece
         		// TODO care about objects groups and faces groups
         	}
 
-        	void ParserOBJ::loadFromString(const std::string & content)
-        	{
-				std::istringstream file(content);
-				std::string line;
-				while (std::getline(file, line)) {
-					this->processLine(line);
-				}
-        	}
-
-        	void ParserOBJ::loadFromMemory(const void * content)
-        	{
-				/* NOT IMPLEMENTED YET*/
-        	}
-
-        	void ParserOBJ::saveToFile(const std::string & /*filename*/)
-        	{
-        		/* NOT IMPLEMENTED YET*/
-        	}
-
-        	void ParserOBJ::saveToString(std::string & /*content*/)
-        	{
-        		/* NOT IMPLEMENTED YET*/
-        	}
-
-        	void ParserOBJ::saveToMemory(void * /*content*/)
+        	void ParserOBJ::save(std::ostream & /*stream*/)
         	{
         		/* NOT IMPLEMENTED YET*/
         	}

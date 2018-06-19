@@ -45,6 +45,10 @@ namespace ece
 		namespace model
 		{
 			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+
+			inline void Mesh::addVertex(const Mesh::Vertex & vertex) { this->_vertices.push_back(vertex); }
+
+			inline void Mesh::addVertex(Mesh::Vertex && vertex){ this->_vertices.push_back(std::move(vertex)); }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
