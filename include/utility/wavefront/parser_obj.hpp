@@ -40,6 +40,7 @@
 #define PARSER_OBJ_HPP
 
 #include "utility/file_system/parser.hpp"
+#include "utility/wavefront/object_obj.hpp"
 
 #include <vector>
 
@@ -124,70 +125,12 @@ namespace ece
         		 */
         		virtual void saveToMemory(void * content) override;
 
-        		/**
-        		 * @fn const std::vector<float> & getVertices()
-        		 * @return The list of vertices of the current OBJ loaded.
-        		 * @brief An accessor for the list of vertices of the current OBJ loaded.
-        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
-        		 * @throw
-        		 */
-        		inline const std::vector<float> & getVertices();
-
-        		/**
-        		 * @fn const std::vector<float> & getTextures()
-        		 * @return The texture mapping of the current OBJ loaded.
-        		 * @brief An accessor for the texture mapping of the current OBJ loaded.
-        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
-        		 * @throw
-        		 */
-        		inline const std::vector<float> & getTextures();
-
-        		/**
-        		 * @fn const std::vector<float> & getNormales()
-        		 * @return The list of normales of the current OBJ loaded.
-        		 * @brief An accessor for the list of normales of the current OBJ loaded.
-        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
-        		 * @throw
-        		 */
-        		inline const std::vector<float> & getNormales();
-
-        		/**
-        		 * @fn const std::vector<int> & getFaces()
-        		 * @return The list of faces of the current OBJ loaded.
-        		 * @brief An accessor for the list of faces of the current OBJ loaded.
-        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this method will be changed.
-        		 * @throw
-        		 */
-        		inline const std::vector<int> & getFaces();
-
         	private:
-        		/**
-        		 * @property _vertices
-        		 * @brief The list of vertices of the current OBJ loaded.
-        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
-        		 */
-        		std::vector<float> _vertices;
+				std::vector<ObjectOBJ> _objects;
+				std::vector<ObjectOBJ>::iterator _currentObject;
 
-        		/**
-        		 * @property _textures
-        		 * @brief The texture mapping of the current OBJ loaded.
-        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
-        		 */
-        		std::vector<float> _textures;
-
-        		/**
-        		 * @property _normales
-        		 * @brief The list of normales of the current OBJ loaded.
-        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
-        		 */
-        		std::vector<float> _normales;
-
-        		/**
-        		 * @property _faces
-        		 * @brief The list of faces of the current OBJ loaded.
-        		 * @remark As the structure of an OBJ Wavefront file is so much more complex, this property will be changed.
-        		 */
-        		std::vector<int> _faces;
+				void processLine(const std::string & line);
+				std::vector<ObjectOBJ>::iterator addObject(const std::string & name);
         	};
         } // namespace wavefront
     } // namespace utility

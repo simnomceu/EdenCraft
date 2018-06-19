@@ -44,6 +44,7 @@
 #include "graphic/renderable.hpp"
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
+#include "utility/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -53,6 +54,7 @@ namespace ece
 	using window::window_event::InputEvent;
 	using utility::mathematics::rotate;
 	using utility::mathematics::translate;
+	using utility::wavefront::ParserOBJ;
 }
 
 class Cube : public ece::Renderable
@@ -127,6 +129,11 @@ int main()
 {
 	try {
 		ece::Application app;
+
+		// ####################
+		ece::ParserOBJ parserOBJ;
+		parserOBJ.loadFromFile("../../examples/more_cube/cube.obj");
+		// ####################
 
 		ece::RenderWindow window;
 

@@ -38,11 +38,43 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        namespace wavefront
-        {
-        	inline ParserOBJ::ParserOBJ() : _objects(), _currentObject(this->_objects.end()) {}
-        } // namespace wavefront
-    } // namespace utility
+	namespace utility
+	{
+		namespace wavefront
+		{
+			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept: _v(), _vt(), _vn(), _vp(), _o(name) {}
+
+			inline const std::string & ObjectOBJ::getName() const { return this->_o; }
+
+			inline void ObjectOBJ::addVertex(const FloatVector4u & v) { this->_v.push_back(v); }
+
+			inline void ObjectOBJ::addVertex(FloatVector4u && v) { this->_v.push_back(std::move(v)); }
+
+			inline int ObjectOBJ::getNumberOfVertices() const { return this->_v.size(); }
+
+			inline void ObjectOBJ::addVertexTexture(const FloatVector3u & vt) { this->_vt.push_back(vt); }
+
+			inline void ObjectOBJ::addVertexTexture(FloatVector3u && vt) { this->_vt.push_back(std::move(vt)); }
+
+			inline int ObjectOBJ::getNumberOfVerticesTexture() const { return this->_vt.size(); }
+
+			inline void ObjectOBJ::addVertexNormal(const FloatVector3u & vn) { this->_vn.push_back(vn); }
+
+			inline void ObjectOBJ::addVertexNormal(FloatVector3u && vn) { this->_vn.push_back(std::move(vn)); }
+
+			inline int ObjectOBJ::getNumberOfVerticesNormal() const { return this->_vn.size(); }
+
+			inline void ObjectOBJ::addVertexSpaceParameter(const FloatVector3u & vp) { this->_vp.push_back(vp); }
+
+			inline void ObjectOBJ::addVertexSpaceParameter(FloatVector3u && vp) { this->_vp.push_back(std::move(vp)); }
+
+			inline int ObjectOBJ::getNumberOfVerticesSpaceParameter() const { return this->_vp.size(); }
+
+			inline void ObjectOBJ::addFace(const Face & f) { this->_f.push_back(f); }
+
+			inline void ObjectOBJ::addFace(Face && f) { this->_f.push_back(std::move(f)); }
+
+			inline int ObjectOBJ::getNumberOfFaces() const { return this->_f.size(); }
+		} // namespace wavefront
+	} // namespace utility
 } // namespace ece
