@@ -38,21 +38,15 @@
 
 */
 
-#include "graphic/model/object.hpp"
-
-#include "renderer/resource/uniform.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace renderable
 		{
-			std::vector<BaseUniform *> Object::getUniforms() const
-			{
-				// TODO : this method has been generated automatically.
-				return std::vector<BaseUniform *>();
-			}
-		}// namespace model
+			inline Object::Object() noexcept: Renderable(), _mesh() {}
+
+			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
+		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

@@ -46,9 +46,17 @@ namespace ece
 		{
 			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
 
-			inline void Mesh::addVertex(const Mesh::Vertex & vertex) { this->_vertices.push_back(vertex); }
+			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
 
-			inline void Mesh::addVertex(Mesh::Vertex && vertex){ this->_vertices.push_back(std::move(vertex)); }
+			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
+
+			inline void Mesh::addFace(const Face & face) { this->_faces.push_back(face); }
+
+			inline void Mesh::addFace(Face && face) { this->_faces.push_back(std::move(face)); }
+
+			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
+
+			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

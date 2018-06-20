@@ -38,29 +38,28 @@
 
 */
 
-#include "graphic/model/mesh.hpp"
-#include "graphic/model/skeleton.hpp"
-#include "graphic/model/animation.hpp"
+#include "graphic/renderable/object.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace renderable
 		{
-			inline Object::Object() noexcept: _mesh(), _skeleton(nullptr), _animation(nullptr) {}
+			using renderer::BufferType;
+			using renderer::BufferUsage;
+			using model::Mesh;
 
-			inline void Object::setMesh(const std::shared_ptr<Mesh> & mesh) { this->_mesh = mesh; }
+			void Object::setMesh(const std::shared_ptr<Mesh> & mesh)
+			{
+				this->_mesh = mesh;
 
-			inline void Object::setSkeleton(const std::shared_ptr<Skeleton> & skeleton) { this->_skeleton = skeleton; }
-
-			inline void Object::setAnimation(const std::shared_ptr<Animation> & animation) { this->_animation = animation; }
-
-			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
-
-			inline std::shared_ptr<Skeleton> Object::getSkeleton() const { return this->_skeleton; }
-
-			inline std::shared_ptr<Animation> Object::getAnimation() const { return this->_animation; }
-		} // namespace model
+				this->_vao.addAttribute<float>(0, 4, false, sizeof(Mesh::Vertex), BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
+				this->_vao.addAttribute<float>(1, 3, false, sizeof(Mesh::Vertex), BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW, 4 *sizeof(float));
+				this->_vao.addAttribute<float>(2, 3, false, sizeof(Mesh::Vertex), BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW, (4 + 3) * sizeof(float));
+				this->_vao.addAttribute<float>(3, 3, false, sizeof(Mesh::Vertex), BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW, (4 + 3 + 3) * sizeof(float));
+				this->_vao.addIndices(this->_mesh->getFaces(), BufferUsage::STATIC_DRAW);
+			}
+		}// namespace renderable
 	} // namespace graphic
 } // namespace ece

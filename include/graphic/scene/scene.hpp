@@ -50,14 +50,14 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace renderable
 		{
 			class Object;
 		}
 
 		namespace scene
 		{
-			using model::Object;
+			using renderable::Object;
 
 			/**
 			 * @class Scene

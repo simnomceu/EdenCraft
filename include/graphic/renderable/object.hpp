@@ -43,26 +43,24 @@
 
 #include <memory>
 
-#include "renderer/resource/base_uniform.hpp"
+#include "renderer/common/renderable.hpp"
+#include "graphic/model/mesh.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace renderable
 		{
-			using renderer::resource::BaseUniform;
-			
-			class Mesh;
-			class Skeleton;
-			class Animation;
+			using renderer::common::Renderable;
+			using model::Mesh;
 
 			/**
 			 * @class Object
 			 * @extends Renderable
 			 * @brief A renderable 3D object.
 			 */
-			class Object
+			class Object: public Renderable
 			{
 			public:
 				/**
@@ -73,12 +71,12 @@ namespace ece
 				inline Object() noexcept;
 
 				/**
-				 * @fn Object(const Object & copy) noexcept
+				 * @fn Object(const Object & copy)
 				 * @param[in] copy The Object to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Object(const Object & copy) noexcept = default;
+				Object(const Object & copy) = default;
 
 				/**
 				 * @fn Object(Object && move) noexcept
@@ -96,13 +94,13 @@ namespace ece
 				~Object() noexcept = default;
 
 				/**
-				 * @fn Object & operator=(const Object & copy) noexcept
+				 * @fn Object & operator=(const Object & copy)
 				 * @param[in] copy The Object to copy from.
 				 * @return The Object copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Object & operator=(const Object & copy) noexcept = default;
+				Object & operator=(const Object & copy) = default;
 
 				/**
 				 * @fn Object & operator=(Object && move) noexcept
@@ -121,26 +119,10 @@ namespace ece
 				 * @brief Set the mesh of the 3D object.
 				 * @throw
 				 */
-				inline void setMesh(const std::shared_ptr<Mesh> & mesh);
-
-				/**
-				 * @fn void setSkeleton(const std::shared_ptr<Skeleton> & skeleton)
-				 * @param[in] skeleton The skeleton to use.
-				 * @brief Set the skeleton of the 3D object.
-				 * @throw
-				 */
-				inline void setSkeleton(const std::shared_ptr<Skeleton> & skeleton);
-
-				/**
-				 * @fn void setAnimation(const std::shared_ptr<Animation> & animation)
-				 * @param[in] animation The animation to use.
-				 * @brief Set the animation of the 3D object.
-				 * @throw
-				 */
-				inline void setAnimation(const std::shared_ptr<Animation> & animation);
+				void setMesh(const std::shared_ptr<Mesh> & mesh);
 
 				// NOTE: accessing one of the elements linked to this object should not modify the object itself
-				// but it should also not forbidding modification on the elements.
+				// but it should also not forbid modification on the elements.
 
 				/**
 				 * @fn std::shared_ptr<Mesh> getMesh() const
@@ -150,53 +132,17 @@ namespace ece
 				 */
 				inline std::shared_ptr<Mesh> getMesh() const;
 
-				/**
-				 * @fn std::shared_ptr<Mesh> getSkeleton() const
-				 * @return The skeleton of the object.
-				 * @brief Get the skeleton of the object.
-				 * @throw
-				 */
-				inline std::shared_ptr<Skeleton> getSkeleton() const;
-
-				/**
-				 * @fn std::shared_ptr<Mesh> getAnimation() const
-				 * @return The animation of the object.
-				 * @brief Get the animation of the object.
-				 * @throw
-				 */
-				inline std::shared_ptr<Animation> getAnimation() const;
-
-				/**
-				 * @fn std::vector<BaseUniform *> getUniforms() const
-				 * @return The list of uniforms associated to this object.
-				 * @brief Get the list of uniforms associated to this object.
-				 * @throw
-				 */
-				std::vector<BaseUniform *> getUniforms() const;
-
 			protected:
 				/**
 				 * @property _mesh
 				 * @brief The mesh of the object.
 				 */
 				std::shared_ptr<Mesh> _mesh;
-
-				/**
-				 * @property _skeleton
-				 * @brief The skeleton of the object.
-				 */
-				std::shared_ptr<Skeleton> _skeleton;
-
-				/**
-				 * @property _animation
-				 * @brief The animation to apply to the object.
-				 */
-				std::shared_ptr<Animation> _animation;
 			};
-		} // namespace model
+		} // namespace renderable
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/object.inl"
+#include "graphic/renderable/object.inl"
 
 #endif // OBJECT_HPP

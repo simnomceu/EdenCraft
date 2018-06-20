@@ -66,25 +66,20 @@ namespace ece
 				parser.load(file);
 
 				auto object = parser.getObjects()[0];
-				
-				for (auto & v : object.getVertices()) {
-
-				}
-				for (auto & vt : object.getVerticesTexture()) {
-
-				}
-				for (auto & vn : object.getVerticesNormal()) {
-
-				}
-				for (auto & vp : object.getVerticesSpaceParameter()) {
-
-				}
 				for (auto & f : object.getFaces()) {
+					Mesh::Face face;
 
+					for (auto & fElement : f) {
+						Mesh::Vertex vertex;
+						vertex._position = object.getVertices()[fElement._v - 1];
+						vertex._normal = object.getVerticesNormal()[fElement._vn - 1];
+						vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
+						auto index = this->_mesh.addVertex(vertex);
+						face.push_back(index);
+					}
+
+					this->_mesh.addFace(std::move(face));
 				}
-
-				// OBJ uses "normal per face" while common use is "normal per vertex". n = normalize(n1 + n2 + n3) with n1, n2, n3 the face normals for one single vertex, to compute the normal of the vertex.
-				// Reverse process: n = normalize(n1 + n2 + n3 + n4) with n1, n2, n3, n4 the normal of the four vertices of a quad, to compute, the normal of the square.
 			}
 
 			void OBJLoader::loadFromString(const std::string & content)

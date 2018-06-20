@@ -43,8 +43,8 @@
 
 #include <vector>
 
-#include "utility/mathematics/vector2u.hpp"
 #include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics/vector4u.hpp"
 #include "utility/mathematics/box3d.hpp"
 
 namespace ece
@@ -53,8 +53,8 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector2u;
 			using utility::mathematics::FloatVector3u;
+			using utility::mathematics::FloatVector4u;
 			using utility::mathematics::Box3D;
 
 			/**
@@ -67,10 +67,10 @@ namespace ece
 			public:
 				struct Vertex
 				{
-					FloatVector3u _position;
+					FloatVector4u _position;
 					FloatVector3u _color;
 					FloatVector3u _normal;
-					FloatVector2u _textureCoordinate;
+					FloatVector3u _textureCoordinate;
 				};
 
 				using Face = std::vector<unsigned int>;
@@ -139,14 +139,25 @@ namespace ece
 				 */
 				Box3D getBouncingBox() const;
 
-				inline void addVertex(const Vertex & vertex);
-				inline void addVertex(Vertex && vertex);
+				unsigned int addVertex(const Vertex & vertex);
+				unsigned int addVertex(Vertex && vertex);
+
+				inline std::vector<Vertex> & getVertices();
+				inline const std::vector<Vertex> & getVertices() const;
+
+				inline void addFace(const Face & face);
+				inline void addFace(Face && face);
+
+				inline std::vector<Face> & getFaces();
+				inline const std::vector<Face> & getFaces()const ;
 			private:
 				/**
 				 * @property _vertices
 				 * @brief The list of vertices of the mesh.
 				 */
 				std::vector<Vertex> _vertices;
+
+				std::vector<Face> _faces;
 			};
 		} // namespace model
 	} // namespace graphic

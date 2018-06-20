@@ -115,6 +115,8 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Skeleton for game animation.
 + [ ] Keyframes.
 + [ ] Cinematic camera (movements, travelling, etc...).
++ [ ] glTF Parser.
++ [ ] External module to use FBX SDK from Autodesk.
 
 ### alpha-0.3.0 (aka. Audio update)
 ##### Utility

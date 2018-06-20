@@ -41,7 +41,7 @@
 #include "graphic/scene/scene.hpp"
 
 #include "utility/mathematics/vector3u.hpp"
-#include "graphic/model/object.hpp"
+#include "graphic/renderable/object.hpp"
 
 namespace ece
 {
@@ -50,7 +50,6 @@ namespace ece
 		namespace scene
 		{
 			using utility::mathematics::FloatVector3u;
-			using model::Object;
 
 			Scene::Scene() noexcept: _camera(), _objects()
 			{
