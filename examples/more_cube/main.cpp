@@ -107,8 +107,8 @@ public:
 			0,5,4
 		};
 
-		this->_vao.addAttribute(0, 3, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
-		this->_vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colors, ece::BufferUsage::STATIC_DRAW);
+		this->_vao.addAttribute<float>(0, 3, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
+		this->_vao.addAttribute<float>(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colors, ece::BufferUsage::STATIC_DRAW);
 		this->_vao.addIndices(index, ece::BufferUsage::STATIC_DRAW);
 
 		ece::ShaderStage fsSource, vsSource;

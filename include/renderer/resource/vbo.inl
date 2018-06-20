@@ -46,11 +46,11 @@ namespace ece
 
 			inline void VBO::bind() const { OpenGL::bindBuffer(this->_type, this->_handle); }
 
-			template<class T>
-			void VBO::bufferData(const std::vector<T>& data, const BufferUsage usage)
+			template<class T, class U>
+			void VBO::bufferData(const std::vector<U>& data, const BufferUsage usage, const int offset)
 			{
 				this->bind();
-				OpenGL::bufferData(this->_type, data, usage);
+				OpenGL::bufferData<T, U>(this->_type, data, usage, offset);
 			}
 
 			inline void VBO::setType(const BufferType type) { this->_type = type; }

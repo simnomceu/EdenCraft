@@ -50,28 +50,38 @@ namespace ece
 
 			inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
 
-			template<class T>
-			void VAO::addAttribute(const int location, const int size, const bool normalized, const int offset,
-				const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+			template<class T, class U>
+			void VAO::addAttribute(const int location, const int size, const bool normalized, const int stride, const BufferType type, const std::vector<U> & data, const BufferUsage usage, const int offset)
 			{
 				this->bind();
 				OpenGL::enableVertexAttribArray(location);
 
 				VBO vbo(type);
-				vbo.bufferData(data, usage);
-				OpenGL::vertexAttribPointer<T>(location, size, normalized, offset);
+				vbo.bufferData<T, U>(data, usage, offset);
+				OpenGL::vertexAttribPointer<T>(location, size, normalized, stride);
 			}
 
-			template<class T>
-			void VAO::addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset,
-				const BufferType type, std::vector<T> & data, const BufferUsage usage)
+			template<class T, class U>
+			void VAO::addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int stride, const BufferType type, std::vector<U> & data, const BufferUsage usage, const int offset)
 			{
 				// BUG: somewhere here
 				this->bind();
 				OpenGL::enableVertexAttribArray(location);
 
-				OpenGL::vertexAttribPointer<T>(location, size, normalized, offset, data);
+				OpenGL::vertexAttribPointer<T, U>(location, size, normalized, stride, data, offset);
 			}
+
+			template <class T>
+			void VAO::addIndices(const std::vector<T> & data, const BufferUsage usage)
+			{
+				if (this->_nbVertices == 0) {
+					this->_nbVertices = data.size();
+				}
+
+				this->bind();
+				this->_ibo.bufferData<T>(data, usage);
+			}
+
 
 			inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
 		} // namespace resource

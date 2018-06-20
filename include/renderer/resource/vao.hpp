@@ -130,7 +130,7 @@ namespace ece
 				 * @brief Add a list of vertex as a VBO in the vertex array object.
 				 * @throw
 				 */
-				template<class T> void addAttribute(const int location, const int size, const bool normalized, const int offset, const BufferType type, const std::vector<T> & data, const BufferUsage usage);
+				template<class T, class U> void addAttribute(const int location, const int size, const bool normalized, const int stride, const BufferType type, const std::vector<U> & data, const BufferUsage usage, const int offset = 0);
 
 				/**
 				 * @fn void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage)
@@ -145,7 +145,7 @@ namespace ece
 				 * @brief Add a list of vertex DIRECTLY in the vertex array object.
 				 * @throw
 				 */
-				template<class T> void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage);
+				template<class T, class U> void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int stride, const BufferType type, std::vector<U> & data, const BufferUsage usage, const int offset = 0);
 
 				/**
 				 * @fn void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
@@ -154,7 +154,7 @@ namespace ece
 				 * @brief Add an index buffer object to the VAO.
 				 * @throw
 				 */
-				void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage);
+				template <class T> void addIndices(const std::vector<T> & data, const BufferUsage usage);
 
 				/**
 				 * @fn unsigned int getNbVertices() const

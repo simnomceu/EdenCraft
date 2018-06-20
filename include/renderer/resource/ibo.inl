@@ -49,10 +49,11 @@ namespace ece
 
 			inline void IBO::bind() const { OpenGL::bindBuffer(BufferType::ELEMENT_ARRAY_BUFFER, this->_handle); }
 
-			inline void IBO::bufferData(const std::vector<unsigned int> & data, const BufferUsage usage)
+			template <class T>
+			inline void IBO::bufferData(const std::vector<T> & data, const BufferUsage usage)
 			{
 				this->bind();
-				OpenGL::bufferData(BufferType::ELEMENT_ARRAY_BUFFER, data, usage);
+				OpenGL::bufferData<unsigned int, T>(BufferType::ELEMENT_ARRAY_BUFFER, data, usage);
 			}
 
 			inline void IBO::terminate() {}

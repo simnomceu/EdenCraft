@@ -80,8 +80,8 @@ namespace ece
 
 				const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
 
-				this->_vao.addAttribute(0, 2, false, 0, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
-				this->_vao.addAttribute(1, 2, false, 0, BufferType::ARRAY_BUFFER, texPos, BufferUsage::STATIC_DRAW);
+				this->_vao.addAttribute<float>(0, 2, false, 0, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
+				this->_vao.addAttribute<float>(1, 2, false, 0, BufferType::ARRAY_BUFFER, texPos, BufferUsage::STATIC_DRAW);
 				this->_vao.addIndices(index, BufferUsage::STATIC_DRAW);
 
 				ShaderStage fsSource, vsSource;

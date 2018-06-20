@@ -113,7 +113,7 @@ namespace ece
 				 * @param[in] usage The kind of usage the buffer.
 				 * @brief Set data in the VBO.
 				 */
-				template<class T> void bufferData(const std::vector<T> & data, const BufferUsage usage);
+				template<class T, class U> void bufferData(const std::vector<U> & data, const BufferUsage usage, const int offset = 0);
 
 				/**
 				 * @fn void setType(const BufferType type)

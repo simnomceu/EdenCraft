@@ -44,16 +44,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			void VAO::addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
-			{
-				if (this->_nbVertices == 0) {
-					this->_nbVertices = data.size();
-				}
-
-				this->bind();
-				this->_ibo.bufferData(data, usage);
-			}
-
 			void VAO::terminate()
 			{
 				this->_ibo.terminate();

@@ -53,6 +53,27 @@ namespace ece
 				OpenGL::_currentContext = currentContext;
 			}
 
+			template <class T>
+			inline DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
+
+			template <>
+			inline DataType OpenGL::dataType<short int>() { return DataType::SHORT; }
+
+			template <>
+			inline DataType OpenGL::dataType<unsigned short int>() { return DataType::UNSIGNED_SHORT; }
+
+			template <>
+			inline DataType OpenGL::dataType<int>() { return DataType::INT; }
+
+			template <>
+			inline DataType OpenGL::dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
+
+			template <>
+			inline DataType OpenGL::dataType<float>() { return DataType::FLOAT; }
+
+			template <>
+			inline DataType OpenGL::dataType<double>() { return DataType::DOUBLE; }
+
 			inline void OpenGL::bindBuffer(const BufferType type, const Handle handle)
 			{
 				checkErrors(glBindBuffer(static_cast<GLenum>(type), handle));
@@ -76,94 +97,22 @@ namespace ece
 				checkErrors(glBindVertexArray(handle));
 			}
 
-			template<class T>
-			inline void OpenGL::bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+			template<class T, class U>
+			inline void OpenGL::bufferData(const BufferType type, const std::vector<U> & data, const BufferUsage usage, const int offset)
 			{
-				checkErrors(glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), data.data(), static_cast<GLenum>(usage)));
+				checkErrors(glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), data.data() + offset, static_cast<GLenum>(usage)));
 			}
 
 			template<class T>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset)
+			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int stride)
 			{
-				throw std::runtime_error("Vertex attribute pointer of this type cannot be passed.");
+				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(OpenGL::dataType<T>()), normalized, stride, nullptr));
 			}
 
-			template<>
-			inline void OpenGL::vertexAttribPointer<short int>(const int location, const int size, const bool normalized, const int offset)
+			template<class T, class U>
+			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int stride, std::vector<U> & data, const int offset)
 			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::SHORT), normalized, offset, nullptr));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer<unsigned short int>(const int location, const int size, const bool normalized, const int offset)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_SHORT), normalized, offset, nullptr));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer<int>(const int location, const int size, const bool normalized, const int offset)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::INT), normalized, offset, nullptr));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer<unsigned int>(const int location, const int size, const bool normalized, const int offset)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_INT), normalized, offset, nullptr));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer<float>(const int location, const int size, const bool normalized, const int offset)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::FLOAT), normalized, offset, nullptr));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer<double>(const int location, const int size, const bool normalized, const int offset)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::DOUBLE), normalized, offset, nullptr));
-			}
-
-			template<class T>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<T> & data)
-			{
-				throw std::runtime_error("Vertex attribute pointer of this type cannot be passed.");
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short int> & data)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::SHORT), normalized, offset, data.data()));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short int> & data)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_SHORT), normalized, offset, data.data()));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<int> & data)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::INT), normalized, offset, data.data()));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned int> & data)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::UNSIGNED_INT), normalized, offset, data.data()));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::FLOAT), normalized, offset, data.data()));
-			}
-
-			template<>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(DataType::DOUBLE), normalized, offset, data.data()));
+				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(OpenGL::dataType<T>()), normalized, stride, data.data() + offset));
 			}
 
 			// New version
