@@ -45,6 +45,7 @@
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
 #include "graphic/model/obj_loader.hpp"
+#include "renderer/resource/buffer_layout.hpp"
 
 namespace ece
 {
@@ -55,6 +56,7 @@ namespace ece
 	using utility::mathematics::rotate;
 	using utility::mathematics::translate;
 	using graphic::model::OBJLoader;
+    using renderer::resource::BufferLayout;
 }
 
 class Cube : public ece::Renderable
@@ -64,28 +66,16 @@ public:
 	{
 		this->_mode = ece::PrimitiveMode::TRIANGLES;
 
-		const std::vector<float> points{
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
+		const std::vector<float> vertices{
+        -0.5f, -0.5f, -0.5f,    1.0f, 0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,    0.0f, 1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,    0.0f, 0.0f, 1.0f,
+        -0.5f,  0.5f, -0.5f,    1.0f, 1.0f, 0.0f,
 
-        -0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-		}; 
-		
-		const std::vector<float> colors{
-			1.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, 0.0f,
-
-			0.0f, 1.0f, 1.0f,
-			1.0f, 0.0f, 1.0f,
-			0.0f, 0.0f, 0.0f,
-			1.0f, 1.0f, 1.0f,
+        -0.5f, -0.5f,  0.5f,    0.0f, 1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,    1.0f, 0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,    0.0f, 0.0f, 0.0f,
+        -0.5f,  0.5f,  0.5f,    1.0f, 1.0f, 1.0f,
 		};
 
 		const std::vector<unsigned int> index{ 0, 2, 1,
@@ -107,8 +97,11 @@ public:
 			0,5,4
 		};
 
-		this->_vao.addAttribute<float>(0, 3, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
-		this->_vao.addAttribute<float>(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colors, ece::BufferUsage::STATIC_DRAW);
+        ece::BufferLayout layout;
+        layout.add<float>(3, false);
+        layout.add<float>(3, false);
+
+        this->_vao.sendData<float>(layout,ece::BufferType::ARRAY_BUFFER, vertices, ece::BufferUsage::STATIC_DRAW);
 		this->_vao.addIndices(index, ece::BufferUsage::STATIC_DRAW);
 
 		ece::ShaderStage fsSource, vsSource;
@@ -131,9 +124,9 @@ int main()
 		ece::Application app;
 
 		// ####################
-		ece::OBJLoader loader;
-		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		auto mesh = loader.getMesh();
+		//ece::OBJLoader loader;
+		//loader.loadFromFile("../../examples/more_cube/cube.obj");
+		//auto mesh = loader.getMesh();
 		// ####################
 
 		ece::RenderWindow window;

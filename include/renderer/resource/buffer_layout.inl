@@ -38,33 +38,27 @@
 
 */
 
-#include "graphic/renderable/object.hpp"
-#include "renderer/resource/buffer_layout.hpp"
+#include "renderer/opengl/opengl.hpp"
 
 namespace ece
 {
-	namespace graphic
-	{
-		namespace renderable
-		{
-			using renderer::BufferType;
-			using renderer::BufferUsage;
-			using model::Mesh;
-            using renderer::resource::BufferLayout;
+    namespace renderer
+    {
+        namespace resource
+        {
+            using opengl::OpenGL;
 
-			void Object::setMesh(const std::shared_ptr<Mesh> & mesh)
-			{
-				this->_mesh = mesh;
+            template <class T>
+            void BufferLayout::add(const size_t size, const bool normalized)
+            {
+                this->_elements.push_back({ OpenGL::dataType<T>(), sizeof(T),size, normalized });
+            }
 
-                BufferLayout layout;
-                layout.add<float>(4, false);
-                layout.add<float>(3, false);
-                layout.add<float>(3, false);
-                layout.add<float>(3, false);
+            inline BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) { return this->_elements[index]; }
 
-                this->_vao.sendData<float>(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
-				this->_vao.addIndices(this->_mesh->getFaces(), BufferUsage::STATIC_DRAW);
-			}
-		}// namespace renderable
-	} // namespace graphic
+            inline const BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) const { return this->_elements[index]; }
+
+            inline size_t BufferLayout::size() const { return this->_elements.size(); }
+        } // namespace resource
+    } // namespace renderer
 } // namespace ece

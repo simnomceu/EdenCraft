@@ -40,6 +40,8 @@
 
 #include "graphic/renderable/sprite.hpp"
 
+#include "renderer/resource/buffer_layout.hpp"
+
 namespace ece
 {
 	namespace graphic
@@ -50,6 +52,7 @@ namespace ece
 
 			using renderer::resource::ShaderStage;
 			using renderer::opengl::OpenGL;
+            using renderer::resource::BufferLayout;
 
 			Sprite::Sprite(const Texture2D & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
 			{
@@ -80,8 +83,11 @@ namespace ece
 
 				const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
 
-				this->_vao.addAttribute<float>(0, 2, false, 0, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
-				this->_vao.addAttribute<float>(1, 2, false, 0, BufferType::ARRAY_BUFFER, texPos, BufferUsage::STATIC_DRAW);
+                BufferLayout layout;
+                layout.add<float>(2, false);
+                layout.add<float>(2, false);
+
+				this->_vao.sendData<float>(layout, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
 				this->_vao.addIndices(index, BufferUsage::STATIC_DRAW);
 
 				ShaderStage fsSource, vsSource;

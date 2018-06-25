@@ -68,7 +68,7 @@ namespace ece
 				using Face = std::vector<Vertex>;
 
 				ObjectOBJ() noexcept = delete;
-				
+
 				/**
 				 * @fn ObjectOBJ(const std::string & name) noexcept
 				 * @param[in] name The name of the object.
@@ -81,7 +81,7 @@ namespace ece
 				 * @fn ObjectOBJ(const ObjectOBJ & copy)
 				 * @param[in] copy The ObjectOBJ to copy from.
 				 * @brief Default copy constructor.
-				 * @throw 
+				 * @throw
 				 */
 				ObjectOBJ(const ObjectOBJ & copy) = default;
 
@@ -170,4 +170,4 @@ namespace ece
 
 #include "utility/wavefront/object_obj.inl"
 
-#endif OBJECT_OBJ_HPP
+#endif // OBJECT_OBJ_HPP

@@ -104,15 +104,9 @@ namespace ece
 			}
 
 			template<class T>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int stride)
+			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int stride, const int offset)
 			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(OpenGL::dataType<T>()), normalized, stride, nullptr));
-			}
-
-			template<class T, class U>
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int stride, std::vector<U> & data, const int offset)
-			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(OpenGL::dataType<T>()), normalized, stride, data.data() + offset));
+				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(OpenGL::dataType<T>()), normalized, stride, reinterpret_cast<GLvoid *>(offset)));
 			}
 
 			// New version

@@ -38,33 +38,27 @@
 
 */
 
-#include "graphic/renderable/object.hpp"
 #include "renderer/resource/buffer_layout.hpp"
+
+#include <algorithm>
 
 namespace ece
 {
-	namespace graphic
-	{
-		namespace renderable
-		{
-			using renderer::BufferType;
-			using renderer::BufferUsage;
-			using model::Mesh;
-            using renderer::resource::BufferLayout;
+    namespace renderer
+    {
+        namespace resource
+        {
+            size_t BufferLayout::getStrideFrom(const size_t /*index*/) const
+            {
+                return std::accumulate(this->_elements.begin(), this->_elements.end(), 0,
+                                                [](const size_t ac, const ElementLayout & element) -> size_t { return ac + (element._count * element._unitSize); });
+            }
 
-			void Object::setMesh(const std::shared_ptr<Mesh> & mesh)
-			{
-				this->_mesh = mesh;
-
-                BufferLayout layout;
-                layout.add<float>(4, false);
-                layout.add<float>(3, false);
-                layout.add<float>(3, false);
-                layout.add<float>(3, false);
-
-                this->_vao.sendData<float>(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
-				this->_vao.addIndices(this->_mesh->getFaces(), BufferUsage::STATIC_DRAW);
-			}
-		}// namespace renderable
-	} // namespace graphic
+            size_t BufferLayout::getOffsetFrom(const size_t index) const
+            {
+                return std::accumulate(this->_elements.begin(), this->_elements.begin() + index, 0,
+                                                [](const size_t ac, const ElementLayout & element) -> size_t { return ac + (element._count * element._unitSize); });
+            }
+        } // namespace resource
+    } // namespace renderer
 } // namespace ece

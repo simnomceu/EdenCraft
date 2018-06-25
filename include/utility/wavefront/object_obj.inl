@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace wavefront
 		{
-			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept: _v(), _vt(), _vn(), _vp(), _o(name) {}
+			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept: _o(name), _v(), _vt(), _vn(), _vp(), _f() {}
 
 			inline const std::string & ObjectOBJ::getName() const { return this->_o; }
 

@@ -119,8 +119,7 @@ namespace ece
 				static inline void genVertexArrays(Handle & handle);
 				static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
 				static inline void bindVertexArray(const Handle handle);
-				template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int stride);
-				template<class T, class U> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int stride, std::vector<U> & data, const int offset = 0);
+				template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int stride, const int offset = 0);
 
 				// NEW DEFINITION
 

@@ -166,6 +166,11 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Audio
 ##### Network
 ##### Physic
++ [ ] Mass-spring.
++ [ ] Gravity.
++ [ ] Fluid mechanics.
++ [ ] Collisions.
++ [ ] Acceleration.
 
 ### alpha-0.7.0 (aka. Intelligent update)
 ##### Utility
