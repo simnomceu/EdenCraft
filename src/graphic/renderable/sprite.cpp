@@ -87,7 +87,7 @@ namespace ece
                 layout.add<float>(2, false);
                 layout.add<float>(2, false);
 
-				this->_vao.sendData<float>(layout, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
+				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
 				this->_vao.addIndices(index, BufferUsage::STATIC_DRAW);
 
 				ShaderStage fsSource, vsSource;

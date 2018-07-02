@@ -68,7 +68,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline Object() noexcept;
+				Object() noexcept;
 
 				/**
 				 * @fn Object(const Object & copy)

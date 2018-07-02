@@ -44,8 +44,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			inline Object::Object() noexcept: Renderable(), _mesh() {}
-
 			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
 		} // namespace renderable
 	} // namespace graphic

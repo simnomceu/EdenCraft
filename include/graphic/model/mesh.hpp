@@ -44,7 +44,6 @@
 #include <vector>
 
 #include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/vector4u.hpp"
 #include "utility/mathematics/box3d.hpp"
 
 namespace ece
@@ -54,7 +53,6 @@ namespace ece
 		namespace model
 		{
 			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatVector4u;
 			using utility::mathematics::Box3D;
 
 			/**
@@ -67,13 +65,13 @@ namespace ece
 			public:
 				struct Vertex
 				{
-					FloatVector4u _position;
+					FloatVector3u _position;
 					FloatVector3u _color;
 					FloatVector3u _normal;
 					FloatVector3u _textureCoordinate;
 				};
 
-				using Face = std::vector<unsigned int>;
+				using Face = std::array<unsigned int, 3>;
 
 				/**
 				 * @fn Mesh() noexcept
@@ -139,25 +137,25 @@ namespace ece
 				 */
 				Box3D getBouncingBox() const;
 
-				unsigned int addVertex(const Vertex & vertex);
-				unsigned int addVertex(Vertex && vertex);
+				unsigned int addVertex(const Mesh::Vertex & vertex);
+				unsigned int addVertex(Mesh::Vertex && vertex);
 
-				inline std::vector<Vertex> & getVertices();
-				inline const std::vector<Vertex> & getVertices() const;
+				inline std::vector<Mesh::Vertex> & getVertices();
+				inline const std::vector<Mesh::Vertex> & getVertices() const;
 
-				inline void addFace(const Face & face);
-				inline void addFace(Face && face);
+				inline void addFace(const Mesh::Face & face);
+				inline void addFace(Mesh::Face && face);
 
-				inline std::vector<Face> & getFaces();
-				inline const std::vector<Face> & getFaces()const ;
+				inline std::vector<Mesh::Face> & getFaces();
+				inline const std::vector<Mesh::Face> & getFaces()const ;
 			private:
 				/**
 				 * @property _vertices
 				 * @brief The list of vertices of the mesh.
 				 */
-				std::vector<Vertex> _vertices;
+				std::vector<Mesh::Vertex> _vertices;
 
-				std::vector<Face> _faces;
+				std::vector<Mesh::Face> _faces;
 			};
 		} // namespace model
 	} // namespace graphic

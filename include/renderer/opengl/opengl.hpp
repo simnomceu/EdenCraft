@@ -115,11 +115,11 @@ namespace ece
 				template <class T> static inline DataType dataType();
 
 				static inline void bindBuffer(const BufferType type, const Handle handle);
-				template<class T, class U> static inline void bufferData(const BufferType type, const std::vector<U> & data, const BufferUsage usage, const int offset = 0);
+				template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage, const int offset = 0);
 				static inline void genVertexArrays(Handle & handle);
 				static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
 				static inline void bindVertexArray(const Handle handle);
-				template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int stride, const int offset = 0);
+				static inline void vertexAttribPointer(const int location, const int size, const DataType type, const bool normalized, const int stride, const int offset = 0);
 
 				// NEW DEFINITION
 

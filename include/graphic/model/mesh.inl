@@ -50,9 +50,9 @@ namespace ece
 
 			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
 
-			inline void Mesh::addFace(const Face & face) { this->_faces.push_back(face); }
+			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
 
-			inline void Mesh::addFace(Face && face) { this->_faces.push_back(std::move(face)); }
+			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
 
 			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
 

@@ -48,7 +48,7 @@ namespace ece
 	namespace renderer
 	{
 		namespace resource
-		{            
+		{
 			/**
 			 * @class VAO
 			 * @brief A vertex array object as defined in OpenGL.
@@ -131,7 +131,7 @@ namespace ece
 				 * @brief Add a list of vertex as a VBO in the vertex array object.
 				 * @throw
 				 */
-				template<class T, class U> void sendData(const BufferLayout & layout, const BufferType type, const std::vector<U> & data, const BufferUsage usage);
+				template<class T> void sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage);
 
 				/**
 				 * @fn void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage)
@@ -146,7 +146,7 @@ namespace ece
 				 * @brief Add a list of vertex DIRECTLY in the vertex array object.
 				 * @throw
 				 */
-				template<class T, class U> void sendDataWithoutBuffer(const BufferLayout & layout, const BufferType type, const std::vector<U> & data, const BufferUsage usage);
+				template<class T> void sendDataWithoutBuffer(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage);
 
 				/**
 				 * @fn void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)

@@ -50,24 +50,25 @@ namespace ece
 
 			inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
 
-            template<class T, class U>
-            void VAO::sendData(const BufferLayout & layout, const BufferType type, const std::vector<U> & data, const BufferUsage usage)
+            template<class T>
+            void VAO::sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
             {
                 this->bind();
                 VBO vbo(type);
-				vbo.bufferData<T, U>(data, usage);
+				vbo.bufferData<T>(data, usage);
                 for (size_t i = 0; i < layout.size(); ++i) {
                     OpenGL::enableVertexAttribArray(i);
-    				OpenGL::vertexAttribPointer<T>(i,
-                                                    layout.getElement(i)._count,
-                                                    layout.getElement(i)._normalized,
-                                                    layout.getStrideFrom(i),
-                                                    layout.getOffsetFrom(i));
+    				OpenGL::vertexAttribPointer(i,
+                                                layout.getElement(i)._count,
+                                                layout.getElement(i)._type,
+                                                layout.getElement(i)._normalized,
+                                                layout.getStrideFrom(i),
+                                                layout.getOffsetFrom(i));
                 }
             }
 
-            template<class T, class U>
-            void VAO::sendDataWithoutBuffer(const BufferLayout & layout, const BufferType type, const std::vector<U> & data, const BufferUsage usage)
+            template<class T>
+            void VAO::sendDataWithoutBuffer(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
             {
                 this->bind();
                 /**
@@ -75,11 +76,12 @@ namespace ece
                  */
                 for (size_t i = 0; i < layout.size(); ++i) {
                     OpenGL::enableVertexAttribArray(i);
-    				OpenGL::vertexAttribPointer<T>(i,
-                                                    layout.getElement(i)._count,
-                                                    layout.getElement(i)._normalized,
-                                                    layout.getStrideFrom(i),
-                                                    layout.getOffsetFrom(i));
+    				OpenGL::vertexAttribPointer(i,
+                                                layout.getElement(i)._count,
+                                                layout.getElement(i)._type,
+                                                layout.getElement(i)._normalized,
+                                                layout.getStrideFrom(i),
+                                                layout.getOffsetFrom(i));
                 }
             }
 
@@ -87,7 +89,7 @@ namespace ece
 			void VAO::addIndices(const std::vector<T> & data, const BufferUsage usage)
 			{
 				if (this->_nbVertices == 0) {
-					this->_nbVertices = data.size();
+					this->_nbVertices = data.size() * sizeof(T) / sizeof(unsigned int);
 				}
 
 				this->bind();

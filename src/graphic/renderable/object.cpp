@@ -51,18 +51,39 @@ namespace ece
 			using renderer::BufferUsage;
 			using model::Mesh;
             using renderer::resource::BufferLayout;
+            using renderer::PrimitiveMode;
+            using renderer::ShaderType;
+            using renderer::resource::ShaderStage;
+
+            Object::Object() noexcept: Renderable(), _mesh()
+            {
+                this->_mode = PrimitiveMode::TRIANGLES;
+
+        		ShaderStage fsSource, vsSource;
+        		fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/cube.frag");
+        		vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube.vert");
+
+        		this->_program.setStage(fsSource);
+        		this->_program.setStage(vsSource);
+        		this->_program.link();
+        		this->_program.use();
+            }
 
 			void Object::setMesh(const std::shared_ptr<Mesh> & mesh)
 			{
 				this->_mesh = mesh;
 
+                for (size_t i = 0; i < this->_mesh->size(); ++i) {
+                    this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
+                }
+
                 BufferLayout layout;
-                layout.add<float>(4, false);
+                layout.add<float>(3, false);
                 layout.add<float>(3, false);
                 layout.add<float>(3, false);
                 layout.add<float>(3, false);
 
-                this->_vao.sendData<float>(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
+                this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
 				this->_vao.addIndices(this->_mesh->getFaces(), BufferUsage::STATIC_DRAW);
 			}
 		}// namespace renderable
