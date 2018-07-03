@@ -8,17 +8,19 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooo     ooo     .    o8o  oooo   o8o      .
-															`888'     `8'   .o8    `"'  `888   `"'    .o8
-															 888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo
-															 888       8    888   `888   888  `888    888    `88.  .8'
-															 888       8    888    888   888   888    888     `88..8'
-															 `88.    .8'    888 .  888   888   888    888 .    `888'
-															   `YbodP'      "888" o888o o888o o888o   "888"     .8'
-																											.o..P'
-																											`Y8P'
+															  .oooooo.                                  oooo         o8o
+															 d8P'  `Y8b                                 `888         `"'
+															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
+															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
+															888     ooooo  888      .oP"888   888   888  888   888   888  888
+															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
+															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
+																							  888
+																							 o888o
 
-				This file is part of EdenCraft Engine - Utility module.
+
+
+				This file is part of EdenCraft Engine - Graphic module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -38,19 +40,11 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        namespace file_system
-        {
-        	inline ParserOBJ::ParserOBJ() : _vertices(), _textures(), _normales(), _faces() {}
-
-        	inline const std::vector<float>& ParserOBJ::getVertices() { return this->_vertices; }
-
-        	inline const std::vector<float>& ParserOBJ::getTextures() { return this->_textures; }
-
-        	inline const std::vector<float>& ParserOBJ::getNormales() { return this->_normales; }
-
-        	inline const std::vector<int>& ParserOBJ::getFaces() { return this->_faces; }
-        } // namespace file_system
-    } // namespace utility
+	namespace graphic
+	{
+		namespace renderable
+		{
+			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
+		} // namespace renderable
+	} // namespace graphic
 } // namespace ece

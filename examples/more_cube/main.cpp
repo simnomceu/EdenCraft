@@ -41,9 +41,14 @@
 #include "renderer/common.hpp"
 #include "utility/log.hpp"
 #include "renderer/image.hpp"
-#include "graphic/renderable.hpp"
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
+#include "graphic/model/obj_loader.hpp"
+#include "renderer/resource/buffer_layout.hpp"
+#include "graphic/renderable/object.hpp"
+#include "utility/mathematics/vector3u.hpp"
+
+#include <ctime>
 
 namespace ece
 {
@@ -53,80 +58,24 @@ namespace ece
 	using window::window_event::InputEvent;
 	using utility::mathematics::rotate;
 	using utility::mathematics::translate;
+	using graphic::model::OBJLoader;
+    using graphic::model::Mesh;
+    using graphic::renderable::Object;
+    using utility::mathematics::FloatVector3u;
 }
-
-class Cube : public ece::Renderable
-{
-public:
-	Cube() : Renderable()
-	{
-		this->_mode = ece::PrimitiveMode::TRIANGLES;
-
-		const std::vector<float> points{
-        -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-
-        -0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f,
-		}; 
-		
-		const std::vector<float> colors{
-			1.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, 0.0f,
-
-			0.0f, 1.0f, 1.0f,
-			1.0f, 0.0f, 1.0f,
-			0.0f, 0.0f, 0.0f,
-			1.0f, 1.0f, 1.0f,
-		};
-
-		const std::vector<unsigned int> index{ 0, 2, 1,
-			0, 3, 2,
-
-			1,2,6,
-			6,5,1,
-
-			4,5,6,
-			6,7,4,
-
-			2,3,6,
-			6,3,7,
-
-			0,7,3,
-			0,4,7,
-
-			0,1,5,
-			0,5,4
-		};
-
-		this->_vao.addAttribute(0, 3, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
-		this->_vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colors, ece::BufferUsage::STATIC_DRAW);
-		this->_vao.addIndices(index, ece::BufferUsage::STATIC_DRAW);
-
-		ece::ShaderStage fsSource, vsSource;
-		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/cube.frag");
-		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube.vert");
-
-		this->_program.setStage(fsSource);
-		this->_program.setStage(vsSource);
-		this->_program.link();
-		this->_program.use();
-	}
-
-private:
-	ece::Texture2D _texture;
-};
 
 int main()
 {
+    std::srand(time(nullptr));
+
 	try {
 		ece::Application app;
+
+		// ####################
+		ece::OBJLoader loader;
+		loader.loadFromFile("../../examples/more_cube/monkey.obj");
+		auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
+		// ####################
 
 		ece::RenderWindow window;
 
@@ -157,8 +106,8 @@ int main()
 
 		// ece::RenderQueue queue;
 		//std::vector<std::shared_ptr<ece::Sprite>> elements(10);
-		std::vector<std::shared_ptr<Cube>> elements(10);
-		ece::FloatVector3u cubePositions[] = {
+        std::vector<std::shared_ptr<ece::Object>> elements(10);
+        ece::FloatVector3u cubePositions[] = {
 			ece::FloatVector3u{0.0f,  0.0f,  0.0f},
 			ece::FloatVector3u{2.0f,  5.0f, -15.0f},
 			ece::FloatVector3u{-1.5f, -2.2f, -2.5f},
@@ -174,7 +123,8 @@ int main()
 		for (unsigned short int i = 0; i < 10; ++i) {
 			// ece::Sprite sprite;
 			//elements[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
-			elements[i] = std::make_shared<Cube>();
+            elements[i] = std::make_shared<ece::Object>();
+            elements[i]->setMesh(mesh);
 			elements[i]->applyTransformation(ece::translate(cubePositions[i]));
 			elements[i]->setCamera(camera.getView(), camera.getProjection());
 			// queue.insert(sprite)

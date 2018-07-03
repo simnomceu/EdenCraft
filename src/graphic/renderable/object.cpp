@@ -38,25 +38,54 @@
 
 */
 
+#include "graphic/renderable/object.hpp"
+#include "renderer/resource/buffer_layout.hpp"
+
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace renderable
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+			using renderer::BufferType;
+			using renderer::BufferUsage;
+			using model::Mesh;
+            using renderer::resource::BufferLayout;
+            using renderer::PrimitiveMode;
+            using renderer::ShaderType;
+            using renderer::resource::ShaderStage;
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
+            Object::Object() noexcept: Renderable(), _mesh()
+            {
+                this->_mode = PrimitiveMode::TRIANGLES;
 
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
+        		ShaderStage fsSource, vsSource;
+        		fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/cube.frag");
+        		vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube.vert");
 
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
+        		this->_program.setStage(fsSource);
+        		this->_program.setStage(vsSource);
+        		this->_program.link();
+        		this->_program.use();
+            }
 
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
+			void Object::setMesh(const std::shared_ptr<Mesh> & mesh)
+			{
+				this->_mesh = mesh;
 
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
+                for (size_t i = 0; i < this->_mesh->size(); ++i) {
+                    this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
+                }
 
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
-		} // namespace model
+                BufferLayout layout;
+                layout.add<float>(3, false);
+                layout.add<float>(3, false);
+                layout.add<float>(3, false);
+                layout.add<float>(3, false);
+
+                this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
+				this->_vao.addIndices(this->_mesh->getFaces(), BufferUsage::STATIC_DRAW);
+			}
+		}// namespace renderable
 	} // namespace graphic
 } // namespace ece

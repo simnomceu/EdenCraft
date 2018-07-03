@@ -38,25 +38,27 @@
 
 */
 
+#include "renderer/resource/buffer_layout.hpp"
+
+#include <algorithm>
+
 namespace ece
 {
-	namespace graphic
-	{
-		namespace model
-		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+    namespace renderer
+    {
+        namespace resource
+        {
+            size_t BufferLayout::getStrideFrom(const size_t /*index*/) const
+            {
+                return std::accumulate(this->_elements.begin(), this->_elements.end(), 0,
+                                                [](const size_t ac, const ElementLayout & element) -> size_t { return ac + (element._count * element._unitSize); });
+            }
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
-
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
-
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
-
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
-		} // namespace model
-	} // namespace graphic
+            size_t BufferLayout::getOffsetFrom(const size_t index) const
+            {
+                return std::accumulate(this->_elements.begin(), this->_elements.begin() + index, 0,
+                                                [](const size_t ac, const ElementLayout & element) -> size_t { return ac + (element._count * element._unitSize); });
+            }
+        } // namespace resource
+    } // namespace renderer
 } // namespace ece

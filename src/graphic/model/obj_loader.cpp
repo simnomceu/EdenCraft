@@ -38,9 +38,11 @@
 
 */
 
-#include "graphic/model/mesh.hpp"
-#include "graphic/model/skeleton.hpp"
-#include "graphic/model/animation.hpp"
+#include "graphic/model/obj_loader.hpp"
+
+#include "utility/file_system/file.hpp"
+#include "utility/enum.hpp"
+#include "utility/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -48,19 +50,67 @@ namespace ece
 	{
 		namespace model
 		{
-			inline Object::Object() noexcept: _mesh(), _skeleton(nullptr), _animation(nullptr) {}
+			using utility::file_system::File;
+			using utility::debug::FileException;
+			using utility::FileCodeError;
+			using utility::wavefront::ParserOBJ;
 
-			inline void Object::setMesh(const std::shared_ptr<Mesh> & mesh) { this->_mesh = mesh; }
+			void OBJLoader::loadFromFile(const std::string & filename)
+			{
+				std::ifstream file(filename, std::ios::out);
+				if (!file.is_open()) {
+					throw FileException(FileCodeError::BAD_PATH, filename);
+				}
 
-			inline void Object::setSkeleton(const std::shared_ptr<Skeleton> & skeleton) { this->_skeleton = skeleton; }
+				ParserOBJ parser;
+				parser.load(file);
 
-			inline void Object::setAnimation(const std::shared_ptr<Animation> & animation) { this->_animation = animation; }
+				auto object = parser.getObjects()[0];
+				for (auto & f : object.getFaces()) {
+					Mesh::Face face;
 
-			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
+                    int i = 0;
+					for (auto & fElement : f) {
+						Mesh::Vertex vertex;
 
-			inline std::shared_ptr<Skeleton> Object::getSkeleton() const { return this->_skeleton; }
+                        if (fElement._v > 0) {
+    						vertex._position[0] = object.getVertices()[fElement._v - 1][0];
+    						vertex._position[1] = object.getVertices()[fElement._v - 1][1];
+    						vertex._position[2] = object.getVertices()[fElement._v - 1][2];
+                        }
 
-			inline std::shared_ptr<Animation> Object::getAnimation() const { return this->_animation; }
+                        if (fElement._vn > 0) {
+	                        vertex._normal = object.getVerticesNormal()[fElement._vn - 1];
+                        }
+                        if (fElement._vt > 0) {
+						    vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
+                        }
+						auto index = this->_mesh.addVertex(vertex);
+						//face.push_back(index);
+                        face[i] = index;
+                        ++i;
+                        // TODO: what append if there is more than 3 vertices in the face ? (array<unsigned int, 3>)
+					}
+
+					this->_mesh.addFace(std::move(face));
+				}
+			}
+
+			void OBJLoader::loadFromString(const std::string & content)
+			{
+				std::istringstream stream(content);
+				if (!stream) {
+					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
+				}
+
+				ParserOBJ parser;
+				parser.load(stream);
+			}
+
+			void OBJLoader::loadFromMemory(const void * /*content*/)
+			{
+				/* NOT IMPLEMENTED YET*/
+			}
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

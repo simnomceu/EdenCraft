@@ -117,7 +117,7 @@ namespace ece
 				 * @brief Set the buffer data.
 				 * @throw
 				 */
-				inline void bufferData(const std::vector<unsigned int> & data, const BufferUsage usage);
+				template <class T> inline void bufferData(const std::vector<T> & data, const BufferUsage usage);
 
 				inline virtual void terminate() override;
 			};
