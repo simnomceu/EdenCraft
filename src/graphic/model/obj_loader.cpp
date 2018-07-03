@@ -72,12 +72,19 @@ namespace ece
                     int i = 0;
 					for (auto & fElement : f) {
 						Mesh::Vertex vertex;
-						vertex._position[0] = object.getVertices()[fElement._v - 1][0];
-						vertex._position[1] = object.getVertices()[fElement._v - 1][1];
-						vertex._position[2] = object.getVertices()[fElement._v - 1][2];
 
-						vertex._normal = object.getVerticesNormal()[fElement._vn - 1];
-						vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
+                        if (fElement._v > 0) {
+    						vertex._position[0] = object.getVertices()[fElement._v - 1][0];
+    						vertex._position[1] = object.getVertices()[fElement._v - 1][1];
+    						vertex._position[2] = object.getVertices()[fElement._v - 1][2];
+                        }
+
+                        if (fElement._vn > 0) {
+	                        vertex._normal = object.getVerticesNormal()[fElement._vn - 1];
+                        }
+                        if (fElement._vt > 0) {
+						    vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
+                        }
 						auto index = this->_mesh.addVertex(vertex);
 						//face.push_back(index);
                         face[i] = index;

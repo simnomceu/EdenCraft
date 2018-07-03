@@ -73,7 +73,7 @@ int main()
 
 		// ####################
 		ece::OBJLoader loader;
-		loader.loadFromFile("../../examples/more_cube/triangle.obj");
+		loader.loadFromFile("../../examples/more_cube/monkey.obj");
 		auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
 		// ####################
 
