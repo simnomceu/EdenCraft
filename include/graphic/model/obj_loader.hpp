@@ -38,123 +38,109 @@
 
 */
 
-#ifndef SCENE_HPP
-#define SCENE_HPP
+#ifndef OBJ_LOADER_HPP
+#define OBJ_LOADER_HPP
 
-#include "graphic/scene/camera.hpp"
-#include "renderer/common/projection.hpp"
-
-#include <vector>
+#include "utility/file_system/loader.hpp"
+#include "graphic/model/mesh.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace renderable
+		namespace model
 		{
-			class Object;
-		}
-
-		namespace scene
-		{
-			using renderable::Object;
+			using utility::file_system::Loader;
 
 			/**
-			 * @class Scene
+			 * @class OBJLoader
 			 * @brief
 			 */
-			class Scene
+			class OBJLoader: public Loader
 			{
 			public:
 				/**
-				 * @fn Scene() noexcept
+				 * @fn OBJLoader() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Scene() noexcept;
+				OBJLoader() noexcept = default;
 
 				/**
-				 * @fn Scene(const Scene & copy)
-				 * @param[in] copy The Scene to copy from.
+				 * @fn OBJLoader(const OBJLoader & copy)
+				 * @param[in] copy The OBJLoader to copy from.
 				 * @brief Default copy constructor.
 				 * @throw
 				 */
-				Scene(const Scene & copy) = default;
+				OBJLoader(const OBJLoader & copy) = default;
 
 				/**
-				 * @fn Scene(Scene && move) noexcept
-				 * @param[in] move The Scene to move.
+				 * @fn OBJLoader(OBJLoader && move) noexcept
+				 * @param[in] move The OBJLoader to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Scene(Scene && move) noexcept = default;
+				OBJLoader(OBJLoader && move) noexcept = default;
 
 				/**
-				 * @fn ~Scene() noexcept
+				 * @fn ~OBJLoader() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Scene() noexcept = default;
+				~OBJLoader() noexcept = default;
 
 				/**
-				 * @fn Scene & operator=(const Scene & copy)
-				 * @param[in] copy The Scene to copy from.
-				 * @return The Scene copied.
+				 * @fn OBJLoader & operator=(const OBJLoader & copy)
+				 * @param[in] copy The OBJLoader to copy from.
+				 * @return The OBJLoader copied.
 				 * @brief Default copy assignment operator.
 				 * @throw
 				 */
-				Scene & operator=(const Scene & copy) = default;
+				OBJLoader & operator=(const OBJLoader & copy) = default;
 
 				/**
-				 * @fn Scene & operator=(Scene && move) noexcept
-				 * @param[in] move The Scene to move from.
-				 * @return The Scene moved.
+				 * @fn OBJLoader & operator=(OBJLoader && move) noexcept
+				 * @param[in] move The OBJLoader to move.
+				 * @return The OBJLoader moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Scene & operator=(Scene && move) noexcept = default;
+				OBJLoader & operator=(OBJLoader && move) noexcept = default;
 
 				/**
-				 * @fn Object * addObject()
-				 * @return The new object created.
-				 * @brief Add a new empty object to the scene.
-				 * @throw
-				 */
-				Object * addObject();
+				* @fn void loadFromFile(const std::string & filename)
+				* @param[in] filename The name of the file to load data from.
+				* @brief Load and parse data from a file.
+				* @throw
+				*/
+				virtual void loadFromFile(const std::string & filename) override;
 
 				/**
-				 * @fn Camera & getCamera()
-				 * @return The camera of the scene.
-				 * @brief Get the camera of the scene.
-				 * @throw
-				 */
-				inline Camera & getCamera();
+				* @fn void loadFromString(const std::string & content)
+				* @param[in] content The string content to load data from.
+				* @brief Load and parse data from a string.
+				* @throw
+				*/
+				virtual void loadFromString(const std::string & content) override;
 
 				/**
-				 * @fn std::vector<Renderable *> & getObjects()
-				 * @return The list of objects of the scene.
-				 * @brief Get the list of objects of the scene.
-				 * @throw
-				 */
-				inline std::vector<Object *> & getObjects();
+				* @fn void loadFromMemory(const void * content)
+				* @param[in] content The memory buffer to load data from.
+				* @brief Load and parse data from memory.
+				* @throw
+				*/
+				virtual void loadFromMemory(const void * content) override;
+
+				inline Mesh & getMesh();
+				inline const Mesh & getMesh() const;
 
 			private:
-				/**
-				 * @property _camera
-				 * @rief The camera of the scene.
-				 */
-				Camera _camera;
-
-				/**
-				 * @property _objects
-				 * @brief The list of objects in the scene.
-				 */
-				std::vector<Object *> _objects;
+				Mesh _mesh;
 			};
-		} // namespace scene
+		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/scene/scene.inl"
+#include "graphic/model/obj_loader.inl"
 
-#endif // SCENE_HPP
+#endif // OBJ_LOADER_HPP

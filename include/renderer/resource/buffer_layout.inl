@@ -38,21 +38,27 @@
 
 */
 
-#include "graphic/model/object.hpp"
-
-#include "renderer/resource/uniform.hpp"
+#include "renderer/opengl/opengl.hpp"
 
 namespace ece
 {
-	namespace graphic
-	{
-		namespace model
-		{
-			std::vector<BaseUniform *> Object::getUniforms() const
-			{
-				// TODO : this method has been generated automatically.
-				return std::vector<BaseUniform *>();
-			}
-		}// namespace model
-	} // namespace graphic
+    namespace renderer
+    {
+        namespace resource
+        {
+            using opengl::OpenGL;
+
+            template <class T>
+            void BufferLayout::add(const size_t size, const bool normalized)
+            {
+                this->_elements.push_back({ OpenGL::dataType<T>(), sizeof(T),size, normalized });
+            }
+
+            inline BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) { return this->_elements[index]; }
+
+            inline const BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) const { return this->_elements[index]; }
+
+            inline size_t BufferLayout::size() const { return this->_elements.size(); }
+        } // namespace resource
+    } // namespace renderer
 } // namespace ece

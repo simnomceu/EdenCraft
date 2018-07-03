@@ -112,13 +112,14 @@ namespace ece
 				*/
 				static inline void setCurrentContext(const std::shared_ptr<BaseContext> & currentContext);
 
+				template <class T> static inline DataType dataType();
+
 				static inline void bindBuffer(const BufferType type, const Handle handle);
-				template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
+				template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage, const int offset = 0);
 				static inline void genVertexArrays(Handle & handle);
 				static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
 				static inline void bindVertexArray(const Handle handle);
-				template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset);
-				template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<T> & data);
+				static inline void vertexAttribPointer(const int location, const int size, const DataType type, const bool normalized, const int stride, const int offset = 0);
 
 				// NEW DEFINITION
 
@@ -791,19 +792,13 @@ namespace ece
 				static std::shared_ptr<BaseContext> _currentContext;
 			};
 
+			template<> inline DataType OpenGL::dataType<short int>();
+			template<> inline DataType OpenGL::dataType<unsigned short int>();
+			template<> inline DataType OpenGL::dataType<int>();
+			template<> inline DataType OpenGL::dataType<unsigned int>();
+			template<> inline DataType OpenGL::dataType<float>();
+			template<> inline DataType OpenGL::dataType<double>();
 
-			template<> inline void OpenGL::vertexAttribPointer<short int>(const int location, const int size, const bool normalized, const int offset);
-			template<> inline void OpenGL::vertexAttribPointer<unsigned short int>(const int location, const int size, const bool normalized, const int offset);
-			template<> inline void OpenGL::vertexAttribPointer<int>(const int location, const int size, const bool normalized, const int offset);
-			template<> inline void OpenGL::vertexAttribPointer<unsigned int>(const int location, const int size, const bool normalized, const int offset);
-			template<> inline void OpenGL::vertexAttribPointer<float>(const int location, const int size, const bool normalized, const int offset);
-			template<> inline void OpenGL::vertexAttribPointer<double>(const int location, const int size, const bool normalized, const int offset);
-			template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short int> & data);
-			template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short int> & data);
-			template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<int> & data);
-			template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned int> & data);
-			template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
-			template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
 			template<> inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v);
 			template<> inline void OpenGL::uniform<float, 2>(const int location, const std::array<float, 2> & v);
 			template<> inline void OpenGL::uniform<float, 3>(const int location, const std::array<float, 3> & v);
