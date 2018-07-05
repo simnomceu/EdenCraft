@@ -131,7 +131,7 @@ namespace ece
 				 * @brief Add a list of vertex as a VBO in the vertex array object.
 				 * @throw
 				 */
-				template<class T> void sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage);
+				template<class T> void sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage, const bool instancing = false);
 
 				/**
 				 * @fn void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage)
@@ -179,6 +179,8 @@ namespace ece
 				 * @brief The index buffer object to use.
 				 */
 				IBO _ibo;
+
+                unsigned int _globalLocation;
 			};
 		} // namespace resource
 	} // namespace renderer

@@ -44,26 +44,30 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _ibo() { OpenGL::genVertexArrays(this->_handle); }
+			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _ibo(), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
 
 			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 
 			inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
 
             template<class T>
-            void VAO::sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+            void VAO::sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage, const bool instancing)
             {
                 this->bind();
                 VBO vbo(type);
 				vbo.bufferData<T>(data, usage);
                 for (size_t i = 0; i < layout.size(); ++i) {
-                    OpenGL::enableVertexAttribArray(i);
-    				OpenGL::vertexAttribPointer(i,
+                    OpenGL::enableVertexAttribArray(this->_globalLocation);
+    				OpenGL::vertexAttribPointer(this->_globalLocation,
                                                 layout.getElement(i)._count,
                                                 layout.getElement(i)._type,
                                                 layout.getElement(i)._normalized,
                                                 layout.getStrideFrom(i),
                                                 layout.getOffsetFrom(i));
+                    if (instancing) {
+                        OpenGL::vertexAttribDivisor(this->_globalLocation, 1);
+                    }
+                    ++this->_globalLocation;
                 }
             }
 
@@ -75,13 +79,14 @@ namespace ece
                  * Error: data never sent.
                  */
                 for (size_t i = 0; i < layout.size(); ++i) {
-                    OpenGL::enableVertexAttribArray(i);
-    				OpenGL::vertexAttribPointer(i,
+                    OpenGL::enableVertexAttribArray(this->_globalLocation);
+    				OpenGL::vertexAttribPointer(this->_globalLocation,
                                                 layout.getElement(i)._count,
                                                 layout.getElement(i)._type,
                                                 layout.getElement(i)._normalized,
                                                 layout.getStrideFrom(i),
                                                 layout.getOffsetFrom(i));
+                    ++this->_globalLocation;
                 }
             }
 

@@ -58,7 +58,7 @@ namespace ece
 			/**
 			 * @class Mesh
 			 * @brief A mesh as defined in 3D modelling.
-			 * @remark It has to be refactored soon, as it is redudnant with Renderer.
+			 * @remark It has to be refactored soon, as it is redudant with Renderer.
 			 */
 			class Mesh
 			{
@@ -122,12 +122,20 @@ namespace ece
 				Mesh & operator=(Mesh && move) noexcept = default;
 
 				/**
-				 * @fn unsigned int size() const
+				 * @fn unsigned int getNumberOfVertices() const
 				 * @return The number of vertices of the mesh.
 				 * @brief Get the number of vertices of the mesh.
 				 * @throw
 				 */
 				inline unsigned int size() const;
+
+				/**
+				 * @fn unsigned int getNumberOfFaces() const
+				 * @return The number of faces of the mesh.
+				 * @brief Get the number of faces of the mesh.
+				 * @throw
+				 */
+				inline unsigned int getNumberOfFaces() const;
 
 				/**
 				 * @fn Box3D getBouncingBox() const
@@ -155,7 +163,17 @@ namespace ece
 				 */
 				std::vector<Mesh::Vertex> _vertices;
 
+                /**
+                 * @property _faces
+                 * @brief The list of faces using the vertices.
+                 */
 				std::vector<Mesh::Face> _faces;
+
+                /**
+                 * @property _submeshes
+                 * @brief The list of submeshes composing this mesh.
+                 */
+                std::vector<Mesh> _meshes;
 			};
 		} // namespace model
 	} // namespace graphic
