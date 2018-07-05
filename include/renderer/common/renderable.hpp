@@ -52,6 +52,7 @@ namespace ece
 			using resource::VAO;
 			using resource::EnhancedShader;
             using utility::mathematics::FloatMatrix4u;
+            using utility::mathematics::FloatVector3u;
 
 			/**
 			 * @class Renderable
@@ -114,6 +115,10 @@ namespace ece
 
 				void applyTransformation(const FloatMatrix4u & transformation);
 
+                void addInstance(const FloatVector3u & offset);
+
+                bool isInstancingEnabled() const;
+
 			protected:
 				VAO _vao;
 
@@ -122,6 +127,8 @@ namespace ece
 				EnhancedShader _program;
 
 				FloatMatrix4u _model;
+
+                std::vector<FloatVector3u> _offsets;
 			};
 		} // namespace common
 	} // namespace renderer

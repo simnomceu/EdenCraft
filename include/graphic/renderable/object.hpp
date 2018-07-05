@@ -54,6 +54,7 @@ namespace ece
 		{
 			using renderer::common::Renderable;
 			using model::Mesh;
+            using utility::mathematics::FloatVector3u;
 
 			/**
 			 * @class Object
@@ -131,6 +132,8 @@ namespace ece
 				 * @throw
 				 */
 				inline std::shared_ptr<Mesh> getMesh() const;
+
+                void prepare();
 
 			protected:
 				/**

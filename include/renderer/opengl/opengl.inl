@@ -222,8 +222,13 @@ namespace ece
 			//	inline void OpenGL::multiDrawElements(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawRangeElements(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, const void * /*indices*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawArraysInstanced(GLenum /*mode*/, int /*first*/, GLsizei /*count*/, GLsizei /*primcount*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawElementsInstanced(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, const void * /*indices*/, GLsizei /*primcount*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawElementsBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
+
+            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset, const unsigned int primcount)
+            {
+				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<void *>(offset), primcount));
+            }
+
+            //	inline void OpenGL::drawElementsBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawRangeElementsBaseVertex(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawElementsInstancedBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, GLsizei /*primcount*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::multiDrawElementsBaseVertex(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/, const int * /*basevertex*/) { static_assert(false, "Not implemented yet."); }
@@ -833,7 +838,7 @@ namespace ece
 			//	inline void OpenGL::bindFragDataLocationIndexed(unsigned int /*program*/, unsigned int /*colorNumber*/, unsigned int /*index*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline int OpenGL::getFragDataIndex(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//
-			//	inline void OpenGL::vertexAttribDivisor(unsigned int /*index*/, unsigned int /*divisor*/) { static_assert(false, "Not implemented yet."); }
+				inline void OpenGL::vertexAttribDivisor(unsigned int index, unsigned int divisor) { checkErrors(glVertexAttribDivisor(index, divisor)); }
 			//
 			//	inline void OpenGL::getUniformdv(unsigned int /*program*/, int /*location*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendEquationi(unsigned int /*buf*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }

@@ -51,9 +51,10 @@ namespace ece
 			using utility::mathematics::FloatVector3u;
 			using opengl::OpenGL;
 
-			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model()
+			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _offsets()
 			{
 				this->_model.setIdentity();
+                this->_offsets.push_back(FloatVector3u{0, 0, 0});
 			}
 
 			Renderable::~Renderable() {}
@@ -63,7 +64,12 @@ namespace ece
 				this->_program.use();
 				this->_vao.bind();
 				this->_vao.bindIndexBuffer();
-				OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+                if (this->isInstancingEnabled()) {
+		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_offsets.size());
+                }
+                else {
+		            OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+                }
 			}
 
 			void Renderable::setCamera(const FloatMatrix4u & view, const FloatMatrix4u & projection) const noexcept
@@ -78,6 +84,16 @@ namespace ece
 				this->_model = transformation * this->_model;
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
 			}
+
+            void Renderable::addInstance(const FloatVector3u & offset)
+            {
+                this->_offsets.push_back(offset);
+            }
+
+            bool Renderable::isInstancingEnabled() const
+            {
+                return this->_offsets.size() > 1;
+            }
 		} // namespace common
 	} // namespace renderer
 } // namespace ece

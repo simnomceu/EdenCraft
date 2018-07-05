@@ -199,7 +199,7 @@ namespace ece
 				//		static inline void multiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount);
 				//		static inline void drawRangeElements(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, const void * indices);
 				//		static inline void drawArraysInstanced(GLenum mode, int first, GLsizei count, GLsizei primcount);
-				//		static inline void drawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const void * indices, GLsizei primcount);
+						static inline void drawElementsInstanced(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset, const unsigned int primcount);
 				//		static inline void drawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, int basevertex);
 				//		static inline void drawRangeElementsBaseVertex(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, void * indices, int basevertex);
 				//		static inline void drawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei primcount, int basevertex);
@@ -455,7 +455,7 @@ namespace ece
 				//		static inline void bindFragDataLocationIndexed(unsigned int program, unsigned int colorNumber, unsigned int index, const char *name);
 				//		static inline int getFragDataIndex(unsigned int program, const char * name);
 				//
-				//		static inline void vertexAttribDivisor(unsigned int index, unsigned int divisor);
+						static inline void vertexAttribDivisor(unsigned int index, unsigned int divisor);
 				//
 				//		static inline void getUniformdv(unsigned int program, int location, double *params);
 				//		static inline void blendEquationi(unsigned int buf, GLenum mode);
