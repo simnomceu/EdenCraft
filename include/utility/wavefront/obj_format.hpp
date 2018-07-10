@@ -39,11 +39,12 @@
 #ifndef OBJ_FORMAT_HPP
 #define OBJ_FORMAT_HPP
 
-#include <vector>
-
+#include "utility/config.hpp"
 #include "utility/mathematics/vector2u.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/vector4u.hpp"
+
+#include <vector>
 
 namespace ece
 {
@@ -61,7 +62,7 @@ namespace ece
 			 * @class OBJFormat
 			 * @brief
 			 */
-			class OBJFormat
+			class ECE_UTILITY_API OBJFormat
 			{
 			public:
 				struct GeometryStatement

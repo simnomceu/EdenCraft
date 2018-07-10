@@ -41,6 +41,7 @@
 
 #include <string>
 
+#include "utility/config.hpp"
 #include "utility/log/base_logger.hpp"
 
 namespace ece
@@ -55,7 +56,7 @@ namespace ece
         	 * @brief Logger implementation.
         	 * @see BaseLogger
         	 */
-        	class Logger: public BaseLogger
+        	class ECE_UTILITY_API Logger: public BaseLogger
         	{
         	public:
         		/**

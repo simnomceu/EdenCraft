@@ -39,11 +39,26 @@
 #ifndef NODE_JSON_HPP
 #define NODE_JSON_HPP
 
+#include "utility/config.hpp"
+#include "utility/enum.hpp"
+
 #include <memory>
 #include <map>
 #include <string>
 
-#include "utility/enum.hpp"
+
+namespace ece
+{
+	namespace utility
+	{
+		namespace json
+		{
+			class NodeJSON;
+		}
+	}
+}
+
+template ECE_UTILITY_EXTERN class ECE_UTILITY_API std::enable_shared_from_this<ece::utility::json::NodeJSON>;
 
 namespace ece
 {
@@ -57,11 +72,9 @@ namespace ece
         	 * @brief Generic node of the JSON tree.
         	 * @remark Is it possible to remove the usage of std::enable_shared_from_this ?
         	 */
-        	class NodeJSON: public std::enable_shared_from_this<NodeJSON>
+        	class ECE_UTILITY_API NodeJSON: public std::enable_shared_from_this<NodeJSON>
         	{
         	public:
-        		NodeJSON() = delete;
-
         		/**
         		 * @fn NodeJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>())
         		 * @param[in] parent The parent node of this node.

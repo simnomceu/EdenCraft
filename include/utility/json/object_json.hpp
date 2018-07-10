@@ -41,6 +41,7 @@
 
 #include <unordered_map>
 
+#include "utility/config.hpp"
 #include "utility/json/node_json.hpp"
 #include "utility/json/atomic_json.hpp"
 
@@ -64,7 +65,7 @@ namespace ece
         	 * @extends NodeJSON
         	 * @brief An object node of the JSON tree. It can have multiple children of any type.
         	 */
-        	class ObjectJSON: public NodeJSON
+        	class ECE_UTILITY_API ObjectJSON: public NodeJSON
         	{
         	public:
         		//ObjectJSON() = delete;

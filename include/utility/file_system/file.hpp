@@ -39,6 +39,7 @@
 #ifndef FILE_HPP
 #define FILE_HPP
 
+#include "utility/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/enum.hpp"
 
@@ -60,7 +61,7 @@ namespace ece
         	 * @remark Something like Memory mapping could be implemented for big file:
         	 *          http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n2044.html
         	 */
-        	class File
+        	class ECE_UTILITY_API File
         	{
         	public:
         		/**

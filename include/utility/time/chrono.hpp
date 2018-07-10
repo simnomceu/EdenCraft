@@ -39,6 +39,8 @@
 #ifndef CHRONO_HPP
 #define CHRONO_HPP
 
+#include "utility/config.hpp"
+
 #include <chrono>
 
 namespace ece
@@ -51,7 +53,7 @@ namespace ece
         	 * @class Chrono
         	 * @brief Define a chrono to measure durations.
         	 */
-        	class Chrono
+        	class ECE_UTILITY_API Chrono
         	{
         	public:
         		/**
@@ -70,7 +72,7 @@ namespace ece
         		Chrono(const Chrono & copy) noexcept = default;
 
         		/**
-        		 * @fn Chrono(Chrono && move)
+        		e * @fn Chrono(Chrono && move)
         		 * @param[in] move The chrono to move.
         		 * @brief Default move constructor.
         		 * @throw noexcept

@@ -39,6 +39,8 @@
 #ifndef CHAIN_LIST_HPP
 #define CHAIN_LIST_HPP
 
+#include "utility/config.hpp"
+
 #include <iterator>
 #include <memory>
 
@@ -54,7 +56,7 @@ namespace ece
 			 * @brief A chain list of elements.
 			 */
 			template <class T>
-			class ChainList: protected std::enable_shared_from_this<ChainList<T>>
+			class ECE_UTILITY_API ChainList: protected std::enable_shared_from_this<ChainList<T>>
 			{
 			public:
 				template <class T> class Iterator;
@@ -152,7 +154,7 @@ namespace ece
 			* @brief
 			*/
 			template <class T>
-			class Iterator: public std::iterator<std::forward_iterator_tag, T>
+			class ECE_UTILITY_API Iterator: public std::iterator<std::forward_iterator_tag, T>
 			{
 			public:
 				/**
@@ -210,7 +212,7 @@ namespace ece
 			 * @brief
 			 */
 			template <class T>
-			class ConstIterator: public std::iterator<std::forward_iterator_tag, const T>
+			class ECE_UTILITY_API ConstIterator: public std::iterator<std::forward_iterator_tag, const T>
 			{
 			public:
 				/**

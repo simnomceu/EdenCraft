@@ -39,6 +39,8 @@
 #ifndef PATH_HPP
 #define PATH_HPP
 
+#include "utility/config.hpp"
+
 #include <string>
 #include <vector>
 
@@ -55,7 +57,7 @@ namespace ece
         	 * @remark Should define a non-member operation make_path to create a Path object and throw an exception if it is not valid.
         	 * @remark Look at the Filesystem standard library from C++17. Be careful with backward compatibility.
         	 */
-        	class Path
+        	class ECE_UTILITY_API Path
         	{
         	public:
         		/**

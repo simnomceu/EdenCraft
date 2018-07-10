@@ -39,6 +39,7 @@
 #ifndef PARSER_JSON_HPP
 #define PARSER_JSON_HPP
 
+#include "utility/config.hpp"
 #include "utility/file_system/parser.hpp"
 #include "utility/json/object_json.hpp"
 
@@ -57,7 +58,7 @@ namespace ece
         	 * @see Parser
         	 * @remarks Have to break coupling with ObjectJSON.
         	 */
-        	class ParserJSON: public Parser
+        	class ECE_UTILITY_API ParserJSON: public Parser
         	{
         	public:
         		/**

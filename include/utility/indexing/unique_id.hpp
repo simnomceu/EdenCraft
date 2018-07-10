@@ -39,6 +39,8 @@
 #ifndef UNIQUE_ID_HPP
 #define UNIQUE_ID_HPP
 
+#include "utility/config.hpp"
+
 #include <deque>
 
 namespace ece
@@ -52,7 +54,7 @@ namespace ece
         	 * @extends std::deque<unsigned int>
         	 * @brief Manage unique IDs, considering limited memory.
         	 */
-        	class UniqueID : protected std::deque<unsigned int>
+        	class ECE_UTILITY_API UniqueID : protected std::deque<unsigned int>
         	{
         	public:
         		/**

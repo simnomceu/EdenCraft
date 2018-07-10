@@ -39,6 +39,7 @@
 #ifndef RESOURCE_CONTAINER_HPP
 #define RESOURCE_CONTAINER_HPP
 
+#include "utility/config.hpp"
 #include "utility/locale/locale_resource.hpp"
 
 namespace ece
@@ -53,7 +54,7 @@ namespace ece
         	 * @brief Expose LocaleResource as a container.
         	 * @remark Is this class useful or could it be replaced by a friendship between LocaleLoader and LocaleResource ?
         	 */
-        	class ResourceContainer: public LocaleResource
+        	class ECE_UTILITY_API ResourceContainer: public LocaleResource
         	{
         	public:
         		/**

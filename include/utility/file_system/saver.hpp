@@ -39,6 +39,8 @@
 #ifndef SAVER_HPP
 #define SAVER_HPP
 
+#include "utility/config.hpp"
+
 #include <string>
 
 namespace ece
@@ -51,7 +53,7 @@ namespace ece
 			 * @class Saver
 			 * @brief
 			 */
-			class Saver
+			class ECE_UTILITY_API Saver
 			{
 			public:
 				/**

@@ -39,6 +39,7 @@
 #ifndef ARRAY_JSON_HPP
 #define ARRAY_JSON_HPP
 
+#include "utility/config.hpp"
 #include "utility/json/node_json.hpp"
 #include "utility/json/atomic_json.hpp"
 
@@ -64,7 +65,7 @@ namespace ece
         	 * @extends NodeJSON
         	 * @brief An array node of the JSON tree. It can have multiple children of any type.
         	 */
-        	class ArrayJSON : public NodeJSON
+        	class ECE_UTILITY_API ArrayJSON : public NodeJSON
         	{
         	public:
         		//ArrayJSON() = delete;

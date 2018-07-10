@@ -39,6 +39,7 @@
 #ifndef PARSER_OBJ_HPP
 #define PARSER_OBJ_HPP
 
+#include "utility/config.hpp"
 #include "utility/wavefront/object_obj.hpp"
 
 #include <vector>
@@ -58,7 +59,7 @@ namespace ece
         	 * @remark The OBJ Wavefront structure is so much more complexe and should be refactored.
         	 * @see Parser
         	 */
-        	class ParserOBJ
+        	class ECE_UTILITY_API ParserOBJ
         	{
         	public:
         		/**

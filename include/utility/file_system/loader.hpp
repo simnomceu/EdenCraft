@@ -39,6 +39,8 @@
 #ifndef LOADER_HPP
 #define LOADER_HPP
 
+#include "utility/config.hpp"
+
 #include <string>
 
 namespace ece
@@ -51,7 +53,7 @@ namespace ece
 			 * @class Loader
 			 * @brief
 			 */
-			class Loader
+			class ECE_UTILITY_API Loader
 			{
 			public:
 				/**

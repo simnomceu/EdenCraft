@@ -39,6 +39,7 @@
 #ifndef LOCALIZATION_HPP
 #define LOCALIZATION_HPP
 
+#include "utility/config.hpp"
 #include "utility/locale/language.hpp"
 #include "utility/locale/country.hpp"
 
@@ -54,7 +55,7 @@ namespace ece
         	 * Some recent language (esperanto, lojban) are not country dependent.
         	 * @remark The country should be optional as a language like lojban is not country dependent.
         	 */
-        	class Localization
+        	class ECE_UTILITY_API Localization
         	{
         	public:
         		/**

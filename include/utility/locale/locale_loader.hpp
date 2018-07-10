@@ -40,11 +40,12 @@
 #ifndef LOCALE_LOADER_HPP
 #define LOCALE_LOADER_HPP
 
-#include <string>
-#include <utility>
-
+#include "utility/config.hpp"
 #include "utility/locale/localization.hpp"
 #include "utility/locale/resource_container.hpp"
+
+#include <string>
+#include <utility>
 
 namespace ece
 {
@@ -57,7 +58,7 @@ namespace ece
         	 * @brief Loader for JSON files of string literals, regarding the localization.
         	 * @remark This could be optimize, i guess.
         	 */
-        	class LocaleLoader
+        	class ECE_UTILITY_API LocaleLoader
         	{
         	public:
         		/**

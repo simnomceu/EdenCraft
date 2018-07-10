@@ -39,10 +39,11 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
+#include "utility/config.hpp"
+#include "utility/enum.hpp"
+
 #include <string>
 #include <stdexcept>
-
-#include "utility/enum.hpp"
 
 namespace ece
 {
@@ -57,7 +58,7 @@ namespace ece
         	 * @see http://en.cppreference.com/w/cpp/error/runtime_error
         	 * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
         	 */
-        	class Exception : public std::runtime_error
+        	class ECE_UTILITY_API Exception : public std::runtime_error
         	{
         	public:
         		/**
@@ -131,7 +132,7 @@ namespace ece
         	 * @brief An exception used for error while handling files.
         	 * @see Exception
         	 */
-        	class FileException : public Exception
+        	class ECE_UTILITY_API FileException : public Exception
         	{
         	public:
         		/**
@@ -152,7 +153,7 @@ namespace ece
         	 * @brief An exception used to indicate an error of input.
         	 * @see Exception
         	 */
-        	class BadInputException : public Exception
+        	class ECE_UTILITY_API BadInputException : public Exception
         	{
         	public:
         		/**
@@ -171,7 +172,7 @@ namespace ece
         	 * @brief An exception used to indicate an error of initialization of a system or a service.
         	 * @see Exception
         	 */
-        	class InitializationException : public Exception
+        	class ECE_UTILITY_API InitializationException : public Exception
         	{
         	public:
         		/**
@@ -190,7 +191,7 @@ namespace ece
         	 * @brief An exception used to indicates a wrong access to the memory.
         	 * @see Exception
         	 */
-        	class MemoryAccessException : public Exception
+        	class ECE_UTILITY_API MemoryAccessException : public Exception
         	{
         	public:
         		/**
@@ -222,7 +223,7 @@ namespace ece
         	 * @brief An exception used to indicates an access to a location out of the range of the owner container.
         	 * @see Exception
         	 */
-        	class OutOfRangeException : public Exception
+        	class ECE_UTILITY_API OutOfRangeException : public Exception
         	{
         	public:
         		/**
@@ -253,7 +254,7 @@ namespace ece
         	 * @brief An exception used to indicates an error while handling a resource.
         	 * @see Exception
         	 */
-        	class ResourceException : public Exception
+        	class ECE_UTILITY_API ResourceException : public Exception
         	{
         	public:
         		/**
@@ -273,7 +274,7 @@ namespace ece
         	 * @brief An exception to indicate a division by zero which is not possible.
         	 * @see Exception
         	 */
-        	class DivideByZeroException : public Exception
+        	class ECE_UTILITY_API DivideByZeroException : public Exception
         	{
         	public:
         		/**
