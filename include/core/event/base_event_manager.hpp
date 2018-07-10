@@ -40,6 +40,7 @@
 #ifndef BASE_EVENT_MANAGER_HPP
 #define BASE_EVENT_MANAGER_HPP
 
+#include "core/config.hpp"
 #include "core/event/slot.hpp"
 #include "core/event/signal.hpp"
 #include "utility/indexing/unique_id.hpp"
@@ -61,7 +62,7 @@ namespace ece
 			 * @brief Base classe for default event manger service providing.
 			 * @remark I'm not convinced it should be this kind of service here.
 			 */
-			class BaseEventManager
+			class ECE_CORE_API BaseEventManager
 			{
 			public:
 				/**

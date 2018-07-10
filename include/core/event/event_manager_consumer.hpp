@@ -40,6 +40,7 @@
 #ifndef EVENT_MANAGER_CONSUMER_HPP
 #define EVENT_MANAGER_CONSUMER_HPP
 
+#include "core/config.hpp"
 #include "core/event/event_manager.hpp"
 #include "core/event/event_service.hpp"
 
@@ -54,7 +55,7 @@ namespace ece
 			 * @brief A pass to access the event manager service.
 			 * @remark See how it is really used, and refactoring it according to that use.
 			 */
-			class EventManagerConsumer final
+			class ECE_CORE_API EventManagerConsumer final
 			{
 			public:
 				/**

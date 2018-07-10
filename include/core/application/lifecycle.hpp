@@ -39,6 +39,7 @@
 #ifndef LIFECYCLE_HPP
 #define LIFECYCLE_HPP
 
+#include "core/config.hpp"
 #include "core/event/emitter.hpp"
 #include "core/event/signal.hpp"
 
@@ -58,7 +59,7 @@ namespace ece
 			 * @brief Lifecycle of an application.
 			 * @remark Need to be refactored as it seems to have renderer dependencies that it shouldn't.
 			 */
-			class Lifecycle : public Emitter
+			class ECE_CORE_API Lifecycle : public Emitter
 			{
 			public:
 				const Signal::SignalID PRE_INIT = 0;

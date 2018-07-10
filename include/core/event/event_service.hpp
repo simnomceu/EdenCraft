@@ -39,6 +39,7 @@
 #ifndef EVENT_SERVICE_HPP
 #define EVENT_SERVICE_HPP
 
+#include "core/config.hpp"
 #include "utility/service/service_factory.hpp"
 #include "utility/service/service_locator.hpp"
 #include "core/event/base_event_manager.hpp"
@@ -65,7 +66,7 @@ namespace ece
 			 * @extends ServiceLocator<BaseEventManager, BaseEventManager>
 			 * @brief Provide a service to access event management.
 			 */
-			class EventServiceLocator : public ServiceLocator<BaseEventManager, BaseEventManager>
+			class ECE_CORE_API EventServiceLocator : public ServiceLocator<BaseEventManager, BaseEventManager>
 			{
 			public:
 				/**

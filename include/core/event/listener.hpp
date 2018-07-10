@@ -39,6 +39,7 @@
 #ifndef LISTENER_HPP
 #define LISTENER_HPP
 
+#include "core/config.hpp"
 #include "core/event/slot.hpp"
 #include "core/event/event_manager_consumer.hpp"
 
@@ -56,7 +57,7 @@ namespace ece
 			 * @class Listener
 			 * @brief A listener to manage slots.
 			 */
-			class Listener
+			class ECE_CORE_API Listener
 			{
 			public:
 				/**

@@ -39,10 +39,11 @@
 #ifndef MODULE_MANAGER_HPP
 #define MODULE_MANAGER_HPP
 
+#include "core/config.hpp"
+#include "core/module/module.hpp"
+
 #include <vector>
 #include <memory>
-
-#include "core/module/module.hpp"
 
 namespace ece
 {
@@ -54,7 +55,7 @@ namespace ece
 			 * @class ModuleManager
 			 * @brief Manage all the module  of an application.
 			 */
-			class ModuleManager
+			class ECE_CORE_API ModuleManager
 			{
 			public:
 				/**

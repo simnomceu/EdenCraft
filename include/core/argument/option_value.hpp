@@ -39,6 +39,8 @@
 #ifndef OPTION_VALUE_HPP
 #define OPTION_VALUE_HPP
 
+#include "core/config.hpp"
+
 #include <string>
 
 namespace ece
@@ -51,7 +53,7 @@ namespace ece
 			 * @class OptionValue
 			 * @brief An option for a console argument.
 			 */
-			class OptionValue
+			class ECE_CORE_API OptionValue
 			{
 			public:
 				/**

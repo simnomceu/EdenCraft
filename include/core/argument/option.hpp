@@ -39,11 +39,12 @@
 #ifndef OPTION_HPP
 #define OPTION_HPP
 
+#include "core/config.hpp"
+#include "core/argument/option_value.hpp"
+
 #include <string>
 #include <memory>
 #include <functional>
-
-#include "core/argument/option_value.hpp"
 
 namespace ece
 {
@@ -55,7 +56,7 @@ namespace ece
 			 * @class Option
 			 * @brief A command line argument.
 			 */
-			class Option
+			class ECE_CORE_API Option
 			{
 			public:
 				Option() = delete;

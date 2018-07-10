@@ -39,6 +39,8 @@
 #ifndef BASE_PROTOTYPE_HPP
 #define BASE_PROTOTYPE_HPP
 
+#include "core/config.hpp"
+
 namespace ece
 {
 	namespace core
@@ -49,7 +51,7 @@ namespace ece
 			 * @class Prototype
 			 * @brief A prototype to build an entity with a base list of components.
 			 */
-			class BasePrototype
+			class ECE_CORE_API BasePrototype
 			{
 			};
 		} // namespace ecs

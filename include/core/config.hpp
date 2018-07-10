@@ -36,30 +36,24 @@
 
 */
 
-#ifndef BASE_SYSTEM_HPP
-#define BASE_SYSTEM_HPP
+#ifndef CORE_CONFIG_HPP
+#define CORE_CONFIG_HPP
 
-#include "core/config.hpp"
+#include "utility/api/dll_api.hpp"
 
-namespace ece
-{
-	namespace core
-	{
-		namespace ecs
-		{
-			/**
-			 * @class BaseSystem
-			 * @brief A system handle some specific kinds of components and do operations on them.
-			 */
-			class ECE_CORE_API BaseSystem
-			{
-			public:
-				inline virtual ~BaseSystem() = 0;
-			};
-		} // namespace ecs
-	} // namespace core
-} // namespace ece
+#	ifdef ECE_core_SHARED
+#		ifdef ECE_core_BUILD
+#			define ECE_CORE_API ECE_EXPORT
+#			define ECE_CORE_EXTERN
+#		else
+#			define ECE_CORE_API ECE_IMPORT
+#			define ECE_CORE_EXTERN extern
+#		endif
+#		define ECE_CORE_INTERNAL ECE_INTERNAL
+#	else
+#		define ECE_CORE_API
+#		define ECE_CORE_INTERNAL
+#		define ECE_CORE_EXTERN
+#	endif
 
-#include "core/ecs/base_system.inl"
-
-#endif // BASE_SYSTEM
+#endif // CORE_CONFIG_HPP

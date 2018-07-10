@@ -39,6 +39,8 @@
 #ifndef SIGNAL_HPP
 #define SIGNAL_HPP
 
+#include "core/config.hpp"
+
 namespace ece
 {
 	namespace core
@@ -49,7 +51,7 @@ namespace ece
 			 * @class Signal
 			 * @brief The signal is an event which can triggered action linked to.
 			 */
-			class Signal final
+			class ECE_CORE_API Signal final
 			{
 			public:
 				/**
@@ -65,6 +67,7 @@ namespace ece
 				using GlobalSignalID = unsigned int;
 
 				static const Signal::GlobalSignalID INVALID_SIGNAL = 0;
+
 				Signal() = delete;
 
 				/**

@@ -40,6 +40,7 @@
 #ifndef EMITTER_HPP
 #define EMITTER_HPP
 
+#include "core/config.hpp"
 #include "core/event/signal.hpp"
 #include "core/event/event_manager_consumer.hpp"
 
@@ -57,7 +58,7 @@ namespace ece
 			 * @class Emitter
 			 * @brief An emitter to manage signals.
 			 */
-			class Emitter
+			class ECE_CORE_API Emitter
 			{
 			public:
 				/**

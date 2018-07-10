@@ -39,6 +39,7 @@
 #ifndef RESOURCE_HPP
 #define RESOURCE_HPP
 
+#include "core/config.hpp"
 #include "utility/enum.hpp"
 
 #include <string>
@@ -54,7 +55,7 @@ namespace ece
 			 * @class Resource
 			 * @brief A resource is an external content that can be loaded and saved.
 			 */
-			class Resource
+			class ECE_CORE_API Resource
 			{
 			public:
 				/**
