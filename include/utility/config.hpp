@@ -44,15 +44,16 @@
 #	ifdef ECE_utility_SHARED
 #		ifdef ECE_utility_BUILD
 #			define ECE_UTILITY_API ECE_EXPORT
+#			define ECE_UTILITY_EXTERN
 #		else
 #			define ECE_UTILITY_API ECE_IMPORT
+#			define ECE_UTILITY_EXTERN extern
 #		endif
 #		define ECE_UTILITY_INTERNAL ECE_INTERNAL
-#		define ECE_UTILITY_EXTERN
 #	else
 #		define ECE_UTILITY_API
 #		define ECE_UTILITY_INTERNAL
-#		define ECE_UTILITY_EXTERN extern
+#		define ECE_UTILITY_EXTERN
 #	endif
 
 #endif // UTILITY_CONFIG_HPP
