@@ -38,15 +38,16 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-#include <string>
-#include <memory>
-
+#include "window/config.hpp"
 #include "window/common/window_adapter.hpp"
 #include "utility/mathematics/vector2u.hpp"
 #include "core/event/emitter.hpp"
 #include "window/common/video_mode.hpp"
 #include "window/common/window_setting.hpp"
 #include "utility/time/update_per_second.hpp"
+
+#include <string>
+#include <memory>
 
 namespace ece
 {
@@ -79,7 +80,7 @@ namespace ece
 			 * @brief A basic window as defined by the platform.
 			 * Only the mechanism related to a window are implemented with. By default other features like rendering are not available in this window.
 			 */
-			class Window : public Emitter
+			class ECE_CORE_API Window : public Emitter
 			{
 			public:
 				static constexpr Signal::SignalID WINDOW_OPENED = 0;
@@ -102,7 +103,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				inline Window(const Window & copy) noexcept;
+				inline Window(const Window & copy) = default;
 
 				/**
 				 * @fn Window(Window && move) noexcept
@@ -110,7 +111,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				inline Window(Window && move) noexcept;
+				inline Window(Window && move) = default;
 
 				/**
 				 * @fn ~Window() noexcept
@@ -126,7 +127,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Window & operator=(const Window & copy) noexcept;
+				Window & operator=(const Window & copy) = default;
 
 				/**
 				 * @fn Window & operator=(Window && move) noexcept
@@ -135,7 +136,7 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Window & operator=(Window && move) noexcept;
+				Window & operator=(Window && move) = default;
 
 				/**
 				 * @fn void open()

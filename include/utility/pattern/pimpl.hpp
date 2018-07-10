@@ -59,12 +59,17 @@ namespace ece
         	class Pimpl
         	{
         	public:
+				using TypeDeleter = typename std::decay_t<Deleter>;
+				using TypeCopier = typename std::decay_t<Copier>;
+
         		/**
         		 * @fn Pimpl()
         		 * @brief
         		 * @throw noexcept
         		 */
-        		constexpr Pimpl() noexcept = default;
+        		constexpr Pimpl() noexcept;
+
+				constexpr Pimpl(std::nullptr_t) noexcept;
 
         		/**
         		 * @fn Pimpl(Impl * impl, Deleter && deleter, Copier && copier)
@@ -74,7 +79,7 @@ namespace ece
         		 * @brief Create the pimpl with a specific implementation, and its deleter and copier.
         		 * @throw
         		 */
-        		Pimpl(Impl * impl, Deleter && deleter, Copier && copier);
+        		Pimpl(Impl * impl, TypeDeleter && deleter, TypeCopier && copier) noexcept;
 
         		/**
         		 * @fn Pimpl(const Pimpl & copy)
@@ -83,7 +88,7 @@ namespace ece
         		 * To copy the implementation, the copier set will be used.
         		 * @throw noexcept
         		 */
-        		Pimpl(const Pimpl & copy) noexcept;
+        		Pimpl(const Pimpl & copy);
 
         		/**
         		 * @fn Pimpl(Pimpl && move)
@@ -91,7 +96,7 @@ namespace ece
         		 * @brief Default move constructor.
         		 * @throw noexcept.
         		 */
-        		Pimpl(Pimpl && move) noexcept = default;
+        		Pimpl(Pimpl && move) noexcept;
 
         		/**
         		 * @fn ~Pimpl()
@@ -116,15 +121,9 @@ namespace ece
         		 * @brief Default move assignment operator.
         		 * @throw noexcept.
         		 */
-        		Pimpl & operator=(Pimpl && move) noexcept = default;
+        		Pimpl & operator=(Pimpl && move) noexcept;
 
-        		/**
-        		 * @fn const Impl * operator->() const
-        		 * @return The implementation.
-        		 * @brief Get the hidden implementation.
-        		 * @throw noexcept
-        		 */
-        		const Impl * operator->() const noexcept;
+				typename std::remove_reference_t<Impl> & operator*() const;
 
         		/**
         		* @fn Impl * operator->()
@@ -132,20 +131,20 @@ namespace ece
         		* @brief Get the hidden implementation.
         		* @throw noexcept
         		*/
-        		Impl * operator->() noexcept;
+        		Impl * operator->() const noexcept;
 
         	protected:
         		/**
         		 * @property _impl
         		 * @brief The hidden implementation.
         		 */
-        		std::unique_ptr<Impl, Deleter> _impl; // opaque pointer
+        		std::unique_ptr<Impl, TypeDeleter> _impl; // opaque pointer
 
         		/**
         		 * @property _copier
         		 * @brief The copier used to allow copy operation of the implementation.
         		 */
-        		Copier _copier;
+				TypeCopier _copier;
 
         		/**
         		 * @fn Pimpl clone() const

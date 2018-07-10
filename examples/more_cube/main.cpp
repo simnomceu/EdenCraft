@@ -66,7 +66,7 @@ namespace ece
 
 int main()
 {
-    std::srand(time(nullptr));
+    std::srand(static_cast<unsigned int>(time(nullptr)));
 
 	try {
 		ece::Application app;

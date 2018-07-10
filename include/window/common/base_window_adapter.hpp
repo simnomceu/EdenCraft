@@ -38,12 +38,13 @@
 #ifndef BASE_WINDOW_ADAPTER_HPP
 #define BASE_WINDOW_ADAPTER_HPP
 
-#include <memory>
-#include <string>
-
+#include "window/config.hpp"
 #include "window/window_event/input_event.hpp"
 #include "window/common/event_queue.hpp"
 #include "utility/pattern/pimpl.hpp"
+
+#include <memory>
+#include <string>
 
 namespace ece
 {
@@ -70,7 +71,7 @@ namespace ece
 			 * @class BaseWindowAdapter
 			 * @brief Base pattern for adapting window method to use the platform implementation.
 			 */
-			class BaseWindowAdapter
+			class ECE_WINDOW_API BaseWindowAdapter
 			{
 			public:
 				/**
@@ -176,13 +177,14 @@ namespace ece
 				 * @throw
 				 */
 				virtual IntVector2u getPosition() const = 0;
-		/**
-		 * @fn IntVector2u getSize() const
-		 * @return The window size.
-		 * @brief Get the size of the window.
-		 * @throw
-		 */
-		virtual IntVector2u getSize() const = 0;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 */
+				virtual IntVector2u getSize() const = 0;
 
 				/**
 				 * @fn void minimize()

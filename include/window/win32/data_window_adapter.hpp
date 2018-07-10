@@ -38,9 +38,10 @@
 #ifndef DATA_WINDOW_ADAPTER_HPP
 #define DATA_WINDOW_ADAPTER_HPP
 
-#include <Windows.h>
-
 #include "window/window_event/keyboard.hpp"
+#include "window/window_event/mouse.hpp"
+
+#include <Windows.h>
 
 namespace ece
 {
@@ -64,6 +65,24 @@ namespace ece
 				 * @throw
 				 */
 				inline DataWindowAdapter(HWND windowId) : _windowId(windowId) {}
+
+				/**
+				* @fn DataWindowAdapter(const DataWindowAdapter & copy) noexcept
+				* @param[in] copy The implementation to copy from.
+				* @brief Default copy constructor.
+				* @throw noexcept
+				*/
+				DataWindowAdapter(const DataWindowAdapter & copy) noexcept = default;
+
+				/**
+				* @fn DataWindowAdapter(DataWindowAdapter && move) noexcept
+				* @param[in] copy The implementation to move.
+				* @brief Default move constructor.
+				* @throw noexcept
+				*/
+				DataWindowAdapter(DataWindowAdapter && move) noexcept = default;
+
+				DataWindowAdapter & operator=(const DataWindowAdapter & copy) noexcept = default;
 
 				/**
 				 * @property _windowId

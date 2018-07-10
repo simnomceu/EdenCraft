@@ -42,36 +42,53 @@ namespace ece
     {
         namespace pattern
         {
-        	template <class Impl, class Deleter, class Copier>
-        	Pimpl<Impl, Deleter, Copier>::Pimpl(Impl * impl, Deleter && deleter, Copier && copier) :
-        		_impl(impl, std::forward<Deleter>(deleter)), _copier(std::forward<Copier>(copier)) {}
+			template <class Impl, class Deleter, class Copier>
+			constexpr Pimpl<Impl, Deleter, Copier>::Pimpl() noexcept: _impl(nullptr, TypeDeleter{}), _copier(TypeCopier{}) {}
+
+			template <class Impl, class Deleter, class Copier>
+			constexpr Pimpl<Impl, Deleter, Copier>::Pimpl(std::nullptr_t) noexcept: Pimpl() {}
 
         	template <class Impl, class Deleter, class Copier>
-        	Pimpl<Impl, Deleter, Copier>::Pimpl(const Pimpl & copy) noexcept : Pimpl(copy.clone()) {}
+        	Pimpl<Impl, Deleter, Copier>::Pimpl(Impl * impl, TypeDeleter && deleter, TypeCopier && copier) noexcept :
+        		_impl(std::move(impl), std::forward<TypeDeleter>(deleter)), _copier(std::forward<TypeCopier>(copier)) {}
+
+        	template <class Impl, class Deleter, class Copier>
+        	Pimpl<Impl, Deleter, Copier>::Pimpl(const Pimpl & copy): Pimpl(copy.clone()) {}
+
+			template <class Impl, class Deleter, class Copier>
+			Pimpl<Impl, Deleter, Copier>::Pimpl(Pimpl && move) noexcept: _impl(std::move(move._impl)), _copier(std::move(move._copier)) {}
 
         	template <class Impl, class Deleter, class Copier>
         	Pimpl<Impl, Deleter, Copier> & Pimpl<Impl, Deleter, Copier>::operator=(const Pimpl & copy)
         	{
-        		if (this != &copy) {
-        			operator=(copy.clone());
+        		if (this == &copy) {
+					return *this;
         		}
-        		return *this;
+				return operator=(copy.clone());
         	}
 
-        	template<class Impl, class Deleter, class Copier>
-        	const Impl * Pimpl<Impl, Deleter, Copier>::operator->() const noexcept { return this->_impl.get(); }
+			template <class Impl, class Deleter, class Copier>
+			Pimpl<Impl, Deleter, Copier> & Pimpl<Impl, Deleter, Copier>::operator=(Pimpl && move) noexcept
+			{
+				this->_impl = std::move(move._impl);
+				this->_copier = std::move(move._copier);
+				return *this;
+			}
+
+			template<class Impl, class Deleter, class Copier>
+			typename std::remove_reference_t<Impl> & Pimpl<Impl, Deleter, Copier>::operator*() const { return *this->_impl; }
 
         	template<class Impl, class Deleter, class Copier>
-        	Impl * Pimpl<Impl, Deleter, Copier>::operator->() noexcept { return this->_impl.get(); }
+        	Impl * Pimpl<Impl, Deleter, Copier>::operator->() const noexcept { return this->_impl.get(); }
 
         	template<class Impl, class Deleter, class Copier>
         	Pimpl<Impl, Deleter, Copier> Pimpl<Impl, Deleter, Copier>::clone() const
         	{
-        		if (this->impl) {
-        			return Pimpl(this->copier(this->_impl.get()), this->_impl.get_deleter(), this->_copier);
+        		if (this->_impl) {
+        			return Pimpl<Impl, Deleter, Copier>(this->_copier(this->_impl.get()), this->_impl.get_deleter(), this->_copier);
         		}
         		else {
-        			return Pimpl(nullptr, this->_impl.get_deleter(), this->_copier);
+        			return Pimpl<Impl, Deleter, Copier>(nullptr, this->_impl.get_deleter(), this->_copier);
         		}
         	}
 

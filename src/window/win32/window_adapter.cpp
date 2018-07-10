@@ -54,7 +54,7 @@ namespace ece
 			using win32::registerPattern;
 
 			// TODO: Refactor applying correctly use of Desktop Window Manager (DWM windowing system).
-			WindowAdapter::WindowAdapter() noexcept: BaseWindowAdapter(), _data(makePimpl<DataWindowAdapter>(nullptr)) {}
+			WindowAdapter::WindowAdapter() noexcept: BaseWindowAdapter(), _data(makePimpl<DataWindowAdapter>((HWND*)nullptr)) {}
 
 			void WindowAdapter::createWindow()
 			{

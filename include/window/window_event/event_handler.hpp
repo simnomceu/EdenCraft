@@ -38,6 +38,7 @@
 #ifndef EVENT_HANDLER_HPP
 #define EVENT_HANDLER_HPP
 
+#include "window/config.hpp"
 #include "core/event/emitter.hpp"
 
 namespace ece
@@ -55,7 +56,7 @@ namespace ece
 			 * @brief Manage input events.
 			 * @remark Need to be refactored as it seems to be useless in this state.
 			 */
-			class EventHandler : public Emitter
+			class ECE_WINDOW_API EventHandler : public Emitter
 			{
 			public:
 				const Signal::SignalID KEY_PRESSED = 0;

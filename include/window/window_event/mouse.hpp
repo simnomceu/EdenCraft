@@ -38,10 +38,11 @@
 #ifndef MOUSE_HPP
 #define MOUSE_HPP
 
-#include <array>
-
+#include "window/config.hpp"
 #include "utility/mathematics/vector2u.hpp"
 #include "utility/enumeration/enum_count.hpp"
+
+#include <array>
 
 namespace ece
 {
@@ -55,7 +56,7 @@ namespace ece
 			 * @class Mouse
 			 * @brief A mouse input device.
 			 */
-			class Mouse
+			class ECE_WINDOW_API Mouse
 			{
 			public:
 				/**

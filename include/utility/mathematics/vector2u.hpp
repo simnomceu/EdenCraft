@@ -49,11 +49,6 @@ namespace ece
 
         namespace mathematics
         {
-			template <> class ECE_UTILITY_API Vector<int, 2>;
-			template <> class ECE_UTILITY_API Vector<unsigned int, 2>;
-			template <> class ECE_UTILITY_API Vector<float, 2>;
-			template <> class ECE_UTILITY_API Vector<double, 2>;
-
         	/**
         	 * @typedef Vector2u
         	 * @brief A 2D Vector.

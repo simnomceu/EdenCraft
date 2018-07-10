@@ -41,10 +41,6 @@ namespace ece
 	{
 		namespace common
 		{
-			inline Window::Window(const Window & copy) noexcept:Emitter(copy), _adapter(static_cast<WindowAdapter*>(copy._adapter.get())), _ups(copy._ups), _isOpened(copy._isOpened) {}
-
-			inline Window::Window(Window && move) noexcept : Emitter(move), _adapter(std::move(_adapter)), _ups(std::move(move._ups)), _isOpened(move._isOpened) {}
-
 			inline Window::~Window() noexcept {}
 
 			inline void Window::open(const WindowSetting & /*settings*/) {}
