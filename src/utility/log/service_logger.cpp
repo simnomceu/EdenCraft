@@ -46,7 +46,7 @@ namespace ece
 		{
 			std::shared_ptr<log::BaseLogger> ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = std::shared_ptr<log::BaseLogger>();
 
-			inline void ServiceLocator<log::BaseLogger, log::BaseLogger>::provide(const std::shared_ptr<log::BaseLogger> & service)
+			void ServiceLocator<log::BaseLogger, log::BaseLogger>::provide(const std::shared_ptr<log::BaseLogger> & service)
 			{
 				ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = service;
 			}
@@ -59,7 +59,7 @@ namespace ece
 				return *ServiceLocator<log::BaseLogger, log::BaseLogger>::_service;
 			}
 
-			inline void ServiceLocator<log::BaseLogger, log::BaseLogger>::stop()
+			void ServiceLocator<log::BaseLogger, log::BaseLogger>::stop()
 			{
 				ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = std::shared_ptr<log::BaseLogger>();
 			}

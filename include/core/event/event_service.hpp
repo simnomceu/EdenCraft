@@ -46,20 +46,25 @@
 
 namespace ece
 {
+	namespace core
+	{
+		namespace event
+		{
+			class EventManagerConsumer;
+		}
+	}
+
 	namespace utility
 	{
 		namespace service
 		{
-
-			class core::event::EventManagerConsumer;
-
 			/**
 			* @class ServiceFactory
 			* @tparam Base The base class of service
 			* @brief A factory for a category of services.
 			*/
 			template <>
-			class ServiceFactory<core::event::BaseEventManager>
+			class ECE_CORE_API ServiceFactory<core::event::BaseEventManager>
 			{
 			public:
 				/**
