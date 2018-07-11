@@ -41,6 +41,7 @@
 #ifndef UNIFORM_HPP
 #define UNIFORM_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/resource/base_uniform.hpp"
 
 namespace ece
@@ -55,7 +56,7 @@ namespace ece
 			 * @brief A uniform as defined in OpenGL.
 			 */
 			template <class T>
-			class Uniform : public BaseUniform
+			class ECE_RENDERER_API Uniform : public BaseUniform
 			{
 			public:
 				/**

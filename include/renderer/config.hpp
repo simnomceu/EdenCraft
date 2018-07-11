@@ -36,87 +36,24 @@
 
 */
 
+#ifndef RENDERER_CONFIG_HPP
+#define RENDERER_CONFIG_HPP
 
-#ifndef ENHANCED_SHADER_HPP
-#define ENHANCED_SHADER_HPP
+#include "utility/api/dll_api.hpp"
 
-#include "renderer/config.hpp"
-#include "renderer/resource/shader.hpp"
+#	ifdef ECE_renderer_SHARED
+#		ifdef ECE_renderer_BUILD
+#			define ECE_RENDERER_API ECE_EXPORT
+#			define ECE_RENDERER_EXTERN
+#		else
+#			define ECE_RENDERER_API ECE_IMPORT
+#			define ECE_RENDERER_EXTERN extern
+#		endif
+#		define ECE_RENDERER_INTERNAL ECE_INTERNAL
+#	else
+#		define ECE_RENDERER_API
+#		define ECE_RENDERER_INTERNAL
+#		define ECE_RENDERER_EXTERN
+#	endif
 
-namespace ece
-{
-	namespace renderer
-	{
-		namespace resource
-		{
-			/**
-			 * @class EnhancedShader
-			 * @€xtends Shader
-			 * @brief A shader program with automatic features, to enhance its use.
-			 * @see Shader
-			 */
-			class ECE_RENDERER_API EnhancedShader : public Shader
-			{
-			public:
-				/**
-				 * @fn EnhancedShader()
-				 * @brief Default constructor.
-				 * @throw
-				 */
-				EnhancedShader() = default;
-
-				/**
-				 * @fn EnhancedShader(const EnhancedShader & copy)
-				 * @param[in] copy The shader program to copy from.
-				 * @brief Default copy constructor.
-				 * @throw
-				 */
-				EnhancedShader(const EnhancedShader & copy) = default;
-
-				/**
-				 * @fn EnhancedShader(EnhancedShader && move) noexcept
-				 * @param[in] move The shader program to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				EnhancedShader(EnhancedShader && move) noexcept = default;
-
-				/**
-				 * @fn ~EnhancedShader() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~EnhancedShader() noexcept = default;
-
-				/**
-				 * @fn EnhancedShader & operator=(const EnhancedShader & copy)
-				 * @param[in] copyy The shader program to copy from.
-				 * @return The shader program copied.
-				 * @brief Default copy assignment operator.
-				 * @throw
-				 */
-				EnhancedShader & operator=(const EnhancedShader & copy) = default;
-
-				/**
-				 * @fn EnhancedShader & operator=(EnhancedShader && move) noexcept
-				 * @param[in] move The shader program to move.
-				 * @return The shader program moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				EnhancedShader & operator=(EnhancedShader && move) noexcept = default;
-
-				/**
-				 * @fn void setStage(ShaderStage & stage)
-				 * @param[in] stage The shader stage to add.
-				 * @brief Set a shader stage of the program.
-				 * @throw
-				 * @see void Shader::setStage(ShaderStage & stage)
-				 */
-				virtual void setStage(ShaderStage & stage) override;
-			};
-		} // namespace resource
-	} // namespace renderer
-} // namespace ece
-
-#endif // ENHANCED_SHADER_HPP
+#endif // RENDERER_CONFIG_HPP

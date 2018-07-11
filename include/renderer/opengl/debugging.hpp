@@ -1,6 +1,7 @@
 #ifndef DEBUGGING_HPP
 #define DEBUGGING_HPP
 
+#include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 
 namespace ece
@@ -27,7 +28,7 @@ namespace ece
 			  * @brief Carry out an opengl call and check possible errors.
 			  * @throw
 			  */
-			void checkErrors_(const char * file, const int line, const char * function);
+			ECE_RENDERER_API void checkErrors_(const char * file, const int line, const char * function);
 
 			/**
 			 * @fn void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const void *userParam)

@@ -41,6 +41,7 @@
 #ifndef OBJECT_OPENGL_HPP
 #define OBJECT_OPENGL_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/opengl/opengl.hpp"
 
 namespace ece
@@ -55,7 +56,7 @@ namespace ece
 			 * @class ObjectOpenGL
 			 * @brief Base class for any object of the OpenGL API.
 			 */
-			class ObjectOpenGL
+			class ECE_RENDERER_API ObjectOpenGL
 			{
 			public:
 				/**

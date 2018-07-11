@@ -44,6 +44,7 @@
 /**
   * @remark is it possible to use a forward declaration of class here ?
   */
+#include "utility/config.hpp"
 #include "utility/mathematics/matrix4u.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/rectangle.hpp"
@@ -62,7 +63,7 @@ namespace ece
         	 * @return A view matrix corresponding to the camera settings.
         	 * @brief Get a view matrix of the camera settings wished.
         	 */
-        	FloatMatrix4u lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis);
+        	ECE_UTILITY_API FloatMatrix4u lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis);
 
         	/**
         	 * @fn FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)
@@ -73,7 +74,7 @@ namespace ece
         	 * @return A projection matrix corresponding to the rendering frustum settings with perspective.
         	 * @brief Get a perspective projection matrix of the frustum view.
         	 */
-        	FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping);
+			ECE_UTILITY_API FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping);
 
         	/**
         	 * @fn FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
@@ -83,13 +84,13 @@ namespace ece
         	 * @return A projection matrix corresponding to the rendering frustum settings, in an orthographic view.
         	 * @brief Get an orthographic projection matrix of the frustum view.
         	 */
-        	FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
+			ECE_UTILITY_API FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
 
-			FloatMatrix4u scale(const FloatVector3u &  scale);
+			ECE_UTILITY_API FloatMatrix4u scale(const FloatVector3u &  scale);
 
-			FloatMatrix4u translate(const FloatVector3u & translation);
+			ECE_UTILITY_API FloatMatrix4u translate(const FloatVector3u & translation);
 
-			FloatMatrix4u rotate(const FloatVector3u & axis, const float angle);
+			ECE_UTILITY_API FloatMatrix4u rotate(const FloatVector3u & axis, const float angle);
         } // namespace mathematics
     } // namespace utility
 } // namespace ece

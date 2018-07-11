@@ -80,7 +80,7 @@ namespace ece
 			 * @brief A basic window as defined by the platform.
 			 * Only the mechanism related to a window are implemented with. By default other features like rendering are not available in this window.
 			 */
-			class ECE_CORE_API Window : public Emitter
+			class ECE_WINDOW_API Window : public Emitter
 			{
 			public:
 				static constexpr Signal::SignalID WINDOW_OPENED = 0;

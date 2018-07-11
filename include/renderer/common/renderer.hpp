@@ -39,6 +39,7 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/resource/shader.hpp"
 
@@ -61,7 +62,7 @@ namespace ece
 			 * @class Renderer
 			 * @brief Manage objects that need to be rendered.
 			 */
-			class Renderer
+			class ECE_RENDERER_API Renderer
 			{
 			public:
 				/**

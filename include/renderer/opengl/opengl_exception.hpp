@@ -39,6 +39,7 @@
 #ifndef OPENGL_EXCEPTION_HPP
 #define OPENGL_EXCEPTION_HPP
 
+#include "renderer/config.hpp"
 #include "utility/debug/exception.hpp"
 
 namespace ece
@@ -55,7 +56,7 @@ namespace ece
 			 * @brief An exception that occurs while calling opengl extensions.
 			 * @see Exception
 			 */
-			class OpenGLExtensionException : public Exception
+			class ECE_RENDERER_API OpenGLExtensionException : public Exception
 			{
 			public:
 				/**

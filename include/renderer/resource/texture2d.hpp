@@ -40,9 +40,10 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
-#include <cstddef>
-
+#include "renderer/config.hpp"
 #include "renderer/opengl/opengl.hpp"
+
+#include <cstddef>
 
 namespace ece
 {
@@ -57,7 +58,7 @@ namespace ece
 			 * @brief OpenGL 2D texture.
 			 * @remark Split the image and the texture implementations. A texture can use an image but it is not an image.
 			 */
-			class Texture2D
+			class ECE_RENDERER_API Texture2D
 			{
 			public:
 				/**

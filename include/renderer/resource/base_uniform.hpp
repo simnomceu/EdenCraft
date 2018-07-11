@@ -43,6 +43,7 @@
 
 #include <string>
 
+#include "renderer/config.hpp"
 #include "renderer/opengl/opengl.hpp"
 
 namespace ece
@@ -57,7 +58,7 @@ namespace ece
 			 * @class BaseUniform
 			 * @brief
 			 */
-			class BaseUniform
+			class ECE_RENDERER_API BaseUniform
 			{
 			public:
 				/**

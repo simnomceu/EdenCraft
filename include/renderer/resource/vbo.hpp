@@ -39,6 +39,7 @@
 #ifndef VBO_HPP
 #define VBO_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/resource/object_opengl.hpp"
 
 namespace ece
@@ -51,11 +52,9 @@ namespace ece
 			 * @class VBO
 			 * @brief A vertex buffer object as defined in OpenGL
 			 */
-			class VBO: public ObjectOpenGL
+			class ECE_RENDERER_API VBO: public ObjectOpenGL
 			{
 			public:
-				VBO() = delete;
-
 				inline VBO(const BufferType type = BufferType::ARRAY_BUFFER);
 
 				/**

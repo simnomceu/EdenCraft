@@ -39,6 +39,7 @@
 #ifndef RENDERABLE_HPP
 #define RENDERABLE_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/resource/vao.hpp"
 #include "renderer/enum.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
@@ -58,7 +59,7 @@ namespace ece
 			 * @class Renderable
 			 * @brief
 			 */
-			class Renderable
+			class ECE_RENDERER_API Renderable
 			{
 			public:
 				/**
@@ -74,7 +75,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Renderable(const Renderable & copy) noexcept = default;
+				Renderable(const Renderable & copy) = default;
 
 				/**
 				 * @fn Renderable(Renderable && move) noexcept
@@ -98,7 +99,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Renderable & operator=(const Renderable & copy) noexcept = default;
+				Renderable & operator=(const Renderable & copy) = default;
 
 				/**
 				 * @fn Renderable & operator=(Renderable && move) noexcept

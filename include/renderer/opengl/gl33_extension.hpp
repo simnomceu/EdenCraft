@@ -40,6 +40,8 @@
 #ifndef GL33_EXTENSION_HPP
 #define GL33_EXTENSION_HPP
 
+#include "renderer/config.hpp"
+
 #include <GL/glcorearb.h>
 
 #include "utility/indexing/version.hpp"
@@ -52,7 +54,7 @@ namespace ece
 	using renderer::opengl::OpenGLExtensionException;
 }
 
-inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
+ECE_RENDERER_API inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
 
 /**
  * fn CALLGL33(SIGNATURE, NAME)

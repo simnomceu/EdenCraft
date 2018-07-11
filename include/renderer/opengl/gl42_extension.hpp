@@ -39,6 +39,8 @@
 #ifndef GL42_EXTENSION_HPP
 #define GL42_EXTENSION_HPP
 
+#include "renderer/config.hpp"
+
 #include <GL/glcorearb.h>
 
 #include "utility/indexing/version.hpp"
@@ -51,18 +53,18 @@ namespace ece
 	using renderer::opengl::OpenGLExtensionException;
 }
 
-inline void glGetActiveAtomicCounterBufferiv(GLuint program, GLuint bufferIndex, GLenum pname, GLint *params);
-inline void glMemoryBarrier(GLbitfield barriers);
-inline void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
-inline void glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
-inline void glTexStorage3D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
-inline void glBindImageTexture(GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
-inline void glDrawArraysInstancedBaseInstance(GLenum mode, GLint first, GLsizei count, GLsizei primcount, GLuint baseinstance);
-inline void glDrawElementsInstancedBaseInstance(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount, GLuint baseinstance);
-inline void glDrawElementsInstancedBaseVertexBaseInstance(GLenum mode, GLsizei count, GLenum type, GLvoid *indices, GLsizei primcount, GLint basevertex, GLuint baseinstance);
-inline void glDrawTransformFeedbackInstanced(GLenum mode, GLuint id, GLsizei primcount);
-inline void glDrawTransformFeedbackStreamInstanced(GLenum mode, GLuint id, GLuint stream, GLsizei primcount);
-inline void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint *params);
+ECE_RENDERER_API inline void glGetActiveAtomicCounterBufferiv(GLuint program, GLuint bufferIndex, GLenum pname, GLint *params);
+ECE_RENDERER_API inline void glMemoryBarrier(GLbitfield barriers);
+ECE_RENDERER_API inline void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
+ECE_RENDERER_API inline void glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
+ECE_RENDERER_API inline void glTexStorage3D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
+ECE_RENDERER_API inline void glBindImageTexture(GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
+ECE_RENDERER_API inline void glDrawArraysInstancedBaseInstance(GLenum mode, GLint first, GLsizei count, GLsizei primcount, GLuint baseinstance);
+ECE_RENDERER_API inline void glDrawElementsInstancedBaseInstance(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount, GLuint baseinstance);
+ECE_RENDERER_API inline void glDrawElementsInstancedBaseVertexBaseInstance(GLenum mode, GLsizei count, GLenum type, GLvoid *indices, GLsizei primcount, GLint basevertex, GLuint baseinstance);
+ECE_RENDERER_API inline void glDrawTransformFeedbackInstanced(GLenum mode, GLuint id, GLsizei primcount);
+ECE_RENDERER_API inline void glDrawTransformFeedbackStreamInstanced(GLenum mode, GLuint id, GLuint stream, GLsizei primcount);
+ECE_RENDERER_API inline void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint *params);
 
 /**
  * fn CALLGL42(SIGNATURE, NAME)
