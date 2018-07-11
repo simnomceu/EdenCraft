@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.
-															 d8P'  `Y8b
-															888           .ooooo.  oooo d8b  .ooooo.
-															888          d88' `88b `888""8P d88' `88b
-															888          888   888  888     888ooo888
-															`88b    ooo  888   888  888     888    .o
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+															ooooo     ooo     .    o8o  oooo   o8o      .
+															`888'     `8'   .o8    `"'  `888   `"'    .o8
+															 888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo
+															 888       8    888   `888   888  `888    888    `88.  .8'
+															 888       8    888    888   888   888    888     `88..8'
+															 `88.    .8'    888 .  888   888   888    888 .    `888'
+															   `YbodP'      "888" o888o o888o o888o   "888"     .8'
+																											.o..P'
+																											`Y8P'
 
-
-
-				This file is part of EdenCraft Engine - Core module.
+				This file is part of EdenCraft Engine - Utility module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,11 +36,7 @@
 
 */
 
-
-#include "core/event/event_service.hpp"
-
-#include "core/event/event_manager_consumer.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/log/service_logger.hpp"
 
 namespace ece
 {
@@ -48,35 +44,25 @@ namespace ece
 	{
 		namespace service
 		{
-			using utility::debug::MemoryAccessException;
+			std::shared_ptr<log::BaseLogger> ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = std::shared_ptr<log::BaseLogger>();
 
-			std::shared_ptr<core::event::BaseEventManager> EventServiceLocator::_service = std::shared_ptr<core::event::BaseEventManager>();
-
-			void EventServiceLocator::provide(const std::shared_ptr<core::event::BaseEventManager> & service)
+			inline void ServiceLocator<log::BaseLogger, log::BaseLogger>::provide(const std::shared_ptr<log::BaseLogger> & service)
 			{
-				EventServiceLocator::_service = service;
+				ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = service;
 			}
 
-			core::event::BaseEventManager & EventServiceLocator::getService()
+			log::BaseLogger & ServiceLocator<log::BaseLogger, log::BaseLogger>::getService()
 			{
-				if (EventServiceLocator::_service.get() == nullptr) {
+				if (ServiceLocator<log::BaseLogger, log::BaseLogger>::_service.get() == nullptr) {
 					throw MemoryAccessException("A service.");
 				}
-				return *EventServiceLocator::_service;
+				return *ServiceLocator<log::BaseLogger, log::BaseLogger>::_service;
 			}
 
-			void EventServiceLocator::stop()
+			inline void ServiceLocator<log::BaseLogger, log::BaseLogger>::stop()
 			{
-				EventServiceLocator::_service = std::shared_ptr<core::event::BaseEventManager>();
+				ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = std::shared_ptr<log::BaseLogger>();
 			}
-
-			std::weak_ptr<core::event::BaseEventManager> EventServiceLocator::getServicePtr(core::event::EventManagerConsumer & /*consumer*/)
-			{
-				if (EventServiceLocator::_service.get() == nullptr) {
-					throw MemoryAccessException("a service.");
-				}
-				return EventServiceLocator::_service;
-			}
-		} // namespace event
-	} // namespace core
+		} // namespace service
+	} // namespace utility
 } // namespace ece
