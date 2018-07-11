@@ -40,6 +40,8 @@
 #ifndef GL44_EXTENSION_HPP
 #define GL44_EXTENSION_HPP
 
+#include "renderer/config.hpp"
+
 #include <GL/glcorearb.h>
 
 #include "utility/indexing/version.hpp"
@@ -52,15 +54,15 @@ namespace ece
 	using renderer::opengl::OpenGLExtensionException;
 }
 
-inline void glBindBuffersRange(GLenum target, GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLintptr *sizes);
-inline void glBindBuffersBase(GLenum target, GLuint first, GLsizei count, const GLuint *buffers);
-inline void glBufferStorage(GLenum target, GLsizeiptr size, const GLvoid * data, GLbitfield flags);
-inline void glBindTextures(GLuint first, GLsizei count, const GLuint *textures);
-inline void glBindSamplers(GLuint first, GLsizei count, const GLuint *samplers);
-inline void glClearTexSubImage(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * data);
-inline void glClearTexImage(GLuint texture, GLint level, GLenum format, GLenum type, const GLvoid * data);
-inline void glBindImageTextures(GLuint first, GLsizei count, const GLuint *textures);
-inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
+ECE_RENDERER_API inline void glBindBuffersRange(GLenum target, GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLintptr *sizes);
+ECE_RENDERER_API inline void glBindBuffersBase(GLenum target, GLuint first, GLsizei count, const GLuint *buffers);
+ECE_RENDERER_API inline void glBufferStorage(GLenum target, GLsizeiptr size, const GLvoid * data, GLbitfield flags);
+ECE_RENDERER_API inline void glBindTextures(GLuint first, GLsizei count, const GLuint *textures);
+ECE_RENDERER_API inline void glBindSamplers(GLuint first, GLsizei count, const GLuint *samplers);
+ECE_RENDERER_API inline void glClearTexSubImage(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * data);
+ECE_RENDERER_API inline void glClearTexImage(GLuint texture, GLint level, GLenum format, GLenum type, const GLvoid * data);
+ECE_RENDERER_API inline void glBindImageTextures(GLuint first, GLsizei count, const GLuint *textures);
+ECE_RENDERER_API inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
 
 /**
  * fn CALLGL44(SIGNATURE, NAME)

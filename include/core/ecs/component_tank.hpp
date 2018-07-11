@@ -39,6 +39,7 @@
 #ifndef COMPONENT_TANK_HPP
 #define COMPONENT_TANK_HPP
 
+#include "core/config.hpp"
 #include "core/ecs/base_component.hpp"
 #include "utility/indexing/unique_id.hpp"
 
@@ -57,7 +58,7 @@ namespace ece
 			 * @class ComponentTank
 			 * @brief Manage a list of components.
 			 */
-			class ComponentTank
+			class ECE_CORE_API ComponentTank
 			{
 			public:
 				/**

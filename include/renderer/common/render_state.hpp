@@ -39,6 +39,7 @@
 #ifndef RENDER_STATE_HPP
 #define RENDER_STATE_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/enum.hpp"
 
 namespace ece
@@ -51,7 +52,7 @@ namespace ece
 			 * @class RenderState
 			 * @brief
 			 */
-			class RenderState
+			class ECE_RENDERER_API RenderState
 			{
 			public:
 				/**

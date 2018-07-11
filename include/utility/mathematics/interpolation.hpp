@@ -39,6 +39,8 @@
 #ifndef INTERPOLATION_HPP
 #define INTERPOLATION_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
     namespace utility
@@ -57,7 +59,7 @@ namespace ece
         	 * @throw
         	 */
         	template <class T>
-        	T lerp(const T a, const T b);
+			ECE_UTILITY_API T lerp(const T a, const T b);
 
         	/**
         	 * Quaternion<T> slerp(const T t, const Quaternion<T> & a, const Quaternion<T> & b)
@@ -70,7 +72,7 @@ namespace ece
         	 * @throw.
         	 */
         	template <class T>
-        	Quaternion<T> slerp(const T t, const Quaternion<T> & a, const Quaternion<T> & b);
+			ECE_UTILITY_API Quaternion<T> slerp(const T t, const Quaternion<T> & a, const Quaternion<T> & b);
         } // namespace mathematics
     } // namespace utility
 } // namespace ece

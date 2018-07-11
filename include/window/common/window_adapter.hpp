@@ -38,6 +38,7 @@
 #ifndef WINDOW_ADAPTER_HPP
 #define WINDOW_ADAPTER_HPP
 
+#include "window/config.hpp"
 #include "window/common/base_window_adapter.hpp"
 
 namespace ece
@@ -51,7 +52,7 @@ namespace ece
 			 * @extends BaseWindowAdapter
 			 * @brief Adapting window method to use the platform implementation.
 			 */
-			class WindowAdapter : public BaseWindowAdapter
+			class ECE_WINDOW_API WindowAdapter : public BaseWindowAdapter
 			{
 			public:
 				/**
@@ -75,7 +76,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				WindowAdapter(WindowAdapter && move) noexcept = default;
+				WindowAdapter(WindowAdapter && move) = default;
 
 				/**
 				 * @fn ~WindowAdapter() noexcept
@@ -154,13 +155,14 @@ namespace ece
 				 * @see void BaseWindowAdapter::setPosition(const IntVector2u & position)
 				 */
 				virtual void setPosition(const IntVector2u & position) override;
-		/**
-		 * @fn IntVector2u getSize() const
-		 * @return The window size.
-		 * @brief Get the size of the window.
-		 * @throw
-		 */
-		virtual IntVector2u getSize() const override;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 */
+				virtual IntVector2u getSize() const override;
 
 				/**
 				 * @fn IntVector2u getPosition() const

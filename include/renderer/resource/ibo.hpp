@@ -40,6 +40,7 @@
 #ifndef IBO_HPP
 #define IBO_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/resource/object_opengl.hpp"
 
 namespace ece
@@ -52,7 +53,7 @@ namespace ece
 			 * @class IBO
 			 * @brief Index buffer object as defined in OpenGL.
 			 */
-			class IBO: public ObjectOpenGL
+			class ECE_RENDERER_API IBO: public ObjectOpenGL
 			{
 			public:
 				/**

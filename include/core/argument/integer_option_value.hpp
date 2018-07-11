@@ -39,6 +39,7 @@
 #ifndef INTEGER_OPTION_VALUE_HPP
 #define INTEGER_OPTION_VALUE_HPP
 
+#include "core/config.hpp"
 #include "core/argument/option_value.hpp"
 
 namespace ece
@@ -52,7 +53,7 @@ namespace ece
 			 * @extends OptionValue
 			 * @brief An option as an integer argument.
 			 */
-			class IntegerOptionValue : public OptionValue
+			class ECE_CORE_API IntegerOptionValue : public OptionValue
 			{
 			public:
 				/**

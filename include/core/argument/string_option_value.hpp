@@ -39,9 +39,10 @@
 #ifndef STRING_OPTION_VALUE_HPP
 #define STRING_OPTION_VALUE_HPP
 
-#include <string>
-
+#include "core/config.hpp"
 #include "core/argument/option_value.hpp"
+
+#include <string>
 
 namespace ece
 {
@@ -54,7 +55,7 @@ namespace ece
 			 * @extends OptionValue
 			 * @brief An option as a string argument.
 			 */
-			class StringOptionValue : public OptionValue
+			class ECE_CORE_API StringOptionValue : public OptionValue
 			{
 			public:
 				/**

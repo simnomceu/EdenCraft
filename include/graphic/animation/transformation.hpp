@@ -41,6 +41,8 @@
 #ifndef TRANSFORMATION_HPP
 #define TRANSFORMATION_HPP
 
+#include "graphic/config.hpp"
+
 namespace ece
 {
 	namespace graphic
@@ -51,7 +53,7 @@ namespace ece
 			 * @class Transformation
 			 * @brief A generic mathematical transformation.
 			 */
-			class Transformation
+			class ECE_GRAPHIC_API Transformation
 			{
 			public:
 				/**

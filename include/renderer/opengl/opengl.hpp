@@ -44,6 +44,7 @@
 #include <bitset>
 #include <array>
 
+#include "renderer/config.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 #include "utility/mathematics/matrix2u.hpp"
 #include "utility/mathematics/matrix3u.hpp"
@@ -78,7 +79,7 @@ namespace ece
 			* @class OpenGL
 			* @brief Interface for all OpenGL extensions.
 			*/
-			class OpenGL
+			class ECE_RENDERER_API OpenGL
 			{
 			public:
 				/**

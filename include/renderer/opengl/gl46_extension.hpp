@@ -40,6 +40,8 @@
 #ifndef GL46_EXTENSION_HPP
 #define GL46_EXTENSION_HPP
 
+#include "renderer/config.hpp"
+
 #include <GL/glcorearb.h>
 
 #include "utility/indexing/version.hpp"
@@ -52,8 +54,8 @@ namespace ece
 	using renderer::opengl::OpenGLExtensionException;
 }
 
-inline void glSpecializeShader(GLuint shader, const GLchar * pEntryPoint, GLuint numSpecializationConstants, const GLuint * pConstantIndex, const GLuint * pConstantValue);
-inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
+ECE_RENDERER_API inline void glSpecializeShader(GLuint shader, const GLchar * pEntryPoint, GLuint numSpecializationConstants, const GLuint * pConstantIndex, const GLuint * pConstantValue);
+ECE_RENDERER_API inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
 
 /**
  * fn CALLGL46(SIGNATURE, NAME)

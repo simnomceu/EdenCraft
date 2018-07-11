@@ -223,9 +223,9 @@ inline void glBufferData(GLenum target, GLsizeiptr size, const GLvoid * data, GL
 
 inline void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid * data) { CALLGL32_V(PFNGLBUFFERSUBDATAPROC, "glBufferSubData", target, offset, size, data); }
 
-inline void * glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access) { CALLGL32_V(PFNGLMAPBUFFERRANGEPROC, "glMapBufferRange", target, offset, length, access); }
+inline void * glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access) { R_CALLGL32_V(PFNGLMAPBUFFERRANGEPROC, "glMapBufferRange", target, offset, length, access); }
 
-inline void * glMapBuffer(GLenum target, GLenum access) { CALLGL32_V(PFNGLMAPBUFFERPROC, "glMapBuffer", target, access); }
+inline void * glMapBuffer(GLenum target, GLenum access) { R_CALLGL32_V(PFNGLMAPBUFFERPROC, "glMapBuffer", target, access); }
 
 inline void glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length) { CALLGL32_V(PFNGLFLUSHMAPPEDBUFFERRANGEPROC, "glFlushMappedBufferRange", target, offset, length); }
 

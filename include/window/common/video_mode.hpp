@@ -38,6 +38,8 @@
 #ifndef VIDEO_MODE_HPP
 #define VIDEO_MODE_HPP
 
+#include "window/config.hpp"
+
 namespace ece
 {
 	namespace window
@@ -49,7 +51,7 @@ namespace ece
 			 * @brief Store all the parameters of the video mode for a window.
 			 * Store all the parameters of the video mode for a window. It is used for read and write operation.
 			 */
-			class VideoMode
+			class ECE_WINDOW_API VideoMode
 			{
 			public:
 				/**

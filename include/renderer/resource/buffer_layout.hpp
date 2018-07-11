@@ -41,6 +41,7 @@
 #ifndef BUFFER_LAYOUT_HPP
 #define BUFFER_LAYOUT_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/enum.hpp"
 
 #include <vector>
@@ -55,7 +56,7 @@ namespace ece
              * @class BufferLayout
              * @brief
              */
-            class BufferLayout
+            class ECE_RENDERER_API BufferLayout
             {
             public:
                 struct ElementLayout

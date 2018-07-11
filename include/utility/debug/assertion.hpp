@@ -39,6 +39,7 @@
 #ifndef ASSERTION_HPP
 #define ASSERTION_HPP
 
+#include "utility/config.hpp"
 #include "utility/debug/exception.hpp"
 
 namespace ece
@@ -53,7 +54,7 @@ namespace ece
              * @brief An exception risen on assertion failure.
              * @see Exception
              */
-            class AssertionException : public Exception
+            class ECE_UTILITY_API AssertionException : public Exception
             {
         	public:
                 /**

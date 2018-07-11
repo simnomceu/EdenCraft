@@ -39,10 +39,11 @@
 #ifndef ENUM_OPTION_VALUE_HPP
 #define ENUM_OPTION_VALUE_HPP
 
+#include "core/config.hpp"
+#include "core/argument/option_value.hpp"
+
 #include <vector>
 #include <string>
-
-#include "core/argument/option_value.hpp"
 
 namespace ece
 {
@@ -55,7 +56,7 @@ namespace ece
 			 * @extends OptionValue
 			 * @brief An option as an enumeration argument.
 			 */
-			class EnumOptionValue : public OptionValue
+			class ECE_CORE_API EnumOptionValue : public OptionValue
 			{
 			public:
 				/**

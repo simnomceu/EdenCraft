@@ -40,9 +40,10 @@
 #ifndef RESOURCE_LOADER_HPP
 #define RESOURCE_LOADER_HPP
 
-#include <string>
-
+#include "core/config.hpp"
 #include "core/resource/resource_handler.hpp"
+
+#include <string>
 
 namespace ece
 {
@@ -54,7 +55,7 @@ namespace ece
 			 * @class ResourceLoader
 			 * @brief To load a resource.
 			 */
-			class ResourceLoader
+			class ECE_CORE_API ResourceLoader
 			{
 			public:
 				/**

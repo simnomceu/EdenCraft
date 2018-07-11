@@ -40,6 +40,7 @@
 #ifndef RESOURCE_UNLOADER_HPP
 #define RESOURCE_UNLOADER_HPP
 
+#include "core/config.hpp"
 #include "core/resource/resource_handler.hpp"
 
 namespace ece
@@ -52,7 +53,7 @@ namespace ece
 			 * @class ResourceUnloader
 			 * @brief To unload a resource.
 			 */
-			class ResourceUnloader
+			class ECE_CORE_API ResourceUnloader
 			{
 			public:
 				/**

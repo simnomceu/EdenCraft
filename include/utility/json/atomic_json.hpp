@@ -39,6 +39,7 @@
 #ifndef ATOMIC_JSON_HPP
 #define ATOMIC_JSON_HPP
 
+#include "utility/config.hpp"
 #include "utility/json/node_json.hpp"
 
 namespace ece

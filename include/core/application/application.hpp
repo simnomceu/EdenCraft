@@ -39,13 +39,14 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
-#include <memory>
-#include <vector>
-
+#include "core/config.hpp"
 #include "core/argument/argument_analyzer.hpp"
 #include "core/module/module_manager.hpp"
 #include "core/event/emitter.hpp"
 #include "core/application/lifecycle.hpp"
+
+#include <memory>
+#include <vector>
 
 namespace ece
 {
@@ -63,7 +64,7 @@ namespace ece
 			 * @class Application
 			 * @brief A general application to handle core concepts.
 			 */
-			class Application
+			class ECE_CORE_API Application
 			{
 			public:
 				/**

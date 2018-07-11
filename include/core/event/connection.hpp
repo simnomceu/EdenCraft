@@ -40,6 +40,7 @@
 #ifndef CONNECTION_HPP
 #define CONNECTION_HPP
 
+#include "core/config.hpp"
 #include "core/event/signal.hpp"
 #include "core/event/slot.hpp"
 
@@ -53,7 +54,7 @@ namespace ece
 			 * @class Connection
 			 * @brief A connection between a slot and a signal.
 			 */
-			class Connection final
+			class ECE_CORE_API Connection final
 			{
 			public:
 				Connection() = delete;

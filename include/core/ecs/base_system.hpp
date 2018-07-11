@@ -39,6 +39,8 @@
 #ifndef BASE_SYSTEM_HPP
 #define BASE_SYSTEM_HPP
 
+#include "core/config.hpp"
+
 namespace ece
 {
 	namespace core
@@ -49,7 +51,7 @@ namespace ece
 			 * @class BaseSystem
 			 * @brief A system handle some specific kinds of components and do operations on them.
 			 */
-			class BaseSystem
+			class ECE_CORE_API BaseSystem
 			{
 			public:
 				inline virtual ~BaseSystem() = 0;

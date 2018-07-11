@@ -38,6 +38,7 @@
 #ifndef INPUT_EVENT_HPP
 #define INPUT_EVENT_HPP
 
+#include "window/config.hpp"
 #include "window/window_event/mouse.hpp"
 #include "window/window_event/keyboard.hpp"
 #include "utility/mathematics/vector2u.hpp"
@@ -54,7 +55,7 @@ namespace ece
 			 * @class InputEvent
 			 * @brief Event from a user input.
 			 */
-			class InputEvent
+			class ECE_WINDOW_API InputEvent
 			{
 			public:
 				/**

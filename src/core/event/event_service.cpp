@@ -44,20 +44,38 @@
 
 namespace ece
 {
-	namespace core
+	namespace utility
 	{
-		namespace event
+		namespace service
 		{
 			using utility::debug::MemoryAccessException;
 
-			std::weak_ptr<BaseEventManager> EventServiceLocator::getServicePtr(EventManagerConsumer & /*consumer*/)
-			{
-				//return ServiceLocator<BaseEventManager, EventManagerNone>::getServicePtr();
+			std::shared_ptr<core::event::BaseEventManager> EventServiceLocator::_service = std::shared_ptr<core::event::BaseEventManager>();
 
-				if (ServiceLocator<BaseEventManager, BaseEventManager>::_service.get() == nullptr) {
+			void EventServiceLocator::provide(const std::shared_ptr<core::event::BaseEventManager> & service)
+			{
+				EventServiceLocator::_service = service;
+			}
+
+			core::event::BaseEventManager & EventServiceLocator::getService()
+			{
+				if (EventServiceLocator::_service.get() == nullptr) {
+					throw MemoryAccessException("A service.");
+				}
+				return *EventServiceLocator::_service;
+			}
+
+			void EventServiceLocator::stop()
+			{
+				EventServiceLocator::_service = std::shared_ptr<core::event::BaseEventManager>();
+			}
+
+			std::weak_ptr<core::event::BaseEventManager> EventServiceLocator::getServicePtr(core::event::EventManagerConsumer & /*consumer*/)
+			{
+				if (EventServiceLocator::_service.get() == nullptr) {
 					throw MemoryAccessException("a service.");
 				}
-				return ServiceLocator<BaseEventManager, BaseEventManager>::_service;
+				return EventServiceLocator::_service;
 			}
 		} // namespace event
 	} // namespace core

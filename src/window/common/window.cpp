@@ -58,26 +58,6 @@ namespace ece
 				this->addSignal(WINDOW_RENAMED);
 			}
 
-			Window & Window::operator=(const Window & copy) noexcept
-			{
-				Emitter::operator=(copy);
-				this->_adapter.reset(copy._adapter.get());
-				this->_ups = copy._ups;
-				this->_isOpened = copy._isOpened;
-
-				return *this;
-			}
-
-			Window & Window::operator=(Window && move) noexcept
-			{
-				Emitter::operator=(move);
-				this->_adapter = std::move(move._adapter);
-				this->_ups = std::move(move._ups);
-				this->_isOpened = std::move(move._isOpened);
-
-				return *this;
-			}
-
 			void Window::open()
 			{
 				//		ece::WindowServiceLocator::getService().provideVideoMode(videoMode);

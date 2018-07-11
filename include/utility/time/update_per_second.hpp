@@ -39,6 +39,7 @@
 #ifndef UPDATE_PER_SECOND_HPP
 #define UPDATE_PER_SECOND_HPP
 
+#include "utility/config.hpp"
 #include "utility/time/chrono.hpp"
 
 namespace ece
@@ -51,7 +52,7 @@ namespace ece
         	 * @class UpdatePerSecond
         	 * @brief UPS counter.
         	 */
-        	class UpdatePerSecond
+        	class ECE_UTILITY_API UpdatePerSecond
         	{
         	public:
         		UpdatePerSecond() = delete;

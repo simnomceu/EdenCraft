@@ -43,6 +43,7 @@
 #include <vector>
 #include <cstddef>
 
+#include "renderer/config.hpp"
 #include "utility/file_system/parser.hpp"
 #include "renderer/image/image.hpp"
 #include "renderer/image/pixel_format.hpp"
@@ -61,7 +62,7 @@ namespace ece
 			 * @brief A parser to load/save BMP images from/to memory, file, or string.
 			 * @see Parser
 			 */
-			class ParserBMP : public Parser
+			class ECE_RENDERER_API ParserBMP : public Parser
 			{
 			public:
 				/**

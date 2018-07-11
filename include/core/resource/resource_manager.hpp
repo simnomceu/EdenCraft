@@ -39,13 +39,14 @@
 #ifndef RESOURCE_MANAGER_HPP
 #define RESOURCE_MANAGER_HPP
 
-#include <map>
-#include <string>
-#include <memory>
-
+#include "core/config.hpp"
 #include "core/resource/resource_handler.hpp"
 #include "core/resource/resource_loader.hpp"
 #include "core/resource/resource_unloader.hpp"
+
+#include <map>
+#include <string>
+#include <memory>
 
 namespace ece
 {
@@ -57,7 +58,7 @@ namespace ece
 			 * @class ResourceManager
 			 * @brief Manage all resources, and their loaders/unloaders, regarding the file extension.
 			 */
-			class ResourceManager
+			class ECE_CORE_API ResourceManager
 			{
 			public:
 				/**

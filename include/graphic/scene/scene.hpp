@@ -41,6 +41,7 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include "graphic/config.hpp"
 #include "graphic/scene/camera.hpp"
 #include "renderer/common/projection.hpp"
 
@@ -63,7 +64,7 @@ namespace ece
 			 * @class Scene
 			 * @brief
 			 */
-			class Scene
+			class ECE_GRAPHIC_API Scene
 			{
 			public:
 				/**

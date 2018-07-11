@@ -39,6 +39,8 @@
 #ifndef INDEX3U_HPP
 #define INDEX3U_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
     namespace utility
@@ -50,7 +52,7 @@ namespace ece
         	 * @brief A 3D index key to access elements in a 3D container.
         	 * @remark This class need to be refactored to be usable in others classes like Matrix. Have to be compared with std::slice and others.
         	 */
-        	class Index3u
+        	class ECE_UTILITY_API Index3u
         	{
         	public:
         		/**

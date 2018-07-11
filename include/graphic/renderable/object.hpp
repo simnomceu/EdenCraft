@@ -41,10 +41,11 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
-#include <memory>
-
+#include "graphic/config.hpp"
 #include "renderer/common/renderable.hpp"
 #include "graphic/model/mesh.hpp"
+
+#include <memory>
 
 namespace ece
 {
@@ -61,7 +62,7 @@ namespace ece
 			 * @extends Renderable
 			 * @brief A renderable 3D object.
 			 */
-			class Object: public Renderable
+			class ECE_GRAPHIC_API Object: public Renderable
 			{
 			public:
 				/**

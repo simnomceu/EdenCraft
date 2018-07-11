@@ -41,6 +41,7 @@
 
 #include <memory>
 
+#include "renderer/config.hpp"
 #include "utility/indexing/version.hpp"
 
 namespace ece
@@ -57,7 +58,7 @@ namespace ece
 			 * @class BaseContext
 			 * @brief Generic render context.
 			 */
-			class BaseContext : public std::enable_shared_from_this<BaseContext>
+			class ECE_RENDERER_API BaseContext : public std::enable_shared_from_this<BaseContext>
 			{
 			public:
 				/**

@@ -38,9 +38,10 @@
 #ifndef EVENT_QUEUE_HPP
 #define EVENT_QUEUE_HPP
 
-#include <queue>
-
+#include "window/config.hpp"
 #include "window/window_event/input_event.hpp"
+
+#include <queue>
 
 namespace ece
 {
@@ -57,7 +58,7 @@ namespace ece
 			 * @see InputEvent
 			 * @see http://en.cppreference.com/w/cpp/container/queue
 			 */
-			class EventQueue : private std::queue<InputEvent>
+			class ECE_WINDOW_API EventQueue : private std::queue<InputEvent>
 			{
 			public:
 				/**

@@ -38,9 +38,10 @@
 #ifndef KEYBOARD_HPP
 #define KEYBOARD_HPP
 
-#include <array>
-
+#include "window/config.hpp"
 #include "utility/enumeration/enum_count.hpp"
+
+#include <array>
 
 namespace ece
 {
@@ -52,7 +53,7 @@ namespace ece
 			 * @class Keyboard
 			 * @brief A keyboard input device.
 			 */
-			class Keyboard
+			class ECE_WINDOW_API Keyboard
 			{
 			public:
 				/**

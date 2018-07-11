@@ -39,6 +39,8 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
+#include "utility/config.hpp"
+
 #include <string>
 
 namespace ece
@@ -53,7 +55,7 @@ namespace ece
         	 * @remark See if it is necessary to add loadFrom and saveTo with stream (and eventually, include file reading/writing as stream).
         	 * @remark All member methods should be constant as they doesn't modify internally the parser.
         	 */
-        	class Parser
+        	class ECE_UTILITY_API Parser
         	{
         	public:
         		/**

@@ -45,9 +45,9 @@ inline void glNamedBufferData(GLuint buffer, GLsizei size, const GLvoid * data, 
 
 inline void glNamedBufferSubData(GLuint buffer, GLintptr offset, GLsizei size, const GLvoid * data) { CALLGL45_V(PFNGLNAMEDBUFFERSUBDATAPROC, "glNamedBufferSubData", buffer, offset, size, data); }
 
-inline void * glMapNamedBufferRange(GLuint buffer, GLintptr offset, GLsizei length, GLbitfield access) { CALLGL45_V(PFNGLMAPNAMEDBUFFERRANGEPROC, "glMapNamedBufferRange", buffer, offset, length, access); }
+inline void * glMapNamedBufferRange(GLuint buffer, GLintptr offset, GLsizei length, GLbitfield access) { R_CALLGL45_V(PFNGLMAPNAMEDBUFFERRANGEPROC, "glMapNamedBufferRange", buffer, offset, length, access); }
 
-inline void * glMapNamedBuffer(GLuint buffer, GLenum access) { CALLGL45_V(PFNGLMAPNAMEDBUFFERPROC, "glMapNamedBuffer", buffer, access); }
+inline void * glMapNamedBuffer(GLuint buffer, GLenum access) { R_CALLGL45_V(PFNGLMAPNAMEDBUFFERPROC, "glMapNamedBuffer", buffer, access); }
 
 inline void glFlushMappedNamedBufferRange(GLuint buffer, GLintptr offset, GLsizei length) { CALLGL45_V(PFNGLFLUSHMAPPEDNAMEDBUFFERRANGEPROC, "glFlushMappedNamedBufferRange", buffer, offset, length); }
 

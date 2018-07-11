@@ -41,6 +41,8 @@
 #ifndef SKELETON_HPP
 #define SKELETON_HPP
 
+#include "graphic/config.hpp"
+
 namespace ece
 {
 	namespace graphic
@@ -51,7 +53,7 @@ namespace ece
 			 * @class Skeleton
 			 * @brief
 			 */
-			class Skeleton
+			class ECE_GRAPHIC_API Skeleton
 			{
 			public:
 				/**

@@ -41,6 +41,7 @@
 #ifndef ANIMATION_HPP
 #define ANIMATION_HPP
 
+#include "graphic/config.hpp"
 #include "graphic/animation/transformation.hpp"
 
 #include <queue>
@@ -59,7 +60,7 @@ namespace ece
 			 * @brief A set of transformations.
 			 * @remark This class can be useful but it is not animation.
 			 */
-			class Animation
+			class ECE_GRAPHIC_API Animation
 			{
 			public:
 				/**

@@ -39,6 +39,8 @@
 #ifndef IMAGE_FORMAT_HPP
 #define IMAGE_FORMAT_HPP
 
+#include "renderer/config.hpp"
+
 #include <cstddef>
 
 namespace ece
@@ -47,7 +49,7 @@ namespace ece
 	{
 		namespace image
 		{
-			struct RGB24
+			struct ECE_RENDERER_API RGB24
 			{
 				std::byte red;
 				std::byte green;
@@ -59,7 +61,7 @@ namespace ece
 					red(static_cast<std::byte>(r)), green(static_cast<std::byte>(g)), blue(static_cast<std::byte>(b)) {}
 			};
 
-			struct RGBA32 : public RGB24
+			struct ECE_RENDERER_API RGBA32 : public RGB24
 			{
 				std::byte alpha;
 
@@ -69,21 +71,21 @@ namespace ece
 					RGB24(r, g, b), alpha(static_cast<std::byte>(a)) {}
 			};
 
-			struct HSV
+			struct ECE_RENDERER_API HSV
 			{
 				unsigned short int hue;
 				unsigned short int saturation;
 				unsigned short int value;
 			};
 
-			struct HSL
+			struct ECE_RENDERER_API HSL
 			{
 				unsigned short int hue;
 				unsigned short int saturation;
 				unsigned short int lightness;
 			};
 
-			struct CMYK
+			struct ECE_RENDERER_API CMYK
 			{
 				unsigned short int cyan;
 				unsigned short int magenta;

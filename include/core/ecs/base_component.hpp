@@ -39,6 +39,8 @@
 #ifndef BASE_COMPONENT_HPP
 #define BASE_COMPONENT_HPP
 
+#include "core/config.hpp"
+
 namespace ece
 {
 	namespace core
@@ -49,7 +51,7 @@ namespace ece
 			 * @class BaseComponent
 			 * @brief
 			 */
-			class BaseComponent
+			class ECE_CORE_API BaseComponent
 			{
 			public:
 				/**

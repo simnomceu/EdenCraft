@@ -40,9 +40,10 @@
 #ifndef SHADER_STAGE_HPP
 #define SHADER_STAGE_HPP
 
-#include <string>
-
+#include "renderer/config.hpp"
 #include "renderer/opengl/opengl.hpp"
+
+#include <string>
 
 namespace ece
 {
@@ -56,7 +57,7 @@ namespace ece
 			 * @class ShaderStage
 			 * @brief A shader stage is a step in the render pipeline.
 			 */
-			class ShaderStage
+			class ECE_RENDERER_API ShaderStage
 			{
 			public:
 				/**

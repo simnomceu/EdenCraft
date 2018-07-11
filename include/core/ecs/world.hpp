@@ -39,6 +39,7 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
+#include "core/config.hpp"
 #include "core/ecs/base_system.hpp"
 #include "core/ecs/component_tank.hpp"
 #include "utility/indexing/unique_id.hpp"
@@ -58,7 +59,7 @@ namespace ece
 			 * @class World
 			 * @brief The environment were all entities are being.
 			 */
-			class World
+			class ECE_CORE_API World
 			{
 			public:
 				/**

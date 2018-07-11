@@ -39,13 +39,14 @@
 #ifndef RENDER_WINDOW_HPP
 #define RENDER_WINDOW_HPP
 
-#include <vector>
-#include <memory>
-
+#include "renderer/config.hpp"
 #include "window/common/window.hpp"
 #include "renderer/common/renderer.hpp"
 #include "renderer/common/base_context.hpp"
 #include "renderer/common/render_target.hpp"
+
+#include <vector>
+#include <memory>
 
 namespace ece
 {
@@ -61,7 +62,7 @@ namespace ece
 			 * @brief A window that include a renderer, to draw scenes.
 			 * @see Window
 			 */
-			class RenderWindow : public Window, public RenderTarget
+			class ECE_RENDERER_API RenderWindow : public Window, public RenderTarget
 			{
 			public:
 				/**
@@ -85,7 +86,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				RenderWindow(RenderWindow && move) noexcept = default;
+				RenderWindow(RenderWindow && move) = default;
 
 				/**
 				 * @fn ~RenderWindow()

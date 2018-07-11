@@ -39,6 +39,7 @@
 #ifndef SHADER_HPP
 #define SHADER_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/resource/shader_stage.hpp"
 
@@ -56,7 +57,7 @@ namespace ece
 			 * @class Shader
 			 * @brief A shader program, as a combination of shader stages.
 			 */
-			class Shader
+			class ECE_RENDERER_API Shader
 			{
 			public:
 				/**
@@ -176,7 +177,7 @@ namespace ece
 				 */
 				Handle _handle;
 
-				std::vector<std::unique_ptr<BaseUniform>> _uniforms;
+				std::vector<std::shared_ptr<BaseUniform>> _uniforms;
 
 				bool _linkedSuccessfully;
 			};

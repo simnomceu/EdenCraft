@@ -40,9 +40,10 @@
 #ifndef EXTENSION_LOADER_HPP
 #define EXTENSION_LOADER_HPP
 
-#include <string>
-
+#include "renderer/config.hpp"
 #include "utility/indexing/version.hpp"
+
+#include <string>
 
 namespace ece
 {
@@ -59,7 +60,7 @@ namespace ece
 			 * @brief Load the OpenGL extension according to the version available.
 			 * @throw
 			 */
-			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
+			ECE_RENDERER_API void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
 
 			/**
 			 * @fn T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)

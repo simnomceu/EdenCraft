@@ -39,6 +39,7 @@
 #ifndef VIEWPORT
 #define VIEWPORT
 
+#include "renderer/config.hpp"
 #include "utility/mathematics/rectangle.hpp"
 
 namespace ece
@@ -53,7 +54,7 @@ namespace ece
 			 * @class Viewport
 			 * @brief
 			 */
-			class Viewport
+			class ECE_RENDERER_API Viewport
 			{
 			public:
 				/**

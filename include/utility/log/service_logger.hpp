@@ -39,6 +39,7 @@
 #ifndef SERVICE_LOGGER_HPP
 #define SERVICE_LOGGER_HPP
 
+#include "utility/config.hpp"
 #include "utility/service/service_factory.hpp"
 #include "utility/service/service_locator.hpp"
 #include "utility/log/base_logger.hpp"
@@ -49,6 +50,69 @@ namespace ece
     {
         using service::ServiceFactory;
 		using service::ServiceLocator;
+
+		namespace service
+		{
+			template <>
+			class ECE_UTILITY_API ServiceFactory<log::BaseLogger>
+			{
+			public:
+				/**
+				* @fn std::shared_ptr<Base> build()
+				* @tparam Derived The derived class of the service to build
+				* @return The base service built
+				* @brief Build the service according to the derived implementation.
+				* @throw
+				* @remark It should be refactor to something like that: build(Args...&& args)
+				*/
+				template <class Derived>
+				static std::shared_ptr<log::BaseLogger> build()
+				{
+					if (!std::is_base_of<log::BaseLogger, Derived>()) {
+						throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
+					}
+					return std::shared_ptr<log::BaseLogger>(new Derived());
+				}
+			};
+
+			template <>
+			class ECE_UTILITY_API ServiceLocator<log::BaseLogger, log::BaseLogger>
+			{
+			public:
+				/**
+				* @fn void provide(const std::shared_ptr<Base> & service)
+				* @param[in] service The service which has to be provided by the locator.
+				* @brief Set the service provided by the locator.
+				* @throw
+				*/
+				static void provide(const std::shared_ptr<log::BaseLogger> & service);
+
+				/**
+				* @fn Base & getService()
+				* @return The service currently started.
+				* @brief Consume the service provided.
+				* @throw
+				* @remark Should be rename as consume() ?
+				*/
+				static log::BaseLogger & getService();
+
+				//static std::weak_ptr<Base> getServicePtr();
+
+				/**
+				* @fn void stop()
+				* @brief Stop the current service. The locator still exists but provide an empty service (which do nothing).
+				* @throw
+				*/
+				static void stop();
+
+			protected:
+				/**
+				* @property _service
+				* @brief The service to expose.
+				*/
+				static std::shared_ptr<log::BaseLogger> _service;
+			};
+		}
         
         namespace log
         {

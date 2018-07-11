@@ -40,6 +40,7 @@
 #ifndef ENHANCED_SHADER_HPP
 #define ENHANCED_SHADER_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/resource/shader.hpp"
 
 namespace ece
@@ -54,7 +55,7 @@ namespace ece
 			 * @brief A shader program with automatic features, to enhance its use.
 			 * @see Shader
 			 */
-			class EnhancedShader : public Shader
+			class ECE_RENDERER_API EnhancedShader : public Shader
 			{
 			public:
 				/**

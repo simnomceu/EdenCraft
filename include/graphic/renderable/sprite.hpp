@@ -41,6 +41,7 @@
 #ifndef SPRITE_HPP
 #define SPRITE_HPP
 
+#include "graphic/config.hpp"
 #include "renderer/common/renderable.hpp"
 #include "renderer/resource/texture2d.hpp"
 #include "utility/mathematics/rectangle.hpp"
@@ -59,7 +60,7 @@ namespace ece
 			 * @class Sprite
 			 * @brief
 			 */
-			class Sprite : public Renderable
+			class ECE_GRAPHIC_API Sprite : public Renderable
 			{
 			public:
 				constexpr Sprite() noexcept = delete;

@@ -73,6 +73,7 @@ namespace ece
 						this->_buffer[j * this->_width + i] = copy[j][i];
 					}
 				}
+				return *this;
 			}
 
 			template <class E>

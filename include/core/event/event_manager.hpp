@@ -40,6 +40,7 @@
 #ifndef EVENT_MANAGER_HPP
 #define EVENT_MANAGER_HPP
 
+#include "core/config.hpp"
 #include "core/event/base_event_manager.hpp"
 #include "core/event/connection.hpp"
 
@@ -57,7 +58,7 @@ namespace ece
 			 * @extends BaseEventManager
 			 * @brief To manage events through a service.
 			 */
-			class EventManager : public BaseEventManager
+			class ECE_CORE_API EventManager : public BaseEventManager
 			{
 			public:
 				/**

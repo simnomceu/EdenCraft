@@ -39,9 +39,10 @@
 #ifndef SLOT_HPP
 #define SLOT_HPP
 
-#include <functional>
-
+#include "core/config.hpp"
 #include "core/event/signal.hpp"
+
+#include <functional>
 
 namespace ece
 {
@@ -55,7 +56,7 @@ namespace ece
 			 * @class Slot
 			 * @brief
 			 */
-			class Slot final
+			class ECE_CORE_API Slot final
 			{
 			public:
 				/**

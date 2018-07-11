@@ -36,53 +36,86 @@
 
 */
 
+#include "utility/pattern/holder.hpp"
+
 namespace ece
 {
     namespace utility
     {
         namespace pattern
         {
-        	template <class Impl, class Deleter, class Copier>
-        	Pimpl<Impl, Deleter, Copier>::Pimpl(Impl * impl, Deleter && deleter, Copier && copier) :
-        		_impl(impl, std::forward<Deleter>(deleter)), _copier(std::forward<Copier>(copier)) {}
+			template <class Impl>
+			Pimpl<Impl>::Pimpl() noexcept: _impl(new Holder<Impl>()) {}
 
-        	template <class Impl, class Deleter, class Copier>
-        	Pimpl<Impl, Deleter, Copier>::Pimpl(const Pimpl & copy) noexcept : Pimpl(copy.clone()) {}
+        	template <class Impl>
+			Pimpl<Impl>::Pimpl(const Pimpl<Impl> & copy)
+			{
+				*this = copy;
+			}
 
-        	template <class Impl, class Deleter, class Copier>
-        	Pimpl<Impl, Deleter, Copier> & Pimpl<Impl, Deleter, Copier>::operator=(const Pimpl & copy)
+			template <class Impl>
+			Pimpl<Impl>::Pimpl(Pimpl<Impl> && move) noexcept
+			{
+				*this = std::move(move);
+			}
+
+			template <class Impl>
+			Pimpl<Impl>::Pimpl(const Impl & rhs) {
+				this->_impl = new Holder<Impl>(rhs);
+			}
+
+			template <class Impl>
+			Pimpl<Impl>::Pimpl(Impl && rhs) {
+				this->_impl = new Holder<Impl>(std::move(rhs));
+			}
+
+        	template <class Impl>
+        	Pimpl<Impl> & Pimpl<Impl>::operator=(const Pimpl<Impl> & copy)
         	{
-        		if (this != &copy) {
-        			operator=(copy.clone());
-        		}
-        		return *this;
+				auto * cloned = (copy ? copy._impl->clone() : nullptr);
+				if (this->_impl) {
+					this->_impl->destroy();
+				}
+				this->_impl = cloned;
+				return *this;
         	}
 
-        	template<class Impl, class Deleter, class Copier>
-        	const Impl * Pimpl<Impl, Deleter, Copier>::operator->() const noexcept { return this->_impl.get(); }
+			template <class Impl>
+			Pimpl<Impl> & Pimpl<Impl>::operator=(Pimpl<Impl> && move) noexcept
+			{
+				this->swap(move);
+				return *this;
+			}
 
-        	template<class Impl, class Deleter, class Copier>
-        	Impl * Pimpl<Impl, Deleter, Copier>::operator->() noexcept { return this->_impl.get(); }
-
-        	template<class Impl, class Deleter, class Copier>
-        	Pimpl<Impl, Deleter, Copier> Pimpl<Impl, Deleter, Copier>::clone() const
-        	{
-        		if (this->impl) {
-        			return Pimpl(this->copier(this->_impl.get()), this->_impl.get_deleter(), this->_copier);
-        		}
-        		else {
-        			return Pimpl(nullptr, this->_impl.get_deleter(), this->_copier);
-        		}
-        	}
-
-        	template<class Impl, class ...Args>
-        	Pimpl<Impl> makePimpl(Args && ...args) { return Pimpl<Impl>(new Impl(std::forward<Args>(args)...), &defaultDelete<Impl>, &defaultCopy<Impl>); }
+			template<class Impl>
+			Impl & Pimpl<Impl>::operator*() const { return *this->get(); }
 
         	template<class Impl>
-        	void defaultDelete(Impl * impl) noexcept { delete impl; }
+        	Impl * Pimpl<Impl>::operator->() const noexcept { return this->get(); }
 
-        	template<class Impl>
-        	Impl * defaultCopy(Impl * impl) noexcept { return new Impl(*impl); }
+			template <class Impl>
+			Impl * Pimpl<Impl>::get() const noexcept { return static_cast<Impl*>(this->_impl->get()); }
+
+			template <class Impl>
+			Pimpl<Impl>::operator bool() const noexcept { return !!this->_impl; }
+
+			template<class Impl>
+			void Pimpl<Impl>::swap(Pimpl<Impl> & rhs) noexcept { std::swap(this->_impl, rhs._impl); }
+
+        	template<class ImplBis, class ...Args>
+        	Pimpl<ImplBis> makePimpl(Args && ...args)
+			{
+				Pimpl<ImplBis> result(emptyPimpl);
+				result._impl = new Holder<ImplBis>(std::forward<Args>(args)...);
+				return result;
+			}
+
+			template <class Impl>
+			void swap(Pimpl<Impl> & lhs, Pimpl<Impl> & rhs) noexcept
+			{
+				lhs.swap(rhs);
+			}
+
         } // namespace pattern
     } // namespace utility
 } // namespace ece

@@ -41,6 +41,7 @@
 #ifndef ROTATION_HPP
 #define ROTATION_HPP
 
+#include "graphic/config.hpp"
 #include "graphic/animation/transformation.hpp"
 
 namespace ece
@@ -54,7 +55,7 @@ namespace ece
 			 * @extends Transformation
 			 * @brief Define a mathematic rotation.
 			 */
-			class Rotation : public Transformation
+			class ECE_GRAPHIC_API Rotation : public Transformation
 			{
 			public:
 				/**

@@ -39,6 +39,7 @@
 #ifndef BOX3D_HPP
 #define BOX3D_HPP
 
+#include "utility/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
 
 namespace ece
@@ -59,7 +60,7 @@ namespace ece
         	 *   | /     | /
         	 *   a-------*
         	 */
-        	class Box3D
+        	class ECE_UTILITY_API Box3D
         	{
         	public:
         		Box3D() = delete;

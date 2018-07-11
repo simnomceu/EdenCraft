@@ -40,9 +40,10 @@
 #ifndef RESOURCE_HANDLER_HPP
 #define RESOURCE_HANDLER_HPP
 
-#include <memory>
-
+#include "core/config.hpp"
 #include "core/resource/resource.hpp"
+
+#include <memory>
 
 namespace ece
 {
@@ -55,7 +56,7 @@ namespace ece
 			 * @brief To handle a resource.
 			 * @remark How useful is it ?
 			 */
-			class ResourceHandler
+			class ECE_CORE_API ResourceHandler
 			{
 			public:
 				/**

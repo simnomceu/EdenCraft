@@ -39,6 +39,7 @@
 #ifndef OBJECT_OBJ_HPP
 #define OBJECT_OBJ_HPP
 
+#include "utility/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/vector4u.hpp"
 
@@ -56,7 +57,7 @@ namespace ece
 			 * @class ObjectOBJ
 			 * @brief
 			 */
-			class ObjectOBJ
+			class ECE_UTILITY_API ObjectOBJ
 			{
 			public:
 				struct Vertex
@@ -66,8 +67,6 @@ namespace ece
 					int _vn;
 				};
 				using Face = std::vector<Vertex>;
-
-				ObjectOBJ() noexcept = delete;
 
 				/**
 				 * @fn ObjectOBJ(const std::string & name) noexcept

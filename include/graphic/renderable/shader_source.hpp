@@ -41,9 +41,10 @@
 #ifndef SHADER_SOURCE_HPP
 #define SHADER_SOURCE_HPP
 
-#include <string>
-
+#include "graphic/config.hpp"
 #include "renderer/enum.hpp"
+
+#include <string>
 
 namespace ece
 {
@@ -58,7 +59,7 @@ namespace ece
 			 * @brief The sources of a shader program.
 			 * @remark Not sure this class is still useful.
 			 */
-			class ShaderSource
+			class ECE_GRAPHIC_API ShaderSource
 			{
 			public:
 				/**

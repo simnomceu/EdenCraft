@@ -39,6 +39,7 @@
 #ifndef EVENT_SERVICE_HPP
 #define EVENT_SERVICE_HPP
 
+#include "core/config.hpp"
 #include "utility/service/service_factory.hpp"
 #include "utility/service/service_locator.hpp"
 #include "core/event/base_event_manager.hpp"
@@ -49,33 +50,115 @@ namespace ece
 	{
 		namespace event
 		{
+			class EventManagerConsumer;
+		}
+	}
+
+	namespace utility
+	{
+		namespace service
+		{
+			/**
+			* @class ServiceFactory
+			* @tparam Base The base class of service
+			* @brief A factory for a category of services.
+			*/
+			template <>
+			class ECE_CORE_API ServiceFactory<core::event::BaseEventManager>
+			{
+			public:
+				/**
+				* @fn std::shared_ptr<Base> build()
+				* @tparam Derived The derived class of the service to build
+				* @return The base service built
+				* @brief Build the service according to the derived implementation.
+				* @throw
+				* @remark It should be refactor to something like that: build(Args...&& args)
+				*/
+				template <class Derived>
+				static std::shared_ptr<core::event::BaseEventManager> build()
+				{
+					if (!std::is_base_of<core::event::BaseEventManager, Derived>()) {
+						throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
+					}
+					return std::shared_ptr<core::event::BaseEventManager>(new Derived());
+				}
+			};
+
+			/**
+			* @class ServiceLocator
+			* @tparam Base The base class of the service to locate
+			* @tparam Null A default implementation for the service.
+			* @brief Encapsulate a unique instance of a service category.
+			*/
+			class ECE_CORE_API EventServiceLocator : public ServiceLocator<core::event::BaseEventManager, core::event::BaseEventManager>
+			{
+				static_assert(std::is_base_of<core::event::BaseEventManager, core::event::BaseEventManager>::value, "ServiceLocator cannot be instantiate with this template parameters.");
+
+			public:
+				/**
+				* @fn void provide(const std::shared_ptr<Base> & service)
+				* @param[in] service The service which has to be provided by the locator.
+				* @brief Set the service provided by the locator.
+				* @throw
+				*/
+				static void provide(const std::shared_ptr<core::event::BaseEventManager> & service);
+
+				/**
+				* @fn Base & getService()
+				* @return The service currently started.
+				* @brief Consume the service provided.
+				* @throw
+				* @remark Should be rename as consume() ?
+				*/
+				static core::event::BaseEventManager & getService();
+
+				//static std::weak_ptr<Base> getServicePtr();
+
+				/**
+				* @fn void stop()
+				* @brief Stop the current service. The locator still exists but provide an empty service (which do nothing).
+				* @throw
+				*/
+				static void stop();
+
+				/**
+				* @fn std::weak_ptr<BaseEventManager> getServicePtr(EventManagerConsumer & consumer)
+				* @param[in] consumer A pass to access the service.
+				* @return The naked pointer to the service.
+				* @brief Get a naked pointer to the current service.
+				*/
+				static std::weak_ptr<core::event::BaseEventManager> getServicePtr(core::event::EventManagerConsumer & consumer);
+
+			protected:
+				/**
+				* @property _service
+				* @brief The service to expose.
+				*/
+				static std::shared_ptr<core::event::BaseEventManager> _service;
+			};
+		}
+	}
+
+	namespace core
+	{
+		namespace event
+		{
 			using utility::service::ServiceFactory;
 			using utility::service::ServiceLocator;
-
-			class EventManagerConsumer;
 
 			/**
 			 * @typedef EventServiceFactory
 			 * @brief A factory to build an event manager as a service.
 			 */
-			typedef ServiceFactory<BaseEventManager> EventServiceFactory;
+			using EventServiceFactory = ServiceFactory<BaseEventManager>;
 
 			/**
 			 * @class EventServiceLocator
 			 * @extends ServiceLocator<BaseEventManager, BaseEventManager>
 			 * @brief Provide a service to access event management.
 			 */
-			class EventServiceLocator : public ServiceLocator<BaseEventManager, BaseEventManager>
-			{
-			public:
-				/**
-				 * @fn std::weak_ptr<BaseEventManager> getServicePtr(EventManagerConsumer & consumer)
-				 * @param[in] consumer A pass to access the service.
-				 * @return The naked pointer to the service.
-				 * @brief Get a naked pointer to the current service.
-				 */
-				static std::weak_ptr<BaseEventManager> getServicePtr(EventManagerConsumer & consumer);
-			};
+			using utility::service::EventServiceLocator;
 		} // namespace event
 	} // namespace core
 } // namespace ece

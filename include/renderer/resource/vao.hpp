@@ -39,6 +39,7 @@
 #ifndef VAO_HPP
 #define VAO_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/resource/ibo.hpp"
 #include "renderer/resource/object_opengl.hpp"
 #include "renderer/resource/buffer_layout.hpp"
@@ -53,7 +54,7 @@ namespace ece
 			 * @class VAO
 			 * @brief A vertex array object as defined in OpenGL.
 			 */
-			class VAO: public ObjectOpenGL
+			class ECE_RENDERER_API VAO: public ObjectOpenGL
 			{
 			public:
 				/**

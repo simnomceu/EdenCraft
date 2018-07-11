@@ -38,9 +38,10 @@
 #ifndef WINDOW_SETTING_HPP
 #define WINDOW_SETTING_HPP
 
-#include <string>
-
+#include "window/config.hpp"
 #include "utility/mathematics/vector2u.hpp"
+
+#include <string>
 
 namespace ece
 {
@@ -54,7 +55,7 @@ namespace ece
 			 * @class WindowSetting
 			 * @brief Wrap the window settings that can be changed over the lifetime of the window.
 			 */
-			class WindowSetting
+			class ECE_WINDOW_API WindowSetting
 			{
 			public:
 				/**

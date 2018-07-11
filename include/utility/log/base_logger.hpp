@@ -39,6 +39,8 @@
 #ifndef BASE_LOGGER_HPP
 #define BASE_LOGGER_HPP
 
+#include "utility/config.hpp"
+
 #include <string>
 #include <iostream>
 
@@ -52,7 +54,7 @@ namespace ece
         	 * @class BaseLogger
         	 * @brief Empty base of the logger service.
         	 */
-        	class BaseLogger
+        	class ECE_UTILITY_API BaseLogger
         	{
         	public:
         		/**

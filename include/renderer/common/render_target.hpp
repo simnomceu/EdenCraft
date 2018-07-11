@@ -39,6 +39,7 @@
 #ifndef RENDER_TARGET_HPP
 #define RENDER_TARGET_HPP
 
+#include "renderer/config.hpp"
 #include "utility/mathematics/vector2u.hpp"
 #include "renderer/common/color.hpp"
 #include "renderer/common/render_state.hpp"
@@ -60,7 +61,7 @@ namespace ece
 			 * @class RenderTarget
 			 * @brief
 			 */
-			class RenderTarget
+			class ECE_RENDERER_API RenderTarget
 			{
 			public:
 				/**
