@@ -38,74 +38,24 @@
 
 */
 
-#ifndef SKELETON_HPP
-#define SKELETON_HPP
+#ifndef GRAPHIC_CONFIG_HPP
+#define GRAPHIC_CONFIG_HPP
 
-#include "graphic/config.hpp"
+#include "utility/api/dll_api.hpp"
 
-namespace ece
-{
-	namespace graphic
-	{
-		namespace model
-		{
-			/**
-			 * @class Skeleton
-			 * @brief
-			 */
-			class ECE_GRAPHIC_API Skeleton
-			{
-			public:
-				/**
-				 * @fn constexpr Skeleton() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				constexpr Skeleton() noexcept = default;
+#	ifdef ECE_graphic_SHARED
+#		ifdef ECE_graphic_BUILD
+#			define ECE_GRAPHIC_API ECE_EXPORT
+#			define ECE_GRAPHIC_EXTERN
+#		else
+#			define ECE_GRAPHIC_API ECE_IMPORT
+#			define ECE_GRAPHIC_EXTERN extern
+#		endif
+#		define ECE_GRAPHIC_INTERNAL ECE_INTERNAL
+#	else
+#		define ECE_GRAPHIC_API
+#		define ECE_GRAPHIC_INTERNAL
+#		define ECE_GRAPHIC_EXTERN
+#	endif
 
-				/**
-				 * @fn Skeleton(const Skeleton & copy) noexcept
-				 * @param[in] copy The Skeleton to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				Skeleton(const Skeleton & copy) noexcept = default;
-
-				/**
-				 * @fn Skeleton(Skeleton && move) noexcept
-				 * @param[in] move The Skeleton to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				Skeleton(Skeleton && move) noexcept = default;
-
-				/**
-				 * @fn ~Skeleton() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~Skeleton() noexcept = default;
-
-				/**
-				 * @fn Skeleton & operator=(const Skeleton & copy) noexcept
-				 * @param[in] copy The Skeleton to copy from.
-				 * @return The Skeleton copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				Skeleton & operator=(const Skeleton & copy) noexcept = default;
-
-				/**
-				 * @fn Skeleton & operator=(Skeleton && move) noexcept
-				 * @param[in] move The Skeleton to move from.
-				 * @return The Skeleton moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				Skeleton & operator=(Skeleton && move) noexcept = default;
-			};
-		} // namespace model
-	} // namespace graphic
-} // namespace ece
-
-#endif // SKELETON_HPP
+#endif // GRAPHIC_CONFIG_HPP

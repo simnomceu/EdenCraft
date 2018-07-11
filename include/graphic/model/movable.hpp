@@ -41,6 +41,7 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
+#include "graphic/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
 
 namespace ece
@@ -55,7 +56,7 @@ namespace ece
 			 * @class Movable
 			 * @brief Define the ability to be moved.
 			 */
-			class Movable
+			class ECE_GRAPHIC_API Movable
 			{
 			public:
 				/**

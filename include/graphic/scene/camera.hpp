@@ -41,6 +41,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
+#include "graphic/config.hpp"
 #include "graphic/model/movable.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/matrix4u.hpp"
@@ -63,7 +64,7 @@ namespace ece
 			 * @class Camera
 			 * @brief
 			 */
-			class Camera
+			class ECE_GRAPHIC_API Camera
 			{
 			public:
 				/**

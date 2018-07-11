@@ -41,10 +41,11 @@
 #ifndef MESH_HPP
 #define MESH_HPP
 
-#include <vector>
-
+#include "graphic/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/box3d.hpp"
+
+#include <vector>
 
 namespace ece
 {
@@ -60,7 +61,7 @@ namespace ece
 			 * @brief A mesh as defined in 3D modelling.
 			 * @remark It has to be refactored soon, as it is redudant with Renderer.
 			 */
-			class Mesh
+			class ECE_GRAPHIC_API Mesh
 			{
 			public:
 				struct Vertex

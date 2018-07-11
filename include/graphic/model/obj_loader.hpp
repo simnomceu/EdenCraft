@@ -41,6 +41,7 @@
 #ifndef OBJ_LOADER_HPP
 #define OBJ_LOADER_HPP
 
+#include "graphic/config.hpp"
 #include "utility/file_system/loader.hpp"
 #include "graphic/model/mesh.hpp"
 
@@ -56,7 +57,7 @@ namespace ece
 			 * @class OBJLoader
 			 * @brief
 			 */
-			class OBJLoader: public Loader
+			class ECE_GRAPHIC_API OBJLoader: public Loader
 			{
 			public:
 				/**

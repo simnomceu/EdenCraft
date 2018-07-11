@@ -41,6 +41,8 @@
 #ifndef RENDER_QUEUE_HPP
 #define RENDER_QUEUE_HPP
 
+#include "graphic/config.hpp"
+
 namespace ece
 {
 	namespace graphic
@@ -51,7 +53,7 @@ namespace ece
 			 * @class RenderQueue
 			 * @brief
 			 */
-			class RenderQueue
+			class ECE_GRAPHIC_API RenderQueue
 			{
 			public:
 				/**
