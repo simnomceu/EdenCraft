@@ -32,6 +32,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Scripts automation for project generation (Premake5).
 + [x] Doxygen profile.
 + [x] Licensing.
++ [x] Static & Shared library usages.
 ##### Utility
  + [x] Basic exception specialization.
  + [x] Enumeration used like C-like flags.
