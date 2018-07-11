@@ -42,12 +42,19 @@
 #include <memory>
 #include <functional>
 
+#include "utility/pattern/holdable.hpp"
+
 namespace ece
 {
     namespace utility
     {
         namespace pattern
         {
+			struct EmptyPimpl {
+				constexpr EmptyPimpl() {}
+			};
+			constexpr EmptyPimpl emptyPimpl;
+
         	/**
         	 * @class Pimpl
         	 * @tparam Impl The implementation to use.
@@ -55,31 +62,18 @@ namespace ece
         	 * @tparam Copier A copier to allow copy operation of the implementation.
         	 * @brief Pimpl idiom implementation to hide implementation details of an interface.
         	 */
-        	template <class Impl, class Deleter = std::function<void(Impl*)>, class Copier = std::function<Impl*(Impl*)>>
+        	template <class Impl>
         	class Pimpl
         	{
         	public:
-				using TypeDeleter = typename std::decay_t<Deleter>;
-				using TypeCopier = typename std::decay_t<Copier>;
-
         		/**
         		 * @fn Pimpl()
         		 * @brief
         		 * @throw noexcept
         		 */
-        		constexpr Pimpl() noexcept;
+        		Pimpl() noexcept;
 
-				constexpr Pimpl(std::nullptr_t) noexcept;
-
-        		/**
-        		 * @fn Pimpl(Impl * impl, Deleter && deleter, Copier && copier)
-        		 * @param[in] impl The implementation to use.
-        		 * @param[in] deleter A delete for the implementation.
-        		 * @param[in] copier A copier for the implementation.
-        		 * @brief Create the pimpl with a specific implementation, and its deleter and copier.
-        		 * @throw
-        		 */
-        		Pimpl(Impl * impl, TypeDeleter && deleter, TypeCopier && copier) noexcept;
+				constexpr Pimpl(EmptyPimpl) noexcept {}
 
         		/**
         		 * @fn Pimpl(const Pimpl & copy)
@@ -96,14 +90,11 @@ namespace ece
         		 * @brief Default move constructor.
         		 * @throw noexcept.
         		 */
-        		Pimpl(Pimpl && move) noexcept;
+				Pimpl(Pimpl && move) noexcept;
 
-        		/**
-        		 * @fn ~Pimpl()
-        		 * @brief Default destructor.
-        		 * @throw noexcept
-        		 */
-        		~Pimpl() noexcept = default;
+				explicit Pimpl(const Impl & rhs);
+
+				explicit Pimpl(Impl && rhs);
 
         		/**
         		 * @fn Pimpl & operator=(const Pimpl & copy)
@@ -123,7 +114,7 @@ namespace ece
         		 */
         		Pimpl & operator=(Pimpl && move) noexcept;
 
-				typename std::remove_reference_t<Impl> & operator*() const;
+				Impl & operator*() const;
 
         		/**
         		* @fn Impl * operator->()
@@ -133,25 +124,21 @@ namespace ece
         		*/
         		Impl * operator->() const noexcept;
 
+				Impl * get() const noexcept;
+
+				explicit operator bool() const noexcept;
+
+				void swap(Pimpl & rhs) noexcept;
+
         	protected:
         		/**
         		 * @property _impl
         		 * @brief The hidden implementation.
         		 */
-        		std::unique_ptr<Impl, TypeDeleter> _impl; // opaque pointer
+        		Holdable * _impl; // opaque pointer
 
-        		/**
-        		 * @property _copier
-        		 * @brief The copier used to allow copy operation of the implementation.
-        		 */
-				TypeCopier _copier;
-
-        		/**
-        		 * @fn Pimpl clone() const
-        		 * @brief Create a clone of the current pimpl.
-        		 * @throw
-        		 */
-        		Pimpl clone() const;
+				template <class ImplBis, class... Args>
+				friend Pimpl<ImplBis> makePimpl(Args &&... args);
         	};
 
         	/**
@@ -163,29 +150,11 @@ namespace ece
         	 * @brief Allocate memory and build a pimpl of the implementation.
         	 * @throw bad_alloc
         	 */
-        	template <class Impl, class... Args>
-        	Pimpl<Impl> makePimpl(Args &&... args);
+        	/*template <class Impl, class... Args>
+        	Pimpl<Impl> makePimpl(Args &&... args);*/
 
-        	/**
-        	 * @fn void defaultDelete(Impl * impl)
-        	 * @tparam Impl The type of implementation to delete.
-        	 * @param[in] impl The implementation to delete.
-        	 * @brief Delete in a classic way the implementation.
-        	 * @throw noexcept
-        	 */
-        	template <class Impl>
-        	void defaultDelete(Impl * impl) noexcept;
-
-        	/**
-        	 * @fn Impl * defaultCopy(Impl * impl)
-        	 * @tparam Impl The type of implementation to copy.
-        	 * @param[in] impl The implementation to copy.
-        	 * @return The implementation copied.
-        	 * @brief Copy in a classic way the implementation.
-        	 * @throw noexcept
-        	 */
-        	template <class Impl>
-        	Impl * defaultCopy(Impl * impl) noexcept;
+			template <class Impl>
+			void swap(Pimpl<Impl> & lhs, Pimpl<Impl> & rhs) noexcept;
         } // namespace pattern
     } // namespace utility
 } // namespace ece

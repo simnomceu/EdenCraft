@@ -109,6 +109,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Toon shading
 + [ ] Reflection and Refraction.
 + [ ] Shader AST.
++ [ ] BatchRenderer (to merge several draw calls of 2D objects in a single one).
 ##### Graphic
 + [ ] Scene graph.
 + [ ] Procedural texture generation (2D and 3D, eg. terrains).
