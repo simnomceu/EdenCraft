@@ -89,15 +89,17 @@ int main()
 		window.getVideoMode().setSamples(0);
 		window.updateVideoMode();
 		window.setSettings(settings);
+		window.maximize();
 		window.limitUPS(100);
 
-		/*ece::Viewport viewport;
-		viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 0.5f, 1.0f));
-		window.setViewport(viewport);*/
+		ece::Viewport viewport;
+		//viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 0.99f, 0.99f));
+		viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
+		window.setViewport(viewport);
 
 		ece::Camera camera;
 //		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
-		camera.setPerspective(45, window.getSize()[0] / window.getSize()[1], 0.1, 100.0);
+		camera.setPerspective(45, 1920.0f/1080.0f /*window.getSize()[0] / window.getSize()[1]*/, 0.1, 100.0);
         camera.moveTo(ece::FloatVector3u{0.0f, 0.0f, 10.0f});
         camera.lookAt(ece::FloatVector3u{0.0f, 0.0f, 0.0f});
 
