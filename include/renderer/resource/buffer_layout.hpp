@@ -62,8 +62,8 @@ namespace ece
                 struct ElementLayout
                 {
                     DataType _type;
-                    size_t _unitSize;
-                    size_t _count;
+					std::size_t _unitSize;
+					std::size_t _count;
                     bool _normalized;
                 };
 
@@ -115,14 +115,14 @@ namespace ece
                  */
                 BufferLayout & operator=(BufferLayout && move) noexcept = default;
 
-                template <class T> void add(const size_t size, const bool normalized);
+                template <class T> void add(const std::size_t size, const bool normalized);
 
-                size_t getStrideFrom(const size_t index) const;
-                size_t getOffsetFrom(const size_t index) const;
+				std::size_t getStrideFrom(const std::size_t index) const;
+				std::size_t getOffsetFrom(const std::size_t index) const;
 
-                inline ElementLayout & getElement(const size_t index);
-                inline const ElementLayout & getElement(const size_t index) const;
-                inline size_t size() const;
+                inline ElementLayout & getElement(const std::size_t index);
+                inline const ElementLayout & getElement(const std::size_t index) const;
+                inline std::size_t size() const;
 
             private:
                 std::vector<ElementLayout> _elements;

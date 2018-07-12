@@ -56,7 +56,7 @@ namespace ece
 
         	inline void ArrayJSON::clear() noexcept { this->_children.clear(); }
 
-        	inline unsigned int ArrayJSON::size() const noexcept { return this->_children.size(); }
+        	inline std::size_t ArrayJSON::size() const noexcept { return this->_children.size(); }
         } // namespace json
     } // namespace utility
 } // namespace ece

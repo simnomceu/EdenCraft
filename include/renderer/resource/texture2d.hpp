@@ -139,20 +139,20 @@ namespace ece
 				inline const std::vector<std::byte> & getData() const;
 
 				/**
-				 * @fn unsigned int getWidth() const
+				 * @fn std::size_t getWidth() const
 				 * @return The width of the texture.
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				inline unsigned int getWidth() const;
+				inline std::size_t getWidth() const;
 
 				/**
-				* @fn unsigned int getHeight() const
+				* @fn std::size_t getHeight() const
 				* @return The height of the texture.
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				inline unsigned int getHeight() const;
+				inline std::size_t getHeight() const;
 
 				/**
 				 * @fn TextureTypeTarget getType() const
@@ -214,13 +214,13 @@ namespace ece
 				 * @property _width
 				 * @brief The width of the texture.
 				 */
-				unsigned int _width;
+				std::size_t _width;
 
 				/**
 				 * @property _height
 				 * @brief The height of the texture.
 				 */
-				unsigned int _height;
+				std::size_t _height;
 
 				/**
 				 * @property _type

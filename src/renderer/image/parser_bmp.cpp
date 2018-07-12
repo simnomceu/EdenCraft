@@ -79,7 +79,7 @@ namespace ece
 
 					buffer.resize(header.size - header.pixelsOffset);
 					file.moveCursorTo(header.pixelsOffset);
-					for (size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
+					for (std::size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
 						buffer[i] = file.read<std::byte>();
 					}
 
@@ -125,7 +125,7 @@ namespace ece
 
 				buffer.resize(header.size - header.pixelsOffset);
 				stream.seekg(header.pixelsOffset);
-				for (size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
+				for (std::size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
 					unsigned int dummy;
 					stream >> dummy;
 					buffer[i] = static_cast<std::byte>(dummy);

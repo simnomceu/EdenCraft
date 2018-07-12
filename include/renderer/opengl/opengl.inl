@@ -103,9 +103,9 @@ namespace ece
 				checkErrors(glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), data.data() + offset, static_cast<GLenum>(usage)));
 			}
 
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const DataType type, const bool normalized, const int stride, const int offset)
+			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
 			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(type), normalized, stride, reinterpret_cast<GLvoid *>(offset)));
+				checkErrors(glVertexAttribPointer(location, static_cast<GLuint>(size), static_cast<GLenum>(type), normalized, static_cast<GLuint>(stride), reinterpret_cast<GLvoid *>(offset)));
 			}
 
 			// New version
@@ -214,18 +214,18 @@ namespace ece
 
 			//	inline void OpenGL::multiDrawArrays(GLenum /*mode*/, const int * /*first*/, const GLsizei * /*count*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 
-			inline void OpenGL::drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset)
+			inline void OpenGL::drawElements(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset)
 			{
-				checkErrors(glDrawElements(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<void *>(offset)));
+				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<void *>(offset)));
 			}
 
 			//	inline void OpenGL::multiDrawElements(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawRangeElements(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, const void * /*indices*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawArraysInstanced(GLenum /*mode*/, int /*first*/, GLsizei /*count*/, GLsizei /*primcount*/) { static_assert(false, "Not implemented yet."); }
 
-            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset, const unsigned int primcount)
+            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset, const std::size_t primcount)
             {
-				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<void *>(offset), primcount));
+				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<void *>(offset), static_cast<GLsizei>(primcount)));
             }
 
             //	inline void OpenGL::drawElementsBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
@@ -257,7 +257,7 @@ namespace ece
 
 			inline void OpenGL::deleteBuffers(const std::vector<Handle> & buffers)
 			{
-				checkErrors(glDeleteBuffers(buffers.size(), buffers.data()));
+				checkErrors(glDeleteBuffers(static_cast<GLsizei>(buffers.size()), buffers.data()));
 			}
 
 			//	inline void OpenGL::bindBuffer(GLenum /*target*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
@@ -656,10 +656,10 @@ namespace ece
 
 			//	inline void OpenGL::texImage3D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 
-			inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data)
+			inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const std::size_t width, const std::size_t height, const PixelFormat format, const PixelDataType type, const void * data)
 			{
 				auto levelSec = (target == TextureTypeTarget::TEXTURE_RECTANGLE || target == TextureTypeTarget::PROXY_TEXTURE_RECTANGLE) ? 0 : level;
-				checkErrors(glTexImage2D(static_cast<GLenum>(target), levelSec, static_cast<unsigned int>(internalFormat), width, height, 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
+				checkErrors(glTexImage2D(static_cast<GLenum>(target), levelSec, static_cast<unsigned int>(internalFormat), static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
 			}
 
 			//	inline void OpenGL::texImage1D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }

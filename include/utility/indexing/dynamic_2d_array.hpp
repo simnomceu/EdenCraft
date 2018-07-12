@@ -57,13 +57,13 @@ namespace ece
         		constexpr Dynamic2DArray() noexcept = delete;
 
         		/**
-        		 * @fn Dynamic2DArray(const size_t width, const size_t height)
+        		 * @fn Dynamic2DArray(const std::size_t width, const std::size_t height)
         		 * @param width The width of the 2D array to create.
         		 * @param height The height of the 2D array to create.
         		 * @brief Build a two dimensional array of a specifc size.
         		 * @throw
         		 */
-        		Dynamic2DArray(const size_t width, const size_t height);
+        		Dynamic2DArray(const std::size_t width, const std::size_t height);
 
         		/**
         		 * @fn Dynamic2DArray(const Dynamic2DArray<E> & copy) noexcept
@@ -107,22 +107,22 @@ namespace ece
         		Dynamic2DArray<E> & operator=(Dynamic2DArray<E> && move) noexcept = default;
 
         		/**
-        		 * @fn E * operator[](const size_t index)
+        		 * @fn E * operator[](const std::size_t index)
         		 * @param[in] index The index of the line to access.
         		 * @return A pointer to the line in the two dimensional array.
         		 * @brief Get a line of the container.
         		 * @throw
         		 */
-        		inline E * operator[](const size_t index);
+        		inline E * operator[](const std::size_t index);
 
         		/**
-        		 * @fn const E * operator[](const size_t index) const
+        		 * @fn const E * operator[](const std::size_t index) const
         		 * @param[in] index The index of the line to access.
         		 * @return A pointer to the line in the two dimensional array.
         		 * @brief Get a line of the container.
         		 * @throw
         		 */
-        		inline const E * operator[](const size_t index) const;
+        		inline const E * operator[](const std::size_t index) const;
 
         		/**
         		 * @fn E * data()
@@ -141,35 +141,35 @@ namespace ece
         		inline const E * data() const noexcept;
 
         		/**
-        		 * @fn size_t getWidth() const noexcept
+        		 * @fn std::size_t getWidth() const noexcept
         		 * @return The width of the container.
         		 * @brief Get the width of the two dimensional array.
         		 * @throw noexcept
         		 */
-        		inline size_t getWidth() const noexcept;
+        		inline std::size_t getWidth() const noexcept;
 
         		/**
-        		 * @fn size_t getHeight() const noexcept
+        		 * @fn std::size_t getHeight() const noexcept
         		 * @return The height of the container.
         		 * @brief Get the height of the two dimensional array.
         		 * @throw noexcept
         		 */
-        		inline size_t getHeight() const noexcept;
+        		inline std::size_t getHeight() const noexcept;
 
         		/**
-        		 * @fn void resize(const size_t width, const size_t height)
+        		 * @fn void resize(const std::size_t width, const std::size_t height)
         		 * @param[in] width The new width of the container.
         		 * @param[in] height The new height of the container.
         		 * @brief Resize the two dimensional array.
         		 * If it is smaller, some data are lose, if it is bigger, new data are initialized to the default value.
         		 * @throw
         		 */
-        		void resize(const size_t width, const size_t height);
+        		void resize(const std::size_t width, const std::size_t height);
 
         	protected:
         		E * _buffer;
-        		size_t _width;
-        		size_t _height;
+				std::size_t _width;
+				std::size_t _height;
         	};
         } // namespace indexing
     } // namespace utility

@@ -56,7 +56,7 @@ namespace ece
                 this->bind();
                 VBO vbo(type);
 				vbo.bufferData<T>(data, usage);
-                for (size_t i = 0; i < layout.size(); ++i) {
+                for (std::size_t i = 0; i < layout.size(); ++i) {
                     OpenGL::enableVertexAttribArray(this->_globalLocation);
     				OpenGL::vertexAttribPointer(this->_globalLocation,
                                                 layout.getElement(i)._count,
@@ -78,7 +78,7 @@ namespace ece
                 /**
                  * Error: data never sent.
                  */
-                for (size_t i = 0; i < layout.size(); ++i) {
+                for (std::size_t i = 0; i < layout.size(); ++i) {
                     OpenGL::enableVertexAttribArray(this->_globalLocation);
     				OpenGL::vertexAttribPointer(this->_globalLocation,
                                                 layout.getElement(i)._count,
@@ -101,7 +101,7 @@ namespace ece
 				this->_ibo.bufferData<T>(data, usage);
 			}
 
-			inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
+			inline std::size_t VAO::getNbVertices() const { return this->_nbVertices; }
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

@@ -77,11 +77,11 @@ ECE_RENDERER_API inline void glGetFramebufferParameteriv(GLenum target, GLenum p
 ECE_RENDERER_API inline void glVertexAttribFormat(GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
 ECE_RENDERER_API inline void glVertexAttribIFormat(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
 ECE_RENDERER_API inline void glVertexAttribLFormat(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
-ECE_RENDERER_API inline void glBindVertexBuffer(GLuint bindingindex, GLuint buffer, GLintptr offset, GLintptr stride);
+ECE_RENDERER_API inline void glBindVertexBuffer(GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
 ECE_RENDERER_API inline void glVertexAttribBinding(GLuint attribindex, GLuint bindingindex);
 ECE_RENDERER_API inline void glVertexBindingDivisor(GLuint bindingindex, GLuint divisor);
 ECE_RENDERER_API inline void glMultiDrawArraysIndirect(GLenum mode, const GLvoid *indirect, GLsizei drawcount, GLsizei stride);
-ECE_RENDERER_API inline void glMultiDrawArraysIndirectCount(GLenum mode, const GLvoid *indirect, GLintptr drawcount, GLintptr maxdrawcount, GLsizei stride);
+ECE_RENDERER_API inline void glMultiDrawArraysIndirectCount(GLenum mode, const GLvoid *indirect, GLintptr drawcount, GLsizei maxdrawcount, GLsizei stride);
 ECE_RENDERER_API inline void glMultiDrawElementsIndirect(GLenum mode, GLenum type, const GLvoid *indirect, GLsizei drawcount, GLsizei stride);
 ECE_RENDERER_API inline void glMultiDrawElementsIndirectCount(GLenum mode, GLenum type, const GLvoid *indirect, GLintptr drawcount, GLsizei maxdrawcount, GLsizei stride);
 ECE_RENDERER_API inline void glDispatchCompute(GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);

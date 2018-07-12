@@ -50,7 +50,7 @@ namespace ece
 
 			inline void ObjectOBJ::addVertex(FloatVector4u && v) { this->_v.push_back(std::move(v)); }
 
-			inline int ObjectOBJ::getNumberOfVertices() const { return this->_v.size(); }
+			inline std::size_t ObjectOBJ::getNumberOfVertices() const { return this->_v.size(); }
 
 			inline std::vector<FloatVector4u> & ObjectOBJ::getVertices() { return this->_v; }
 
@@ -60,7 +60,7 @@ namespace ece
 
 			inline void ObjectOBJ::addVertexTexture(FloatVector2u && vt) { this->_vt.push_back(std::move(vt)); }
 
-			inline int ObjectOBJ::getNumberOfVerticesTexture() const { return this->_vt.size(); }
+			inline std::size_t ObjectOBJ::getNumberOfVerticesTexture() const { return this->_vt.size(); }
 
 			inline std::vector<FloatVector2u> & ObjectOBJ::getVerticesTexture() { return this->_vt; }
 
@@ -70,7 +70,7 @@ namespace ece
 
 			inline void ObjectOBJ::addVertexNormal(FloatVector3u && vn) { this->_vn.push_back(std::move(vn)); }
 
-			inline int ObjectOBJ::getNumberOfVerticesNormal() const { return this->_vn.size(); }
+			inline std::size_t ObjectOBJ::getNumberOfVerticesNormal() const { return this->_vn.size(); }
 
 			inline std::vector<FloatVector3u> & ObjectOBJ::getVerticesNormal() { return this->_vn; }
 
@@ -80,7 +80,7 @@ namespace ece
 
 			inline void ObjectOBJ::addVertexSpaceParameter(FloatVector3u && vp) { this->_vp.push_back(std::move(vp)); }
 
-			inline int ObjectOBJ::getNumberOfVerticesSpaceParameter() const { return this->_vp.size(); }
+			inline std::size_t ObjectOBJ::getNumberOfVerticesSpaceParameter() const { return this->_vp.size(); }
 
 			inline std::vector<FloatVector3u> & ObjectOBJ::getVerticesSpaceParameter() { return this->_vp; }
 
@@ -90,7 +90,7 @@ namespace ece
 
 			inline void ObjectOBJ::addFace(ObjectOBJ::Face && f) { this->_f.push_back(std::move(f)); }
 
-			inline int ObjectOBJ::getNumberOfFaces() const { return this->_f.size(); }
+			inline std::size_t ObjectOBJ::getNumberOfFaces() const { return this->_f.size(); }
 
 			inline std::vector<ObjectOBJ::Face> & ObjectOBJ::getFaces() { return this->_f; }
 

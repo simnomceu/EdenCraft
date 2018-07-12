@@ -49,16 +49,16 @@ namespace ece
             using opengl::OpenGL;
 
             template <class T>
-            void BufferLayout::add(const size_t size, const bool normalized)
+            void BufferLayout::add(const std::size_t size, const bool normalized)
             {
                 this->_elements.push_back({ OpenGL::dataType<T>(), sizeof(T),size, normalized });
             }
 
-            inline BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) { return this->_elements[index]; }
+            inline BufferLayout::ElementLayout & BufferLayout::getElement(const std::size_t index) { return this->_elements[index]; }
 
-            inline const BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) const { return this->_elements[index]; }
+            inline const BufferLayout::ElementLayout & BufferLayout::getElement(const std::size_t index) const { return this->_elements[index]; }
 
-            inline size_t BufferLayout::size() const { return this->_elements.size(); }
+            inline std::size_t BufferLayout::size() const { return this->_elements.size(); }
         } // namespace resource
     } // namespace renderer
 } // namespace ece
