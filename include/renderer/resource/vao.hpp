@@ -159,12 +159,12 @@ namespace ece
 				template <class T> void addIndices(const std::vector<T> & data, const BufferUsage usage);
 
 				/**
-				 * @fn unsigned int getNbVertices() const
+				 * @fn std::size_t getNbVertices() const
 				 * @return The number of vertices of the object.
 				 * @brief Get the number of vertices of the object.
 				 * @throw
 				 */
-				inline unsigned int getNbVertices() const;
+				inline std::size_t getNbVertices() const;
 
 				virtual void terminate() override;
 
@@ -173,7 +173,7 @@ namespace ece
 				 * @property _nbVertices
 				 * @brief The number of vertices of the object.
 				 */
-				unsigned int _nbVertices;
+				std::size_t _nbVertices;
 
 				/**
 				 * @property _ibo

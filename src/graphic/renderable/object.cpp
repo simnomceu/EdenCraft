@@ -64,7 +64,7 @@ namespace ece
 			{
 				this->_mesh = mesh;
 
-                for (size_t i = 0; i < this->_mesh->size(); ++i) {
+                for (std::size_t i = 0; i < this->_mesh->size(); ++i) {
                     this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
                 }
 			}

@@ -257,12 +257,12 @@ namespace ece
         		inline void clear() noexcept;
 
         		/**
-        		 * @fn unsigned int size() const
+        		 * @fn std::size_t size() const
         		 * @return The number of children.
         		 * @brief Get the number of children nodes of the current node.
         		 * @throw noexcept
         		 */
-        		inline unsigned int size() const noexcept;
+        		inline std::size_t size() const noexcept;
 
         	private:
         		/**

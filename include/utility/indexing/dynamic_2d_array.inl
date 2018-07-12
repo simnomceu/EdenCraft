@@ -43,9 +43,9 @@ namespace ece
 		namespace indexing
 		{
 			template <class E>
-			Dynamic2DArray<E>::Dynamic2DArray(const size_t width, const size_t height) : _buffer(new E[width * height]()), _width(width), _height(height)
+			Dynamic2DArray<E>::Dynamic2DArray(const std::size_t width, const std::size_t height) : _buffer(new E[width * height]()), _width(width), _height(height)
 			{
-				for (size_t i = 0; i < this->_width * this->_height; ++i) {
+				for (std::size_t i = 0; i < this->_width * this->_height; ++i) {
 					this->_buffer[i] = E();
 				}
 			}
@@ -53,8 +53,8 @@ namespace ece
 			template<class E>
 			Dynamic2DArray<E>::Dynamic2DArray(const Dynamic2DArray<E>& copy) noexcept: _buffer(new E[copy.getWidth() * copy.getHeight()]()), _width(copy.getWidth()), _height(copy.getHeight())
 			{
-				for (size_t j = 0; j < this->_height; ++j) {
-					for (size_t i = 0; i < this->_width; ++i) {
+				for (std::size_t j = 0; j < this->_height; ++j) {
+					for (std::size_t i = 0; i < this->_width; ++i) {
 						this->_buffer[j * this->_width + i] = copy[j][i];
 					}
 				}
@@ -68,8 +68,8 @@ namespace ece
 			{
 				this->_width = copy.getWidth();
 				this->_height = copy.getHeight();
-				for (size_t j = 0; j < this->_height; ++j) {
-					for (size_t i = 0; i < this->_width; ++i) {
+				for (std::size_t j = 0; j < this->_height; ++j) {
+					for (std::size_t i = 0; i < this->_width; ++i) {
 						this->_buffer[j * this->_width + i] = copy[j][i];
 					}
 				}
@@ -77,10 +77,10 @@ namespace ece
 			}
 
 			template <class E>
-			inline E * Dynamic2DArray<E>::operator[](const size_t index) { return this->_buffer + (index * this->_width); }
+			inline E * Dynamic2DArray<E>::operator[](const std::size_t index) { return this->_buffer + (index * this->_width); }
 
 			template <class E>
-			inline const E * Dynamic2DArray<E>::operator[](const size_t index) const { return this->_buffer + (index * this->_width); }
+			inline const E * Dynamic2DArray<E>::operator[](const std::size_t index) const { return this->_buffer + (index * this->_width); }
 
 			template<class E>
 			inline E * Dynamic2DArray<E>::data() noexcept { return this->_buffer; }
@@ -89,13 +89,13 @@ namespace ece
 			inline const E * Dynamic2DArray<E>::data() const noexcept { return this->_buffer; }
 
 			template<class E>
-			inline size_t Dynamic2DArray<E>::getWidth() const noexcept { return this->_width; }
+			inline std::size_t Dynamic2DArray<E>::getWidth() const noexcept { return this->_width; }
 
 			template<class E>
-			inline size_t Dynamic2DArray<E>::getHeight() const noexcept { return this->_height; }
+			inline std::size_t Dynamic2DArray<E>::getHeight() const noexcept { return this->_height; }
 
 			template<class E>
-			void Dynamic2DArray<E>::resize(const size_t width, const size_t height)
+			void Dynamic2DArray<E>::resize(const std::size_t width, const std::size_t height)
 			{
 				auto dirtyBuffer = this->_buffer;
 

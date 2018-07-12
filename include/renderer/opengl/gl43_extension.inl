@@ -100,7 +100,7 @@ inline void glVertexAttribIFormat(GLuint attribindex, GLint size, GLenum type, G
 inline void glVertexAttribLFormat(GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset)
 	{ CALLGL43_V(PFNGLVERTEXATTRIBLFORMATPROC, "glVertexAttribLFormat", attribindex, size, type, relativeoffset); }
 
-inline void glBindVertexBuffer(GLuint bindingindex, GLuint buffer, GLintptr offset, GLintptr stride) { CALLGL43_V(PFNGLBINDVERTEXBUFFERPROC, "glBindVertexBuffer", bindingindex, buffer, offset, stride); }
+inline void glBindVertexBuffer(GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride) { CALLGL43_V(PFNGLBINDVERTEXBUFFERPROC, "glBindVertexBuffer", bindingindex, buffer, offset, stride); }
 
 inline void glVertexAttribBinding(GLuint attribindex, GLuint bindingindex) { CALLGL43_V(PFNGLVERTEXATTRIBBINDINGPROC, "glVertexAttribBinding", attribindex, bindingindex); }
 
@@ -109,7 +109,7 @@ inline void glVertexBindingDivisor(GLuint bindingindex, GLuint divisor) { CALLGL
 inline void glMultiDrawArraysIndirect(GLenum mode, const GLvoid *indirect, GLsizei drawcount, GLsizei stride)
 	{ CALLGL43_V(PFNGLMULTIDRAWARRAYSINDIRECTPROC, "glMultiDrawArraysIndirect", mode, indirect, drawcount, stride); }
 
-inline void glMultiDrawArraysIndirectCount(GLenum mode, const GLvoid *indirect, GLintptr drawcount, GLintptr maxdrawcount, GLsizei stride)
+inline void glMultiDrawArraysIndirectCount(GLenum mode, const GLvoid *indirect, GLintptr drawcount, GLsizei maxdrawcount, GLsizei stride)
 	{ CALLGL43_V(PFNGLMULTIDRAWARRAYSINDIRECTCOUNTPROC, "glMultiDrawArraysIndirectCount", mode, indirect, drawcount, maxdrawcount, stride); }
 
 inline void glMultiDrawElementsIndirect(GLenum mode, GLenum type, const GLvoid *indirect, GLsizei drawcount, GLsizei stride)

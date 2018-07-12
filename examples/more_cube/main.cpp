@@ -112,9 +112,9 @@ int main()
 		//elements[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
 
         element->setMesh(mesh);
-        for (size_t i = 0; i < 100; ++i) {
-            for (size_t j = 0; j < 100; ++j) {
-                for (size_t k = 0; k < 100; ++k) {
+        for (std::size_t i = 0; i < 100; ++i) {
+            for (std::size_t j = 0; j < 100; ++j) {
+                for (std::size_t k = 0; k < 100; ++k) {
                     element->addInstance(ece::FloatVector3u{-50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f});
                 }
             }

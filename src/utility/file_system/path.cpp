@@ -67,7 +67,7 @@ namespace ece
         		wchar_t wresult[FILENAME_MAX];
         		char result[FILENAME_MAX];
         		int size = GetModuleFileName(NULL, wresult, FILENAME_MAX);
-        		size_t copiedSize;
+				std::size_t copiedSize;
         		auto error = wcstombs_s(&copiedSize, result, FILENAME_MAX, wresult, size);
         		if (error != 0) {
         			throw std::runtime_error("aie aie aie");

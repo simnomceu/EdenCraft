@@ -60,9 +60,9 @@ namespace ece
 				return Box3D(FloatVector3u{ xMin, yMin, zMin }, FloatVector3u{ xMax, yMax, zMax });
 			}
 
-			unsigned int Mesh::addVertex(const Mesh::Vertex & vertex)
+			std::size_t Mesh::addVertex(const Mesh::Vertex & vertex)
 			{
-				unsigned int index = std::find_if(this->_vertices.begin(), this->_vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
+				std::size_t index = std::find_if(this->_vertices.begin(), this->_vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
 					return vertex._position == lhs._position /*&& vertex._textureCoordinate == lhs._textureCoordinate*/;
 				}) - this->_vertices.begin();
 				if (index >= this->_vertices.size()) {
@@ -78,9 +78,9 @@ namespace ece
 				return index;
 			}
 
-			inline unsigned int Mesh::addVertex(Mesh::Vertex && vertex)
+			std::size_t Mesh::addVertex(Mesh::Vertex && vertex)
 			{
-				unsigned int index = std::find_if(this->_vertices.begin(), this->_vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
+				std::size_t index = std::find_if(this->_vertices.begin(), this->_vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
 					return vertex._normal == lhs._position && vertex._textureCoordinate == lhs._textureCoordinate;
 				}) - this->_vertices.begin();
 				if (index >= this->_vertices.size()) {
