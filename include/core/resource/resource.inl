@@ -43,15 +43,27 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline Resource::~Resource() {}
+			template <class Type>
+			inline Resource<Type>::~Resource() {}
 
-			inline void Resource::setType(const ResourceType & type) { this->_type = type; }
+			template <class Type>
+			inline void Resource<Type>::setName(const std::string & name) { this->_name = name; }
 
-			inline void Resource::setName(const std::string & name) { this->_name = name; }
+			template <class Type>
+			inline const std::string & Resource<Type>::getName() const { return this->_name; }
 
-			inline const ResourceType & Resource::getType() const { return this->_type; }
+			template <class Type>
+			ResourceHandler<Type> Resource<Type>::getHandler() const { return std::move(ResourceHandler<Type>(static_cast<Type>(*this))); }
 
-			inline const std::string & Resource::getName() const { return this->_name; }
+			template <class Type, class Args...>
+			ResourceHandler<Type> makeResource(const std::string & identifier, Args &&... args)
+			{
+				auto resource = ServiceResourceLocator::getService()->getResource<Type>(identifier);
+				if (resource) {
+					return std::move(resource);
+				}
+				return ServiceResourceLocator::getService()->loadResource<Type>(identifier, args...);
+			}
 		} // namespace resource
 	} // namespace core
 } // namespace ece

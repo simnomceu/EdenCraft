@@ -36,6 +36,10 @@
 
 */
 
+#include "core/config.hpp"
+
+#include <string>
+#include <vector>
 
 namespace ece
 {
@@ -43,7 +47,67 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline ResourceLoader::~ResourceLoader() {}
+			/**
+			 * @class BaseResourceContainer
+			 * @brief
+			 */
+			class ECE_CORE_API BaseResourceContainer
+			{
+			public:
+				/**
+				 * @fn constexpr BaseResourceContainer() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr BaseResourceContainer() noexcept = default;
+
+				/**
+				 * @fn BaseResourceContainer(const BaseResourceContainer & copy) noexcept
+				 * @param[in] copy The BaseResourceContainer to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				BaseResourceContainer(const BaseResourceContainer & copy) noexcept = default;
+
+				/**
+				 * @fn BaseResourceContainer(BaseResourceContainer && move) noexcept
+				 * @param[in] move The BaseResourceContainer to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				BaseResourceContainer(BaseResourceContainer && move) noexcept = default;
+
+				/**
+				 * @fn ~BaseResourceContainer() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~BaseResourceContainer() noexcept = default;
+
+				/**
+				 * @fn BaseResourceContainer & operator=(const BaseResourceContainer & copy) noexcept
+				 * @param[in] copy The BaseResourceContainer to copy from.
+				 * @return The BaseResourceContainer copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				BaseResourceContainer & operator=(const BaseResourceContainer & copy) noexcept = default;
+
+				/**
+				 * @fn BaseResourceContainer & operator=(BaseResourceContainer && move) noexcept
+				 * @param[in] move The BaseResourceContainer to move.
+				 * @return The BaseResourceContainer moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				BaseResourceContainer & operator=(BaseResourceContainer && move) noexcept = default;
+
+
+				virtual void remove(const std::string & key) = 0;
+				virtual void remove(const std::vector<std::string> & keys) = 0;
+
+				virtual void clear() = 0;
+			};
 		} // namespace resource
 	} // namespace core
 } // namespace ece

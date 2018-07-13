@@ -40,7 +40,7 @@
 #define RESOURCE_HPP
 
 #include "core/config.hpp"
-#include "utility/enum.hpp"
+#include "core/resource/resource_handler.hpp"
 
 #include <string>
 
@@ -50,11 +50,11 @@ namespace ece
 	{
 		namespace resource
 		{
-			using namespace utility;
 			/**
 			 * @class Resource
 			 * @brief A resource is an external content that can be loaded and saved.
 			 */
+			template <class Type>
 			class ECE_CORE_API Resource
 			{
 			public:
@@ -102,28 +102,12 @@ namespace ece
 				Resource & operator=(Resource && move) noexcept = default;
 
 				/**
-				 * @fn void setType(const ResourceType & type)
-				 * @param[in] type The new type of the resource.
-				 * @brief Modify the type of the resource.
-				 * @throw
-				 */
-				inline void setType(const ResourceType & type);
-
-				/**
 				 * @fn void setName(const std::string & name)
 				 * @param[in] name The new name of the resource.
 				 * @brief Modify the name of the resource.
 				 * @throw
 				 */
 				inline void setName(const std::string & name);
-
-				/**
-				 * @fn const ResourceType & getType() const
-				 * @return The type of the resource.
-				 * @brief Get the type of the resource.
-				 * @throw
-				 */
-				inline const ResourceType & getType() const;
 
 				/**
 				 * @fn const std::string & getName() const
@@ -133,19 +117,18 @@ namespace ece
 				 */
 				inline const std::string & getName() const;
 
-			protected:
-				/**
-				 * @property _type
-				 * @brief The type of the resource.
-				 */
-				ResourceType _type;
+				ResourceHandler<Type> getHandler() const;
 
+			protected:
 				/**
 				 * @property _name
 				 * @brief The name of the resource.
 				 */
 				std::string _name;
 			};
+
+			template <class Type, class Args...>
+			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);
 		} // namespace resource
 	} // namespace core
 } // namespace ece

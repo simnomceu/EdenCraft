@@ -41,9 +41,9 @@
 #define RESOURCE_HANDLER_HPP
 
 #include "core/config.hpp"
-#include "core/resource/resource.hpp"
 
 #include <memory>
+#include <string>
 
 namespace ece
 {
@@ -56,15 +56,11 @@ namespace ece
 			 * @brief To handle a resource.
 			 * @remark How useful is it ?
 			 */
+			template <class ResourceType>
 			class ECE_CORE_API ResourceHandler
 			{
 			public:
-				/**
-				 * @fn ResourceHandler() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				ResourceHandler() noexcept = default;
+				ResourceHandler() noexcept = delete;
 
 				/**
 				 * @fn ResourceHandler(const std::shared_ptr<Resource> & resource)
@@ -72,7 +68,7 @@ namespace ece
 				 * @brief Build a handler for a specific resource.
 				 * @throw
 				 */
-				inline ResourceHandler(const std::shared_ptr<Resource> & resource);
+				inline ResourceHandler(ResourceType & resource);
 
 				/**
 				 * @fn ResourceHandler(const ResourceHandler & copy) noexcept
@@ -120,21 +116,17 @@ namespace ece
 				 * @return The resource handled.
 				 * @brief Get The resource handled.
 				 */
-				inline std::weak_ptr<Resource> operator->();
+				inline std::weak_ptr<ResourceType> operator->();
 
 				/**
 				 * @fn std::weak_ptr<Resource> operator*()
 				 * @return The resource handled.
 				 * @brief Get The resource handled.
 				 */
-				inline std::weak_ptr<Resource> operator*();
+				inline std::weak_ptr<ResourceType> operator*();
 
 			private:
-				/**
-				 * @property _resource
-				 * @brief The resource handled
-				 */
-				std::shared_ptr<Resource> _resource;
+				std::string _identifier;
 			};
 		} // namespace resource
 	} // namespace core

@@ -36,8 +36,6 @@
 
 */
 
-#include "core/resource/service_resource.hpp"
-
 namespace ece
 {
 	namespace core
@@ -45,13 +43,62 @@ namespace ece
 		namespace resource
 		{
 			template <class ResourceType>
-			inline ResourceHandler<ResourceType>::ResourceHandler(ResourceType & resource) : _identifier(resource.getName()) {}
+			void ResourceContainer<ResourceType>::add(const Resource<ResourceType> & resource)
+			{
+				auto created = std::chrono::system_clock::now();
+				this->_resources.insert(std::make_pair<std::string, Resource<ResourceType>>(resource.getName(), { resource, created, created, false }));
+			}
 
 			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator->() { return ServiceResourceLocator::getService()->getResource<ResourceType>(this->_identifier); }
+			void ResourceContainer<ResourceType>::add(Resource<ResourceType> && resource)
+			{
+				auto created = std::chrono::system_clock::now();
+				this->_resources.insert(std::make_pair<std::string, Resource<ResourceType>>(resource.getName(), { std::move(resource), created, created, false }));
+			}
 
 			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator*() { return ServiceResourceLocator::getService()->getResource<ResourceType>(this->_identifier); }
+			void ResourceContainer<ResourceType>::add(const std::vector<Resource<ResourceType>> & resources)
+			{
+				for (auto resource : resources) {
+					this->add(resource);
+				}
+			}
+
+			template <class ResourceType>
+			void ResourceContainer<ResourceType>::add(std::vector<Resource<ResourceType>> && resources)
+			{
+				for (auto && resource : resources) {
+					this->add(resource);
+				}
+			}
+
+			template <class ResourceType>
+			void ResourceContainer<ResourceType>::remove(const std::string & key)
+			{
+				this->_resources.erase(key);
+			}
+
+			template <class ResourceType>
+			void ResourceContainer<ResourceType>::remove(const std::vector<std::string> & keys)
+			{
+				for (auto & key : keys) {
+					this->erase(key);
+				}
+			}
+
+			template <class ResourceType>
+			inline virtual void ResourceContainer<ResourceType>::clear() override
+			{
+				this->_resouces.clear();
+			}
+
+			template <class ResourceType>
+			ResourceHandler ResourceContainer<ResourceType>::getResource(const std::string & key)
+			{
+				this->_resource[key]._lastAccess = std::chrono::system_clock::now();
+				return this->_resources[key]._content->getHandler();
+			}
+
 		} // namespace resource
 	} // namespace core
-} // namespace core
+} // namespace ece

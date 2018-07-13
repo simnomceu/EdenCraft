@@ -36,12 +36,16 @@
 
 */
 
-
-#ifndef RESOURCE_UNLOADER_HPP
-#define RESOURCE_UNLOADER_HPP
+#ifndef RESOURCE_CONTAINER_HPP
+#define RESOURCE_CONTAINER_HPP
 
 #include "core/config.hpp"
+#include "core/resource/base_resource_container.hpp"
+#include "core/resource/resource.hpp"
 #include "core/resource/resource_handler.hpp"
+
+#include <unordered_map>
+#include <chrono>
 
 namespace ece
 {
@@ -50,72 +54,90 @@ namespace ece
 		namespace resource
 		{
 			/**
-			 * @class ResourceUnloader
-			 * @brief To unload a resource.
+			 * @class ResourceContainer
+			 * @brief
 			 */
-			class ECE_CORE_API ResourceUnloader
+			template <class ResourceType>
+			class ECE_CORE_API ResourceContainer: public BaseResourceContainer
 			{
 			public:
 				/**
-				 * @fn ResourceUnloader() noexcept
-				 * brief Default constructor.
+				 * @fn constexpr ResourceContainer() noexcept
+				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				ResourceUnloader() noexcept = default;
+				constexpr ResourceContainer() noexcept = default;
 
 				/**
-				 * @fn ResourceUnloader(const ResourceUnloader & copy) noexcept
-				 * @param[in] copy The unloader to copy from.
+				 * @fn ResourceContainer(const ResourceContainer & copy) noexcept
+				 * @param[in] copy The ResourceContainer to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				ResourceUnloader(const ResourceUnloader & copy) noexcept = default;
+				ResourceContainer(const ResourceContainer & copy) noexcept = default;
 
 				/**
-				 * @fn ResourceUnloader(ResourceUnloader && move) noexcept
-				 * @param[in] move The unloader to move.
+				 * @fn ResourceContainer(ResourceContainer && move) noexcept
+				 * @param[in] move The ResourceContainer to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				ResourceUnloader(ResourceUnloader && move) noexcept = default;
+				ResourceContainer(ResourceContainer && move) noexcept = default;
 
 				/**
-				 * @fn ~ResourceUnloader() noexcept
+				 * @fn ~ResourceContainer() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				inline virtual ~ResourceUnloader() noexcept = 0;
+				~ResourceContainer() noexcept = default;
 
 				/**
-				 * @fn ResourceUnloader & operator=(const ResourceUnloader & copy) noexcept
-				 * @param[in] copy The unloader to copy from.
-				 * @return The unloader copied.
+				 * @fn ResourceContainer & operator=(const ResourceContainer & copy) noexcept
+				 * @param[in] copy The ResourceContainer to copy from.
+				 * @return The ResourceContainer copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				ResourceUnloader & operator=(const ResourceUnloader & copy) noexcept = default;
+				ResourceContainer & operator=(const ResourceContainer & copy) noexcept = default;
 
 				/**
-				 * @fn ResourceUnloader & operator=(ResourceUnloader && move) noexcept
-				 * @param[in] move The unloader to move.
-				 * @return The unloader moved.
+				 * @fn ResourceContainer & operator=(ResourceContainer && move) noexcept
+				 * @param[in] move The ResourceContainer to move.
+				 * @return The ResourceContainer moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				ResourceUnloader & operator=(ResourceUnloader && move) noexcept = default;
+				ResourceContainer & operator=(ResourceContainer && move) noexcept = default;
 
-				/**
-				 * @fn void unload(ResourceHandler & handler) const
-				 * @param[in] handler The resource to unload.
-				 * @brief Unload the resource.
-				 * @throw
-				 */
-				virtual void unload(ResourceHandler & handler) const = 0;
+				void add(const Resource<ResourceType> & resource);
+				void add(Resource<ResourceType> && resource);
+				void add(const std::vector<Resource<ResourceType>> & resources);
+				void add(std::vector<Resource<ResourceType>> && resources);
+
+				virtual void remove(const std::string & key) override;
+				virtual void remove(const std::vector<std::string> & keys) override;
+
+				inline virtual void clear() override;
+
+				ResourceHandler getResource(const std::string & key);
+
+			private:
+				struct ResourceWrapper
+				{
+					std::shared_ptr<Resource<ResourceType>> _content;
+
+					std::chrono::time_point<std::chrono::system_clock> _created;
+					std::chrono::time_point<std::chrono::system_clock> _lastAccess;
+
+					bool _dirty;
+				};
+
+				std::unordered_map<std::string, ResourceWrapper> _resources;
 			};
 		} // namespace resource
 	} // namespace core
 } // namespace ece
 
-#include "core/resource/resource_unloader.inl"
+#include "core/resource/resource_container.inl"
 
-#endif // RESOURCE_UNLOADER_HPP
+#endif // RESOURCE_CONTAINER_HPP

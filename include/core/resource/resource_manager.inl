@@ -36,14 +36,9 @@
 
 */
 
+#include "core/resource/resource_container.hpp"
 
-#ifndef RESOURCE_LOADER_HPP
-#define RESOURCE_LOADER_HPP
-
-#include "core/config.hpp"
-#include "core/resource/resource_handler.hpp"
-
-#include <string>
+#include <typeinfo>
 
 namespace ece
 {
@@ -51,73 +46,42 @@ namespace ece
 	{
 		namespace resource
 		{
-			/**
-			 * @class ResourceLoader
-			 * @brief To load a resource.
-			 */
-			class ECE_CORE_API ResourceLoader
+
+			template <class Resource, class... Args>
+			void ResourceManager::loadResource(const std::string & identifier, Args&&... args)
 			{
-			public:
-				/**
-				 * @fn ResourceLoader() noexcept
-				 * brief Default constructor.
-				 * @throw noexcept
-				 */
-				ResourceLoader() = default;
+				auto extension = identifier.substr(identifier.find_last_of('.') + 1);
+				if (this->_loaders.find(extension) != this->_loaders.end()) {
+					this->loadResource(identifier, this->_loaders[extension]);
+				}
+				else {
+					std::string errorMessage = "It is not possible to identify a loader for the resource "
+						+ identifier
+						+ ". Please, provide a loader explicitly for this resource.";
+					ServiceLoggerLocator::getService().logError(errorMessage);
+				}
+			}
 
-				/**
-				 * @fn ResourceLoader(const ResourceLoader & copy) noexcept
-				 * @param[in] copy The loader to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				ResourceLoader(const ResourceLoader & copy) = default;
+			template <class Resource>
+			void ResourceManager::unloadResource(const std::string & identifier)
+			{
+				auto extension = identifier.substr(identifier.find_last_of('.') + 1);
+				if (this->_unloaders.find(extension) != this->_unloaders.end()) {
+					this->unloadResource(identifier, this->_unloaders[extension]);
+				}
+				else {
+					std::string errorMessage = "It is not possible to identify an unloader for the resource "
+						+ identifier
+						+ ". Please, provide an unloader explicitly for this resource.";
+					ServiceLoggerLocator::getService().logError(errorMessage);
+				}
+			}
 
-				/**
-				 * @fn ResourceLoader(ResourceLoader && move) noexcept
-				 * @param[in] move The loader to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				ResourceLoader(ResourceLoader && move) = default;
-
-				/**
-				 * @fn ~ResourceLoader() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				inline virtual ~ResourceLoader() = 0;
-
-				/**
-				 * @fn ResourceLoader & operator=(const ResourceLoader & copy) noexcept
-				 * @param[in] copy The loader to copy from.
-				 * @return The loader copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				ResourceLoader & operator=(const ResourceLoader & copy) = default;
-
-				/**
-				 * @fn ResourceLoader & operator=(ResourceLoader && move) noexcept
-				 * @param[in] move The loader to move.
-				 * @return The loader moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				ResourceLoader & operator=(ResourceLoader && move) = default;
-
-				/**
-				 * @fn void load(ResourceHandler & handler) const
-				 * @param[in] handler The resource to load.
-				 * @brief Load the resource.
-				 * @throw
-				 */
-				virtual ResourceHandler load(const std::string & identifier) const = 0;
-			};
+			template <class Resource>
+			ResourceHandler<Resource> ResourceManager::getResource(const std::string & identifier)
+			{
+				return static_cast<ResourceContainer<Resource>(this->_resources[typeid(Resource).name()]).getResource(identifier);
+			}
 		} // namespace resource
 	} // namespace core
 } // namespace ece
-
-#include "core/resource/resource_loader.inl"
-
-#endif // RESOURCE_LOADER_HPP
