@@ -46,6 +46,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <typeindex>
 
 namespace ece
 {
@@ -134,7 +135,7 @@ namespace ece
 				 * @property _resources
 				 * @brief The list of resources currently loaded.
 				 */
-				std::map<std::string, BaseResourceContainer> _resources;
+				std::map<std::type_index, BaseResourceContainer> _resources;
 			};
 		} // namespace resource
 	} // namespace core

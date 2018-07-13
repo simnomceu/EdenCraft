@@ -80,7 +80,7 @@ namespace ece
 			template <class Resource>
 			ResourceHandler<Resource> ResourceManager::getResource(const std::string & identifier)
 			{
-				return static_cast<ResourceContainer<Resource>(this->_resources[typeid(Resource).name()]).getResource(identifier);
+				return static_cast<ResourceContainer<Resource>(this->_resources[std::type_index(typeid(Resource))]).getResource(identifier);
 			}
 		} // namespace resource
 	} // namespace core
