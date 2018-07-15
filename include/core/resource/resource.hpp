@@ -40,7 +40,6 @@
 #define RESOURCE_HPP
 
 #include "core/config.hpp"
-#include "core/resource/resource_handler.hpp"
 
 #include <string>
 
@@ -50,6 +49,9 @@ namespace ece
 	{
 		namespace resource
 		{
+			template <class T>
+			class ResourceHandler;
+
 			/**
 			 * @class Resource
 			 * @brief A resource is an external content that can be loaded and saved.
@@ -126,9 +128,6 @@ namespace ece
 				 */
 				std::string _name;
 			};
-
-			template <class Type, class Args...>
-			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);
 		} // namespace resource
 	} // namespace core
 } // namespace ece

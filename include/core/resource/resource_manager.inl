@@ -36,9 +36,9 @@
 
 */
 
-#include "core/resource/resource_container.hpp"
-
 #include <typeinfo>
+
+#include "core/resource/resource_container.hpp"
 
 namespace ece
 {
@@ -47,11 +47,11 @@ namespace ece
 		namespace resource
 		{
 
-			template <class Resource, class... Args>
+			template <class ResourceType, class... Args>
 			void ResourceManager::loadResource(const std::string & identifier, Args&&... args)
 			{
 				auto extension = identifier.substr(identifier.find_last_of('.') + 1);
-				if (this->_loaders.find(extension) != this->_loaders.end()) {
+				/*if (this->_loaders.find(extension) != this->_loaders.end()) {
 					this->loadResource(identifier, this->_loaders[extension]);
 				}
 				else {
@@ -59,14 +59,14 @@ namespace ece
 						+ identifier
 						+ ". Please, provide a loader explicitly for this resource.";
 					ServiceLoggerLocator::getService().logError(errorMessage);
-				}
+				}*/
 			}
 
-			template <class Resource>
+			template <class ResourceType>
 			void ResourceManager::unloadResource(const std::string & identifier)
 			{
 				auto extension = identifier.substr(identifier.find_last_of('.') + 1);
-				if (this->_unloaders.find(extension) != this->_unloaders.end()) {
+				/*if (this->_unloaders.find(extension) != this->_unloaders.end()) {
 					this->unloadResource(identifier, this->_unloaders[extension]);
 				}
 				else {
@@ -74,13 +74,13 @@ namespace ece
 						+ identifier
 						+ ". Please, provide an unloader explicitly for this resource.";
 					ServiceLoggerLocator::getService().logError(errorMessage);
-				}
+				}*/
 			}
 
-			template <class Resource>
-			ResourceHandler<Resource> ResourceManager::getResource(const std::string & identifier)
+			template <class ResourceType>
+			auto ResourceManager::getResource(const std::string & identifier)
 			{
-				return static_cast<ResourceContainer<Resource>(this->_resources[std::type_index(typeid(Resource))]).getResource(identifier);
+				return static_cast<ResourceContainer<ResourceType>>(this->_containers[std::type_index(typeid(ResourceType))]).getResource(identifier);
 			}
 		} // namespace resource
 	} // namespace core

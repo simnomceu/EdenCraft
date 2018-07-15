@@ -48,10 +48,20 @@ namespace ece
 			inline ResourceHandler<ResourceType>::ResourceHandler(ResourceType & resource) : _identifier(resource.getName()) {}
 
 			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator->() { return ServiceResourceLocator::getService()->getResource<ResourceType>(this->_identifier); }
+			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator->() { return ServiceResourceLocator::getService().getResource<ResourceType>(this->_identifier); }
 
 			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator*() { return ServiceResourceLocator::getService()->getResource<ResourceType>(this->_identifier); }
+			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator*() { return ServiceResourceLocator::getService().getResource<ResourceType>(this->_identifier); }
+
+			template <class Type, class... Args>
+			ResourceHandler<Type> makeResource(const std::string & identifier, Args &&... args)
+			{
+				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
+				if (resource) {
+					return std::move(resource);
+				}
+				return ServiceResourceLocator::getService().loadResource<Type>(identifier, args...);
+			}
 		} // namespace resource
 	} // namespace core
 } // namespace core

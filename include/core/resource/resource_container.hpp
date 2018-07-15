@@ -41,8 +41,6 @@
 
 #include "core/config.hpp"
 #include "core/resource/base_resource_container.hpp"
-#include "core/resource/resource.hpp"
-#include "core/resource/resource_handler.hpp"
 
 #include <unordered_map>
 #include <chrono>
@@ -53,6 +51,9 @@ namespace ece
 	{
 		namespace resource
 		{
+			template <class ResourceType>
+			class ResourceHandler;
+
 			/**
 			 * @class ResourceContainer
 			 * @brief
@@ -109,22 +110,22 @@ namespace ece
 				 */
 				ResourceContainer & operator=(ResourceContainer && move) noexcept = default;
 
-				void add(const Resource<ResourceType> & resource);
-				void add(Resource<ResourceType> && resource);
-				void add(const std::vector<Resource<ResourceType>> & resources);
-				void add(std::vector<Resource<ResourceType>> && resources);
+				void add(const ResourceType & resource);
+				void add(ResourceType && resource);
+				void add(const std::vector<ResourceType> & resources);
+				void add(std::vector<ResourceType> && resources);
 
 				virtual void remove(const std::string & key) override;
 				virtual void remove(const std::vector<std::string> & keys) override;
 
 				inline virtual void clear() override;
 
-				ResourceHandler getResource(const std::string & key);
+				ResourceHandler<ResourceType> getResource(const std::string & key);
 
 			private:
 				struct ResourceWrapper
 				{
-					std::shared_ptr<Resource<ResourceType>> _content;
+					std::shared_ptr<ResourceType> _content;
 
 					std::chrono::time_point<std::chrono::system_clock> _created;
 					std::chrono::time_point<std::chrono::system_clock> _lastAccess;

@@ -36,6 +36,9 @@
 
 */
 
+#ifndef SERVICE_RESOURCE_HPP
+#define SERVICE_RESOURCE_HPP
+
 #include "core/config.hpp"
 #include "utility/service/service_factory.hpp"
 #include "utility/service/service_locator.hpp"
@@ -119,3 +122,5 @@ namespace ece
 		} // namespace resource
 	} // namespace core
 } // namespace ece
+
+#endif // SERVICE_RESOURCE_HPP

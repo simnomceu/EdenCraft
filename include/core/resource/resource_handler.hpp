@@ -128,6 +128,9 @@ namespace ece
 			private:
 				std::string _identifier;
 			};
+
+			template <class Type, class... Args>
+			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);
 		} // namespace resource
 	} // namespace core
 } // namespace ece

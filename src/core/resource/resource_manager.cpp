@@ -39,6 +39,8 @@
 
 #include "core/resource/resource_manager.hpp"
 
+#include "core/resource/resource_handler.hpp"
+
 namespace ece
 {
 	namespace core
@@ -47,10 +49,10 @@ namespace ece
 		{
 			void ResourceManager::clear()
 			{
-				while (!this->_resources.empty()) {
-					auto const & pair = this->_resources.begin();
-					pair->second.clear();
-					this->_resources.erase(pair->first);
+				while (!this->_containers.empty()) {
+					auto pair = this->_containers.begin();
+					pair->second->clear();
+					this->_containers.erase(pair->first);
 				}
 			}
 		} // namespace resource

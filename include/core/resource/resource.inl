@@ -36,7 +36,6 @@
 
 */
 
-
 namespace ece
 {
 	namespace core
@@ -54,16 +53,6 @@ namespace ece
 
 			template <class Type>
 			ResourceHandler<Type> Resource<Type>::getHandler() const { return std::move(ResourceHandler<Type>(static_cast<Type>(*this))); }
-
-			template <class Type, class Args...>
-			ResourceHandler<Type> makeResource(const std::string & identifier, Args &&... args)
-			{
-				auto resource = ServiceResourceLocator::getService()->getResource<Type>(identifier);
-				if (resource) {
-					return std::move(resource);
-				}
-				return ServiceResourceLocator::getService()->loadResource<Type>(identifier, args...);
-			}
 		} // namespace resource
 	} // namespace core
 } // namespace ece

@@ -36,6 +36,9 @@
 
 */
 
+#ifndef BASE_RESOURCE_CONTAINER_HPP
+#define BASE_RESOURCE_CONTAINER_HPP
+
 #include "core/config.hpp"
 
 #include <string>
@@ -111,3 +114,5 @@ namespace ece
 		} // namespace resource
 	} // namespace core
 } // namespace ece
+
+#endif // BASE_RESOURCE_CONTAINER_HPP

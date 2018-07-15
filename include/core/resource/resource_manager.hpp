@@ -41,7 +41,6 @@
 
 #include "core/config.hpp"
 #include "core/resource/base_resource_container.hpp"
-#include "core/resource/resource_handler.hpp"
 
 #include <map>
 #include <string>
@@ -102,7 +101,7 @@ namespace ece
 				 * If a resource with this identifier already exist, nothing happen.
 				 * @throw
 				 */
-				template <class Resource, class... Args>
+				template <class ResourceType, class... Args>
 				void loadResource(const std::string & identifier, Args&&... args);
 
 				/**
@@ -111,7 +110,7 @@ namespace ece
 				 * @brief Unload a resource using its identfier.
 				 * If the resource with this identifier does not exist, nothing happen.
 				 */
-				template <class Resource>
+				template <class ResourceType>
 				void unloadResource(const std::string & identifier);
 
 				/**
@@ -120,8 +119,8 @@ namespace ece
 				 * @brief Get the resource attached to that identifier.
 				 * @throw
 				 */
-				template <class Resource>
-				ResourceHandler<Resource> getResource(const std::string & identifier);
+				template <class ResourceType>
+				auto getResource(const std::string & identifier);
 
 				/**
 				 * @fn void clear()
@@ -135,7 +134,7 @@ namespace ece
 				 * @property _resources
 				 * @brief The list of resources currently loaded.
 				 */
-				std::map<std::type_index, BaseResourceContainer> _resources;
+				std::map<std::type_index, std::unique_ptr<BaseResourceContainer>> _containers;
 			};
 		} // namespace resource
 	} // namespace core
