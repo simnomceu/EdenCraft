@@ -40,7 +40,6 @@
 #define RESOURCE_MANAGER_HPP
 
 #include "core/config.hpp"
-#include "core/resource/base_resource_container.hpp"
 
 #include <map>
 #include <string>
@@ -53,6 +52,10 @@ namespace ece
 	{
 		namespace resource
 		{
+			class BaseResourceContainer;
+
+			template <class ResourceType> class ResourceHandler;
+
 			/**
 			 * @class ResourceManager
 			 * @brief Manage all resources, and their loaders/unloaders, regarding the file extension.
@@ -120,7 +123,7 @@ namespace ece
 				 * @throw
 				 */
 				template <class ResourceType>
-				auto getResource(const std::string & identifier);
+				ResourceHandler<ResourceType> getResource(const std::string & identifier);
 
 				/**
 				 * @fn void clear()

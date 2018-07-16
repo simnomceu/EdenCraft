@@ -41,9 +41,11 @@
 
 #include "core/config.hpp"
 #include "core/resource/base_resource_container.hpp"
+#include "core/resource/resource.hpp"
 
 #include <unordered_map>
 #include <chrono>
+#include <type_traits>
 
 namespace ece
 {
@@ -62,6 +64,8 @@ namespace ece
 			class ECE_CORE_API ResourceContainer: public BaseResourceContainer
 			{
 			public:
+				static_assert(std::is_base_of_v<Resource<ResourceType>, ResourceType>, "A container can only be created for a class extended the resource interface.");
+
 				/**
 				 * @fn constexpr ResourceContainer() noexcept
 				 * @brief Default constructor.

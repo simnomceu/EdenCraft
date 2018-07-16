@@ -50,9 +50,6 @@ namespace ece
 
 			template <class Type>
 			inline const std::string & Resource<Type>::getName() const { return this->_name; }
-
-			template <class Type>
-			ResourceHandler<Type> Resource<Type>::getHandler() const { return std::move(ResourceHandler<Type>(static_cast<Type>(*this))); }
 		} // namespace resource
 	} // namespace core
 } // namespace ece

@@ -36,23 +36,25 @@
 
 */
 
+#ifndef MAKE_RESOURCE_HPP
+#define MAKE_RESOURCE_HPP
+
+#include <string>
+
 namespace ece
 {
 	namespace core
 	{
 		namespace resource
 		{
-			template <class ResourceType>
-			inline ResourceHandler<ResourceType>::ResourceHandler(const std::shared_ptr<ResourceType> & resource) : _resource(resource) {}
+			template <class ResourceType> class ResourceHandler;
 
-			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator->() { return this->_resource; }
-
-			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator*() { return this->_resource; }
-
-			template <class ResourceType>
-			inline bool ResourceHandler<ResourceType>::isDirty() const { return this->_resource.expired(); }
+			template <class Type, class... Args>
+			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);
 		} // namespace resource
 	} // namespace core
-} // namespace core
+} // namespace ece
+
+#include "core/resource/make_resource.inl"
+
+#endif // MAKE_RESOURCE_HPP

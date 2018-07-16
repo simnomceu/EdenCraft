@@ -68,7 +68,7 @@ namespace ece
 				 * @brief Build a handler for a specific resource.
 				 * @throw
 				 */
-				inline ResourceHandler(ResourceType & resource);
+				inline ResourceHandler(const std::shared_ptr<ResourceType> & resource);
 
 				/**
 				 * @fn ResourceHandler(const ResourceHandler & copy) noexcept
@@ -125,12 +125,11 @@ namespace ece
 				 */
 				inline std::weak_ptr<ResourceType> operator*();
 
-			private:
-				std::string _identifier;
-			};
+				inline bool isDirty() const;
 
-			template <class Type, class... Args>
-			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);
+			private:
+				std::weak_ptr<ResourceType> _resource;
+			};
 		} // namespace resource
 	} // namespace core
 } // namespace ece

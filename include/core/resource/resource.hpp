@@ -49,9 +49,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			template <class T>
-			class ResourceHandler;
-
 			/**
 			 * @class Resource
 			 * @brief A resource is an external content that can be loaded and saved.
@@ -118,8 +115,6 @@ namespace ece
 				 * @throw
 				 */
 				inline const std::string & getName() const;
-
-				ResourceHandler<Type> getHandler() const;
 
 			protected:
 				/**

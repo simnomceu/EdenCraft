@@ -39,8 +39,6 @@
 
 #include "core/resource/resource_manager.hpp"
 
-#include "core/resource/resource_handler.hpp"
-
 namespace ece
 {
 	namespace core

@@ -36,23 +36,25 @@
 
 */
 
+#include "core/resource/resource_handler.hpp"
+#include "core/resource/service_resource.hpp"
+
+
 namespace ece
 {
 	namespace core
 	{
 		namespace resource
 		{
-			template <class ResourceType>
-			inline ResourceHandler<ResourceType>::ResourceHandler(const std::shared_ptr<ResourceType> & resource) : _resource(resource) {}
-
-			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator->() { return this->_resource; }
-
-			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator*() { return this->_resource; }
-
-			template <class ResourceType>
-			inline bool ResourceHandler<ResourceType>::isDirty() const { return this->_resource.expired(); }
+			template <class Type, class... Args>
+			ResourceHandler<Type> makeResource(const std::string & identifier, Args &&... args)
+			{
+				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
+				if (resource) {
+					return std::move(resource);
+				}
+				return ServiceResourceLocator::getService().loadResource<Type>(identifier, args...);
+			}
 		} // namespace resource
 	} // namespace core
-} // namespace core
+} // namespace ece

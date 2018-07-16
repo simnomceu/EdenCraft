@@ -39,6 +39,7 @@
 #include <typeinfo>
 
 #include "core/resource/resource_container.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -78,7 +79,7 @@ namespace ece
 			}
 
 			template <class ResourceType>
-			auto ResourceManager::getResource(const std::string & identifier)
+			ResourceHandler<ResourceType> ResourceManager::getResource(const std::string & identifier)
 			{
 				return static_cast<ResourceContainer<ResourceType>>(this->_containers[std::type_index(typeid(ResourceType))]).getResource(identifier);
 			}
