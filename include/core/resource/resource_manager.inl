@@ -37,6 +37,7 @@
 */
 
 #include <typeinfo>
+#include <utility>
 
 #include "core/resource/resource_container.hpp"
 #include "core/resource/resource_handler.hpp"
@@ -48,10 +49,15 @@ namespace ece
 		namespace resource
 		{
 
-			template <class ResourceType, class... Args>
+			template <class Resource, class... Args>
 			void ResourceManager::loadResource(const std::string & identifier, Args&&... args)
 			{
-				auto extension = identifier.substr(identifier.find_last_of('.') + 1);
+				auto container = this->_containers.find(std::type_index(typeid(Resource)));
+				if (container == this->_containers.end()) {
+					this->_containers[std::type_index(typeid(Resource))] = std::make_shared<ResourceContainer<Resource>>();
+				}
+				std::static_pointer_cast<ResourceContainer<Resource>>(this->_containers[std::type_index(typeid(Resource))])->add(identifier, std::make_shared<Resource>(std::forward<Args>(args)...));
+				//auto extension = identifier.substr(identifier.find_last_of('.') + 1);
 				/*if (this->_loaders.find(extension) != this->_loaders.end()) {
 					this->loadResource(identifier, this->_loaders[extension]);
 				}
@@ -63,7 +69,7 @@ namespace ece
 				}*/
 			}
 
-			template <class ResourceType>
+			template <class Resource>
 			void ResourceManager::unloadResource(const std::string & identifier)
 			{
 				auto extension = identifier.substr(identifier.find_last_of('.') + 1);
@@ -78,10 +84,14 @@ namespace ece
 				}*/
 			}
 
-			template <class ResourceType>
-			ResourceHandler<ResourceType> ResourceManager::getResource(const std::string & identifier)
+			template <class Resource>
+			ResourceHandler<Resource> ResourceManager::getResource(const std::string & identifier)
 			{
-				return static_cast<ResourceContainer<ResourceType>>(this->_containers[std::type_index(typeid(ResourceType))]).getResource(identifier);
+				auto container = this->_containers.find(std::type_index(typeid(Resource)));
+				if (container == this->_containers.end()) {
+					return ResourceHandler<Resource>(std::shared_ptr<Resource>());
+				}
+				return std::static_pointer_cast<ResourceContainer<Resource>>(container->second)->getResource(identifier);
 			}
 		} // namespace resource
 	} // namespace core

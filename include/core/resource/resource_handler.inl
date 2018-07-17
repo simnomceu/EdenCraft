@@ -42,17 +42,17 @@ namespace ece
 	{
 		namespace resource
 		{
-			template <class ResourceType>
-			inline ResourceHandler<ResourceType>::ResourceHandler(const std::shared_ptr<ResourceType> & resource) : _resource(resource) {}
+			template <class Resource>
+			inline ResourceHandler<Resource>::ResourceHandler(const std::shared_ptr<Resource> & resource) : _resource(resource) {}
 
-			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator->() { return this->_resource; }
+			template <class Resource>
+			inline std::shared_ptr<Resource> ResourceHandler<Resource>::operator->() { return this->_resource.lock(); }
 
-			template <class ResourceType>
-			inline std::weak_ptr<ResourceType> ResourceHandler<ResourceType>::operator*() { return this->_resource; }
+			template <class Resource>
+			inline std::shared_ptr<Resource> ResourceHandler<Resource>::operator*() { return this->_resource.lock(); }
 
-			template <class ResourceType>
-			inline bool ResourceHandler<ResourceType>::isDirty() const { return this->_resource.expired(); }
+			template <class Resource>
+			inline bool ResourceHandler<Resource>::isDirty() const { return this->_resource.expired(); }
 		} // namespace resource
 	} // namespace core
 } // namespace core

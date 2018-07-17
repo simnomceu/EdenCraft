@@ -44,33 +44,18 @@ namespace ece
 	{
 		namespace resource
 		{
-			template <class ResourceType>
-			void ResourceContainer<ResourceType>::add(const ResourceType & resource)
+			template <class Resource>
+			void ResourceContainer<Resource>::add(const std::string & identifier, const std::shared_ptr<Resource> & resource)
 			{
 				auto created = std::chrono::system_clock::now();
-				this->_resources.insert(std::make_pair<std::string, ResourceType>(resource.getName(), { resource, created, created, false }));
+				this->_resources[identifier] = { resource, created, created, false };
 			}
 
-			template <class ResourceType>
-			void ResourceContainer<ResourceType>::add(ResourceType && resource)
-			{
-				auto created = std::chrono::system_clock::now();
-				this->_resources.insert(std::make_pair<std::string, ResourceType>(resource.getName(), { std::move(resource), created, created, false }));
-			}
-
-			template <class ResourceType>
-			void ResourceContainer<ResourceType>::add(const std::vector<ResourceType> & resources)
+			template <class Resource>
+			void ResourceContainer<Resource>::add(const std::vector<std::pair<std::string, std::shared_ptr<Resource>>> & resources)
 			{
 				for (auto resource : resources) {
-					this->add(resource);
-				}
-			}
-
-			template <class ResourceType>
-			void ResourceContainer<ResourceType>::add(std::vector<ResourceType> && resources)
-			{
-				for (auto && resource : resources) {
-					this->add(resource);
+					this->add(resource.first, resource.second);
 				}
 			}
 
@@ -84,21 +69,21 @@ namespace ece
 			void ResourceContainer<ResourceType>::remove(const std::vector<std::string> & keys)
 			{
 				for (auto & key : keys) {
-					this->erase(key);
+					this->_resources.erase(key);
 				}
 			}
 
 			template <class ResourceType>
 			inline void ResourceContainer<ResourceType>::clear()
 			{
-				this->_resouces.clear();
+				this->_resources.clear();
 			}
 
-			template <class ResourceType>
-			ResourceHandler<ResourceType> ResourceContainer<ResourceType>::getResource(const std::string & key)
+			template <class Resource>
+			ResourceHandler<Resource> ResourceContainer<Resource>::getResource(const std::string & key)
 			{
-				this->_resource[key]._lastAccess = std::chrono::system_clock::now();
-				return this->_resources[key]._content->getHandler();
+				this->_resources[key]._lastAccess = std::chrono::system_clock::now();
+				return ResourceHandler(this->_resources[key]._content);
 			}
 
 		} // namespace resource

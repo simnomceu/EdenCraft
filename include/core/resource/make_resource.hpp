@@ -47,7 +47,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			template <class ResourceType> class ResourceHandler;
+			template <class Resource> class ResourceHandler;
 
 			template <class Type, class... Args>
 			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);

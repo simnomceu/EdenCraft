@@ -41,11 +41,11 @@
 
 #include "core/config.hpp"
 #include "core/resource/base_resource_container.hpp"
-#include "core/resource/resource.hpp"
 
 #include <unordered_map>
 #include <chrono>
 #include <type_traits>
+#include <utility>
 
 namespace ece
 {
@@ -53,25 +53,23 @@ namespace ece
 	{
 		namespace resource
 		{
-			template <class ResourceType>
+			template <class Resource>
 			class ResourceHandler;
 
 			/**
 			 * @class ResourceContainer
 			 * @brief
 			 */
-			template <class ResourceType>
+			template <class Resource>
 			class ECE_CORE_API ResourceContainer: public BaseResourceContainer
 			{
 			public:
-				static_assert(std::is_base_of_v<Resource<ResourceType>, ResourceType>, "A container can only be created for a class extended the resource interface.");
-
 				/**
-				 * @fn constexpr ResourceContainer() noexcept
+				 * @fn constexpr ResourceContainer()
 				 * @brief Default constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				constexpr ResourceContainer() noexcept = default;
+				constexpr ResourceContainer()= default;
 
 				/**
 				 * @fn ResourceContainer(const ResourceContainer & copy) noexcept
@@ -114,22 +112,20 @@ namespace ece
 				 */
 				ResourceContainer & operator=(ResourceContainer && move) noexcept = default;
 
-				void add(const ResourceType & resource);
-				void add(ResourceType && resource);
-				void add(const std::vector<ResourceType> & resources);
-				void add(std::vector<ResourceType> && resources);
+				void add(const std::string & identifier, const std::shared_ptr<Resource> & resource);
+				void add(const std::vector<std::pair<std::string, std::shared_ptr<Resource>>> & resources);
 
 				virtual void remove(const std::string & key) override;
 				virtual void remove(const std::vector<std::string> & keys) override;
 
 				inline virtual void clear() override;
 
-				ResourceHandler<ResourceType> getResource(const std::string & key);
+				ResourceHandler<Resource> getResource(const std::string & key);
 
 			private:
 				struct ResourceWrapper
 				{
-					std::shared_ptr<ResourceType> _content;
+					std::shared_ptr<Resource> _content;
 
 					std::chrono::time_point<std::chrono::system_clock> _created;
 					std::chrono::time_point<std::chrono::system_clock> _lastAccess;

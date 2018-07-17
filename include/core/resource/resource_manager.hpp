@@ -54,7 +54,7 @@ namespace ece
 		{
 			class BaseResourceContainer;
 
-			template <class ResourceType> class ResourceHandler;
+			template <class Resource> class ResourceHandler;
 
 			/**
 			 * @class ResourceManager
@@ -104,7 +104,7 @@ namespace ece
 				 * If a resource with this identifier already exist, nothing happen.
 				 * @throw
 				 */
-				template <class ResourceType, class... Args>
+				template <class Resource, class... Args>
 				void loadResource(const std::string & identifier, Args&&... args);
 
 				/**
@@ -113,7 +113,7 @@ namespace ece
 				 * @brief Unload a resource using its identfier.
 				 * If the resource with this identifier does not exist, nothing happen.
 				 */
-				template <class ResourceType>
+				template <class Resource>
 				void unloadResource(const std::string & identifier);
 
 				/**
@@ -122,8 +122,8 @@ namespace ece
 				 * @brief Get the resource attached to that identifier.
 				 * @throw
 				 */
-				template <class ResourceType>
-				ResourceHandler<ResourceType> getResource(const std::string & identifier);
+				template <class Resource>
+				ResourceHandler<Resource> getResource(const std::string & identifier);
 
 				/**
 				 * @fn void clear()
@@ -137,7 +137,7 @@ namespace ece
 				 * @property _resources
 				 * @brief The list of resources currently loaded.
 				 */
-				std::map<std::type_index, std::unique_ptr<BaseResourceContainer>> _containers;
+				std::map<std::type_index, std::shared_ptr<BaseResourceContainer>> _containers;
 			};
 		} // namespace resource
 	} // namespace core

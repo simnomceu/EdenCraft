@@ -50,10 +50,11 @@ namespace ece
 			ResourceHandler<Type> makeResource(const std::string & identifier, Args &&... args)
 			{
 				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
-				if (resource) {
-					return std::move(resource);
+				if (resource.isDirty()) {
+					ServiceResourceLocator::getService().loadResource<Type>(identifier, args...);
+					resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
 				}
-				return ServiceResourceLocator::getService().loadResource<Type>(identifier, args...);
+				return std::move(resource);
 			}
 		} // namespace resource
 	} // namespace core

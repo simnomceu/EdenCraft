@@ -56,7 +56,7 @@ namespace ece
 			 * @brief To handle a resource.
 			 * @remark How useful is it ?
 			 */
-			template <class ResourceType>
+			template <class Resource>
 			class ECE_CORE_API ResourceHandler
 			{
 			public:
@@ -68,7 +68,7 @@ namespace ece
 				 * @brief Build a handler for a specific resource.
 				 * @throw
 				 */
-				inline ResourceHandler(const std::shared_ptr<ResourceType> & resource);
+				inline ResourceHandler(const std::shared_ptr<Resource> & resource);
 
 				/**
 				 * @fn ResourceHandler(const ResourceHandler & copy) noexcept
@@ -116,19 +116,19 @@ namespace ece
 				 * @return The resource handled.
 				 * @brief Get The resource handled.
 				 */
-				inline std::weak_ptr<ResourceType> operator->();
+				inline std::shared_ptr<Resource> operator->();
 
 				/**
 				 * @fn std::weak_ptr<Resource> operator*()
 				 * @return The resource handled.
 				 * @brief Get The resource handled.
 				 */
-				inline std::weak_ptr<ResourceType> operator*();
+				inline std::shared_ptr<Resource> operator*();
 
 				inline bool isDirty() const;
 
 			private:
-				std::weak_ptr<ResourceType> _resource;
+				std::weak_ptr<Resource> _resource;
 			};
 		} // namespace resource
 	} // namespace core
