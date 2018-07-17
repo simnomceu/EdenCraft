@@ -63,6 +63,7 @@ namespace ece
         		 */
         		enum FPSrate : int
         		{
+					FRAME_NO_LIMIT = 0,
         			FRAME_30 = 30,
         			FRAME_60 = 60,
         			FRAME_120 = 120
