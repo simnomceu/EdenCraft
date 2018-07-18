@@ -4,11 +4,14 @@
 *.vcxproj.user
 *.sln
 
+# Makefile project
+*.make
+Makefile
+
 # Compiled Object files
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
