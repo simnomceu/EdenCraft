@@ -84,6 +84,11 @@ namespace ece
 				argumentAnalyzer.setParameters(argc, argv);
 			}
 
+			Application::~Application() noexcept
+			{
+				ServiceResourceLocator::getService().clear();
+			}
+
 			void Application::run()
 			{
 				// TODO : add balancer to reduce usage of processor.

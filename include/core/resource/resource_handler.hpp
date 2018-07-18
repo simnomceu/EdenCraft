@@ -60,7 +60,7 @@ namespace ece
 			class ECE_CORE_API ResourceHandler
 			{
 			public:
-				ResourceHandler() noexcept = delete;
+				inline constexpr ResourceHandler() noexcept;
 
 				/**
 				 * @fn ResourceHandler(const std::shared_ptr<Resource> & resource)

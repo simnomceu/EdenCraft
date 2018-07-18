@@ -41,6 +41,7 @@
 #include "renderer/common.hpp"
 #include "utility/log.hpp"
 #include "renderer/image.hpp"
+#include "graphic/renderable/sprite.hpp"
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
 #include "graphic/model/obj_loader.hpp"
@@ -65,6 +66,7 @@ namespace ece
     using utility::mathematics::FloatVector3u;
 	using core::resource::makeResource;
 	using core::resource::ResourceHandler;
+	using graphic::renderable::Sprite;
 }
 
 int main()
@@ -111,10 +113,9 @@ int main()
 		//std::vector<std::shared_ptr<ece::Sprite>> elements(10);
         auto element = ece::makeResource<ece::Object>("cube");
 
-		// ece::Sprite sprite;
-		//elements[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
+		auto sprite = ece::makeResource<ece::Sprite>("Emma Watson", texture, ece::Rectangle<float>(50.0f, 50.0f, static_cast<float>(texture->getWidth()), static_cast<float>(texture->getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
 
-        element->setMesh(*mesh);
+        element->setMesh(mesh);
         for (size_t i = 0; i < 100; ++i) {
             for (size_t j = 0; j < 100; ++j) {
                 for (size_t k = 0; k < 100; ++k) {

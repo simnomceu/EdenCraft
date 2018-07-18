@@ -42,6 +42,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/opengl/opengl.hpp"
+#include "core/resource/resource_handler.hpp"
 
 #include <cstddef>
 
@@ -52,6 +53,7 @@ namespace ece
 		namespace resource
 		{
 			using renderer::opengl::Handle;
+			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Texture2D
@@ -61,6 +63,8 @@ namespace ece
 			class ECE_RENDERER_API Texture2D
 			{
 			public:
+				using Texture2DReference = ResourceHandler<Texture2D>;
+
 				/**
 				 * @fn Texture2D() noexcept
 				 * @brief Default constructor.

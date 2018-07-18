@@ -43,6 +43,9 @@ namespace ece
 		namespace resource
 		{
 			template <class Resource>
+			inline constexpr ResourceHandler<Resource>::ResourceHandler() noexcept: _resource() {}
+
+			template <class Resource>
 			inline ResourceHandler<Resource>::ResourceHandler(const std::shared_ptr<Resource> & resource) : _resource(resource) {}
 
 			template <class Resource>
