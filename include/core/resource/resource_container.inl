@@ -36,6 +36,7 @@
 
 */
 
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -43,7 +44,48 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline ResourceLoader::~ResourceLoader() {}
+			template <class Resource>
+			void ResourceContainer<Resource>::add(const std::string & identifier, const std::shared_ptr<Resource> & resource)
+			{
+				auto created = std::chrono::system_clock::now();
+				this->_resources[identifier] = { resource, created, created, false };
+			}
+
+			template <class Resource>
+			void ResourceContainer<Resource>::add(const std::vector<std::pair<std::string, std::shared_ptr<Resource>>> & resources)
+			{
+				for (auto resource : resources) {
+					this->add(resource.first, resource.second);
+				}
+			}
+
+			template <class ResourceType>
+			void ResourceContainer<ResourceType>::remove(const std::string & key)
+			{
+				this->_resources.erase(key);
+			}
+
+			template <class ResourceType>
+			void ResourceContainer<ResourceType>::remove(const std::vector<std::string> & keys)
+			{
+				for (auto & key : keys) {
+					this->_resources.erase(key);
+				}
+			}
+
+			template <class ResourceType>
+			inline void ResourceContainer<ResourceType>::clear()
+			{
+				this->_resources.clear();
+			}
+
+			template <class Resource>
+			ResourceHandler<Resource> ResourceContainer<Resource>::getResource(const std::string & key)
+			{
+				this->_resources[key]._lastAccess = std::chrono::system_clock::now();
+				return ResourceHandler(this->_resources[key]._content);
+			}
+
 		} // namespace resource
 	} // namespace core
 } // namespace ece

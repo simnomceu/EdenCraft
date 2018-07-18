@@ -65,7 +65,7 @@ namespace ece
 			public:
 				constexpr Sprite() noexcept = delete;
 
-				Sprite(const Texture2D & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
+				Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
 
 				/**
 				 * @fn Sprite(const Sprite & copy)
@@ -109,7 +109,7 @@ namespace ece
 				Sprite & operator=(Sprite && move) noexcept = default;
 
 			private:
-				Texture2D _texture;
+				Texture2D::Texture2DReference _texture;
 				Rectangle<float> _textureClip;
 
 				Rectangle<float> _bounds;

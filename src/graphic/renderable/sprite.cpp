@@ -54,18 +54,18 @@ namespace ece
 			using renderer::opengl::OpenGL;
             using renderer::resource::BufferLayout;
 
-			Sprite::Sprite(const Texture2D & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
+			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
 			{
 				if (this->_bounds == Rectangle<float>()) {
-					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture.getWidth()), static_cast<float>(this->_texture.getHeight()));
+					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
 				}
 
 				if (this->_textureClip == Rectangle<float>()) {
-					this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture.getWidth()), static_cast<float>(this->_texture.getHeight()));
+					this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
 				}
 
-				this->_texture.bind(TextureTarget::TEXTURE_2D);
-				this->_texture.update();
+				this->_texture->bind(TextureTarget::TEXTURE_2D);
+				this->_texture->update();
 
 				this->_mode = PrimitiveMode::TRIANGLES;
 

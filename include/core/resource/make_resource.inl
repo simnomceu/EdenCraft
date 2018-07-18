@@ -36,12 +36,9 @@
 
 */
 
-
-#ifndef RESOURCE_UNLOADER_HPP
-#define RESOURCE_UNLOADER_HPP
-
-#include "core/config.hpp"
 #include "core/resource/resource_handler.hpp"
+#include "core/resource/service_resource.hpp"
+
 
 namespace ece
 {
@@ -49,73 +46,16 @@ namespace ece
 	{
 		namespace resource
 		{
-			/**
-			 * @class ResourceUnloader
-			 * @brief To unload a resource.
-			 */
-			class ECE_CORE_API ResourceUnloader
+			template <class Type, class... Args>
+			ResourceHandler<Type> makeResource(const std::string & identifier, Args &&... args)
 			{
-			public:
-				/**
-				 * @fn ResourceUnloader() noexcept
-				 * brief Default constructor.
-				 * @throw noexcept
-				 */
-				ResourceUnloader() noexcept = default;
-
-				/**
-				 * @fn ResourceUnloader(const ResourceUnloader & copy) noexcept
-				 * @param[in] copy The unloader to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				ResourceUnloader(const ResourceUnloader & copy) noexcept = default;
-
-				/**
-				 * @fn ResourceUnloader(ResourceUnloader && move) noexcept
-				 * @param[in] move The unloader to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				ResourceUnloader(ResourceUnloader && move) noexcept = default;
-
-				/**
-				 * @fn ~ResourceUnloader() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				inline virtual ~ResourceUnloader() noexcept = 0;
-
-				/**
-				 * @fn ResourceUnloader & operator=(const ResourceUnloader & copy) noexcept
-				 * @param[in] copy The unloader to copy from.
-				 * @return The unloader copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				ResourceUnloader & operator=(const ResourceUnloader & copy) noexcept = default;
-
-				/**
-				 * @fn ResourceUnloader & operator=(ResourceUnloader && move) noexcept
-				 * @param[in] move The unloader to move.
-				 * @return The unloader moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				ResourceUnloader & operator=(ResourceUnloader && move) noexcept = default;
-
-				/**
-				 * @fn void unload(ResourceHandler & handler) const
-				 * @param[in] handler The resource to unload.
-				 * @brief Unload the resource.
-				 * @throw
-				 */
-				virtual void unload(ResourceHandler & handler) const = 0;
-			};
+				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
+				if (resource.isDirty()) {
+					ServiceResourceLocator::getService().loadResource<Type>(identifier, args...);
+					resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
+				}
+				return std::move(resource);
+			}
 		} // namespace resource
 	} // namespace core
 } // namespace ece
-
-#include "core/resource/resource_unloader.inl"
-
-#endif // RESOURCE_UNLOADER_HPP

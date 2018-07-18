@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/box3d.hpp"
+#include "core/resource/resource_handler.hpp"
 
 #include <vector>
 
@@ -55,6 +56,7 @@ namespace ece
 		{
 			using utility::mathematics::FloatVector3u;
 			using utility::mathematics::Box3D;
+			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Mesh
@@ -64,6 +66,8 @@ namespace ece
 			class ECE_GRAPHIC_API Mesh
 			{
 			public:
+				using MeshReference = ResourceHandler<Mesh>;
+
 				struct Vertex
 				{
 					FloatVector3u _position;

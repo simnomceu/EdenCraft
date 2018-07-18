@@ -36,14 +36,13 @@
 
 */
 
-
-#ifndef RESOURCE_LOADER_HPP
-#define RESOURCE_LOADER_HPP
+#ifndef BASE_RESOURCE_CONTAINER_HPP
+#define BASE_RESOURCE_CONTAINER_HPP
 
 #include "core/config.hpp"
-#include "core/resource/resource_handler.hpp"
 
 #include <string>
+#include <vector>
 
 namespace ece
 {
@@ -52,72 +51,68 @@ namespace ece
 		namespace resource
 		{
 			/**
-			 * @class ResourceLoader
-			 * @brief To load a resource.
+			 * @class BaseResourceContainer
+			 * @brief
 			 */
-			class ECE_CORE_API ResourceLoader
+			class ECE_CORE_API BaseResourceContainer
 			{
 			public:
 				/**
-				 * @fn ResourceLoader() noexcept
-				 * brief Default constructor.
+				 * @fn constexpr BaseResourceContainer() noexcept
+				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				ResourceLoader() = default;
+				constexpr BaseResourceContainer() noexcept = default;
 
 				/**
-				 * @fn ResourceLoader(const ResourceLoader & copy) noexcept
-				 * @param[in] copy The loader to copy from.
+				 * @fn BaseResourceContainer(const BaseResourceContainer & copy) noexcept
+				 * @param[in] copy The BaseResourceContainer to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				ResourceLoader(const ResourceLoader & copy) = default;
+				BaseResourceContainer(const BaseResourceContainer & copy) noexcept = default;
 
 				/**
-				 * @fn ResourceLoader(ResourceLoader && move) noexcept
-				 * @param[in] move The loader to move.
+				 * @fn BaseResourceContainer(BaseResourceContainer && move) noexcept
+				 * @param[in] move The BaseResourceContainer to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				ResourceLoader(ResourceLoader && move) = default;
+				BaseResourceContainer(BaseResourceContainer && move) noexcept = default;
 
 				/**
-				 * @fn ~ResourceLoader() noexcept
+				 * @fn ~BaseResourceContainer() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				inline virtual ~ResourceLoader() = 0;
+				~BaseResourceContainer() noexcept = default;
 
 				/**
-				 * @fn ResourceLoader & operator=(const ResourceLoader & copy) noexcept
-				 * @param[in] copy The loader to copy from.
-				 * @return The loader copied.
+				 * @fn BaseResourceContainer & operator=(const BaseResourceContainer & copy) noexcept
+				 * @param[in] copy The BaseResourceContainer to copy from.
+				 * @return The BaseResourceContainer copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				ResourceLoader & operator=(const ResourceLoader & copy) = default;
+				BaseResourceContainer & operator=(const BaseResourceContainer & copy) noexcept = default;
 
 				/**
-				 * @fn ResourceLoader & operator=(ResourceLoader && move) noexcept
-				 * @param[in] move The loader to move.
-				 * @return The loader moved.
+				 * @fn BaseResourceContainer & operator=(BaseResourceContainer && move) noexcept
+				 * @param[in] move The BaseResourceContainer to move.
+				 * @return The BaseResourceContainer moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				ResourceLoader & operator=(ResourceLoader && move) = default;
+				BaseResourceContainer & operator=(BaseResourceContainer && move) noexcept = default;
 
-				/**
-				 * @fn void load(ResourceHandler & handler) const
-				 * @param[in] handler The resource to load.
-				 * @brief Load the resource.
-				 * @throw
-				 */
-				virtual ResourceHandler load(const std::string & identifier) const = 0;
+
+				virtual void remove(const std::string & key) = 0;
+				virtual void remove(const std::vector<std::string> & keys) = 0;
+
+				virtual void clear() = 0;
 			};
 		} // namespace resource
 	} // namespace core
 } // namespace ece
 
-#include "core/resource/resource_loader.inl"
-
-#endif // RESOURCE_LOADER_HPP
+#endif // BASE_RESOURCE_CONTAINER_HPP

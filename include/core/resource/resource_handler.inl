@@ -36,18 +36,26 @@
 
 */
 
-
 namespace ece
 {
 	namespace core
 	{
 		namespace resource
 		{
-			inline ResourceHandler::ResourceHandler(const std::shared_ptr<Resource> & resource) : _resource(resource) {}
+			template <class Resource>
+			inline constexpr ResourceHandler<Resource>::ResourceHandler() noexcept: _resource() {}
 
-			inline std::weak_ptr<Resource> ResourceHandler::operator->() { return this->_resource; }
+			template <class Resource>
+			inline ResourceHandler<Resource>::ResourceHandler(const std::shared_ptr<Resource> & resource) : _resource(resource) {}
 
-			inline std::weak_ptr<Resource> ResourceHandler::operator*() { return this->_resource; }
+			template <class Resource>
+			inline std::shared_ptr<Resource> ResourceHandler<Resource>::operator->() { return this->_resource.lock(); }
+
+			template <class Resource>
+			inline std::shared_ptr<Resource> ResourceHandler<Resource>::operator*() { return this->_resource.lock(); }
+
+			template <class Resource>
+			inline bool ResourceHandler<Resource>::isDirty() const { return this->_resource.expired(); }
 		} // namespace resource
 	} // namespace core
 } // namespace core

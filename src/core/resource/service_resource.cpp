@@ -36,14 +36,33 @@
 
 */
 
+#include "core/resource/service_resource.hpp"
 
 namespace ece
 {
-	namespace core
+	namespace utility
 	{
-		namespace resource
+		namespace service
 		{
-			inline ResourceUnloader::~ResourceUnloader() {}
-		} // namespace resource
-	} // namespace core
+			std::shared_ptr<core::resource::ResourceManager> ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service = std::shared_ptr<core::resource::ResourceManager>();
+
+			void ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::provide(const std::shared_ptr<core::resource::ResourceManager> & service)
+			{
+				ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service = service;
+			}
+
+			core::resource::ResourceManager & ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::getService()
+			{
+				if (ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service.get() == nullptr) {
+					throw MemoryAccessException("A service.");
+				}
+				return *ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service;
+			}
+
+			void ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::stop()
+			{
+				ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service = std::shared_ptr<core::resource::ResourceManager>();
+			}
+		} // namespace service
+	} // namespace utility
 } // namespace ece

@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "renderer/common/renderable.hpp"
 #include "graphic/model/mesh.hpp"
+#include "core/resource/resource_handler.hpp"
 
 #include <memory>
 
@@ -56,6 +57,7 @@ namespace ece
 			using renderer::common::Renderable;
 			using model::Mesh;
             using utility::mathematics::FloatVector3u;
+			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Object
@@ -121,7 +123,7 @@ namespace ece
 				 * @brief Set the mesh of the 3D object.
 				 * @throw
 				 */
-				void setMesh(const std::shared_ptr<Mesh> & mesh);
+				void setMesh(const Mesh::MeshReference & mesh);
 
 				// NOTE: accessing one of the elements linked to this object should not modify the object itself
 				// but it should also not forbid modification on the elements.
@@ -132,7 +134,7 @@ namespace ece
 				 * @brief Get the mesh of the object.
 				 * @throw
 				 */
-				inline std::shared_ptr<Mesh> getMesh() const;
+				inline Mesh::MeshReference getMesh() const;
 
                 void prepare();
 
@@ -141,7 +143,7 @@ namespace ece
 				 * @property _mesh
 				 * @brief The mesh of the object.
 				 */
-				std::shared_ptr<Mesh> _mesh;
+				Mesh::MeshReference _mesh;
 			};
 		} // namespace renderable
 	} // namespace graphic

@@ -29,7 +29,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] AppVeyor profile for Windows (x86 and x64).
 + [ ] Travis CI profile for Linux (x86 and x64) and MacOSX (x64).
 + [ ] Coveralls profile.
-+ [ ] Scripts automation for project generation (Premake5).
++ [x] Scripts automation for project generation (Premake5).
 + [x] Doxygen profile.
 + [x] Licensing.
 + [x] Static & Shared library usages.
@@ -50,7 +50,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
  + [ ] Geometric operations.
  + [ ] Matrix and vector handling, with expression templates.
  + [ ] 3D rotation using quaternions, matrix, and Euler angles.
- + [ ] Pimpl design pattern implementation.
+ + [x] Pimpl design pattern implementation.
  + [ ] Listener/listenable design pattern.
  + [ ] Service-consumer pattern implementation.
  + [ ] Timer, and UPS/FPS counter.
@@ -179,6 +179,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Core
 + [ ] Lua binding.
 + [ ] Python binding.
+
 ##### Window
 ##### Renderer
 ##### Graphic
@@ -194,6 +195,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 
 ### beta-1.0.0
 + [ ] Unit testing everywhere.
+
 ##### Utility
 ##### Core
 ##### Window
