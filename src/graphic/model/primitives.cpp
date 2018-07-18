@@ -41,6 +41,7 @@
 #include "graphic/model/primitives.hpp"
 
 #include "utility/mathematics/transform.hpp"
+#include "utility/mathematics/vector4u.hpp"
 
 namespace ece
 {
@@ -49,20 +50,22 @@ namespace ece
 		namespace model
 		{
 			using utility::mathematics::rotate;
+			using utility::mathematics::FloatVector4u;
 
 			Mesh makeCircle(const float radius, const size_t numberOfVertices)
 			{
 				Mesh mesh;
 
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
-				const auto rotation = rotate({ 0.0f, 0.0f, 0.0f }, angle);
+				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
 				mesh.addVertex({ { 0.0f, 0.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
 				Mesh::Vertex vertex = { { radius, 0.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
-				mesh.addVertex({ { radius, 0.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex(vertex);
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
-					vertex._position = rotation * vertex._position;
+					auto tmpresult = rotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
+					vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
 					mesh.addVertex(vertex);
 					mesh.addFace({ 0, i - 1, i });
 				}
@@ -79,9 +82,45 @@ namespace ece
 				return std::move(mesh);
 			}
 
-			Mesh makeCylinder(const float /*radius*/, const float /*height*/, const size_t /*numberOfVertices*/)
+			Mesh makeCylinder(const float radius, const float height, const size_t numberOfVertices)
 			{
 				Mesh mesh;
+
+				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
+				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
+
+				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex(vertex);
+
+				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
+					auto tmpresult = rotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
+					vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
+					mesh.addVertex(vertex);
+					mesh.addFace({ 0, i + 1, i + 2 });
+				}
+
+				mesh.addFace({ 0, numberOfVertices, 1 });
+
+				mesh.addVertex({ { 0.0f, 0.0f, -height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				vertex = { { radius, 0.0f, -height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex(vertex);
+
+				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
+					auto tmpresult = rotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
+					vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
+					mesh.addVertex(vertex);
+					mesh.addFace({ numberOfVertices + 1, i + numberOfVertices + 2, i + numberOfVertices + 3 });
+				}
+
+				mesh.addFace({ numberOfVertices + 1, numberOfVertices + numberOfVertices + 1, numberOfVertices + 2 });
+
+				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
+					mesh.addFace({ numberOfVertices + i + 2, i + 2, i + 1 });
+					mesh.addFace({ i + 2, numberOfVertices + i + 2, numberOfVertices + i + 3 });
+				}
+				mesh.addFace({ numberOfVertices + numberOfVertices + 1, 1, numberOfVertices });
+				mesh.addFace({ 1, numberOfVertices + numberOfVertices + 1, numberOfVertices + 2 });
 
 				return std::move(mesh);
 			}
@@ -110,7 +149,7 @@ namespace ece
 				mesh.addVertex({ { size / 2.0f, -size / 2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 1.0f } });
 
 				mesh.addFace({ 0, 1, 2 });
-				mesh.addFace({ 1, 2, 3 });
+				mesh.addFace({ 2, 3, 0 });
 
 				return std::move(mesh);
 			}

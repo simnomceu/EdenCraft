@@ -41,6 +41,7 @@
 #ifndef PRIMITIVES_HPP
 #define PRIMITIVES_HPP
 
+#include "graphic/config.hpp"
 #include "graphic/model/mesh.hpp"
 
 namespace ece
@@ -49,13 +50,13 @@ namespace ece
 	{
 		namespace model
 		{
-			Mesh makeCircle(const float radius, const size_t numberOfVertices);
-			Mesh makeSphere(const float radius, const size_t numberOfVertices);
-			Mesh makeCylinder(const float radius, const float height, const size_t numberOfVertices);
-			Mesh makeTorus(const float innerRadius, const float outerRadius, const size_t numberOfVertices);
-			Mesh makeCone(const float radius, const float height, const size_t numberOfVertices);
-			Mesh makeQuad(const float size);
-			Mesh makeCube(const float size);
+			ECE_GRAPHIC_API Mesh makeCircle(const float radius, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeSphere(const float radius, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeCylinder(const float radius, const float height, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeTorus(const float innerRadius, const float outerRadius, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeCone(const float radius, const float height, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeQuad(const float size);
+			ECE_GRAPHIC_API Mesh makeCube(const float size);
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
