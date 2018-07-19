@@ -78,6 +78,8 @@ namespace ece
 
 			Mesh makeSphere(const float radius, const size_t numberOfVertices)
 			{
+				// See: https://github.com/caosdoar/spheres/blob/master/src/spheres.cpp for UVsphere
+
 				Mesh mesh;
 
 				const float zAngle = static_cast<float>(PI) / static_cast<float>(numberOfVertices);
