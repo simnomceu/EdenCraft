@@ -78,46 +78,50 @@ namespace ece
 
 			Mesh makeSphere(const float radius, const size_t numberOfVertices)
 			{
-				// See: https://github.com/caosdoar/spheres/blob/master/src/spheres.cpp for UVsphere
-
 				Mesh mesh;
 
-				const float zAngle = static_cast<float>(PI) / static_cast<float>(numberOfVertices);
-				const float xAngle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
-				const auto zRotation = rotate({ 0.0f, 0.0f, 1.0f }, -zAngle);
+				mesh.addVertex({ { 0.0f, 1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f } });
 
-				FloatVector4u start = { radius, 0.0f, 0.0f, 1.0f };
-				FloatVector4u axis = { 0.0f, 1.0f, 0.0f, 1.0f };
+				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
+					const float polar = static_cast<float>(PI) * (i + 1) / numberOfVertices;
+					const float sp = std::sin(polar);
+					const float cp = std::cos(polar);
+					for (size_t j = 0; j < numberOfVertices; ++j) {
+						const float azimuth = 2.0f * static_cast<float>(PI) * j / numberOfVertices;
+						const float sa = std::sin(azimuth);
+						const float ca = std::cos(azimuth);
+						const float x = sp * ca;
+						const float y = cp;
+						const float z = sp * sa;
+						mesh.addVertex({ { x, y, z },{ 1.0f, 1.0f, 1.0f },{ x, y, z },{ 0.0f, 0.0f } });
+					}
+				}
+				mesh.addVertex({ { 0.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, 0.0f } });
 
 				for (size_t i = 0; i < numberOfVertices; ++i) {
-					const auto xRotation = rotate({ axis[0], axis[1], axis[2] }, -xAngle);
+					const unsigned int a = i + 1;
+					const unsigned int b = (i + 1) % numberOfVertices + 1;
+					mesh.addFace({ 0, b, a });
+				}
 
-					Mesh::Vertex vertex = { { start[0], start[1], start[2] }, { 1.0f, 1.0f, 1.0f }, { start[0], start[1], start[2] }, { 0.0f, 0.0f } };
+				for (size_t i = 0; i < numberOfVertices - 2; ++i) {
+					const int aStart = i * numberOfVertices + 1;
+					const int bStart = (i + 1) * numberOfVertices + 1;
 					for (size_t j = 0; j < numberOfVertices; ++j) {
-						mesh.addVertex(vertex);
-						if (j < numberOfVertices - 1 && i < numberOfVertices - 1) {
-							mesh.addFace({ i * numberOfVertices + j, i * numberOfVertices + j + 1, (i + 1) * numberOfVertices + j });
-							mesh.addFace({ i * numberOfVertices + j, (i + 1) * numberOfVertices + j, (i + 1) * numberOfVertices + j - 1});
-						}
-
-						auto tmpresult = xRotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
-						vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
+						const unsigned int a = aStart + j;
+						const unsigned int a1 = aStart + (j + 1) % numberOfVertices;
+						const unsigned int b = bStart + j;
+						const unsigned int b1 = bStart + (j + 1) % numberOfVertices;
+						mesh.addFace({ a, a1, b1 });
+						mesh.addFace({ a, b1, b });
 					}
-					if (i < numberOfVertices - 1) {
-						mesh.addFace({ i * numberOfVertices + numberOfVertices - 1, i * numberOfVertices + numberOfVertices, (i + 1) * numberOfVertices });
-						mesh.addFace({ i * numberOfVertices + numberOfVertices - 1, (i + 1) * numberOfVertices, (i + 1) * numberOfVertices - 1 });
-					}
-
-					start = zRotation * start;
-					axis = zRotation * axis;
 				}
 
-				for (size_t j = 0; j < numberOfVertices; ++j) {
-					mesh.addFace({ (numberOfVertices - 1) * numberOfVertices + j, (numberOfVertices - 1) * numberOfVertices + j + 1, j });
-					mesh.addFace({ (numberOfVertices - 1) * numberOfVertices + j, j, j - 1 });
+				for (size_t i = 0; i < numberOfVertices; ++i) {
+					const unsigned int a = i + numberOfVertices * (numberOfVertices - 2) + 1;
+					const unsigned int b = (i + 1) % numberOfVertices + numberOfVertices * (numberOfVertices - 2) + 1;
+					mesh.addFace({ mesh.getVertices().size() - 1, a, b });
 				}
-				mesh.addFace({ (numberOfVertices - 1) * numberOfVertices + numberOfVertices - 1, (numberOfVertices - 1) * numberOfVertices + numberOfVertices, 0 });
-				mesh.addFace({ (numberOfVertices - 1) * numberOfVertices + numberOfVertices - 1, 0, numberOfVertices * numberOfVertices - 1 });
 
 				return std::move(mesh);
 			}
