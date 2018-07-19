@@ -76,9 +76,46 @@ namespace ece
 				return std::move(mesh);
 			}
 
-			Mesh makeSphere(const float /*radius*/, const size_t /*numberOfVertices*/)
+			Mesh makeSphere(const float radius, const size_t numberOfVertices)
 			{
 				Mesh mesh;
+
+				const float zAngle = static_cast<float>(PI) / static_cast<float>(numberOfVertices);
+				const float xAngle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
+				const auto zRotation = rotate({ 0.0f, 0.0f, 1.0f }, -zAngle);
+
+				FloatVector4u start = { radius, 0.0f, 0.0f, 1.0f };
+				FloatVector4u axis = { 0.0f, 1.0f, 0.0f, 1.0f };
+
+				for (size_t i = 0; i < numberOfVertices; ++i) {
+					const auto xRotation = rotate({ axis[0], axis[1], axis[2] }, -xAngle);
+
+					Mesh::Vertex vertex = { { start[0], start[1], start[2] }, { 1.0f, 1.0f, 1.0f }, { start[0], start[1], start[2] }, { 0.0f, 0.0f } };
+					for (size_t j = 0; j < numberOfVertices; ++j) {
+						mesh.addVertex(vertex);
+						if (j < numberOfVertices - 1 && i < numberOfVertices - 1) {
+							mesh.addFace({ i * numberOfVertices + j, i * numberOfVertices + j + 1, (i + 1) * numberOfVertices + j });
+							mesh.addFace({ i * numberOfVertices + j, (i + 1) * numberOfVertices + j, (i + 1) * numberOfVertices + j - 1});
+						}
+
+						auto tmpresult = xRotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
+						vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
+					}
+					if (i < numberOfVertices - 1) {
+						mesh.addFace({ i * numberOfVertices + numberOfVertices - 1, i * numberOfVertices + numberOfVertices, (i + 1) * numberOfVertices });
+						mesh.addFace({ i * numberOfVertices + numberOfVertices - 1, (i + 1) * numberOfVertices, (i + 1) * numberOfVertices - 1 });
+					}
+
+					start = zRotation * start;
+					axis = zRotation * axis;
+				}
+
+				for (size_t j = 0; j < numberOfVertices; ++j) {
+					mesh.addFace({ (numberOfVertices - 1) * numberOfVertices + j, (numberOfVertices - 1) * numberOfVertices + j + 1, j });
+					mesh.addFace({ (numberOfVertices - 1) * numberOfVertices + j, j, j - 1 });
+				}
+				mesh.addFace({ (numberOfVertices - 1) * numberOfVertices + numberOfVertices - 1, (numberOfVertices - 1) * numberOfVertices + numberOfVertices, 0 });
+				mesh.addFace({ (numberOfVertices - 1) * numberOfVertices + numberOfVertices - 1, 0, numberOfVertices * numberOfVertices - 1 });
 
 				return std::move(mesh);
 			}
@@ -176,9 +213,33 @@ namespace ece
 				return std::move(mesh);
 			}
 
-			Mesh makeCone(const float /*radius*/, const float /*height*/, const size_t /*numberOfVertices*/)
+			Mesh makeCone(const float radius, const float height, const size_t numberOfVertices)
 			{
 				Mesh mesh;
+
+				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
+				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
+
+				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex(vertex);
+
+				for (size_t i = 1; i < numberOfVertices; ++i) {
+					auto tmpresult = rotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
+					vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
+					mesh.addVertex(vertex);
+					mesh.addFace({ 0, i - 1, i });
+				}
+
+				mesh.addFace({ 0, numberOfVertices - 1, 1 });
+
+				mesh.addVertex({ { 0.0f, 0.0f, height / -2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+
+				for (size_t i = 1; i < numberOfVertices; ++i) {
+					mesh.addFace({ numberOfVertices + 1, i - 1, i });
+				}
+
+				mesh.addFace({ numberOfVertices + 1, numberOfVertices - 1, 1 });
 
 				return std::move(mesh);
 			}

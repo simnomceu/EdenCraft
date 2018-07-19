@@ -71,7 +71,7 @@ namespace ece
 	using core::resource::ResourceHandler;
 	using graphic::renderable::Sprite;
 	using utility::time::FramePerSecond;
-	using graphic::model::makeTorus;
+	using graphic::model::makeSphere;
 }
 
 int main()
@@ -85,7 +85,7 @@ int main()
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
 		//auto mesh = ece::makeResource<ece::Mesh>("OBJ cube", loader.getMesh());
-		auto mesh = ece::makeResource<ece::Mesh>("Circle", ece::makeTorus(2.0f, 2.5f, 4, 16));
+		auto mesh = ece::makeResource<ece::Mesh>("Circle", ece::makeSphere(1.0f, 16));
 		// ####################
 
 		ece::RenderWindow window;
@@ -137,7 +137,7 @@ int main()
 		// ForwardRendering technique;
 
 		ece::InputEvent event;
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
 		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
 			if (fps.isReadyToUpdate()) {
 				window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
