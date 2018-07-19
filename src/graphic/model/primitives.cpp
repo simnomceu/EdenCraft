@@ -50,6 +50,7 @@ namespace ece
 		namespace model
 		{
 			using utility::mathematics::rotate;
+			using utility::mathematics::translate;
 			using utility::mathematics::FloatVector4u;
 
 			Mesh makeCircle(const float radius, const size_t numberOfVertices)
@@ -125,9 +126,52 @@ namespace ece
 				return std::move(mesh);
 			}
 
-			Mesh makeTorus(const float /*innerRadius*/, const float /*outerRadius*/, const size_t /*numberOfVertices*/)
+			Mesh makeTorus(const float innerRadius, const float outerRadius, const size_t numberOfSlices, const size_t numberOfRings)
 			{
 				Mesh mesh;
+
+				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfRings);
+				const float ringAngle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfSlices);
+				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
+
+				const float radius = (outerRadius - innerRadius) / 2.0f;
+				FloatVector4u center = { (outerRadius + innerRadius) / 2.0f, 0.0f, 0.0f, 1.0f };
+
+				FloatVector4u startPos = { 1.0f, 0.0f, 0.0f, 1.0f };
+				FloatVector4u axis = { 0.0f, 1.0f, 0.0f, 1.0f };
+
+				for (size_t i = 0; i < numberOfRings; ++i) {
+					const auto shift = startPos - center;
+					const auto ringRotation = translate({ -shift[0], -shift[1], -shift[2] }) * rotate({ axis[0], axis[1], axis[2] }, -ringAngle) * translate({ shift[0], shift[1], shift[2] });
+
+					Mesh::Vertex vertex = { { startPos[0], startPos[1], startPos[2] }, { 1.0f, 1.0f, 1.0f }, { startPos[0], startPos[1], startPos[2] }, { 0.0f, 0.0f } };
+
+					for (size_t j = 0; j < numberOfSlices; ++j) {
+						mesh.addVertex(vertex);
+						if (j < numberOfSlices - 1 && i < numberOfRings - 1) {
+							mesh.addFace({ (i + 1) * numberOfSlices + j, i * numberOfSlices + j + 1, i * numberOfSlices + j });
+							mesh.addFace({ i * numberOfSlices + j + 1, (i + 1) * numberOfSlices + j, (i + 1) * numberOfSlices + j + 1 });
+						}
+
+						auto tmpresult = ringRotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
+						vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
+					}
+					if (i < numberOfRings - 1) {
+						mesh.addFace({ (i + 1) * numberOfSlices + numberOfSlices - 1, i * numberOfSlices, i * numberOfSlices + numberOfSlices - 1 });
+						mesh.addFace({ i * numberOfSlices, (i + 1) * numberOfSlices + numberOfSlices - 1, (i + 1) * numberOfSlices });
+					}
+
+					startPos = rotation * startPos;
+					center = rotation * center;
+					axis = rotation * axis;
+				}
+
+				for (size_t j = 0; j < numberOfSlices - 1; ++j) {
+					mesh.addFace({ (numberOfRings - 1) * numberOfSlices + j, j + 1, j });
+					mesh.addFace({ j + 1, (numberOfRings - 1) * numberOfSlices + j, (numberOfRings - 1) * numberOfSlices + j + 1 });
+				}
+				mesh.addFace({ numberOfRings * numberOfSlices - 1, 1, numberOfSlices - 1 });
+				mesh.addFace({ 1, numberOfRings * numberOfSlices - 1, (numberOfRings - 1) * numberOfSlices });
 
 				return std::move(mesh);
 			}

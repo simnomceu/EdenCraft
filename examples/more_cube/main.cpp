@@ -71,7 +71,7 @@ namespace ece
 	using core::resource::ResourceHandler;
 	using graphic::renderable::Sprite;
 	using utility::time::FramePerSecond;
-	using graphic::model::makeCylinder;
+	using graphic::model::makeTorus;
 }
 
 int main()
@@ -85,7 +85,7 @@ int main()
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
 		//auto mesh = ece::makeResource<ece::Mesh>("OBJ cube", loader.getMesh());
-		auto mesh = ece::makeResource<ece::Mesh>("Circle", ece::makeCylinder(0.5f, 3.0f, 16));
+		auto mesh = ece::makeResource<ece::Mesh>("Circle", ece::makeTorus(2.0f, 2.5f, 4, 16));
 		// ####################
 
 		ece::RenderWindow window;
@@ -123,8 +123,8 @@ int main()
 
 		element->setMesh(mesh);
 		for (size_t i = 0; i < 10; ++i) {
-			for (size_t j = 0; j < 100; ++j) {
-				for (size_t k = 0; k < 100; ++k) {
+			for (size_t j = 0; j < 10; ++j) {
+				for (size_t k = 0; k < 10; ++k) {
 					element->addInstance(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f });
 				}
 			}
