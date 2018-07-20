@@ -42,23 +42,17 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace renderable
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+			inline const FloatVector3u & Line::getBegin() const noexcept { return this->_begin; }
+			inline const FloatVector3u & Line::getEnd() const noexcept { return this->_end; }
+			inline const FloatVector3u & Line::getColor() const noexcept { return this->_color; }
+			inline float Line::getWidth() const noexcept { return this->_width; }
 
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
-
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
-
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
-
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
-
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
-		} // namespace model
+			inline void Line::setBegin(const FloatVector3u & begin) noexcept { this->_begin = begin; }
+			inline void Line::setEnd(const FloatVector3u & end) noexcept { this->_end = end; }
+			inline void Line::setColor(const FloatVector3u & color) noexcept { this->_color = color; }
+			inline void Line::set(const float width) noexcept { this->_width = width; }
+		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

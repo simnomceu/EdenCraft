@@ -50,6 +50,7 @@
 #include "utility/mathematics/vector3u.hpp"
 #include "core/resource/make_resource.hpp"
 #include "utility/time.hpp"
+#include "graphic/model/primitives.hpp"
 
 #include <ctime>
 #include <string>
@@ -70,6 +71,7 @@ namespace ece
 	using core::resource::ResourceHandler;
 	using graphic::renderable::Sprite;
 	using utility::time::FramePerSecond;
+	using graphic::model::makeSphere;
 }
 
 int main()
@@ -82,7 +84,8 @@ int main()
 		// ####################
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		auto mesh = ece::makeResource<ece::Mesh>("OBJ cube", loader.getMesh());
+		//auto mesh = ece::makeResource<ece::Mesh>("OBJ cube", loader.getMesh());
+		auto mesh = ece::makeResource<ece::Mesh>("Circle", ece::makeSphere(1.0f, 16));
 		// ####################
 
 		ece::RenderWindow window;
@@ -119,9 +122,9 @@ int main()
 		auto sprite = ece::makeResource<ece::Sprite>("Emma Watson", texture, ece::Rectangle<float>(50.0f, 50.0f, static_cast<float>(texture->getWidth()), static_cast<float>(texture->getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
 
 		element->setMesh(mesh);
-		for (size_t i = 0; i < 100; ++i) {
-			for (size_t j = 0; j < 100; ++j) {
-				for (size_t k = 0; k < 100; ++k) {
+		for (size_t i = 0; i < 10; ++i) {
+			for (size_t j = 0; j < 10; ++j) {
+				for (size_t k = 0; k < 10; ++k) {
 					element->addInstance(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f });
 				}
 			}
@@ -134,7 +137,7 @@ int main()
 		// ForwardRendering technique;
 
 		ece::InputEvent event;
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_120);
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
 		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
 			if (fps.isReadyToUpdate()) {
 				window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));

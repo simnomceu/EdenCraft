@@ -38,8 +38,9 @@
 
 */
 
-#include "graphic/renderable/sprite.hpp"
+#include "graphic/renderable/line.hpp"
 
+#include "renderer/opengl/opengl.hpp"
 #include "renderer/resource/buffer_layout.hpp"
 
 namespace ece
@@ -52,59 +53,70 @@ namespace ece
 			using renderer::BufferUsage;
 			using renderer::BufferType;
 			using renderer::ShaderType;
-			using renderer::TextureTarget;
-
+			using renderer::Capability;
+			using renderer::resource::BufferLayout;
 			using renderer::resource::ShaderStage;
 			using renderer::opengl::OpenGL;
-            using renderer::resource::BufferLayout;
 
-			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
+			Line::Line() noexcept: Renderable(), _begin(), _end(), _color(), _width(1)
 			{
-				if (this->_bounds == Rectangle<float>()) {
-					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
+				this->_mode = PrimitiveMode::LINES;
+
+				BufferLayout layout;
+				layout.add<float>(3, false);
+				layout.add<float>(3, false);
+
+				if (this->_width > 1.0f) {
+					OpenGL::enable(Capability::LINE_SMOOTH);
 				}
-
-				if (this->_textureClip == Rectangle<float>()) {
-					this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
+				else {
+					OpenGL::disable(Capability::LINE_SMOOTH);
 				}
+				OpenGL::lineWidth(this->_width);
 
-				this->_texture->bind(TextureTarget::TEXTURE_2D);
-				this->_texture->update();
+				std::vector<FloatVector3u> data = { this->_begin, this->_color, this->_end, this->_color };
 
-				this->_mode = PrimitiveMode::TRIANGLES;
-
-				const std::vector<float> points{ this->_bounds.getX(), this->_bounds.getY(),
-					this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight(),
-					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight(),
-					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY()
-				};
-
-				const std::vector<float> texPos{ this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight(),
-												 this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
-												 (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
-												 (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
-				};
-
-				const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
-
-                BufferLayout layout;
-                layout.add<float>(2, false);
-                layout.add<float>(2, false);
-
-				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
-				this->_vao.addIndices(index, BufferUsage::STATIC_DRAW);
+				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, data, BufferUsage::STATIC_DRAW);
 
 				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/sprite.frag");
-				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/sprite.vert");
+				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");
+				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/line.vert");
 
 				this->_program.setStage(fsSource);
 				this->_program.setStage(vsSource);
 				this->_program.link();
 				this->_program.use();
-
-				OpenGL::uniform<int, 1>(glGetUniformLocation(this->_program.getHandle(), "theTexture"), std::array<int, 1>{0});
 			}
-		} //namespace renderable
+
+			Line::Line(const FloatVector3u & begin, const FloatVector3u & end, const FloatVector3u & color, const float width) noexcept : Renderable(), _begin(begin), _end(end), _color(color), _width(width)
+			{
+				this->_mode = PrimitiveMode::LINES;
+
+				BufferLayout layout;
+				layout.add<float>(3, false);
+				layout.add<float>(3, false);
+
+				if (this->_width > 1.0f) {
+					OpenGL::enable(Capability::LINE_SMOOTH);
+				}
+				else {
+					OpenGL::disable(Capability::LINE_SMOOTH);
+				}
+				OpenGL::lineWidth(this->_width);
+
+				std::vector<FloatVector3u> data = { this->_begin, this->_color, this->_end, this->_color };
+
+				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, data, BufferUsage::STATIC_DRAW);
+
+				ShaderStage fsSource, vsSource;
+				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");
+				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/line.vert");
+
+				this->_program.setStage(fsSource);
+				this->_program.setStage(vsSource);
+				this->_program.link();
+				this->_program.use();
+			}
+		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

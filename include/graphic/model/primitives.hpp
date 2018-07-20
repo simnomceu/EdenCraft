@@ -38,27 +38,27 @@
 
 */
 
+#ifndef PRIMITIVES_HPP
+#define PRIMITIVES_HPP
+
+#include "graphic/config.hpp"
+#include "graphic/model/mesh.hpp"
+
 namespace ece
 {
 	namespace graphic
 	{
 		namespace model
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
-
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
-
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
-
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
-
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
-
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
+			ECE_GRAPHIC_API Mesh makeCircle(const float radius, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeSphere(const float radius, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeCylinder(const float radius, const float height, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeTorus(const float innerRadius, const float outerRadius, const size_t numberOfSlices, const size_t numberOfRings);
+			ECE_GRAPHIC_API Mesh makeCone(const float radius, const float height, const size_t numberOfVertices);
+			ECE_GRAPHIC_API Mesh makeQuad(const float size);
+			ECE_GRAPHIC_API Mesh makeCube(const float size);
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#endif // PRIMITIVES_HPP
