@@ -40,12 +40,13 @@
 #define WORLD_HPP
 
 #include "core/config.hpp"
-#include "core/ecs/base_system.hpp"
-#include "core/ecs/component_tank.hpp"
+#include "core/ecs/system.hpp"
 #include "utility/indexing/unique_id.hpp"
 
 #include <memory>
 #include <vector>
+#include <unordered_map>
+#include <typeindex>
 
 namespace ece
 {
@@ -82,18 +83,22 @@ namespace ece
 				 */
 				inline ~World();
 
+				template <class ComponentType> std::weak_ptr<ComponentTank<ComponentType>> getTank();
+
+				template <class SystemType, class... Args> void registerSystem(Args&&... args);
+
 			private:
 				/**
 				 * @property _systems
 				 * @brief The list of system running in the world.
 				 */
-				std::vector<std::unique_ptr<BaseSystem>> _systems;
+				std::vector<std::unique_ptr<System>> _systems;
 
 				/**
 				 * @property _components
 				 * @brief The list of components composing all the entities of the world.
 				 */
-				ComponentTank _components;
+				std::unordered_map<std::type_index, std::shared_ptr<BaseComponentTank>> _tanks;
 
 				/**
 				 * @property _entities
@@ -106,6 +111,8 @@ namespace ece
 				 * @brief To create a new entity.
 				 */
 				UniqueID _entityGenerator;
+
+				template <class ComponentType> void addTank();
 			};
 		} // namespace ecs
 	} // namespace core

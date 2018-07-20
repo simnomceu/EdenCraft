@@ -36,30 +36,13 @@
 
 */
 
-#ifndef BASE_SYSTEM_HPP
-#define BASE_SYSTEM_HPP
-
-#include "core/config.hpp"
-
 namespace ece
 {
 	namespace core
 	{
 		namespace ecs
 		{
-			/**
-			 * @class BaseSystem
-			 * @brief A system handle some specific kinds of components and do operations on them.
-			 */
-			class ECE_CORE_API BaseSystem
-			{
-			public:
-				inline virtual ~BaseSystem() = 0;
-			};
+			inline System::~System() {}
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
-
-#include "core/ecs/base_system.inl"
-
-#endif // BASE_SYSTEM

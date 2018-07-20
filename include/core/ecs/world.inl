@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace ecs
 		{
-			inline World::World() : _systems(), _components(), _entities(), _entityGenerator() {}
+			inline World::World() : _systems(), _tanks(), _entities(), _entityGenerator() {}
 
 			inline World::~World() {}
 		} // namespace ecs

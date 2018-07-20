@@ -39,8 +39,6 @@
 #ifndef COMPONENT_HPP
 #define COMPONENT_HPP
 
-#include "core/ecs/base_component.hpp"
-
 namespace ece
 {
 	namespace core
@@ -54,9 +52,15 @@ namespace ece
 			 * @brief A component define an attribute of an entity.
 			 */
 			template<class T>
-			class Component : public BaseComponent
+			class ECE_CORE_API Component
 			{
 			public:
+				/**
+				* @typedef ComponentID
+				* @brief The id to handle a component.
+				*/
+				using ComponentID = unsigned int;
+
 				/**
 				 * @fn Component()
 				 * @brief Default constructor.
@@ -72,27 +76,31 @@ namespace ece
 				~Component();
 
 				/**
-				 * @fn const T & get()
-				 * @return The content of the component.
-				 * @brief Get the content of the component.
+				 * @fn ComponentID getID() const
+				 * @return The id to handle the component.
+				 * @brief Get The component id.
 				 * @throw
 				 */
-				const T & get();
+				inline ComponentID getID() const;
 
 				/**
-				 * @fn void set(const T & value)
-				 * @param[in] value The new content of the component.
-				 * @brief Set the content of the component.
-				 * @throw
+				 * @fn unsigned int getOwner() const
+				 * @return The entity owner.
 				 */
-				void set(const T & value);
+				inline unsigned int getOwner() const;
 
 			protected:
 				/**
-				 * @property _value
-				 * @brief The content of the component.
+				 * @property _id
+				 * @brief The id to handle the component.
 				 */
-				T _value;
+				ComponentID _id;
+
+				/**
+				 * @property _owner
+				 * @brief The entity which own the component.
+				 */
+				unsigned int _owner;
 			};
 		} // namespace ecs
 	} // namespace core

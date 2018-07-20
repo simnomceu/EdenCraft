@@ -43,7 +43,7 @@ namespace ece
 		namespace ecs
 		{
 			template<class T>
-			Component<T>::Component() : BaseComponent(), _value() {}
+			Component<T>::Component() : _value(), _id(), _owner() {}
 
 			template<class T>
 			Component<T>::~Component() {}
@@ -53,6 +53,12 @@ namespace ece
 
 			template<class T>
 			void Component<T>::set(const T & value) { this->_value = value; }
+
+			template<class T>
+			inline Component<T>::ComponentID Component<T>::getID() const { return this->_id; }
+
+			template<class T>
+			inline unsigned int Component<T>::getOwner() const { return this->_owner; }
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
