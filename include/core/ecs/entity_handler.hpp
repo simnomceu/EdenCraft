@@ -36,8 +36,10 @@
 
 */
 
-#ifndef BASE_COMPONENT_TANK_HPP
-#define BASE_COMPONENT_TANK_HPP
+#ifndef ENTITY_HANDLER_HPP
+#define ENTITY_HANDLER_HPP
+
+#include "core/config.hpp"
 
 namespace ece
 {
@@ -45,69 +47,78 @@ namespace ece
 	{
 		namespace ecs
 		{
+			class World;
+
 			/**
-			 * @class BaseComponentTank
+			 * @class EntityHandler
 			 * @brief
 			 */
-			class BaseComponentTank
+			class ECE_CORE_API EntityHandler
 			{
 			public:
 				/**
-				 * @fn constexpr BaseComponentTank() noexcept
+				 * @fn constexpr EntityHandler() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr BaseComponentTank() noexcept = default;
+				constexpr EntityHandler() noexcept = delete;
+
+				inline EntityHandler(const unsigned int id, World & world) noexcept;
 
 				/**
-				 * @fn BaseComponentTank(const BaseComponentTank & copy) noexcept
-				 * @param[in] copy The BaseComponentTank to copy from.
+				 * @fn EntityHandler(const EntityHandler & copy) noexcept
+				 * @param[in] copy The EntityHandler to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				BaseComponentTank(const BaseComponentTank & copy) noexcept = default;
+				EntityHandler(const EntityHandler & copy) noexcept = default;
 
 				/**
-				 * @fn BaseComponentTank(BaseComponentTank && move) noexcept
-				 * @param[in] move The BaseComponentTank to move.
+				 * @fn EntityHandler(EntityHandler && move) noexcept
+				 * @param[in] move The EntityHandler to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				BaseComponentTank(BaseComponentTank && move) noexcept = default;
+				EntityHandler(EntityHandler && move) noexcept = default;
 
 				/**
-				 * @fn ~BaseComponentTank() noexcept
+				 * @fn ~EntityHandler() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BaseComponentTank() noexcept = default;
+				~EntityHandler() noexcept = default;
 
 				/**
-				 * @fn BaseComponentTank & operator=(const BaseComponentTank & copy) noexcept
-				 * @param[in] copy The BaseComponentTank to copy from.
-				 * @return The BaseComponentTank copied.
+				 * @fn EntityHandler & operator=(const EntityHandler & copy) noexcept
+				 * @param[in] copy The EntityHandler to copy from.
+				 * @return The EntityHandler copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				BaseComponentTank & operator=(const BaseComponentTank & copy) noexcept = default;
+				EntityHandler & operator=(const EntityHandler & copy) noexcept = default;
 
 				/**
-				 * @fn BaseComponentTank & operator=(BaseComponentTank && move) noexcept
-				 * @param[in] move The BaseComponentTank to move.
-				 * @return The BaseComponentTank moved.
+				 * @fn EntityHandler & operator=(EntityHandler && move) noexcept
+				 * @param[in] move The EntityHandler to move.
+				 * @return The EntityHandler moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				BaseComponentTank & operator=(BaseComponentTank && move) noexcept = default;
+				EntityHandler & operator=(EntityHandler && move) noexcept = default;
 
-				virtual std::size_t size() const noexcept = 0;
+				inline unsigned int getId() const;
 
-				virtual bool empty() const noexcept = 0;
+				template <class ComponentType, class ... Args> ComponentType & addComponent(Args&&... args);
 
-				virtual void update() = 0;
+			private:
+				unsigned int _id;
+
+				World & _world;
 			};
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
 
-#endif // BASE_COMPONENT_TANK_HPP
+#include "core/ecs/entity_handler.inl"
+
+#endif // ENTITY_HANDLER_HPP

@@ -55,7 +55,7 @@ namespace ece
 			}
 
 			template <class SystemType, class... Args>
-			void World::registerSystem(Args&&... args)
+			void World::addSystem(Args&&... args)
 			{
 				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
 				this->_systems.emplace_back(std::forward<Args>(args)...);

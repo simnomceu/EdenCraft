@@ -58,6 +58,7 @@ namespace ece
 			using utility::indexing::UniqueID;
 			
 			template <class ComponentType> class ComponentTank;
+			class EntityHandler;
 
 			/**
 			 * @class World
@@ -128,7 +129,9 @@ namespace ece
 
 				template <class ComponentType> std::weak_ptr<ComponentTank<ComponentType>> getTank();
 
-				template <class SystemType, class... Args> void registerSystem(Args&&... args);
+				template <class SystemType, class... Args> void addSystem(Args&&... args);
+
+				EntityHandler createEntity();
 
 			private:
 				/**

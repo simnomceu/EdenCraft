@@ -38,35 +38,23 @@
 
 #include "core/ecs/world.hpp"
 
-#include "core/ecs/entity_handler.hpp"
-
-#include <algorithm>
-
 namespace ece
 {
 	namespace core
 	{
 		namespace ecs
 		{
-			void World::update()
+			inline EntityHandler::EntityHandler(const unsigned int id, World & world) noexcept: _id(id), _world(world) {}
+
+			inline unsigned int EntityHandler::getId() const { return this->_id; }
+
+			template <class ComponentType, class ... Args>
+			ComponentType & EntityHandler::addComponent(Args&&... args)
 			{
-				for (auto & system : this->_systems) {
-					system->update();
-				}
-
-				for (auto & tank : this->_tanks) {
-					tank.second->update();
-				}
-
-				this->_entities.erase(std::remove_if(this->_entities.begin(), this->_entities.end(), [](auto & lhs) { return lhs._dirty; }), this->_entities.end());
-			}
-
-			EntityHandler World::createEntity()
-			{
-				World::Entity entity = { this->_entityGenerator.next(), false };
-				EntityHandler handler(entity._id, *this);
-				this->_entities.push_back(std::move(entity));
-				return std::move(handler);
+				ComponentType component(std::forward(args)...);
+				component.setOwner(this->_id);
+				this->_world.getTank<ComponentType>()->push_back(std::move(component));
+				return this->_world.getTank<ComponentType>()->back();
 			}
 		} // namespace ecs
 	} // namespace core

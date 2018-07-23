@@ -60,7 +60,7 @@ namespace ece
 			 * @brief
 			 */
 			template <class ComponentType>
-			class ECE_CORE_API ComponentTank: public BaseComponentTank
+			class ECE_CORE_API ComponentTank: public BaseComponentTank, protected std::vector<ComponentType>
 			{
 			public:
 				using TankIterator = std::vector<ComponentType>::iterator;
@@ -114,17 +114,20 @@ namespace ece
 				 */
 				ComponentTank & operator=(ComponentTank && move) noexcept = default;
 
-				inline virtual size_t getSize() const override;
-
-				inline virtual bool isEmpty() const override;
+				using std::vector<ComponentType>::at;
+				using std::vector<ComponentType>::operator[];
+				using std::vector<ComponentType>::front;
+				using std::vector<ComponentType>::back;
+				using std::vector<ComponentType>::begin;
+				using std::vector<ComponentType>::end;
+				using std::vector<ComponentType>::empty;
+				using std::vector<ComponentType>::size;
+				using std::vector<ComponentType>::clear;
+				using std::vector<ComponentType>::erase;
+				using std::vector<ComponentType>::push_back;
+				using std::vector<ComponentType>::emplace_back;
 
 				virtual void update() = override;
-
-				inline TankIterator begin() noexcept;
-				inline TankConstIterator begin() const noexcept;
-
-				inline TankIterator end() noexcept;
-				inline TankConstIterator end() const noexcept;
 			private:
 				std::vector<ComponentType> _components;
 			};

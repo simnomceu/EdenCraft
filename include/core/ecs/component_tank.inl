@@ -43,28 +43,10 @@ namespace ece
 		namespace ecs
 		{
 			template <class ComponentType>
-			inline size_t ComponentTank<ComponentType>::getSize() const { return this->_component.size(); }
-
-			template <class ComponentType>
-			inline bool ComponentTank<ComponentType>::isEmpty() const { return this->_components.empty(); }
-
-			template <class ComponentType>
 			void ComponentTank<ComponentType>::update()
 			{
 				this->_components.erase(std::remove_if(this->_components.begin(), this->_components.end(), [](auto & lhs) { return lhs.isDirty(); }), this->_components.end());
 			}
-
-			template <class ComponentType>
-			inline ComponentTank<ComponentType>::TankIterator ComponentTank<ComponentType>::begin() noexcept { return this->_components.begin(); }
-
-			template <class ComponentType>
-			inline ComponentTank<ComponentType>::TankConstIterator ComponentTank<ComponentType>::begin() const noexcept { return this->_components.begin(); }
-
-			template <class ComponentType>
-			inline ComponentTank<ComponentType>::TankIterator ComponentTank<ComponentType>::end() noexcept { return this->_components.end(); }
-
-			template <class ComponentType>
-			inline ComponentTank<ComponentType>::TankConstIterator ComponentTank<ComponentType>::end() const noexcept { return this->_components.end(); }
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
