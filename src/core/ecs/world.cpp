@@ -36,25 +36,28 @@
 
 */
 
+#include "core/ecs/world.hpp"
+
+#include <algorithm>
+
 namespace ece
 {
 	namespace core
 	{
 		namespace ecs
 		{
-			template<class T>
-			Component<T>::Component() : _value(), _id(), _owner() {}
+			void World::update()
+			{
+				for (auto & system : this->_systems) {
+					system->update();
+				}
 
-			template<class T>
-			Component<T>::~Component() {}
+				for (auto & tank : this->_tanks) {
+					tank.second->update();
+				}
 
-			template<class T>
-			inline Component<T>::ComponentID Component<T>::getID() const { return this->_id; }
-
-			template<class T>
-			inline unsigned int Component<T>::getOwner() const { return this->_owner; }
-
-			inline bool Component<T>::isDirty() const { return this->_dirty; }
+				this->_entities.erase(std::remove_if(this->_entities.begin(), this->_entities.end(), [](auto & lhs) { return lhs._dirty; }), this->_entities.end());
+			}
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

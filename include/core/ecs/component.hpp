@@ -89,6 +89,8 @@ namespace ece
 				 */
 				inline unsigned int getOwner() const;
 
+				inline bool isDirty() const;
+
 			protected:
 				/**
 				 * @property _id
@@ -101,6 +103,8 @@ namespace ece
 				 * @brief The entity which own the component.
 				 */
 				unsigned int _owner;
+
+				bool _dirty;
 			};
 		} // namespace ecs
 	} // namespace core

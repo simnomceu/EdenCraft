@@ -64,7 +64,7 @@ namespace ece
 			using core::resource::ServiceResourceFactory;
 			using core::resource::ResourceManager;
 
-			Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
+			Application::Application() : _running(false), _moduleManager(), _worlds(), _ups(0), _lifecycle(nullptr)
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
@@ -73,7 +73,7 @@ namespace ece
 				this->_lifecycle = std::make_shared<Lifecycle>();
 			}
 
-			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager(), _lifecycle(nullptr)
+			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager(), _worlds(), _ups(0), _lifecycle(nullptr)
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
@@ -97,11 +97,13 @@ namespace ece
 				this->_lifecycle->postInit();
 
 				while (this->isRunning()) {
-					this->_lifecycle->preProcess();
-					this->processEvents();
-					this->_lifecycle->preUpdate();
-					this->update();
-					this->_lifecycle->postUpdate();
+					if (this->_ups.isReadyToUpdate()) {
+						this->_lifecycle->preProcess();
+						this->processEvents();
+						this->_lifecycle->preUpdate();
+						this->update();
+						this->_lifecycle->postUpdate();
+					}
 					this->render();
 					this->_lifecycle->postRender();
 				}
@@ -109,6 +111,12 @@ namespace ece
 				this->_lifecycle->preTerminate();
 				this->terminate();
 				this->_lifecycle->preTerminate();
+			}
+
+			World & Application::addWorld()
+			{
+				this->_worlds.emplace_back();
+				return this->_worlds.back();
 			}
 
 			void Application::init()
@@ -124,6 +132,10 @@ namespace ece
 
 			void Application::update()
 			{
+				for (auto & world : this->_worlds) {
+					world.update();
+				}
+
 				this->_moduleManager.updateAll();
 			}
 

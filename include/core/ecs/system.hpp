@@ -54,7 +54,55 @@ namespace ece
 			class ECE_CORE_API System
 			{
 			public:
-				inline virtual ~System() = 0;
+				/**
+				 * @fn constexpr System() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr System() noexcept = default;
+
+				/**
+				 * @fn System(const System & copy) noexcept
+				 * @param[in] copy The System to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				System(const System & copy) noexcept = default;
+
+				/**
+				 * @fn System(System && move) noexcept
+				 * @param[in] move The System to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				System(System && move) noexcept = default;
+
+				/**
+				 * @fn ~System() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				inline virtual ~System() noexcept = 0;
+
+				/**
+				 * @fn System & operator=(const System & copy) noexcept
+				 * @param[in] copy The System to copy from.
+				 * @return The System copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				System & operator=(const System & copy) noexcept = default;
+
+				/**
+				 * @fn System & operator=(System && move) noexcept
+				 * @param[in] move The System to move.
+				 * @return The System moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				System & operator=(System && move) noexcept = default;
+
+				virtual void update() = 0;
 			};
 		} // namespace ecs
 	} // namespace core

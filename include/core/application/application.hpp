@@ -44,6 +44,8 @@
 #include "core/module/module_manager.hpp"
 #include "core/event/emitter.hpp"
 #include "core/application/lifecycle.hpp"
+#include "core/ecs/world.hpp"
+#include "utility/time/update_per_second.hpp"
 
 #include <memory>
 #include <vector>
@@ -59,6 +61,8 @@ namespace ece
 			using module::ModuleMethodHandle;
 			using module::ModuleMethod;
 			using event::Emitter;
+			using ecs::World;
+			using utility::time::UpdatePerSecond;
 
 			/**
 			 * @class Application
@@ -142,6 +146,8 @@ namespace ece
 				 * @throw
 				 */
 				template <class T> inline T & getModule();
+
+				World & addWorld();
 
 				/**
 				 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
@@ -243,6 +249,10 @@ namespace ece
 				 * @brief To manage the modules of the application.
 				 */
 				ModuleManager _moduleManager;
+
+				std::vector<World> _worlds;
+
+				UpdatePerSecond _ups;
 
 			private:
 				/**

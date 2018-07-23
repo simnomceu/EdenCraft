@@ -118,6 +118,8 @@ namespace ece
 
 				inline virtual bool isEmpty() const override;
 
+				virtual void update() = override;
+
 				inline TankIterator begin() noexcept;
 				inline TankConstIterator begin() const noexcept;
 

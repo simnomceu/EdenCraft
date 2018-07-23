@@ -36,15 +36,36 @@
 
 */
 
+#include <utility>
+
 namespace ece
 {
 	namespace core
 	{
 		namespace ecs
 		{
-			inline World::World() : _systems(), _tanks(), _entities(), _entityGenerator() {}
+			inline World::World() noexcept : _systems(), _tanks(), _entities(), _entityGenerator() {}
 
-			inline World::~World() {}
+			inline World::~World() noexcept {}
+
+			template <class ComponentType>
+			std::weak_ptr<ComponentTank<ComponentType>> World::getTank()
+			{
+				return static_pointer_cast<ComponentTank<ComponentType>>(this->_tanks[std::type_index(typeid(ComponentType))]);
+			}
+
+			template <class SystemType, class... Args>
+			void World::registerSystem(Args&&... args)
+			{
+				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
+				this->_systems.emplace_back(std::forward<Args>(args)...);
+			}
+
+			template <class ComponentType>
+			void World::addTank()
+			{
+				this->_tanks.emplace(std::type_index(typeid(ComponentType)), std::make_shared<ComponentTank<ComponentType>>());
+			}
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

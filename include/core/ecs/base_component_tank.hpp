@@ -103,6 +103,8 @@ namespace ece
 				virtual size_t getSize() const = 0;
 
 				virtual bool isEmpty() const = 0;
+
+				virtual void update() = 0;
 			};
 		} // namespace ecs
 	} // namespace core
