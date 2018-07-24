@@ -39,6 +39,8 @@
 #ifndef COMPONENT_HPP
 #define COMPONENT_HPP
 
+#include "core/config.hpp"
+
 namespace ece
 {
 	namespace core

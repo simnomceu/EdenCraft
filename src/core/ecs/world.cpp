@@ -51,7 +51,7 @@ namespace ece
 			void World::update()
 			{
 				for (auto & system : this->_systems) {
-					system->update();
+					system.second->update();
 				}
 
 				for (auto & tank : this->_tanks) {
@@ -67,6 +67,11 @@ namespace ece
 				EntityHandler handler(entity._id, *this);
 				this->_entities.push_back(std::move(entity));
 				return std::move(handler);
+			}
+
+			EntityHandler World::createEntity(World::Prototype prototype)
+			{
+				return prototype(*this);
 			}
 		} // namespace ecs
 	} // namespace core

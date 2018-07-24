@@ -56,6 +56,18 @@ namespace ece
 				this->_world.getTank<ComponentType>()->push_back(std::move(component));
 				return this->_world.getTank<ComponentType>()->back();
 			}
+
+			template <class ComponentType>
+			bool EntityHandler::HasComponent() const
+			{
+				return this->_world.hasComponent<ComponentType>(this->_id);
+			}
+
+			template <class ComponentType>
+			ComponentType & EntityHandler::getComponent()
+			{
+				return this->_world.getComponent<ComponentType>(this->_id);
+			}
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

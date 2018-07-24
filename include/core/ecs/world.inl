@@ -58,13 +58,38 @@ namespace ece
 			void World::addSystem(Args&&... args)
 			{
 				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
-				this->_systems.emplace_back(std::forward<Args>(args)...);
+				this->_systems.emplace(std::type_index(typeid(SystemType)), std::forward<Args>(args)...);
+			}
+
+			template <class SystemType> bool World::hasSystem() const
+			{
+				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
+				return this->_system.find(std::type_index(typeid(SystemType))) != this->_systems.end();
 			}
 
 			template <class ComponentType>
 			void World::addTank()
 			{
 				this->_tanks.emplace(std::type_index(typeid(ComponentType)), std::make_shared<ComponentTank<ComponentType>>());
+			}
+
+			template <class ComponentType>
+			bool World::hasComponent(const unsigned int entityID) const
+			{
+				auto tank = this->getTank<ComponentType>().lock();
+				auto it == std::find_if(tank->begin(), tank->end(), [](auto & element) {return element.getOwner() == entityID; });
+				return it != tank.end();
+			}
+			
+			template <class ComponentType>
+			ComponentType & World::getComponent(const unsigned int entityID)
+			{
+				auto tank = this->getTank<ComponentType>().lock();
+				auto it == std::find_if(tank->begin(), tank->end(), [](auto & element) {return element.getOwner() == entityID; });
+				if (it == tank.end()) {
+					throw std::runtime_error("This entity does not have a component of this type");
+				}
+				return *it;
 			}
 		} // namespace ecs
 	} // namespace core

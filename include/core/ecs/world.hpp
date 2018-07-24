@@ -48,6 +48,7 @@
 #include <vector>
 #include <unordered_map>
 #include <typeindex>
+#include <functional>
 
 namespace ece
 {
@@ -67,10 +68,12 @@ namespace ece
 			class ECE_CORE_API World
 			{
 			public:
+				using Prototype = std::function<EntityHandler(World&)>;
+
 				/**
-				* @typedef Entity
-				* @brief Define an entity of the world.
-				*/
+				 * @typedef Entity
+				 * @brief Define an entity of the world.
+				 */
 				struct Entity
 				{
 					unsigned int _id;
@@ -130,15 +133,20 @@ namespace ece
 				template <class ComponentType> std::weak_ptr<ComponentTank<ComponentType>> getTank();
 
 				template <class SystemType, class... Args> void addSystem(Args&&... args);
+				template <class SystemType> bool hasSystem() const;
 
 				EntityHandler createEntity();
+				EntityHandler createEntity(Prototype prototype);
+
+				template <class ComponentType> bool hasComponent(const unsigned int entityID) const;
+				template <class ComponentType> ComponentType & getComponent(const unsigned int entityID);
 
 			private:
 				/**
 				* @property _systems
 				* @brief The list of system running in the world.
 				*/
-				std::vector<std::unique_ptr<System>> _systems;
+				std::unordered_map<std::type_index, std::unique_ptr<System>> _systems;
 
 				/**
 				* @property _components

@@ -110,6 +110,10 @@ namespace ece
 
 				template <class ComponentType, class ... Args> ComponentType & addComponent(Args&&... args);
 
+				template <class ComponentType> bool HasComponent() const;
+
+				template <class ComponentType> ComponentType & getComponent();
+
 			private:
 				unsigned int _id;
 
