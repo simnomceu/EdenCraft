@@ -38,123 +38,86 @@
 
 */
 
-#ifndef OBJECT_HPP
-#define OBJECT_HPP
+#ifndef MATERIAL_HPP
+#define MATERIAL_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/common/renderable.hpp"
-#include "graphic/model/mesh.hpp"
-#include "graphic/model/material.hpp"
-
-#include <memory>
 
 namespace ece
 {
+	namespace renderer
+	{
+		namespace resource
+		{
+			class Shader;
+		} // namespace resource
+	} // namespace renderable
+
 	namespace graphic
 	{
-		namespace renderable
+		namespace model
 		{
-			using renderer::common::Renderable;
-			using model::Mesh;
-			using model::Material;
-            using utility::mathematics::FloatVector3u;
+			using renderer::resource::Shader;
 
 			/**
-			 * @class Object
-			 * @extends Renderable
-			 * @brief A renderable 3D object.
+			 * @class Material
+			 * @brief
 			 */
-			class ECE_GRAPHIC_API Object: public Renderable
+			class ECE_GRAPHIC_API Material
 			{
 			public:
 				/**
-				 * @fn Object() noexcept
+				 * @fn constexpr Material() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Object() noexcept;
+				constexpr Material() noexcept = default;
 
 				/**
-				 * @fn Object(const Object & copy)
-				 * @param[in] copy The Object to copy from.
+				 * @fn Material(const Material & copy) noexcept
+				 * @param[in] copy The Material to copy from.
 				 * @brief Default copy constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Object(const Object & copy) = default;
+				Material(const Material & copy) noexcept = default;
 
 				/**
-				 * @fn Object(Object && move) noexcept
-				 * @param[in] move The Object to move.
+				 * @fn Material(Material && move) noexcept
+				 * @param[in] move The Material to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Object(Object && move) noexcept = default;
+				Material(Material && move) noexcept = default;
 
 				/**
-				 * @fn ~Object() noexcept
+				 * @fn ~Material() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Object() noexcept = default;
+				~Material() noexcept = default;
 
 				/**
-				 * @fn Object & operator=(const Object & copy)
-				 * @param[in] copy The Object to copy from.
-				 * @return The Object copied.
+				 * @fn Material & operator=(const Material & copy) noexcept
+				 * @param[in] copy The Material to copy from.
+				 * @return The Material copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Object & operator=(const Object & copy) = default;
+				Material & operator=(const Material & copy) noexcept = default;
 
 				/**
-				 * @fn Object & operator=(Object && move) noexcept
-				 * @param[in] move The Object to move from.
-				 * @return The Object moved.
+				 * @fn Material & operator=(Material && move) noexcept
+				 * @param[in] move The Material to move.
+				 * @return The Material moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Object & operator=(Object && move) noexcept = default;
+				Material & operator=(Material && move) noexcept = default;
 
-				// NOTE: each element should be build externally from this class, and just "linked" to it when required.
-
-				/**
-				 * @fn void setMesh(const std::shared_ptr<Mesh> & mesh)
-				 * @param[in] mesh The mesh to use.
-				 * @brief Set the mesh of the 3D object.
-				 * @throw
-				 */
-				void setMesh(const std::shared_ptr<Mesh> & mesh);
-
-				void setMaterial(const std::shared_ptr<Material> & material);
-
-				// NOTE: accessing one of the elements linked to this object should not modify the object itself
-				// but it should also not forbid modification on the elements.
-
-				/**
-				 * @fn std::shared_ptr<Mesh> getMesh() const
-				 * @return The mesh of the object.
-				 * @brief Get the mesh of the object.
-				 * @throw
-				 */
-				inline std::shared_ptr<Mesh> getMesh() const;
-
-				inline std::shared_ptr<Material> getMaterial() const;
-
-                void prepare();
-
-			protected:
-				/**
-				 * @property _mesh
-				 * @brief The mesh of the object.
-				 */
-				std::shared_ptr<Mesh> _mesh;
-
-				std::shared_ptr<Material> _material;
+				virtual void apply(Shader & shader) = 0;
 			};
-		} // namespace renderable
+		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/renderable/object.inl"
-
-#endif // OBJECT_HPP
+#endif // MATERIAL_HPP

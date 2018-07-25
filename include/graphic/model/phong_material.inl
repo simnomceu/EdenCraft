@@ -42,11 +42,23 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace renderable
+		namespace model
 		{
-			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
+			inline void PhongMaterial::setAmbient(const FloatVector3u & ambient) { this->_ambient = ambient; }
+			
+			inline void PhongMaterial::setDiffuse(const FloatVector3u & diffuse) { this->_diffuse = diffuse; }
+			
+			inline void PhongMaterial::setSpecular(const FloatVector3u & specular) { this->_specular = specular; }
+			
+			inline void PhongMaterial::setShininess(const float shininess) { this->_shininess = shininess; }
 
-			inline std::shared_ptr<Material> Object::getMaterial() const { return this->_material; }
-		} // namespace renderable
+			inline const FloatVector3u & PhongMaterial::getAmbient() const { return this->_ambient; }
+			
+			inline const FloatVector3u & PhongMaterial::getDiffuse() const { return this->_diffuse; }
+			
+			inline const FloatVector3u & PhongMaterial::getSpecular() const { return this->_specular; }
+			
+			inline float PhongMaterial::getShininess() const { return this->_shininess; }
+		} // namespace model
 	} // namespace graphic
 } // namespace ece

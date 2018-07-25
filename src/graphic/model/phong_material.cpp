@@ -38,15 +38,23 @@
 
 */
 
+#include "graphic/model/phong_material.hpp"
+
+#include "renderer/resource/shader.hpp"
+
 namespace ece
 {
 	namespace graphic
 	{
-		namespace renderable
+		namespace model
 		{
-			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
-
-			inline std::shared_ptr<Material> Object::getMaterial() const { return this->_material; }
-		} // namespace renderable
+			void PhongMaterial::apply(Shader & shader)
+			{
+				shader.uniform("material.ambient", this->_ambient);
+				shader.uniform("material.diffuse", this->_diffuse);
+				shader.uniform("material.specular", this->_specular);
+				shader.uniform("material.shininess", this->_shininess);
+			}
+		} // namespace model
 	} // namespace graphic
 } // namespace ece

@@ -38,123 +38,98 @@
 
 */
 
-#ifndef OBJECT_HPP
-#define OBJECT_HPP
+#ifndef PHONG_MATERIAL_HPP
+#define PHONG_MATERIAL_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/common/renderable.hpp"
-#include "graphic/model/mesh.hpp"
 #include "graphic/model/material.hpp"
-
-#include <memory>
+#include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace renderable
+		namespace model
 		{
-			using renderer::common::Renderable;
-			using model::Mesh;
-			using model::Material;
-            using utility::mathematics::FloatVector3u;
+			using utility::mathematics::FloatVector3u;
 
 			/**
-			 * @class Object
-			 * @extends Renderable
-			 * @brief A renderable 3D object.
+			 * @class PhongMaterial
+			 * @brief
 			 */
-			class ECE_GRAPHIC_API Object: public Renderable
+			class ECE_GRAPHIC_API PhongMaterial: public Material
 			{
 			public:
 				/**
-				 * @fn Object() noexcept
+				 * @fn constexpr PhongMaterial() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Object() noexcept;
+				PhongMaterial() noexcept = default;
 
 				/**
-				 * @fn Object(const Object & copy)
-				 * @param[in] copy The Object to copy from.
+				 * @fn PhongMaterial(const PhongMaterial & copy) noexcept
+				 * @param[in] copy The PhongMaterial to copy from.
 				 * @brief Default copy constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Object(const Object & copy) = default;
+				PhongMaterial(const PhongMaterial & copy) noexcept = default;
 
 				/**
-				 * @fn Object(Object && move) noexcept
-				 * @param[in] move The Object to move.
+				 * @fn PhongMaterial(PhongMaterial && move) noexcept
+				 * @param[in] move The PhongMaterial to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Object(Object && move) noexcept = default;
+				PhongMaterial(PhongMaterial && move) noexcept = default;
 
 				/**
-				 * @fn ~Object() noexcept
+				 * @fn ~PhongMaterial() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Object() noexcept = default;
+				~PhongMaterial() noexcept = default;
 
 				/**
-				 * @fn Object & operator=(const Object & copy)
-				 * @param[in] copy The Object to copy from.
-				 * @return The Object copied.
+				 * @fn PhongMaterial & operator=(const PhongMaterial & copy) noexcept
+				 * @param[in] copy The PhongMaterial to copy from.
+				 * @return The PhongMaterial copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Object & operator=(const Object & copy) = default;
+				PhongMaterial & operator=(const PhongMaterial & copy) noexcept = default;
 
 				/**
-				 * @fn Object & operator=(Object && move) noexcept
-				 * @param[in] move The Object to move from.
-				 * @return The Object moved.
+				 * @fn PhongMaterial & operator=(PhongMaterial && move) noexcept
+				 * @param[in] move The PhongMaterial to move.
+				 * @return The PhongMaterial moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Object & operator=(Object && move) noexcept = default;
+				PhongMaterial & operator=(PhongMaterial && move) noexcept = default;
 
-				// NOTE: each element should be build externally from this class, and just "linked" to it when required.
+				virtual void apply(Shader & shader) override;
 
-				/**
-				 * @fn void setMesh(const std::shared_ptr<Mesh> & mesh)
-				 * @param[in] mesh The mesh to use.
-				 * @brief Set the mesh of the 3D object.
-				 * @throw
-				 */
-				void setMesh(const std::shared_ptr<Mesh> & mesh);
+				inline void setAmbient(const FloatVector3u & ambient);
+				inline void setDiffuse(const FloatVector3u & diffuse);
+				inline void setSpecular(const FloatVector3u & specular);
+				inline void setShininess(const float shininess);
 
-				void setMaterial(const std::shared_ptr<Material> & material);
+				inline const FloatVector3u & getAmbient() const;
+				inline const FloatVector3u & getDiffuse() const;
+				inline const FloatVector3u & getSpecular() const;
+				inline float getShininess() const;
 
-				// NOTE: accessing one of the elements linked to this object should not modify the object itself
-				// but it should also not forbid modification on the elements.
-
-				/**
-				 * @fn std::shared_ptr<Mesh> getMesh() const
-				 * @return The mesh of the object.
-				 * @brief Get the mesh of the object.
-				 * @throw
-				 */
-				inline std::shared_ptr<Mesh> getMesh() const;
-
-				inline std::shared_ptr<Material> getMaterial() const;
-
-                void prepare();
-
-			protected:
-				/**
-				 * @property _mesh
-				 * @brief The mesh of the object.
-				 */
-				std::shared_ptr<Mesh> _mesh;
-
-				std::shared_ptr<Material> _material;
+			private:
+				FloatVector3u _ambient;
+				FloatVector3u _diffuse;
+				FloatVector3u _specular;
+				float _shininess;
 			};
-		} // namespace renderable
+		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/renderable/object.inl"
+#include "graphic/model/phong_material.inl"
 
-#endif // OBJECT_HPP
+#endif // PHONG_MATERIAL_HPP

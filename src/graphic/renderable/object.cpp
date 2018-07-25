@@ -55,7 +55,7 @@ namespace ece
             using renderer::ShaderType;
             using renderer::resource::ShaderStage;
 
-            Object::Object() noexcept: Renderable(), _mesh()
+            Object::Object() noexcept: Renderable(), _mesh(), _material()
             {
                 this->_mode = PrimitiveMode::TRIANGLES;
             }
@@ -67,6 +67,14 @@ namespace ece
                 for (size_t i = 0; i < this->_mesh->size(); ++i) {
                     this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
                 }
+			}
+
+			void Object::setMaterial(const std::shared_ptr<Material> & material)
+			{
+				this->_material = material;
+				if (this->_program.isLinked()) {
+					this->_material->apply(this->_program);
+				}
 			}
 
             void Object::prepare()
@@ -88,7 +96,7 @@ namespace ece
                 }
 
                 ShaderStage fsSource, vsSource;
-                fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/cube.frag");
+                fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../resource/shader/basic.frag");
                 if (this->isInstancingEnabled()) {
                     vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube_instancing.vert");
                 }
@@ -100,6 +108,9 @@ namespace ece
                 this->_program.setStage(vsSource);
                 this->_program.link();
                 this->_program.use();
+				if (this->_material) {
+					this->_material->apply(this->_program);
+				}
             }
 		}// namespace renderable
 	} // namespace graphic
