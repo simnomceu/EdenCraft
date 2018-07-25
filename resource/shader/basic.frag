@@ -1,4 +1,4 @@
-#version 450 core
+#version 450
 
 struct Material
 {
@@ -42,4 +42,6 @@ void main() {
 
 	vec3 result = (ambient + diffuse + specular) * color;
 	frag_colour = vec4(result, 1.0);
+
+    frag_colour = clamp(frag_colour, 0.0, 1.0);
 }

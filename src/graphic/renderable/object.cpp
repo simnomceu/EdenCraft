@@ -66,8 +66,6 @@ namespace ece
 
                 for (size_t i = 0; i < this->_mesh->size(); ++i) {
                     this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
-					std::cerr << this->_mesh->getVertices()[i]._position[0] << " " << this->_mesh->getVertices()[i]._position[1] << " " << this->_mesh->getVertices()[i]._position[2] << " | "
-						<< this->_mesh->getVertices()[i]._normal[0] << " " << this->_mesh->getVertices()[i]._normal[1] << " " << this->_mesh->getVertices()[i]._normal[2] << std::endl;
                 }
 			}
 

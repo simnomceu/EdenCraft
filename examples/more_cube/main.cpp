@@ -75,7 +75,7 @@ namespace ece
 	using core::resource::ResourceHandler;
 	using graphic::renderable::Sprite;
 	using utility::time::FramePerSecond;
-	using graphic::model::makeSphere;
+	using graphic::model::makeCube;
 }
 
 int main()
@@ -88,19 +88,20 @@ int main()
 		// ####################
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
+		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
+		auto mesh = std::make_shared<ece::Mesh>(ece::makeCube(1.0f));
 
 		auto material = std::make_shared<ece::PhongMaterial>();
 		material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
 		material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
 		material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
-		material->setShininess(41.5f);
+		material->setShininess(128.0f);
 
 		auto light = std::make_shared<ece::Light>();
 		light->setAmbient(0.5f);
 		light->setDiffuse(0.2f);
 		light->setSpecular(1.0f);
-		light->setPosition({ 10.0f, 10.0f, -10.0f });
+		light->setPosition({ 1.2f, 1.0f, -2.0f });
 		light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
 		// ####################
 
@@ -126,7 +127,7 @@ int main()
 
 		ece::Camera camera;
 		//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
-		camera.setPerspective(45, window.getSize()[0] / window.getSize()[1], 0.1, 100.0);
+		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f/1080.0f, 0.1, 100.0);
 		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 
@@ -159,21 +160,21 @@ int main()
 		ece::InputEvent event;
 		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
 		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
+			window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
 			if (fps.isReadyToUpdate()) {
-				window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
 				window.clear(ece::FUSHIA);
 
-			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+				element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 
-			light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-			element->setLight(light);
+				light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+				element->setLight(light);
 
-			window.draw(**element);
-			// technique.draw(queue)
-
-				if (window.pollEvent(event)) {
-				}
+				window.draw(**element);
+				// technique.draw(queue)
 				window.display();
+			}
+
+			if (window.pollEvent(event)) {
 			}
 		}
 	}
