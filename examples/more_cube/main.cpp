@@ -47,6 +47,7 @@
 #include "renderer/resource/buffer_layout.hpp"
 #include "graphic/renderable/object.hpp"
 #include "utility/mathematics/vector3u.hpp"
+#include "graphic/model/phong_material.hpp"
 
 #include <ctime>
 
@@ -60,6 +61,7 @@ namespace ece
 	using utility::mathematics::translate;
 	using graphic::model::OBJLoader;
     using graphic::model::Mesh;
+	using graphic::model::PhongMaterial;
     using graphic::renderable::Object;
     using utility::mathematics::FloatVector3u;
 }
@@ -75,6 +77,12 @@ int main()
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
 		auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
+
+		auto material = std::make_shared<ece::PhongMaterial>();
+		material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
+		material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
+		material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
+		material->setShininess(41.5f);
 		// ####################
 
 		ece::RenderWindow window;
@@ -114,6 +122,7 @@ int main()
 		//elements[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
 
         element->setMesh(mesh);
+		element->setMaterial(material);
         for (size_t i = 0; i < 100; ++i) {
             for (size_t j = 0; j < 100; ++j) {
                 for (size_t k = 0; k < 100; ++k) {
