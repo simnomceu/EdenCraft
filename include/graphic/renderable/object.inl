@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			inline std::shared_ptr<Mesh> Object::getMesh() const { return this->_mesh; }
+			inline Mesh::MeshReference Object::getMesh() const { return this->_mesh; }
 
 			inline std::shared_ptr<Material> Object::getMaterial() const { return this->_material; }
 		} // namespace renderable

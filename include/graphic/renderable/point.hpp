@@ -38,13 +38,13 @@
 
 */
 
-#ifndef SPRITE_HPP
-#define SPRITE_HPP
+#ifndef POINT_HPP
+#define POINT_HPP
 
 #include "graphic/config.hpp"
+#include "utility/mathematics/vector3u.hpp"
+#include "core/resource/resource_handler.hpp"
 #include "renderer/common/renderable.hpp"
-#include "renderer/resource/texture2d.hpp"
-#include "utility/mathematics/rectangle.hpp"
 
 namespace ece
 {
@@ -52,70 +52,86 @@ namespace ece
 	{
 		namespace renderable
 		{
+			using utility::mathematics::FloatVector3u;
+			using core::resource::ResourceHandler;
 			using renderer::common::Renderable;
-			using renderer::resource::Texture2D;
-			using utility::mathematics::Rectangle;
 
 			/**
-			 * @class Sprite
+			 * @class Point
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API Sprite : public Renderable
+			class ECE_GRAPHIC_API Point : public Renderable
 			{
 			public:
-				constexpr Sprite() noexcept = delete;
-
-				Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
+				using PointReference = ResourceHandler<Point>;
 
 				/**
-				 * @fn Sprite(const Sprite & copy)
-				 * @param[in] copy The Sprite to copy from.
-				 * @brief Default copy constructor.
-				 * @throw
+				 * @fn constexpr Point() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
 				 */
-				Sprite(const Sprite & copy) = default;
+				Point() noexcept;
+
+				Point(const FloatVector3u & color, const FloatVector3u position, const float size) noexcept;
 
 				/**
-				 * @fn Sprite(Sprite && move) noexcept
-				 * @param[in] move The Sprite to move.
+				 * @fn Point(const Point & copy) noexcept
+				 * @param[in] copy The Point to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Point(const Point & copy) = default;
+
+				/**
+				 * @fn Point(Point && move) noexcept
+				 * @param[in] move The Point to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Sprite(Sprite && move) noexcept = default;
+				Point(Point && move) noexcept = default;
 
 				/**
-				 * @fn ~Sprite() noexcept
+				 * @fn ~Point() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Sprite() noexcept = default;
+				~Point() noexcept = default;
 
 				/**
-				 * @fn Sprite & operator=(const Sprite & copy)
-				 * @param[in] The Sprite to copy from.
-				 * @return The Sprite copied.
+				 * @fn Point & operator=(const Point & copy) noexcept
+				 * @param[in] copy The Point to copy from.
+				 * @return The Point copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Sprite & operator=(const Sprite & copy) = default;
+				Point & operator=(const Point & copy) = default;
 
 				/**
-				 * @fn Sprite & operator=(Sprite && move) noexcept
-				 * @param[in] The Sprite to move.
-				 * @return The Sprite moved.
+				 * @fn Point & operator=(Point && move) noexcept
+				 * @param[in] move The Point to move.
+				 * @return The Point moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Sprite & operator=(Sprite && move) noexcept = default;
+				Point & operator=(Point && move) noexcept = default;
+
+				inline const FloatVector3u & getPosition() const noexcept;
+				inline const FloatVector3u & getColor() const noexcept;
+				inline float getSize() const noexcept;
+
+				inline void setPosition(const FloatVector3u & position) noexcept;
+				inline void setColor(const FloatVector3u & color) noexcept;
+				inline void setSize(const float size) noexcept;
 
 			private:
-				Texture2D::Texture2DReference _texture;
-				Rectangle<float> _textureClip;
-
-				Rectangle<float> _bounds;
+				FloatVector3u _position;
+				FloatVector3u _color;
+				float _size;
 			};
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece
 
-#endif // SPRITE_HPP
+#include "graphic/renderable/point.inl"
+
+#endif // POINT_HPP

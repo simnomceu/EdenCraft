@@ -60,7 +60,7 @@ namespace ece
                 this->_mode = PrimitiveMode::TRIANGLES;
             }
 
-			void Object::setMesh(const std::shared_ptr<Mesh> & mesh)
+			void Object::setMesh(const Mesh::MeshReference & mesh)
 			{
 				this->_mesh = mesh;
 

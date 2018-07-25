@@ -38,13 +38,13 @@
 
 */
 
-#ifndef SPRITE_HPP
-#define SPRITE_HPP
+#ifndef LINE_HPP
+#define LINE_HPP
 
 #include "graphic/config.hpp"
+#include "utility/mathematics/vector3u.hpp"
+#include "core/resource/resource_handler.hpp"
 #include "renderer/common/renderable.hpp"
-#include "renderer/resource/texture2d.hpp"
-#include "utility/mathematics/rectangle.hpp"
 
 namespace ece
 {
@@ -52,70 +52,89 @@ namespace ece
 	{
 		namespace renderable
 		{
+			using utility::mathematics::FloatVector3u;
+			using core::resource::ResourceHandler;
 			using renderer::common::Renderable;
-			using renderer::resource::Texture2D;
-			using utility::mathematics::Rectangle;
 
 			/**
-			 * @class Sprite
+			 * @class Line
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API Sprite : public Renderable
+			class ECE_GRAPHIC_API Line : public Renderable
 			{
 			public:
-				constexpr Sprite() noexcept = delete;
-
-				Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
+				using LineReference = ResourceHandler<Line>;
 
 				/**
-				 * @fn Sprite(const Sprite & copy)
-				 * @param[in] copy The Sprite to copy from.
-				 * @brief Default copy constructor.
-				 * @throw
+				 * @fn constexpr Line() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
 				 */
-				Sprite(const Sprite & copy) = default;
+				Line() noexcept;
+
+				Line(const FloatVector3u & begin, const FloatVector3u & end, const FloatVector3u & color, const float width) noexcept;
 
 				/**
-				 * @fn Sprite(Sprite && move) noexcept
-				 * @param[in] move The Sprite to move.
+				 * @fn Line(const Line & copy) noexcept
+				 * @param[in] copy The Line to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Line(const Line & copy) = default;
+
+				/**
+				 * @fn Line(Line && move) noexcept
+				 * @param[in] move The Line to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Sprite(Sprite && move) noexcept = default;
+				Line(Line && move) noexcept = default;
 
 				/**
-				 * @fn ~Sprite() noexcept
+				 * @fn ~Line() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Sprite() noexcept = default;
+				~Line() noexcept = default;
 
 				/**
-				 * @fn Sprite & operator=(const Sprite & copy)
-				 * @param[in] The Sprite to copy from.
-				 * @return The Sprite copied.
+				 * @fn Line & operator=(const Line & copy) noexcept
+				 * @param[in] copy The Line to copy from.
+				 * @return The Line copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Sprite & operator=(const Sprite & copy) = default;
+				Line & operator=(const Line & copy) = default;
 
 				/**
-				 * @fn Sprite & operator=(Sprite && move) noexcept
-				 * @param[in] The Sprite to move.
-				 * @return The Sprite moved.
+				 * @fn Line & operator=(Line && move) noexcept
+				 * @param[in] move The Line to move.
+				 * @return The Line moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Sprite & operator=(Sprite && move) noexcept = default;
+				Line & operator=(Line && move) noexcept = default;
+
+				inline const FloatVector3u & getBegin() const noexcept;
+				inline const FloatVector3u & getEnd() const noexcept;
+				inline const FloatVector3u & getColor() const noexcept;
+				inline float getWidth() const noexcept;
+
+				inline void setBegin(const FloatVector3u & begin) noexcept;
+				inline void setEnd(const FloatVector3u & end) noexcept;
+				inline void setColor(const FloatVector3u & color) noexcept;
+				inline void set(const float width) noexcept;
 
 			private:
-				Texture2D::Texture2DReference _texture;
-				Rectangle<float> _textureClip;
-
-				Rectangle<float> _bounds;
+				FloatVector3u _begin;
+				FloatVector3u _end;
+				FloatVector3u _color;
+				float _width;
 			};
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece
 
-#endif // SPRITE_HPP
+#include "graphic/renderable/line.inl"
+
+#endif // LINE_HPP

@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "renderer/common/renderable.hpp"
 #include "graphic/model/mesh.hpp"
+#include "core/resource/resource_handler.hpp"
 #include "graphic/model/material.hpp"
 
 #include <memory>
@@ -58,6 +59,7 @@ namespace ece
 			using model::Mesh;
 			using model::Material;
             using utility::mathematics::FloatVector3u;
+			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Object
@@ -123,7 +125,7 @@ namespace ece
 				 * @brief Set the mesh of the 3D object.
 				 * @throw
 				 */
-				void setMesh(const std::shared_ptr<Mesh> & mesh);
+				void setMesh(const Mesh::MeshReference & mesh);
 
 				void setMaterial(const std::shared_ptr<Material> & material);
 
@@ -136,7 +138,7 @@ namespace ece
 				 * @brief Get the mesh of the object.
 				 * @throw
 				 */
-				inline std::shared_ptr<Mesh> getMesh() const;
+				inline Mesh::MeshReference getMesh() const;
 
 				inline std::shared_ptr<Material> getMaterial() const;
 
@@ -147,7 +149,7 @@ namespace ece
 				 * @property _mesh
 				 * @brief The mesh of the object.
 				 */
-				std::shared_ptr<Mesh> _mesh;
+				Mesh::MeshReference _mesh;
 
 				std::shared_ptr<Material> _material;
 			};

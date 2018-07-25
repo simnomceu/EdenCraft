@@ -41,15 +41,20 @@
 #include "renderer/common.hpp"
 #include "utility/log.hpp"
 #include "renderer/image.hpp"
+#include "graphic/renderable/sprite.hpp"
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
 #include "graphic/model/obj_loader.hpp"
 #include "renderer/resource/buffer_layout.hpp"
 #include "graphic/renderable/object.hpp"
 #include "utility/mathematics/vector3u.hpp"
+#include "core/resource/make_resource.hpp"
+#include "utility/time.hpp"
+#include "graphic/model/primitives.hpp"
 #include "graphic/model/phong_material.hpp"
 
 #include <ctime>
+#include <string>
 
 namespace ece
 {
@@ -64,11 +69,16 @@ namespace ece
 	using graphic::model::PhongMaterial;
     using graphic::renderable::Object;
     using utility::mathematics::FloatVector3u;
+	using core::resource::makeResource;
+	using core::resource::ResourceHandler;
+	using graphic::renderable::Sprite;
+	using utility::time::FramePerSecond;
+	using graphic::model::makeSphere;
 }
 
 int main()
 {
-    std::srand(static_cast<unsigned int>(time(nullptr)));
+	std::srand(static_cast<unsigned int>(time(nullptr)));
 
 	try {
 		ece::Application app;
@@ -89,7 +99,7 @@ int main()
 
 		ece::WindowSetting settings;
 		settings._position = ece::IntVector2u{ 10, 10 };
-		settings._title = "WGL window testing";
+		settings._title = "Test";
 
 		window.setContextMaximumVersion(ece::Version<2>{4, 0});
 
@@ -106,20 +116,19 @@ int main()
 		window.setViewport(viewport);
 
 		ece::Camera camera;
-//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
-		camera.setPerspective(45, 1920.0f/1080.0f /*window.getSize()[0] / window.getSize()[1]*/, 0.1, 100.0);
-        camera.moveTo(ece::FloatVector3u{0.0f, 0.0f, 10.0f});
-        camera.lookAt(ece::FloatVector3u{0.0f, 0.0f, 0.0f});
+		//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
+		camera.setPerspective(45, window.getSize()[0] / window.getSize()[1], 0.1, 100.0);
+		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
+		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 
-		ece::Texture2D texture;
-		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
+		auto texture = ece::makeResource<ece::Texture2D>("Emma Watson");
+		texture->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
 
 		// ece::RenderQueue queue;
 		//std::vector<std::shared_ptr<ece::Sprite>> elements(10);
-        std::shared_ptr<ece::Object> element = std::make_shared<ece::Object>();
+        auto element = ece::makeResource<ece::Object>("cube");
 
-		// ece::Sprite sprite;
-		//elements[i] = std::make_shared<ece::Sprite>(texture, ece::Rectangle<float>(i * 50.0f, i * 50.0f, static_cast<float>(texture.getWidth()), static_cast<float>(texture.getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
+		auto sprite = ece::makeResource<ece::Sprite>("Emma Watson", texture, ece::Rectangle<float>(50.0f, 50.0f, static_cast<float>(texture->getWidth()), static_cast<float>(texture->getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
 
         element->setMesh(mesh);
 		element->setMaterial(material);
@@ -138,16 +147,20 @@ int main()
 		// ForwardRendering technique;
 
 		ece::InputEvent event;
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
 		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
-			window.clear(ece::FUSHIA);
+			if (fps.isReadyToUpdate()) {
+				window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
+				window.clear(ece::FUSHIA);
 
 			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
-			window.draw(*element);
+			window.draw(**element);
 			// technique.draw(queue)
 
-			if (window.pollEvent(event)) {
+				if (window.pollEvent(event)) {
+				}
+				window.display();
 			}
-			window.display();
 		}
 	}
 	catch (std::runtime_error & e) {

@@ -36,14 +36,16 @@
 
 */
 
-
-#ifndef RESOURCE_HANDLER_HPP
-#define RESOURCE_HANDLER_HPP
+#ifndef RESOURCE_CONTAINER_HPP
+#define RESOURCE_CONTAINER_HPP
 
 #include "core/config.hpp"
+#include "core/resource/base_resource_container.hpp"
 
-#include <memory>
-#include <string>
+#include <unordered_map>
+#include <chrono>
+#include <type_traits>
+#include <utility>
 
 namespace ece
 {
@@ -51,89 +53,92 @@ namespace ece
 	{
 		namespace resource
 		{
+			template <class Resource>
+			class ResourceHandler;
+
 			/**
-			 * @class ResourceHandler
-			 * @brief To handle a resource.
-			 * @remark How useful is it ?
+			 * @class ResourceContainer
+			 * @brief
 			 */
 			template <class Resource>
-			class ECE_CORE_API ResourceHandler
+			class ECE_CORE_API ResourceContainer: public BaseResourceContainer
 			{
 			public:
-				inline constexpr ResourceHandler() noexcept;
-
 				/**
-				 * @fn ResourceHandler(const std::shared_ptr<Resource> & resource)
-				 * @param[in] resource The resource to handle
-				 * @brief Build a handler for a specific resource.
+				 * @fn constexpr ResourceContainer()
+				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline ResourceHandler(const std::shared_ptr<Resource> & resource);
+				constexpr ResourceContainer()= default;
 
 				/**
-				 * @fn ResourceHandler(const ResourceHandler & copy) noexcept
-				 * @param[in] copy The handler to copy from.
+				 * @fn ResourceContainer(const ResourceContainer & copy) noexcept
+				 * @param[in] copy The ResourceContainer to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				ResourceHandler(const ResourceHandler & copy) noexcept = default;
+				ResourceContainer(const ResourceContainer & copy) noexcept = default;
 
 				/**
-				 * @fn ResourceHandler(ResourceHandler && move) noexcept
-				 * @param[in] move The handler to move.
+				 * @fn ResourceContainer(ResourceContainer && move) noexcept
+				 * @param[in] move The ResourceContainer to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				ResourceHandler(ResourceHandler && move) noexcept = default;
+				ResourceContainer(ResourceContainer && move) noexcept = default;
 
 				/**
-				 * @fn ~ResourceHandler() noexcept
+				 * @fn ~ResourceContainer() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~ResourceHandler() noexcept = default;
+				~ResourceContainer() noexcept = default;
 
 				/**
-				 * @fn ResourceHandler & operator=(const ResourceHandler & copy) noexcept
-				 * @param[in] copy The handler to copy from.
-				 * @return The handler copied.
+				 * @fn ResourceContainer & operator=(const ResourceContainer & copy) noexcept
+				 * @param[in] copy The ResourceContainer to copy from.
+				 * @return The ResourceContainer copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				ResourceHandler & operator=(const ResourceHandler & copy) noexcept = default;
+				ResourceContainer & operator=(const ResourceContainer & copy) noexcept = default;
 
 				/**
-				 * @fn ResourceHandler & operator=(ResourceHandler && move) noexcept
-				 * @param[in] move The handler to move.
-				 * @return The handler moved.
+				 * @fn ResourceContainer & operator=(ResourceContainer && move) noexcept
+				 * @param[in] move The ResourceContainer to move.
+				 * @return The ResourceContainer moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				ResourceHandler & operator=(ResourceHandler && move) noexcept = default;
+				ResourceContainer & operator=(ResourceContainer && move) noexcept = default;
 
-				/**
-				 * @fn std::weak_ptr<Resource> operator->()
-				 * @return The resource handled.
-				 * @brief Get The resource handled.
-				 */
-				inline std::shared_ptr<Resource> operator->();
+				void add(const std::string & identifier, const std::shared_ptr<Resource> & resource);
+				void add(const std::vector<std::pair<std::string, std::shared_ptr<Resource>>> & resources);
 
-				/**
-				 * @fn std::weak_ptr<Resource> operator*()
-				 * @return The resource handled.
-				 * @brief Get The resource handled.
-				 */
-				inline std::shared_ptr<Resource> operator*();
+				virtual void remove(const std::string & key) override;
+				virtual void remove(const std::vector<std::string> & keys) override;
 
-				inline bool isDirty() const;
+				inline virtual void clear() override;
+
+				ResourceHandler<Resource> getResource(const std::string & key);
 
 			private:
-				std::weak_ptr<Resource> _resource;
+				struct ResourceWrapper
+				{
+					std::shared_ptr<Resource> _content;
+
+					std::chrono::time_point<std::chrono::system_clock> _created;
+					std::chrono::time_point<std::chrono::system_clock> _lastAccess;
+
+					bool _dirty;
+				};
+
+				std::unordered_map<std::string, ResourceWrapper> _resources;
 			};
 		} // namespace resource
 	} // namespace core
 } // namespace ece
 
-#include "core/resource/resource_handler.inl"
+#include "core/resource/resource_container.inl"
 
-#endif // RESOURCE_HANDLER_HPP
+#endif // RESOURCE_CONTAINER_HPP

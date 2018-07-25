@@ -91,7 +91,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw
 				 */
-				inline ~Application();
+				~Application() noexcept;
 
 				Application & operator=(const Application & copy) = delete;
 				Application & operator=(Application && move) = delete;

@@ -592,12 +592,14 @@ namespace ece
 			//	inline bool OpenGL::isProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getProgramInfoLog(unsigned int /*program*/, GLsizei /*maxLength*/, GLsizei * /*length*/, char * /*infoLog*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getMultisamplefv(GLenum /*pname*/, unsigned int /*index*/, float * /*val*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::pointSize(float /*size*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::pointSize(const float size) { checkErrors(glPointSize(size)) }
+			
 			//	inline void OpenGL::pointParameterf(GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pointParameteri(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pointParameterfv(GLenum /*pname*/, const float * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pointParameteriv(GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::lineWidth(float /*width*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::lineWidth(const float width) { checkErrors(glLineWidth(width)); }
 
 			inline void OpenGL::frontFace(const FrontFaceMode mode)
 			{

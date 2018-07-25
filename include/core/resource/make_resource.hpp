@@ -36,6 +36,10 @@
 
 */
 
+#ifndef MAKE_RESOURCE_HPP
+#define MAKE_RESOURCE_HPP
+
+#include <string>
 
 namespace ece
 {
@@ -43,15 +47,14 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline Resource::~Resource() {}
+			template <class Resource> class ResourceHandler;
 
-			inline void Resource::setType(const ResourceType & type) { this->_type = type; }
-
-			inline void Resource::setName(const std::string & name) { this->_name = name; }
-
-			inline const ResourceType & Resource::getType() const { return this->_type; }
-
-			inline const std::string & Resource::getName() const { return this->_name; }
+			template <class Type, class... Args>
+			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);
 		} // namespace resource
 	} // namespace core
 } // namespace ece
+
+#include "core/resource/make_resource.inl"
+
+#endif // MAKE_RESOURCE_HPP

@@ -8,17 +8,19 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.
-															 d8P'  `Y8b
-															888           .ooooo.  oooo d8b  .ooooo.
-															888          d88' `88b `888""8P d88' `88b
-															888          888   888  888     888ooo888
-															`88b    ooo  888   888  888     888    .o
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+															  .oooooo.                                  oooo         o8o
+															 d8P'  `Y8b                                 `888         `"'
+															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
+															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
+															888     ooooo  888      .oP"888   888   888  888   888   888  888
+															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
+															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
+																							  888
+																							 o888o
 
 
 
-				This file is part of EdenCraft Engine - Core module.
+				This file is part of EdenCraft Engine - Graphic module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,23 +38,23 @@
 
 */
 
-
-#include "core/resource/resource_manager.hpp"
-
 namespace ece
 {
-	namespace core
+	namespace graphic
 	{
-		namespace resource
+		namespace renderable
 		{
-			void ResourceManager::clear()
-			{
-				while (!this->_containers.empty()) {
-					auto pair = this->_containers.begin();
-					pair->second->clear();
-					this->_containers.erase(pair->first);
-				}
-			}
-		} // namespace resource
-	} // namespace core
+			inline const FloatVector3u & Point::getPosition() const noexcept { return this->_position; }
+
+			inline const FloatVector3u & Point::getColor() const noexcept { return this->_color; }
+
+			inline float Point::getSize() const noexcept { return this->_size; }
+
+			inline void Point::setPosition(const FloatVector3u & position) noexcept { this->_position = position; }
+
+			inline void Point::setColor(const FloatVector3u & color) noexcept { this->_color = color; }
+
+			inline void Point::setSize(const float size) noexcept { this->_size = size; }
+		} // namespace renderable
+	} // namespace graphic
 } // namespace ece

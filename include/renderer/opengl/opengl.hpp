@@ -315,12 +315,12 @@ namespace ece
 				//		static inline bool isProgram(unsigned int program);
 				//		static inline void getProgramInfoLog(unsigned int program, GLsizei maxLength, GLsizei *length, char *infoLog);
 				//		static inline void getMultisamplefv(GLenum pname, unsigned int index, float *val);
-				//		static inline void pointSize(float size);
+				static inline void pointSize(const float size);
 				//		static inline void pointParameterf(GLenum pname, float param);
 				//		static inline void pointParameteri(GLenum pname, int param);
 				//		static inline void pointParameterfv(GLenum pname, const float * params);
 				//		static inline void pointParameteriv(GLenum pname, const int * params);
-				//		static inline void lineWidth(float width);
+				static inline void lineWidth(const float width);
 				static inline void frontFace(const FrontFaceMode mode);
 				static inline void cullFace(const CullFaceMode mode);
 				static inline void polygonMode(const PolygonMode mode);

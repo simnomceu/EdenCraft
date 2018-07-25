@@ -43,6 +43,8 @@
 #include "utility/log/logger.hpp"
 #include "core/event/event_service.hpp"
 #include "core/event/event_manager.hpp"
+#include "core/resource/service_resource.hpp"
+#include "core/resource/resource_manager.hpp"
 #include "core/module/module_method.hpp"
 #include "utility/debug/exception.hpp"
 
@@ -58,11 +60,15 @@ namespace ece
 			using core::event::EventServiceLocator;
 			using core::event::EventServiceFactory;
 			using core::event::EventManager;
+			using core::resource::ServiceResourceLocator;
+			using core::resource::ServiceResourceFactory;
+			using core::resource::ResourceManager;
 
 			Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
+				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
 
 				this->_lifecycle = std::make_shared<Lifecycle>();
 			}
@@ -76,6 +82,11 @@ namespace ece
 
 				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
 				argumentAnalyzer.setParameters(argc, argv);
+			}
+
+			Application::~Application() noexcept
+			{
+				ServiceResourceLocator::getService().clear();
 			}
 
 			void Application::run()

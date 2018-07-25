@@ -42,8 +42,6 @@ namespace ece
 	{
 		namespace application
 		{
-			inline Application::~Application() {}
-
 			inline void Application::stop() { this->_running = false; }
 
 			inline ArgumentAnalyzer & Application::getArgumentAnalyzer() { return this->getModule<ArgumentAnalyzer>(); }

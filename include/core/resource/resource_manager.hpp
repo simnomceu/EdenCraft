@@ -40,13 +40,11 @@
 #define RESOURCE_MANAGER_HPP
 
 #include "core/config.hpp"
-#include "core/resource/resource_handler.hpp"
-#include "core/resource/resource_loader.hpp"
-#include "core/resource/resource_unloader.hpp"
 
 #include <map>
 #include <string>
 #include <memory>
+#include <typeindex>
 
 namespace ece
 {
@@ -54,6 +52,10 @@ namespace ece
 	{
 		namespace resource
 		{
+			class BaseResourceContainer;
+
+			template <class Resource> class ResourceHandler;
+
 			/**
 			 * @class ResourceManager
 			 * @brief Manage all resources, and their loaders/unloaders, regarding the file extension.
@@ -102,17 +104,8 @@ namespace ece
 				 * If a resource with this identifier already exist, nothing happen.
 				 * @throw
 				 */
-				void loadResource(const std::string & identifier);
-
-				/**
-				 * @fn void loadResource(const std::string & identifier, const std::shared_ptr<ResourceLoader> & loader);
-				 * @param[in] identifier The string that identify a resource. Usually, it is the filename of the resource.
-				 * @param[in] loader The loader to use.
-				 * @brief Load the resource, using a specific loader.
-				 * If a resource with this identifier already exist, nothing happen.
-				 * @throw
-				 */
-				void loadResource(const std::string & identifier, const std::shared_ptr<ResourceLoader> & loader);
+				template <class Resource, class... Args>
+				void loadResource(const std::string & identifier, Args&&... args);
 
 				/**
 				 * @fn void unloadResource(const std::string & identifier)
@@ -120,16 +113,8 @@ namespace ece
 				 * @brief Unload a resource using its identfier.
 				 * If the resource with this identifier does not exist, nothing happen.
 				 */
+				template <class Resource>
 				void unloadResource(const std::string & identifier);
-
-				/**
-				 * @fn void unloadResource(const std::string & identifier, const std::shared_ptr<ResourceUnloader> & unloader)
-				 * @param[in] identifier The string that identify a resource. Usually, it is the filename of the resource.
-				 * @param[in] loader The unloader to use.
-				 * @brief Unload a resource, using a specific unloader.
-				 * If the resource with this identifier does not exist, nothing happen.
-				 */
-				void unloadResource(const std::string & identifier, const std::shared_ptr<ResourceUnloader> & unloader);
 
 				/**
 				 * @fn std::weak_ptr<Resource> getResource(const std::string & identifier)
@@ -137,7 +122,8 @@ namespace ece
 				 * @brief Get the resource attached to that identifier.
 				 * @throw
 				 */
-				std::weak_ptr<Resource> getResource(const std::string & identifier);
+				template <class Resource>
+				ResourceHandler<Resource> getResource(const std::string & identifier);
 
 				/**
 				 * @fn void clear()
@@ -146,45 +132,17 @@ namespace ece
 				 */
 				void clear();
 
-				/**
-				 * @fn void registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader)
-				 * @param[in] extension The file extension to attach.
-				 * @param[in] loader The loader to register.
-				 * @brief Register a loader and attach its use to a specific file extension.
-				 * @throw
-				 */
-				void registerLoader(const std::string & extension, const std::shared_ptr<ResourceLoader> & loader);
-
-				/**
-				 * @fn void registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader)
-				 * @param[in] extension The file extension to attach.
-				 * @param[in] unloader The unloader to register.
-				 * @brief Register an unloader and attach its use to a specific file extension.
-				 * @throw
-				 */
-				void registerUnloader(const std::string & extension, const std::shared_ptr<ResourceUnloader> & unloader);
-
 			private:
 				/**
 				 * @property _resources
 				 * @brief The list of resources currently loaded.
 				 */
-				std::map<std::string, ResourceHandler> _resources;
-
-				/**
-				 * @property _loaders
-				 * @brief The list of registered loaders.
-				 */
-				std::map<std::string, std::shared_ptr<ResourceLoader>> _loaders;
-
-				/**
-				 * @property _unloaders
-				 * @brief The list of registered unloaders.
-				 */
-				std::map<std::string, std::shared_ptr<ResourceUnloader>> _unloaders;
+				std::map<std::type_index, std::shared_ptr<BaseResourceContainer>> _containers;
 			};
 		} // namespace resource
 	} // namespace core
 } // namespace ece
+
+#include "core/resource/resource_manager.inl"
 
 #endif // RESOURCE_MANAGER_HPP
