@@ -52,6 +52,7 @@
 #include "utility/time.hpp"
 #include "graphic/model/primitives.hpp"
 #include "graphic/model/phong_material.hpp"
+#include "graphic/model/light.hpp"
 
 #include <ctime>
 #include <string>
@@ -67,6 +68,7 @@ namespace ece
 	using graphic::model::OBJLoader;
     using graphic::model::Mesh;
 	using graphic::model::PhongMaterial;
+	using graphic::model::Light;
     using graphic::renderable::Object;
     using utility::mathematics::FloatVector3u;
 	using core::resource::makeResource;
@@ -93,6 +95,13 @@ int main()
 		material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
 		material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
 		material->setShininess(41.5f);
+
+		auto light = std::make_shared<ece::Light>();
+		light->setAmbient(0.5f);
+		light->setDiffuse(0.2f);
+		light->setSpecular(1.0f);
+		light->setPosition({ 10.0f, 10.0f, -10.0f });
+		light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
 		// ####################
 
 		ece::RenderWindow window;
@@ -132,6 +141,7 @@ int main()
 
         element->setMesh(mesh);
 		element->setMaterial(material);
+		element->setLight(light);
         for (size_t i = 0; i < 100; ++i) {
             for (size_t j = 0; j < 100; ++j) {
                 for (size_t k = 0; k < 100; ++k) {
@@ -154,6 +164,10 @@ int main()
 				window.clear(ece::FUSHIA);
 
 			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+
+			light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+			element->setLight(light);
+
 			window.draw(**element);
 			// technique.draw(queue)
 

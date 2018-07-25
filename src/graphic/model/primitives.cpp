@@ -76,8 +76,10 @@ namespace ece
 				return std::move(mesh);
 			}
 
-			Mesh makeSphere(const float radius, const size_t numberOfVertices)
+			Mesh makeSphere(const float /*radius*/, const size_t numberOfVertices)
 			{
+
+				// TODO: radius not used.
 				Mesh mesh;
 
 				mesh.addVertex({ { 0.0f, 1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f } });

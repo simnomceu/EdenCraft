@@ -38,131 +38,111 @@
 
 */
 
-#ifndef OBJECT_HPP
-#define OBJECT_HPP
+#ifndef LIGHT_HPP
+#define LIGHT_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/common/renderable.hpp"
-#include "graphic/model/mesh.hpp"
-#include "core/resource/resource_handler.hpp"
-#include "graphic/model/material.hpp"
-#include "graphic/model/light.hpp"
-
-#include <memory>
+#include "utility/mathematics/vector3u.hpp"
 
 namespace ece
 {
+	namespace renderer
+	{
+		namespace resource
+		{
+			class Shader;
+		} // namespace resource
+	} // namespace renderable
+
 	namespace graphic
 	{
-		namespace renderable
+		namespace model
 		{
-			using renderer::common::Renderable;
-			using model::Mesh;
-			using model::Light;
-			using model::Material;
-            using utility::mathematics::FloatVector3u;
-			using core::resource::ResourceHandler;
+			using renderer::resource::Shader;
+			using utility::mathematics::FloatVector3u;
 
 			/**
-			 * @class Object
-			 * @extends Renderable
-			 * @brief A renderable 3D object.
+			 * @class Light
+			 * @brief
 			 */
-			class ECE_GRAPHIC_API Object: public Renderable
+			class ECE_GRAPHIC_API Light
 			{
 			public:
 				/**
-				 * @fn Object() noexcept
+				 * @fn constexpr Light() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Object() noexcept;
+				constexpr Light() noexcept = default;
 
 				/**
-				 * @fn Object(const Object & copy)
-				 * @param[in] copy The Object to copy from.
+				 * @fn Light(const Light & copy) noexcept
+				 * @param[in] copy The Light to copy from.
 				 * @brief Default copy constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Object(const Object & copy) = default;
+				Light(const Light & copy) noexcept = default;
 
 				/**
-				 * @fn Object(Object && move) noexcept
-				 * @param[in] move The Object to move.
+				 * @fn Light(Light && move) noexcept
+				 * @param[in] move The Light to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Object(Object && move) noexcept = default;
+				Light(Light && move) noexcept = default;
 
 				/**
-				 * @fn ~Object() noexcept
+				 * @fn ~Light() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Object() noexcept = default;
+				~Light() noexcept = default;
 
 				/**
-				 * @fn Object & operator=(const Object & copy)
-				 * @param[in] copy The Object to copy from.
-				 * @return The Object copied.
+				 * @fn Light & operator=(const Light & copy) noexcept
+				 * @param[in] copy The Light to copy from.
+				 * @return The Light copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Object & operator=(const Object & copy) = default;
+				Light & operator=(const Light & copy) noexcept = default;
 
 				/**
-				 * @fn Object & operator=(Object && move) noexcept
-				 * @param[in] move The Object to move from.
-				 * @return The Object moved.
+				 * @fn Light & operator=(Light && move) noexcept
+				 * @param[in] move The Light to move.
+				 * @return The Light moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Object & operator=(Object && move) noexcept = default;
+				Light & operator=(Light && move) noexcept = default;
 
-				// NOTE: each element should be build externally from this class, and just "linked" to it when required.
+				inline void setAmbient(const float ambient);
+				inline void setDiffuse(const float diffuse);
+				inline void setSpecular(const float specular);
+				inline void setColor (const FloatVector3u & color);
+				inline void setPosition(const FloatVector3u & position);
 
-				/**
-				 * @fn void setMesh(const std::shared_ptr<Mesh> & mesh)
-				 * @param[in] mesh The mesh to use.
-				 * @brief Set the mesh of the 3D object.
-				 * @throw
-				 */
-				void setMesh(const Mesh::MeshReference & mesh);
+				inline float getAmbient() const;
+				inline float getDiffuse() const;
+				inline float getSpecular() const;
+				inline const FloatVector3u & getColor() const;
+				inline const FloatVector3u & getPosition() const;
 
-				void setMaterial(const std::shared_ptr<Material> & material);
-
-				void setLight(const std::shared_ptr<Light> & light);
-
-				// NOTE: accessing one of the elements linked to this object should not modify the object itself
-				// but it should also not forbid modification on the elements.
-
-				/**
-				 * @fn std::shared_ptr<Mesh> getMesh() const
-				 * @return The mesh of the object.
-				 * @brief Get the mesh of the object.
-				 * @throw
-				 */
-				inline Mesh::MeshReference getMesh() const;
-
-				inline std::shared_ptr<Material> getMaterial() const;
-
-                void prepare();
+				void apply(Shader & shader);
 
 			protected:
-				/**
-				 * @property _mesh
-				 * @brief The mesh of the object.
-				 */
-				Mesh::MeshReference _mesh;
+				float _ambient;
+				float _diffuse;
+				float _specular;
 
-				std::shared_ptr<Material> _material;
+				FloatVector3u _color;
 
-				std::shared_ptr<Light> _light;
+				FloatVector3u _position;
 			};
-		} // namespace renderable
+		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/renderable/object.inl"
+#include "graphic/model/light.inl"
 
-#endif // OBJECT_HPP
+#endif // LIGHT_HPP
