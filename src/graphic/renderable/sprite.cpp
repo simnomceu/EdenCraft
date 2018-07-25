@@ -99,7 +99,7 @@ namespace ece
 				this->_program.link();
 				this->_program.use();
 
-				OpenGL::uniform<int, 1>(glGetUniformLocation(this->_program.getHandle(), "theTexture"), std::array<int, 1>{0});
+				this->_program.uniform("theTexture", 0);
 			}
 		} //namespace renderable
 	} // namespace graphic
