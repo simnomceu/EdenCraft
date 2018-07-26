@@ -73,7 +73,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Light() noexcept = default;
+				Light() noexcept = default;
 
 				/**
 				 * @fn Light(const Light & copy) noexcept

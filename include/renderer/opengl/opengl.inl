@@ -380,7 +380,7 @@ namespace ece
 			//	inline void OpenGL::getActiveUniformsiv(unsigned int /*program*/, GLsizei /*uniformCount*/, const unsigned int * /*uniformIndices*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 
 			template <class T, unsigned int S>
-			inline void OpenGL::uniform(const int location, const std::array<T, S> & v)
+			inline void OpenGL::uniform(const int /*location*/, const std::array<T, S> & /*v*/)
 			{
 				static_assert("No existing specialization for OpenGL::uniform.");
 			}
