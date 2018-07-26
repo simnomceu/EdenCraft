@@ -65,7 +65,8 @@ namespace ece
 				this->_mesh = mesh;
 
                 for (size_t i = 0; i < this->_mesh->size(); ++i) {
-                    this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
+                    //this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
+					this->_mesh->getVertices()[i]._color = { 1.0f, 1.0f, 1.0f };
                 }
 			}
 
@@ -91,7 +92,7 @@ namespace ece
                 layout.add<float>(3, false);
                 layout.add<float>(3, false);
                 layout.add<float>(3, false);
-                layout.add<float>(3, false);
+                layout.add<float>(2, false);
 
                 this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
                 this->_vao.addIndices(this->_mesh->getFaces(), BufferUsage::STATIC_DRAW);

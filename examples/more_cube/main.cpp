@@ -92,17 +92,18 @@ int main()
 		auto mesh = std::make_shared<ece::Mesh>(ece::makeCube(0.5f));
 
 		auto material = std::make_shared<ece::PhongMaterial>();
-		material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
-		material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
-		material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
+		//material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
+		//material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
+		//material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
 		material->setShininess(41.5);
 
 		auto light = std::make_shared<ece::Light>();
-		light->setAmbient(0.5f);
-		light->setDiffuse(0.2f);
+		light->setAmbient(0.4f);
+		light->setDiffuse(0.5f);
 		light->setSpecular(1.0f);
 		light->setPosition({ 1.2f, 1.0f, -2.0f });
-		light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+		light->setColor({ 0.9882353f, 0.83137255f, 0.2509804f });
 		// ####################
 
 		ece::RenderWindow window;
@@ -133,6 +134,14 @@ int main()
 
 		auto texture = ece::makeResource<ece::Texture2D>("Emma Watson");
 		texture->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
+
+		auto box = ece::makeResource<ece::Texture2D>("box");
+		box->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box.bmp");
+		material->setDiffuseMap(box);
+
+		auto box_specular = ece::makeResource<ece::Texture2D>("box_specular");
+		box_specular->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box_specular.bmp");
+		material->setSpecularMap(box_specular);
 
 		// ece::RenderQueue queue;
 		//std::vector<std::shared_ptr<ece::Sprite>> elements(10);
@@ -166,8 +175,8 @@ int main()
 
 				element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 
-				light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-				element->setLight(light);
+				/*light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+				element->setLight(light);*/
 
 				window.draw(**element);
 				// technique.draw(queue)

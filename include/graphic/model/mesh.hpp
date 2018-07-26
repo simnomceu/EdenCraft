@@ -43,6 +43,7 @@
 
 #include "graphic/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics/vector2u.hpp"
 #include "utility/mathematics/box3d.hpp"
 #include "core/resource/resource_handler.hpp"
 
@@ -55,6 +56,7 @@ namespace ece
 		namespace model
 		{
 			using utility::mathematics::FloatVector3u;
+			using utility::mathematics::FloatVector2u;
 			using utility::mathematics::Box3D;
 			using core::resource::ResourceHandler;
 
@@ -73,7 +75,7 @@ namespace ece
 					FloatVector3u _position;
 					FloatVector3u _color;
 					FloatVector3u _normal;
-					FloatVector3u _textureCoordinate;
+					FloatVector2u _textureCoordinate;
 				};
 
 				using Face = std::array<unsigned int, 3>;

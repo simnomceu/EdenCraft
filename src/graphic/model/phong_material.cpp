@@ -60,8 +60,8 @@ namespace ece
 					shader.uniform("material.diffuse", this->_diffuse);
 				}
 				else {
-					shader.uniform<int>("material.diffuseMap", 1);
-					this->_diffuseMap->active(1);
+					shader.uniform<int>("material.diffuseMap", 0);
+					this->_diffuseMap->active(0);
 					this->_diffuseMap->bind(TextureTarget::TEXTURE_2D);
 					this->_diffuseMap->update();
 				}
@@ -70,8 +70,8 @@ namespace ece
 					shader.uniform("material.specular", this->_specular);
 				}
 				else {
-					shader.uniform<int>("material.specularMap", 2);
-					this->_specularMap->active(2);
+					shader.uniform<int>("material.specularMap", 1);
+					this->_specularMap->active(1);
 					this->_specularMap->bind(TextureTarget::TEXTURE_2D);
 					this->_specularMap->update();
 				}

@@ -86,7 +86,6 @@ namespace ece
 
 			Application::~Application() noexcept
 			{
-				ServiceResourceLocator::getService().clear();
 			}
 
 			void Application::run()
