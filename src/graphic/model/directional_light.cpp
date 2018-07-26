@@ -38,9 +38,10 @@
 
 */
 
-#include "graphic/model/light.hpp"
+#include "graphic/model/directional_light.hpp"
 
 #include "renderer/resource/shader.hpp"
+#include "graphic/enum.hpp"
 
 namespace ece
 {
@@ -48,16 +49,11 @@ namespace ece
 	{
 		namespace model
 		{
-			Light::~Light() noexcept
+			void DirectionalLight::apply(Shader & shader)
 			{
-			}
-
-			void Light::apply(Shader & shader)
-			{
-				shader.use();
-				shader.uniform<float, 3>("light.ambient", this->_color * this->_ambient);
-				shader.uniform<float, 3>("light.diffuse", this->_color * this->_diffuse);
-				shader.uniform("light.specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
+				Light::apply(shader);
+				shader.uniform("light.type", LightType::DIRECTIONAL_LIGHT);
+				shader.uniform("light.direction", this->_direction);
 			}
 		} // namespace model
 	} // namespace graphic

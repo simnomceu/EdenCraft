@@ -38,27 +38,15 @@
 
 */
 
-#include "graphic/model/light.hpp"
-
-#include "renderer/resource/shader.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
 		namespace model
 		{
-			Light::~Light() noexcept
-			{
-			}
+			inline void DirectionalLight::setDirection(const FloatVector3u & direction) noexcept { this->_direction = direction; }
 
-			void Light::apply(Shader & shader)
-			{
-				shader.use();
-				shader.uniform<float, 3>("light.ambient", this->_color * this->_ambient);
-				shader.uniform<float, 3>("light.diffuse", this->_color * this->_diffuse);
-				shader.uniform("light.specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
-			}
+			inline const FloatVector3u & DirectionalLight::getDirection() const noexcept { return this->_direction; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

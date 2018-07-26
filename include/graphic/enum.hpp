@@ -38,27 +38,19 @@
 
 */
 
-#include "graphic/model/light.hpp"
-
-#include "renderer/resource/shader.hpp"
+#ifndef GRAPHIC_ENUM_HPP
+#define GRAPHIC_ENUM_HPP
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		enum class LightType : int
 		{
-			Light::~Light() noexcept
-			{
-			}
-
-			void Light::apply(Shader & shader)
-			{
-				shader.use();
-				shader.uniform<float, 3>("light.ambient", this->_color * this->_ambient);
-				shader.uniform<float, 3>("light.diffuse", this->_color * this->_diffuse);
-				shader.uniform("light.specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
-			}
-		} // namespace model
+			BASIC_LIGHT = 0,
+			DIRECTIONAL_LIGHT = 1
+		};
 	} // namespace graphic
 } // namespace ece
+
+#endif // GRAPHIC_ENUM_HPP

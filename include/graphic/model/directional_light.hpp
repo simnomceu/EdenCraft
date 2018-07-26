@@ -38,9 +38,11 @@
 
 */
 
-#include "graphic/model/light.hpp"
+#ifndef DIRECTIONAL_LIGHT_HPP
+#define DIRECTIONAL_LIGHT_HPP
 
-#include "renderer/resource/shader.hpp"
+#include "graphic/config.hpp"
+#include "graphic/model/light.hpp"
 
 namespace ece
 {
@@ -48,17 +50,73 @@ namespace ece
 	{
 		namespace model
 		{
-			Light::~Light() noexcept
+			/**
+			 * @class DirectionalLight
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API DirectionalLight: public Light
 			{
-			}
+			public:
+				/**
+				 * @fn constexpr DirectionalLight() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				DirectionalLight() noexcept = default;
 
-			void Light::apply(Shader & shader)
-			{
-				shader.use();
-				shader.uniform<float, 3>("light.ambient", this->_color * this->_ambient);
-				shader.uniform<float, 3>("light.diffuse", this->_color * this->_diffuse);
-				shader.uniform("light.specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
-			}
+				/**
+				 * @fn DirectionalLight(const DirectionalLight & copy) noexcept
+				 * @param[in] copy The DirectionalLight to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				DirectionalLight(const DirectionalLight & copy) noexcept = default;
+
+				/**
+				 * @fn DirectionalLight(DirectionalLight && move) noexcept
+				 * @param[in] move The DirectionalLight to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				DirectionalLight(DirectionalLight && move) noexcept = default;
+
+				/**
+				 * @fn ~DirectionalLight() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~DirectionalLight() noexcept = default;
+
+				/**
+				 * @fn DirectionalLight & operator=(const DirectionalLight & copy) noexcept
+				 * @param[in] copy The DirectionalLight to copy from.
+				 * @return The DirectionalLight copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				DirectionalLight & operator=(const DirectionalLight & copy) noexcept = default;
+
+				/**
+				 * @fn DirectionalLight & operator=(DirectionalLight && move) noexcept
+				 * @param[in] move The DirectionalLight to move.
+				 * @return The DirectionalLight moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				DirectionalLight & operator=(DirectionalLight && move) noexcept = default;
+
+				inline void setDirection(const FloatVector3u & direction) noexcept;
+				inline const FloatVector3u & getDirection() const noexcept;
+
+				virtual void apply(Shader & shader) override;
+
+			protected:
+				FloatVector3u _direction;
+			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#include "graphic/model/directional_light.inl"
+
+#endif // DIRECTIONAL_LIGHT_HPP

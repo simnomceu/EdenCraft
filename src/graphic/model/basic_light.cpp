@@ -41,6 +41,7 @@
 #include "graphic/model/basic_light.hpp"
 
 #include "renderer/resource/shader.hpp"
+#include "graphic/enum.hpp"
 
 namespace ece
 {
@@ -51,6 +52,7 @@ namespace ece
 			void BasicLight::apply(Shader & shader)
 			{
 				Light::apply(shader);
+				shader.uniform("light.type", LightType::BASIC_LIGHT);
 				shader.uniform("light.position", this->_position);
 			}
 		} // namespace model

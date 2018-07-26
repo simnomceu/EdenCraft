@@ -52,7 +52,7 @@
 #include "utility/time.hpp"
 #include "graphic/model/primitives.hpp"
 #include "graphic/model/phong_material.hpp"
-#include "graphic/model/basic_light.hpp"
+#include "graphic/model/directional_light.hpp"
 
 #include <ctime>
 #include <string>
@@ -68,7 +68,7 @@ namespace ece
 	using graphic::model::OBJLoader;
     using graphic::model::Mesh;
 	using graphic::model::PhongMaterial;
-	using graphic::model::BasicLight;
+	using graphic::model::DirectionalLight;
     using graphic::renderable::Object;
     using utility::mathematics::FloatVector3u;
 	using core::resource::makeResource;
@@ -97,11 +97,11 @@ int main()
 		//material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
 		material->setShininess(41.5);
 
-		auto light = std::make_shared<ece::BasicLight>();
+		auto light = std::make_shared<ece::DirectionalLight>();
 		light->setAmbient(0.4f);
 		light->setDiffuse(0.5f);
 		light->setSpecular(1.0f);
-		light->setPosition({ 1.2f, 1.0f, -2.0f });
+		light->setDirection({ 0.0f, -1.0f, 0.0f });
 		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
 		light->setColor({ 0.9882353f, 0.83137255f, 0.2509804f });
 		// ####################

@@ -16,11 +16,16 @@ struct Material
 
 struct Light
 {
+    int type;
+
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
 
+    /* Basic Light */
     vec3 position;
+    /* Directional Light */
+    vec3 direction;
 };
 
 in vec3 color;
@@ -33,8 +38,16 @@ out vec4 frag_colour;
 uniform Material material;
 uniform Light light;
 
+const int BASIC_LIGHT = 0;
+const int DIRECTIONAL_LIGHT = 1;
+
 void main() {
-	vec3 lightDir = normalize(light.position - fragPos);
+	vec3 lightDir;
+    if (light.type == BASIC_LIGHT) {
+        lightDir = normalize(light.position - fragPos);
+    } else if (light.type == DIRECTIONAL_LIGHT) {
+        lightDir == normalize(-light.direction);
+    }
 
 	float diff = max(dot(normalize(normal), lightDir), 0.0);
 
