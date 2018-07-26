@@ -327,7 +327,7 @@ namespace ece
 				//		static inline void polygonOffset(float factor, float units);
 				//		static inline void pixelStoref(GLenum pname, float param);
 				//		static inline void pixelStorei(GLenum pname, int param);
-				//		static inline void activeTexture(GLenum texture);
+				static inline void activeTexture(const unsigned int texture);
 				//		static inline void texImage3D(GLenum target, int level, int internalFormat, GLsizei width, GLsizei height, GLsizei depth, int border, GLenum format, GLenum type, const void * data);
 				static inline void texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data);
 				//		static inline void texImage1D(GLenum target, int level, int internalFormat, GLsizei width, int border, GLenum format, GLenum type, const void * data);
@@ -800,6 +800,7 @@ namespace ece
 			template<> inline DataType OpenGL::dataType<float>();
 			template<> inline DataType OpenGL::dataType<double>();
 
+			template<> inline void OpenGL::uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
 			template<> inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v);
 			template<> inline void OpenGL::uniform<float, 2>(const int location, const std::array<float, 2> & v);
 			template<> inline void OpenGL::uniform<float, 3>(const int location, const std::array<float, 3> & v);

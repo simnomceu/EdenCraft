@@ -6,6 +6,12 @@ struct Material
     vec3 diffuse;
     vec3 specular;
     float shininess;
+
+    bool diffuseMapEnabled;
+    bool specularMapEnabled;
+
+    sampler2D diffuseMap;
+    sampler2D specularMap;
 };
 
 struct Light
@@ -20,6 +26,7 @@ struct Light
 in vec3 color;
 in vec3 normal;
 in vec3 fragPos;
+in vec2 textCoord;
 
 out vec4 frag_colour;
 
@@ -34,11 +41,24 @@ void main() {
 	vec3 viewPos = vec3(0.0, 0.0, 10.0);
 	vec3 viewDir = normalize(viewPos - fragPos);
 	vec3 reflectDir = reflect(-lightDir, normalize(normal));
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+	float spec = pow(max(dot(reflectDir, viewDir), 0.0), material.shininess);
 
-	vec3 ambient = light.ambient * material.ambient;
-	vec3 diffuse = light.diffuse * (diff * material.diffuse);
-	vec3 specular = light.specular * (spec * material.specular);
+    vec3 ambient, diffuse, specular;
+    if (material.diffuseMapEnabled) {
+        ambient = light.ambient * vec3(texture(material.diffuseMap, textCoord));
+        diffuse = light.diffuse * (diff * vec3(texture(material.diffuseMap, textCoord)));
+    }
+    else {
+       ambient = light.ambient * material.ambient;
+       diffuse = light.diffuse * (diff * material.diffuse);
+    }
+
+    if (material.specularMapEnabled) {
+        specular = light.specular * (spec * vec3(texture(material.specularMap, textCoord)));
+    }
+    else {
+        specular = light.specular * (spec * material.specular);
+    }
 
 	vec3 result = (ambient + diffuse + specular) * color;
 	frag_colour = vec4(result, 1.0);

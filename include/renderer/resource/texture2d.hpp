@@ -178,6 +178,8 @@ namespace ece
 				 */
 				inline void bind(const TextureTarget target);
 
+				inline void active(const unsigned int channel);
+
 				template <typename T> void setParameter(const TextureParameter name, const T value);
 				template <typename T> void setParameter(const TextureParameter name, const std::vector<T> & value);
 

@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "graphic/model/material.hpp"
 #include "utility/mathematics/vector3u.hpp"
+#include "renderer/resource/texture2d.hpp"
 
 namespace ece
 {
@@ -52,6 +53,7 @@ namespace ece
 		namespace model
 		{
 			using utility::mathematics::FloatVector3u;
+			using renderer::resource::Texture2D;
 
 			/**
 			 * @class PhongMaterial
@@ -114,17 +116,24 @@ namespace ece
 				inline void setDiffuse(const FloatVector3u & diffuse);
 				inline void setSpecular(const FloatVector3u & specular);
 				inline void setShininess(const float shininess);
+				inline void setDiffuseMap(const Texture2D::Texture2DReference & texture);
+				inline void setSpecularMap(const Texture2D::Texture2DReference & texture);
 
 				inline const FloatVector3u & getAmbient() const;
 				inline const FloatVector3u & getDiffuse() const;
 				inline const FloatVector3u & getSpecular() const;
 				inline float getShininess() const;
+				inline Texture2D::Texture2DReference getDiffuseMap() const;
+				inline Texture2D::Texture2DReference getSpecularMap() const;
 
 			private:
 				FloatVector3u _ambient;
 				FloatVector3u _diffuse;
 				FloatVector3u _specular;
 				float _shininess;
+
+				Texture2D::Texture2DReference _diffuseMap;
+				Texture2D::Texture2DReference _specularMap;
 			};
 		} // namespace model
 	} // namespace graphic

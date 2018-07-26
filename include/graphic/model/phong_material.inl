@@ -52,6 +52,10 @@ namespace ece
 			
 			inline void PhongMaterial::setShininess(const float shininess) { this->_shininess = shininess; }
 
+			inline void PhongMaterial::setDiffuseMap(const Texture2D::Texture2DReference & texture) { this->_diffuseMap = texture; }
+
+			inline void PhongMaterial::setSpecularMap(const Texture2D::Texture2DReference & texture) { this->_specularMap = texture; }
+
 			inline const FloatVector3u & PhongMaterial::getAmbient() const { return this->_ambient; }
 			
 			inline const FloatVector3u & PhongMaterial::getDiffuse() const { return this->_diffuse; }
@@ -59,6 +63,10 @@ namespace ece
 			inline const FloatVector3u & PhongMaterial::getSpecular() const { return this->_specular; }
 			
 			inline float PhongMaterial::getShininess() const { return this->_shininess; }
+
+			inline Texture2D::Texture2DReference PhongMaterial::getDiffuseMap() const { return this->_diffuseMap; }
+			
+			inline Texture2D::Texture2DReference PhongMaterial::getSpecularMap() const { return this->_specularMap; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

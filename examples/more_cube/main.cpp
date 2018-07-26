@@ -89,13 +89,13 @@ int main()
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
 		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
-		auto mesh = std::make_shared<ece::Mesh>(ece::makeCube(1.0f));
+		auto mesh = std::make_shared<ece::Mesh>(ece::makeCube(0.5f));
 
 		auto material = std::make_shared<ece::PhongMaterial>();
 		material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
 		material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
 		material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
-		material->setShininess(128.0f);
+		material->setShininess(41.5);
 
 		auto light = std::make_shared<ece::Light>();
 		light->setAmbient(0.5f);

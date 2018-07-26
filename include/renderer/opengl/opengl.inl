@@ -385,6 +385,12 @@ namespace ece
 				static_assert("No existing specialization for OpenGL::uniform.");
 			}
 
+			template<>
+			inline void OpenGL::uniform<bool, 1>(const int location, const std::array<bool, 1> & v)
+			{
+				checkErrors(glUniform1i(location, static_cast<int>(v[0])));
+			}
+
 			template <>
 			inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v)
 			{
@@ -619,7 +625,15 @@ namespace ece
 			//	inline void OpenGL::polygonOffset(float /*factor*/, float /*units*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pixelStoref(GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pixelStorei(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::activeTexture(GLenum /*texture*/) { static_assert(false, "Not implemented yet."); }
+
+			inline void OpenGL::activeTexture(const unsigned int texture)
+			{
+				if (static_cast<int>(texture) >= OpenGL::getInteger(Parameter::MAX_COMBINED_TEXTURE_IMAGE_UNITS)[0]) {
+					throw std::runtime_error("This texture unit is not available ont this platform.");
+				}
+				checkErrors(glActiveTexture(static_cast<GLenum>(TextureUnit::TEXTURE0) + texture));
+			}
+
 			//	inline void OpenGL::texImage3D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 
 			inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data)
@@ -803,7 +817,7 @@ namespace ece
 
 			inline std::vector<int> OpenGL::getInteger(const Parameter parameter)
 			{
-				std::vector<int> tmp;
+				std::vector<int> tmp = { static_cast<int>(parameter) };
 				checkErrors(glGetIntegerv(static_cast<GLenum>(parameter), tmp.data()));
 				return tmp;
 			}

@@ -68,6 +68,7 @@ namespace ece
 					this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
 				}
 
+				this->_texture->active(0);
 				this->_texture->bind(TextureTarget::TEXTURE_2D);
 				this->_texture->update();
 

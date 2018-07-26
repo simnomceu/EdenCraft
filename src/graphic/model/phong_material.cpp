@@ -48,11 +48,34 @@ namespace ece
 	{
 		namespace model
 		{
+			using renderer::TextureTarget;
+
 			void PhongMaterial::apply(Shader & shader)
 			{
-				shader.uniform("material.ambient", this->_ambient);
-				shader.uniform("material.diffuse", this->_diffuse);
-				shader.uniform("material.specular", this->_specular);
+				shader.uniform<bool>("material.diffuseMapEnabled", !this->_diffuseMap.isDirty());
+				shader.uniform<bool>("material.specularMapEnabled", !this->_specularMap.isDirty());
+
+				if (this->_diffuseMap.isDirty()) {
+					shader.uniform("material.ambient", this->_ambient);
+					shader.uniform("material.diffuse", this->_diffuse);
+				}
+				else {
+					shader.uniform<int>("material.diffuseMap", 1);
+					this->_diffuseMap->active(1);
+					this->_diffuseMap->bind(TextureTarget::TEXTURE_2D);
+					this->_diffuseMap->update();
+				}
+
+				if (this->_specularMap.isDirty()) {
+					shader.uniform("material.specular", this->_specular);
+				}
+				else {
+					shader.uniform<int>("material.specularMap", 2);
+					this->_specularMap->active(2);
+					this->_specularMap->bind(TextureTarget::TEXTURE_2D);
+					this->_specularMap->update();
+				}
+
 				shader.uniform("material.shininess", this->_shininess);
 			}
 		} // namespace model
