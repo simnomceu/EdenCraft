@@ -48,7 +48,8 @@ namespace ece
 		enum class LightType : int
 		{
 			BASIC_LIGHT = 0,
-			DIRECTIONAL_LIGHT = 1
+			DIRECTIONAL_LIGHT = 1,
+			POINT_LIGHT = 2
 		};
 	} // namespace graphic
 } // namespace ece

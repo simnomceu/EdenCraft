@@ -44,9 +44,9 @@ namespace ece
 	{
 		namespace model
 		{
-			inline void BasicLight::setPosition(const FloatVector3u & position) { this->_position = position; }
+			inline void BasicLight::setPosition(const FloatVector3u & position) noexcept { this->_position = position; }
 
-			inline const FloatVector3u & BasicLight::getPosition() const { return this->_position; }
+			inline const FloatVector3u & BasicLight::getPosition() const noexcept { return this->_position; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

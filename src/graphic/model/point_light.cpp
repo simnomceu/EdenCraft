@@ -38,11 +38,10 @@
 
 */
 
-#ifndef BASIC_LIGHT_HPP
-#define BASIC_LIGHT_HPP
+#include "graphic/model/point_light.hpp"
 
-#include "graphic/config.hpp"
-#include "graphic/model/light.hpp"
+#include "renderer/resource/shader.hpp"
+#include "graphic/enum.hpp"
 
 namespace ece
 {
@@ -50,74 +49,15 @@ namespace ece
 	{
 		namespace model
 		{
-			/**
-			 * @class BasicLight
-			 * @brief
-			 */
-			class ECE_GRAPHIC_API BasicLight: public Light
+			void PointLight::apply(Shader & shader)
 			{
-			public:
-				/**
-				 * @fn constexpr BasicLight() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				BasicLight() noexcept = default;
-
-				/**
-				 * @fn BasicLight(const BasicLight & copy) noexcept
-				 * @param[in] copy The BasicLight to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				BasicLight(const BasicLight & copy) noexcept = default;
-
-				/**
-				 * @fn BasicLight(BasicLight && move) noexcept
-				 * @param[in] move The BasicLight to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				BasicLight(BasicLight && move) noexcept = default;
-
-				/**
-				 * @fn ~BasicLight() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~BasicLight() noexcept = default;
-
-				/**
-				 * @fn BasicLight & operator=(const BasicLight & copy) noexcept
-				 * @param[in] copy The BasicLight to copy from.
-				 * @return The BasicLight copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				BasicLight & operator=(const BasicLight & copy) noexcept = default;
-
-				/**
-				 * @fn BasicLight & operator=(BasicLight && move) noexcept
-				 * @param[in] move The BasicLight to move.
-				 * @return The BasicLight moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				BasicLight & operator=(BasicLight && move) noexcept = default;
-
-				inline void setPosition(const FloatVector3u & position) noexcept;
-				inline const FloatVector3u & getPosition() const noexcept;
-
-				virtual void apply(Shader & shader) override;
-
-			protected:
-				FloatVector3u _position;
-			};
-
+				Light::apply(shader);
+				shader.uniform("light.type", LightType::POINT_LIGHT);
+				shader.uniform("light.position", this->_position);
+				shader.uniform("light.constant", this->_constant);
+				shader.uniform("light.linear", this->_linear);
+				shader.uniform("light.quadratic", this->_quadratic);
+			}
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
-
-#include "graphic/model/basic_light.inl"
-
-#endif // BASIC_LIGHT_HPP

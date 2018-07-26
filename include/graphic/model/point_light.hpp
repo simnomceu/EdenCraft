@@ -38,8 +38,8 @@
 
 */
 
-#ifndef BASIC_LIGHT_HPP
-#define BASIC_LIGHT_HPP
+#ifndef POINT_LIGHT_HPP
+#define POINT_LIGHT_HPP
 
 #include "graphic/config.hpp"
 #include "graphic/model/light.hpp"
@@ -51,73 +51,83 @@ namespace ece
 		namespace model
 		{
 			/**
-			 * @class BasicLight
+			 * @class PointLight
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API BasicLight: public Light
+			class ECE_GRAPHIC_API PointLight: public Light
 			{
 			public:
 				/**
-				 * @fn constexpr BasicLight() noexcept
+				 * @fn constexpr PointLight() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				BasicLight() noexcept = default;
+				PointLight() noexcept = default;
 
 				/**
-				 * @fn BasicLight(const BasicLight & copy) noexcept
-				 * @param[in] copy The BasicLight to copy from.
+				 * @fn PointLight(const PointLight & copy) noexcept
+				 * @param[in] copy The PointLight to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				BasicLight(const BasicLight & copy) noexcept = default;
+				PointLight(const PointLight & copy) noexcept = default;
 
 				/**
-				 * @fn BasicLight(BasicLight && move) noexcept
-				 * @param[in] move The BasicLight to move.
+				 * @fn PointLight(PointLight && move) noexcept
+				 * @param[in] move The PointLight to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				BasicLight(BasicLight && move) noexcept = default;
+				PointLight(PointLight && move) noexcept = default;
 
 				/**
-				 * @fn ~BasicLight() noexcept
+				 * @fn ~PointLight() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BasicLight() noexcept = default;
+				~PointLight() noexcept = default;
 
 				/**
-				 * @fn BasicLight & operator=(const BasicLight & copy) noexcept
-				 * @param[in] copy The BasicLight to copy from.
-				 * @return The BasicLight copied.
+				 * @fn PointLight & operator=(const PointLight & copy) noexcept
+				 * @param[in] copy The PointLight to copy from.
+				 * @return The PointLight copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				BasicLight & operator=(const BasicLight & copy) noexcept = default;
+				PointLight & operator=(const PointLight & copy) noexcept = default;
 
 				/**
-				 * @fn BasicLight & operator=(BasicLight && move) noexcept
-				 * @param[in] move The BasicLight to move.
-				 * @return The BasicLight moved.
+				 * @fn PointLight & operator=(PointLight && move) noexcept
+				 * @param[in] move The PointLight to move.
+				 * @return The PointLight moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				BasicLight & operator=(BasicLight && move) noexcept = default;
+				PointLight & operator=(PointLight && move) noexcept = default;
 
 				inline void setPosition(const FloatVector3u & position) noexcept;
+				inline void setConstant(const float constant) noexcept;
+				inline void setLinear(const float linear) noexcept;
+				inline void setQuadratic(const float quadratic) noexcept;
+
 				inline const FloatVector3u & getPosition() const noexcept;
+				inline float getConstant() const noexcept;
+				inline float getLinear() const noexcept;
+				inline float getQuadratic() const noexcept;
 
 				virtual void apply(Shader & shader) override;
 
 			protected:
 				FloatVector3u _position;
-			};
 
+				float _constant;
+				float _linear;
+				float _quadratic;
+			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/basic_light.inl"
+#include "graphic/model/point_light.inl"
 
-#endif // BASIC_LIGHT_HPP
+#endif // POINT_LIGHT_HPP
