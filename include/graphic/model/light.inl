@@ -52,8 +52,6 @@ namespace ece
 
 			inline void Light::setColor(const FloatVector3u & color) { this->_color = color; }
 
-			inline void Light::setPosition(const FloatVector3u & position) { this->_position = position; }
-
 			inline float Light::getAmbient() const { return this->_ambient; }
 
 			inline float Light::getDiffuse() const { return this->_diffuse; }
@@ -61,8 +59,6 @@ namespace ece
 			inline float Light::getSpecular() const { return this->_specular; }
 
 			inline const FloatVector3u & Light::getColor() const { return this->_color; }
-
-			inline const FloatVector3u & Light::getPosition() const { return this->_position; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

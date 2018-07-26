@@ -38,9 +38,11 @@
 
 */
 
-#include "graphic/model/light.hpp"
+#ifndef BASIC_LIGHT_HPP
+#define BASIC_LIGHT_HPP
 
-#include "renderer/resource/shader.hpp"
+#include "graphic/config.hpp"
+#include "graphic/model/light.hpp"
 
 namespace ece
 {
@@ -48,16 +50,74 @@ namespace ece
 	{
 		namespace model
 		{
-			Light::~Light() noexcept
+			/**
+			 * @class BasicLight
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API BasicLight: public Light
 			{
-			}
+			public:
+				/**
+				 * @fn constexpr BasicLight() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				BasicLight() noexcept = default;
 
-			void Light::apply(Shader & shader)
-			{
-				shader.uniform<float, 3>("light.ambient", this->_color * this->_ambient);
-				shader.uniform<float, 3>("light.diffuse", this->_color * this->_diffuse);
-				shader.uniform("light.specular", FloatVector3u{this->_specular, this->_specular, this->_specular });
-			}
+				/**
+				 * @fn BasicLight(const BasicLight & copy) noexcept
+				 * @param[in] copy The BasicLight to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				BasicLight(const BasicLight & copy) noexcept = default;
+
+				/**
+				 * @fn BasicLight(BasicLight && move) noexcept
+				 * @param[in] move The BasicLight to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				BasicLight(BasicLight && move) noexcept = default;
+
+				/**
+				 * @fn ~BasicLight() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~BasicLight() noexcept = default;
+
+				/**
+				 * @fn BasicLight & operator=(const BasicLight & copy) noexcept
+				 * @param[in] copy The BasicLight to copy from.
+				 * @return The BasicLight copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				BasicLight & operator=(const BasicLight & copy) noexcept = default;
+
+				/**
+				 * @fn BasicLight & operator=(BasicLight && move) noexcept
+				 * @param[in] move The BasicLight to move.
+				 * @return The BasicLight moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				BasicLight & operator=(BasicLight && move) noexcept = default;
+
+				inline void setPosition(const FloatVector3u & position);
+				inline const FloatVector3u & getPosition() const;
+
+				virtual void apply(Shader & shader) override;
+
+			protected:
+				FloatVector3u _position;
+			};
+
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#include "graphic/model/basic_light.inl"
+
+#endif // BASIC_LIGHT_HPP

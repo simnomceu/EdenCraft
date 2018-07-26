@@ -38,7 +38,7 @@
 
 */
 
-#include "graphic/model/light.hpp"
+#include "graphic/model/basic_light.hpp"
 
 #include "renderer/resource/shader.hpp"
 
@@ -48,15 +48,10 @@ namespace ece
 	{
 		namespace model
 		{
-			Light::~Light() noexcept
+			void BasicLight::apply(Shader & shader)
 			{
-			}
-
-			void Light::apply(Shader & shader)
-			{
-				shader.uniform<float, 3>("light.ambient", this->_color * this->_ambient);
-				shader.uniform<float, 3>("light.diffuse", this->_color * this->_diffuse);
-				shader.uniform("light.specular", FloatVector3u{this->_specular, this->_specular, this->_specular });
+				Light::apply(shader);
+				shader.uniform("light.position", this->_position);
 			}
 		} // namespace model
 	} // namespace graphic

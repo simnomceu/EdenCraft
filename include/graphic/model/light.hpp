@@ -96,7 +96,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Light() noexcept = default;
+				virtual ~Light() noexcept = 0;
 
 				/**
 				 * @fn Light & operator=(const Light & copy) noexcept
@@ -120,15 +120,13 @@ namespace ece
 				inline void setDiffuse(const float diffuse);
 				inline void setSpecular(const float specular);
 				inline void setColor (const FloatVector3u & color);
-				inline void setPosition(const FloatVector3u & position);
 
 				inline float getAmbient() const;
 				inline float getDiffuse() const;
 				inline float getSpecular() const;
 				inline const FloatVector3u & getColor() const;
-				inline const FloatVector3u & getPosition() const;
 
-				void apply(Shader & shader);
+				virtual void apply(Shader & shader);
 
 			protected:
 				float _ambient;
@@ -136,8 +134,6 @@ namespace ece
 				float _specular;
 
 				FloatVector3u _color;
-
-				FloatVector3u _position;
 			};
 		} // namespace model
 	} // namespace graphic
