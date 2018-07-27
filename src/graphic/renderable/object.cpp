@@ -104,10 +104,10 @@ namespace ece
                 ShaderStage fsSource, vsSource;
                 fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../resource/shader/phong.frag");
                 if (this->isInstancingEnabled()) {
-                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube_instancing.vert");
+                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../resource/shader/phong_instance.vert");
                 }
                 else {
-                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube.vert");
+                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../resource/shader/phong.vert");
                 }
 
                 this->_program.setStage(fsSource);

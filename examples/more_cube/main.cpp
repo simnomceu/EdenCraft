@@ -95,22 +95,22 @@ int main()
 		//material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
 		//material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
 		//material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
-		material->setShininess(32.0f);
+		material->setShininess(41.5f);
 
 		auto light = std::make_shared<ece::SpotLight>();
-		light->setAmbient(0.1f);
+		light->setAmbient(0.2f);
 		light->setDiffuse(0.8f);
 		light->setSpecular(1.0f);
-		light->setPosition({ 0.0f, 0.0f, 10.0f });
+		light->setPosition({ 0.0f, 0.0f, 3.0f });
 		light->setDirection({ 0.0f, 0.0f, -1.0f });
-		light->setInnerCutoff(12.5f);
-		light->setOuterCutoff(17.5f);
+		light->setInnerCutoff(10.0f);
+		light->setOuterCutoff(12.5f);
 		light->setConstant(1.0f);
-		light->setLinear(0.09f);
-		light->setQuadratic(0.032f);
+		light->setLinear(1.0f);
+		light->setQuadratic(2.4f);
 
 		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-		light->setColor({ 0.9882353f, 0.83137255f, 0.2509804f });
+		light->setColor({ 1.0f, 1.0f, 1.0f });
 		// ####################
 
 		ece::RenderWindow window;
