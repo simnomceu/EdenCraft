@@ -103,8 +103,8 @@ int main()
 		light->setSpecular(1.0f);
 		light->setPosition({ 0.0f, 0.0f, 10.0f });
 		light->setDirection({ 0.0f, 0.0f, -10.0f });
-		light->setInnerCutoff(0.5f);
-		light->setOuterCutoff(1.5f);
+		light->setInnerCutoff(12.5f);
+		light->setOuterCutoff(17.5f);
 		light->setConstant(1.0f);
 		light->setLinear(0.09f);
 		light->setQuadratic(0.032f);
@@ -159,13 +159,13 @@ int main()
         element->setMesh(mesh);
 		element->setMaterial(material);
 		element->setLight(light);
-        /*for (size_t i = 0; i < 100; ++i) {
+        for (size_t i = 0; i < 100; ++i) {
             for (size_t j = 0; j < 100; ++j) {
                 for (size_t k = 0; k < 100; ++k) {
-                    element->addInstance(ece::FloatVector3u{-50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f});
+                    element->addInstance(ece::translate(ece::FloatVector3u{-50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f}));
                 }
             }
-        }*/
+        }
         element->prepare();
 //		element->applyTransformation(ece::translate(cubePositions[i]));
 		element->setCamera(camera.getView(), camera.getProjection());
@@ -177,18 +177,18 @@ int main()
 		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
 		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
 			window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
-			if (fps.isReadyToUpdate()) {
+			//if (fps.isReadyToUpdate()) { // BIG BUG HERE !!!
 				window.clear(ece::BLACK);
 
 				element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 
 				//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-				element->setLight(light);
+				//element->setLight(light);
 
 				window.draw(**element);
 				// technique.draw(queue)
 				window.display();
-			}
+			//}
 
 			if (window.pollEvent(event)) {
 			}

@@ -99,9 +99,12 @@ namespace ece
 
                 if (this->isInstancingEnabled()) {
                     BufferLayout layoutInstancing;
-                    layoutInstancing.add<float>(3, false);
+                    layoutInstancing.add<float>(4, false);
+					layoutInstancing.add<float>(4, false);
+					layoutInstancing.add<float>(4, false);
+					layoutInstancing.add<float>(4, false);
 
-                    this->_vao.sendData(layoutInstancing, BufferType::ARRAY_BUFFER, this->_offsets, BufferUsage::STATIC_DRAW, true);
+                    this->_vao.sendData(layoutInstancing, BufferType::ARRAY_BUFFER, this->_instances, BufferUsage::STATIC_DRAW, true);
                 }
 
                 ShaderStage fsSource, vsSource;
