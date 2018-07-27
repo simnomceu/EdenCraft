@@ -35,7 +35,6 @@ struct Light
     float outerCutoff;
 };
 
-in vec3 color;
 in vec3 normal;
 in vec3 fragPos;
 in vec2 textCoord;
@@ -99,7 +98,7 @@ void main() {
         specular *= intensity;
     }
 
-	vec3 result = (ambient + diffuse + specular) * color;
+	vec3 result = (ambient + diffuse + specular);
 	frag_colour = vec4(result, 1.0);
 
     frag_colour = clamp(frag_colour, 0.0, 1.0);

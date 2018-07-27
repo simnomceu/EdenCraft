@@ -102,7 +102,7 @@ int main()
 		light->setDiffuse(0.8f);
 		light->setSpecular(1.0f);
 		light->setPosition({ 0.0f, 0.0f, 10.0f });
-		light->setDirection({ 0.0f, 0.0f, -10.0f });
+		light->setDirection({ 0.0f, 0.0f, -1.0f });
 		light->setInnerCutoff(12.5f);
 		light->setOuterCutoff(17.5f);
 		light->setConstant(1.0f);

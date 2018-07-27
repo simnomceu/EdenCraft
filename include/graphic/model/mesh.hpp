@@ -73,7 +73,6 @@ namespace ece
 				struct Vertex
 				{
 					FloatVector3u _position;
-					FloatVector3u _color;
 					FloatVector3u _normal;
 					FloatVector2u _textureCoordinate;
 				};

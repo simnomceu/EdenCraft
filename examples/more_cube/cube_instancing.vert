@@ -1,12 +1,10 @@
 #version 450
 
 layout(location = 0) in vec3 vertex_position;
-layout(location = 1) in vec3 inColor;
-layout(location = 2) in vec3 inNormal;
-layout(location = 3) in vec2 inTextCoord;
-layout(location = 4) in mat4 instance;
+layout(location = 1) in vec3 inNormal;
+layout(location = 2) in vec2 inTextCoord;
+layout(location = 3) in mat4 instance;
 
-out vec3 color;
 out vec3 normal;
 out vec3 fragPos;
 out vec2 textCoord;
@@ -16,7 +14,6 @@ uniform mat4 view;
 uniform mat4 projection;
 
 void main() {
-	color = inColor;
 	textCoord = inTextCoord;
 
 	mat4 world = model * instance;

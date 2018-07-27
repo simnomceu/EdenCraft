@@ -60,8 +60,8 @@ namespace ece
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
-				mesh.addVertex({ { 0.0f, 0.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex({ { 0.0f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				Mesh::Vertex vertex = { { radius, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
@@ -80,7 +80,7 @@ namespace ece
 			{
 				Mesh mesh;
 
-				mesh.addVertex({ { 0.0f, 1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex({ { 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f } });
 
 				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
 					const float polar = static_cast<float>(PI) * (i + 1) / numberOfVertices;
@@ -93,10 +93,10 @@ namespace ece
 						const float x = sp * ca;
 						const float y = cp;
 						const float z = sp * sa;
-						mesh.addVertex({ { x * radius, y * radius, z * radius },{ 1.0f, 1.0f, 1.0f },{ x, y, z },{ 0.0f, 0.0f } });
+						mesh.addVertex({ { x * radius, y * radius, z * radius },{ x, y, z },{ 0.0f, 0.0f } });
 					}
 				}
-				mesh.addVertex({ { 0.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex({ { 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, 0.0f } });
 
 				for (size_t i = 0; i < numberOfVertices; ++i) {
 					const unsigned int a = i + 1;
@@ -133,8 +133,8 @@ namespace ece
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
-				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
@@ -146,8 +146,8 @@ namespace ece
 
 				mesh.addFace({ 0, static_cast<unsigned int>(numberOfVertices), 1 });
 
-				mesh.addVertex({ { 0.0f, 0.0f, -height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				vertex = { { radius, 0.0f, -height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex({ { 0.0f, 0.0f, -height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				vertex = { { radius, 0.0f, -height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
@@ -187,7 +187,7 @@ namespace ece
 					const auto shift = startPos - center;
 					const auto ringRotation = translate({ -shift[0], -shift[1], -shift[2] }) * rotate({ axis[0], axis[1], axis[2] }, -ringAngle) * translate({ shift[0], shift[1], shift[2] });
 
-					Mesh::Vertex vertex = { { startPos[0], startPos[1], startPos[2] }, { 1.0f, 1.0f, 1.0f }, { startPos[0], startPos[1], startPos[2] }, { 0.0f, 0.0f } };
+					Mesh::Vertex vertex = { { startPos[0], startPos[1], startPos[2] }, { startPos[0], startPos[1], startPos[2] }, { 0.0f, 0.0f } };
 
 					for (size_t j = 0; j < numberOfSlices; ++j) {
 						mesh.addVertex(vertex);
@@ -226,8 +226,8 @@ namespace ece
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
-				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
@@ -239,7 +239,7 @@ namespace ece
 
 				mesh.addFace({ 0, static_cast<unsigned int>(numberOfVertices - 1), 1 });
 
-				mesh.addVertex({ { 0.0f, 0.0f, height / -2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex({ { 0.0f, 0.0f, height / -2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
 					mesh.addFace({ static_cast<unsigned int>(numberOfVertices + 1), static_cast<unsigned int>(i - 1), static_cast<unsigned int>(i) });
@@ -254,10 +254,10 @@ namespace ece
 			{
 				Mesh mesh;
 
-				mesh.addVertex({ { -size / 2.0f, -size/2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 0.0f } });
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 1.0f } });
+				mesh.addVertex({ { -size / 2.0f, -size/2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 1.0f } });
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 0.0f } });
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 1.0f } });
 
 				mesh.addFace({ 0, 1, 2 });
 				mesh.addFace({ 2, 3, 0 });
@@ -269,35 +269,35 @@ namespace ece
 			{
 				Mesh mesh;
 
-				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, -1.0f, 1.0f },{ 0.0f, 0.0f } }); // 0
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, 1.0f },{ 1.0f, 0.0f } }); // 1
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f } }); // 2
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f } }); // 3
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ -1.0f, -1.0f, 1.0f },{ 0.0f, 0.0f } }); // 0
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, -1.0f, 1.0f },{ 1.0f, 0.0f } }); // 1
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f } }); // 2
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ -1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f } }); // 3
 
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, 1.0f },{ 0.0f, 0.0f } }); // 4
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 5
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 6
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f } }); // 7
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, -1.0f, 1.0f },{ 0.0f, 0.0f } }); // 4
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 5
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 6
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f } }); // 7
 
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 8
-				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 9
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 10
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 11
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 8
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ -1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 9
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ -1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 10
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 11
 
-				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 12
-				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, -1.0f, 1.0f },{ 1.0f, 0.0f } }); // 13
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f } }); // 14
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 15
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ -1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 12
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ -1.0f, -1.0f, 1.0f },{ 1.0f, 0.0f } }); // 13
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ -1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f } }); // 14
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ -1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 15
 
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f } }); // 16
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 0.0f } }); // 17
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 18
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 19
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ -1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f } }); // 16
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 0.0f } }); // 17
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 18
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ -1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 19
 
-				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 20
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 21
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, 1.0f },{ 1.0f, 1.0f } }); // 22
-				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, -1.0f, 1.0f },{ 0.0f, 1.0f } }); // 23
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ -1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 20
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 21
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, -1.0f, 1.0f },{ 1.0f, 1.0f } }); // 22
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ -1.0f, -1.0f, 1.0f },{ 0.0f, 1.0f } }); // 23
 
 				mesh.addFace({ 0, 3, 2 });
 				mesh.addFace({ 0, 2, 1 });

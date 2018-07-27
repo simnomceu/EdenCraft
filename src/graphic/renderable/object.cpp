@@ -63,11 +63,6 @@ namespace ece
 			void Object::setMesh(const Mesh::MeshReference & mesh)
 			{
 				this->_mesh = mesh;
-
-                for (size_t i = 0; i < this->_mesh->size(); ++i) {
-                    //this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
-					this->_mesh->getVertices()[i]._color = { 1.0f, 1.0f, 1.0f };
-                }
 			}
 
 			void Object::setMaterial(const std::shared_ptr<Material> & material)
@@ -91,7 +86,6 @@ namespace ece
                 BufferLayout layout;
                 layout.add<float>(3, false);
                 layout.add<float>(3, false);
-                layout.add<float>(3, false);
                 layout.add<float>(2, false);
 
                 this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
@@ -108,7 +102,7 @@ namespace ece
                 }
 
                 ShaderStage fsSource, vsSource;
-                fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../resource/shader/basic.frag");
+                fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../resource/shader/phong.frag");
                 if (this->isInstancingEnabled()) {
                     vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube_instancing.vert");
                 }
