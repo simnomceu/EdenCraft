@@ -38,21 +38,29 @@
 
 */
 
-#ifndef GRAPHIC_ENUM_HPP
-#define GRAPHIC_ENUM_HPP
+#include "graphic/model/spot_light.hpp"
+
+#include "renderer/resource/shader.hpp"
+#include "graphic/enum.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		enum class LightType : int
+		namespace model
 		{
-			BASIC_LIGHT = 0,
-			DIRECTIONAL_LIGHT = 1,
-			POINT_LIGHT = 2,
-			SPOT_LIGHT = 3
-		};
+			void SpotLight::apply(Shader & shader)
+			{
+				Light::apply(shader);
+				shader.uniform("light.type", LightType::SPOT_LIGHT);
+				shader.uniform("light.innerCutoff", this->_innerCutoff);
+				shader.uniform("light.outerCutoff", this->_outerCutoff);
+				shader.uniform("light.position", this->_position);
+				shader.uniform("light.direction", this->_direction);
+				shader.uniform("light.constant", this->_constant);
+				shader.uniform("light.linear", this->_linear);
+				shader.uniform("light.quadratic", this->_quadratic);
+			}
+		} // namespace model
 	} // namespace graphic
 } // namespace ece
-
-#endif // GRAPHIC_ENUM_HPP

@@ -52,7 +52,7 @@
 #include "utility/time.hpp"
 #include "graphic/model/primitives.hpp"
 #include "graphic/model/phong_material.hpp"
-#include "graphic/model/point_light.hpp"
+#include "graphic/model/spot_light.hpp"
 
 #include <ctime>
 #include <string>
@@ -68,7 +68,7 @@ namespace ece
 	using graphic::model::OBJLoader;
     using graphic::model::Mesh;
 	using graphic::model::PhongMaterial;
-	using graphic::model::PointLight;
+	using graphic::model::SpotLight;
     using graphic::renderable::Object;
     using utility::mathematics::FloatVector3u;
 	using core::resource::makeResource;
@@ -95,16 +95,20 @@ int main()
 		//material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
 		//material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
 		//material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
-		material->setShininess(41.5);
+		material->setShininess(32.0f);
 
-		auto light = std::make_shared<ece::PointLight>();
-		light->setAmbient(0.4f);
-		light->setDiffuse(0.5f);
+		auto light = std::make_shared<ece::SpotLight>();
+		light->setAmbient(0.1f);
+		light->setDiffuse(0.8f);
 		light->setSpecular(1.0f);
-		light->setPosition({ 0.0f, 10.0f, 0.0f });
+		light->setPosition({ 0.0f, 0.0f, 10.0f });
+		light->setDirection({ 0.0f, 0.0f, -10.0f });
+		light->setInnerCutoff(0.5f);
+		light->setOuterCutoff(1.5f);
 		light->setConstant(1.0f);
-		light->setLinear(0.7f);
-		light->setQuadratic(1.8f);
+		light->setLinear(0.09f);
+		light->setQuadratic(0.032f);
+
 		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
 		light->setColor({ 0.9882353f, 0.83137255f, 0.2509804f });
 		// ####################
@@ -155,13 +159,13 @@ int main()
         element->setMesh(mesh);
 		element->setMaterial(material);
 		element->setLight(light);
-        for (size_t i = 0; i < 100; ++i) {
+        /*for (size_t i = 0; i < 100; ++i) {
             for (size_t j = 0; j < 100; ++j) {
                 for (size_t k = 0; k < 100; ++k) {
                     element->addInstance(ece::FloatVector3u{-50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f});
                 }
             }
-        }
+        }*/
         element->prepare();
 //		element->applyTransformation(ece::translate(cubePositions[i]));
 		element->setCamera(camera.getView(), camera.getProjection());
@@ -174,12 +178,12 @@ int main()
 		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
 			window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
 			if (fps.isReadyToUpdate()) {
-				window.clear(ece::FUSHIA);
+				window.clear(ece::BLACK);
 
 				element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 
-				/*light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-				element->setLight(light);*/
+				//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+				element->setLight(light);
 
 				window.draw(**element);
 				// technique.draw(queue)

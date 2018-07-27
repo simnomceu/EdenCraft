@@ -38,21 +38,41 @@
 
 */
 
-#ifndef GRAPHIC_ENUM_HPP
-#define GRAPHIC_ENUM_HPP
+#include "utility/mathematics/transform.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		enum class LightType : int
+		namespace model
 		{
-			BASIC_LIGHT = 0,
-			DIRECTIONAL_LIGHT = 1,
-			POINT_LIGHT = 2,
-			SPOT_LIGHT = 3
-		};
+			inline void SpotLight::setInnerCutoff(const float innerCutoff) noexcept { this->_innerCutoff = std::cos(static_cast<float>(PI) * innerCutoff / 180.0f); }
+
+			inline void SpotLight::setOuterCutoff(const float outerCutoff) noexcept { this->_outerCutoff = std::cos(static_cast<float>(PI) * outerCutoff / 180.0f); }
+
+			inline void SpotLight::setPosition(const FloatVector3u & position) noexcept { this->_position = position; }
+
+			inline void SpotLight::setDirection(const FloatVector3u & direction) noexcept { this->_direction = direction; }
+
+			inline void SpotLight::setConstant(const float constant) noexcept { this->_constant = constant; }
+
+			inline void SpotLight::setLinear(const float linear) noexcept { this->_linear = linear; }
+
+			inline void SpotLight::setQuadratic(const float quadratic) noexcept { this->_quadratic = quadratic; }
+
+			inline float SpotLight::getInnerCutoff() const noexcept { return this->_innerCutoff; }
+
+			inline float SpotLight::getOuterCutoff() const noexcept { return this->_outerCutoff; }
+
+			inline const FloatVector3u & SpotLight::getPosition() const noexcept { return this->_position; }
+
+			inline const FloatVector3u & SpotLight::getDirection() const noexcept { return this->_direction; }
+
+			inline float SpotLight::getConstant() const noexcept { return this->_constant; }
+
+			inline float SpotLight::getLinear() const noexcept { return this->_linear; }
+
+			inline float SpotLight::getQuadratic() const noexcept { return this->_quadratic; }
+		} // namespace model
 	} // namespace graphic
 } // namespace ece
-
-#endif // GRAPHIC_ENUM_HPP

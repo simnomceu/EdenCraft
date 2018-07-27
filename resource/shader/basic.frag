@@ -30,6 +30,9 @@ struct Light
     float constant;
     float linear;
     float quadratic;
+    /* Spot Light */
+    float innerCutoff;
+    float outerCutoff;
 };
 
 in vec3 color;
@@ -45,10 +48,11 @@ uniform Light light;
 const int BASIC_LIGHT = 0;
 const int DIRECTIONAL_LIGHT = 1;
 const int POINT_LIGHT = 2;
+const int SPOT_LIGHT = 3;
 
 void main() {
 	vec3 lightDir;
-    if (light.type == BASIC_LIGHT || light.type == POINT_LIGHT) {
+    if (light.type == BASIC_LIGHT || light.type == POINT_LIGHT || light.type == SPOT_LIGHT) {
         lightDir = normalize(light.position - fragPos);
     } else if (light.type == DIRECTIONAL_LIGHT) {
         lightDir == normalize(-light.direction);
@@ -78,12 +82,21 @@ void main() {
         specular = light.specular * (spec * material.specular);
     }
 
-    if (light.type == POINT_LIGHT) {
+    if (light.type == POINT_LIGHT || light.type == SPOT_LIGHT) {
         float distance = length(light.position - fragPos);
         float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * distance * distance);
         ambient *= attenuation;
         diffuse *= attenuation;
         specular *= attenuation;
+    }
+
+    if (light.type == SPOT_LIGHT) {
+        float angle = dot(lightDir, normalize(-light.direction));
+        float cutoffRange = light.innerCutoff - light.outerCutoff;
+        float intensity = clamp((angle - light.outerCutoff) / cutoffRange, 0.0, 1.0);
+
+        diffuse *= intensity;
+        specular *= intensity;
     }
 
 	vec3 result = (ambient + diffuse + specular) * color;
