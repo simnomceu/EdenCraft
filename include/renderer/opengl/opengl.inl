@@ -568,7 +568,13 @@ namespace ece
 			//	inline void OpenGL::bindFragDataLocation(unsigned int /*program*/, unsigned int /*colorNumber*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline int OpenGL::getFragDataLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline bool OpenGL::isShader(unsigned int /*shader*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getShaderiv(unsigned int /*shader*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
+
+			inline int OpenGL::getShaderiv(const Handle shader, const ShaderParameter pname)
+            {
+				int result;
+				checkErrors(glGetShaderiv(static_cast<GLuint>(shader), static_cast<GLenum>(pname), &result));
+				return std::move(result);
+            }
 
 			inline std::vector<Handle> OpenGL::getAttachedShaders(const Handle program)
 			{
@@ -584,8 +590,15 @@ namespace ece
 				return std::move(result);
 			}
 
-			//	inline void OpenGL::getShaderInfoLog(unsigned int /*shader*/, GLsizei /*maxLength*/, GLsizei * /*length*/, char * /*infoLog*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getShaderSource(unsigned int /*shader*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*source*/) { static_assert(false, "Not implemented yet."); }
+			inline std::string OpenGL::getShaderInfoLog(const Handle shader)
+            {
+                GLsizei size;
+                char infoLog[512];
+                checkErrors(glGetShaderInfoLog(static_cast<GLuint>(shader), 512, &size, static_cast<GLchar *>(infoLog)));
+                return std::string(infoLog);
+            }
+
+            //	inline void OpenGL::getShaderSource(unsigned int /*shader*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*source*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getVertexAttribdv(unsigned int /*index*/, GLenum /*pname*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getVertexAttribfv(unsigned int /*index*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getVertexAttribiv(unsigned int /*index*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
@@ -596,11 +609,18 @@ namespace ece
 			//	inline void OpenGL::getUniformiv(unsigned int /*program*/, int /*location*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getUniformuiv(unsigned int /*program*/, int /*location*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline bool OpenGL::isProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getProgramInfoLog(unsigned int /*program*/, GLsizei /*maxLength*/, GLsizei * /*length*/, char * /*infoLog*/) { static_assert(false, "Not implemented yet."); }
+
+            inline std::string OpenGL::getProgramInfoLog(const Handle program)
+            {
+                GLsizei size;
+                char infoLog[512];
+                checkErrors(glGetProgramInfoLog(static_cast<GLuint>(program), 512, &size, static_cast<GLchar *>(infoLog)));
+                return std::string(infoLog);
+            }
 			//	inline void OpenGL::getMultisamplefv(GLenum /*pname*/, unsigned int /*index*/, float * /*val*/) { static_assert(false, "Not implemented yet."); }
-			
+
 			inline void OpenGL::pointSize(const float size) { checkErrors(glPointSize(size)) }
-			
+
 			//	inline void OpenGL::pointParameterf(GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pointParameteri(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pointParameterfv(GLenum /*pname*/, const float * /*params*/) { static_assert(false, "Not implemented yet."); }

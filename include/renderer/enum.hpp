@@ -665,6 +665,15 @@ namespace ece
 			GEOMETRY_OUTPUT_TYPE = GL_GEOMETRY_OUTPUT_TYPE
 		};
 
+        enum class ShaderParameter : unsigned short int
+        {
+            SHADER_TYPE = GL_SHADER_TYPE,
+            DELETE_STATUS = GL_DELETE_STATUS,
+            COMPILE_STATUS = GL_COMPILE_STATUS,
+            INFO_LOG_LENGTH = GL_INFO_LOG_LENGTH,
+            SHADER_SOURCE_LENGTH = GL_SHADER_SOURCE_LENGTH
+        };
+
 		enum class PixelDataType : unsigned short int
 		{
 			UNSIGNED_BYTE = GL_UNSIGNED_BYTE,

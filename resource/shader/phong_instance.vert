@@ -6,19 +6,19 @@ layout(location = 3) in mat4 instance;
 
 out vec3 normal;
 out vec3 fragPos;
-out vec2 texture;
+out vec2 texturePos;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
 void main() {
-    const mat4 world = model * instance;
-    const vec4 worldPos = world * vec4(inPosition, 1.0);
+    mat4 world = model * instance;
+    vec4 worldPos = world * vec4(inPosition, 1.0);
 
     gl_Position = projection * view * worldPos;
 
     normal = normalize(mat3(world) * inNormal);
     fragPos = vec3(worldPos);
-    texture = inTexture;
+    texturePos = inTexture;
 }

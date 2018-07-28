@@ -37,7 +37,7 @@ struct Light
 
 in vec3 normal;
 in vec3 fragPos;
-in vec2 texture;
+in vec2 texturePos;
 
 out vec4 fragColor;
 
@@ -66,8 +66,8 @@ void main() {
 
     vec3 ambient, diffuse, specular;
     if (material.diffuseMapEnabled) {
-        ambient = light.ambient * texture(material.diffuseMap, texture).rgb;
-        diffuse = light.diffuse * diff * texture(material.diffuseMap, texture).rgb;
+        ambient = light.ambient * texture(material.diffuseMap, texturePos).rgb;
+        diffuse = light.diffuse * diff * texture(material.diffuseMap, texturePos).rgb;
     }
     else {
        ambient = light.ambient * material.ambient;
@@ -75,7 +75,7 @@ void main() {
     }
 
     if (material.specularMapEnabled) {
-        specular = light.specular * spec * texture(material.specularMap, texture).rgb;
+        specular = light.specular * spec * texture(material.specularMap, texturePos).rgb;
     }
     else {
         specular = light.specular * (spec * material.specular);
