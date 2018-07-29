@@ -52,14 +52,19 @@ namespace ece
 			void SpotLight::apply(Shader & shader)
 			{
 				Light::apply(shader);
-				shader.uniform("light.type", LightType::SPOT_LIGHT);
-				shader.uniform("light.innerCutoff", this->_innerCutoff);
-				shader.uniform("light.outerCutoff", this->_outerCutoff);
-				shader.uniform("light.position", this->_position);
-				shader.uniform("light.direction", this->_direction);
-				shader.uniform("light.constant", this->_constant);
-				shader.uniform("light.linear", this->_linear);
-				shader.uniform("light.quadratic", this->_quadratic);
+				shader.uniform("lights[0].type", LightType::SPOT_LIGHT);
+				shader.uniform("lights[0].innerCutoff", this->_innerCutoff);
+				shader.uniform("lights[0].outerCutoff", this->_outerCutoff);
+				shader.uniform("lights[0].position", this->_position);
+				shader.uniform("lights[0].direction", this->_direction);
+				shader.uniform("lights[0].constant", this->_constant);
+				shader.uniform("lights[0].linear", this->_linear);
+				shader.uniform("lights[0].quadratic", this->_quadratic);
+                shader.uniform("lights[0].usePosition", true);
+                shader.uniform("lights[0].useDirection", true);
+                shader.uniform("lights[0].useAttenuation", true);
+                shader.uniform("lights[0].useCutoff", true);
+                shader.uniform("numberOfLights", 1);
 			}
 		} // namespace model
 	} // namespace graphic

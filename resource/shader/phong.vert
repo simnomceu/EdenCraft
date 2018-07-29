@@ -16,7 +16,7 @@ void main() {
 
     gl_Position = projection * view * worldPos;
 
-    normal = normalize(mat3(model) * inNormal);
+    normal = normalize(transpose(inverse(mat3(model))) * inNormal);
     fragPos = vec3(worldPos);
     texturePos = inTexture;
 }
