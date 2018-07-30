@@ -44,6 +44,8 @@
 #include "graphic/config.hpp"
 #include "graphic/scene/camera.hpp"
 #include "renderer/common/projection.hpp"
+#include "graphic/renderable/object.hpp"
+#include "graphic/model/light.hpp"
 
 #include <vector>
 
@@ -51,14 +53,10 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace renderable
-		{
-			class Object;
-		}
-
 		namespace scene
 		{
 			using renderable::Object;
+			using renderable::Light;
 
 			/**
 			 * @class Scene
@@ -121,7 +119,7 @@ namespace ece
 				 * @brief Add a new empty object to the scene.
 				 * @throw
 				 */
-				Object * addObject();
+				Object::Reference addObject();
 
 				/**
 				 * @fn Camera & getCamera()
@@ -137,7 +135,7 @@ namespace ece
 				 * @brief Get the list of objects of the scene.
 				 * @throw
 				 */
-				inline std::vector<Object *> & getObjects();
+				inline std::vector<Object::Reference> & getObjects();
 
 			private:
 				/**
@@ -150,7 +148,9 @@ namespace ece
 				 * @property _objects
 				 * @brief The list of objects in the scene.
 				 */
-				std::vector<Object *> _objects;
+				std::vector<Object::Reference> _objects;
+
+				std::vector<Light::Reference> _ligths;
 			};
 		} // namespace scene
 	} // namespace graphic

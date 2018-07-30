@@ -38,10 +38,11 @@
 
 */
 
-#include "graphic/model/spot_light.hpp"
+#ifndef MAKE_LIGHT_HPP
+#define MAKE_LIGHT_HPP
 
-#include "renderer/resource/shader.hpp"
-#include "graphic/enum.hpp"
+#include "graphic/config.hpp"
+#include "graphic/model/light.hpp"
 
 namespace ece
 {
@@ -49,23 +50,15 @@ namespace ece
 	{
 		namespace model
 		{
-			void SpotLight::apply(Shader & shader)
-			{
-				Light::apply(shader);
-				shader.uniform("lights[0].type", LightType::SPOT_LIGHT);
-				shader.uniform("lights[0].innerCutoff", this->_innerCutoff);
-				shader.uniform("lights[0].outerCutoff", this->_outerCutoff);
-				shader.uniform("lights[0].position", this->_position);
-				shader.uniform("lights[0].direction", this->_direction);
-				shader.uniform("lights[0].constant", this->_constant);
-				shader.uniform("lights[0].linear", this->_linear);
-				shader.uniform("lights[0].quadratic", this->_quadratic);
-                shader.uniform("lights[0].usePosition", true);
-                shader.uniform("lights[0].useDirection", true);
-                shader.uniform("lights[0].useAttenuation", true);
-                shader.uniform("lights[0].useCutoff", true);
-                shader.uniform("numberOfLights", 1);
-			}
+			ECE_GRAPHIC_API Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position);
+
+			ECE_GRAPHIC_API Light::Reference makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction);
+
+			ECE_GRAPHIC_API Light::Reference makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic);
+
+			ECE_GRAPHIC_API Light::Reference makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff);
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#endif // MAKE_LIGHT_HPP

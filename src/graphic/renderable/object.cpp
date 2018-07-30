@@ -60,7 +60,7 @@ namespace ece
                 this->_mode = PrimitiveMode::TRIANGLES;
             }
 
-			void Object::setMesh(const Mesh::MeshReference & mesh)
+			void Object::setMesh(const Mesh::Reference & mesh)
 			{
 				this->_mesh = mesh;
 			}

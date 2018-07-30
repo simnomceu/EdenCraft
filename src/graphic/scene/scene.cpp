@@ -42,6 +42,7 @@
 
 #include "utility/mathematics/vector3u.hpp"
 #include "graphic/renderable/object.hpp"
+#include "core/resource/make_resource.hpp"
 
 namespace ece
 {
@@ -50,6 +51,7 @@ namespace ece
 		namespace scene
 		{
 			using utility::mathematics::FloatVector3u;
+			using core::resource::makeResource;
 
 			Scene::Scene() noexcept: _camera(), _objects()
 			{
@@ -57,10 +59,10 @@ namespace ece
 				this->_camera.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
 			}
 
-			Object * Scene::addObject()
+			Object::Reference Scene::addObject()
 			{
-				this->_objects.push_back(new Object());
-				return static_cast<Object *>(this->_objects.back());
+				this->_objects.push_back(makeResource<Object>(""));
+				return this->_objects.back();
 			}
 		} // namespace scene
 	} // namespace graphic

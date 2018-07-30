@@ -52,7 +52,7 @@
 #include "utility/time.hpp"
 #include "graphic/model/primitives.hpp"
 #include "graphic/model/phong_material.hpp"
-#include "graphic/model/spot_light.hpp"
+#include "graphic/model/make_light.hpp"
 
 #include <ctime>
 #include <string>
@@ -68,7 +68,7 @@ namespace ece
 	using graphic::model::OBJLoader;
     using graphic::model::Mesh;
 	using graphic::model::PhongMaterial;
-	using graphic::model::SpotLight;
+	using graphic::model::makeSpotLight;
     using graphic::renderable::Object;
     using utility::mathematics::FloatVector3u;
 	using core::resource::makeResource;
@@ -97,20 +97,8 @@ int main()
 		//material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
 		material->setShininess(41.5f);
 
-		auto light = std::make_shared<ece::SpotLight>();
-		light->setAmbient(0.2f);
-		light->setDiffuse(0.8f);
-		light->setSpecular(1.0f);
-		light->setPosition({ 0.0f, 0.0f, 3.0f });
-		light->setDirection({ 0.0f, 0.0f, -1.0f });
-		light->setInnerCutoff(10.0f);
-		light->setOuterCutoff(12.5f);
-		light->setConstant(1.0f);
-		light->setLinear(1.0f);
-		light->setQuadratic(2.4f);
-
+		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
 		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-		light->setColor({ 1.0f, 1.0f, 1.0f });
 		// ####################
 
 		ece::RenderWindow window;
@@ -158,7 +146,7 @@ int main()
 
         element->setMesh(mesh);
 		element->setMaterial(material);
-		element->setLight(light);
+		element->setLight(*light);
         for (size_t i = 0; i < 100; ++i) {
             for (size_t j = 0; j < 100; ++j) {
                 for (size_t k = 0; k < 100; ++k) {

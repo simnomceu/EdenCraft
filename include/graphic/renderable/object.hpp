@@ -71,6 +71,8 @@ namespace ece
 			class ECE_GRAPHIC_API Object: public Renderable
 			{
 			public:
+				using Reference = ResourceHandler<Object>;
+
 				/**
 				 * @fn Object() noexcept
 				 * @brief Default constructor.
@@ -127,7 +129,7 @@ namespace ece
 				 * @brief Set the mesh of the 3D object.
 				 * @throw
 				 */
-				void setMesh(const Mesh::MeshReference & mesh);
+				void setMesh(const Mesh::Reference & mesh);
 
 				void setMaterial(const std::shared_ptr<Material> & material);
 
@@ -142,7 +144,7 @@ namespace ece
 				 * @brief Get the mesh of the object.
 				 * @throw
 				 */
-				inline Mesh::MeshReference getMesh() const;
+				inline Mesh::Reference getMesh() const;
 
 				inline std::shared_ptr<Material> getMaterial() const;
 
@@ -153,7 +155,7 @@ namespace ece
 				 * @property _mesh
 				 * @brief The mesh of the object.
 				 */
-				Mesh::MeshReference _mesh;
+				Mesh::Reference _mesh;
 
 				std::shared_ptr<Material> _material;
 

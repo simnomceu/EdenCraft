@@ -48,16 +48,29 @@ namespace ece
 	{
 		namespace model
 		{
-			Light::~Light() noexcept
+			Light::Light() noexcept : _ambient(1.0f), _diffuse(1.0f), _specular(1.0f), _color{ 1.0f, 1.0f, 1.0f }, _position{ 0.0f, 0.0f, 0.0f }, _direction{ 0.0f, 0.0f, 0.0f }, _constant(1.0f), _linear(0.0f), _quadratic(0.0f), _innerCutOff(0.0f), _outerCutOff(0.0f), _usePosition(false), _useDirection(false), _useAttenuation(false), _useCutOff(false)
 			{
 			}
 
 			void Light::apply(Shader & shader)
 			{
 				shader.use();
-				shader.uniform<float, 3>("light.ambient", this->_color * this->_ambient);
-				shader.uniform<float, 3>("light.diffuse", this->_color * this->_diffuse);
-				shader.uniform("light.specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
+				auto tmpId = std::to_string(0);
+				shader.uniform<float, 3>("lights[" + tmpId + "].ambient", this->_color * this->_ambient);
+				shader.uniform<float, 3>("lights[" + tmpId + "].diffuse", this->_color * this->_diffuse);
+				shader.uniform("lights[" + tmpId + "].specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
+				shader.uniform("lights[" + tmpId + "].position", this->_position);
+				shader.uniform("lights[" + tmpId + "].direction", this->_direction);
+				shader.uniform("lights[" + tmpId + "].constant", this->_constant);
+				shader.uniform("lights[" + tmpId + "].linear", this->_linear);
+				shader.uniform("lights[" + tmpId + "].quadratic", this->_quadratic);
+				shader.uniform("lights[" + tmpId + "].innerCutOff", this->_innerCutOff);
+				shader.uniform("lights[" + tmpId + "].outerCutOff", this->_outerCutOff);
+				shader.uniform("lights[" + tmpId + "].usePosition", this->_usePosition);
+				shader.uniform("lights[" + tmpId + "].useDirection", this->_useDirection);
+				shader.uniform("lights[" + tmpId + "].useAttenuation", this->_useAttenuation);
+				shader.uniform("lights[" + tmpId + "].useCutOff", this->_useCutOff);
+				shader.uniform("numberOfLights", 1);
 			}
 		} // namespace model
 	} // namespace graphic

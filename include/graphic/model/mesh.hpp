@@ -68,7 +68,7 @@ namespace ece
 			class ECE_GRAPHIC_API Mesh
 			{
 			public:
-				using MeshReference = ResourceHandler<Mesh>;
+				using Reference = ResourceHandler<Mesh>;
 
 				struct Vertex
 				{

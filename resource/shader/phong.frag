@@ -29,13 +29,13 @@ struct Light
     float linear;
     float quadratic;
 
-    float innerCutoff;
-    float outerCutoff;
+    float innerCutOff;
+    float outerCutOff;
 
     bool usePosition;
     bool useDirection;
     bool useAttenuation;
-    bool useCutoff;
+    bool useCutOff;
 };
 
 in vec3 normal;
@@ -92,7 +92,7 @@ void main()
     else {
         specular *= material.specular;
     }
-    
+
     fragColor = clamp(vec4(ambient + diffuse + specular, 1.0), 0.0, 1.0);
 }
 
@@ -107,34 +107,34 @@ vec3 getLightDir(int i)
 
 float computeIntensity(vec3 lightDir, int i)
 {
-    //if (lights[i].useCutoff) {
-    //    float angle = dot(lightDir, normalize(-lights[i].direction));
-    //    float cutoffRange = lights[i].innerCutoff - lights[i].outerCutoff;
-    //    return clamp((angle - lights[i].outerCutoff) / cutoffRange, 0.0, 1.0);
-    //}
-    //else {
+    if (lights[i].useCutOff) {
+        float angle = dot(lightDir, normalize(-lights[i].direction));
+        float cutOffRange = lights[i].innerCutOff - lights[i].outerCutOff;
+        return clamp((angle - lights[i].outerCutOff) / cutOffRange, 0.0, 1.0);
+    }
+    else {
         return 1.0;
-    //}
+    }
 }
 
 float computeAttenuation(int i)
 {
-    //if (lights[i].useAttenuation) {
-    //    float distance = length(lights[i].position - fragPos);
-    //    return 1.0 / (lights[i].constant + lights[i].linear * distance + lights[i].quadratic * (distance * distance));
-    //}
-    //else {
+    if (lights[i].useAttenuation) {
+        float distance = length(lights[i].position - fragPos);
+        return 1.0 / (lights[i].constant + lights[i].linear * distance + lights[i].quadratic * (distance * distance));
+    }
+    else {
         return 1.0;
-    //}
+    }
 }
 
 float computeSpecularFactor(int i, vec3 viewDir, vec3 lightDir)
 {
     vec3 reflectDir = reflect(-lightDir, normal);
-    return 1.0;//pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    return pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 }
 
 float computeDiffuseFactor(int i, vec3 lightDir)
 {
-    return 1.0;//max(dot(normal, lightDir), 0.0);
+    return max(dot(normal, lightDir), 0.0);
 }

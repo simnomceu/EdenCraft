@@ -43,6 +43,7 @@
 
 #include "graphic/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -60,6 +61,7 @@ namespace ece
 		{
 			using renderer::resource::Shader;
 			using utility::mathematics::FloatVector3u;
+			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Light
@@ -68,12 +70,14 @@ namespace ece
 			class ECE_GRAPHIC_API Light
 			{
 			public:
+				using Reference = ResourceHandler<Light>;
+
 				/**
-				 * @fn constexpr Light() noexcept
+				 * @fn Light() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Light() noexcept = default;
+				Light() noexcept;
 
 				/**
 				 * @fn Light(const Light & copy) noexcept
@@ -96,7 +100,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				virtual ~Light() noexcept = 0;
+				~Light() noexcept = default;
 
 				/**
 				 * @fn Light & operator=(const Light & copy) noexcept
@@ -116,24 +120,66 @@ namespace ece
 				 */
 				Light & operator=(Light && move) noexcept = default;
 
-				inline void setAmbient(const float ambient);
-				inline void setDiffuse(const float diffuse);
-				inline void setSpecular(const float specular);
-				inline void setColor (const FloatVector3u & color);
+				inline void setAmbient(const float ambient) noexcept;
+				inline void setDiffuse(const float diffuse) noexcept;
+				inline void setSpecular(const float specular) noexcept;
+				inline void setColor (const FloatVector3u & color) noexcept;
+				inline void setPosition(const FloatVector3u & position) noexcept;
+				inline void setDirection(const FloatVector3u & direction) noexcept;
+				inline void setConstant(const float constant) noexcept;
+				inline void setLinear(const float linear) noexcept;
+				inline void setQuadratic(const float quadratic) noexcept;
+				inline void setInnerCutOff(const float innerCutOff) noexcept;
+				inline void setOuterCutOff(const float outerCutOff) noexcept;
 
-				inline float getAmbient() const;
-				inline float getDiffuse() const;
-				inline float getSpecular() const;
-				inline const FloatVector3u & getColor() const;
+				inline float getAmbient() const noexcept;
+				inline float getDiffuse() const noexcept;
+				inline float getSpecular() const noexcept;
+				inline const FloatVector3u & getColor() const noexcept;
+				inline const FloatVector3u & getPosition() const noexcept;
+				inline const FloatVector3u & getDirection() const noexcept;
+				inline float getConstant() const noexcept;
+				inline float getLinear() const noexcept;
+				inline float getQuadratic() const noexcept;
+				inline float getInnerCutoff() const noexcept;
+				inline float getOuterCutoff() const noexcept;
 
-				virtual void apply(Shader & shader);
+				inline void usePosition(const bool used) noexcept;
+				inline void useDirection(const bool used) noexcept;
+				inline void useAttenuation(const bool used) noexcept;
+				inline void useCutOff(const bool used) noexcept;
+
+				inline bool isPositionUsed() const noexcept;
+				inline bool isDirectionUsed() const noexcept;
+				inline bool isAttenuationUsed() const noexcept;
+				inline bool isCutOffUsed() const noexcept;
+
+				void apply(Shader & shader);
 
 			protected:
+				// Use structure here ? "factors" ?
 				float _ambient;
 				float _diffuse;
 				float _specular;
 
 				FloatVector3u _color;
+
+				FloatVector3u _position;
+				FloatVector3u _direction;
+
+				// Use structure here
+				float _constant;
+				float _linear;
+				float _quadratic;
+
+				// Use structure here
+				float _innerCutOff;
+				float _outerCutOff;
+
+				bool _usePosition;
+				bool _useDirection;
+				bool _useAttenuation;
+				bool _useCutOff;
 			};
 		} // namespace model
 	} // namespace graphic
