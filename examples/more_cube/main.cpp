@@ -40,12 +40,9 @@
 
 #include "renderer/common.hpp"
 #include "utility/log.hpp"
-#include "renderer/image.hpp"
-#include "graphic/renderable/sprite.hpp"
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
 #include "graphic/model/obj_loader.hpp"
-#include "renderer/resource/buffer_layout.hpp"
 #include "graphic/renderable/object.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "core/resource/make_resource.hpp"
@@ -73,7 +70,6 @@ namespace ece
     using utility::mathematics::FloatVector3u;
 	using core::resource::makeResource;
 	using core::resource::ResourceHandler;
-	using graphic::renderable::Sprite;
 	using utility::time::FramePerSecond;
 	using graphic::model::makeCube;
 }
@@ -84,22 +80,6 @@ int main()
 
 	try {
 		ece::Application app;
-
-		// ####################
-		ece::OBJLoader loader;
-		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
-		auto mesh = std::make_shared<ece::Mesh>(ece::makeCube(0.5f));
-
-		auto material = std::make_shared<ece::PhongMaterial>();
-		//material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
-		//material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
-		//material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
-		material->setShininess(41.5f);
-
-		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
-		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-		// ####################
 
 		ece::RenderWindow window;
 
@@ -121,14 +101,31 @@ int main()
 		viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
 		window.setViewport(viewport);
 
-		ece::Camera camera;
+		ece::Scene scene;
+
+		// ####################
+		ece::OBJLoader loader;
+		loader.loadFromFile("../../examples/more_cube/cube.obj");
+		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
+		auto mesh = std::make_shared<ece::Mesh>(ece::makeCube(0.5f));
+
+		auto material = std::make_shared<ece::PhongMaterial>();
+		//material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
+		//material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
+		//material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
+		material->setShininess(41.5f);
+
+		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
+		scene.addLight(light);
+		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+		// ####################
+
+		auto & camera = scene.getCamera();
 		//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
 		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f/1080.0f, 0.1, 100.0);
 		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
-
-		auto texture = ece::makeResource<ece::Texture2D>("Emma Watson");
-		texture->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
+		scene.updateCamera();
 
 		auto box = ece::makeResource<ece::Texture2D>("box");
 		box->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box.bmp");
@@ -139,14 +136,10 @@ int main()
 		material->setSpecularMap(box_specular);
 
 		// ece::RenderQueue queue;
-		//std::vector<std::shared_ptr<ece::Sprite>> elements(10);
-        auto element = ece::makeResource<ece::Object>("cube");
-
-		auto sprite = ece::makeResource<ece::Sprite>("Emma Watson", texture, ece::Rectangle<float>(50.0f, 50.0f, static_cast<float>(texture->getWidth()), static_cast<float>(texture->getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
-
+        auto element = scene.addObject();
         element->setMesh(mesh);
 		element->setMaterial(material);
-		element->setLight(*light);
+
         for (size_t i = 0; i < 100; ++i) {
             for (size_t j = 0; j < 100; ++j) {
                 for (size_t k = 0; k < 100; ++k) {
@@ -154,9 +147,8 @@ int main()
                 }
             }
         }
-        element->prepare();
+        scene.prepare();
 //		element->applyTransformation(ece::translate(cubePositions[i]));
-		element->setCamera(camera.getView(), camera.getProjection());
 		// queue.insert(sprite)
 
 		// ForwardRendering technique;
@@ -171,9 +163,9 @@ int main()
 				element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 
 				//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-				//element->setLight(light);
 
-				window.draw(**element);
+				scene.draw();
+				//window.draw(**element);
 				// technique.draw(queue)
 				window.display();
 			//}

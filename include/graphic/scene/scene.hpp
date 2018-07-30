@@ -121,6 +121,8 @@ namespace ece
 				 */
 				Object::Reference addObject();
 
+				inline void addLight(const Light::Reference & light);
+
 				/**
 				 * @fn Camera & getCamera()
 				 * @return The camera of the scene.
@@ -129,28 +131,43 @@ namespace ece
 				 */
 				inline Camera & getCamera();
 
-				/**
-				 * @fn std::vector<Renderable *> & getObjects()
-				 * @return The list of objects of the scene.
-				 * @brief Get the list of objects of the scene.
-				 * @throw
-				 */
-				inline std::vector<Object::Reference> & getObjects();
+				inline void updateCamera();
+
+				void prepare();
+				void draw();
 
 			private:
+				struct CameraWrapper
+				{
+					Camera _value;
+					bool _hasChanged;
+				};
+
+				struct ObjectWrapper
+				{
+					Object::Reference _value;
+					bool _hasChanged;
+				};
+
+				struct LightWrapper
+				{
+					Light::Reference _value;
+					bool _hasChanged;
+				};
+
 				/**
 				 * @property _camera
 				 * @rief The camera of the scene.
 				 */
-				Camera _camera;
+				CameraWrapper _camera;
 
 				/**
 				 * @property _objects
 				 * @brief The list of objects in the scene.
 				 */
-				std::vector<Object::Reference> _objects;
+				std::vector<ObjectWrapper> _objects;
 
-				std::vector<Light::Reference> _ligths;
+				std::vector<LightWrapper> _lights;
 			};
 		} // namespace scene
 	} // namespace graphic

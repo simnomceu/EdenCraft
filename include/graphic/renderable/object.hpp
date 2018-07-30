@@ -133,8 +133,6 @@ namespace ece
 
 				void setMaterial(const std::shared_ptr<Material> & material);
 
-				void setLight(const std::shared_ptr<Light> & light);
-
 				// NOTE: accessing one of the elements linked to this object should not modify the object itself
 				// but it should also not forbid modification on the elements.
 
@@ -158,8 +156,6 @@ namespace ece
 				Mesh::Reference _mesh;
 
 				std::shared_ptr<Material> _material;
-
-				std::shared_ptr<Light> _light;
 			};
 		} // namespace renderable
 	} // namespace graphic

@@ -36,57 +36,13 @@
 
 */
 
-#include "renderer/common/renderable.hpp"
-
-#include "utility/mathematics/matrix4u.hpp"
-#include "utility/mathematics/transform.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace common
 		{
-			using utility::mathematics::FloatMatrix4u;
-			using utility::mathematics::FloatVector3u;
-			using opengl::OpenGL;
-
-			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _instances()
-			{
-				this->_model.setIdentity();
-                this->_instances.push_back(FloatMatrix4u::Identity());
-			}
-
-			Renderable::~Renderable() {}
-
-			void Renderable::draw()
-			{
-				this->_program.use();
-				this->_vao.bind();
-				this->_vao.bindIndexBuffer();
-                if (this->isInstancingEnabled()) {
-		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_instances.size());
-                }
-                else {
-		            OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
-                }
-			}
-
-			void Renderable::applyTransformation(const FloatMatrix4u & transformation)
-			{
-				this->_model = transformation * this->_model;
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
-			}
-
-            void Renderable::addInstance(const FloatMatrix4u & offset)
-            {
-                this->_instances.push_back(offset.transpose());
-            }
-
-            bool Renderable::isInstancingEnabled() const
-            {
-                return this->_instances.size() > 1;
-            }
+			inline Shader & Renderable::getProgram() { return this->_program; }
 		} // namespace common
 	} // namespace renderer
 } // namespace ece

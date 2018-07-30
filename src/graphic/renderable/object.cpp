@@ -55,7 +55,7 @@ namespace ece
             using renderer::ShaderType;
             using renderer::resource::ShaderStage;
 
-            Object::Object() noexcept: Renderable(), _mesh(), _material(), _light()
+            Object::Object() noexcept: Renderable(), _mesh(), _material()
             {
                 this->_mode = PrimitiveMode::TRIANGLES;
             }
@@ -70,14 +70,6 @@ namespace ece
 				this->_material = material;
 				if (this->_program.isLinked()) {
 					this->_material->apply(this->_program);
-				}
-			}
-
-			void Object::setLight(const std::shared_ptr<Light> & light)
-			{
-				this->_light = light;
-				if (this->_program.isLinked()) {
-					this->_light->apply(this->_program);
 				}
 			}
 
@@ -116,7 +108,6 @@ namespace ece
                 this->_program.use();
 				if (this->_material) {
 					this->_material->apply(this->_program);
-					this->_light->apply(this->_program);
 				}
             }
 		}// namespace renderable
