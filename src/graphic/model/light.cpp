@@ -48,7 +48,8 @@ namespace ece
 	{
 		namespace model
 		{
-			Light::Light() noexcept : _ambient(1.0f), _diffuse(1.0f), _specular(1.0f), _color{ 1.0f, 1.0f, 1.0f }, _position{ 0.0f, 0.0f, 0.0f }, _direction{ 0.0f, 0.0f, 0.0f }, _constant(1.0f), _linear(0.0f), _quadratic(0.0f), _innerCutOff(0.0f), _outerCutOff(0.0f), _usePosition(false), _useDirection(false), _useAttenuation(false), _useCutOff(false)
+			Light::Light() noexcept : _ambient(1.0f), _diffuse(1.0f), _specular(1.0f), _color{ 1.0f, 1.0f, 1.0f }, _position{ 0.0f, 0.0f, 0.0f }, _direction{ 0.0f, 0.0f, 0.0f }, _constant(1.0f), 
+				_linear(0.0f), _quadratic(0.0f), _innerCutOff(0.0f), _outerCutOff(0.0f), _usePosition(false), _useDirection(false), _useAttenuation(false), _useCutOff(false), _useBlinn(false)
 			{
 			}
 

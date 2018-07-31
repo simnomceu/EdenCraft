@@ -161,6 +161,8 @@ int main()
 				window.clear(ece::BLACK);
 
 				element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+				//camera.moveIn({ 0.0f, 0.0f, 0.05f });
+				//scene.updateCamera();
 
 				//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
 

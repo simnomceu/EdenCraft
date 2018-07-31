@@ -85,6 +85,7 @@ namespace ece
 					if (this->_camera._hasChanged) {
 						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
 						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection());
+						this->_camera._hasChanged = false;
 					}
 					object._value->draw();
 				}

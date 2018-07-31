@@ -108,6 +108,7 @@ namespace ece
 				light->setInnerCutOff(innerCutOff);
 				light->setOuterCutOff(outerCutOff);
 				light->useCutOff(true);
+				light->useBlinn(true);
 				return std::move(light);
 			}
 		} // namespace model

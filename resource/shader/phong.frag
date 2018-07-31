@@ -1,6 +1,6 @@
 #version 450
 
-//#define MAX_NUMBER_OF_LIGHTS 8
+#define MAX_NUMBER_OF_LIGHTS 8
 
 struct Material
 {
@@ -36,6 +36,7 @@ struct Light
     bool useDirection;
     bool useAttenuation;
     bool useCutOff;
+    bool useBlinn;
 };
 
 in vec3 normal;
@@ -45,8 +46,9 @@ in vec2 texturePos;
 out vec4 fragColor;
 
 uniform Material material;
-uniform Light lights[8];
+uniform Light lights[MAX_NUMBER_OF_LIGHTS];
 uniform int numberOfLights;
+uniform mat4 view;
 
 vec3 getLightDir(int i);
 float computeIntensity(vec3 lightDir, int i);
@@ -56,7 +58,7 @@ float computeDiffuseFactor(int i, vec3 lightDir);
 
 void main()
 {
-    vec3 viewPos = vec3(0.0, 0.0, 10.0);
+    vec3 viewPos = vec3(view[3]);
     vec3 viewDir = normalize(viewPos - fragPos);
 
     vec3 ambient = vec3(0.0, 0.0, 0.0);
@@ -130,8 +132,14 @@ float computeAttenuation(int i)
 
 float computeSpecularFactor(int i, vec3 viewDir, vec3 lightDir)
 {
-    vec3 reflectDir = reflect(-lightDir, normal);
-    return pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    if (lights[i].useBlinn) {
+        vec3 halfwayDir = normalize(lightDir + viewDir);
+        return pow(max(dot(normal, halfwayDir), 0.0), material.shininess * 2.0);
+    }
+    else {
+        vec3 reflectDir = reflect(-lightDir, normal);
+        return pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    }
 }
 
 float computeDiffuseFactor(int i, vec3 lightDir)

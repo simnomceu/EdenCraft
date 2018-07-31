@@ -96,6 +96,8 @@ namespace ece
 
 			inline void Light::useCutOff(const bool used) noexcept { this->_useCutOff = used; }
 
+			inline void Light::useBlinn(const bool used) noexcept { this->_useBlinn = used; }
+
 			inline bool Light::isPositionUsed() const noexcept { return this->_usePosition; }
 
 			inline bool Light::isDirectionUsed() const noexcept { return this->_useDirection; }
@@ -103,6 +105,8 @@ namespace ece
 			inline bool Light::isAttenuationUsed() const noexcept { return this->_useAttenuation; }
 
 			inline bool Light::isCutOffUsed() const noexcept { return this->_useCutOff; }
+
+			inline bool Light::isBlinnUsed() const noexcept { return this->_useBlinn; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

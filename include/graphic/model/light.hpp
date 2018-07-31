@@ -148,11 +148,13 @@ namespace ece
 				inline void useDirection(const bool used) noexcept;
 				inline void useAttenuation(const bool used) noexcept;
 				inline void useCutOff(const bool used) noexcept;
+				inline void useBlinn(const bool used) noexcept;
 
 				inline bool isPositionUsed() const noexcept;
 				inline bool isDirectionUsed() const noexcept;
 				inline bool isAttenuationUsed() const noexcept;
 				inline bool isCutOffUsed() const noexcept;
+				inline bool isBlinnUsed() const noexcept;
 
 				void apply(Shader & shader);
 
@@ -180,6 +182,7 @@ namespace ece
 				bool _useDirection;
 				bool _useAttenuation;
 				bool _useCutOff;
+				bool _useBlinn;
 			};
 		} // namespace model
 	} // namespace graphic
