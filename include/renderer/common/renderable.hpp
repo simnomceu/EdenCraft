@@ -51,9 +51,9 @@ namespace ece
 		namespace common
 		{
 			using resource::VAO;
+			using resource::Shader;
 			using resource::EnhancedShader;
             using utility::mathematics::FloatMatrix4u;
-            using utility::mathematics::FloatVector3u;
 
 			/**
 			 * @class Renderable
@@ -112,13 +112,13 @@ namespace ece
 
 				void draw();
 
-                void setCamera(const FloatMatrix4u & view, const FloatMatrix4u & projection) const noexcept;
-
 				void applyTransformation(const FloatMatrix4u & transformation);
 
-                void addInstance(const FloatVector3u & offset);
+                void addInstance(const FloatMatrix4u & instance);
 
                 bool isInstancingEnabled() const;
+
+				inline Shader & getProgram();
 
 			protected:
 				VAO _vao;
@@ -129,10 +129,12 @@ namespace ece
 
 				FloatMatrix4u _model;
 
-                std::vector<FloatVector3u> _offsets;
+                std::vector<FloatMatrix4u> _instances;
 			};
 		} // namespace common
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/common/renderable.inl"
 
 #endif // RENDERABLE_HPP

@@ -38,58 +38,27 @@
 
 */
 
-#include "graphic/scene/scene.hpp"
+#ifndef MAKE_LIGHT_HPP
+#define MAKE_LIGHT_HPP
 
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/renderable/object.hpp"
-#include "core/resource/make_resource.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "graphic/config.hpp"
+#include "graphic/model/light.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace scene
+		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::makeResource;
-			using renderer::opengl::OpenGL;
+			ECE_GRAPHIC_API Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position);
 
-			Scene::Scene() noexcept: _camera(), _objects()
-			{
-				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera._value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
-			}
+			ECE_GRAPHIC_API Light::Reference makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction);
 
-			Object::Reference Scene::addObject()
-			{
-				this->_objects.push_back({ makeResource<Object>(""), true });
-				return this->_objects.back()._value;
-			}
+			ECE_GRAPHIC_API Light::Reference makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic);
 
-			void Scene::prepare()
-			{
-				for (auto & object : this->_objects) {
-					object._value->prepare();
-				}
-			}
-
-			void Scene::draw()
-			{
-				for (auto & object : this->_objects) {
-					auto & program = object._value->getProgram();
-					program.use();
-					for (auto & light : this->_lights) {
-						light._value->apply(program);
-					}
-					if (this->_camera._hasChanged) {
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection());
-						this->_camera._hasChanged = false;
-					}
-					object._value->draw();
-				}
-			}
-		} // namespace scene
+			ECE_GRAPHIC_API Light::Reference makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff);
+		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#endif // MAKE_LIGHT_HPP

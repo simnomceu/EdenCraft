@@ -38,58 +38,21 @@
 
 */
 
-#include "graphic/scene/scene.hpp"
-
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/renderable/object.hpp"
-#include "core/resource/make_resource.hpp"
-#include "renderer/opengl/opengl.hpp"
+#ifndef GRAPHIC_ENUM_HPP
+#define GRAPHIC_ENUM_HPP
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace scene
+		enum class LightType : int
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::makeResource;
-			using renderer::opengl::OpenGL;
-
-			Scene::Scene() noexcept: _camera(), _objects()
-			{
-				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera._value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
-			}
-
-			Object::Reference Scene::addObject()
-			{
-				this->_objects.push_back({ makeResource<Object>(""), true });
-				return this->_objects.back()._value;
-			}
-
-			void Scene::prepare()
-			{
-				for (auto & object : this->_objects) {
-					object._value->prepare();
-				}
-			}
-
-			void Scene::draw()
-			{
-				for (auto & object : this->_objects) {
-					auto & program = object._value->getProgram();
-					program.use();
-					for (auto & light : this->_lights) {
-						light._value->apply(program);
-					}
-					if (this->_camera._hasChanged) {
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection());
-						this->_camera._hasChanged = false;
-					}
-					object._value->draw();
-				}
-			}
-		} // namespace scene
+			BASIC_LIGHT = 0,
+			DIRECTIONAL_LIGHT = 1,
+			POINT_LIGHT = 2,
+			SPOT_LIGHT = 3
+		};
 	} // namespace graphic
 } // namespace ece
+
+#endif // GRAPHIC_ENUM_HPP

@@ -38,58 +38,46 @@
 
 */
 
-#include "graphic/scene/scene.hpp"
+#include "graphic/model/phong_material.hpp"
 
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/renderable/object.hpp"
-#include "core/resource/make_resource.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/resource/shader.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace scene
+		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::makeResource;
-			using renderer::opengl::OpenGL;
+			using renderer::TextureTarget;
 
-			Scene::Scene() noexcept: _camera(), _objects()
+			void PhongMaterial::apply(Shader & shader)
 			{
-				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera._value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
-			}
+				shader.uniform<bool>("material.diffuseMapEnabled", !this->_diffuseMap.isDirty());
+				shader.uniform<bool>("material.specularMapEnabled", !this->_specularMap.isDirty());
 
-			Object::Reference Scene::addObject()
-			{
-				this->_objects.push_back({ makeResource<Object>(""), true });
-				return this->_objects.back()._value;
-			}
-
-			void Scene::prepare()
-			{
-				for (auto & object : this->_objects) {
-					object._value->prepare();
+				if (this->_diffuseMap.isDirty()) {
+					shader.uniform("material.ambient", this->_ambient);
+					shader.uniform("material.diffuse", this->_diffuse);
 				}
-			}
-
-			void Scene::draw()
-			{
-				for (auto & object : this->_objects) {
-					auto & program = object._value->getProgram();
-					program.use();
-					for (auto & light : this->_lights) {
-						light._value->apply(program);
-					}
-					if (this->_camera._hasChanged) {
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection());
-						this->_camera._hasChanged = false;
-					}
-					object._value->draw();
+				else {
+					shader.uniform<int>("material.diffuseMap", 0);
+					this->_diffuseMap->active(0);
+					this->_diffuseMap->bind(TextureTarget::TEXTURE_2D);
+					this->_diffuseMap->update();
 				}
+
+				if (this->_specularMap.isDirty()) {
+					shader.uniform("material.specular", this->_specular);
+				}
+				else {
+					shader.uniform<int>("material.specularMap", 1);
+					this->_specularMap->active(1);
+					this->_specularMap->bind(TextureTarget::TEXTURE_2D);
+					this->_specularMap->update();
+				}
+
+				shader.uniform("material.shininess", this->_shininess);
 			}
-		} // namespace scene
+		} // namespace model
 	} // namespace graphic
 } // namespace ece

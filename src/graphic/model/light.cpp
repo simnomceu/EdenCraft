@@ -38,58 +38,41 @@
 
 */
 
-#include "graphic/scene/scene.hpp"
+#include "graphic/model/light.hpp"
 
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/renderable/object.hpp"
-#include "core/resource/make_resource.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/resource/shader.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace scene
+		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::makeResource;
-			using renderer::opengl::OpenGL;
-
-			Scene::Scene() noexcept: _camera(), _objects()
+			Light::Light() noexcept : _ambient(1.0f), _diffuse(1.0f), _specular(1.0f), _color{ 1.0f, 1.0f, 1.0f }, _position{ 0.0f, 0.0f, 0.0f }, _direction{ 0.0f, 0.0f, 0.0f }, _constant(1.0f), 
+				_linear(0.0f), _quadratic(0.0f), _innerCutOff(0.0f), _outerCutOff(0.0f), _usePosition(false), _useDirection(false), _useAttenuation(false), _useCutOff(false), _useBlinn(false)
 			{
-				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera._value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
 			}
 
-			Object::Reference Scene::addObject()
+			void Light::apply(Shader & shader)
 			{
-				this->_objects.push_back({ makeResource<Object>(""), true });
-				return this->_objects.back()._value;
+				shader.use();
+				auto tmpId = std::to_string(0);
+				shader.uniform<float, 3>("lights[" + tmpId + "].ambient", this->_color * this->_ambient);
+				shader.uniform<float, 3>("lights[" + tmpId + "].diffuse", this->_color * this->_diffuse);
+				shader.uniform("lights[" + tmpId + "].specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
+				shader.uniform("lights[" + tmpId + "].position", this->_position);
+				shader.uniform("lights[" + tmpId + "].direction", this->_direction);
+				shader.uniform("lights[" + tmpId + "].constant", this->_constant);
+				shader.uniform("lights[" + tmpId + "].linear", this->_linear);
+				shader.uniform("lights[" + tmpId + "].quadratic", this->_quadratic);
+				shader.uniform("lights[" + tmpId + "].innerCutOff", this->_innerCutOff);
+				shader.uniform("lights[" + tmpId + "].outerCutOff", this->_outerCutOff);
+				shader.uniform("lights[" + tmpId + "].usePosition", this->_usePosition);
+				shader.uniform("lights[" + tmpId + "].useDirection", this->_useDirection);
+				shader.uniform("lights[" + tmpId + "].useAttenuation", this->_useAttenuation);
+				shader.uniform("lights[" + tmpId + "].useCutOff", this->_useCutOff);
+				shader.uniform("numberOfLights", 1);
 			}
-
-			void Scene::prepare()
-			{
-				for (auto & object : this->_objects) {
-					object._value->prepare();
-				}
-			}
-
-			void Scene::draw()
-			{
-				for (auto & object : this->_objects) {
-					auto & program = object._value->getProgram();
-					program.use();
-					for (auto & light : this->_lights) {
-						light._value->apply(program);
-					}
-					if (this->_camera._hasChanged) {
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection());
-						this->_camera._hasChanged = false;
-					}
-					object._value->draw();
-				}
-			}
-		} // namespace scene
+		} // namespace model
 	} // namespace graphic
 } // namespace ece

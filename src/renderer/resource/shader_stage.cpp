@@ -117,7 +117,13 @@ namespace ece
 				this->_handle = OpenGL::createShader(this->_type);
 				OpenGL::shaderSource(this->_handle, this->_source);
 				OpenGL::compileShader(this->_handle);
-				this->_compilationRequired = false;
+
+				if (OpenGL::getShaderiv(this->_handle, ShaderParameter::COMPILE_STATUS)) {
+    				this->_compilationRequired = false;
+				} else {
+                    std::string infoLog = OpenGL::getShaderInfoLog(this->_handle);
+                    ServiceLoggerLocator::getService().logError(infoLog);
+                }
 			}
 
 			void ShaderStage::terminate()

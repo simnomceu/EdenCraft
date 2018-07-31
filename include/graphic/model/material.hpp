@@ -38,58 +38,86 @@
 
 */
 
-#include "graphic/scene/scene.hpp"
+#ifndef MATERIAL_HPP
+#define MATERIAL_HPP
 
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/renderable/object.hpp"
-#include "core/resource/make_resource.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "graphic/config.hpp"
 
 namespace ece
 {
+	namespace renderer
+	{
+		namespace resource
+		{
+			class Shader;
+		} // namespace resource
+	} // namespace renderable
+
 	namespace graphic
 	{
-		namespace scene
+		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::makeResource;
-			using renderer::opengl::OpenGL;
+			using renderer::resource::Shader;
 
-			Scene::Scene() noexcept: _camera(), _objects()
+			/**
+			 * @class Material
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API Material
 			{
-				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera._value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
-			}
+			public:
+				/**
+				 * @fn constexpr Material() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr Material() noexcept = default;
 
-			Object::Reference Scene::addObject()
-			{
-				this->_objects.push_back({ makeResource<Object>(""), true });
-				return this->_objects.back()._value;
-			}
+				/**
+				 * @fn Material(const Material & copy) noexcept
+				 * @param[in] copy The Material to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Material(const Material & copy) noexcept = default;
 
-			void Scene::prepare()
-			{
-				for (auto & object : this->_objects) {
-					object._value->prepare();
-				}
-			}
+				/**
+				 * @fn Material(Material && move) noexcept
+				 * @param[in] move The Material to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Material(Material && move) noexcept = default;
 
-			void Scene::draw()
-			{
-				for (auto & object : this->_objects) {
-					auto & program = object._value->getProgram();
-					program.use();
-					for (auto & light : this->_lights) {
-						light._value->apply(program);
-					}
-					if (this->_camera._hasChanged) {
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection());
-						this->_camera._hasChanged = false;
-					}
-					object._value->draw();
-				}
-			}
-		} // namespace scene
+				/**
+				 * @fn ~Material() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Material() noexcept = default;
+
+				/**
+				 * @fn Material & operator=(const Material & copy) noexcept
+				 * @param[in] copy The Material to copy from.
+				 * @return The Material copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Material & operator=(const Material & copy) noexcept = default;
+
+				/**
+				 * @fn Material & operator=(Material && move) noexcept
+				 * @param[in] move The Material to move.
+				 * @return The Material moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Material & operator=(Material && move) noexcept = default;
+
+				virtual void apply(Shader & shader) = 0;
+			};
+		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#endif // MATERIAL_HPP

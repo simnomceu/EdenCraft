@@ -299,9 +299,9 @@ namespace ece
 				//		static inline void bindFragDataLocation(unsigned int program, unsigned int colorNumber, const char * name);
 				//		static inline int getFragDataLocation(unsigned int program, const char * name);
 				//		static inline bool isShader(unsigned int shader);
-				//		static inline void getShaderiv(unsigned int shader, GLenum pname, int *params);
+				static inline int getShaderiv(const Handle shader, const ShaderParameter pname);
 				static inline std::vector<Handle> getAttachedShaders(const Handle program);
-				//		static inline void getShaderInfoLog(unsigned int shader, GLsizei maxLength, GLsizei *length, char *infoLog);
+				static inline std::string getShaderInfoLog(const Handle shader);
 				//		static inline void getShaderSource(unsigned int shader, GLsizei bufSize, GLsizei *length, char *source);
 				//		static inline void getVertexAttribdv(unsigned int index, GLenum pname, double *params);
 				//		static inline void getVertexAttribfv(unsigned int index, GLenum pname, float *params);
@@ -313,7 +313,7 @@ namespace ece
 				//		static inline void getUniformiv(unsigned int program, int location, int *params);
 				//		static inline void getUniformuiv(unsigned int program, int location, unsigned int *params);
 				//		static inline bool isProgram(unsigned int program);
-				//		static inline void getProgramInfoLog(unsigned int program, GLsizei maxLength, GLsizei *length, char *infoLog);
+				static inline std::string getProgramInfoLog(const Handle program);
 				//		static inline void getMultisamplefv(GLenum pname, unsigned int index, float *val);
 				static inline void pointSize(const float size);
 				//		static inline void pointParameterf(GLenum pname, float param);
@@ -327,7 +327,7 @@ namespace ece
 				//		static inline void polygonOffset(float factor, float units);
 				//		static inline void pixelStoref(GLenum pname, float param);
 				//		static inline void pixelStorei(GLenum pname, int param);
-				//		static inline void activeTexture(GLenum texture);
+				static inline void activeTexture(const unsigned int texture);
 				//		static inline void texImage3D(GLenum target, int level, int internalFormat, GLsizei width, GLsizei height, GLsizei depth, int border, GLenum format, GLenum type, const void * data);
 				static inline void texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data);
 				//		static inline void texImage1D(GLenum target, int level, int internalFormat, GLsizei width, int border, GLenum format, GLenum type, const void * data);
@@ -800,6 +800,7 @@ namespace ece
 			template<> inline DataType OpenGL::dataType<float>();
 			template<> inline DataType OpenGL::dataType<double>();
 
+			template<> inline void OpenGL::uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
 			template<> inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v);
 			template<> inline void OpenGL::uniform<float, 2>(const int location, const std::array<float, 2> & v);
 			template<> inline void OpenGL::uniform<float, 3>(const int location, const std::array<float, 3> & v);

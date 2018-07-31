@@ -60,18 +60,18 @@ namespace ece
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
-				mesh.addVertex({ { 0.0f, 0.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex({ { 0.0f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				Mesh::Vertex vertex = { { radius, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
 					auto tmpresult = rotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
 					vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
 					mesh.addVertex(vertex);
-					mesh.addFace({ 0, i - 1, i });
+					mesh.addFace({ 0, static_cast<unsigned int>(i - 1), static_cast<unsigned int>(i) });
 				}
 
-				mesh.addFace({ 0, numberOfVertices - 1, 1 });
+				mesh.addFace({ 0, static_cast<unsigned int>(numberOfVertices - 1), 1 });
 
 				return std::move(mesh);
 			}
@@ -80,7 +80,7 @@ namespace ece
 			{
 				Mesh mesh;
 
-				mesh.addVertex({ { 0.0f, 1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex({ { 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f } });
 
 				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
 					const float polar = static_cast<float>(PI) * (i + 1) / numberOfVertices;
@@ -93,10 +93,10 @@ namespace ece
 						const float x = sp * ca;
 						const float y = cp;
 						const float z = sp * sa;
-						mesh.addVertex({ { x, y, z },{ 1.0f, 1.0f, 1.0f },{ x, y, z },{ 0.0f, 0.0f } });
+						mesh.addVertex({ { x * radius, y * radius, z * radius },{ x, y, z },{ 0.0f, 0.0f } });
 					}
 				}
-				mesh.addVertex({ { 0.0f, -1.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex({ { 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, 0.0f } });
 
 				for (size_t i = 0; i < numberOfVertices; ++i) {
 					const unsigned int a = i + 1;
@@ -120,7 +120,7 @@ namespace ece
 				for (size_t i = 0; i < numberOfVertices; ++i) {
 					const unsigned int a = i + numberOfVertices * (numberOfVertices - 2) + 1;
 					const unsigned int b = (i + 1) % numberOfVertices + numberOfVertices * (numberOfVertices - 2) + 1;
-					mesh.addFace({ mesh.getVertices().size() - 1, a, b });
+					mesh.addFace({ static_cast<unsigned int>(mesh.getVertices().size() - 1), a, b });
 				}
 
 				return std::move(mesh);
@@ -133,38 +133,38 @@ namespace ece
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
-				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
 					auto tmpresult = rotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
 					vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
 					mesh.addVertex(vertex);
-					mesh.addFace({ 0, i + 1, i + 2 });
+					mesh.addFace({ 0, static_cast<unsigned int>(i + 1), static_cast<unsigned int>(i + 2) });
 				}
 
-				mesh.addFace({ 0, numberOfVertices, 1 });
+				mesh.addFace({ 0, static_cast<unsigned int>(numberOfVertices), 1 });
 
-				mesh.addVertex({ { 0.0f, 0.0f, -height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				vertex = { { radius, 0.0f, -height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex({ { 0.0f, 0.0f, -height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				vertex = { { radius, 0.0f, -height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
 					auto tmpresult = rotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
 					vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
 					mesh.addVertex(vertex);
-					mesh.addFace({ numberOfVertices + 1, i + numberOfVertices + 2, i + numberOfVertices + 3 });
+					mesh.addFace({ static_cast<unsigned int>(numberOfVertices + 1), static_cast<unsigned int>(i + numberOfVertices + 2), static_cast<unsigned int>(i + numberOfVertices + 3) });
 				}
 
-				mesh.addFace({ numberOfVertices + 1, numberOfVertices + numberOfVertices + 1, numberOfVertices + 2 });
+				mesh.addFace({ static_cast<unsigned int>(numberOfVertices + 1), static_cast<unsigned int>(numberOfVertices + numberOfVertices + 1), static_cast<unsigned int>(numberOfVertices + 2) });
 
 				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
-					mesh.addFace({ numberOfVertices + i + 2, i + 2, i + 1 });
-					mesh.addFace({ i + 2, numberOfVertices + i + 2, numberOfVertices + i + 3 });
+					mesh.addFace({ static_cast<unsigned int>(numberOfVertices + i + 2), static_cast<unsigned int>(i + 2), static_cast<unsigned int>(i + 1) });
+					mesh.addFace({ static_cast<unsigned int>(i + 2), static_cast<unsigned int>(numberOfVertices + i + 2), static_cast<unsigned int>(numberOfVertices + i + 3) });
 				}
-				mesh.addFace({ numberOfVertices + numberOfVertices + 1, 1, numberOfVertices });
-				mesh.addFace({ 1, numberOfVertices + numberOfVertices + 1, numberOfVertices + 2 });
+				mesh.addFace({ static_cast<unsigned int>(numberOfVertices + numberOfVertices + 1), 1, static_cast<unsigned int>(numberOfVertices) });
+				mesh.addFace({ 1, static_cast<unsigned int>(numberOfVertices + numberOfVertices + 1), static_cast<unsigned int>(numberOfVertices + 2) });
 
 				return std::move(mesh);
 			}
@@ -180,28 +180,28 @@ namespace ece
 				const float radius = (outerRadius - innerRadius) / 2.0f;
 				FloatVector4u center = { (outerRadius + innerRadius) / 2.0f, 0.0f, 0.0f, 1.0f };
 
-				FloatVector4u startPos = { 1.0f, 0.0f, 0.0f, 1.0f };
+				FloatVector4u startPos = { radius, 0.0f, 0.0f, 1.0f };
 				FloatVector4u axis = { 0.0f, 1.0f, 0.0f, 1.0f };
 
 				for (size_t i = 0; i < numberOfRings; ++i) {
 					const auto shift = startPos - center;
 					const auto ringRotation = translate({ -shift[0], -shift[1], -shift[2] }) * rotate({ axis[0], axis[1], axis[2] }, -ringAngle) * translate({ shift[0], shift[1], shift[2] });
 
-					Mesh::Vertex vertex = { { startPos[0], startPos[1], startPos[2] }, { 1.0f, 1.0f, 1.0f }, { startPos[0], startPos[1], startPos[2] }, { 0.0f, 0.0f } };
+					Mesh::Vertex vertex = { { startPos[0], startPos[1], startPos[2] }, { startPos[0], startPos[1], startPos[2] }, { 0.0f, 0.0f } };
 
 					for (size_t j = 0; j < numberOfSlices; ++j) {
 						mesh.addVertex(vertex);
 						if (j < numberOfSlices - 1 && i < numberOfRings - 1) {
-							mesh.addFace({ (i + 1) * numberOfSlices + j, i * numberOfSlices + j + 1, i * numberOfSlices + j });
-							mesh.addFace({ i * numberOfSlices + j + 1, (i + 1) * numberOfSlices + j, (i + 1) * numberOfSlices + j + 1 });
+							mesh.addFace({ static_cast<unsigned int>((i + 1) * numberOfSlices + j), static_cast<unsigned int>(i * numberOfSlices + j + 1), static_cast<unsigned int>(i * numberOfSlices + j) });
+							mesh.addFace({ static_cast<unsigned int>(i * numberOfSlices + j + 1), static_cast<unsigned int>((i + 1) * numberOfSlices + j), static_cast<unsigned int>((i + 1) * numberOfSlices + j + 1) });
 						}
 
 						auto tmpresult = ringRotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
 						vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
 					}
 					if (i < numberOfRings - 1) {
-						mesh.addFace({ (i + 1) * numberOfSlices + numberOfSlices - 1, i * numberOfSlices, i * numberOfSlices + numberOfSlices - 1 });
-						mesh.addFace({ i * numberOfSlices, (i + 1) * numberOfSlices + numberOfSlices - 1, (i + 1) * numberOfSlices });
+						mesh.addFace({ static_cast<unsigned int>((i + 1) * numberOfSlices + numberOfSlices - 1), static_cast<unsigned int>(i * numberOfSlices), static_cast<unsigned int>(i * numberOfSlices + numberOfSlices - 1) });
+						mesh.addFace({ static_cast<unsigned int>(i * numberOfSlices), static_cast<unsigned int>((i + 1) * numberOfSlices + numberOfSlices - 1), static_cast<unsigned int>((i + 1) * numberOfSlices) });
 					}
 
 					startPos = rotation * startPos;
@@ -210,11 +210,11 @@ namespace ece
 				}
 
 				for (size_t j = 0; j < numberOfSlices - 1; ++j) {
-					mesh.addFace({ (numberOfRings - 1) * numberOfSlices + j, j + 1, j });
-					mesh.addFace({ j + 1, (numberOfRings - 1) * numberOfSlices + j, (numberOfRings - 1) * numberOfSlices + j + 1 });
+					mesh.addFace({ static_cast<unsigned int>((numberOfRings - 1) * numberOfSlices + j), static_cast<unsigned int>(j + 1), static_cast<unsigned int>(j) });
+					mesh.addFace({ static_cast<unsigned int>(j + 1), static_cast<unsigned int>((numberOfRings - 1) * numberOfSlices + j), static_cast<unsigned int>((numberOfRings - 1) * numberOfSlices + j + 1) });
 				}
-				mesh.addFace({ numberOfRings * numberOfSlices - 1, 1, numberOfSlices - 1 });
-				mesh.addFace({ 1, numberOfRings * numberOfSlices - 1, (numberOfRings - 1) * numberOfSlices });
+				mesh.addFace({ static_cast<unsigned int>(numberOfRings * numberOfSlices - 1), 1, static_cast<unsigned int>(numberOfSlices - 1) });
+				mesh.addFace({ 1, static_cast<unsigned int>(numberOfRings * numberOfSlices - 1), static_cast<unsigned int>((numberOfRings - 1) * numberOfSlices) });
 
 				return std::move(mesh);
 			}
@@ -226,26 +226,26 @@ namespace ece
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
-				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
 					auto tmpresult = rotation * FloatVector4u{ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f };
 					vertex._position = { tmpresult[0], tmpresult[1], tmpresult[2] };
 					mesh.addVertex(vertex);
-					mesh.addFace({ 0, i - 1, i });
+					mesh.addFace({ 0, static_cast<unsigned int>(i - 1), static_cast<unsigned int>(i) });
 				}
 
-				mesh.addFace({ 0, numberOfVertices - 1, 1 });
+				mesh.addFace({ 0, static_cast<unsigned int>(numberOfVertices - 1), 1 });
 
-				mesh.addVertex({ { 0.0f, 0.0f, height / -2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex({ { 0.0f, 0.0f, height / -2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
-					mesh.addFace({ numberOfVertices + 1, i - 1, i });
+					mesh.addFace({ static_cast<unsigned int>(numberOfVertices + 1), static_cast<unsigned int>(i - 1), static_cast<unsigned int>(i) });
 				}
 
-				mesh.addFace({ numberOfVertices + 1, numberOfVertices - 1, 1 });
+				mesh.addFace({ static_cast<unsigned int>(numberOfVertices + 1), static_cast<unsigned int>(numberOfVertices - 1), 1 });
 
 				return std::move(mesh);
 			}
@@ -254,10 +254,10 @@ namespace ece
 			{
 				Mesh mesh;
 
-				mesh.addVertex({ { -size / 2.0f, -size/2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 0.0f } });
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, 0.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 1.0f } });
+				mesh.addVertex({ { -size / 2.0f, -size/2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 1.0f } });
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 0.0f } });
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 1.0f } });
 
 				mesh.addFace({ 0, 1, 2 });
 				mesh.addFace({ 2, 3, 0 });
@@ -269,27 +269,53 @@ namespace ece
 			{
 				Mesh mesh;
 
-				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, -1.0f, -1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, -1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{- 1.0f, -1.0f, 1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, 1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ -1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f } });
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ -1.0f, -1.0f, 1.0f },{ 0.0f, 0.0f } }); // 0
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, -1.0f, 1.0f },{ 1.0f, 0.0f } }); // 1
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f } }); // 2
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ -1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f } }); // 3
 
-				mesh.addFace({ 0, 2, 1 });
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, -1.0f, 1.0f },{ 0.0f, 0.0f } }); // 4
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 5
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 6
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 0.0f, 1.0f } }); // 7
+
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 8
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ -1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 9
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ -1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 10
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 11
+
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ -1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 12
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ -1.0f, -1.0f, 1.0f },{ 1.0f, 0.0f } }); // 13
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ -1.0f, 1.0f, 1.0f },{ 1.0f, 1.0f } }); // 14
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ -1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 15
+
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, size / 2.0f },{ -1.0f, 1.0f, 1.0f },{ 0.0f, 0.0f } }); // 16
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, size / 2.0f },{ 1.0f, 1.0f, 1.0f },{ 1.0f, 0.0f } }); // 17
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, -size / 2.0f },{ 1.0f, 1.0f, -1.0f },{ 1.0f, 1.0f } }); // 18
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, -size / 2.0f },{ -1.0f, 1.0f, -1.0f },{ 0.0f, 1.0f } }); // 19
+
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, -size / 2.0f },{ -1.0f, -1.0f, -1.0f },{ 0.0f, 0.0f } }); // 20
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, -size / 2.0f },{ 1.0f, -1.0f, -1.0f },{ 1.0f, 0.0f } }); // 21
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, -1.0f, 1.0f },{ 1.0f, 1.0f } }); // 22
+				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ -1.0f, -1.0f, 1.0f },{ 0.0f, 1.0f } }); // 23
+
 				mesh.addFace({ 0, 3, 2 });
-				mesh.addFace({ 1, 2, 6 });
-				mesh.addFace({ 6, 5, 1 });
-				mesh.addFace({ 4, 5, 6 });
-				mesh.addFace({ 6, 7, 4 });
-				mesh.addFace({ 2, 3, 6 });
-				mesh.addFace({ 6, 3, 7 });
-				mesh.addFace({ 0, 7, 3 });
-				mesh.addFace({ 0, 4, 7 });
-				mesh.addFace({ 0, 1, 5 });
-				mesh.addFace({ 0, 5, 4 });
+				mesh.addFace({ 0, 2, 1 });
+
+				mesh.addFace({ 4, 7, 6 });
+				mesh.addFace({ 4, 6, 5 });
+
+				mesh.addFace({ 8, 11, 10 });
+				mesh.addFace({ 8, 10, 9 });
+
+				mesh.addFace({ 12, 15, 14 });
+				mesh.addFace({ 12, 14, 13 });
+
+				mesh.addFace({ 16, 19, 18 });
+				mesh.addFace({ 16, 18, 17 });
+
+				mesh.addFace({ 20, 23, 22 });
+				mesh.addFace({ 20, 22, 21 });
 
 				return std::move(mesh);
 			}

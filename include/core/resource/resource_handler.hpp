@@ -127,6 +127,8 @@ namespace ece
 
 				inline bool isDirty() const;
 
+				template <class Parent> operator ResourceHandler<Parent>() const;
+
 			private:
 				std::weak_ptr<Resource> _resource;
 			};

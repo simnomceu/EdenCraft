@@ -40,6 +40,7 @@
 #define OBJECT_OBJ_HPP
 
 #include "utility/config.hpp"
+#include "utility/mathematics/vector2u.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/vector4u.hpp"
 
@@ -49,6 +50,7 @@ namespace ece
 	{
 		namespace wavefront
 		{
+			using mathematics::FloatVector2u;
 			using mathematics::IntVector3u;
 			using mathematics::FloatVector3u;
 			using mathematics::FloatVector4u;
@@ -126,12 +128,12 @@ namespace ece
 				inline std::vector<FloatVector4u> & getVertices();
 				inline const std::vector<FloatVector4u> & getVertices() const;
 
-				inline void addVertexTexture(const FloatVector3u & vt);
-				inline void addVertexTexture(FloatVector3u && vt);
+				inline void addVertexTexture(const FloatVector2u & vt);
+				inline void addVertexTexture(FloatVector2u && vt);
 
 				inline int getNumberOfVerticesTexture() const;
-				inline std::vector<FloatVector3u> & getVerticesTexture();
-				inline const std::vector<FloatVector3u> & getVerticesTexture() const;
+				inline std::vector<FloatVector2u> & getVerticesTexture();
+				inline const std::vector<FloatVector2u> & getVerticesTexture() const;
 
 				inline void addVertexNormal(const FloatVector3u & vn);
 				inline void addVertexNormal(FloatVector3u && vn);
@@ -157,7 +159,7 @@ namespace ece
 				std::string _o; // object name
 
 				std::vector<FloatVector4u> _v; // geometric vertices
-				std::vector<FloatVector3u> _vt; // texture vertices
+				std::vector<FloatVector2u> _vt; // texture vertices
 				std::vector<FloatVector3u> _vn; // vertex normals
 				std::vector<FloatVector3u> _vp; // parameter space vertices
 

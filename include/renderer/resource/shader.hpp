@@ -42,6 +42,7 @@
 #include "renderer/config.hpp"
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/resource/shader_stage.hpp"
+#include "utility/template_expression/vector.hpp"
 
 namespace ece
 {
@@ -50,6 +51,7 @@ namespace ece
 		namespace resource
 		{
 			using opengl::Handle;
+			using utility::template_expression::Vector;
 
 			class BaseUniform;
 
@@ -162,6 +164,7 @@ namespace ece
 				 * @brief Set the value of a uniform from the shader program.
 				 */
 				template<class T> void uniform(const std::string & uniform, const T & value);
+				template<class E, int Size> void uniform(const std::string & uniform, const Vector<E, Size> & value);
 
 				/**
 				 * @fn void terminate()

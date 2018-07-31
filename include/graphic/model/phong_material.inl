@@ -38,58 +38,35 @@
 
 */
 
-#include "graphic/scene/scene.hpp"
-
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/renderable/object.hpp"
-#include "core/resource/make_resource.hpp"
-#include "renderer/opengl/opengl.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
-		namespace scene
+		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::makeResource;
-			using renderer::opengl::OpenGL;
+			inline void PhongMaterial::setAmbient(const FloatVector3u & ambient) { this->_ambient = ambient; }
+			
+			inline void PhongMaterial::setDiffuse(const FloatVector3u & diffuse) { this->_diffuse = diffuse; }
+			
+			inline void PhongMaterial::setSpecular(const FloatVector3u & specular) { this->_specular = specular; }
+			
+			inline void PhongMaterial::setShininess(const float shininess) { this->_shininess = shininess; }
 
-			Scene::Scene() noexcept: _camera(), _objects()
-			{
-				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera._value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
-			}
+			inline void PhongMaterial::setDiffuseMap(const Texture2D::Texture2DReference & texture) { this->_diffuseMap = texture; }
 
-			Object::Reference Scene::addObject()
-			{
-				this->_objects.push_back({ makeResource<Object>(""), true });
-				return this->_objects.back()._value;
-			}
+			inline void PhongMaterial::setSpecularMap(const Texture2D::Texture2DReference & texture) { this->_specularMap = texture; }
 
-			void Scene::prepare()
-			{
-				for (auto & object : this->_objects) {
-					object._value->prepare();
-				}
-			}
+			inline const FloatVector3u & PhongMaterial::getAmbient() const { return this->_ambient; }
+			
+			inline const FloatVector3u & PhongMaterial::getDiffuse() const { return this->_diffuse; }
+			
+			inline const FloatVector3u & PhongMaterial::getSpecular() const { return this->_specular; }
+			
+			inline float PhongMaterial::getShininess() const { return this->_shininess; }
 
-			void Scene::draw()
-			{
-				for (auto & object : this->_objects) {
-					auto & program = object._value->getProgram();
-					program.use();
-					for (auto & light : this->_lights) {
-						light._value->apply(program);
-					}
-					if (this->_camera._hasChanged) {
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection());
-						this->_camera._hasChanged = false;
-					}
-					object._value->draw();
-				}
-			}
-		} // namespace scene
+			inline Texture2D::Texture2DReference PhongMaterial::getDiffuseMap() const { return this->_diffuseMap; }
+			
+			inline Texture2D::Texture2DReference PhongMaterial::getSpecularMap() const { return this->_specularMap; }
+		} // namespace model
 	} // namespace graphic
 } // namespace ece

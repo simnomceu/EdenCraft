@@ -36,57 +36,13 @@
 
 */
 
-#include "renderer/resource/shader.hpp"
-
-#include "utility/log/service_logger.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace common
 		{
-            using utility::log::ServiceLoggerLocator;
-
-			Shader::~Shader()
-			{
-				this->terminate();
-			}
-
-			void Shader::setStage(ShaderStage & stage)
-			{
-				if (stage.isCompilationRequired()) {
-					stage.compile();
-				}
-				OpenGL::attachShader(this->_handle, stage.getHandle());
-				stage.terminate();
-
-				this->_linkedSuccessfully = false;
-			}
-
-			void Shader::link()
-			{
-				OpenGL::linkProgram(this->_handle);
-
-				if (OpenGL::getProgramiv(this->_handle, ProgramParameter::LINK_STATUS)[0]) {
-					this->use();
-					this->_linkedSuccessfully = true;
-
-					auto shaders = OpenGL::getAttachedShaders(this->_handle);
-					for (auto & it : shaders) {
-						OpenGL::detachShader(this->_handle, it);
-					}
-				} else {
-                    std::string infoLog = OpenGL::getProgramInfoLog(this->_handle);
-                    //ServiceLoggerLocator::getService().logError(infoLog);
-                }
-			}
-
-			void Shader::terminate()
-			{
-				OpenGL::deleteShader(this->_handle);
-				this->_handle = 0;
-			}
-		} // namespace resource
+			inline Shader & Renderable::getProgram() { return this->_program; }
+		} // namespace common
 	} // namespace renderer
 } // namespace ece
