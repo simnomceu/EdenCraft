@@ -134,6 +134,8 @@ namespace ece
 				 */
 				template<class T> void sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage, const bool instancing = false);
 
+				template<class T> void updateData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage, const bool instancing = false);
+
 				/**
 				 * @fn void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage)
 				 * @tparam T The type of data to add to the vertex array without VBO.

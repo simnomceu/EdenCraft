@@ -65,6 +65,7 @@ namespace ece
                     size_t _unitSize;
                     size_t _count;
                     bool _normalized;
+					bool _ignored;
                 };
 
                 /**
@@ -115,7 +116,7 @@ namespace ece
                  */
                 BufferLayout & operator=(BufferLayout && move) noexcept = default;
 
-                template <class T> void add(const size_t size, const bool normalized);
+                template <class T> void add(const size_t size, const bool normalized, const bool ignored = false);
 
                 size_t getStrideFrom(const size_t index) const;
                 size_t getOffsetFrom(const size_t index) const;
@@ -123,6 +124,7 @@ namespace ece
                 inline ElementLayout & getElement(const size_t index);
                 inline const ElementLayout & getElement(const size_t index) const;
                 inline size_t size() const;
+				inline size_t count() const;
 
             private:
                 std::vector<ElementLayout> _elements;

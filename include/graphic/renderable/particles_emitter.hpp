@@ -40,6 +40,10 @@
 
 #include "graphic/config.hpp"
 #include "renderer/common/renderable.hpp"
+#include "utility/mathematics/vector3u.hpp"
+
+#include <chrono>
+#include <vector>
 
 namespace ece
 {
@@ -48,26 +52,37 @@ namespace ece
 		namespace renderable
 		{
 			using renderer::common::Renderable;
+			using utility::mathematics::FloatVector3u;
+			using utility::mathematics::FloatVector4u;
+			using renderer::resource::BufferLayout;
 
 			/**
 			 * @class ParticlesEmitter
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API ParticlesEmitter : public Renderable
+			class ECE_GRAPHIC_API ParticlesEmitter: public Renderable
 			{
 			public:
+				struct Particle
+				{
+					float _life;
+					FloatVector3u _position;
+					FloatVector3u _velocity;
+					FloatVector4u _color;
+				};
+
 				/**
 				 * @fn ParticlesEmitter() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				ParticlesEmitter() noexcept = default;
+				ParticlesEmitter(const int size) noexcept;
 
 				/**
-				 * @fn ParticlesEmitter(const ParticlesEmitter & copy) noexcept
+				 * @fn ParticlesEmitter(const ParticlesEmitter & copy)
 				 * @param[in] copy The ParticlesEmitter to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
 				ParticlesEmitter(const ParticlesEmitter & copy) = default;
 
@@ -87,11 +102,11 @@ namespace ece
 				~ParticlesEmitter() noexcept = default;
 
 				/**
-				 * @fn ParticlesEmitter & operator=(const ParticlesEmitter & copy) noexcept
+				 * @fn ParticlesEmitter & operator=(const ParticlesEmitter & copy)
 				 * @param[in] copy The ParticlesEmitter to copy from.
 				 * @return The ParticlesEmitter copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
 				ParticlesEmitter & operator=(const ParticlesEmitter & copy) = default;
 
@@ -103,6 +118,13 @@ namespace ece
 				 * @throw noexcept
 				 */
 				ParticlesEmitter & operator=(ParticlesEmitter && move) noexcept = default;
+
+				void update(const float elapsedTime);
+
+			private:
+				std::vector<Particle> _particles;
+				int _size;
+				BufferLayout _instanceLayout;
 			};
 		} // namespace renderable
 	} // namespace graphic

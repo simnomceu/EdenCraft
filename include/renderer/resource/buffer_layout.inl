@@ -49,9 +49,9 @@ namespace ece
             using opengl::OpenGL;
 
             template <class T>
-            void BufferLayout::add(const size_t size, const bool normalized)
+            void BufferLayout::add(const size_t size, const bool normalized, const bool ignored)
             {
-                this->_elements.push_back({ OpenGL::dataType<T>(), sizeof(T),size, normalized });
+                this->_elements.push_back({ OpenGL::dataType<T>(), sizeof(T),size, normalized, ignored });
             }
 
             inline BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) { return this->_elements[index]; }
@@ -59,6 +59,8 @@ namespace ece
             inline const BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) const { return this->_elements[index]; }
 
             inline size_t BufferLayout::size() const { return this->_elements.size(); }
+
+			inline size_t BufferLayout::count() const { return std::accumulate(this->_elements.begin(), this->_elements.end(), 0, [](int count, const BufferLayout::ElementLayout element) -> int { return (element._ignored ? 0 : 1) + count; }); }
         } // namespace resource
     } // namespace renderer
 } // namespace ece

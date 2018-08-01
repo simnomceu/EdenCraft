@@ -57,19 +57,45 @@ namespace ece
                 VBO vbo;
 				vbo.bufferData<std::vector, T>(data, usage);
                 for (size_t i = 0; i < layout.size(); ++i) {
-                    OpenGL::enableVertexAttribArray(this->_globalLocation);
-    				OpenGL::vertexAttribPointer(this->_globalLocation,
-                                                layout.getElement(i)._count,
-                                                layout.getElement(i)._type,
-                                                layout.getElement(i)._normalized,
-                                                layout.getStrideFrom(i),
-                                                layout.getOffsetFrom(i));
-                    if (instancing) {
-                        OpenGL::vertexAttribDivisor(this->_globalLocation, 1);
-                    }
-                    ++this->_globalLocation;
+					if (!layout.getElement(i)._ignored) {
+						OpenGL::enableVertexAttribArray(this->_globalLocation);
+						OpenGL::vertexAttribPointer(this->_globalLocation,
+													layout.getElement(i)._count,
+													layout.getElement(i)._type,
+													layout.getElement(i)._normalized,
+													layout.getStrideFrom(i),
+													layout.getOffsetFrom(i));
+						if (instancing) {
+							OpenGL::vertexAttribDivisor(this->_globalLocation, 1);
+						}
+						++this->_globalLocation;
+					}
                 }
             }
+
+			template<class T>
+			void VAO::updateData(const BufferLayout & layout, const BufferType /*type*/, const std::vector<T> & data, const BufferUsage usage, const bool instancing)
+			{
+				this->bind();
+				VBO vbo;
+				vbo.bufferData<std::vector, T>(data, usage);
+				this->_globalLocation -= layout.count();
+				for (size_t i = 0; i < layout.size(); ++i) {
+					if (!layout.getElement(i)._ignored) {
+						OpenGL::enableVertexAttribArray(this->_globalLocation);
+						OpenGL::vertexAttribPointer(this->_globalLocation,
+							layout.getElement(i)._count,
+							layout.getElement(i)._type,
+							layout.getElement(i)._normalized,
+							layout.getStrideFrom(i),
+							layout.getOffsetFrom(i));
+						if (instancing) {
+							OpenGL::vertexAttribDivisor(this->_globalLocation, 1);
+						}
+						++this->_globalLocation;
+					}
+				}
+			}
 
             template<class T>
             void VAO::sendDataWithoutBuffer(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
@@ -79,14 +105,16 @@ namespace ece
                  * Error: data never sent.
                  */
                 for (size_t i = 0; i < layout.size(); ++i) {
-                    OpenGL::enableVertexAttribArray(this->_globalLocation);
-    				OpenGL::vertexAttribPointer(this->_globalLocation,
-                                                layout.getElement(i)._count,
-                                                layout.getElement(i)._type,
-                                                layout.getElement(i)._normalized,
-                                                layout.getStrideFrom(i),
-                                                layout.getOffsetFrom(i));
-                    ++this->_globalLocation;
+					if (!layout.getElement(i)._ignored) {
+						OpenGL::enableVertexAttribArray(this->_globalLocation);
+						OpenGL::vertexAttribPointer(this->_globalLocation,
+													layout.getElement(i)._count,
+													layout.getElement(i)._type,
+													layout.getElement(i)._normalized,
+													layout.getStrideFrom(i),
+													layout.getOffsetFrom(i));
+						++this->_globalLocation;
+					}
                 }
             }
 
