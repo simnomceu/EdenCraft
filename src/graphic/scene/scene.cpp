@@ -63,8 +63,9 @@ namespace ece
 
 			Object::Reference Scene::addObject()
 			{
-				this->_objects.push_back({ makeResource<Object>(""), true });
-				return this->_objects.back()._value;
+				auto object = makeResource<Object>("");
+				this->_objects.push_back({ object, true });
+				return std::move(object);
 			}
 
 			void Scene::prepare()

@@ -146,7 +146,7 @@ namespace ece
 
 				inline std::shared_ptr<Material> getMaterial() const;
 
-                void prepare();
+                virtual void prepare() override;
 
 			protected:
 				/**

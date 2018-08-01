@@ -43,6 +43,7 @@
 #include "renderer/resource/vao.hpp"
 #include "renderer/enum.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -54,6 +55,7 @@ namespace ece
 			using resource::Shader;
 			using resource::EnhancedShader;
             using utility::mathematics::FloatMatrix4u;
+			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Renderable
@@ -62,6 +64,8 @@ namespace ece
 			class ECE_RENDERER_API Renderable
 			{
 			public:
+				using Reference = ResourceHandler<Renderable>;
+
 				/**
 				 * @fn Renderable() noexcept
 				 * @brief Default constructor.
@@ -119,6 +123,8 @@ namespace ece
                 bool isInstancingEnabled() const;
 
 				inline Shader & getProgram();
+
+				inline virtual void prepare();
 
 			protected:
 				VAO _vao;
