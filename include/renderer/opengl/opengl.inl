@@ -97,10 +97,10 @@ namespace ece
 				checkErrors(glBindVertexArray(handle));
 			}
 
-			template<class T>
-			inline void OpenGL::bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage, const int offset)
+			template <template <class, class...> class T, class E, class... TT, typename enabled>
+			inline void OpenGL::bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset)
 			{
-				checkErrors(glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), data.data() + offset, static_cast<GLenum>(usage)));
+				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(E), std::data(data) + offset, static_cast<GLenum>(usage)));
 			}
 
 			inline void OpenGL::vertexAttribPointer(const int location, const int size, const DataType type, const bool normalized, const int stride, const int offset)

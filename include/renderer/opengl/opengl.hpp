@@ -54,6 +54,9 @@
 #include "utility/mathematics/vector4u.hpp"
 #include "renderer/enum.hpp"
 #include "utility/indexing/version.hpp"
+#include "utility/container/contiguous_container.hpp"
+#include "utility/container/can_access_data.hpp"
+#include "utility/container/has_size.hpp"
 
 namespace ece
 {
@@ -70,6 +73,9 @@ namespace ece
 			using namespace utility::template_expression;
 			using utility::indexing::Version;
 			using common::BaseContext;
+			using utility::container::contiguous_container_v;
+			using utility::container::can_access_data_v;
+			using utility::container::has_size_v;
 
 			using Handle = unsigned int;
 
@@ -116,7 +122,10 @@ namespace ece
 				template <class T> static inline DataType dataType();
 
 				static inline void bindBuffer(const BufferType type, const Handle handle);
-				template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage, const int offset = 0);
+
+				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
+				static inline void bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset = 0);
+
 				static inline void genVertexArrays(Handle & handle);
 				static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
 				static inline void bindVertexArray(const Handle handle);

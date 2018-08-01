@@ -42,12 +42,19 @@
 #include "renderer/config.hpp"
 #include "renderer/resource/object_opengl.hpp"
 
+#include <type_traits>
+#include <iterator>
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace resource
 		{
+			using utility::container::contiguous_container_v;
+			using utility::container::can_access_data_v;
+			using utility::container::has_size_v;
+
 			/**
 			 * @class VBO
 			 * @brief A vertex buffer object as defined in OpenGL
@@ -55,7 +62,7 @@ namespace ece
 			class ECE_RENDERER_API VBO: public ObjectOpenGL
 			{
 			public:
-				inline VBO(const BufferType type = BufferType::ARRAY_BUFFER);
+				inline VBO();
 
 				/**
 				 * @fn VBO(const VBO & copy) noexcept
@@ -112,24 +119,10 @@ namespace ece
 				 * @param[in] usage The kind of usage the buffer.
 				 * @brief Set data in the VBO.
 				 */
-				template<class T> void bufferData(const std::vector<T> & data, const BufferUsage usage, const int offset = 0);
-
-				/**
-				 * @fn void setType(const BufferType type)
-				 * @param[in] type The type to set.
-				 * @brief Change the type of buffer.
-				 * @throw
-				 */
-				inline void setType(const BufferType type);
+				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+				void bufferData(const T<TT...> & data, const BufferUsage usage, const int offset = 0);
 
 				inline virtual void terminate() override;
-
-			private:
-				/**
-				 * @property _type
-				 * @brief The type of VBO to use.
-				 */
-				BufferType _type;
 			};
 		} // namespace resource
 	} // namespace renderer

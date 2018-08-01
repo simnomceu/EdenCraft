@@ -53,7 +53,7 @@ namespace ece
 			inline void IBO::bufferData(const std::vector<T> & data, const BufferUsage usage)
 			{
 				this->bind();
-				OpenGL::bufferData<T>(BufferType::ELEMENT_ARRAY_BUFFER, data, usage);
+				OpenGL::bufferData<std::vector, T>(BufferType::ELEMENT_ARRAY_BUFFER, data, usage);
 			}
 
 			inline void IBO::terminate() {}

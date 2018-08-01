@@ -42,18 +42,16 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VBO::VBO(const BufferType type) : ObjectOpenGL(), _type(type) { this->_handle = OpenGL::genBuffers(); }
+			inline VBO::VBO() : ObjectOpenGL() { this->_handle = OpenGL::genBuffers(); }
 
-			inline void VBO::bind() const { OpenGL::bindBuffer(this->_type, this->_handle); }
+			inline void VBO::bind() const { OpenGL::bindBuffer(BufferType::ARRAY_BUFFER, this->_handle); }
 
-			template<class T>
-			void VBO::bufferData(const std::vector<T> & data, const BufferUsage usage, const int offset)
+			template<template <class...> class T, class... TT, typename enabled>
+			void VBO::bufferData(const T<TT...> & data, const BufferUsage usage, const int offset)
 			{
 				this->bind();
-				OpenGL::bufferData<T>(this->_type, data, usage, offset);
+				OpenGL::bufferData<T, TT...>(BufferType::ARRAY_BUFFER, data, usage, offset);
 			}
-
-			inline void VBO::setType(const BufferType type) { this->_type = type; }
 
 			inline void VBO::terminate()
 			{
