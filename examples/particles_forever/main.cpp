@@ -43,7 +43,7 @@ int main()
 
 		auto & camera = scene.getCamera();
 		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 1.0f });
+		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 		scene.updateCamera();
 
@@ -56,7 +56,7 @@ int main()
 		chrono.start();
 		while (window.isOpened()) {
 			window.clear(ece::BLACK);
-			if (chrono.getElapsedTime() > 50) {
+			if (chrono.getElapsedTime() > 100) {
 				emitter->update(chrono.reset() / 1000.0f);
 			}
 			scene.draw();

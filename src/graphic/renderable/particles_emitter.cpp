@@ -43,6 +43,7 @@
 #include "graphic/model/primitives.hpp"
 
 #include <vector>
+#include <algorithm>
 
 namespace ece
 {
@@ -60,12 +61,12 @@ namespace ece
 			using renderer::opengl::OpenGL;
 			using renderer::DataType;
 
-			ParticlesEmitter::ParticlesEmitter(const int size) noexcept : Renderable(), _particles(), _size(size)
+			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _dataIndex(0)
 			{
-				for (int i = 0; i < this->_size; ++i) {
-					this->_particles.push_back({ 10.0f,
+				for (int i = 0; i < 10; ++i) {
+					this->_particles.push_back({ 1.0f,
 						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
-						{ 10.0f, 10.0f, 10.0f },
+						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
 
@@ -87,7 +88,7 @@ namespace ece
 				instanceLayout.add<float>(3, false, false, true);
 				instanceLayout.add<float>(3, false, true, false);
 				instanceLayout.add<float>(4, false, false, true);
-				this->_vao.sendData(instanceLayout, this->_particles, BufferObject::Usage::STATIC);
+				this->_dataIndex = this->_vao.sendData(instanceLayout, this->_particles, BufferObject::Usage::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/particles_forever/particles.frag");
@@ -103,12 +104,12 @@ namespace ece
 			{
 				this->_particles.erase(std::remove_if(this->_particles.begin(), this->_particles.end(), [](const ParticlesEmitter::Particle & element) { return element._life <= 0.0f; }), this->_particles.end());
 
-				auto particlesToCreate = this->_size - this->_particles.size();
+				auto particlesToCreate = std::min(this->_size - this->_particles.size(), std::size_t(10));
 				for (size_t i = 0; i < particlesToCreate; ++i) {
-					this->_particles.push_back({ 10.0f, 
-												 { ((rand() % 100) - 50) / 10.0f, ((rand() % 100) - 50) / 10.0f, ((rand() % 100) - 50) / 10.0f }, 
-												 { 0.1f, 0.1f, 0.1f }, 
-												 { 0.5f + ((rand() % 100) / 100.0f), 0.5f + ((rand() % 100) / 100.0f), 0.5f + ((rand() % 100) / 100.0f), 1.0f } });
+					this->_particles.push_back({ 1.0f,
+						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
+						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
+						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
 
 				for (auto & particle : this->_particles) {
@@ -119,14 +120,8 @@ namespace ece
 					}
 				}
 
-				BufferLayout instanceLayout;
-				instanceLayout.setInstanceBlockSize(1);
-				instanceLayout.add<float>(1, false, true, false);
-				instanceLayout.add<float>(3, false, false, true);
-				instanceLayout.add<float>(3, false, true, false);
-				instanceLayout.add<float>(4, false, false, true);
 				//this->_vao.sendData(instanceLayout, this->_particles, BufferObject::Usage::STATIC);
-				//this->_vao.updateData(this->_instanceLayout, BufferType::ARRAY_BUFFER, this->_particles, BufferUsage::STATIC_DRAW, true);
+				this->_vao.updateData(this->_dataIndex, this->_particles);
 			}
 
 

@@ -134,9 +134,10 @@ namespace ece
 				 * @throw
 				 */
 				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				void sendData(const BufferLayout & layout, const T<TT...> & data, const VBO::Usage usage);
+				size_t sendData(const BufferLayout & layout, const T<TT...> & data, const VBO::Usage usage);
 
-				//template <class T> void updateData(const BufferLayout & layout, const std::vector<T> & data, const BufferUsage usage, const bool instancing = false);
+				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+				void updateData(const std::size_t index, const T<TT...> & data);
 
 				//template <class T>  std::vector<T> getData(const BufferLayout & layout, const BufferUsage usage, const bool instancing = false);
 

@@ -76,7 +76,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				ParticlesEmitter(const int size) noexcept;
+				ParticlesEmitter(const std::size_t size) noexcept;
 
 				/**
 				 * @fn ParticlesEmitter(const ParticlesEmitter & copy)
@@ -124,7 +124,8 @@ namespace ece
 				virtual void draw() override;
 			private:
 				std::vector<Particle> _particles;
-				int _size;
+				std::size_t _size;
+				size_t _dataIndex;
 			};
 		} // namespace renderable
 	} // namespace graphic
