@@ -54,6 +54,7 @@ namespace ece
 			using graphic::model::makeQuad;
 			using renderer::resource::ShaderStage;
 			using renderer::ShaderType;
+			using renderer::resource::BufferObject;
 
 			ParticlesEmitter::ParticlesEmitter(const int size) noexcept : Renderable(), _particles(), _size(size), _instanceLayout()
 			{
@@ -67,17 +68,17 @@ namespace ece
 				this->_mode = PrimitiveMode::TRIANGLES;
 
 				BufferLayout layout;
-				layout.add<float>(3, false);
+				layout.add<float>(3, false, false, false);
 
 				auto mesh = makeQuad(0.1f);
-				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, mesh.getVertices(), BufferUsage::STATIC_DRAW);
-				this->_vao.addIndices(mesh.getFaces(), BufferUsage::STATIC_DRAW);
+				this->_vao.sendData(layout, mesh.getVertices(), BufferObject::Usage::STATIC);
+				this->_vao.addIndices(mesh.getFaces());
 				
-				this->_instanceLayout.add<float>(1, false, false);
-				this->_instanceLayout.add<float>(3, false);
-				this->_instanceLayout.add<float>(3, false, false);
-				this->_instanceLayout.add<float>(4, false);
-				this->_vao.sendData(this->_instanceLayout, BufferType::ARRAY_BUFFER, this->_particles, BufferUsage::STATIC_DRAW, true);
+				this->_instanceLayout.add<float>(1, false, true, true);
+				this->_instanceLayout.add<float>(3, false, false, true);
+				this->_instanceLayout.add<float>(3, false, true, true);
+				this->_instanceLayout.add<float>(4, false, false, true);
+				this->_vao.sendData(this->_instanceLayout, this->_particles, BufferObject::Usage::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/particles_forever/particles.frag");

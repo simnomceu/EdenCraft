@@ -42,22 +42,16 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VBO::VBO() : ObjectOpenGL() { this->_handle = OpenGL::genBuffers(); }
+			using opengl::OpenGL;
 
-			inline void VBO::bind() const { OpenGL::bindBuffer(BufferType::ARRAY_BUFFER, this->_handle); }
+			inline VBO::VBO(const BufferLayout & layout, const Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
 
-			template<template <class...> class T, class... TT, typename enabled>
-			void VBO::bufferData(const T<TT...> & data, const BufferUsage usage, const int offset)
-			{
-				this->bind();
-				OpenGL::bufferData<T, TT...>(BufferType::ARRAY_BUFFER, data, usage, offset);
-			}
+			inline const BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
 
-			inline void VBO::terminate()
-			{
-				OpenGL::deleteBuffer(this->_handle);
-				this->_handle = 0;
-			}
+			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
+
+			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
+
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

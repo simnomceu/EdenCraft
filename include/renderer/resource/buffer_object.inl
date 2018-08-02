@@ -36,7 +36,6 @@
 
 */
 
-
 namespace ece
 {
 	namespace renderer
@@ -45,7 +44,74 @@ namespace ece
 		{
 			using opengl::OpenGL;
 
-			inline IBO::IBO(const BufferObject::Usage usage) : BufferObject(BufferType::ELEMENT_ARRAY_BUFFER, usage) { this->_handle = OpenGL::genBuffers(); }
+			inline BufferObject::BufferObject(const BufferType type, const Usage usage) noexcept: _type(type), _usage(usage) { this->_handle = OpenGL::genBuffers(); }
+
+			inline void BufferObject::bind() const { OpenGL::bindBuffer(this->_type, this->_handle); }
+
+			template<template <class...> class T, class... TT, typename enabled>
+			void BufferObject::bufferData(const T<TT...> & data, const BufferObject::Method method, const int offset)
+			{
+				this->bind();
+				OpenGL::bufferData<T, TT...>(this->_type, data, this->getBufferUsage(method), offset);
+			}
+
+			inline void BufferObject::terminate()
+			{
+				OpenGL::deleteBuffer(this->_handle);
+				this->_handle = 0;
+			}
+
+			inline BufferUsage BufferObject::getDrawMode() const noexcept
+			{
+				if (this->_usage == Usage::STATIC) {
+					return BufferUsage::STATIC_DRAW;
+				}
+				else if (this->_usage == Usage::DYNAMIC) {
+					return BufferUsage::DYNAMIC_DRAW;
+				}
+				else {
+					return BufferUsage::STREAM_DRAW;
+				}
+			}
+
+			inline BufferUsage BufferObject::getReadMode() const noexcept
+			{
+				if (this->_usage == Usage::STATIC) {
+					return BufferUsage::STATIC_READ;
+				}
+				else if (this->_usage == Usage::DYNAMIC) {
+					return BufferUsage::DYNAMIC_READ;
+				}
+				else {
+					return BufferUsage::STREAM_READ;
+				}
+			}
+
+			inline BufferUsage BufferObject::getCopyMode() const noexcept
+			{
+				if (this->_usage == Usage::STATIC) {
+					return BufferUsage::STATIC_COPY;
+				}
+				else if (this->_usage == Usage::DYNAMIC) {
+					return BufferUsage::DYNAMIC_COPY;
+				}
+				else {
+					return BufferUsage::STREAM_COPY;
+				}
+			}
+
+			inline BufferUsage BufferObject::getBufferUsage(const BufferObject::Method method) const noexcept
+			{
+				if (method == Method::READ) {
+					return this->getReadMode();
+				}
+				else if (method == Method::DRAW) {
+					return this->getDrawMode();
+				}
+				else {
+					return this->getCopyMode();
+				}
+			}
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

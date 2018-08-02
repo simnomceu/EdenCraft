@@ -49,18 +49,27 @@ namespace ece
             using opengl::OpenGL;
 
             template <class T>
-            void BufferLayout::add(const size_t size, const bool normalized, const bool ignored)
+            void BufferLayout::add(const std::size_t size, const bool normalized, const bool ignored, const bool instanced)
             {
-                this->_elements.push_back({ OpenGL::dataType<T>(), sizeof(T),size, normalized, ignored });
+				auto index = this->_elements.size();
+                this->_elements.push_back({ OpenGL::dataType<T>(), 
+											sizeof(T), 
+											size, 
+											(index == 0) ? 0 : this->_elements[index - 1]._offset + this->_elements[index - 1]._unitSize * this->_elements[index - 1]._count, 
+											normalized, 
+											ignored,
+											instanced });
             }
 
-            inline BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) { return this->_elements[index]; }
+            inline BufferLayout::ElementLayout & BufferLayout::getElement(const std::size_t index) { return this->_elements[index]; }
 
-            inline const BufferLayout::ElementLayout & BufferLayout::getElement(const size_t index) const { return this->_elements[index]; }
+            inline const BufferLayout::ElementLayout & BufferLayout::getElement(const std::size_t index) const { return this->_elements[index]; }
 
-            inline size_t BufferLayout::size() const { return this->_elements.size(); }
+            inline std::size_t BufferLayout::size() const { return this->_elements.size(); }
 
-			inline size_t BufferLayout::count() const { return std::accumulate(this->_elements.begin(), this->_elements.end(), 0, [](int count, const BufferLayout::ElementLayout element) -> int { return (element._ignored ? 0 : 1) + count; }); }
+			inline void BufferLayout::setInstanceBlockSize(const std::size_t size) noexcept { this->_instanceBlockSize = size; }
+
+			inline std::size_t BufferLayout::getInstanceBlockSize() const noexcept { return this->_instanceBlockSize; }
         } // namespace resource
     } // namespace renderer
 } // namespace ece

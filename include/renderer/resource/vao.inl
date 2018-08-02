@@ -36,97 +36,51 @@
 
 */
 
-#include "renderer/resource/vbo.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace resource
 		{
-			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _ibo(), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
+			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _vbos(), _ibo(BufferObject::Usage::STATIC), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
 
 			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 
 			inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
 
-            template<class T>
-            void VAO::sendData(const BufferLayout & layout, const BufferType /*type*/, const std::vector<T> & data, const BufferUsage usage, const bool instancing)
+			template<template <class...> class T, class... TT, typename enabled>
+            void VAO::sendData(const BufferLayout & layout, const T<TT...> & data, const VBO::Usage usage)
             {
                 this->bind();
-                VBO vbo;
-				vbo.bufferData<std::vector, T>(data, usage);
+				this->_vbos.emplace_back(layout, usage);
+				this->_vbos.back().bufferData(data, BufferObject::Method::DRAW);
                 for (size_t i = 0; i < layout.size(); ++i) {
-					if (!layout.getElement(i)._ignored) {
+					auto elementLayout = this->_vbos.back().getElementLayout(i);
+					if (!elementLayout._ignored) {
 						OpenGL::enableVertexAttribArray(this->_globalLocation);
 						OpenGL::vertexAttribPointer(this->_globalLocation,
-													layout.getElement(i)._count,
-													layout.getElement(i)._type,
-													layout.getElement(i)._normalized,
-													layout.getStrideFrom(i),
-													layout.getOffsetFrom(i));
-						if (instancing) {
-							OpenGL::vertexAttribDivisor(this->_globalLocation, 1);
+													elementLayout._count,
+													elementLayout._type,
+													elementLayout._normalized,
+													this->_vbos.back().getLayoutStride(),
+													elementLayout._offset);
+						if (elementLayout._instanced) {
+							OpenGL::vertexAttribDivisor(this->_globalLocation, this->_vbos.back().getInstanceBlockSize());
 						}
 						++this->_globalLocation;
 					}
                 }
             }
 
-			template<class T>
-			void VAO::updateData(const BufferLayout & layout, const BufferType /*type*/, const std::vector<T> & data, const BufferUsage usage, const bool instancing)
-			{
-				this->bind();
-				VBO vbo;
-				vbo.bufferData<std::vector, T>(data, usage);
-				this->_globalLocation -= layout.count();
-				for (size_t i = 0; i < layout.size(); ++i) {
-					if (!layout.getElement(i)._ignored) {
-						OpenGL::enableVertexAttribArray(this->_globalLocation);
-						OpenGL::vertexAttribPointer(this->_globalLocation,
-							layout.getElement(i)._count,
-							layout.getElement(i)._type,
-							layout.getElement(i)._normalized,
-							layout.getStrideFrom(i),
-							layout.getOffsetFrom(i));
-						if (instancing) {
-							OpenGL::vertexAttribDivisor(this->_globalLocation, 1);
-						}
-						++this->_globalLocation;
-					}
-				}
-			}
-
-            template<class T>
-            void VAO::sendDataWithoutBuffer(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
-            {
-                this->bind();
-                /**
-                 * Error: data never sent.
-                 */
-                for (size_t i = 0; i < layout.size(); ++i) {
-					if (!layout.getElement(i)._ignored) {
-						OpenGL::enableVertexAttribArray(this->_globalLocation);
-						OpenGL::vertexAttribPointer(this->_globalLocation,
-													layout.getElement(i)._count,
-													layout.getElement(i)._type,
-													layout.getElement(i)._normalized,
-													layout.getStrideFrom(i),
-													layout.getOffsetFrom(i));
-						++this->_globalLocation;
-					}
-                }
-            }
-
-			template <class T>
-			void VAO::addIndices(const std::vector<T> & data, const BufferUsage usage)
+			template<template <class, class...> class T, class E, class... TT, typename enabled>
+			void VAO::addIndices(const T<E, TT...> & data)
 			{
 				if (this->_nbVertices == 0) {
-					this->_nbVertices = data.size() * sizeof(T) / sizeof(unsigned int);
+					this->_nbVertices = data.size() * sizeof(E) / sizeof(unsigned int);
 				}
 
 				this->bind();
-				this->_ibo.bufferData<T>(data, usage);
+				this->_ibo.bufferData(data, BufferObject::Method::DRAW);
 			}
 
 			inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
