@@ -42,6 +42,8 @@
 
 #include "graphic/model/primitives.hpp"
 
+#include <vector>
+
 namespace ece
 {
 	namespace graphic
@@ -55,30 +57,37 @@ namespace ece
 			using renderer::resource::ShaderStage;
 			using renderer::ShaderType;
 			using renderer::resource::BufferObject;
+			using renderer::opengl::OpenGL;
+			using renderer::DataType;
 
-			ParticlesEmitter::ParticlesEmitter(const int size) noexcept : Renderable(), _particles(), _size(size), _instanceLayout()
+			ParticlesEmitter::ParticlesEmitter(const int size) noexcept : Renderable(), _particles(), _size(size)
 			{
 				for (int i = 0; i < this->_size; ++i) {
 					this->_particles.push_back({ 10.0f,
-						{ ((rand() % 100) - 50) / 10.0f, ((rand() % 100) - 50) / 10.0f, ((rand() % 100) - 50) / 10.0f },
-						{ 0.1f, 0.1f, 0.1f },
-						{ 0.5f + ((rand() % 100) / 100.0f), 0.5f + ((rand() % 100) / 100.0f), 0.5f + ((rand() % 100) / 100.0f), 1.0f } });
+						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
+						{ 10.0f, 10.0f, 10.0f },
+						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
 
-				this->_mode = PrimitiveMode::TRIANGLES;
+				this->_mode = PrimitiveMode::POINTS;
+				OpenGL::pointSize(4.0f);
 
 				BufferLayout layout;
 				layout.add<float>(3, false, false, false);
+				layout.add<float>(3, false, true, false);
+				layout.add<float>(2, false, true, false);
 
 				auto mesh = makeQuad(0.1f);
 				this->_vao.sendData(layout, mesh.getVertices(), BufferObject::Usage::STATIC);
 				this->_vao.addIndices(mesh.getFaces());
 				
-				this->_instanceLayout.add<float>(1, false, true, true);
-				this->_instanceLayout.add<float>(3, false, false, true);
-				this->_instanceLayout.add<float>(3, false, true, true);
-				this->_instanceLayout.add<float>(4, false, false, true);
-				this->_vao.sendData(this->_instanceLayout, this->_particles, BufferObject::Usage::STATIC);
+				BufferLayout instanceLayout;
+				instanceLayout.setInstanceBlockSize(1);
+				instanceLayout.add<float>(1, false, true, false);
+				instanceLayout.add<float>(3, false, false, true);
+				instanceLayout.add<float>(3, false, true, false);
+				instanceLayout.add<float>(4, false, false, true);
+				this->_vao.sendData(instanceLayout, this->_particles, BufferObject::Usage::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/particles_forever/particles.frag");
@@ -90,9 +99,9 @@ namespace ece
 				this->_program.use();
 			}
 
-			void ParticlesEmitter::update(const float /*elapsedTime*/)
+			void ParticlesEmitter::update(const float elapsedTime)
 			{
-				/*this->_particles.erase(std::remove_if(this->_particles.begin(), this->_particles.end(), [](const ParticlesEmitter::Particle & element) { return element._life <= 0.0f; }), this->_particles.end());
+				this->_particles.erase(std::remove_if(this->_particles.begin(), this->_particles.end(), [](const ParticlesEmitter::Particle & element) { return element._life <= 0.0f; }), this->_particles.end());
 
 				auto particlesToCreate = this->_size - this->_particles.size();
 				for (size_t i = 0; i < particlesToCreate; ++i) {
@@ -108,9 +117,24 @@ namespace ece
 						particle._position -= particle._velocity * elapsedTime;
 						particle._color[3] -= elapsedTime * 2.5f;
 					}
-				}*/
+				}
 
+				BufferLayout instanceLayout;
+				instanceLayout.setInstanceBlockSize(1);
+				instanceLayout.add<float>(1, false, true, false);
+				instanceLayout.add<float>(3, false, false, true);
+				instanceLayout.add<float>(3, false, true, false);
+				instanceLayout.add<float>(4, false, false, true);
+				//this->_vao.sendData(instanceLayout, this->_particles, BufferObject::Usage::STATIC);
 				//this->_vao.updateData(this->_instanceLayout, BufferType::ARRAY_BUFFER, this->_particles, BufferUsage::STATIC_DRAW, true);
+			}
+
+
+			void ParticlesEmitter::draw()
+			{
+				this->_program.use();
+				this->_vao.bind();
+				OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_particles.size());
 			}
 		} // namespace renderable
 	} // namespace graphic

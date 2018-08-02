@@ -121,10 +121,10 @@ namespace ece
 
 				void update(const float elapsedTime);
 
+				virtual void draw() override;
 			private:
 				std::vector<Particle> _particles;
 				int _size;
-				BufferLayout _instanceLayout;
 			};
 		} // namespace renderable
 	} // namespace graphic

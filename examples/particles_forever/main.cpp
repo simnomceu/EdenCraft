@@ -27,7 +27,8 @@ int main()
 		ece::RenderWindow window;
 
 		window.open();
-		//window.maximize();
+		window.maximize();
+		window.updateVideoMode();
 
 		ece::WindowSetting settings;
 		settings._position = ece::IntVector2u{ 10, 10 };
@@ -42,7 +43,7 @@ int main()
 
 		auto & camera = scene.getCamera();
 		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
+		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 1.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 		scene.updateCamera();
 

@@ -114,7 +114,7 @@ namespace ece
 				 */
 				Renderable & operator=(Renderable && move) noexcept = default;
 
-				void draw();
+				virtual void draw();
 
 				void applyTransformation(const FloatMatrix4u & transformation);
 
