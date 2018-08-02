@@ -70,12 +70,18 @@ namespace ece
 					bool _instanced;
                 };
 
+				enum class Strategy : unsigned short int
+				{
+					STRUCTURED,
+					CONCATENATED
+				};
+
                 /**
                  * @fn BufferLayout() noexcept
                  * @brief Default constructor.
                  * @throw noexcept
                  */
-                BufferLayout() noexcept = default;
+                inline BufferLayout(const Strategy strategy = Strategy::STRUCTURED) noexcept;
 
                 /**
                  * @fn BufferLayout(const BufferLayout & copy)
@@ -129,10 +135,14 @@ namespace ece
 				inline void setInstanceBlockSize(const std::size_t size) noexcept;
 				inline std::size_t getInstanceBlockSize() const noexcept;
 
+				inline Strategy getStrategy() const noexcept;
+
             private:
                 std::vector<ElementLayout> _elements;
 
 				std::size_t _instanceBlockSize;
+				
+				Strategy _strategy;
             };
         } // namespace resource
     } // namespace renderer

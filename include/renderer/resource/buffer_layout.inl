@@ -48,15 +48,17 @@ namespace ece
         {
             using opengl::OpenGL;
 
+			inline BufferLayout::BufferLayout(const BufferLayout::Strategy strategy) noexcept: _elements(), _instanceBlockSize(0), _strategy(strategy) {}
+
             template <class T>
             void BufferLayout::add(const std::size_t size, const bool normalized, const bool ignored, const bool instanced)
             {
-				auto index = this->_elements.size();
-                this->_elements.push_back({ OpenGL::dataType<T>(), 
-											sizeof(T), 
-											size, 
-											(index == 0) ? 0 : this->_elements[index - 1]._offset + this->_elements[index - 1]._unitSize * this->_elements[index - 1]._count, 
-											normalized, 
+				const auto index = this->_elements.size();
+				this->_elements.push_back({ OpenGL::dataType<T>(),
+											sizeof(T),
+											size,
+											(index == 0 || this->_strategy == Strategy::CONCATENATED) ? 0 : this->_elements[index - 1]._offset + this->_elements[index - 1]._unitSize * this->_elements[index - 1]._count,
+											normalized,
 											ignored,
 											instanced });
             }
@@ -70,6 +72,8 @@ namespace ece
 			inline void BufferLayout::setInstanceBlockSize(const std::size_t size) noexcept { this->_instanceBlockSize = size; }
 
 			inline std::size_t BufferLayout::getInstanceBlockSize() const noexcept { return this->_instanceBlockSize; }
+
+			inline BufferLayout::Strategy BufferLayout::getStrategy() const noexcept { return this->_strategy; }
         } // namespace resource
     } // namespace renderer
 } // namespace ece

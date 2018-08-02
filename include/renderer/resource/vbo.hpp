@@ -106,6 +106,7 @@ namespace ece
 				inline const BufferLayout::ElementLayout & getElementLayout(const std::size_t index) const;
 				inline std::size_t getLayoutStride() const noexcept;
 				inline std::size_t getInstanceBlockSize() const noexcept;
+				inline BufferLayout::Strategy getLayoutStrategy() const noexcept;
 
 			private:
 				BufferLayout _layout;

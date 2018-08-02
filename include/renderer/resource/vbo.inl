@@ -52,6 +52,7 @@ namespace ece
 
 			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
 
+			inline BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece
