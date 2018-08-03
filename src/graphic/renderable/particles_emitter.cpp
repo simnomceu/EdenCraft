@@ -72,6 +72,7 @@ namespace ece
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
 
+				OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
 				this->_mode = PrimitiveMode::POINTS;
 				OpenGL::pointSize(4.0f);
 
