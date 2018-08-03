@@ -43,6 +43,7 @@ env:
 #    - PLATFORM="x86"
 
 before_install:
+  - if [ $TRAVIS_OS_NAME = osx ]; then brew install gcc --HEAD; fi
   - git submodule -q update --init --recursive
   - eval "${MATRIX_EVAL}"
   - chmod +x build/premake5_${TRAVIS_OS_NAME}
