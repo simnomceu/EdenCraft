@@ -50,7 +50,7 @@ before_install:
 install:
 
 script:
-  - cd build && ./premake5_${TRAVIS_OS_NAME} gmake
+  - cd build && ./premake5_${TRAVIS_OS_NAME} gmake2
   - cd gmake2 && make -j4 config=${CONFIG}_${PLATFORM} more_cube && cd ../..
 
 after_script:
