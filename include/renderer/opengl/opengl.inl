@@ -777,7 +777,12 @@ namespace ece
 			//	inline void OpenGL::blendEquation(GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendEquationSeparate(GLenum /*modeRGB*/, GLenum /*modeAlpha*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendFuncSeparate(GLenum /*srcRGB*/, GLenum /*dstRGB*/, GLenum /*srcAlpha*/, GLenum /*dstAlpha*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendFunc(GLenum /*sfactor*/, GLenum /*dfactor*/) { static_assert(false, "Not implemented yet."); }
+
+			inline void OpenGL::blendFunc(const BlendingFactor sfactor, const BlendingFactor dfactor)
+			{
+				checkErrors(glBlendFunc(static_cast<GLenum>(sfactor), static_cast<GLenum>(dfactor)));
+			}
+
 			//	inline void OpenGL::blendColor(float /*red*/, float /*green*/, float /*blue*/, float /*alpha*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::logicOp(GLenum /*opcode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawBuffer(GLenum /*buf*/) { static_assert(false, "Not implemented yet."); }

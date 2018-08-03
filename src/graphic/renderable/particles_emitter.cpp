@@ -60,6 +60,8 @@ namespace ece
 			using renderer::resource::BufferObject;
 			using renderer::opengl::OpenGL;
 			using renderer::DataType;
+			using renderer::Capability;
+			using renderer::BlendingFactor;
 
 			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _dataIndex(0)
 			{
@@ -124,12 +126,15 @@ namespace ece
 				this->_vao.updateData(this->_dataIndex, this->_particles);
 			}
 
-
 			void ParticlesEmitter::draw()
 			{
+				OpenGL::enable(Capability::BLEND);
+				OpenGL::blendFunc(BlendingFactor::SRC_ALPHA, BlendingFactor::ONE);
 				this->_program.use();
 				this->_vao.bind();
 				OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_particles.size());
+				OpenGL::blendFunc(BlendingFactor::SRC_ALPHA, BlendingFactor::ONE_MINUS_SRC_ALPHA);
+				OpenGL::disable(Capability::BLEND);
 			}
 		} // namespace renderable
 	} // namespace graphic

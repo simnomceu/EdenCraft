@@ -390,7 +390,7 @@ namespace ece
 				//		static inline void blendEquation(GLenum mode);
 				//		static inline void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
 				//		static inline void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
-				//		static inline void blendFunc(GLenum sfactor, GLenum dfactor);
+				static inline void blendFunc(const BlendingFactor sfactor, const BlendingFactor dfactor);
 				//		static inline void blendColor(float red, float green, float blue, float alpha);
 				//		static inline void logicOp(GLenum opcode);
 				//		static inline void drawBuffer(GLenum buf);
