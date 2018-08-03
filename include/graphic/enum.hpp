@@ -38,27 +38,21 @@
 
 */
 
+#ifndef GRAPHIC_ENUM_HPP
+#define GRAPHIC_ENUM_HPP
+
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		enum class LightType : int
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
-
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
-
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
-
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
-
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
-
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
-		} // namespace model
+			BASIC_LIGHT = 0,
+			DIRECTIONAL_LIGHT = 1,
+			POINT_LIGHT = 2,
+			SPOT_LIGHT = 3
+		};
 	} // namespace graphic
 } // namespace ece
+
+#endif // GRAPHIC_ENUM_HPP

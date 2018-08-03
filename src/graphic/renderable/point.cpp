@@ -38,8 +38,9 @@
 
 */
 
-#include "graphic/renderable/sprite.hpp"
+#include "graphic/renderable/point.hpp"
 
+#include "renderer/opengl/opengl.hpp"
 #include "renderer/resource/buffer_layout.hpp"
 
 namespace ece
@@ -52,60 +53,70 @@ namespace ece
 			using renderer::BufferUsage;
 			using renderer::BufferType;
 			using renderer::ShaderType;
-			using renderer::TextureTarget;
-
+			using renderer::Capability;
+			using renderer::resource::BufferLayout;
 			using renderer::resource::ShaderStage;
 			using renderer::opengl::OpenGL;
-            using renderer::resource::BufferLayout;
 
-			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
+			Point::Point() noexcept : Renderable(), _position(), _color(), _size(1)
 			{
-				if (this->_bounds == Rectangle<float>()) {
-					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
+				this->_mode = PrimitiveMode::POINTS;
+
+				BufferLayout layout;
+				layout.add<float>(3, false);
+				layout.add<float>(3, false);
+
+				if (this->_size > 1.0f) {
+					OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
 				}
-
-				if (this->_textureClip == Rectangle<float>()) {
-					this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
+				else {
+					OpenGL::disable(Capability::PROGRAM_POINT_SIZE);
 				}
+				OpenGL::pointSize(this->_size);
 
-				this->_texture->active(0);
-				this->_texture->bind(TextureTarget::TEXTURE_2D);
-				this->_texture->update();
+				std::vector<FloatVector3u> data = { this->_position, this->_color };
 
-				this->_mode = PrimitiveMode::TRIANGLES;
-
-				const std::vector<float> points{ this->_bounds.getX(), this->_bounds.getY(),
-					this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight(),
-					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight(),
-					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY()
-				};
-
-				const std::vector<float> texPos{ this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight(),
-												 this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
-												 (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
-												 (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
-				};
-
-				const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
-
-                BufferLayout layout;
-                layout.add<float>(2, false);
-                layout.add<float>(2, false);
-
-				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
-				this->_vao.addIndices(index, BufferUsage::STATIC_DRAW);
+				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, data, BufferUsage::STATIC_DRAW);
 
 				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/sprite.frag");
-				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/sprite.vert");
+				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/point.frag");
+				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/point.vert");
 
 				this->_program.setStage(fsSource);
 				this->_program.setStage(vsSource);
 				this->_program.link();
 				this->_program.use();
-
-				this->_program.uniform("theTexture", 0);
 			}
-		} //namespace renderable
+
+			Point::Point(const FloatVector3u & color, const FloatVector3u position, const float size) noexcept : Renderable(), _position(position), _color(color), _size(size)
+			{
+				this->_mode = PrimitiveMode::POINTS;
+
+				BufferLayout layout;
+				layout.add<float>(3, false);
+				layout.add<float>(3, false);
+
+				if (this->_size > 1.0f) {
+					OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
+				}
+				else {
+					OpenGL::disable(Capability::PROGRAM_POINT_SIZE);
+				}
+				OpenGL::pointSize(this->_size);
+
+				std::vector<FloatVector3u> data = { this->_position, this->_color };
+
+				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, data, BufferUsage::STATIC_DRAW);
+
+				ShaderStage fsSource, vsSource;
+				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/point.frag");
+				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/point.vert");
+
+				this->_program.setStage(fsSource);
+				this->_program.setStage(vsSource);
+				this->_program.link();
+				this->_program.use();
+			}
+		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

@@ -42,23 +42,19 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace renderable
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+			inline const FloatVector3u & Point::getPosition() const noexcept { return this->_position; }
 
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
+			inline const FloatVector3u & Point::getColor() const noexcept { return this->_color; }
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
+			inline float Point::getSize() const noexcept { return this->_size; }
 
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
+			inline void Point::setPosition(const FloatVector3u & position) noexcept { this->_position = position; }
 
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
+			inline void Point::setColor(const FloatVector3u & color) noexcept { this->_color = color; }
 
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
-		} // namespace model
+			inline void Point::setSize(const float size) noexcept { this->_size = size; }
+		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

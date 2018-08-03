@@ -44,21 +44,29 @@ namespace ece
 	{
 		namespace model
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+			inline void PhongMaterial::setAmbient(const FloatVector3u & ambient) { this->_ambient = ambient; }
+			
+			inline void PhongMaterial::setDiffuse(const FloatVector3u & diffuse) { this->_diffuse = diffuse; }
+			
+			inline void PhongMaterial::setSpecular(const FloatVector3u & specular) { this->_specular = specular; }
+			
+			inline void PhongMaterial::setShininess(const float shininess) { this->_shininess = shininess; }
 
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
+			inline void PhongMaterial::setDiffuseMap(const Texture2D::Texture2DReference & texture) { this->_diffuseMap = texture; }
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
+			inline void PhongMaterial::setSpecularMap(const Texture2D::Texture2DReference & texture) { this->_specularMap = texture; }
 
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
+			inline const FloatVector3u & PhongMaterial::getAmbient() const { return this->_ambient; }
+			
+			inline const FloatVector3u & PhongMaterial::getDiffuse() const { return this->_diffuse; }
+			
+			inline const FloatVector3u & PhongMaterial::getSpecular() const { return this->_specular; }
+			
+			inline float PhongMaterial::getShininess() const { return this->_shininess; }
 
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
-
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
+			inline Texture2D::Texture2DReference PhongMaterial::getDiffuseMap() const { return this->_diffuseMap; }
+			
+			inline Texture2D::Texture2DReference PhongMaterial::getSpecularMap() const { return this->_specularMap; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

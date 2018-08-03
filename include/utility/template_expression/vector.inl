@@ -80,6 +80,12 @@ namespace ece
         		return *this;
         	}
 
+			template <typename E, unsigned int Size, typename enabled>
+			inline std::array<E, Size> & Vector<E, Size, enabled>::data() noexcept { return this->_elements; }
+
+			template <typename E, unsigned int Size, typename enabled>
+			inline const std::array<E, Size> & Vector<E, Size, enabled>::data() const noexcept { return this->_elements; }
+
         	template <typename E, unsigned int Size, typename enabled>
         	inline E Vector<E, Size, enabled>::operator[](const unsigned int index) const { return this->_elements[index]; }
 

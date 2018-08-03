@@ -44,6 +44,8 @@
 #include "graphic/config.hpp"
 #include "graphic/scene/camera.hpp"
 #include "renderer/common/projection.hpp"
+#include "graphic/renderable/object.hpp"
+#include "graphic/model/light.hpp"
 
 #include <vector>
 
@@ -51,14 +53,10 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace renderable
-		{
-			class Object;
-		}
-
 		namespace scene
 		{
 			using renderable::Object;
+			using renderable::Light;
 
 			/**
 			 * @class Scene
@@ -121,7 +119,9 @@ namespace ece
 				 * @brief Add a new empty object to the scene.
 				 * @throw
 				 */
-				Object * addObject();
+				Object::Reference addObject();
+
+				inline void addLight(const Light::Reference & light);
 
 				/**
 				 * @fn Camera & getCamera()
@@ -131,26 +131,43 @@ namespace ece
 				 */
 				inline Camera & getCamera();
 
-				/**
-				 * @fn std::vector<Renderable *> & getObjects()
-				 * @return The list of objects of the scene.
-				 * @brief Get the list of objects of the scene.
-				 * @throw
-				 */
-				inline std::vector<Object *> & getObjects();
+				inline void updateCamera();
+
+				void prepare();
+				void draw();
 
 			private:
+				struct CameraWrapper
+				{
+					Camera _value;
+					bool _hasChanged;
+				};
+
+				struct ObjectWrapper
+				{
+					Object::Reference _value;
+					bool _hasChanged;
+				};
+
+				struct LightWrapper
+				{
+					Light::Reference _value;
+					bool _hasChanged;
+				};
+
 				/**
 				 * @property _camera
 				 * @rief The camera of the scene.
 				 */
-				Camera _camera;
+				CameraWrapper _camera;
 
 				/**
 				 * @property _objects
 				 * @brief The list of objects in the scene.
 				 */
-				std::vector<Object *> _objects;
+				std::vector<ObjectWrapper> _objects;
+
+				std::vector<LightWrapper> _lights;
 			};
 		} // namespace scene
 	} // namespace graphic

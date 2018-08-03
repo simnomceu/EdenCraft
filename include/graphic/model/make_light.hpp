@@ -38,27 +38,27 @@
 
 */
 
+#ifndef MAKE_LIGHT_HPP
+#define MAKE_LIGHT_HPP
+
+#include "graphic/config.hpp"
+#include "graphic/model/light.hpp"
+
 namespace ece
 {
 	namespace graphic
 	{
 		namespace model
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+			ECE_GRAPHIC_API Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position);
 
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
+			ECE_GRAPHIC_API Light::Reference makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction);
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
+			ECE_GRAPHIC_API Light::Reference makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic);
 
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
-
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
-
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
+			ECE_GRAPHIC_API Light::Reference makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff);
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#endif // MAKE_LIGHT_HPP

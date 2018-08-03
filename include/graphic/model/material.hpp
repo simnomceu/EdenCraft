@@ -38,27 +38,86 @@
 
 */
 
+#ifndef MATERIAL_HPP
+#define MATERIAL_HPP
+
+#include "graphic/config.hpp"
+
 namespace ece
 {
+	namespace renderer
+	{
+		namespace resource
+		{
+			class Shader;
+		} // namespace resource
+	} // namespace renderable
+
 	namespace graphic
 	{
 		namespace model
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+			using renderer::resource::Shader;
 
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
+			/**
+			 * @class Material
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API Material
+			{
+			public:
+				/**
+				 * @fn constexpr Material() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr Material() noexcept = default;
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
+				/**
+				 * @fn Material(const Material & copy) noexcept
+				 * @param[in] copy The Material to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Material(const Material & copy) noexcept = default;
 
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
+				/**
+				 * @fn Material(Material && move) noexcept
+				 * @param[in] move The Material to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Material(Material && move) noexcept = default;
 
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
+				/**
+				 * @fn ~Material() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Material() noexcept = default;
 
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
+				/**
+				 * @fn Material & operator=(const Material & copy) noexcept
+				 * @param[in] copy The Material to copy from.
+				 * @return The Material copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Material & operator=(const Material & copy) noexcept = default;
 
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
+				/**
+				 * @fn Material & operator=(Material && move) noexcept
+				 * @param[in] move The Material to move.
+				 * @return The Material moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Material & operator=(Material && move) noexcept = default;
 
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
+				virtual void apply(Shader & shader) = 0;
+			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#endif // MATERIAL_HPP
