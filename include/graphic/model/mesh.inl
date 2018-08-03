@@ -48,8 +48,6 @@ namespace ece
 
 			inline std::size_t Mesh::getNumberOfFaces() const { return this->_faces.size(); }
 
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
-
 			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
 
 			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
