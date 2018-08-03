@@ -56,6 +56,14 @@ namespace ece
 
 			template <class Resource>
 			inline bool ResourceHandler<Resource>::isDirty() const { return this->_resource.expired(); }
+
+			template <class Resource>
+			template <class Parent>
+			ResourceHandler<Resource>::operator ResourceHandler<Parent>() const
+			{
+				static_assert(std::is_base_of_v<Parent, Resource>, "This resource cannot be casted to this type.");
+				return ResourceHandler<Parent>(this->_resource.lock());
+			}
 		} // namespace resource
 	} // namespace core
 } // namespace core

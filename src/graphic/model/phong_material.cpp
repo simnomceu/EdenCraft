@@ -38,27 +38,46 @@
 
 */
 
+#include "graphic/model/phong_material.hpp"
+
+#include "renderer/resource/shader.hpp"
+
 namespace ece
 {
 	namespace graphic
 	{
 		namespace model
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+			using renderer::TextureTarget;
 
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
+			void PhongMaterial::apply(Shader & shader)
+			{
+				shader.uniform<bool>("material.diffuseMapEnabled", !this->_diffuseMap.isDirty());
+				shader.uniform<bool>("material.specularMapEnabled", !this->_specularMap.isDirty());
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
+				if (this->_diffuseMap.isDirty()) {
+					shader.uniform("material.ambient", this->_ambient);
+					shader.uniform("material.diffuse", this->_diffuse);
+				}
+				else {
+					shader.uniform<int>("material.diffuseMap", 0);
+					this->_diffuseMap->active(0);
+					this->_diffuseMap->bind(TextureTarget::TEXTURE_2D);
+					this->_diffuseMap->update();
+				}
 
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
+				if (this->_specularMap.isDirty()) {
+					shader.uniform("material.specular", this->_specular);
+				}
+				else {
+					shader.uniform<int>("material.specularMap", 1);
+					this->_specularMap->active(1);
+					this->_specularMap->bind(TextureTarget::TEXTURE_2D);
+					this->_specularMap->update();
+				}
 
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
-
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
+				shader.uniform("material.shininess", this->_shininess);
+			}
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

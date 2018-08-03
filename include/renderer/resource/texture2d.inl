@@ -71,6 +71,8 @@ namespace ece
 
 			inline void Texture2D::bind(const TextureTarget target) { OpenGL::bindTexture(target, this->_handle); }
 
+			inline void Texture2D::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
+
 			template <typename T>
 			void Texture2D::setParameter(const TextureParameter name, const T value)
 			{

@@ -55,9 +55,6 @@ namespace ece
         			std::getline(stream, line);
 					this->processLine(line);
         		}
-				std::cerr << "Object: " << this->_currentObject->getName() << std::endl;
-				std::cerr << "Number of vertices: " << this->_currentObject->getNumberOfVertices() << std::endl;
-				std::cerr << "Number of faces: " << this->_currentObject->getNumberOfFaces() << std::endl;
         		// TODO care about objects groups and faces groups
         	}
 

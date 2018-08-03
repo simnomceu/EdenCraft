@@ -156,6 +156,9 @@ namespace ece
         		 */
         		Vector<E, Size, enabled> & operator=(const LinearExpression<Vector<E, Size, enabled>> & rhs) noexcept;
 
+				inline std::array<E, Size> & data() noexcept;
+				inline const std::array<E, Size> & data() const noexcept;
+
         		/**
         		* @fn E operator[](const unsigned int index) const
         		* @param[in] index The index of the element to access.

@@ -55,18 +55,22 @@ namespace ece
             using renderer::ShaderType;
             using renderer::resource::ShaderStage;
 
-            Object::Object() noexcept: Renderable(), _mesh()
+            Object::Object() noexcept: Renderable(), _mesh(), _material()
             {
                 this->_mode = PrimitiveMode::TRIANGLES;
             }
 
-			void Object::setMesh(const Mesh::MeshReference & mesh)
+			void Object::setMesh(const Mesh::Reference & mesh)
 			{
 				this->_mesh = mesh;
+			}
 
-                for (size_t i = 0; i < this->_mesh->size(); ++i) {
-                    this->_mesh->getVertices()[i]._color = { (std::rand()%100)/100.0f, (std::rand()%100)/100.0f, (std::rand()%100)/100.0f };
-                }
+			void Object::setMaterial(const std::shared_ptr<Material> & material)
+			{
+				this->_material = material;
+				if (this->_program.isLinked()) {
+					this->_material->apply(this->_program);
+				}
 			}
 
             void Object::prepare()
@@ -74,32 +78,37 @@ namespace ece
                 BufferLayout layout;
                 layout.add<float>(3, false);
                 layout.add<float>(3, false);
-                layout.add<float>(3, false);
-                layout.add<float>(3, false);
+                layout.add<float>(2, false);
 
                 this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
                 this->_vao.addIndices(this->_mesh->getFaces(), BufferUsage::STATIC_DRAW);
 
                 if (this->isInstancingEnabled()) {
                     BufferLayout layoutInstancing;
-                    layoutInstancing.add<float>(3, false);
+                    layoutInstancing.add<float>(4, false);
+					layoutInstancing.add<float>(4, false);
+					layoutInstancing.add<float>(4, false);
+					layoutInstancing.add<float>(4, false);
 
-                    this->_vao.sendData(layoutInstancing, BufferType::ARRAY_BUFFER, this->_offsets, BufferUsage::STATIC_DRAW, true);
+                    this->_vao.sendData(layoutInstancing, BufferType::ARRAY_BUFFER, this->_instances, BufferUsage::STATIC_DRAW, true);
                 }
 
                 ShaderStage fsSource, vsSource;
-                fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/cube.frag");
+                fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../resource/shader/phong.frag");
                 if (this->isInstancingEnabled()) {
-                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube_instancing.vert");
+                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../resource/shader/phong_instance.vert");
                 }
                 else {
-                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/cube.vert");
+                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../resource/shader/phong.vert");
                 }
 
                 this->_program.setStage(fsSource);
                 this->_program.setStage(vsSource);
                 this->_program.link();
                 this->_program.use();
+				if (this->_material) {
+					this->_material->apply(this->_program);
+				}
             }
 		}// namespace renderable
 	} // namespace graphic

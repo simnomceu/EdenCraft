@@ -60,7 +60,16 @@ namespace ece
 				// TODO: need to be sure that the program as been linked successfully.
 				this->use();
 
-				OpenGL::uniform<T>(uniform, value);
+				OpenGL::uniform<T, 1>(OpenGL::getUniformLocation(this->_handle, uniform), std::array<T, 1>{value});
+			}
+
+			template <class E, int Size>
+			void Shader::uniform(const std::string & uniform, const Vector<E, Size> & value)
+			{
+				// TODO: need to be sure that the program as been linked successfully.
+				this->use();
+
+				OpenGL::uniform<E, Size>(OpenGL::getUniformLocation(this->_handle, uniform), value.data());
 			}
 
 			inline bool Shader::isLinked() const noexcept { return this->_linkedSuccessfully; }

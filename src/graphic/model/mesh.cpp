@@ -78,7 +78,7 @@ namespace ece
 				return index;
 			}
 
-			inline unsigned int Mesh::addVertex(Mesh::Vertex && vertex)
+			unsigned int Mesh::addVertex(Mesh::Vertex && vertex)
 			{
 				unsigned int index = std::find_if(this->_vertices.begin(), this->_vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
 					return vertex._normal == lhs._position && vertex._textureCoordinate == lhs._textureCoordinate;

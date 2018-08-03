@@ -137,7 +137,7 @@ namespace ece
 
 			void WindowAdapter::minimize()
 			{
-				bool success = ShowWindow(this->_data->_windowId, SW_RESTORE | SW_SHOWMINIMIZED);
+				bool success = ShowWindow(this->_data->_windowId, SW_SHOWMINIMIZED);
 				if (!success) {
 					std::cout << "Error while minimizing window. (WGL)";
 					std::cout << " Code " << GetLastError() << std::endl;
@@ -146,7 +146,7 @@ namespace ece
 
 			void WindowAdapter::maximize()
 			{
-				bool success = ShowWindow(this->_data->_windowId, SW_RESTORE | SW_SHOWMAXIMIZED);
+				bool success = ShowWindow(this->_data->_windowId, SW_SHOWMAXIMIZED);
 				if (!success) {
 					std::cout << "Error while maximizing window. (WGL)";
 					std::cout << " Code " << GetLastError() << std::endl;

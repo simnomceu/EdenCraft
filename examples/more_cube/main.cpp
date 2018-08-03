@@ -40,16 +40,16 @@
 
 #include "renderer/common.hpp"
 #include "utility/log.hpp"
-#include "renderer/image.hpp"
-#include "graphic/renderable/sprite.hpp"
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
 #include "graphic/model/obj_loader.hpp"
-#include "renderer/resource/buffer_layout.hpp"
 #include "graphic/renderable/object.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "core/resource/make_resource.hpp"
 #include "utility/time.hpp"
+#include "graphic/model/primitives.hpp"
+#include "graphic/model/phong_material.hpp"
+#include "graphic/model/make_light.hpp"
 
 #include <ctime>
 #include <string>
@@ -64,12 +64,14 @@ namespace ece
 	using utility::mathematics::translate;
 	using graphic::model::OBJLoader;
     using graphic::model::Mesh;
+	using graphic::model::PhongMaterial;
+	using graphic::model::makeSpotLight;
     using graphic::renderable::Object;
     using utility::mathematics::FloatVector3u;
 	using core::resource::makeResource;
 	using core::resource::ResourceHandler;
-	using graphic::renderable::Sprite;
 	using utility::time::FramePerSecond;
+	using graphic::model::makeCube;
 }
 
 int main()
@@ -78,12 +80,6 @@ int main()
 
 	try {
 		ece::Application app;
-
-		// ####################
-		ece::OBJLoader loader;
-		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		auto mesh = ece::makeResource<ece::Mesh>("OBJ cube", loader.getMesh());
-		// ####################
 
 		ece::RenderWindow window;
 
@@ -97,56 +93,86 @@ int main()
 		window.getVideoMode().setSamples(0);
 		window.updateVideoMode();
 		window.setSettings(settings);
+		window.maximize();
 		window.limitUPS(100);
 
-		/*ece::Viewport viewport;
-		viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 0.5f, 1.0f));
-		window.setViewport(viewport);*/
+		ece::Viewport viewport;
+		//viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 0.99f, 0.99f));
+		viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
+		window.setViewport(viewport);
 
-		ece::Camera camera;
+		ece::Scene scene;
+
+		// ####################
+		ece::OBJLoader loader;
+		loader.loadFromFile("../../examples/more_cube/cube.obj");
+		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
+		auto mesh = std::make_shared<ece::Mesh>(ece::makeCube(0.5f));
+
+		auto material = std::make_shared<ece::PhongMaterial>();
+		//material->setAmbient({ 0.24725f, 0.1995f, 0.0745f });
+		//material->setDiffuse({ 0.75164f, 0.60648f, 0.22648f });
+		//material->setSpecular({ 0.628281f, 0.555802f, 0.366065f });
+		material->setShininess(41.5f);
+
+		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
+		scene.addLight(light);
+		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+		// ####################
+
+		auto & camera = scene.getCamera();
 		//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
-		camera.setPerspective(45, window.getSize()[0] / window.getSize()[1], 0.1, 100.0);
+		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f/1080.0f, 0.1, 100.0);
 		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
+		scene.updateCamera();
 
-		auto texture = ece::makeResource<ece::Texture2D>("Emma Watson");
-		texture->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
+		auto box = ece::makeResource<ece::Texture2D>("box");
+		box->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box.bmp");
+		material->setDiffuseMap(box);
+
+		auto box_specular = ece::makeResource<ece::Texture2D>("box_specular");
+		box_specular->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box_specular.bmp");
+		material->setSpecularMap(box_specular);
 
 		// ece::RenderQueue queue;
-		//std::vector<std::shared_ptr<ece::Sprite>> elements(10);
-        auto element = ece::makeResource<ece::Object>("cube");
+        auto element = scene.addObject();
+        element->setMesh(mesh);
+		element->setMaterial(material);
 
-		auto sprite = ece::makeResource<ece::Sprite>("Emma Watson", texture, ece::Rectangle<float>(50.0f, 50.0f, static_cast<float>(texture->getWidth()), static_cast<float>(texture->getHeight())), ece::Rectangle<float>(50.0f, 50.0f, 150.0f, 150.0f));
-
-		element->setMesh(mesh);
-		for (size_t i = 0; i < 100; ++i) {
-			for (size_t j = 0; j < 100; ++j) {
-				for (size_t k = 0; k < 100; ++k) {
-					element->addInstance(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f });
-				}
-			}
-		}
-		element->prepare();
-		//		element->applyTransformation(ece::translate(cubePositions[i]));
-		element->setCamera(camera.getView(), camera.getProjection());
+        for (size_t i = 0; i < 100; ++i) {
+            for (size_t j = 0; j < 100; ++j) {
+                for (size_t k = 0; k < 100; ++k) {
+                    element->addInstance(ece::translate(ece::FloatVector3u{-50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f}));
+                }
+            }
+        }
+        scene.prepare();
+//		element->applyTransformation(ece::translate(cubePositions[i]));
 		// queue.insert(sprite)
 
 		// ForwardRendering technique;
 
 		ece::InputEvent event;
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_120);
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
 		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
-			if (fps.isReadyToUpdate()) {
-				window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
-				window.clear(ece::FUSHIA);
+			window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
+			//if (fps.isReadyToUpdate()) { // BIG BUG HERE !!!
+				window.clear(ece::BLACK);
 
-			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
-			window.draw(**element);
-			// technique.draw(queue)
+				element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+				//camera.moveIn({ 0.0f, 0.0f, 0.05f });
+				//scene.updateCamera();
 
-				if (window.pollEvent(event)) {
-				}
+				//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
+
+				scene.draw();
+				//window.draw(**element);
+				// technique.draw(queue)
 				window.display();
+			//}
+
+			if (window.pollEvent(event)) {
 			}
 		}
 	}

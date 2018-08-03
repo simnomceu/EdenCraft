@@ -38,17 +38,13 @@
 
 */
 
-#ifndef OBJECT_HPP
-#define OBJECT_HPP
+#ifndef LINE_HPP
+#define LINE_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/common/renderable.hpp"
-#include "graphic/model/mesh.hpp"
+#include "utility/mathematics/vector3u.hpp"
 #include "core/resource/resource_handler.hpp"
-#include "graphic/model/material.hpp"
-#include "graphic/model/light.hpp"
-
-#include <memory>
+#include "renderer/common/renderable.hpp"
 
 namespace ece
 {
@@ -56,111 +52,89 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::common::Renderable;
-			using model::Mesh;
-			using model::Light;
-			using model::Material;
-            using utility::mathematics::FloatVector3u;
+			using utility::mathematics::FloatVector3u;
 			using core::resource::ResourceHandler;
+			using renderer::common::Renderable;
 
 			/**
-			 * @class Object
-			 * @extends Renderable
-			 * @brief A renderable 3D object.
+			 * @class Line
+			 * @brief
 			 */
-			class ECE_GRAPHIC_API Object: public Renderable
+			class ECE_GRAPHIC_API Line : public Renderable
 			{
 			public:
-				using Reference = ResourceHandler<Object>;
+				using LineReference = ResourceHandler<Line>;
 
 				/**
-				 * @fn Object() noexcept
+				 * @fn constexpr Line() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Object() noexcept;
+				Line() noexcept;
+
+				Line(const FloatVector3u & begin, const FloatVector3u & end, const FloatVector3u & color, const float width) noexcept;
 
 				/**
-				 * @fn Object(const Object & copy)
-				 * @param[in] copy The Object to copy from.
+				 * @fn Line(const Line & copy) noexcept
+				 * @param[in] copy The Line to copy from.
 				 * @brief Default copy constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Object(const Object & copy) = default;
+				Line(const Line & copy) = default;
 
 				/**
-				 * @fn Object(Object && move) noexcept
-				 * @param[in] move The Object to move.
+				 * @fn Line(Line && move) noexcept
+				 * @param[in] move The Line to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Object(Object && move) noexcept = default;
+				Line(Line && move) noexcept = default;
 
 				/**
-				 * @fn ~Object() noexcept
+				 * @fn ~Line() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Object() noexcept = default;
+				~Line() noexcept = default;
 
 				/**
-				 * @fn Object & operator=(const Object & copy)
-				 * @param[in] copy The Object to copy from.
-				 * @return The Object copied.
+				 * @fn Line & operator=(const Line & copy) noexcept
+				 * @param[in] copy The Line to copy from.
+				 * @return The Line copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Object & operator=(const Object & copy) = default;
+				Line & operator=(const Line & copy) = default;
 
 				/**
-				 * @fn Object & operator=(Object && move) noexcept
-				 * @param[in] move The Object to move from.
-				 * @return The Object moved.
+				 * @fn Line & operator=(Line && move) noexcept
+				 * @param[in] move The Line to move.
+				 * @return The Line moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Object & operator=(Object && move) noexcept = default;
+				Line & operator=(Line && move) noexcept = default;
 
-				// NOTE: each element should be build externally from this class, and just "linked" to it when required.
+				inline const FloatVector3u & getBegin() const noexcept;
+				inline const FloatVector3u & getEnd() const noexcept;
+				inline const FloatVector3u & getColor() const noexcept;
+				inline float getWidth() const noexcept;
 
-				/**
-				 * @fn void setMesh(const std::shared_ptr<Mesh> & mesh)
-				 * @param[in] mesh The mesh to use.
-				 * @brief Set the mesh of the 3D object.
-				 * @throw
-				 */
-				void setMesh(const Mesh::Reference & mesh);
+				inline void setBegin(const FloatVector3u & begin) noexcept;
+				inline void setEnd(const FloatVector3u & end) noexcept;
+				inline void setColor(const FloatVector3u & color) noexcept;
+				inline void set(const float width) noexcept;
 
-				void setMaterial(const std::shared_ptr<Material> & material);
-
-				// NOTE: accessing one of the elements linked to this object should not modify the object itself
-				// but it should also not forbid modification on the elements.
-
-				/**
-				 * @fn std::shared_ptr<Mesh> getMesh() const
-				 * @return The mesh of the object.
-				 * @brief Get the mesh of the object.
-				 * @throw
-				 */
-				inline Mesh::Reference getMesh() const;
-
-				inline std::shared_ptr<Material> getMaterial() const;
-
-                void prepare();
-
-			protected:
-				/**
-				 * @property _mesh
-				 * @brief The mesh of the object.
-				 */
-				Mesh::Reference _mesh;
-
-				std::shared_ptr<Material> _material;
+			private:
+				FloatVector3u _begin;
+				FloatVector3u _end;
+				FloatVector3u _color;
+				float _width;
 			};
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/renderable/object.inl"
+#include "graphic/renderable/line.inl"
 
-#endif // OBJECT_HPP
+#endif // LINE_HPP

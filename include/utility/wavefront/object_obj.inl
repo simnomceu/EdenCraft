@@ -56,15 +56,15 @@ namespace ece
 
 			inline const std::vector<FloatVector4u> & ObjectOBJ::getVertices() const { return this->_v; }
 
-			inline void ObjectOBJ::addVertexTexture(const FloatVector3u & vt) { this->_vt.push_back(vt); }
+			inline void ObjectOBJ::addVertexTexture(const FloatVector2u & vt) { this->_vt.push_back(vt); }
 
-			inline void ObjectOBJ::addVertexTexture(FloatVector3u && vt) { this->_vt.push_back(std::move(vt)); }
+			inline void ObjectOBJ::addVertexTexture(FloatVector2u && vt) { this->_vt.push_back(std::move(vt)); }
 
 			inline int ObjectOBJ::getNumberOfVerticesTexture() const { return this->_vt.size(); }
 
-			inline std::vector<FloatVector3u> & ObjectOBJ::getVerticesTexture() { return this->_vt; }
+			inline std::vector<FloatVector2u> & ObjectOBJ::getVerticesTexture() { return this->_vt; }
 
-			inline const std::vector<FloatVector3u> & ObjectOBJ::getVerticesTexture() const { return this->_vt; }
+			inline const std::vector<FloatVector2u> & ObjectOBJ::getVerticesTexture() const { return this->_vt; }
 
 			inline void ObjectOBJ::addVertexNormal(const FloatVector3u & vn) { this->_vn.push_back(vn); }
 
