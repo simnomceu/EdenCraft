@@ -41,7 +41,7 @@
 #define IBO_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource/object_opengl.hpp"
+#include "renderer/resource/buffer_object.hpp"
 
 namespace ece
 {
@@ -53,7 +53,7 @@ namespace ece
 			 * @class IBO
 			 * @brief Index buffer object as defined in OpenGL.
 			 */
-			class ECE_RENDERER_API IBO: public ObjectOpenGL
+			class ECE_RENDERER_API IBO: public BufferObject
 			{
 			public:
 				/**
@@ -61,7 +61,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline IBO();
+				inline IBO(const BufferObject::Usage usage);
 
 				/**
 				 * @fn IBO(const IBO & copy) noexcept
@@ -103,24 +103,6 @@ namespace ece
 				 * @throw noexcept
 				 */
 				IBO & operator=(IBO && move) noexcept = default;
-
-				/**
-				 * @fn void bind() const
-				 * @brief Put the IBO in a buffer to be used.
-				 * @throw
-				 */
-				inline virtual void bind() const override;
-
-				/**
-				 * @fn void bufferData(const std::vector<unsigned int> & data, const BufferUsage usage)
-				 * @param[in] data The indices to set.
-				 * @param[in] usage The usage of the buffer.
-				 * @brief Set the buffer data.
-				 * @throw
-				 */
-				template <class T> inline void bufferData(const std::vector<T> & data, const BufferUsage usage);
-
-				inline virtual void terminate() override;
 			};
 		} // namespace resource
 	} // namespace renderer

@@ -54,6 +54,7 @@ namespace ece
             using renderer::PrimitiveMode;
             using renderer::ShaderType;
             using renderer::resource::ShaderStage;
+			using renderer::resource::BufferObject;
 
             Object::Object() noexcept: Renderable(), _mesh(), _material()
             {
@@ -76,21 +77,22 @@ namespace ece
             void Object::prepare()
             {
                 BufferLayout layout;
-                layout.add<float>(3, false);
-                layout.add<float>(3, false);
-                layout.add<float>(2, false);
+                layout.add<float>(3, false, false, false);
+                layout.add<float>(3, false, false, false);
+                layout.add<float>(2, false, false, false);
 
-                this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, this->_mesh->getVertices(), BufferUsage::STATIC_DRAW);
-                this->_vao.addIndices(this->_mesh->getFaces(), BufferUsage::STATIC_DRAW);
+                this->_vao.sendData(layout, this->_mesh->getVertices(), BufferObject::Usage::STATIC);
+                this->_vao.addIndices(this->_mesh->getFaces());
 
                 if (this->isInstancingEnabled()) {
                     BufferLayout layoutInstancing;
-                    layoutInstancing.add<float>(4, false);
-					layoutInstancing.add<float>(4, false);
-					layoutInstancing.add<float>(4, false);
-					layoutInstancing.add<float>(4, false);
+					layoutInstancing.setInstanceBlockSize(1);
+                    layoutInstancing.add<float>(4, false, false, true);
+					layoutInstancing.add<float>(4, false, false, true);
+					layoutInstancing.add<float>(4, false, false, true);
+					layoutInstancing.add<float>(4, false, false, true);
 
-                    this->_vao.sendData(layoutInstancing, BufferType::ARRAY_BUFFER, this->_instances, BufferUsage::STATIC_DRAW, true);
+                    this->_vao.sendData(layoutInstancing, this->_instances, BufferObject::Usage::STATIC);
                 }
 
                 ShaderStage fsSource, vsSource;

@@ -38,17 +38,12 @@
 
 */
 
-#ifndef OBJECT_HPP
-#define OBJECT_HPP
-
 #include "graphic/config.hpp"
 #include "renderer/common/renderable.hpp"
-#include "graphic/model/mesh.hpp"
-#include "core/resource/resource_handler.hpp"
-#include "graphic/model/material.hpp"
-#include "graphic/model/light.hpp"
+#include "utility/mathematics/vector3u.hpp"
 
-#include <memory>
+#include <chrono>
+#include <vector>
 
 namespace ece
 {
@@ -57,110 +52,81 @@ namespace ece
 		namespace renderable
 		{
 			using renderer::common::Renderable;
-			using model::Mesh;
-			using model::Light;
-			using model::Material;
-            using utility::mathematics::FloatVector3u;
-			using core::resource::ResourceHandler;
+			using utility::mathematics::FloatVector3u;
+			using utility::mathematics::FloatVector4u;
+			using renderer::resource::BufferLayout;
 
 			/**
-			 * @class Object
-			 * @extends Renderable
-			 * @brief A renderable 3D object.
+			 * @class ParticlesEmitter
+			 * @brief
 			 */
-			class ECE_GRAPHIC_API Object: public Renderable
+			class ECE_GRAPHIC_API ParticlesEmitter: public Renderable
 			{
 			public:
-				using Reference = ResourceHandler<Object>;
+				struct Particle
+				{
+					float _life;
+					FloatVector3u _position;
+					FloatVector3u _velocity;
+					FloatVector4u _color;
+				};
 
 				/**
-				 * @fn Object() noexcept
+				 * @fn ParticlesEmitter() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Object() noexcept;
+				ParticlesEmitter(const std::size_t size) noexcept;
 
 				/**
-				 * @fn Object(const Object & copy)
-				 * @param[in] copy The Object to copy from.
+				 * @fn ParticlesEmitter(const ParticlesEmitter & copy)
+				 * @param[in] copy The ParticlesEmitter to copy from.
 				 * @brief Default copy constructor.
 				 * @throw
 				 */
-				Object(const Object & copy) = default;
+				ParticlesEmitter(const ParticlesEmitter & copy) = default;
 
 				/**
-				 * @fn Object(Object && move) noexcept
-				 * @param[in] move The Object to move.
+				 * @fn ParticlesEmitter(ParticlesEmitter && move) noexcept
+				 * @param[in] move The ParticlesEmitter to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Object(Object && move) noexcept = default;
+				ParticlesEmitter(ParticlesEmitter && move) noexcept = default;
 
 				/**
-				 * @fn ~Object() noexcept
+				 * @fn ~ParticlesEmitter() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Object() noexcept = default;
+				~ParticlesEmitter() noexcept = default;
 
 				/**
-				 * @fn Object & operator=(const Object & copy)
-				 * @param[in] copy The Object to copy from.
-				 * @return The Object copied.
+				 * @fn ParticlesEmitter & operator=(const ParticlesEmitter & copy)
+				 * @param[in] copy The ParticlesEmitter to copy from.
+				 * @return The ParticlesEmitter copied.
 				 * @brief Default copy assignment operator.
 				 * @throw
 				 */
-				Object & operator=(const Object & copy) = default;
+				ParticlesEmitter & operator=(const ParticlesEmitter & copy) = default;
 
 				/**
-				 * @fn Object & operator=(Object && move) noexcept
-				 * @param[in] move The Object to move from.
-				 * @return The Object moved.
+				 * @fn ParticlesEmitter & operator=(ParticlesEmitter && move) noexcept
+				 * @param[in] move The ParticlesEmitter to move.
+				 * @return The ParticlesEmitter moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Object & operator=(Object && move) noexcept = default;
+				ParticlesEmitter & operator=(ParticlesEmitter && move) noexcept = default;
 
-				// NOTE: each element should be build externally from this class, and just "linked" to it when required.
+				void update(const float elapsedTime);
 
-				/**
-				 * @fn void setMesh(const std::shared_ptr<Mesh> & mesh)
-				 * @param[in] mesh The mesh to use.
-				 * @brief Set the mesh of the 3D object.
-				 * @throw
-				 */
-				void setMesh(const Mesh::Reference & mesh);
-
-				void setMaterial(const std::shared_ptr<Material> & material);
-
-				// NOTE: accessing one of the elements linked to this object should not modify the object itself
-				// but it should also not forbid modification on the elements.
-
-				/**
-				 * @fn std::shared_ptr<Mesh> getMesh() const
-				 * @return The mesh of the object.
-				 * @brief Get the mesh of the object.
-				 * @throw
-				 */
-				inline Mesh::Reference getMesh() const;
-
-				inline std::shared_ptr<Material> getMaterial() const;
-
-                virtual void prepare() override;
-
-			protected:
-				/**
-				 * @property _mesh
-				 * @brief The mesh of the object.
-				 */
-				Mesh::Reference _mesh;
-
-				std::shared_ptr<Material> _material;
+				virtual void draw() override;
+			private:
+				std::vector<Particle> _particles;
+				std::size_t _size;
+				size_t _dataIndex;
 			};
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece
-
-#include "graphic/renderable/object.inl"
-
-#endif // OBJECT_HPP

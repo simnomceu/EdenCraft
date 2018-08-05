@@ -2,7 +2,7 @@
 
 [![Github Releases](https://img.shields.io/github/release/Isilin/edencraft.svg)](https://github.com/simnomceu/EdenCraft/releases)
 [![Github (pre-releases](https://img.shields.io/github/release/simnomceu/edencraft/all.svg?label=nightly)](https://github.com/simnomceu/EdenCraft/releases)
-[![Build Status](https://travis-ci.org/Isilin/EdenCraft.svg?branch=master)](https://travis-ci.org/Isilin/EdenCraft)
+[![Build Status](https://travis-ci.org/simnomceu/EdenCraft.svg?branch=master)](https://travis-ci.org/simnomceu/EdenCraft)
 [![Build status](https://ci.appveyor.com/api/projects/status/h14mj302e5x0amy4/branch/master?svg=true)](https://ci.appveyor.com/project/Isilin/edencraft/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/Isilin/EdenCraft/badge.svg?branch=master)](https://coveralls.io/github/Isilin/EdenCraft?branch=master)
 

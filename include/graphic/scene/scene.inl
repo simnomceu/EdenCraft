@@ -44,6 +44,8 @@ namespace ece
 	{
 		namespace scene
 		{
+			inline void Scene::addObject(const Renderable::Reference & object) { this->_objects.push_back({ object, true }); }
+
 			inline void Scene::addLight(const Light::Reference & light) { this->_lights.push_back({ light, true }); }
 
 			inline Camera & Scene::getCamera() { return this->_camera._value; }

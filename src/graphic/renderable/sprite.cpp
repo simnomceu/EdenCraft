@@ -57,6 +57,7 @@ namespace ece
 			using renderer::resource::ShaderStage;
 			using renderer::opengl::OpenGL;
             using renderer::resource::BufferLayout;
+			using renderer::resource::BufferObject;
 
 			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
 			{
@@ -89,11 +90,11 @@ namespace ece
 				const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
 
                 BufferLayout layout;
-                layout.add<float>(2, false);
-                layout.add<float>(2, false);
+                layout.add<float>(2, false, false, false);
+                layout.add<float>(2, false, false, false);
 
-				this->_vao.sendData(layout, BufferType::ARRAY_BUFFER, points, BufferUsage::STATIC_DRAW);
-				this->_vao.addIndices(index, BufferUsage::STATIC_DRAW);
+				this->_vao.sendData(layout, points, BufferObject::Usage::STATIC);
+				this->_vao.addIndices(index);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/sprite.frag");

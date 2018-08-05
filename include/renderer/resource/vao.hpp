@@ -40,6 +40,7 @@
 #define VAO_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/resource/vbo.hpp"
 #include "renderer/resource/ibo.hpp"
 #include "renderer/resource/object_opengl.hpp"
 #include "renderer/resource/buffer_layout.hpp"
@@ -65,12 +66,12 @@ namespace ece
 				VAO();
 
 				/**
-				 * @fn VAO(const VAO & copy) noexcept
+				 * @fn VAO(const VAO & copy)
 				 * @param[in] copy The VAO to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				VAO(const VAO & copy) noexcept = default;
+				VAO(const VAO & copy) = default;
 
 				/**
 				 * @fn VAO(VAO && move) noexcept
@@ -88,13 +89,13 @@ namespace ece
 				~VAO() noexcept = default;
 
 				/**
-				 * @fn VAO & operator=(const VAO & copy) noexcept
+				 * @fn VAO & operator=(const VAO & copy)
 				 * @param[in] copy The VAO to copy from.
 				 * @return The VAO copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				VAO & operator=(const VAO & copy) noexcept = default;
+				VAO & operator=(const VAO & copy) = default;
 
 				/**
 				 * @fn VAO & operator=(VAO && move) noexcept
@@ -132,22 +133,13 @@ namespace ece
 				 * @brief Add a list of vertex as a VBO in the vertex array object.
 				 * @throw
 				 */
-				template<class T> void sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage, const bool instancing = false);
+				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+				size_t sendData(const BufferLayout & layout, const T<TT...> & data, const VBO::Usage usage);
 
-				/**
-				 * @fn void addAttributeWithoutBuffer(const int location, const int size, const bool normalized, const int offset, const BufferType type, std::vector<T> & data, const BufferUsage usage)
-				 * @tparam T The type of data to add to the vertex array without VBO.
-				 * @param[in] location The index of the VAO to modify.
-				 * @param[in] size The size of a vertex.
-				 * @param[in] normalized If fixed-point values has to be normalized or not
-				 * @param[in] offset The offset between two vertex.
-				 * @param[in] type The type of data.
-				 * @param[in] data The array of vertex.
-				 * @param[in] usage The usage of the buffer.
-				 * @brief Add a list of vertex DIRECTLY in the vertex array object.
-				 * @throw
-				 */
-				template<class T> void sendDataWithoutBuffer(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage);
+				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+				void updateData(const std::size_t index, const T<TT...> & data);
+
+				//template <class T>  std::vector<T> getData(const BufferLayout & layout, const BufferUsage usage, const bool instancing = false);
 
 				/**
 				 * @fn void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
@@ -156,7 +148,8 @@ namespace ece
 				 * @brief Add an index buffer object to the VAO.
 				 * @throw
 				 */
-				template <class T> void addIndices(const std::vector<T> & data, const BufferUsage usage);
+				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
+				void addIndices(const T<E, TT...> & data);
 
 				/**
 				 * @fn unsigned int getNbVertices() const
@@ -165,6 +158,8 @@ namespace ece
 				 * @throw
 				 */
 				inline unsigned int getNbVertices() const;
+
+                inline bool isIndexed() const noexcept;
 
 				virtual void terminate() override;
 
@@ -175,11 +170,13 @@ namespace ece
 				 */
 				unsigned int _nbVertices;
 
+				std::vector<VBO> _vbos;
+
 				/**
 				 * @property _ibo
 				 * @brief The index buffer object to use.
 				 */
-				IBO _ibo;
+				std::unique_ptr<IBO> _ibo;
 
                 unsigned int _globalLocation;
 			};
