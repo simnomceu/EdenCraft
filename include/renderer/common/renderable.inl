@@ -42,7 +42,9 @@ namespace ece
 	{
 		namespace common
 		{
-			inline Shader & Renderable::getProgram() { return this->_program; }
+            inline bool Renderable::isIndexed() const { return this->_vao.isIndexed(); }
+
+            inline Shader & Renderable::getProgram() { return this->_program; }
 
 			inline void Renderable::prepare() {}
 		} // namespace common

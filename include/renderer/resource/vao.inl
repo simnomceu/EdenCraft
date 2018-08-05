@@ -42,11 +42,16 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _vbos(), _ibo(BufferObject::Usage::STATIC), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
+			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _vbos(), _ibo(nullptr), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
 
 			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 
-			inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
+			inline void VAO::bindIndexBuffer() const
+            {
+                if (this->_ibo) {
+                    this->_ibo->bind();
+                }
+            }
 
 			template<template <class...> class T, class... TT, typename enabled>
 			size_t VAO::sendData(const BufferLayout & layout, const T<TT...> & data, const VBO::Usage usage)
@@ -70,6 +75,9 @@ namespace ece
 						++this->_globalLocation;
 					}
                 }
+                if (this->_nbVertices == 0) {
+                    this->_nbVertices = data.size();
+                }
 				return this->_vbos.size() - 1;
             }
 
@@ -83,15 +91,20 @@ namespace ece
 			template<template <class, class...> class T, class E, class... TT, typename enabled>
 			void VAO::addIndices(const T<E, TT...> & data)
 			{
+                if (!this->_ibo) {
+                    this->_ibo = std::make_unique<IBO>(BufferObject::Usage::STATIC);
+                }
 				if (this->_nbVertices == 0) {
 					this->_nbVertices = data.size() * sizeof(E) / sizeof(unsigned int);
 				}
 
 				this->bind();
-				this->_ibo.bufferData(data, BufferObject::Method::DRAW);
+				this->_ibo->bufferData(data, BufferObject::Method::DRAW);
 			}
 
 			inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
+
+            inline bool VAO::isIndexed() const noexcept {return !!this->_ibo; }
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

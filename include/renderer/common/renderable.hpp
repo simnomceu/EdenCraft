@@ -120,6 +120,8 @@ namespace ece
 
                 void addInstance(const FloatMatrix4u & instance);
 
+                inline bool isIndexed() const;
+
                 bool isInstancingEnabled() const;
 
 				inline Shader & getProgram();

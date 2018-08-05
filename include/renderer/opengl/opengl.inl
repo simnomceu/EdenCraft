@@ -221,7 +221,10 @@ namespace ece
 
 			//	inline void OpenGL::multiDrawElements(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawRangeElements(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, const void * /*indices*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawArraysInstanced(GLenum /*mode*/, int /*first*/, GLsizei /*count*/, GLsizei /*primcount*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount)
+            {
+                checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, count, primcount));
+            }
 
             inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset, const unsigned int primcount)
             {

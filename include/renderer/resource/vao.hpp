@@ -159,6 +159,8 @@ namespace ece
 				 */
 				inline unsigned int getNbVertices() const;
 
+                inline bool isIndexed() const noexcept;
+
 				virtual void terminate() override;
 
 			private:
@@ -174,7 +176,7 @@ namespace ece
 				 * @property _ibo
 				 * @brief The index buffer object to use.
 				 */
-				IBO _ibo;
+				std::unique_ptr<IBO> _ibo;
 
                 unsigned int _globalLocation;
 			};

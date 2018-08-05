@@ -81,10 +81,15 @@ namespace ece
 				layout.add<float>(3, false, true, false);
 				layout.add<float>(2, false, true, false);
 
-				auto mesh = makeQuad(0.1f);
-				this->_vao.sendData(layout, mesh.getVertices(), BufferObject::Usage::STATIC);
-				this->_vao.addIndices(mesh.getFaces());
-				
+//				auto mesh = makeQuad(0.1f);
+//				this->_vao.sendData(layout, mesh.getVertices(), BufferObject::Usage::STATIC);
+//				this->_vao.addIndices(mesh.getFaces());
+
+                std::vector<float> mesh = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+//                std::vector<unsigned int> faces = { 1 };
+				this->_vao.sendData(layout, mesh, BufferObject::Usage::STATIC);
+//				this->_vao.addIndices(faces);
+
 				BufferLayout instanceLayout;
 				instanceLayout.setInstanceBlockSize(1);
 				instanceLayout.add<float>(1, false, true, false);
@@ -133,7 +138,22 @@ namespace ece
 				OpenGL::blendFunc(BlendingFactor::SRC_ALPHA, BlendingFactor::ONE);
 				this->_program.use();
 				this->_vao.bind();
-				OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_particles.size());
+                this->_vao.bindIndexBuffer();
+                if (this->isIndexed()) {
+                    if (this->_particles.size() > 1) {
+    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_particles.size());
+                    }
+                    else {
+    		            OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+                    }
+                } else {
+                    if (this->_particles.size() > 1) {
+    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNbVertices(), this->_particles.size());
+                    }
+                    else {
+    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNbVertices());
+                    }
+                }
 				OpenGL::blendFunc(BlendingFactor::SRC_ALPHA, BlendingFactor::ONE_MINUS_SRC_ALPHA);
 				OpenGL::disable(Capability::BLEND);
 			}

@@ -64,11 +64,20 @@ namespace ece
 				this->_program.use();
 				this->_vao.bind();
 				this->_vao.bindIndexBuffer();
-                if (this->isInstancingEnabled()) {
-		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_instances.size());
-                }
-                else {
-		            OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+                if (this->isIndexed()) {
+                    if (this->isInstancingEnabled()) {
+    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_instances.size());
+                    }
+                    else {
+    		            OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+                    }
+                } else {
+                    if (this->isInstancingEnabled()) {
+    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNbVertices(), this->_instances.size());
+                    }
+                    else {
+    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNbVertices());
+                    }
                 }
 			}
 

@@ -208,8 +208,8 @@ namespace ece
 				static inline void drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset);
 				//		static inline void multiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount);
 				//		static inline void drawRangeElements(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, const void * indices);
-				//		static inline void drawArraysInstanced(GLenum mode, int first, GLsizei count, GLsizei primcount);
-						static inline void drawElementsInstanced(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset, const unsigned int primcount);
+				static inline void drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount);
+				static inline void drawElementsInstanced(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset, const unsigned int primcount);
 				//		static inline void drawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, int basevertex);
 				//		static inline void drawRangeElementsBaseVertex(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, void * indices, int basevertex);
 				//		static inline void drawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei primcount, int basevertex);
