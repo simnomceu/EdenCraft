@@ -77,7 +77,7 @@ namespace ece
 					FloatVector2u _textureCoordinate;
 				};
 
-				using Face = std::array<std::size_t, 3>;
+				using Face = std::array<unsigned int, 3>;
 
 				/**
 				 * @fn Mesh() noexcept

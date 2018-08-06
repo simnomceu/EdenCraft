@@ -119,7 +119,8 @@ namespace ece
 				*/
 				static inline void setCurrentContext(const std::shared_ptr<BaseContext> & currentContext);
 
-				template <class T> static inline DataType dataType();
+				template <class T> static inline constexpr DataType dataType();
+				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
 
 				static inline void bindBuffer(const BufferType type, const Handle handle);
 
@@ -203,7 +204,7 @@ namespace ece
 				static inline void enableIndexed(const Capability cap, const unsigned short int index);
 				static inline void disableIndexed(const Capability cap, const unsigned short int index);
 				//		static inline void primitiveRestartIndex(unsigned int index);
-				static inline void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);
+				static inline void drawArrays(const PrimitiveMode mode, const int first, const std::size_t count);
 				//		static inline void multiDrawArrays(GLenum mode, const int * first, const GLsizei * count, GLsizei drawcount);
 				static inline void drawElements(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset);
 				//		static inline void multiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount);
@@ -465,7 +466,7 @@ namespace ece
 				//		static inline void bindFragDataLocationIndexed(unsigned int program, unsigned int colorNumber, unsigned int index, const char *name);
 				//		static inline int getFragDataIndex(unsigned int program, const char * name);
 				//
-						static inline void vertexAttribDivisor(unsigned int index, unsigned int divisor);
+						static inline void vertexAttribDivisor(const int index, const std::size_t divisor);
 				//
 				//		static inline void getUniformdv(unsigned int program, int location, double *params);
 				//		static inline void blendEquationi(unsigned int buf, GLenum mode);

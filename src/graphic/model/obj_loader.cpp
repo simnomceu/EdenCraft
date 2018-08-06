@@ -87,7 +87,7 @@ namespace ece
                         }
 						auto index = this->_mesh.addVertex(vertex);
 						//face.push_back(index);
-                        face[i] = index;
+                        face[i] = static_cast<unsigned int>(index);
                         ++i;
                         // TODO: what append if there is more than 3 vertices in the face ? (array<unsigned int, 3>)
 					}

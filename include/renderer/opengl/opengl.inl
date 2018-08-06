@@ -56,7 +56,7 @@ namespace ece
 			}
 
 			template <class T>
-			inline DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
+			inline constexpr DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
 
 			template <>
 			inline DataType OpenGL::dataType<short int>() { return DataType::SHORT; }
@@ -75,6 +75,27 @@ namespace ece
 
 			template <>
 			inline DataType OpenGL::dataType<double>() { return DataType::DOUBLE; }
+
+			template <DataType Type>
+			inline constexpr std::size_t OpenGL::dataTypeSize() { throw std::runtime_error("This type cannot be passed."); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::SHORT>() { return sizeof(short int); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::UNSIGNED_SHORT>() { return sizeof(unsigned short int); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::INT>() { return sizeof(int); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::UNSIGNED_INT>() { return sizeof(unsigned int); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::FLOAT>() { return sizeof(float); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::DOUBLE>() { return sizeof(double); }
 
 			inline void OpenGL::bindBuffer(const BufferType type, const Handle handle)
 			{
@@ -107,7 +128,7 @@ namespace ece
 
 			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
 			{
-				checkErrors(glVertexAttribPointer(location, static_cast<GLuint>(size), static_cast<GLenum>(type), normalized, static_cast<GLuint>(stride), reinterpret_cast<GLvoid *>(offset)));
+				checkErrors(glVertexAttribPointer(location, static_cast<GLint>(size), static_cast<GLenum>(type), normalized, static_cast<GLsizei>(stride), reinterpret_cast<GLvoid *>(offset)));
 			}
 
 			// New version
@@ -209,28 +230,32 @@ namespace ece
 
 			//	inline void OpenGL::primitiveRestartIndex(unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
 
-			inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const unsigned int count)
+			inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const std::size_t count)
 			{
-				checkErrors(glDrawArrays(static_cast<GLenum>(mode), first, count));
+				checkErrors(glDrawArrays(static_cast<GLenum>(mode), first, static_cast<GLsizei>(count)));
 			}
 
 			//	inline void OpenGL::multiDrawArrays(GLenum /*mode*/, const int * /*first*/, const GLsizei * /*count*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 
 			inline void OpenGL::drawElements(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset)
 			{
-				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<void *>(offset)));
+				unsigned char * byteOffset = nullptr;
+				byteOffset += offset * sizeof(unsigned int);
+				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), byteOffset));
 			}
 
 			//	inline void OpenGL::multiDrawElements(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawRangeElements(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, const void * /*indices*/) { static_assert(false, "Not implemented yet."); }
 			inline void OpenGL::drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount)
             {
-                checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, count, primcount));
+                checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, static_cast<GLsizei>(count), static_cast<GLsizei>(primcount)));
             }
 
             inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset, const std::size_t primcount)
             {
-				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<void *>(offset), static_cast<GLsizei>(primcount)));
+				unsigned char * byteOffset = nullptr;
+				byteOffset += offset * sizeof(unsigned int);
+				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), byteOffset, static_cast<GLsizei>(primcount)));
             }
 
             //	inline void OpenGL::drawElementsBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
@@ -884,7 +909,7 @@ namespace ece
 			//	inline void OpenGL::bindFragDataLocationIndexed(unsigned int /*program*/, unsigned int /*colorNumber*/, unsigned int /*index*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline int OpenGL::getFragDataIndex(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//
-				inline void OpenGL::vertexAttribDivisor(unsigned int index, unsigned int divisor) { checkErrors(glVertexAttribDivisor(index, divisor)); }
+				inline void OpenGL::vertexAttribDivisor(const int index, const std::size_t divisor) { checkErrors(glVertexAttribDivisor(static_cast<GLuint>(index), static_cast<GLuint>(divisor))); }
 			//
 			//	inline void OpenGL::getUniformdv(unsigned int /*program*/, int /*location*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendEquationi(unsigned int /*buf*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }

@@ -157,8 +157,8 @@ namespace ece
 				 * @brief Get the number of vertices of the object.
 				 * @throw
 				 */
-				inline unsigned int getNumberOfVertices() const;
-				inline unsigned int getNumberIndices() const;
+				inline std::size_t getNumberOfVertices() const;
+				inline std::size_t getNumberIndices() const;
 
                 inline bool isIndexed() const noexcept;
 
@@ -180,7 +180,7 @@ namespace ece
 				 */
 				std::unique_ptr<IBO> _ibo;
 
-                unsigned int _globalLocation;
+                int _globalLocation;
 			};
 		} // namespace resource
 	} // namespace renderer

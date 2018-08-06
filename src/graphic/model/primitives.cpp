@@ -98,29 +98,29 @@ namespace ece
 				}
 				mesh.addVertex({ { 0.0f, -1.0f, 0.0f },{ 0.0f, -1.0f, 0.0f },{ 0.0f, 0.0f } });
 
-				for (size_t i = 0; i < numberOfVertices; ++i) {
-					const unsigned int a = i + 1;
-					const unsigned int b = (i + 1) % numberOfVertices + 1;
-					mesh.addFace({ 0, b, a });
+				for (std::size_t i = 0; i < numberOfVertices; ++i) {
+					const std::size_t a = i + 1;
+					const std::size_t b = (i + 1) % numberOfVertices + 1;
+					mesh.addFace({ 0, static_cast<unsigned int>(b), static_cast<unsigned int>(a) });
 				}
 
-				for (size_t i = 0; i < numberOfVertices - 2; ++i) {
-					const int aStart = i * numberOfVertices + 1;
-					const int bStart = (i + 1) * numberOfVertices + 1;
-					for (size_t j = 0; j < numberOfVertices; ++j) {
-						const unsigned int a = aStart + j;
-						const unsigned int a1 = aStart + (j + 1) % numberOfVertices;
-						const unsigned int b = bStart + j;
-						const unsigned int b1 = bStart + (j + 1) % numberOfVertices;
-						mesh.addFace({ a, a1, b1 });
-						mesh.addFace({ a, b1, b });
+				for (std::size_t i = 0; i < numberOfVertices - 2; ++i) {
+					const std::size_t aStart = i * numberOfVertices + 1;
+					const std::size_t bStart = (i + 1) * numberOfVertices + 1;
+					for (std::size_t j = 0; j < numberOfVertices; ++j) {
+						const std::size_t a = aStart + j;
+						const std::size_t a1 = aStart + (j + 1) % numberOfVertices;
+						const std::size_t b = bStart + j;
+						const std::size_t b1 = bStart + (j + 1) % numberOfVertices;
+						mesh.addFace({ static_cast<unsigned int>(a), static_cast<unsigned int>(a1), static_cast<unsigned int>(b1) });
+						mesh.addFace({ static_cast<unsigned int>(a), static_cast<unsigned int>(b1), static_cast<unsigned int>(b) });
 					}
 				}
 
 				for (size_t i = 0; i < numberOfVertices; ++i) {
-					const unsigned int a = i + numberOfVertices * (numberOfVertices - 2) + 1;
-					const unsigned int b = (i + 1) % numberOfVertices + numberOfVertices * (numberOfVertices - 2) + 1;
-					mesh.addFace({ static_cast<unsigned int>(mesh.getVertices().size() - 1), a, b });
+					const std::size_t a = i + numberOfVertices * (numberOfVertices - 2) + 1;
+					const std::size_t b = (i + 1) % numberOfVertices + numberOfVertices * (numberOfVertices - 2) + 1;
+					mesh.addFace({ static_cast<unsigned int>(mesh.getVertices().size() - 1), static_cast<unsigned int>(a), static_cast<unsigned int>(b) });
 				}
 
 				return std::move(mesh);
