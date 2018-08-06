@@ -115,11 +115,9 @@ namespace ece
 				 */
 				Renderable & operator=(Renderable && move) noexcept = default;
 
-				virtual void draw();
+				void draw();
 
 				void applyTransformation(const FloatMatrix4u & transformation);
-
-                void addInstance(const FloatMatrix4u & instance);
 
                 inline bool isIndexed() const;
 
@@ -138,9 +136,9 @@ namespace ece
 
 				FloatMatrix4u _model;
 
-                std::vector<FloatMatrix4u> _instances;
-
 				RenderState _state;
+
+				std::size_t _numberOfInstances;
 			};
 		} // namespace common
 	} // namespace renderer

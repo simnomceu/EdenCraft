@@ -56,13 +56,14 @@ namespace ece
 				_frontFaceMode(FrontFaceMode::CW),
 				_depthTest(true),
 				_depthFunction(DepthFunctionCondition::LESS),
-				_pointSize(1.0f),
-				_lineWidth(1.0f),
+				_pointSize(0.0f),
+				_lineWidth(0.0f),
 				_smoothLine(false),
 				_blending(false),
 				_sourceBlend(BlendingFactor::SRC_ALPHA),
 				_destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA)
-			{}
+			{
+			}
 
 			bool RenderState::operator==(const RenderState & rhs) const noexcept
 			{
@@ -79,9 +80,9 @@ namespace ece
 					&& this->_destinationBlend == rhs._destinationBlend;
 			}
 
-			void RenderState::apply()
+			void RenderState::apply(const bool forced)
 			{
-				if (RenderState::_currentState != *this) {
+				if (RenderState::_currentState != *this || forced) {
 					RenderState::_currentState = *this;
 
 					if (RenderState::_currentState._faceCulling) {
@@ -101,12 +102,22 @@ namespace ece
 						OpenGL::disable(Capability::DEPTH_TEST);
 					}
 
-					OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
-					OpenGL::pointSize(RenderState::_currentState._pointSize);
+					if (RenderState::_currentState._pointSize > 0.0f) {
+						OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
+						OpenGL::pointSize(RenderState::_currentState._pointSize);
+					}
+					else {
+						OpenGL::disable(Capability::PROGRAM_POINT_SIZE);
+					}
 
-					OpenGL::lineWidth(RenderState::_currentState._lineWidth);
-					if (RenderState::_currentState._smoothLine) {
-						OpenGL::enable(Capability::LINE_SMOOTH);
+					if (RenderState::_currentState._lineWidth > 0.0f) {
+						OpenGL::lineWidth(RenderState::_currentState._lineWidth);
+						if (RenderState::_currentState._smoothLine) {
+							OpenGL::enable(Capability::LINE_SMOOTH);
+						}
+						else {
+							OpenGL::disable(Capability::LINE_SMOOTH);
+						}
 					}
 					else {
 						OpenGL::disable(Capability::LINE_SMOOTH);

@@ -120,8 +120,6 @@ namespace ece
 				ParticlesEmitter & operator=(ParticlesEmitter && move) noexcept = default;
 
 				void update(const float elapsedTime);
-
-				virtual void draw() override;
 			private:
 				std::vector<Particle> _particles;
 				std::size_t _size;

@@ -107,7 +107,7 @@ namespace ece
 
 				inline bool operator!=(const RenderState & rhs) const noexcept;
 
-				void apply();
+				void apply(const bool forced = false);
 
 				bool _faceCulling;
 				CullFaceMode _cullFaceMode;
