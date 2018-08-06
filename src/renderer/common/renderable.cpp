@@ -66,17 +66,17 @@ namespace ece
 				this->_state.apply();
                 if (this->isIndexed()) {
                     if (this->isInstancingEnabled()) {
-    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_numberOfInstances);
+    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0, this->_numberOfInstances);
                     }
                     else {
-    		            OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+    		            OpenGL::drawElements(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0);
                     }
                 } else {
                     if (this->isInstancingEnabled()) {
-    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNbVertices(), this->_numberOfInstances);
+    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNumberOfVertices(), this->_numberOfInstances);
                     }
                     else {
-    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNbVertices());
+    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNumberOfVertices());
                     }
                 }
 			}
