@@ -44,6 +44,7 @@
 #include "renderer/enum.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
 #include "core/resource/resource_handler.hpp"
+#include "renderer/common/render_state.hpp"
 
 namespace ece
 {
@@ -138,6 +139,8 @@ namespace ece
 				FloatMatrix4u _model;
 
                 std::vector<FloatMatrix4u> _instances;
+
+				RenderState _state;
 			};
 		} // namespace common
 	} // namespace renderer

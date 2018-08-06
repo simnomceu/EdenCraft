@@ -51,7 +51,7 @@ namespace ece
 			using utility::mathematics::FloatVector3u;
 			using opengl::OpenGL;
 
-			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _instances()
+			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _instances(), _state()
 			{
 				this->_model.setIdentity();
                 this->_instances.push_back(FloatMatrix4u::Identity());
@@ -64,6 +64,7 @@ namespace ece
 				this->_program.use();
 				this->_vao.bind();
 				this->_vao.bindIndexBuffer();
+				this->_state.apply();
                 if (this->isIndexed()) {
                     if (this->isInstancingEnabled()) {
     		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_instances.size());
