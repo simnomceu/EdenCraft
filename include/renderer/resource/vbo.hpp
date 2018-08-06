@@ -40,7 +40,11 @@
 #define VBO_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource/object_opengl.hpp"
+#include "renderer/resource/buffer_object.hpp"
+#include "renderer/resource/buffer_layout.hpp"
+
+#include <type_traits>
+#include <iterator>
 
 namespace ece
 {
@@ -52,18 +56,19 @@ namespace ece
 			 * @class VBO
 			 * @brief A vertex buffer object as defined in OpenGL
 			 */
-			class ECE_RENDERER_API VBO: public ObjectOpenGL
+			class ECE_RENDERER_API VBO: public BufferObject
 			{
 			public:
-				inline VBO(const BufferType type = BufferType::ARRAY_BUFFER);
+
+				inline VBO(const BufferLayout & layout, const BufferObject::Usage usage);
 
 				/**
-				 * @fn VBO(const VBO & copy) noexcept
+				 * @fn VBO(const VBO & copy)
 				 * @param[in] copy The VBO to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				VBO(const VBO & copy) noexcept = default;
+				VBO(const VBO & copy) = default;
 
 				/**
 				 * @fn VBO(VBO && move) noexcept
@@ -81,13 +86,13 @@ namespace ece
 				~VBO() noexcept = default;
 
 				/**
-				 * @fn VBO & operator=(const VBO & copy) noexcept
+				 * @fn VBO & operator=(const VBO & copy)
 				 * @param[in] copy The VBO to copy from.
 				 * @return The VBO copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				VBO & operator=(const VBO & copy) noexcept = default;
+				VBO & operator=(const VBO & copy) = default;
 
 				/**
 				 * @fn VBO & operator=(VBO && move) noexcept
@@ -98,38 +103,13 @@ namespace ece
 				 */
 				VBO & operator=(VBO && move) noexcept = default;
 
-				/**
-				 * @fn void bind()
-				 * @brief Put the VBO in a buffer to be used.
-				 * @throw
-				 */
-				inline virtual void bind() const override;
-
-				/**
-				 * @fn void bufferData(const std::vector<T> & data, const BufferUsage usage)
-				 * @tparam T The type of data to set.
-				 * @param[in] data The data to set.
-				 * @param[in] usage The kind of usage the buffer.
-				 * @brief Set data in the VBO.
-				 */
-				template<class T> void bufferData(const std::vector<T> & data, const BufferUsage usage, const int offset = 0);
-
-				/**
-				 * @fn void setType(const BufferType type)
-				 * @param[in] type The type to set.
-				 * @brief Change the type of buffer.
-				 * @throw
-				 */
-				inline void setType(const BufferType type);
-
-				inline virtual void terminate() override;
+				inline const BufferLayout::ElementLayout & getElementLayout(const std::size_t index) const;
+				inline std::size_t getLayoutStride() const noexcept;
+				inline std::size_t getInstanceBlockSize() const noexcept;
+				inline BufferLayout::Strategy getLayoutStrategy() const noexcept;
 
 			private:
-				/**
-				 * @property _type
-				 * @brief The type of VBO to use.
-				 */
-				BufferType _type;
+				BufferLayout _layout;
 			};
 		} // namespace resource
 	} // namespace renderer

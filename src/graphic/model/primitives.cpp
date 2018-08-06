@@ -255,12 +255,12 @@ namespace ece
 				Mesh mesh;
 
 				mesh.addVertex({ { -size / 2.0f, -size/2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 1.0f } });
-				mesh.addVertex({ { -size / 2.0f, size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				mesh.addVertex({ { size / 2.0f, size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 0.0f } });
-				mesh.addVertex({ { size / 2.0f, -size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 1.0f } });
+				mesh.addVertex({ { size / 2.0f, -size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 0.0f } });
+				mesh.addVertex({ { size / 2.0f, size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 1.0f } });
+				mesh.addVertex({ { -size / 2.0f, size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 1.0f } });
 
-				mesh.addFace({ 0, 1, 2 });
-				mesh.addFace({ 2, 3, 0 });
+				mesh.addFace({ 0, 3, 2 });
+				mesh.addFace({ 0, 2, 1 });
 
 				return std::move(mesh);
 			}

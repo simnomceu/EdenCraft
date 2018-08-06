@@ -42,24 +42,17 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VBO::VBO(const BufferType type) : ObjectOpenGL(), _type(type) { this->_handle = OpenGL::genBuffers(); }
+			using opengl::OpenGL;
 
-			inline void VBO::bind() const { OpenGL::bindBuffer(this->_type, this->_handle); }
+			inline VBO::VBO(const BufferLayout & layout, const Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
 
-			template<class T>
-			void VBO::bufferData(const std::vector<T> & data, const BufferUsage usage, const int offset)
-			{
-				this->bind();
-				OpenGL::bufferData<T>(this->_type, data, usage, offset);
-			}
+			inline const BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
 
-			inline void VBO::setType(const BufferType type) { this->_type = type; }
+			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
 
-			inline void VBO::terminate()
-			{
-				OpenGL::deleteBuffer(this->_handle);
-				this->_handle = 0;
-			}
+			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
+
+			inline BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

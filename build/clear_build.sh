@@ -12,4 +12,4 @@ rm -rf ../bin/
 rm -rf ../obj/
 
 # Gmake project
-rm -rf ./gmake/
+rm -rf ./gmake2/

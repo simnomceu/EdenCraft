@@ -38,59 +38,93 @@
 
 */
 
-#include "graphic/scene/scene.hpp"
-
+#include "graphic/config.hpp"
+#include "renderer/common/renderable.hpp"
 #include "utility/mathematics/vector3u.hpp"
-#include "graphic/renderable/object.hpp"
-#include "core/resource/make_resource.hpp"
-#include "renderer/opengl/opengl.hpp"
+
+#include <chrono>
+#include <vector>
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace scene
+		namespace renderable
 		{
+			using renderer::common::Renderable;
 			using utility::mathematics::FloatVector3u;
-			using core::resource::makeResource;
-			using renderer::opengl::OpenGL;
+			using utility::mathematics::FloatVector4u;
+			using renderer::resource::BufferLayout;
 
-			Scene::Scene() noexcept: _camera(), _objects()
+			/**
+			 * @class ParticlesEmitter
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API ParticlesEmitter: public Renderable
 			{
-				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera._value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
-			}
+			public:
+				struct Particle
+				{
+					float _life;
+					FloatVector3u _position;
+					FloatVector3u _velocity;
+					FloatVector4u _color;
+				};
 
-			Object::Reference Scene::addObject()
-			{
-				auto object = makeResource<Object>("");
-				this->_objects.push_back({ object, true });
-				return std::move(object);
-			}
+				/**
+				 * @fn ParticlesEmitter() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				ParticlesEmitter(const std::size_t size) noexcept;
 
-			void Scene::prepare()
-			{
-				for (auto & object : this->_objects) {
-					object._value->prepare();
-				}
-			}
+				/**
+				 * @fn ParticlesEmitter(const ParticlesEmitter & copy)
+				 * @param[in] copy The ParticlesEmitter to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				ParticlesEmitter(const ParticlesEmitter & copy) = default;
 
-			void Scene::draw()
-			{
-				for (auto & object : this->_objects) {
-					auto & program = object._value->getProgram();
-					program.use();
-					for (auto & light : this->_lights) {
-						light._value->apply(program);
-					}
-					if (this->_camera._hasChanged) {
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection());
-						this->_camera._hasChanged = false;
-					}
-					object._value->draw();
-				}
-			}
-		} // namespace scene
+				/**
+				 * @fn ParticlesEmitter(ParticlesEmitter && move) noexcept
+				 * @param[in] move The ParticlesEmitter to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ParticlesEmitter(ParticlesEmitter && move) noexcept = default;
+
+				/**
+				 * @fn ~ParticlesEmitter() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~ParticlesEmitter() noexcept = default;
+
+				/**
+				 * @fn ParticlesEmitter & operator=(const ParticlesEmitter & copy)
+				 * @param[in] copy The ParticlesEmitter to copy from.
+				 * @return The ParticlesEmitter copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				ParticlesEmitter & operator=(const ParticlesEmitter & copy) = default;
+
+				/**
+				 * @fn ParticlesEmitter & operator=(ParticlesEmitter && move) noexcept
+				 * @param[in] move The ParticlesEmitter to move.
+				 * @return The ParticlesEmitter moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ParticlesEmitter & operator=(ParticlesEmitter && move) noexcept = default;
+
+				void update(const float elapsedTime);
+			private:
+				std::vector<Particle> _particles;
+				std::size_t _size;
+				size_t _dataIndex;
+			};
+		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

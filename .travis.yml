@@ -36,11 +36,14 @@ env:
     - PLATFORM="x64"
   matrix:
     #  - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
-    - CONFIG="debug"
-    - CONFIG="release"
+    - CONFIG="debugstatic"
+    - CONFIG="releasestatic"
+    - CONFIG="debugshared"
+    - CONFIG="releaseshared"
 #    - PLATFORM="x86"
 
 before_install:
+  - if [ $TRAVIS_OS_NAME = osx ]; then brew install gcc --HEAD; fi
   - git submodule -q update --init --recursive
   - eval "${MATRIX_EVAL}"
   - chmod +x build/premake5_${TRAVIS_OS_NAME}
@@ -48,8 +51,8 @@ before_install:
 install:
 
 script:
-  - cd build && ./premake5_${TRAVIS_OS_NAME} gmake
-  - cd gmake && make config=${CONFIG}_${PLATFORM} && cd ../..
+  - cd build && ./premake5_${TRAVIS_OS_NAME} gmake2
+  - cd gmake2 && make -j4 config=${CONFIG}_${PLATFORM} more_cube && cd ../..
 
 after_script:
   - cd build && ./clear_build.sh && cd ..

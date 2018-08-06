@@ -8,7 +8,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace debug
 		{
 			/**
 			 * @fn checkErrors(func)
@@ -16,9 +16,14 @@ namespace ece
 			 * @brief Carry out an opengl call and check possible errors.
 			 * @throw
 			 */
+#ifdef ECE_DEBUG
 #define checkErrors(func) \
 				func; \
 				checkErrors_(__FILE__, __LINE__, #func);
+#else
+#define checkErrors(func) \
+				func;
+#endif
 
 			 /**
 			  * @fn void checkErrors_(const char * file, const int line, const char * function)

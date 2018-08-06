@@ -57,6 +57,7 @@ namespace ece
 		{
 			using renderable::Object;
 			using renderable::Light;
+			using renderer::common::Renderable;
 
 			/**
 			 * @class Scene
@@ -121,6 +122,8 @@ namespace ece
 				 */
 				Object::Reference addObject();
 
+				inline void addObject(const Renderable::Reference & object);
+
 				inline void addLight(const Light::Reference & light);
 
 				/**
@@ -145,7 +148,7 @@ namespace ece
 
 				struct ObjectWrapper
 				{
-					Object::Reference _value;
+					Renderable::Reference _value;
 					bool _hasChanged;
 				};
 

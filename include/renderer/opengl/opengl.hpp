@@ -54,6 +54,9 @@
 #include "utility/mathematics/vector4u.hpp"
 #include "renderer/enum.hpp"
 #include "utility/indexing/version.hpp"
+#include "utility/container/contiguous_container.hpp"
+#include "utility/container/can_access_data.hpp"
+#include "utility/container/has_size.hpp"
 
 namespace ece
 {
@@ -70,6 +73,9 @@ namespace ece
 			using namespace utility::template_expression;
 			using utility::indexing::Version;
 			using common::BaseContext;
+			using utility::container::contiguous_container_v;
+			using utility::container::can_access_data_v;
+			using utility::container::has_size_v;
 
 			using Handle = unsigned int;
 
@@ -116,7 +122,10 @@ namespace ece
 				template <class T> static inline DataType dataType();
 
 				static inline void bindBuffer(const BufferType type, const Handle handle);
-				template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage, const int offset = 0);
+
+				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
+				static inline void bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset = 0);
+
 				static inline void genVertexArrays(Handle & handle);
 				static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
 				static inline void bindVertexArray(const Handle handle);
@@ -199,7 +208,7 @@ namespace ece
 				static inline void drawElements(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset);
 				//		static inline void multiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount);
 				//		static inline void drawRangeElements(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, const void * indices);
-				//		static inline void drawArraysInstanced(GLenum mode, int first, GLsizei count, GLsizei primcount);
+				static inline void drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount);
 				static inline void drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset, const std::size_t primcount);
 				//		static inline void drawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, int basevertex);
 				//		static inline void drawRangeElementsBaseVertex(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, void * indices, int basevertex);
@@ -381,7 +390,7 @@ namespace ece
 				//		static inline void blendEquation(GLenum mode);
 				//		static inline void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
 				//		static inline void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
-				//		static inline void blendFunc(GLenum sfactor, GLenum dfactor);
+				static inline void blendFunc(const BlendingFactor sfactor, const BlendingFactor dfactor);
 				//		static inline void blendColor(float red, float green, float blue, float alpha);
 				//		static inline void logicOp(GLenum opcode);
 				//		static inline void drawBuffer(GLenum buf);

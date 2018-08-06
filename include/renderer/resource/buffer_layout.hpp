@@ -62,17 +62,26 @@ namespace ece
                 struct ElementLayout
                 {
                     DataType _type;
-					std::size_t _unitSize;
-					std::size_t _count;
+                    std::size_t _unitSize;
+                    std::size_t _count;
+					std::size_t _offset;
                     bool _normalized;
+					bool _ignored;
+					bool _instanced;
                 };
+
+				enum class Strategy : unsigned short int
+				{
+					STRUCTURED,
+					CONCATENATED
+				};
 
                 /**
                  * @fn BufferLayout() noexcept
                  * @brief Default constructor.
                  * @throw noexcept
                  */
-                BufferLayout() noexcept = default;
+                inline BufferLayout(const Strategy strategy = Strategy::STRUCTURED) noexcept;
 
                 /**
                  * @fn BufferLayout(const BufferLayout & copy)
@@ -115,17 +124,25 @@ namespace ece
                  */
                 BufferLayout & operator=(BufferLayout && move) noexcept = default;
 
-                template <class T> void add(const std::size_t size, const bool normalized);
+                template <class T> void add(const std::size_t size, const bool normalized, const bool ignored, const bool instanced);
 
-				std::size_t getStrideFrom(const std::size_t index) const;
-				std::size_t getOffsetFrom(const std::size_t index) const;
+                std::size_t getStride() const;
 
                 inline ElementLayout & getElement(const std::size_t index);
                 inline const ElementLayout & getElement(const std::size_t index) const;
                 inline std::size_t size() const;
 
+				inline void setInstanceBlockSize(const std::size_t size) noexcept;
+				inline std::size_t getInstanceBlockSize() const noexcept;
+
+				inline Strategy getStrategy() const noexcept;
+
             private:
                 std::vector<ElementLayout> _elements;
+
+				std::size_t _instanceBlockSize;
+				
+				Strategy _strategy;
             };
         } // namespace resource
     } // namespace renderer

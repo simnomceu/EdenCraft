@@ -25,7 +25,7 @@ Release is the final stage  of the software. A release is stable and completed. 
 For an alpha version, all code needs to be commented obviously. However, it is not mandatory to have all unit tests. It is only supposed to compile and run.
 
 ### alpha-0.1.0 (aka. Basics update)
-+ [ ] Continuous integration pipeline. (Git / GitFlow / etc...).
+* [ ] Continuous integration pipeline. (Git / GitFlow / etc...).
 + [ ] AppVeyor profile for Windows (x86 and x64).
 + [ ] Travis CI profile for Linux (x86 and x64) and MacOSX (x64).
 + [ ] Coveralls profile.
@@ -40,57 +40,56 @@ For an alpha version, all code needs to be commented obviously. However, it is n
  + [ ] Reading and writing files and binary files.
  + [ ] Parsing BMP images.
  + [ ] Parsing OBJ and MTL Wavefront formats.
- + [ ] Parsing JSON formats.
+ * [x] Parsing JSON formats.
  + [ ] Dealing with paths (relative and absolute).
  + [ ] Indexing multi-dimensional arrays.
- + [ ] Version handling.
- + [ ] Unique ID generator.
- + [ ] Localization handling.
+ * [ ] Version handling.
+ * [ ] Unique ID generator.
+ * [x] Localization handling.
  + [ ] Console/file logger.
- + [ ] Geometric operations.
- + [ ] Matrix and vector handling, with expression templates.
- + [ ] 3D rotation using quaternions, matrix, and Euler angles.
+ * [x] Geometric operations.
+ * [x] Matrix and vector handling, with expression templates.
+ * [x] 3D rotation using quaternions, matrix, and Euler angles.
  + [x] Pimpl design pattern implementation.
  + [ ] Listener/listenable design pattern.
- + [ ] Service-consumer pattern implementation.
+ * [x] Service-consumer pattern implementation.
  + [ ] Timer, and UPS/FPS counter.
- + [ ] C++11, C++14, C++17 versions compatibility.
 ##### Core
  + [ ] General application management.
  + [ ] Application lifecycle.
  + [ ] CLI parser.
- + [ ] Basic Entity-Component-System pattern.
+ * [ ] Basic Entity-Component-System pattern.
  + [ ] Signal/Slot mechanism (Qt-like).
  + [ ] Pluggable module for application (extending application capabilities).
- + [ ] Basic resources manager without any strategy (like, unloading the resource proportionally to the elapsed time since the last use).
+ * [x] Basic resources manager without any strategy (like, unloading the resource proportionally to the elapsed time since the last use).
 ##### Window
-+ [ ] Common interface to handle window.
++ [ ] Windowed application.
+* [x] Common interface to handle window.
 + [ ] Enqueuing window events.
 + [ ] Dealing with screen ratio/resolution.
 + [ ] Handling video mode.
-+ [ ] Win32 implementation of window.
-+ [ ] X11 implementation of window (Xlib and XCB).
-+ [ ] Cocoa implementation of window.
+* [x] Win32 implementation of window.
+* [x] X11 implementation of window (Xlib and XCB).
 + [ ] Managing input devices events (Mouse, keyboard).
 ##### Renderer
-+ [ ] Common interface for OpenGL context.
-+ [ ] OpenGL extensions loader with lazy-loading.
+* [x] Common interface for OpenGL context.
+* [x] OpenGL extensions loader with lazy-loading.
 + [ ] OpenGL support from OpenGL 3.2 to OpenGL 4.6.
-+ [ ] WGL implementation for Win32.
-+ [ ] GLX implementation for X11.
-+ [ ] CGL implementation (AGL ?) for OSX.
-+ [ ] Basic 2D and 3D renderer.
-+ [ ] Basic shaders.
-+ [ ] Basic 2D and 3D textures.
+* [x] WGL implementation for Win32.
+* [x] GLX implementation for X11.
+* [x] Basic 2D and 3D renderer.
+* [x] Basic shaders.
+* [x] Basic 2D textures.
 + [ ] Enhanced shaders, with hot reloading, and some other features.
 + [ ] Particle renderer.
 + [ ] MSAA with OpenGL implementation.
-+ [ ] Phong ligthing model.
+* [x] Phong ligthing model.
+* [x] Render state used for draw calls.
 ##### Graphic
-+ [ ] Particle generator.
-+ [ ] 3D scene with 3D objects.
-+ [ ] Static camera.
-+ [ ] 3D primitive objects (Cube, sphere, rectangle, square, triangle, circle, torus, cylinder, pyramid, tetrahedron, etc ...)
+* [x] Basic particle generator.
+* [x] 3D scene with 3D objects.
+* [x] Static camera.
+* [x] 3D primitive objects (Cube, sphere, rectangle, square, triangle, circle, torus, cylinder, pyramid, tetrahedron, etc ...)
 
 ### alpha-0.2.0 (aka. Graphic update)
 ##### Utility
@@ -101,7 +100,10 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Window
 + [ ] Wayland implementation.
 + [ ] Mir implementation.
++ [ ] Cocoa implementation of window.
 ##### Renderer
++ [ ] CGL implementation (AGL ?) for OSX.
+* [ ] Basic 3D textures.
 + [ ] Basic 2D text renderer.
 + [ ] Basic GUI renderer.
 + [ ] PBR lighting model.
@@ -111,6 +113,8 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Reflection and Refraction.
 + [ ] Shader AST.
 + [ ] BatchRenderer (to merge several draw calls of 2D objects in a single one).
++ [ ] CubeMap
+
 ##### Graphic
 + [ ] Scene graph.
 + [ ] Procedural texture generation (2D and 3D, eg. terrains).
@@ -119,6 +123,8 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Cinematic camera (movements, travelling, etc...).
 + [ ] glTF Parser.
 + [ ] External module to use FBX SDK from Autodesk.
++ [ ] Customizable particles generator.
++ [ ] Skybox and Skydome
 
 ### alpha-0.3.0 (aka. Audio update)
 ##### Utility
@@ -191,6 +197,18 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Multi layer perceptron (Feedforward).
 + [ ] Back propagation.
 
+### alpha-0.8.0 (aka. Game update)
+##### Utility
+##### Core
+##### Window
+##### Renderer
+##### Graphic
+##### Audio
+##### Network
+##### Physic
+##### IA
+##### Game
+
 ## Beta guideline
 
 ### beta-1.0.0
@@ -204,3 +222,5 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Audio
 ##### Network
 ##### Physic
+##### IA
+##### Game

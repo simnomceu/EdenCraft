@@ -61,6 +61,7 @@ namespace ece
 			using model::Light;
 			using model::Material;
             using utility::mathematics::FloatVector3u;
+			using utility::mathematics::FloatMatrix4u;
 			using core::resource::ResourceHandler;
 
 			/**
@@ -146,7 +147,9 @@ namespace ece
 
 				inline std::shared_ptr<Material> getMaterial() const;
 
-                void prepare();
+                virtual void prepare() override;
+
+				void addInstance(const FloatMatrix4u & instance);
 
 			protected:
 				/**
@@ -156,6 +159,8 @@ namespace ece
 				Mesh::Reference _mesh;
 
 				std::shared_ptr<Material> _material;
+
+				std::vector<FloatMatrix4u> _instances;
 			};
 		} // namespace renderable
 	} // namespace graphic

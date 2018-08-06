@@ -43,6 +43,8 @@
 #include "renderer/resource/vao.hpp"
 #include "renderer/enum.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
+#include "core/resource/resource_handler.hpp"
+#include "renderer/common/render_state.hpp"
 
 namespace ece
 {
@@ -54,6 +56,7 @@ namespace ece
 			using resource::Shader;
 			using resource::EnhancedShader;
             using utility::mathematics::FloatMatrix4u;
+			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Renderable
@@ -62,6 +65,8 @@ namespace ece
 			class ECE_RENDERER_API Renderable
 			{
 			public:
+				using Reference = ResourceHandler<Renderable>;
+
 				/**
 				 * @fn Renderable() noexcept
 				 * @brief Default constructor.
@@ -114,11 +119,13 @@ namespace ece
 
 				void applyTransformation(const FloatMatrix4u & transformation);
 
-                void addInstance(const FloatMatrix4u & instance);
+                inline bool isIndexed() const;
 
                 bool isInstancingEnabled() const;
 
 				inline Shader & getProgram();
+
+				inline virtual void prepare();
 
 			protected:
 				VAO _vao;
@@ -129,7 +136,9 @@ namespace ece
 
 				FloatMatrix4u _model;
 
-                std::vector<FloatMatrix4u> _instances;
+				RenderState _state;
+
+				std::size_t _numberOfInstances;
 			};
 		} // namespace common
 	} // namespace renderer

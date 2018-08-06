@@ -37,7 +37,7 @@
 */
 
 #include "renderer/opengl/opengl_extension.hpp"
-#include "renderer/opengl/debugging.hpp"
+#include "renderer/debug/debugging.hpp"
 
 namespace ece
 {
@@ -45,6 +45,8 @@ namespace ece
 	{
 		namespace opengl
 		{
+			using namespace debug;
+
 			inline Version<2> & OpenGL::getLatestVersion() { return OpenGL::_latestVersion; }
 
 			inline void OpenGL::setCurrentContext(const std::shared_ptr<BaseContext> & currentContext)
@@ -97,10 +99,10 @@ namespace ece
 				checkErrors(glBindVertexArray(handle));
 			}
 
-			template<class T>
-			inline void OpenGL::bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage, const int offset)
+			template <template <class, class...> class T, class E, class... TT, typename enabled>
+			inline void OpenGL::bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset)
 			{
-				checkErrors(glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), data.data() + offset, static_cast<GLenum>(usage)));
+				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(E), std::data(data) + offset, static_cast<GLenum>(usage)));
 			}
 
 			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
@@ -221,7 +223,10 @@ namespace ece
 
 			//	inline void OpenGL::multiDrawElements(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawRangeElements(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, const void * /*indices*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawArraysInstanced(GLenum /*mode*/, int /*first*/, GLsizei /*count*/, GLsizei /*primcount*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount)
+            {
+                checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, count, primcount));
+            }
 
             inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset, const std::size_t primcount)
             {
@@ -777,7 +782,12 @@ namespace ece
 			//	inline void OpenGL::blendEquation(GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendEquationSeparate(GLenum /*modeRGB*/, GLenum /*modeAlpha*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendFuncSeparate(GLenum /*srcRGB*/, GLenum /*dstRGB*/, GLenum /*srcAlpha*/, GLenum /*dstAlpha*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendFunc(GLenum /*sfactor*/, GLenum /*dfactor*/) { static_assert(false, "Not implemented yet."); }
+
+			inline void OpenGL::blendFunc(const BlendingFactor sfactor, const BlendingFactor dfactor)
+			{
+				checkErrors(glBlendFunc(static_cast<GLenum>(sfactor), static_cast<GLenum>(dfactor)));
+			}
+
 			//	inline void OpenGL::blendColor(float /*red*/, float /*green*/, float /*blue*/, float /*alpha*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::logicOp(GLenum /*opcode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawBuffer(GLenum /*buf*/) { static_assert(false, "Not implemented yet."); }
