@@ -119,7 +119,8 @@ namespace ece
 				*/
 				static inline void setCurrentContext(const std::shared_ptr<BaseContext> & currentContext);
 
-				template <class T> static inline DataType dataType();
+				template <class T> static inline constexpr DataType dataType();
+				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
 
 				static inline void bindBuffer(const BufferType type, const Handle handle);
 
@@ -129,7 +130,7 @@ namespace ece
 				static inline void genVertexArrays(Handle & handle);
 				static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
 				static inline void bindVertexArray(const Handle handle);
-				static inline void vertexAttribPointer(const int location, const int size, const DataType type, const bool normalized, const int stride, const int offset = 0);
+				static inline void vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset = 0);
 
 				// NEW DEFINITION
 
@@ -203,13 +204,13 @@ namespace ece
 				static inline void enableIndexed(const Capability cap, const unsigned short int index);
 				static inline void disableIndexed(const Capability cap, const unsigned short int index);
 				//		static inline void primitiveRestartIndex(unsigned int index);
-				static inline void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);
+				static inline void drawArrays(const PrimitiveMode mode, const int first, const std::size_t count);
 				//		static inline void multiDrawArrays(GLenum mode, const int * first, const GLsizei * count, GLsizei drawcount);
-				static inline void drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset);
+				static inline void drawElements(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset);
 				//		static inline void multiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount);
 				//		static inline void drawRangeElements(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, const void * indices);
 				static inline void drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount);
-				static inline void drawElementsInstanced(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset, const unsigned int primcount);
+				static inline void drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset, const std::size_t primcount);
 				//		static inline void drawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, int basevertex);
 				//		static inline void drawRangeElementsBaseVertex(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, void * indices, int basevertex);
 				//		static inline void drawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei primcount, int basevertex);
@@ -338,7 +339,7 @@ namespace ece
 				//		static inline void pixelStorei(GLenum pname, int param);
 				static inline void activeTexture(const unsigned int texture);
 				//		static inline void texImage3D(GLenum target, int level, int internalFormat, GLsizei width, GLsizei height, GLsizei depth, int border, GLenum format, GLenum type, const void * data);
-				static inline void texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data);
+				static inline void texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const std::size_t width, const std::size_t height, const PixelFormat format, const PixelDataType type, const void * data);
 				//		static inline void texImage1D(GLenum target, int level, int internalFormat, GLsizei width, int border, GLenum format, GLenum type, const void * data);
 				//		static inline void copyTexImage2D(GLenum target, int level, GLenum internalformat, int x, int y, GLsizei width, GLsizei height, int border);
 				//		static inline void copyTexImage1D(GLenum target, int level, GLenum internalformat, int x, int y, GLsizei width, int border);
@@ -465,7 +466,7 @@ namespace ece
 				//		static inline void bindFragDataLocationIndexed(unsigned int program, unsigned int colorNumber, unsigned int index, const char *name);
 				//		static inline int getFragDataIndex(unsigned int program, const char * name);
 				//
-						static inline void vertexAttribDivisor(unsigned int index, unsigned int divisor);
+						static inline void vertexAttribDivisor(const int index, const std::size_t divisor);
 				//
 				//		static inline void getUniformdv(unsigned int program, int location, double *params);
 				//		static inline void blendEquationi(unsigned int buf, GLenum mode);

@@ -102,9 +102,9 @@ namespace ece
 				this->_ibo->bufferData(data, BufferObject::Method::DRAW);
 			}
 
-			inline unsigned int VAO::getNumberOfVertices() const { return this->_numberOfVertices; }
+			inline std::size_t VAO::getNumberOfVertices() const { return this->_numberOfVertices; }
 
-			inline unsigned int VAO::getNumberIndices() const { return this->_numberOfIndices; }
+			inline std::size_t VAO::getNumberIndices() const { return this->_numberOfIndices; }
 
             inline bool VAO::isIndexed() const noexcept {return !!this->_ibo; }
 		} // namespace resource

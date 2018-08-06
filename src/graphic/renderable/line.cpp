@@ -59,7 +59,7 @@ namespace ece
 			using renderer::opengl::OpenGL;
 			using renderer::resource::BufferObject;
 
-			Line::Line() noexcept: Renderable(), _begin(), _end(), _color(), _width(1)
+			Line::Line() noexcept: Renderable(), _begin(), _end(), _color(), _width(1.0f)
 			{
 				this->_mode = PrimitiveMode::LINES;
 

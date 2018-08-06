@@ -66,7 +66,7 @@ namespace ece
         				file.open(pathname, OpenMode::in);
         				std::string content = file.parseToString();
 
-        				/*size_t pos = 0;
+        				/*std::size_t pos = 0;
         				std::string search("\n\t"), replace("");
         				while ((pos = content.find(search, pos)) != std::string::npos) {
         					content.replace(pos, search.length(), replace);

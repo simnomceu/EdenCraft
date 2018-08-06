@@ -44,9 +44,9 @@ namespace ece
 	{
 		namespace model
 		{
-			inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+			inline std::size_t Mesh::size() const { return this->_vertices.size(); }
 
-			inline unsigned int Mesh::getNumberOfFaces() const { return this->_faces.size(); }
+			inline std::size_t Mesh::getNumberOfFaces() const { return this->_faces.size(); }
 
 			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
 
