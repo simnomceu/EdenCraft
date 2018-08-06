@@ -84,6 +84,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Particle renderer.
 + [ ] MSAA with OpenGL implementation.
 * [x] Phong ligthing model.
+* [x] Render state used for draw calls.
 ##### Graphic
 * [x] Basic particle generator.
 * [x] 3D scene with 3D objects.
@@ -112,6 +113,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Reflection and Refraction.
 + [ ] Shader AST.
 + [ ] BatchRenderer (to merge several draw calls of 2D objects in a single one).
++ [ ] CubeMap
 
 ##### Graphic
 + [ ] Scene graph.
@@ -122,6 +124,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] glTF Parser.
 + [ ] External module to use FBX SDK from Autodesk.
 + [ ] Customizable particles generator.
++ [ ] Skybox and Skydome
 
 ### alpha-0.3.0 (aka. Audio update)
 ##### Utility
@@ -194,6 +197,18 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Multi layer perceptron (Feedforward).
 + [ ] Back propagation.
 
+### alpha-0.8.0 (aka. Game update)
+##### Utility
+##### Core
+##### Window
+##### Renderer
+##### Graphic
+##### Audio
+##### Network
+##### Physic
+##### IA
+##### Game
+
 ## Beta guideline
 
 ### beta-1.0.0
@@ -207,3 +222,5 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Audio
 ##### Network
 ##### Physic
+##### IA
+##### Game
