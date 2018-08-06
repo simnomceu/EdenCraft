@@ -10,6 +10,6 @@ rd "../bin/" /s /q
 rd "../obj/" /s /q
 
 REM Gmake project
-rd "./gmake/" /s /q
+rd "./gmake2/" /s /q
 
 timeout /t 5
