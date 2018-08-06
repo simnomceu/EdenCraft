@@ -76,7 +76,7 @@ namespace ece
 					}
                 }
                 if (this->_nbVertices == 0) {
-                    this->_nbVertices = data.size();
+                    this->_nbVertices = data.size(); // ERROR: Here, if not indexed, it works only if vertices are send first ... if the first vbo is not the vertices (and no call to addIndices), it does not work.
                 }
 				return this->_vbos.size() - 1;
             }
@@ -94,9 +94,7 @@ namespace ece
                 if (!this->_ibo) {
                     this->_ibo = std::make_unique<IBO>(BufferObject::Usage::STATIC);
                 }
-				if (this->_nbVertices == 0) {
-					this->_nbVertices = data.size() * sizeof(E) / sizeof(unsigned int);
-				}
+				this->_nbVertices = data.size() * sizeof(E) / sizeof(unsigned int);
 
 				this->bind();
 				this->_ibo->bufferData(data, BufferObject::Method::DRAW);
