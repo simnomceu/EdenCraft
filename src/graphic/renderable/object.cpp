@@ -56,9 +56,10 @@ namespace ece
             using renderer::resource::ShaderStage;
 			using renderer::resource::BufferObject;
 
-            Object::Object() noexcept: Renderable(), _mesh(), _material()
+            Object::Object() noexcept: Renderable(), _mesh(), _material(), _instances()
             {
                 this->_mode = PrimitiveMode::TRIANGLES;
+				this->_instances.push_back(FloatMatrix4u::Identity());
             }
 
 			void Object::setMesh(const Mesh::Reference & mesh)
@@ -112,6 +113,12 @@ namespace ece
 					this->_material->apply(this->_program);
 				}
             }
+
+			void Object::addInstance(const FloatMatrix4u & offset)
+			{
+				this->_instances.push_back(offset.transpose());
+				++this->_numberOfInstances;
+			}
 		}// namespace renderable
 	} // namespace graphic
 } // namespace ece

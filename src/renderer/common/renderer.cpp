@@ -77,7 +77,7 @@ namespace ece
 
 				vao.bind();
 				vao.bindIndexBuffer();
-				OpenGL::drawElements(mode, vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+				OpenGL::drawElements(mode, vao.getNumberIndices(), DataType::UNSIGNED_INT, 0);
 			}
 		} // common
 	} // renderer

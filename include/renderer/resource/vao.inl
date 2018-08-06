@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _vbos(), _ibo(nullptr), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
+			inline VAO::VAO() : ObjectOpenGL(), _numberOfVertices(0), _numberOfIndices(0), _vbos(), _ibo(nullptr), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
 
 			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 
@@ -75,8 +75,8 @@ namespace ece
 						++this->_globalLocation;
 					}
                 }
-                if (this->_nbVertices == 0) {
-                    this->_nbVertices = data.size();
+                if (this->_numberOfVertices == 0) {
+                    this->_numberOfVertices = data.size(); // ERROR: Here, if not indexed, it works only if vertices are send first ... if the first vbo is not the vertices, it does not work.
                 }
 				return this->_vbos.size() - 1;
             }
@@ -94,15 +94,17 @@ namespace ece
                 if (!this->_ibo) {
                     this->_ibo = std::make_unique<IBO>(BufferObject::Usage::STATIC);
                 }
-				if (this->_nbVertices == 0) {
-					this->_nbVertices = data.size() * sizeof(E) / sizeof(unsigned int);
+				if (this->_numberOfIndices == 0) {
+					this->_numberOfIndices = data.size() * sizeof(E) / sizeof(unsigned int);
 				}
 
 				this->bind();
 				this->_ibo->bufferData(data, BufferObject::Method::DRAW);
 			}
 
-			inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
+			inline unsigned int VAO::getNumberOfVertices() const { return this->_numberOfVertices; }
+
+			inline unsigned int VAO::getNumberIndices() const { return this->_numberOfIndices; }
 
             inline bool VAO::isIndexed() const noexcept {return !!this->_ibo; }
 		} // namespace resource

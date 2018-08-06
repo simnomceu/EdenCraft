@@ -157,7 +157,8 @@ namespace ece
 				 * @brief Get the number of vertices of the object.
 				 * @throw
 				 */
-				inline unsigned int getNbVertices() const;
+				inline unsigned int getNumberOfVertices() const;
+				inline unsigned int getNumberIndices() const;
 
                 inline bool isIndexed() const noexcept;
 
@@ -168,7 +169,8 @@ namespace ece
 				 * @property _nbVertices
 				 * @brief The number of vertices of the object.
 				 */
-				unsigned int _nbVertices;
+				std::size_t _numberOfVertices;
+				std::size_t _numberOfIndices;
 
 				std::vector<VBO> _vbos;
 

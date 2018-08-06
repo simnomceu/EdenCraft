@@ -107,9 +107,25 @@ namespace ece
 
 				inline bool operator!=(const RenderState & rhs) const noexcept;
 
+				void apply(const bool forced = false);
+
 				bool _faceCulling;
 				CullFaceMode _cullFaceMode;
 				FrontFaceMode _frontFaceMode;
+
+				bool _depthTest;
+				DepthFunctionCondition _depthFunction;
+
+				float _pointSize;
+				float _lineWidth;
+				bool _smoothLine;
+
+				bool _blending;
+				BlendingFactor _sourceBlend;
+				BlendingFactor _destinationBlend;
+
+			private:
+				static RenderState _currentState;
 			};
 		} // namespace common
 	} // namespace renderer

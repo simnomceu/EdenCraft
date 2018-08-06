@@ -51,10 +51,9 @@ namespace ece
 			using utility::mathematics::FloatVector3u;
 			using opengl::OpenGL;
 
-			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _instances()
+			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)
 			{
 				this->_model.setIdentity();
-                this->_instances.push_back(FloatMatrix4u::Identity());
 			}
 
 			Renderable::~Renderable() {}
@@ -64,19 +63,20 @@ namespace ece
 				this->_program.use();
 				this->_vao.bind();
 				this->_vao.bindIndexBuffer();
+				this->_state.apply();
                 if (this->isIndexed()) {
                     if (this->isInstancingEnabled()) {
-    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_instances.size());
+    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0, this->_numberOfInstances);
                     }
                     else {
-    		            OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
+    		            OpenGL::drawElements(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0);
                     }
                 } else {
                     if (this->isInstancingEnabled()) {
-    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNbVertices(), this->_instances.size());
+    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNumberOfVertices(), this->_numberOfInstances);
                     }
                     else {
-    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNbVertices());
+    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNumberOfVertices());
                     }
                 }
 			}
@@ -87,14 +87,9 @@ namespace ece
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
 			}
 
-            void Renderable::addInstance(const FloatMatrix4u & offset)
-            {
-                this->_instances.push_back(offset.transpose());
-            }
-
             bool Renderable::isInstancingEnabled() const
             {
-                return this->_instances.size() > 1;
+                return this->_numberOfInstances > 1;
             }
 		} // namespace common
 	} // namespace renderer

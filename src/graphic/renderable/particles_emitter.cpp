@@ -68,13 +68,17 @@ namespace ece
 				for (int i = 0; i < 10; ++i) {
 					this->_particles.push_back({ 1.0f,
 						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
-						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
+						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
+				this->_numberOfInstances = this->_particles.size();
 
-				OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
+				this->_state._pointSize = 4.0f;
+				this->_state._blending = true;
+				this->_state._sourceBlend = BlendingFactor::SRC_ALPHA;
+				this->_state._destinationBlend = BlendingFactor::ONE;
+
 				this->_mode = PrimitiveMode::POINTS;
-				OpenGL::pointSize(4.0f);
 
 				BufferLayout layout;
 				layout.add<float>(3, false, false, false);
@@ -128,34 +132,10 @@ namespace ece
 					}
 				}
 
+				this->_numberOfInstances = this->_particles.size();
+
 				//this->_vao.sendData(instanceLayout, this->_particles, BufferObject::Usage::STATIC);
 				this->_vao.updateData(this->_dataIndex, this->_particles);
-			}
-
-			void ParticlesEmitter::draw()
-			{
-				OpenGL::enable(Capability::BLEND);
-				OpenGL::blendFunc(BlendingFactor::SRC_ALPHA, BlendingFactor::ONE);
-				this->_program.use();
-				this->_vao.bind();
-                this->_vao.bindIndexBuffer();
-                if (this->isIndexed()) {
-                    if (this->_particles.size() > 1) {
-    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0, this->_particles.size());
-                    }
-                    else {
-    		            OpenGL::drawElements(this->_mode, this->_vao.getNbVertices(), DataType::UNSIGNED_INT, 0);
-                    }
-                } else {
-                    if (this->_particles.size() > 1) {
-    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNbVertices(), this->_particles.size());
-                    }
-                    else {
-    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNbVertices());
-                    }
-                }
-				OpenGL::blendFunc(BlendingFactor::SRC_ALPHA, BlendingFactor::ONE_MINUS_SRC_ALPHA);
-				OpenGL::disable(Capability::BLEND);
 			}
 		} // namespace renderable
 	} // namespace graphic
