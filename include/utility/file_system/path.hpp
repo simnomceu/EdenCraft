@@ -131,7 +131,7 @@ namespace ece
         		 * @brief Access the depth of the current path. It is equivalent to number of segment level in the path.
         		 * @throw
         		 */
-        		inline int getDepth() const;
+        		inline std::size_t getDepth() const;
 
         		/**
         		 * @fn std::string getPathname() const

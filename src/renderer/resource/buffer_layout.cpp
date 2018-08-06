@@ -48,16 +48,10 @@ namespace ece
     {
         namespace resource
         {
-            size_t BufferLayout::getStrideFrom(const size_t /*index*/) const
+			std::size_t BufferLayout::getStride() const
             {
-                return std::accumulate(this->_elements.begin(), this->_elements.end(), 0,
-                                                [](const size_t ac, const ElementLayout & element) -> size_t { return ac + (element._count * element._unitSize); });
-            }
-
-            size_t BufferLayout::getOffsetFrom(const size_t index) const
-            {
-                return std::accumulate(this->_elements.begin(), this->_elements.begin() + index, 0,
-                                                [](const size_t ac, const ElementLayout & element) -> size_t { return ac + (element._count * element._unitSize); });
+                return std::accumulate(this->_elements.begin(), this->_elements.end(), std::size_t(0),
+                                                [](const std::size_t ac, const ElementLayout & element) -> std::size_t { return ac + (element._count * element._unitSize); });
             }
         } // namespace resource
     } // namespace renderer

@@ -61,9 +61,9 @@ namespace ece
 
 			inline const std::vector<std::byte> & Texture2D::getData() const { return this->_data; }
 
-			inline unsigned int Texture2D::getWidth() const { return this->_width; }
+			inline std::size_t Texture2D::getWidth() const { return this->_width; }
 
-			inline unsigned int Texture2D::getHeight() const { return this->_height; }
+			inline std::size_t Texture2D::getHeight() const { return this->_height; }
 
 			inline TextureTypeTarget Texture2D::getType() const { return this->_type; }
 

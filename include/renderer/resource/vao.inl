@@ -36,72 +36,77 @@
 
 */
 
-#include "renderer/resource/vbo.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace resource
 		{
-			inline VAO::VAO() : ObjectOpenGL(), _nbVertices(0), _ibo(), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
+			inline VAO::VAO() : ObjectOpenGL(), _numberOfVertices(0), _numberOfIndices(0), _vbos(), _ibo(nullptr), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
 
 			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 
-			inline void VAO::bindIndexBuffer() const { this->_ibo.bind(); }
-
-            template<class T>
-            void VAO::sendData(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage, const bool instancing)
+			inline void VAO::bindIndexBuffer() const
             {
-                this->bind();
-                VBO vbo(type);
-				vbo.bufferData<T>(data, usage);
-                for (size_t i = 0; i < layout.size(); ++i) {
-                    OpenGL::enableVertexAttribArray(this->_globalLocation);
-    				OpenGL::vertexAttribPointer(this->_globalLocation,
-                                                layout.getElement(i)._count,
-                                                layout.getElement(i)._type,
-                                                layout.getElement(i)._normalized,
-                                                layout.getStrideFrom(i),
-                                                layout.getOffsetFrom(i));
-                    if (instancing) {
-                        OpenGL::vertexAttribDivisor(this->_globalLocation, 1);
-                    }
-                    ++this->_globalLocation;
+                if (this->_ibo) {
+                    this->_ibo->bind();
                 }
             }
 
-            template<class T>
-            void VAO::sendDataWithoutBuffer(const BufferLayout & layout, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+			template<template <class...> class T, class... TT, typename enabled>
+			size_t VAO::sendData(const BufferLayout & layout, const T<TT...> & data, const VBO::Usage usage)
             {
                 this->bind();
-                /**
-                 * Error: data never sent.
-                 */
+				this->_vbos.emplace_back(layout, usage);
+				this->_vbos.back().bufferData(data, BufferObject::Method::DRAW);
                 for (size_t i = 0; i < layout.size(); ++i) {
-                    OpenGL::enableVertexAttribArray(this->_globalLocation);
-    				OpenGL::vertexAttribPointer(this->_globalLocation,
-                                                layout.getElement(i)._count,
-                                                layout.getElement(i)._type,
-                                                layout.getElement(i)._normalized,
-                                                layout.getStrideFrom(i),
-                                                layout.getOffsetFrom(i));
-                    ++this->_globalLocation;
+					auto elementLayout = this->_vbos.back().getElementLayout(i);
+					if (!elementLayout._ignored) {
+						OpenGL::enableVertexAttribArray(this->_globalLocation);
+						OpenGL::vertexAttribPointer(this->_globalLocation,
+													elementLayout._count,
+													elementLayout._type,
+													elementLayout._normalized,
+													this->_vbos.back().getLayoutStride(),
+													(this->_vbos.back().getLayoutStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : data.size() / layout.size());
+						if (elementLayout._instanced) {
+							OpenGL::vertexAttribDivisor(this->_globalLocation, this->_vbos.back().getInstanceBlockSize());
+						}
+						++this->_globalLocation;
+					}
                 }
+                if (this->_numberOfVertices == 0) {
+                    this->_numberOfVertices = data.size(); // ERROR: Here, if not indexed, it works only if vertices are send first ... if the first vbo is not the vertices, it does not work.
+                }
+				return this->_vbos.size() - 1;
             }
 
-			template <class T>
-			void VAO::addIndices(const std::vector<T> & data, const BufferUsage usage)
+			template<template <class...> class T, class... TT, typename enabled>
+			void VAO::updateData(const std::size_t index, const T<TT...> & data)
 			{
-				if (this->_nbVertices == 0) {
-					this->_nbVertices = data.size() * sizeof(T) / sizeof(unsigned int);
+				this->bind();
+				this->_vbos[index].bufferData(data, BufferObject::Method::DRAW);
+			}
+
+			template<template <class, class...> class T, class E, class... TT, typename enabled>
+			void VAO::addIndices(const T<E, TT...> & data)
+			{
+                if (!this->_ibo) {
+                    this->_ibo = std::make_unique<IBO>(BufferObject::Usage::STATIC);
+                }
+				if (this->_numberOfIndices == 0) {
+					this->_numberOfIndices = data.size() * sizeof(E) / sizeof(unsigned int);
 				}
 
 				this->bind();
-				this->_ibo.bufferData<T>(data, usage);
+				this->_ibo->bufferData(data, BufferObject::Method::DRAW);
 			}
 
-			inline unsigned int VAO::getNbVertices() const { return this->_nbVertices; }
+			inline std::size_t VAO::getNumberOfVertices() const { return this->_numberOfVertices; }
+
+			inline std::size_t VAO::getNumberIndices() const { return this->_numberOfIndices; }
+
+            inline bool VAO::isIndexed() const noexcept {return !!this->_ibo; }
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

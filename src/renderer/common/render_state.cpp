@@ -38,23 +38,99 @@
 
 #include "renderer/common/render_state.hpp"
 
+#include "renderer/opengl/opengl.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace common
 		{
-			RenderState::RenderState() noexcept:
-			_faceCulling(true),
+			using opengl::OpenGL;
+
+			RenderState RenderState::_currentState = RenderState();
+
+			RenderState::RenderState() noexcept :
+				_faceCulling(true),
 				_cullFaceMode(CullFaceMode::BACK),
-				_frontFaceMode(FrontFaceMode::CW)
-			{}
+				_frontFaceMode(FrontFaceMode::CW),
+				_depthTest(true),
+				_depthFunction(DepthFunctionCondition::LESS),
+				_pointSize(0.0f),
+				_lineWidth(0.0f),
+				_smoothLine(false),
+				_blending(false),
+				_sourceBlend(BlendingFactor::SRC_ALPHA),
+				_destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA)
+			{
+			}
 
 			bool RenderState::operator==(const RenderState & rhs) const noexcept
 			{
 				return this->_faceCulling == rhs._faceCulling
 					&& this->_cullFaceMode == rhs._cullFaceMode
-					&& this->_frontFaceMode == rhs._frontFaceMode;
+					&& this->_frontFaceMode == rhs._frontFaceMode
+					&& this->_depthTest == rhs._depthTest
+					&& this->_depthFunction == rhs._depthFunction
+					&& this->_pointSize == rhs._pointSize
+					&& this->_lineWidth == rhs._lineWidth
+					&& this->_smoothLine == rhs._smoothLine
+					&& this->_blending == rhs._blending
+					&& this->_sourceBlend == rhs._sourceBlend
+					&& this->_destinationBlend == rhs._destinationBlend;
+			}
+
+			void RenderState::apply(const bool forced)
+			{
+				if (RenderState::_currentState != *this || forced) {
+					RenderState::_currentState = *this;
+
+					if (RenderState::_currentState._faceCulling) {
+						OpenGL::enable(Capability::CULL_FACE);
+						OpenGL::cullFace(RenderState::_currentState._cullFaceMode);
+						OpenGL::frontFace(RenderState::_currentState._frontFaceMode);
+					}
+					else {
+						OpenGL::disable(Capability::CULL_FACE);
+					}
+
+					if (RenderState::_currentState._depthTest) {
+						OpenGL::enable(Capability::DEPTH_TEST);
+						OpenGL::depthFunc(RenderState::_currentState._depthFunction);
+					}
+					else {
+						OpenGL::disable(Capability::DEPTH_TEST);
+					}
+
+					if (RenderState::_currentState._pointSize > 0.0f) {
+						OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
+						OpenGL::pointSize(RenderState::_currentState._pointSize);
+					}
+					else {
+						OpenGL::disable(Capability::PROGRAM_POINT_SIZE);
+					}
+
+					if (RenderState::_currentState._lineWidth > 0.0f) {
+						OpenGL::lineWidth(RenderState::_currentState._lineWidth);
+						if (RenderState::_currentState._smoothLine) {
+							OpenGL::enable(Capability::LINE_SMOOTH);
+						}
+						else {
+							OpenGL::disable(Capability::LINE_SMOOTH);
+						}
+					}
+					else {
+						OpenGL::disable(Capability::LINE_SMOOTH);
+					}
+
+					if (RenderState::_currentState._blending) {
+						OpenGL::enable(Capability::BLEND);
+						OpenGL::blendFunc(RenderState::_currentState._sourceBlend, RenderState::_currentState._destinationBlend);
+					}
+					else {
+						OpenGL::disable(Capability::BLEND);
+					}
+				}
 			}
 		} // namespace common
 	} // namesapce renderer

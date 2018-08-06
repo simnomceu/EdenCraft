@@ -45,7 +45,7 @@
 #include "window/common/window_adapter.hpp"
 #include "window/x11/data_window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
-#include "renderer/opengl/debugging.hpp"
+#include "renderer/debug/debugging.hpp"
 
 namespace ece
 {
@@ -145,6 +145,7 @@ namespace ece
 
 				this->logInfos();
 
+                #ifdef ECE_DEBUG
 				GLint flags;
 				glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
 				if (flags && GL_CONTEXT_FLAG_DEBUG_BIT)
@@ -154,6 +155,7 @@ namespace ece
 					checkErrors(glDebugMessageCallback(glDebugOutput, nullptr));
 					checkErrors(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
 				}
+                #endif
 
 				OpenGL::enable(Capability::DEPTH_TEST);
 				OpenGL::depthFunc(DepthFunctionCondition::LESS);

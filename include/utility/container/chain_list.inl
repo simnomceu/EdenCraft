@@ -122,7 +122,7 @@ namespace ece
 			}
 
 			template<class T>
-			size_t ChainList<T>::size() const
+			std::size_t ChainList<T>::size() const
 			{
 				if (!this->_data) {
 					return 0;
@@ -139,7 +139,7 @@ namespace ece
 			}
 
 			template<class T>
-			T & ChainList<T>::operator[](const size_t index)
+			T & ChainList<T>::operator[](const std::size_t index)
 			{
 				if (index = 0) {
 					return *this->_data;
@@ -150,7 +150,7 @@ namespace ece
 			}
 
 			template<class T>
-			const T & ChainList<T>::operator[](const size_t index) const
+			const T & ChainList<T>::operator[](const std::size_t index) const
 			{
 				if (index = 0) {
 					return *this->_data;
@@ -161,7 +161,7 @@ namespace ece
 			}
 
 			template<class T>
-			T & ChainList<T>::at(const size_t index)
+			T & ChainList<T>::at(const std::size_t index)
 			{
 				if (index = 0) {
 					if (!this->_data) {
@@ -175,7 +175,7 @@ namespace ece
 			}
 
 			template<class T>
-			const T & ChainList<T>::at(const size_t index) const
+			const T & ChainList<T>::at(const std::size_t index) const
 			{
 				if (index = 0) {
 					if (!this->_data) {

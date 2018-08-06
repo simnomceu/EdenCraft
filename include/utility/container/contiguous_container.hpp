@@ -36,27 +36,57 @@
 
 */
 
+#ifndef CONTIGUOUS_CONTAINER_HPP
+#define CONTIGUOUS_CONTAINER_HPP
+
+#include "utility/config.hpp"
+
+#include <vector>
+#include <array>
+#include <valarray>
+#include <string>
+#include <string_view>
+
 namespace ece
 {
-    namespace utility
-    {
-        namespace json
-        {
-        	inline ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
+	namespace utility
+	{
+		namespace container
+		{
+			template <class T>
+			struct ECE_UTILITY_API contiguous_container: std::false_type
+			{
+			};
 
-        	inline bool ArrayJSON::isAtomic() const noexcept { return false; }
+			template <class T>
+			inline ECE_UTILITY_API constexpr bool contiguous_container_v = contiguous_container<T>::value;
 
-        	inline TypeNodeJSON ArrayJSON::getType() const noexcept { return TypeNodeJSON::ARRAY_JSON; }
+			template <class Type, class Allocator>
+			struct ECE_UTILITY_API contiguous_container<std::vector<Type, Allocator>>: std::true_type
+			{
+			};
 
-        	inline IteratorArrayJSON ArrayJSON::begin() noexcept { return this->_children.begin(); }
+			template <class Type, std::size_t Size>
+			struct ECE_UTILITY_API contiguous_container<std::array<Type, Size>> : std::true_type
+			{
+			};
 
-        	inline IteratorArrayJSON ArrayJSON::end() noexcept { return this->_children.end(); }
+			template <class Type>
+			struct ECE_UTILITY_API contiguous_container<std::valarray<Type>> : std::true_type
+			{
+			};
 
-        	inline std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key) { return this->_children[key]; }
+			template <class CharT, class Traits, class Allocator>
+			struct ECE_UTILITY_API contiguous_container<std::basic_string<CharT, Traits, Allocator>> : std::true_type
+			{
+			};
 
-        	inline void ArrayJSON::clear() noexcept { this->_children.clear(); }
+			template <class CharT, class Traits>
+			struct ECE_UTILITY_API contiguous_container<std::basic_string_view<CharT, Traits>> : std::true_type
+			{
+			};
+		}
+	}
+}
 
-        	inline std::size_t ArrayJSON::size() const noexcept { return this->_children.size(); }
-        } // namespace json
-    } // namespace utility
-} // namespace ece
+#endif // CONTIGUOUS_CONTAINER_HPP

@@ -128,20 +128,20 @@ namespace ece
 				Mesh & operator=(Mesh && move) noexcept = default;
 
 				/**
-				 * @fn unsigned int getNumberOfVertices() const
+				 * @fn std::size_t getNumberOfVertices() const
 				 * @return The number of vertices of the mesh.
 				 * @brief Get the number of vertices of the mesh.
 				 * @throw
 				 */
-				inline unsigned int size() const;
+				inline std::size_t size() const;
 
 				/**
-				 * @fn unsigned int getNumberOfFaces() const
+				 * @fn std::size_t getNumberOfFaces() const
 				 * @return The number of faces of the mesh.
 				 * @brief Get the number of faces of the mesh.
 				 * @throw
 				 */
-				inline unsigned int getNumberOfFaces() const;
+				inline std::size_t getNumberOfFaces() const;
 
 				/**
 				 * @fn Box3D getBouncingBox() const
@@ -151,8 +151,8 @@ namespace ece
 				 */
 				Box3D getBouncingBox() const;
 
-				unsigned int addVertex(const Mesh::Vertex & vertex);
-				unsigned int addVertex(Mesh::Vertex && vertex);
+				std::size_t addVertex(const Mesh::Vertex & vertex);
+				std::size_t addVertex(Mesh::Vertex && vertex);
 
 				inline std::vector<Mesh::Vertex> & getVertices();
 				inline const std::vector<Mesh::Vertex> & getVertices() const;

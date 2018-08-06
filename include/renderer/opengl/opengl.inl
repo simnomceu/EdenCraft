@@ -37,7 +37,7 @@
 */
 
 #include "renderer/opengl/opengl_extension.hpp"
-#include "renderer/opengl/debugging.hpp"
+#include "renderer/debug/debugging.hpp"
 
 namespace ece
 {
@@ -45,6 +45,8 @@ namespace ece
 	{
 		namespace opengl
 		{
+			using namespace debug;
+
 			inline Version<2> & OpenGL::getLatestVersion() { return OpenGL::_latestVersion; }
 
 			inline void OpenGL::setCurrentContext(const std::shared_ptr<BaseContext> & currentContext)
@@ -54,7 +56,7 @@ namespace ece
 			}
 
 			template <class T>
-			inline DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
+			inline constexpr DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
 
 			template <>
 			inline DataType OpenGL::dataType<short int>() { return DataType::SHORT; }
@@ -73,6 +75,27 @@ namespace ece
 
 			template <>
 			inline DataType OpenGL::dataType<double>() { return DataType::DOUBLE; }
+
+			template <DataType Type>
+			inline constexpr std::size_t OpenGL::dataTypeSize() { throw std::runtime_error("This type cannot be passed."); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::SHORT>() { return sizeof(short int); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::UNSIGNED_SHORT>() { return sizeof(unsigned short int); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::INT>() { return sizeof(int); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::UNSIGNED_INT>() { return sizeof(unsigned int); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::FLOAT>() { return sizeof(float); }
+
+			template <>
+			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::DOUBLE>() { return sizeof(double); }
 
 			inline void OpenGL::bindBuffer(const BufferType type, const Handle handle)
 			{
@@ -97,15 +120,15 @@ namespace ece
 				checkErrors(glBindVertexArray(handle));
 			}
 
-			template<class T>
-			inline void OpenGL::bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage, const int offset)
+			template <template <class, class...> class T, class E, class... TT, typename enabled>
+			inline void OpenGL::bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset)
 			{
-				checkErrors(glBufferData(static_cast<GLenum>(type), data.size() * sizeof(T), data.data() + offset, static_cast<GLenum>(usage)));
+				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(E), std::data(data) + offset, static_cast<GLenum>(usage)));
 			}
 
-			inline void OpenGL::vertexAttribPointer(const int location, const int size, const DataType type, const bool normalized, const int stride, const int offset)
+			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
 			{
-				checkErrors(glVertexAttribPointer(location, size, static_cast<GLenum>(type), normalized, stride, reinterpret_cast<GLvoid *>(offset)));
+				checkErrors(glVertexAttribPointer(location, static_cast<GLint>(size), static_cast<GLenum>(type), normalized, static_cast<GLsizei>(stride), reinterpret_cast<GLvoid *>(offset)));
 			}
 
 			// New version
@@ -207,25 +230,32 @@ namespace ece
 
 			//	inline void OpenGL::primitiveRestartIndex(unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
 
-			inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const unsigned int count)
+			inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const std::size_t count)
 			{
-				checkErrors(glDrawArrays(static_cast<GLenum>(mode), first, count));
+				checkErrors(glDrawArrays(static_cast<GLenum>(mode), first, static_cast<GLsizei>(count)));
 			}
 
 			//	inline void OpenGL::multiDrawArrays(GLenum /*mode*/, const int * /*first*/, const GLsizei * /*count*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 
-			inline void OpenGL::drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset)
+			inline void OpenGL::drawElements(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset)
 			{
-				checkErrors(glDrawElements(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<void *>(offset)));
+				unsigned char * byteOffset = nullptr;
+				byteOffset += offset * sizeof(unsigned int);
+				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), byteOffset));
 			}
 
 			//	inline void OpenGL::multiDrawElements(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawRangeElements(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, const void * /*indices*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawArraysInstanced(GLenum /*mode*/, int /*first*/, GLsizei /*count*/, GLsizei /*primcount*/) { static_assert(false, "Not implemented yet."); }
-
-            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset, const unsigned int primcount)
+			inline void OpenGL::drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount)
             {
-				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<void *>(offset), primcount));
+                checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, static_cast<GLsizei>(count), static_cast<GLsizei>(primcount)));
+            }
+
+            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset, const std::size_t primcount)
+            {
+				unsigned char * byteOffset = nullptr;
+				byteOffset += offset * sizeof(unsigned int);
+				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), byteOffset, static_cast<GLsizei>(primcount)));
             }
 
             //	inline void OpenGL::drawElementsBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
@@ -257,7 +287,7 @@ namespace ece
 
 			inline void OpenGL::deleteBuffers(const std::vector<Handle> & buffers)
 			{
-				checkErrors(glDeleteBuffers(buffers.size(), buffers.data()));
+				checkErrors(glDeleteBuffers(static_cast<GLsizei>(buffers.size()), buffers.data()));
 			}
 
 			//	inline void OpenGL::bindBuffer(GLenum /*target*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
@@ -656,10 +686,10 @@ namespace ece
 
 			//	inline void OpenGL::texImage3D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 
-			inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data)
+			inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const std::size_t width, const std::size_t height, const PixelFormat format, const PixelDataType type, const void * data)
 			{
 				auto levelSec = (target == TextureTypeTarget::TEXTURE_RECTANGLE || target == TextureTypeTarget::PROXY_TEXTURE_RECTANGLE) ? 0 : level;
-				checkErrors(glTexImage2D(static_cast<GLenum>(target), levelSec, static_cast<unsigned int>(internalFormat), width, height, 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
+				checkErrors(glTexImage2D(static_cast<GLenum>(target), levelSec, static_cast<unsigned int>(internalFormat), static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
 			}
 
 			//	inline void OpenGL::texImage1D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
@@ -777,7 +807,12 @@ namespace ece
 			//	inline void OpenGL::blendEquation(GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendEquationSeparate(GLenum /*modeRGB*/, GLenum /*modeAlpha*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendFuncSeparate(GLenum /*srcRGB*/, GLenum /*dstRGB*/, GLenum /*srcAlpha*/, GLenum /*dstAlpha*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendFunc(GLenum /*sfactor*/, GLenum /*dfactor*/) { static_assert(false, "Not implemented yet."); }
+
+			inline void OpenGL::blendFunc(const BlendingFactor sfactor, const BlendingFactor dfactor)
+			{
+				checkErrors(glBlendFunc(static_cast<GLenum>(sfactor), static_cast<GLenum>(dfactor)));
+			}
+
 			//	inline void OpenGL::blendColor(float /*red*/, float /*green*/, float /*blue*/, float /*alpha*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::logicOp(GLenum /*opcode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawBuffer(GLenum /*buf*/) { static_assert(false, "Not implemented yet."); }
@@ -874,7 +909,7 @@ namespace ece
 			//	inline void OpenGL::bindFragDataLocationIndexed(unsigned int /*program*/, unsigned int /*colorNumber*/, unsigned int /*index*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline int OpenGL::getFragDataIndex(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//
-				inline void OpenGL::vertexAttribDivisor(unsigned int index, unsigned int divisor) { checkErrors(glVertexAttribDivisor(index, divisor)); }
+				inline void OpenGL::vertexAttribDivisor(const int index, const std::size_t divisor) { checkErrors(glVertexAttribDivisor(static_cast<GLuint>(index), static_cast<GLuint>(divisor))); }
 			//
 			//	inline void OpenGL::getUniformdv(unsigned int /*program*/, int /*location*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendEquationi(unsigned int /*buf*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }

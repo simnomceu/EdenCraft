@@ -118,13 +118,13 @@ namespace ece
 				ChainList<T> & next();
 				const ChainList<T> & next() const;
 
-				size_t size() const;
+				std::size_t size() const;
 				bool empty() const;
 
-				T & operator[](const size_t index);
-				const T & operator[](const size_t index) const;
-				T & at(const size_t index);
-				const T & operator[](const size_t index);
+				T & operator[](const std::size_t index);
+				const T & operator[](const std::size_t index) const;
+				T & at(const std::size_t index);
+				const T & operator[](const std::size_t index);
 
 				T & front();
 				const T & front() const;

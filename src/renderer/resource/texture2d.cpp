@@ -91,7 +91,7 @@ namespace ece
 
 					auto & image = parserBMP.getImage();
 					auto buffer = image.data();
-					for (size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
+					for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
 						this->_data.push_back(buffer[i].red);
 						this->_data.push_back(buffer[i].green);
 						this->_data.push_back(buffer[i].blue);
