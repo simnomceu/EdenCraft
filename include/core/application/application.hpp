@@ -101,7 +101,7 @@ namespace ece
 				 * @brief Start the application.
 				 * @throw
 				 */
-				void run();
+				virtual void run();
 
 				/**
 				 * @fn void stop()
@@ -125,7 +125,8 @@ namespace ece
 				 * @brief Add a module to the application.
 				 * @throw
 				 */
-				template <class T> inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
+				template <class T>
+				inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
 
 				/**
 				 * @fn void removeModule()
@@ -244,7 +245,6 @@ namespace ece
 				 */
 				ModuleManager _moduleManager;
 
-			private:
 				/**
 				 * @fn void init()
 				 * @brief Initialize the application.
