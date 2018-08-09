@@ -49,16 +49,16 @@ namespace ece
 			inline constexpr Observable::Observable() noexcept: _observers() {}
 
 			inline void Observable::attach(const std::shared_ptr<Observer> & observer) { this->_observers.push_back(observer); }
-			inline void Observable::detach(const std::shared_ptr<Observer> & observer) { this->_observer.erase(std::find(this->_observer.begin(), this->_observer.end(), observer)); }
+			inline void Observable::detach(const std::shared_ptr<Observer> & observer) { this->_observers.erase(std::find(this->_observers.begin(), this->_observers.end(), observer)); }
 
-			inline void Observable::detachAll() { this->_observer.clear(); }
+			inline void Observable::detachAll() { this->_observers.clear(); }
 
 			template <class... Args>
 			void Observable::notify(Args &&... args)
 			{
-				for (auto observer & : this->_observers) {
-					observer->notify(std::forward(args)...);
-				}
+				this->_observers.erase(std::remove_if(this->_observers.begin(), this->_observers.end(), [](std::shared_ptr<Observer> & observer) {return !!observer; }), this->_observers.end());
+
+				std::for_each(this->_observers.begin(), this->_observers.end(), [args...](std::shared_ptr<Observer> & observer) {observer->notify(std::forward(args)...); });
 			}
 		} // namespace pattern
 	} // namespace utility

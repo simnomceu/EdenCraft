@@ -36,7 +36,6 @@
 
 */
 
-
 #ifndef BASE_EVENT_MANAGER_HPP
 #define BASE_EVENT_MANAGER_HPP
 
