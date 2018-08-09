@@ -38,47 +38,13 @@
 
 #include "renderer/common/renderer.hpp"
 
-#include "renderer/resource/vao.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace common
 		{
-			using opengl::Handle;
-
-			Shader Renderer::getProgram() const
-			{
-				auto handle = OpenGL::getInteger(Parameter::CURRENT_PROGRAM);
-				return Shader(static_cast<Handle>(handle[0]));
-			}
-
-			void Renderer::enableFaceCulling(const CullFaceMode cullFaceMode, const FrontFaceMode frontFaceMode)
-			{
-				OpenGL::enable(Capability::CULL_FACE);
-				OpenGL::cullFace(cullFaceMode);
-				OpenGL::frontFace(frontFaceMode);
-			}
-
-			void Renderer::disableFaceCulling()
-			{
-				OpenGL::disable(Capability::CULL_FACE);
-			}
-
-			void Renderer::setPolygonMode(const PolygonMode mode)
-			{
-				OpenGL::polygonMode(mode);
-			}
-
-			void Renderer::drawPrimitives(const PrimitiveMode mode, const VAO & vao)
-			{
-				this->enableFaceCulling(CullFaceMode::BACK, FrontFaceMode::CW);
-
-				vao.bind();
-				vao.bindIndexBuffer();
-				OpenGL::drawElements(mode, vao.getNumberIndices(), DataType::UNSIGNED_INT, 0);
-			}
+			std::weak_ptr<RenderTarget> Renderer::_currentTarget = std::shared_ptr<RenderTarget>(nullptr);
 		} // common
 	} // renderer
 } // ece

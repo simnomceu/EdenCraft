@@ -47,24 +47,8 @@ namespace ece
 		{
 			using opengl::OpenGL;
 
-			RenderTarget::RenderTarget() noexcept: _currentViewport(), _viewportHasChanged(false), _currentState()
+			RenderTarget::RenderTarget() noexcept: std::enable_shared_from_this<RenderTarget>(), _currentViewport(), _viewportHasChanged(false)
 			{
-			}
-
-			void RenderTarget::loadRenderState(const RenderState & states)
-			{
-				if (states != this->_currentState) {
-					if (states._faceCulling) {
-						OpenGL::enable(Capability::CULL_FACE);
-						OpenGL::cullFace(states._cullFaceMode);
-						OpenGL::frontFace(states._frontFaceMode);
-					}
-					else {
-						OpenGL::disable(Capability::CULL_FACE);
-					}
-
-					this->_currentState = states;
-				}
 			}
 
 			Viewport RenderTarget::getDefaultViewport() const

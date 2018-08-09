@@ -35,6 +35,7 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
+#include "renderer/common/render_target.hpp"
 
 namespace ece
 {
@@ -42,7 +43,9 @@ namespace ece
 	{
 		namespace common
 		{
-			inline void Renderer::setProgram(const Shader & program) { program.use(); }
+			inline void Renderer::setCurrentTarget(const std::weak_ptr<RenderTarget> & target) { Renderer::_currentTarget = target; }
+
+			inline std::weak_ptr<RenderTarget> Renderer::getCurrentTarget() { return Renderer::_currentTarget; }
 		} // namespace common
 	} // namespace renderer
 } // namespace ece

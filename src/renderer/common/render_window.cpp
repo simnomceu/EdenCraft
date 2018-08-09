@@ -55,8 +55,9 @@ namespace ece
 			using utility::log::ServiceLoggerLocator;
 			using window::common::VideoMode;
 
-			RenderWindow::RenderWindow() : Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>())
+			RenderWindow::RenderWindow() : Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>()), _currentState()
 			{
+				this->setCurrent();
 			}
 
 			RenderWindow::~RenderWindow() noexcept
@@ -119,14 +120,6 @@ namespace ece
 											static_cast<float>(color.alpha) / 100.0f);
 					OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
 				}
-			}
-
-			void RenderWindow::draw(Renderable & renderable, const RenderState & states)
-			{
-				this->loadRenderState(states);
-
-				renderable.draw();
-				// TODO : render the drawable here (using code in renderer.cpp)
 			}
 
 			void RenderWindow::display()

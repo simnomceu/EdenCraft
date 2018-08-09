@@ -36,6 +36,8 @@
 
 */
 
+#include "renderer/common/renderer.hpp"
+
 namespace ece
 {
 	namespace renderer
@@ -43,6 +45,10 @@ namespace ece
 		namespace common
 		{
 			inline const Viewport & RenderTarget::getCurrentViewport() const { return this->_currentViewport; }
+
+			inline void RenderTarget::setCurrent() { Renderer::setCurrentTarget(this->weak_from_this()); }
+
+			inline bool RenderTarget::isCurrent() const noexcept { return Renderer::getCurrentTarget().lock() == this->weak_from_this().lock(); }
 		} // namespace common
 	} // namespace renderer
 } // namespace ece

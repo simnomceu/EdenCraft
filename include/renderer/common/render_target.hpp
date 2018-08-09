@@ -45,6 +45,8 @@
 #include "renderer/common/render_state.hpp"
 #include "renderer/common/viewport.hpp"
 
+#include <memory>
+
 namespace ece
 {
 	namespace renderer
@@ -61,7 +63,7 @@ namespace ece
 			 * @class RenderTarget
 			 * @brief
 			 */
-			class ECE_RENDERER_API RenderTarget
+			class ECE_RENDERER_API RenderTarget: public std::enable_shared_from_this<RenderTarget>
 			{
 			public:
 				/**
@@ -129,29 +131,18 @@ namespace ece
 				 */
 				virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) = 0;
 
-				/**
-				 * @fn void draw(Renderable & renderable, const RenderState & states = RenderState())
-				 * @param[in/out] renderable The drawable to draw to the render target.
-				 * @param[in] states The states to apply to the render for drawing.
-				 * @brief Draw an object to the render target.
-				 * @throw
-				 */
-				virtual void draw(Renderable & renderable, const RenderState & states = RenderState()) = 0;
-
 				Viewport getDefaultViewport() const;
 
 				void setViewport(const Viewport & viewport);
 
 				inline const Viewport & getCurrentViewport() const;
 
-			protected:
-				void loadRenderState(const RenderState & states);
+				inline void setCurrent();
+				inline bool isCurrent() const noexcept;
 
+			protected:
 				Viewport _currentViewport;
 				bool _viewportHasChanged;
-
-			private:
-				RenderState _currentState;
 			};
 		} // namespace common
 	} // namespace renderer

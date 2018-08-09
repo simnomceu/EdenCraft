@@ -43,6 +43,8 @@
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/resource/shader.hpp"
 
+#include <memory>
+
 namespace ece
 {
 	namespace renderer
@@ -54,6 +56,8 @@ namespace ece
 
 		namespace common
 		{
+			class RenderTarget;
+
 			using opengl::OpenGL;
 			using resource::VAO;
 			using resource::Shader;
@@ -70,7 +74,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Renderer() noexcept = default;
+				constexpr Renderer() noexcept = delete;
 
 				/**
 				 * @fn Renderer(const Renderer & copy) noexcept
@@ -78,7 +82,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Renderer(const Renderer & copy) noexcept = default;
+				Renderer(const Renderer & copy) noexcept = delete;
 
 				/**
 				 * @fn Renderer(Renderer && move) noexcept
@@ -86,14 +90,14 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Renderer(Renderer && move) noexcept = default;
+				Renderer(Renderer && move) noexcept = delete;
 
 				/**
 				 * @fn ~Renderer()
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Renderer() noexcept = default;
+				~Renderer() noexcept = delete;
 
 				/**
 				 * @fn Renderer & operator=(const Renderer & copy) noexcept
@@ -102,7 +106,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Renderer & operator=(const Renderer & copy) noexcept = default;
+				Renderer & operator=(const Renderer & copy) noexcept = delete;
 
 				/**
 				 * @fn Renderer & operator=(Renderer && move) noexcept
@@ -111,55 +115,13 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Renderer & operator=(Renderer && move) noexcept = default;
+				Renderer & operator=(Renderer && move) noexcept = delete;
 
-				/**
-				 * @fn Shader getProgram() const
-				 * @return The current shader program.
-				 * @brief Get the current shader program used.
-				 * @throw
-				 */
-				Shader getProgram() const;
+				static inline void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
+				static inline std::weak_ptr<RenderTarget> getCurrentTarget();
 
-				/**
-				 * @fn void setProgram(const Shader & program)
-				 * @param[in] program The shader program to use.
-				 * @brief Set the shader program to use for current rendering.
-				 * @throw
-				 */
-				inline void setProgram(const Shader & program);
-
-				/**
-				 * @fn void enableFaceCulling(const CullFaceMode cullFaceMode, const FrontFaceMode frontFaceMode)
-				 * @param[in] cullFaceMode The culling face mode to use.
-				 * @param[in] frontFaceMode The front face mode to use.
-				 * @brief Enable face culling for rendering.
-				 * @throw
-				 */
-				void enableFaceCulling(const CullFaceMode cullFaceMode = CullFaceMode::BACK, const FrontFaceMode frontFaceMode = FrontFaceMode::CCW);
-
-				/**
-				 * @fn void disableFaceCulling()
-				 * @brief Disable face culling for rendering.
-				 * @throw
-				 */
-				void disableFaceCulling();
-
-				/**
-				 * @fn void setPolygonMode(const PolygonMode mode)
-				 * @param[in] mode The polygon mode to use.
-				 * @brief Changes the way to display polygons.
-				 * @throw
-				 */
-				void setPolygonMode(const PolygonMode mode);
-
-				/**
-				 * @fn void drawPrimitives(const PrimitiveMode mode, const VAO & vao)
-				 * @param[in] mode The primitive mode to use
-				 * @param[in] vao The list of primitives to draw.
-				 * @brief Draw a list of primitives on the current render target.
-				 */
-				void drawPrimitives(const PrimitiveMode mode, const VAO & vao);
+			private:
+				static std::weak_ptr<RenderTarget> _currentTarget;
 			};
 		} // namespace common
 	} // namespace renderer

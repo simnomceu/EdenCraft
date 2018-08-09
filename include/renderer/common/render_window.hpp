@@ -156,15 +156,6 @@ namespace ece
 				virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) override;
 
 				/**
-				 * @fn void draw(Renderable & renderable, const RenderState & states = RenderState())
-				 * @param[in/out] renderable The drawable to draw to the render target.
-				 * @param[in] states The states to apply to the render for drawing.
-				 * @brief Draw an object to the render target.
-				 * @throw
-				 */
-				virtual void draw(Renderable & renderable, const RenderState & states = RenderState()) override;
-
-				/**
 				 * void display()
 				 * @brief Display the next frame in the window.
 				 * If multi-buffering is enable, it only switches the buffers.
@@ -199,6 +190,8 @@ namespace ece
 				 * @brief The render context to use for rendering.
 				 */
 				std::shared_ptr<BaseContext> _context;
+				
+				RenderState _currentState;
 			};
 		} // namespace common
 	} // namespace renderer
