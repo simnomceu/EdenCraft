@@ -53,8 +53,8 @@ class Button
 public:
 	inline Button(const std::string & name): onButtonPressed(), onButtonReleased(), _name(name) {}
 
-	ece::core::signal::Signal<const std::string &> onButtonPressed;
-	ece::core::signal::Signal<const std::string &> onButtonReleased;
+	ece::Signal<const std::string &> onButtonPressed;
+	ece::Signal<const std::string &> onButtonReleased;
 
 	void push()
 	{
@@ -76,7 +76,7 @@ private:
 class Controller
 {
 public:
-	Controller(Button & button)
+	Controller(Button & button): _connection1(), _connection2()
 	{
 		this->_connection1 = button.onButtonPressed.connect(*this, &Controller::pressSlot);
 		this->_connection2 = button.onButtonReleased.connect(*this, &Controller::releaseSlot);
@@ -86,8 +86,8 @@ public:
 	void releaseSlot(const std::string & name) const { std::cerr << "Releasing " << name << " in controller." << std::endl; }
 
 private:
-	ece::core::signal::SecuredConnection<const std::string &> _connection1;
-	ece::core::signal::SecuredConnection<const std::string &> _connection2;
+	ece::SecuredConnection<const std::string &> _connection1;
+	ece::SecuredConnection<const std::string &> _connection2;
 };
 
 auto main() -> int
@@ -116,7 +116,7 @@ auto main() -> int
 	buttonA.push();
 
 	auto pressSlotDestruction = [&connection2](std::string name) {
-		std::cerr << "Deleting connection in main." << std::endl;
+		std::cerr << "Deleting connection on " << name << " in main." << std::endl;
 		connection2.disconnect();
 	};
 	connection1 = buttonA.onButtonPressed.connect(pressSlotDestruction);

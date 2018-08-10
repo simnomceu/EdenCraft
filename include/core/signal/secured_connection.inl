@@ -43,10 +43,19 @@ namespace ece
 		namespace signal
 		{
 			template <class... Args>
-			SecuredConnection<Args...>::~SecuredConnection()
-			{
-				this->disconnect();
-			}
+			inline SecuredConnection<Args...>::SecuredConnection(Connection<Args...> && connection) noexcept: Connection<Args...>(connection) {}
+
+			template <class... Args>
+			inline SecuredConnection<Args...>::SecuredConnection(const Connection<Args...> & connection) noexcept: Connection<Args...>(connection) {}
+
+			template <class... Args>
+			inline SecuredConnection<Args...>::~SecuredConnection() noexcept { this->disconnect(); }
+
+			template <class... Args>
+			SecuredConnection<Args...> & SecuredConnection<Args...>::operator=(const Connection<Args...> & copy) noexcept { Connection<Args...>::operator=(copy); return *this; }
+
+			template <class... Args>
+			SecuredConnection<Args...> & SecuredConnection<Args...>::operator=(Connection<Args...> && move) noexcept { Connection<Args...>::operator=(move); return *this; }
 		} // namespace signal
 	} // namespace core
 } // namespace ece

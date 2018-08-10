@@ -49,7 +49,6 @@ namespace ece
 		{
 			template <class... Args> class SignalImplementation;
 			template <class... Args> class Slot;
-			template <class... Args> class SecuredConnection;
 
 			/**
 			 * @class Connection
@@ -105,9 +104,6 @@ namespace ece
 				bool isConnected() const noexcept;
 
 				void disconnect();
-
-				inline operator SecuredConnection<Args...> & () noexcept;
-				inline operator const SecuredConnection<Args...> & () noexcept;
 
 			protected:
 				Connection() noexcept = default;

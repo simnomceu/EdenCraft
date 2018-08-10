@@ -62,12 +62,6 @@ namespace ece
 					this->_signal.lock()->disconnect(this->_slot.lock());
 				}
 			}
-
-			template <class... Args>
-			inline Connection<Args...>::operator SecuredConnection<Args...> & () noexcept { return static_cast<SecuredConnection<Args...> &>(*this); }
-
-			template <class... Args>
-			inline Connection<Args...>::operator const SecuredConnection<Args...> & () noexcept { return static_cast<const SecuredConnection<Args...> &>(*this); }
 		} // namespace signal
 	} // namespace core
 } // namespace ece

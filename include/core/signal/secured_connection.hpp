@@ -53,7 +53,7 @@ namespace ece
 			 * @brief
 			 */
 			template <class... Args>
-			class SecuredConnection: public Connection<Args...>
+			class ECE_CORE_API SecuredConnection: public Connection<Args...>
 			{
 			public:
 				/**
@@ -63,13 +63,16 @@ namespace ece
 				 */
 				SecuredConnection() noexcept = default;
 
+				inline SecuredConnection(Connection<Args...> && connection) noexcept;
+				inline SecuredConnection(const Connection<Args...> & connection) noexcept;
+
 				/**
 				 * @fn SecuredConnection(const SecuredConnection & copy) noexcept
 				 * @param[in] copy The SecuredConnection to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				SecuredConnection(const SecuredConnection & copy) noexcept = default;
+				SecuredConnection(const SecuredConnection<Args...> & copy) noexcept = default;
 
 				/**
 				 * @fn SecuredConnection(SecuredConnection && move) noexcept
@@ -77,7 +80,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				SecuredConnection(SecuredConnection && move) noexcept = default;
+				SecuredConnection(SecuredConnection<Args...> && move) noexcept = default;
 
 				/**
 				 * @fn ~SecuredConnection() noexcept
@@ -93,7 +96,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				SecuredConnection & operator=(const SecuredConnection & copy) noexcept = default;
+				SecuredConnection<Args...> & operator=(const SecuredConnection<Args...> & copy) noexcept = default;
 
 				/**
 				 * @fn SecuredConnection & operator=(SecuredConnection && move) noexcept
@@ -102,7 +105,10 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				SecuredConnection & operator=(SecuredConnection && move) noexcept = default;
+				SecuredConnection<Args...> & operator=(SecuredConnection<Args...> && move) noexcept = default;
+
+				SecuredConnection<Args...> & operator=(const Connection<Args...> & copy) noexcept;
+				SecuredConnection<Args...> & operator=(Connection<Args...> && move) noexcept;
 			};
 		} // namespace signal
 	} // namespace core
