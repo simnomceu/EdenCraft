@@ -36,41 +36,33 @@
 
 */
 
-
 #ifndef CONNECTION_HPP
 #define CONNECTION_HPP
 
 #include "core/config.hpp"
-#include "core/event/signal.hpp"
-#include "core/event/slot.hpp"
 
 namespace ece
 {
 	namespace core
 	{
-		namespace event
+		namespace signal
 		{
+			template <class... Args> class SignalImplementation;
+			template <class... Args> class Slot;
+
 			/**
 			 * @class Connection
-			 * @brief A connection between a slot and a signal.
+			 * @brief
 			 */
-			class ECE_CORE_API Connection final
+			template <class... Args>
+			class ECE_CORE_API Connection
 			{
 			public:
-				Connection() = delete;
-
-				/**
-				 * @fn Connection(const Slot::GlobalSlotID & slot, const Signal::GlobalSignalID & signal) noexcept
-				 * @param[in] slot The slot to connect to.
-				 * @param[in] signal The signal to connect to.
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				inline Connection(const Slot::GlobalSlotID & slot, const Signal::GlobalSignalID & signal) noexcept;
+				Connection(const std::weak_ptr<SignalImplementation<Args...>> & signal, const std::weak_ptr<Slot<Args...>> & slot) noexcept;
 
 				/**
 				 * @fn Connection(const Connection & copy) noexcept
-				 * @param[in] copy The connection to copy from.
+				 * @param[in] copy The Connection to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
@@ -78,7 +70,7 @@ namespace ece
 
 				/**
 				 * @fn Connection(Connection && move) noexcept
-				 * @param[in] move The connection to move.
+				 * @param[in] move The Connection to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
@@ -93,8 +85,8 @@ namespace ece
 
 				/**
 				 * @fn Connection & operator=(const Connection & copy) noexcept
-				 * @param[in] copy The connection to copy from.
-				 * @return The connection copied.
+				 * @param[in] copy The Connection to copy from.
+				 * @return The Connection copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
@@ -102,77 +94,28 @@ namespace ece
 
 				/**
 				 * @fn Connection & operator=(Connection && move) noexcept
-				 * @param[in] move The connection to move.
-				 * @return The connection moved.
+				 * @param[in] move The Connection to move.
+				 * @return The Connection moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
 				Connection & operator=(Connection && move) noexcept = default;
 
-				/**
-				 * @fn bool operator==(const Connection & rightOperand)
-				 * @param[in] rightOperand The connection to compare to.
-				 * @return True, if both connections are equal, false else.
-				 * @brief Check if both connections are equal or not.
-				 * @throw
-				 */
-				inline bool operator==(const Connection & rightOperand);
+				bool isConnected() const noexcept;
 
-				/**
-				 * @fn Slot::GlobalSlotID getSlot() const
-				 * @return The connected slot.
-				 * @brief Get the connected slot related to this connection.
-				 * @throw
-				 */
-				inline Slot::GlobalSlotID getSlot() const;
+				void disconnect();
 
-				/**
-				 * @fn Slot::GlobalSlotID getSignal() const
-				 * @return The connected signal.
-				 * @brief Get the connected signal related to this connection.
-				 * @throw
-				 */
-				inline Slot::GlobalSlotID getSignal() const;
-
-				/**
-				 * @fn void setDirty(const bool dirty)
-				 * @param[in] dirty The new value of the tag.
-				 * @brief Modify the dirty tag of the connection.
-				 * @throw
-				 */
-				inline void setDirty(const bool dirty);
-
-				/**
-				 * @fn bool isDirty() const
-				 * @return True if the connection should be destroyed, else false.
-				 * @brief Check if the connection is dirt or not.
-				 * @throw
-				 */
-				inline bool isDirty() const;
+			protected:
+				Connection() noexcept = default;
 
 			private:
-				/**
-				 * @property _slot
-				 * @brief The connected slot, related to this connection.
-				 */
-				Slot::GlobalSlotID _slot;
-
-				/**
-				 * @property _signal
-				 * @brief The connected signal, related to this connection.
-				 */
-				Signal::GlobalSignalID _signal;
-
-				/**
-				 * @property _dirty
-				 * @brief The dirty tag of the connection. If true, the connection need to be destroyed.
-				 */
-				bool _dirty;
+				std::weak_ptr<SignalImplementation<Args...>> _signal;
+				std::weak_ptr<Slot<Args...>> _slot;
 			};
-		} // namespace event
+		} // namespace signal
 	} // namespace core
 } // namespace ece
 
-#include "core/event/connection.inl"
+#include "core/signal/connection.inl"
 
 #endif // CONNECTION_HPP

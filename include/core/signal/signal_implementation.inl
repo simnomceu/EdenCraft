@@ -36,24 +36,25 @@
 
 */
 
+#include "core/signal/slot.hpp"
 
 namespace ece
 {
 	namespace core
 	{
-		namespace event
+		namespace signal
 		{
-			inline Connection::Connection(const Slot::GlobalSlotID & slot, const Signal::GlobalSignalID & signal)  noexcept: _slot(slot), _signal(signal), _dirty(false) {}
+			template <class... Args>
+			SignalImplementation<Args...>::SignalImplementation() noexcept : Observable<Args...>(), std::enable_shared_from_this<SignalImplementation<Args...>>() {}
 
-			inline bool Connection::operator==(const Connection & rightOperand) { return this->_signal == rightOperand.getSignal() && this->_slot == rightOperand.getSlot(); }
+			template <class... Args>
+			inline void SignalImplementation<Args...>::disconnect(const std::shared_ptr<Slot<Args...>> & slot) { this->detach(slot); }
 
-			inline Slot::GlobalSlotID Connection::getSlot() const { return this->_slot; }
+			template <class... Args>
+			inline void SignalImplementation<Args...>::disconnectAll() { this->detachAll(); }
 
-			inline Slot::GlobalSlotID Connection::getSignal() const { return this->_signal; }
-
-			inline void Connection::setDirty(const bool dirty) { this->_dirty = dirty; }
-
-			inline bool Connection::isDirty() const { return this->_dirty; }
-		} // namespace core
-	} // namespace event
+			template <class... Args>
+			inline void SignalImplementation<Args...>::operator()(Args... args) { this->notify(std::forward<Args>(args)...); }
+		} // namespace signal
+	} // namespace core
 } // namespace ece

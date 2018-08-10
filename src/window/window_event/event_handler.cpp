@@ -37,8 +37,6 @@
 
 #include "window/window_event/event_handler.hpp"
 
-#include <iostream>
-
 namespace ece
 {
 	namespace window
@@ -49,15 +47,6 @@ namespace ece
 			{
 				static EventHandler handler;
 				return handler;
-			}
-
-			EventHandler::EventHandler()
-			{
-				this->addSignal(KEY_PRESSED);
-				this->addSignal(KEY_RELEASED);
-				this->addSignal(MOUSE_BUTTON_PRESSED);
-				this->addSignal(MOUSE_BUTTON_RELEASED);
-				this->addSignal(MOUSE_WHEEL_SCROLLED);
 			}
 
 			void EventHandler::produceKeyEvent(const int key, const int /*scancode*/, const int /*action*/, const int /*mods*/)

@@ -51,11 +51,11 @@ namespace ece
 	
 			inline IntVector2u Window::getSize() const { return std::move(this->_adapter.get()->getSize()); }
 
-			inline void Window::setMinimumSize(const IntVector2u & /*size*/) { this->emit(WINDOW_RESIZED); }
+			inline void Window::setMinimumSize(const IntVector2u & /*size*/) { this->onWindowResized(); }
 
-			inline void Window::setMaximumSize(const IntVector2u & /*size*/) { this->emit(WINDOW_RESIZED); }
+			inline void Window::setMaximumSize(const IntVector2u & /*size*/) { this->onWindowResized(); }
 
-			inline void Window::setFullscreen(const bool /*fullscreen*/) { this->emit(WINDOW_RESIZED); }
+			inline void Window::setFullscreen(const bool /*fullscreen*/) { this->onWindowResized(); }
 
 			inline void Window::enableDoubleClick(const bool /*enabled*/) {}
 

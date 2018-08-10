@@ -40,15 +40,13 @@ namespace ece
 {
 	namespace core
 	{
-		namespace event
+		namespace signal
 		{
-			inline Signal::Signal(const GlobalSignalID & id) : _id(id), _dirty(false) {}
+			template <class ... Args>
+			Slot<Args...>::Slot(const std::function<void(Args...)> & callback) noexcept: _callback(callback) {}
 
-			inline const Signal::GlobalSignalID & Signal::getId() const { return this->_id; }
-
-			inline bool Signal::isDirty() const { return this->_dirty; }
-
-			inline void Signal::setDirty(const bool dirty) { this->_dirty = dirty; }
-		} // namespace event
+			template <class ... Args>
+			void Slot<Args...>::notify(Args&&... args) { this->_callback(std::forward<Args>(args)...); }
+		} // namespace signal
 	} // namespace core
 } // namespace ece

@@ -49,13 +49,8 @@ namespace ece
 		{
 			using window_event::InputEvent;
 
-			Window::Window() noexcept:Emitter(), _adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false)
+			Window::Window() noexcept: _adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false)
 			{
-				this->addSignal(WINDOW_OPENED);
-				this->addSignal(WINDOW_CLOSED);
-				this->addSignal(WINDOW_RESIZED);
-				this->addSignal(WINDOW_MOVED);
-				this->addSignal(WINDOW_RENAMED);
 			}
 
 			void Window::open()
@@ -66,7 +61,7 @@ namespace ece
 					this->_isOpened = true;
 					//			WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
 					//			WindowServiceLocator::getService().registerEventHandler(this->windowId);
-					this->emit(WINDOW_OPENED);
+					this->onWindowOpened();
 				}
 			}
 
@@ -75,7 +70,7 @@ namespace ece
 				if (this->isOpened()) {
 					this->_adapter->deleteWindow();
 					this->_isOpened = false;
-					this->emit(WINDOW_CLOSED);
+					this->onWindowClosed();
 				}
 			}
 
@@ -98,7 +93,7 @@ namespace ece
 			void Window::setTitle(const std::string & title)
 			{
 				this->_adapter.get()->setTitle(title);
-				this->emit(WINDOW_RENAMED);
+				this->onWindowRenamed();
 			}
 
 			void Window::setPosition(const IntVector2u & position)
@@ -106,7 +101,7 @@ namespace ece
 				auto oldPosition = this->_adapter.get()->getPosition();
 				if (oldPosition != position) { // TODO : overload operator!= for vertex classes
 					this->_adapter.get()->setPosition(position);
-					this->emit(WINDOW_MOVED);
+					this->onWindowMoved();
 				}
 			}
 
@@ -114,7 +109,7 @@ namespace ece
 			{
 				if (this->isOpened()) {
 					this->_adapter.get()->maximize();
-					this->emit(WINDOW_RESIZED);
+					this->onWindowResized();
 				}
 			}
 
@@ -122,7 +117,7 @@ namespace ece
 			{
 				if (this->isOpened()) {
 					this->_adapter.get()->minimize();
-					this->emit(WINDOW_RESIZED);
+					this->onWindowResized();
 				}
 			}
 

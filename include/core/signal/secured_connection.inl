@@ -36,28 +36,26 @@
 
 */
 
-
-#include "core/event/event_manager_consumer.hpp"
-
-#include "utility/debug/exception.hpp"
-#include "core/event/event_service.hpp"
-
 namespace ece
 {
 	namespace core
 	{
-		namespace event
+		namespace signal
 		{
-			using utility::debug::MemoryAccessException;
+			template <class... Args>
+			inline SecuredConnection<Args...>::SecuredConnection(Connection<Args...> && connection) noexcept: Connection<Args...>(connection) {}
 
-			const std::shared_ptr<BaseEventManager> EventManagerConsumer::consume()
-			{
-				// TODO: Guard if the EventManager doesn't exist anymore.
-				if (this->_eventManager.expired()) {
-					throw MemoryAccessException("EventManager", "EventManagerConsumer");
-				}
-				return this->_eventManager.lock();
-			}
-		} // namespace event
+			template <class... Args>
+			inline SecuredConnection<Args...>::SecuredConnection(const Connection<Args...> & connection) noexcept: Connection<Args...>(connection) {}
+
+			template <class... Args>
+			inline SecuredConnection<Args...>::~SecuredConnection() noexcept { this->disconnect(); }
+
+			template <class... Args>
+			SecuredConnection<Args...> & SecuredConnection<Args...>::operator=(const Connection<Args...> & copy) noexcept { Connection<Args...>::operator=(copy); return *this; }
+
+			template <class... Args>
+			SecuredConnection<Args...> & SecuredConnection<Args...>::operator=(Connection<Args...> && move) noexcept { Connection<Args...>::operator=(move); return *this; }
+		} // namespace signal
 	} // namespace core
 } // namespace ece

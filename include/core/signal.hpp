@@ -36,14 +36,17 @@
 
 */
 
+#ifndef CORE_SIGNAL_HPP
+#define CORE_SIGNAL_HPP
+
+#include "core/signal/connection.hpp"
+#include "core/signal/secured_connection.hpp"
+#include "core/signal/signal.hpp"
+#include "core/signal/slot.hpp"
+
 namespace ece
 {
-	namespace core
-	{
-		namespace event
-		{
-			// TODO: error on this destructor virtual pure
-			inline Listener::~Listener() { this->clear(); }
-		} // namespace event
-	} // namespace core
-} // namespace ece
+	using namespace core::signal;
+}
+
+#endif // CORE_SIGNAL_HPP

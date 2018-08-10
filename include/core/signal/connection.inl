@@ -36,21 +36,32 @@
 
 */
 
+#include "core/signal/signal_implementation.hpp"
+#include "core/signal/slot.hpp"
+
 namespace ece
 {
 	namespace core
 	{
-		namespace event
+		namespace signal
 		{
-			inline Slot::Slot(const GlobalSlotID & id, const Handle & handle) : _id(id), _handle(handle), _dirty(false) {}
+			template <class... Args>
+			Connection<Args...>::Connection(const std::weak_ptr<SignalImplementation<Args...>> & signal, const std::weak_ptr<Slot<Args...>> & slot) noexcept: _signal(signal), _slot(slot) {}
 
-			inline void Slot::trigger(const Emitter & emitter, const Signal::SignalID & signal) { this->_handle(emitter, signal); }
+			template <class... Args>
+			bool Connection<Args...>::isConnected() const noexcept
+			{
+				return (!this->_signal.expired()) 
+					&& (!this->_slot.expired()); 
+			}
 
-			inline const Slot::GlobalSlotID & Slot::getId() const { return this->_id; }
-
-			inline bool Slot::isDirty() const { return this->_dirty; }
-
-			inline void Slot::setDirty(const bool dirty) { this->_dirty = dirty; }
-		} // namespace event
+			template <class... Args>
+			void Connection<Args...>::disconnect()
+			{
+				if (this->isConnected()) {
+					this->_signal.lock()->disconnect(this->_slot.lock());
+				}
+			}
+		} // namespace signal
 	} // namespace core
 } // namespace ece
