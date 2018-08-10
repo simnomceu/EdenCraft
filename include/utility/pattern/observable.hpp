@@ -50,12 +50,13 @@ namespace ece
 	{
 		namespace pattern
 		{
-			class Observer;
+			template <class ... Args> class Observer;
 
 			/**
 			 * @class Observable
 			 * @brief
 			 */
+			template <class... Args>
 			class ECE_UTILITY_API Observable
 			{
 			public:
@@ -72,7 +73,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw
 				 */
-				Observable(const Observable & copy) = default;
+				Observable(const Observable<Args...> & copy) = default;
 
 				/**
 				 * @fn Observable(Observable && move) noexcept
@@ -80,7 +81,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Observable(Observable && move) noexcept = default;
+				Observable(Observable<Args...> && move) noexcept = default;
 
 				/**
 				 * @fn ~Observable() noexcept
@@ -96,7 +97,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw
 				 */
-				Observable & operator=(const Observable & copy) = default;
+				Observable<Args...> & operator=(const Observable<Args...> & copy) = default;
 
 				/**
 				 * @fn Observable & operator=(Observable && move) noexcept
@@ -105,18 +106,17 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Observable & operator=(Observable && move) noexcept = default;
+				Observable<Args...> & operator=(Observable && move) noexcept = default;
 
-				inline void attach(const std::shared_ptr<Observer> & observer);
-				inline void detach(const std::shared_ptr<Observer> & observer);
+				inline void attach(const std::shared_ptr<Observer<Args...>> & observer);
+				inline void detach(const std::shared_ptr<Observer<Args...>> & observer);
 
 				inline void detachAll();
 
-				template <class... Args>
 				void notify(Args &&... args);
 
 			protected:
-				std::vector<std::shared_ptr<Observer>> _observers;
+				std::vector<std::shared_ptr<Observer<Args...>>> _observers;
 			};
 		} // namespace pattern
 	} // namespace utility

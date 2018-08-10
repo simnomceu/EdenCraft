@@ -36,8 +36,8 @@
 
 */
 
-#ifndef SLOT_HPP
-#define SLOT_HPP
+#ifndef SERVICE_SLOT_HPP
+#define SERVICE_SLOT_HPP
 
 #include "core/config.hpp"
 #include "core/event/signal.hpp"
@@ -189,4 +189,4 @@ namespace ece
 
 #include "core/event/slot.inl"
 
-#endif // SLOT_HPP
+#endif // SERVICE_SLOT_HPP

@@ -40,8 +40,7 @@
 #define SIGNAL_HPP
 
 #include "core/config.hpp"
-#include "utility/pattern/observable.hpp"
-#include "core/signal/connection.hpp"
+#include "core/signal/signal_implementation.hpp"
 
 namespace ece
 {
@@ -49,30 +48,28 @@ namespace ece
 	{
 		namespace signal
 		{
-			using utility::pattern::Observable;
-
 			/**
 			 * @class Signal
 			 * @brief
 			 */
 			template <class... Args>
-			class ECE_CORE_API Signal: protected Observable
+			class ECE_CORE_API Signal
 			{
 			public:
 				/**
-				 * @fn constexpr Signal() noexcept
+				 * @fn Signal() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Signal()  = default;
+				Signal() noexcept;
 
 				/**
-				 * @fn Signal(const Signal & copy)
+				 * @fn Signal(const Signal & copy) noexcept
 				 * @param[in] copy The Signal to copy from.
 				 * @brief Default copy constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Signal(const Signal & copy)  = default;
+				Signal(const Signal & copy) noexcept = default;
 
 				/**
 				 * @fn Signal(Signal && move) noexcept
@@ -90,13 +87,13 @@ namespace ece
 				~Signal() noexcept = default;
 
 				/**
-				 * @fn Signal & operator=(const Signal & copy)
+				 * @fn Signal & operator=(const Signal & copy) noexcept
 				 * @param[in] copy The Signal to copy from.
 				 * @return The Signal copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Signal & operator=(const Signal & copy) = default;
+				Signal & operator=(const Signal & copy) noexcept = default;
 
 				/**
 				 * @fn Signal & operator=(Signal && move) noexcept
@@ -107,18 +104,21 @@ namespace ece
 				 */
 				Signal & operator=(Signal && move) noexcept = default;
 
-				Connection connect(const std::function<void(Args...)> & callback);
-				Connection connect(std::function<void(Args...)> && callback);
-				template <class T> Connection connect(T & object, void (T::*method)(Args... args));
-				template <class T> Connection connect(std::weak_ptr<T> & object, void (T::*method)(Args... args));
-				template <class T> Connection connect(const T & object, void (T::*method)(Args... args) const);
-				template <class T> Connection connect(const std::weak_ptr<T> & object, void (T::*method)(Args... args) const);
+				Connection<Args...> connect(const std::function<void(Args...)> & callback);
+				Connection<Args...> connect(std::function<void(Args...)> && callback);
+				template <class T> Connection<Args...> connect(T & object, void (T::*method)(Args... args));
+				template <class T> Connection<Args...> connect(std::weak_ptr<T> & object, void (T::*method)(Args... args));
+				template <class T> Connection<Args...> connect(const T & object, void (T::*method)(Args... args) const);
+				template <class T> Connection<Args...> connect(const std::weak_ptr<T> & object, void (T::*method)(Args... args) const);
 
 				inline void disconnect(const std::shared_ptr<Slot<Args...>> & slot);
 
 				inline void disconnectAll();
 
 				inline void operator()(Args... args);
+
+			private:
+				std::shared_ptr<SignalImplementation<Args...>> _impl;
 			};
 		} // namespace signal
 	} // namespace core

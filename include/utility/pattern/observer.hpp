@@ -51,6 +51,7 @@ namespace ece
 			 * @class Observer
 			 * @brief
 			 */
+			template <class ... Args>
 			class ECE_UTILITY_API Observer
 			{
 			public:
@@ -67,7 +68,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Observer(const Observer & copy) noexcept = default;
+				Observer(const Observer<Args...> & copy) noexcept = default;
 
 				/**
 				 * @fn Observer(Observer && move) noexcept
@@ -75,7 +76,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Observer(Observer && move) noexcept = default;
+				Observer(Observer<Args...> && move) noexcept = default;
 
 				/**
 				 * @fn ~Observer() noexcept
@@ -91,7 +92,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Observer & operator=(const Observer & copy) noexcept = default;
+				Observer<Args...> & operator=(const Observer<Args...> & copy) noexcept = default;
 
 				/**
 				 * @fn Observer & operator=(Observer && move) noexcept
@@ -100,9 +101,8 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Observer & operator=(Observer && move) noexcept = default;
+				Observer<Args...> & operator=(Observer<Args...> && move) noexcept = default;
 
-				template <class ... Args>
 				virtual void notify(Args&&... args) = 0;
 			};
 		} // namespace pattern

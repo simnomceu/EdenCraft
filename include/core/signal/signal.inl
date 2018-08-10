@@ -36,8 +36,6 @@
 
 */
 
-#include "core/signal/slot.hpp"
-
 namespace ece
 {
 	namespace core
@@ -45,57 +43,60 @@ namespace ece
 		namespace signal
 		{
 			template <class... Args>
-			Connection Signal<Args...>::connect(const std::function<void(Args...)> & callback)
+			Signal<Args...>::Signal() noexcept: _impl(std::make_shared<SignalImplementation<Args...>>()) {}
+
+			template <class... Args>
+			Connection<Args...> Signal<Args...>::connect(const std::function<void(Args...)> & callback)
 			{
 				auto slot = std::make_shared<Slot<Args...>>(callback);
-				this->attach(slot);
-				return Connection(this->weak_from_this(), slot);
+				this->_impl->attach(slot);
+				return Connection<Args...>(this->_impl->weak_from_this(), slot);
 			}
 
 			template <class... Args>
-			Connection Signal<Args...>::connect(std::function<void(Args...)> && callback)
+			Connection<Args...> Signal<Args...>::connect(std::function<void(Args...)> && callback)
 			{
 				auto slot = std::make_shared<Slot<Args...>>(callback);
-				this->attach(slot);
-				return Connection(this->weak_from_this(), slot);
+				this->_impl->attach(slot);
+				return Connection<Args...>(this->_impl->weak_from_this(), slot);
 			}
 
 			template <class... Args>
 			template <class T>
-			Connection Signal<Args...>::connect(T & object, void (T::*method)(Args... args))
+			Connection<Args...> Signal<Args...>::connect(T & object, void (T::*method)(Args... args))
 			{
-				return this->connect([&object, method](Args... args){ (object.*function)(std::forward<Args>(args)...); });
+				return this->connect([&object, method](Args... args) { (object.*method)(std::forward<Args>(args)...); });
 			}
 
 			template <class... Args>
 			template <class T>
-			Connection Signal<Args...>::connect(std::weak_ptr<T> & object, void (T::*method)(Args... args))
+			Connection<Args...> Signal<Args...>::connect(std::weak_ptr<T> & object, void (T::*method)(Args... args))
 			{
-				return this->connect([&object, method](Args... args) { (object.lock()->*function)(std::forward<Args>(args)...); });
+				return this->connect([&object, method](Args... args) { (object.lock()->*method)(std::forward<Args>(args)...); });
 			}
 
 			template <class... Args>
 			template <class T>
-			Connection Signal<Args...>::connect(const T & object, void (T::*method)(Args... args) const)
+			Connection<Args...> Signal<Args...>::connect(const T & object, void (T::*method)(Args... args) const)
 			{
-				return this->connect([object, method](Args... args) { (object.*function)(std::forward<Args>(args)...); });
+				return this->connect([object, method](Args... args) { (object.*method)(std::forward<Args>(args)...); });
 			}
 
 			template <class... Args>
 			template <class T>
-			Connection Signal<Args...>::connect(const std::weak_ptr<T> & object, void (T::*method)(Args... args) const)
+			Connection<Args...> SignalImplementation<Args...>::connect(const std::weak_ptr<T> & object, void (T::*method)(Args... args) const)
 			{
-				return this->connect([object, method](Args... args) { (object.lock()->*function)(std::forward<Args>(args)...); });
+				return this->connect([object, method](Args... args) { (object.lock()->*method)(std::forward<Args>(args)...); });
 			}
 
 			template <class... Args>
-			inline void Signal<Args...>::disconnect(const std::shared_ptr<Slot<Args...>> & slot) { this->detach(slot); }
+			inline void Signal<Args...>::disconnect(const std::shared_ptr<Slot<Args...>> & slot) { this->_impl->disconnect(slot); }
 
 			template <class... Args>
-			inline void Signal<Args...>::disconnectAll() { this->detachAll(); }
+			inline void Signal<Args...>::disconnectAll() { this->_impl->disconnectAll(); }
 
 			template <class... Args>
-			inline void Signal<Args...>::operator()(Args... args) { this->notify(std::forward<Args>(args)...); }
+			inline void Signal<Args...>::operator()(Args... args) { this->_impl->operator()(std::forward<Args>(args)...); }
 		} // namespace signal
 	} // namespace core
 } // namespace ece

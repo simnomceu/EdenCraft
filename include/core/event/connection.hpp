@@ -37,8 +37,8 @@
 */
 
 
-#ifndef CONNECTION_HPP
-#define CONNECTION_HPP
+#ifndef SERVICE_CONNECTION_HPP
+#define SERVICE_CONNECTION_HPP
 
 #include "core/config.hpp"
 #include "core/event/signal.hpp"
@@ -175,4 +175,4 @@ namespace ece
 
 #include "core/event/connection.inl"
 
-#endif // CONNECTION_HPP
+#endif // SERVICE_CONNECTION_HPP

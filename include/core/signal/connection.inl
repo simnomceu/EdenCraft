@@ -36,6 +36,9 @@
 
 */
 
+#include "core/signal/signal_implementation.hpp"
+#include "core/signal/slot.hpp"
+
 namespace ece
 {
 	namespace core
@@ -43,18 +46,28 @@ namespace ece
 		namespace signal
 		{
 			template <class... Args>
-			Connection<Args...>::Connection(const std::weak_ptr<Signal<Args...>> & signal, const std::weak_ptr<Slot<Args...>> & slot) noexcept: _signal(signal), _slot(slot) {}
+			Connection<Args...>::Connection(const std::weak_ptr<SignalImplementation<Args...>> & signal, const std::weak_ptr<Slot<Args...>> & slot) noexcept: _signal(signal), _slot(slot) {}
 
 			template <class... Args>
-			bool Connection<Args...>::isConnected() const noexcept { return !this->_signal.expired() && !this->_slot.expired(); }
+			bool Connection<Args...>::isConnected() const noexcept
+			{
+				return (!this->_signal.expired()) 
+					&& (!this->_slot.expired()); 
+			}
 
 			template <class... Args>
 			void Connection<Args...>::disconnect()
 			{
 				if (this->isConnected()) {
-					this->_signal.disconnect(this->_slot.lock());
+					this->_signal.lock()->disconnect(this->_slot.lock());
 				}
 			}
+
+			template <class... Args>
+			inline Connection<Args...>::operator SecuredConnection<Args...> & () noexcept { return static_cast<SecuredConnection<Args...> &>(*this); }
+
+			template <class... Args>
+			inline Connection<Args...>::operator const SecuredConnection<Args...> & () noexcept { return static_cast<const SecuredConnection<Args...> &>(*this); }
 		} // namespace signal
 	} // namespace core
 } // namespace ece

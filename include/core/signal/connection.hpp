@@ -47,6 +47,10 @@ namespace ece
 	{
 		namespace signal
 		{
+			template <class... Args> class SignalImplementation;
+			template <class... Args> class Slot;
+			template <class... Args> class SecuredConnection;
+
 			/**
 			 * @class Connection
 			 * @brief
@@ -55,7 +59,7 @@ namespace ece
 			class ECE_CORE_API Connection
 			{
 			public:
-				Connection(const std::weak_ptr<Signal<Args...>> & signal, const std::weak_ptr<Slot<Args...>> & slot) noexcept;
+				Connection(const std::weak_ptr<SignalImplementation<Args...>> & signal, const std::weak_ptr<Slot<Args...>> & slot) noexcept;
 
 				/**
 				 * @fn Connection(const Connection & copy) noexcept
@@ -102,9 +106,15 @@ namespace ece
 
 				void disconnect();
 
+				inline operator SecuredConnection<Args...> & () noexcept;
+				inline operator const SecuredConnection<Args...> & () noexcept;
+
+			protected:
+				Connection() noexcept = default;
+
 			private:
-				std::weak_ptr<Signal<Args...>> _signal;
-				std::weak_ptr<Slot<Args...>> _slots;
+				std::weak_ptr<SignalImplementation<Args...>> _signal;
+				std::weak_ptr<Slot<Args...>> _slot;
 			};
 		} // namespace signal
 	} // namespace core

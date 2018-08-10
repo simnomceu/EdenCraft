@@ -36,13 +36,12 @@
 
 */
 
-#ifndef SLOT_HPP
-#define SLOT_HPP
+#ifndef SIGNAL_IMPLEMENTATION_HPP
+#define SIGNAL_IMPLEMENTATION_HPP
 
 #include "core/config.hpp"
-#include "utility/pattern/observer.hpp"
-
-#include <functional>
+#include "utility/pattern/observable.hpp"
+#include "core/signal/connection.hpp"
 
 namespace ece
 {
@@ -50,73 +49,81 @@ namespace ece
 	{
 		namespace signal
 		{
-			using utility::pattern::Observer;
+			using utility::pattern::Observable;
 
 			/**
-			 * @class Slot
+			 * @class SignalImplementation
 			 * @brief
 			 */
-			template <class ... Args>
-			class ECE_CORE_API Slot: public Observer<Args...>
+			template <class... Args>
+			class ECE_CORE_API SignalImplementation: public Observable<Args...>, public std::enable_shared_from_this<SignalImplementation<Args...>>
 			{
 			public:
 				/**
-				 * @fn constexpr Slot() noexcept
+				 * @fn constexpr SignalImplementation() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Slot(const std::function<void(Args...)> & callback) noexcept;
+				SignalImplementation() noexcept;
 
 				/**
-				 * @fn Slot(const Slot & copy) noexcept
-				 * @param[in] copy The Slot to copy from.
+				 * @fn SignalImplementation(const SignalImplementation & copy)
+				 * @param[in] copy The SignalImplementation to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Slot(const Slot & copy) noexcept = default;
+				SignalImplementation(const SignalImplementation & copy)  = default;
 
 				/**
-				 * @fn Slot(Slot && move) noexcept
-				 * @param[in] move The Slot to move.
+				 * @fn SignalImplementation(SignalImplementation && move) noexcept
+				 * @param[in] move The SignalImplementation to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Slot(Slot && move) noexcept = default;
+				SignalImplementation(SignalImplementation && move) noexcept = default;
 
 				/**
-				 * @fn ~Slot() noexcept
+				 * @fn ~SignalImplementation() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Slot() noexcept = default;
+				~SignalImplementation() noexcept = default;
 
 				/**
-				 * @fn Slot & operator=(const Slot & copy) noexcept
-				 * @param[in] copy The Slot to copy from.
-				 * @return The Slot copied.
+				 * @fn SignalImplementation & operator=(const SignalImplementation & copy)
+				 * @param[in] copy The SignalImplementation to copy from.
+				 * @return The SignalImplementation copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Slot & operator=(const Slot & copy) noexcept = default;
+				SignalImplementation & operator=(const SignalImplementation & copy) = default;
 
 				/**
-				 * @fn Slot & operator=(Slot && move) noexcept
-				 * @param[in] move The Slot to move.
-				 * @return The Slot moved.
+				 * @fn SignalImplementation & operator=(SignalImplementation && move) noexcept
+				 * @param[in] move The SignalImplementation to move.
+				 * @return The SignalImplementation moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Slot & operator=(Slot && move) noexcept = default;
+				SignalImplementation & operator=(SignalImplementation && move) noexcept = default;
 
-				virtual void notify(Args&&... args) override;
+				Connection<Args...> connect(const std::function<void(Args...)> & callback);
+				Connection<Args...> connect(std::function<void(Args...)> && callback);
+				template <class T> Connection<Args...> connect(T & object, void (T::*method)(Args... args));
+				template <class T> Connection<Args...> connect(std::weak_ptr<T> & object, void (T::*method)(Args... args));
+				template <class T> Connection<Args...> connect(const T & object, void (T::*method)(Args... args) const);
+				template <class T> Connection<Args...> connect(const std::weak_ptr<T> & object, void (T::*method)(Args... args) const);
 
-			protected:
-				std::function<void(Args...)> _callback;
+				inline void disconnect(const std::shared_ptr<Slot<Args...>> & slot);
+
+				inline void disconnectAll();
+
+				inline void operator()(Args... args);
 			};
 		} // namespace signal
 	} // namespace core
 } // namespace ece
 
-#include "core/signal/slot.inl"
+#include "core/signal/signal_implementation.inl"
 
-#endif // SLOT_HPP
+#endif // SIGNAL_IMPLEMENTATION_HPP

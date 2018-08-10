@@ -36,13 +36,7 @@
 
 */
 
-#ifndef SLOT_HPP
-#define SLOT_HPP
-
-#include "core/config.hpp"
-#include "utility/pattern/observer.hpp"
-
-#include <functional>
+#include "core/signal/slot.hpp"
 
 namespace ece
 {
@@ -50,73 +44,17 @@ namespace ece
 	{
 		namespace signal
 		{
-			using utility::pattern::Observer;
+			template <class... Args>
+			SignalImplementation<Args...>::SignalImplementation() noexcept : Observable<Args...>(), std::enable_shared_from_this<SignalImplementation<Args...>>() {}
 
-			/**
-			 * @class Slot
-			 * @brief
-			 */
-			template <class ... Args>
-			class ECE_CORE_API Slot: public Observer<Args...>
-			{
-			public:
-				/**
-				 * @fn constexpr Slot() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				Slot(const std::function<void(Args...)> & callback) noexcept;
+			template <class... Args>
+			inline void SignalImplementation<Args...>::disconnect(const std::shared_ptr<Slot<Args...>> & slot) { this->detach(slot); }
 
-				/**
-				 * @fn Slot(const Slot & copy) noexcept
-				 * @param[in] copy The Slot to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				Slot(const Slot & copy) noexcept = default;
+			template <class... Args>
+			inline void SignalImplementation<Args...>::disconnectAll() { this->detachAll(); }
 
-				/**
-				 * @fn Slot(Slot && move) noexcept
-				 * @param[in] move The Slot to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				Slot(Slot && move) noexcept = default;
-
-				/**
-				 * @fn ~Slot() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~Slot() noexcept = default;
-
-				/**
-				 * @fn Slot & operator=(const Slot & copy) noexcept
-				 * @param[in] copy The Slot to copy from.
-				 * @return The Slot copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				Slot & operator=(const Slot & copy) noexcept = default;
-
-				/**
-				 * @fn Slot & operator=(Slot && move) noexcept
-				 * @param[in] move The Slot to move.
-				 * @return The Slot moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				Slot & operator=(Slot && move) noexcept = default;
-
-				virtual void notify(Args&&... args) override;
-
-			protected:
-				std::function<void(Args...)> _callback;
-			};
+			template <class... Args>
+			inline void SignalImplementation<Args...>::operator()(Args... args) { this->notify(std::forward<Args>(args)...); }
 		} // namespace signal
 	} // namespace core
 } // namespace ece
-
-#include "core/signal/slot.inl"
-
-#endif // SLOT_HPP

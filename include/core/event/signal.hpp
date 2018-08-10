@@ -36,8 +36,8 @@
 
 */
 
-#ifndef SIGNAL_HPP
-#define SIGNAL_HPP
+#ifndef SERVICE_SIGNAL_HPP
+#define SERVICE_SIGNAL_HPP
 
 #include "core/config.hpp"
 
@@ -160,4 +160,4 @@ namespace ece
 
 #include "core/event/signal.inl"
 
-#endif // SIGNAL_HPP
+#endif // SERVICE_SIGNAL_HPP

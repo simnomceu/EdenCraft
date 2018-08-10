@@ -36,13 +36,11 @@
 
 */
 
-#ifndef SLOT_HPP
-#define SLOT_HPP
+#ifndef SECURED_CONNECTION_HPP
+#define SECURED_CONNECTION_HPP
 
 #include "core/config.hpp"
-#include "utility/pattern/observer.hpp"
-
-#include <functional>
+#include "core/signal/connection.hpp"
 
 namespace ece
 {
@@ -50,73 +48,66 @@ namespace ece
 	{
 		namespace signal
 		{
-			using utility::pattern::Observer;
-
 			/**
-			 * @class Slot
+			 * @class SecuredConnection
 			 * @brief
 			 */
-			template <class ... Args>
-			class ECE_CORE_API Slot: public Observer<Args...>
+			template <class... Args>
+			class SecuredConnection: public Connection<Args...>
 			{
 			public:
 				/**
-				 * @fn constexpr Slot() noexcept
+				 * @fn constexpr SecuredConnection() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Slot(const std::function<void(Args...)> & callback) noexcept;
+				SecuredConnection() noexcept = default;
 
 				/**
-				 * @fn Slot(const Slot & copy) noexcept
-				 * @param[in] copy The Slot to copy from.
+				 * @fn SecuredConnection(const SecuredConnection & copy) noexcept
+				 * @param[in] copy The SecuredConnection to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Slot(const Slot & copy) noexcept = default;
+				SecuredConnection(const SecuredConnection & copy) noexcept = default;
 
 				/**
-				 * @fn Slot(Slot && move) noexcept
-				 * @param[in] move The Slot to move.
+				 * @fn SecuredConnection(SecuredConnection && move) noexcept
+				 * @param[in] move The SecuredConnection to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Slot(Slot && move) noexcept = default;
+				SecuredConnection(SecuredConnection && move) noexcept = default;
 
 				/**
-				 * @fn ~Slot() noexcept
+				 * @fn ~SecuredConnection() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Slot() noexcept = default;
+				inline ~SecuredConnection() noexcept;
 
 				/**
-				 * @fn Slot & operator=(const Slot & copy) noexcept
-				 * @param[in] copy The Slot to copy from.
-				 * @return The Slot copied.
+				 * @fn SecuredConnection & operator=(const SecuredConnection & copy) noexcept
+				 * @param[in] copy The SecuredConnection to copy from.
+				 * @return The SecuredConnection copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Slot & operator=(const Slot & copy) noexcept = default;
+				SecuredConnection & operator=(const SecuredConnection & copy) noexcept = default;
 
 				/**
-				 * @fn Slot & operator=(Slot && move) noexcept
-				 * @param[in] move The Slot to move.
-				 * @return The Slot moved.
+				 * @fn SecuredConnection & operator=(SecuredConnection && move) noexcept
+				 * @param[in] move The SecuredConnection to move.
+				 * @return The SecuredConnection moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Slot & operator=(Slot && move) noexcept = default;
-
-				virtual void notify(Args&&... args) override;
-
-			protected:
-				std::function<void(Args...)> _callback;
+				SecuredConnection & operator=(SecuredConnection && move) noexcept = default;
 			};
 		} // namespace signal
 	} // namespace core
 } // namespace ece
 
-#include "core/signal/slot.inl"
+#include "core/signal/secured_connection.inl"
 
-#endif // SLOT_HPP
+#endif // SECURED_CONNECTION_HPP

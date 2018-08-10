@@ -36,87 +36,17 @@
 
 */
 
-#ifndef SLOT_HPP
-#define SLOT_HPP
-
-#include "core/config.hpp"
-#include "utility/pattern/observer.hpp"
-
-#include <functional>
-
 namespace ece
 {
 	namespace core
 	{
 		namespace signal
 		{
-			using utility::pattern::Observer;
-
-			/**
-			 * @class Slot
-			 * @brief
-			 */
-			template <class ... Args>
-			class ECE_CORE_API Slot: public Observer<Args...>
+			template <class... Args>
+			SecuredConnection<Args...>::~SecuredConnection()
 			{
-			public:
-				/**
-				 * @fn constexpr Slot() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				Slot(const std::function<void(Args...)> & callback) noexcept;
-
-				/**
-				 * @fn Slot(const Slot & copy) noexcept
-				 * @param[in] copy The Slot to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				Slot(const Slot & copy) noexcept = default;
-
-				/**
-				 * @fn Slot(Slot && move) noexcept
-				 * @param[in] move The Slot to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				Slot(Slot && move) noexcept = default;
-
-				/**
-				 * @fn ~Slot() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~Slot() noexcept = default;
-
-				/**
-				 * @fn Slot & operator=(const Slot & copy) noexcept
-				 * @param[in] copy The Slot to copy from.
-				 * @return The Slot copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				Slot & operator=(const Slot & copy) noexcept = default;
-
-				/**
-				 * @fn Slot & operator=(Slot && move) noexcept
-				 * @param[in] move The Slot to move.
-				 * @return The Slot moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				Slot & operator=(Slot && move) noexcept = default;
-
-				virtual void notify(Args&&... args) override;
-
-			protected:
-				std::function<void(Args...)> _callback;
-			};
+				this->disconnect();
+			}
 		} // namespace signal
 	} // namespace core
 } // namespace ece
-
-#include "core/signal/slot.inl"
-
-#endif // SLOT_HPP
