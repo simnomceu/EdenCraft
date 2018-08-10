@@ -348,6 +348,9 @@ namespace ece
 				Signal<> onWindowResized;
 				Signal<> onWindowMoved;
 				Signal<> onWindowRenamed;
+				Signal<> onWindowMinimized;
+				Signal<> onWindowMaximized;
+				Signal<> onWindowFocused;
 			protected:
 				/**
 				 * @property _adapter

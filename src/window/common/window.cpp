@@ -49,7 +49,8 @@ namespace ece
 		{
 			using window_event::InputEvent;
 
-			Window::Window() noexcept: _adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false)
+			Window::Window() noexcept: onWindowOpened(), onWindowClosed(), onWindowResized(), onWindowMoved(), onWindowRenamed(), onWindowMinimized(), onWindowMaximized(), onWindowFocused(), 
+				_adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false)
 			{
 			}
 
@@ -68,9 +69,9 @@ namespace ece
 			void Window::close()
 			{
 				if (this->isOpened()) {
+					this->onWindowClosed();
 					this->_adapter->deleteWindow();
 					this->_isOpened = false;
-					this->onWindowClosed();
 				}
 			}
 
@@ -109,7 +110,7 @@ namespace ece
 			{
 				if (this->isOpened()) {
 					this->_adapter.get()->maximize();
-					this->onWindowResized();
+					this->onWindowMaximized();
 				}
 			}
 
@@ -117,7 +118,7 @@ namespace ece
 			{
 				if (this->isOpened()) {
 					this->_adapter.get()->minimize();
-					this->onWindowResized();
+					this->onWindowMinimized();
 				}
 			}
 
