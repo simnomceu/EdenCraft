@@ -40,6 +40,7 @@
 #include "core/signal.hpp"
 
 #include <string>
+#include <iostream>
 
 // TODO: create another project in the solution to analize the code smell
 // it could be to check if there is no more than 8-10 methods in a class (with steps: green level (? < 6), orange(6 < ? < 10) and red(? > 10)

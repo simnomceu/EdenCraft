@@ -39,7 +39,7 @@
 #define EVENT_HANDLER_HPP
 
 #include "window/config.hpp"
-#include "core/event/emitter.hpp"
+#include "core/signal/signal.hpp"
 
 namespace ece
 {
@@ -47,8 +47,7 @@ namespace ece
 	{
 		namespace window_event
 		{
-			using core::event::Emitter;
-			using core::event::Signal;
+			using core::signal::Signal;
 
 			/**
 			 * @class EventHandler
@@ -56,15 +55,9 @@ namespace ece
 			 * @brief Manage input events.
 			 * @remark Need to be refactored as it seems to be useless in this state.
 			 */
-			class ECE_WINDOW_API EventHandler : public Emitter
+			class ECE_WINDOW_API EventHandler
 			{
 			public:
-				const Signal::SignalID KEY_PRESSED = 0;
-				const Signal::SignalID KEY_RELEASED = 1;
-				const Signal::SignalID MOUSE_BUTTON_PRESSED = 2;
-				const Signal::SignalID MOUSE_BUTTON_RELEASED = 3;
-				const Signal::SignalID MOUSE_WHEEL_SCROLLED = 4;
-
 				/**
 				 * @fn EventHandler & getInstance()
 				 * @return The unique instance of the handler
@@ -135,6 +128,11 @@ namespace ece
 				 */
 				inline void produceMouseButtonEvent(const int button, const int action, const int mods);
 
+				Signal<> onKeyPressed;
+				Signal<> onKeyReleased;
+				Signal<> onMouseButtonPressed;
+				Signal<> onMouseButtonReleased;
+				Signal<> onMouseWheelScrolled;
 			private:
 				/**
 				 * @fn EventHandler()
@@ -142,7 +140,7 @@ namespace ece
 				 * It is private to guarantee the singleton.
 				 * @throw
 				 */
-				EventHandler();
+				EventHandler() = default;
 			};
 		} // namespace windpw_event
 	} // namespace window

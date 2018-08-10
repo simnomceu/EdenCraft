@@ -41,10 +41,10 @@
 #include "window/config.hpp"
 #include "window/common/window_adapter.hpp"
 #include "utility/mathematics/vector2u.hpp"
-#include "core/event/emitter.hpp"
 #include "window/common/video_mode.hpp"
 #include "window/common/window_setting.hpp"
 #include "utility/time/update_per_second.hpp"
+#include "core/signal/signal.hpp"
 
 #include <string>
 #include <memory>
@@ -57,8 +57,7 @@ namespace ece
 		{
 			using utility::mathematics::IntVector2u;
 			using utility::time::UpdatePerSecond;
-			using core::event::Emitter;
-			using core::event::Signal;
+			using core::signal::Signal;
 
 			class InputEvent;
 
@@ -80,15 +79,9 @@ namespace ece
 			 * @brief A basic window as defined by the platform.
 			 * Only the mechanism related to a window are implemented with. By default other features like rendering are not available in this window.
 			 */
-			class ECE_WINDOW_API Window : public Emitter
+			class ECE_WINDOW_API Window
 			{
 			public:
-				static constexpr Signal::SignalID WINDOW_OPENED = 0;
-				static constexpr Signal::SignalID WINDOW_CLOSED = 1;
-				static constexpr Signal::SignalID WINDOW_RESIZED = 2;
-				static constexpr Signal::SignalID WINDOW_MOVED = 3;
-				static constexpr Signal::SignalID WINDOW_RENAMED = 4;
-
 				/**
 				 * @fn Window() noexcept
 				 * @brief Default constructor.
@@ -350,6 +343,11 @@ namespace ece
 				 */
 				virtual void updateVideoMode();
 
+				Signal<> onWindowOpened;
+				Signal<> onWindowClosed;
+				Signal<> onWindowResized;
+				Signal<> onWindowMoved;
+				Signal<> onWindowRenamed;
 			protected:
 				/**
 				 * @property _adapter
