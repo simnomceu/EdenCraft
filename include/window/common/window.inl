@@ -72,6 +72,8 @@ namespace ece
 			inline VideoMode & Window::getVideoMode() { return this->_videoMode; }
 
 			inline const VideoMode & Window::getVideoMode() const { return this->_videoMode; }
+
+			inline EventHandler & Window::getEventHandler() { return this->_eventHandler; }
 		} // namespace common
 	} // namespace window
 } // namespace ece

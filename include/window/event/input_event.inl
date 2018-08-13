@@ -35,34 +35,18 @@
 
 */
 
-#include "window/window_event/event_handler.hpp"
-
 namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace event
 		{
-			EventHandler & EventHandler::getInstance()
-			{
-				static EventHandler handler;
-				return handler;
-			}
-
-			void EventHandler::produceKeyEvent(const int key, const int /*scancode*/, const int /*action*/, const int /*mods*/)
-			{
-				std::cerr << "key: " << key << std::endl;
-				/*		switch (action) {
-						case GLFW_PRESS:
-							this->emit(KEY_PRESSED);
-							break;
-						case GLFW_RELEASE:
-							this->emit(KEY_RELEASED);
-							break;
-						default:
-							break;
-						}*/
-			}
+			inline InputEvent::InputEvent() noexcept:
+				_type(InputEvent::Type::ECE_TYPE_NONE),
+				_doubleTap(InputEvent::DoubleTap::ECE_TAP_NONE),
+				_mouseButton(Mouse::Button::ECE_MOUSE_NONE),
+				_mousePosition(),
+				_key(Keyboard::Key::KEY_NONE) {}
 		} // namespace window_event
-	} // namespace window
+	} // namespace event
 } // namespace ece

@@ -39,7 +39,7 @@ namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace event
 		{
 			inline IntVector2u & Mouse::getPosition() { return Mouse::_position; }
 

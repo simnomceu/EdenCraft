@@ -38,8 +38,8 @@
 #ifndef DATA_WINDOW_ADAPTER_HPP
 #define DATA_WINDOW_ADAPTER_HPP
 
-#include "window/window_event/keyboard.hpp"
-#include "window/window_event/mouse.hpp"
+#include "window/event/keyboard.hpp"
+#include "window/event/mouse.hpp"
 
 #include <Windows.h>
 
@@ -47,8 +47,8 @@ namespace ece
 {
 	namespace window
 	{
-		using window_event::Keyboard;
-		using window_event::Mouse;
+		using event::Keyboard;
+		using event::Mouse;
 
 		namespace common
 		{

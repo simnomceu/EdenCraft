@@ -35,15 +35,27 @@
 
 */
 
-#include "window/window_event/keyboard.hpp"
-
 namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace event
 		{
-			std::array<bool, 132> Keyboard::_states = std::array<bool, 132>();
-		} // namespace window_event
+			inline bool Keyboard::isKeyPressed(const Key code)
+			{
+				if (code == Keyboard::Key::KEY_NONE) {
+					throw std::runtime_error("That code is not a valid key.");
+				}
+				return Keyboard::_states[static_cast<unsigned int>(code)];
+			}
+
+			inline void Keyboard::pressKey(const Key code, const bool state)
+			{
+				if (code == Keyboard::Key::KEY_NONE) {
+					throw std::runtime_error("That code is not a valid key.");
+				}
+				Keyboard::_states[static_cast<unsigned int>(code)] = state;
+			}
+		} // namespace event
 	} // namespace window
 } // namespace ece

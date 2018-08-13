@@ -38,7 +38,6 @@
 #ifndef WINDOW_COMMON_HPP
 #define WINDOW_COMMON_HPP
 
-#include "window/common/event_queue.hpp"
 #include "window/common/ratio.hpp"
 #include "window/common/video_mode.hpp"
 #include "window/common/window.hpp"

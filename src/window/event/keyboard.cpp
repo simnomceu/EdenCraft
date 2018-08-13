@@ -35,18 +35,15 @@
 
 */
 
+#include "window/event/keyboard.hpp"
+
 namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace event
 		{
-			inline InputEvent::InputEvent() noexcept:
-			_type(InputEvent::Type::ECE_TYPE_NONE),
-				_doubleTap(InputEvent::DoubleTap::ECE_TAP_NONE),
-				_mouseButton(Mouse::Button::ECE_MOUSE_NONE),
-				_mousePosition(),
-				_key(Keyboard::Key::KEY_NONE) {}
-		} // namespace window_event
-	} // namespace event
+			std::array<bool, 132> Keyboard::_states = std::array<bool, 132>();
+		} // namespace event
+	} // namespace window
 } // namespace ece

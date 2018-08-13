@@ -35,27 +35,32 @@
 
 */
 
+#include "window/event/mouse.hpp"
+
 namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace event
 		{
-			inline bool Keyboard::isKeyPressed(const Key code)
+			std::array<bool, 10> Mouse::_states;
+			IntVector2u Mouse::_position;
+
+			bool Mouse::isKeyPressed(const Button code)
 			{
-				if (code == Keyboard::Key::KEY_NONE) {
+				if (code == Mouse::Button::ECE_MOUSE_NONE) {
 					throw std::runtime_error("That code is not a valid key.");
 				}
-				return Keyboard::_states[static_cast<unsigned int>(code)];
+				return Mouse::_states[static_cast<unsigned int>(code)];
 			}
 
-			inline void Keyboard::pressKey(const Key code, const bool state)
+			void Mouse::pressKey(const Button code, const bool state)
 			{
-				if (code == Keyboard::Key::KEY_NONE) {
+				if (code == Mouse::Button::ECE_MOUSE_NONE) {
 					throw std::runtime_error("That code is not a valid key.");
 				}
-				Keyboard::_states[static_cast<unsigned int>(code)] = state;
+				Mouse::_states[static_cast<unsigned int>(code)] = state;
 			}
-		} // namespace window_event
+		} // namespace event
 	} // namespace window
 } // namespace ece
