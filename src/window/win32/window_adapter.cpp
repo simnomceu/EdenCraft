@@ -50,7 +50,7 @@ namespace ece
 			using utility::pattern::makePimpl;
 			using win32::className;
 			using win32::interpretKey;
-			using win32::processMessages;
+			using win32::processMessagesCallback;
 			using win32::registerPattern;
 
 			// TODO: Refactor applying correctly use of Desktop Window Manager (DWM windowing system).
