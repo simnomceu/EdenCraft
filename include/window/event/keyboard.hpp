@@ -216,6 +216,8 @@ namespace ece
 				 */
 				inline static void pressKey(const Key code, const bool state);
 
+				static Keyboard::Key getKey(const unsigned int keycode);
+
 			private:
 				/**
 				 * @property _states

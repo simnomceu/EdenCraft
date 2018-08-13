@@ -226,10 +226,7 @@ namespace ece
 					switch (message._impl.type) {
 					case KeyPress: {
 						KeySym keySym = XkbKeycodeToKeysym(this->_connection, message._impl.xkey.keycode, 0, message._impl.xkey.state & ShiftMask ? 1 : 0);
-						auto keyCode = interpretKey(keySym);
-#if defined(__gnu_linux__)
-						std::cerr << static_cast<int>(keyCode) << std::endl;
-#endif
+						auto keyCode = Keyboard::getKey(keySym);
 						if (keyRepeat || (!keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
 							InputEvent newEvent;
 							newEvent._type = InputEvent::Type::ECE_KEY_PRESSED;
@@ -239,6 +236,12 @@ namespace ece
 						break;
 					}
 					case KeyRelease: {
+						KeySym keySym = XkbKeycodeToKeysym(this->_connection, message._impl.xkey.keycode, 0, message._impl.xkey.state & ShiftMask ? 1 : 0);
+						auto keyCode = Keyboard::getKey(keySym);
+						InputEvent newEvent;
+						newEvent._type = InputEvent::Type::ECE_KEY_RELEASED;
+						newEvent._key = keyCode;
+						Keyboard::pressKey(keyCode, true);
 						break;
 					}
 					case ButtonPress: {

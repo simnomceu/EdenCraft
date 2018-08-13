@@ -148,7 +148,7 @@ namespace ece
 			 * @brief A win32 callback to process a messae handle from the system.
 			 * @throw
 			 */
-			LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
+			LRESULT CALLBACK processMessagesCallback(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
 
 			/**
 			 * @fn Keyboard::Key interpretKey(WPARAM wParam)
