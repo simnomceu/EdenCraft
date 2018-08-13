@@ -115,7 +115,9 @@ namespace ece
 			{
 				auto events = std::move(this->_data->_api->processEvent(blocking, this->_keyRepeat));
 				for (auto event : events) {
-					this->pushEvent(std::move(event));
+					if (event._type != InputEvent::Type::ECE_TYPE_NONE) {
+						this->pushEvent(std::move(event));
+					}
 				}
 			}
 		} // namespace common

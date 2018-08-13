@@ -49,7 +49,6 @@ namespace ece
 			{
 				Keyboard::Key key = Keyboard::Key::KEY_NONE;
 				switch (keycode) {
-				case 8: key = Keyboard::Key::ESCAPE; break;
 			#ifdef XK_MISCELLANY
 				case XK_BackSpace: key = Keyboard::Key::BACKSPACE; break;  /* Back space, back char */
 				case XK_Tab: key = Keyboard::Key::TAB; break;

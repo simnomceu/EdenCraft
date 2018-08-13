@@ -228,7 +228,6 @@ namespace ece
 						KeySym keySym = XkbKeycodeToKeysym(this->_connection, message._impl.xkey.keycode, 0, message._impl.xkey.state & ShiftMask ? 1 : 0);
 						auto keyCode = Keyboard::getKey(keySym);
 						if (keyRepeat || (!keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
-							InputEvent newEvent;
 							newEvent._type = InputEvent::Type::ECE_KEY_PRESSED;
 							newEvent._key = keyCode;
 							Keyboard::pressKey(keyCode, true);
@@ -238,10 +237,9 @@ namespace ece
 					case KeyRelease: {
 						KeySym keySym = XkbKeycodeToKeysym(this->_connection, message._impl.xkey.keycode, 0, message._impl.xkey.state & ShiftMask ? 1 : 0);
 						auto keyCode = Keyboard::getKey(keySym);
-						InputEvent newEvent;
 						newEvent._type = InputEvent::Type::ECE_KEY_RELEASED;
 						newEvent._key = keyCode;
-						Keyboard::pressKey(keyCode, true);
+						Keyboard::pressKey(keyCode, false);
 						break;
 					}
 					case ButtonPress: {
@@ -251,10 +249,12 @@ namespace ece
 						break;
 					}
 					case MotionNotify: {
-						newEvent._type = InputEvent::Type::ECE_MOUSE_MOVED;
-						newEvent._mousePosition[0] = message._impl.xmotion.x;
-						newEvent._mousePosition[1] = message._impl.xmotion.y;
-						Mouse::setPosition(this->getPosition() + newEvent._mousePosition);
+						if (0 != message._impl.xmotion.x || 0 != message._impl.xmotion.y) {
+							newEvent._type = InputEvent::Type::ECE_MOUSE_MOVED;
+							newEvent._mousePosition[0] = message._impl.xmotion.x;
+							newEvent._mousePosition[1] = message._impl.xmotion.y;
+							Mouse::setPosition(this->getPosition() + newEvent._mousePosition);
+						}
 						break;
 					}
 					case EnterNotify: {
