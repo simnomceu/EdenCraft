@@ -39,6 +39,8 @@
 
 #include "utility/log/service_logger.hpp"
 
+#include <X11/XKBlib.h>
+
 namespace ece
 {
 	namespace window
@@ -175,21 +177,21 @@ namespace ece
 				XSendEvent(this->_connection, XRootWindow(this->_connection, 0), false, SubstructureNotifyMask | SubstructureRedirectMask, &event);
 			}
 
-			std::vector<InputEvent> XlibImpl::processEvent(const bool blocking)
+			std::vector<InputEvent> XlibImpl::processEvent(const bool blocking, const bool keyRepeat)
 			{
 				std::vector<InputEvent> events;
 				XMapWindow(this->_connection, this->_windowId);
 				if (blocking) {
 					while (XPending(this->_connection)) { //while (XPending(this->_connection)) <= blocking || XEventsQueued() <= non blocking
 						auto message = this->getNextMessage();
-						events.push_back(std::move(this->processMessage(message)));
+						events.push_back(std::move(this->processMessage(message, keyRepeat)));
 					}
 				}
 				else {
 					int n = XEventsQueued(this->_connection, QueuedAlready);
 					for (int i = 0; i < n; ++i) {
 						auto message = this->getNextMessage();
-						events.push_back(std::move(this->processMessage(message)));
+						events.push_back(std::move(this->processMessage(message, keyRepeat)));
 					}
 				}
 				XFlush(this->_connection);
@@ -217,12 +219,23 @@ namespace ece
 				//        return std::move(WindowMessage{XEvent()});
 			}
 
-			InputEvent XlibImpl::processMessage(const WindowMessage & message)
+			InputEvent XlibImpl::processMessage(const WindowMessage & message, const bool keyRepeat)
 			{
 				InputEvent newEvent;
 				if (message._impl.xany.window == this->_windowId) {
 					switch (message._impl.type) {
 					case KeyPress: {
+						KeySym keySym = XkbKeycodeToKeysym(this->_connection, message._impl.xkey.keycode, 0, message._impl.xkey.state & ShiftMask ? 1 : 0);
+						auto keyCode = interpretKey(keySym);
+#if defined(__gnu_linux__)
+						std::cerr << static_cast<int>(keyCode) << std::endl;
+#endif
+						if (keyRepeat || (!keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
+							InputEvent newEvent;
+							newEvent._type = InputEvent::Type::ECE_KEY_PRESSED;
+							newEvent._key = keyCode;
+							Keyboard::pressKey(keyCode, true);
+						}
 						break;
 					}
 					case KeyRelease: {

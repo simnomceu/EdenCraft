@@ -41,8 +41,6 @@
 #include "window/x11/xlib_impl.hpp"
 #include "utility/log/service_logger.hpp"
 
-#include <iostream>
-
 namespace ece
 {
 	namespace window
@@ -92,11 +90,11 @@ namespace ece
 			{
 				this->_data->_api->setPosition(position);
 			}
-	IntVector2u WindowAdapter::getSize() const
-	{
-		return this->_data->_api->getSize();
-	}
 
+			IntVector2u WindowAdapter::getSize() const
+			{
+				return this->_data->_api->getSize();
+			}
 
 			IntVector2u WindowAdapter::getPosition() const
 			{
@@ -115,7 +113,7 @@ namespace ece
 
 			void WindowAdapter::processEvent(const bool blocking)
 			{
-				auto events = std::move(this->_data->_api->processEvent(blocking));
+				auto events = std::move(this->_data->_api->processEvent(blocking, this->_keyRepeat));
 				for (auto event : events) {
 					this->pushEvent(std::move(event));
 				}
