@@ -54,31 +54,31 @@ namespace ece
 			void WindowedApplication::run()
 			{
 				// TODO : add balancer to reduce usage of processor.
-				this->_lifecycle->preInit();
+				this->onPreInit();
 				this->init();
-				this->_lifecycle->postInit();
+				this->onPostInit();
 
 				for (auto & window : this->_windows) {
 					window->open();
 				}
 
 				while (this->isRunning()) {
-					this->_lifecycle->preProcess();
+					this->onPreProcess();
 					this->processEvents();
-					this->_lifecycle->preUpdate();
+					this->onPreUpdate();
 					this->update();
-					this->_lifecycle->postUpdate();
+					this->onPostUpdate();
 					this->render();
-					this->_lifecycle->postRender();
+					this->onPostRender();
 				}
 
 				for (auto & window : this->_windows) {
 					window->close();
 				}
 
-				this->_lifecycle->preTerminate();
+				this->onPreTerminate();
 				this->terminate();
-				this->_lifecycle->preTerminate();
+				this->onPreTerminate();
 			}
 		} // namespace common
 	} // namespace window

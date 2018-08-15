@@ -44,7 +44,7 @@ namespace ece
 			template<class T, class ...Args>
 			std::enable_if_t<std::is_base_of_v<Window, T>, std::weak_ptr<T>> WindowedApplication::addWindow(Args && ...args)
 			{
-				auto window = std::make_shared<T>(args);
+				auto window = std::make_shared<T>(args...);
 				this->_windows.push_back(window);
 				return window;
 			}
