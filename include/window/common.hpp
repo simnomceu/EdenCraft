@@ -43,6 +43,7 @@
 #include "window/common/window.hpp"
 #include "window/common/window_adapter.hpp"
 #include "window/common/window_setting.hpp"
+#include "window/common/windowed_application.hpp"
 
 namespace ece
 {

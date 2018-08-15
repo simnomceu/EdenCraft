@@ -65,6 +65,9 @@ namespace ece
 				while (this->isRunning()) {
 					this->onPreProcess();
 					this->processEvents();
+					for (auto & window : this->_windows) {
+						window->processEvents();
+					}
 					this->onPreUpdate();
 					this->update();
 					this->onPostUpdate();
