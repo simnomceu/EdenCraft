@@ -48,7 +48,7 @@ namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace event
 		{
 			using utility::mathematics::IntVector2u;
 
@@ -124,14 +124,14 @@ namespace ece
 				 */
 				static IntVector2u _position;
 			};
-		} // namespace window_event
+		} // namespace event
 	} // namespace window
 
 	namespace utility
 	{
 		namespace enumeration
 		{
-			using window::window_event::Mouse;
+			using window::event::Mouse;
 
 			template <>
 			struct EnumCount<Mouse::Button>
@@ -146,6 +146,6 @@ namespace ece
 	} // namespace utility
 } // namespace ece
 
-#include "window/window_event/mouse.inl"
+#include "window/event/mouse.inl"
 
 #endif // MOUSE_HPP

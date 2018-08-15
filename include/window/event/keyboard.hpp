@@ -47,7 +47,7 @@ namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace event
 		{
 			/**
 			 * @class Keyboard
@@ -216,6 +216,8 @@ namespace ece
 				 */
 				inline static void pressKey(const Key code, const bool state);
 
+				static Keyboard::Key getKey(const unsigned int keycode);
+
 			private:
 				/**
 				 * @property _states
@@ -223,14 +225,14 @@ namespace ece
 				 */
 				static std::array<bool, 132> _states;
 			};
-		} // namespace window_event
+		} // namespace event
 	} // namespace window
 
     namespace utility
     {
         namespace enumeration
         {
-			using window::window_event::Keyboard;
+			using window::event::Keyboard;
 
         	template <>
         	struct EnumCount<Keyboard::Key>
@@ -245,6 +247,6 @@ namespace ece
     } // namespace utility
 } // namespace ece
 
-#include "window/window_event/keyboard.inl"
+#include "window/event/keyboard.inl"
 
 #endif // KEYBOARD_HPP

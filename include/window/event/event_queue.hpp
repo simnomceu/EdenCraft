@@ -39,7 +39,7 @@
 #define EVENT_QUEUE_HPP
 
 #include "window/config.hpp"
-#include "window/window_event/input_event.hpp"
+#include "window/event/input_event.hpp"
 
 #include <queue>
 
@@ -49,7 +49,7 @@ namespace ece
 	{
 		namespace common
 		{
-			using window_event::InputEvent;
+			using event::InputEvent;
 
 			/**
 			 * @class EventQueue

@@ -39,8 +39,8 @@
 #define BASE_WINDOW_ADAPTER_HPP
 
 #include "window/config.hpp"
-#include "window/window_event/input_event.hpp"
-#include "window/common/event_queue.hpp"
+#include "window/event/input_event.hpp"
+#include "window/event/event_queue.hpp"
 #include "utility/pattern/pimpl.hpp"
 
 #include <memory>

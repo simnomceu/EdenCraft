@@ -45,6 +45,7 @@
 #include "window/common/window_setting.hpp"
 #include "utility/time/update_per_second.hpp"
 #include "core/signal/signal.hpp"
+#include "window/event/event_handler.hpp"
 
 #include <string>
 #include <memory>
@@ -58,6 +59,7 @@ namespace ece
 			using utility::mathematics::IntVector2u;
 			using utility::time::UpdatePerSecond;
 			using core::signal::Signal;
+			using event::EventHandler;
 
 			class InputEvent;
 
@@ -310,6 +312,8 @@ namespace ece
 				 */
 				bool pollEvent(InputEvent & event);
 
+				void processEvents();
+
 				/**
 				 * @fn std::weak_ptr<BaseWindowAdapter> getAdapter() const
 				 * @return The adapter to handle the platform implementation.
@@ -343,11 +347,16 @@ namespace ece
 				 */
 				virtual void updateVideoMode();
 
+				inline EventHandler & getEventHandler();
+
 				Signal<> onWindowOpened;
 				Signal<> onWindowClosed;
 				Signal<> onWindowResized;
 				Signal<> onWindowMoved;
 				Signal<> onWindowRenamed;
+				Signal<> onWindowMinimized;
+				Signal<> onWindowMaximized;
+				Signal<> onWindowFocused;
 			protected:
 				/**
 				 * @property _adapter
@@ -372,6 +381,8 @@ namespace ece
 				 * @brief A tag to indicate that the window is opened or not.
 				 */
 				bool _isOpened;
+
+				EventHandler _eventHandler;
 			};
 		} // namespace common
 	} // namespace core

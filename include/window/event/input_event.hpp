@@ -39,15 +39,15 @@
 #define INPUT_EVENT_HPP
 
 #include "window/config.hpp"
-#include "window/window_event/mouse.hpp"
-#include "window/window_event/keyboard.hpp"
+#include "window/event/mouse.hpp"
+#include "window/event/keyboard.hpp"
 #include "utility/mathematics/vector2u.hpp"
 
 namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace event
 		{
 			using utility::mathematics::IntVector2u;
 
@@ -162,10 +162,10 @@ namespace ece
 				 */
 				Keyboard::Key _key;
 			};
-		} // namespace window_event
+		} // namespace event
 	} // namespace window
 } // namespace ece
 
-#include "window/window_event/input_event.inl"
+#include "window/event/input_event.inl"
 
 #endif // INPUT_EVENT_HPP

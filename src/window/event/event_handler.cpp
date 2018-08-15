@@ -35,17 +35,41 @@
 
 */
 
-#ifndef WINDOW_EVENT_HPP
-#define WINDOW_EVENT_HPP
-
-#include "window/window_event/event_handler.hpp"
-#include "window/window_event/input_event.hpp"
-#include "window/window_event/keyboard.hpp"
-#include "window/window_event/mouse.hpp"
+#include "window/event/event_handler.hpp"
 
 namespace ece
 {
-	using namespace window::window_event;
-}
-
-#endif // WINDOW_EVENT_HPP
+	namespace window
+	{
+		namespace event
+		{
+			void EventHandler::process(const InputEvent & event)
+			{
+				switch (event._type) {
+				case InputEvent::Type::ECE_MOUSE_PRESSED:
+					this->onMouseButtonPressed(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_MOUSE_RELEASED:
+					this->onMouseButtonReleased(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_MOUSE_MOVED:
+					this->onMouseMoved(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_MOUSE_SCROLLED:
+					this->onMouseWheelScrolled(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_KEY_PRESSED:
+					this->onKeyPressed(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_KEY_RELEASED:
+					this->onKeyReleased(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_TYPE_NONE:
+					break;
+				default:
+					break;
+				}
+			}
+		} // namespace event
+	} // namespace window
+} // namespace ece

@@ -37,7 +37,7 @@
 
 #include "window/common/window.hpp"
 
-#include "window/window_event/input_event.hpp"
+#include "window/event/input_event.hpp"
 
 #include <iostream>
 
@@ -47,9 +47,10 @@ namespace ece
 	{
 		namespace common
 		{
-			using window_event::InputEvent;
+			using event::InputEvent;
 
-			Window::Window() noexcept: _adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false)
+			Window::Window() noexcept: onWindowOpened(), onWindowClosed(), onWindowResized(), onWindowMoved(), onWindowRenamed(), onWindowMinimized(), onWindowMaximized(), onWindowFocused(), 
+				_adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false), _eventHandler(*this)
 			{
 			}
 
@@ -68,9 +69,9 @@ namespace ece
 			void Window::close()
 			{
 				if (this->isOpened()) {
+					this->onWindowClosed();
 					this->_adapter->deleteWindow();
 					this->_isOpened = false;
-					this->onWindowClosed();
 				}
 			}
 
@@ -109,7 +110,7 @@ namespace ece
 			{
 				if (this->isOpened()) {
 					this->_adapter.get()->maximize();
-					this->onWindowResized();
+					this->onWindowMaximized();
 				}
 			}
 
@@ -117,7 +118,7 @@ namespace ece
 			{
 				if (this->isOpened()) {
 					this->_adapter.get()->minimize();
-					this->onWindowResized();
+					this->onWindowMinimized();
 				}
 			}
 
@@ -147,6 +148,18 @@ namespace ece
 					return false;
 				}
 				return false;
+			}
+
+			void Window::processEvents()
+			{
+				if (this->isOpened()) {
+					if (this->_ups.getLimit() == 0 || (this->_ups.getLimit() > 0 && this->_ups.isReadyToUpdate())) {
+						this->_adapter.get()->processEvent(false);
+						if (this->_adapter.get()->hasEvents()) {
+							this->_eventHandler.process(this->_adapter.get()->popEvent());
+						}
+					}
+				}
 			}
 
 			void Window::updateVideoMode()

@@ -466,7 +466,7 @@ namespace ece
 				//		static inline void bindFragDataLocationIndexed(unsigned int program, unsigned int colorNumber, unsigned int index, const char *name);
 				//		static inline int getFragDataIndex(unsigned int program, const char * name);
 				//
-						static inline void vertexAttribDivisor(const int index, const std::size_t divisor);
+				static inline void vertexAttribDivisor(const int index, const std::size_t divisor);
 				//
 				//		static inline void getUniformdv(unsigned int program, int location, double *params);
 				//		static inline void blendEquationi(unsigned int buf, GLenum mode);

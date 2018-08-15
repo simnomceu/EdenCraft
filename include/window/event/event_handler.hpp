@@ -40,14 +40,21 @@
 
 #include "window/config.hpp"
 #include "core/signal/signal.hpp"
+#include "window/event/input_event.hpp"
 
 namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace common
+		{
+			class Window;
+		}
+
+		namespace event
 		{
 			using core::signal::Signal;
+			using common::Window;
 
 			/**
 			 * @class EventHandler
@@ -59,12 +66,12 @@ namespace ece
 			{
 			public:
 				/**
-				 * @fn EventHandler & getInstance()
-				 * @return The unique instance of the handler
-				 * @brief Get the unique instance of the handler.
-				 * @throw
-				 */
-				static EventHandler & getInstance();
+				* @fn EventHandler()
+				* @brief Default constructor.
+				* It is private to guarantee the singleton.
+				* @throw
+				*/
+				inline EventHandler(Window & owner);
 
 				/**
 				 * @fn EventHandler(const EventHandler & copy)
@@ -107,45 +114,22 @@ namespace ece
 				 */
 				EventHandler & operator=(EventHandler && move) noexcept = default;
 
-				/**
-				 * void produceKeyEvent(const int key, const int scancode, const int action, const int mods)
-				 * @param[in] key The keyboard keycode of the event.
-				 * @param[in] scancode The keyboard keycode of the event for special keys.
-				 * @param[in] action The action performed on the key (pressed, released, double tap, ...).
-				 * @param[in] mods The keymode used (alt, ctrl, shift, ...).
-				 * @brief Produce a keyboard key event.
-				 * @throw
-				 */
-				void produceKeyEvent(const int key, const int scancode, const int action, const int mods);
+				void process(const InputEvent & event);
 
-				/**
-				 * @fn void produceMouseButtonEvent(const int button, const int action, const int mods)
-				 * @param[in] button The mouse button of the event.
-				 * @param[in] action The action performed on the key (pressed, released, double tap, ...).
-				 * @param[in] mods he keymode used (alt, ctrl, shift, ...).
-				 * @brief Produce a mouse button event.
-				 * @throw
-				 */
-				inline void produceMouseButtonEvent(const int button, const int action, const int mods);
+				Signal<const InputEvent &, Window &> onKeyPressed;
+				Signal<const InputEvent &, Window &> onKeyReleased;
+				Signal<const InputEvent &, Window &> onMouseButtonPressed;
+				Signal<const InputEvent &, Window &> onMouseButtonReleased;
+				Signal<const InputEvent &, Window &> onMouseWheelScrolled;
+				Signal<const InputEvent &, Window &> onMouseMoved;
 
-				Signal<> onKeyPressed;
-				Signal<> onKeyReleased;
-				Signal<> onMouseButtonPressed;
-				Signal<> onMouseButtonReleased;
-				Signal<> onMouseWheelScrolled;
 			private:
-				/**
-				 * @fn EventHandler()
-				 * @brief Default constructor.
-				 * It is private to guarantee the singleton.
-				 * @throw
-				 */
-				EventHandler() = default;
+				Window & _owner;
 			};
-		} // namespace windpw_event
+		} // namespace event
 	} // namespace window
 } // namespace ece
 
-#include "window/window_event/event_handler.inl"
+#include "window/event/event_handler.inl"
 
 #endif // EVENT_HANDLER_HPP

@@ -35,15 +35,18 @@
 
 */
 
-#include <iostream>
+#ifndef EVENT_HPP
+#define EVENT_HPP
+
+#include "window/event/event_handler.hpp"
+#include "window/event/event_queue.hpp"
+#include "window/event/input_event.hpp"
+#include "window/event/keyboard.hpp"
+#include "window/event/mouse.hpp"
 
 namespace ece
 {
-	namespace window
-	{
-		namespace window_event
-		{
-			inline void EventHandler::produceMouseButtonEvent(const int button, const int /*action*/, const int /*mods*/) { std::cerr << "button: " << button << std::endl; }
-		} // namespace window_event
-	} // namespace window
-} // namespace ece
+	using namespace window::event;
+}
+
+#endif // EVENT_HPP

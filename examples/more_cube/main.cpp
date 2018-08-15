@@ -59,7 +59,7 @@ namespace ece
 	using namespace renderer;
 
 	using window::common::WindowSetting;
-	using window::window_event::InputEvent;
+	using window::event::InputEvent;
 	using utility::mathematics::rotate;
 	using utility::mathematics::translate;
 	using graphic::model::OBJLoader;
@@ -72,6 +72,7 @@ namespace ece
 	using core::resource::ResourceHandler;
 	using utility::time::FramePerSecond;
 	using graphic::model::makeCube;
+	using window::event::InputEvent;
 }
 
 int main()
@@ -153,7 +154,17 @@ int main()
 
 		// ForwardRendering technique;
 
-		ece::InputEvent event;
+		//ece::InputEvent event;
+		auto & eventHandler = window.getEventHandler();
+		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
+			if (event._key == ece::Keyboard::Key::A) {
+				std::cerr << 'A' << std::endl;
+			}
+			else if (event._key == ece::Keyboard::Key::ESCAPE) {
+				window.close();
+			}
+		});
+
 		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
 		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
 			window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
@@ -172,8 +183,9 @@ int main()
 				window.display();
 			//}
 
-			if (window.pollEvent(event)) {
-			}
+			//if (window.pollEvent(event)) {
+			//}
+			window.processEvents();
 		}
 	}
 	catch (std::runtime_error & e) {

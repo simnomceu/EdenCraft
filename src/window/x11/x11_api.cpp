@@ -35,15 +35,14 @@
 
 */
 
+#include "window/x11/x11_api.hpp"
+
 namespace ece
 {
 	namespace window
 	{
-		namespace window_event
+		namespace x11
 		{
-			inline IntVector2u & Mouse::getPosition() { return Mouse::_position; }
-
-			inline void Mouse::setPosition(const IntVector2u & position) { Mouse::_position = position; }
-		} // namespace window_event
+		} // namespace x11
 	} // namespace window
 } // namespace ece
