@@ -41,8 +41,6 @@
 
 #include "utility/log/service_logger.hpp"
 #include "utility/log/logger.hpp"
-#include "core/event/event_service.hpp"
-#include "core/event/event_manager.hpp"
 #include "core/resource/service_resource.hpp"
 #include "core/resource/resource_manager.hpp"
 #include "core/module/module_method.hpp"
@@ -57,28 +55,19 @@ namespace ece
 			using utility::log::ServiceLoggerLocator;
 			using utility::log::ServiceLoggerFactory;
 			using utility::log::Logger;
-			using core::event::EventServiceLocator;
-			using core::event::EventServiceFactory;
-			using core::event::EventManager;
 			using core::resource::ServiceResourceLocator;
 			using core::resource::ServiceResourceFactory;
 			using core::resource::ResourceManager;
 
-			Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
+			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPostRender(), onPreTerminate(), onPostTerminate(),_running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
-				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
-
-				this->_lifecycle = std::make_shared<Lifecycle>();
 			}
 
-			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager(), _lifecycle(nullptr)
+			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
-				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
-
-				this->_lifecycle = std::make_shared<Lifecycle>();
 
 				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
 				argumentAnalyzer.setParameters(argc, argv);
@@ -91,23 +80,23 @@ namespace ece
 			void Application::run()
 			{
 				// TODO : add balancer to reduce usage of processor.
-				this->_lifecycle->preInit();
+				this->onPreInit();
 				this->init();
-				this->_lifecycle->postInit();
+				this->onPostInit();
 
 				while (this->isRunning()) {
-					this->_lifecycle->preProcess();
+					this->onPreProcess();
 					this->processEvents();
-					this->_lifecycle->preUpdate();
+					this->onPreUpdate();
 					this->update();
-					this->_lifecycle->postUpdate();
+					this->onPostUpdate();
 					this->render();
-					this->_lifecycle->postRender();
+					this->onPostRender();
 				}
 
-				this->_lifecycle->preTerminate();
+				this->onPreTerminate();
 				this->terminate();
-				this->_lifecycle->preTerminate();
+				this->onPostTerminate();
 			}
 
 			void Application::init()

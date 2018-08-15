@@ -36,31 +36,25 @@
 
 */
 
+#include "core/signal/slot.hpp"
+
 namespace ece
 {
 	namespace core
 	{
-		namespace application
+		namespace signal
 		{
-			inline void Application::stop() { this->_running = false; }
+			template <class... Args>
+			SignalImplementation<Args...>::SignalImplementation() noexcept : Observable<Args...>(), std::enable_shared_from_this<SignalImplementation<Args...>>() {}
 
-			inline ArgumentAnalyzer & Application::getArgumentAnalyzer() { return this->getModule<ArgumentAnalyzer>(); }
+			template <class... Args>
+			inline void SignalImplementation<Args...>::disconnect(const std::shared_ptr<Slot<Args...>> & slot) { this->detach(slot); }
 
-			template <class T>
-			inline T & Application::addModule(const ModuleMethodHandle<T> & init,
-				const ModuleMethodHandle<T> & update,
-				const ModuleMethodHandle<T> & terminate)
-			{
-				return this->_moduleManager.add<T>(init, update, terminate);
-			}
+			template <class... Args>
+			inline void SignalImplementation<Args...>::disconnectAll() { this->detachAll(); }
 
-			template <class T>
-			inline void Application::removeModule() { this->_moduleManager.remove<T>(); }
-
-			template <class T>
-			inline T & Application::getModule() { return this->_moduleManager.get<T>(); }
-
-			inline bool Application::isRunning() const { return this->_running; }
-		} // namespace application
+			template <class... Args>
+			inline void SignalImplementation<Args...>::operator()(Args... args) { this->notify(std::forward<Args>(args)...); }
+		} // namespace signal
 	} // namespace core
 } // namespace ece

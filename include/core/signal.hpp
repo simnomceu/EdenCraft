@@ -36,14 +36,17 @@
 
 */
 
-#ifndef CORE_APPLICATION_HPP
-#define CORE_APPLICATION_HPP
+#ifndef CORE_SIGNAL_HPP
+#define CORE_SIGNAL_HPP
 
-#include "core/application/application.hpp"
+#include "core/signal/connection.hpp"
+#include "core/signal/secured_connection.hpp"
+#include "core/signal/signal.hpp"
+#include "core/signal/slot.hpp"
 
 namespace ece
 {
-	using namespace core::application;
+	using namespace core::signal;
 }
 
-#endif // CORE_APPLICATION_HPP
+#endif // CORE_SIGNAL_HPP

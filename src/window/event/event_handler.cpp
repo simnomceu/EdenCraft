@@ -35,18 +35,41 @@
 
 */
 
-#ifndef WINDOW_COMMON_HPP
-#define WINDOW_COMMON_HPP
-
-#include "window/common/ratio.hpp"
-#include "window/common/video_mode.hpp"
-#include "window/common/window.hpp"
-#include "window/common/window_adapter.hpp"
-#include "window/common/window_setting.hpp"
+#include "window/event/event_handler.hpp"
 
 namespace ece
 {
-	using namespace window::common;
-}
-
-#endif // WINDOW_COMMON_HPP
+	namespace window
+	{
+		namespace event
+		{
+			void EventHandler::process(const InputEvent & event)
+			{
+				switch (event._type) {
+				case InputEvent::Type::ECE_MOUSE_PRESSED:
+					this->onMouseButtonPressed(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_MOUSE_RELEASED:
+					this->onMouseButtonReleased(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_MOUSE_MOVED:
+					this->onMouseMoved(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_MOUSE_SCROLLED:
+					this->onMouseWheelScrolled(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_KEY_PRESSED:
+					this->onKeyPressed(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_KEY_RELEASED:
+					this->onKeyReleased(event, this->_owner);
+					break;
+				case InputEvent::Type::ECE_TYPE_NONE:
+					break;
+				default:
+					break;
+				}
+			}
+		} // namespace event
+	} // namespace window
+} // namespace ece

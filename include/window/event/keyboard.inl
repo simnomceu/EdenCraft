@@ -1,5 +1,5 @@
 /*
-
+	
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
 	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
 	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
@@ -8,17 +8,16 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
 
-															  .oooooo.                                
-															 d8P'  `Y8b                               
-															888           .ooooo.  oooo d8b  .ooooo.  
-															888          d88' `88b `888""8P d88' `88b 
-															888          888   888  888     888ooo888 
-															`88b    ooo  888   888  888     888    .o 
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
-                                          
-                                          
+															oooooo   oooooo     oooo  o8o                    .o8                             
+															 `888.    `888.     .8'   `"'                   "888                             
+															  `888.   .8888.   .8'   oooo  ooo. .oo.    .oooo888   .ooooo.  oooo oooo    ooo 
+															   `888  .8'`888. .8'    `888  `888P"Y88b  d88' `888  d88' `88b  `88. `88.  .8'  
+																`888.8'  `888.8'      888   888   888  888   888  888   888   `88..]88..8'   
+																 `888'    `888'       888   888   888  888   888  888   888    `888'`888'    
+																  `8'      `8'       o888o o888o o888o `Y8bod88P" `Y8bod8P'     `8'  `8'    
 
-				This file is part of EdenCraft Engine - Core module.
+
+				This file is part of EdenCraft Engine - Window module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,14 +35,27 @@
 
 */
 
-#ifndef CORE_APPLICATION_HPP
-#define CORE_APPLICATION_HPP
-
-#include "core/application/application.hpp"
-
 namespace ece
 {
-	using namespace core::application;
-}
+	namespace window
+	{
+		namespace event
+		{
+			inline bool Keyboard::isKeyPressed(const Key code)
+			{
+				if (code == Keyboard::Key::KEY_NONE) {
+					throw std::runtime_error("That code is not a valid key.");
+				}
+				return Keyboard::_states[static_cast<unsigned int>(code)];
+			}
 
-#endif // CORE_APPLICATION_HPP
+			inline void Keyboard::pressKey(const Key code, const bool state)
+			{
+				if (code == Keyboard::Key::KEY_NONE) {
+					throw std::runtime_error("That code is not a valid key.");
+				}
+				Keyboard::_states[static_cast<unsigned int>(code)] = state;
+			}
+		} // namespace event
+	} // namespace window
+} // namespace ece
