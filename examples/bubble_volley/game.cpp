@@ -38,58 +38,44 @@
 
 */
 
-#include <iostream>
-
-#include "window/common.hpp"
-#include "renderer/common.hpp"
-#include "utility/log.hpp"
-#include "assets.hpp"
 #include "game.hpp"
+#include "core/resource.hpp"
 
-int main()
+Game::Game() noexcept: onSplashScreenEntered(), onPlayEntered(), _current(NONE), _scene(), _background()
 {
-	try {
-		ece::WindowedApplication app;
-		auto window = app.addWindow<ece::RenderWindow>();
-		window.lock()->setContextMaximumVersion(ece::Version<2>{4, 0});
+	auto & camera = this->_scene.getCamera();
+	camera.setOrthographic(ece::Rectangle<float>(0, 0, 1920.0f, 1080.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
+	//camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
+	camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
+	camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
+	this->_scene.updateCamera();
 
-		std::shared_ptr<Game> game;
+	this->setState(SPLASHSCREEN);
+}
 
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
-		window.lock()->onWindowOpened.connect([&window, &game]() {
-			window.lock()->setTitle("Bubble Volley");
-			window.lock()->maximize();
-
-			Assets::loadAssets();
-
-			game = std::make_shared<Game>();
-		});
-
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
-
-		app.onPostUpdate.connect([&window]() {
-			window.lock()->clear(ece::BLACK);
-		});
-		app.onPostRender.connect([&window, &game]() {
-			game->draw();
-			window.lock()->display();
-		});
-
-		app.run();
+void Game::setState(const Game::State state)
+{
+	this->_current = state;
+	switch (state)
+	{
+	case SPLASHSCREEN:
+		this->_background = ece::makeResource<ece::Sprite>("titel_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"));
+		this->_scene.addObject(this->_background);
+		this->onSplashScreenEntered();
+		break;
+	case PLAY:
+		this->_background = ece::makeResource<ece::Sprite>("strand1_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("strand1"));
+		this->onPlayEntered();
+		break;
+	case NONE:
+		break;
+	default:
+		break;
 	}
-	catch (std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
-	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
+	this->_background->prepare();
+}
 
-	return EXIT_SUCCESS;
+void Game::draw()
+{
+	this->_scene.draw();
 }

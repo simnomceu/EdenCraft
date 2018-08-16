@@ -38,58 +38,28 @@
 
 */
 
-#include <iostream>
+#ifndef ASSETS_HPP
+#define ASSETS_HPP
 
-#include "window/common.hpp"
-#include "renderer/common.hpp"
-#include "utility/log.hpp"
-#include "assets.hpp"
-#include "game.hpp"
+#include <string>
 
-int main()
+/**
+ * @class Assets
+ * @brief
+ */
+class Assets
 {
-	try {
-		ece::WindowedApplication app;
-		auto window = app.addWindow<ece::RenderWindow>();
-		window.lock()->setContextMaximumVersion(ece::Version<2>{4, 0});
+public:
+	static void loadTexture(const std::string & name, const std::string & path);
+	static void loadAssets();
 
-		std::shared_ptr<Game> game;
+private:
+	constexpr Assets() noexcept = delete;
+	Assets(const Assets & copy) noexcept = delete;
+	Assets(Assets && move) noexcept = delete;
+	~Assets() noexcept = delete;
+	Assets & operator=(const Assets & copy) noexcept = delete;
+	Assets & operator=(Assets && move) noexcept = delete;
+};
 
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
-		window.lock()->onWindowOpened.connect([&window, &game]() {
-			window.lock()->setTitle("Bubble Volley");
-			window.lock()->maximize();
-
-			Assets::loadAssets();
-
-			game = std::make_shared<Game>();
-		});
-
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
-
-		app.onPostUpdate.connect([&window]() {
-			window.lock()->clear(ece::BLACK);
-		});
-		app.onPostRender.connect([&window, &game]() {
-			game->draw();
-			window.lock()->display();
-		});
-
-		app.run();
-	}
-	catch (std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
-	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
-
-	return EXIT_SUCCESS;
-}
+#endif // ASSETS_HPP

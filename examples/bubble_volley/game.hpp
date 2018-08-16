@@ -38,58 +38,88 @@
 
 */
 
-#include <iostream>
+#ifndef GAME_HPP
+#define GAME_HPP
 
-#include "window/common.hpp"
-#include "renderer/common.hpp"
-#include "utility/log.hpp"
-#include "assets.hpp"
-#include "game.hpp"
+#include "core/signal.hpp"
+#include "graphic/renderable.hpp"
+#include "graphic/scene.hpp"
 
-int main()
+/**
+ * @class Game
+ * @brief
+ */
+class Game
 {
-	try {
-		ece::WindowedApplication app;
-		auto window = app.addWindow<ece::RenderWindow>();
-		window.lock()->setContextMaximumVersion(ece::Version<2>{4, 0});
+public:
+	enum State
+	{
+		NONE,
+		SPLASHSCREEN,
+		PLAY
+	};
 
-		std::shared_ptr<Game> game;
+	/**
+	 * @fn constexpr Game() noexcept
+	 * @brief Default constructor.
+	 * @throw noexcept
+	 */
+	Game() noexcept;
 
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
-		window.lock()->onWindowOpened.connect([&window, &game]() {
-			window.lock()->setTitle("Bubble Volley");
-			window.lock()->maximize();
+	/**
+	 * @fn Game(const Game & copy) noexcept
+	 * @param[in] copy The Game to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	Game(const Game & copy) noexcept = default;
 
-			Assets::loadAssets();
+	/**
+	 * @fn Game(Game && move) noexcept
+	 * @param[in] move The Game to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	Game(Game && move) noexcept = default;
 
-			game = std::make_shared<Game>();
-		});
+	/**
+	 * @fn ~Game() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~Game() noexcept = default;
 
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
+	/**
+	 * @fn Game & operator=(const Game & copy) noexcept
+	 * @param[in] copy The Game to copy from.
+	 * @return The Game copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	Game & operator=(const Game & copy) noexcept = default;
 
-		app.onPostUpdate.connect([&window]() {
-			window.lock()->clear(ece::BLACK);
-		});
-		app.onPostRender.connect([&window, &game]() {
-			game->draw();
-			window.lock()->display();
-		});
+	/**
+	 * @fn Game & operator=(Game && move) noexcept
+	 * @param[in] move The Game to move.
+	 * @return The Game moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	Game & operator=(Game && move) noexcept = default;
 
-		app.run();
-	}
-	catch (std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
-	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
+	void setState(const Game::State state);
 
-	return EXIT_SUCCESS;
-}
+	void draw();
+
+	ece::Signal<> onSplashScreenEntered;
+	ece::Signal<> onPlayEntered;
+
+private:
+	Game::State _current;
+	
+	ece::Scene _scene;
+
+	ece::ResourceHandler<ece::Sprite> _background;
+};
+
+#endif // GAME_HPP

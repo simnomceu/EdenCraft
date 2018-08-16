@@ -38,58 +38,51 @@
 
 */
 
-#include <iostream>
-
-#include "window/common.hpp"
-#include "renderer/common.hpp"
-#include "utility/log.hpp"
 #include "assets.hpp"
-#include "game.hpp"
 
-int main()
+#include "core/resource.hpp"
+#include "renderer/resource.hpp"
+
+namespace ece
 {
-	try {
-		ece::WindowedApplication app;
-		auto window = app.addWindow<ece::RenderWindow>();
-		window.lock()->setContextMaximumVersion(ece::Version<2>{4, 0});
+	using renderer::TextureTypeTarget;
+}
 
-		std::shared_ptr<Game> game;
+void Assets::loadTexture(const std::string & name, const std::string & path)
+{
+	auto blue0 = ece::makeResource<ece::Texture2D>(name);
+	blue0->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, path);
+}
 
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
-		window.lock()->onWindowOpened.connect([&window, &game]() {
-			window.lock()->setTitle("Bubble Volley");
-			window.lock()->maximize();
+void Assets::loadAssets()
+{
+	Assets::loadTexture("blue0", "../../examples/bubble_volley/assets/0b.bmp");
+	Assets::loadTexture("blue1", "../../examples/bubble_volley/assets/1b.bmp");
+	Assets::loadTexture("blue2", "../../examples/bubble_volley/assets/2b.bmp");
+	Assets::loadTexture("blue3", "../../examples/bubble_volley/assets/3b.bmp");
+	Assets::loadTexture("blue4", "../../examples/bubble_volley/assets/4b.bmp");
 
-			Assets::loadAssets();
+	Assets::loadTexture("red0", "../../examples/bubble_volley/assets/0r.bmp");
+	Assets::loadTexture("red1", "../../examples/bubble_volley/assets/1r.bmp");
+	Assets::loadTexture("red2", "../../examples/bubble_volley/assets/2r.bmp");
+	Assets::loadTexture("red3", "../../examples/bubble_volley/assets/3r.bmp");
+	Assets::loadTexture("red4", "../../examples/bubble_volley/assets/4r.bmp");
 
-			game = std::make_shared<Game>();
-		});
+	Assets::loadTexture("ball", "../../examples/bubble_volley/assets/ball01.bmp");
+	Assets::loadTexture("key", "../../examples/bubble_volley/assets/key.bmp");
+	Assets::loadTexture("pokal", "../../examples/bubble_volley/assets/pokal.bmp");
+	Assets::loadTexture("strand1", "../../examples/bubble_volley/assets/strand1.bmp");
+	Assets::loadTexture("titel", "../../examples/bubble_volley/assets/titel.bmp");
 
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
-
-		app.onPostUpdate.connect([&window]() {
-			window.lock()->clear(ece::BLACK);
-		});
-		app.onPostRender.connect([&window, &game]() {
-			game->draw();
-			window.lock()->display();
-		});
-
-		app.run();
-	}
-	catch (std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
-	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
-
-	return EXIT_SUCCESS;
+	Assets::loadTexture("f0", "../../examples/bubble_volley/assets/f0.bmp");
+	Assets::loadTexture("f1", "../../examples/bubble_volley/assets/f1.bmp");
+	Assets::loadTexture("f2", "../../examples/bubble_volley/assets/f2.bmp");
+	Assets::loadTexture("f3", "../../examples/bubble_volley/assets/f3.bmp");
+	Assets::loadTexture("f4", "../../examples/bubble_volley/assets/f4.bmp");
+	Assets::loadTexture("f5", "../../examples/bubble_volley/assets/f5.bmp");
+	Assets::loadTexture("f6", "../../examples/bubble_volley/assets/f6.bmp");
+	Assets::loadTexture("f7", "../../examples/bubble_volley/assets/f7.bmp");
+	Assets::loadTexture("f8", "../../examples/bubble_volley/assets/f8.bmp");
+	Assets::loadTexture("f9", "../../examples/bubble_volley/assets/f9.bmp");
+	Assets::loadTexture("f10", "../../examples/bubble_volley/assets/f10.bmp");
 }
