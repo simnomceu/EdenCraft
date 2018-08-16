@@ -68,6 +68,7 @@ namespace ece
 			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
+				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
 
 				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
 				argumentAnalyzer.setParameters(argc, argv);

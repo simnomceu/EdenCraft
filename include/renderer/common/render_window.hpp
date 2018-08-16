@@ -136,7 +136,7 @@ namespace ece
 				* @throw
 				* @see void Window::open()
 				*/
-				void open();
+				virtual void open() override;
 
 				/**
 				 * @fn FloatVector2u getSize() const

@@ -66,7 +66,10 @@ namespace ece
 
 			void RenderWindow::open()
 			{
-				Window::open();
+				if (!this->isOpened()) {
+					this->_adapter->createWindow();
+					this->_isOpened = true;
+				}
 				try {
 					this->_context->create(*this);
 				}
@@ -79,6 +82,7 @@ namespace ece
 
 				this->_currentViewport.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
 				this->_viewportHasChanged = true;
+				this->onWindowOpened();
 			}
 
 			IntVector2u RenderWindow::getSize() const
