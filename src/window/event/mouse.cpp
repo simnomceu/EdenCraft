@@ -35,18 +35,32 @@
 
 */
 
-#ifndef WINDOW_COMMON_HPP
-#define WINDOW_COMMON_HPP
-
-#include "window/common/ratio.hpp"
-#include "window/common/video_mode.hpp"
-#include "window/common/window.hpp"
-#include "window/common/window_adapter.hpp"
-#include "window/common/window_setting.hpp"
+#include "window/event/mouse.hpp"
 
 namespace ece
 {
-	using namespace window::common;
-}
+	namespace window
+	{
+		namespace event
+		{
+			std::array<bool, 10> Mouse::_states;
+			IntVector2u Mouse::_position;
 
-#endif // WINDOW_COMMON_HPP
+			bool Mouse::isKeyPressed(const Button code)
+			{
+				if (code == Mouse::Button::ECE_MOUSE_NONE) {
+					throw std::runtime_error("That code is not a valid key.");
+				}
+				return Mouse::_states[static_cast<unsigned int>(code)];
+			}
+
+			void Mouse::pressKey(const Button code, const bool state)
+			{
+				if (code == Mouse::Button::ECE_MOUSE_NONE) {
+					throw std::runtime_error("That code is not a valid key.");
+				}
+				Mouse::_states[static_cast<unsigned int>(code)] = state;
+			}
+		} // namespace event
+	} // namespace window
+} // namespace ece

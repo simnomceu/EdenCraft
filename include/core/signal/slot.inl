@@ -40,27 +40,13 @@ namespace ece
 {
 	namespace core
 	{
-		namespace application
+		namespace signal
 		{
-			inline void Application::stop() { this->_running = false; }
+			template <class ... Args>
+			Slot<Args...>::Slot(const std::function<void(Args...)> & callback) noexcept: _callback(callback) {}
 
-			inline ArgumentAnalyzer & Application::getArgumentAnalyzer() { return this->getModule<ArgumentAnalyzer>(); }
-
-			template <class T>
-			inline T & Application::addModule(const ModuleMethodHandle<T> & init,
-				const ModuleMethodHandle<T> & update,
-				const ModuleMethodHandle<T> & terminate)
-			{
-				return this->_moduleManager.add<T>(init, update, terminate);
-			}
-
-			template <class T>
-			inline void Application::removeModule() { this->_moduleManager.remove<T>(); }
-
-			template <class T>
-			inline T & Application::getModule() { return this->_moduleManager.get<T>(); }
-
-			inline bool Application::isRunning() const { return this->_running; }
-		} // namespace application
+			template <class ... Args>
+			void Slot<Args...>::notify(Args&&... args) { this->_callback(std::forward<Args>(args)...); }
+		} // namespace signal
 	} // namespace core
 } // namespace ece

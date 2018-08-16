@@ -40,27 +40,22 @@ namespace ece
 {
 	namespace core
 	{
-		namespace application
+		namespace signal
 		{
-			inline void Application::stop() { this->_running = false; }
+			template <class... Args>
+			inline SecuredConnection<Args...>::SecuredConnection(Connection<Args...> && connection) noexcept: Connection<Args...>(connection) {}
 
-			inline ArgumentAnalyzer & Application::getArgumentAnalyzer() { return this->getModule<ArgumentAnalyzer>(); }
+			template <class... Args>
+			inline SecuredConnection<Args...>::SecuredConnection(const Connection<Args...> & connection) noexcept: Connection<Args...>(connection) {}
 
-			template <class T>
-			inline T & Application::addModule(const ModuleMethodHandle<T> & init,
-				const ModuleMethodHandle<T> & update,
-				const ModuleMethodHandle<T> & terminate)
-			{
-				return this->_moduleManager.add<T>(init, update, terminate);
-			}
+			template <class... Args>
+			inline SecuredConnection<Args...>::~SecuredConnection() noexcept { this->disconnect(); }
 
-			template <class T>
-			inline void Application::removeModule() { this->_moduleManager.remove<T>(); }
+			template <class... Args>
+			SecuredConnection<Args...> & SecuredConnection<Args...>::operator=(const Connection<Args...> & copy) noexcept { Connection<Args...>::operator=(copy); return *this; }
 
-			template <class T>
-			inline T & Application::getModule() { return this->_moduleManager.get<T>(); }
-
-			inline bool Application::isRunning() const { return this->_running; }
-		} // namespace application
+			template <class... Args>
+			SecuredConnection<Args...> & SecuredConnection<Args...>::operator=(Connection<Args...> && move) noexcept { Connection<Args...>::operator=(move); return *this; }
+		} // namespace signal
 	} // namespace core
 } // namespace ece

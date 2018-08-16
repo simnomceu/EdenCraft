@@ -38,8 +38,8 @@
 #ifndef DATA_WINDOW_ADAPTER_HPP
 #define DATA_WINDOW_ADAPTER_HPP
 
-#include "window/window_event/keyboard.hpp"
-#include "window/window_event/mouse.hpp"
+#include "window/event/keyboard.hpp"
+#include "window/event/mouse.hpp"
 
 #include <Windows.h>
 
@@ -47,8 +47,8 @@ namespace ece
 {
 	namespace window
 	{
-		using window_event::Keyboard;
-		using window_event::Mouse;
+		using event::Keyboard;
+		using event::Mouse;
 
 		namespace common
 		{
@@ -148,7 +148,7 @@ namespace ece
 			 * @brief A win32 callback to process a messae handle from the system.
 			 * @throw
 			 */
-			LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
+			LRESULT CALLBACK processMessagesCallback(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
 
 			/**
 			 * @fn Keyboard::Key interpretKey(WPARAM wParam)

@@ -43,16 +43,26 @@
 #include <X11/Xlib.h>
 
 #include "utility/mathematics/vector2u.hpp"
-#include "window/window_event/input_event.hpp"
+#include "window/event/input_event.hpp"
+#include "window/event/keyboard.hpp"
+#include "window/event/mouse.hpp"
 
 namespace ece
 {
 	namespace window
 	{
+		namespace common
+		{
+			struct WindowMessage;
+		}
+
 		namespace x11
 		{
 			using utility::mathematics::IntVector2u;
-			using window::window_event::InputEvent;
+			using window::event::InputEvent;
+			using window::event::Keyboard;
+			using window::event::Mouse;
+			using common::WindowMessage;
 
 			/**
 			 * @class X11API
@@ -179,13 +189,14 @@ namespace ece
 				 * @throw
 				 */
 				virtual IntVector2u getPosition() const = 0;
-		/**
-		 * @fn IntVector2u getSize() const
-		 * @return The window size.
-		 * @brief Get the size of the window.
-		 * @throw
-		 */
-		virtual IntVector2u getSize() const = 0;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 */
+				virtual IntVector2u getSize() const = 0;
 
 				/**
 				 * @fn void minimize()
@@ -208,8 +219,10 @@ namespace ece
 				 * @brief Process a window event.
 				 * @throw
 				 */
-				virtual std::vector<InputEvent> processEvent(const bool blocking) = 0;
+				virtual std::vector<InputEvent> processEvent(const bool blocking, const bool keyRepeat) = 0;
 			};
+
+			Keyboard::Key interpretKey(const unsigned int keycode);
 		} // namespace x11
 	} // namespace window
 } // namespace ece

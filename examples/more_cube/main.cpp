@@ -36,8 +36,7 @@
 
 */
 
-#include "core/application.hpp"
-
+#include "window/common/windowed_application.hpp"
 #include "renderer/common.hpp"
 #include "utility/log.hpp"
 #include "graphic/scene.hpp"
@@ -58,8 +57,9 @@ namespace ece
 {
 	using namespace renderer;
 
+	using window::common::WindowedApplication;
 	using window::common::WindowSetting;
-	using window::window_event::InputEvent;
+	using window::event::InputEvent;
 	using utility::mathematics::rotate;
 	using utility::mathematics::translate;
 	using graphic::model::OBJLoader;
@@ -72,6 +72,7 @@ namespace ece
 	using core::resource::ResourceHandler;
 	using utility::time::FramePerSecond;
 	using graphic::model::makeCube;
+	using window::event::InputEvent;
 }
 
 int main()
@@ -79,27 +80,26 @@ int main()
 	std::srand(static_cast<unsigned int>(time(nullptr)));
 
 	try {
-		ece::Application app;
-
-		ece::RenderWindow window;
+		ece::WindowedApplication app;
+		auto window = app.addWindow<ece::RenderWindow>();
 
 		ece::WindowSetting settings;
 		settings._position = ece::IntVector2u{ 10, 10 };
 		settings._title = "Test";
 
-		window.setContextMaximumVersion(ece::Version<2>{4, 0});
+		window.lock()->setContextMaximumVersion(ece::Version<2>{4, 0});
 
-		window.open();
-		window.getVideoMode().setSamples(0);
-		window.updateVideoMode();
-		window.setSettings(settings);
-		window.maximize();
-		window.limitUPS(100);
+		window.lock()->open();
+		window.lock()->getVideoMode().setSamples(0);
+		window.lock()->updateVideoMode();
+		window.lock()->setSettings(settings);
+		window.lock()->maximize();
+		window.lock()->limitUPS(100);
 
 		ece::Viewport viewport;
 		//viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 0.99f, 0.99f));
 		viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
-		window.setViewport(viewport);
+		window.lock()->setViewport(viewport);
 
 		ece::Scene scene;
 
@@ -153,28 +153,34 @@ int main()
 
 		// ForwardRendering technique;
 
-		ece::InputEvent event;
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
-		while (window.isOpened()) { // Still need to make it working on Xlib and XCB
-			window.setTitle("Test - Frame " + std::to_string(fps.getFPS()));
-			//if (fps.isReadyToUpdate()) { // BIG BUG HERE !!!
-				window.clear(ece::BLACK);
-
-				element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
-				//camera.moveIn({ 0.0f, 0.0f, 0.05f });
-				//scene.updateCamera();
-
-				//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-
-				scene.draw();
-				//window.draw(**element);
-				// technique.draw(queue)
-				window.display();
-			//}
-
-			if (window.pollEvent(event)) {
+		//ece::InputEvent event;
+		auto & eventHandler = window.lock()->getEventHandler();
+		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
+			if (event._key == ece::Keyboard::Key::A) {
+				std::cerr << 'A' << std::endl;
 			}
-		}
+			else if (event._key == ece::Keyboard::Key::ESCAPE) {
+				window.close();
+			}
+		});
+		window.lock()->onWindowClosed.connect([&app]() {
+			app.stop();
+		});
+
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
+
+		app.onPostUpdate.connect([&window, &fps, &element]() {
+			window.lock()->setTitle("Test - Frame " + std::to_string(fps.getFPS()));
+			window.lock()->clear(ece::BLACK);
+			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+		});
+		app.onPostRender.connect([&scene, &window]() {
+			scene.draw();
+			window.lock()->display();
+			window.lock()->processEvents();
+		});
+		
+		app.run();
 	}
 	catch (std::runtime_error & e) {
 		ece::ServiceLoggerLocator::getService().logError(e.what());

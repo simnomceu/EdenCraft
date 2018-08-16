@@ -35,18 +35,51 @@
 
 */
 
-#ifndef WINDOW_COMMON_HPP
-#define WINDOW_COMMON_HPP
-
-#include "window/common/ratio.hpp"
-#include "window/common/video_mode.hpp"
-#include "window/common/window.hpp"
-#include "window/common/window_adapter.hpp"
-#include "window/common/window_setting.hpp"
+#include "window/common/windowed_application.hpp"
 
 namespace ece
 {
-	using namespace window::common;
-}
+	namespace window
+	{
+		namespace common
+		{
+			constexpr WindowedApplication::WindowedApplication() noexcept: Application(), _windows()
+			{
+			}
 
-#endif // WINDOW_COMMON_HPP
+			WindowedApplication::WindowedApplication(int argc, char * argv[]): Application(argc, argv), _windows()
+			{
+			}
+
+			void WindowedApplication::run()
+			{
+				// TODO : add balancer to reduce usage of processor.
+				this->onPreInit();
+				this->init();
+				this->onPostInit();
+
+				for (auto & window : this->_windows) {
+					window->open();
+				}
+
+				while (this->isRunning()) {
+					this->onPreProcess();
+					this->processEvents();
+					this->onPreUpdate();
+					this->update();
+					this->onPostUpdate();
+					this->render();
+					this->onPostRender();
+				}
+
+				for (auto & window : this->_windows) {
+					window->close();
+				}
+
+				this->onPreTerminate();
+				this->terminate();
+				this->onPreTerminate();
+			}
+		} // namespace common
+	} // namespace window
+} // namespace ece

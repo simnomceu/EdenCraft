@@ -201,14 +201,15 @@ namespace ece
 				 * @see IntVector2u X11API::getPosition() const
 				 */
 				virtual IntVector2u getPosition() const override;
-		/**
-		 * @fn IntVector2u getSize() const
-		 * @return The window size.
-		 * @brief Get the size of the window.
-		 * @throw
-		 * @see IntVector2u X11API::getSize() const
-		 */
-		virtual IntVector2u getSize() const override;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 * @see IntVector2u X11API::getSize() const
+				 */
+				virtual IntVector2u getSize() const override;
 
 				/**
 				 * @fn void minimize()
@@ -234,7 +235,7 @@ namespace ece
 				 * @throw
 				 * @see std::vector<InputEvent> X11API::processEvent(const bool blocking)
 				 */
-				virtual std::vector<InputEvent> processEvent(const bool blocking) override;
+				virtual std::vector<InputEvent> processEvent(const bool blocking, const bool keyRepeat) override;
 
 				/**
 				 * @fn void logInfos()
@@ -259,7 +260,7 @@ namespace ece
 				 * @brief Process a window message.
 				 * @throw
 				 */
-				InputEvent processMessage(const WindowMessage & message);
+				InputEvent processMessage(const WindowMessage & message, const bool keyRepeat);
 
 			private:
 				/**

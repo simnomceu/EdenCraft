@@ -182,22 +182,22 @@ namespace ece
 				 */
 				virtual IntVector2u getPosition() const override;
 
-		/**
-		 * @fn IntVector2u getSize() const
-		 * @return The window size.
-		 * @brief Get the size of the window.
-		 * @throw
-		 * @see IntVector2u X11API::getSize() const
-		 */
-		virtual IntVector2u getSize() const override;
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 * @see IntVector2u X11API::getSize() const
+				 */
+				virtual IntVector2u getSize() const override;
 
-		/**
-		 * @fn void minimize()
-		 * @brief Set the window to its minimum size.
-		 * @throw
-         * @see void X11API minimize()
-		 */
-		virtual void minimize() override;
+				/**
+				 * @fn void minimize()
+				 * @brief Set the window to its minimum size.
+				 * @throw
+				 * @see void X11API minimize()
+				 */
+				virtual void minimize() override;
 
 				/**
 				 * @fn void maximize()
@@ -215,7 +215,17 @@ namespace ece
 				 * @throw
 				 * @see std::vector<InputEvent> X11API::processEvent(const bool blocking)
 				 */
-				virtual std::vector<InputEvent> processEvent(const bool blocking) override;
+				virtual std::vector<InputEvent> processEvent(const bool blocking, const bool keyRepeat) override;
+
+			protected:
+				/**
+				* @fn InputEvent processMessage(const WindowMessage & message)
+				* @param[in] message The window message to process.
+				* @return The window message standardized.
+				* @brief Process a window message.
+				* @throw
+				*/
+				InputEvent processMessage(const WindowMessage & message, const bool keyRepeat);
 
 			private:
 				/**

@@ -35,45 +35,14 @@
 
 */
 
+#include "window/x11/x11_api.hpp"
+
 namespace ece
 {
 	namespace window
 	{
-		namespace common
+		namespace x11
 		{
-			inline Window::~Window() noexcept {}
-
-			inline void Window::open(const WindowSetting & /*settings*/) {}
-			
-			inline bool Window::isOpened() const { return this->_isOpened && this->_adapter->isWindowCreated(); }
-
-			inline std::string Window::getTitle() const { return std::move(this->_adapter.get()->getTitle()); }
-	
-			inline IntVector2u Window::getSize() const { return std::move(this->_adapter.get()->getSize()); }
-
-			inline void Window::setMinimumSize(const IntVector2u & /*size*/) { this->onWindowResized(); }
-
-			inline void Window::setMaximumSize(const IntVector2u & /*size*/) { this->onWindowResized(); }
-
-			inline void Window::setFullscreen(const bool /*fullscreen*/) { this->onWindowResized(); }
-
-			inline void Window::enableDoubleClick(const bool /*enabled*/) {}
-
-			inline bool Window::isDoubleClickEnabled() const { return false; }
-
-			inline void Window::enableKeyRepeat(const bool enabled) { this->_adapter->enableKeyRepeat(enabled); }
-
-			inline bool Window::isKeyRepeatedEnabled() const { return false; }
-
-			inline void Window::limitUPS(const int limit) { this->_ups.setUPS(limit); }
-
-			inline std::weak_ptr<BaseWindowAdapter> Window::getAdapter() const { return this->_adapter; }
-
-			inline VideoMode & Window::getVideoMode() { return this->_videoMode; }
-
-			inline const VideoMode & Window::getVideoMode() const { return this->_videoMode; }
-
-			inline EventHandler & Window::getEventHandler() { return this->_eventHandler; }
-		} // namespace common
+		} // namespace x11
 	} // namespace window
 } // namespace ece

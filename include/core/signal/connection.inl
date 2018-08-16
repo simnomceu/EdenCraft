@@ -36,31 +36,32 @@
 
 */
 
+#include "core/signal/signal_implementation.hpp"
+#include "core/signal/slot.hpp"
+
 namespace ece
 {
 	namespace core
 	{
-		namespace application
+		namespace signal
 		{
-			inline void Application::stop() { this->_running = false; }
+			template <class... Args>
+			Connection<Args...>::Connection(const std::weak_ptr<SignalImplementation<Args...>> & signal, const std::weak_ptr<Slot<Args...>> & slot) noexcept: _signal(signal), _slot(slot) {}
 
-			inline ArgumentAnalyzer & Application::getArgumentAnalyzer() { return this->getModule<ArgumentAnalyzer>(); }
-
-			template <class T>
-			inline T & Application::addModule(const ModuleMethodHandle<T> & init,
-				const ModuleMethodHandle<T> & update,
-				const ModuleMethodHandle<T> & terminate)
+			template <class... Args>
+			bool Connection<Args...>::isConnected() const noexcept
 			{
-				return this->_moduleManager.add<T>(init, update, terminate);
+				return (!this->_signal.expired()) 
+					&& (!this->_slot.expired()); 
 			}
 
-			template <class T>
-			inline void Application::removeModule() { this->_moduleManager.remove<T>(); }
-
-			template <class T>
-			inline T & Application::getModule() { return this->_moduleManager.get<T>(); }
-
-			inline bool Application::isRunning() const { return this->_running; }
-		} // namespace application
+			template <class... Args>
+			void Connection<Args...>::disconnect()
+			{
+				if (this->isConnected()) {
+					this->_signal.lock()->disconnect(this->_slot.lock());
+				}
+			}
+		} // namespace signal
 	} // namespace core
 } // namespace ece

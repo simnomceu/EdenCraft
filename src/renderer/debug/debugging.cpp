@@ -3,6 +3,8 @@
 #include "utility/log/service_logger.hpp"
 #include "renderer/opengl/opengl.hpp"
 
+#include <string>
+
 namespace ece
 {
 	namespace renderer
