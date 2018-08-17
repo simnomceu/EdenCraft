@@ -36,19 +36,33 @@
 
 */
 
-#include "renderer/common/renderer.hpp"
+#include "renderer/rendering/render_target.hpp"
+#include "renderer/opengl/opengl.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
-			inline const Viewport & RenderTarget::getCurrentViewport() const { return this->_currentViewport; }
+			using opengl::OpenGL;
 
-			inline void RenderTarget::setCurrent() { Renderer::setCurrentTarget(this->weak_from_this()); }
+			RenderTarget::RenderTarget() noexcept: std::enable_shared_from_this<RenderTarget>(), _currentViewport(), _viewportHasChanged(false)
+			{
+			}
 
-			inline bool RenderTarget::isCurrent() const noexcept { return Renderer::getCurrentTarget().lock() == this->weak_from_this().lock(); }
-		} // namespace common
+			Viewport RenderTarget::getDefaultViewport() const
+			{
+				Viewport dummy;
+				dummy.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
+				return dummy;
+			}
+
+			void RenderTarget::setViewport(const Viewport & viewport)
+			{
+				this->_currentViewport = viewport;
+				this->_viewportHasChanged = true;
+			}
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

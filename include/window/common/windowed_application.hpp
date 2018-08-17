@@ -65,7 +65,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr WindowedApplication() noexcept;
+				WindowedApplication() noexcept;
 
 				WindowedApplication(int argc, char * argv[]);
 

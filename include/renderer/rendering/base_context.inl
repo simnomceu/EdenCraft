@@ -36,34 +36,33 @@
 
 */
 
-#include "renderer/opengl/opengl.hpp"
-
-#include "utility/log/service_logger.hpp"
-#include "renderer/rendering/base_context.hpp"
-
-#ifdef _MSC_VER
-#	undef min
-#	undef max
-#endif
+#include "utility/debug/assertion.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace rendering
 		{
-			using utility::log::ServiceLoggerLocator;
+			using namespace utility::debug;
 
-			Version<2> OpenGL::_latestVersion{ 3, 2 };
-			std::shared_ptr<BaseContext> OpenGL::_currentContext;
+			inline BaseContext::BaseContext() noexcept: std::enable_shared_from_this<BaseContext>(), _minVersion(), _maxVersion() {}
 
-			void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+			inline void BaseContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
 			{
-				auto version = initLoader(minVersionGL, maxVersionGL);
-				if (version != Version<2>{0, 0}) {
-					OpenGL::_latestVersion = version;
-				}
+				make_assert(minVersion <= maxVersion, "Minimum version should be smaller than or equal to maximum version.");
+
+				this->setMinVersion(minVersion);
+				this->setMaxVersion(maxVersion);
 			}
-		} // namespace opengl
+
+			inline void BaseContext::setMinVersion(const Version<2> & minVersion) noexcept { this->_minVersion = minVersion; }
+
+			inline void BaseContext::setMaxVersion(const Version<2> & maxVersion) noexcept { this->_maxVersion = maxVersion; }
+
+			inline void BaseContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
+
+			bool BaseContext::isCreated() const noexcept { return this->_created; }
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

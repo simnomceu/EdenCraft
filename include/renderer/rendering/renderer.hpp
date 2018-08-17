@@ -54,7 +54,7 @@ namespace ece
 			class VAO;
 		}
 
-		namespace common
+		namespace rendering
 		{
 			class RenderTarget;
 
@@ -123,10 +123,10 @@ namespace ece
 			private:
 				static std::weak_ptr<RenderTarget> _currentTarget;
 			};
-		} // namespace common
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/common/renderer.inl"
+#include "renderer/rendering/renderer.inl"
 
 #endif // RENDERER_HPP

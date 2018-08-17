@@ -35,18 +35,17 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
+#include "renderer/rendering/render_target.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
-            inline bool Renderable::isIndexed() const { return this->_vao.isIndexed(); }
+			inline void Renderer::setCurrentTarget(const std::weak_ptr<RenderTarget> & target) { Renderer::_currentTarget = target; }
 
-            inline Shader & Renderable::getProgram() { return this->_program; }
-
-			inline void Renderable::prepare() {}
-		} // namespace common
+			inline std::weak_ptr<RenderTarget> Renderer::getCurrentTarget() { return Renderer::_currentTarget; }
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

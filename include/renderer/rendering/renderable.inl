@@ -36,15 +36,17 @@
 
 */
 
-#include "renderer/common/renderer.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
-			std::weak_ptr<RenderTarget> Renderer::_currentTarget = std::shared_ptr<RenderTarget>(nullptr);
-		} // common
-	} // renderer
-} // ece
+            inline bool Renderable::isIndexed() const { return this->_vao.isIndexed(); }
+
+            inline Shader & Renderable::getProgram() { return this->_program; }
+
+			inline void Renderable::prepare() {}
+		} // namespace rendering
+	} // namespace renderer
+} // namespace ece

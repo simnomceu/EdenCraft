@@ -37,7 +37,7 @@
 */
 
 #include "window/common/windowed_application.hpp"
-#include "renderer/common.hpp"
+#include "renderer/rendering.hpp"
 #include "utility/log.hpp"
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"

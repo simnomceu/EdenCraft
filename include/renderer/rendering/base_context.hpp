@@ -48,7 +48,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
 			using utility::indexing::Version;
 
@@ -185,10 +185,10 @@ namespace ece
 				 */
 				bool _created;
 			};
-		} // namespace common
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/common/base_context.inl"
+#include "renderer/rendering/base_context.inl"
 
 #endif // BASE_CONTEXT_HPP

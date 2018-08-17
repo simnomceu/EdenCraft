@@ -42,7 +42,7 @@
 #define SPRITE_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/common/renderable.hpp"
+#include "renderer/rendering/renderable.hpp"
 #include "renderer/resource/texture2d.hpp"
 #include "utility/mathematics/rectangle.hpp"
 
@@ -52,7 +52,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::common::Renderable;
+			using renderer::rendering::Renderable;
 			using renderer::resource::Texture2D;
 			using utility::mathematics::Rectangle;
 

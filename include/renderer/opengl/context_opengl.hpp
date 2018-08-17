@@ -39,7 +39,7 @@
 #ifndef CONTEXT_OPENGL_HPP
 #define CONTEXT_OPENGL_HPP
 
-#include "renderer/common/base_context.hpp"
+#include "renderer/rendering/base_context.hpp"
 #include "utility/pattern/pimpl.hpp"
 
 namespace ece
@@ -48,8 +48,8 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using common::BaseContext;
-			using common::RenderWindow;
+			using rendering::BaseContext;
+			using rendering::RenderWindow;
 			using utility::pattern::Pimpl;
 			using utility::indexing::Version;
 

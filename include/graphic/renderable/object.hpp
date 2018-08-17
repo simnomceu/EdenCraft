@@ -42,7 +42,7 @@
 #define OBJECT_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/common/renderable.hpp"
+#include "renderer/rendering/renderable.hpp"
 #include "graphic/model/mesh.hpp"
 #include "core/resource/resource_handler.hpp"
 #include "graphic/model/material.hpp"
@@ -56,7 +56,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::common::Renderable;
+			using renderer::rendering::Renderable;
 			using model::Mesh;
 			using model::Light;
 			using model::Material;

@@ -36,118 +36,101 @@
 
 */
 
-#ifndef RENDER_TARGET_HPP
-#define RENDER_TARGET_HPP
+#ifndef RENDER_STATE_HPP
+#define RENDER_STATE_HPP
 
 #include "renderer/config.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "renderer/common/color.hpp"
-#include "renderer/common/render_state.hpp"
-#include "renderer/common/viewport.hpp"
-
-#include <memory>
+#include "renderer/enum.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace pipeline
 		{
-			using utility::mathematics::IntVector2u;
-			using utility::mathematics::Rectangle;
-
-			// TODO: Renderable vs Drawable ?
-			class Renderable;
-
 			/**
-			 * @class RenderTarget
+			 * @class RenderState
 			 * @brief
 			 */
-			class ECE_RENDERER_API RenderTarget: public std::enable_shared_from_this<RenderTarget>
+			class ECE_RENDERER_API RenderState
 			{
 			public:
 				/**
-				 * @fn constexpr RenderTarget() noexcept
+				 * @fn RenderState() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				RenderTarget() noexcept;
+				RenderState() noexcept;
 
 				/**
-				 * @fn RenderTarget(const RenderTarget & copy) noexcept
-				 * @param[in] copy The RenderTarget to copy from.
+				 * @fn RenderState(const RenderState & copy) noexcept
+				 * @param[in] copy The RenderState to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				RenderTarget(const RenderTarget & copy) noexcept = default;
+				RenderState(const RenderState & copy) noexcept = default;
 
 				/**
-				 * @fn RenderTarget(RenderTarget && move) noexcept
-				 * @param[in] move The RenderTarget to move.
+				 * @fn RenderState(RenderState && move) noexcept
+				 * @param[in] move The RenderState to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				RenderTarget(RenderTarget && move) noexcept = default;
+				RenderState(RenderState && move) noexcept = default;
 
 				/**
-				 * @fn ~RenderTarget() noexcept
+				 * @fn ~RenderState() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~RenderTarget() noexcept = default;
+				~RenderState() noexcept = default;
 
 				/**
-				 * @fn RenderTarget & operator=(const RenderTarget & copy) noexcept
-				 * @param[in] The RenderTarget to copy from.
-				 * @return The RenderTarget copied.
+				 * @fn RenderState & operator=(const RenderState & copy) noexcept
+				 * @param[in] The RenderState to copy from.
+				 * @return The RenderState copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				RenderTarget & operator=(const RenderTarget & copy) noexcept = default;
+				RenderState & operator=(const RenderState & copy) noexcept = default;
 
 				/**
-				 * @fn RenderTarget & operator=(RenderTarget && move) noexcept
-				 * @param[in] The RenderTarget to move.
-				 * @return The RenderTarget moved.
+				 * @fn RenderState & operator=(RenderState && move) noexcept
+				 * @param[in] The RenderState to move.
+				 * @return The RenderState moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				RenderTarget & operator=(RenderTarget && move) noexcept = default;
+				RenderState & operator=(RenderState && move) noexcept = default;
 
-				/**
-				 * @fn IntVector2u getSize() const
-				 * @return The size of the render target.
-				 * @brief Get the size of the render target.
-				 * @throw
-				 */
-				virtual IntVector2u getSize() const = 0;
+				bool operator==(const RenderState & rhs) const noexcept;
 
-				/**
-				 * @fn void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>())
-				 * @param[in] color The color to use to clean the render target.
-				 * @param[in] scissorArea The area of the render target to limit the cleaning.
-				 * @brief Clean the render target using a specific color.
-				 * @throw
-				 */
-				virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) = 0;
+				inline bool operator!=(const RenderState & rhs) const noexcept;
 
-				Viewport getDefaultViewport() const;
+				void apply(const bool forced = false);
 
-				void setViewport(const Viewport & viewport);
+				bool _faceCulling;
+				CullFaceMode _cullFaceMode;
+				FrontFaceMode _frontFaceMode;
 
-				inline const Viewport & getCurrentViewport() const;
+				bool _depthTest;
+				DepthFunctionCondition _depthFunction;
 
-				inline void setCurrent();
-				inline bool isCurrent() const noexcept;
+				float _pointSize;
+				float _lineWidth;
+				bool _smoothLine;
 
-			protected:
-				Viewport _currentViewport;
-				bool _viewportHasChanged;
+				bool _blending;
+				BlendingFactor _sourceBlend;
+				BlendingFactor _destinationBlend;
+
+			private:
+				static RenderState _currentState;
 			};
-		} // namespace common
+		} // namespace pipeline
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/common/render_target.inl"
+#include "renderer/pipeline/render_state.inl"
 
-#endif // RENDER_TARGET_HPP
+#endif // RENDER_STATE_HPP

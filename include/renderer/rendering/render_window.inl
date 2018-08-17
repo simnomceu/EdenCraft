@@ -36,61 +36,16 @@
 
 */
 
-#include "renderer/common/renderable.hpp"
-
-#include "utility/mathematics/matrix4u.hpp"
-#include "utility/mathematics/transform.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
-			using utility::mathematics::FloatMatrix4u;
-			using utility::mathematics::FloatVector3u;
-			using opengl::OpenGL;
+			inline void RenderWindow::setContextMinimumVersion(const Version<2> & minVersion) { this->_context->setMinVersion(minVersion); }
 
-			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)
-			{
-				this->_model.setIdentity();
-			}
-
-			Renderable::~Renderable() {}
-
-			void Renderable::draw()
-			{
-				this->_program.use();
-				this->_vao.bind();
-				this->_vao.bindIndexBuffer();
-				this->_state.apply();
-                if (this->isIndexed()) {
-                    if (this->isInstancingEnabled()) {
-    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0, this->_numberOfInstances);
-                    }
-                    else {
-    		            OpenGL::drawElements(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0);
-                    }
-                } else {
-                    if (this->isInstancingEnabled()) {
-    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNumberOfVertices(), this->_numberOfInstances);
-                    }
-                    else {
-    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNumberOfVertices());
-                    }
-                }
-			}
-
-			void Renderable::applyTransformation(const FloatMatrix4u & transformation)
-			{
-				this->_model = transformation * this->_model;
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
-			}
-
-            bool Renderable::isInstancingEnabled() const
-            {
-                return this->_numberOfInstances > 1;
-            }
-		} // namespace common
+			inline void RenderWindow::setContextMaximumVersion(const Version<2> & maxVersion) { this->_context->setMaxVersion(maxVersion); }
+		}// namespace rendering
 	} // namespace renderer
 } // namespace ece

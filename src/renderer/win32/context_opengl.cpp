@@ -41,7 +41,7 @@
 
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/win32/wgl_extension.hpp"
-#include "renderer/common/render_window.hpp"
+#include "renderer/rendering/render_window.hpp"
 #include "window/common/window_adapter.hpp"
 #include "window/win32/data_window_adapter.hpp"
 #include "utility/log/service_logger.hpp"

@@ -36,7 +36,7 @@
 
 */
 
-#include "renderer/common/render_state.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 #include "renderer/opengl/opengl.hpp"
 
@@ -44,7 +44,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace pipeline
 		{
 			using opengl::OpenGL;
 
@@ -132,6 +132,6 @@ namespace ece
 					}
 				}
 			}
-		} // namespace common
+		} // namespace pipeline
 	} // namesapce renderer
 } // namespace ece

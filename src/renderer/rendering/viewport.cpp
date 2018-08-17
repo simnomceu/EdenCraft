@@ -36,33 +36,8 @@
 
 */
 
-#include "renderer/common/render_target.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/rendering/viewport.hpp"
 
 namespace ece
 {
-	namespace renderer
-	{
-		namespace common
-		{
-			using opengl::OpenGL;
-
-			RenderTarget::RenderTarget() noexcept: std::enable_shared_from_this<RenderTarget>(), _currentViewport(), _viewportHasChanged(false)
-			{
-			}
-
-			Viewport RenderTarget::getDefaultViewport() const
-			{
-				Viewport dummy;
-				dummy.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
-				return dummy;
-			}
-
-			void RenderTarget::setViewport(const Viewport & viewport)
-			{
-				this->_currentViewport = viewport;
-				this->_viewportHasChanged = true;
-			}
-		} // namespace common
-	} // namespace renderer
-} // namespace ece
+}

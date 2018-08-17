@@ -36,19 +36,19 @@
 
 */
 
-#include "renderer/common/render_window.hpp"
+#include "renderer/rendering/render_window.hpp"
 
 #include "renderer/opengl/context_opengl.hpp"
 #include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
 #include "window/common/video_mode.hpp"
-#include "renderer/common/renderable.hpp"
+#include "renderer/rendering/renderable.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
 			using opengl::ContextOpenGL;
 			using opengl::OpenGL;
@@ -105,7 +105,7 @@ namespace ece
 				if (this->_viewportHasChanged)
 				{
 					OpenGL::viewport(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
-			
+
 					if (scissorArea != Rectangle<float>()) {
 						OpenGL::scissor(static_cast<int>(scissorArea.getX()), static_cast<int>(scissorArea.getY()), static_cast<int>(scissorArea.getWidth()), static_cast<int>(scissorArea.getHeight()));
 						OpenGL::enable(Capability::SCISSOR_TEST);
@@ -150,6 +150,6 @@ namespace ece
 					this->_videoMode.applyChanges();
 				}
 			}
-		} // namespace common
+		} // namespace rendering
 	} // namespace renderer
 } // ece

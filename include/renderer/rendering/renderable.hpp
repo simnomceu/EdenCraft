@@ -44,17 +44,18 @@
 #include "renderer/enum.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
 #include "core/resource/resource_handler.hpp"
-#include "renderer/common/render_state.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
 			using resource::VAO;
 			using resource::Shader;
 			using resource::EnhancedShader;
+			using pipeline::RenderState;
             using utility::mathematics::FloatMatrix4u;
 			using core::resource::ResourceHandler;
 
@@ -140,10 +141,10 @@ namespace ece
 
 				std::size_t _numberOfInstances;
 			};
-		} // namespace common
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/common/renderable.inl"
+#include "renderer/rendering/renderable.inl"
 
 #endif // RENDERABLE_HPP

@@ -36,34 +36,25 @@
 
 */
 
-#include "renderer/opengl/opengl.hpp"
-
-#include "utility/log/service_logger.hpp"
-#include "renderer/rendering/base_context.hpp"
-
-#ifdef _MSC_VER
-#	undef min
-#	undef max
-#endif
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace rendering
 		{
-			using utility::log::ServiceLoggerLocator;
-
-			Version<2> OpenGL::_latestVersion{ 3, 2 };
-			std::shared_ptr<BaseContext> OpenGL::_currentContext;
-
-			void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+			inline void Viewport::resetViewport(const Rectangle<float> & bounds) noexcept
 			{
-				auto version = initLoader(minVersionGL, maxVersionGL);
-				if (version != Version<2>{0, 0}) {
-					OpenGL::_latestVersion = version;
-				}
+				this->_bounds = bounds;
+				this->_ratio = Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f);
 			}
-		} // namespace opengl
+
+			inline void Viewport::setViewportRatio(const Rectangle<float> & ratio) noexcept { this->_ratio = ratio; }
+
+			inline const Rectangle<float> & Viewport::getViewport() const noexcept { return this->_bounds; }
+
+			inline const Rectangle<float> & Viewport::getViewportRatio() const noexcept { return this->_ratio; }
+
+			inline bool Viewport::isRatioUsed() const noexcept { return this->_ratio != Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f); }
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

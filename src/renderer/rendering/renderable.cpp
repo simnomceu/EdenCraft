@@ -36,33 +36,61 @@
 
 */
 
-#include "utility/debug/assertion.hpp"
+#include "renderer/rendering/renderable.hpp"
+
+#include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics/transform.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
-			using namespace utility::debug;
+			using utility::mathematics::FloatMatrix4u;
+			using utility::mathematics::FloatVector3u;
+			using opengl::OpenGL;
 
-			inline BaseContext::BaseContext() noexcept: std::enable_shared_from_this<BaseContext>(), _minVersion(), _maxVersion() {}
-
-			inline void BaseContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
+			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)
 			{
-				make_assert(minVersion <= maxVersion, "Minimum version should be smaller than or equal to maximum version.");
-
-				this->setMinVersion(minVersion);
-				this->setMaxVersion(maxVersion);
+				this->_model.setIdentity();
 			}
 
-			inline void BaseContext::setMinVersion(const Version<2> & minVersion) noexcept { this->_minVersion = minVersion; }
+			Renderable::~Renderable() {}
 
-			inline void BaseContext::setMaxVersion(const Version<2> & maxVersion) noexcept { this->_maxVersion = maxVersion; }
+			void Renderable::draw()
+			{
+				this->_program.use();
+				this->_vao.bind();
+				this->_vao.bindIndexBuffer();
+				this->_state.apply();
+                if (this->isIndexed()) {
+                    if (this->isInstancingEnabled()) {
+    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0, this->_numberOfInstances);
+                    }
+                    else {
+    		            OpenGL::drawElements(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0);
+                    }
+                } else {
+                    if (this->isInstancingEnabled()) {
+    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNumberOfVertices(), this->_numberOfInstances);
+                    }
+                    else {
+    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNumberOfVertices());
+                    }
+                }
+			}
 
-			inline void BaseContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
+			void Renderable::applyTransformation(const FloatMatrix4u & transformation)
+			{
+				this->_model = transformation * this->_model;
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
+			}
 
-			bool BaseContext::isCreated() const noexcept { return this->_created; }
-		} // namespace common
+            bool Renderable::isInstancingEnabled() const
+            {
+                return this->_numberOfInstances > 1;
+            }
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

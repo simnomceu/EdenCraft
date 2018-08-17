@@ -36,34 +36,19 @@
 
 */
 
-#include "renderer/opengl/opengl.hpp"
-
-#include "utility/log/service_logger.hpp"
-#include "renderer/rendering/base_context.hpp"
-
-#ifdef _MSC_VER
-#	undef min
-#	undef max
-#endif
+#include "renderer/rendering/renderer.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace rendering
 		{
-			using utility::log::ServiceLoggerLocator;
+			inline const Viewport & RenderTarget::getCurrentViewport() const { return this->_currentViewport; }
 
-			Version<2> OpenGL::_latestVersion{ 3, 2 };
-			std::shared_ptr<BaseContext> OpenGL::_currentContext;
+			inline void RenderTarget::setCurrent() { Renderer::setCurrentTarget(this->weak_from_this()); }
 
-			void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-			{
-				auto version = initLoader(minVersionGL, maxVersionGL);
-				if (version != Version<2>{0, 0}) {
-					OpenGL::_latestVersion = version;
-				}
-			}
-		} // namespace opengl
+			inline bool RenderTarget::isCurrent() const noexcept { return Renderer::getCurrentTarget().lock() == this->weak_from_this().lock(); }
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

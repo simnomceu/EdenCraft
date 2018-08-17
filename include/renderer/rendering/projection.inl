@@ -44,7 +44,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
 			using utility::mathematics::perspective;
 			using utility::mathematics::orthographic;
@@ -66,6 +66,6 @@ namespace ece
 			}
 
 			inline const FloatMatrix4u & Projection::getProjection() const { return this->_projection; }
-		} // namespace common
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

@@ -36,93 +36,74 @@
 
 */
 
-#ifndef VIEWPORT
-#define VIEWPORT
+#ifndef STAGING_HPP
+#define STAGING_HPP
 
 #include "renderer/config.hpp"
-#include "utility/mathematics/rectangle.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace pipeline
 		{
-			using utility::mathematics::Rectangle;
-
 			/**
-			 * @class Viewport
+			 * @class Staging
 			 * @brief
 			 */
-			class ECE_RENDERER_API Viewport
+			class ECE_RENDERER_API Staging
 			{
 			public:
 				/**
-				 * @fn constexpr Viewport() noexcept
+				 * @fn constexpr Staging() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Viewport() noexcept = default;
+				constexpr Staging() noexcept = default;
 
 				/**
-				 * @fn Viewport(const Viewport & copy) noexcept
-				 * @param[in] copy The Viewport to copy from.
+				 * @fn Staging(const Staging & copy) noexcept
+				 * @param[in] copy The Staging to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Viewport(const Viewport & copy) noexcept = default;
+				Staging(const Staging & copy) noexcept = default;
 
 				/**
-				 * @fn Viewport(Viewport && move) noexcept
-				 * @param[in] move The Viewport to move.
+				 * @fn Staging(Staging && move) noexcept
+				 * @param[in] move The Staging to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Viewport(Viewport && move) noexcept = default;
+				Staging(Staging && move) noexcept = default;
 
 				/**
-				 * @fn ~Viewport() noexcept
+				 * @fn ~Staging() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Viewport() noexcept = default;
+				~Staging() noexcept = default;
 
 				/**
-				 * @fn Viewport & operator=(const Viewport & copy) noexcept
-				 * @param[in] copy The Viewport to copy from.
-				 * @return The Viewport copied.
+				 * @fn Staging & operator=(const Staging & copy) noexcept
+				 * @param[in] copy The Staging to copy from.
+				 * @return The Staging copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Viewport & operator=(const Viewport & copy) noexcept = default;
+				Staging & operator=(const Staging & copy) noexcept = default;
 
 				/**
-				 * @fn Viewport & operator=(Viewport && move) noexcept
-				 * @param[in] move The Viewport to move.
-				 * @return The Viewport moved.
+				 * @fn Staging & operator=(Staging && move) noexcept
+				 * @param[in] move The Staging to move.
+				 * @return The Staging moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Viewport & operator=(Viewport && move) noexcept = default;
-
-				inline void resetViewport(const Rectangle<float> & bounds) noexcept;
-
-				inline void setViewportRatio(const Rectangle<float> & ratio) noexcept;
-
-				inline const Rectangle<float> & getViewport() const noexcept;
-
-				inline const Rectangle<float> & getViewportRatio() const noexcept;
-
-				inline bool isRatioUsed() const noexcept;
-
-			private:
-				Rectangle<float> _bounds;
-				Rectangle<float> _ratio;
+				Staging & operator=(Staging && move) noexcept = default;
 			};
-		} // namespace common
+		} // namespace pipeline
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/common/viewport.inl"
-
-#endif // VIEWPORT
+#endif // STAGING_HPP

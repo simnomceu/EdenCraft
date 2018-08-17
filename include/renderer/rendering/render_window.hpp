@@ -41,9 +41,10 @@
 
 #include "renderer/config.hpp"
 #include "window/common/window.hpp"
-#include "renderer/common/renderer.hpp"
-#include "renderer/common/base_context.hpp"
-#include "renderer/common/render_target.hpp"
+#include "renderer/rendering/renderer.hpp"
+#include "renderer/rendering/base_context.hpp"
+#include "renderer/rendering/render_target.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 #include <vector>
 #include <memory>
@@ -52,9 +53,10 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
 			using window::common::Window;
+			using pipeline::RenderState;
 
 			/**
 			 * @class RenderWindow
@@ -190,13 +192,13 @@ namespace ece
 				 * @brief The render context to use for rendering.
 				 */
 				std::shared_ptr<BaseContext> _context;
-				
+
 				RenderState _currentState;
 			};
-		} // namespace common
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/common/render_window.inl"
+#include "renderer/rendering/render_window.inl"
 
 #endif // RENDER_WINDOW_HPP

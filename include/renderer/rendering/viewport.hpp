@@ -36,101 +36,93 @@
 
 */
 
-#ifndef RENDER_STATE_HPP
-#define RENDER_STATE_HPP
+#ifndef VIEWPORT_HPP
+#define VIEWPORT_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/enum.hpp"
+#include "utility/mathematics/rectangle.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
+			using utility::mathematics::Rectangle;
+
 			/**
-			 * @class RenderState
+			 * @class Viewport
 			 * @brief
 			 */
-			class ECE_RENDERER_API RenderState
+			class ECE_RENDERER_API Viewport
 			{
 			public:
 				/**
-				 * @fn RenderState() noexcept
+				 * @fn constexpr Viewport() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				RenderState() noexcept;
+				constexpr Viewport() noexcept = default;
 
 				/**
-				 * @fn RenderState(const RenderState & copy) noexcept
-				 * @param[in] copy The RenderState to copy from.
+				 * @fn Viewport(const Viewport & copy) noexcept
+				 * @param[in] copy The Viewport to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				RenderState(const RenderState & copy) noexcept = default;
+				Viewport(const Viewport & copy) noexcept = default;
 
 				/**
-				 * @fn RenderState(RenderState && move) noexcept
-				 * @param[in] move The RenderState to move.
+				 * @fn Viewport(Viewport && move) noexcept
+				 * @param[in] move The Viewport to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				RenderState(RenderState && move) noexcept = default;
+				Viewport(Viewport && move) noexcept = default;
 
 				/**
-				 * @fn ~RenderState() noexcept
+				 * @fn ~Viewport() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~RenderState() noexcept = default;
+				~Viewport() noexcept = default;
 
 				/**
-				 * @fn RenderState & operator=(const RenderState & copy) noexcept
-				 * @param[in] The RenderState to copy from.
-				 * @return The RenderState copied.
+				 * @fn Viewport & operator=(const Viewport & copy) noexcept
+				 * @param[in] copy The Viewport to copy from.
+				 * @return The Viewport copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				RenderState & operator=(const RenderState & copy) noexcept = default;
+				Viewport & operator=(const Viewport & copy) noexcept = default;
 
 				/**
-				 * @fn RenderState & operator=(RenderState && move) noexcept
-				 * @param[in] The RenderState to move.
-				 * @return The RenderState moved.
+				 * @fn Viewport & operator=(Viewport && move) noexcept
+				 * @param[in] move The Viewport to move.
+				 * @return The Viewport moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				RenderState & operator=(RenderState && move) noexcept = default;
+				Viewport & operator=(Viewport && move) noexcept = default;
 
-				bool operator==(const RenderState & rhs) const noexcept;
+				inline void resetViewport(const Rectangle<float> & bounds) noexcept;
 
-				inline bool operator!=(const RenderState & rhs) const noexcept;
+				inline void setViewportRatio(const Rectangle<float> & ratio) noexcept;
 
-				void apply(const bool forced = false);
+				inline const Rectangle<float> & getViewport() const noexcept;
 
-				bool _faceCulling;
-				CullFaceMode _cullFaceMode;
-				FrontFaceMode _frontFaceMode;
+				inline const Rectangle<float> & getViewportRatio() const noexcept;
 
-				bool _depthTest;
-				DepthFunctionCondition _depthFunction;
-
-				float _pointSize;
-				float _lineWidth;
-				bool _smoothLine;
-
-				bool _blending;
-				BlendingFactor _sourceBlend;
-				BlendingFactor _destinationBlend;
+				inline bool isRatioUsed() const noexcept;
 
 			private:
-				static RenderState _currentState;
+				Rectangle<float> _bounds;
+				Rectangle<float> _ratio;
 			};
-		} // namespace common
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/common/render_state.inl"
+#include "renderer/rendering/viewport.inl"
 
-#endif // RENDER_STATE_HPP
+#endif // VIEWPORT_HPP

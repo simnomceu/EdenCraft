@@ -36,74 +36,117 @@
 
 */
 
-#ifndef STAGING_HPP
-#define STAGING_HPP
+#ifndef RENDER_TARGET_HPP
+#define RENDER_TARGET_HPP
 
 #include "renderer/config.hpp"
+#include "utility/mathematics/vector2u.hpp"
+#include "renderer/rendering/color.hpp"
+#include "renderer/rendering/viewport.hpp"
+
+#include <memory>
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
+			using utility::mathematics::IntVector2u;
+			using utility::mathematics::Rectangle;
+
+			// TODO: Renderable vs Drawable ?
+			class Renderable;
+
 			/**
-			 * @class Staging
+			 * @class RenderTarget
 			 * @brief
 			 */
-			class ECE_RENDERER_API Staging
+			class ECE_RENDERER_API RenderTarget: public std::enable_shared_from_this<RenderTarget>
 			{
 			public:
 				/**
-				 * @fn constexpr Staging() noexcept
+				 * @fn constexpr RenderTarget() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Staging() noexcept = default;
+				RenderTarget() noexcept;
 
 				/**
-				 * @fn Staging(const Staging & copy) noexcept
-				 * @param[in] copy The Staging to copy from.
+				 * @fn RenderTarget(const RenderTarget & copy) noexcept
+				 * @param[in] copy The RenderTarget to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Staging(const Staging & copy) noexcept = default;
+				RenderTarget(const RenderTarget & copy) noexcept = default;
 
 				/**
-				 * @fn Staging(Staging && move) noexcept
-				 * @param[in] move The Staging to move.
+				 * @fn RenderTarget(RenderTarget && move) noexcept
+				 * @param[in] move The RenderTarget to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Staging(Staging && move) noexcept = default;
+				RenderTarget(RenderTarget && move) noexcept = default;
 
 				/**
-				 * @fn ~Staging() noexcept
+				 * @fn ~RenderTarget() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Staging() noexcept = default;
+				~RenderTarget() noexcept = default;
 
 				/**
-				 * @fn Staging & operator=(const Staging & copy) noexcept
-				 * @param[in] copy The Staging to copy from.
-				 * @return The Staging copied.
+				 * @fn RenderTarget & operator=(const RenderTarget & copy) noexcept
+				 * @param[in] The RenderTarget to copy from.
+				 * @return The RenderTarget copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Staging & operator=(const Staging & copy) noexcept = default;
+				RenderTarget & operator=(const RenderTarget & copy) noexcept = default;
 
 				/**
-				 * @fn Staging & operator=(Staging && move) noexcept
-				 * @param[in] move The Staging to move.
-				 * @return The Staging moved.
+				 * @fn RenderTarget & operator=(RenderTarget && move) noexcept
+				 * @param[in] The RenderTarget to move.
+				 * @return The RenderTarget moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Staging & operator=(Staging && move) noexcept = default;
+				RenderTarget & operator=(RenderTarget && move) noexcept = default;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The size of the render target.
+				 * @brief Get the size of the render target.
+				 * @throw
+				 */
+				virtual IntVector2u getSize() const = 0;
+
+				/**
+				 * @fn void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>())
+				 * @param[in] color The color to use to clean the render target.
+				 * @param[in] scissorArea The area of the render target to limit the cleaning.
+				 * @brief Clean the render target using a specific color.
+				 * @throw
+				 */
+				virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) = 0;
+
+				Viewport getDefaultViewport() const;
+
+				void setViewport(const Viewport & viewport);
+
+				inline const Viewport & getCurrentViewport() const;
+
+				inline void setCurrent();
+				inline bool isCurrent() const noexcept;
+
+			protected:
+				Viewport _currentViewport;
+				bool _viewportHasChanged;
 			};
-		} // namespace common
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#endif // STAGING_HPP
+#include "renderer/rendering/render_target.inl"
+
+#endif // RENDER_TARGET_HPP
