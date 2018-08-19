@@ -45,6 +45,7 @@
 #include "renderer/resource/enhanced_shader.hpp"
 #include "core/resource/resource_handler.hpp"
 #include "renderer/pipeline/render_state.hpp"
+#include "renderer/pipeline/drawable.hpp"
 
 namespace ece
 {
@@ -58,12 +59,13 @@ namespace ece
 			using pipeline::RenderState;
             using utility::mathematics::FloatMatrix4u;
 			using core::resource::ResourceHandler;
+			using renderer::pipeline::Drawable;
 
 			/**
 			 * @class Renderable
 			 * @brief
 			 */
-			class ECE_RENDERER_API Renderable
+			class ECE_RENDERER_API Renderable: public Drawable
 			{
 			public:
 				using Reference = ResourceHandler<Renderable>;
@@ -116,7 +118,7 @@ namespace ece
 				 */
 				Renderable & operator=(Renderable && move) noexcept = default;
 
-				void draw();
+				virtual void draw() override;
 
 				void applyTransformation(const FloatMatrix4u & transformation);
 

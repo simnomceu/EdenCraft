@@ -36,84 +36,13 @@
 
 */
 
-#ifndef RENDER_PROCESS_HPP
-#define RENDER_PROCESS_HPP
-
-#include "renderer/config.hpp"
-
-#include <memory>
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace pipeline
 		{
-			class Staging;
-			class Drawable;
 
-			/**
-			 * @class RenderProcess
-			 * @brief
-			 */
-			class ECE_RENDERER_API RenderProcess
-			{
-			public:
-				/**
-				 * @fn constexpr RenderProcess() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				RenderProcess() noexcept = default;
-
-				/**
-				 * @fn RenderProcess(const RenderProcess & copy) noexcept
-				 * @param[in] copy The RenderProcess to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				RenderProcess(const RenderProcess & copy) noexcept = default;
-
-				/**
-				 * @fn RenderProcess(RenderProcess && move) noexcept
-				 * @param[in] move The RenderProcess to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				RenderProcess(RenderProcess && move) noexcept = default;
-
-				/**
-				 * @fn ~RenderProcess() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~RenderProcess() noexcept = default;
-
-				/**
-				 * @fn RenderProcess & operator=(const RenderProcess & copy) noexcept
-				 * @param[in] copy The RenderProcess to copy from.
-				 * @return The RenderProcess copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				RenderProcess & operator=(const RenderProcess & copy) noexcept = default;
-
-				/**
-				 * @fn RenderProcess & operator=(RenderProcess && move) noexcept
-				 * @param[in] move The RenderProcess to move.
-				 * @return The RenderProcess moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				RenderProcess & operator=(RenderProcess && move) noexcept = default;
-
-				virtual void draw(const Staging & staging) = 0;
-
-				virtual void pushObject(const std::shared_ptr<Drawable> & drawable) = 0;
-				virtual void pushSprite(const std::shared_ptr<Drawable> & drawable) = 0;
-			};
 		} // namespace pipeline
 	} // namespace renderer
 } // namespace ece
-
-#endif // RENDER_PROCESS_HPP

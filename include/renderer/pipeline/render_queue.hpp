@@ -8,19 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                  oooo         o8o
-															 d8P'  `Y8b                                 `888         `"'
-															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
-															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
-															888     ooooo  888      .oP"888   888   888  888   888   888  888
-															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
-															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
-																							  888
-																							 o888o
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
 
 
 
-				This file is part of EdenCraft Engine - Graphic module.
+				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -42,12 +40,17 @@
 #define RENDER_QUEUE_HPP
 
 #include "graphic/config.hpp"
+#include "renderer/pipeline/drawable.hpp"
+
+#include <memory>
+#include <set>
+#include <functional>
 
 namespace ece
 {
-	namespace graphic
+	namespace renderer
 	{
-		namespace renderable
+		namespace pipeline
 		{
 			/**
 			 * @class RenderQueue
@@ -56,12 +59,14 @@ namespace ece
 			class ECE_GRAPHIC_API RenderQueue
 			{
 			public:
+				using SortAlgorithm = std::function<bool(const std::shared_ptr<Drawable> &, const std::shared_ptr<Drawable> &)>;
+
 				/**
 				 * @fn constexpr RenderQueue() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr RenderQueue() noexcept = default;
+				RenderQueue() noexcept = default;
 
 				/**
 				 * @fn RenderQueue(const RenderQueue & copy) noexcept
@@ -103,9 +108,17 @@ namespace ece
 				 * @throw noexcept
 				 */
 				RenderQueue & operator=(RenderQueue && move) noexcept = default;
+
+				void add(const std::shared_ptr<Drawable> & drawable);
+				void clear();
+
+				void sort(const SortAlgorithm & algorithm);
+
+			private:
+				std::vector<std::shared_ptr<Drawable>> _drawables;
 			};
-		} // namespace renderable
-	} // namespace graphic
-} // namespc
+		} // namespace pipeline
+	} // namespace renderer
+} // namespcace ece
 
 #endif // RENDER_QUEUE_HPP

@@ -40,6 +40,7 @@
 #define STAGING_HPP
 
 #include "renderer/config.hpp"
+#include "utility/mathematics/matrix4u.hpp"
 
 namespace ece
 {
@@ -47,6 +48,8 @@ namespace ece
 	{
 		namespace pipeline
 		{
+			using utility::mathematics::FloatMatrix4u;
+
 			/**
 			 * @class Staging
 			 * @brief
@@ -101,6 +104,9 @@ namespace ece
 				 * @throw noexcept
 				 */
 				Staging & operator=(Staging && move) noexcept = default;
+
+				FloatMatrix4u _view;
+				FloatMatrix4u _projection;
 			};
 		} // namespace pipeline
 	} // namespace renderer

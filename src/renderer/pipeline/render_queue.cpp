@@ -36,12 +36,9 @@
 
 */
 
-#ifndef RENDER_PROCESS_HPP
-#define RENDER_PROCESS_HPP
+#include "renderer/pipeline/render_queue.hpp"
 
-#include "renderer/config.hpp"
-
-#include <memory>
+#include <algorithm>
 
 namespace ece
 {
@@ -49,71 +46,20 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			class Staging;
-			class Drawable;
-
-			/**
-			 * @class RenderProcess
-			 * @brief
-			 */
-			class ECE_RENDERER_API RenderProcess
+			void RenderQueue::add(const std::shared_ptr<Drawable> & drawable)
 			{
-			public:
-				/**
-				 * @fn constexpr RenderProcess() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				RenderProcess() noexcept = default;
+				this->_drawables.push_back(drawable);
+			}
+			
+			void RenderQueue::clear()
+			{
+				this->_drawables.clear();
+			}
 
-				/**
-				 * @fn RenderProcess(const RenderProcess & copy) noexcept
-				 * @param[in] copy The RenderProcess to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				RenderProcess(const RenderProcess & copy) noexcept = default;
-
-				/**
-				 * @fn RenderProcess(RenderProcess && move) noexcept
-				 * @param[in] move The RenderProcess to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				RenderProcess(RenderProcess && move) noexcept = default;
-
-				/**
-				 * @fn ~RenderProcess() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~RenderProcess() noexcept = default;
-
-				/**
-				 * @fn RenderProcess & operator=(const RenderProcess & copy) noexcept
-				 * @param[in] copy The RenderProcess to copy from.
-				 * @return The RenderProcess copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				RenderProcess & operator=(const RenderProcess & copy) noexcept = default;
-
-				/**
-				 * @fn RenderProcess & operator=(RenderProcess && move) noexcept
-				 * @param[in] move The RenderProcess to move.
-				 * @return The RenderProcess moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				RenderProcess & operator=(RenderProcess && move) noexcept = default;
-
-				virtual void draw(const Staging & staging) = 0;
-
-				virtual void pushObject(const std::shared_ptr<Drawable> & drawable) = 0;
-				virtual void pushSprite(const std::shared_ptr<Drawable> & drawable) = 0;
-			};
+			void RenderQueue::sort(const RenderQueue::SortAlgorithm & algorithm)
+			{
+				std::sort(this->_drawables.begin(), this->_drawables.end(), algorithm);
+			}
 		} // namespace pipeline
 	} // namespace renderer
 } // namespace ece
-
-#endif // RENDER_PROCESS_HPP
