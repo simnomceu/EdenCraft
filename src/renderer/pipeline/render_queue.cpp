@@ -50,6 +50,11 @@ namespace ece
 			{
 				this->_drawables.push_back(drawable);
 			}
+
+			void RenderQueue::remove(const std::shared_ptr<Drawable> & drawable)
+			{
+				this->_drawables.erase(std::find(this->_drawables.begin(), this->_drawables.end(), drawable));
+			}
 			
 			void RenderQueue::clear()
 			{

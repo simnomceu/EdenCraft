@@ -36,82 +36,19 @@
 
 */
 
-#ifndef DRAWABLE_HPP
-#define DRAWABLE_HPP
-
-#include "renderer/config.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
-		{
-			class Shader;
-		}
-
 		namespace pipeline
 		{
-			using resource::Shader;
-			class RenderState;
+			inline RenderQueue::Iterator RenderQueue::begin() noexcept { return this->_drawables.begin(); }
 
-			class ECE_RENDERER_API Drawable
-			{
-			public:
-				/**
-				 * @fn constexpr Drawable() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				Drawable() noexcept = default;
+			inline RenderQueue::ConstIterator RenderQueue::begin() const noexcept { return this->_drawables.begin(); }
 
-				/**
-				 * @fn Drawable(const Drawable & copy) noexcept
-				 * @param[in] copy The Drawable to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				Drawable(const Drawable & copy) noexcept = default;
+			inline RenderQueue::Iterator RenderQueue::end() noexcept { return this->_drawables.end(); }
 
-				/**
-				 * @fn Drawable(Drawable && move) noexcept
-				 * @param[in] move The Drawable to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				Drawable(Drawable && move) noexcept = default;
-
-				/**
-				 * @fn ~Drawable() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~Drawable() noexcept = default;
-
-				/**
-				 * @fn Drawable & operator=(const Drawable & copy) noexcept
-				 * @param[in] copy The Drawable to copy from.
-				 * @return The Drawable copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				Drawable & operator=(const Drawable & copy) noexcept = default;
-
-				/**
-				 * @fn Drawable & operator=(Drawable && move) noexcept
-				 * @param[in] move The Drawable to move.
-				 * @return The Drawable moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				Drawable & operator=(Drawable && move) noexcept = default;
-
-				virtual void draw() = 0;
-				virtual Shader & getProgram() = 0;
-				virtual RenderState & getState() = 0;
-			};
+			inline RenderQueue::ConstIterator RenderQueue::end() const noexcept { return this->_drawables.end(); }
 		} // namespace pipeline
 	} // namespace renderer
-} // namespace ece
-
-#endif // DRAWABLE_HPP
+} // namespcace ece

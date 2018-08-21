@@ -46,6 +46,8 @@ namespace ece
 
             inline Shader & Renderable::getProgram() { return this->_program; }
 
+			inline RenderState & Renderable::getState() { return this->_state; }
+
 			inline void Renderable::prepare() {}
 		} // namespace rendering
 	} // namespace renderer

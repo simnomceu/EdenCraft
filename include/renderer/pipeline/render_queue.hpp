@@ -60,6 +60,8 @@ namespace ece
 			{
 			public:
 				using SortAlgorithm = std::function<bool(const std::shared_ptr<Drawable> &, const std::shared_ptr<Drawable> &)>;
+				using Iterator = std::vector<std::shared_ptr<Drawable>>::iterator;
+				using ConstIterator = std::vector<std::shared_ptr<Drawable>>::const_iterator;
 
 				/**
 				 * @fn constexpr RenderQueue() noexcept
@@ -110,9 +112,15 @@ namespace ece
 				RenderQueue & operator=(RenderQueue && move) noexcept = default;
 
 				void add(const std::shared_ptr<Drawable> & drawable);
+				void remove(const std::shared_ptr<Drawable> & drawable);
 				void clear();
 
 				void sort(const SortAlgorithm & algorithm);
+
+				inline Iterator begin() noexcept;
+				inline ConstIterator begin() const noexcept;
+				inline Iterator end() noexcept;
+				inline ConstIterator end() const noexcept;
 
 			private:
 				std::vector<std::shared_ptr<Drawable>> _drawables;
@@ -120,5 +128,7 @@ namespace ece
 		} // namespace pipeline
 	} // namespace renderer
 } // namespcace ece
+
+#include "renderer/pipeline/render_queue.inl"
 
 #endif // RENDER_QUEUE_HPP

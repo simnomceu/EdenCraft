@@ -38,21 +38,59 @@
 
 #include "renderer/pipeline/forward_rendering.hpp"
 
+#include "renderer/pipeline/render_pipeline.hpp"
+#include "renderer/opengl/opengl.hpp"
+#include "renderer/pipeline/staging.hpp"
+#include "renderer/pipeline/drawable.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace pipeline
 		{
-			void ForwardRendering::draw(const Staging & /*staging*/)
+			using opengl::OpenGL;
+
+			void ForwardRendering::draw(const Staging & staging)
 			{
+				// sort queues
+
+				for (auto & object : this->_objects) {
+					this->drawObject(object, staging);
+				}
+
+				for (auto & sprite : this->_sprites) {
+					this->drawSprite(sprite, staging);
+				}
+
+				this->_objects.clear();
+				this->_sprites.clear();
 			}
 
-			void ForwardRendering::pushObject(const std::shared_ptr<Drawable> & /*drawable*/)
+			void ForwardRendering::pushObject(const std::shared_ptr<Drawable> & drawable)
 			{
+				this->_objects.add(drawable);
 			}
 
-			void ForwardRendering::pushSprite(const std::shared_ptr<Drawable> & /*drawable*/)
+			void ForwardRendering::pushSprite(const std::shared_ptr<Drawable> & drawable)
+			{
+				this->_sprites.add(drawable);
+			}
+
+			void ForwardRendering::drawObject(const std::shared_ptr<Drawable> & drawable, const Staging & staging)
+			{
+				RenderPipeline pipeline;
+				pipeline.setProgram(std::make_shared<Shader>(drawable->getProgram()));
+				pipeline.setState(drawable->getState());
+				pipeline.apply();
+
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(drawable->getProgram().getHandle(), "view"), false, staging._view);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(drawable->getProgram().getHandle(), "projection"), false, staging._projection);
+
+				drawable->draw();
+			}
+
+			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & /*drawable*/, const Staging & /*staging*/)
 			{
 			}
 		}

@@ -41,6 +41,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/pipeline/render_process.hpp"
+#include "renderer/pipeline/render_queue.hpp"
 
 namespace ece
 {
@@ -56,11 +57,11 @@ namespace ece
 			{
 			public:
 				/**
-				 * @fn constexpr ForwardRendering() noexcept
+				 * @fn ForwardRendering() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr ForwardRendering() noexcept = default;
+				ForwardRendering() noexcept = default;
 
 				/**
 				 * @fn ForwardRendering(const ForwardRendering & copy) noexcept
@@ -107,6 +108,13 @@ namespace ece
 
 				virtual void pushObject(const std::shared_ptr<Drawable> & drawable) override;
 				virtual void pushSprite(const std::shared_ptr<Drawable> & drawable) override;
+
+			private:
+				void drawObject(const std::shared_ptr<Drawable> & drawable, const Staging & staging);
+				void drawSprite(const std::shared_ptr<Drawable> & drawable, const Staging & staging);
+
+				RenderQueue _objects;
+				RenderQueue _sprites;
 			};
 		} // namespace pipeline
 	} // namespace renderer

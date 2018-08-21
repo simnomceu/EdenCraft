@@ -126,7 +126,8 @@ namespace ece
 
                 bool isInstancingEnabled() const;
 
-				inline Shader & getProgram();
+				inline virtual Shader & getProgram() override;
+				inline virtual RenderState & getState() override;
 
 				inline virtual void prepare();
 
