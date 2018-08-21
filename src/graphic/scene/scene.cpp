@@ -68,10 +68,22 @@ namespace ece
 				return std::move(object);
 			}
 
+			std::vector<Renderable::Reference> Scene::getObjects()
+			{
+				std::vector<Renderable::Reference> list;
+				for (auto & object : this->_objects) {
+					list.push_back(object._value);
+				}
+				return std::move(list);
+			}
+
 			void Scene::prepare()
 			{
 				for (auto & object : this->_objects) {
-					object._value->prepare();
+					if (object._hasChanged) {
+						object._value->prepare();
+						object._hasChanged = false;
+					}
 				}
 			}
 

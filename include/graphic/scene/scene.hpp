@@ -135,6 +135,8 @@ namespace ece
 
 				inline void updateCamera();
 
+				std::vector<Renderable::Reference> getObjects();
+
 				void prepare();
 				void draw();
 
