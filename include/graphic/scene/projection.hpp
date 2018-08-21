@@ -41,7 +41,7 @@
 #ifndef PROJECTION_HPP
 #define PROJECTION_HPP
 
-#include "renderer/config.hpp"
+#include "graphic/config.hpp"
 #include "window/common/ratio.hpp"
 #include "utility/mathematics/matrix4u.hpp"
 
@@ -67,7 +67,7 @@ namespace ece
 			 * @class Projection
 			 * @brief
 			 */
-			class ECE_RENDERER_API Projection
+			class ECE_GRAPHIC_API Projection
 			{
 			public:
 				/**

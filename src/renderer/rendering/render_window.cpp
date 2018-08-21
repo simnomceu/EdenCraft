@@ -42,7 +42,6 @@
 #include "renderer/opengl/opengl.hpp"
 #include "utility/log/service_logger.hpp"
 #include "window/common/video_mode.hpp"
-#include "renderer/rendering/renderable.hpp"
 
 namespace ece
 {

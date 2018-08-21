@@ -56,7 +56,7 @@ namespace ece
 		{
 			using renderable::Object;
 			using renderable::Light;
-			using renderer::rendering::Renderable;
+			using renderable::Renderable;
 
 			/**
 			 * @class Scene

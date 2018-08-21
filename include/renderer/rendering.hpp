@@ -43,7 +43,6 @@
 #include "renderer/rendering/color.hpp"
 #include "renderer/rendering/render_target.hpp"
 #include "renderer/rendering/render_window.hpp"
-#include "renderer/rendering/renderable.hpp"
 #include "renderer/rendering/renderer.hpp"
 #include "renderer/rendering/viewport.hpp"
 

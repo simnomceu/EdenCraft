@@ -8,17 +8,19 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                               .o8
-															`888   `Y88.                            "888
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+															  .oooooo.                                  oooo         o8o
+															 d8P'  `Y8b                                 `888         `"'
+															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
+															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
+															888     ooooo  888      .oP"888   888   888  888   888   888  888
+															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
+															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
+																							  888
+																							 o888o
 
 
 
-				This file is part of EdenCraft Engine - Renderer module.
+				This file is part of EdenCraft Engine - Graphic module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -39,7 +41,7 @@
 #ifndef RENDERABLE_HPP
 #define RENDERABLE_HPP
 
-#include "renderer/config.hpp"
+#include "graphic/config.hpp"
 #include "renderer/resource/vao.hpp"
 #include "renderer/enum.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
@@ -49,23 +51,24 @@
 
 namespace ece
 {
-	namespace renderer
+	namespace graphic
 	{
-		namespace rendering
+		namespace renderable
 		{
-			using resource::VAO;
-			using resource::Shader;
-			using resource::EnhancedShader;
-			using pipeline::RenderState;
+			using renderer::resource::VAO;
+			using renderer::resource::Shader;
+			using renderer::resource::EnhancedShader;
+			using renderer::pipeline::RenderState;
             using utility::mathematics::FloatMatrix4u;
 			using core::resource::ResourceHandler;
 			using renderer::pipeline::Drawable;
+			using renderer::PrimitiveMode;
 
 			/**
 			 * @class Renderable
 			 * @brief
 			 */
-			class ECE_RENDERER_API Renderable: public Drawable
+			class ECE_GRAPHIC_API Renderable: public Drawable
 			{
 			public:
 				using Reference = ResourceHandler<Renderable>;
@@ -144,10 +147,10 @@ namespace ece
 
 				std::size_t _numberOfInstances;
 			};
-		} // namespace rendering
-	} // namespace renderer
+		} // namespace renderable
+	} // namespace graphic
 } // namespace ece
 
-#include "renderer/rendering/renderable.inl"
+#include "graphic/renderable/renderable.inl"
 
 #endif // RENDERABLE_HPP

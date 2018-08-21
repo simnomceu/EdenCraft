@@ -39,7 +39,7 @@
 */
 
 #include "graphic/config.hpp"
-#include "renderer/rendering/renderable.hpp"
+#include "graphic/renderable/renderable.hpp"
 #include "utility/mathematics/vector3u.hpp"
 
 #include <chrono>
@@ -51,7 +51,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::rendering::Renderable;
 			using utility::mathematics::FloatVector3u;
 			using utility::mathematics::FloatVector4u;
 			using renderer::resource::BufferLayout;

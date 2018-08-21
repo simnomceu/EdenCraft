@@ -44,7 +44,7 @@
 #include "graphic/config.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "core/resource/resource_handler.hpp"
-#include "renderer/rendering/renderable.hpp"
+#include "graphic/renderable/renderable.hpp"
 
 namespace ece
 {
@@ -54,7 +54,6 @@ namespace ece
 		{
 			using utility::mathematics::FloatVector3u;
 			using core::resource::ResourceHandler;
-			using renderer::rendering::Renderable;
 
 			/**
 			 * @class Point

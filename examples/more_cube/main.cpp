@@ -42,7 +42,7 @@
 #include "graphic/scene.hpp"
 #include "renderer/resource.hpp"
 #include "graphic/model/obj_loader.hpp"
-#include "graphic/renderable/object.hpp"
+#include "graphic/renderable.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "core/resource/make_resource.hpp"
 #include "utility/time.hpp"
@@ -66,7 +66,6 @@ namespace ece
     using graphic::model::Mesh;
 	using graphic::model::PhongMaterial;
 	using graphic::model::makeSpotLight;
-    using graphic::renderable::Object;
     using utility::mathematics::FloatVector3u;
 	using core::resource::makeResource;
 	using core::resource::ResourceHandler;
