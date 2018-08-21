@@ -55,9 +55,9 @@ namespace ece
 		}
 	}
 
-	namespace renderer
+	namespace graphic
 	{
-		namespace rendering
+		namespace scene
 		{
 			using utility::mathematics::FloatMatrix4u;
 			using window::common::Ratio;
@@ -154,10 +154,10 @@ namespace ece
 				 */
 				FloatMatrix4u _projection;
 			};
-		} // namespace rendering
-	} // namespace renderer
+		} // namespace scene
+	} // namespace graphic
 } // namespace ece
 
-#include "renderer/rendering/projection.inl"
+#include "graphic/scene/projection.inl"
 
 #endif // PROJECTION_HPP

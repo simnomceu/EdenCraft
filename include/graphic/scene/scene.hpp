@@ -43,7 +43,6 @@
 
 #include "graphic/config.hpp"
 #include "graphic/scene/camera.hpp"
-#include "renderer/rendering/projection.hpp"
 #include "graphic/renderable/object.hpp"
 #include "graphic/model/light.hpp"
 
