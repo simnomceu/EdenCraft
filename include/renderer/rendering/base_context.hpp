@@ -157,7 +157,8 @@ namespace ece
 				 * @brief Define this content as the current one.
 				 * @throw
 				 */
-				virtual void setCurrent() = 0;
+				inline virtual void setCurrent();
+				inline bool isCurrent() const noexcept;
 
 				/**
 				 * @fn void logInfos()

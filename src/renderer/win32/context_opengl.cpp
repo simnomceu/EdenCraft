@@ -172,10 +172,10 @@ namespace ece
 			void ContextOpenGL::setCurrent()
 			{
 				make_assert(this->isCreated(), "only an existing context can be used.");
+				BaseContext::setCurrent();
 				if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
 					throw std::runtime_error("The context cannot be used.");
 				}
-				OpenGL::setCurrentContext(this->shared_from_this());
 			}
 		} // namespace opengl
 	} // namespace renderer

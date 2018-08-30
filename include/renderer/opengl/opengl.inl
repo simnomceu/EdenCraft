@@ -49,12 +49,6 @@ namespace ece
 
 			inline Version<2> & OpenGL::getLatestVersion() { return OpenGL::_latestVersion; }
 
-			inline void OpenGL::setCurrentContext(const std::shared_ptr<BaseContext> & currentContext)
-			{
-				OpenGL::_currentContext.reset();
-				OpenGL::_currentContext = currentContext;
-			}
-
 			template <class T>
 			inline constexpr DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
 

@@ -120,8 +120,12 @@ namespace ece
 				static inline void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
 				static inline std::weak_ptr<RenderTarget> getCurrentTarget();
 
+				static inline void setCurrentContext(const std::weak_ptr<BaseContext> & context);
+				static inline std::weak_ptr<BaseContext> getCurrentContext();
+
 			private:
 				static std::weak_ptr<RenderTarget> _currentTarget;
+				static std::weak_ptr<BaseContext> _currentContext;
 			};
 		} // namespace rendering
 	} // namespace renderer

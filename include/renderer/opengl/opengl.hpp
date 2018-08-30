@@ -110,13 +110,6 @@ namespace ece
 				*/
 				static inline Version<2> & getLatestVersion();
 
-				/**
-				* @fn void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext)
-				* @param[in] currentContext The OpenGL context to use.
-				* @brief Define a context as the one to currently use.
-				*/
-				static inline void setCurrentContext(const std::shared_ptr<BaseContext> & currentContext);
-
 				template <class T> static inline constexpr DataType dataType();
 				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
 
@@ -793,12 +786,6 @@ namespace ece
 				* @brief The latest version available of OpenGL.
 				*/
 				static Version<2> _latestVersion;
-
-				/**
-				* @property _currentContext
-				* @brief The current OpenGL context used.
-				*/
-				static std::shared_ptr<BaseContext> _currentContext;
 			};
 
 			template<> inline DataType OpenGL::dataType<short int>();

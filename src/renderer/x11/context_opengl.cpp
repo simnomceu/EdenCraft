@@ -178,10 +178,10 @@ namespace ece
 
 			void ContextOpenGL::setCurrent()
 			{
+				BaseContext::setCurrent();
 				if (!glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context)) {
 					throw std::runtime_error("The context cannot be used.");
 				}
-				OpenGL::setCurrentContext(this->shared_from_this());
 			}
 		} // namespace opengl
 	} // namespace renderer

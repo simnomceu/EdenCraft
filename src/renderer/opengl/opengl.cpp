@@ -55,7 +55,6 @@ namespace ece
 			using utility::log::ServiceLoggerLocator;
 
 			Version<2> OpenGL::_latestVersion{ 3, 2 };
-			std::shared_ptr<BaseContext> OpenGL::_currentContext;
 
 			void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 			{

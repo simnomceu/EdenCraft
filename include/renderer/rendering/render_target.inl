@@ -37,6 +37,7 @@
 */
 
 #include "renderer/rendering/renderer.hpp"
+#include "utility/log/service_logger.hpp"
 
 namespace ece
 {
@@ -44,11 +45,22 @@ namespace ece
 	{
 		namespace rendering
 		{
+			using utility::log::ServiceLoggerLocator;
+
 			inline const Viewport & RenderTarget::getCurrentViewport() const { return this->_currentViewport; }
 
 			inline void RenderTarget::setCurrent() { Renderer::setCurrentTarget(this->weak_from_this()); }
 
-			inline bool RenderTarget::isCurrent() const noexcept { return Renderer::getCurrentTarget().lock() == this->weak_from_this().lock(); }
+			inline bool RenderTarget::isCurrent() const noexcept
+			{
+				try {
+					return Renderer::getCurrentTarget().lock().get() == this;
+				}
+				catch (std::bad_weak_ptr & e) {
+					ServiceLoggerLocator::getService().logError(std::string("A RenderTarget need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. ") + e.what());
+					return false;
+				}
+			}
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

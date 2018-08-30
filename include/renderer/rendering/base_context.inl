@@ -37,6 +37,8 @@
 */
 
 #include "utility/debug/assertion.hpp"
+#include "renderer/rendering/renderer.hpp"
+#include "utility/log/service_logger.hpp"
 
 namespace ece
 {
@@ -45,6 +47,7 @@ namespace ece
 		namespace rendering
 		{
 			using namespace utility::debug;
+			using utility::log::ServiceLoggerLocator;
 
 			inline BaseContext::BaseContext() noexcept: std::enable_shared_from_this<BaseContext>(), _minVersion(), _maxVersion() {}
 
@@ -63,6 +66,19 @@ namespace ece
 			inline void BaseContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
 
 			bool BaseContext::isCreated() const noexcept { return this->_created; }
+
+			void BaseContext::setCurrent() { Renderer::setCurrentContext(this->weak_from_this()); }
+
+			inline bool BaseContext::isCurrent() const noexcept
+			{
+				try {
+					return Renderer::getCurrentContext().lock().get() == this;
+				}
+				catch (std::bad_weak_ptr & e) {
+					ServiceLoggerLocator::getService().logError(std::string("A BaseContext need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. ") + e.what());
+					return false;
+				}
+			}
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
