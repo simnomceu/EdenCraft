@@ -42,7 +42,7 @@
 #include "renderer/config.hpp"
 #include "window/common/window.hpp"
 #include "renderer/rendering/renderer.hpp"
-#include "renderer/rendering/base_context.hpp"
+#include "renderer/rendering/render_context.hpp"
 #include "renderer/rendering/render_target.hpp"
 #include "renderer/pipeline/render_state.hpp"
 
@@ -191,7 +191,7 @@ namespace ece
 				 * @property _context
 				 * @brief The render context to use for rendering.
 				 */
-				std::shared_ptr<BaseContext> _context;
+				std::shared_ptr<RenderContext> _context;
 
 				RenderState _currentState;
 			};

@@ -39,7 +39,7 @@
 #include "renderer/opengl/opengl.hpp"
 
 #include "utility/log/service_logger.hpp"
-#include "renderer/rendering/base_context.hpp"
+#include "renderer/rendering/render_context.hpp"
 
 #ifdef _MSC_VER
 #	undef min

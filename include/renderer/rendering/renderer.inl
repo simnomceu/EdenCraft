@@ -47,9 +47,9 @@ namespace ece
 
 			inline std::weak_ptr<RenderTarget> Renderer::getCurrentTarget() { return Renderer::_currentTarget; }
 
-			inline void Renderer::setCurrentContext(const std::weak_ptr<BaseContext> & context) { Renderer::_currentContext = context;  }
+			inline void Renderer::setCurrentContext(const std::weak_ptr<RenderContext> & context) { Renderer::_currentContext = context;  }
 
-			inline std::weak_ptr<BaseContext> Renderer::getCurrentContext() { return Renderer::_currentContext; }
+			inline std::weak_ptr<RenderContext> Renderer::getCurrentContext() { return Renderer::_currentContext; }
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

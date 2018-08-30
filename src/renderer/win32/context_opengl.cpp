@@ -56,7 +56,7 @@ namespace ece
 			using utility::debug::AssertionException;
 			using utility::pattern::makePimpl;
 
-			ContextOpenGL::ContextOpenGL() noexcept : BaseContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
+			ContextOpenGL::ContextOpenGL() noexcept : RenderContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
 			{
 				this->setMinVersion({ 3, 2 });
 				this->setMaxVersion({ 4, 6 });
@@ -172,7 +172,7 @@ namespace ece
 			void ContextOpenGL::setCurrent()
 			{
 				make_assert(this->isCreated(), "only an existing context can be used.");
-				BaseContext::setCurrent();
+				RenderContext::setCurrent();
 				if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
 					throw std::runtime_error("The context cannot be used.");
 				}

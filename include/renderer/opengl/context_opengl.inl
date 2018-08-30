@@ -38,7 +38,7 @@
 
 namespace ece
 {
-	/*inline ContextOpenGL::ContextOpenGL() noexcept : BaseContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
+	/*inline ContextOpenGL::ContextOpenGL() noexcept : RenderContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
 	{
 		this->setMinVersion({3, 2});
 		this->setMaxVersion({4, 6});

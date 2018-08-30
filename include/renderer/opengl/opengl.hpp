@@ -64,7 +64,7 @@ namespace ece
 	{
 		namespace rendering
 		{
-			class BaseContext;
+			class RenderContext;
 		}
 
 		namespace opengl
@@ -72,7 +72,7 @@ namespace ece
 			using namespace utility::mathematics;
 			using namespace utility::template_expression;
 			using utility::indexing::Version;
-			using rendering::BaseContext;
+			using rendering::RenderContext;
 			using utility::container::contiguous_container_v;
 			using utility::container::can_access_data_v;
 			using utility::container::has_size_v;

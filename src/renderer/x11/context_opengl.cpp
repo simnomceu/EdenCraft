@@ -57,7 +57,7 @@ namespace ece
 			using utility::debug::AssertionException;
 			using utility::pattern::makePimpl;
 
-			ContextOpenGL::ContextOpenGL() noexcept: BaseContext(), _data(makePimpl<DataContextOpenGL>())
+			ContextOpenGL::ContextOpenGL() noexcept: RenderContext(), _data(makePimpl<DataContextOpenGL>())
 			{
 			}
 
@@ -178,7 +178,7 @@ namespace ece
 
 			void ContextOpenGL::setCurrent()
 			{
-				BaseContext::setCurrent();
+				RenderContext::setCurrent();
 				if (!glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context)) {
 					throw std::runtime_error("The context cannot be used.");
 				}

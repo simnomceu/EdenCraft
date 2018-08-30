@@ -39,7 +39,7 @@
 #ifndef CONTEXT_OPENGL_HPP
 #define CONTEXT_OPENGL_HPP
 
-#include "renderer/rendering/base_context.hpp"
+#include "renderer/rendering/render_context.hpp"
 #include "utility/pattern/pimpl.hpp"
 
 namespace ece
@@ -48,7 +48,7 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using rendering::BaseContext;
+			using rendering::RenderContext;
 			using rendering::RenderWindow;
 			using utility::pattern::Pimpl;
 			using utility::indexing::Version;
@@ -57,11 +57,11 @@ namespace ece
 
 			/**
 			 * @class ContextOpenGL
-			 * @extends std::enable_shared_from_this<BaseContextOpenGL>
-			 * @extends BaseContext
+			 * @extends std::enable_shared_from_this<ContextOpenGL>
+			 * @extends RenderContext
 			 * @brief An OpenGL context with an implementation depending of the platform.
 			 */
-			class ContextOpenGL : public BaseContext
+			class ContextOpenGL : public RenderContext
 			{
 			public:
 				/**
@@ -117,7 +117,7 @@ namespace ece
 				 * @return The current version of the render context.
 				 * @brief Get the version used of the render context.
 				 * @throw
-				 * @see Version<2> BaseContext::getCurrentVersion() const
+				 * @see Version<2> RenderContext::getCurrentVersion() const
 				 */
 				virtual Version<2> getCurrentVersion() const override;
 
@@ -126,7 +126,7 @@ namespace ece
 				 * @param[in] window The window to linked to.
 				 * @brief Create the OpenGL context for a window.
 				 * @throw
-				 * @see void BaseContext::create(const RenderWindow & window)
+				 * @see void RenderContext::create(const RenderWindow & window)
 				 */
 				virtual void create(const RenderWindow & window) override;
 
@@ -134,7 +134,7 @@ namespace ece
 				 * @fn void terminate()
 				 * @brief Delete the render context.
 				 * @throw
-				 * @see void BaseContext::terminate()
+				 * @see void RenderContext::terminate()
 				 */
 				virtual void terminate() override;
 
@@ -142,7 +142,7 @@ namespace ece
 				 * @fn void swapBuffers()
 				 * @brief If multi buffering is enable, it swap between buffers to display the new frame.
 				 * @throw
-				 * @see void BaseContext::swapBuffers()
+				 * @see void RenderContext::swapBuffers()
 				 */
 				virtual void swapBuffers() override;
 
@@ -158,7 +158,7 @@ namespace ece
 				 * @fn void logInfos()
 				 * @brief Log the informations related to OpenGL and the device used.
 				 * @throw
-				 * @see void BaseContext::logInfos()
+				 * @see void RenderContext::logInfos()
 				 */
 				virtual void logInfos() const override;
 

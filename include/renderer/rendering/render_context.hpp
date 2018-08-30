@@ -36,8 +36,8 @@
 
 */
 
-#ifndef BASE_CONTEXT_HPP
-#define BASE_CONTEXT_HPP
+#ifndef RENDER_CONTEXT_HPP
+#define RENDER_CONTEXT_HPP
 
 #include <memory>
 
@@ -55,31 +55,31 @@ namespace ece
 			class RenderWindow;
 
 			/**
-			 * @class BaseContext
+			 * @class RenderContext
 			 * @brief Generic render context.
 			 */
-			class ECE_RENDERER_API BaseContext : public std::enable_shared_from_this<BaseContext>
+			class ECE_RENDERER_API RenderContext : public std::enable_shared_from_this<RenderContext>
 			{
 			public:
 				/**
-				 * @fn BaseContext() noexcept
+				 * @fn RenderContext() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline BaseContext() noexcept;
+				inline RenderContext() noexcept;
 
-				BaseContext(const BaseContext & copy) = delete;
-				BaseContext(BaseContext && move) = delete;
+				RenderContext(const RenderContext & copy) = delete;
+				RenderContext(RenderContext && move) = delete;
 
 				/**
-				 * @fn ~BaseContext() noexcept
+				 * @fn ~RenderContext() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BaseContext() noexcept = default;
+				~RenderContext() noexcept = default;
 
-				BaseContext & operator=(const BaseContext & copy) noexcept = delete;
-				BaseContext & operator=(BaseContext && move) = delete;
+				RenderContext & operator=(const RenderContext & copy) noexcept = delete;
+				RenderContext & operator=(RenderContext && move) = delete;
 
 				/**
 				 * @fn void capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
@@ -190,6 +190,6 @@ namespace ece
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/rendering/base_context.inl"
+#include "renderer/rendering/render_context.inl"
 
-#endif // BASE_CONTEXT_HPP
+#endif // RENDER_CONTEXT_HPP

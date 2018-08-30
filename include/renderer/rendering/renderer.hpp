@@ -40,8 +40,6 @@
 #define RENDERER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl.hpp"
-#include "renderer/resource/shader.hpp"
 
 #include <memory>
 
@@ -57,10 +55,7 @@ namespace ece
 		namespace rendering
 		{
 			class RenderTarget;
-
-			using opengl::OpenGL;
-			using resource::VAO;
-			using resource::Shader;
+			class RenderContext;
 
 			/**
 			 * @class Renderer
@@ -120,12 +115,12 @@ namespace ece
 				static inline void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
 				static inline std::weak_ptr<RenderTarget> getCurrentTarget();
 
-				static inline void setCurrentContext(const std::weak_ptr<BaseContext> & context);
-				static inline std::weak_ptr<BaseContext> getCurrentContext();
+				static inline void setCurrentContext(const std::weak_ptr<RenderContext> & context);
+				static inline std::weak_ptr<RenderContext> getCurrentContext();
 
 			private:
 				static std::weak_ptr<RenderTarget> _currentTarget;
-				static std::weak_ptr<BaseContext> _currentContext;
+				static std::weak_ptr<RenderContext> _currentContext;
 			};
 		} // namespace rendering
 	} // namespace renderer

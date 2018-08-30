@@ -49,9 +49,9 @@ namespace ece
 			using namespace utility::debug;
 			using utility::log::ServiceLoggerLocator;
 
-			inline BaseContext::BaseContext() noexcept: std::enable_shared_from_this<BaseContext>(), _minVersion(), _maxVersion() {}
+			inline RenderContext::RenderContext() noexcept: std::enable_shared_from_this<RenderContext>(), _minVersion(), _maxVersion() {}
 
-			inline void BaseContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
+			inline void RenderContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
 			{
 				make_assert(minVersion <= maxVersion, "Minimum version should be smaller than or equal to maximum version.");
 
@@ -59,23 +59,23 @@ namespace ece
 				this->setMaxVersion(maxVersion);
 			}
 
-			inline void BaseContext::setMinVersion(const Version<2> & minVersion) noexcept { this->_minVersion = minVersion; }
+			inline void RenderContext::setMinVersion(const Version<2> & minVersion) noexcept { this->_minVersion = minVersion; }
 
-			inline void BaseContext::setMaxVersion(const Version<2> & maxVersion) noexcept { this->_maxVersion = maxVersion; }
+			inline void RenderContext::setMaxVersion(const Version<2> & maxVersion) noexcept { this->_maxVersion = maxVersion; }
 
-			inline void BaseContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
+			inline void RenderContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
 
-			bool BaseContext::isCreated() const noexcept { return this->_created; }
+			bool RenderContext::isCreated() const noexcept { return this->_created; }
 
-			void BaseContext::setCurrent() { Renderer::setCurrentContext(this->weak_from_this()); }
+			void RenderContext::setCurrent() { Renderer::setCurrentContext(this->weak_from_this()); }
 
-			inline bool BaseContext::isCurrent() const noexcept
+			inline bool RenderContext::isCurrent() const noexcept
 			{
 				try {
 					return Renderer::getCurrentContext().lock().get() == this;
 				}
 				catch (std::bad_weak_ptr & e) {
-					ServiceLoggerLocator::getService().logError(std::string("A BaseContext need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. ") + e.what());
+					ServiceLoggerLocator::getService().logError(std::string("A RenderContext need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. ") + e.what());
 					return false;
 				}
 			}

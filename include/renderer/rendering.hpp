@@ -39,7 +39,7 @@
 #ifndef RENDERER_RENDERING_HPP
 #define RENDERER_RENDERING_HPP
 
-#include "renderer/rendering/base_context.hpp"
+#include "renderer/rendering/render_context.hpp"
 #include "renderer/rendering/color.hpp"
 #include "renderer/rendering/render_target.hpp"
 #include "renderer/rendering/render_window.hpp"
