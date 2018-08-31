@@ -70,12 +70,12 @@ namespace ece
 				this->_data->_windowHandle = 0;
 			}
 
-			void ContextOpenGL::create(const RenderWindow & window)
+			void ContextOpenGL::create(const ContextSettings & settings)
 			{
 				OpenGL::init(this->_minVersion, this->_maxVersion);
 
-				this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_api->getWindowHandle();
-				this->_data->_display = window.getAdapter().lock()->getImpl()->_api->getDevice();
+				this->_data->_windowHandle = settings.window.lock()->getAdapter().lock()->getImpl()->_api->getWindowHandle();
+				this->_data->_display = settings.window.lock()->getAdapter().lock()->getImpl()->_api->getDevice();
 
 				int nbFramebufferConfigs = 0;
 				GLXFBConfig * framebufferConfig = nullptr;
@@ -112,8 +112,8 @@ namespace ece
 						GLX_BLUE_SIZE, 8,
 						GLX_DEPTH_SIZE, 24,
 						GLX_STENCIL_SIZE, 8,
-						GLX_SAMPLE_BUFFERS, window.getVideoMode().getSamples() > 1 ? true : false, // Enable MSAA or not
-						GLX_SAMPLES, window.getVideoMode().getSamples(), // Number of samples,
+						GLX_SAMPLE_BUFFERS, settings.window.lock()->getVideoMode().getSamples() > 1 ? true : false, // Enable MSAA or not
+						GLX_SAMPLES, settings.window.lock()->getVideoMode().getSamples(), // Number of samples,
 						None
 					};
 					framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
