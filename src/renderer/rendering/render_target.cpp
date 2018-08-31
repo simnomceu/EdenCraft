@@ -47,7 +47,7 @@ namespace ece
 		{
 			using opengl::OpenGL;
 
-			RenderTarget::RenderTarget() noexcept: std::enable_shared_from_this<RenderTarget>(), _currentViewport(), _viewportHasChanged(false)
+			RenderTarget::RenderTarget() noexcept: virtual_enable_shared_from_this<RenderTarget>(), _currentViewport(), _viewportHasChanged(false)
 			{
 			}
 

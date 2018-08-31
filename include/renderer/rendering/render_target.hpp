@@ -43,6 +43,7 @@
 #include "utility/mathematics/vector2u.hpp"
 #include "renderer/rendering/color.hpp"
 #include "renderer/rendering/viewport.hpp"
+#include "utility/pattern/virtual_enable_shared_from_this.hpp"
 
 #include <memory>
 
@@ -54,6 +55,7 @@ namespace ece
 		{
 			using utility::mathematics::IntVector2u;
 			using utility::mathematics::Rectangle;
+			using utility::pattern::virtual_enable_shared_from_this;
 
 			// TODO: Renderable vs Drawable ?
 			class Renderable;
@@ -62,7 +64,7 @@ namespace ece
 			 * @class RenderTarget
 			 * @brief
 			 */
-			class ECE_RENDERER_API RenderTarget: public std::enable_shared_from_this<RenderTarget>
+			class ECE_RENDERER_API RenderTarget: public virtual_enable_shared_from_this<RenderTarget>
 			{
 			public:
 				/**
