@@ -41,6 +41,7 @@
 
 #include "renderer/rendering/render_context.hpp"
 #include "utility/pattern/pimpl.hpp"
+#include "utility/indexing/version.hpp"
 
 namespace ece
 {
@@ -49,7 +50,7 @@ namespace ece
 		namespace opengl
 		{
 			using rendering::RenderContext;
-			using rendering::RenderWindow;
+			using rendering::ContextSettings;
 			using utility::pattern::Pimpl;
 			using utility::indexing::Version;
 
@@ -64,6 +65,8 @@ namespace ece
 			class ContextOpenGL : public RenderContext
 			{
 			public:
+				static std::shared_ptr<RenderContext> DummyContext();
+
 				/**
 				 * @fn ContextOpenGL() noexcept
 				 * @brief Default constructor.
@@ -128,7 +131,7 @@ namespace ece
 				 * @throw
 				 * @see void RenderContext::create(const RenderWindow & window)
 				 */
-				virtual void create(const RenderWindow & window) override;
+				virtual void create(const ContextSettings & settings) override;
 
 				/**
 				 * @fn void terminate()
@@ -162,12 +165,16 @@ namespace ece
 				 */
 				virtual void logInfos() const override;
 
+				inline const Version<2> & getMaxVersionAvailable() const noexcept;
+
 			private:
 				/**
 				 * @property _data
 				 * @brief The platform implentation for the OpenGL context.
 				 */
 				Pimpl<DataContextOpenGL> _data;
+
+				static Version<2> _maxVersionAvailable;
 			};
 		} // namespace opengl
 	} // namespace renderer
@@ -175,4 +182,4 @@ namespace ece
 
 #include "renderer/opengl/context_opengl.inl"
 
-#endif // !CONTEXT_OPENGL_HPP
+#endif // CONTEXT_OPENGL_HPP

@@ -56,6 +56,11 @@ namespace ece
 			using utility::debug::AssertionException;
 			using utility::pattern::makePimpl;
 
+			std::shared_ptr<RenderContext> ContextOpenGL::DummyContext()
+			{
+				return std::make_shared<ContextOpenGL>();
+			}
+
 			ContextOpenGL::ContextOpenGL() noexcept : RenderContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
 			{
 				this->setMinVersion({ 3, 2 });
@@ -76,12 +81,12 @@ namespace ece
 				this->_data->_windowHandle = nullptr;
 			}
 
-			void ContextOpenGL::create(const RenderWindow & window)
+			void ContextOpenGL::create(const ContextSettings & settings)
 			{
 				OpenGL::init(this->_minVersion, this->_maxVersion);
 
 				// Create real context
-				this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_windowId;
+				this->_data->_windowHandle = settings.window.lock()->getAdapter().lock()->getImpl()->_windowId;
 				this->_data->_device = GetDC(this->_data->_windowHandle);
 				if (!this->_data->_device) {
 					throw std::runtime_error("The device associated to that window cannot be used or there is not device.");
@@ -95,8 +100,8 @@ namespace ece
 					WGL_COLOR_BITS_ARB, 32,
 					WGL_DEPTH_BITS_ARB, 24,
 					WGL_STENCIL_BITS_ARB, 8,
-					WGL_SAMPLE_BUFFERS_ARB, window.getVideoMode().getSamples() > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
-					WGL_SAMPLES_ARB, window.getVideoMode().getSamples(), // Number of samples
+					WGL_SAMPLE_BUFFERS_ARB, settings.window.lock()->getVideoMode().getSamples() > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
+					WGL_SAMPLES_ARB, settings.window.lock()->getVideoMode().getSamples(), // Number of samples
 					0
 				};
 
@@ -149,7 +154,7 @@ namespace ece
 				OpenGL::enable(Capability::DEPTH_TEST);
 				OpenGL::depthFunc(DepthFunctionCondition::LESS);
 				OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
-				glViewport(0, 0, window.getSize()[0], window.getSize()[1]);
+				glViewport(0, 0, settings.window.lock()->getSize()[0], settings.window.lock()->getSize()[1]);
 
 				OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 

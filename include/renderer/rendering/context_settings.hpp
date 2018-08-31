@@ -36,98 +36,90 @@
 
 */
 
-#ifndef RENDERER_HPP
-#define RENDERER_HPP
+#ifndef CONTEXT_SETTINGS_HPP
+#define CONTEXT_SETTINGS_HPP
 
 #include "renderer/config.hpp"
-
-#include <memory>
+#include "utility/indexing/version.hpp"
+#include "renderer/rendering/pixel_format.hpp"
+#include "window/common/window.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
-		{
-			class VAO;
-		}
-
 		namespace rendering
 		{
-			class RenderTarget;
-			class RenderContext;
+			using utility::indexing::Version;
+			using window::common::Window;
 
 			/**
-			 * @class Renderer
-			 * @brief Manage objects that need to be rendered.
+			 * @class ContextSettings
+			 * @brief
 			 */
-			class ECE_RENDERER_API Renderer
+			class ECE_RENDERER_API ContextSettings
 			{
 			public:
 				/**
-				 * @fn constexpr Renderer() noexcept
+				 * @fn ContextSettings() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Renderer() noexcept = delete;
+				ContextSettings() noexcept = default;
 
 				/**
-				 * @fn Renderer(const Renderer & copy) noexcept
-				 * @param[in] copy The Renderer to copy from.
+				 * @fn ContextSettings(const ContextSettings & copy) noexcept
+				 * @param[in] copy The ContextSettings to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Renderer(const Renderer & copy) noexcept = delete;
+				ContextSettings(const ContextSettings & copy) noexcept = default;
 
 				/**
-				 * @fn Renderer(Renderer && move) noexcept
-				 * @param[in] move The Renderer to move.
+				 * @fn ContextSettings(ContextSettings && move) noexcept
+				 * @param[in] move The ContextSettings to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Renderer(Renderer && move) noexcept = delete;
+				ContextSettings(ContextSettings && move) noexcept = default;
 
 				/**
-				 * @fn ~Renderer()
+				 * @fn ~ContextSettings() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Renderer() noexcept = delete;
+				~ContextSettings() noexcept = default;
 
 				/**
-				 * @fn Renderer & operator=(const Renderer & copy) noexcept
-				 * @param[in] copy The Renderer to copy from.
-				 * @return The Renderer copied.
+				 * @fn ContextSettings & operator=(const ContextSettings & copy) noexcept
+				 * @param[in] copy The ContextSettings to copy from.
+				 * @return The ContextSettings copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Renderer & operator=(const Renderer & copy) noexcept = delete;
+				ContextSettings & operator=(const ContextSettings & copy) noexcept = default;
 
 				/**
-				 * @fn Renderer & operator=(Renderer && move) noexcept
-				 * @param[in] move The Renderer to move.
-				 * @return The Renderer moved.
+				 * @fn ContextSettings & operator=(ContextSettings && move) noexcept
+				 * @param[in] move The ContextSettings to move.
+				 * @return The ContextSettings moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Renderer & operator=(Renderer && move) noexcept = delete;
+				ContextSettings & operator=(ContextSettings && move) noexcept = default;
 
-				static inline void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
-				static inline std::weak_ptr<RenderTarget> getCurrentTarget();
+				Version<2> minVersion;
+				Version<2> maxVersion;
 
-				static inline void setCurrentContext(const std::weak_ptr<RenderContext> & context);
-				static inline std::weak_ptr<RenderContext> getCurrentContext();
+				bool doubleBuffer;
+				std::size_t antialiasingSamples;
 
-				static inline bool isInitialized() noexcept;
+				PixelFormat pixelFormat;
 
-			private:
-				static std::weak_ptr<RenderTarget> _currentTarget;
-				static std::weak_ptr<RenderContext> _currentContext;
+				std::weak_ptr<Window> window;
 			};
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/rendering/renderer.inl"
-
-#endif // RENDERER_HPP
+#endif // CONTEXT_SETTINGS_HPP

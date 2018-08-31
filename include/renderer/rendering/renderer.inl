@@ -50,6 +50,8 @@ namespace ece
 			inline void Renderer::setCurrentContext(const std::weak_ptr<RenderContext> & context) { Renderer::_currentContext = context;  }
 
 			inline std::weak_ptr<RenderContext> Renderer::getCurrentContext() { return Renderer::_currentContext; }
+
+			inline bool Renderer::isInitialized() noexcept { return !Renderer::_currentContext.expired(); }
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

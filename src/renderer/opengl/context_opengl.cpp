@@ -50,6 +50,8 @@ namespace ece
 		{
 			using utility::log::ServiceLoggerLocator;
 
+			Version<2> ContextOpenGL::_maxVersionAvailable;
+
 			Version<2> ContextOpenGL::getCurrentVersion() const
 			{
 				// TODO To be completed

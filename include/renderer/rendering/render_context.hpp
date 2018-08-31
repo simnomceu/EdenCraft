@@ -43,6 +43,7 @@
 
 #include "renderer/config.hpp"
 #include "utility/indexing/version.hpp"
+#include "renderer/rendering/context_settings.hpp"
 
 namespace ece
 {
@@ -51,8 +52,6 @@ namespace ece
 		namespace rendering
 		{
 			using utility::indexing::Version;
-
-			class RenderWindow;
 
 			/**
 			 * @class RenderContext
@@ -128,7 +127,7 @@ namespace ece
 				 * @brief Create the context for a window.
 				 * @throw
 				 */
-				virtual void create(const RenderWindow & window) = 0;
+				virtual void create(const ContextSettings & settings) = 0;
 
 				/**
 				 * @fn void terminate()

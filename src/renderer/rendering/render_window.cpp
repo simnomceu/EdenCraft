@@ -71,7 +71,9 @@ namespace ece
 					this->_isOpened = true;
 
 					try {
-						this->_context->create(*this);
+						ContextSettings settings;
+						settings.window = this->Window::weak_from_this();
+						this->_context->create(settings);
 					}
 					catch (Exception & /*e*/) {
 						throw;

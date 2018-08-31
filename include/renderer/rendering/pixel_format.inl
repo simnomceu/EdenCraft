@@ -40,9 +40,9 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace rendering
 		{
-			inline const Version<2> & ContextOpenGL::getMaxVersionAvailable() const noexcept { return this->_maxVersionAvailable; }
-		} // namespace opengl
+			inline PixelFormat::PixelFormat() noexcept: type(), format(){}
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

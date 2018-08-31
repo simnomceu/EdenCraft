@@ -36,98 +36,102 @@
 
 */
 
-#ifndef RENDERER_HPP
-#define RENDERER_HPP
+#ifndef PIXEL_FORMAT_HPP
+#define PIXEL_FORMAT_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/rendering/color.hpp"
 
-#include <memory>
+#include <variant>
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
-		{
-			class VAO;
-		}
-
 		namespace rendering
 		{
-			class RenderTarget;
-			class RenderContext;
-
 			/**
-			 * @class Renderer
-			 * @brief Manage objects that need to be rendered.
+			 * @class PixelFormat
+			 * @brief
 			 */
-			class ECE_RENDERER_API Renderer
+			class PixelFormat
 			{
 			public:
+				enum class Type: unsigned char
+				{
+					COLOR,
+					DEPTH,
+					STENCIL,
+					DEPTH_STENCIL
+				};
+
+				enum class Order: unsigned char
+				{
+					RGB,
+					RGBA
+				};
+
+				struct StencilDepth
+				{
+					std::size_t stencil;
+					std::size_t depth;
+				};
+
 				/**
-				 * @fn constexpr Renderer() noexcept
+				 * @fn PixelFormat() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Renderer() noexcept = delete;
+				inline PixelFormat() noexcept;
 
 				/**
-				 * @fn Renderer(const Renderer & copy) noexcept
-				 * @param[in] copy The Renderer to copy from.
+				 * @fn PixelFormat(const PixelFormat & copy) noexcept
+				 * @param[in] copy The PixelFormat to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Renderer(const Renderer & copy) noexcept = delete;
+				PixelFormat(const PixelFormat & copy) noexcept = default;
 
 				/**
-				 * @fn Renderer(Renderer && move) noexcept
-				 * @param[in] move The Renderer to move.
+				 * @fn PixelFormat(PixelFormat && move) noexcept
+				 * @param[in] move The PixelFormat to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Renderer(Renderer && move) noexcept = delete;
+				PixelFormat(PixelFormat && move) noexcept = default;
 
 				/**
-				 * @fn ~Renderer()
+				 * @fn ~PixelFormat() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Renderer() noexcept = delete;
+				~PixelFormat() noexcept = default;
 
 				/**
-				 * @fn Renderer & operator=(const Renderer & copy) noexcept
-				 * @param[in] copy The Renderer to copy from.
-				 * @return The Renderer copied.
+				 * @fn PixelFormat & operator=(const PixelFormat & copy) noexcept
+				 * @param[in] copy The PixelFormat to copy from.
+				 * @return The PixelFormat copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Renderer & operator=(const Renderer & copy) noexcept = delete;
+				PixelFormat & operator=(const PixelFormat & copy) noexcept = default;
 
 				/**
-				 * @fn Renderer & operator=(Renderer && move) noexcept
-				 * @param[in] move The Renderer to move.
-				 * @return The Renderer moved.
+				 * @fn PixelFormat & operator=(PixelFormat && move) noexcept
+				 * @param[in] move The PixelFormat to move.
+				 * @return The PixelFormat moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Renderer & operator=(Renderer && move) noexcept = delete;
+				PixelFormat & operator=(PixelFormat && move) noexcept = default;
 
-				static inline void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
-				static inline std::weak_ptr<RenderTarget> getCurrentTarget();
-
-				static inline void setCurrentContext(const std::weak_ptr<RenderContext> & context);
-				static inline std::weak_ptr<RenderContext> getCurrentContext();
-
-				static inline bool isInitialized() noexcept;
-
-			private:
-				static std::weak_ptr<RenderTarget> _currentTarget;
-				static std::weak_ptr<RenderContext> _currentContext;
+				Type type;
+				std::variant<Color, std::size_t, StencilDepth> format;
 			};
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/rendering/renderer.inl"
+#include "renderer/rendering/pixel_format.inl"
 
-#endif // RENDERER_HPP
+#endif // PIXEL_FORMAT_HPP
