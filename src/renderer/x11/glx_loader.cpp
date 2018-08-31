@@ -80,14 +80,13 @@ namespace ece
 					const int visual_attribs[] = {
 						GLX_RENDER_TYPE, GLX_RGBA_BIT,
 						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-						GLX_RED_SIZE, 1,
-						GLX_GREEN_SIZE, 1,
-						GLX_BLUE_SIZE, 1,
+						GLX_DEPTH_SIZE, 24,
+						GLX_STENCIL_SIZE, 8,
 						None
 					};
 					FBConfig = glXChooseFBConfig(this->_dummy.display, DefaultScreen(this->_dummy.display), visual_attribs, &nbFBConfig);
 				}
-				else {
+			/*	else {
 					ServiceLoggerLocator::getService().logInfo("GLX version: " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
 					const int visual_attribs[] = {
 						GLX_X_RENDERABLE, GL_TRUE,
@@ -104,27 +103,14 @@ namespace ece
 						None
 					};
 					FBConfig = glXChooseFBConfig(this->_dummy.display, DefaultScreen(this->_dummy.display), visual_attribs, &nbFBConfig);
-				}
+				}*/
 
 				if (!FBConfig) {
 					throw std::runtime_error("No frame buffer configuration choosen for OpenGL dummy context.");
 				}
-				XVisualInfo * visualInfo = glXGetVisualFromFBConfig(this->_dummy.display, FBConfig[0]);
+				//XVisualInfo * visualInfo = glXGetVisualFromFBConfig(this->_dummy.display, FBConfig[0]);
 
-				XSetWindowAttributes windowsAttributes;
-				windowsAttributes.colormap = XCreateColormap(this->_dummy.display, RootWindow(this->_dummy.display, visualInfo->screen), visualInfo->visual, AllocNone);
-				windowsAttributes.border_pixel = 0;
-				windowsAttributes.event_mask = StructureNotifyMask;
-
-				this->_dummy.window = XCreateWindow(this->_dummy.display,
-					RootWindow(this->_dummy.display, visualInfo->screen),
-					0, 0, 1, 1,
-					0,
-					visualInfo->depth,
-					InputOutput,
-					visualInfo->visual,
-					CWBorderPixel | CWColormap | CWEventMask,
-					&windowsAttributes);
+				this->_dummy.window = RootWindow(this->_dummy.display, DefaultScreen(this->_dummy.display));
 				XMapWindow(this->_dummy.display, this->_dummy.window);
 
 				this->_dummy.context = glXCreateNewContext(this->_dummy.display, FBConfig[0], GLX_RGBA_TYPE, nullptr, true);
@@ -154,8 +140,8 @@ namespace ece
 					glXMakeCurrent(this->_dummy.display, 0, 0);
 					glXDestroyContext(this->_dummy.display, this->_dummy.context);
 					XUnmapWindow(this->_dummy.display, this->_dummy.window);
-					XDestroyWindow(this->_dummy.display, this->_dummy.window);
-
+				//	XDestroyWindow(this->_dummy.display, this->_dummy.window);
+					XCloseDisplay(this->_dummy.display);
 					this->_dummy.display = nullptr;
 				}
 			}

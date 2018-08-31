@@ -73,38 +73,35 @@ namespace ece
 
 			void WGLLoader::initDummyContext()
 			{
-				this->_dummy.window = CreateWindow(L"Static", L"", WS_DISABLED, 0, 0, 1, 1, nullptr, nullptr, nullptr, nullptr);
-				if (this->_dummy.window) {
-					this->_dummy.device = GetDC(this->_dummy.window);
-					if (!this->_dummy.device) {
-						throw std::runtime_error("OpenGL cannot be initialized beacause no device is currently available.");
-					}
+				this->_dummy.device = GetDC(GetDesktopWindow());
+				if (!this->_dummy.device) {
+					throw std::runtime_error("OpenGL cannot be initialized beacause no device is currently available.");
+				}
 
-					PIXELFORMATDESCRIPTOR pixelFormat;
-					ZeroMemory(&pixelFormat, sizeof(pixelFormat));
-					pixelFormat.nSize = sizeof(pixelFormat);
-					pixelFormat.nVersion = 1;
-					pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-					pixelFormat.iPixelType = PFD_TYPE_RGBA;
-					pixelFormat.cColorBits = 32;
-					pixelFormat.cAlphaBits = 8;
-					pixelFormat.cDepthBits = 24;
+				PIXELFORMATDESCRIPTOR pixelFormat;
+				ZeroMemory(&pixelFormat, sizeof(pixelFormat));
+				pixelFormat.nSize = sizeof(pixelFormat);
+				pixelFormat.nVersion = 1;
+				pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+				pixelFormat.iPixelType = PFD_TYPE_RGBA;
+				pixelFormat.cColorBits = 32;
+				pixelFormat.cAlphaBits = 8;
+				pixelFormat.cDepthBits = 24;
 
-					if (!ChoosePixelFormat(this->_dummy.device, &pixelFormat)) {
-						throw std::runtime_error("No pixel format choosen for OpenGL dummy context.");
-					}
+				if (!ChoosePixelFormat(this->_dummy.device, &pixelFormat)) {
+					throw std::runtime_error("No pixel format choosen for OpenGL dummy context.");
+				}
 
-					if (!SetPixelFormat(this->_dummy.device, 1, &pixelFormat)) {
-						throw std::runtime_error("OpenGL cannot be initialized because no video mode fit with.");
-					}
+				if (!SetPixelFormat(this->_dummy.device, 1, &pixelFormat)) {
+					throw std::runtime_error("OpenGL cannot be initialized because no video mode fit with.");
+				}
 
-					this->_dummy.context = wglCreateContext(this->_dummy.device);
-					if (!this->_dummy.context) {
-						throw std::runtime_error("OpenGL cannot be initialized because it is not possible to create a context.");
-					}
-					if (!wglMakeCurrent(this->_dummy.device, this->_dummy.context)) {
-						throw std::runtime_error("OpenGL cannot be initialized because it is not possible to use a context.");
-					}
+				this->_dummy.context = wglCreateContext(this->_dummy.device);
+				if (!this->_dummy.context) {
+					throw std::runtime_error("OpenGL cannot be initialized because it is not possible to create a context.");
+				}
+				if (!wglMakeCurrent(this->_dummy.device, this->_dummy.context)) {
+					throw std::runtime_error("OpenGL cannot be initialized because it is not possible to use a context.");
 				}
 
 				if (this->_openglLib == nullptr) {
@@ -136,8 +133,8 @@ namespace ece
 					this->_dummy.context = nullptr;
 					ReleaseDC(this->_dummy.window, this->_dummy.device);
 					this->_dummy.device = nullptr;
-					DestroyWindow(this->_dummy.window);
-					this->_dummy.window = nullptr;
+				//	DestroyWindow(this->_dummy.window);
+				//	this->_dummy.window = nullptr;
 				}
 			}
 		} // namespace opengl
