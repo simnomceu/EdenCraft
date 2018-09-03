@@ -51,7 +51,7 @@ namespace ece
 		{
 			using utility::mathematics::FloatMatrix4u;
 			using utility::mathematics::FloatVector3u;
-			using renderer::opengl::OpenGL;
+			using namespace ece::renderer::opengl;
 			using renderer::DataType;
 
 			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)

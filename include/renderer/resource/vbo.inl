@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::OpenGL;
+			using namespace opengl;
 
 			inline VBO::VBO(const BufferLayout & layout, const Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
 

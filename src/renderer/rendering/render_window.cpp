@@ -49,8 +49,9 @@ namespace ece
 	{
 		namespace rendering
 		{
+			using namespace opengl;
+
 			using opengl::ContextOpenGL;
-			using opengl::OpenGL;
 			using utility::log::ServiceLoggerLocator;
 			using window::common::VideoMode;
 

@@ -53,7 +53,7 @@ namespace ece
 		{
 			using utility::mathematics::FloatVector3u;
 			using core::resource::makeResource;
-			using renderer::opengl::OpenGL;
+			using namespace ece::renderer::opengl;
 
 			Scene::Scene() noexcept: _camera(), _objects()
 			{

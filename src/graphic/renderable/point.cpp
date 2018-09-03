@@ -56,7 +56,7 @@ namespace ece
 			using renderer::Capability;
 			using renderer::resource::BufferLayout;
 			using renderer::resource::ShaderStage;
-			using renderer::opengl::OpenGL;
+			using namespace ece::renderer::opengl;
 			using renderer::resource::BufferObject;
 
 			Point::Point() noexcept : Renderable(), _position(), _color(), _size(1)

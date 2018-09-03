@@ -49,7 +49,7 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			using opengl::OpenGL;
+			using namespace opengl;
 
 			void ForwardRendering::draw(const Staging & staging)
 			{

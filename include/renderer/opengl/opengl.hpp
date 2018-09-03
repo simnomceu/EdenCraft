@@ -79,20 +79,8 @@ namespace ece
 
 			using Handle = unsigned int;
 
-			/**
-			* @class OpenGL
-			* @brief Interface for all OpenGL extensions.
-			*/
-			class ECE_RENDERER_API OpenGL
+			namespace OpenGL
 			{
-			public:
-				/**
-				* @fn ~OpenGL() noexcept ~OpenGL() noexcept
-				* @brief Default destructor.
-				* @throw noexcept
-				*/
-				~OpenGL() noexcept = default;
-
 				template <class T> static inline constexpr DataType dataType();
 				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
 
@@ -722,80 +710,38 @@ namespace ece
 				//		static inline void specializeShader(unsigned int shader, const char *pEntryPoint​, unsigned int numSpecializationConstants​, const unsigned int *pConstantIndex​, const unsigned int *pConstantValue​);
 				//		static inline void polygonOffsetClamp(float factor, float units, float clamp);
 
-			private:
-				/**
-				* @fn OpenGL() noexcept
-				* @brief Default constructor.
-				* @throw noexcept
-				*/
-				OpenGL() noexcept = default;
+				template<> inline DataType dataType<short int>();
+				template<> inline DataType dataType<unsigned short int>();
+				template<> inline DataType dataType<int>();
+				template<> inline DataType dataType<unsigned int>();
+				template<> inline DataType dataType<float>();
+				template<> inline DataType dataType<double>();
 
-				/**
-				* @fn OpenGL(const OpenGL & copy) noexcept
-				* @param[in] copy The OpenGL instance to copy from.
-				* @brief Default copy constructor.
-				* @throw noexcept
-				*/
-				OpenGL(const OpenGL & copy) noexcept = default;
-
-				/**
-				* @fn OpenGL(OpenGL && move) noexcept
-				* @param[in] move The OpenGL instance to move.
-				* @brief Default move constructor.
-				* @throw noexcept
-				*/
-				OpenGL(OpenGL && move) noexcept = default;
-
-				/**
-				* @fn OpenGL & operator=(const OpenGL & copy) noexcept
-				* @param[in] copy The OpenGL instance to copy from.
-				* @return The OpenGL instance copied.
-				* @brief Default move assignment operator.
-				* @throw noexcept
-				*/
-				OpenGL & operator=(const OpenGL & copy) noexcept = default;
-
-				/**
-				* @fn OpenGL & operator=(OpenGL && move) noexcept
-				* @param[in] move The OpenGL instance to move.
-				* @return The OpenGL instance moved.
-				* @brief Default move assignment operator.
-				* @throw noexcept
-				*/
-				OpenGL & operator=(OpenGL && move) noexcept = default;
-			};
-
-			template<> inline DataType OpenGL::dataType<short int>();
-			template<> inline DataType OpenGL::dataType<unsigned short int>();
-			template<> inline DataType OpenGL::dataType<int>();
-			template<> inline DataType OpenGL::dataType<unsigned int>();
-			template<> inline DataType OpenGL::dataType<float>();
-			template<> inline DataType OpenGL::dataType<double>();
-
-			template<> inline void OpenGL::uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
-			template<> inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v);
-			template<> inline void OpenGL::uniform<float, 2>(const int location, const std::array<float, 2> & v);
-			template<> inline void OpenGL::uniform<float, 3>(const int location, const std::array<float, 3> & v);
-			template<> inline void OpenGL::uniform<float, 4>(const int location, const std::array<float, 4> & v);
-			template<> inline void OpenGL::uniform<int, 1>(const int location, const std::array<int, 1> & v);
-			template<> inline void OpenGL::uniform<int, 2>(const int location, const std::array<int, 2> & v);
-			template<> inline void OpenGL::uniform<int, 3>(const int location, const std::array<int, 3> & v);
-			template<> inline void OpenGL::uniform<int, 4>(const int location, const std::array<int, 4> & v);
-			template<> inline void OpenGL::uniform<unsigned int, 1>(const int location, const std::array<unsigned int, 1> & v);
-			template<> inline void OpenGL::uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
-			template<> inline void OpenGL::uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
-			template<> inline void OpenGL::uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 2> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 3> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 4> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 3> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 2> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 4> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 2> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 4> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 3> & v);
-			template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param);
-			template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param);
+				template<> inline void uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
+				template<> inline void uniform<float, 1>(const int location, const std::array<float, 1> & v);
+				template<> inline void uniform<float, 2>(const int location, const std::array<float, 2> & v);
+				template<> inline void uniform<float, 3>(const int location, const std::array<float, 3> & v);
+				template<> inline void uniform<float, 4>(const int location, const std::array<float, 4> & v);
+				template<> inline void uniform<int, 1>(const int location, const std::array<int, 1> & v);
+				template<> inline void uniform<int, 2>(const int location, const std::array<int, 2> & v);
+				template<> inline void uniform<int, 3>(const int location, const std::array<int, 3> & v);
+				template<> inline void uniform<int, 4>(const int location, const std::array<int, 4> & v);
+				template<> inline void uniform<unsigned int, 1>(const int location, const std::array<unsigned int, 1> & v);
+				template<> inline void uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
+				template<> inline void uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
+				template<> inline void uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 2> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 3> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 4> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 3> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 2> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 4> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 2> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 4> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 3> & v);
+				template<> inline void texParameter(const TextureTarget target, const TextureParameter pname, const float param);
+				template<> inline void texParameter(const TextureTarget target, const TextureParameter pname, const int param);
+			} //namespace OpengL
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece

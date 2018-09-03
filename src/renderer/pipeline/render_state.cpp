@@ -46,7 +46,7 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			using opengl::OpenGL;
+			using namespace opengl;
 
 			RenderState RenderState::_currentState = RenderState();
 
