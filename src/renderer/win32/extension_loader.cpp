@@ -39,8 +39,6 @@
 
 #include "renderer/opengl/extension_loader.hpp"
 
-#include "renderer/win32/wgl_loader.hpp"
-
 #include "renderer/win32/wgl_extension.hpp"
 #include "utility/log/service_logger.hpp"
 #include "renderer/opengl/opengl_extension.hpp"
@@ -59,7 +57,6 @@ namespace ece
 		namespace opengl
 		{
 			using utility::log::ServiceLoggerLocator;
-			using win32::WGLLoader;
 
 			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 			{

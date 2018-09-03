@@ -45,7 +45,6 @@
 #include "window/common/window_adapter.hpp"
 #include "window/win32/data_window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
-#include "renderer/win32/wgl_loader.hpp"
 
 namespace ece
 {
@@ -56,7 +55,6 @@ namespace ece
 			using utility::log::ServiceLoggerLocator;
 			using utility::debug::AssertionException;
 			using utility::pattern::makePimpl;
-			using renderer::win32::WGLLoader;
 
 			HMODULE DataContextOpenGL::_openglLib = nullptr;
 
@@ -87,7 +85,8 @@ namespace ece
 
 			void ContextOpenGL::createOldContext()
 			{
-				this->_data->_device = GetDC(GetDesktopWindow());
+				this->_data->_windowHandle = CreateWindow(L"Static", L"", WS_DISABLED, 0, 0, 1, 1, nullptr, nullptr, nullptr, nullptr);
+				this->_data->_device = GetDC(this->_data->_windowHandle);
 				if (!this->_data->_device) {
 					throw std::runtime_error("OpenGL cannot be initialized beacause no device is currently available.");
 				}
@@ -98,9 +97,7 @@ namespace ece
 				pixelFormat.nVersion = 1;
 				pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
 				pixelFormat.iPixelType = PFD_TYPE_RGBA;
-				pixelFormat.cColorBits = 32;
-				pixelFormat.cAlphaBits = 8;
-				pixelFormat.cDepthBits = 24;
+				pixelFormat.cColorBits = 24;
 
 				if (!ChoosePixelFormat(this->_data->_device, &pixelFormat)) {
 					throw std::runtime_error("No pixel format choosen for OpenGL dummy context.");
@@ -120,6 +117,7 @@ namespace ece
 
 				if (DataContextOpenGL::_openglLib == nullptr) {
 					DataContextOpenGL::_openglLib = LoadLibrary(L"opengl32.dll");
+					// TODO: it is never correctly "unloaded", need to be done.
 				}
 
 				wglChoosePixelFormat(nullptr, nullptr, nullptr, 0, nullptr, nullptr); // dummy call
