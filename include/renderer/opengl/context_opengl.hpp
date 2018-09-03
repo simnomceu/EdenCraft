@@ -167,12 +167,20 @@ namespace ece
 
 				inline const Version<2> & getMaxVersionAvailable() const noexcept;
 
+				void setDebugContext();
+
+			protected:
+				void createOldContext();
+				void createModernContext(const ContextSettings & settings);
+
 			private:
 				/**
 				 * @property _data
 				 * @brief The platform implentation for the OpenGL context.
 				 */
 				Pimpl<DataContextOpenGL> _data;
+
+				Version<2> _currentVersion;
 
 				static Version<2> _maxVersionAvailable;
 			};

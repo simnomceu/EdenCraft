@@ -47,8 +47,6 @@ namespace ece
 		{
 			using namespace debug;
 
-			inline Version<2> & OpenGL::getLatestVersion() { return OpenGL::_latestVersion; }
-
 			template <class T>
 			inline constexpr DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
 
@@ -1055,8 +1053,21 @@ namespace ece
 			//	inline void OpenGL::invalidateSubFramebuffer(GLenum /*target*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/, int /*x*/, int /*y*/, int /*width*/, int /*height*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::invalidateFramebuffer(GLenum /*target*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::copyImageSubData(unsigned int /*srcName*/, GLenum /*srcTarget*/, int /*srcLevel*/, int /*srcX*/, int /*srcY*/, int /*srcZ*/, unsigned int /*dstName*/, GLenum /*dstTarget*/, int /*dstLevel*/, int /*dstX*/, int /*dstY*/, int /*dstZ*/, GLsizei /*srcWidth*/, GLsizei /*srcHeight*/, GLsizei /*srcDepth*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::debugMessageCallback(GLDEBUGPROC /*callback*/, const void * /*userParam*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::debugMessageControl(GLenum /*source*/, GLenum /*type*/, GLenum /*severity*/, GLsizei /*count*/, const unsigned int * /*ids*/, bool /*enabled*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::debugMessageCallback(GLDEBUGPROC callback, const void * userParam)
+			{
+				checkErrors(glDebugMessageCallback(callback, userParam));
+			}
+			
+			inline void OpenGL::debugMessageControl(const SourceDebugMessage source, const TypeDebugMessage type, const SeverityDebugMessage severity, const std::vector<unsigned int> & ids, bool enabled)
+			{
+				if (ids.size() > 0) {
+					checkErrors(glDebugMessageControl(static_cast<GLenum>(source), static_cast<GLenum>(type), static_cast<GLenum>(severity), ids.size(), ids.data(), enabled));
+				}
+				else {
+					checkErrors(glDebugMessageControl(static_cast<GLenum>(source), static_cast<GLenum>(type), static_cast<GLenum>(severity), 0, nullptr, enabled));
+				}
+			}
 			//	inline void OpenGL::debugMessageInsert(GLenum /*source*/, GLenum /*type*/, unsigned int /*id*/, GLenum /*severity*/, GLsizei /*length*/, const char * /*message*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pushDebugGroup(GLenum /*source*/, unsigned int /*id*/, GLsizei /*length*/, const char * /*message*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::popDebugGroup() { static_assert(false, "Not implemented yet."); }

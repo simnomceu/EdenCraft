@@ -35,7 +35,9 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 #include "renderer/rendering/render_target.hpp"
+#include "renderer/rendering/render_context.hpp"
 
 namespace ece
 {

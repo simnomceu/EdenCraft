@@ -87,12 +87,7 @@ namespace ece
 				 */
 				FARPROC getProcAddress(const std::string & name);
 
-				/**
-				 * @fn void initDummyContext()
-				 * @brief Create a dummy context to initialize the core of OpenGL.
-				 * @throw
-				 */
-				void initDummyContext();
+				void loadLibrary();
 
 				/**
 				 * @fn Version<2> & getLatestVersionAvailable()
@@ -101,13 +96,6 @@ namespace ece
 				 * @throw
 				 */
 				Version<2> & getLatestVersionAvailable();
-
-				/**
-				 * @fn void terminateDummyContext()
-				 * @brief Delete the dummycontext used to initialize the core of OpenGL.
-				 * @throw
-				 */
-				void terminateDummyContext();
 
 			private:
 				/**
@@ -128,16 +116,6 @@ namespace ece
 				 * @brief The latest version available of OpenGL.
 				 */
 				Version<2> _latestVersionAvailable;
-
-				/**
-				 * @property _dummy
-				 * @brief The dummy context to use.
-				 */
-				struct {
-					HDC device;
-					HGLRC context;
-					HWND window;
-				} _dummy;
 			};
 		} // namespace opengl
 	} // namespace renderer

@@ -117,6 +117,7 @@ namespace ece
 				PixelFormat pixelFormat;
 
 				std::weak_ptr<Window> window;
+				bool oldContext;
 			};
 		} // namespace rendering
 	} // namespace renderer

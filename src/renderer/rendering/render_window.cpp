@@ -73,6 +73,7 @@ namespace ece
 					try {
 						ContextSettings settings;
 						settings.window = this->Window::weak_from_this();
+						settings.oldContext = false;
 						this->_context->create(settings);
 					}
 					catch (Exception & /*e*/) {

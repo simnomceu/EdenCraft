@@ -93,23 +93,6 @@ namespace ece
 				*/
 				~OpenGL() noexcept = default;
 
-				/**
-				* @fn void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-				* @param[in] minVersionGL The mandatory minimum version of OpenGL.
-				* @param[in] maxVersionGL The mandatory maximum version of OpenGL.
-				* @brief Initialize the driver to load OpenL calls.
-				* @throw
-				*/
-				static void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
-
-				/**
-				* @fn Version<2> & getLatestVersion()
-				* @return The lastest version available of OpenGL.
-				* @brief Get the most recent version available of OpenGL.
-				* @throw
-				*/
-				static inline Version<2> & getLatestVersion();
-
 				template <class T> static inline constexpr DataType dataType();
 				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
 
@@ -609,8 +592,8 @@ namespace ece
 				//		static inline void invalidateSubFramebuffer(GLenum target, GLsizei numAttachments, const GLenum * attachments, int x, int y, int width, int height);
 				//		static inline void invalidateFramebuffer(GLenum target, GLsizei numAttachments, const GLenum * attachments);
 				//		static inline void copyImageSubData(unsigned int srcName, GLenum srcTarget, int srcLevel, int srcX, int srcY, int srcZ, unsigned int dstName, GLenum dstTarget, int dstLevel, int dstX, int dstY, int dstZ, GLsizei srcWidth, GLsizei srcHeight, GLsizei srcDepth);
-				//		static inline void debugMessageCallback(GLDEBUGPROC callback, const void * userParam);
-				//		static inline void debugMessageControl(GLenum source, GLenum type, GLenum severity, GLsizei count, const unsigned int *ids, bool enabled);
+				static inline void debugMessageCallback(GLDEBUGPROC callback, const void * userParam);
+				static inline void debugMessageControl(const SourceDebugMessage source, const TypeDebugMessage type, const SeverityDebugMessage severity, const std::vector<unsigned int> & ids, bool enabled);
 				//		static inline void debugMessageInsert(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message);
 				//		static inline void pushDebugGroup(GLenum source, unsigned int id, GLsizei length, const char * message);
 				//		static inline void popDebugGroup();
@@ -780,12 +763,6 @@ namespace ece
 				* @throw noexcept
 				*/
 				OpenGL & operator=(OpenGL && move) noexcept = default;
-
-				/**
-				* @property _latestVersion
-				* @brief The latest version available of OpenGL.
-				*/
-				static Version<2> _latestVersion;
 			};
 
 			template<> inline DataType OpenGL::dataType<short int>();

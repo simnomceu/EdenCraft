@@ -71,9 +71,7 @@ namespace ece
 			Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 			{
 				auto & loader = GLXLoader::getInstance();
-				loader.initDummyContext();
 				auto version = loader.getLatestVersionAvailable();
-				loader.terminateDummyContext();
 				return min(max(minVersionGL, version), maxVersionGL);
 			}
 		} // namespace opengl

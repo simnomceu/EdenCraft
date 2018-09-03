@@ -53,16 +53,6 @@ namespace ece
 		namespace opengl
 		{
 			using utility::log::ServiceLoggerLocator;
-
-			Version<2> OpenGL::_latestVersion{ 3, 2 };
-
-			void OpenGL::init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-			{
-				auto version = initLoader(minVersionGL, maxVersionGL);
-				if (version != Version<2>{0, 0}) {
-					OpenGL::_latestVersion = version;
-				}
-			}
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
