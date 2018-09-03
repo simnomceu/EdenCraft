@@ -56,7 +56,14 @@ namespace ece
 			using utility::log::ServiceLoggerLocator;
 			using utility::debug::AssertionException;
 			using utility::pattern::makePimpl;
-			using renderer::opengl::WGLLoader;
+			using renderer::win32::WGLLoader;
+
+			HMODULE DataContextOpenGL::_openglLib = nullptr;
+
+			FARPROC DataContextOpenGL::getProcAddress(const std::string & name)
+			{
+				return GetProcAddress(DataContextOpenGL::_openglLib, name.data());
+			}
 
 			ContextOpenGL::ContextOpenGL() noexcept : RenderContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr)), _currentVersion()
 			{
@@ -110,7 +117,10 @@ namespace ece
 				if (!wglMakeCurrent(this->_data->_device, this->_data->_context)) {
 					throw std::runtime_error("OpenGL cannot be initialized because it is not possible to use a context.");
 				}
-				WGLLoader::getInstance().loadLibrary();
+
+				if (DataContextOpenGL::_openglLib == nullptr) {
+					DataContextOpenGL::_openglLib = LoadLibrary(L"opengl32.dll");
+				}
 
 				wglChoosePixelFormat(nullptr, nullptr, nullptr, 0, nullptr, nullptr); // dummy call
 				wglCreateContextAttribs(nullptr, nullptr, nullptr); // dummy call

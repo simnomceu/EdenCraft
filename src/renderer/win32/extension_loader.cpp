@@ -43,6 +43,9 @@
 
 #include "renderer/win32/wgl_extension.hpp"
 #include "utility/log/service_logger.hpp"
+#include "renderer/opengl/opengl_extension.hpp"
+#include "renderer/opengl/context_opengl.hpp"
+#include "renderer/win32/data_context_opengl.hpp"
 
 #ifdef _MSC_VER
 #	undef min
@@ -56,16 +59,17 @@ namespace ece
 		namespace opengl
 		{
 			using utility::log::ServiceLoggerLocator;
+			using win32::WGLLoader;
 
 			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 			{
 				auto proc = wglGetProcAddress(name.data());
 				if (proc == nullptr) {
-					if (requiredVersion > ece::Version<2>{ 3, 2} && WGLLoader::getInstance().getLatestVersionAvailable() < requiredVersion) {
+					if (requiredVersion > ece::Version<2>{ 3, 2} && ContextOpenGL::getMaxVersionAvailable() < requiredVersion) {
 						ServiceLoggerLocator::getService().logError(name + " is not available. You need at least a " + std::to_string(requiredVersion[0]) + "." + std::to_string(requiredVersion[1]) + " context.");
 					}
 					else {
-						proc = WGLLoader::getInstance().getProcAddress(name);//GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
+						proc = DataContextOpenGL::getProcAddress(name);//GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
 						if (proc == nullptr) {
 							ServiceLoggerLocator::getService().logError(name + " cannot be loaded.");
 						}
@@ -76,9 +80,14 @@ namespace ece
 
 			Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
 			{
-				auto & loader = WGLLoader::getInstance();
-				auto version = loader.getLatestVersionAvailable();
-				return min(max(minVersionGL, version), maxVersionGL);
+				Version<2> latestVersionAvailable;
+				auto version = glGetString(GL_VERSION);
+				if (version) {
+					std::string versionPtr(reinterpret_cast<const char *>(version));
+					latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
+					latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
+				}
+				return min(max(minVersionGL, latestVersionAvailable), maxVersionGL);
 			}
 		} // namespace opengl
 	} // namespace renderer

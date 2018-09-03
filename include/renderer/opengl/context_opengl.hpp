@@ -165,7 +165,7 @@ namespace ece
 				 */
 				virtual void logInfos() const override;
 
-				inline const Version<2> & getMaxVersionAvailable() const noexcept;
+				inline static const Version<2> & getMaxVersionAvailable() noexcept;
 
 				void setDebugContext();
 

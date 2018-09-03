@@ -107,7 +107,7 @@ namespace ece
 				this->setCurrent();
 
 				auto version = OpenGL::getString(InfoGL::VERSION);
-				if (version.size() > 0) {
+				if (!version.empty()) {
 					this->_currentVersion[0] = static_cast<unsigned short int>(std::stoi(version.substr(0, 1)));
 					this->_currentVersion[1] = static_cast<unsigned short int>(std::stoi(version.substr(2, 1)));
 				}
