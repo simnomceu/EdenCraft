@@ -45,33 +45,12 @@ namespace ece
 		{
 			bool VideoMode::operator==(const VideoMode & rightOperand) const
 			{
-				return this->_refreshRate == rightOperand.getRefreshRate()
-					&& this->_colorBits == rightOperand.getColorBits()
-					&& this->_depthBits == rightOperand.getDepthBits()
-					&& this->_stencilBits == rightOperand.getStencilBits();
+				return this->_refreshRate == rightOperand.getRefreshRate();
 			}
 
 			void VideoMode::setRefreshRate(const unsigned short int refreshRate)
 			{
 				this->_refreshRate = refreshRate;
-				this->_changed = true;
-			}
-
-			void VideoMode::setColorBits(const unsigned short int colorBits)
-			{
-				this->_colorBits = colorBits;
-				this->_changed = true;
-			}
-
-			void VideoMode::setDepthBits(const unsigned short int dephtBits)
-			{
-				this->_depthBits = dephtBits;
-				this->_changed = true;
-			}
-
-			void VideoMode::setStencilBits(const unsigned short int stencilBits)
-			{
-				this->_stencilBits = stencilBits;
 				this->_changed = true;
 			}
 		} // namespace common

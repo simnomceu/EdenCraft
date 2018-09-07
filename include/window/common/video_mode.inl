@@ -42,10 +42,7 @@ namespace ece
 		namespace common
 		{
 			inline constexpr VideoMode::VideoMode() noexcept:
-			_refreshRate(),
-				_colorBits(32),
-				_depthBits(24),
-				_stencilBits(8),
+				_refreshRate(),
 				_changed(false)
 			{
 			}
@@ -55,12 +52,6 @@ namespace ece
 			inline bool VideoMode::operator!=(const VideoMode & rightOperand) const { return !operator==(rightOperand); }
 
 			inline unsigned short int VideoMode::getRefreshRate() const noexcept { return this->_refreshRate; }
-
-			inline unsigned short int VideoMode::getColorBits() const noexcept { return this->_colorBits; }
-
-			inline unsigned short int VideoMode::getDepthBits() const noexcept { return this->_depthBits; }
-
-			inline unsigned short int VideoMode::getStencilBits() const noexcept { return this->_stencilBits; }
 
 			inline bool VideoMode::hasChanged() const noexcept { return this->_changed; }
 
