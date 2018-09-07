@@ -159,11 +159,10 @@ namespace ece
 
 			void RenderWindow::updateContext()
 			{
-				auto newContext = std::make_shared<ContextOpenGL>();
-				newContext->create(this->_contextSettings);
-
 				this->_context.reset();
-				this->_context = newContext;
+				this->close();
+				this->_context = std::make_shared<ContextOpenGL>();
+				this->open();
 			}
 		} // namespace rendering
 	} // namespace renderer

@@ -131,6 +131,8 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	contextSettings.minVersion = { 4, 0 };
 
 	window.lock()->open();
+	contextSettings.antialiasingSamples = 0;
+	window.lock()->updateContext();
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
 	window.lock()->limitUPS(100);
