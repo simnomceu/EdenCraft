@@ -165,18 +165,15 @@ namespace ece
 				else {
 					const int visualAttribs[] = {
 						GLX_X_RENDERABLE, GL_TRUE,
-						GLX_RENDER_TYPE, GLX_RGBA_BIT,
 						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
 						GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-						GLX_DOUBLEBUFFER, true,
-						GLX_BUFFER_SIZE, 32,
-						GLX_ALPHA_SIZE, 8,
-						GLX_RED_SIZE, 8,
-						GLX_GREEN_SIZE, 8,
-						GLX_BLUE_SIZE, 8,
-						GLX_DEPTH_SIZE, 24,
-						GLX_STENCIL_SIZE, 8,
-						GLX_SAMPLE_BUFFERS, GL_TRUE, // Enable MSAA or not
+						GLX_RENDER_TYPE, GLX_RGBA_BIT,
+						GLX_DOUBLEBUFFER, settings.doubleBuffering ? GL_TRUE : GL_FALSE,
+						GLX_BUFFER_SIZE, static_cast<int>(settings.bitsPerPixel),
+						GLX_ALPHA_SIZE, settings.bitsPerPixel == 32 ? 8 : 0,
+						GLX_DEPTH_SIZE, static_cast<int>(settings.depthBits),
+						GLX_STENCIL_SIZE, static_cast<int>(settings.stencilBits),
+						GLX_SAMPLE_BUFFERS, settings.antialiasingSamples > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
 						GLX_SAMPLES, static_cast<int>(settings.antialiasingSamples), // Number of samples,
 						None
 					};

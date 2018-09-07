@@ -41,7 +41,6 @@
 
 #include "renderer/config.hpp"
 #include "utility/indexing/version.hpp"
-#include "renderer/rendering/pixel_format.hpp"
 #include "window/common/window.hpp"
 
 namespace ece
@@ -114,7 +113,9 @@ namespace ece
 				bool doubleBuffering;
 				std::size_t antialiasingSamples;
 
-				PixelFormat pixelFormat;
+				std::size_t bitsPerPixel;
+				std::size_t depthBits;
+				std::size_t stencilBits;
 
 				std::weak_ptr<Window> window;
 				bool oldContext;

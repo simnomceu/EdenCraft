@@ -61,6 +61,9 @@ namespace ece
 				this->_contextSettings.maxVersion = { 4, 6 };
 				this->_contextSettings.doubleBuffering = true;
 				this->_contextSettings.antialiasingSamples = 8;
+				this->_contextSettings.bitsPerPixel = 32;
+				this->_contextSettings.depthBits = 24;
+				this->_contextSettings.stencilBits = 8;
 				this->setCurrent();
 			}
 
