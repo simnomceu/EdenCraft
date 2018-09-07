@@ -81,20 +81,11 @@ namespace ece
 
 			namespace OpenGL
 			{
+				// Helpers
 				template <class T> static inline constexpr DataType dataType();
 				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
 
-				static inline void bindBuffer(const BufferType type, const Handle handle);
-
-				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
-				static inline void bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset = 0);
-
-				static inline void genVertexArrays(Handle & handle);
-				static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
-				static inline void bindVertexArray(const Handle handle);
-				static inline void vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset = 0);
-
-				// NEW DEFINITION
+				// OpenGL headers
 
 				static inline ErrorGL getError();
 				//		static inline void vertexAttrib1f(unsigned int index, float v0);
@@ -157,7 +148,7 @@ namespace ece
 				//		static inline void vertexAttribP2ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
 				//		static inline void vertexAttribP3ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
 				//		static inline void vertexAttribP4ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
-				//		static inline void vertexAttribPointer(unsigned int index, int size, GLenum type, bool normalized, GLsizei stride, const void * pointer);
+				static inline void vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset = 0);
 				//		static inline void vertexAttribIPointer(unsigned int index, int size, GLenum type, GLsizei stride, const void * pointer);
 				static inline void enableVertexAttribArray(const int location);
 				static inline void disableVertexAttribArray(const int location);
@@ -181,19 +172,21 @@ namespace ece
 				static inline std::vector<Handle> genBuffers(const int count);
 				static inline void deleteBuffer(const Handle buffer);
 				static inline void deleteBuffers(const std::vector<Handle> & buffers);
-				//		static inline void bindBuffer(GLenum target, unsigned int buffer);
+				static inline void bindBuffer(const BufferType type, const Handle handle);
 				//		static inline void bindBufferRange(GLenum target, unsigned int index, unsigned int buffer, GLintptr offset, GLsizeiptr size);
 				//		static inline void bindBufferBase(GLenum target, unsigned int index, unsigned int buffer);
-				//		static inline void bufferData(GLenum target, GLsizeiptr size, const void * data, GLenum usage);
+				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
+				static inline void bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset = 0);
 				//		static inline void bufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const void * data);
 				//		static inline void * mapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
 				//		static inline void * mapBuffer(GLenum target, GLenum access);
 				//		static inline void flushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length);
 				//		static inline bool unmapBuffer(GLenum target);
 				//		static inline void copyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-				//		static inline void genVertexArrays(GLsizei n, unsigned int *arrays);
+				static inline Handle genVertexArrays();
+				static inline std::vector<Handle> genVertexArrays(const int count);
 				//		static inline void deleteVertexArrays(GLsizei n, const unsigned int *arrays);
-				//		static inline void bindVertexArray(unsigned int array);
+				static inline void bindVertexArray(const Handle handle);
 				//		static inline bool isBuffer(unsigned int buffer);
 				//		static inline void getBufferParameteriv(GLenum target, GLenum value, int * data);
 				//		static inline void getBufferParameteri64v(GLenum target, GLenum value, GLint64 * data);

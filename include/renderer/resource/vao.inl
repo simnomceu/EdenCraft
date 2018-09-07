@@ -44,7 +44,7 @@ namespace ece
 		{
 			using namespace opengl;
 
-			inline VAO::VAO() : ObjectOpenGL(), _numberOfVertices(0), _numberOfIndices(0), _vbos(), _ibo(nullptr), _globalLocation(0) { OpenGL::genVertexArrays(this->_handle); }
+			inline VAO::VAO() : ObjectOpenGL(), _numberOfVertices(0), _numberOfIndices(0), _vbos(), _ibo(nullptr), _globalLocation(0) { this->_handle = OpenGL::genVertexArrays(); }
 
 			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 

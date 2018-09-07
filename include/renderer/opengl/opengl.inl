@@ -89,40 +89,6 @@ namespace ece
 			template <>
 			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::DOUBLE>() { return sizeof(double); }
 
-			inline void OpenGL::bindBuffer(const BufferType type, const Handle handle)
-			{
-				checkErrors(glBindBuffer(static_cast<GLenum>(type), handle));
-			}
-
-			inline void OpenGL::genVertexArrays(Handle & handle)
-			{
-				checkErrors(glGenVertexArrays(1, &handle));
-			}
-
-			inline void OpenGL::genVertexArrays(const int count, std::vector<Handle>& handles)
-			{
-				if (count != 0) {
-					handles.resize(handles.size() + count);
-					checkErrors(glGenVertexArrays(count, &handles.back() - count + 1));
-				}
-			}
-
-			inline void OpenGL::bindVertexArray(const Handle handle)
-			{
-				checkErrors(glBindVertexArray(handle));
-			}
-
-			template <template <class, class...> class T, class E, class... TT, typename enabled>
-			inline void OpenGL::bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset)
-			{
-				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(E), std::data(data) + offset, static_cast<GLenum>(usage)));
-			}
-
-			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
-			{
-				checkErrors(glVertexAttribPointer(location, static_cast<GLint>(size), static_cast<GLenum>(type), normalized, static_cast<GLsizei>(stride), reinterpret_cast<GLvoid *>(offset)));
-			}
-
 			// New version
 
 			inline ErrorGL OpenGL::getError() { return ErrorGL(glGetError()); }
@@ -187,7 +153,12 @@ namespace ece
 			//	inline void OpenGL::vertexAttribP2ui(unsigned int /*index*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*value*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexAttribP3ui(unsigned int /*index*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*value*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexAttribP4ui(unsigned int /*index*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribPointer(unsigned int /*index*/, int /*size*/, GLenum /*type*/, bool /*normalized*/, GLsizei /*stride*/, const void * /*pointer*/) { static_assert(false, "Not implemented yet."); }
+
+			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
+			{
+				checkErrors(glVertexAttribPointer(location, static_cast<GLint>(size), static_cast<GLenum>(type), normalized, static_cast<GLsizei>(stride), reinterpret_cast<GLvoid *>(offset)));
+			}
+
 			//	inline void OpenGL::vertexAttribIPointer(unsigned int /*index*/, int /*size*/, GLenum /*type*/, GLsizei /*stride*/, const void * /*pointer*/) { static_assert(false, "Not implemented yet."); }
 
 			inline void OpenGL::enableVertexAttribArray(const int location)
@@ -259,7 +230,7 @@ namespace ece
 			{
 				Handle handle = 0;
 				checkErrors(glGenBuffers(1, &handle));
-				return handle;
+				return std::move(handle);
 			}
 
 			inline std::vector<Handle> OpenGL::genBuffers(const int count)
@@ -269,7 +240,7 @@ namespace ece
 					handles.resize(handles.size() + count);
 					checkErrors(glGenBuffers(count, &handles.back() - count + 1));
 				}
-				return handles;
+				return std::move(handles);
 			}
 
 			inline void OpenGL::deleteBuffer(const Handle buffer)
@@ -282,19 +253,51 @@ namespace ece
 				checkErrors(glDeleteBuffers(static_cast<GLsizei>(buffers.size()), buffers.data()));
 			}
 
-			//	inline void OpenGL::bindBuffer(GLenum /*target*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::bindBuffer(const BufferType type, const Handle handle)
+			{
+				checkErrors(glBindBuffer(static_cast<GLenum>(type), handle));
+			}
+
 			//	inline void OpenGL::bindBufferRange(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/, GLintptr /*offset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindBufferBase(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bufferData(GLenum /*target*/, GLsizeiptr /*size*/, const void * /*data*/, GLenum /*usage*/) { static_assert(false, "Not implemented yet."); }
+
+			template <template <class, class...> class T, class E, class... TT, typename enabled>
+			inline void OpenGL::bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset)
+			{
+				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(E), std::data(data) + offset, static_cast<GLenum>(usage)));
+			}
+
 			//	inline void OpenGL::bufferSubData(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*size*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void * OpenGL::mapBufferRange(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*length*/, GLbitfield /*access*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void * OpenGL::mapBuffer(GLenum /*target*/, GLenum /*access*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::flushMappedBufferRange(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*length*/) { static_assert(false, "Not implemented yet."); }
 			//	inline bool OpenGL::unmapBuffer(GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::copyBufferSubData(GLenum /*readTarget*/, GLenum /*writeTarget*/, GLintptr /*readOffset*/, GLintptr /*writeOffset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::genVertexArrays(GLsizei /*n*/, unsigned int * /*arrays*/) { static_assert(false, "Not implemented yet."); }
+
+			inline Handle OpenGL::genVertexArrays()
+			{
+				Handle handle = 0;
+				checkErrors(glGenVertexArrays(1, &handle));
+				return std::move(handle);
+			}
+
+			inline std::vector<Handle> OpenGL::genVertexArrays(const int count)
+			{
+				std::vector<Handle> handles;
+				if (count != 0) {
+					handles.resize(handles.size() + count);
+					checkErrors(glGenVertexArrays(count, &handles.back() - count + 1));
+				}
+				return std::move(handles);
+			}
+
 			//	inline void OpenGL::deleteVertexArrays(GLsizei /*n*/, const unsigned int * /*arrays*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindVertexArray(unsigned int /*array*/) { static_assert(false, "Not implemented yet."); }
+
+			inline void OpenGL::bindVertexArray(const Handle handle)
+			{
+				checkErrors(glBindVertexArray(handle));
+			}
+
 			//	inline bool OpenGL::isBuffer(unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getBufferParameteriv(GLenum /*target*/, GLenum /*value*/, int * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getBufferParameteri64v(GLenum /*target*/, GLenum /*value*/, GLint64 * /*data*/) { static_assert(false, "Not implemented yet."); }
