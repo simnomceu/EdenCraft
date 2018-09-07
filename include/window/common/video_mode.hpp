@@ -161,14 +161,6 @@ namespace ece
 				void setSamples(const unsigned short int samples);
 
 				/**
-				 * @fn void setDoubleBuffering(const bool doubleBuffering)
-				 * @param[in] doubleBuffering The switch parameter to set.
-				 * @brief Enable or disable the double buffering.
-				 * @throw
-				 */
-				void setDoubleBuffering(const bool doubleBuffering);
-
-				/**
 				 * @fn unsigned short int getRefreshRate() const noexcept
 				 * @return The current rate of refreshing.
 				 * @brief Get the current rate of refreshing frames.
@@ -207,14 +199,6 @@ namespace ece
 				 * @throw noexcept
 				 */
 				inline unsigned short int getSamples() const noexcept;
-
-				/**
-				 * @fn bool isDoubleBufferingEnabled() const noexcept
-				 * @return True if the double buffering is enabled, false else.
-				 * @brief Check if the double buffering is enable or not.
-				 * @throw noexcept
-				 */
-				inline bool isDoubleBufferingEnabled() const noexcept;
 
 				/**
 				 * @fn bool hasChanged() const noexcept
@@ -261,12 +245,6 @@ namespace ece
 				 * @brief The number of samples to generate for each frame.
 				 */
 				unsigned short int _samples;
-
-				/**
-				 * @property _doubleBuffering
-				 * @brief If the double buffering is enabled or not.
-				 */
-				bool _doubleBuffering;
 
 				/**
 				 * @property _changed

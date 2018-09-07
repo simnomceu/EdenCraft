@@ -150,7 +150,7 @@ namespace ece
 						GLX_RENDER_TYPE, GLX_RGBA_BIT,
 						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
 						GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-						GLX_DOUBLEBUFFER, true,
+						GLX_DOUBLEBUFFER, settings.doubleBuffering ? GL_TRUE : GL_FALSE,
 						GLX_RED_SIZE, 8,
 						GLX_GREEN_SIZE, 8,
 						GLX_BLUE_SIZE, 8,

@@ -49,8 +49,7 @@ namespace ece
 					&& this->_colorBits == rightOperand.getColorBits()
 					&& this->_depthBits == rightOperand.getDepthBits()
 					&& this->_stencilBits == rightOperand.getStencilBits()
-					&& this->_samples == rightOperand.getSamples()
-					&& this->_doubleBuffering == rightOperand.isDoubleBufferingEnabled();
+					&& this->_samples == rightOperand.getSamples();
 			}
 
 			void VideoMode::setRefreshRate(const unsigned short int refreshRate)
@@ -80,12 +79,6 @@ namespace ece
 			void VideoMode::setSamples(const unsigned short int samples)
 			{
 				this->_samples = samples;
-				this->_changed = true;
-			}
-
-			void VideoMode::setDoubleBuffering(const bool doubleBuffering)
-			{
-				this->_doubleBuffering = doubleBuffering;
 				this->_changed = true;
 			}
 		} // namespace common

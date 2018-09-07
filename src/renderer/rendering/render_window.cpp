@@ -59,6 +59,7 @@ namespace ece
 			{
 				this->_contextSettings.minVersion = { 3, 2 };
 				this->_contextSettings.maxVersion = { 4, 6 };
+				this->_contextSettings.doubleBuffering = true;
 				this->setCurrent();
 			}
 
