@@ -38,8 +38,20 @@
 
 #include "render_system.hpp"
 
+#include "renderer/pipeline.hpp"
+#include "renderer/enum.hpp"
+
+namespace ece
+{
+	using ece::renderer::DepthFunctionCondition;
+}
+
 RenderSystem::RenderSystem() noexcept : _process(std::make_unique<ece::ForwardRendering>()), _scene()
 {
+	ece::RenderState states;
+	states._depthTest = true;
+	states._depthFunction = ece::DepthFunctionCondition::LESS;
+	states.apply(true);
 }
 
 void RenderSystem::update()
