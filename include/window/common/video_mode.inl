@@ -46,7 +46,6 @@ namespace ece
 				_colorBits(32),
 				_depthBits(24),
 				_stencilBits(8),
-				_samples(8), // TODO all these values should be defined from the default available to avoid an unknown device.
 				_changed(false)
 			{
 			}
@@ -62,8 +61,6 @@ namespace ece
 			inline unsigned short int VideoMode::getDepthBits() const noexcept { return this->_depthBits; }
 
 			inline unsigned short int VideoMode::getStencilBits() const noexcept { return this->_stencilBits; }
-
-			inline unsigned short int VideoMode::getSamples() const noexcept { return this->_samples; }
 
 			inline bool VideoMode::hasChanged() const noexcept { return this->_changed; }
 

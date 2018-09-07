@@ -153,14 +153,6 @@ namespace ece
 				void setStencilBits(const unsigned short int stencilBits);
 
 				/**
-				 * @fn void setSamples(const unsigned short int samples)
-				 * @param[in] samples The number of samples to compute.
-				 * @brief Set the number of samples to compute for each frame.
-				 * @throw
-				 */
-				void setSamples(const unsigned short int samples);
-
-				/**
 				 * @fn unsigned short int getRefreshRate() const noexcept
 				 * @return The current rate of refreshing.
 				 * @brief Get the current rate of refreshing frames.
@@ -191,14 +183,6 @@ namespace ece
 				 * @throw noexcept
 				 */
 				inline unsigned short int getStencilBits() const noexcept;
-
-				/**
-				 * @fn unsigned short int getSamples() const noexcept
-				 * @return The number of samples to generate.
-				 * @brief Get the number of samples to generate for each frame.
-				 * @throw noexcept
-				 */
-				inline unsigned short int getSamples() const noexcept;
 
 				/**
 				 * @fn bool hasChanged() const noexcept
@@ -239,12 +223,6 @@ namespace ece
 				 * @brief The number of bits used for the stencil buffer.
 				 */
 				unsigned short int _stencilBits;
-
-				/**
-				 * @property _samples
-				 * @brief The number of samples to generate for each frame.
-				 */
-				unsigned short int _samples;
 
 				/**
 				 * @property _changed

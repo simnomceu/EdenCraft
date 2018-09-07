@@ -64,7 +64,9 @@ namespace ece
 			ContextOpenGL::~ContextOpenGL() noexcept
 			{
 				if (this->_data->_context) {
-					glXMakeCurrent(this->_data->_display, 0, 0);
+					if (this->isCurrent()) {
+						glXMakeCurrent(this->_data->_display, 0, 0);
+					}
 					glXDestroyContext(this->_data->_display, this->_data->_context);
 
 					// ERROR: crash with RootWindow (for dummy context)
@@ -174,8 +176,8 @@ namespace ece
 						GLX_BLUE_SIZE, 8,
 						GLX_DEPTH_SIZE, 24,
 						GLX_STENCIL_SIZE, 8,
-						GLX_SAMPLE_BUFFERS, settings.window.lock()->getVideoMode().getSamples() > 1 ? true : false, // Enable MSAA or not
-						GLX_SAMPLES, settings.window.lock()->getVideoMode().getSamples(), // Number of samples,
+						GLX_SAMPLE_BUFFERS, GL_TRUE, // Enable MSAA or not
+						GLX_SAMPLES, static_cast<int>(settings.antialiasingSamples), // Number of samples,
 						None
 					};
 					framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);

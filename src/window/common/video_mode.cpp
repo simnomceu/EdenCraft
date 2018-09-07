@@ -48,8 +48,7 @@ namespace ece
 				return this->_refreshRate == rightOperand.getRefreshRate()
 					&& this->_colorBits == rightOperand.getColorBits()
 					&& this->_depthBits == rightOperand.getDepthBits()
-					&& this->_stencilBits == rightOperand.getStencilBits()
-					&& this->_samples == rightOperand.getSamples();
+					&& this->_stencilBits == rightOperand.getStencilBits();
 			}
 
 			void VideoMode::setRefreshRate(const unsigned short int refreshRate)
@@ -73,12 +72,6 @@ namespace ece
 			void VideoMode::setStencilBits(const unsigned short int stencilBits)
 			{
 				this->_stencilBits = stencilBits;
-				this->_changed = true;
-			}
-
-			void VideoMode::setSamples(const unsigned short int samples)
-			{
-				this->_samples = samples;
 				this->_changed = true;
 			}
 		} // namespace common

@@ -70,7 +70,9 @@ namespace ece
 			ContextOpenGL::~ContextOpenGL() noexcept
 			{
 				if (this->_data->_context != nullptr) {
-					wglMakeCurrent(nullptr, nullptr);
+					if (this->isCurrent()) {
+						wglMakeCurrent(nullptr, nullptr);
+					}
 					wglDeleteContext(this->_data->_context);
 					this->_data->_context = nullptr;
 				}
@@ -139,8 +141,8 @@ namespace ece
 					WGL_COLOR_BITS_ARB, 32,
 					WGL_DEPTH_BITS_ARB, 24,
 					WGL_STENCIL_BITS_ARB, 8,
-					WGL_SAMPLE_BUFFERS_ARB, settings.window.lock()->getVideoMode().getSamples() > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
-					WGL_SAMPLES_ARB, settings.window.lock()->getVideoMode().getSamples(), // Number of samples
+					WGL_SAMPLE_BUFFERS_ARB, GL_TRUE, // Enable MSAA or not
+					WGL_SAMPLES_ARB, static_cast<int>(settings.antialiasingSamples), // Number of samples
 					0
 				};
 

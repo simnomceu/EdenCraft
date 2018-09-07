@@ -131,8 +131,6 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	contextSettings.minVersion = { 4, 0 };
 
 	window.lock()->open();
-	window.lock()->getVideoMode().setSamples(0);
-	window.lock()->updateVideoMode();
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
 	window.lock()->limitUPS(100);

@@ -60,6 +60,7 @@ namespace ece
 				this->_contextSettings.minVersion = { 3, 2 };
 				this->_contextSettings.maxVersion = { 4, 6 };
 				this->_contextSettings.doubleBuffering = true;
+				this->_contextSettings.antialiasingSamples = 8;
 				this->setCurrent();
 			}
 
@@ -142,7 +143,7 @@ namespace ece
 				if (samples < 2) {
 					OpenGL::disable(Capability::MULTISAMPLE);
 				}
-				this->_videoMode.setSamples(samples);
+				this->_contextSettings.antialiasingSamples = samples;
 			}
 
 			void RenderWindow::updateVideoMode()
@@ -154,6 +155,15 @@ namespace ece
 					this->open();
 					this->_videoMode.applyChanges();
 				}
+			}
+
+			void RenderWindow::updateContext()
+			{
+				auto newContext = std::make_shared<ContextOpenGL>();
+				newContext->create(this->_contextSettings);
+
+				this->_context.reset();
+				this->_context = newContext;
 			}
 		} // namespace rendering
 	} // namespace renderer

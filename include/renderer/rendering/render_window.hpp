@@ -166,6 +166,8 @@ namespace ece
 				 */
 				virtual void updateVideoMode() override;
 
+				void updateContext();
+
 			private:
 				/**
 				 * @property _renderers
