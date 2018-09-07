@@ -98,7 +98,7 @@ namespace ece
 				else {
 					if (!Renderer::isInitialized()) {
 						auto dummy = ContextOpenGL::DummyContext();
-						ContextOpenGL::_maxVersionAvailable = max(initLoader(this->_minVersion, this->_maxVersion), ContextOpenGL::_maxVersionAvailable);
+						ContextOpenGL::_maxVersionAvailable = max(initLoader(settings.minVersion, settings.maxVersion), ContextOpenGL::_maxVersionAvailable);
 					}
 
 					this->createModernContext(settings);

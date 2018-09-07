@@ -55,8 +55,10 @@ namespace ece
 			using utility::log::ServiceLoggerLocator;
 			using window::common::VideoMode;
 
-			RenderWindow::RenderWindow() : Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>()), _currentState()
+			RenderWindow::RenderWindow() : Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>()), _contextSettings(), _currentState()
 			{
+				this->_contextSettings.minVersion = { 3, 2 };
+				this->_contextSettings.maxVersion = { 4, 6 };
 				this->setCurrent();
 			}
 
@@ -72,10 +74,9 @@ namespace ece
 					this->_isOpened = true;
 
 					try {
-						ContextSettings settings;
-						settings.window = this->Window::weak_from_this();
-						settings.oldContext = false;
-						this->_context->create(settings);
+						this->_contextSettings.window = this->Window::weak_from_this();
+						this->_contextSettings.oldContext = false;
+						this->_context->create(this->_contextSettings);
 					}
 					catch (Exception & /*e*/) {
 						throw;

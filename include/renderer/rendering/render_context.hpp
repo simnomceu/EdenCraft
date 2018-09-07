@@ -81,39 +81,6 @@ namespace ece
 				RenderContext & operator=(RenderContext && move) = delete;
 
 				/**
-				 * @fn void capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
-				 * @param[in] minVersion The mandatory minimum version to set.
-				 * @param[in] maxVersion The mandatory maximum version to set.
-				 * @brief Cap the minimum and the maximum versions for the render context.
-				 * @throw
-				 */
-				inline void capVersion(const Version<2> & minVersion, const Version<2> & maxVersion);
-
-				/**
-				 * @fn void setMinVersion(const Version<2> & minVersion) noexcept
-				 * @param[in] minVersion The mandatory minimum version to set.
-				 * @brief Set a mandatory minimum version for the render context.
-				 * @throw noexcept
-				 */
-				inline void setMinVersion(const Version<2> & minVersion) noexcept;
-
-				/**
-				 * @fn void setMaxVersion(const Version<2> & maxVersion) noexcept
-				 * @param[in] maxVersion The mandatory maximum version to set.
-				 * @brief Set a mandatory maximum version for the render context.
-				 * @throw noexcept
-				 */
-				inline void setMaxVersion(const Version<2> & maxVersion) noexcept;
-
-				/**
-				 * @fn void targetVersion(const Version<2> & target)
-				 * @param[in] target The version to target.
-				 * @brief Target a version, as close as possible.
-				 * @throw
-				 */
-				inline void targetVersion(const Version<2> & target);
-
-				/**
 				 * @fn Version<2> getCurrentVersion() const;
 				 * @return The current version of the render context.
 				 * @brief Get the version used of the render context.
@@ -167,18 +134,6 @@ namespace ece
 				virtual void logInfos() const = 0;
 
 			protected:
-				/**
-				 * @property _minVersion
-				 * @brief The minimum version for the render context.
-				 */
-				Version<2> _minVersion;
-
-				/**
-				 * @property _maxVersion
-				 * @brief The maximum version for the render context.
-				 */
-				Version<2> _maxVersion;
-
 				/**
 				 * @property _created
 				 * @brief A flag to check if the context exists or not.

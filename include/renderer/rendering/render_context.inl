@@ -49,21 +49,7 @@ namespace ece
 			using namespace utility::debug;
 			using utility::log::ServiceLoggerLocator;
 
-			inline RenderContext::RenderContext() noexcept: std::enable_shared_from_this<RenderContext>(), _minVersion(), _maxVersion() {}
-
-			inline void RenderContext::capVersion(const Version<2> & minVersion, const Version<2> & maxVersion)
-			{
-				make_assert(minVersion <= maxVersion, "Minimum version should be smaller than or equal to maximum version.");
-
-				this->setMinVersion(minVersion);
-				this->setMaxVersion(maxVersion);
-			}
-
-			inline void RenderContext::setMinVersion(const Version<2> & minVersion) noexcept { this->_minVersion = minVersion; }
-
-			inline void RenderContext::setMaxVersion(const Version<2> & maxVersion) noexcept { this->_maxVersion = maxVersion; }
-
-			inline void RenderContext::targetVersion(const Version<2> & target) { this->capVersion(target, target); }
+			inline RenderContext::RenderContext() noexcept: std::enable_shared_from_this<RenderContext>() {}
 
 			bool RenderContext::isCreated() const noexcept { return this->_created; }
 

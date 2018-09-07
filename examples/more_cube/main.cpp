@@ -127,7 +127,8 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	settings._position = ece::IntVector2u{ 10, 10 };
 	settings._title = "Test";
 
-	window.lock()->setContextMaximumVersion(ece::Version<2>{4, 0});
+	auto & contextSettings = window.lock()->getContextSettings();
+	contextSettings.minVersion = { 4, 0 };
 
 	window.lock()->open();
 	window.lock()->getVideoMode().setSamples(0);

@@ -65,8 +65,6 @@ namespace ece
 
 			ContextOpenGL::ContextOpenGL() noexcept : RenderContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr)), _currentVersion()
 			{
-				this->setMinVersion({ 3, 2 });
-				this->setMaxVersion({ 4, 6 });
 			}
 
 			ContextOpenGL::~ContextOpenGL() noexcept

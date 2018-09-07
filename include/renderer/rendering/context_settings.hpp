@@ -111,7 +111,7 @@ namespace ece
 				Version<2> minVersion;
 				Version<2> maxVersion;
 
-				bool doubleBuffer;
+				bool doubleBuffering;
 				std::size_t antialiasingSamples;
 
 				PixelFormat pixelFormat;

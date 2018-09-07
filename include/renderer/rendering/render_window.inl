@@ -43,9 +43,7 @@ namespace ece
 	{
 		namespace rendering
 		{
-			inline void RenderWindow::setContextMinimumVersion(const Version<2> & minVersion) { this->_context->setMinVersion(minVersion); }
-
-			inline void RenderWindow::setContextMaximumVersion(const Version<2> & maxVersion) { this->_context->setMaxVersion(maxVersion); }
+			inline ContextSettings & RenderWindow::getContextSettings() { return this->_contextSettings; }
 		}// namespace rendering
 	} // namespace renderer
 } // namespace ece

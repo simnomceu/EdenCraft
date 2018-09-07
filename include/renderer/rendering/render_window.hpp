@@ -115,21 +115,7 @@ namespace ece
 				 */
 				RenderWindow & operator=(RenderWindow && move) noexcept = default;
 
-				/**
-				 * @fn void setContextMinimumVersion(const Version<2> & minVersion)
-				 * @param[in] minVersion The minimum version to set.
-				 * @brief Define the required minimum version for the context to use.
-				 * @throw
-				 */
-				inline void setContextMinimumVersion(const Version<2> & minVersion);
-
-				/**
-				 * @fn void setContextMaximumVersion(const Version<2> & maxVersion)
-				 * @param[in] maxVersion The maximum version to set.
-				 * @brief Define the required maximum version for the context to use.
-				 * @throw
-				 */
-				inline void setContextMaximumVersion(const Version<2> & maxVersion);
+				inline ContextSettings & getContextSettings();
 
 				/**
 				* @fn void open()
@@ -192,6 +178,7 @@ namespace ece
 				 * @brief The render context to use for rendering.
 				 */
 				std::shared_ptr<RenderContext> _context;
+				ContextSettings _contextSettings;
 
 				RenderState _currentState;
 			};
