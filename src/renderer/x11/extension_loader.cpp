@@ -75,7 +75,7 @@ namespace ece
 					latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
 					latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
 				}
-				return min(max(minVersionGL, latestVersionAvailable), maxVersionGL);
+				return max(min(maxVersionGL, latestVersionAvailable), minVersionGL);
 			}
 		} // namespace opengl
 	} // namespace renderer

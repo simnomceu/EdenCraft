@@ -43,6 +43,10 @@
 #include "utility/log/service_logger.hpp"
 #include "renderer/rendering/renderer.hpp"
 
+#ifdef _MSC_VER
+#	undef max
+#endif
+
 namespace ece
 {
 	namespace renderer
@@ -116,11 +120,6 @@ namespace ece
 					this->logInfos();
 
 					this->setDebugContext();
-
-					OpenGL::enable(Capability::DEPTH_TEST);
-					OpenGL::depthFunc(DepthFunctionCondition::LESS);
-
-					OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 				}
 			}
 		} // namespace opengl
