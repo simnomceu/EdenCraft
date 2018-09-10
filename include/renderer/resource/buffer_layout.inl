@@ -46,7 +46,7 @@ namespace ece
     {
         namespace resource
         {
-            using opengl::OpenGL;
+			using namespace opengl;
 
 			inline BufferLayout::BufferLayout(const BufferLayout::Strategy strategy) noexcept: _elements(), _instanceBlockSize(0), _strategy(strategy) {}
 

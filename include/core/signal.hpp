@@ -39,10 +39,11 @@
 #ifndef CORE_SIGNAL_HPP
 #define CORE_SIGNAL_HPP
 
-#include "core/signal/connection.hpp"
-#include "core/signal/secured_connection.hpp"
-#include "core/signal/signal.hpp"
 #include "core/signal/slot.hpp"
+#include "core/signal/connection.hpp"
+#include "core/signal/signal_implementation.hpp"
+#include "core/signal/signal.hpp"
+#include "core/signal/secured_connection.hpp"
 
 namespace ece
 {

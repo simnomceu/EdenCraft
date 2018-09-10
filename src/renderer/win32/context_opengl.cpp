@@ -41,7 +41,7 @@
 
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/win32/wgl_extension.hpp"
-#include "renderer/common/render_window.hpp"
+#include "renderer/rendering/render_window.hpp"
 #include "window/common/window_adapter.hpp"
 #include "window/win32/data_window_adapter.hpp"
 #include "utility/log/service_logger.hpp"
@@ -56,16 +56,23 @@ namespace ece
 			using utility::debug::AssertionException;
 			using utility::pattern::makePimpl;
 
-			ContextOpenGL::ContextOpenGL() noexcept : BaseContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr))
+			HMODULE DataContextOpenGL::_openglLib = nullptr;
+
+			FARPROC DataContextOpenGL::getProcAddress(const std::string & name)
 			{
-				this->setMinVersion({ 3, 2 });
-				this->setMaxVersion({ 4, 6 });
+				return GetProcAddress(DataContextOpenGL::_openglLib, name.data());
+			}
+
+			ContextOpenGL::ContextOpenGL() noexcept : RenderContext(), _data(makePimpl<DataContextOpenGL>(nullptr, nullptr, nullptr)), _currentVersion()
+			{
 			}
 
 			ContextOpenGL::~ContextOpenGL() noexcept
 			{
 				if (this->_data->_context != nullptr) {
-					wglMakeCurrent(nullptr, nullptr);
+					if (this->isCurrent()) {
+						wglMakeCurrent(nullptr, nullptr);
+					}
 					wglDeleteContext(this->_data->_context);
 					this->_data->_context = nullptr;
 				}
@@ -76,12 +83,51 @@ namespace ece
 				this->_data->_windowHandle = nullptr;
 			}
 
-			void ContextOpenGL::create(const RenderWindow & window)
+			void ContextOpenGL::createOldContext()
 			{
-				OpenGL::init(this->_minVersion, this->_maxVersion);
+				this->_data->_windowHandle = CreateWindow(L"Static", L"", WS_DISABLED, 0, 0, 1, 1, nullptr, nullptr, nullptr, nullptr);
+				this->_data->_device = GetDC(this->_data->_windowHandle);
+				if (!this->_data->_device) {
+					throw std::runtime_error("OpenGL cannot be initialized beacause no device is currently available.");
+				}
 
+				PIXELFORMATDESCRIPTOR pixelFormat;
+				ZeroMemory(&pixelFormat, sizeof(pixelFormat));
+				pixelFormat.nSize = sizeof(pixelFormat);
+				pixelFormat.nVersion = 1;
+				pixelFormat.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+				pixelFormat.iPixelType = PFD_TYPE_RGBA;
+				pixelFormat.cColorBits = 24;
+
+				if (!ChoosePixelFormat(this->_data->_device, &pixelFormat)) {
+					throw std::runtime_error("No pixel format choosen for OpenGL dummy context.");
+				}
+
+				if (!SetPixelFormat(this->_data->_device, 1, &pixelFormat)) {
+					throw std::runtime_error("OpenGL cannot be initialized because no video mode fit with.");
+				}
+
+				this->_data->_context = wglCreateContext(this->_data->_device);
+				if (!this->_data->_context) {
+					throw std::runtime_error("OpenGL cannot be initialized because it is not possible to create a context.");
+				}
+				if (!wglMakeCurrent(this->_data->_device, this->_data->_context)) {
+					throw std::runtime_error("OpenGL cannot be initialized because it is not possible to use a context.");
+				}
+
+				if (DataContextOpenGL::_openglLib == nullptr) {
+					DataContextOpenGL::_openglLib = LoadLibrary(L"opengl32.dll");
+					// TODO: it is never correctly "unloaded", need to be done.
+				}
+
+				wglChoosePixelFormat(nullptr, nullptr, nullptr, 0, nullptr, nullptr); // dummy call
+				wglCreateContextAttribs(nullptr, nullptr, nullptr); // dummy call
+			}
+
+			void ContextOpenGL::createModernContext(const ContextSettings & settings)
+			{
 				// Create real context
-				this->_data->_windowHandle = window.getAdapter().lock()->getImpl()->_windowId;
+				this->_data->_windowHandle = settings.window.lock()->getAdapter().lock()->getImpl()->_windowId;
 				this->_data->_device = GetDC(this->_data->_windowHandle);
 				if (!this->_data->_device) {
 					throw std::runtime_error("The device associated to that window cannot be used or there is not device.");
@@ -90,13 +136,15 @@ namespace ece
 				const int pixelAttribs[] = {
 					WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
 					WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
-					WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+					WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
 					WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
-					WGL_COLOR_BITS_ARB, 32,
-					WGL_DEPTH_BITS_ARB, 24,
-					WGL_STENCIL_BITS_ARB, 8,
-					WGL_SAMPLE_BUFFERS_ARB, window.getVideoMode().getSamples() > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
-					WGL_SAMPLES_ARB, window.getVideoMode().getSamples(), // Number of samples
+					WGL_DOUBLE_BUFFER_ARB, settings.doubleBuffering ? GL_TRUE : GL_FALSE,
+					WGL_COLOR_BITS_ARB, settings.bitsPerPixel == 32 ? 24 : static_cast<int>(settings.bitsPerPixel),
+					WGL_ALPHA_BITS_ARB, settings.bitsPerPixel == 32 ? 8 : 0,
+					WGL_DEPTH_BITS_ARB, static_cast<int>(settings.depthBits),
+					WGL_STENCIL_BITS_ARB, static_cast<int>(settings.stencilBits),
+					WGL_SAMPLE_BUFFERS_ARB, settings.antialiasingSamples > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
+					WGL_SAMPLES_ARB, static_cast<int>(settings.antialiasingSamples), // Number of samples
 					0
 				};
 
@@ -114,7 +162,7 @@ namespace ece
 					throw std::runtime_error("The video mode cannot be used.");
 				}
 
-				auto latestVersion = OpenGL::getLatestVersion();
+				auto latestVersion = ContextOpenGL::_maxVersionAvailable;
 
 				const int glVersion[] = {
 					WGL_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
@@ -128,32 +176,6 @@ namespace ece
 				if (this->_data->_context == nullptr) {
 					throw std::runtime_error("The context cannot be created.");
 				}
-				if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
-					throw std::runtime_error("The created context cannot be used.");
-				}
-
-				this->logInfos();
-
-                #ifdef ECE_DEBUG
-				GLint flags;
-				glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-				if (flags && GL_CONTEXT_FLAG_DEBUG_BIT)
-				{
-					checkErrors(glEnable(GL_DEBUG_OUTPUT));
-					checkErrors(glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS));
-					checkErrors(glDebugMessageCallback(glDebugOutput, nullptr));
-					checkErrors(glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE));
-				}
-                #endif
-
-				OpenGL::enable(Capability::DEPTH_TEST);
-				OpenGL::depthFunc(DepthFunctionCondition::LESS);
-				OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
-				glViewport(0, 0, window.getSize()[0], window.getSize()[1]);
-
-				OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-				this->_created = true;
 			}
 
 			void ContextOpenGL::terminate()
@@ -172,10 +194,10 @@ namespace ece
 			void ContextOpenGL::setCurrent()
 			{
 				make_assert(this->isCreated(), "only an existing context can be used.");
+				RenderContext::setCurrent();
 				if (wglMakeCurrent(this->_data->_device, this->_data->_context) == FALSE) {
 					throw std::runtime_error("The context cannot be used.");
 				}
-				OpenGL::setCurrentContext(this->shared_from_this());
 			}
 		} // namespace opengl
 	} // namespace renderer

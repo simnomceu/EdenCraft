@@ -2,8 +2,8 @@
 #include <ctime>
 
 #include "core/application.hpp"
-#include "renderer/common.hpp"
-#include "window/window_event.hpp"
+#include "renderer/rendering.hpp"
+#include "window/event.hpp"
 #include "graphic/scene.hpp"
 #include "graphic/renderable/particles_emitter.hpp"
 #include "utility/time.hpp"

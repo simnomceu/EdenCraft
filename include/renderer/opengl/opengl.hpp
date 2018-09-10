@@ -62,9 +62,9 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace common
+		namespace rendering
 		{
-			class BaseContext;
+			class RenderContext;
 		}
 
 		namespace opengl
@@ -72,67 +72,20 @@ namespace ece
 			using namespace utility::mathematics;
 			using namespace utility::template_expression;
 			using utility::indexing::Version;
-			using common::BaseContext;
+			using rendering::RenderContext;
 			using utility::container::contiguous_container_v;
 			using utility::container::can_access_data_v;
 			using utility::container::has_size_v;
 
 			using Handle = unsigned int;
 
-			class BaseContext;
-
-			/**
-			* @class OpenGL
-			* @brief Interface for all OpenGL extensions.
-			*/
-			class ECE_RENDERER_API OpenGL
+			namespace OpenGL
 			{
-			public:
-				/**
-				* @fn ~OpenGL() noexcept ~OpenGL() noexcept
-				* @brief Default destructor.
-				* @throw noexcept
-				*/
-				~OpenGL() noexcept = default;
-
-				/**
-				* @fn void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-				* @param[in] minVersionGL The mandatory minimum version of OpenGL.
-				* @param[in] maxVersionGL The mandatory maximum version of OpenGL.
-				* @brief Initialize the driver to load OpenL calls.
-				* @throw
-				*/
-				static void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
-
-				/**
-				* @fn Version<2> & getLatestVersion()
-				* @return The lastest version available of OpenGL.
-				* @brief Get the most recent version available of OpenGL.
-				* @throw
-				*/
-				static inline Version<2> & getLatestVersion();
-
-				/**
-				* @fn void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext)
-				* @param[in] currentContext The OpenGL context to use.
-				* @brief Define a context as the one to currently use.
-				*/
-				static inline void setCurrentContext(const std::shared_ptr<BaseContext> & currentContext);
-
+				// Helpers
 				template <class T> static inline constexpr DataType dataType();
 				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
 
-				static inline void bindBuffer(const BufferType type, const Handle handle);
-
-				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
-				static inline void bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset = 0);
-
-				static inline void genVertexArrays(Handle & handle);
-				static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
-				static inline void bindVertexArray(const Handle handle);
-				static inline void vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset = 0);
-
-				// NEW DEFINITION
+				// OpenGL headers
 
 				static inline ErrorGL getError();
 				//		static inline void vertexAttrib1f(unsigned int index, float v0);
@@ -195,7 +148,7 @@ namespace ece
 				//		static inline void vertexAttribP2ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
 				//		static inline void vertexAttribP3ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
 				//		static inline void vertexAttribP4ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
-				//		static inline void vertexAttribPointer(unsigned int index, int size, GLenum type, bool normalized, GLsizei stride, const void * pointer);
+				static inline void vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset = 0);
 				//		static inline void vertexAttribIPointer(unsigned int index, int size, GLenum type, GLsizei stride, const void * pointer);
 				static inline void enableVertexAttribArray(const int location);
 				static inline void disableVertexAttribArray(const int location);
@@ -219,19 +172,21 @@ namespace ece
 				static inline std::vector<Handle> genBuffers(const int count);
 				static inline void deleteBuffer(const Handle buffer);
 				static inline void deleteBuffers(const std::vector<Handle> & buffers);
-				//		static inline void bindBuffer(GLenum target, unsigned int buffer);
+				static inline void bindBuffer(const BufferType type, const Handle handle);
 				//		static inline void bindBufferRange(GLenum target, unsigned int index, unsigned int buffer, GLintptr offset, GLsizeiptr size);
 				//		static inline void bindBufferBase(GLenum target, unsigned int index, unsigned int buffer);
-				//		static inline void bufferData(GLenum target, GLsizeiptr size, const void * data, GLenum usage);
+				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
+				static inline void bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset = 0);
 				//		static inline void bufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const void * data);
 				//		static inline void * mapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
 				//		static inline void * mapBuffer(GLenum target, GLenum access);
 				//		static inline void flushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length);
 				//		static inline bool unmapBuffer(GLenum target);
 				//		static inline void copyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-				//		static inline void genVertexArrays(GLsizei n, unsigned int *arrays);
+				static inline Handle genVertexArrays();
+				static inline std::vector<Handle> genVertexArrays(const int count);
 				//		static inline void deleteVertexArrays(GLsizei n, const unsigned int *arrays);
-				//		static inline void bindVertexArray(unsigned int array);
+				static inline void bindVertexArray(const Handle handle);
 				//		static inline bool isBuffer(unsigned int buffer);
 				//		static inline void getBufferParameteriv(GLenum target, GLenum value, int * data);
 				//		static inline void getBufferParameteri64v(GLenum target, GLenum value, GLint64 * data);
@@ -618,8 +573,8 @@ namespace ece
 				//		static inline void invalidateSubFramebuffer(GLenum target, GLsizei numAttachments, const GLenum * attachments, int x, int y, int width, int height);
 				//		static inline void invalidateFramebuffer(GLenum target, GLsizei numAttachments, const GLenum * attachments);
 				//		static inline void copyImageSubData(unsigned int srcName, GLenum srcTarget, int srcLevel, int srcX, int srcY, int srcZ, unsigned int dstName, GLenum dstTarget, int dstLevel, int dstX, int dstY, int dstZ, GLsizei srcWidth, GLsizei srcHeight, GLsizei srcDepth);
-				//		static inline void debugMessageCallback(GLDEBUGPROC callback, const void * userParam);
-				//		static inline void debugMessageControl(GLenum source, GLenum type, GLenum severity, GLsizei count, const unsigned int *ids, bool enabled);
+				static inline void debugMessageCallback(GLDEBUGPROC callback, const void * userParam);
+				static inline void debugMessageControl(const SourceDebugMessage source, const TypeDebugMessage type, const SeverityDebugMessage severity, const std::vector<unsigned int> & ids, bool enabled);
 				//		static inline void debugMessageInsert(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message);
 				//		static inline void pushDebugGroup(GLenum source, unsigned int id, GLsizei length, const char * message);
 				//		static inline void popDebugGroup();
@@ -748,92 +703,38 @@ namespace ece
 				//		static inline void specializeShader(unsigned int shader, const char *pEntryPoint​, unsigned int numSpecializationConstants​, const unsigned int *pConstantIndex​, const unsigned int *pConstantValue​);
 				//		static inline void polygonOffsetClamp(float factor, float units, float clamp);
 
-			private:
-				/**
-				* @fn OpenGL() noexcept
-				* @brief Default constructor.
-				* @throw noexcept
-				*/
-				OpenGL() noexcept = default;
+				template<> inline DataType dataType<short int>();
+				template<> inline DataType dataType<unsigned short int>();
+				template<> inline DataType dataType<int>();
+				template<> inline DataType dataType<unsigned int>();
+				template<> inline DataType dataType<float>();
+				template<> inline DataType dataType<double>();
 
-				/**
-				* @fn OpenGL(const OpenGL & copy) noexcept
-				* @param[in] copy The OpenGL instance to copy from.
-				* @brief Default copy constructor.
-				* @throw noexcept
-				*/
-				OpenGL(const OpenGL & copy) noexcept = default;
-
-				/**
-				* @fn OpenGL(OpenGL && move) noexcept
-				* @param[in] move The OpenGL instance to move.
-				* @brief Default move constructor.
-				* @throw noexcept
-				*/
-				OpenGL(OpenGL && move) noexcept = default;
-
-				/**
-				* @fn OpenGL & operator=(const OpenGL & copy) noexcept
-				* @param[in] copy The OpenGL instance to copy from.
-				* @return The OpenGL instance copied.
-				* @brief Default move assignment operator.
-				* @throw noexcept
-				*/
-				OpenGL & operator=(const OpenGL & copy) noexcept = default;
-
-				/**
-				* @fn OpenGL & operator=(OpenGL && move) noexcept
-				* @param[in] move The OpenGL instance to move.
-				* @return The OpenGL instance moved.
-				* @brief Default move assignment operator.
-				* @throw noexcept
-				*/
-				OpenGL & operator=(OpenGL && move) noexcept = default;
-
-				/**
-				* @property _latestVersion
-				* @brief The latest version available of OpenGL.
-				*/
-				static Version<2> _latestVersion;
-
-				/**
-				* @property _currentContext
-				* @brief The current OpenGL context used.
-				*/
-				static std::shared_ptr<BaseContext> _currentContext;
-			};
-
-			template<> inline DataType OpenGL::dataType<short int>();
-			template<> inline DataType OpenGL::dataType<unsigned short int>();
-			template<> inline DataType OpenGL::dataType<int>();
-			template<> inline DataType OpenGL::dataType<unsigned int>();
-			template<> inline DataType OpenGL::dataType<float>();
-			template<> inline DataType OpenGL::dataType<double>();
-
-			template<> inline void OpenGL::uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
-			template<> inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v);
-			template<> inline void OpenGL::uniform<float, 2>(const int location, const std::array<float, 2> & v);
-			template<> inline void OpenGL::uniform<float, 3>(const int location, const std::array<float, 3> & v);
-			template<> inline void OpenGL::uniform<float, 4>(const int location, const std::array<float, 4> & v);
-			template<> inline void OpenGL::uniform<int, 1>(const int location, const std::array<int, 1> & v);
-			template<> inline void OpenGL::uniform<int, 2>(const int location, const std::array<int, 2> & v);
-			template<> inline void OpenGL::uniform<int, 3>(const int location, const std::array<int, 3> & v);
-			template<> inline void OpenGL::uniform<int, 4>(const int location, const std::array<int, 4> & v);
-			template<> inline void OpenGL::uniform<unsigned int, 1>(const int location, const std::array<unsigned int, 1> & v);
-			template<> inline void OpenGL::uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
-			template<> inline void OpenGL::uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
-			template<> inline void OpenGL::uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 2> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 3> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 4> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 3> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 2> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 2, 4> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 2> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 3, 4> & v);
-			template <> inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<float, 4, 3> & v);
-			template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param);
-			template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param);
+				template<> inline void uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
+				template<> inline void uniform<float, 1>(const int location, const std::array<float, 1> & v);
+				template<> inline void uniform<float, 2>(const int location, const std::array<float, 2> & v);
+				template<> inline void uniform<float, 3>(const int location, const std::array<float, 3> & v);
+				template<> inline void uniform<float, 4>(const int location, const std::array<float, 4> & v);
+				template<> inline void uniform<int, 1>(const int location, const std::array<int, 1> & v);
+				template<> inline void uniform<int, 2>(const int location, const std::array<int, 2> & v);
+				template<> inline void uniform<int, 3>(const int location, const std::array<int, 3> & v);
+				template<> inline void uniform<int, 4>(const int location, const std::array<int, 4> & v);
+				template<> inline void uniform<unsigned int, 1>(const int location, const std::array<unsigned int, 1> & v);
+				template<> inline void uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
+				template<> inline void uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
+				template<> inline void uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 2> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 3> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 4> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 3> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 2> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 4> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 2> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 4> & v);
+				template <> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 3> & v);
+				template<> inline void texParameter(const TextureTarget target, const TextureParameter pname, const float param);
+				template<> inline void texParameter(const TextureTarget target, const TextureParameter pname, const int param);
+			} //namespace OpengL
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece

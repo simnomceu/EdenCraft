@@ -45,7 +45,7 @@
 #include "graphic/model/movable.hpp"
 #include "utility/mathematics/vector3u.hpp"
 #include "utility/mathematics/matrix4u.hpp"
-#include "renderer/common/projection.hpp"
+#include "graphic/scene/projection.hpp"
 
 namespace ece
 {
@@ -56,7 +56,7 @@ namespace ece
 			using model::Movable;
 			using utility::mathematics::FloatVector3u;
 			using utility::mathematics::FloatMatrix4u;
-            using renderer::common::Projection;
+            using graphic::scene::Projection;
 			using window::common::Ratio;
 			using utility::mathematics::Rectangle;
 

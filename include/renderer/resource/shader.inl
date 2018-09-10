@@ -46,7 +46,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::OpenGL;
+			using namespace opengl;
 
 			inline Shader::Shader() : _handle(0), _uniforms(), _linkedSuccessfully(false) { this->_handle = OpenGL::createProgram(); }
 

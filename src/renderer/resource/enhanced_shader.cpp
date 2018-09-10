@@ -40,6 +40,7 @@
 #include "renderer/resource/enhanced_shader.hpp"
 
 #include "renderer/opengl/opengl.hpp"
+#include "renderer/rendering/renderer.hpp"
 
 namespace ece
 {
@@ -47,10 +48,12 @@ namespace ece
 	{
 		namespace resource
 		{
+			using renderer::rendering::Renderer;
+
 			void EnhancedShader::setStage(ShaderStage & stage)
 			{
 				// TODO: it should be the version of the current context an not the latest version available.
-				auto latestVersion = OpenGL::getLatestVersion();
+				auto latestVersion = Renderer::getCurrentContext().lock()->getCurrentVersion();
 				std::string versionTag = std::to_string(latestVersion[0]) + std::to_string(latestVersion[1]) + "0";
 
 				std::string tag("#version ");
