@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::OpenGL;
+			using namespace opengl;
 
 			template<class T>
 			inline Uniform<T>::Uniform(const Handle owner, const std::string & location, const T & data) : BaseUniform()

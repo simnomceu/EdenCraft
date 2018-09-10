@@ -42,10 +42,8 @@
 #include "core/config.hpp"
 #include "core/argument/argument_analyzer.hpp"
 #include "core/module/module_manager.hpp"
-#include "core/event/emitter.hpp"
-#include "core/application/lifecycle.hpp"
+#include "core/signal/signal.hpp"
 #include "core/ecs/world.hpp"
-#include "utility/time/update_per_second.hpp"
 
 #include <memory>
 #include <vector>
@@ -60,9 +58,8 @@ namespace ece
 			using module::ModuleManager;
 			using module::ModuleMethodHandle;
 			using module::ModuleMethod;
-			using event::Emitter;
+			using signal::Signal;
 			using ecs::World;
-			using utility::time::UpdatePerSecond;
 
 			/**
 			 * @class Application
@@ -105,7 +102,7 @@ namespace ece
 				 * @brief Start the application.
 				 * @throw
 				 */
-				void run();
+				virtual void run();
 
 				/**
 				 * @fn void stop()
@@ -129,7 +126,8 @@ namespace ece
 				 * @brief Add a module to the application.
 				 * @throw
 				 */
-				template <class T> inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
+				template <class T>
+				inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
 
 				/**
 				 * @fn void removeModule()
@@ -151,83 +149,51 @@ namespace ece
 
 				/**
 				 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
-				 * @param[in] listener The callback owner.
-				 * @param[in] slot The callback to call.
 				 * @brief Register a callback on pre-init event.
-				 * @throw
-				 * @see void Lifecycle::onPreInit(const Listener & listener, const unsigned int slot)
 				 */
-				inline void onPreInit(const Listener & listener, const unsigned int slot);
+				Signal<> onPreInit;
 
 				/**
 				 * @fn void onPostInit(const Listener & listener, const unsigned int slot)
-				 * @param[in] listener The callback owner.
-				 * @param[in] slot The callback to call.
 				 * @brief Register a callback on post-init event.
-				 * @throw
-				 * @see void Lifecycle::onPostInit(const Listener & listener, const unsigned int slot)
 				 */
-				inline void onPostInit(const Listener & listener, const unsigned int slot);
+				Signal<> onPostInit;
 
 				/**
 				 * @fn void onPreProcess(const Listener & listener, const unsigned int slot)
-				 * @param[in] listener The callback owner.
-				 * @param[in] slot The callback to call.
 				 * @brief Register a callback on pre-process event.
-				 * @throw
-				 * @see void Lifecycle::onPreProcess(const Listener & listener, const unsigned int slot)
 				 */
-				inline void onPreProcess(const Listener & listener, const unsigned int slot);
+				Signal<> onPreProcess;
 
 				/**
 				 * @fn void onPreUpdate(const Listener & listener, const unsigned int slot)
-				 * @param[in] listener The callback owner.
-				 * @param[in] slot The callback to call.
 				 * @brief Register a callback on pre-update event.
-				 * @throw
-				 * @see void Lifecycle::onPreUpdate(const Listener & listener, const unsigned int slot)
 				 */
-				inline void onPreUpdate(const Listener & listener, const unsigned int slot);
+				Signal<> onPreUpdate;
 
 				/**
 				 * @fn void onPostUpdate(const Listener & listener, const unsigned int slot)
-				 * @param[in] listener The callback owner.
-				 * @param[in] slot The callback to call.
 				 * @brief Register a callback on post-update event.
-				 * @throw
-				 * @see void Lifecycle::onPostUpdate(const Listener & listener, const unsigned int slot)
 				 */
-				inline void onPostUpdate(const Listener & listener, const unsigned int slot);
+				Signal<> onPostUpdate;
 
 				/**
 				 * @fn void onPostRender(const Listener & listener, const unsigned int slot)
-				 * @param[in] listener The callback owner.
-				 * @param[in] slot The callback to call.
 				 * @brief Register a callback on post-render event.
-				 * @throw
-				 * @see void Lifecycle::onPostRender(const Listener & listener, const unsigned int slot)
 				 */
-				inline void onPostRender(const Listener & listener, const unsigned int slot);
+				Signal<> onPostRender;
 
 				/**
 				 * @fn void onPreTerminate(const Listener & listener, const unsigned int slot)
-				 * @param[in] listener The callback owner.
-				 * @param[in] slot The callback to call.
 				 * @brief Register a callback on pre-terminate event.
-				 * @throw
-				 * @see void Lifecycle::onPreTerminate(const Listener & listener, const unsigned int slot)
 				 */
-				inline void onPreTerminate(const Listener & listener, const unsigned int slot);
+				Signal<> onPreTerminate;
 
 				/**
 				 * @fn void onPostTerminate(const Listener & listener, const unsigned int slot)
-				 * @param[in] listener The callback owner.
-				 * @param[in] slot The callback to call.
 				 * @brief Register a callback on post-terminate event.
-				 * @throw
-				 * @see void Lifecycle::onPostTerminate(const Listener & listener, const unsigned int slot)
 				 */
-				inline void onPostTerminate(const Listener & listener, const unsigned int slot);
+				Signal<> onPostTerminate;
 
 			protected:
 				/**
@@ -251,10 +217,6 @@ namespace ece
 				ModuleManager _moduleManager;
 
 				std::vector<World> _worlds;
-
-				UpdatePerSecond _ups;
-
-			private:
 				/**
 				 * @fn void init()
 				 * @brief Initialize the application.
@@ -290,12 +252,6 @@ namespace ece
 				 * @throw
 				 */
 				void terminate();
-
-				/**
-				 * @property _lifecycle
-				 * @brief The lifecycle of the application.
-				 */
-				std::shared_ptr<Lifecycle> _lifecycle;
 			};
 		} // namespace application
 	} // namespace core

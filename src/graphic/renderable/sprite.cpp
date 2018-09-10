@@ -55,7 +55,7 @@ namespace ece
 			using renderer::TextureTarget;
 
 			using renderer::resource::ShaderStage;
-			using renderer::opengl::OpenGL;
+			using namespace ece::renderer::opengl;
             using renderer::resource::BufferLayout;
 			using renderer::resource::BufferObject;
 

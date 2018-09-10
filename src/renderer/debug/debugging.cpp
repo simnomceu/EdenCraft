@@ -3,13 +3,15 @@
 #include "utility/log/service_logger.hpp"
 #include "renderer/opengl/opengl.hpp"
 
+#include <string>
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace debug
 		{
-			using opengl::OpenGL;
+			using namespace opengl;
 			using utility::log::ServiceLoggerLocator;
 
 			void checkErrors_(const char * file, const int line, const char * function)

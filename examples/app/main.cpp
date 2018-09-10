@@ -36,38 +36,100 @@
 
 */
 
-#include "game.hpp"
-#include "utility/log/service_logger.hpp"
-#include "utility/log/logger.hpp"
+#include "core/application.hpp"
+#include "core/signal.hpp"
 
-/**
- * @fn	int main()
- *
- * @brief	Main entry-point for this application.
- *
- * @author	PIERRE
- * @date	13/08/2016
- *
- * @return	Exit-code for the process - 0 for success, else an error code.
- */
+#include <string>
+#include <iostream>
 
 // TODO: create another project in the solution to analize the code smell
 // it could be to check if there is no more than 8-10 methods in a class (with steps: green level (? < 6), orange(6 < ? < 10) and red(? > 10)
 // number of parameters by method (no more than 2-3 parameters)
 // etc ....
 // this could be developped using qt module at the beginning, and then, be replaced by ece designer in the future.
+
+class Button
+{
+public:
+	inline Button(const std::string & name): onButtonPressed(), onButtonReleased(), _name(name) {}
+
+	ece::Signal<const std::string &> onButtonPressed;
+	ece::Signal<const std::string &> onButtonReleased;
+
+	void push()
+	{
+		this->onButtonPressed(this->_name);
+		std::cerr << "Pressing " << this->_name << std::endl;
+		this->onButtonReleased(this->_name);
+	}
+
+	void clear()
+	{
+		this->onButtonPressed.disconnectAll();
+		this->onButtonReleased.disconnectAll();
+	}
+
+private:
+	std::string _name;
+};
+
+class Controller
+{
+public:
+	Controller(Button & button): _connection1(), _connection2()
+	{
+		this->_connection1 = button.onButtonPressed.connect(*this, &Controller::pressSlot);
+		this->_connection2 = button.onButtonReleased.connect(*this, &Controller::releaseSlot);
+	}
+
+	void pressSlot(const std::string & name) const { std::cerr << "Starting to press " << name << " in controller." << std::endl; }
+	void releaseSlot(const std::string & name) const { std::cerr << "Releasing " << name << " in controller." << std::endl; }
+
+private:
+	ece::SecuredConnection<const std::string &> _connection1;
+	ece::SecuredConnection<const std::string &> _connection2;
+};
+
 auto main() -> int
 {
-	try {
-		//ece::RenderingServiceLocator::provide(ece::RenderingServiceFactory::build<ece::RenderFactoryGL>());
+	auto pressSlot = [](std::string name) {
+		std::cerr << "Starting to press " << name << " in main." << std::endl;
+	};
 
-		Game game;
+	auto releaseSlot = [](std::string name) {
+		std::cerr << "Releasing " << name << " in main." << std::endl;
+	};
 
-		game.run();
+	//Controller controller;
+
+	Button buttonA("Button A");
+	//auto connection1 = buttonA.onButtonPressed.connect(controller, &Controller::pressSlot);
+	//auto connection2 = buttonA.onButtonReleased.connect(controller, &Controller::releaseSlot);
+	auto connection1 = buttonA.onButtonPressed.connect(pressSlot);
+	auto connection2 = buttonA.onButtonReleased.connect(releaseSlot);
+
+	buttonA.push();
+
+	connection2.disconnect();
+
+	std::cerr << std::endl;
+	buttonA.push();
+
+	auto pressSlotDestruction = [&connection2](std::string name) {
+		std::cerr << "Deleting connection on " << name << " in main." << std::endl;
+		connection2.disconnect();
+	};
+	connection1 = buttonA.onButtonPressed.connect(pressSlotDestruction);
+	connection2 = buttonA.onButtonReleased.connect(releaseSlot);
+	std::cerr << std::endl;
+	buttonA.push();
+
+	buttonA.clear();
+	{
+		Controller controller(buttonA);
 	}
-	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError("Uncaught exception: " + std::string(e.what()));
-	}
+	std::cerr << std::endl << "Destruction ?" << std::endl;
+	buttonA.push();
 
 	return EXIT_SUCCESS;
 }

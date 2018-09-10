@@ -43,7 +43,6 @@
 
 #include "graphic/config.hpp"
 #include "graphic/scene/camera.hpp"
-#include "renderer/common/projection.hpp"
 #include "graphic/renderable/object.hpp"
 #include "graphic/model/light.hpp"
 
@@ -57,7 +56,7 @@ namespace ece
 		{
 			using renderable::Object;
 			using renderable::Light;
-			using renderer::common::Renderable;
+			using renderable::Renderable;
 
 			/**
 			 * @class Scene
@@ -135,6 +134,8 @@ namespace ece
 				inline Camera & getCamera();
 
 				inline void updateCamera();
+
+				std::vector<Renderable::Reference> getObjects();
 
 				void prepare();
 				void draw();

@@ -58,7 +58,7 @@ namespace ece
 			using renderer::resource::ShaderStage;
 			using renderer::ShaderType;
 			using renderer::resource::BufferObject;
-			using renderer::opengl::OpenGL;
+			using namespace ece::renderer::opengl;
 			using renderer::DataType;
 			using renderer::Capability;
 			using renderer::BlendingFactor;
