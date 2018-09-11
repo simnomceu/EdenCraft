@@ -152,8 +152,8 @@ ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize
 	{
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
-		auto mesh = ece::makeResource<ece::Mesh>("cube_mesh", ece::makeCube(0.5f));
+		auto mesh = ece::makeResource<ece::Mesh>("cube_mesh", loader.getMesh());
+		//auto mesh = ece::makeResource<ece::Mesh>("cube_mesh", ece::makeCube(0.5f));
 		element->setMesh(mesh);
 	}
 

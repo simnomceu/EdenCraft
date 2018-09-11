@@ -63,7 +63,7 @@ namespace ece
 			std::size_t Mesh::addVertex(const Mesh::Vertex & vertex)
 			{
 				std::size_t index = std::find_if(this->_vertices.begin(), this->_vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
-					return vertex._position == lhs._position /*&& vertex._textureCoordinate == lhs._textureCoordinate*/;
+					return vertex._position == lhs._position && vertex._textureCoordinate == lhs._textureCoordinate;
 				}) - this->_vertices.begin();
 				if (index >= this->_vertices.size()) {
 					this->_vertices.push_back(vertex);

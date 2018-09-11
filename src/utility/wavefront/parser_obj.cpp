@@ -66,12 +66,12 @@ namespace ece
 			void ParserOBJ::processLine(const std::string & line)
 			{
 				if (line.size() >= 2) {
-					std::string command = line.substr(0, 2);
-					std::istringstream stream(line.substr(2));
+					std::string command = line.substr(0, line.find_first_of(' ')); //line.substr(0, 2);
+					std::istringstream stream(line.substr(line.find_first_of(' ') + 1));
 
 					// TODO add checks for the format of the file
 
-					if (command == "v ") {
+					if (command == "v") {
 						if (this->_currentObject == this->_objects.end()) {
 							this->_currentObject = this->addObject("unnamed");
 						}
@@ -124,7 +124,7 @@ namespace ece
 						// TODO: Deal with 1D and 2D parameter space.
 						this->_currentObject->addVertexSpaceParameter({ parameterSpace[0], parameterSpace[1], parameterSpace[2] });
 					}
-					else if (command == "f ") {
+					else if (command == "f") {
 						ObjectOBJ::Face face;
 						ObjectOBJ::Vertex vertex;
 
@@ -151,10 +151,18 @@ namespace ece
 
 						// TODO check that it uses existing vertices, normales, and textures.
 					}
-					else if (command == "o ") {
+					else if (command == "o") {
 						std::string name;
 						stream >> name;
 						this->_currentObject = this->addObject(name);
+					}
+					else if (command == "mtllib") {
+						std::string materialFile;
+						stream >> materialFile;
+						std::cout << materialFile << std::endl;
+					}
+					else if (command == "usemtl") {
+
 					}
 				}
 			}
