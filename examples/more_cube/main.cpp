@@ -128,10 +128,11 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	settings._title = "Test";
 
 	auto & contextSettings = window.lock()->getContextSettings();
-	contextSettings.minVersion = { 4, 0 };
+	contextSettings.maxVersion = { 4, 0 };
 
 	window.lock()->open();
 	contextSettings.antialiasingSamples = 0;
+	contextSettings.maxVersion = { 4, 6 };
 	window.lock()->updateContext();
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
