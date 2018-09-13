@@ -65,6 +65,12 @@ namespace ece
 
 			inline float MaterialMTL::getOpticalDensity() const noexcept { return this->_ni; }
 
+			inline const std::string & MaterialMTL::getAmbientMap() const noexcept { return this->_mapKa; }
+
+			inline const std::string & MaterialMTL::getDiffuseMap() const noexcept { return this->_mapKd; }
+
+			inline const std::string &MaterialMTL::getSpecularMap() const noexcept { return this->_mapKs; }
+
 			inline void MaterialMTL::setName(const std::string & name) noexcept { this->_name = name; }
 
 			inline void MaterialMTL::setAmbientFactor(const FloatVector3u & ambient) noexcept { this->_ka._value = ambient; }
@@ -84,6 +90,12 @@ namespace ece
 			inline void MaterialMTL::setSharpness(const unsigned int sharpness) noexcept { this->_sharpness = sharpness; }
 
 			inline void MaterialMTL::setOpticalDensity(const float opticalDensity) noexcept { this->_ni = opticalDensity; }
+
+			inline void MaterialMTL::setAmbientMap(const std::string & path) noexcept { this->_mapKa = path; }
+
+			inline void MaterialMTL::setDiffuseMap(const std::string & path) noexcept { this->_mapKd = path; }
+
+			inline void MaterialMTL::setSpecularMap(const std::string & path) noexcept { this->_mapKs = path; }
 		} // namespace wavefront
 	} // namespace utility
 } // namespace ece

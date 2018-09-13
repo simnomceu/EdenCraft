@@ -88,9 +88,13 @@ namespace ece
 				inline std::vector<ObjectOBJ> & getObjects();
 				inline const std::vector<ObjectOBJ> & getObjects() const;
 
+				inline std::vector<std::string> & getMaterials();
+				inline const std::vector<std::string> & getMaterials() const;
+
         	private:
 				std::vector<ObjectOBJ> _objects;
 				std::vector<ObjectOBJ>::iterator _currentObject;
+				std::vector<std::string> _materials;
 
 				void processLine(const std::string & line);
 				std::vector<ObjectOBJ>::iterator addObject(const std::string & name);

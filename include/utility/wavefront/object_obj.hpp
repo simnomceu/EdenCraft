@@ -68,7 +68,15 @@ namespace ece
 					int _vt;
 					int _vn;
 				};
+				
 				using Face = std::vector<Vertex>;
+				
+				struct Material
+				{
+					std::string name;
+					std::size_t start;
+					std::size_t end;
+				};
 
 				/**
 				 * @fn ObjectOBJ(const std::string & name) noexcept
@@ -155,6 +163,14 @@ namespace ece
 				inline std::size_t getNumberOfFaces() const;
 				inline std::vector<Face> & getFaces();
 				inline const std::vector<Face> & getFaces() const;
+
+				inline void addMaterial(const std::string & name);
+				inline void addMaterial(std::string && name);
+
+				inline std::size_t getNumberofMaterials() const;
+				inline std::vector<Material> & getMaterials();
+				inline const std::vector<Material> & getMaterials() const;
+
 			private:
 				std::string _o; // object name
 
@@ -164,6 +180,7 @@ namespace ece
 				std::vector<FloatVector3u> _vp; // parameter space vertices
 
 				std::vector<Face> _f; // face
+				std::vector<Material> _materials;
 			};
 		} // namespace wavefront
 	} // namespace utility

@@ -47,6 +47,10 @@ namespace ece
 			inline std::vector<ObjectOBJ> & ParserOBJ::getObjects() { return this->_objects; }
 
 			inline const std::vector<ObjectOBJ> & ParserOBJ::getObjects() const { return this->_objects; }
+
+			inline std::vector<std::string> & ParserOBJ::getMaterials() { return this->_materials; }
+
+			inline const std::vector<std::string> & ParserOBJ::getMaterials() const { return this->_materials; }
         } // namespace wavefront
     } // namespace utility
 } // namespace ece

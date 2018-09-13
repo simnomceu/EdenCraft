@@ -37,6 +37,7 @@
 */
 
 #include "utility/wavefront/parser_obj.hpp"
+#include "utility/wavefront/parser_mtl.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -159,10 +160,12 @@ namespace ece
 					else if (command == "mtllib") {
 						std::string materialFile;
 						stream >> materialFile;
-						std::cout << materialFile << std::endl;
+						this->_materials.push_back(materialFile);
 					}
 					else if (command == "usemtl") {
-
+						std::string material;
+						stream >> material;
+						this->_currentObject->addMaterial(material);
 					}
 				}
 			}
