@@ -135,7 +135,7 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	window.lock()->updateContext();
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
-	window.lock()->limitUPS(100);
+	window.lock()->limitUPS(100000);
 
 	ece::Viewport viewport;
 	viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));

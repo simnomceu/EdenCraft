@@ -90,6 +90,7 @@ namespace ece
 			inline void ObjectOBJ::setFaceFormat(FaceFormat && format) { this->_faceFormat = std::move(format); }
 
 			inline ObjectOBJ::FaceFormat & ObjectOBJ::getFaceFormat() { return this->_faceFormat; }
+
 			inline const ObjectOBJ::FaceFormat & ObjectOBJ::getFaceFormat() const { return this->_faceFormat; }
 
 			inline void ObjectOBJ::addFace(const ObjectOBJ::Face & f)

@@ -63,7 +63,7 @@ namespace ece
 					auto face = this->_currentObject->getFaces()[i];
 					auto a = this->_currentObject->getVertices()[face[0]._v - 1];
 					auto b = this->_currentObject->getVertices()[face[1]._v - 1];
-					auto c = this->_currentObject->getVertices()[face[2]._v - 1];
+					auto c = this->_currentObject->getVertices()[face[face.size() - 1]._v - 1];
 					FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] };
 					FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] };
 					FloatVector3u n = this->_currentObject->getVerticesNormal()[face[0]._vn - 1];
