@@ -70,9 +70,6 @@ namespace ece
 			void Object::setMaterial(const std::shared_ptr<Material> & material)
 			{
 				this->_material = material;
-				if (this->_program.isLinked()) {
-					this->_material->apply(this->_program);
-				}
 			}
 
             void Object::prepare()

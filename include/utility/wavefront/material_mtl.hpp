@@ -114,7 +114,7 @@ namespace ece
 				inline const FloatVector3u & getTransmissionFilter() const noexcept;
 				inline unsigned int getIllumination() const noexcept;
 				inline float getDissolveFactor() const noexcept;
-				inline unsigned int getSpecularExponent() const noexcept;
+				inline float getSpecularExponent() const noexcept;
 				inline unsigned int getSharpness() const noexcept;
 				inline float getOpticalDensity() const noexcept;
 				inline const std::string & getAmbientMap() const noexcept;
@@ -128,7 +128,7 @@ namespace ece
 				inline void setTransmissionFilter(const FloatVector3u & transmissionFilter) noexcept;
 				inline void setIllumination(const unsigned int illumination) noexcept;
 				inline void setDissolveFactor(const float dissolve) noexcept;
-				inline void setSpecularExponent(const unsigned int exponent) noexcept;
+				inline void setSpecularExponent(const float exponent) noexcept;
 				inline void setSharpness(const unsigned int sharpness) noexcept;
 				inline void setOpticalDensity(const float opticalDensity) noexcept;
 				inline void setAmbientMap(const std::string & path) noexcept;
@@ -174,7 +174,7 @@ namespace ece
 				LightFactor _tf;
 				unsigned int _illum;
 				Dissolve _d;
-				unsigned int _ns;
+				float _ns;
 				unsigned int _sharpness;
 				float _ni;
 				std::string _mapKa;

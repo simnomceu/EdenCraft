@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace wavefront
 		{
-			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept: _o(name), _v(), _vt(), _vn(), _vp(), _f() {}
+			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept : _o(name), _v(), _vt(), _vn(), _vp(), _faceFormat{0, ObjectOBJ::Clockwise::NON_SIGNIFICANT}, _f(), _materials() {}
 
 			inline const std::string & ObjectOBJ::getName() const { return this->_o; }
 
@@ -85,6 +85,12 @@ namespace ece
 			inline std::vector<FloatVector3u> & ObjectOBJ::getVerticesSpaceParameter() { return this->_vp; }
 
 			inline const std::vector<FloatVector3u> & ObjectOBJ::getVerticesSpaceParameter() const { return this->_vp; }
+
+			inline void ObjectOBJ::setFaceFormat(const FaceFormat & format) { this->_faceFormat = format; }
+			inline void ObjectOBJ::setFaceFormat(FaceFormat && format) { this->_faceFormat = std::move(format); }
+
+			inline ObjectOBJ::FaceFormat & ObjectOBJ::getFaceFormat() { return this->_faceFormat; }
+			inline const ObjectOBJ::FaceFormat & ObjectOBJ::getFaceFormat() const { return this->_faceFormat; }
 
 			inline void ObjectOBJ::addFace(const ObjectOBJ::Face & f)
 			{

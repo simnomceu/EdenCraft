@@ -78,6 +78,19 @@ namespace ece
 					std::size_t end;
 				};
 
+				enum class Clockwise : unsigned char
+				{
+					CW,
+					CCW,
+					NON_SIGNIFICANT
+				};
+
+				struct FaceFormat
+				{
+					std::size_t size;
+					Clockwise clockwise;
+				};
+
 				/**
 				 * @fn ObjectOBJ(const std::string & name) noexcept
 				 * @param[in] name The name of the object.
@@ -157,6 +170,12 @@ namespace ece
 				inline std::vector<FloatVector3u> & getVerticesSpaceParameter();
 				inline const std::vector<FloatVector3u> & getVerticesSpaceParameter() const;
 
+				inline void setFaceFormat(const FaceFormat & format);
+				inline void setFaceFormat(FaceFormat && format);
+
+				inline FaceFormat & getFaceFormat();
+				inline const FaceFormat & getFaceFormat() const;
+
 				inline void addFace(const Face & f);
 				inline void addFace(Face && f);
 
@@ -179,6 +198,7 @@ namespace ece
 				std::vector<FloatVector3u> _vn; // vertex normals
 				std::vector<FloatVector3u> _vp; // parameter space vertices
 
+				FaceFormat _faceFormat;
 				std::vector<Face> _f; // face
 				std::vector<Material> _materials;
 			};

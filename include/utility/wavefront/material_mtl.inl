@@ -43,7 +43,7 @@ namespace ece
 		namespace wavefront
 		{
 			inline MaterialMTL::MaterialMTL(const std::string & name) noexcept : _name(name), _ka{ LightFactor::Type::K, FloatVector3u{1.0f, 1.0f, 1.0f} }, _kd{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } }, _ks{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } },
-				_tf{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } }, _illum(0), _d{ 0.0f, { 0.0f, false } }, _ns(0), _sharpness(60), _ni(1.0f) {}
+				_tf{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } }, _illum(0), _d{ 0.0f, { 0.0f, false } }, _ns(0), _sharpness(60), _ni(1.0f), _mapKa(), _mapKd(), _mapKs() {}
 
 			inline const std::string & MaterialMTL::getName() const noexcept { return this->_name; }
 
@@ -59,7 +59,7 @@ namespace ece
 
 			inline float MaterialMTL::getDissolveFactor() const noexcept { return this->_d._factor; }
 
-			inline unsigned int MaterialMTL::getSpecularExponent() const noexcept { return this->_ns; }
+			inline float MaterialMTL::getSpecularExponent() const noexcept { return this->_ns; }
 
 			inline unsigned int MaterialMTL::getSharpness() const noexcept { return this->_sharpness; }
 
@@ -85,7 +85,7 @@ namespace ece
 
 			inline void MaterialMTL::setDissolveFactor(const float dissolve) noexcept { this->_d._factor = dissolve; }
 
-			inline void MaterialMTL::setSpecularExponent(const unsigned int exponent) noexcept { this->_ns = exponent; }
+			inline void MaterialMTL::setSpecularExponent(const float exponent) noexcept { this->_ns = exponent; }
 
 			inline void MaterialMTL::setSharpness(const unsigned int sharpness) noexcept { this->_sharpness = sharpness; }
 

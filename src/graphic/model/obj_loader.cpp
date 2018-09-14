@@ -43,6 +43,9 @@
 #include "utility/file_system/file.hpp"
 #include "utility/enum.hpp"
 #include "utility/wavefront/parser_obj.hpp"
+#include "utility/wavefront/parser_mtl.hpp"
+#include "renderer/resource/texture2d.hpp"
+#include "core/resource/make_resource.hpp"
 
 namespace ece
 {
@@ -54,7 +57,11 @@ namespace ece
 			using utility::debug::FileException;
 			using utility::FileCodeError;
 			using utility::wavefront::ParserOBJ;
+			using utility::wavefront::ParserMTL;
 			using utility::mathematics::FloatVector4u;
+			using renderer::resource::Texture2D;
+			using core::resource::makeResource;
+			using renderer::TextureTypeTarget;
 
 			void OBJLoader::loadFromFile(const std::string & filename)
 			{
@@ -67,28 +74,6 @@ namespace ece
 				parser.load(file);
 
 				auto object = parser.getObjects()[0];
-
-				auto firstFace = object.getFaces()[0];
-				std::cerr << std::boolalpha << (firstFace[0]._vn == firstFace[1]._vn && firstFace[0]._vn == firstFace[2]._vn) << std::endl;
-				auto a = object.getVertices()[firstFace[0]._v - 1]; std::cerr << "a " << a[0] << " " << a[1] << " " << a[2] << std::endl;
-				auto b = object.getVertices()[firstFace[1]._v - 1]; std::cerr << "b: " << b[0] << " " << b[1] << " " << b[2] << std::endl;
-				auto c = object.getVertices()[firstFace[2]._v - 1]; std::cerr << "c: " << c[0] << " " << c[1] << " " << c[2] << std::endl;
-				FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] }; std::cerr << "AB: " << ab[0] << " " << ab[1] << " " << ab[2] << std::endl;
-				FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] }; std::cerr << "CB: " << cb[0] << " " << cb[1] << " " << cb[2] << std::endl;
-				FloatVector3u n = object.getVerticesNormal()[firstFace[0]._vn - 1]; std::cerr << "n: " << n[0] << " " << n[1] << " " << n[2] << std::endl;
-				float det = (ab[0] * cb[1] * n[2]) + (cb[0] * n[1]* ab[2]) + (n[0] * ab[1] * cb[2]) - (n[0] * cb[1] * ab[2]) - (ab[0] * n[1] * cb[2]) - (cb[0] * ab[1] * n[2]);
-				std::cerr << "Det: " << det << " | DOT: " << ab.dot(cb) << std::endl;
-				auto angle = std::atan2(det, ab.dot(cb));
-				std::cerr << "Rad: " << angle << " | Degree: " << angle * 180.0f / 3.14159265359f << std::endl;
-				if (angle > 0) {
-					std::cerr << "CW" << std::endl;
-				}
-				else if (angle < 0) {
-					std::cerr << "CCW" << std::endl;
-				}
-				else {
-					std::cerr << "NOT SIGNIFICANT" << std::endl;
-				}
 
 				for (auto & f : object.getFaces()) {
 					Mesh::Face face;
@@ -116,6 +101,37 @@ namespace ece
 					}
 
 					this->_mesh.addFace(std::move(face));
+				}
+
+				std::string relativePath = filename.substr(0, filename.find_last_of('/') + 1);
+				std::string materialFilename = relativePath + parser.getMaterials()[0];
+				std::ifstream materialFile(materialFilename, std::ios::out);
+				if (!materialFile.is_open()) {
+					throw FileException(FileCodeError::BAD_PATH, materialFilename);
+				}
+
+				ParserMTL parserMaterial;
+				parserMaterial.load(materialFile);
+				auto material = parserMaterial.getMaterials()[0];
+
+				this->_material.setAmbient(material.getAmbientFactor());
+				this->_material.setDiffuse(material.getDiffuseFactor());
+				this->_material.setSpecular(material.getSpecularFactor());
+				this->_material.setShininess(material.getSpecularExponent());
+
+				if (!material.getDiffuseMap().empty()) {
+					auto diffuseMap = makeResource<Texture2D>(material.getDiffuseMap());
+					if (diffuseMap->getData().empty()) {
+						diffuseMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
+					}
+					this->_material.setDiffuseMap(diffuseMap);
+				}
+
+				if (!material.getSpecularMap().empty()) {
+					auto specularMap = makeResource<Texture2D>(material.getSpecularMap());
+					if (specularMap->getData().empty()) {
+						specularMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
+					}
 				}
 			}
 

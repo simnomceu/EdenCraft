@@ -111,7 +111,7 @@ namespace ece
 							this->_currentMaterial->setDissolveFactor(dissolve);
 						}
 						else if (command == "Ns") {
-							unsigned int exponent;
+							float exponent;
 							stream >> exponent;
 							this->_currentMaterial->setSpecularExponent(exponent);
 						}

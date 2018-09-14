@@ -57,6 +57,28 @@ namespace ece
 					this->processLine(line);
         		}
         		// TODO care about objects groups and faces groups
+
+				std::size_t i = 0;
+				while (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT && i < this->_currentObject->getNumberOfFaces()) {
+					auto face = this->_currentObject->getFaces()[i];
+					auto a = this->_currentObject->getVertices()[face[0]._v - 1];
+					auto b = this->_currentObject->getVertices()[face[1]._v - 1];
+					auto c = this->_currentObject->getVertices()[face[2]._v - 1];
+					FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] };
+					FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] };
+					FloatVector3u n = this->_currentObject->getVerticesNormal()[face[0]._vn - 1];
+					float det = (ab[0] * cb[1] * n[2]) + (cb[0] * n[1] * ab[2]) + (n[0] * ab[1] * cb[2]) - (n[0] * cb[1] * ab[2]) - (ab[0] * n[1] * cb[2]) - (cb[0] * ab[1] * n[2]);
+					auto angle = std::atan2(det, ab.dot(cb));
+					if (angle > 0) {
+						this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CW });
+					}
+					else if (angle < 0) {
+						this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CCW });
+					}
+					else {
+						this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::NON_SIGNIFICANT });
+					}
+				}
         	}
 
         	void ParserOBJ::save(std::ostream & /*stream*/)

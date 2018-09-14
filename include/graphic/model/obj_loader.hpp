@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "utility/file_system/loader.hpp"
 #include "graphic/model/mesh.hpp"
+#include "graphic/model/phong_material.hpp"
 
 namespace ece
 {
@@ -135,8 +136,12 @@ namespace ece
 				inline Mesh & getMesh();
 				inline const Mesh & getMesh() const;
 
+				inline PhongMaterial & getMaterial();
+				inline const PhongMaterial & getMaterial() const;
+
 			private:
 				Mesh _mesh;
+				PhongMaterial _material;
 			};
 		} // namespace model
 	} // namespace graphic

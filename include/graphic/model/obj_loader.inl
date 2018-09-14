@@ -47,6 +47,10 @@ namespace ece
 			inline Mesh & OBJLoader::getMesh() { return this->_mesh; }
 
 			inline const Mesh & OBJLoader::getMesh() const { return this->_mesh; }
+
+			inline PhongMaterial & OBJLoader::getMaterial() { return this->_material; }
+
+			inline const PhongMaterial & OBJLoader::getMaterial() const { return this->_material; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
