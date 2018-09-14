@@ -73,9 +73,11 @@ void Game::setState(const Game::State state)
 		break;
 	}
 	this->_background->prepare();
+	this->_scene.prepare();
 }
 
 void Game::draw()
 {
+	this->_background->draw();
 	this->_scene.draw();
 }

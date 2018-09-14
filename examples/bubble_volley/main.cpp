@@ -41,7 +41,7 @@
 #include <iostream>
 
 #include "window/common.hpp"
-#include "renderer/common.hpp"
+#include "renderer/rendering.hpp"
 #include "utility/log.hpp"
 #include "assets.hpp"
 #include "game.hpp"
@@ -51,7 +51,8 @@ int main()
 	try {
 		ece::WindowedApplication app;
 		auto window = app.addWindow<ece::RenderWindow>();
-		window.lock()->setContextMaximumVersion(ece::Version<2>{4, 0});
+		auto & contextSettings = window.lock()->getContextSettings();
+		contextSettings.maxVersion = { 4, 6 };
 
 		std::shared_ptr<Game> game;
 
@@ -61,6 +62,11 @@ int main()
 		window.lock()->onWindowOpened.connect([&window, &game]() {
 			window.lock()->setTitle("Bubble Volley");
 			window.lock()->maximize();
+
+			ece::Viewport viewport;
+			viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
+			viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f));
+			window.lock()->setViewport(viewport);
 
 			Assets::loadAssets();
 

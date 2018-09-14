@@ -107,6 +107,8 @@ namespace ece
 				 */
 				Sprite & operator=(Sprite && move) noexcept = default;
 
+				virtual void prepare() override;
+
 			private:
 				Texture2D::Texture2DReference _texture;
 				Rectangle<float> _textureClip;

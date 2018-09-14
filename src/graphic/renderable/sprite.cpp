@@ -107,6 +107,11 @@ namespace ece
 
 				this->_program.uniform("theTexture", 0);
 			}
+
+			void Sprite::prepare()
+			{
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
+			}
 		} //namespace renderable
 	} // namespace graphic
 } // namespace ece
