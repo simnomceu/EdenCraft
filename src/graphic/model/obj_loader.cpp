@@ -62,6 +62,7 @@ namespace ece
 			using renderer::resource::Texture2D;
 			using core::resource::makeResource;
 			using renderer::TextureTypeTarget;
+			using utility::wavefront::ObjectOBJ;
 
 			void OBJLoader::loadFromFile(const std::string & filename)
 			{
@@ -95,7 +96,12 @@ namespace ece
 						    vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
                         }
 						auto index = this->_mesh.addVertex(vertex);
-                        face[i] = static_cast<unsigned int>(index);
+						if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
+							face[i] = static_cast<unsigned int>(index);
+						}
+						else {
+							face[object.getFaceFormat().size - 1 - i] = static_cast<unsigned int>(index);
+						}
                         ++i;
                         // TODO: what append if there is more than 3 vertices in the face ? (array<unsigned int, 3>)
 					}
