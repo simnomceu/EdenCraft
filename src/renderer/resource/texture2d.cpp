@@ -48,7 +48,6 @@ namespace ece
 		namespace resource
 		{
 			using renderer::image::ParserBMP;
-			using renderer::opengl::OpenGL;
 
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{

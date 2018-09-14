@@ -64,10 +64,12 @@ namespace ece
 			{
 				this->_observers.erase(std::remove_if(this->_observers.begin(), this->_observers.end(), [](std::shared_ptr<Observer<Args...>> & observer) {return !observer; }), this->_observers.end());
 
-				//std::for_each(this->_observers.begin(), this->_observers.end(), [&args...](std::shared_ptr<Observer<Args...>> & observer) { observer->notify(std::forward<Args>(args)...); });
-				for (auto & observer : this->_observers) {
+				/*for (auto & observer : this->_observers) {
 					observer->notify(std::forward<Args>(args)...);
-				}
+				}*/
+				std::for_each(this->_observers.begin(), this->_observers.end(), [&args...](std::shared_ptr<Observer<Args...>> & observer) {
+					observer->notify(args...);
+				});
 			}
 		} // namespace pattern
 	} // namespace utility

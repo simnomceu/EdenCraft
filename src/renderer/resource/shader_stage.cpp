@@ -49,10 +49,11 @@ namespace ece
 	{
 		namespace resource
 		{
+			using namespace opengl;
+
 			using utility::file_system::File;
 			using utility::debug::FileException;
 			using utility::log::ServiceLoggerLocator;
-			using renderer::opengl::OpenGL;
 
 			ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
 			{

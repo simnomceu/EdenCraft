@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::OpenGL;
+			using namespace opengl;
 
 			inline BufferObject::BufferObject(const BufferType type, const Usage usage) noexcept: _type(type), _usage(usage) { this->_handle = OpenGL::genBuffers(); }
 

@@ -38,6 +38,7 @@
 #ifndef CORE_RESOURCE_HPP
 #define CORE_RESOURCE_HPP
 
+#include "core/resource/base_resource_container.hpp"
 #include "core/resource/make_resource.hpp"
 #include "core/resource/resource_container.hpp"
 #include "core/resource/resource_handler.hpp"

@@ -46,9 +46,9 @@
 #include "utility/time/update_per_second.hpp"
 #include "core/signal/signal.hpp"
 #include "window/event/event_handler.hpp"
+#include "utility/pattern/virtual_enable_shared_from_this.hpp"
 
 #include <string>
-#include <memory>
 
 namespace ece
 {
@@ -60,20 +60,9 @@ namespace ece
 			using utility::time::UpdatePerSecond;
 			using core::signal::Signal;
 			using event::EventHandler;
+			using utility::pattern::virtual_enable_shared_from_this;
 
 			class InputEvent;
-
-			/**
-			 * @typedef WindowID
-			 * @brief The unique ID of a window, whatever the platform is.
-			 */
-			using WindowID = short int;
-
-			/**
-			 * @typedef MonitorID
-			 * @brief The unique ID of a monitor, whatever the platform is.
-			 */
-			using MonitorID = short int;
 
 			/**
 			 * @class Window
@@ -81,7 +70,7 @@ namespace ece
 			 * @brief A basic window as defined by the platform.
 			 * Only the mechanism related to a window are implemented with. By default other features like rendering are not available in this window.
 			 */
-			class ECE_WINDOW_API Window
+			class ECE_WINDOW_API Window: public virtual_enable_shared_from_this<Window>
 			{
 			public:
 				/**

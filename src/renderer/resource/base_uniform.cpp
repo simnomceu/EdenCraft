@@ -46,7 +46,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::OpenGL;
+			using namespace opengl;
 
 			Handle BaseUniform::getLocation() const
 			{

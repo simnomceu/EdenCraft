@@ -56,7 +56,7 @@ namespace ece
 			using renderer::Capability;
 			using renderer::resource::BufferLayout;
 			using renderer::resource::ShaderStage;
-			using renderer::opengl::OpenGL;
+			using namespace ece::renderer::opengl;
 			using renderer::resource::BufferObject;
 
 			Line::Line() noexcept: Renderable(), _begin(), _end(), _color(), _width(1.0f)

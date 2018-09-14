@@ -43,7 +43,7 @@ namespace ece
 	{
 		namespace common
 		{
-			constexpr WindowedApplication::WindowedApplication() noexcept: Application(), _windows()
+			WindowedApplication::WindowedApplication() noexcept: Application(), _windows()
 			{
 			}
 

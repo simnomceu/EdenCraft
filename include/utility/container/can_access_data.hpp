@@ -49,6 +49,14 @@ namespace ece
 	{
 		namespace container
 		{
+			/**
+			 * @struct can_access_data
+			 * @tparam T a type to check
+			 * @brief Checks if a type can be passed to std::data
+			 * Check whether T can be passed to std::data. Provides the member constant value which is equal to true, if std::data<T> is available. It is guaranteed to be equal to true, if T is the type
+			 * std::array, std::deque, std::forwarrd_list, std::list, std::map, std::regex, std::set, std::string, std::string_view, std::unordered_set, or std::vector.
+			 * @extends std::false_type
+			 */
 			template <class T, typename = void>
 			struct ECE_UTILITY_API can_access_data : std::false_type
 			{
@@ -59,8 +67,53 @@ namespace ece
 			{
 			};
 
+			/**
+			 * @related can_access_data
+			 */
 			template <class T>
 			inline ECE_UTILITY_API constexpr bool can_access_data_v = can_access_data<T>::value;
+
+			/**
+			 * @related can_access_data
+			 * @code{.cpp}
+			 * #include <iostream>
+			 * #include <vector>
+			 * #include "utility/container.hpp"
+			 *
+			 * class A {};
+			 * 
+			 * class B
+			 * {
+			 *		inline constexpr auto data() const { return "some data"; }
+			 * };
+			 *
+			 * template <class T>
+			 * T f(T c)
+			 * {
+			 *		static_assert(ece::can_access_data<T>::value, "::data() required.");
+			 *		return c.data();
+			 * }
+			 *
+			 * int main()
+			 * {
+			 *		std::cout << std::boolalpha;
+			 *		std::cout << ece::can_access_data<A>::value << std::endl;
+			 *		std::cout << ece::can_access_data<B>::value << std::endl;
+			 *		std::cout << ece::can_access_data<int>::value << std::endl;
+			 *		std::cout << ece::can_access_data<std::vector>::value << std::endl;
+			 *		std::cout << f(std::string("::data() available")) << std::endl;
+			 * }
+			 * @endcode
+			 *
+			 * Output:
+			 * @code
+			 * false
+			 * true
+			 * false
+			 * true
+			 * ::data() available
+			 * @endcode
+			 */
 		}
 	}
 }
