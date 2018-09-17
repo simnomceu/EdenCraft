@@ -45,6 +45,7 @@
 #include "utility/file_system/loader.hpp"
 #include "graphic/model/mesh.hpp"
 #include "graphic/model/phong_material.hpp"
+#include "utility/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -53,6 +54,7 @@ namespace ece
 		namespace model
 		{
 			using utility::file_system::Loader;
+			using utility::wavefront::ParserOBJ;
 
 			/**
 			 * @class OBJLoader
@@ -138,6 +140,9 @@ namespace ece
 
 				inline PhongMaterial & getMaterial();
 				inline const PhongMaterial & getMaterial() const;
+
+			protected:
+				void load(const std::string & filename, ParserOBJ & parser);
 
 			private:
 				Mesh _mesh;

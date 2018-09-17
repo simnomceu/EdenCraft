@@ -58,6 +58,7 @@ namespace ece
         		}
         		// TODO care about objects groups and faces groups
 
+				/* Check face format - Clockwising and size of the face. */
 				std::size_t i = 0;
 				while (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT && i < this->_currentObject->getNumberOfFaces()) {
 					auto face = this->_currentObject->getFaces()[i];
