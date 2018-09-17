@@ -82,9 +82,47 @@ namespace ece
 				}
         	}
 
-        	void ParserOBJ::save(std::ostream & /*stream*/)
+        	void ParserOBJ::save(std::ostream & stream)
         	{
-        		/* NOT IMPLEMENTED YET*/
+				for (auto & material: this->_materials) {
+					stream << "mtllib " << material << std::endl;
+				}
+
+				for (auto & object : this->_objects) {
+					stream << "o " << object.getName() << std::endl << std::endl;
+
+					for (auto & vertex : object.getVertices()) {
+						stream << "v " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : object.getVerticesTexture()) {
+						stream << "vt " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : object.getVerticesNormal()) {
+						stream << "vn " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : object.getVerticesSpaceParameter()) {
+						stream << "vp " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & material : object.getMaterials()) {
+						stream << "usemtl " << material.name << std::endl;
+						for (std::size_t i = material.start; i <= material.end; ++i) {
+							auto & face = object.getFaces()[i];
+							stream << "f";
+							for (auto & vertex : face) {
+								stream << " " << vertex._v << "/" << vertex._vt << "/" << vertex._vn;
+							}
+							stream << std::endl;
+						}
+					}
+				}
         	}
 
 			void ParserOBJ::processLine(const std::string & line)

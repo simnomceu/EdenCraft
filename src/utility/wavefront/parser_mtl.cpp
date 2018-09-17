@@ -57,9 +57,23 @@ namespace ece
 				}
 			}
 
-			void ParserMTL::save(std::ostream & /*stream*/)
+			void ParserMTL::save(std::ostream & stream)
 			{
-				/* NOT IMPLEMENTED YET*/
+				for (auto & material : this->_materials) {
+					stream << "newmtl " << material.getName() << std::endl;
+					stream << "Ka " << material.getAmbientFactor()[0] << " " << material.getAmbientFactor()[1] << " " << material.getAmbientFactor()[2] << std::endl;
+					stream << "Kd " << material.getDiffuseFactor()[0] << " " << material.getDiffuseFactor()[1] << " " << material.getDiffuseFactor()[2] << std::endl;
+					stream << "Ks " << material.getSpecularFactor()[0] << " " << material.getSpecularFactor()[1] << " " << material.getSpecularFactor()[2] << std::endl;
+					stream << "Tf " << material.getTransmissionFilter()[0] << " " << material.getTransmissionFilter()[1] << " " << material.getTransmissionFilter()[2] << std::endl;
+					stream << "illum " << material.getIllumination() << std::endl;
+					stream << "d " << material.getDissolveFactor() << std::endl;
+					stream << "Ns " << material.getSpecularExponent() << std::endl;
+					stream << "sharpness" << material.getSharpness() << std::endl;
+					stream << "Ni" << material.getOpticalDensity() << std::endl;
+					stream << "map_Ka " << material.getAmbientMap() << std::endl;
+					stream << "map_Kd " << material.getDiffuseMap() << std::endl;
+					stream << "map_Ks " << material.getSpecularMap() << std::endl;
+				}
 			}
 
 			void ParserMTL::processLine(const std::string & line)
