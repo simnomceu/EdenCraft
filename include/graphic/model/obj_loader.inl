@@ -44,13 +44,17 @@ namespace ece
 	{
 		namespace model
 		{
-			inline Mesh & OBJLoader::getMesh() { return this->_mesh; }
+			inline std::size_t OBJLoader::getNumberOfMeshes() const { return this->_meshes.size(); }
 
-			inline const Mesh & OBJLoader::getMesh() const { return this->_mesh; }
+			inline std::vector<Mesh> & OBJLoader::getMeshes() { return this->_meshes; }
 
-			inline PhongMaterial & OBJLoader::getMaterial() { return this->_material; }
+			inline const std::vector<Mesh> & OBJLoader::getMeshes() const { return this->_meshes; }
 
-			inline const PhongMaterial & OBJLoader::getMaterial() const { return this->_material; }
+			inline std::size_t OBJLoader::getNumberOfMaterials() const { return this->_materials.size(); }
+
+			inline std::vector<PhongMaterial> & OBJLoader::getMaterials() { return this->_materials; }
+
+			inline const std::vector<PhongMaterial> & OBJLoader::getMaterials() const { return this->_materials; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
