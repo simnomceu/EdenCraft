@@ -96,8 +96,10 @@ namespace ece
 			void OBJLoader::load(const std::string & filename, ParserOBJ & parser)
 			{
 				this->clear();
-				this->_meshes.resize(parser.getObjects().size());
-				this->_materials.resize(parser.getMaterials().size());
+				this->_mesh = makeResource<Mesh>(filename);
+
+				auto & submeshes = this->_mesh->getSubmeshes();
+				submeshes.resize(parser.getObjects().size());
 
 				for (std::size_t n = 0; n < parser.getObjects().size(); ++n) {
 					auto object = parser.getObjects()[n];
@@ -109,7 +111,7 @@ namespace ece
 
 							int i = 0;
 							for (auto & fElement : f) {
-								Mesh::Vertex vertex;
+								Submesh::Vertex vertex;
 
 								if (fElement._v > 0) {
 									vertex._position[0] = object.getVertices()[fElement._v - 1][0];
@@ -123,7 +125,7 @@ namespace ece
 								if (fElement._vt > 0) {
 									vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 								}
-								auto index = this->_meshes[n].addVertex(vertex);
+								auto index = submeshes[n].mesh.addVertex(vertex);
 								if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 									face[i] = static_cast<unsigned int>(index);
 								}
@@ -134,15 +136,15 @@ namespace ece
 							}
 
 							for (std::size_t j = 0; j < object.getFaceFormat().size - 2; ++j) {
-								this->_meshes[n].addFace({ face[0], face[j + 1], face[j + 2] });
+								submeshes[n].mesh.addFace({ face[0], face[j + 1], face[j + 2] });
 							}
 						}
 						else {
-							Mesh::Face face;
+							Submesh::Face face;
 
 							int i = 0;
 							for (auto & fElement : f) {
-								Mesh::Vertex vertex;
+								Submesh::Vertex vertex;
 
 								if (fElement._v > 0) {
 									vertex._position[0] = object.getVertices()[fElement._v - 1][0];
@@ -156,7 +158,7 @@ namespace ece
 								if (fElement._vt > 0) {
 									vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 								}
-								auto index = this->_meshes[n].addVertex(vertex);
+								auto index = submeshes[n].mesh.addVertex(vertex);
 								if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 									face[i] = static_cast<unsigned int>(index);
 								}
@@ -167,7 +169,7 @@ namespace ece
 								// TODO: what append if there is more than 3 vertices in the face ? (array<unsigned int, 3>)
 							}
 
-							this->_meshes[n].addFace(std::move(face));
+							submeshes[n].mesh.addFace(std::move(face));
 						}
 					}
 				}
@@ -184,17 +186,18 @@ namespace ece
 					parserMaterial.load(materialFile);
 					auto material = parserMaterial.getMaterials()[0];
 
-					this->_materials[n].setAmbient(material.getAmbientFactor());
-					this->_materials[n].setDiffuse(material.getDiffuseFactor());
-					this->_materials[n].setSpecular(material.getSpecularFactor());
-					this->_materials[n].setShininess(material.getSpecularExponent());
+					submeshes[n].material = makeResource<PhongMaterial>(material.getName());
+					submeshes[n].material->setAmbient(material.getAmbientFactor());
+					submeshes[n].material->setDiffuse(material.getDiffuseFactor());
+					submeshes[n].material->setSpecular(material.getSpecularFactor());
+					submeshes[n].material->setShininess(material.getSpecularExponent());
 
 					if (!material.getDiffuseMap().empty()) {
 						auto diffuseMap = makeResource<Texture2D>(material.getDiffuseMap());
 						if (diffuseMap->getData().empty()) {
 							diffuseMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
 						}
-						this->_materials[n].setDiffuseMap(diffuseMap);
+						submeshes[n].material->setDiffuseMap(diffuseMap);
 					}
 
 					if (!material.getSpecularMap().empty()) {
@@ -208,8 +211,9 @@ namespace ece
 
 			void OBJLoader::clear()
 			{
-				this->_meshes.clear();
-				this->_materials.clear();
+				if (!this->_mesh.isDirty()) {
+					this->_mesh->reset();
+				}
 			}
 		} // namespace model
 	} // namespace graphic

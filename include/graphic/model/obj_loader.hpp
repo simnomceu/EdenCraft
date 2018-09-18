@@ -135,21 +135,14 @@ namespace ece
 				*/
 				virtual void loadFromMemory(const void * content) override;
 
-				inline std::size_t getNumberOfMeshes() const;
-				inline std::vector<Mesh> & getMeshes();
-				inline const std::vector<Mesh> & getMeshes() const;
-
-				inline std::size_t getNumberOfMaterials() const;
-				inline std::vector<PhongMaterial> & getMaterials();
-				inline const std::vector<PhongMaterial> & getMaterials() const;
+				inline Mesh::Reference getMesh() const;
 
 			protected:
 				void load(const std::string & filename, ParserOBJ & parser);
 				void clear();
 
 			private:
-				std::vector<Mesh> _meshes;
-				std::vector<PhongMaterial> _materials;
+				Mesh::Reference _mesh;
 			};
 		} // namespace model
 	} // namespace graphic

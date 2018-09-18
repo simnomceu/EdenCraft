@@ -152,12 +152,7 @@ ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize
 	{
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		auto mesh = ece::makeResource<ece::Mesh>("cube_mesh", loader.getMeshes()[0]);
-		//auto mesh = ece::makeResource<ece::Mesh>("cube_mesh", ece::makeCube(0.5f));
-		element->setMesh(mesh);
-		auto material = ece::makeResource<ece::PhongMaterial>("box", loader.getMaterials()[0]);
-		element->setMaterial(*material);
-
+		element->setMesh(loader.getMesh());
 	}
 
 	for (std::size_t i = 0; i < chunkSize; ++i) {

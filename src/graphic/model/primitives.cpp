@@ -55,13 +55,15 @@ namespace ece
 
 			Mesh makeCircle(const float radius, const size_t numberOfVertices)
 			{
-				Mesh mesh;
+				Mesh result;
+				result.getSubmeshes().resize(1);
+				auto & mesh = result.getSubmeshes()[0].mesh;
 
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
 				mesh.addVertex({ { 0.0f, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				Submesh::Vertex vertex = { { radius, 0.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
@@ -73,12 +75,14 @@ namespace ece
 
 				mesh.addFace({ 0, static_cast<unsigned int>(numberOfVertices - 1), 1 });
 
-				return std::move(mesh);
+				return std::move(result);
 			}
 
 			Mesh makeSphere(const float radius, const size_t numberOfVertices)
 			{
-				Mesh mesh;
+				Mesh result;
+				result.getSubmeshes().resize(1);
+				auto & mesh = result.getSubmeshes()[0].mesh;
 
 				mesh.addVertex({ { 0.0f, 1.0f, 0.0f },{ 0.0f, 1.0f, 0.0f },{ 0.0f, 0.0f } });
 
@@ -123,18 +127,20 @@ namespace ece
 					mesh.addFace({ static_cast<unsigned int>(mesh.getVertices().size() - 1), static_cast<unsigned int>(a), static_cast<unsigned int>(b) });
 				}
 
-				return std::move(mesh);
+				return std::move(result);
 			}
 
 			Mesh makeCylinder(const float radius, const float height, const size_t numberOfVertices)
 			{
-				Mesh mesh;
+				Mesh result;
+				result.getSubmeshes().resize(1);
+				auto & mesh = result.getSubmeshes()[0].mesh;
 
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
 				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				Submesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 0; i < numberOfVertices - 1; ++i) {
@@ -166,12 +172,14 @@ namespace ece
 				mesh.addFace({ static_cast<unsigned int>(numberOfVertices + numberOfVertices + 1), 1, static_cast<unsigned int>(numberOfVertices) });
 				mesh.addFace({ 1, static_cast<unsigned int>(numberOfVertices + numberOfVertices + 1), static_cast<unsigned int>(numberOfVertices + 2) });
 
-				return std::move(mesh);
+				return std::move(result);
 			}
 
 			Mesh makeTorus(const float innerRadius, const float outerRadius, const size_t numberOfSlices, const size_t numberOfRings)
 			{
-				Mesh mesh;
+				Mesh result;
+				result.getSubmeshes().resize(1);
+				auto & mesh = result.getSubmeshes()[0].mesh;
 
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfRings);
 				const float ringAngle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfSlices);
@@ -187,7 +195,7 @@ namespace ece
 					const auto shift = startPos - center;
 					const auto ringRotation = translate({ -shift[0], -shift[1], -shift[2] }) * rotate({ axis[0], axis[1], axis[2] }, -ringAngle) * translate({ shift[0], shift[1], shift[2] });
 
-					Mesh::Vertex vertex = { { startPos[0], startPos[1], startPos[2] }, { startPos[0], startPos[1], startPos[2] }, { 0.0f, 0.0f } };
+					Submesh::Vertex vertex = { { startPos[0], startPos[1], startPos[2] }, { startPos[0], startPos[1], startPos[2] }, { 0.0f, 0.0f } };
 
 					for (size_t j = 0; j < numberOfSlices; ++j) {
 						mesh.addVertex(vertex);
@@ -216,18 +224,20 @@ namespace ece
 				mesh.addFace({ static_cast<unsigned int>(numberOfRings * numberOfSlices - 1), 1, static_cast<unsigned int>(numberOfSlices - 1) });
 				mesh.addFace({ 1, static_cast<unsigned int>(numberOfRings * numberOfSlices - 1), static_cast<unsigned int>((numberOfRings - 1) * numberOfSlices) });
 
-				return std::move(mesh);
+				return std::move(result);
 			}
 
 			Mesh makeCone(const float radius, const float height, const size_t numberOfVertices)
 			{
-				Mesh mesh;
+				Mesh result;
+				result.getSubmeshes().resize(1);
+				auto & mesh = result.getSubmeshes()[0].mesh;
 
 				const float angle = 2.0f * static_cast<float>(PI) / static_cast<float>(numberOfVertices);
 				const auto rotation = rotate({ 0.0f, 0.0f, 1.0f }, -angle);
 
 				mesh.addVertex({ { 0.0f, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } });
-				Mesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
+				Submesh::Vertex vertex = { { radius, 0.0f, height / 2.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 0.0f } };
 				mesh.addVertex(vertex);
 
 				for (size_t i = 1; i < numberOfVertices; ++i) {
@@ -247,12 +257,14 @@ namespace ece
 
 				mesh.addFace({ static_cast<unsigned int>(numberOfVertices + 1), static_cast<unsigned int>(numberOfVertices - 1), 1 });
 
-				return std::move(mesh);
+				return std::move(result);
 			}
 
 			Mesh makeQuad(const float size)
 			{
-				Mesh mesh;
+				Mesh result;
+				result.getSubmeshes().resize(1);
+				auto & mesh = result.getSubmeshes()[0].mesh;
 
 				mesh.addVertex({ { -size / 2.0f, -size/2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 0.0f, 1.0f } });
 				mesh.addVertex({ { size / 2.0f, -size / 2.0f, 0.0f },{ 0.0f, 0.0f, 1.0f },{ 1.0f, 0.0f } });
@@ -262,12 +274,14 @@ namespace ece
 				mesh.addFace({ 0, 3, 2 });
 				mesh.addFace({ 0, 2, 1 });
 
-				return std::move(mesh);
+				return std::move(result);
 			}
 
 			Mesh makeCube(const float size)
 			{
-				Mesh mesh;
+				Mesh result;
+				result.getSubmeshes().resize(1);
+				auto & mesh = result.getSubmeshes()[0].mesh;
 
 				mesh.addVertex({ { -size / 2.0f, -size / 2.0f, size / 2.0f },{ -1.0f, -1.0f, 1.0f },{ 0.0f, 0.0f } }); // 0
 				mesh.addVertex({ { size / 2.0f, -size / 2.0f, size / 2.0f },{ 1.0f, -1.0f, 1.0f },{ 1.0f, 0.0f } }); // 1
@@ -317,7 +331,7 @@ namespace ece
 				mesh.addFace({ 20, 23, 22 });
 				mesh.addFace({ 20, 22, 21 });
 
-				return std::move(mesh);
+				return std::move(result);
 			}
 
 		} // namespace model

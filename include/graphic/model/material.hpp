@@ -42,6 +42,7 @@
 #define MATERIAL_HPP
 
 #include "graphic/config.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -58,6 +59,7 @@ namespace ece
 		namespace model
 		{
 			using renderer::resource::Shader;
+			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Material
@@ -66,6 +68,8 @@ namespace ece
 			class ECE_GRAPHIC_API Material
 			{
 			public:
+				using Reference = ResourceHandler<Material>;
+
 				/**
 				 * @fn constexpr Material() noexcept
 				 * @brief Default constructor.

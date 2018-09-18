@@ -38,29 +38,27 @@
 
 */
 
-#include "graphic/model/mesh.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
 		namespace model
 		{
-			Box3D Mesh::getBouncingBox() const
-			{
-				std::vector<Box3D> boxes = std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), std::vector<Box3D>(), [](std::vector<Box3D> result, auto rhs) { result.push_back(rhs.mesh.getBouncingBox()); return result; });
+			inline std::size_t Submesh::size() const { return this->_vertices.size(); }
 
-				auto xMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[0] < rhs.a[0]; })->a[0];
-				auto xMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[0] < rhs.b[0]; })->b[0];
+			inline std::size_t Submesh::getNumberOfFaces() const { return this->_faces.size(); }
 
-				auto yMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[1] < rhs.a[1]; })->a[1];
-				auto yMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[1] < rhs.b[1]; })->b[1];
+			inline std::vector<Submesh::Vertex> & Submesh::getVertices() { return this->_vertices; }
 
-				auto zMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[2] < rhs.a[2]; })->a[2];
-				auto zMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[2] < rhs.b[2]; })->b[2];
+			inline const std::vector<Submesh::Vertex> & Submesh::getVertices() const { return this->_vertices; }
 
-				return Box3D(FloatVector3u{ xMin, yMin, zMin }, FloatVector3u{ xMax, yMax, zMax });
-			}
+			inline void Submesh::addFace(const Submesh::Face & face) { this->_faces.push_back(face); }
+
+			inline void Submesh::addFace(Submesh::Face && face) { this->_faces.push_back(std::move(face)); }
+
+			inline std::vector<Submesh::Face> & Submesh::getFaces() { return this->_faces; }
+
+			inline const std::vector<Submesh::Face> & Submesh::getFaces()const { return this->_faces; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

@@ -218,6 +218,9 @@ namespace ece
 						stream >> name;
 						this->_currentObject = this->addObject(name);
 					}
+					else if (command == "g") {
+						// TODO: need to make the difference between object and group to complete implementation of submeshes for wavefront specification.
+					}
 					else if (command == "mtllib") {
 						std::string materialFile;
 						stream >> materialFile;
