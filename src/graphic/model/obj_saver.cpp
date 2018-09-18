@@ -84,7 +84,7 @@ namespace ece
 				/* NOT IMPLEMENTED YET*/
 			}
 
-			void OBJSaver::save(const std::string & filename, ParserOBJ & parser)
+			void OBJSaver::save(const std::string & /*filename*/, ParserOBJ & parser)
 			{
 				auto & objects = parser.getObjects();
 				auto & materials = parser.getMaterials();
