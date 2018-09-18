@@ -38,14 +38,13 @@
 
 */
 
-#ifndef MESH_HPP
-#define MESH_HPP
+#ifndef OBJ_SAVER_HPP
+#define OBJ_SAVER_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/submesh.hpp"
-#include "graphic/model/phong_material.hpp"
-#include "utility/mathematics/matrix4u.hpp"
-#include "core/resource/resource_handler.hpp"
+#include "utility/file_system/saver.hpp"
+#include "graphic/model/mesh.hpp"
+#include "utility/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -53,109 +52,100 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatMatrix4u;
-			using core::resource::ResourceHandler;
+			using utility::file_system::Saver;
+			using utility::wavefront::ParserOBJ;
 
 			/**
-			 * @class Mesh
+			 * @class OBJSaver
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API Mesh
+			class ECE_GRAPHIC_API OBJSaver: public Saver
 			{
 			public:
-				using Reference = ResourceHandler<Mesh>;
-
-				struct SubmeshData
-				{
-					Submesh mesh;
-					PhongMaterial::Reference material;
-					FloatMatrix4u model;
-				};
-
 				/**
-				 * @fn Mesh() noexcept
+				 * @fn constexpr OBJSaver() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Mesh() noexcept = default;
+				constexpr OBJSaver() noexcept = default;
 
 				/**
-				 * @fn Mesh(const Mesh & copy) noexcept
-				 * @param[in] copy The Mesh to copy from.
+				 * @fn OBJSaver(const OBJSaver & copy) noexcept
+				 * @param[in] copy The OBJSaver to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Mesh(const Mesh & copy) noexcept = default;
+				OBJSaver(const OBJSaver & copy) noexcept = default;
 
 				/**
-				 * @fn Mesh(Mesh && move) noexcept
-				 * @param[in] move The Mesh to move.
+				 * @fn OBJSaver(OBJSaver && move) noexcept
+				 * @param[in] move The OBJSaver to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Mesh(Mesh && move) noexcept = default;
+				OBJSaver(OBJSaver && move) noexcept = default;
 
 				/**
-				 * @fn ~Mesh() noexcept
+				 * @fn ~OBJSaver() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Mesh() noexcept = default;
+				~OBJSaver() noexcept = default;
 
 				/**
-				 * @fn Mesh & operator=(const Mesh & copy) noexcept
-				 * @param[in] copy The Mesh to copy from.
-				 * @return The Mesh copied.
+				 * @fn OBJSaver & operator=(const OBJSaver & copy) noexcept
+				 * @param[in] copy The OBJSaver to copy from.
+				 * @return The OBJSaver copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Mesh & operator=(const Mesh & copy) noexcept = default;
+				OBJSaver & operator=(const OBJSaver & copy) noexcept = default;
 
 				/**
-				 * @fn Mesh & operator=(Mesh && move) noexcept
-				 * @param[in] move The Mesh to move.
-				 * @return The Mesh moved.
+				 * @fn OBJSaver & operator=(OBJSaver && move) noexcept
+				 * @param[in] move The OBJSaver to move.
+				 * @return The OBJSaver moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Mesh & operator=(Mesh && move) noexcept = default;
-
-				inline void reset();
+				OBJSaver & operator=(OBJSaver && move) noexcept = default;
 
 				/**
-				 * @fn std::size_t getNumberOfVertices() const
-				 * @return The number of vertices of the mesh.
-				 * @brief Get the number of vertices of the mesh.
+				 * @fn void saveToFile(const std::string & filename)
+				 * @param[out] filename The name of the file to save into.
+				 * @brief Formate and save data into a file.
 				 * @throw
 				 */
-				inline std::size_t size() const;
+				virtual void saveToFile(const std::string & filename) override;
 
 				/**
-				 * @fn std::size_t getNumberOfFaces() const
-				 * @return The number of faces of the mesh.
-				 * @brief Get the number of faces of the mesh.
+				 * @fn void saveToString(std::string & content)
+				 * @param[out] content The string buffer to save into.
+				 * @brief Formate and save data into a string buffer.
 				 * @throw
 				 */
-				inline std::size_t getNumberOfFaces() const;
+				virtual void saveToString(std::string & content) override;
 
 				/**
-				 * @fn Box3D getBouncingBox() const
-				 * @return The bouncing box of the mesh.
-				 * @brief Get the bouncing box of the mesh.
+				 * @fn void saveToMemory(void * content)
+				 * @param[out] content The memory to save into.
+				 * @brief Formate and save data into memory.
 				 * @throw
 				 */
-				Box3D getBouncingBox() const;
+				virtual void saveToMemory(void * content) override;
 
-				inline std::vector<SubmeshData> & getSubmeshes();
-				inline const std::vector<SubmeshData> & getSubmeshes() const;
+				inline void setMesh(Mesh::Reference && mesh);
 
 			protected:
-				std::vector<SubmeshData> _submeshes;
+				void save(const std::string & filename, ParserOBJ & parser);
+
+			private:
+				Mesh::Reference _mesh;
 			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/mesh.inl"
+#include "graphic/model/obj_saver.inl"
 
-#endif // MESH_HPP
+#endif // OBJ_SAVER_HPP
