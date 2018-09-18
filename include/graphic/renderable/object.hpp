@@ -131,8 +131,6 @@ namespace ece
 				 */
 				void setMesh(const Mesh::Reference & mesh);
 
-				void setMaterial(const std::shared_ptr<Material> & material);
-
 				// NOTE: accessing one of the elements linked to this object should not modify the object itself
 				// but it should also not forbid modification on the elements.
 
@@ -144,8 +142,6 @@ namespace ece
 				 */
 				inline Mesh::Reference getMesh() const;
 
-				inline std::shared_ptr<Material> getMaterial() const;
-
                 virtual void prepare() override;
 
 				void addInstance(const FloatMatrix4u & instance);
@@ -156,8 +152,6 @@ namespace ece
 				 * @brief The mesh of the object.
 				 */
 				Mesh::Reference _mesh;
-
-				std::shared_ptr<Material> _material;
 
 				std::vector<FloatMatrix4u> _instances;
 			};

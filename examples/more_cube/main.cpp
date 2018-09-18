@@ -136,7 +136,7 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	window.lock()->updateContext();
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
-	window.lock()->limitUPS(100);
+	window.lock()->limitUPS(100000);
 
 	ece::Viewport viewport;
 	viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
@@ -153,23 +153,7 @@ ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize
 	{
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
-		auto mesh = ece::makeResource<ece::Mesh>("cube_mesh", ece::makeCube(0.5f));
-		element->setMesh(mesh);
-	}
-
-	{
-		auto material = std::make_shared<ece::PhongMaterial>();
-		material->setShininess(41.5f);
-
-		auto box = ece::makeResource<ece::Texture2D>("box");
-		box->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box.bmp");
-		material->setDiffuseMap(box);
-
-		auto box_specular = ece::makeResource<ece::Texture2D>("box_specular");
-		box_specular->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box_specular.bmp");
-		material->setSpecularMap(box_specular);
-		element->setMaterial(material);
+		element->setMesh(loader.getMesh());
 	}
 
 	for (std::size_t i = 0; i < chunkSize; ++i) {

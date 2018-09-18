@@ -53,7 +53,7 @@ namespace ece
 			RenderState::RenderState() noexcept :
 				_faceCulling(true),
 				_cullFaceMode(CullFaceMode::BACK),
-				_frontFaceMode(FrontFaceMode::CW),
+				_frontFaceMode(FrontFaceMode::CCW),
 				_depthTest(true),
 				_depthFunction(DepthFunctionCondition::LESS),
 				_pointSize(0.0f),

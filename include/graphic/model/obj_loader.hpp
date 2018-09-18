@@ -44,6 +44,8 @@
 #include "graphic/config.hpp"
 #include "utility/file_system/loader.hpp"
 #include "graphic/model/mesh.hpp"
+#include "graphic/model/phong_material.hpp"
+#include "utility/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -52,6 +54,7 @@ namespace ece
 		namespace model
 		{
 			using utility::file_system::Loader;
+			using utility::wavefront::ParserOBJ;
 
 			/**
 			 * @class OBJLoader
@@ -132,11 +135,14 @@ namespace ece
 				*/
 				virtual void loadFromMemory(const void * content) override;
 
-				inline Mesh & getMesh();
-				inline const Mesh & getMesh() const;
+				inline Mesh::Reference getMesh() const;
+
+			protected:
+				void load(const std::string & filename, ParserOBJ & parser);
+				void clear();
 
 			private:
-				Mesh _mesh;
+				Mesh::Reference _mesh;
 			};
 		} // namespace model
 	} // namespace graphic

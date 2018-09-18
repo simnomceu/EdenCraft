@@ -121,6 +121,9 @@ namespace ece
 				*/
 				void save(std::ostream & stream);
 
+				inline std::vector<MaterialMTL> & getMaterials();
+				inline const std::vector<MaterialMTL> & getMaterials() const;
+
 			private:
 				std::vector<MaterialMTL> _materials;
 				std::vector<MaterialMTL>::iterator _currentMaterial;

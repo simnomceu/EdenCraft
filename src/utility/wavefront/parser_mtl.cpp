@@ -57,34 +57,103 @@ namespace ece
 				}
 			}
 
-			void ParserMTL::save(std::ostream & /*stream*/)
+			void ParserMTL::save(std::ostream & stream)
 			{
-				/* NOT IMPLEMENTED YET*/
+				for (auto & material : this->_materials) {
+					stream << "newmtl " << material.getName() << std::endl;
+					stream << "Ka " << material.getAmbientFactor()[0] << " " << material.getAmbientFactor()[1] << " " << material.getAmbientFactor()[2] << std::endl;
+					stream << "Kd " << material.getDiffuseFactor()[0] << " " << material.getDiffuseFactor()[1] << " " << material.getDiffuseFactor()[2] << std::endl;
+					stream << "Ks " << material.getSpecularFactor()[0] << " " << material.getSpecularFactor()[1] << " " << material.getSpecularFactor()[2] << std::endl;
+					stream << "Tf " << material.getTransmissionFilter()[0] << " " << material.getTransmissionFilter()[1] << " " << material.getTransmissionFilter()[2] << std::endl;
+					stream << "illum " << material.getIllumination() << std::endl;
+					stream << "d " << material.getDissolveFactor() << std::endl;
+					stream << "Ns " << material.getSpecularExponent() << std::endl;
+					stream << "sharpness" << material.getSharpness() << std::endl;
+					stream << "Ni" << material.getOpticalDensity() << std::endl;
+					stream << "map_Ka " << material.getAmbientMap() << std::endl;
+					stream << "map_Kd " << material.getDiffuseMap() << std::endl;
+					stream << "map_Ks " << material.getSpecularMap() << std::endl;
+				}
 			}
 
 			void ParserMTL::processLine(const std::string & line)
 			{
 				if (line.size() >= 2) {
-					std::string command = line.substr(0, 2);
-					std::istringstream stream(line.substr(2));
+					std::string command = line.substr(0, line.find_first_of(' ')); //line.substr(0, 2);
+					std::istringstream stream(line.substr(line.find_first_of(' ') + 1));
 
 					// TODO add checks for the format of the file
 
-					if (command == "ne") {
-						const std::string end = "wmtl";
-						std::string confirm;
-						stream.read(confirm.data(), end.size());
-						if (confirm == end) {
-							std::string name;
-							stream >> name;
-							this->_currentMaterial = this->addMaterial(name);
+					if (command == "newmtl") {
+						std::string name;
+						stream >> name;
+						this->_currentMaterial = this->addMaterial(name);
+					}
+					else {
+						if (this->_currentMaterial == this->_materials.end()) {
+							this->_currentMaterial = this->addMaterial("unnamed");
 						}
-					}
-					else if (command == "ka") {
-					}
-					else if (command == "kd") {
-					}
-					else if (command == "ks") {
+
+						if (command == "Ka") {
+							FloatVector3u ambient;
+							stream >> ambient[0] >> ambient[1] >> ambient[2];
+							this->_currentMaterial->setAmbientFactor(ambient);
+						}
+						else if (command == "Kd") {
+							FloatVector3u diffuse;
+							stream >> diffuse[0] >> diffuse[1] >> diffuse[2];
+							this->_currentMaterial->setDiffuseFactor(diffuse);
+						}
+						else if (command == "Ks") {
+							FloatVector3u specular;
+							stream >> specular[0] >> specular[1] >> specular[2];
+							this->_currentMaterial->setSpecularFactor(specular);
+						}
+						else if (command == "Tf") {
+							FloatVector3u tf;
+							stream >> tf[0] >> tf[1] >> tf[2];
+							this->_currentMaterial->setTransmissionFilter(tf);
+						}
+						else if (command == "illum") {
+							std::string illumination;
+							stream >> illumination;
+							this->_currentMaterial->setIllumination(std::stoi(illumination.substr(illumination.size() - 1, 1)));
+						}
+						else if (command == "d") {
+							float dissolve;
+							stream >> dissolve;
+							this->_currentMaterial->setDissolveFactor(dissolve);
+						}
+						else if (command == "Ns") {
+							float exponent;
+							stream >> exponent;
+							this->_currentMaterial->setSpecularExponent(exponent);
+						}
+						else if (command == "sharpness") {
+							unsigned int sharpness;
+							stream >> sharpness;
+							this->_currentMaterial->setSharpness(sharpness);
+						}
+						else if (command == "Ni") {
+							float density;
+							stream >> density;
+							this->_currentMaterial->setOpticalDensity(density);
+						}
+						else if (command == "map_Ka") {
+							std::string path;
+							stream >> path;
+							this->_currentMaterial->setAmbientMap(path);
+						}
+						else if (command == "map_Kd") {
+							std::string path;
+							stream >> path;
+							this->_currentMaterial->setDiffuseMap(path);
+						}
+						else if (command == "map_Ks") {
+							std::string path;
+							stream >> path;
+							this->_currentMaterial->setSpecularMap(path);
+						}
 					}
 				}
 			}

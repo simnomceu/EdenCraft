@@ -38,7 +38,11 @@
 
 */
 
-#include "graphic/model/mesh.hpp"
+#include "graphic/model/obj_saver.hpp"
+
+#include "utility/file_system/file.hpp"
+#include "utility/enum.hpp"
+#include "utility/wavefront/object_obj.hpp"
 
 namespace ece
 {
@@ -46,20 +50,49 @@ namespace ece
 	{
 		namespace model
 		{
-			Box3D Mesh::getBouncingBox() const
+			using utility::file_system::File;
+			using utility::debug::FileException;
+			using utility::FileCodeError;
+			using utility::wavefront::ObjectOBJ;
+
+			void OBJSaver::saveToFile(const std::string & filename)
 			{
-				std::vector<Box3D> boxes = std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), std::vector<Box3D>(), [](std::vector<Box3D> result, auto rhs) { result.push_back(rhs.mesh.getBouncingBox()); return result; });
+				std::ofstream file(filename, std::ios::in);
+				if (!file.is_open()) {
+					throw FileException(FileCodeError::BAD_PATH, filename);
+				}
 
-				auto xMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[0] < rhs.a[0]; })->a[0];
-				auto xMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[0] < rhs.b[0]; })->b[0];
+				ParserOBJ parser;
+				this->save(filename, parser);
+				parser.save(file);
+			}
 
-				auto yMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[1] < rhs.a[1]; })->a[1];
-				auto yMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[1] < rhs.b[1]; })->b[1];
+			void OBJSaver::saveToString(std::string & content)
+			{
+				std::ostringstream stream(content);
+				if (!stream) {
+					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
+				}
 
-				auto zMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[2] < rhs.a[2]; })->a[2];
-				auto zMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[2] < rhs.b[2]; })->b[2];
+				ParserOBJ parser;
+				this->save("", parser);
+				parser.save(stream);
+			}
 
-				return Box3D(FloatVector3u{ xMin, yMin, zMin }, FloatVector3u{ xMax, yMax, zMax });
+			void OBJSaver::saveToMemory(void * /*content*/)
+			{
+				/* NOT IMPLEMENTED YET*/
+			}
+
+			void OBJSaver::save(const std::string & filename, ParserOBJ & parser)
+			{
+				auto & objects = parser.getObjects();
+				auto & materials = parser.getMaterials();
+
+				objects.clear();
+				materials.clear();
+
+				/* NOT IMPLEMENTED YET*/
 			}
 		} // namespace model
 	} // namespace graphic

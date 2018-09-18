@@ -42,9 +42,9 @@ namespace ece
     {
         namespace mathematics
         {
-        	inline Box3D::Box3D(const FloatVector3u & a, const FloatVector3u & b): _a(a), _b(b) {}
+        	inline Box3D::Box3D(const FloatVector3u & a, const FloatVector3u & b): a(a), b(b) {}
 
-        	inline FloatVector3u Box3D::getCenter() const noexcept { return (this->_a + this->_b ) / 2.0f; }
+        	inline FloatVector3u Box3D::getCenter() const noexcept { return (this->a + this->b ) / 2.0f; }
         } // namespace mathematics
     } // namespace utility
 } // namespace ece

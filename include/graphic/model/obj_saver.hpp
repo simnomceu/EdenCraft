@@ -38,13 +38,13 @@
 
 */
 
-#ifndef PHONG_MATERIAL_HPP
-#define PHONG_MATERIAL_HPP
+#ifndef OBJ_SAVER_HPP
+#define OBJ_SAVER_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/material.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "renderer/resource/texture2d.hpp"
+#include "utility/file_system/saver.hpp"
+#include "graphic/model/mesh.hpp"
+#include "utility/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -52,95 +52,100 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using renderer::resource::Texture2D;
+			using utility::file_system::Saver;
+			using utility::wavefront::ParserOBJ;
 
 			/**
-			 * @class PhongMaterial
+			 * @class OBJSaver
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API PhongMaterial: public Material
+			class ECE_GRAPHIC_API OBJSaver: public Saver
 			{
 			public:
-				using Reference = ResourceHandler<PhongMaterial>;
-
 				/**
-				 * @fn constexpr PhongMaterial() noexcept
+				 * @fn constexpr OBJSaver() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				PhongMaterial() noexcept = default;
+				constexpr OBJSaver() noexcept = default;
 
 				/**
-				 * @fn PhongMaterial(const PhongMaterial & copy) noexcept
-				 * @param[in] copy The PhongMaterial to copy from.
+				 * @fn OBJSaver(const OBJSaver & copy) noexcept
+				 * @param[in] copy The OBJSaver to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				PhongMaterial(const PhongMaterial & copy) noexcept = default;
+				OBJSaver(const OBJSaver & copy) noexcept = default;
 
 				/**
-				 * @fn PhongMaterial(PhongMaterial && move) noexcept
-				 * @param[in] move The PhongMaterial to move.
+				 * @fn OBJSaver(OBJSaver && move) noexcept
+				 * @param[in] move The OBJSaver to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				PhongMaterial(PhongMaterial && move) noexcept = default;
+				OBJSaver(OBJSaver && move) noexcept = default;
 
 				/**
-				 * @fn ~PhongMaterial() noexcept
+				 * @fn ~OBJSaver() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~PhongMaterial() noexcept = default;
+				~OBJSaver() noexcept = default;
 
 				/**
-				 * @fn PhongMaterial & operator=(const PhongMaterial & copy) noexcept
-				 * @param[in] copy The PhongMaterial to copy from.
-				 * @return The PhongMaterial copied.
+				 * @fn OBJSaver & operator=(const OBJSaver & copy) noexcept
+				 * @param[in] copy The OBJSaver to copy from.
+				 * @return The OBJSaver copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				PhongMaterial & operator=(const PhongMaterial & copy) noexcept = default;
+				OBJSaver & operator=(const OBJSaver & copy) noexcept = default;
 
 				/**
-				 * @fn PhongMaterial & operator=(PhongMaterial && move) noexcept
-				 * @param[in] move The PhongMaterial to move.
-				 * @return The PhongMaterial moved.
+				 * @fn OBJSaver & operator=(OBJSaver && move) noexcept
+				 * @param[in] move The OBJSaver to move.
+				 * @return The OBJSaver moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				PhongMaterial & operator=(PhongMaterial && move) noexcept = default;
+				OBJSaver & operator=(OBJSaver && move) noexcept = default;
 
-				virtual void apply(Shader & shader) override;
+				/**
+				 * @fn void saveToFile(const std::string & filename)
+				 * @param[out] filename The name of the file to save into.
+				 * @brief Formate and save data into a file.
+				 * @throw
+				 */
+				virtual void saveToFile(const std::string & filename) override;
 
-				inline void setAmbient(const FloatVector3u & ambient);
-				inline void setDiffuse(const FloatVector3u & diffuse);
-				inline void setSpecular(const FloatVector3u & specular);
-				inline void setShininess(const float shininess);
-				inline void setDiffuseMap(const Texture2D::Texture2DReference & texture);
-				inline void setSpecularMap(const Texture2D::Texture2DReference & texture);
+				/**
+				 * @fn void saveToString(std::string & content)
+				 * @param[out] content The string buffer to save into.
+				 * @brief Formate and save data into a string buffer.
+				 * @throw
+				 */
+				virtual void saveToString(std::string & content) override;
 
-				inline const FloatVector3u & getAmbient() const;
-				inline const FloatVector3u & getDiffuse() const;
-				inline const FloatVector3u & getSpecular() const;
-				inline float getShininess() const;
-				inline Texture2D::Texture2DReference getDiffuseMap() const;
-				inline Texture2D::Texture2DReference getSpecularMap() const;
+				/**
+				 * @fn void saveToMemory(void * content)
+				 * @param[out] content The memory to save into.
+				 * @brief Formate and save data into memory.
+				 * @throw
+				 */
+				virtual void saveToMemory(void * content) override;
+
+				inline void setMesh(Mesh::Reference && mesh);
+
+			protected:
+				void save(const std::string & filename, ParserOBJ & parser);
 
 			private:
-				FloatVector3u _ambient;
-				FloatVector3u _diffuse;
-				FloatVector3u _specular;
-				float _shininess;
-
-				Texture2D::Texture2DReference _diffuseMap;
-				Texture2D::Texture2DReference _specularMap;
+				Mesh::Reference _mesh;
 			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/phong_material.inl"
+#include "graphic/model/obj_saver.inl"
 
-#endif // PHONG_MATERIAL_HPP
+#endif // OBJ_SAVER_HPP

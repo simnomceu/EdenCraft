@@ -38,14 +38,16 @@
 
 */
 
-#ifndef MESH_HPP
-#define MESH_HPP
+#ifndef SUBMESH_HPP
+#define SUBMESH_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/submesh.hpp"
-#include "graphic/model/phong_material.hpp"
-#include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics/vector2u.hpp"
+#include "utility/mathematics/box3d.hpp"
 #include "core/resource/resource_handler.hpp"
+
+#include <vector>
 
 namespace ece
 {
@@ -53,74 +55,77 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatMatrix4u;
+			using utility::mathematics::FloatVector3u;
+			using utility::mathematics::FloatVector2u;
+			using utility::mathematics::Box3D;
 			using core::resource::ResourceHandler;
 
 			/**
-			 * @class Mesh
-			 * @brief
+			 * @class Submesh
+			 * @brief A mesh as defined in 3D modelling.
+			 * @remark It has to be refactored soon, as it is redudant with Renderer.
 			 */
-			class ECE_GRAPHIC_API Mesh
+			class ECE_GRAPHIC_API Submesh
 			{
 			public:
-				using Reference = ResourceHandler<Mesh>;
+				using Reference = ResourceHandler<Submesh>;
 
-				struct SubmeshData
+				struct Vertex
 				{
-					Submesh mesh;
-					PhongMaterial::Reference material;
-					FloatMatrix4u model;
+					FloatVector3u _position;
+					FloatVector3u _normal;
+					FloatVector2u _textureCoordinate;
 				};
 
+				using Face = std::array<unsigned int, 3>;
+
 				/**
-				 * @fn Mesh() noexcept
+				 * @fn Submesh() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Mesh() noexcept = default;
+				Submesh() noexcept = default;
 
 				/**
-				 * @fn Mesh(const Mesh & copy) noexcept
-				 * @param[in] copy The Mesh to copy from.
+				 * @fn Submesh(const Submesh & copy)
+				 * @param[in] copy The Submesh to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Mesh(const Mesh & copy) noexcept = default;
+				Submesh(const Submesh & copy) = default;
 
 				/**
-				 * @fn Mesh(Mesh && move) noexcept
-				 * @param[in] move The Mesh to move.
+				 * @fn Submesh(Submesh && move) noexcept
+				 * @param[in] move The Submesh to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Mesh(Mesh && move) noexcept = default;
+				Submesh(Submesh && move) noexcept = default;
 
 				/**
-				 * @fn ~Mesh() noexcept
+				 * @fn ~Submesh() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Mesh() noexcept = default;
+				~Submesh() noexcept = default;
 
 				/**
-				 * @fn Mesh & operator=(const Mesh & copy) noexcept
-				 * @param[in] copy The Mesh to copy from.
-				 * @return The Mesh copied.
+				 * @fn Submesh & operator=(const Submesh & copy)
+				 * @param[in] copy The Submesh to copy from.
+				 * @return The Submesh copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Mesh & operator=(const Mesh & copy) noexcept = default;
+				Submesh & operator=(const Submesh & copy) = default;
 
 				/**
-				 * @fn Mesh & operator=(Mesh && move) noexcept
-				 * @param[in] move The Mesh to move.
-				 * @return The Mesh moved.
+				 * @fn Submesh & operator=(Submesh && move) noexcept
+				 * @param[in] move The Submesh to move from.
+				 * @return The Submesh moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Mesh & operator=(Mesh && move) noexcept = default;
-
-				inline void reset();
+				Submesh & operator=(Submesh && move) noexcept = default;
 
 				/**
 				 * @fn std::size_t getNumberOfVertices() const
@@ -146,16 +151,34 @@ namespace ece
 				 */
 				Box3D getBouncingBox() const;
 
-				inline std::vector<SubmeshData> & getSubmeshes();
-				inline const std::vector<SubmeshData> & getSubmeshes() const;
+				std::size_t addVertex(const Submesh::Vertex & vertex);
+				std::size_t addVertex(Submesh::Vertex && vertex);
 
-			protected:
-				std::vector<SubmeshData> _submeshes;
+				inline std::vector<Submesh::Vertex> & getVertices();
+				inline const std::vector<Submesh::Vertex> & getVertices() const;
+
+				inline void addFace(const Submesh::Face & face);
+				inline void addFace(Submesh::Face && face);
+
+				inline std::vector<Submesh::Face> & getFaces();
+				inline const std::vector<Submesh::Face> & getFaces()const ;
+			private:
+				/**
+				 * @property _vertices
+				 * @brief The list of vertices of the mesh.
+				 */
+				std::vector<Submesh::Vertex> _vertices;
+
+                /**
+                 * @property _faces
+                 * @brief The list of faces using the vertices.
+                 */
+				std::vector<Submesh::Face> _faces;
 			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/mesh.inl"
+#include "graphic/model/submesh.inl"
 
-#endif // MESH_HPP
+#endif // SUBMESH_HPP

@@ -37,6 +37,7 @@
 */
 
 #include "utility/wavefront/parser_obj.hpp"
+#include "utility/wavefront/parser_mtl.hpp"
 
 #include <iostream>
 #include <sstream>
@@ -56,22 +57,83 @@ namespace ece
 					this->processLine(line);
         		}
         		// TODO care about objects groups and faces groups
+
+				/* Check face format - Clockwising and size of the face. */
+				std::size_t i = 0;
+				while (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT && i < this->_currentObject->getNumberOfFaces()) {
+					auto face = this->_currentObject->getFaces()[i];
+					auto a = this->_currentObject->getVertices()[face[0]._v - 1];
+					auto b = this->_currentObject->getVertices()[face[1]._v - 1];
+					auto c = this->_currentObject->getVertices()[face[face.size() - 1]._v - 1];
+					FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] };
+					FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] };
+					FloatVector3u n = this->_currentObject->getVerticesNormal()[face[0]._vn - 1];
+					float det = (ab[0] * cb[1] * n[2]) + (cb[0] * n[1] * ab[2]) + (n[0] * ab[1] * cb[2]) - (n[0] * cb[1] * ab[2]) - (ab[0] * n[1] * cb[2]) - (cb[0] * ab[1] * n[2]);
+					auto angle = std::atan2(det, ab.dot(cb));
+					if (angle > 0) {
+						this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CW });
+					}
+					else if (angle < 0) {
+						this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CCW });
+					}
+					else {
+						this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::NON_SIGNIFICANT });
+					}
+				}
         	}
 
-        	void ParserOBJ::save(std::ostream & /*stream*/)
+        	void ParserOBJ::save(std::ostream & stream)
         	{
-        		/* NOT IMPLEMENTED YET*/
+				for (auto & material: this->_materials) {
+					stream << "mtllib " << material << std::endl;
+				}
+
+				for (auto & object : this->_objects) {
+					stream << "o " << object.getName() << std::endl << std::endl;
+
+					for (auto & vertex : object.getVertices()) {
+						stream << "v " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : object.getVerticesTexture()) {
+						stream << "vt " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : object.getVerticesNormal()) {
+						stream << "vn " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : object.getVerticesSpaceParameter()) {
+						stream << "vp " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & material : object.getMaterials()) {
+						stream << "usemtl " << material.name << std::endl;
+						for (std::size_t i = material.start; i <= material.end; ++i) {
+							auto & face = object.getFaces()[i];
+							stream << "f";
+							for (auto & vertex : face) {
+								stream << " " << vertex._v << "/" << vertex._vt << "/" << vertex._vn;
+							}
+							stream << std::endl;
+						}
+					}
+				}
         	}
 
 			void ParserOBJ::processLine(const std::string & line)
 			{
 				if (line.size() >= 2) {
-					std::string command = line.substr(0, 2);
-					std::istringstream stream(line.substr(2));
+					std::string command = line.substr(0, line.find_first_of(' ')); //line.substr(0, 2);
+					std::istringstream stream(line.substr(line.find_first_of(' ') + 1));
 
 					// TODO add checks for the format of the file
 
-					if (command == "v ") {
+					if (command == "v") {
 						if (this->_currentObject == this->_objects.end()) {
 							this->_currentObject = this->addObject("unnamed");
 						}
@@ -124,7 +186,7 @@ namespace ece
 						// TODO: Deal with 1D and 2D parameter space.
 						this->_currentObject->addVertexSpaceParameter({ parameterSpace[0], parameterSpace[1], parameterSpace[2] });
 					}
-					else if (command == "f ") {
+					else if (command == "f") {
 						ObjectOBJ::Face face;
 						ObjectOBJ::Vertex vertex;
 
@@ -151,10 +213,23 @@ namespace ece
 
 						// TODO check that it uses existing vertices, normales, and textures.
 					}
-					else if (command == "o ") {
+					else if (command == "o") {
 						std::string name;
 						stream >> name;
 						this->_currentObject = this->addObject(name);
+					}
+					else if (command == "g") {
+						// TODO: need to make the difference between object and group to complete implementation of submeshes for wavefront specification.
+					}
+					else if (command == "mtllib") {
+						std::string materialFile;
+						stream >> materialFile;
+						this->_materials.push_back(materialFile);
+					}
+					else if (command == "usemtl") {
+						std::string material;
+						stream >> material;
+						this->_currentObject->addMaterial(material);
 					}
 				}
 			}

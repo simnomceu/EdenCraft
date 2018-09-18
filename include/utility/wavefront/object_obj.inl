@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace wavefront
 		{
-			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept: _o(name), _v(), _vt(), _vn(), _vp(), _f() {}
+			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept : _o(name), _v(), _vt(), _vn(), _vp(), _faceFormat{0, ObjectOBJ::Clockwise::NON_SIGNIFICANT}, _f(), _materials() {}
 
 			inline const std::string & ObjectOBJ::getName() const { return this->_o; }
 
@@ -86,15 +86,44 @@ namespace ece
 
 			inline const std::vector<FloatVector3u> & ObjectOBJ::getVerticesSpaceParameter() const { return this->_vp; }
 
-			inline void ObjectOBJ::addFace(const ObjectOBJ::Face & f) { this->_f.push_back(f); }
+			inline void ObjectOBJ::setFaceFormat(const FaceFormat & format) { this->_faceFormat = format; }
+			inline void ObjectOBJ::setFaceFormat(FaceFormat && format) { this->_faceFormat = std::move(format); }
 
-			inline void ObjectOBJ::addFace(ObjectOBJ::Face && f) { this->_f.push_back(std::move(f)); }
+			inline ObjectOBJ::FaceFormat & ObjectOBJ::getFaceFormat() { return this->_faceFormat; }
+
+			inline const ObjectOBJ::FaceFormat & ObjectOBJ::getFaceFormat() const { return this->_faceFormat; }
+
+			inline void ObjectOBJ::addFace(const ObjectOBJ::Face & f)
+			{
+				this->_f.push_back(f);
+				if (!this->_materials.empty()) {
+					this->_materials.back().end++;
+				}
+			}
+
+			inline void ObjectOBJ::addFace(ObjectOBJ::Face && f)
+			{
+				this->_f.push_back(std::move(f));
+				if (!this->_materials.empty()) {
+					this->_materials.back().end++;
+				}
+			}
 
 			inline std::size_t ObjectOBJ::getNumberOfFaces() const { return this->_f.size(); }
 
 			inline std::vector<ObjectOBJ::Face> & ObjectOBJ::getFaces() { return this->_f; }
 
 			inline const std::vector<ObjectOBJ::Face> & ObjectOBJ::getFaces() const { return this->_f; }
+
+			inline void ObjectOBJ::addMaterial(const std::string & name) { this->_materials.push_back({ name, this->_f.size(), this->_f.size() }); }
+
+			inline void ObjectOBJ::addMaterial(std::string && name) { this->_materials.push_back({ std::move(name), this->_f.size(), this->_f.size() }); }
+
+			inline std::size_t ObjectOBJ::getNumberofMaterials() const { return this->_materials.size(); }
+
+			inline std::vector<ObjectOBJ::Material> & ObjectOBJ::getMaterials() { return this->_materials; }
+
+			inline const std::vector<ObjectOBJ::Material> & ObjectOBJ::getMaterials() const { return this->_materials; }
 		} // namespace wavefront
 	} // namespace utility
 } // namespace ece

@@ -38,29 +38,13 @@
 
 */
 
-#include "graphic/model/mesh.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
 		namespace model
 		{
-			Box3D Mesh::getBouncingBox() const
-			{
-				std::vector<Box3D> boxes = std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), std::vector<Box3D>(), [](std::vector<Box3D> result, auto rhs) { result.push_back(rhs.mesh.getBouncingBox()); return result; });
-
-				auto xMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[0] < rhs.a[0]; })->a[0];
-				auto xMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[0] < rhs.b[0]; })->b[0];
-
-				auto yMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[1] < rhs.a[1]; })->a[1];
-				auto yMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[1] < rhs.b[1]; })->b[1];
-
-				auto zMin = std::min_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.a[2] < rhs.a[2]; })->a[2];
-				auto zMax = std::max_element(boxes.begin(), boxes.end(), [](const auto & lhs, const auto & rhs) { return lhs.b[2] < rhs.b[2]; })->b[2];
-
-				return Box3D(FloatVector3u{ xMin, yMin, zMin }, FloatVector3u{ xMax, yMax, zMax });
-			}
+			inline void OBJSaver::setMesh(Mesh::Reference && mesh) { this->_mesh = std::move(mesh); }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
