@@ -78,6 +78,13 @@ namespace ece
 					std::size_t end;
 				};
 
+				struct FaceGroup
+				{
+					std::string name;
+					std::string material;
+					std::vector<std::size_t> faces;
+				};
+
 				enum class Clockwise : unsigned char
 				{
 					CW,
@@ -183,12 +190,13 @@ namespace ece
 				inline std::vector<Face> & getFaces();
 				inline const std::vector<Face> & getFaces() const;
 
-				inline void addMaterial(const std::string & name);
-				inline void addMaterial(std::string && name);
+				inline void resetCurrentGroups();
+				inline void addGroup(const std::string & group);
+				inline void setMaterial(const std::string & material);
 
-				inline std::size_t getNumberofMaterials() const;
-				inline std::vector<Material> & getMaterials();
-				inline const std::vector<Material> & getMaterials() const;
+				inline std::size_t getNumberOfGroups() const;
+				inline std::vector<FaceGroup> & getGroups();
+				inline const std::vector<FaceGroup> & getGroups() const;
 
 			private:
 				std::string _o; // object name
@@ -200,7 +208,8 @@ namespace ece
 
 				FaceFormat _faceFormat;
 				std::vector<Face> _f; // face
-				std::vector<Material> _materials;
+				std::vector<FaceGroup> _groups;
+				std::vector<std::string> _currentGroups;
 			};
 		} // namespace wavefront
 	} // namespace utility

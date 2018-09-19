@@ -135,14 +135,14 @@ namespace ece
 				*/
 				virtual void loadFromMemory(const void * content) override;
 
-				inline Mesh::Reference getMesh() const;
+				inline const std::vector<Mesh::Reference> & getMeshes() const;
 
 			protected:
 				void load(const std::string & filename, ParserOBJ & parser);
 				void clear();
 
 			private:
-				Mesh::Reference _mesh;
+				std::vector<Mesh::Reference> _meshes;
 			};
 		} // namespace model
 	} // namespace graphic

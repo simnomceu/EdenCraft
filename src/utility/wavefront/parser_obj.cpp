@@ -45,18 +45,18 @@
 
 namespace ece
 {
-    namespace utility
-    {
-        namespace wavefront
-        {
-        	void ParserOBJ::load(std::istream & stream)
-        	{
-        		std::string line;
-        		while (stream.good()) {
-        			std::getline(stream, line);
+	namespace utility
+	{
+		namespace wavefront
+		{
+			void ParserOBJ::load(std::istream & stream)
+			{
+				std::string line;
+				while (stream.good()) {
+					std::getline(stream, line);
 					this->processLine(line);
-        		}
-        		// TODO care about objects groups and faces groups
+				}
+				// TODO care about objects groups and faces groups
 
 				/* Check face format - Clockwising and size of the face. */
 				std::size_t i = 0;
@@ -80,11 +80,11 @@ namespace ece
 						this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::NON_SIGNIFICANT });
 					}
 				}
-        	}
+			}
 
-        	void ParserOBJ::save(std::ostream & stream)
-        	{
-				for (auto & material: this->_materials) {
+			void ParserOBJ::save(std::ostream & stream)
+			{
+				for (auto & material : this->_materials) {
 					stream << "mtllib " << material << std::endl;
 				}
 
@@ -111,10 +111,13 @@ namespace ece
 					}
 					stream << std::endl;
 
-					for (auto & material : object.getMaterials()) {
-						stream << "usemtl " << material.name << std::endl;
-						for (std::size_t i = material.start; i <= material.end; ++i) {
-							auto & face = object.getFaces()[i];
+					for (auto & group: object.getGroups()) {
+						stream << "g " << group.name << std::endl;
+						if (!group.material.empty()) {
+							stream << "usemtl " << group.material << std::endl;
+						}
+						for (auto it : group.faces) {
+							auto & face = object.getFaces()[it];
 							stream << "f";
 							for (auto & vertex : face) {
 								stream << " " << vertex._v << "/" << vertex._vt << "/" << vertex._vn;
@@ -219,6 +222,13 @@ namespace ece
 						this->_currentObject = this->addObject(name);
 					}
 					else if (command == "g") {
+						this->_currentObject->resetCurrentGroups();
+
+						std::string group;
+						while (!stream.eof()) {
+							stream >> group;
+							this->_currentObject->addGroup(group);
+						}
 						// TODO: need to make the difference between object and group to complete implementation of submeshes for wavefront specification.
 					}
 					else if (command == "mtllib") {
@@ -229,7 +239,7 @@ namespace ece
 					else if (command == "usemtl") {
 						std::string material;
 						stream >> material;
-						this->_currentObject->addMaterial(material);
+						this->_currentObject->setMaterial(material);
 					}
 				}
 			}

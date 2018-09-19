@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace wavefront
 		{
-			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept : _o(name), _v(), _vt(), _vn(), _vp(), _faceFormat{0, ObjectOBJ::Clockwise::NON_SIGNIFICANT}, _f(), _materials() {}
+			inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept : _o(name), _v(), _vt(), _vn(), _vp(), _faceFormat{0, ObjectOBJ::Clockwise::NON_SIGNIFICANT}, _f(), _groups(), _currentGroups() {}
 
 			inline const std::string & ObjectOBJ::getName() const { return this->_o; }
 
@@ -96,16 +96,26 @@ namespace ece
 			inline void ObjectOBJ::addFace(const ObjectOBJ::Face & f)
 			{
 				this->_f.push_back(f);
-				if (!this->_materials.empty()) {
-					this->_materials.back().end++;
+				if (this->_currentGroups.empty()) {
+					this->addGroup("default");
+				}
+
+				for (auto group : this->_currentGroups) {
+					auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
+					it->faces.push_back(this->_f.size() - 1);
 				}
 			}
 
 			inline void ObjectOBJ::addFace(ObjectOBJ::Face && f)
 			{
 				this->_f.push_back(std::move(f));
-				if (!this->_materials.empty()) {
-					this->_materials.back().end++;
+				if (this->_currentGroups.empty()) {
+					this->addGroup("default");
+				}
+
+				for (auto group : this->_currentGroups) {
+					auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
+					it->faces.push_back(this->_f.size() - 1);
 				}
 			}
 
@@ -115,15 +125,32 @@ namespace ece
 
 			inline const std::vector<ObjectOBJ::Face> & ObjectOBJ::getFaces() const { return this->_f; }
 
-			inline void ObjectOBJ::addMaterial(const std::string & name) { this->_materials.push_back({ name, this->_f.size(), this->_f.size() }); }
+			inline void ObjectOBJ::resetCurrentGroups() { this->_currentGroups.clear(); }
 
-			inline void ObjectOBJ::addMaterial(std::string && name) { this->_materials.push_back({ std::move(name), this->_f.size(), this->_f.size() }); }
+			inline void ObjectOBJ::addGroup(const std::string & group)
+			{
+				if (std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; }) == this->_groups.end()) {
+					this->_groups.push_back({ group, "", {} });
+				}
+				this->_currentGroups.push_back(group);
+			}
 
-			inline std::size_t ObjectOBJ::getNumberofMaterials() const { return this->_materials.size(); }
+			inline void ObjectOBJ::setMaterial(const std::string & material)
+			{
+				if (this->_currentGroups.empty()) {
+					this->addGroup("default");
+				}
+				for (auto group : this->_currentGroups) {
+					auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
+					it->material = material;
+				}
+			}
 
-			inline std::vector<ObjectOBJ::Material> & ObjectOBJ::getMaterials() { return this->_materials; }
+			inline std::size_t ObjectOBJ::getNumberOfGroups() const { return this->_groups.size(); }
 
-			inline const std::vector<ObjectOBJ::Material> & ObjectOBJ::getMaterials() const { return this->_materials; }
+			inline std::vector<ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() { return this->_groups; }
+
+			inline const std::vector<ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() const { return this->_groups; }
 		} // namespace wavefront
 	} // namespace utility
 } // namespace ece

@@ -152,7 +152,7 @@ ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize
 	{
 		ece::OBJLoader loader;
 		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		element->setMesh(loader.getMesh());
+		element->setMesh(loader.getMeshes()[0]);
 	}
 
 	for (std::size_t i = 0; i < chunkSize; ++i) {
