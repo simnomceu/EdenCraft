@@ -127,12 +127,12 @@ namespace ece
 				virtual void saveToString(std::string & content) override;
 
 				/**
-				 * @fn void saveToMemory(void * content)
-				 * @param[out] content The memory to save into.
-				 * @brief Formate and save data into memory.
+				 * @fn void saveToStream(const std::ostream & stream)
+				 * @param[inout] stream The stream to save through.
+				 * @brief Formate and save data through a stream.
 				 * @throw
 				 */
-				virtual void saveToMemory(void * content) override;
+				virtual void saveToStream(std::ostream & stream) override;
 
 				inline void setMesh(Mesh::Reference && mesh);
 

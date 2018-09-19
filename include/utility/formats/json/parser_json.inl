@@ -47,8 +47,6 @@ namespace ece
 				inline ParserJSON::ParserJSON() noexcept : _pathname(), _contentJSON() {}
 
 				inline std::shared_ptr<ObjectJSON> ParserJSON::getObject() const { return this->_contentJSON; }
-
-				inline std::vector<std::string> ParserJSON::getExtensions() const { return { "json" }; }
 			} // namespace json
 		} // namespace formats
     } // namespace utility

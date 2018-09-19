@@ -38,8 +38,6 @@
 
 #include "utility/formats/bitmap/parser_bmp.hpp"
 
-#include "utility/file_system/file.hpp"
-
 #include <sstream>
 
 namespace ece
@@ -50,14 +48,8 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				using utility::file_system::File;
-				using utility::debug::FileException;
-				using utility::OpenMode;
-
-				void ParserBMP::loadFromFile(const std::string & filename)
+				void ParserBMP::load(std::istream & stream)
 				{
-					File file;
-
 					BMPHeader header;
 					BMPDIB DIB;
 					std::vector<std::byte> buffer;
@@ -67,70 +59,18 @@ namespace ece
 					// see https://upload.wikimedia.org/wikipedia/commons/c/c4/BMPfileFormat.png
 					// see https://en.wikipedia.org/wiki/BMP_file_format
 
-					try {
-						if (!file.open(filename, OpenMode::binary | OpenMode::in | OpenMode::out)) {
-							throw std::runtime_error(filename + " has not been opened.");
-						}
-						header.magic[0] = file.read<uint8_t>();
-						header.magic[1] = file.read<uint8_t>();
-						header.size = file.read<uint32_t>();
-						header.reserved = file.read<uint32_t>();
-						header.pixelsOffset = file.read<uint32_t>();
+					stream.read(reinterpret_cast<char *>(&header.magic[0]), sizeof(uint8_t));
+					stream.read(reinterpret_cast<char *>(&header.magic[1]), sizeof(uint8_t));
+					stream.read(reinterpret_cast<char *>(&header.size), sizeof(uint32_t));
+					stream.read(reinterpret_cast<char *>(&header.reserved), sizeof(uint32_t));
+					stream.read(reinterpret_cast<char *>(&header.pixelsOffset), sizeof(uint32_t));
 
-						DIB = file.read<BMPDIB>();
-
-						buffer.resize(header.size - header.pixelsOffset);
-						file.moveCursorTo(header.pixelsOffset);
-						for (std::size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
-							buffer[i] = file.read<std::byte>();
-						}
-
-						int padding = 0;
-						int scanLineBytes = DIB.width * 3;
-						while ((scanLineBytes + padding) % 4 != 0) {
-							++padding;
-						}
-						int psw = scanLineBytes + padding; // TODO: all here is not efficient at all
-
-						this->_pixels.resize(psw / 3, DIB.height);
-						long bufPos = 0;
-						for (uint32_t y = 0; y < this->_pixels.getHeight(); ++y) {
-							for (uint32_t x = 0; x < 3 * this->_pixels.getWidth(); x += 3) {
-								bufPos = (DIB.height - y - 1) * psw + x;
-
-								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = buffer[bufPos + 2]; // red
-								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = buffer[bufPos + 1]; // green
-								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = buffer[bufPos]; // blue
-							}
-						}
-					}
-					catch (FileException & e) {
-						throw e;
-					}
-				}
-
-				void ParserBMP::loadFromString(const std::string & content)
-				{
-					std::stringstream stream;
-					stream << content;
-
-
-					BMPHeader header;
-					BMPDIB DIB;
-					std::vector<std::byte> buffer;
-
-					stream >> header.magic[0] >> header.magic[1];
-					stream >> header.size;
-					stream >> header.reserved;
-					stream >> header.pixelsOffset;
-					stream >> DIB.size >> DIB.width >> DIB.height >> DIB.planes >> DIB.bpp >> DIB.compression >> DIB.imageSize >> DIB.xPixelPerMeter >> DIB.yPixelPerMeter >> DIB.nbColors >> DIB.nbMajorColors;;
+					stream.read(reinterpret_cast<char *>(&DIB), sizeof(BMPDIB));
 
 					buffer.resize(header.size - header.pixelsOffset);
 					stream.seekg(header.pixelsOffset);
-					for (std::size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to reada contiguous value of size sizeof(std::byte)*nbBytes
-						unsigned int dummy;
-						stream >> dummy;
-						buffer[i] = static_cast<std::byte>(dummy);
+					for (std::size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to read a contiguous value of size sizeof(std::byte)*nbBytes
+						stream.read(reinterpret_cast<char *>(&buffer[i]), sizeof(std::byte));
 					}
 
 					int padding = 0;
@@ -153,24 +93,9 @@ namespace ece
 					}
 				}
 
-				void ParserBMP::loadFromMemory(const void * /*content*/)
+				void ParserBMP::save(std::ostream & /*stream*/)
 				{
-
-				}
-
-				void ParserBMP::saveToFile(const std::string & /*filename*/)
-				{
-
-				}
-
-				void ParserBMP::saveToString(std::string & /*content*/)
-				{
-
-				}
-
-				void ParserBMP::saveToMemory(void * /*content*/)
-				{
-
+					/* NOT IMPLEMENTED YET*/
 				}
 			} // namespace bitmap
 		} // namespace formats

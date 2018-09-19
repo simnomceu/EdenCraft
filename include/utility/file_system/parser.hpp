@@ -41,8 +41,7 @@
 
 #include "utility/config.hpp"
 
-#include <string>
-#include <vector>
+#include <iostream>
 
 namespace ece
 {
@@ -106,55 +105,21 @@ namespace ece
         		 */
         		Parser & operator=(Parser && move) = default;
 
-        		/**
-        		 * @fn void loadFromFile(const std::string & filename)
-        		 * @param[in] filename The name of the file to load data from.
-        		 * @brief Load and parse data from a file.
-        		 * @throw
-        		 */
-        		virtual void loadFromFile(const std::string & filename) = 0;
+				/**
+				 * @fn void load(std::istream & stream)
+				 * @param[inout] stream The stream to load through.
+				 * @brief Load and parse data through a stream.
+				 * @throw
+				 */
+				virtual void load(std::istream & stream) = 0;
 
-        		/**
-        		 * @fn void loadFromString(const std::string & content)
-        		 * @param[in] content The string content to load data from.
-        		 * @brief Load and parse data from a string.
-        		 * @throw
-        		 */
-        		virtual void loadFromString(const std::string & content) = 0;
-
-        		/**
-        		 * @fn void loadFromMemory(const void * content)
-        		 * @param[in] content The memory buffer to load data from.
-        		 * @brief Load and parse data from memory.
-        		 * @throw
-        		 */
-        		virtual void loadFromMemory(const void * content) = 0;
-
-        		/**
-        		 * @fn void saveToFile(const std::string & filename)
-        		 * @param[out] filename The name of the file to save into.
-        		 * @brief Formate and save data into a file.
-        		 * @throw
-        		 */
-        		virtual void saveToFile(const std::string & filename) = 0;
-
-        		/**
-        		 * @fn void saveToString(std::string & content)
-        		 * @param[out] content The string buffer to save into.
-        		 * @brief Formate and save data into a string buffer.
-        		 * @throw
-        		 */
-        		virtual void saveToString(std::string & content) = 0;
-
-        		/**
-        		 * @fn void saveToMemory(void * content)
-        		 * @param[out] content The memory to save into.
-        		 * @brief Formate and save data into memory.
-        		 * @throw
-        		 */
-        		virtual void saveToMemory(void * content) = 0;
-				
-				virtual std::vector<std::string> getExtensions() const = 0;
+				/**
+				 * @fn void save(std::ostream & stream)
+				 * @param[inout] stream The stream to save through.
+				 * @brief Formate and save data through a stream.
+				 * @throw
+				 */
+				virtual void save(std::ostream & stream) = 0;
         	};
         } // namespace file_system
     } // namespace utility

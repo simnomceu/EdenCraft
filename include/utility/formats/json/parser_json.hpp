@@ -71,58 +71,22 @@ namespace ece
 					inline ParserJSON() noexcept;
 
 					/**
-					 * @fn void loadFromFile(const std::string & filename)
-					 * @param[in] filename The name of the file to load data from.
-					 * @brief Load and parse data from a file.
-					 * @see void Parser::loadFromFile(const std::string & filename)
+					 * @fn void load(std::istream & stream)
+					 * @param[inout] stream The stream to load through.
+					 * @brief Load and parse data through a stream.
+					 * @see void Parser::load(std::istream & stream)
 					 * @throw
 					 */
-					virtual void loadFromFile(const std::string & filename) override;
+					virtual void load(std::istream & stream) override;
 
 					/**
-					 * @fn void loadFromString(const std::string & content)
-					 * @param[in] content The string content to load data from.
-					 * @brief Load and parse data from a string.
-					 * @see void Parser::loadFromString(const std::string & content)
+					 * @fn void save(std::ostream & stream)
+					 * @param[inout] stream The stream to save through.
+					 * @brief Formate and save data through a stream.
+					 * @see void Parser::save(std::ostream & stream)
 					 * @throw
 					 */
-					virtual void loadFromString(const std::string & content) override;
-
-					/**
-					 * @fn void loadFromMemory(const void * content)
-					 * @param[in] content The memory buffer to load data from.
-					 * @brief Load and parse data from memory.
-					 * @see void Parser::loadFromMemory(const void * content)
-					 * @throw
-					 */
-					virtual void loadFromMemory(const void * content) override;
-
-					/**
-					 * @fn void saveToFile(const std::string & filename)
-					 * @param[out] filename The name of the file to save into.
-					 * @brief Formate and save data into a file.
-					 * @see void Parser::saveToFile(const std::string & filename)
-					 * @throw
-					 */
-					virtual void saveToFile(const std::string & filename) override;
-
-					/**
-					 * @fn void saveToString(std::string & content)
-					 * @param[out] content The string buffer to save into.
-					 * @brief Formate and save data into a string buffer.
-					 * @see void Parser::saveToString(std::string & content)
-					 * @throw
-					 */
-					virtual void saveToString(std::string & content) override;
-
-					/**
-					 * @fn void saveToMemory(void * content)
-					 * @param[out] content The memory to save into.
-					 * @brief Formate and save data into memory.
-					 * @see void Parser::saveToMemory(void * content)
-					 * @throw
-					 */
-					virtual void saveToMemory(void * content) override;
+					virtual void save(std::ostream & stream) override;
 
 					/**
 					 * @fn std::shared_ptr<ObjectJSON> getObject() const
@@ -132,8 +96,6 @@ namespace ece
 					 * @throw
 					 */
 					inline std::shared_ptr<ObjectJSON> getObject() const;
-
-					inline virtual std::vector<std::string> getExtensions() const override;
 
 				protected:
 					/**

@@ -88,9 +88,12 @@ namespace ece
 				this->load("", parser);
 			}
 
-			void OBJLoader::loadFromMemory(const void * /*content*/)
+			void OBJLoader::loadFromStream(std::istream & stream)
 			{
-				/* NOT IMPLEMENTED YET*/
+				ParserOBJ parser;
+				parser.load(stream);
+
+				this->load("", parser);
 			}
 
 			void OBJLoader::load(const std::string & filename, ParserOBJ & parser)

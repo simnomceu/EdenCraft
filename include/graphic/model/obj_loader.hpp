@@ -128,12 +128,12 @@ namespace ece
 				virtual void loadFromString(const std::string & content) override;
 
 				/**
-				* @fn void loadFromMemory(const void * content)
-				* @param[in] content The memory buffer to load data from.
-				* @brief Load and parse data from memory.
-				* @throw
-				*/
-				virtual void loadFromMemory(const void * content) override;
+				 * @fn void loadFromStream(std::istream & stream)
+				 * @param[inout] stream The stream to load through.
+				 * @brief Load and parse data through a stream.
+				 * @throw
+				 */
+				virtual void loadFromStream(std::istream & stream) override;
 
 				inline const std::vector<Mesh::Reference> & getMeshes() const;
 

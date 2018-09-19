@@ -120,13 +120,13 @@ namespace ece
         		 */
         		virtual void loadFromString(const std::string & content) = 0;
 
-        		/**
-        		 * @fn void loadFromMemory(const void * content)
-        		 * @param[in] content The memory buffer to load data from.
-        		 * @brief Load and parse data from memory.
-        		 * @throw
-        		 */
-        		virtual void loadFromMemory(const void * content) = 0;
+				/**
+				 * @fn void loadFromStream(std::istream & stream)
+				 * @param[inout] stream The stream to load through.
+				 * @brief Load and parse data through a stream.
+				 * @throw
+				 */
+				virtual void loadFromStream(std::istream & stream) = 0;
 			};
 		} // namespace file_system
 	} // namespace utility

@@ -117,58 +117,23 @@ namespace ece
 					ParserBMP & operator=(ParserBMP && move) noexcept = default;
 
 					/**
-					 * @fn void loadFromFile(const std::string & filename)
-					 * @param[in] filename The name of the file to load data from.
-					 * @brief Load and parse data from a file.
+					 * @fn void load(std::istream & stream)
+					 * @param[inout] stream The stream to load through.
+					 * @brief Load and parse data through a stream.
 					 * @throw
-					 * @see void Parser::loadFromFile(const std::string & filename)
+					 * @see void Parser::load(std::istream & stream)
 					 */
-					virtual void loadFromFile(const std::string & filename) override;
+					virtual void load(std::istream & stream) override;
 
 					/**
-					 * @fn void loadFromString(const std::string & content)
-					 * @param[in] content The string content to load data from.
-					 * @brief Load and parse data from a string.
+					 * @fn void save(std::ostream & stream)
+					 * @param[inout] stream The stream to save through.
+					 * @brief Formate and save data through a stream.
 					 * @throw
-					 * @see void Parser::loadFromString(const std::string & content)
+					 * @see void Parser::save(std::ostream & stream)
 					 */
-					virtual void loadFromString(const std::string & content) override;
+					virtual void save(std::ostream & stream) override;
 
-					/**
-					 * @fn void loadFromMemory(const void * content)
-					 * @param[in] content The memory buffer to load data from.
-					 * @brief Load and parse data from memory.
-					 * @throw
-					 * @see void Parser::loadFromMemory(const void * content)
-					 */
-					virtual void loadFromMemory(const void * content) override;
-
-					/**
-					 * @fn void saveToFile(const std::string & filename)
-					 * @param[out] filename The name of the file to save into.
-					 * @brief Formate and save data into a file.
-					 * @throw
-					 * @see void Parser::saveToFile(const std::string & filename)
-					 */
-					virtual void saveToFile(const std::string & filename) override;
-
-					/**
-					 * @fn void saveToString(std::string & content)
-					 * @param[out] content The string buffer to save into.
-					 * @brief Formate and save data into a string buffer.
-					 * @throw
-					 * @see void Parser::saveToString(std::string & content)
-					 */
-					virtual void saveToString(std::string & content) override;
-
-					/**
-					 * @fn void saveToMemory(void * content)
-					 * @param[out] content The memory to save into.
-					 * @brief Formate and save data into memory.
-					 * @throw
-					 * @see void ParsersaveToString(std::string & content)
-					 */
-					virtual void saveToMemory(void * content) override;
 
 					/**
 					 * @fn Dynamic2DArray<std::array<std::byte, 3>> & getPixels()
@@ -185,8 +150,6 @@ namespace ece
 					 * @throw noexcept
 					 */
 					inline const Dynamic2DArray<std::array<std::byte, 3>> & getPixels() const noexcept;
-
-					inline virtual std::vector<std::string> getExtensions() const override;
 
 				private:
 					/**

@@ -79,9 +79,11 @@ namespace ece
 				parser.save(stream);
 			}
 
-			void OBJSaver::saveToMemory(void * /*content*/)
+			void OBJSaver::saveToStream(std::ostream & stream)
 			{
-				/* NOT IMPLEMENTED YET*/
+				ParserOBJ parser;
+				this->save("", parser);
+				parser.save(stream);
 			}
 
 			void OBJSaver::save(const std::string & /*filename*/, ParserOBJ & parser)
