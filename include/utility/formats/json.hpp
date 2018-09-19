@@ -36,16 +36,21 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
+#ifndef JSON_HPP
+#define JSON_HPP
 
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
+#include "utility/formats/json/array_json.hpp"
+#include "utility/formats/json/atomic_json.hpp"
+#include "utility/formats/json/node_json.hpp"
+#include "utility/formats/json/object_json.hpp"
+#include "utility/formats/json/parser_json.hpp"
 
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+	namespace utility
+	{
+		using namespace formats::json;
+	}
+}
 
-#endif // FILE_SYSTEM_HPP
+#endif // JSON_HPP

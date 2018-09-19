@@ -36,16 +36,24 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
-
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+    namespace utility
+    {
+		namespace formats
+		{
+			namespace wavefront
+			{
+				inline ParserOBJ::ParserOBJ() : _objects(), _currentObject(this->_objects.end()) {}
 
-#endif // FILE_SYSTEM_HPP
+				inline std::vector<ObjectOBJ> & ParserOBJ::getObjects() { return this->_objects; }
+
+				inline const std::vector<ObjectOBJ> & ParserOBJ::getObjects() const { return this->_objects; }
+
+				inline std::vector<std::string> & ParserOBJ::getMaterials() { return this->_materials; }
+
+				inline const std::vector<std::string> & ParserOBJ::getMaterials() const { return this->_materials; }
+			} // namespace wavefront
+		} // namespace formats
+    } // namespace utility
+} // namespace ece

@@ -39,7 +39,7 @@
 
 #include "renderer/resource/texture2d.hpp"
 
-#include "renderer/image/parser_bmp.hpp"
+#include "utility/formats/bitmap/parser_bmp.hpp"
 
 namespace ece
 {
@@ -47,7 +47,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			using renderer::image::ParserBMP;
+			using utility::formats::bitmap::ParserBMP;
 
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
@@ -88,12 +88,12 @@ namespace ece
 					ParserBMP parserBMP;
 					parserBMP.loadFromFile(filename);
 
-					auto & image = parserBMP.getImage();
+					auto & image = parserBMP.getPixels();
 					auto buffer = image.data();
 					for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
-						this->_data.push_back(buffer[i].red);
-						this->_data.push_back(buffer[i].green);
-						this->_data.push_back(buffer[i].blue);
+						this->_data.push_back(buffer[i][0]); // red
+						this->_data.push_back(buffer[i][1]); // green
+						this->_data.push_back(buffer[i][2]); // blue
 					}
 
 					this->_width = image.getWidth();

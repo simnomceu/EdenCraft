@@ -42,7 +42,7 @@
 
 #include "utility/file_system/file.hpp"
 #include "utility/enum.hpp"
-#include "utility/wavefront/parser_mtl.hpp"
+#include "utility/formats/wavefront/parser_mtl.hpp"
 #include "renderer/resource/texture2d.hpp"
 #include "core/resource/make_resource.hpp"
 
@@ -55,12 +55,12 @@ namespace ece
 			using utility::file_system::File;
 			using utility::debug::FileException;
 			using utility::FileCodeError;
-			using utility::wavefront::ParserMTL;
+			using utility::formats::wavefront::ParserMTL;
 			using utility::mathematics::FloatVector4u;
 			using renderer::resource::Texture2D;
 			using core::resource::makeResource;
 			using renderer::TextureTypeTarget;
-			using utility::wavefront::ObjectOBJ;
+			using utility::formats::wavefront::ObjectOBJ;
 
 			void OBJLoader::loadFromFile(const std::string & filename)
 			{

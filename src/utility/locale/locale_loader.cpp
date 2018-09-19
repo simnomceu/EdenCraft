@@ -38,9 +38,9 @@
 
 #include "utility/locale/locale_loader.hpp"
 
-#include "utility/file_system/parser_json.hpp"
+#include "utility/formats/json/parser_json.hpp"
 #include "utility/debug/exception.hpp"
-#include "utility/json/atomic_json.hpp"
+#include "utility/formats/json/atomic_json.hpp"
 
 #include <utility>
 #include <iostream>
@@ -51,9 +51,9 @@ namespace ece
     namespace utility
     {
         using debug::FileException;
-        using json::ObjectJSON;
-		using json::StringJSON;
-        using file_system::ParserJSON;
+        using formats::json::ObjectJSON;
+		using formats::json::StringJSON;
+        using formats::json::ParserJSON;
 
         namespace locale
         {

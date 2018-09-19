@@ -36,16 +36,76 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
+#ifndef PARSER_OBJ_HPP
+#define PARSER_OBJ_HPP
 
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
+#include "utility/config.hpp"
+#include "utility/formats/wavefront/object_obj.hpp"
+
+#include <vector>
 
 namespace ece
 {
-	using namespace utility::file_system
+    namespace utility
+    {
+		namespace formats
+		{
+			namespace wavefront
+			{
+				// TODO add parser MKL
+
+				/**
+				 * @class ParserOBJ
+				 * @extends Parser
+				 * @brief A parser to load/save OBJ Wavefront structure from/to memory, file, or string.
+				 * @remark The OBJ Wavefront structure is so much more complexe and should be refactored.
+				 * @see Parser
+				 */
+				class ECE_UTILITY_API ParserOBJ
+				{
+				public:
+					/**
+					 * @fn ParserOBJ()
+					 * @brief Unique constructor for a ParserOBJ. No OBJ is loaded.
+					 * @throw
+					 */
+					inline ParserOBJ();
+
+					/**
+					 * @fn void load(std::istream & stream)
+					 * @param[in] stream The stream to load through.
+					 * @brief Load and parse data through a stream.
+					 * @throw
+					 */
+					void load(std::istream & stream);
+
+					/**
+					 * @fn void save(const std::ostream & stream)
+					 * @param[inout] stream The stream to save through.
+					 * @brief Formate and save data through a stream.
+					 * @throw
+					 */
+					void save(std::ostream & stream);
+
+					inline std::vector<ObjectOBJ> & getObjects();
+					inline const std::vector<ObjectOBJ> & getObjects() const;
+
+					inline std::vector<std::string> & getMaterials();
+					inline const std::vector<std::string> & getMaterials() const;
+
+				private:
+					std::vector<ObjectOBJ> _objects;
+					std::vector<ObjectOBJ>::iterator _currentObject;
+					std::vector<std::string> _materials;
+
+					void processLine(const std::string & line);
+					std::vector<ObjectOBJ>::iterator addObject(const std::string & name);
+				};
+			} // namespace wavefront
+		} // namespace formats
+    } // namespace utility
 } // namespace ece
 
-#endif // FILE_SYSTEM_HPP
+#include "utility/formats/wavefront/parser_obj.inl"
+
+#endif // PARSER_OBJ_HPP

@@ -36,16 +36,17 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
+#ifndef BITMAP_HPP
+#define BITMAP_HPP
 
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
+#include "utility/formats/bitmap/parser_bmp.hpp"
 
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+	namespace utility
+	{
+		using namespace formats::bitmap;
+	}
+}
 
-#endif // FILE_SYSTEM_HPP
+#endif // BITMAP_HPP

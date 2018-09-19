@@ -36,16 +36,60 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
+#include "utility/formats/json/object_json.hpp"
 
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
+#include "utility/formats/json/array_json.hpp"
 
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+    namespace utility
+    {
+		namespace formats
+		{
+			namespace json
+			{
+				std::shared_ptr<NodeJSON> ObjectJSON::addNull(const std::string & key)
+				{
+					this->_children[key] = std::make_shared<NullJSON>(key, nullptr, this->shared_from_this());
+					return this->_children[key];
+				}
 
-#endif // FILE_SYSTEM_HPP
+				std::shared_ptr<NodeJSON> ObjectJSON::addBoolean(const std::string & key, const bool value)
+				{
+					this->_children[key] = std::make_shared<BooleanJSON>(key, value, this->shared_from_this());
+					return this->_children[key];
+				}
+
+				std::shared_ptr<NodeJSON> ObjectJSON::addInteger(const std::string & key, const int value)
+				{
+					this->_children[key] = std::make_shared<IntegerJSON>(key, value, this->shared_from_this());
+					return this->_children[key];
+				}
+
+				std::shared_ptr<NodeJSON> ObjectJSON::addDouble(const std::string & key, const double value)
+				{
+					this->_children[key] = std::make_shared<DoubleJSON>(key, value, this->shared_from_this());
+					return this->_children[key];
+				}
+
+				std::shared_ptr<NodeJSON> ObjectJSON::addString(const std::string & key, const std::string & value)
+				{
+					this->_children[key] = std::make_shared<StringJSON>(key, value, this->shared_from_this());
+					return this->_children[key];
+				}
+
+				std::shared_ptr<NodeJSON> ObjectJSON::addObject(const std::string & key)
+				{
+					this->_children[key] = std::make_shared<ObjectJSON>(this->shared_from_this());
+					return this->_children[key];
+				}
+
+				std::shared_ptr<NodeJSON> ObjectJSON::addArray(const std::string & key)
+				{
+					this->_children[key] = std::make_shared<ArrayJSON>(this->shared_from_this());
+					return this->_children[key];
+				}
+			} // namespace json
+		} // namespace formats
+    } // namespace utility
+} // namespace ece

@@ -36,16 +36,30 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
-
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+	namespace utility
+	{
+		namespace formats
+		{
+			namespace wavefront
+			{
+				inline void OBJFormat::addVertex(const FloatVector4u & v) { this->_v.push_back(v); }
 
-#endif // FILE_SYSTEM_HPP
+				inline void OBJFormat::addVertex(FloatVector4u && v) { this->_v.push_back(std::move(v)); }
+
+				inline void OBJFormat::addVertexTexture(const FloatVector3u & vt) { this->_vt.push_back(vt); }
+
+				inline void OBJFormat::addVertexTexture(FloatVector3u && vt) { this->_vt.push_back(std::move(vt)); }
+
+				inline void OBJFormat::addVertexNormal(const FloatVector3u & vn) { this->_vn.push_back(vn); }
+
+				inline void OBJFormat::addVertexNormal(FloatVector3u && vn) { this->_vn.push_back(std::move(vn)); }
+
+				inline void OBJFormat::addVertexSpaceParameter(const FloatVector3u & vp) { this->_vp.push_back(vp); }
+
+				inline void OBJFormat::addVertexSpaceParameter(FloatVector3u && vp) { this->_vp.push_back(std::move(vp)); }
+			} // namespace wavefront
+		} // namespace formats
+	} // namespace utility
+} // namespace ece

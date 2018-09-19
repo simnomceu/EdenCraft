@@ -36,16 +36,20 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
-
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+    namespace utility
+    {
+		namespace formats
+		{
+			namespace json
+			{
+				inline ParserJSON::ParserJSON() noexcept : _pathname(), _contentJSON() {}
 
-#endif // FILE_SYSTEM_HPP
+				inline std::shared_ptr<ObjectJSON> ParserJSON::getObject() const { return this->_contentJSON; }
+
+				inline std::vector<std::string> ParserJSON::getExtensions() const { return { "json" }; }
+			} // namespace json
+		} // namespace formats
+    } // namespace utility
+} // namespace ece

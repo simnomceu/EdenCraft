@@ -45,7 +45,7 @@
 #include "utility/file_system/loader.hpp"
 #include "graphic/model/mesh.hpp"
 #include "graphic/model/phong_material.hpp"
-#include "utility/wavefront/parser_obj.hpp"
+#include "utility/formats/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -54,7 +54,7 @@ namespace ece
 		namespace model
 		{
 			using utility::file_system::Loader;
-			using utility::wavefront::ParserOBJ;
+			using utility::formats::wavefront::ParserOBJ;
 
 			/**
 			 * @class OBJLoader

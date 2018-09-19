@@ -36,16 +36,30 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
-
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+    namespace utility
+    {
+		namespace formats
+		{
+			namespace json
+			{
+				inline ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
 
-#endif // FILE_SYSTEM_HPP
+				inline bool ArrayJSON::isAtomic() const noexcept { return false; }
+
+				inline TypeNodeJSON ArrayJSON::getType() const noexcept { return TypeNodeJSON::ARRAY_JSON; }
+
+				inline IteratorArrayJSON ArrayJSON::begin() noexcept { return this->_children.begin(); }
+
+				inline IteratorArrayJSON ArrayJSON::end() noexcept { return this->_children.end(); }
+
+				inline std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key) { return this->_children[key]; }
+
+				inline void ArrayJSON::clear() noexcept { this->_children.clear(); }
+
+				inline std::size_t ArrayJSON::size() const noexcept { return this->_children.size(); }
+			} // namespace json
+		} // namespace formats
+    } // namespace utility
+} // namespace ece

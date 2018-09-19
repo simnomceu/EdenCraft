@@ -42,6 +42,7 @@
 #include "utility/config.hpp"
 
 #include <string>
+#include <vector>
 
 namespace ece
 {
@@ -152,6 +153,8 @@ namespace ece
         		 * @throw
         		 */
         		virtual void saveToMemory(void * content) = 0;
+				
+				virtual std::vector<std::string> getExtensions() const = 0;
         	};
         } // namespace file_system
     } // namespace utility
