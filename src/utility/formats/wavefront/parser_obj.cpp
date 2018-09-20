@@ -145,7 +145,7 @@ namespace ece
 
 							float vertice[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 							stream >> vertice[0] >> vertice[1] >> vertice[2];
-							if (!stream.eof()) {
+							if (!stream.eof() && stream.peek() != '\r') {
 								stream >> vertice[3];
 							}
 							this->_currentObject->addVertex({ vertice[0], vertice[1], vertice[2], vertice[3] });
@@ -157,9 +157,9 @@ namespace ece
 
 							float texture[3] = { 0.0f, 0.0f, 0.0f };
 							stream >> texture[0];
-							if (!stream.eof()) {
+							if (!stream.eof() && stream.peek() != '\r') {
 								stream >> texture[1];
-								if (!stream.eof()) {
+								if (!stream.eof() && stream.peek() != '\r') {
 									stream >> texture[2];
 								}
 							}
@@ -182,9 +182,9 @@ namespace ece
 
 							float parameterSpace[3] = { 0.0f, 0.0f, 1.0f };
 							stream >> parameterSpace[0];
-							if (!stream.eof()) {
+							if (!stream.eof() && stream.peek() != '\r') {
 								stream >> parameterSpace[1];
-								if (!stream.eof()) {
+								if (!stream.eof() && stream.peek() != '\r') {
 									stream >> parameterSpace[2];
 								}
 							}
@@ -195,7 +195,7 @@ namespace ece
 							ObjectOBJ::Face face;
 							ObjectOBJ::Vertex vertex;
 
-							while (!stream.eof()) {
+							while (!stream.eof() && stream.peek() != '\r') {
 								vertex = { 0, 0, 0 };
 								stream >> vertex._v;
 								stream.get();
@@ -227,7 +227,7 @@ namespace ece
 							this->_currentObject->resetCurrentGroups();
 
 							std::string group;
-							while (!stream.eof()) {
+							while (!stream.eof() && stream.peek() != '\r') {
 								stream >> group;
 								this->_currentObject->addGroup(group);
 							}
