@@ -36,16 +36,26 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
-
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+    namespace utility
+    {
+		namespace formats
+		{
+			namespace json
+			{
+				inline NodeJSON::NodeJSON(const std::weak_ptr<NodeJSON>& parent) noexcept : std::enable_shared_from_this<NodeJSON>(), _parent(parent) {}
 
-#endif // FILE_SYSTEM_HPP
+				inline NodeJSON::NodeJSON(const NodeJSON & copy) noexcept : std::enable_shared_from_this<NodeJSON>(copy), _parent(copy._parent) {}
+
+				inline NodeJSON::NodeJSON(NodeJSON && move) noexcept : std::enable_shared_from_this<NodeJSON>(move), _parent(std::move(move._parent)) {}
+
+				inline NodeJSON::~NodeJSON() noexcept { this->_parent.reset(); }
+
+				inline std::shared_ptr<NodeJSON> NodeJSON::getParent() noexcept { return this->_parent.lock(); }
+
+				inline bool NodeJSON::hasParent() const noexcept { return !this->_parent.expired(); }
+			} // namespace json
+		} // namespace formats
+    } // namespace utility
+} // namespace ece

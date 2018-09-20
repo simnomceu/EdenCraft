@@ -36,16 +36,20 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
-
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+	namespace utility
+	{
+		namespace formats
+		{
+			namespace wavefront
+			{
+				inline ParserMTL::ParserMTL() noexcept : _materials(), _currentMaterial(this->_materials.end()) {}
 
-#endif // FILE_SYSTEM_HPP
+				inline std::vector<MaterialMTL> & ParserMTL::getMaterials() { return this->_materials; }
+
+				inline const std::vector<MaterialMTL> & ParserMTL::getMaterials() const { return this->_materials; }
+			} // namespace wavefront
+		} // namespace formats
+	} // namespace utility
+} // namespace ece

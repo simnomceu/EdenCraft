@@ -90,6 +90,8 @@ namespace ece
         		this->_stream.write(reinterpret_cast<const char *>(value), size);
         	}
 
+			inline std::fstream & File::getStream() { return this->_stream; }
+
         	template <class T>
         	std::vector<T> File::parseToVector()
         	{

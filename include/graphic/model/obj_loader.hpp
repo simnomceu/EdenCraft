@@ -45,7 +45,7 @@
 #include "utility/file_system/loader.hpp"
 #include "graphic/model/mesh.hpp"
 #include "graphic/model/phong_material.hpp"
-#include "utility/wavefront/parser_obj.hpp"
+#include "utility/formats/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -54,7 +54,7 @@ namespace ece
 		namespace model
 		{
 			using utility::file_system::Loader;
-			using utility::wavefront::ParserOBJ;
+			using utility::formats::wavefront::ParserOBJ;
 
 			/**
 			 * @class OBJLoader
@@ -128,21 +128,21 @@ namespace ece
 				virtual void loadFromString(const std::string & content) override;
 
 				/**
-				* @fn void loadFromMemory(const void * content)
-				* @param[in] content The memory buffer to load data from.
-				* @brief Load and parse data from memory.
-				* @throw
-				*/
-				virtual void loadFromMemory(const void * content) override;
+				 * @fn void loadFromStream(std::istream & stream)
+				 * @param[inout] stream The stream to load through.
+				 * @brief Load and parse data through a stream.
+				 * @throw
+				 */
+				virtual void loadFromStream(std::istream & stream) override;
 
-				inline Mesh::Reference getMesh() const;
+				inline const std::vector<Mesh::Reference> & getMeshes() const;
 
 			protected:
 				void load(const std::string & filename, ParserOBJ & parser);
 				void clear();
 
 			private:
-				Mesh::Reference _mesh;
+				std::vector<Mesh::Reference> _meshes;
 			};
 		} // namespace model
 	} // namespace graphic

@@ -39,6 +39,8 @@
 #ifndef IMAGE_HPP
 #define IMAGE_HPP
 
+#include "renderer/config.hpp"
+
 #include <vector>
 
 #include "utility/indexing/dynamic_2d_array.hpp"
@@ -57,7 +59,7 @@ namespace ece
 			 * @brief
 			 */
 			template <class E>
-			class Image : public Dynamic2DArray<E>
+			class ECE_RENDERER_API Image : public Dynamic2DArray<E>
 			{
 			public:
 				/**

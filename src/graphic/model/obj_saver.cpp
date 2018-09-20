@@ -42,7 +42,7 @@
 
 #include "utility/file_system/file.hpp"
 #include "utility/enum.hpp"
-#include "utility/wavefront/object_obj.hpp"
+#include "utility/formats/wavefront/object_obj.hpp"
 
 namespace ece
 {
@@ -53,7 +53,7 @@ namespace ece
 			using utility::file_system::File;
 			using utility::debug::FileException;
 			using utility::FileCodeError;
-			using utility::wavefront::ObjectOBJ;
+			using utility::formats::wavefront::ObjectOBJ;
 
 			void OBJSaver::saveToFile(const std::string & filename)
 			{
@@ -79,9 +79,11 @@ namespace ece
 				parser.save(stream);
 			}
 
-			void OBJSaver::saveToMemory(void * /*content*/)
+			void OBJSaver::saveToStream(std::ostream & stream)
 			{
-				/* NOT IMPLEMENTED YET*/
+				ParserOBJ parser;
+				this->save("", parser);
+				parser.save(stream);
 			}
 
 			void OBJSaver::save(const std::string & /*filename*/, ParserOBJ & parser)

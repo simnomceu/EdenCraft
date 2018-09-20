@@ -36,16 +36,20 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
-
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+	namespace utility
+	{
+		namespace formats
+		{
+			namespace bitmap
+			{
+				inline ParserBMP::ParserBMP() noexcept: Parser(), _pixels(0, 0) {}
 
-#endif // FILE_SYSTEM_HPP
+				inline Dynamic2DArray<std::array<std::byte, 3>> & ParserBMP::getPixels() noexcept { return this->_pixels; }
+
+				inline const Dynamic2DArray<std::array<std::byte, 3>> & ParserBMP::getPixels() const noexcept { return this->_pixels; }
+			} // namespace bitmap
+		} // namespace formats
+	} // namespace utility
+} // namespace ece

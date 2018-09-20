@@ -36,16 +36,28 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
+#include "utility/formats/json/node_json.hpp"
 
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+    namespace utility
+    {
+		namespace formats
+		{
+			namespace json
+			{
+				NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
+				{
+					this->_parent = copy._parent;
+					return *this;
+				}
 
-#endif // FILE_SYSTEM_HPP
+				NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
+				{
+					this->_parent = std::move(move._parent);
+					return *this;
+				}
+			} // namespace json
+        } // namespace formats
+    } // namespace utility
+} // namespace ece

@@ -36,16 +36,20 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
+#ifndef WAVEFRONT_HPP
+#define WAVEFRONT_HPP
 
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
+#include "utility/formats/wavefront/material_mtl.hpp"
+#include "utility/formats/wavefront/object_obj.hpp"
+#include "utility/formats/wavefront/parser_mtl.hpp"
+#include "utility/formats/wavefront/parser_obj.hpp"
 
 namespace ece
 {
-	using namespace utility::file_system
+	namespace utility
+	{
+		using namespace formats::wavefront;
+	} // namespace utility
 } // namespace ece
 
-#endif // FILE_SYSTEM_HPP
+#endif // WAVEFRONT_HPP

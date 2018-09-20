@@ -36,16 +36,45 @@
 
 */
 
-#ifndef FILE_SYSTEM_HPP
-#define FILE_SYSTEM_HPP
-
-#include "utility/file_system/file.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/file_system/path.hpp"
-
 namespace ece
 {
-	using namespace utility::file_system
-} // namespace ece
+    namespace utility
+    {
+		namespace formats
+		{
+			namespace json
+			{
+				template<class T>
+				inline AtomicJSON<T>::AtomicJSON(const std::string & key, const T & value, const std::weak_ptr<NodeJSON>& parent) :
+					NodeJSON(parent), _key(key), _value(value) {}
 
-#endif // FILE_SYSTEM_HPP
+				template<class T>
+				inline bool AtomicJSON<T>::isAtomic() const noexcept { return true; }
+
+				template<class T>
+				inline TypeNodeJSON AtomicJSON<T>::getType() const noexcept { return TypeNodeJSON::NULL_JSON; }
+
+				template<>
+				inline TypeNodeJSON BooleanJSON::getType() const noexcept { return TypeNodeJSON::BOOLEAN_JSON; }
+
+				template<>
+				inline TypeNodeJSON IntegerJSON::getType() const noexcept { return TypeNodeJSON::INTEGER_JSON; }
+
+				template<>
+				inline TypeNodeJSON DoubleJSON::getType() const noexcept { return TypeNodeJSON::DOUBLE_JSON; }
+
+				template<>
+				inline TypeNodeJSON StringJSON::getType() const noexcept { return TypeNodeJSON::STRING_JSON; }
+
+				template<class T>
+				inline const T & AtomicJSON<T>::getValue() const { return this->_value; }
+
+				template<class T>
+				inline void AtomicJSON<T>::setValue(const T & value) { this->_value = value; }
+
+				template<class T>
+				inline const std::string & AtomicJSON<T>::getKey() const { return this->_key; }
+			} // namespace json
+		} // namespace formats
+    } // namespace utility
+} // namespace ece

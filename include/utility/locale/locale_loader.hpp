@@ -168,7 +168,7 @@ namespace ece
         		 * @brief Generate the resource from a file.
         		 * @throw
         		 */
-        		void generateResource(const std::string & file);
+        		void generateResource(const std::string & filename);
         	};
         } // namespace locale
     } // namespace utility

@@ -243,6 +243,8 @@ namespace ece
         		 */
         		inline void moveCursorTo(const unsigned int position);
 
+				inline std::fstream & getStream();
+
         	protected:
         		/**
         		 * @property _filename

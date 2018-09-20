@@ -39,7 +39,8 @@
 
 #include "renderer/resource/texture2d.hpp"
 
-#include "renderer/image/parser_bmp.hpp"
+#include "utility/formats/bitmap/parser_bmp.hpp"
+#include "utility/file_system/file.hpp"
 
 namespace ece
 {
@@ -47,7 +48,11 @@ namespace ece
 	{
 		namespace resource
 		{
-			using renderer::image::ParserBMP;
+			using utility::formats::bitmap::ParserBMP;
+			using utility::file_system::File;
+			using utility::FileException;
+			using utility::OpenMode;
+			using utility::FileCodeError;
 
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
@@ -83,22 +88,32 @@ namespace ece
 				if (this->_filename != filename) {
 					this->_filename = filename;
 
-					this->_data.clear();
+					try {
+						std::ifstream file(this->_filename, std::ios::binary | std::ios::out | std::ios::in);
+						if (!file.is_open()) {
+							throw FileException(FileCodeError::BAD_PATH, filename);
+						}
 
-					ParserBMP parserBMP;
-					parserBMP.loadFromFile(filename);
+						this->_data.clear();
 
-					auto & image = parserBMP.getImage();
-					auto buffer = image.data();
-					for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
-						this->_data.push_back(buffer[i].red);
-						this->_data.push_back(buffer[i].green);
-						this->_data.push_back(buffer[i].blue);
+						ParserBMP parserBMP;
+						parserBMP.load(file);
+
+						auto & image = parserBMP.getPixels();
+						auto buffer = image.data();
+						for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
+							this->_data.push_back(buffer[i][0]); // red
+							this->_data.push_back(buffer[i][1]); // green
+							this->_data.push_back(buffer[i][2]); // blue
+						}
+
+						this->_width = image.getWidth();
+						this->_height = image.getHeight();
+						this->_type = type;
 					}
-
-					this->_width = image.getWidth();
-					this->_height = image.getHeight();
-					this->_type = type;
+					catch (FileException & e) {
+						throw e;
+					}
 				}
 			}
 
