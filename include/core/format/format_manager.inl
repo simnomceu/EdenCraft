@@ -36,6 +36,9 @@
 
 */
 
+#include <memory>
+#include <cassert>
+
 namespace ece
 {
 	namespace core
@@ -54,24 +57,30 @@ namespace ece
 				this->_savers[extension] = std::make_shared<T>();
 			}
 
-			inline std::weak_ptr<Loader> FormatManager::getLoader(const std::string & filename)
+			template <class T>
+			inline std::weak_ptr<T> FormatManager::getLoader(const std::string & filename)
 			{
 				std::string extension = filename.substr(filename.find_last_of('.') + 1);
 				if (extension.empty()) {
 					extension = filename;
 				}
 
-				return this->_loaders[extension];
+				assert(std::dynamic_pointer_cast<T>(this->_loaders[extension]));
+
+				return std::static_pointer_cast<T>(this->_loaders[extension]);
 			}
 
-			inline std::weak_ptr<Saver> FormatManager::getSaver(const std::string & filename)
+			template <class T>
+			inline std::weak_ptr<T> FormatManager::getSaver(const std::string & filename)
 			{
 				std::string extension = filename.substr(filename.find_last_of('.') + 1);
 				if (extension.empty()) {
 					extension = filename;
 				}
 
-				return this->_savers[extension];
+				assert(std::dynamic_pointer_cast<T>(this->_savers[extension]));
+
+				return std::static_pointer_cast<T>(this->_savers[extension]);
 			}
 
 			inline bool FormatManager::hasLoaderFor(const std::string & extension) const

@@ -118,8 +118,11 @@ namespace ece
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<Saver, T>>>
 				void registerSaver(const std::string & extension);
 
-				inline std::weak_ptr<Loader> getLoader(const std::string & filename);
-				inline std::weak_ptr<Saver> getSaver(const std::string & filename);
+				template <class T>
+				inline std::weak_ptr<T> getLoader(const std::string & filename);
+
+				template <class T>
+				inline std::weak_ptr<T> getSaver(const std::string & filename);
 
 				inline bool hasLoaderFor(const std::string & extension) const;
 				inline bool hasSaverFor(const std::string & extension) const;

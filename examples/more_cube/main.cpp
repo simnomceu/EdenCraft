@@ -49,6 +49,7 @@
 #include "render_system.hpp"
 #include "core/format/service_format.hpp"
 #include "renderer/image/loader_bmp.hpp"
+#include "graphic/model/loader_object.hpp"
 
 #include <ctime>
 #include <string>
@@ -64,6 +65,8 @@ namespace ece
 	using window::event::InputEvent;
 	using core::format::ServiceFormatLocator;
 	using renderer::image::LoaderBMP;
+	using core::format::ServiceFormatLocator;
+	using graphic::model::LoaderObject;
 }
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
@@ -79,6 +82,7 @@ int main()
 		auto window = createMainWindow(app);
 
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
+		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
 		RenderSystem renderSystem;
 		auto & scene = renderSystem.getScene();
@@ -156,9 +160,9 @@ ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize
 	auto element = scene.addObject();
 
 	{
-		ece::OBJLoader loader;
-		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		element->setMesh(loader.getMeshes()[0]);
+		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/cube.obj").lock();
+		loader->loadFromFile("../../examples/more_cube/cube.obj");
+		element->setMesh(loader->getMeshes()[0]);
 	}
 
 	for (std::size_t i = 0; i < chunkSize; ++i) {

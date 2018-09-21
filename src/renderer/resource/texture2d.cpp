@@ -97,7 +97,7 @@ namespace ece
 					try {
 						this->_data.clear();
 
-						auto loader = std::static_pointer_cast<LoaderImage>(ServiceFormatLocator::getService().getLoader(filename).lock());
+						auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename).lock();
 
 						loader->loadFromFile(this->_filename);
 
