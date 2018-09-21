@@ -43,6 +43,8 @@
 #include "utility/log/logger.hpp"
 #include "core/resource/service_resource.hpp"
 #include "core/resource/resource_manager.hpp"
+#include "core/format/service_format.hpp"
+#include "core/format/format_manager.hpp"
 #include "core/module/module_method.hpp"
 #include "utility/debug/exception.hpp"
 
@@ -58,11 +60,15 @@ namespace ece
 			using core::resource::ServiceResourceLocator;
 			using core::resource::ServiceResourceFactory;
 			using core::resource::ResourceManager;
+			using core::format::ServiceFormatLocator;
+			using core::format::ServiceFormatFactory;
+			using core::format::FormatManager;
 
 			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPostRender(), onPreTerminate(), onPostTerminate(),_running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
+				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 			}
 
 			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager()

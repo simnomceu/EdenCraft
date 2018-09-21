@@ -40,9 +40,7 @@
 #define LOADER_BMP_HPP
 
 #include "renderer/config.hpp"
-#include "utility/file_system/loader.hpp"
-#include "renderer/image/image.hpp"
-#include "renderer/image/pixel_format.hpp"
+#include "renderer/image/loader_image.hpp"
 
 namespace ece
 {
@@ -50,21 +48,19 @@ namespace ece
 	{
 		namespace image
 		{
-			using utility::file_system::Loader;
-
 			/**
 			 * @class LoaderBMP
 			 * @brief
 			 */
-			class ECE_RENDERER_API LoaderBMP: public Loader
+			class ECE_RENDERER_API LoaderBMP: public LoaderImage
 			{
 			public:
 				/**
-				 * @fn constexpr LoaderBMP() noexcept
+				 * @fn LoaderBMP() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr LoaderBMP() noexcept = default;
+				LoaderBMP() noexcept = default;
 
 				/**
 				 * @fn LoaderBMP(const LoaderBMP & copy) noexcept
@@ -131,8 +127,8 @@ namespace ece
 				 */
 				virtual void loadFromStream(std::istream & stream) override;
 
-				inline Image<RGB24> & getImage();
-				inline const Image<RGB24> & getImage() const;
+				inline virtual Image<RGB24> & getImage() override;
+				inline virtual const Image<RGB24> & getImage() const override;
 
 			private:
 				Image<RGB24> _image;

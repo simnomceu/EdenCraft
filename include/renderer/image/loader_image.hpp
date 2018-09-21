@@ -36,11 +36,11 @@
 
 */
 
-#ifndef SAVER_BMP_HPP
-#define SAVER_BMP_HPP
+#ifndef LOADER_IMAGE_HPP
+#define LOADER_IMAGE_HPP
 
 #include "renderer/config.hpp"
-#include "utility/file_system/saver.hpp"
+#include "utility/file_system/loader.hpp"
 #include "renderer/image/image.hpp"
 #include "renderer/image/pixel_format.hpp"
 
@@ -50,97 +50,68 @@ namespace ece
 	{
 		namespace image
 		{
-			using utility::file_system::Saver;
+			using utility::file_system::Loader;
 
 			/**
-			 * @class SaverBMP
+			 * @class LoaderImage
 			 * @brief
 			 */
-			class ECE_RENDERER_API SaverBMP: public Saver
+			class LoaderImage: public Loader
 			{
 			public:
 				/**
-				 * @fn constexpr SaverBMP() noexcept
+				 * @fn constexpr LoaderImage() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr SaverBMP() noexcept = default;
+				constexpr LoaderImage() noexcept = default;
 
 				/**
-				 * @fn SaverBMP(const SaverBMP & copy) noexcept
-				 * @param[in] copy The SaverBMP to copy from.
+				 * @fn LoaderImage(const LoaderImage & copy) noexcept
+				 * @param[in] copy The LoaderImage to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				SaverBMP(const SaverBMP & copy) noexcept = default;
+				LoaderImage(const LoaderImage & copy) noexcept = default;
 
 				/**
-				 * @fn SaverBMP(SaverBMP && move) noexcept
-				 * @param[in] move The SaverBMP to move.
+				 * @fn LoaderImage(LoaderImage && move) noexcept
+				 * @param[in] move The LoaderImage to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				SaverBMP(SaverBMP && move) noexcept = default;
+				LoaderImage(LoaderImage && move) noexcept = default;
 
 				/**
-				 * @fn ~SaverBMP() noexcept
+				 * @fn ~LoaderImage() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~SaverBMP() noexcept = default;
+				~LoaderImage() noexcept = default;
 
 				/**
-				 * @fn SaverBMP & operator=(const SaverBMP & copy) noexcept
-				 * @param[in] copy The SaverBMP to copy from.
-				 * @return The SaverBMP copied.
+				 * @fn LoaderImage & operator=(const LoaderImage & copy) noexcept
+				 * @param[in] copy The LoaderImage to copy from.
+				 * @return The LoaderImage copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				SaverBMP & operator=(const SaverBMP & copy) noexcept = default;
+				LoaderImage & operator=(const LoaderImage & copy) noexcept = default;
 
 				/**
-				 * @fn SaverBMP & operator=(SaverBMP && move) noexcept
-				 * @param[in] move The SaverBMP to move.
-				 * @return The SaverBMP moved.
+				 * @fn LoaderImage & operator=(LoaderImage && move) noexcept
+				 * @param[in] move The LoaderImage to move.
+				 * @return The LoaderImage moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				SaverBMP & operator=(SaverBMP && move) noexcept = default;
+				LoaderImage & operator=(LoaderImage && move) noexcept = default;
 
-				/**
-				 * @fn void saveToFile(const std::string & filename)
-				 * @param[out] filename The name of the file to save into.
-				 * @brief Formate and save data into a file.
-				 * @throw
-				 */
-				virtual void saveToFile(const std::string & filename) override;
-
-				/**
-				 * @fn void saveToString(std::string & content)
-				 * @param[out] content The string buffer to save into.
-				 * @brief Formate and save data into a string buffer.
-				 * @throw
-				 */
-				virtual void saveToString(std::string & content) override;
-
-				/**
-				 * @fn void saveToStream(const std::ostream & stream)
-				 * @param[inout] stream The stream to save through.
-				 * @brief Formate and save data through a stream.
-				 * @throw
-				 */
-				virtual void saveToStream(std::ostream & stream) override;
-
-				inline void setImage(const Image<RGB24> & image);
-				inline void setImage(Image<RGB24> && image);
-
-			private:
-				Image<RGB24> _image;
+				virtual Image<RGB24> & getImage() = 0;
+				virtual const Image<RGB24> & getImage() const = 0;
 			};
 		} // namespace image
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/image/saver_bmp.inl"
-
-#endif // SAVER_BMP_HPP
+#endif // LOADER_IMAGE_HPP

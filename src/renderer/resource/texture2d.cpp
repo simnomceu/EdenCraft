@@ -41,7 +41,10 @@
 
 #include "utility/formats/bitmap/parser_bmp.hpp"
 #include "utility/file_system/file.hpp"
-#include "renderer/image/loader_bmp.hpp"
+#include "renderer/image/loader_image.hpp"
+#include "core/format/service_format.hpp"
+
+#include <memory>
 
 namespace ece
 {
@@ -54,7 +57,8 @@ namespace ece
 			using utility::FileException;
 			using utility::OpenMode;
 			using utility::FileCodeError;
-			using renderer::image::LoaderBMP;
+			using renderer::image::LoaderImage;
+			using core::format::ServiceFormatLocator;
 
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
@@ -93,10 +97,11 @@ namespace ece
 					try {
 						this->_data.clear();
 
-						LoaderBMP loader;
-						loader.loadFromFile(this->_filename);
+						auto loader = std::static_pointer_cast<LoaderImage>(ServiceFormatLocator::getService().getLoader(filename).lock());
 
-						auto & image = loader.getImage();
+						loader->loadFromFile(this->_filename);
+
+						auto & image = loader->getImage();
 						auto buffer = image.data();
 						for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
 							this->_data.push_back(buffer[i].red); // red

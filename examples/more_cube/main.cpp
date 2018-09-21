@@ -47,6 +47,8 @@
 #include "core/resource.hpp"
 #include "utility/time.hpp"
 #include "render_system.hpp"
+#include "core/format/service_format.hpp"
+#include "renderer/image/loader_bmp.hpp"
 
 #include <ctime>
 #include <string>
@@ -60,6 +62,8 @@ namespace ece
 	using window::event::InputEvent;
 	using utility::time::FramePerSecond;
 	using window::event::InputEvent;
+	using core::format::ServiceFormatLocator;
+	using renderer::image::LoaderBMP;
 }
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
@@ -73,6 +77,8 @@ int main()
 	try {
 		ece::WindowedApplication app;
 		auto window = createMainWindow(app);
+
+		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 
 		RenderSystem renderSystem;
 		auto & scene = renderSystem.getScene();
