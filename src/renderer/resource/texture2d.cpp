@@ -41,6 +41,7 @@
 
 #include "utility/formats/bitmap/parser_bmp.hpp"
 #include "utility/file_system/file.hpp"
+#include "renderer/image/loader_bmp.hpp"
 
 namespace ece
 {
@@ -53,6 +54,7 @@ namespace ece
 			using utility::FileException;
 			using utility::OpenMode;
 			using utility::FileCodeError;
+			using renderer::image::LoaderBMP;
 
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
@@ -89,22 +91,17 @@ namespace ece
 					this->_filename = filename;
 
 					try {
-						std::ifstream file(this->_filename, std::ios::binary | std::ios::out | std::ios::in);
-						if (!file.is_open()) {
-							throw FileException(FileCodeError::BAD_PATH, filename);
-						}
-
 						this->_data.clear();
 
-						ParserBMP parserBMP;
-						parserBMP.load(file);
+						LoaderBMP loader;
+						loader.loadFromFile(this->_filename);
 
-						auto & image = parserBMP.getPixels();
+						auto & image = loader.getImage();
 						auto buffer = image.data();
 						for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
-							this->_data.push_back(buffer[i][0]); // red
-							this->_data.push_back(buffer[i][1]); // green
-							this->_data.push_back(buffer[i][2]); // blue
+							this->_data.push_back(buffer[i].red); // red
+							this->_data.push_back(buffer[i].green); // green
+							this->_data.push_back(buffer[i].blue); // blue
 						}
 
 						this->_width = image.getWidth();
