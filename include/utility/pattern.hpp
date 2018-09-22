@@ -39,7 +39,12 @@
 #ifndef PATTERN_HPP
 #define PATTERN_HPP
 
+#include "utility/pattern/holdable.hpp"
+#include "utility/pattern/holder.hpp"
+#include "utility/pattern/observable.hpp"
+#include "utility/pattern/observer.hpp"
 #include "utility/pattern/pimpl.hpp"
+#include "utility/pattern/virtual_enable_shared_from_this.hpp"
 
 namespace ece
 {

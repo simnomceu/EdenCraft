@@ -56,7 +56,7 @@ namespace ece
             using renderer::resource::ShaderStage;
 			using renderer::resource::BufferObject;
 
-            Object::Object() noexcept: Renderable(), _mesh(), _material(), _instances()
+            Object::Object() noexcept: Renderable(), _mesh(), _instances()
             {
                 this->_mode = PrimitiveMode::TRIANGLES;
 				this->_instances.push_back(FloatMatrix4u::Identity());
@@ -67,23 +67,16 @@ namespace ece
 				this->_mesh = mesh;
 			}
 
-			void Object::setMaterial(const std::shared_ptr<Material> & material)
-			{
-				this->_material = material;
-				if (this->_program.isLinked()) {
-					this->_material->apply(this->_program);
-				}
-			}
-
             void Object::prepare()
             {
+				// TODO: need to render not only the first submesh, but everything.
                 BufferLayout layout;
                 layout.add<float>(3, false, false, false);
                 layout.add<float>(3, false, false, false);
                 layout.add<float>(2, false, false, false);
 
-                this->_vao.sendData(layout, this->_mesh->getVertices(), BufferObject::Usage::STATIC);
-                this->_vao.addIndices(this->_mesh->getFaces());
+                this->_vao.sendData(layout, this->_mesh->getSubmeshes()[0].mesh.getVertices(), BufferObject::Usage::STATIC);
+                this->_vao.addIndices(this->_mesh->getSubmeshes()[0].mesh.getFaces());
 
                 if (this->isInstancingEnabled()) {
                     BufferLayout layoutInstancing;
@@ -109,8 +102,8 @@ namespace ece
                 this->_program.setStage(vsSource);
                 this->_program.link();
                 this->_program.use();
-				if (this->_material) {
-					this->_material->apply(this->_program);
+				if (*this->_mesh->getSubmeshes()[0].material) {
+					this->_mesh->getSubmeshes()[0].material->apply(this->_program);
 				}
             }
 

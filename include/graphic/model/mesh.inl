@@ -44,21 +44,15 @@ namespace ece
 	{
 		namespace model
 		{
-			inline std::size_t Mesh::size() const { return this->_vertices.size(); }
+			inline void Mesh::reset() { return this->_submeshes.clear(); }
 
-			inline std::size_t Mesh::getNumberOfFaces() const { return this->_faces.size(); }
+			inline std::size_t Mesh::size() const { return std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), 0, [](std::size_t result, auto rhs) { return result + rhs.mesh.size(); }); }
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
+			inline std::size_t Mesh::getNumberOfFaces() const { return std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), 0, [](std::size_t result, auto rhs) { return result + rhs.mesh.getNumberOfFaces(); }); }
 
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
+			inline std::vector<Mesh::SubmeshData> & Mesh::getSubmeshes() { return this->_submeshes; }
 
-			inline void Mesh::addFace(const Mesh::Face & face) { this->_faces.push_back(face); }
-
-			inline void Mesh::addFace(Mesh::Face && face) { this->_faces.push_back(std::move(face)); }
-
-			inline std::vector<Mesh::Face> & Mesh::getFaces() { return this->_faces; }
-
-			inline const std::vector<Mesh::Face> & Mesh::getFaces()const { return this->_faces; }
+			inline const std::vector<Mesh::SubmeshData> & Mesh::getSubmeshes() const { return this->_submeshes; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

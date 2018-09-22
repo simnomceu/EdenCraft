@@ -42,8 +42,10 @@
 #define OBJ_LOADER_HPP
 
 #include "graphic/config.hpp"
-#include "utility/file_system/loader.hpp"
+#include "graphic/model/loader_object.hpp"
 #include "graphic/model/mesh.hpp"
+#include "graphic/model/phong_material.hpp"
+#include "utility/formats/wavefront/parser_obj.hpp"
 
 namespace ece
 {
@@ -51,13 +53,13 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::file_system::Loader;
+			using utility::formats::wavefront::ParserOBJ;
 
 			/**
 			 * @class OBJLoader
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API OBJLoader: public Loader
+			class ECE_GRAPHIC_API OBJLoader: public LoaderObject
 			{
 			public:
 				/**
@@ -125,18 +127,21 @@ namespace ece
 				virtual void loadFromString(const std::string & content) override;
 
 				/**
-				* @fn void loadFromMemory(const void * content)
-				* @param[in] content The memory buffer to load data from.
-				* @brief Load and parse data from memory.
-				* @throw
-				*/
-				virtual void loadFromMemory(const void * content) override;
+				 * @fn void loadFromStream(std::istream & stream)
+				 * @param[inout] stream The stream to load through.
+				 * @brief Load and parse data through a stream.
+				 * @throw
+				 */
+				virtual void loadFromStream(std::istream & stream) override;
 
-				inline Mesh & getMesh();
-				inline const Mesh & getMesh() const;
+				inline virtual const std::vector<Mesh::Reference> & getMeshes() const override;
+
+			protected:
+				void load(const std::string & filename, ParserOBJ & parser);
+				void clear();
 
 			private:
-				Mesh _mesh;
+				std::vector<Mesh::Reference> _meshes;
 			};
 		} // namespace model
 	} // namespace graphic

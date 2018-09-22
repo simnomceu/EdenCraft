@@ -42,12 +42,10 @@
 #define MESH_HPP
 
 #include "graphic/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "utility/mathematics/box3d.hpp"
+#include "graphic/model/submesh.hpp"
+#include "graphic/model/phong_material.hpp"
+#include "utility/mathematics/matrix4u.hpp"
 #include "core/resource/resource_handler.hpp"
-
-#include <vector>
 
 namespace ece
 {
@@ -55,29 +53,24 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatVector2u;
-			using utility::mathematics::Box3D;
+			using utility::mathematics::FloatMatrix4u;
 			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Mesh
-			 * @brief A mesh as defined in 3D modelling.
-			 * @remark It has to be refactored soon, as it is redudant with Renderer.
+			 * @brief
 			 */
 			class ECE_GRAPHIC_API Mesh
 			{
 			public:
 				using Reference = ResourceHandler<Mesh>;
 
-				struct Vertex
+				struct SubmeshData
 				{
-					FloatVector3u _position;
-					FloatVector3u _normal;
-					FloatVector2u _textureCoordinate;
+					Submesh mesh;
+					PhongMaterial::Reference material;
+					FloatMatrix4u model;
 				};
-
-				using Face = std::array<unsigned int, 3>;
 
 				/**
 				 * @fn Mesh() noexcept
@@ -87,12 +80,12 @@ namespace ece
 				Mesh() noexcept = default;
 
 				/**
-				 * @fn Mesh(const Mesh & copy)
+				 * @fn Mesh(const Mesh & copy) noexcept
 				 * @param[in] copy The Mesh to copy from.
 				 * @brief Default copy constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Mesh(const Mesh & copy) = default;
+				Mesh(const Mesh & copy) noexcept = default;
 
 				/**
 				 * @fn Mesh(Mesh && move) noexcept
@@ -110,22 +103,24 @@ namespace ece
 				~Mesh() noexcept = default;
 
 				/**
-				 * @fn Mesh & operator=(const Mesh & copy)
+				 * @fn Mesh & operator=(const Mesh & copy) noexcept
 				 * @param[in] copy The Mesh to copy from.
 				 * @return The Mesh copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Mesh & operator=(const Mesh & copy) = default;
+				Mesh & operator=(const Mesh & copy) noexcept = default;
 
 				/**
 				 * @fn Mesh & operator=(Mesh && move) noexcept
-				 * @param[in] move The Mesh to move from.
+				 * @param[in] move The Mesh to move.
 				 * @return The Mesh moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
 				Mesh & operator=(Mesh && move) noexcept = default;
+
+				inline void reset();
 
 				/**
 				 * @fn std::size_t getNumberOfVertices() const
@@ -151,35 +146,11 @@ namespace ece
 				 */
 				Box3D getBouncingBox() const;
 
-				std::size_t addVertex(const Mesh::Vertex & vertex);
-				std::size_t addVertex(Mesh::Vertex && vertex);
+				inline std::vector<SubmeshData> & getSubmeshes();
+				inline const std::vector<SubmeshData> & getSubmeshes() const;
 
-				inline std::vector<Mesh::Vertex> & getVertices();
-				inline const std::vector<Mesh::Vertex> & getVertices() const;
-
-				inline void addFace(const Mesh::Face & face);
-				inline void addFace(Mesh::Face && face);
-
-				inline std::vector<Mesh::Face> & getFaces();
-				inline const std::vector<Mesh::Face> & getFaces()const ;
-			private:
-				/**
-				 * @property _vertices
-				 * @brief The list of vertices of the mesh.
-				 */
-				std::vector<Mesh::Vertex> _vertices;
-
-                /**
-                 * @property _faces
-                 * @brief The list of faces using the vertices.
-                 */
-				std::vector<Mesh::Face> _faces;
-
-                /**
-                 * @property _submeshes
-                 * @brief The list of submeshes composing this mesh.
-                 */
-                std::vector<Mesh> _meshes;
+			protected:
+				std::vector<SubmeshData> _submeshes;
 			};
 		} // namespace model
 	} // namespace graphic

@@ -44,9 +44,7 @@ namespace ece
 	{
 		namespace model
 		{
-			inline Mesh & OBJLoader::getMesh() { return this->_mesh; }
-
-			inline const Mesh & OBJLoader::getMesh() const { return this->_mesh; }
+			inline const std::vector<Mesh::Reference> & OBJLoader::getMeshes() const { return this->_meshes; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

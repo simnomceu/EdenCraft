@@ -39,7 +39,12 @@
 
 #include "renderer/resource/texture2d.hpp"
 
-#include "renderer/image/parser_bmp.hpp"
+#include "utility/formats/bitmap/parser_bmp.hpp"
+#include "utility/file_system/file.hpp"
+#include "renderer/image/loader_image.hpp"
+#include "core/format/service_format.hpp"
+
+#include <memory>
 
 namespace ece
 {
@@ -47,7 +52,13 @@ namespace ece
 	{
 		namespace resource
 		{
-			using renderer::image::ParserBMP;
+			using utility::formats::bitmap::ParserBMP;
+			using utility::file_system::File;
+			using utility::FileException;
+			using utility::OpenMode;
+			using utility::FileCodeError;
+			using renderer::image::LoaderImage;
+			using core::format::ServiceFormatLocator;
 
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
@@ -83,22 +94,28 @@ namespace ece
 				if (this->_filename != filename) {
 					this->_filename = filename;
 
-					this->_data.clear();
+					try {
+						this->_data.clear();
 
-					ParserBMP parserBMP;
-					parserBMP.loadFromFile(filename);
+						auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename).lock();
 
-					auto & image = parserBMP.getImage();
-					auto buffer = image.data();
-					for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
-						this->_data.push_back(buffer[i].red);
-						this->_data.push_back(buffer[i].green);
-						this->_data.push_back(buffer[i].blue);
+						loader->loadFromFile(this->_filename);
+
+						auto & image = loader->getImage();
+						auto buffer = image.data();
+						for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
+							this->_data.push_back(buffer[i].red); // red
+							this->_data.push_back(buffer[i].green); // green
+							this->_data.push_back(buffer[i].blue); // blue
+						}
+
+						this->_width = image.getWidth();
+						this->_height = image.getHeight();
+						this->_type = type;
 					}
-
-					this->_width = image.getWidth();
-					this->_height = image.getHeight();
-					this->_type = type;
+					catch (FileException & e) {
+						throw e;
+					}
 				}
 			}
 

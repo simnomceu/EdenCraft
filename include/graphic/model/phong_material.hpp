@@ -62,6 +62,8 @@ namespace ece
 			class ECE_GRAPHIC_API PhongMaterial: public Material
 			{
 			public:
+				using Reference = ResourceHandler<PhongMaterial>;
+
 				/**
 				 * @fn constexpr PhongMaterial() noexcept
 				 * @brief Default constructor.

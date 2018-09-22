@@ -40,8 +40,8 @@
 #define TIME_HPP
 
 #include "utility/time/chrono.hpp"
-#include "utility/time/update_per_second.hpp"
 #include "utility/time/frame_per_second.hpp"
+#include "utility/time/update_per_second.hpp"
 
 namespace ece
 {

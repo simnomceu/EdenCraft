@@ -40,8 +40,8 @@
 #define LOG_HPP
 
 #include "utility/log/base_logger.hpp"
-#include "utility/log/service_logger.hpp"
 #include "utility/log/logger.hpp"
+#include "utility/log/service_logger.hpp"
 
 namespace ece
 {

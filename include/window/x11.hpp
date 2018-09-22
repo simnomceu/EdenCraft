@@ -39,6 +39,9 @@
 #define WINDOW_X11_HPP
 
 #include "window/x11/data_window_adapter.hpp"
+#include "window/x11/x11_api.hpp"
+#include "window/x11/xcb_impl.hpp"
+#include "window/x11/xlib_impl.hpp"
 
 namespace ece
 {

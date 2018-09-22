@@ -47,6 +47,9 @@
 #include "core/resource.hpp"
 #include "utility/time.hpp"
 #include "render_system.hpp"
+#include "core/format/service_format.hpp"
+#include "renderer/image/loader_bmp.hpp"
+#include "graphic/model/loader_object.hpp"
 
 #include <ctime>
 #include <string>
@@ -60,6 +63,10 @@ namespace ece
 	using window::event::InputEvent;
 	using utility::time::FramePerSecond;
 	using window::event::InputEvent;
+	using core::format::ServiceFormatLocator;
+	using renderer::image::LoaderBMP;
+	using core::format::ServiceFormatLocator;
+	using graphic::model::LoaderObject;
 }
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
@@ -73,6 +80,9 @@ int main()
 	try {
 		ece::WindowedApplication app;
 		auto window = createMainWindow(app);
+
+		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
+		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
 		RenderSystem renderSystem;
 		auto & scene = renderSystem.getScene();
@@ -128,14 +138,15 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	settings._title = "Test";
 
 	auto & contextSettings = window.lock()->getContextSettings();
-	contextSettings.minVersion = { 4, 0 };
+	contextSettings.maxVersion = { 4, 0 };
 
 	window.lock()->open();
 	contextSettings.antialiasingSamples = 0;
+	contextSettings.maxVersion = { 4, 6 };
 	window.lock()->updateContext();
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
-	window.lock()->limitUPS(100);
+	window.lock()->limitUPS(100000);
 
 	ece::Viewport viewport;
 	viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
@@ -150,25 +161,9 @@ ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize
 	auto element = scene.addObject();
 
 	{
-		ece::OBJLoader loader;
-		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
-		auto mesh = ece::makeResource<ece::Mesh>("cube_mesh", ece::makeCube(0.5f));
-		element->setMesh(mesh);
-	}
-
-	{
-		auto material = std::make_shared<ece::PhongMaterial>();
-		material->setShininess(41.5f);
-
-		auto box = ece::makeResource<ece::Texture2D>("box");
-		box->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box.bmp");
-		material->setDiffuseMap(box);
-
-		auto box_specular = ece::makeResource<ece::Texture2D>("box_specular");
-		box_specular->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box_specular.bmp");
-		material->setSpecularMap(box_specular);
-		element->setMaterial(material);
+		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/cube.obj").lock();
+		loader->loadFromFile("../../examples/more_cube/cube.obj");
+		element->setMesh(loader->getMeshes()[0]);
 	}
 
 	for (std::size_t i = 0; i < chunkSize; ++i) {

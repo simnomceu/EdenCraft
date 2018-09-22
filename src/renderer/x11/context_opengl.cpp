@@ -92,33 +92,19 @@ namespace ece
 
 				if ((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
 					ServiceLoggerLocator::getService().logWarning("GLX 1.3 or greater is not available. Most recent version is GLX " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
-					const int visual_attribs[] = {
-						GLX_RENDER_TYPE, GLX_RGBA_BIT,
-						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-						GLX_DEPTH_SIZE, 24,
-						GLX_STENCIL_SIZE, 8,
-						None
-					};
-					FBConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visual_attribs, &nbFBConfig);
-				}
-				/*	else {
+                }
+                else {
 						ServiceLoggerLocator::getService().logInfo("GLX version: " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
-						const int visual_attribs[] = {
-							GLX_X_RENDERABLE, GL_TRUE,
-							GLX_RENDER_TYPE, GLX_RGBA_BIT,
-							GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
-							GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
-							GLX_DOUBLEBUFFER, true,
-							GLX_RED_SIZE, 8,
-							GLX_GREEN_SIZE, 8,
-							GLX_BLUE_SIZE, 8,
-							GLX_ALPHA_SIZE, 8,
-							GLX_DEPTH_SIZE, 24,
-							GLX_STENCIL_SIZE, 8,
-							None
-						};
-						FBConfig = glXChooseFBConfig(this->_dummy.display, DefaultScreen(this->_dummy.display), visual_attribs, &nbFBConfig);
-					}*/
+                }
+
+            	const int visual_attribs[] = {
+					GLX_RENDER_TYPE, GLX_RGBA_BIT,
+					GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+					GLX_DEPTH_SIZE, 24,
+					GLX_STENCIL_SIZE, 8,
+					None
+				};
+				FBConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visual_attribs, &nbFBConfig);
 
 				if (!FBConfig) {
 					throw std::runtime_error("No frame buffer configuration choosen for OpenGL dummy context.");
