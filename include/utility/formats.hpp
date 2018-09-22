@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.
-															 d8P'  `Y8b
-															888           .ooooo.  oooo d8b  .ooooo.
-															888          d88' `88b `888""8P d88' `88b
-															888          888   888  888     888ooo888
-															`88b    ooo  888   888  888     888    .o
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+															ooooo     ooo     .    o8o  oooo   o8o      .
+															`888'     `8'   .o8    `"'  `888   `"'    .o8
+															 888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo
+															 888       8    888   `888   888  `888    888    `88.  .8'
+															 888       8    888    888   888   888    888     `88..8'
+															 `88.    .8'    888 .  888   888   888    888 .    `888'
+															   `YbodP'      "888" o888o o888o o888o   "888"     .8'
+																											.o..P'
+																											`Y8P'
 
-
-
-				This file is part of EdenCraft Engine - Core module.
+				This file is part of EdenCraft Engine - Utility module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,18 +36,16 @@
 
 */
 
-#ifndef CORE_SIGNAL_HPP
-#define CORE_SIGNAL_HPP
+#ifndef FORMATS_HPP
+#define FORMATS_HPP
 
-#include "core/signal/connection.hpp"
-#include "core/signal/secured_connection.hpp"
-#include "core/signal/signal_implementation.hpp"
-#include "core/signal/signal.hpp"
-#include "core/signal/slot.hpp"
+#include "utility/formats/bitmap.hpp"
+#include "utility/formats/json.hpp"
+#include "utility/formats/wavefront.hpp"
 
 namespace ece
 {
-	using namespace core::signal;
-}
+    using namespace utility::formats;
+} // namespace ece
 
-#endif // CORE_SIGNAL_HPP
+#endif // FORMATS_HPP

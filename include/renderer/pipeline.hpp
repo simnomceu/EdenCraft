@@ -41,6 +41,7 @@
 
 #include "renderer/pipeline/drawable.hpp"
 #include "renderer/pipeline/forward_rendering.hpp"
+#include "renderer/pipeline/render_pipeline.hpp"
 #include "renderer/pipeline/render_process.hpp"
 #include "renderer/pipeline/render_queue.hpp"
 #include "renderer/pipeline/render_state.hpp"

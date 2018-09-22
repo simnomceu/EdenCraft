@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooo     ooo     .    o8o  oooo   o8o      .
-															`888'     `8'   .o8    `"'  `888   `"'    .o8
-															 888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo
-															 888       8    888   `888   888  `888    888    `88.  .8'
-															 888       8    888    888   888   888    888     `88..8'
-															 `88.    .8'    888 .  888   888   888    888 .    `888'
-															   `YbodP'      "888" o888o o888o o888o   "888"     .8'
-																											.o..P'
-																											`Y8P'
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
 
-				This file is part of EdenCraft Engine - Utility module.
+
+
+				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,17 +36,15 @@
 
 */
 
-#ifndef JSON_HPP
-#define JSON_HPP
+#ifndef FORMAT_HPP
+#define FORMAT_HPP
 
-#include "utility/json/node_json.hpp"
-#include "utility/json/array_json.hpp"
-#include "utility/json/object_json.hpp"
-#include "utility/json/atomic_json.hpp"
+#include "core/format/format_manager.hpp"
+#include "core/format/service_format.hpp"
 
 namespace ece
 {
-	using namespace utility::json;
-}
+    using namespace core::format;
+} // namespace ece
 
-#endif // JSON_HPP
+#endif // FORMAT_HPP

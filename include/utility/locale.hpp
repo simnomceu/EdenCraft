@@ -39,9 +39,12 @@
 #ifndef LOCALE_HPP
 #define LOCALE_HPP
 
-#include "utility/locale/resource_container.hpp"
+#include "utility/locale/country.hpp"
+#include "utility/locale/language.hpp"
 #include "utility/locale/locale_loader.hpp"
+#include "utility/locale/locale_resource.hpp"
 #include "utility/locale/localization.hpp"
+#include "utility/locale/resource_container.hpp"
 
 namespace ece
 {
