@@ -42,7 +42,7 @@
 #define OBJ_LOADER_HPP
 
 #include "graphic/config.hpp"
-#include "utility/file_system/loader.hpp"
+#include "graphic/model/loader_object.hpp"
 #include "graphic/model/mesh.hpp"
 #include "graphic/model/phong_material.hpp"
 #include "utility/formats/wavefront/parser_obj.hpp"
@@ -53,14 +53,13 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::file_system::Loader;
 			using utility::formats::wavefront::ParserOBJ;
 
 			/**
 			 * @class OBJLoader
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API OBJLoader: public Loader
+			class ECE_GRAPHIC_API OBJLoader: public LoaderObject
 			{
 			public:
 				/**
@@ -135,7 +134,7 @@ namespace ece
 				 */
 				virtual void loadFromStream(std::istream & stream) override;
 
-				inline const std::vector<Mesh::Reference> & getMeshes() const;
+				inline virtual const std::vector<Mesh::Reference> & getMeshes() const override;
 
 			protected:
 				void load(const std::string & filename, ParserOBJ & parser);
