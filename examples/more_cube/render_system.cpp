@@ -46,7 +46,7 @@ namespace ece
 	using ece::renderer::DepthFunctionCondition;
 }
 
-RenderSystem::RenderSystem() noexcept : _process(std::make_unique<ece::ForwardRendering>()), _scene()
+RenderSystem::RenderSystem() noexcept : ece::System(), _process(std::make_unique<ece::ForwardRendering>()), _scene()
 {
 	ece::RenderState states;
 	states._depthTest = true;

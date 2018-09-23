@@ -84,6 +84,9 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
+        auto & world = app.addWorld();
+        world.addSystem<RenderSystem>();
+
 		RenderSystem renderSystem;
 		auto & scene = renderSystem.getScene();
 		setScene(scene);
@@ -116,7 +119,7 @@ int main()
 			window.lock()->display();
 			window.lock()->processEvents();
 		});
-		
+
 		app.run();
 	}
 	catch (std::runtime_error & e) {

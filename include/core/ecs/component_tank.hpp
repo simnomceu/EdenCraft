@@ -63,8 +63,8 @@ namespace ece
 			class ECE_CORE_API ComponentTank: public BaseComponentTank, protected std::vector<ComponentType>
 			{
 			public:
-				using TankIterator = std::vector<ComponentType>::iterator;
-				using TankConstIterator = std::vector<ComponentType>::const_iterator;
+				using TankIterator = typename std::vector<ComponentType>::iterator;
+				using TankConstIterator = typename std::vector<ComponentType>::const_iterator;
 
 				/**
 				 * @fn constexpr ComponentTank() noexcept
@@ -127,7 +127,7 @@ namespace ece
 				using std::vector<ComponentType>::push_back;
 				using std::vector<ComponentType>::emplace_back;
 
-				virtual void update() = override;
+				virtual void update() override;
 			private:
 				std::vector<ComponentType> _components;
 			};

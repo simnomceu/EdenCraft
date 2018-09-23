@@ -56,10 +56,11 @@ namespace ece
 			}
 
 			template <class SystemType, class... Args>
-			void World::addSystem(Args&&... args)
+			 std::weak_ptr<SystemType> World::addSystem(Args&&... args)
 			{
 				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
 				this->_systems.emplace(std::type_index(typeid(SystemType)), std::forward<Args>(args)...);
+                return this->_systems[std::type_index(typeid(SystemType)];
 			}
 
 			template <class SystemType> bool World::hasSystem() const

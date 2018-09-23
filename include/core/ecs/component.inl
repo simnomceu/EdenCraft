@@ -43,17 +43,18 @@ namespace ece
 		namespace ecs
 		{
 			template<class T>
-			Component<T>::Component() : _value(), _id(), _owner() {}
+			Component<T>::Component() : _id(), _owner(), _dirty() {}
 
 			template<class T>
 			Component<T>::~Component() {}
 
 			template<class T>
-			inline Component<T>::ComponentID Component<T>::getID() const { return this->_id; }
+			inline typename Component<T>::ComponentID Component<T>::getID() const { return this->_id; }
 
 			template<class T>
 			inline unsigned int Component<T>::getOwner() const { return this->_owner; }
 
+            template <class T>
 			inline bool Component<T>::isDirty() const { return this->_dirty; }
 		} // namespace ecs
 	} // namespace core

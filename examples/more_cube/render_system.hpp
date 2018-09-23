@@ -39,6 +39,7 @@
 #ifndef RENDER_SYSTEM_HPP
 #define RENDER_SYSTEM_HPP
 
+#include "core/ecs.hpp"
 #include "renderer/pipeline.hpp"
 #include "graphic/scene.hpp"
 
@@ -46,7 +47,7 @@
  * @class RenderSystem
  * @brief
  */
-class RenderSystem
+class RenderSystem: public ece::System
 {
 public:
 	/**
@@ -97,7 +98,7 @@ public:
 	 */
 	RenderSystem & operator=(RenderSystem && move) noexcept = default;
 
-	void update();
+	virtual void update() override;
 
 	ece::Scene & getScene();
 

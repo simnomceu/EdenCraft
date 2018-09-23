@@ -38,7 +38,7 @@
 #ifndef ECS_HPP
 #define ECS_HPP
 
-#include "core/ecs/base_component.hpp"
+#include "core/ecs/base_component_tank.hpp"
 #include "core/ecs/component_tank.hpp"
 #include "core/ecs/component.hpp"
 #include "core/ecs/entity_handler.hpp"

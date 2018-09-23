@@ -57,7 +57,7 @@ namespace ece
 		namespace ecs
 		{
 			using utility::indexing::UniqueID;
-			
+
 			template <class ComponentType> class ComponentTank;
 			class EntityHandler;
 
@@ -132,7 +132,7 @@ namespace ece
 
 				template <class ComponentType> std::weak_ptr<ComponentTank<ComponentType>> getTank();
 
-				template <class SystemType, class... Args> void addSystem(Args&&... args);
+				template <class SystemType, class... Args> std::weak_ptr<SystemType> addSystem(Args&&... args);
 				template <class SystemType> bool hasSystem() const;
 
 				EntityHandler createEntity();
@@ -146,7 +146,7 @@ namespace ece
 				* @property _systems
 				* @brief The list of system running in the world.
 				*/
-				std::unordered_map<std::type_index, std::unique_ptr<System>> _systems;
+				std::unordered_map<std::type_index, std::shared_ptr<System>> _systems;
 
 				/**
 				* @property _components

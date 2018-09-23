@@ -39,6 +39,8 @@
 #ifndef BASE_COMPONENT_TANK_HPP
 #define BASE_COMPONENT_TANK_HPP
 
+#include <cstddef>
+
 namespace ece
 {
 	namespace core
