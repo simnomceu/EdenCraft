@@ -36,10 +36,10 @@
 
 */
 
-#ifndef COMPONENT_HPP
-#define COMPONENT_HPP
+#ifndef BASE_COMPONENT_TANK_HPP
+#define BASE_COMPONENT_TANK_HPP
 
-#include "core/config.hpp"
+#include <cstddef>
 
 namespace ece
 {
@@ -48,70 +48,68 @@ namespace ece
 		namespace ecs
 		{
 			/**
-			 * @class Component
-			 * @extends BaseComponent
-			 * @tparam T The type of attribute that the component define.
-			 * @brief A component define an attribute of an entity.
+			 * @class BaseComponentTank
+			 * @brief
 			 */
-			template<class T>
-			class ECE_CORE_API Component
+			class BaseComponentTank
 			{
 			public:
 				/**
-				* @typedef ComponentID
-				* @brief The id to handle a component.
-				*/
-				using ComponentID = unsigned int;
-
-				/**
-				 * @fn Component()
+				 * @fn constexpr BaseComponentTank() noexcept
 				 * @brief Default constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Component();
+				constexpr BaseComponentTank() noexcept = default;
 
 				/**
-				 * @fn ~Component()
+				 * @fn BaseComponentTank(const BaseComponentTank & copy) noexcept
+				 * @param[in] copy The BaseComponentTank to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				BaseComponentTank(const BaseComponentTank & copy) noexcept = default;
+
+				/**
+				 * @fn BaseComponentTank(BaseComponentTank && move) noexcept
+				 * @param[in] move The BaseComponentTank to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				BaseComponentTank(BaseComponentTank && move) noexcept = default;
+
+				/**
+				 * @fn ~BaseComponentTank() noexcept
 				 * @brief Default destructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				~Component();
+				~BaseComponentTank() noexcept = default;
 
 				/**
-				 * @fn ComponentID getID() const
-				 * @return The id to handle the component.
-				 * @brief Get The component id.
-				 * @throw
+				 * @fn BaseComponentTank & operator=(const BaseComponentTank & copy) noexcept
+				 * @param[in] copy The BaseComponentTank to copy from.
+				 * @return The BaseComponentTank copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
 				 */
-				inline Component<T>::ComponentID getID() const;
+				BaseComponentTank & operator=(const BaseComponentTank & copy) noexcept = default;
 
 				/**
-				 * @fn unsigned int getOwner() const
-				 * @return The entity owner.
+				 * @fn BaseComponentTank & operator=(BaseComponentTank && move) noexcept
+				 * @param[in] move The BaseComponentTank to move.
+				 * @return The BaseComponentTank moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
 				 */
-				inline unsigned int getOwner() const;
+				BaseComponentTank & operator=(BaseComponentTank && move) noexcept = default;
 
-				inline bool isDirty() const;
+				virtual std::size_t size() const noexcept = 0;
 
-			protected:
-				/**
-				 * @property _id
-				 * @brief The id to handle the component.
-				 */
-				Component<T>::ComponentID _id;
+				virtual bool empty() const noexcept = 0;
 
-				/**
-				 * @property _owner
-				 * @brief The entity which own the component.
-				 */
-				unsigned int _owner;
-
-				bool _dirty;
+				virtual void update() = 0;
 			};
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
 
-#include "core/ecs/component.inl"
-
-#endif // COMPONENT_HPP
+#endif // BASE_COMPONENT_TANK_HPP

@@ -36,10 +36,7 @@
 
 */
 
-#ifndef BASE_COMPONENT_HPP
-#define BASE_COMPONENT_HPP
-
-#include "core/config.hpp"
+#include "core/ecs/world.hpp"
 
 namespace ece
 {
@@ -47,67 +44,30 @@ namespace ece
 	{
 		namespace ecs
 		{
-			/**
-			 * @class BaseComponent
-			 * @brief
-			 */
-			class ECE_CORE_API BaseComponent
+			inline EntityHandler::EntityHandler(const unsigned int id, World & world) noexcept: _id(id), _world(world) {}
+
+			inline unsigned int EntityHandler::getId() const { return this->_id; }
+
+			template <class ComponentType, class ... Args>
+			ComponentType & EntityHandler::addComponent(Args&&... args)
 			{
-			public:
-				/**
-				 * @typedef ComponentID
-				 * @brief The id to handle a component.
-				 */
-				using ComponentID = unsigned int;
+				ComponentType component(std::forward(args)...);
+				component.setOwner(this->_id);
+				this->_world.getTank<ComponentType>()->push_back(std::move(component));
+				return this->_world.getTank<ComponentType>()->back();
+			}
 
-				/**
-				 * @fn BaseComponent()
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				BaseComponent() noexcept = default;
+			template <class ComponentType>
+			bool EntityHandler::HasComponent() const
+			{
+				return this->_world.hasComponent<ComponentType>(this->_id);
+			}
 
-				/**
-				 * @fn BaseComponent(const ComponentID id)
-				 * @param[in] id The id to use.
-				 * @brief Build a component with a specific id.
-				 * @throw
-				 */
-				inline BaseComponent(const ComponentID id);
-
-				inline virtual ~BaseComponent() = 0;
-
-				/**
-				 * @fn ComponentID getID() const
-				 * @return The id to handle the component.
-				 * @brief Get The component id.
-				 * @throw
-				 */
-				inline ComponentID getID() const;
-
-				/**
-				 * @fn unsigned int getOwner() const
-				 * @return The entity owner.
-				 */
-				inline unsigned int getOwner() const;
-
-			private:
-				/**
-				 * @property _id
-				 * @brief The id to handle the component.
-				 */
-				ComponentID _id;
-
-				/**
-				 * @property _owner
-				 * @brief The entity which own the component.
-				 */
-				unsigned int _owner;
-			};
+			template <class ComponentType>
+			ComponentType & EntityHandler::getComponent()
+			{
+				return this->_world.getComponent<ComponentType>(this->_id);
+			}
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
-
-#include "core/ecs/base_component.inl"
-
-#endif // BASE_COMPONENT_HPP

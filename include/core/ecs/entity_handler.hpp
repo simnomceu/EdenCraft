@@ -36,8 +36,8 @@
 
 */
 
-#ifndef COMPONENT_HPP
-#define COMPONENT_HPP
+#ifndef ENTITY_HANDLER_HPP
+#define ENTITY_HANDLER_HPP
 
 #include "core/config.hpp"
 
@@ -47,71 +47,82 @@ namespace ece
 	{
 		namespace ecs
 		{
+			class World;
+
 			/**
-			 * @class Component
-			 * @extends BaseComponent
-			 * @tparam T The type of attribute that the component define.
-			 * @brief A component define an attribute of an entity.
+			 * @class EntityHandler
+			 * @brief
 			 */
-			template<class T>
-			class ECE_CORE_API Component
+			class ECE_CORE_API EntityHandler
 			{
 			public:
 				/**
-				* @typedef ComponentID
-				* @brief The id to handle a component.
-				*/
-				using ComponentID = unsigned int;
-
-				/**
-				 * @fn Component()
+				 * @fn constexpr EntityHandler() noexcept
 				 * @brief Default constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Component();
+				constexpr EntityHandler() noexcept = delete;
+
+				inline EntityHandler(const unsigned int id, World & world) noexcept;
 
 				/**
-				 * @fn ~Component()
+				 * @fn EntityHandler(const EntityHandler & copy) noexcept
+				 * @param[in] copy The EntityHandler to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				EntityHandler(const EntityHandler & copy) noexcept = default;
+
+				/**
+				 * @fn EntityHandler(EntityHandler && move) noexcept
+				 * @param[in] move The EntityHandler to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				EntityHandler(EntityHandler && move) noexcept = default;
+
+				/**
+				 * @fn ~EntityHandler() noexcept
 				 * @brief Default destructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				~Component();
+				~EntityHandler() noexcept = default;
 
 				/**
-				 * @fn ComponentID getID() const
-				 * @return The id to handle the component.
-				 * @brief Get The component id.
-				 * @throw
+				 * @fn EntityHandler & operator=(const EntityHandler & copy) noexcept
+				 * @param[in] copy The EntityHandler to copy from.
+				 * @return The EntityHandler copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
 				 */
-				inline Component<T>::ComponentID getID() const;
+				EntityHandler & operator=(const EntityHandler & copy) noexcept = default;
 
 				/**
-				 * @fn unsigned int getOwner() const
-				 * @return The entity owner.
+				 * @fn EntityHandler & operator=(EntityHandler && move) noexcept
+				 * @param[in] move The EntityHandler to move.
+				 * @return The EntityHandler moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
 				 */
-				inline unsigned int getOwner() const;
+				EntityHandler & operator=(EntityHandler && move) noexcept = default;
 
-				inline bool isDirty() const;
+				inline unsigned int getId() const;
 
-			protected:
-				/**
-				 * @property _id
-				 * @brief The id to handle the component.
-				 */
-				Component<T>::ComponentID _id;
+				template <class ComponentType, class ... Args> ComponentType & addComponent(Args&&... args);
 
-				/**
-				 * @property _owner
-				 * @brief The entity which own the component.
-				 */
-				unsigned int _owner;
+				template <class ComponentType> bool HasComponent() const;
 
-				bool _dirty;
+				template <class ComponentType> ComponentType & getComponent();
+
+			private:
+				unsigned int _id;
+
+				World & _world;
 			};
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
 
-#include "core/ecs/component.inl"
+#include "core/ecs/entity_handler.inl"
 
-#endif // COMPONENT_HPP
+#endif // ENTITY_HANDLER_HPP

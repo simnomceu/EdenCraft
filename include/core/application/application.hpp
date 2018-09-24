@@ -43,6 +43,7 @@
 #include "core/argument/argument_analyzer.hpp"
 #include "core/module/module_manager.hpp"
 #include "core/signal/signal.hpp"
+#include "core/ecs/world.hpp"
 
 #include <memory>
 #include <vector>
@@ -58,6 +59,7 @@ namespace ece
 			using module::ModuleMethodHandle;
 			using module::ModuleMethod;
 			using signal::Signal;
+			using ecs::World;
 
 			/**
 			 * @class Application
@@ -143,6 +145,8 @@ namespace ece
 				 */
 				template <class T> inline T & getModule();
 
+				World & addWorld();
+
 				/**
 				 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
 				 * @brief Register a callback on pre-init event.
@@ -172,12 +176,6 @@ namespace ece
 				 * @brief Register a callback on post-update event.
 				 */
 				Signal<> onPostUpdate;
-
-				/**
-				 * @fn void onPostRender(const Listener & listener, const unsigned int slot)
-				 * @brief Register a callback on post-render event.
-				 */
-				Signal<> onPostRender;
 
 				/**
 				 * @fn void onPreTerminate(const Listener & listener, const unsigned int slot)
@@ -212,41 +210,34 @@ namespace ece
 				 */
 				ModuleManager _moduleManager;
 
+				std::vector<World> _worlds;
 				/**
 				 * @fn void init()
 				 * @brief Initialize the application.
 				 * @throw
 				 */
-				void init();
+				virtual void init();
 
 				/**
 				 * void update()
 				 * @brief Update the logic of the application.
 				 * @throw
 				 */
-				void update();
+				virtual void update();
 
 				/**
 				 * void processEvents()
 				 * @brief Process all the events.
 				 * @throw
 				 */
-				void processEvents();
-
-				/**
-				 * @fn void render()
-				 * @brief Render the new frame.
-				 * @throw
-				 * @remark It should not be in the core.
-				 */
-				void render();
+				virtual void processEvents();
 
 				/**
 				 * @fn void terminate()
 				 * @brief Terminate the application.
 				 * @throw
 				 */
-				void terminate();
+				virtual void terminate();
 			};
 		} // namespace application
 	} // namespace core

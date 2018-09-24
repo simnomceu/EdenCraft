@@ -117,6 +117,13 @@ namespace ece
 
 			protected:
 				std::vector<std::shared_ptr<Window>> _windows;
+
+				/**
+				 * void processEvents()
+				 * @brief Process all the events.
+				 * @throw
+				 */
+				virtual void processEvents() override;
 			};
 		} // namespace common
 	} // namespace window

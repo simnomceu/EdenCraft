@@ -84,39 +84,63 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
-		RenderSystem renderSystem;
-		auto & scene = renderSystem.getScene();
+        auto & world = app.addWorld();
+        auto renderSystem = world.addSystem<RenderSystem>().lock();
+
+		auto & scene = renderSystem->getScene();
 		setScene(scene);
+		auto & camera = scene.getCamera();
 
         auto element = createBox(scene, 100);
 		element->prepare();
 
 		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key == ece::Keyboard::Key::A) {
-				std::cerr << 'A' << std::endl;
+		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
+			if (event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
+				std::cerr << static_cast<char>(static_cast<unsigned int>(event._key) + 34);
+			}
+			else if (event._key == ece::Keyboard::Key::SPACEBAR) {
+				std::cerr << ' ';
+			}
+			else if (event._key == ece::Keyboard::Key::RETURN) {
+				std::cerr << '\n';
 			}
 			else if (event._key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
+			}
+			else if (event._key == ece::Keyboard::Key::LEFT) {
+				camera.moveIn({ -1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::RIGHT) {
+				camera.moveIn({ 1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::UP) {
+				camera.moveIn({ 0.0f, 0.0f, -1.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::DOWN) {
+				camera.moveIn({ 0.0f, 0.0f, 1.0f });
+				scene.updateCamera();
 			}
 		});
 		window.lock()->onWindowClosed.connect([&app]() {
 			app.stop();
 		});
 
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
 
-		app.onPostUpdate.connect([&window, &fps, &element]() {
+		app.onPreUpdate.connect([&window, &fps]() {
 			window.lock()->setTitle("Test - Frame " + std::to_string(fps.getFPS()));
 			window.lock()->clear(ece::BLACK);
+		});
+
+		app.onPostUpdate.connect([&renderSystem, &window, &element]() {
+			window.lock()->display();
 			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 		});
-		app.onPostRender.connect([&renderSystem, &window]() {
-			renderSystem.update();
-			window.lock()->display();
-			window.lock()->processEvents();
-		});
-		
+
 		app.run();
 	}
 	catch (std::runtime_error & e) {
@@ -182,13 +206,10 @@ void setScene(ece::Scene & scene)
 	{
 		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
 		scene.addLight(light);
-		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-		// ####################
 	}
 
 	{
 		auto & camera = scene.getCamera();
-		//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
 		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
 		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
