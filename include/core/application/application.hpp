@@ -216,28 +216,28 @@ namespace ece
 				 * @brief Initialize the application.
 				 * @throw
 				 */
-				void init();
+				virtual void init();
 
 				/**
 				 * void update()
 				 * @brief Update the logic of the application.
 				 * @throw
 				 */
-				void update();
+				virtual void update();
 
 				/**
 				 * void processEvents()
 				 * @brief Process all the events.
 				 * @throw
 				 */
-				void processEvents();
+				virtual void processEvents();
 
 				/**
 				 * @fn void terminate()
 				 * @brief Terminate the application.
 				 * @throw
 				 */
-				void terminate();
+				virtual void terminate();
 			};
 		} // namespace application
 	} // namespace core

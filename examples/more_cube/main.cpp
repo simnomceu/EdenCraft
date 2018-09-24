@@ -89,12 +89,13 @@ int main()
 
 		auto & scene = renderSystem->getScene();
 		setScene(scene);
+		auto & camera = scene.getCamera();
 
         auto element = createBox(scene, 100);
 		element->prepare();
 
 		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
+		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
 			if (event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
 				std::cerr << static_cast<char>(static_cast<unsigned int>(event._key) + 34);
 			}
@@ -106,6 +107,22 @@ int main()
 			}
 			else if (event._key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
+			}
+			else if (event._key == ece::Keyboard::Key::LEFT) {
+				camera.moveIn({ -1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::RIGHT) {
+				camera.moveIn({ 1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::UP) {
+				camera.moveIn({ 0.0f, 0.0f, -1.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::DOWN) {
+				camera.moveIn({ 0.0f, 0.0f, 1.0f });
+				scene.updateCamera();
 			}
 		});
 		window.lock()->onWindowClosed.connect([&app]() {
@@ -121,7 +138,6 @@ int main()
 
 		app.onPostUpdate.connect([&renderSystem, &window, &element]() {
 			window.lock()->display();
-			window.lock()->processEvents();
 			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 		});
 
@@ -190,13 +206,10 @@ void setScene(ece::Scene & scene)
 	{
 		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
 		scene.addLight(light);
-		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-		// ####################
 	}
 
 	{
 		auto & camera = scene.getCamera();
-		//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
 		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
 		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });

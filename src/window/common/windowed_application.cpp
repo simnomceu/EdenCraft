@@ -78,6 +78,13 @@ namespace ece
 				this->terminate();
 				this->onPreTerminate();
 			}
+
+			void WindowedApplication::processEvents()
+			{
+				for (auto & window : this->_windows) {
+					window->processEvents();
+				}
+			}
 		} // namespace common
 	} // namespace window
 } // namespace ece
