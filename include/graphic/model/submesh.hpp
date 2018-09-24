@@ -42,10 +42,8 @@
 #define SUBMESH_HPP
 
 #include "graphic/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "utility/mathematics/box3d.hpp"
-#include "core/resource/resource_handler.hpp"
+#include "utility/mathematics.hpp"
+#include "core/resource.hpp"
 
 #include <vector>
 
@@ -55,11 +53,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatVector2u;
-			using utility::mathematics::Box3D;
-			using core::resource::ResourceHandler;
-
 			/**
 			 * @class Submesh
 			 * @brief A mesh as defined in 3D modelling.

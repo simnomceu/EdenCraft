@@ -42,8 +42,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using namespace opengl;
-
 			inline BufferObject::BufferObject(const BufferType type, const Usage usage) noexcept: _type(type), _usage(usage) { this->_handle = OpenGL::genBuffers(); }
 
 			inline void BufferObject::bind() const { OpenGL::bindBuffer(this->_type, this->_handle); }

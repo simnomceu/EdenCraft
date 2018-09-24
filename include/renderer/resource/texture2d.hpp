@@ -41,8 +41,8 @@
 #define TEXTURE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl.hpp"
-#include "core/resource/resource_handler.hpp"
+#include "renderer/opengl.hpp"
+#include "core/resource.hpp"
 
 #include <cstddef>
 
@@ -52,9 +52,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using renderer::opengl::Handle;
-			using core::resource::ResourceHandler;
-
 			/**
 			 * @class Texture2D
 			 * @brief OpenGL 2D texture.

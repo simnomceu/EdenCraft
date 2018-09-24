@@ -40,8 +40,8 @@
 
 #include "graphic/renderable/point.hpp"
 
-#include "renderer/opengl/opengl.hpp"
-#include "renderer/resource/buffer_layout.hpp"
+#include "renderer/opengl.hpp"
+#include "renderer/resource.hpp"
 
 namespace ece
 {
@@ -49,15 +49,8 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::PrimitiveMode;
-			using renderer::BufferUsage;
-			using renderer::BufferType;
 			using renderer::ShaderType;
 			using renderer::Capability;
-			using renderer::resource::BufferLayout;
-			using renderer::resource::ShaderStage;
-			using namespace ece::renderer::opengl;
-			using renderer::resource::BufferObject;
 
 			Point::Point() noexcept : Renderable(), _position(), _color(), _size(1)
 			{

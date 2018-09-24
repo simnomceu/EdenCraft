@@ -40,7 +40,7 @@
 #define OPENGL_EXCEPTION_HPP
 
 #include "renderer/config.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
@@ -48,8 +48,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using utility::debug::Exception;
-
 			/**
 			 * @class OpenGLExtensionException
 			 * @extends Exception

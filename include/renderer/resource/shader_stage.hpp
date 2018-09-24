@@ -41,7 +41,7 @@
 #define SHADER_STAGE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 
 #include <string>
 
@@ -51,8 +51,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::Handle;
-
 			/**
 			 * @class ShaderStage
 			 * @brief A shader stage is a step in the render pipeline.

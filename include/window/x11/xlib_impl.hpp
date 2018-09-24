@@ -130,7 +130,7 @@ namespace ece
 				 * @brief Get the window ID of the internal API.
 				 * @throw
 				 */
-				virtual Window getWindowHandle() const override;
+				virtual ::Window getWindowHandle() const override;
 
 				/**
 				 * Display * getDevice() const
@@ -267,7 +267,7 @@ namespace ece
 				 * @property _windowId
 				 * @brief The handle of the window.
 				 */
-				Window _windowId;
+				::Window _windowId;
 
 				/**
 				 * @property _connection

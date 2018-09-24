@@ -36,15 +36,14 @@
 
 */
 
-#include "renderer/opengl/context_opengl.hpp"
+#include "renderer/opengl.hpp"
 #include "renderer/win32/data_context_opengl.hpp"
 
-#include "renderer/opengl/opengl.hpp"
 #include "renderer/win32/wgl_extension.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "window/common/window_adapter.hpp"
+#include "renderer/rendering.hpp"
+#include "window/common.hpp"
 #include "window/win32/data_window_adapter.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -52,10 +51,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using utility::log::ServiceLoggerLocator;
-			using utility::debug::AssertionException;
-			using utility::pattern::makePimpl;
-
 			HMODULE DataContextOpenGL::_openglLib = nullptr;
 
 			FARPROC DataContextOpenGL::getProcAddress(const std::string & name)

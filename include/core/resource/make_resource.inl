@@ -37,8 +37,8 @@
 */
 
 #include "core/resource/resource_handler.hpp"
-#include "core/resource/service_resource.hpp"
 
+#include "core/resource/service_resource.hpp"
 
 namespace ece
 {

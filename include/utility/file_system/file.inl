@@ -36,14 +36,12 @@
 
 */
 
-#include "utility/debug/exception.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
     namespace utility
     {
-        using debug::FileException;
-
         namespace file_system
         {
         	inline File::File() : _filename(), _stream() {}

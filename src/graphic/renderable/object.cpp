@@ -39,7 +39,7 @@
 */
 
 #include "graphic/renderable/object.hpp"
-#include "renderer/resource/buffer_layout.hpp"
+#include "renderer/resource.hpp"
 
 namespace ece
 {
@@ -47,14 +47,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::BufferType;
-			using renderer::BufferUsage;
-			using model::Mesh;
-            using renderer::resource::BufferLayout;
-            using renderer::PrimitiveMode;
             using renderer::ShaderType;
-            using renderer::resource::ShaderStage;
-			using renderer::resource::BufferObject;
 
             Object::Object() noexcept: Renderable(), _mesh(), _instances()
             {

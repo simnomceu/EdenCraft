@@ -40,7 +40,7 @@
 
 #include "graphic/model/phong_material.hpp"
 
-#include "renderer/resource/shader.hpp"
+#include "renderer/resource.hpp"
 
 namespace ece
 {

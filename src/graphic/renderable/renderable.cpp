@@ -40,8 +40,7 @@
 
 #include "graphic/renderable/renderable.hpp"
 
-#include "utility/mathematics/matrix4u.hpp"
-#include "utility/mathematics/transform.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -49,9 +48,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using utility::mathematics::FloatMatrix4u;
-			using utility::mathematics::FloatVector3u;
-			using namespace ece::renderer::opengl;
 			using renderer::DataType;
 
 			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)

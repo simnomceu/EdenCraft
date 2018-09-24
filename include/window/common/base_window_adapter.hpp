@@ -39,9 +39,9 @@
 #define BASE_WINDOW_ADAPTER_HPP
 
 #include "window/config.hpp"
-#include "window/event/input_event.hpp"
-#include "window/event/event_queue.hpp"
-#include "utility/pattern/pimpl.hpp"
+#include "window/event.hpp"
+#include "utility/pattern.hpp"
+#include "utility/mathematics.hpp"
 
 #include <memory>
 #include <string>
@@ -52,9 +52,6 @@ namespace ece
 	{
 		namespace common
 		{
-			using utility::pattern::Pimpl;
-			using utility::mathematics::IntVector2u;
-
 			/**
 			 * @struct DataWindowAdapter
 			 * @brief Platform implementaion of the window adapter.

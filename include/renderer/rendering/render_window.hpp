@@ -40,7 +40,7 @@
 #define RENDER_WINDOW_HPP
 
 #include "renderer/config.hpp"
-#include "window/common/window.hpp"
+#include "window/common.hpp"
 #include "renderer/rendering/renderer.hpp"
 #include "renderer/rendering/render_context.hpp"
 #include "renderer/rendering/render_target.hpp"
@@ -55,7 +55,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using window::common::Window;
 			using pipeline::RenderState;
 
 			/**

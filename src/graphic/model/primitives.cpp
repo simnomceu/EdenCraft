@@ -40,8 +40,7 @@
 
 #include "graphic/model/primitives.hpp"
 
-#include "utility/mathematics/transform.hpp"
-#include "utility/mathematics/vector4u.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -49,10 +48,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::rotate;
-			using utility::mathematics::translate;
-			using utility::mathematics::FloatVector4u;
-
 			Mesh makeCircle(const float radius, const size_t numberOfVertices)
 			{
 				Mesh result;

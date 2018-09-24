@@ -42,9 +42,9 @@
 #define OBJ_SAVER_HPP
 
 #include "graphic/config.hpp"
-#include "utility/file_system/saver.hpp"
+#include "utility/file_system.hpp"
 #include "graphic/model/mesh.hpp"
-#include "utility/formats/wavefront/parser_obj.hpp"
+#include "utility/formats.hpp"
 
 namespace ece
 {
@@ -52,9 +52,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::file_system::Saver;
-			using utility::formats::wavefront::ParserOBJ;
-
 			/**
 			 * @class OBJSaver
 			 * @brief

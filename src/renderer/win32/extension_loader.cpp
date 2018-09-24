@@ -40,9 +40,8 @@
 #include "renderer/opengl/extension_loader.hpp"
 
 #include "renderer/win32/wgl_extension.hpp"
-#include "utility/log/service_logger.hpp"
-#include "renderer/opengl/opengl_extension.hpp"
-#include "renderer/opengl/context_opengl.hpp"
+#include "utility/log.hpp"
+#include "renderer/opengl.hpp"
 #include "renderer/win32/data_context_opengl.hpp"
 
 #ifdef _MSC_VER
@@ -56,8 +55,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using utility::log::ServiceLoggerLocator;
-
 			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 			{
 				auto proc = wglGetProcAddress(name.data());

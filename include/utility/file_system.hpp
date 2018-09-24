@@ -47,7 +47,7 @@
 
 namespace ece
 {
-	using namespace utility::file_system
+	using namespace utility::file_system;
 } // namespace ece
 
 #endif // FILE_SYSTEM_HPP

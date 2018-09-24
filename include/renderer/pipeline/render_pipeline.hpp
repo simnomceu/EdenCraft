@@ -41,7 +41,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/pipeline/render_state.hpp"
-#include "renderer/resource/shader.hpp"
+#include "renderer/resource.hpp"
 
 namespace ece
 {
@@ -49,8 +49,6 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			using resource::Shader;
-
 			/**
 			 * @class RenderPipeline
 			 * @brief

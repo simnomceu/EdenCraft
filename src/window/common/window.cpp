@@ -37,7 +37,7 @@
 
 #include "window/common/window.hpp"
 
-#include "window/event/input_event.hpp"
+#include "window/event.hpp"
 
 #include <iostream>
 
@@ -47,8 +47,6 @@ namespace ece
 	{
 		namespace common
 		{
-			using event::InputEvent;
-
 			Window::Window() noexcept: virtual_enable_shared_from_this<Window>(), onWindowOpened(), onWindowClosed(), onWindowResized(), onWindowMoved(), onWindowRenamed(), onWindowMinimized(), onWindowMaximized(), onWindowFocused(),
 				_adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false), _eventHandler(*this)
 			{

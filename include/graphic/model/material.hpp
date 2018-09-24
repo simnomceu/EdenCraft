@@ -42,7 +42,7 @@
 #define MATERIAL_HPP
 
 #include "graphic/config.hpp"
-#include "core/resource/resource_handler.hpp"
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -59,7 +59,6 @@ namespace ece
 		namespace model
 		{
 			using renderer::resource::Shader;
-			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Material

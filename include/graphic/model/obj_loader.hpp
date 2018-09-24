@@ -45,7 +45,7 @@
 #include "graphic/model/loader_object.hpp"
 #include "graphic/model/mesh.hpp"
 #include "graphic/model/phong_material.hpp"
-#include "utility/formats/wavefront/parser_obj.hpp"
+#include "utility/formats.hpp"
 
 namespace ece
 {
@@ -53,8 +53,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::formats::wavefront::ParserOBJ;
-
 			/**
 			 * @class OBJLoader
 			 * @brief

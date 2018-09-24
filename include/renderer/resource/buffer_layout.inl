@@ -38,7 +38,7 @@
 
 */
 
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -46,8 +46,6 @@ namespace ece
     {
         namespace resource
         {
-			using namespace opengl;
-
 			inline BufferLayout::BufferLayout(const BufferLayout::Strategy strategy) noexcept: _elements(), _instanceBlockSize(0), _strategy(strategy) {}
 
             template <class T>

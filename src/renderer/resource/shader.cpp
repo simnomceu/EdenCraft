@@ -38,7 +38,7 @@
 
 #include "renderer/resource/shader.hpp"
 
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -46,8 +46,6 @@ namespace ece
 	{
 		namespace resource
 		{
-            using utility::log::ServiceLoggerLocator;
-
 			Shader::~Shader()
 			{
 				this->terminate();

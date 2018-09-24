@@ -38,8 +38,8 @@
 
 #include "utility/formats/json/parser_json.hpp"
 
-#include "utility/file_system/file.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/file_system.hpp"
+#include "utility/debug.hpp"
 #include "utility/formats/json/array_json.hpp"
 #include "utility/formats/json/object_json.hpp"
 
@@ -55,9 +55,6 @@ namespace ece
 		{
 			namespace json
 			{
-				using file_system::File;
-				using debug::FileException;
-
 				void ParserJSON::load(std::istream & stream)
 				{
 

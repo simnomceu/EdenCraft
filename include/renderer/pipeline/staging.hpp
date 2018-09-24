@@ -40,7 +40,7 @@
 #define STAGING_HPP
 
 #include "renderer/config.hpp"
-#include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -48,8 +48,6 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			using utility::mathematics::FloatMatrix4u;
-
 			/**
 			 * @class Staging
 			 * @brief

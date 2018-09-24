@@ -35,8 +35,8 @@
 
 */
 
-#ifndef EVENT_HPP
-#define EVENT_HPP
+#ifndef WINDOW_EVENT_HPP
+#define WINDOW_EVENT_HPP
 
 #include "window/event/event_handler.hpp"
 #include "window/event/event_queue.hpp"
@@ -49,4 +49,4 @@ namespace ece
 	using namespace window::event;
 }
 
-#endif // EVENT_HPP
+#endif // WINDOW_EVENT_HPP

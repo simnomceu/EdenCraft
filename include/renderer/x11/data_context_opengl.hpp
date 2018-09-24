@@ -40,7 +40,7 @@
 #define DATA_CONTEXT_OPENGL_HPP
 
 
-#include "renderer/rendering/render_context.hpp"
+#include "renderer/rendering.hpp"
 
 #include "GL/glcorearb.h"
 #include "GL/glext.h"

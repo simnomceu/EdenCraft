@@ -46,8 +46,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using namespace opengl;
-
 			inline Shader::Shader() : _handle(0), _uniforms(), _linkedSuccessfully(false) { this->_handle = OpenGL::createProgram(); }
 
 			inline Shader::Shader(const Handle handle) noexcept : _handle(handle) {}

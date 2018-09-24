@@ -1,7 +1,7 @@
 #include "renderer/debug/debugging.hpp"
 
-#include "utility/log/service_logger.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "utility/log.hpp"
+#include "renderer/opengl.hpp"
 
 #include <string>
 
@@ -11,9 +11,6 @@ namespace ece
 	{
 		namespace debug
 		{
-			using namespace opengl;
-			using utility::log::ServiceLoggerLocator;
-
 			void checkErrors_(const char * file, const int line, const char * function)
 			{
 				auto error(OpenGL::getError());

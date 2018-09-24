@@ -39,11 +39,12 @@
 
 #include "renderer/opengl/context_opengl.hpp"
 
-#include "renderer/opengl/opengl.hpp"
-#include "utility/log/service_logger.hpp"
-#include "renderer/rendering/renderer.hpp"
+#include "renderer/opengl.hpp"
+#include "utility/log.hpp"
+#include "renderer/rendering.hpp"
 
 #ifdef _MSC_VER
+#	undef min
 #	undef max
 #endif
 
@@ -53,9 +54,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using utility::log::ServiceLoggerLocator;
-			using renderer::rendering::Renderer;
-
 			Version<2> ContextOpenGL::_maxVersionAvailable{ 3, 2 };
 
 			std::shared_ptr<RenderContext> ContextOpenGL::DummyContext()

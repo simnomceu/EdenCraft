@@ -40,7 +40,7 @@
 
 #include "graphic/scene/camera.hpp"
 
-#include "utility/debug/exception.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
@@ -48,10 +48,6 @@ namespace ece
 	{
 		namespace scene
 		{
-			using utility::debug::BadInputException;
-			using utility::mathematics::UP;
-			using utility::mathematics::RIGHT;
-			using utility::mathematics::FRONT;
 
 			void Camera::updatePosition(const FloatVector3u & position, const FloatVector3u & target)
 			{

@@ -41,11 +41,11 @@
 
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/x11/glx_extension.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "window/common/window_adapter.hpp"
+#include "renderer/rendering.hpp"
+#include "window/common.hpp"
 #include "window/x11/data_window_adapter.hpp"
-#include "utility/log/service_logger.hpp"
-#include "renderer/debug/debugging.hpp"
+#include "utility/log.hpp"
+#include "renderer/debug.hpp"
 
 namespace ece
 {
@@ -53,10 +53,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using utility::log::ServiceLoggerLocator;
-			using utility::debug::AssertionException;
-			using utility::pattern::makePimpl;
-
 			ContextOpenGL::ContextOpenGL() noexcept: RenderContext(), _data(makePimpl<DataContextOpenGL>()), _currentVersion()
 			{
 			}

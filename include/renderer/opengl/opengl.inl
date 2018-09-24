@@ -37,7 +37,7 @@
 */
 
 #include "renderer/opengl/opengl_extension.hpp"
-#include "renderer/debug/debugging.hpp"
+#include "renderer/debug.hpp"
 
 namespace ece
 {
@@ -45,8 +45,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using namespace debug;
-
 			template <class T>
 			inline constexpr DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
 

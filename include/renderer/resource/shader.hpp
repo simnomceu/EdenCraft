@@ -40,9 +40,9 @@
 #define SHADER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 #include "renderer/resource/shader_stage.hpp"
-#include "utility/template_expression/vector.hpp"
+#include "utility/template_expression.hpp"
 
 namespace ece
 {
@@ -50,9 +50,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::Handle;
-			using utility::template_expression::Vector;
-
 			class BaseUniform;
 
 			/**

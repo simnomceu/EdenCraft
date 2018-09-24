@@ -40,9 +40,9 @@
 
 #include "graphic/model/obj_saver.hpp"
 
-#include "utility/file_system/file.hpp"
+#include "utility/file_system.hpp"
 #include "utility/enum.hpp"
-#include "utility/formats/wavefront/object_obj.hpp"
+#include "utility/formats/wavefront.hpp"
 
 namespace ece
 {
@@ -50,10 +50,7 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::file_system::File;
-			using utility::debug::FileException;
 			using utility::FileCodeError;
-			using utility::formats::wavefront::ObjectOBJ;
 
 			void OBJSaver::saveToFile(const std::string & filename)
 			{

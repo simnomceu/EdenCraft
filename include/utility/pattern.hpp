@@ -36,8 +36,8 @@
 
 */
 
-#ifndef PATTERN_HPP
-#define PATTERN_HPP
+#ifndef WINDOW_PATTERN_HPP
+#define WINDOW_PATTERN_HPP
 
 #include "utility/pattern/holdable.hpp"
 #include "utility/pattern/holder.hpp"
@@ -51,4 +51,4 @@ namespace ece
 	using namespace utility::pattern;
 }
 
-#endif // PATTERN_HPP
+#endif // WINDOW_PATTERN_HPP

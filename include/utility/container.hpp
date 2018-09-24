@@ -40,7 +40,6 @@
 #define CONTAINER_HPP
 
 #include "utility/container/can_access_data.hpp"
-#include "utility/container/chain_list.hpp"
 #include "utility/container/contiguous_container.hpp"
 #include "utility/container/has_size.hpp"
 

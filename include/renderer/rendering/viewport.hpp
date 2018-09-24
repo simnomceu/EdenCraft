@@ -40,7 +40,7 @@
 #define VIEWPORT_HPP
 
 #include "renderer/config.hpp"
-#include "utility/mathematics/rectangle.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -48,8 +48,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using utility::mathematics::Rectangle;
-
 			/**
 			 * @class Viewport
 			 * @brief

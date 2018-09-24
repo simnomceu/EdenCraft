@@ -40,7 +40,7 @@
 #define MATERIAL_MTL_HPP
 
 #include "utility/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics.hpp"
 
 #include <variant>
 
@@ -52,8 +52,6 @@ namespace ece
 		{
 			namespace wavefront
 			{
-				using mathematics::FloatVector3u;
-
 				/**
 				 * @class MaterialMTL
 				 * @brief

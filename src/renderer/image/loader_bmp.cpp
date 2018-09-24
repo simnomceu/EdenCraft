@@ -38,8 +38,8 @@
 
 #include "renderer/image/loader_bmp.hpp"
 
-#include "utility/formats/bitmap/parser_bmp.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/formats/bitmap.hpp"
+#include "utility/debug.hpp"
 
 #include <fstream>
 

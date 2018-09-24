@@ -39,7 +39,7 @@
 #include "renderer/pipeline/forward_rendering.hpp"
 
 #include "renderer/pipeline/render_pipeline.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 #include "renderer/pipeline/staging.hpp"
 #include "renderer/pipeline/drawable.hpp"
 
@@ -49,8 +49,6 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			using namespace opengl;
-
 			void ForwardRendering::draw(const Staging & staging)
 			{
 				// sort queues

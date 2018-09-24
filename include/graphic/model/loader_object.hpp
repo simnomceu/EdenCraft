@@ -42,7 +42,7 @@
 #define LOADER_OBJECT_HPP
 
 #include "graphic/config.hpp"
-#include "utility/file_system/loader.hpp"
+#include "utility/file_system.hpp"
 #include "graphic/model/mesh.hpp"
 
 namespace ece
@@ -51,8 +51,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::file_system::Loader;
-
 			/**
 			 * @class LoaderObject
 			 * @brief

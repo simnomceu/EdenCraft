@@ -38,8 +38,6 @@
 
 */
 
-#include "utility/mathematics/transform.hpp"
-
 namespace ece
 {
 	namespace graphic

@@ -39,14 +39,10 @@
 
 #include "core/application/application.hpp"
 
-#include "utility/log/service_logger.hpp"
-#include "utility/log/logger.hpp"
-#include "core/resource/service_resource.hpp"
-#include "core/resource/resource_manager.hpp"
-#include "core/format/service_format.hpp"
-#include "core/format/format_manager.hpp"
-#include "core/module/module_method.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/log.hpp"
+#include "core/resource.hpp"
+#include "core/format.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
@@ -54,16 +50,6 @@ namespace ece
 	{
 		namespace application
 		{
-			using utility::log::ServiceLoggerLocator;
-			using utility::log::ServiceLoggerFactory;
-			using utility::log::Logger;
-			using core::resource::ServiceResourceLocator;
-			using core::resource::ServiceResourceFactory;
-			using core::resource::ResourceManager;
-			using core::format::ServiceFormatLocator;
-			using core::format::ServiceFormatFactory;
-			using core::format::FormatManager;
-
 			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());

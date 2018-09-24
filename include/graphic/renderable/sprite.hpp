@@ -1,3 +1,4 @@
+
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -43,8 +44,8 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "renderer/resource/texture2d.hpp"
-#include "utility/mathematics/rectangle.hpp"
+#include "renderer/resource.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -52,9 +53,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::resource::Texture2D;
-			using utility::mathematics::Rectangle;
-
 			/**
 			 * @class Sprite
 			 * @brief

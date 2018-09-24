@@ -42,9 +42,9 @@
 #define POINT_HPP
 
 #include "graphic/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "core/resource/resource_handler.hpp"
-#include "graphic/renderable/renderable.hpp"
+#include "utility/mathematics.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
 
 namespace ece
 {
@@ -52,9 +52,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::ResourceHandler;
-
 			/**
 			 * @class Point
 			 * @brief

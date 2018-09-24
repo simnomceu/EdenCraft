@@ -42,7 +42,7 @@
 #include "core/config.hpp"
 #include "core/ecs/base_component_tank.hpp"
 #include "core/ecs/component.hpp"
-#include "utility/indexing/unique_id.hpp"
+#include "utility/indexing.hpp"
 
 #include <memory>
 #include <vector>
@@ -53,8 +53,6 @@ namespace ece
 	{
 		namespace ecs
 		{
-			using utility::indexing::UniqueID;
-
 			/**
 			 * @class ComponentTank
 			 * @brief

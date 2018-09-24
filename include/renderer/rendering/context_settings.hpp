@@ -40,8 +40,8 @@
 #define CONTEXT_SETTINGS_HPP
 
 #include "renderer/config.hpp"
-#include "utility/indexing/version.hpp"
-#include "window/common/window.hpp"
+#include "utility/indexing.hpp"
+#include "window/common.hpp"
 
 namespace ece
 {
@@ -49,9 +49,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using utility::indexing::Version;
-			using window::common::Window;
-
 			/**
 			 * @class ContextSettings
 			 * @brief

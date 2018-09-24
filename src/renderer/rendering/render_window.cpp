@@ -38,10 +38,8 @@
 
 #include "renderer/rendering/render_window.hpp"
 
-#include "renderer/opengl/context_opengl.hpp"
-#include "renderer/opengl/opengl.hpp"
-#include "utility/log/service_logger.hpp"
-#include "window/common/video_mode.hpp"
+#include "renderer/opengl.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -49,12 +47,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using namespace opengl;
-
-			using opengl::ContextOpenGL;
-			using utility::log::ServiceLoggerLocator;
-			using window::common::VideoMode;
-
 			RenderWindow::RenderWindow() : Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>()), _contextSettings(), _currentState()
 			{
 				this->_contextSettings.minVersion = { 3, 2 };

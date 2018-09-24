@@ -39,7 +39,7 @@
 #define WINDOW_SETTING_HPP
 
 #include "window/config.hpp"
-#include "utility/mathematics/vector2u.hpp"
+#include "utility/mathematics.hpp"
 
 #include <string>
 
@@ -49,8 +49,6 @@ namespace ece
 	{
 		namespace common
 		{
-			using utility::mathematics::IntVector2u;
-
 			/**
 			 * @class WindowSetting
 			 * @brief Wrap the window settings that can be changed over the lifetime of the window.

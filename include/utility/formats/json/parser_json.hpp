@@ -40,7 +40,7 @@
 #define PARSER_JSON_HPP
 
 #include "utility/config.hpp"
-#include "utility/file_system/parser.hpp"
+#include "utility/file_system.hpp"
 #include "utility/formats/json/object_json.hpp"
 
 namespace ece
@@ -51,8 +51,6 @@ namespace ece
 		{
 			namespace json
 			{
-				using file_system::Parser;
-
 				/**
 				 * @class ParserJSON
 				 * @extends Parser

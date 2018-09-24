@@ -42,27 +42,15 @@
 #define PROJECTION_HPP
 
 #include "graphic/config.hpp"
-#include "window/common/ratio.hpp"
-#include "utility/mathematics/matrix4u.hpp"
+#include "window/common.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
-	namespace utility
-	{
-		namespace mathematics
-		{
-			template <typename T> class Rectangle;
-		}
-	}
-
 	namespace graphic
 	{
 		namespace scene
 		{
-			using utility::mathematics::FloatMatrix4u;
-			using window::common::Ratio;
-			using utility::mathematics::Rectangle;
-
 			/**
 			 * @class Projection
 			 * @brief

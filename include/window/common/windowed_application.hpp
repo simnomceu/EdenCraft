@@ -39,7 +39,7 @@
 #define WINDOWED_APPLICATION_HPP
 
 #include "window/config.hpp"
-#include "core/application/application.hpp"
+#include "core/application.hpp"
 #include "window/common/window.hpp"
 
 #include <type_traits>
@@ -51,8 +51,6 @@ namespace ece
 	{
 		namespace common
 		{
-			using core::application::Application;
-
 			/**
 			 * @class WindowedApplication
 			 * @brief

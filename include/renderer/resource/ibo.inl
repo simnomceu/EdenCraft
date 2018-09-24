@@ -43,8 +43,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using namespace opengl;
-
 			inline IBO::IBO(const BufferObject::Usage usage) : BufferObject(BufferType::ELEMENT_ARRAY_BUFFER, usage) { this->_handle = OpenGL::genBuffers(); }
 		} // namespace resource
 	} // namespace renderer

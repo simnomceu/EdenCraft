@@ -40,7 +40,7 @@
 #include "renderer/opengl/extension_loader.hpp"
 
 #include "renderer/x11/glx_extension.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
 #include "renderer/opengl/context_opengl.hpp"
 
 namespace ece
@@ -49,8 +49,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using utility::log::ServiceLoggerLocator;
-
 			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 			{
 				auto addr = name.data();

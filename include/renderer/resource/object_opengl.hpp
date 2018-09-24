@@ -42,7 +42,7 @@
 #define OBJECT_OPENGL_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -50,8 +50,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::Handle;
-
 			/**
 			 * @class ObjectOpenGL
 			 * @brief Base class for any object of the OpenGL API.

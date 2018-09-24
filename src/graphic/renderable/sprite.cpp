@@ -40,7 +40,7 @@
 
 #include "graphic/renderable/sprite.hpp"
 
-#include "renderer/resource/buffer_layout.hpp"
+#include "renderer/resource.hpp"
 
 namespace ece
 {
@@ -48,16 +48,8 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::PrimitiveMode;
-			using renderer::BufferUsage;
-			using renderer::BufferType;
 			using renderer::ShaderType;
 			using renderer::TextureTarget;
-
-			using renderer::resource::ShaderStage;
-			using namespace ece::renderer::opengl;
-            using renderer::resource::BufferLayout;
-			using renderer::resource::BufferObject;
 
 			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
 			{

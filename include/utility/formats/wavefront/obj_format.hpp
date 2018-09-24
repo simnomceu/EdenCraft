@@ -40,9 +40,7 @@
 #define OBJ_FORMAT_HPP
 
 #include "utility/config.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/vector4u.hpp"
+#include "utility/mathematics.hpp"
 
 #include <vector>
 
@@ -54,12 +52,6 @@ namespace ece
 		{
 			namespace wavefront
 			{
-				using mathematics::FloatVector2u;
-				using mathematics::IntVector2u;
-				using mathematics::FloatVector3u;
-				using mathematics::IntVector3u;
-				using mathematics::FloatVector4u;
-
 				/**
 				 * @class OBJFormat
 				 * @brief

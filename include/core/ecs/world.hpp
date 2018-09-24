@@ -41,7 +41,7 @@
 
 #include "core/config.hpp"
 #include "core/ecs/system.hpp"
-#include "utility/indexing/unique_id.hpp"
+#include "utility/indexing.hpp"
 #include "core/ecs/base_component_tank.hpp"
 
 #include <memory>
@@ -56,8 +56,6 @@ namespace ece
 	{
 		namespace ecs
 		{
-			using utility::indexing::UniqueID;
-
 			template <class ComponentType> class ComponentTank;
 			class EntityHandler;
 

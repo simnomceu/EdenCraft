@@ -43,8 +43,8 @@
 
 #include "graphic/config.hpp"
 #include "graphic/scene/camera.hpp"
-#include "graphic/renderable/object.hpp"
-#include "graphic/model/light.hpp"
+#include "graphic/renderable.hpp"
+#include "graphic/model.hpp"
 
 #include <vector>
 
@@ -54,10 +54,6 @@ namespace ece
 	{
 		namespace scene
 		{
-			using renderable::Object;
-			using renderable::Light;
-			using renderable::Renderable;
-
 			/**
 			 * @class Scene
 			 * @brief

@@ -43,8 +43,8 @@
 
 #include "graphic/config.hpp"
 #include "graphic/model/material.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "renderer/resource/texture2d.hpp"
+#include "utility/mathematics.hpp"
+#include "renderer/resource.hpp"
 
 namespace ece
 {
@@ -52,9 +52,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using renderer::resource::Texture2D;
-
 			/**
 			 * @class PhongMaterial
 			 * @brief

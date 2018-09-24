@@ -39,10 +39,11 @@
 
 #include "renderer/resource/texture2d.hpp"
 
-#include "utility/formats/bitmap/parser_bmp.hpp"
-#include "utility/file_system/file.hpp"
-#include "renderer/image/loader_image.hpp"
-#include "core/format/service_format.hpp"
+#include "utility/formats/bitmap.hpp"
+#include "utility/file_system.hpp"
+#include "renderer/image.hpp"
+#include "core/format.hpp"
+#include "utility/debug.hpp"
 
 #include <memory>
 
@@ -52,14 +53,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using utility::formats::bitmap::ParserBMP;
-			using utility::file_system::File;
-			using utility::FileException;
-			using utility::OpenMode;
-			using utility::FileCodeError;
-			using renderer::image::LoaderImage;
-			using core::format::ServiceFormatLocator;
-
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
 				this->_filename = copy._filename;

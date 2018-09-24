@@ -40,7 +40,7 @@
 #define FILE_HPP
 
 #include "utility/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics.hpp"
 #include "utility/enum.hpp"
 
 #include <string>
@@ -50,8 +50,6 @@ namespace ece
 {
     namespace utility
     {
-        using mathematics::FloatVector3u;
-
         namespace file_system
         {
         	/**

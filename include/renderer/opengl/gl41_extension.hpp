@@ -44,13 +44,12 @@
 
 #include <GL/glcorearb.h>
 
-#include "utility/indexing/version.hpp"
+#include "utility/indexing.hpp"
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 
 namespace ece
 {
-    using utility::indexing::Version;
 	using renderer::opengl::OpenGLExtensionException;
 }
 

@@ -38,16 +38,12 @@
 
 */
 
-#include "utility/mathematics/transform.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
 		namespace scene
 		{
-			using utility::mathematics::perspective;
-			using utility::mathematics::orthographic;
 			using window::common::RATIO_4_3;
 
 			inline Projection::Projection() noexcept: _projection(FloatMatrix4u::Identity())

@@ -40,11 +40,11 @@
 
 #include "graphic/model/obj_loader.hpp"
 
-#include "utility/file_system/file.hpp"
+#include "utility/file_system.hpp"
 #include "utility/enum.hpp"
-#include "utility/formats/wavefront/parser_mtl.hpp"
-#include "renderer/resource/texture2d.hpp"
-#include "core/resource/make_resource.hpp"
+#include "utility/formats.hpp"
+#include "renderer/resource.hpp"
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -52,15 +52,8 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::file_system::File;
-			using utility::debug::FileException;
 			using utility::FileCodeError;
-			using utility::formats::wavefront::ParserMTL;
-			using utility::mathematics::FloatVector4u;
-			using renderer::resource::Texture2D;
-			using core::resource::makeResource;
 			using renderer::TextureTypeTarget;
-			using utility::formats::wavefront::ObjectOBJ;
 
 			void OBJLoader::loadFromFile(const std::string & filename)
 			{
@@ -215,8 +208,6 @@ namespace ece
 								submeshes[g].mesh.addFace(std::move(face));
 							}
 						}
-
-
 					}
 				}
 			}

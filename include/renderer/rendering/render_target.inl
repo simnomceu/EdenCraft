@@ -37,7 +37,7 @@
 */
 
 #include "renderer/rendering/renderer.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -45,8 +45,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using utility::log::ServiceLoggerLocator;
-
 			inline const Viewport & RenderTarget::getCurrentViewport() const { return this->_currentViewport; }
 
 			inline void RenderTarget::setCurrent() { Renderer::setCurrentTarget(this->weak_from_this()); }

@@ -46,17 +46,10 @@
 
 #include "renderer/config.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
-#include "utility/mathematics/matrix2u.hpp"
-#include "utility/mathematics/matrix3u.hpp"
-#include "utility/mathematics/matrix4u.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/vector4u.hpp"
+#include "utility/mathematics.hpp"
 #include "renderer/enum.hpp"
-#include "utility/indexing/version.hpp"
-#include "utility/container/contiguous_container.hpp"
-#include "utility/container/can_access_data.hpp"
-#include "utility/container/has_size.hpp"
+#include "utility/indexing.hpp"
+#include "utility/container.hpp"
 
 namespace ece
 {
@@ -69,13 +62,7 @@ namespace ece
 
 		namespace opengl
 		{
-			using namespace utility::mathematics;
-			using namespace utility::template_expression;
-			using utility::indexing::Version;
 			using rendering::RenderContext;
-			using utility::container::contiguous_container_v;
-			using utility::container::can_access_data_v;
-			using utility::container::has_size_v;
 
 			using Handle = unsigned int;
 

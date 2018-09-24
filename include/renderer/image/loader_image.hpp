@@ -40,7 +40,7 @@
 #define LOADER_IMAGE_HPP
 
 #include "renderer/config.hpp"
-#include "utility/file_system/loader.hpp"
+#include "utility/file_system.hpp"
 #include "renderer/image/image.hpp"
 #include "renderer/image/pixel_format.hpp"
 
@@ -50,8 +50,6 @@ namespace ece
 	{
 		namespace image
 		{
-			using utility::file_system::Loader;
-
 			/**
 			 * @class LoaderImage
 			 * @brief

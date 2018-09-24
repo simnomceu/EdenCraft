@@ -40,7 +40,7 @@
 
 #include "graphic/model/make_light.hpp"
 
-#include "core/resource/make_resource.hpp"
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -48,8 +48,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using core::resource::makeResource;
-
 			Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position)
 			{
 				auto light = makeResource<Light>("BasicLight");

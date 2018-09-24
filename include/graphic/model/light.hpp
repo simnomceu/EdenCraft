@@ -42,8 +42,8 @@
 #define LIGHT_HPP
 
 #include "graphic/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "core/resource/resource_handler.hpp"
+#include "utility/mathematics.hpp"
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -60,8 +60,6 @@ namespace ece
 		namespace model
 		{
 			using renderer::resource::Shader;
-			using utility::mathematics::FloatVector3u;
-			using core::resource::ResourceHandler;
 
 			/**
 			 * @class Light

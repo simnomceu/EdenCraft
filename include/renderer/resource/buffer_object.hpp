@@ -48,10 +48,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using utility::container::contiguous_container_v;
-			using utility::container::can_access_data_v;
-			using utility::container::has_size_v;
-
 			/**
 			 * @class BufferObject
 			 * @brief

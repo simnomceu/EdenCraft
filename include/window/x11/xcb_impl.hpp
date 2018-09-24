@@ -110,7 +110,7 @@ namespace ece
 				 * @brief Get the window ID of the internal API.
 				 * @throw
 				 */
-				virtual Window getWindowHandle() const override;
+				virtual ::Window getWindowHandle() const override;
 
 				/**
 				 * Display * getDevice() const

@@ -44,8 +44,8 @@
 #include "graphic/config.hpp"
 #include "graphic/model/submesh.hpp"
 #include "graphic/model/phong_material.hpp"
-#include "utility/mathematics/matrix4u.hpp"
-#include "core/resource/resource_handler.hpp"
+#include "utility/mathematics.hpp"
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -53,9 +53,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatMatrix4u;
-			using core::resource::ResourceHandler;
-
 			/**
 			 * @class Mesh
 			 * @brief

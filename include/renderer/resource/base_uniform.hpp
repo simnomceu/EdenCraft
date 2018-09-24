@@ -44,7 +44,7 @@
 #include <string>
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -52,8 +52,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using opengl::Handle;
-
 			/**
 			 * @class BaseUniform
 			 * @brief

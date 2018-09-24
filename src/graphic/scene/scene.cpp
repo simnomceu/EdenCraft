@@ -40,10 +40,10 @@
 
 #include "graphic/scene/scene.hpp"
 
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/renderable/object.hpp"
-#include "core/resource/make_resource.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "utility/mathematics.hpp"
+#include "graphic/renderable.hpp"
+#include "core/resource.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -51,10 +51,6 @@ namespace ece
 	{
 		namespace scene
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::makeResource;
-			using namespace ece::renderer::opengl;
-
 			Scene::Scene() noexcept: _camera(), _objects()
 			{
 				// TODO : change the resolution ratio to be adapted to window size

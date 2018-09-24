@@ -40,8 +40,7 @@
 #define FORMAT_MANAGER_HPP
 
 #include "core/config.hpp"
-#include "utility/file_system/loader.hpp"
-#include "utility/file_system/saver.hpp"
+#include "utility/file_system.hpp"
 
 #include <unordered_map>
 #include <string>
@@ -54,9 +53,6 @@ namespace ece
 	{
 		namespace format
 		{
-			using utility::file_system::Loader;
-			using utility::file_system::Saver;
-
 			/**
 			 * @class FormatManager
 			 * @brief

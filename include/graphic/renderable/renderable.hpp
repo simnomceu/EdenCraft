@@ -42,12 +42,10 @@
 #define RENDERABLE_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/resource/vao.hpp"
 #include "renderer/enum.hpp"
-#include "renderer/resource/enhanced_shader.hpp"
-#include "core/resource/resource_handler.hpp"
-#include "renderer/pipeline/render_state.hpp"
-#include "renderer/pipeline/drawable.hpp"
+#include "renderer/resource.hpp"
+#include "core/resource.hpp"
+#include "renderer/pipeline.hpp"
 
 namespace ece
 {
@@ -55,13 +53,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::resource::VAO;
-			using renderer::resource::Shader;
-			using renderer::resource::EnhancedShader;
-			using renderer::pipeline::RenderState;
-            using utility::mathematics::FloatMatrix4u;
-			using core::resource::ResourceHandler;
-			using renderer::pipeline::Drawable;
 			using renderer::PrimitiveMode;
 
 			/**

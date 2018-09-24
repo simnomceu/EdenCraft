@@ -40,10 +40,15 @@
 
 #include "graphic/renderable/particles_emitter.hpp"
 
-#include "graphic/model/primitives.hpp"
+#include "graphic/model.hpp"
 
 #include <vector>
 #include <algorithm>
+
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
 
 namespace ece
 {
@@ -51,16 +56,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::PrimitiveMode;
-			using renderer::BufferType;
-			using renderer::BufferUsage;
-			using graphic::model::makeQuad;
-			using renderer::resource::ShaderStage;
 			using renderer::ShaderType;
-			using renderer::resource::BufferObject;
-			using namespace ece::renderer::opengl;
-			using renderer::DataType;
-			using renderer::Capability;
 			using renderer::BlendingFactor;
 
 			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _dataIndex(0)

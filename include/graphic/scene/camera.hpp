@@ -42,9 +42,8 @@
 #define CAMERA_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/movable.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/matrix4u.hpp"
+#include "graphic/model.hpp"
+#include "utility/mathematics.hpp"
 #include "graphic/scene/projection.hpp"
 
 namespace ece
@@ -53,13 +52,6 @@ namespace ece
 	{
 		namespace scene
 		{
-			using model::Movable;
-			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatMatrix4u;
-            using graphic::scene::Projection;
-			using window::common::Ratio;
-			using utility::mathematics::Rectangle;
-
 			/**
 			 * @class Camera
 			 * @brief

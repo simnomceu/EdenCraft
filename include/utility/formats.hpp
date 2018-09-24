@@ -45,7 +45,7 @@
 
 namespace ece
 {
-    using namespace utility::formats;
+	using namespace utility;
 } // namespace ece
 
 #endif // FORMATS_HPP

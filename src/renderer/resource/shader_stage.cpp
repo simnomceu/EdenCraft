@@ -39,9 +39,9 @@
 
 #include "renderer/resource/shader_stage.hpp"
 
-#include "utility/file_system/file.hpp"
-#include "utility/debug/exception.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/file_system.hpp"
+#include "utility/debug.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -49,12 +49,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using namespace opengl;
-
-			using utility::file_system::File;
-			using utility::debug::FileException;
-			using utility::log::ServiceLoggerLocator;
-
 			ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
 			{
 				this->_filename = copy._filename;

@@ -39,8 +39,8 @@
 
 #include "renderer/resource/enhanced_shader.hpp"
 
-#include "renderer/opengl/opengl.hpp"
-#include "renderer/rendering/renderer.hpp"
+#include "renderer/opengl.hpp"
+#include "renderer/rendering.hpp"
 
 namespace ece
 {
@@ -48,8 +48,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using renderer::rendering::Renderer;
-
 			void EnhancedShader::setStage(ShaderStage & stage)
 			{
 				// TODO: it should be the version of the current context an not the latest version available.

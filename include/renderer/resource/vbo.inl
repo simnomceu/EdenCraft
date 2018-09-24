@@ -42,8 +42,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using namespace opengl;
-
 			inline VBO::VBO(const BufferLayout & layout, const Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
 
 			inline const BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }

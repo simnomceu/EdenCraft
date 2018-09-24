@@ -37,7 +37,7 @@
 
 #include "window/x11/xcb_impl.hpp"
 
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
 
 #include <stdexcept>
 
@@ -47,13 +47,11 @@ namespace ece
 	{
 		namespace x11
 		{
-			using utility::log::ServiceLoggerLocator;
-
 			XCBImpl::XCBImpl() noexcept: _windowId(0), _connection(nullptr)
 			{
 			}
 
-			Window XCBImpl::getWindowHandle() const
+			::Window XCBImpl::getWindowHandle() const
 			{
 				return 0;
 			}

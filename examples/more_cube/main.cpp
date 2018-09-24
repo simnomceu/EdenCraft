@@ -36,7 +36,7 @@
 
 */
 
-#include "window/common/windowed_application.hpp"
+#include "window/common.hpp"
 #include "renderer/rendering.hpp"
 #include "utility/log.hpp"
 #include "graphic/scene.hpp"
@@ -47,27 +47,11 @@
 #include "core/resource.hpp"
 #include "utility/time.hpp"
 #include "render_system.hpp"
-#include "core/format/service_format.hpp"
-#include "renderer/image/loader_bmp.hpp"
-#include "graphic/model/loader_object.hpp"
+#include "core/format.hpp"
+#include "renderer/image.hpp"
 
 #include <ctime>
 #include <string>
-
-namespace ece
-{
-	using namespace renderer;
-
-	using window::common::WindowedApplication;
-	using window::common::WindowSetting;
-	using window::event::InputEvent;
-	using utility::time::FramePerSecond;
-	using window::event::InputEvent;
-	using core::format::ServiceFormatLocator;
-	using renderer::image::LoaderBMP;
-	using core::format::ServiceFormatLocator;
-	using graphic::model::LoaderObject;
-}
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
 ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize);

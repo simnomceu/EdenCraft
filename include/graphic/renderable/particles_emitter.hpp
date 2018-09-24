@@ -40,7 +40,7 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics.hpp"
 
 #include <chrono>
 #include <vector>
@@ -51,10 +51,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatVector4u;
-			using renderer::resource::BufferLayout;
-
 			/**
 			 * @class ParticlesEmitter
 			 * @brief

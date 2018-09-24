@@ -43,10 +43,9 @@
 #include <vector>
 #include <cstddef>
 
-#include "renderer/config.hpp"
-#include "utility/file_system/parser.hpp"
-#include "utility/indexing/dynamic_2d_array.hpp"
-#include "renderer/image/pixel_format.hpp"
+#include "utility/config.hpp"
+#include "utility/file_system.hpp"
+#include "utility/indexing.hpp"
 
 namespace ece
 {
@@ -56,9 +55,6 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				using utility::file_system::Parser;
-				using utility::indexing::Dynamic2DArray;
-
 				/**
 				 * @class ParserBMP
 				 * @extends Parser

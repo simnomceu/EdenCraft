@@ -43,10 +43,8 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "graphic/model/mesh.hpp"
-#include "core/resource/resource_handler.hpp"
-#include "graphic/model/material.hpp"
-#include "graphic/model/light.hpp"
+#include "graphic/model.hpp"
+#include "core/resource.hpp"
 
 #include <memory>
 
@@ -56,13 +54,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using model::Mesh;
-			using model::Light;
-			using model::Material;
-            using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatMatrix4u;
-			using core::resource::ResourceHandler;
-
 			/**
 			 * @class Object
 			 * @extends Renderable

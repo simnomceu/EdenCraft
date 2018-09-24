@@ -40,7 +40,7 @@
 
 #include "graphic/model/light.hpp"
 
-#include "renderer/resource/shader.hpp"
+#include "renderer/resource.hpp"
 
 namespace ece
 {

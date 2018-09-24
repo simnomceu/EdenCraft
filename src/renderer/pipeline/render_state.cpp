@@ -38,7 +38,7 @@
 
 #include "renderer/pipeline/render_state.hpp"
 
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -46,8 +46,6 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			using namespace opengl;
-
 			RenderState RenderState::_currentState = RenderState();
 
 			RenderState::RenderState() noexcept :

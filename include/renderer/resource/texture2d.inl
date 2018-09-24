@@ -43,8 +43,6 @@ namespace ece
 	{
 		namespace resource
 		{
-			using namespace opengl;
-
 			inline Texture2D::Texture2D()noexcept : _filename(), _data(), _width(), _height(), _type(TextureTypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture()) {}
 
 			inline Texture2D::Texture2D(const Texture2D & copy) : _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), _type(copy._type),

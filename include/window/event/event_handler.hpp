@@ -39,7 +39,7 @@
 #define EVENT_HANDLER_HPP
 
 #include "window/config.hpp"
-#include "core/signal/signal.hpp"
+#include "core/signal.hpp"
 #include "window/event/input_event.hpp"
 
 namespace ece
@@ -53,7 +53,6 @@ namespace ece
 
 		namespace event
 		{
-			using core::signal::Signal;
 			using common::Window;
 
 			/**

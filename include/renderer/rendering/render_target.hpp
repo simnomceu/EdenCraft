@@ -40,10 +40,10 @@
 #define RENDER_TARGET_HPP
 
 #include "renderer/config.hpp"
-#include "utility/mathematics/vector2u.hpp"
+#include "utility/mathematics.hpp"
 #include "renderer/rendering/color.hpp"
 #include "renderer/rendering/viewport.hpp"
-#include "utility/pattern/virtual_enable_shared_from_this.hpp"
+#include "utility/pattern.hpp"
 
 #include <memory>
 
@@ -53,13 +53,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using utility::mathematics::IntVector2u;
-			using utility::mathematics::Rectangle;
-			using utility::pattern::virtual_enable_shared_from_this;
-
-			// TODO: Renderable vs Drawable ?
-			class Renderable;
-
 			/**
 			 * @class RenderTarget
 			 * @brief

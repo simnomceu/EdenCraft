@@ -43,7 +43,7 @@
 
 #include <vector>
 
-#include "utility/indexing/dynamic_2d_array.hpp"
+#include "utility/indexing.hpp"
 
 namespace ece
 {
@@ -51,8 +51,6 @@ namespace ece
 	{
 		namespace image
 		{
-			using utility::indexing::Dynamic2DArray;
-
 			/**
 			 * @class Image
 			 * @tparam E The color format to use.

@@ -38,10 +38,8 @@
 
 #include "utility/locale/locale_loader.hpp"
 
-#include "utility/formats/json/parser_json.hpp"
-#include "utility/debug/exception.hpp"
-#include "utility/formats/json/atomic_json.hpp"
-#include "utility/file_system/file.hpp"
+#include "utility/formats/json.hpp"
+#include "utility/debug.hpp"
 
 #include <utility>
 #include <iostream>
@@ -51,12 +49,6 @@ namespace ece
 {
     namespace utility
     {
-        using debug::FileException;
-        using formats::json::ObjectJSON;
-		using formats::json::StringJSON;
-        using formats::json::ParserJSON;
-		using file_system::File;
-
         namespace locale
         {
         	std::string LocaleLoader::_path = "";

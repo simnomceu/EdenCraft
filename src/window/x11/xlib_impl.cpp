@@ -37,7 +37,7 @@
 
 #include "window/x11/xlib_impl.hpp"
 
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
 
 #include <X11/XKBlib.h>
 
@@ -47,13 +47,11 @@ namespace ece
 	{
 		namespace x11
 		{
-			using utility::log::ServiceLoggerLocator;
-
 			XlibImpl::XlibImpl() noexcept: _windowId(0), _connection(nullptr), _screen(0)
 			{
 			}
 
-			Window XlibImpl::getWindowHandle() const
+			::Window XlibImpl::getWindowHandle() const
 			{
 				return this->_windowId;
 			}
@@ -139,7 +137,7 @@ namespace ece
 			{
 				int x = 0, y = 0;
 				unsigned int w = 0, h = 0, border = 0, depth = 0;
-				Window dummy;
+				::Window dummy;
 				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
 		//        XTranslateCoordinates(this->_connection, XRootWindow(this->_connection, 0), this->_windowId, 0, 0, &result[0], &result[1], &dummy);
 
@@ -150,7 +148,7 @@ namespace ece
 			{
 				int x = 0, y = 0;
 				unsigned int w = 0, h = 0, border = 0, depth = 0;
-				Window dummy;
+				::Window dummy;
 				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
 
 				return IntVector2u{ static_cast<int>(w), static_cast<int>(h) };
