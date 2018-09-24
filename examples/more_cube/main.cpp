@@ -85,10 +85,9 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
         auto & world = app.addWorld();
-        world.addSystem<RenderSystem>();
+        auto renderSystem = world.addSystem<RenderSystem>().lock();
 
-		RenderSystem renderSystem;
-		auto & scene = renderSystem.getScene();
+		auto & scene = renderSystem->getScene();
 		setScene(scene);
 
         auto element = createBox(scene, 100);
@@ -109,13 +108,15 @@ int main()
 
 		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
 
-		app.onPostUpdate.connect([&window, &fps, &element]() {
+		app.onPreUpdate.connect([&window, &fps]() {
 			window.lock()->setTitle("Test - Frame " + std::to_string(fps.getFPS()));
 			window.lock()->clear(ece::BLACK);
+		});
+
+		app.onPostUpdate.connect([&element]() {
 			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 		});
 		app.onPostRender.connect([&renderSystem, &window]() {
-			renderSystem.update();
 			window.lock()->display();
 			window.lock()->processEvents();
 		});
