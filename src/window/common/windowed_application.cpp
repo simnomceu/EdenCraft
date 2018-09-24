@@ -68,8 +68,6 @@ namespace ece
 					this->onPreUpdate();
 					this->update();
 					this->onPostUpdate();
-					this->render();
-					this->onPostRender();
 				}
 
 				for (auto & window : this->_windows) {

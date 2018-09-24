@@ -178,12 +178,6 @@ namespace ece
 				Signal<> onPostUpdate;
 
 				/**
-				 * @fn void onPostRender(const Listener & listener, const unsigned int slot)
-				 * @brief Register a callback on post-render event.
-				 */
-				Signal<> onPostRender;
-
-				/**
 				 * @fn void onPreTerminate(const Listener & listener, const unsigned int slot)
 				 * @brief Register a callback on pre-terminate event.
 				 */
@@ -237,14 +231,6 @@ namespace ece
 				 * @throw
 				 */
 				void processEvents();
-
-				/**
-				 * @fn void render()
-				 * @brief Render the new frame.
-				 * @throw
-				 * @remark It should not be in the core.
-				 */
-				void render();
 
 				/**
 				 * @fn void terminate()

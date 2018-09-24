@@ -95,8 +95,14 @@ int main()
 
 		auto & eventHandler = window.lock()->getEventHandler();
 		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key == ece::Keyboard::Key::A) {
-				std::cerr << 'A' << std::endl;
+			if (event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
+				std::cerr << static_cast<char>(static_cast<unsigned int>(event._key) + 34);
+			}
+			else if (event._key == ece::Keyboard::Key::SPACEBAR) {
+				std::cerr << ' ';
+			}
+			else if (event._key == ece::Keyboard::Key::RETURN) {
+				std::cerr << '\n';
 			}
 			else if (event._key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
@@ -106,19 +112,17 @@ int main()
 			app.stop();
 		});
 
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
 
 		app.onPreUpdate.connect([&window, &fps]() {
 			window.lock()->setTitle("Test - Frame " + std::to_string(fps.getFPS()));
 			window.lock()->clear(ece::BLACK);
 		});
 
-		app.onPostUpdate.connect([&element]() {
-			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
-		});
-		app.onPostRender.connect([&renderSystem, &window]() {
+		app.onPostUpdate.connect([&renderSystem, &window, &element]() {
 			window.lock()->display();
 			window.lock()->processEvents();
+			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 		});
 
 		app.run();

@@ -64,14 +64,14 @@ namespace ece
 			using core::format::ServiceFormatFactory;
 			using core::format::FormatManager;
 
-			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPostRender(), onPreTerminate(), onPostTerminate(),_running(false), _moduleManager()
+			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
 				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 			}
 
-			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager()
+			Application::Application(int argc, char * argv[]) : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 
@@ -96,8 +96,6 @@ namespace ece
 					this->onPreUpdate();
 					this->update();
 					this->onPostUpdate();
-					this->render();
-					this->onPostRender();
 				}
 
 				this->onPreTerminate();
@@ -134,10 +132,6 @@ namespace ece
 			void Application::processEvents()
 			{
 				//EventServiceLocator::getService().clear();
-			}
-
-			void Application::render()
-			{
 			}
 
 			void Application::terminate()
