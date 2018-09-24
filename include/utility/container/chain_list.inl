@@ -76,19 +76,19 @@ namespace ece
 			}
 
 			template<class T>
-			Iterator<T> ChainList<T>::begin()
+			ChainList<T>::Iterator<T> ChainList<T>::begin()
 			{
 				return Iterator<T>(this->shared_from_this());
 			}
 
 			template<class T>
-			ConstIterator<T> ChainList<T>::begin() const
+			ChainList<T>::ConstIterator<T> ChainList<T>::begin() const
 			{
 				return ConstIterator<T>(this->shared_from_this());
 			}
 
 			template<class T>
-			Iterator<T> ChainList<T>::end()
+			ChainList<T>::Iterator<T> ChainList<T>::end()
 			{
 				if (this->_data) {
 					return Iterator<T>(this->shared_from_this());
@@ -99,7 +99,7 @@ namespace ece
 			}
 
 			template<class T>
-			ConstIterator<T> ChainList<T>::end() const
+			ChainList<T>::ConstIterator<T> ChainList<T>::end() const
 			{
 				if (this->_data) {
 					return ConstIterator<T>(this->shared_from_this());

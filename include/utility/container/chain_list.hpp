@@ -124,7 +124,7 @@ namespace ece
 				T & operator[](const std::size_t index);
 				const T & operator[](const std::size_t index) const;
 				T & at(const std::size_t index);
-				const T & operator[](const std::size_t index);
+				const T & at(const std::size_t index) const;
 
 				T & front();
 				const T & front() const;
