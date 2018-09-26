@@ -48,8 +48,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using renderer::TextureTarget;
-
 			void PhongMaterial::apply(Shader & shader)
 			{
 				shader.uniform<bool>("material.diffuseMapEnabled", !this->_diffuseMap.isDirty());

@@ -50,8 +50,6 @@ namespace ece
 		namespace image
 		{
 			using utility::formats::bitmap::ParserBMP;
-			using utility::debug::FileException;
-			using utility::FileCodeError;
 
 			void SaverBMP::saveToFile(const std::string & filename)
 			{

@@ -40,7 +40,7 @@
 #define RENDER_STATE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/enum.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -48,6 +48,8 @@ namespace ece
 	{
 		namespace pipeline
 		{
+			using namespace opengl;
+
 			/**
 			 * @class RenderState
 			 * @brief

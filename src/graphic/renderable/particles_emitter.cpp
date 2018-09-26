@@ -56,9 +56,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::ShaderType;
-			using renderer::BlendingFactor;
-
 			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _dataIndex(0)
 			{
 				for (int i = 0; i < 10; ++i) {

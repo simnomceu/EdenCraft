@@ -47,8 +47,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-            using renderer::ShaderType;
-
             Object::Object() noexcept: Renderable(), _mesh(), _instances()
             {
                 this->_mode = PrimitiveMode::TRIANGLES;

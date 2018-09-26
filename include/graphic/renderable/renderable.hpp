@@ -42,7 +42,6 @@
 #define RENDERABLE_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/enum.hpp"
 #include "renderer/resource.hpp"
 #include "core/resource.hpp"
 #include "renderer/pipeline.hpp"
@@ -53,8 +52,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::PrimitiveMode;
-
 			/**
 			 * @class Renderable
 			 * @brief

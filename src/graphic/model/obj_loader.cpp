@@ -41,7 +41,6 @@
 #include "graphic/model/obj_loader.hpp"
 
 #include "utility/file_system.hpp"
-#include "utility/enum.hpp"
 #include "utility/formats.hpp"
 #include "renderer/resource.hpp"
 #include "core/resource.hpp"
@@ -52,9 +51,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::FileCodeError;
-			using renderer::TextureTypeTarget;
-
 			void OBJLoader::loadFromFile(const std::string & filename)
 			{
 				std::ifstream file(filename, std::ios::out);

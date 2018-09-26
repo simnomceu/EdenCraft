@@ -39,7 +39,7 @@
 #define KEYBOARD_HPP
 
 #include "window/config.hpp"
-#include "utility/enum.hpp"
+#include "utility/enumeration.hpp"
 
 #include <array>
 

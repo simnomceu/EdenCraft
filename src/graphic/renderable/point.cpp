@@ -49,9 +49,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::ShaderType;
-			using renderer::Capability;
-
 			Point::Point() noexcept : Renderable(), _position(), _color(), _size(1)
 			{
 				this->_mode = PrimitiveMode::POINTS;

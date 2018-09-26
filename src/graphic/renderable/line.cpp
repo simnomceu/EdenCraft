@@ -49,9 +49,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::ShaderType;
-			using renderer::Capability;
-
 			Line::Line() noexcept: Renderable(), _begin(), _end(), _color(), _width(1.0f)
 			{
 				this->_mode = PrimitiveMode::LINES;

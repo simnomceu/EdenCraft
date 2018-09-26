@@ -50,8 +50,6 @@ namespace ece
 		namespace image
 		{
 			using utility::formats::bitmap::ParserBMP;
-			using utility::debug::FileException;
-			using utility::FileCodeError;
 
 			void LoaderBMP::loadFromFile(const std::string & filename)
 			{

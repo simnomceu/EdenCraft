@@ -40,7 +40,7 @@
 
 #include "window/config.hpp"
 #include "utility/mathematics.hpp"
-#include "utility/enum.hpp"
+#include "utility/enumeration.hpp"
 
 #include <array>
 

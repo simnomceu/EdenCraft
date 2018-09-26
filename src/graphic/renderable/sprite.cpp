@@ -48,9 +48,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::ShaderType;
-			using renderer::TextureTarget;
-
 			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
 			{
 				if (this->_bounds == Rectangle<float>()) {

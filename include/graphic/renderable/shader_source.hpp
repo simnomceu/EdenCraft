@@ -42,7 +42,7 @@
 #define SHADER_SOURCE_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/enum.hpp"
+#include "renderer/opengl.hpp"
 
 #include <string>
 
@@ -52,8 +52,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::ShaderType;
-
 			/**
 			 * @class ShaderSource
 			 * @brief The sources of a shader program.

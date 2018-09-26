@@ -39,12 +39,7 @@
 #include "render_system.hpp"
 
 #include "renderer/pipeline.hpp"
-#include "renderer/enum.hpp"
-
-namespace ece
-{
-	using ece::renderer::DepthFunctionCondition;
-}
+#include "renderer/opengl.hpp"
 
 RenderSystem::RenderSystem() noexcept : ece::System(), _process(std::make_unique<ece::ForwardRendering>()), _scene()
 {

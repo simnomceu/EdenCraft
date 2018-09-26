@@ -40,6 +40,7 @@
 #define RENDERER_OPENGL_HPP
 
 #include "renderer/opengl/context_opengl.hpp"
+#include "renderer/opengl/enum.hpp"
 #include "renderer/opengl/extension_loader.hpp"
 #include "renderer/opengl/gl32_extension.hpp"
 #include "renderer/opengl/gl33_extension.hpp"

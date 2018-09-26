@@ -47,7 +47,7 @@
 #include "renderer/config.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 #include "utility/mathematics.hpp"
-#include "renderer/enum.hpp"
+#include "renderer/opengl/enum.hpp"
 #include "utility/indexing.hpp"
 #include "utility/container.hpp"
 

@@ -41,7 +41,6 @@
 #include "graphic/model/obj_saver.hpp"
 
 #include "utility/file_system.hpp"
-#include "utility/enum.hpp"
 #include "utility/formats/wavefront.hpp"
 
 namespace ece
@@ -50,8 +49,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::FileCodeError;
-
 			void OBJSaver::saveToFile(const std::string & filename)
 			{
 				std::ofstream file(filename, std::ios::in);

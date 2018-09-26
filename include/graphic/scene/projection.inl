@@ -44,8 +44,6 @@ namespace ece
 	{
 		namespace scene
 		{
-			using window::common::RATIO_4_3;
-
 			inline Projection::Projection() noexcept: _projection(FloatMatrix4u::Identity())
 			{
 				this->_projection = perspective(20.0f, static_cast<float>(RATIO_4_3), 0.3f, 30.0f);

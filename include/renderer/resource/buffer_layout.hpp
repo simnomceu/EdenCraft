@@ -42,7 +42,7 @@
 #define BUFFER_LAYOUT_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/enum.hpp"
+#include "renderer/opengl.hpp"
 
 #include <vector>
 
