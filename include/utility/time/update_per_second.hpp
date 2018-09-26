@@ -138,6 +138,10 @@ namespace ece
         		 */
         		void setUPS(const int limit);
 
+				inline double getAverage() const noexcept;
+
+				inline long int getNumberOfFrames() const noexcept;
+
         	private:
         		/**
         		 * @property _chrono

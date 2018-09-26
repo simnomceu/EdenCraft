@@ -36,39 +36,35 @@
 
 */
 
-#include "render_system.hpp"
+#include "cube.hpp"
 
-#include "renderer/pipeline.hpp"
-#include "renderer/opengl.hpp"
+#include "core/format.hpp"
 
-RenderSystem::RenderSystem() noexcept : ece::System(), _process(std::make_unique<ece::ForwardRendering>()), _scene()
+Cube::Cube(ece::World & world, ece::Scene & scene, const std::size_t chunkSize): _id(0), _graphicComponent()
 {
-	ece::RenderState states;
-	states._depthTest = true;
-	states._depthFunction = ece::DepthFunctionCondition::LESS;
-	states.apply(true);
+	auto handle = world.createEntity();
+	this->_id = handle.getId();
+
+	this->_graphicComponent = scene.addObject();
 
 	{
-		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
-		this->_scene.addLight(light);
+		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/cube.obj").lock();
+		loader->loadFromFile("../../examples/more_cube/cube.obj");
+		this->_graphicComponent->setMesh(loader->getMeshes()[0]);
 	}
 
-	{
-		auto & camera = this->_scene.getCamera();
-		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
-		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
+	for (std::size_t i = 0; i < chunkSize; ++i) {
+		for (std::size_t j = 0; j < chunkSize; ++j) {
+			for (std::size_t k = 0; k < chunkSize; ++k) {
+				this->_graphicComponent->addInstance(ece::translate(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f }));
+			}
+		}
 	}
-	this->_scene.updateCamera();
+
+	this->_graphicComponent->prepare();
 }
 
-void RenderSystem::update()
+void Cube::update()
 {
-	this->_scene.prepare();
-	this->_scene.draw();
-}
-
-ece::Scene & RenderSystem::getScene()
-{
-	return this->_scene;
+	this->_graphicComponent->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 }

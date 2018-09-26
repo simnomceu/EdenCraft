@@ -36,39 +36,72 @@
 
 */
 
-#include "render_system.hpp"
+#ifndef CUBE_HPP
+#define CUBE_HPP
 
-#include "renderer/pipeline.hpp"
-#include "renderer/opengl.hpp"
+#include "core/ecs.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
+#include "graphic/scene.hpp"
 
-RenderSystem::RenderSystem() noexcept : ece::System(), _process(std::make_unique<ece::ForwardRendering>()), _scene()
+/**
+ * @class Cube
+ * @brief
+ */
+class Cube
 {
-	ece::RenderState states;
-	states._depthTest = true;
-	states._depthFunction = ece::DepthFunctionCondition::LESS;
-	states.apply(true);
+public:
+	constexpr Cube() noexcept = delete;
 
-	{
-		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
-		this->_scene.addLight(light);
-	}
+	Cube(ece::World & world, ece::Scene & scene, const std::size_t chunkSize);
 
-	{
-		auto & camera = this->_scene.getCamera();
-		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
-		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
-	}
-	this->_scene.updateCamera();
-}
+	/**
+	 * @fn Cube(const Cube & copy) noexcept
+	 * @param[in] copy The Cube to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	Cube(const Cube & copy) noexcept = default;
 
-void RenderSystem::update()
-{
-	this->_scene.prepare();
-	this->_scene.draw();
-}
+	/**
+	 * @fn Cube(Cube && move) noexcept
+	 * @param[in] move The Cube to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	Cube(Cube && move) noexcept = default;
 
-ece::Scene & RenderSystem::getScene()
-{
-	return this->_scene;
-}
+	/**
+	 * @fn ~Cube() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~Cube() noexcept = default;
+
+	/**
+	 * @fn Cube & operator=(const Cube & copy) noexcept
+	 * @param[in] copy The Cube to copy from.
+	 * @return The Cube copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	Cube & operator=(const Cube & copy) noexcept = default;
+
+	/**
+	 * @fn Cube & operator=(Cube && move) noexcept
+	 * @param[in] move The Cube to move.
+	 * @return The Cube moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	Cube & operator=(Cube && move) noexcept = default;
+
+	void update();
+
+private:
+	unsigned int _id;
+
+	ece::ResourceHandler<ece::Object> _graphicComponent;
+};
+
+#endif // CUBE_HPP

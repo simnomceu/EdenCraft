@@ -130,6 +130,8 @@ namespace ece
         		 * @see UpdatePerSecond::isReadyToUpdate
         		 */
         		using UpdatePerSecond::isReadyToUpdate;
+				using UpdatePerSecond::getAverage;
+				using UpdatePerSecond::getNumberOfFrames;
         	};
         } // namespace time
     } // namespace utility

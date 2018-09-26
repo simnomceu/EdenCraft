@@ -36,26 +36,12 @@
 
 */
 
-#include "window/common.hpp"
-#include "renderer/rendering.hpp"
-#include "utility/log.hpp"
-#include "graphic/scene.hpp"
-#include "renderer/resource.hpp"
-#include "graphic/model.hpp"
-#include "graphic/renderable.hpp"
-#include "utility/mathematics.hpp"
-#include "core/resource.hpp"
-#include "utility/time.hpp"
-#include "render_system.hpp"
 #include "core/format.hpp"
-#include "renderer/image.hpp"
 
-#include <ctime>
-#include <string>
+#include "render_system.hpp"
+#include "cube.hpp"
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
-ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize);
-void setScene(ece::Scene & scene);
 
 int main()
 {
@@ -72,11 +58,9 @@ int main()
         auto renderSystem = world.addSystem<RenderSystem>().lock();
 
 		auto & scene = renderSystem->getScene();
-		setScene(scene);
 		auto & camera = scene.getCamera();
 
-        auto element = createBox(scene, 100);
-		element->prepare();
+		Cube cube(world, scene, 100);
 
 		auto & eventHandler = window.lock()->getEventHandler();
 		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
@@ -116,13 +100,15 @@ int main()
 		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
 
 		app.onPreUpdate.connect([&window, &fps]() {
-			window.lock()->setTitle("Test - Frame " + std::to_string(fps.getFPS()));
-			window.lock()->clear(ece::BLACK);
+			if (fps.isReadyToUpdate()) {
+				window.lock()->setTitle("More cubes ... - Frame " +  std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
+				window.lock()->clear(ece::BLACK);
+			}
 		});
 
-		app.onPostUpdate.connect([&renderSystem, &window, &element]() {
+		app.onPostUpdate.connect([&renderSystem, &window, /*&element*/&cube]() {
 			window.lock()->display();
-			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+			cube.update();
 		});
 
 		app.run();
@@ -143,7 +129,7 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 
 	ece::WindowSetting settings;
 	settings._position = ece::IntVector2u{ 10, 10 };
-	settings._title = "Test";
+	settings._title = "More cubes ...";
 
 	auto & contextSettings = window.lock()->getContextSettings();
 	contextSettings.maxVersion = { 4, 0 };
@@ -162,41 +148,4 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	window.lock()->setViewport(viewport);
 
 	return std::move(window);
-}
-
-ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize)
-{
-	auto element = scene.addObject();
-
-	{
-		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/cube.obj").lock();
-		loader->loadFromFile("../../examples/more_cube/cube.obj");
-		element->setMesh(loader->getMeshes()[0]);
-	}
-
-	for (std::size_t i = 0; i < chunkSize; ++i) {
-		for (std::size_t j = 0; j < chunkSize; ++j) {
-			for (std::size_t k = 0; k < chunkSize; ++k) {
-				element->addInstance(ece::translate(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f }));
-			}
-		}
-	}
-
-	return element;
-}
-
-void setScene(ece::Scene & scene)
-{
-	{
-		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
-		scene.addLight(light);
-	}
-
-	{
-		auto & camera = scene.getCamera();
-		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
-		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
-	}
-	scene.updateCamera();
 }
