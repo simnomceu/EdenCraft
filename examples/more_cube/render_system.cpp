@@ -40,9 +40,20 @@
 
 #include "renderer/pipeline.hpp"
 #include "renderer/opengl.hpp"
+#include "graphic_component.hpp"
+#include "graphic/renderable.hpp"
 
-RenderSystem::RenderSystem() noexcept : ece::System(), _process(std::make_unique<ece::ForwardRendering>()), _scene()
+RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
 {
+	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
+		bool determined = false;
+		try {
+			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
+			this->_scene.addObject(graphicComponent.getRenderable());
+			determined = true;
+		} catch (std::bad_cast &) {/* Not a Graphic Component */}
+	});
+
 	ece::RenderState states;
 	states._depthTest = true;
 	states._depthFunction = ece::DepthFunctionCondition::LESS;

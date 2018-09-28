@@ -53,7 +53,7 @@ class Cube
 public:
 	constexpr Cube() noexcept = delete;
 
-	Cube(ece::World & world, ece::Scene & scene, const std::size_t chunkSize);
+	Cube(ece::World & world, const std::size_t chunkSize);
 
 	/**
 	 * @fn Cube(const Cube & copy) noexcept
@@ -99,9 +99,9 @@ public:
 	void update();
 
 private:
-	unsigned int _id;
+	ece::EntityHandler _handle;
 
-	ece::ResourceHandler<ece::Object> _graphicComponent;
+//	ece::ResourceHandler<ece::Object> _graphicComponent;
 };
 
 #endif // CUBE_HPP

@@ -38,33 +38,36 @@
 
 #include "cube.hpp"
 
+#include "graphic_component.hpp"
 #include "core/format.hpp"
 
-Cube::Cube(ece::World & world, ece::Scene & scene, const std::size_t chunkSize): _id(0), _graphicComponent()
+Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.createEntity())
 {
-	auto handle = world.createEntity();
-	this->_id = handle.getId();
-
-	this->_graphicComponent = scene.addObject();
+//	auto renderable = scene.addObject();
+	auto renderable = ece::makeResource<ece::Object>("cube");
 
 	{
 		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/cube.obj").lock();
 		loader->loadFromFile("../../examples/more_cube/cube.obj");
-		this->_graphicComponent->setMesh(loader->getMeshes()[0]);
+		renderable->setMesh(loader->getMeshes()[0]);
 	}
 
 	for (std::size_t i = 0; i < chunkSize; ++i) {
 		for (std::size_t j = 0; j < chunkSize; ++j) {
 			for (std::size_t k = 0; k < chunkSize; ++k) {
-				this->_graphicComponent->addInstance(ece::translate(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f }));
+				renderable->addInstance(ece::translate(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f }));
 			}
 		}
 	}
 
-	this->_graphicComponent->prepare();
+	renderable->prepare();
+
+	auto & graphicComponent = this->_handle.addComponent<GraphicComponent>();
+	graphicComponent.setRenderable(renderable);
 }
 
 void Cube::update()
 {
-	this->_graphicComponent->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+	auto renderable = this->_handle.getComponent<GraphicComponent>().getRenderable();
+	renderable->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 }

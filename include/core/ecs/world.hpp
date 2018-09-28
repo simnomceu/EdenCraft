@@ -43,6 +43,8 @@
 #include "core/ecs/system.hpp"
 #include "utility/indexing.hpp"
 #include "core/ecs/base_component_tank.hpp"
+#include "core/ecs/base_component.hpp"
+#include "core/signal.hpp"
 
 #include <memory>
 #include <vector>
@@ -138,6 +140,9 @@ namespace ece
 
 				template <class ComponentType> bool hasComponent(const unsigned int entityID) const;
 				template <class ComponentType> ComponentType & getComponent(const unsigned int entityID);
+
+				Signal<EntityHandler &> onEntityCreated;
+				Signal<BaseComponent &> onComponentCreated;
 
 			private:
 				/**

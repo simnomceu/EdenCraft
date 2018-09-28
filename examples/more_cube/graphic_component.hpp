@@ -36,75 +36,76 @@
 
 */
 
-#ifndef RENDER_SYSTEM_HPP
-#define RENDER_SYSTEM_HPP
+#ifndef GRAPHIC_COMPONENT_HPP
+#define GRAPHIC_COMPONENT_HPP
 
 #include "core/ecs.hpp"
-#include "renderer/pipeline.hpp"
-#include "graphic/scene.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
 
 /**
- * @class RenderSystem
+ * @class GraphicComponent
  * @brief
  */
-class RenderSystem: public ece::System
+class GraphicComponent: public ece::Component<GraphicComponent>
 {
 public:
 	/**
-	 * @fn constexpr RenderSystem(World & world) noexcept
+	 * @fn constexpr GraphicComponent()
 	 * @brief Default constructor.
-	 * @throw noexcept
+	 * @throw
 	 */
-	RenderSystem(ece::World & world) noexcept;
+	GraphicComponent() = default;
 
 	/**
-	 * @fn RenderSystem(const RenderSystem & copy) noexcept
-	 * @param[in] copy The RenderSystem to copy from.
+	 * @fn GraphicComponent(const GraphicComponent & copy) noexcept
+	 * @param[in] copy The GraphicComponent to copy from.
 	 * @brief Default copy constructor.
 	 * @throw noexcept
 	 */
-	RenderSystem(const RenderSystem & copy) noexcept = default;
+	GraphicComponent(const GraphicComponent & copy) noexcept = default;
 
 	/**
-	 * @fn RenderSystem(RenderSystem && move) noexcept
-	 * @param[in] move The RenderSystem to move.
+	 * @fn GraphicComponent(GraphicComponent && move) noexcept
+	 * @param[in] move The GraphicComponent to move.
 	 * @brief Default move constructor.
 	 * @throw noexcept
 	 */
-	RenderSystem(RenderSystem && move) noexcept = default;
+	GraphicComponent(GraphicComponent && move) noexcept = default;
 
 	/**
-	 * @fn ~RenderSystem() noexcept
+	 * @fn ~GraphicComponent() noexcept
 	 * @brief Default destructor.
 	 * @throw noexcept
 	 */
-	~RenderSystem() noexcept = default;
+	~GraphicComponent() noexcept = default;
 
 	/**
-	 * @fn RenderSystem & operator=(const RenderSystem & copy) noexcept
-	 * @param[in] copy The RenderSystem to copy from.
-	 * @return The RenderSystem copied.
+	 * @fn GraphicComponent & operator=(const GraphicComponent & copy) noexcept
+	 * @param[in] copy The GraphicComponent to copy from.
+	 * @return The GraphicComponent copied.
 	 * @brief Default copy assignment operator.
 	 * @throw noexcept
 	 */
-	RenderSystem & operator=(const RenderSystem & copy) noexcept = default;
+	GraphicComponent & operator=(const GraphicComponent & copy) noexcept = default;
 
 	/**
-	 * @fn RenderSystem & operator=(RenderSystem && move) noexcept
-	 * @param[in] move The RenderSystem to move.
-	 * @return The RenderSystem moved.
+	 * @fn GraphicComponent & operator=(GraphicComponent && move) noexcept
+	 * @param[in] move The GraphicComponent to move.
+	 * @return The GraphicComponent moved.
 	 * @brief Default move assignment operator.
 	 * @throw noexcept
 	 */
-	RenderSystem & operator=(RenderSystem && move) noexcept = default;
+	GraphicComponent & operator=(GraphicComponent && move) noexcept = default;
 
-	virtual void update() override;
+	inline void setRenderable(const ece::ResourceHandler<ece::Renderable> & renderable);
 
-	ece::Scene & getScene();
+	inline const ece::ResourceHandler<ece::Renderable> & getRenderable() const;
 
 private:
-	std::unique_ptr<ece::RenderProcess> _process;
-	ece::Scene _scene;
+	ece::ResourceHandler<ece::Renderable> _renderable;
 };
 
-#endif // RENDER_SYSTEM_HPP
+#include "graphic_component.inl"
+
+#endif // GRAPHIC_COMPONENT_HPP

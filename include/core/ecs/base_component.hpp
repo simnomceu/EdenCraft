@@ -36,16 +36,10 @@
 
 */
 
-#ifndef COMPONENT_TANK_HPP
-#define COMPONENT_TANK_HPP
+#ifndef BASE_COMPONENT_HPP
+#define BASE_COMPONENT_HPP
 
 #include "core/config.hpp"
-#include "core/ecs/base_component_tank.hpp"
-#include "core/ecs/component.hpp"
-#include "utility/indexing.hpp"
-
-#include <memory>
-#include <vector>
 
 namespace ece
 {
@@ -54,89 +48,87 @@ namespace ece
 		namespace ecs
 		{
 			/**
-			 * @class ComponentTank
+			* @typedef ComponentID
+			* @brief The id to handle a component.
+			*/
+			using ComponentID = unsigned int;
+
+			/**
+			 * @class BaseComponent
 			 * @brief
 			 */
-			template <class ComponentType>
-			class ECE_CORE_API ComponentTank: public BaseComponentTank, protected std::vector<ComponentType>
+			class ECE_CORE_API BaseComponent
 			{
 			public:
-				using TankIterator = typename std::vector<ComponentType>::iterator;
-				using TankConstIterator = typename std::vector<ComponentType>::const_iterator;
-
 				/**
-				 * @fn constexpr ComponentTank() noexcept
+				 * @fn constexpr BaseComponent() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr ComponentTank() noexcept = default;
+				constexpr BaseComponent() noexcept = default;
 
 				/**
-				 * @fn ComponentTank(const ComponentTank & copy) noexcept
-				 * @param[in] copy The ComponentTank to copy from.
+				 * @fn BaseComponent(const BaseComponent & copy) noexcept
+				 * @param[in] copy The BaseComponent to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				ComponentTank(const ComponentTank & copy) noexcept = default;
+				BaseComponent(const BaseComponent & copy) noexcept = default;
 
 				/**
-				 * @fn ComponentTank(ComponentTank && move) noexcept
-				 * @param[in] move The ComponentTank to move.
+				 * @fn BaseComponent(BaseComponent && move) noexcept
+				 * @param[in] move The BaseComponent to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				ComponentTank(ComponentTank && move) noexcept = default;
+				BaseComponent(BaseComponent && move) noexcept = default;
 
 				/**
-				 * @fn ~ComponentTank() noexcept
+				 * @fn ~BaseComponent() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~ComponentTank() noexcept = default;
+				~BaseComponent() noexcept = default;
 
 				/**
-				 * @fn ComponentTank & operator=(const ComponentTank & copy) noexcept
-				 * @param[in] copy The ComponentTank to copy from.
-				 * @return The ComponentTank copied.
+				 * @fn BaseComponent & operator=(const BaseComponent & copy) noexcept
+				 * @param[in] copy The BaseComponent to copy from.
+				 * @return The BaseComponent copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				ComponentTank & operator=(const ComponentTank & copy) noexcept = default;
+				BaseComponent & operator=(const BaseComponent & copy) noexcept = default;
 
 				/**
-				 * @fn ComponentTank & operator=(ComponentTank && move) noexcept
-				 * @param[in] move The ComponentTank to move.
-				 * @return The ComponentTank moved.
+				 * @fn BaseComponent & operator=(BaseComponent && move) noexcept
+				 * @param[in] move The BaseComponent to move.
+				 * @return The BaseComponent moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				ComponentTank & operator=(ComponentTank && move) noexcept = default;
+				BaseComponent & operator=(BaseComponent && move) noexcept = default;
 
-				inline virtual std::size_t size() const noexcept override;
 
-				inline virtual bool empty() const noexcept override;
+				/**
+				 * @fn ComponentID getID() const
+				 * @return The id to handle the component.
+				 * @brief Get The component id.
+				 * @throw
+				 */
+				virtual ComponentID getID() const = 0;
 
-				using std::vector<ComponentType>::at;
-				using std::vector<ComponentType>::operator[];
-				using std::vector<ComponentType>::front;
-				using std::vector<ComponentType>::back;
-				using std::vector<ComponentType>::begin;
-				using std::vector<ComponentType>::end;
-				using std::vector<ComponentType>::empty;
-				using std::vector<ComponentType>::size;
-				using std::vector<ComponentType>::clear;
-				using std::vector<ComponentType>::erase;
-				using std::vector<ComponentType>::push_back;
-				using std::vector<ComponentType>::emplace_back;
+				virtual void setOwner(const unsigned int owner) = 0;
 
-				virtual void update() override;
-			private:
-				std::vector<ComponentType> _components;
+				/**
+				 * @fn unsigned int getOwner() const
+				 * @return The entity owner.
+				 */
+				virtual unsigned int getOwner() const = 0;
+
+				virtual bool isDirty() const = 0;
 			};
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
 
-#include "core/ecs/component_tank.inl"
-
-#endif // COMPONENT_TANK_HPP
+#endif // BASE_COMPONENT_HPP
