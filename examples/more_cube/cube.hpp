@@ -41,7 +41,7 @@
 
 #include "core/ecs.hpp"
 #include "core/resource.hpp"
-#include "graphic/renderable.hpp"
+//#include "graphic/renderable.hpp"
 #include "graphic/scene.hpp"
 
 /**

@@ -55,7 +55,7 @@ public:
 	 * @brief Default constructor.
 	 * @throw
 	 */
-	GraphicComponent() = default;
+	inline GraphicComponent(const ece::Renderable::Reference & renderable);
 
 	/**
 	 * @fn GraphicComponent(const GraphicComponent & copy) noexcept
@@ -98,9 +98,9 @@ public:
 	 */
 	GraphicComponent & operator=(GraphicComponent && move) noexcept = default;
 
-	inline void setRenderable(const ece::ResourceHandler<ece::Renderable> & renderable);
+	inline void setRenderable(const ece::Renderable::Reference & renderable);
 
-	inline const ece::ResourceHandler<ece::Renderable> & getRenderable() const;
+	inline const ece::Renderable::Reference & getRenderable() const;
 
 private:
 	ece::ResourceHandler<ece::Renderable> _renderable;

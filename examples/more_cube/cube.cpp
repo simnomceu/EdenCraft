@@ -62,8 +62,7 @@ Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.creat
 
 	renderable->prepare();
 
-	auto & graphicComponent = this->_handle.addComponent<GraphicComponent>();
-	graphicComponent.setRenderable(renderable);
+	this->_handle.addComponent<GraphicComponent>(renderable);
 }
 
 void Cube::update()
