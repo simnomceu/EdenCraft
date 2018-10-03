@@ -75,7 +75,17 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 void RenderSystem::update()
 {
-	this->_scene.prepare();
+	/*for (auto object : this->_scene.getObjects()) {
+		object->prepare();
+		this->_process->pushObject(*object);
+	}*/
+
+	ece::Staging staging;
+	staging._view = this->_scene.getCamera().getView();
+	staging._projection = this->_scene.getCamera().getProjection();
+	this->_process->draw(staging);
+
+//	this->_scene.prepare();
 	this->_scene.draw();
 }
 
