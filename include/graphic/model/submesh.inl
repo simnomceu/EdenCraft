@@ -44,13 +44,9 @@ namespace ece
 	{
 		namespace model
 		{
-			inline std::size_t Submesh::size() const { return this->_vertices.size(); }
+			inline std::size_t Submesh::size() const { return this->_faces.size() * 3; }
 
 			inline std::size_t Submesh::getNumberOfFaces() const { return this->_faces.size(); }
-
-			inline std::vector<Submesh::Vertex> & Submesh::getVertices() { return this->_vertices; }
-
-			inline const std::vector<Submesh::Vertex> & Submesh::getVertices() const { return this->_vertices; }
 
 			inline void Submesh::addFace(const Submesh::Face & face) { this->_faces.push_back(face); }
 

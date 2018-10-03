@@ -143,7 +143,7 @@ namespace ece
 
 								int i = 0;
 								for (auto & fElement : f) {
-									Submesh::Vertex vertex;
+									Mesh::Vertex vertex;
 
 									if (fElement._v > 0) {
 										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
@@ -157,7 +157,7 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = submeshes[g].mesh.addVertex(vertex);
+									auto index = this->_meshes[n]->addVertex(vertex);
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -176,7 +176,7 @@ namespace ece
 
 								int i = 0;
 								for (auto & fElement : f) {
-									Submesh::Vertex vertex;
+									Mesh::Vertex vertex;
 
 									if (fElement._v > 0) {
 										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
@@ -190,7 +190,7 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = submeshes[n].mesh.addVertex(vertex);
+									auto index = this->_meshes[n]->addVertex(vertex);
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}

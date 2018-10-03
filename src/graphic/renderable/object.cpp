@@ -66,7 +66,7 @@ namespace ece
                 layout.add<float>(3, false, false, false);
                 layout.add<float>(2, false, false, false);
 
-                this->_vao.sendData(layout, this->_mesh->getSubmeshes()[0].mesh.getVertices(), BufferObject::Usage::STATIC);
+                this->_vao.sendData(layout, this->_mesh->getVertices(), BufferObject::Usage::STATIC);
                 this->_vao.addIndices(this->_mesh->getSubmeshes()[0].mesh.getFaces());
 
                 if (this->isInstancingEnabled()) {

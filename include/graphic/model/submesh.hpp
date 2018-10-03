@@ -63,13 +63,6 @@ namespace ece
 			public:
 				using Reference = ResourceHandler<Submesh>;
 
-				struct Vertex
-				{
-					FloatVector3u _position;
-					FloatVector3u _normal;
-					FloatVector2u _textureCoordinate;
-				};
-
 				using Face = std::array<unsigned int, 3>;
 
 				/**
@@ -142,13 +135,7 @@ namespace ece
 				 * @brief Get the bouncing box of the mesh.
 				 * @throw
 				 */
-				Box3D getBouncingBox() const;
-
-				std::size_t addVertex(const Submesh::Vertex & vertex);
-				std::size_t addVertex(Submesh::Vertex && vertex);
-
-				inline std::vector<Submesh::Vertex> & getVertices();
-				inline const std::vector<Submesh::Vertex> & getVertices() const;
+			//	Box3D getBouncingBox() const;
 
 				inline void addFace(const Submesh::Face & face);
 				inline void addFace(Submesh::Face && face);
@@ -156,12 +143,6 @@ namespace ece
 				inline std::vector<Submesh::Face> & getFaces();
 				inline const std::vector<Submesh::Face> & getFaces()const ;
 			private:
-				/**
-				 * @property _vertices
-				 * @brief The list of vertices of the mesh.
-				 */
-				std::vector<Submesh::Vertex> _vertices;
-
                 /**
                  * @property _faces
                  * @brief The list of faces using the vertices.

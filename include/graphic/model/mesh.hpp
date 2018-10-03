@@ -62,6 +62,13 @@ namespace ece
 			public:
 				using Reference = ResourceHandler<Mesh>;
 
+				struct Vertex
+				{
+					FloatVector3u _position;
+					FloatVector3u _normal;
+					FloatVector2u _textureCoordinate;
+				};
+
 				struct SubmeshData
 				{
 					Submesh mesh;
@@ -146,8 +153,20 @@ namespace ece
 				inline std::vector<SubmeshData> & getSubmeshes();
 				inline const std::vector<SubmeshData> & getSubmeshes() const;
 
+				std::size_t addVertex(const Mesh::Vertex & vertex);
+				std::size_t addVertex(Mesh::Vertex && vertex);
+
+				inline std::vector<Mesh::Vertex> & getVertices();
+				inline const std::vector<Mesh::Vertex> & getVertices() const;
+
 			protected:
 				std::vector<SubmeshData> _submeshes;
+
+				/**
+				 * @property _vertices
+				 * @brief The list of vertices of the mesh.
+				 */
+				std::vector<Mesh::Vertex> _vertices;
 			};
 		} // namespace model
 	} // namespace graphic

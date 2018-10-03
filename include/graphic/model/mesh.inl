@@ -53,6 +53,10 @@ namespace ece
 			inline std::vector<Mesh::SubmeshData> & Mesh::getSubmeshes() { return this->_submeshes; }
 
 			inline const std::vector<Mesh::SubmeshData> & Mesh::getSubmeshes() const { return this->_submeshes; }
+
+			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices; }
+
+			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
