@@ -36,21 +36,70 @@
 
 */
 
+#ifndef IS_BUFFER_USAGE_HPP
+#define IS_BUFFER_USAGE_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/buffer/buffer_operation.hpp"
+
+#include <type_traits>
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
-			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
+			template <class T, typename = void>
+			struct ECE_RENDERER_API has_buffer_read : public std::false_type
+			{
+			};
 
-			inline const buffer::BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
+			template <class T>
+			struct ECE_RENDERER_API has_buffer_read<T, std::void_t<decltype(read<T>(std::declval<T>()))>> : public std::true_type
+			{
+			};
 
-			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
+			template <class T>
+			inline constexpr bool has_buffer_read_v = has_buffer_read<T>::value;
 
-			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
+			template <class Buffer, typename = void>
+			struct ECE_RENDERER_API has_buffer_write : public std::false_type
+			{
+			};
 
-			inline buffer::BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
-		} // namespace resource
+			template <class Buffer, template <class...> class T, class... TT>
+			struct ECE_RENDERER_API has_buffer_write<Buffer, std::void_t<decltype(write<Buffer, T, TT...>(std::declval<Buffer>(), std::declval<T<TT...>>()))>> : public std::true_type
+			{
+			};
+
+			template <class Buffer, template <class...> class T, class... TT>
+			inline constexpr bool has_buffer_write_v = has_buffer_write<Buffer, T, TT>::value;
+
+			template <class T, typename = void>
+			struct ECE_RENDERER_API has_buffer_copy : public std::false_type
+			{
+			};
+
+			template <class T>
+			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(copy<T>(std::declval<T>(), std::declval<T>()))>> : public std::true_type
+			{
+			};
+
+			template <class T>
+			inline constexpr bool has_buffer_copy_v = has_buffer_copy<T>::value;
+
+			template <class T, typename = void>
+			struct ECE_RENDERER_API is_buffer_storage: std::integral_constant<bool, has_buffer_read<T>::value && has_buffer_write<T>::value && has_buffer_copy<T>::value>
+			{
+			};
+
+			template <class T>
+			inline constexpr bool is_buffer_storage_v = is_buffer_storage<T>::value;
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/buffer/is_buffer_usage.inl"
+
+#endif // IS_BUFFER_USAGE_HPP

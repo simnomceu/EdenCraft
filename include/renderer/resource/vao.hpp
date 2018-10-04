@@ -43,7 +43,7 @@
 #include "renderer/resource/vbo.hpp"
 #include "renderer/resource/ibo.hpp"
 #include "renderer/resource/object_opengl.hpp"
-#include "renderer/resource/buffer_layout.hpp"
+#include "renderer/buffer/buffer_layout.hpp"
 
 namespace ece
 {
@@ -134,7 +134,7 @@ namespace ece
 				 * @throw
 				 */
 				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				size_t sendData(const BufferLayout & layout, const T<TT...> & data, const VBO::Usage usage);
+				size_t sendData(const buffer::BufferLayout & layout, const T<TT...> & data, const buffer::Usage usage);
 
 				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
 				void updateData(const std::size_t index, const T<TT...> & data);

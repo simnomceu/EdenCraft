@@ -40,17 +40,39 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
-			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
+			template <class Storage, typename enabled>
+			inline Buffer<Storage, enabled>::Buffer(const BufferUsage usage) noexcept : BaseBuffer(), ObjectOpenGL(), std::enable_shared_from_this<Buffer>(), _type(), _usage(usage)
+			{
+				this->_usage = std::make_unique<Usage>(this->weak_from_this());
+			}
 
-			inline const buffer::BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
+			template <class Storage, typename enabled>
+			template<template <class...> class T, class... TT, typename enabledBis>
+			T<TT...> Buffer<Storage, enabled>::read() const
+			{
+				return this->_usage->read<T, TT...>(this->_descriptor.offset);
+			}
 
-			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
+			template <class Storage, typename enabled>
+			template<template <class...> class T, class... TT, typename enabledBis>
+			void Buffer<Storage, enabled>::write(const T<TT...> & data)
+			{
+				this->_usage.write(data, this->_descriptor.offset);
+			}
 
-			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
+			template <class Storage, typename enabled>
+			void Buffer<Storage, enabled>::copy(const Buffer<Storage, enabled> & rhs)
+			{
+				this->_usage.copy(rhs, this->_descriptor.offset);
+			}
 
-			inline buffer::BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
-		} // namespace resource
+			template <class Storage, typename enabled>
+			inline void Buffer<Storage, enabled>::setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept { this->_descriptor = descriptor; }
+
+			template <class Storage, typename enabled>
+			inline const BufferDataDescriptor & Buffer<Storage, enabled>::getDataDescriptor() const noexcept { return this->_descriptor; }
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

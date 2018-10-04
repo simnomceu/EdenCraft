@@ -36,21 +36,30 @@
 
 */
 
+#ifndef BUFFER_OPERATION
+#define BUFFER_OPERATION
+
+#include "renderer/config.hpp"
+#include "utility/container.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
-			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
+			template <class Buffer>
+			constexpr auto read(const Buffer & buffer) -> decltype(buffer.read());
 
-			inline const buffer::BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
+			template <class Buffer, template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+			constexpr auto write(Buffer & buffer, T<TT...> & data) -> decltype(buffer.write(data));
 
-			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
-
-			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
-
-			inline buffer::BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
-		} // namespace resource
+			template <class T>
+			constexpr auto copy(T & destination, const T & source) -> decltype(destination.copy(source));
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/buffer/buffer_operation.inl"
+
+#endif // BUFFER_OPERATION

@@ -41,7 +41,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/resource/buffer_object.hpp"
-#include "renderer/resource/buffer_layout.hpp"
+#include "renderer/buffer/buffer_layout.hpp"
 
 #include <type_traits>
 #include <iterator>
@@ -60,7 +60,7 @@ namespace ece
 			{
 			public:
 
-				inline VBO(const BufferLayout & layout, const BufferObject::Usage usage);
+				inline VBO(const buffer::BufferLayout & layout, const buffer::Usage usage);
 
 				/**
 				 * @fn VBO(const VBO & copy)
@@ -103,13 +103,13 @@ namespace ece
 				 */
 				VBO & operator=(VBO && move) noexcept = default;
 
-				inline const BufferLayout::ElementLayout & getElementLayout(const std::size_t index) const;
+				inline const buffer::BufferLayout::ElementLayout & getElementLayout(const std::size_t index) const;
 				inline std::size_t getLayoutStride() const noexcept;
 				inline std::size_t getInstanceBlockSize() const noexcept;
-				inline BufferLayout::Strategy getLayoutStrategy() const noexcept;
+				inline buffer::BufferLayout::Strategy getLayoutStrategy() const noexcept;
 
 			private:
-				BufferLayout _layout;
+				buffer::BufferLayout _layout;
 			};
 		} // namespace resource
 	} // namespace renderer

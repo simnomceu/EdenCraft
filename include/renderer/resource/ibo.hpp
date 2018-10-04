@@ -61,7 +61,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline IBO(const BufferObject::Usage usage);
+				inline IBO(const buffer::Usage usage);
 
 				/**
 				 * @fn IBO(const IBO & copy) noexcept

@@ -40,7 +40,6 @@
 #define RENDERER_RESOURCE_HPP
 
 #include "renderer/resource/base_uniform.hpp"
-#include "renderer/resource/buffer_layout.hpp"
 #include "renderer/resource/buffer_object.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
 #include "renderer/resource/ibo.hpp"

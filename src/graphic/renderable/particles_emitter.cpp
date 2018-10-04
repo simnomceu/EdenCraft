@@ -73,7 +73,7 @@ namespace ece
 
 				this->_mode = PrimitiveMode::POINTS;
 
-				BufferLayout layout;
+				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, true, false);
 				layout.add<float>(2, false, true, false);
@@ -84,16 +84,16 @@ namespace ece
 
                 std::vector<float> mesh = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 //                std::vector<unsigned int> faces = { 1 };
-				this->_vao.sendData(layout, mesh, BufferObject::Usage::STATIC);
+				this->_vao.sendData(layout, mesh, renderer::buffer::Usage::STATIC);
 //				this->_vao.addIndices(faces);
 
-				BufferLayout instanceLayout;
+				renderer::buffer::BufferLayout instanceLayout;
 				instanceLayout.setInstanceBlockSize(1);
 				instanceLayout.add<float>(1, false, true, false);
 				instanceLayout.add<float>(3, false, false, true);
 				instanceLayout.add<float>(3, false, true, false);
 				instanceLayout.add<float>(4, false, false, true);
-				this->_dataIndex = this->_vao.sendData(instanceLayout, this->_particles, BufferObject::Usage::STATIC);
+				this->_dataIndex = this->_vao.sendData(instanceLayout, this->_particles, renderer::buffer::Usage::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/particles_forever/particles.frag");

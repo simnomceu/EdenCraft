@@ -50,7 +50,7 @@ namespace ece
 {
     namespace renderer
     {
-        namespace resource
+        namespace buffer
         {
             /**
              * @class BufferLayout
@@ -144,10 +144,10 @@ namespace ece
 				
 				Strategy _strategy;
             };
-        } // namespace resource
+        } // namespace buffer
     } // namespace renderer
 } // namespace ece
 
-#include "renderer/resource/buffer_layout.inl"
+#include "renderer/buffer/buffer_layout.inl"
 
 #endif // BUFFER_LAYOUT_HPP

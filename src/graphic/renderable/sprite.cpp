@@ -78,11 +78,11 @@ namespace ece
 
 				const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
 
-                BufferLayout layout;
+                renderer::buffer::BufferLayout layout;
                 layout.add<float>(2, false, false, false);
                 layout.add<float>(2, false, false, false);
 
-				this->_vao.sendData(layout, points, BufferObject::Usage::STATIC);
+				this->_vao.sendData(layout, points, renderer::buffer::Usage::STATIC);
 				this->_vao.addIndices(index);
 
 				ShaderStage fsSource, vsSource;

@@ -265,6 +265,12 @@ namespace ece
 				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(E), std::data(data) + offset, static_cast<GLenum>(usage)));
 			}
 
+			template <class E>
+			inline void OpenGL::bufferData(const BufferType type, const std::size_t size, const BufferUsage usage, const int offset)
+			{
+				checkErrors(glBufferData(static_cast<GLenum>(type), size * sizeof(E), nullptr, static_cast<GLenum>(usage)));
+			}
+
 			//	inline void OpenGL::bufferSubData(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*size*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void * OpenGL::mapBufferRange(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*length*/, GLbitfield /*access*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void * OpenGL::mapBuffer(GLenum /*target*/, GLenum /*access*/) { static_assert(false, "Not implemented yet."); }

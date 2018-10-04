@@ -53,7 +53,7 @@ namespace ece
 			{
 				this->_mode = PrimitiveMode::LINES;
 
-				BufferLayout layout;
+				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -67,7 +67,7 @@ namespace ece
 
 				std::vector<FloatVector3u> data = { this->_begin, this->_color, this->_end, this->_color };
 
-				this->_vao.sendData(layout, data, BufferObject::Usage::STATIC);
+				this->_vao.sendData(layout, data, renderer::buffer::Usage::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");
@@ -83,7 +83,7 @@ namespace ece
 			{
 				this->_mode = PrimitiveMode::LINES;
 
-				BufferLayout layout;
+				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -97,7 +97,7 @@ namespace ece
 
 				std::vector<FloatVector3u> data = { this->_begin, this->_color, this->_end, this->_color };
 
-				this->_vao.sendData(layout, data, BufferObject::Usage::STATIC);
+				this->_vao.sendData(layout, data, renderer::buffer::Usage::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");

@@ -36,108 +36,103 @@
 
 */
 
-#ifndef BUFFER_OBJECT_HPP
-#define BUFFER_OBJECT_HPP
+#ifndef BUFFER_HPP
+#define BUFFER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource/object_opengl.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
+#include "renderer/resource.hpp"
+#include "renderer/buffer/base_buffer.hpp"
+#include "renderer/buffer/is_buffer_storage.hpp"
+#include "renderer/buffer/buffer_data_descriptor.hpp"
+
+#include <memory>
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
 			/**
-			 * @class BufferObject
+			 * @class Buffer
 			 * @brief
 			 */
-			class ECE_RENDERER_API BufferObject: public ObjectOpenGL
+			template <class Storage, typename enabled = std::enable_if_t<is_buffer_storage_v<Storage>>>
+			class ECE_RENDERER_API Buffer: public BaseBuffer, public ObjectOpenGL, public std::enable_shared_from_this<Buffer>
 			{
 			public:
 				/**
-				 * @fn BufferObject() noexcept
+				 * @fn Buffer() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline BufferObject(const BufferType type, const buffer::Usage usage) noexcept;
+				inline Buffer(const BufferUsage usage) noexcept;
 
 				/**
-				 * @fn BufferObject(const BufferObject & copy) noexcept
-				 * @param[in] copy The BufferObject to copy from.
+				 * @fn Buffer(const Buffer & copy) noexcept
+				 * @param[in] copy The Buffer to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				BufferObject(const BufferObject & copy) noexcept = default;
+				Buffer(const Buffer & copy) noexcept = default;
 
 				/**
-				 * @fn BufferObject(BufferObject && move) noexcept
-				 * @param[in] move The BufferObject to move.
+				 * @fn Buffer(Buffer && move) noexcept
+				 * @param[in] move The Buffer to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				BufferObject(BufferObject && move) noexcept = default;
+				Buffer(Buffer && move) noexcept = default;
 
 				/**
-				 * @fn ~BufferObject() noexcept
+				 * @fn ~Buffer() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BufferObject() noexcept = default;
+				~Buffer() noexcept = default;
 
 				/**
-				 * @fn BufferObject & operator=(const BufferObject & copy) noexcept
-				 * @param[in] copy The BufferObject to copy from.
-				 * @return The BufferObject copied.
+				 * @fn Buffer & operator=(const Buffer & copy) noexcept
+				 * @param[in] copy The Buffer to copy from.
+				 * @return The Buffer copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				BufferObject & operator=(const BufferObject & copy) noexcept = default;
+				Buffer & operator=(const Buffer & copy) noexcept = default;
 
 				/**
-				 * @fn BufferObject & operator=(BufferObject && move) noexcept
-				 * @param[in] move The BufferObject to move.
-				 * @return The BufferObject moved.
+				 * @fn Buffer & operator=(Buffer && move) noexcept
+				 * @param[in] move The Buffer to move.
+				 * @return The Buffer moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				BufferObject & operator=(BufferObject && move) noexcept = default;
+				Buffer & operator=(Buffer && move) noexcept = default;
 
-				/**
-				* @fn void bind()
-				* @brief Put the VBO in a buffer to be used.
-				* @throw
-				*/
-				inline virtual void bind() const override;
+				template<template <class...> class T, class... TT, typename enabledBis = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+				T<TT...> read() const;
 
-				/**
-				* @fn void bufferData(const std::vector<T> & data, const BufferUsage usage)
-				* @tparam T The type of data to set.
-				* @param[in] data The data to set.
-				* @param[in] usage The kind of usage the buffer.
-				* @brief Set data in the VBO.
-				*/
-				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				void bufferData(const T<TT...> & data, const buffer::Method method, const int offset = 0);
-				// invalidateBufferData
-				// clearBufferData
-				// bufferStorage
+				template<template <class...> class T, class... TT, typename enabledBis = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+				void write(const T<TT...> & data);
 
-				// bufferSubData
-				// invalidateBufferSubData
-				// clearBufferSubData
+				void copy(const Buffer & rhs);
 
-				inline virtual void terminate() override;
+				inline virtual void setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept override;
+				inline virtual const BufferDataDescriptor & getDataDescriptor() const noexcept override;
+
+				inline virtual std::size_t size() const noexcept override;
+				virtual BufferType & getType() const override;
+				virtual Usage getUsage() const override;
 
 			private:
+				BufferDataDescriptor _descriptor;
 				BufferType _type;
-				buffer::Usage _usage;
+				BufferUsage _usage;
 			};
-		} // namespace resource
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/resource/buffer_object.inl"
+#include "renderer/buffer/buffer.inl"
 
-#endif // BUFFER_OBJECT_HPP
+#endif // BUFFER_HPP

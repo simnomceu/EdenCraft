@@ -36,21 +36,52 @@
 
 */
 
+#ifndef BUFFER_USAGE_HPP
+#define BUFFER_USAGE_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/opengl.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
-			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
+			enum class Usage : unsigned short int
+			{
+				STATIC = 0,
+				DYNAMIC = 1,
+				STREAM = 2
+			};
 
-			inline const buffer::BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
+			enum class Method : unsigned short int
+			{
+				DRAW = 0,
+				READ = 1,
+				COPY = 2
+			};
 
-			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
+			template <class T>
+			struct UsageMap: public std::array<T, 3>
+			{
+				inline T & operator[](const Usage & index) { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline const T & operator[](const Usage & index) const { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
+			};
 
-			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
+			struct MethodMap : public std::array<BufferUsage, 3>
+			{
+				inline BufferUsage & operator[](const Method & index) { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline const BufferUsage & operator[](const Method & index) const { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
+			};
 
-			inline buffer::BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
-		} // namespace resource
+			static const UsageMap<MethodMap> BUFFER_USAGE{
+				BufferUsage::STATIC_DRAW, BufferUsage::STATIC_READ, BufferUsage::STATIC_COPY,
+				BufferUsage::DYNAMIC_DRAW, BufferUsage::DYNAMIC_READ, BufferUsage::DYNAMIC_COPY,
+				BufferUsage::STREAM_DRAW, BufferUsage::STREAM_READ, BufferUsage::STREAM_COPY
+			};
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
+
+#endif // BUFFER_USAGE_HPP

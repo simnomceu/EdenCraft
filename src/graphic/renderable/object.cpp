@@ -61,23 +61,23 @@ namespace ece
             void Object::prepare()
             {
 				// TODO: need to render not only the first submesh, but everything.
-                BufferLayout layout;
+				renderer::buffer::BufferLayout layout;
                 layout.add<float>(3, false, false, false);
                 layout.add<float>(3, false, false, false);
                 layout.add<float>(2, false, false, false);
 
-                this->_vao.sendData(layout, this->_mesh->getVertices(), BufferObject::Usage::STATIC);
+                this->_vao.sendData(layout, this->_mesh->getVertices(), renderer::buffer::Usage::STATIC);
                 this->_vao.addIndices(this->_mesh->getSubmeshes()[0].mesh.getFaces());
 
                 if (this->isInstancingEnabled()) {
-                    BufferLayout layoutInstancing;
+					renderer::buffer::BufferLayout layoutInstancing;
 					layoutInstancing.setInstanceBlockSize(1);
                     layoutInstancing.add<float>(4, false, false, true);
 					layoutInstancing.add<float>(4, false, false, true);
 					layoutInstancing.add<float>(4, false, false, true);
 					layoutInstancing.add<float>(4, false, false, true);
 
-                    this->_vao.sendData(layoutInstancing, this->_instances, BufferObject::Usage::STATIC);
+                    this->_vao.sendData(layoutInstancing, this->_instances, renderer::buffer::Usage::STATIC);
                 }
 
                 ShaderStage fsSource, vsSource;

@@ -36,21 +36,43 @@
 
 */
 
+#include "renderer/buffer/buffer_usage.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
-			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
+			template<template <class...> class T, class... TT, typename enabled>
+			inline T<TT...> & SymetricStorage<T, TT..., enabled>::data() noexcept { return this->_data; }
 
-			inline const buffer::BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
+			template<template <class...> class T, class... TT, typename enabled>
+			inline const T<TT...> & SymetricStorage<T, TT..., enabled>::data() const noexcept { return this->_data; }
 
-			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
+			template<template <class...> class T, class... TT, typename enabled>
+			T<TT...> SymetricStorage<T, TT..., enabled>::read() const
+			{
+				/*T<TT..> data;
+				this->_buffer.lock()->bind();
+				OpenGL::bufferData(this->_buffer.lock()->getType(), data, BufferUsage[this->_buffer.lock()->getUsage()][Method::READ], this->_buffer.lock()->getDescriptor().offset);*/
+				return this->_data;
+			}
 
-			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
+			template<template <class...> class T, class... TT, typename enabled>
+			void SymetricStorage<T, TT..., enabled>::write(const T<TT...> & data)
+			{
+				this->_data = data;
+				this->_buffer.lock()->bind();
+				OpenGL::bufferData(this->_buffer.lock()->getType(), this->_data, BufferUsage[this->_buffer.lock()->getUsage()][Method::DRAW], this->_buffer.lock()->getDescriptor().offset);
+			}
 
-			inline buffer::BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
-		} // namespace resource
+			template<template <class...> class T, class... TT, typename enabled>
+			void SymetricStorage<T, TT..., enabled>::copy(const BaseBuffer & rhs)
+			{
+				this->_buffer.lock()->bind();
+				OpenGL::bufferData<TT>(this->_buffer.lock()->getType(), rhs.size(), BufferUsage[this->_buffer.lock()->getUsage()][Method::COPY], this->_buffer.lock()->getDescriptor().offset);
+			}
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

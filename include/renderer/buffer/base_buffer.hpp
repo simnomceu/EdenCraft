@@ -36,108 +36,87 @@
 
 */
 
-#ifndef BUFFER_OBJECT_HPP
-#define BUFFER_OBJECT_HPP
+#ifndef BASE_BUFFER_HPP
+#define BASE_BUFFER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource/object_opengl.hpp"
 #include "renderer/buffer/buffer_usage.hpp"
+#include "renderer/opengl.hpp"
+
+#include <cstddef>
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
+			struct BufferDataDescriptor;
+
 			/**
-			 * @class BufferObject
+			 * @class BaseBuffer
 			 * @brief
 			 */
-			class ECE_RENDERER_API BufferObject: public ObjectOpenGL
+			class ECE_RENDERER_API BaseBuffer
 			{
 			public:
 				/**
-				 * @fn BufferObject() noexcept
+				 * @fn constexpr BaseBuffer() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline BufferObject(const BufferType type, const buffer::Usage usage) noexcept;
+				inline constexpr BaseBuffer() noexcept = default;
 
 				/**
-				 * @fn BufferObject(const BufferObject & copy) noexcept
-				 * @param[in] copy The BufferObject to copy from.
+				 * @fn BaseBuffer(const BaseBuffer & copy) noexcept
+				 * @param[in] copy The BaseBuffer to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				BufferObject(const BufferObject & copy) noexcept = default;
+				BaseBuffer(const BaseBuffer & copy) noexcept = default;
 
 				/**
-				 * @fn BufferObject(BufferObject && move) noexcept
-				 * @param[in] move The BufferObject to move.
+				 * @fn BaseBuffer(BaseBuffer && move) noexcept
+				 * @param[in] move The BaseBuffer to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				BufferObject(BufferObject && move) noexcept = default;
+				BaseBuffer(BaseBuffer && move) noexcept = default;
 
 				/**
-				 * @fn ~BufferObject() noexcept
+				 * @fn ~BaseBuffer() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BufferObject() noexcept = default;
+				~BaseBuffer() noexcept = default;
 
 				/**
-				 * @fn BufferObject & operator=(const BufferObject & copy) noexcept
-				 * @param[in] copy The BufferObject to copy from.
-				 * @return The BufferObject copied.
+				 * @fn BaseBuffer & operator=(const BaseBuffer & copy) noexcept
+				 * @param[in] copy The BaseBuffer to copy from.
+				 * @return The BaseBuffer copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				BufferObject & operator=(const BufferObject & copy) noexcept = default;
+				BaseBuffer & operator=(const BaseBuffer & copy) noexcept = default;
 
 				/**
-				 * @fn BufferObject & operator=(BufferObject && move) noexcept
-				 * @param[in] move The BufferObject to move.
-				 * @return The BufferObject moved.
+				 * @fn BaseBuffer & operator=(BaseBuffer && move) noexcept
+				 * @param[in] move The BaseBuffer to move.
+				 * @return The BaseBuffer moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				BufferObject & operator=(BufferObject && move) noexcept = default;
+				BaseBuffer & operator=(BaseBuffer && move) noexcept = default;
 
-				/**
-				* @fn void bind()
-				* @brief Put the VBO in a buffer to be used.
-				* @throw
-				*/
-				inline virtual void bind() const override;
+				virtual void setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept = 0;
+				virtual const BufferDataDescriptor & getDataDescriptor() const noexcept = 0;
 
-				/**
-				* @fn void bufferData(const std::vector<T> & data, const BufferUsage usage)
-				* @tparam T The type of data to set.
-				* @param[in] data The data to set.
-				* @param[in] usage The kind of usage the buffer.
-				* @brief Set data in the VBO.
-				*/
-				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				void bufferData(const T<TT...> & data, const buffer::Method method, const int offset = 0);
-				// invalidateBufferData
-				// clearBufferData
-				// bufferStorage
-
-				// bufferSubData
-				// invalidateBufferSubData
-				// clearBufferSubData
-
-				inline virtual void terminate() override;
-
-			private:
-				BufferType _type;
-				buffer::Usage _usage;
+				virtual std::size_t size() const noexcept = 0;
+				virtual BufferType & getType() const = 0;
+				virtual Usage getUsage() const = 0;
 			};
-		} // namespace resource
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/resource/buffer_object.inl"
-
-#endif // BUFFER_OBJECT_HPP
+#endif // BASE_BUFFER_HPP

@@ -36,108 +36,92 @@
 
 */
 
-#ifndef BUFFER_OBJECT_HPP
-#define BUFFER_OBJECT_HPP
+#ifndef SYMETRIC_STORAGE_HPP
+#define SYMETRIC_STORAGE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource/object_opengl.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
+#include "utility/container.hpp"
+#include "renderer/buffer/base_buffer.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
 			/**
-			 * @class BufferObject
+			 * @class SymetricStorage
 			 * @brief
 			 */
-			class ECE_RENDERER_API BufferObject: public ObjectOpenGL
+			template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+			class SymetricStorage
 			{
 			public:
 				/**
-				 * @fn BufferObject() noexcept
+				 * @fn constexpr SymetricStorage() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline BufferObject(const BufferType type, const buffer::Usage usage) noexcept;
+				constexpr SymetricStorage() noexcept = default;
 
 				/**
-				 * @fn BufferObject(const BufferObject & copy) noexcept
-				 * @param[in] copy The BufferObject to copy from.
+				 * @fn SymetricStorage(const SymetricStorage & copy) noexcept
+				 * @param[in] copy The SymetricStorage to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				BufferObject(const BufferObject & copy) noexcept = default;
+				SymetricStorage(const SymetricStorage & copy) noexcept = default;
 
 				/**
-				 * @fn BufferObject(BufferObject && move) noexcept
-				 * @param[in] move The BufferObject to move.
+				 * @fn SymetricStorage(SymetricStorage && move) noexcept
+				 * @param[in] move The SymetricStorage to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				BufferObject(BufferObject && move) noexcept = default;
+				SymetricStorage(SymetricStorage && move) noexcept = default;
 
 				/**
-				 * @fn ~BufferObject() noexcept
+				 * @fn ~SymetricStorage() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BufferObject() noexcept = default;
+				~SymetricStorage() noexcept = default;
 
 				/**
-				 * @fn BufferObject & operator=(const BufferObject & copy) noexcept
-				 * @param[in] copy The BufferObject to copy from.
-				 * @return The BufferObject copied.
+				 * @fn SymetricStorage & operator=(const SymetricStorage & copy) noexcept
+				 * @param[in] copy The SymetricStorage to copy from.
+				 * @return The SymetricStorage copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				BufferObject & operator=(const BufferObject & copy) noexcept = default;
+				SymetricStorage & operator=(const SymetricStorage & copy) noexcept = default;
 
 				/**
-				 * @fn BufferObject & operator=(BufferObject && move) noexcept
-				 * @param[in] move The BufferObject to move.
-				 * @return The BufferObject moved.
+				 * @fn SymetricStorage & operator=(SymetricStorage && move) noexcept
+				 * @param[in] move The SymetricStorage to move.
+				 * @return The SymetricStorage moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				BufferObject & operator=(BufferObject && move) noexcept = default;
+				SymetricStorage & operator=(SymetricStorage && move) noexcept = default;
 
-				/**
-				* @fn void bind()
-				* @brief Put the VBO in a buffer to be used.
-				* @throw
-				*/
-				inline virtual void bind() const override;
+				inline T<TT...> & data() noexcept;
+				inline const T<TT...> & data() const noexcept;
 
-				/**
-				* @fn void bufferData(const std::vector<T> & data, const BufferUsage usage)
-				* @tparam T The type of data to set.
-				* @param[in] data The data to set.
-				* @param[in] usage The kind of usage the buffer.
-				* @brief Set data in the VBO.
-				*/
-				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				void bufferData(const T<TT...> & data, const buffer::Method method, const int offset = 0);
-				// invalidateBufferData
-				// clearBufferData
-				// bufferStorage
+				T<TT...> read() const;
 
-				// bufferSubData
-				// invalidateBufferSubData
-				// clearBufferSubData
+				void write(const T<TT...> & data);
 
-				inline virtual void terminate() override;
+				inline void copy(const BaseBuffer & rhs);
 
 			private:
-				BufferType _type;
-				buffer::Usage _usage;
+				std::weak_ptr<BaseBuffer> _buffer;
+				T<TT...> _data;
 			};
-		} // namespace resource
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/resource/buffer_object.inl"
+#include "renderer/buffer/symetric_storage.inl"
 
-#endif // BUFFER_OBJECT_HPP
+#endif // SYMETRIC_STORAGE_HPP

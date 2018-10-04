@@ -40,17 +40,16 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
-			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
+			template <class Buffer>
+			constexpr auto read(const Buffer & buffer) -> decltype(buffer.read()) { return buffer.read(); }
 
-			inline const buffer::BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
+			template <class Buffer, template <class...> class T, class... TT, typename enabled>
+			constexpr auto write(Buffer & buffer, T<TT...> & data) -> decltype(buffer.write(data)) { return buffer.write(data); }
 
-			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
-
-			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
-
-			inline buffer::BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
-		} // namespace resource
+			template <class T>
+			constexpr auto copy(T & destination, const T & source) -> decltype(destination.copy(source)) { return destination.copy(source); }
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

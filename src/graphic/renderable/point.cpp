@@ -53,7 +53,7 @@ namespace ece
 			{
 				this->_mode = PrimitiveMode::POINTS;
 
-				BufferLayout layout;
+				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -67,7 +67,7 @@ namespace ece
 
 				std::vector<FloatVector3u> data = { this->_position, this->_color };
 
-				this->_vao.sendData(layout, data, BufferObject::Usage::STATIC);
+				this->_vao.sendData(layout, data, renderer::buffer::Usage::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/point.frag");
@@ -83,7 +83,7 @@ namespace ece
 			{
 				this->_mode = PrimitiveMode::POINTS;
 
-				BufferLayout layout;
+				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -97,7 +97,7 @@ namespace ece
 
 				std::vector<FloatVector3u> data = { this->_position, this->_color };
 
-				this->_vao.sendData(layout, data, BufferObject::Usage::STATIC);
+				this->_vao.sendData(layout, data, renderer::buffer::Usage::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/point.frag");

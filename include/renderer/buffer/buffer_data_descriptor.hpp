@@ -36,21 +36,25 @@
 
 */
 
+#ifndef BUFFER_DATA_DESCRIPTOR_HPP
+#define BUFFER_DATA_DESCRIPTOR_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/buffer/buffer_layout.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
-			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
-
-			inline const buffer::BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
-
-			inline std::size_t VBO::getLayoutStride() const noexcept { return this->_layout.getStride(); }
-
-			inline std::size_t VBO::getInstanceBlockSize() const noexcept { return this->_layout.getInstanceBlockSize(); }
-
-			inline buffer::BufferLayout::Strategy VBO::getLayoutStrategy() const noexcept { return this->_layout.getStrategy(); }
-		} // namespace resource
+			struct BufferDataDescriptor
+			{
+				int offset;
+				BufferLayout layout;
+			};
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
+
+#endif // BUFFER_DATA_DESCRIPTOR_HPP
