@@ -42,15 +42,15 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline BufferObject::BufferObject(const BufferType type, const buffer::Usage usage) noexcept: _type(type), _usage(usage) { this->_handle = OpenGL::genBuffers(); }
+			inline BufferObject::BufferObject(const BufferType type, const buffer::BufferFrequency frequency) noexcept: _type(type), _frequency(frequency) { this->_handle = OpenGL::genBuffers(); }
 
 			inline void BufferObject::bind() const { OpenGL::bindBuffer(this->_type, this->_handle); }
 
 			template<template <class...> class T, class... TT, typename enabled>
-			void BufferObject::bufferData(const T<TT...> & data, const buffer::Method method, const int offset)
+			void BufferObject::bufferData(const T<TT...> & data, const buffer::BufferMethod method, const int offset)
 			{
 				this->bind();
-				OpenGL::bufferData<T, TT...>(this->_type, data, buffer::BUFFER_USAGE[this->_usage][method], offset);
+				OpenGL::bufferData<T, TT...>(this->_type, data, buffer::BUFFER_USAGE[this->_frequency][method], offset);
 			}
 
 			inline void BufferObject::terminate()

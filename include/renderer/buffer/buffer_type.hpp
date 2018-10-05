@@ -36,13 +36,11 @@
 
 */
 
-#ifndef IS_BUFFER_USAGE_HPP
-#define IS_BUFFER_USAGE_HPP
+#ifndef BUFFER_TYPE_HPP
+#define BUFFER_TYPE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/buffer/buffer_operation.hpp"
-
-#include <type_traits>
+#include "GL/glcorearb.h"
 
 namespace ece
 {
@@ -50,54 +48,25 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template <class T, typename = void>
-			struct ECE_RENDERER_API has_buffer_read : public std::false_type
+			enum class BufferType : unsigned short int
 			{
+				ARRAY_BUFFER = GL_ARRAY_BUFFER,
+				ATOMIC_COUNTER_BUFFER = GL_ATOMIC_COUNTER_BUFFER,
+				COPY_READ_BUFFER = GL_COPY_READ_BUFFER,
+				COPY_WRITE_BUFFER = GL_COPY_WRITE_BUFFER,
+				DISPATCH_INDIRECT_BUFFER = GL_DISPATCH_INDIRECT_BUFFER,
+				DRAW_INDIRECT_BUFFER = GL_DRAW_INDIRECT_BUFFER,
+				ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER,
+				PIXEL_PACK_BUFFER = GL_PIXEL_PACK_BUFFER,
+				PIXEL_UNPACK_BUFFER = GL_PIXEL_UNPACK_BUFFER,
+				QUERY_BUFFER = GL_QUERY_BUFFER,
+				SHADER_STORAGE_BUFFER = GL_SHADER_STORAGE_BUFFER,
+				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
+				TRANSFORM_FEEDBACK_BUFFER = GL_TRANSFORM_FEEDBACK,
+				UNIFORM_BUFFER = GL_UNIFORM_BUFFER
 			};
-
-			template <class T>
-			struct ECE_RENDERER_API has_buffer_read<T, std::void_t<decltype(read<T>(std::declval<T>()))>> : public std::true_type
-			{
-			};
-
-			template <class T>
-			inline constexpr bool has_buffer_read_v = has_buffer_read<T>::value;
-
-			template <class B, class D, typename = void>
-			struct has_buffer_write : public std::false_type
-			{
-			};
-
-			template <class B, class D>
-			struct ECE_RENDERER_API has_buffer_write<B, D, std::void_t<decltype(write<B, D>(std::declval<B>(), std::declval<D>()))>> : public std::true_type
-			{
-			};
-
-			template <class B, class D>
-			inline constexpr bool has_buffer_write_v = has_buffer_write<B, D>::value;
-
-			template <class T, typename = void>
-			struct ECE_RENDERER_API has_buffer_copy : public std::false_type
-			{
-			};
-
-			template <class T>
-			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(copy<T>(std::declval<T>(), std::declval<T>()))>> : public std::true_type
-			{
-			};
-
-			template <class T>
-			inline constexpr bool has_buffer_copy_v = has_buffer_copy<T>::value;
-
-			template <class B, class D>
-			struct ECE_RENDERER_API is_buffer_storage: std::integral_constant<bool, has_buffer_read<B>::value && has_buffer_write<B, D>::value && has_buffer_copy<B>::value>
-			{
-			};
-
-			template <class B, class D>
-			inline constexpr bool is_buffer_storage_v = is_buffer_storage<B, D>::value;
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
 
-#endif // IS_BUFFER_USAGE_HPP
+#endif // BUFFER_TYPE_HPP

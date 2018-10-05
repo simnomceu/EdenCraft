@@ -48,14 +48,14 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template <class Buffer>
-			constexpr auto read(const Buffer & buffer) -> decltype(buffer.read());
+			template <class B>
+			ECE_RENDERER_API constexpr auto read(const B & buffer) -> decltype(buffer.read());
 
-			template <class Buffer, template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-			constexpr auto write(Buffer & buffer, T<TT...> & data) -> decltype(buffer.write(data));
+			template <class B, class D>
+			ECE_RENDERER_API constexpr auto write(B & buffer, D & data) -> decltype(buffer.write(data));
 
 			template <class T>
-			constexpr auto copy(T & destination, const T & source) -> decltype(destination.copy(source));
+			ECE_RENDERER_API constexpr auto copy(T & destination, const T & source) -> decltype(destination.copy(source));
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

@@ -36,13 +36,7 @@
 
 */
 
-#ifndef IS_BUFFER_USAGE_HPP
-#define IS_BUFFER_USAGE_HPP
-
-#include "renderer/config.hpp"
-#include "renderer/buffer/buffer_operation.hpp"
-
-#include <type_traits>
+#include "renderer/buffer/buffer_data_descriptor.hpp"
 
 namespace ece
 {
@@ -50,54 +44,14 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template <class T, typename = void>
-			struct ECE_RENDERER_API has_buffer_read : public std::false_type
+			template<class Storage, class Data>
+			inline IndexBuffer<Storage, Data>::IndexBuffer() noexcept: Buffer<Storage, Data>()
 			{
-			};
-
-			template <class T>
-			struct ECE_RENDERER_API has_buffer_read<T, std::void_t<decltype(read<T>(std::declval<T>()))>> : public std::true_type
-			{
-			};
-
-			template <class T>
-			inline constexpr bool has_buffer_read_v = has_buffer_read<T>::value;
-
-			template <class B, class D, typename = void>
-			struct has_buffer_write : public std::false_type
-			{
-			};
-
-			template <class B, class D>
-			struct ECE_RENDERER_API has_buffer_write<B, D, std::void_t<decltype(write<B, D>(std::declval<B>(), std::declval<D>()))>> : public std::true_type
-			{
-			};
-
-			template <class B, class D>
-			inline constexpr bool has_buffer_write_v = has_buffer_write<B, D>::value;
-
-			template <class T, typename = void>
-			struct ECE_RENDERER_API has_buffer_copy : public std::false_type
-			{
-			};
-
-			template <class T>
-			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(copy<T>(std::declval<T>(), std::declval<T>()))>> : public std::true_type
-			{
-			};
-
-			template <class T>
-			inline constexpr bool has_buffer_copy_v = has_buffer_copy<T>::value;
-
-			template <class B, class D>
-			struct ECE_RENDERER_API is_buffer_storage: std::integral_constant<bool, has_buffer_read<B>::value && has_buffer_write<B, D>::value && has_buffer_copy<B>::value>
-			{
-			};
-
-			template <class B, class D>
-			inline constexpr bool is_buffer_storage_v = is_buffer_storage<B, D>::value;
+				this->_descriptor.offset = 0;
+				this->_descriptor.layout.add<unsigned int>(1, false, false, false);
+				this->_type = BufferType::ELEMENT_ARRAY_BUFFER;
+				this->_frequency = BufferFrequency::STATIC;
+			}
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
-
-#endif // IS_BUFFER_USAGE_HPP

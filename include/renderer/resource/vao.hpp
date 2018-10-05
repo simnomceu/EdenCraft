@@ -44,6 +44,7 @@
 #include "renderer/resource/ibo.hpp"
 #include "renderer/resource/object_opengl.hpp"
 #include "renderer/buffer/buffer_layout.hpp"
+#include "renderer/buffer/index_buffer.hpp"
 
 namespace ece
 {
@@ -121,7 +122,7 @@ namespace ece
 				inline void bindIndexBuffer() const;
 
 				/**
-				 * @fn void addAttribute(const int location, const int size, const bool normalized, const int offset, const BufferType type, const std::vector<T> & data, const BufferUsage usage)
+				 * @fn void addAttribute(const int location, const int size, const bool normalized, const int offset, const BufferType type, const std::vector<T> & data, const BufferFrequency frequency)
 				 * @tparam T The type of data to add to the vertex array, using a VBO.
 				 * @param[in] location The index of the VAO to modify.
 				 * @param[in] size The size of a vertex.
@@ -129,22 +130,22 @@ namespace ece
 				 * @param[in] offset The offset between two vertex.
 				 * @param[in] type The type of data.
 				 * @param[in] data The array of vertex.
-				 * @param[in] usage The usage of the buffer.
+				 * @param[in] frequency The frequency of the buffer.
 				 * @brief Add a list of vertex as a VBO in the vertex array object.
 				 * @throw
 				 */
 				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				size_t sendData(const buffer::BufferLayout & layout, const T<TT...> & data, const buffer::Usage usage);
+				size_t sendData(const buffer::BufferLayout & layout, const T<TT...> & data, const buffer::BufferFrequency frequency);
 
 				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
 				void updateData(const std::size_t index, const T<TT...> & data);
 
-				//template <class T>  std::vector<T> getData(const BufferLayout & layout, const BufferUsage usage, const bool instancing = false);
+				//template <class T>  std::vector<T> getData(const BufferLayout & layout, const BufferFrequency frequency, const bool instancing = false);
 
 				/**
-				 * @fn void addIndices(const std::vector<unsigned int> & data, const BufferUsage usage)
+				 * @fn void addIndices(const std::vector<unsigned int> & data, const BufferFrequency frequency)
 				 * @param[in] data The list of indices.
-				 * @param[in] usage The usage of the buffer.
+				 * @param[in] frequency The frequency of the buffer.
 				 * @brief Add an index buffer object to the VAO.
 				 * @throw
 				 */

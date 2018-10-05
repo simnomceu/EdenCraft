@@ -41,7 +41,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/buffer/buffer_usage.hpp"
-#include "renderer/opengl.hpp"
+#include "renderer/buffer/buffer_type.hpp"
 
 #include <cstddef>
 
@@ -113,7 +113,7 @@ namespace ece
 
 				virtual std::size_t size() const noexcept = 0;
 				virtual BufferType & getType() const = 0;
-				virtual Usage getUsage() const = 0;
+				virtual BufferFrequency getFrequency() const = 0;
 			};
 		} // namespace buffer
 	} // namespace renderer

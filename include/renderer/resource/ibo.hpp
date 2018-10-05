@@ -42,6 +42,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/resource/buffer_object.hpp"
+#include "renderer/buffer/buffer_usage.hpp"
 
 namespace ece
 {
@@ -61,7 +62,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline IBO(const buffer::Usage usage);
+				inline IBO(const buffer::BufferFrequency frequency);
 
 				/**
 				 * @fn IBO(const IBO & copy) noexcept

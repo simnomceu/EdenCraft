@@ -40,10 +40,12 @@
 #define BUFFER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/resource/object_opengl.hpp"
 #include "renderer/buffer/base_buffer.hpp"
 #include "renderer/buffer/is_buffer_storage.hpp"
 #include "renderer/buffer/buffer_data_descriptor.hpp"
+#include "renderer/buffer/buffer_type.hpp"
+#include "renderer/buffer/buffer_usage.hpp"
 
 #include <memory>
 
@@ -53,20 +55,22 @@ namespace ece
 	{
 		namespace buffer
 		{
+			using resource::ObjectOpenGL;
+
 			/**
 			 * @class Buffer
 			 * @brief
 			 */
-			template <class Storage, typename enabled = std::enable_if_t<is_buffer_storage_v<Storage>>>
-			class ECE_RENDERER_API Buffer: public BaseBuffer, public ObjectOpenGL, public std::enable_shared_from_this<Buffer>
+			template <class Storage, class Data, typename enabled = std::enable_if_t<is_buffer_storage_v<Storage, Data>>>
+			class ECE_RENDERER_API Buffer: public BaseBuffer, public ObjectOpenGL, public std::enable_shared_from_this<Buffer<Storage, enabled>>
 			{
 			public:
 				/**
-				 * @fn Buffer() noexcept
+				 * @fn Buffer(const BufferFrequency frequency) noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline Buffer(const BufferUsage usage) noexcept;
+				inline Buffer(const BufferFrequency frequency) noexcept;
 
 				/**
 				 * @fn Buffer(const Buffer & copy) noexcept
@@ -109,6 +113,10 @@ namespace ece
 				 */
 				Buffer & operator=(Buffer && move) noexcept = default;
 
+				virtual void bind() const override;
+
+				virtual void terminate() override;
+
 				template<template <class...> class T, class... TT, typename enabledBis = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
 				T<TT...> read() const;
 
@@ -121,13 +129,14 @@ namespace ece
 				inline virtual const BufferDataDescriptor & getDataDescriptor() const noexcept override;
 
 				inline virtual std::size_t size() const noexcept override;
-				virtual BufferType & getType() const override;
-				virtual Usage getUsage() const override;
+				inline virtual BufferType & getType() const override;
+				inline virtual BufferFrequency getFrequency() const override;
 
-			private:
+			protected:
 				BufferDataDescriptor _descriptor;
 				BufferType _type;
-				BufferUsage _usage;
+				BufferFrequency _frequency;
+				std::unique_ptr<Storage> _storage;
 			};
 		} // namespace buffer
 	} // namespace renderer

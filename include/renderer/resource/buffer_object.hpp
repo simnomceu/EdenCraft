@@ -61,7 +61,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline BufferObject(const BufferType type, const buffer::Usage usage) noexcept;
+				inline BufferObject(const BufferType type, const buffer::BufferFrequency frequency) noexcept;
 
 				/**
 				 * @fn BufferObject(const BufferObject & copy) noexcept
@@ -119,7 +119,7 @@ namespace ece
 				* @brief Set data in the VBO.
 				*/
 				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				void bufferData(const T<TT...> & data, const buffer::Method method, const int offset = 0);
+				void bufferData(const T<TT...> & data, const buffer::BufferMethod method, const int offset = 0);
 				// invalidateBufferData
 				// clearBufferData
 				// bufferStorage
@@ -132,7 +132,7 @@ namespace ece
 
 			private:
 				BufferType _type;
-				buffer::Usage _usage;
+				buffer::BufferFrequency _frequency;
 			};
 		} // namespace resource
 	} // namespace renderer

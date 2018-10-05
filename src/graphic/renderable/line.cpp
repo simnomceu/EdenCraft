@@ -67,7 +67,7 @@ namespace ece
 
 				std::vector<FloatVector3u> data = { this->_begin, this->_color, this->_end, this->_color };
 
-				this->_vao.sendData(layout, data, renderer::buffer::Usage::STATIC);
+				this->_vao.sendData(layout, data, renderer::buffer::BufferFrequency::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");
@@ -97,7 +97,7 @@ namespace ece
 
 				std::vector<FloatVector3u> data = { this->_begin, this->_color, this->_end, this->_color };
 
-				this->_vao.sendData(layout, data, renderer::buffer::Usage::STATIC);
+				this->_vao.sendData(layout, data, renderer::buffer::BufferFrequency::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");

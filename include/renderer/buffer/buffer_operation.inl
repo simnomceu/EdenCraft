@@ -42,11 +42,11 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template <class Buffer>
-			constexpr auto read(const Buffer & buffer) -> decltype(buffer.read()) { return buffer.read(); }
+			template <class B>
+			constexpr auto read(const B & buffer) -> decltype(buffer.read()) { return buffer.read(); }
 
-			template <class Buffer, template <class...> class T, class... TT, typename enabled>
-			constexpr auto write(Buffer & buffer, T<TT...> & data) -> decltype(buffer.write(data)) { return buffer.write(data); }
+			template <class B, class D>
+			constexpr auto write(B & buffer, D & data) -> decltype(buffer.write(data)) { return buffer.write(data); }
 
 			template <class T>
 			constexpr auto copy(T & destination, const T & source) -> decltype(destination.copy(source)) { return destination.copy(source); }

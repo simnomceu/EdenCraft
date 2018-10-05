@@ -79,12 +79,12 @@ namespace ece
 				layout.add<float>(2, false, true, false);
 
 //				auto mesh = makeQuad(0.1f);
-//				this->_vao.sendData(layout, mesh.getVertices(), BufferObject::Usage::STATIC);
+//				this->_vao.sendData(layout, mesh.getVertices(), BufferObject::BufferFrequency::STATIC);
 //				this->_vao.addIndices(mesh.getFaces());
 
                 std::vector<float> mesh = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 //                std::vector<unsigned int> faces = { 1 };
-				this->_vao.sendData(layout, mesh, renderer::buffer::Usage::STATIC);
+				this->_vao.sendData(layout, mesh, renderer::buffer::BufferFrequency::STATIC);
 //				this->_vao.addIndices(faces);
 
 				renderer::buffer::BufferLayout instanceLayout;
@@ -93,7 +93,7 @@ namespace ece
 				instanceLayout.add<float>(3, false, false, true);
 				instanceLayout.add<float>(3, false, true, false);
 				instanceLayout.add<float>(4, false, false, true);
-				this->_dataIndex = this->_vao.sendData(instanceLayout, this->_particles, renderer::buffer::Usage::STATIC);
+				this->_dataIndex = this->_vao.sendData(instanceLayout, this->_particles, renderer::buffer::BufferFrequency::STATIC);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/particles_forever/particles.frag");
@@ -127,7 +127,7 @@ namespace ece
 
 				this->_numberOfInstances = this->_particles.size();
 
-				//this->_vao.sendData(instanceLayout, this->_particles, BufferObject::Usage::STATIC);
+				//this->_vao.sendData(instanceLayout, this->_particles, BufferObject::BufferFrequency::STATIC);
 				this->_vao.updateData(this->_dataIndex, this->_particles);
 			}
 		} // namespace renderable

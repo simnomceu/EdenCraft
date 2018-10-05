@@ -40,7 +40,7 @@
 #define BUFFER_USAGE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl.hpp"
+#include "GL/glcorearb.h"
 
 namespace ece
 {
@@ -48,14 +48,27 @@ namespace ece
 	{
 		namespace buffer
 		{
-			enum class Usage : unsigned short int
+			enum class BufferUsage : unsigned short int
+			{
+				STREAM_DRAW = GL_STREAM_DRAW,
+				STREAM_READ = GL_STREAM_READ,
+				STREAM_COPY = GL_STREAM_COPY,
+				STATIC_DRAW = GL_STATIC_DRAW,
+				STATIC_READ = GL_STATIC_READ,
+				STATIC_COPY = GL_STATIC_COPY,
+				DYNAMIC_DRAW = GL_DYNAMIC_DRAW,
+				DYNAMIC_READ = GL_DYNAMIC_READ,
+				DYNAMIC_COPY = GL_DYNAMIC_COPY
+			};
+
+			enum class BufferFrequency : unsigned short int
 			{
 				STATIC = 0,
 				DYNAMIC = 1,
 				STREAM = 2
 			};
 
-			enum class Method : unsigned short int
+			enum class BufferMethod : unsigned short int
 			{
 				DRAW = 0,
 				READ = 1,
@@ -63,16 +76,16 @@ namespace ece
 			};
 
 			template <class T>
-			struct UsageMap: public std::array<T, 3>
+			struct ECE_RENDERER_API UsageMap: public std::array<T, 3>
 			{
-				inline T & operator[](const Usage & index) { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
-				inline const T & operator[](const Usage & index) const { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline T & operator[](const BufferFrequency & index) { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline const T & operator[](const BufferFrequency & index) const { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
 			};
 
-			struct MethodMap : public std::array<BufferUsage, 3>
+			struct ECE_RENDERER_API MethodMap : public std::array<BufferUsage, 3>
 			{
-				inline BufferUsage & operator[](const Method & index) { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
-				inline const BufferUsage & operator[](const Method & index) const { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline BufferUsage & operator[](const BufferMethod & index) { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline const BufferUsage & operator[](const BufferMethod & index) const { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
 			};
 
 			static const UsageMap<MethodMap> BUFFER_USAGE{

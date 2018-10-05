@@ -54,11 +54,11 @@ namespace ece
             }
 
 			template<template <class...> class T, class... TT, typename enabled>
-			size_t VAO::sendData(const buffer::BufferLayout & layout, const T<TT...> & data, const buffer::Usage usage)
+			size_t VAO::sendData(const buffer::BufferLayout & layout, const T<TT...> & data, const buffer::BufferFrequency frequency)
             {
                 this->bind();
-				this->_vbos.emplace_back(layout, usage);
-				this->_vbos.back().bufferData(data, buffer::Method::DRAW);
+				this->_vbos.emplace_back(layout, frequency);
+				this->_vbos.back().bufferData(data, buffer::BufferMethod::DRAW);
                 for (size_t i = 0; i < layout.size(); ++i) {
 					auto elementLayout = this->_vbos.back().getElementLayout(i);
 					if (!elementLayout._ignored) {
@@ -85,21 +85,21 @@ namespace ece
 			void VAO::updateData(const std::size_t index, const T<TT...> & data)
 			{
 				this->bind();
-				this->_vbos[index].bufferData(data, buffer::Method::DRAW);
+				this->_vbos[index].bufferData(data, buffer::BufferMethod::DRAW);
 			}
 
 			template<template <class, class...> class T, class E, class... TT, typename enabled>
 			void VAO::addIndices(const T<E, TT...> & data)
 			{
                 if (!this->_ibo) {
-                    this->_ibo = std::make_unique<IBO>(buffer::Usage::STATIC);
+                    this->_ibo = std::make_unique<IBO>(buffer::BufferFrequency::STATIC);
                 }
 				if (this->_numberOfIndices == 0) {
 					this->_numberOfIndices = data.size() * sizeof(E) / sizeof(unsigned int);
 				}
 
 				this->bind();
-				this->_ibo->bufferData(data, buffer::Method::DRAW);
+				this->_ibo->bufferData(data, buffer::BufferMethod::DRAW);
 			}
 
 			inline std::size_t VAO::getNumberOfVertices() const { return this->_numberOfVertices; }

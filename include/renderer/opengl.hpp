@@ -51,6 +51,7 @@
 #include "renderer/opengl/gl44_extension.hpp"
 #include "renderer/opengl/gl45_extension.hpp"
 #include "renderer/opengl/gl46_extension.hpp"
+#include "renderer/opengl/opengl_container.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 #include "renderer/opengl/opengl_extension.hpp"
 #include "renderer/opengl/opengl.hpp"

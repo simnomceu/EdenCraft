@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::Usage usage) : BufferObject(BufferType::ARRAY_BUFFER, usage), _layout(layout) {}
+			inline VBO::VBO(const buffer::BufferLayout & layout, const buffer::BufferFrequency frequency) : BufferObject(BufferType::ARRAY_BUFFER, frequency), _layout(layout) {}
 
 			inline const buffer::BufferLayout::ElementLayout & VBO::getElementLayout(const std::size_t index) const { return this->_layout.getElement(index); }
 

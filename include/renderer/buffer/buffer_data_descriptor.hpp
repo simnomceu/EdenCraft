@@ -48,7 +48,7 @@ namespace ece
 	{
 		namespace buffer
 		{
-			struct BufferDataDescriptor
+			struct ECE_RENDERER_API BufferDataDescriptor
 			{
 				int offset;
 				BufferLayout layout;

@@ -50,6 +50,8 @@
 #include "renderer/opengl/enum.hpp"
 #include "utility/indexing.hpp"
 #include "utility/container.hpp"
+#include "renderer/buffer/buffer_type.hpp"
+#include "renderer/buffer/buffer_usage.hpp"
 
 namespace ece
 {
@@ -63,6 +65,8 @@ namespace ece
 		namespace opengl
 		{
 			using rendering::RenderContext;
+			using buffer::BufferType;
+			using buffer::BufferUsage;
 
 			using Handle = unsigned int;
 			static constexpr Handle NullHandle = 0;

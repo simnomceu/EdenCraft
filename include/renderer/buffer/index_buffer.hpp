@@ -36,13 +36,11 @@
 
 */
 
-#ifndef IS_BUFFER_USAGE_HPP
-#define IS_BUFFER_USAGE_HPP
+#ifndef INDEX_BUFFER_HPP
+#define INDEX_BUFFER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/buffer/buffer_operation.hpp"
-
-#include <type_traits>
+#include "renderer/buffer/buffer.hpp"
 
 namespace ece
 {
@@ -50,54 +48,66 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template <class T, typename = void>
-			struct ECE_RENDERER_API has_buffer_read : public std::false_type
+			/**
+			 * @class IndexBuffer
+			 * @brief
+			 */
+			template <class Storage, class Data>
+			class ECE_RENDERER_API IndexBuffer: public Buffer<Storage, Data>
 			{
+			public:
+				/**
+				 * @fn IndexBuffer() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				IndexBuffer() noexcept;
+
+				/**
+				 * @fn IndexBuffer(const IndexBuffer & copy) noexcept
+				 * @param[in] copy The IndexBuffer to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				IndexBuffer(const IndexBuffer & copy) noexcept = default;
+
+				/**
+				 * @fn IndexBuffer(IndexBuffer && move) noexcept
+				 * @param[in] move The IndexBuffer to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				IndexBuffer(IndexBuffer && move) noexcept = default;
+
+				/**
+				 * @fn ~IndexBuffer() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~IndexBuffer() noexcept = default;
+
+				/**
+				 * @fn IndexBuffer & operator=(const IndexBuffer & copy) noexcept
+				 * @param[in] copy The IndexBuffer to copy from.
+				 * @return The IndexBuffer copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				IndexBuffer & operator=(const IndexBuffer & copy) noexcept = default;
+
+				/**
+				 * @fn IndexBuffer & operator=(IndexBuffer && move) noexcept
+				 * @param[in] move The IndexBuffer to move.
+				 * @return The IndexBuffer moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				IndexBuffer & operator=(IndexBuffer && move) noexcept = default;
 			};
-
-			template <class T>
-			struct ECE_RENDERER_API has_buffer_read<T, std::void_t<decltype(read<T>(std::declval<T>()))>> : public std::true_type
-			{
-			};
-
-			template <class T>
-			inline constexpr bool has_buffer_read_v = has_buffer_read<T>::value;
-
-			template <class B, class D, typename = void>
-			struct has_buffer_write : public std::false_type
-			{
-			};
-
-			template <class B, class D>
-			struct ECE_RENDERER_API has_buffer_write<B, D, std::void_t<decltype(write<B, D>(std::declval<B>(), std::declval<D>()))>> : public std::true_type
-			{
-			};
-
-			template <class B, class D>
-			inline constexpr bool has_buffer_write_v = has_buffer_write<B, D>::value;
-
-			template <class T, typename = void>
-			struct ECE_RENDERER_API has_buffer_copy : public std::false_type
-			{
-			};
-
-			template <class T>
-			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(copy<T>(std::declval<T>(), std::declval<T>()))>> : public std::true_type
-			{
-			};
-
-			template <class T>
-			inline constexpr bool has_buffer_copy_v = has_buffer_copy<T>::value;
-
-			template <class B, class D>
-			struct ECE_RENDERER_API is_buffer_storage: std::integral_constant<bool, has_buffer_read<B>::value && has_buffer_write<B, D>::value && has_buffer_copy<B>::value>
-			{
-			};
-
-			template <class B, class D>
-			inline constexpr bool is_buffer_storage_v = is_buffer_storage<B, D>::value;
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
 
-#endif // IS_BUFFER_USAGE_HPP
+#include "renderer/buffer/index_buffer.inl"
+
+#endif // INDEX_BUFFER_HPP

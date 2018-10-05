@@ -60,7 +60,7 @@ namespace ece
 			{
 			public:
 
-				inline VBO(const buffer::BufferLayout & layout, const buffer::Usage usage);
+				inline VBO(const buffer::BufferLayout & layout, const buffer::BufferFrequency frequency);
 
 				/**
 				 * @fn VBO(const VBO & copy)

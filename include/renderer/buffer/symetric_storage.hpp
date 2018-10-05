@@ -40,8 +40,7 @@
 #define SYMETRIC_STORAGE_HPP
 
 #include "renderer/config.hpp"
-#include "utility/container.hpp"
-#include "renderer/buffer/base_buffer.hpp"
+#include "renderer/opengl/opengl_container.hpp"
 
 namespace ece
 {
@@ -49,12 +48,14 @@ namespace ece
 	{
 		namespace buffer
 		{
+			class BaseBuffer;
+
 			/**
 			 * @class SymetricStorage
 			 * @brief
 			 */
-			template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-			class SymetricStorage
+			template<template <class...> class T, class... TT>
+			class ECE_RENDERER_API SymetricStorage: public OpenGLContainer<T<TT...>>
 			{
 			public:
 				/**
@@ -62,7 +63,9 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr SymetricStorage() noexcept = default;
+				constexpr SymetricStorage() noexcept = delete;
+
+				SymetricStorage(const std::weak_ptr<BaseBuffer> & buffer);
 
 				/**
 				 * @fn SymetricStorage(const SymetricStorage & copy) noexcept
