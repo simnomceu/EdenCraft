@@ -49,6 +49,7 @@ namespace ece
 			{
 				this->_handle = OpenGL::genBuffers();
 				this->_descriptor.offset = 0;
+				this->_descriptor.stride = 0;
 				this->_descriptor.layout.add<unsigned int>(1, false, false, false);
 				this->_type = BufferType::ELEMENT_ARRAY_BUFFER;
 			}
