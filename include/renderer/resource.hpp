@@ -42,7 +42,6 @@
 #include "renderer/resource/base_uniform.hpp"
 #include "renderer/resource/buffer_object.hpp"
 #include "renderer/resource/enhanced_shader.hpp"
-#include "renderer/resource/ibo.hpp"
 #include "renderer/resource/object_opengl.hpp"
 #include "renderer/resource/shader_stage.hpp"
 #include "renderer/resource/shader.hpp"

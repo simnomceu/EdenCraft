@@ -36,12 +36,16 @@
 
 */
 
+#include "renderer/opengl/opengl.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace resource
 		{
+			using namespace opengl;
+
 			inline BufferObject::BufferObject(const BufferType type, const buffer::BufferFrequency frequency) noexcept: _type(type), _frequency(frequency) { this->_handle = OpenGL::genBuffers(); }
 
 			inline void BufferObject::bind() const { OpenGL::bindBuffer(this->_type, this->_handle); }

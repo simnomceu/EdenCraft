@@ -41,10 +41,10 @@
 
 #include "renderer/config.hpp"
 #include "renderer/resource/vbo.hpp"
-#include "renderer/resource/ibo.hpp"
 #include "renderer/resource/object_opengl.hpp"
-#include "renderer/buffer/buffer_layout.hpp"
-#include "renderer/buffer/index_buffer.hpp"
+#include "renderer/buffer.hpp"
+
+#include <memory>
 
 namespace ece
 {
@@ -179,7 +179,7 @@ namespace ece
 				 * @property _ibo
 				 * @brief The index buffer object to use.
 				 */
-				std::unique_ptr<IBO> _ibo;
+				std::unique_ptr<BaseBuffer> _indexBuffer;
 
                 int _globalLocation;
 			};

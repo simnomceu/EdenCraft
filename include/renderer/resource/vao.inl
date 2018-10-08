@@ -42,15 +42,15 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline VAO::VAO() : ObjectOpenGL(), _numberOfVertices(0), _numberOfIndices(0), _vbos(), _ibo(nullptr), _globalLocation(0) { this->_handle = OpenGL::genVertexArrays(); }
+			inline VAO::VAO() : ObjectOpenGL(), _numberOfVertices(0), _numberOfIndices(0), _vbos(), _indexBuffer(nullptr), _globalLocation(0) { this->_handle = OpenGL::genVertexArrays(); }
 
 			inline void VAO::bind() const { OpenGL::bindVertexArray(this->_handle); }
 
 			inline void VAO::bindIndexBuffer() const
             {
-                if (this->_ibo) {
-                    this->_ibo->bind();
-                }
+				if (this->_indexBuffer) {
+					this->_indexBuffer->bind();
+				}
             }
 
 			template<template <class...> class T, class... TT, typename enabled>
@@ -91,22 +91,22 @@ namespace ece
 			template<template <class, class...> class T, class E, class... TT, typename enabled>
 			void VAO::addIndices(const T<E, TT...> & data)
 			{
-                if (!this->_ibo) {
-                    this->_ibo = std::make_unique<IBO>(buffer::BufferFrequency::STATIC);
-                }
+				if (!this->_indexBuffer) {
+					this->_indexBuffer = std::make_unique<IndexBuffer<SymetricStorage, T<E, TT...>>>();
+				}
 				if (this->_numberOfIndices == 0) {
 					this->_numberOfIndices = data.size() * sizeof(E) / sizeof(unsigned int);
 				}
 
 				this->bind();
-				this->_ibo->bufferData(data, buffer::BufferMethod::DRAW);
+				dynamic_cast<IndexBuffer<SymetricStorage, T<E, TT...>> &>(*this->_indexBuffer).write(data);
 			}
 
 			inline std::size_t VAO::getNumberOfVertices() const { return this->_numberOfVertices; }
 
 			inline std::size_t VAO::getNumberIndices() const { return this->_numberOfIndices; }
 
-            inline bool VAO::isIndexed() const noexcept {return !!this->_ibo; }
+            inline bool VAO::isIndexed() const noexcept {return !!this->_indexBuffer; }
 		} // namespace resource
 	} // namespace renderer
 } // namespace ece

@@ -44,7 +44,9 @@ namespace ece
 	{
 		namespace resource
 		{
-			inline constexpr ObjectOpenGL::ObjectOpenGL() noexcept : _handle(0) {}
+			using opengl::NullHandle;
+
+			inline constexpr ObjectOpenGL::ObjectOpenGL() noexcept : _handle(NullHandle) {}
 
 			inline Handle  ObjectOpenGL::getHandle() const { return this->_handle; }
 		} // namespace resource

@@ -36,6 +36,8 @@
 
 */
 
+#include "renderer/buffer/base_buffer.hpp"
+
 namespace ece
 {
 	namespace renderer
@@ -49,7 +51,7 @@ namespace ece
 			constexpr auto write(B & buffer, D & data) -> decltype(buffer.write(data)) { return buffer.write(data); }
 
 			template <class T>
-			constexpr auto copy(T & destination, const T & source) -> decltype(destination.copy(source)) { return destination.copy(source); }
+			constexpr auto copy(T & destination, const BaseBuffer & source) -> decltype(destination.copy(source)) { return destination.copy(source); }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

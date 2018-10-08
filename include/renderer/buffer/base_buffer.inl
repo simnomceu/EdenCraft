@@ -36,14 +36,32 @@
 
 */
 
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace buffer
 		{
-			inline IBO::IBO(const buffer::BufferFrequency frequency) : BufferObject(BufferType::ELEMENT_ARRAY_BUFFER, frequency) { this->_handle = OpenGL::genBuffers(); }
-		} // namespace resource
+			inline BaseBuffer::BaseBuffer() noexcept: ObjectOpenGL(), _descriptor{ 0, BufferLayout() }, _type(BufferType::ARRAY_BUFFER) {}
+
+			inline void BaseBuffer::bind() const
+			{
+				OpenGL::bindBuffer(this->_type, this->_handle);
+			}
+
+			inline void BaseBuffer::terminate()
+			{
+				OpenGL::deleteBuffer(this->_handle);
+				this->_handle = NullHandle;
+			}
+
+			inline BufferType BaseBuffer::getType() const { return this->_type; }
+
+			inline void BaseBuffer::setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept { this->_descriptor = descriptor; }
+
+			inline const BufferDataDescriptor &BaseBuffer::getDataDescriptor() const noexcept { return this->_descriptor; }
+		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

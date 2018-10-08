@@ -44,13 +44,13 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template<class Storage, class Data>
-			inline IndexBuffer<Storage, Data>::IndexBuffer() noexcept: Buffer<Storage, Data>()
+			template<template <class> class Storage, class Data>
+			inline IndexBuffer<Storage, Data>::IndexBuffer() noexcept: Buffer<Storage, Data>(BufferFrequency::STATIC)
 			{
+				this->_handle = OpenGL::genBuffers();
 				this->_descriptor.offset = 0;
 				this->_descriptor.layout.add<unsigned int>(1, false, false, false);
 				this->_type = BufferType::ELEMENT_ARRAY_BUFFER;
-				this->_frequency = BufferFrequency::STATIC;
 			}
 		} // namespace buffer
 	} // namespace renderer

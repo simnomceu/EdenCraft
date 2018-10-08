@@ -41,6 +41,8 @@
 #include "render_system.hpp"
 #include "cube.hpp"
 
+#include "renderer/buffer.hpp"
+
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
 
 int main()
@@ -110,6 +112,8 @@ int main()
 			window.lock()->display();
 			cube.update();
 		});
+
+		ece::IndexBuffer<ece::SymetricStorage, std::array<float, 3>> ibo;
 
 		app.run();
 	}

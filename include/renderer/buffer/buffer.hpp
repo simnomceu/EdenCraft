@@ -40,12 +40,8 @@
 #define BUFFER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource/object_opengl.hpp"
 #include "renderer/buffer/base_buffer.hpp"
 #include "renderer/buffer/is_buffer_storage.hpp"
-#include "renderer/buffer/buffer_data_descriptor.hpp"
-#include "renderer/buffer/buffer_type.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
 
 #include <memory>
 
@@ -55,14 +51,12 @@ namespace ece
 	{
 		namespace buffer
 		{
-			using resource::ObjectOpenGL;
-
 			/**
 			 * @class Buffer
 			 * @brief
 			 */
-			template <class Storage, class Data, typename enabled = std::enable_if_t<is_buffer_storage_v<Storage, Data>>>
-			class ECE_RENDERER_API Buffer: public BaseBuffer, public ObjectOpenGL, public std::enable_shared_from_this<Buffer<Storage, enabled>>
+			template <template <class> class Storage, class Data, typename enabled = std::enable_if_t<is_buffer_storage_v<Storage, Data>>>
+			class ECE_RENDERER_API Buffer: public BaseBuffer
 			{
 			public:
 				/**
@@ -78,7 +72,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Buffer(const Buffer & copy) noexcept = default;
+				Buffer(const Buffer<Storage, Data, enabled> & copy) noexcept = default;
 
 				/**
 				 * @fn Buffer(Buffer && move) noexcept
@@ -86,7 +80,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Buffer(Buffer && move) noexcept = default;
+				Buffer(Buffer<Storage, Data, enabled> && move) noexcept = default;
 
 				/**
 				 * @fn ~Buffer() noexcept
@@ -102,7 +96,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Buffer & operator=(const Buffer & copy) noexcept = default;
+				Buffer<Storage, Data, enabled> & operator=(const Buffer<Storage, Data, enabled> & copy) noexcept = default;
 
 				/**
 				 * @fn Buffer & operator=(Buffer && move) noexcept
@@ -111,32 +105,20 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Buffer & operator=(Buffer && move) noexcept = default;
+				Buffer<Storage, Data, enabled> & operator=(Buffer<Storage, Data, enabled> && move) noexcept = default;
 
-				virtual void bind() const override;
+				Data read() const;
 
-				virtual void terminate() override;
+				void write(const Data & data);
 
-				template<template <class...> class T, class... TT, typename enabledBis = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				T<TT...> read() const;
-
-				template<template <class...> class T, class... TT, typename enabledBis = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
-				void write(const T<TT...> & data);
-
-				void copy(const Buffer & rhs);
-
-				inline virtual void setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept override;
-				inline virtual const BufferDataDescriptor & getDataDescriptor() const noexcept override;
+				void copy(const Buffer<Storage, Data, enabled> & rhs);
 
 				inline virtual std::size_t size() const noexcept override;
-				inline virtual BufferType & getType() const override;
 				inline virtual BufferFrequency getFrequency() const override;
 
 			protected:
-				BufferDataDescriptor _descriptor;
-				BufferType _type;
 				BufferFrequency _frequency;
-				std::unique_ptr<Storage> _storage;
+				std::unique_ptr<Storage<Data>> _storage;
 			};
 		} // namespace buffer
 	} // namespace renderer

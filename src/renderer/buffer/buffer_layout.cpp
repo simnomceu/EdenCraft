@@ -40,7 +40,7 @@
 
 #include "renderer/buffer/buffer_layout.hpp"
 
-#include <algorithm>
+#include <numeric>
 
 namespace ece
 {

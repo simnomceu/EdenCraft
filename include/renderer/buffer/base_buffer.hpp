@@ -42,6 +42,8 @@
 #include "renderer/config.hpp"
 #include "renderer/buffer/buffer_usage.hpp"
 #include "renderer/buffer/buffer_type.hpp"
+#include "renderer/resource/object_opengl.hpp"
+#include "renderer/buffer/buffer_data_descriptor.hpp"
 
 #include <cstddef>
 
@@ -51,13 +53,13 @@ namespace ece
 	{
 		namespace buffer
 		{
-			struct BufferDataDescriptor;
+			using resource::ObjectOpenGL;
 
 			/**
 			 * @class BaseBuffer
 			 * @brief
 			 */
-			class ECE_RENDERER_API BaseBuffer
+			class ECE_RENDERER_API BaseBuffer: public ObjectOpenGL
 			{
 			public:
 				/**
@@ -65,7 +67,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline constexpr BaseBuffer() noexcept = default;
+				inline BaseBuffer() noexcept;
 
 				/**
 				 * @fn BaseBuffer(const BaseBuffer & copy) noexcept
@@ -108,15 +110,25 @@ namespace ece
 				 */
 				BaseBuffer & operator=(BaseBuffer && move) noexcept = default;
 
-				virtual void setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept = 0;
-				virtual const BufferDataDescriptor & getDataDescriptor() const noexcept = 0;
+				inline virtual void bind() const override;
+				inline virtual void terminate() override;
 
 				virtual std::size_t size() const noexcept = 0;
-				virtual BufferType & getType() const = 0;
 				virtual BufferFrequency getFrequency() const = 0;
+
+				inline BufferType getType() const;
+
+				inline void setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept;
+				inline const BufferDataDescriptor & getDataDescriptor() const noexcept;
+
+			protected:
+				BufferDataDescriptor _descriptor;
+				BufferType _type;
 			};
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/buffer/base_buffer.inl"
 
 #endif // BASE_BUFFER_HPP

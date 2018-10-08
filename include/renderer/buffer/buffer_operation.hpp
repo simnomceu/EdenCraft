@@ -48,6 +48,8 @@ namespace ece
 	{
 		namespace buffer
 		{
+			class BaseBuffer;
+
 			template <class B>
 			ECE_RENDERER_API constexpr auto read(const B & buffer) -> decltype(buffer.read());
 
@@ -55,7 +57,7 @@ namespace ece
 			ECE_RENDERER_API constexpr auto write(B & buffer, D & data) -> decltype(buffer.write(data));
 
 			template <class T>
-			ECE_RENDERER_API constexpr auto copy(T & destination, const T & source) -> decltype(destination.copy(source));
+			ECE_RENDERER_API constexpr auto copy(T & destination, const BaseBuffer & source) -> decltype(destination.copy(source));
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

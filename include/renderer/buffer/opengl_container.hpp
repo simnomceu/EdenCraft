@@ -46,14 +46,14 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace buffer
 		{
 			template <class T, typename enabled = std::enable_if_t<contiguous_container_v<T> && can_access_data_v<T> && has_size_v<T>>>
 			class ECE_RENDERER_API OpenGLContainer
 			{
 			};
-		}
-	}
-}
+		} // namespace buffer
+	} // namespace renderer
+} // namespace ece
 
 #endif // OPENGL_CONTAINER_HPP

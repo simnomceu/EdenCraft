@@ -40,7 +40,7 @@
 #define SYMETRIC_STORAGE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl_container.hpp"
+#include "renderer/buffer/opengl_container.hpp"
 
 namespace ece
 {
@@ -54,10 +54,12 @@ namespace ece
 			 * @class SymetricStorage
 			 * @brief
 			 */
-			template<template <class...> class T, class... TT>
-			class ECE_RENDERER_API SymetricStorage: public OpenGLContainer<T<TT...>>
+			template<class T>
+			class ECE_RENDERER_API SymetricStorage: public OpenGLContainer<T>
 			{
 			public:
+				using Data = T;
+
 				/**
 				 * @fn constexpr SymetricStorage() noexcept
 				 * @brief Default constructor.
@@ -65,7 +67,7 @@ namespace ece
 				 */
 				constexpr SymetricStorage() noexcept = delete;
 
-				SymetricStorage(const std::weak_ptr<BaseBuffer> & buffer);
+				SymetricStorage(BaseBuffer & buffer);
 
 				/**
 				 * @fn SymetricStorage(const SymetricStorage & copy) noexcept
@@ -108,18 +110,18 @@ namespace ece
 				 */
 				SymetricStorage & operator=(SymetricStorage && move) noexcept = default;
 
-				inline T<TT...> & data() noexcept;
-				inline const T<TT...> & data() const noexcept;
+				inline T & data() noexcept;
+				inline const T & data() const noexcept;
 
-				T<TT...> read() const;
+				Data read() const;
 
-				void write(const T<TT...> & data);
+				void write(const T & data);
 
 				inline void copy(const BaseBuffer & rhs);
 
 			private:
-				std::weak_ptr<BaseBuffer> _buffer;
-				T<TT...> _data;
+				BaseBuffer & _buffer;
+				T _data;
 			};
 		} // namespace buffer
 	} // namespace renderer

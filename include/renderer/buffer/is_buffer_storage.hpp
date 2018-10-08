@@ -36,8 +36,8 @@
 
 */
 
-#ifndef IS_BUFFER_USAGE_HPP
-#define IS_BUFFER_USAGE_HPP
+#ifndef IS_BUFFER_STORAGE_HPP
+#define IS_BUFFER_STORAGE_HPP
 
 #include "renderer/config.hpp"
 #include "renderer/buffer/buffer_operation.hpp"
@@ -82,22 +82,22 @@ namespace ece
 			};
 
 			template <class T>
-			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(copy<T>(std::declval<T>(), std::declval<T>()))>> : public std::true_type
+			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(copy<T>(std::declval<T>(), std::declval<BaseBuffer>()))>> : public std::true_type
 			{
 			};
 
 			template <class T>
 			inline constexpr bool has_buffer_copy_v = has_buffer_copy<T>::value;
 
-			template <class B, class D>
-			struct ECE_RENDERER_API is_buffer_storage: std::integral_constant<bool, has_buffer_read<B>::value && has_buffer_write<B, D>::value && has_buffer_copy<B>::value>
+			template <template <class> class B, class D>
+			struct ECE_RENDERER_API is_buffer_storage: std::integral_constant<bool, has_buffer_read<B<D>>::value && has_buffer_write<B<D>, D>::value && has_buffer_copy<B<D>>::value>
 			{
 			};
 
-			template <class B, class D>
+			template <template <class> class B, class D>
 			inline constexpr bool is_buffer_storage_v = is_buffer_storage<B, D>::value;
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
 
-#endif // IS_BUFFER_USAGE_HPP
+#endif // IS_BUFFER_STORAGE_HPP

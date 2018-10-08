@@ -38,8 +38,6 @@
 
 */
 
-#include "renderer/opengl.hpp"
-
 namespace ece
 {
     namespace renderer

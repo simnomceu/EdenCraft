@@ -46,7 +46,7 @@ namespace ece
 		{
 			void VAO::terminate()
 			{
-				this->_ibo->terminate();
+				this->_indexBuffer->terminate();
 				// TODO: terminate vbos ?
 				OpenGL::deleteBuffer(this->_handle);
 			}
