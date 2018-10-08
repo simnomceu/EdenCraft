@@ -36,25 +36,78 @@
 
 */
 
-#ifndef RENDERER_BUFFER_HPP
-#define RENDERER_BUFFER_HPP
+#ifndef VERTEX_BUFFER_HPP
+#define VERTEX_BUFFER_HPP
 
-#include "renderer/buffer/base_buffer.hpp"
+#include "renderer/config.hpp"
 #include "renderer/buffer/buffer.hpp"
-#include "renderer/buffer/buffer_data_descriptor.hpp"
-#include "renderer/buffer/buffer_layout.hpp"
-#include "renderer/buffer/buffer_operation.hpp"
-#include "renderer/buffer/buffer_type.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
-#include "renderer/buffer/index_buffer.hpp"
-#include "renderer/buffer/is_buffer_storage.hpp"
-#include "renderer/buffer/opengl_container.hpp"
-#include "renderer/buffer/symetric_storage.hpp"
-#include "renderer/buffer/vertex_buffer.hpp"
 
 namespace ece
 {
-	using namespace renderer::buffer;
-}
+	namespace renderer
+	{
+		namespace buffer
+		{
+			/**
+			 * @class VertexBuffer
+			 * @brief
+			 */
+			template <template <class> class Storage, class Data>
+			class ECE_RENDERER_API VertexBuffer : public Buffer<Storage, Data>
+			{
+			public:
+				/**
+				 * @fn constexpr VertexBuffer() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				VertexBuffer(const buffer::BufferLayout & layout) noexcept;
 
-#endif // RENDERER_BUFFER_HPP
+				/**
+				 * @fn VertexBuffer(const VertexBuffer & copy) noexcept
+				 * @param[in] copy The VertexBuffer to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				VertexBuffer(const VertexBuffer & copy) noexcept = default;
+
+				/**
+				 * @fn VertexBuffer(VertexBuffer && move) noexcept
+				 * @param[in] move The VertexBuffer to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				VertexBuffer(VertexBuffer && move) noexcept = default;
+
+				/**
+				 * @fn ~VertexBuffer() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~VertexBuffer() noexcept = default;
+
+				/**
+				 * @fn VertexBuffer & operator=(const VertexBuffer & copy) noexcept
+				 * @param[in] copy The VertexBuffer to copy from.
+				 * @return The VertexBuffer copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				VertexBuffer & operator=(const VertexBuffer & copy) noexcept = default;
+
+				/**
+				 * @fn VertexBuffer & operator=(VertexBuffer && move) noexcept
+				 * @param[in] move The VertexBuffer to move.
+				 * @return The VertexBuffer moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				VertexBuffer & operator=(VertexBuffer && move) noexcept = default;
+			};
+		} // namespace buffer
+	} // namespace renderer
+} // namespace ece
+
+#include "renderer/buffer/vertex_buffer.inl"
+
+#endif // VERTEX_BUFFER_HPP
