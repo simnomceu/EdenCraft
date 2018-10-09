@@ -37,6 +37,7 @@
 */
 
 #include "renderer/buffer/buffer_data_descriptor.hpp"
+#include "renderer/buffer/vertex_array.hpp"
 
 namespace ece
 {

@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace buffer
 		{
-			inline BaseBuffer::BaseBuffer() noexcept: ObjectOpenGL(), _descriptor{ 0, 0, BufferLayout() }, _type(BufferType::ARRAY_BUFFER) {}
+			inline BaseBuffer::BaseBuffer() noexcept : ObjectOpenGL(), _descriptor{ 0, 0, {} }, _type(BufferType::ARRAY_BUFFER) {}
 
 			inline void BaseBuffer::bind() const
 			{

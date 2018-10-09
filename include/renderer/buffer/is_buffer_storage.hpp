@@ -64,12 +64,12 @@ namespace ece
 			inline constexpr bool has_buffer_read_v = has_buffer_read<T>::value;
 
 			template <class B, class D, typename = void>
-			struct has_buffer_write : public std::false_type
+			struct ECE_RENDERER_API has_buffer_write : public std::false_type
 			{
 			};
 
 			template <class B, class D>
-			struct ECE_RENDERER_API has_buffer_write<B, D, std::void_t<decltype(write<B, D>(std::declval<B>(), std::declval<D>()))>> : public std::true_type
+			struct ECE_RENDERER_API has_buffer_write<B, D, std::void_t<decltype(write<B, D>(std::declval<B&>(), std::declval<D>()))>> : public std::true_type
 			{
 			};
 
@@ -82,7 +82,7 @@ namespace ece
 			};
 
 			template <class T>
-			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(copy<T>(std::declval<T>(), std::declval<BaseBuffer>()))>> : public std::true_type
+			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(copy<T>(std::declval<T&>(), std::declval<BaseBuffer>()))>> : public std::true_type
 			{
 			};
 

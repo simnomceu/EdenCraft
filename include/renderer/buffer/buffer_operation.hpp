@@ -54,7 +54,7 @@ namespace ece
 			ECE_RENDERER_API constexpr auto read(const B & buffer) -> decltype(buffer.read());
 
 			template <class B, class D>
-			ECE_RENDERER_API constexpr auto write(B & buffer, D & data) -> decltype(buffer.write(data));
+			ECE_RENDERER_API constexpr auto write(B & buffer, const D & data) -> decltype(buffer.write(data));
 
 			template <class T>
 			ECE_RENDERER_API constexpr auto copy(T & destination, const BaseBuffer & source) -> decltype(destination.copy(source));

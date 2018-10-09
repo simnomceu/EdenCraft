@@ -39,6 +39,7 @@
 #ifndef VERTEX_ARRAY_HPP
 #define VERTEX_ARRAY_HPP
 
+#include "renderer/config.hpp"
 #include "renderer/resource/object_opengl.hpp"
 
 namespace ece
@@ -53,7 +54,7 @@ namespace ece
 			 * @class VertexArray
 			 * @brief
 			 */
-			class VertexArray: public ObjectOpenGL
+			class ECE_RENDERER_API VertexArray: public ObjectOpenGL
 			{
 			public:
 				/**

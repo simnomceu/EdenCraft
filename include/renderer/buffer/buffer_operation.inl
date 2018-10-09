@@ -48,7 +48,7 @@ namespace ece
 			constexpr auto read(const B & buffer) -> decltype(buffer.read()) { return buffer.read(); }
 
 			template <class B, class D>
-			constexpr auto write(B & buffer, D & data) -> decltype(buffer.write(data)) { return buffer.write(data); }
+			constexpr auto write(B & buffer, const D & data) -> decltype(buffer.write(data)) { return buffer.write(data); }
 
 			template <class T>
 			constexpr auto copy(T & destination, const BaseBuffer & source) -> decltype(destination.copy(source)) { return destination.copy(source); }

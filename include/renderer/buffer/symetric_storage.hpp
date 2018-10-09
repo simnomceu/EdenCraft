@@ -113,11 +113,11 @@ namespace ece
 				inline T & data() noexcept;
 				inline const T & data() const noexcept;
 
-				Data read() const;
+				T read() const;
 
 				void write(const T & data);
 
-				inline void copy(const BaseBuffer & rhs);
+				void copy(const BaseBuffer & rhs);
 
 			private:
 				BaseBuffer & _buffer;

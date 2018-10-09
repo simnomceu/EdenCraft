@@ -74,7 +74,7 @@ namespace ece
 			template<class T>
 			void SymetricStorage<T>::copy(const BaseBuffer & rhs)
 			{
-				this->_buffer.lock()->bind();
+				this->_buffer.bind();
 				OpenGL::bufferData<decltype(this->_data.begin())>(this->_buffer.getType(), rhs.size(), BUFFER_USAGE[this->_buffer.getFrequency()][BufferMethod::COPY], this->_buffer.getDataDescriptor().offset);
 			}
 		} // namespace buffer
