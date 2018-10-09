@@ -48,6 +48,8 @@ namespace ece
 	{
 		namespace buffer
 		{
+			class VertexArray;
+
 			/**
 			 * @class VertexBuffer
 			 * @brief
@@ -103,6 +105,8 @@ namespace ece
 				 * @throw noexcept
 				 */
 				VertexBuffer & operator=(VertexBuffer && move) noexcept = default;
+
+				void attachTo(VertexArray & vao);
 			};
 		} // namespace buffer
 	} // namespace renderer

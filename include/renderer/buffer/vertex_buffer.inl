@@ -53,6 +53,26 @@ namespace ece
 				this->_descriptor.layout = layout;
 				this->_type = BufferType::ARRAY_BUFFER;
 			}
+
+			template<template <class> class Storage, class Data>
+			void VertexBuffer<Storage, Data>::attachTo(VertexArray & vao)
+			{
+				for (size_t i = 0; i < this->_descriptor.layout.size(); ++i) {
+					auto & elementLayout = this->_descriptor.layout.getElement(i);
+					if (!elementLayout._ignored) {
+						auto location = vao.getLocation();
+						OpenGL::vertexAttribPointer(location,
+													elementLayout._count,
+													elementLayout._type,
+													elementLayout._normalized,
+													this->_descriptor.layout.getStride(),
+													(this->_descriptor.layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : this->size() / this->_descriptor.layout.size());
+						if (elementLayout._instanced) {
+							OpenGL::vertexAttribDivisor(location, this->_descriptor.layout.getInstanceBlockSize());
+						}
+					}
+				}
+			}
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
