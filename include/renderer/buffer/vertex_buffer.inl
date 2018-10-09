@@ -57,10 +57,11 @@ namespace ece
 			template<template <class> class Storage, class Data>
 			void VertexBuffer<Storage, Data>::attachTo(VertexArray & vao)
 			{
+				vao.bind();
 				for (size_t i = 0; i < this->_descriptor.layout.size(); ++i) {
 					auto & elementLayout = this->_descriptor.layout.getElement(i);
 					if (!elementLayout._ignored) {
-						auto location = vao.getLocation();
+						auto location = vao.addLocation();
 						OpenGL::vertexAttribPointer(location,
 													elementLayout._count,
 													elementLayout._type,

@@ -36,44 +36,87 @@
 
 */
 
+#ifndef VERTEX_ARRAY_HPP
+#define VERTEX_ARRAY_HPP
+
+#include "renderer/resource/object_opengl.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace buffer
 		{
-			template <template <class> class Storage, class Data, typename enabled>
-			inline Buffer<Storage, Data, enabled>::Buffer(const BufferFrequency frequency) noexcept : BaseBuffer(), _frequency(frequency), _storage()
+			using resource::ObjectOpenGL;
+
+			/**
+			 * @class VertexArray
+			 * @brief
+			 */
+			class VertexArray: public ObjectOpenGL
 			{
-				this->_storage = std::make_unique<Storage<Data>>(*this);
-			}
+			public:
+				/**
+				 * @fn constexpr VertexArray() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline VertexArray() noexcept;
 
-			template <template <class> class Storage, class Data, typename enabled>
-			Data Buffer<Storage, Data, enabled>::read() const
-			{
-				return this->_storage->read();
-			}
+				/**
+				 * @fn VertexArray(const VertexArray & copy) noexcept
+				 * @param[in] copy The VertexArray to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				VertexArray(const VertexArray & copy) noexcept = default;
 
-			template <template <class> class Storage, class Data, typename enabled>
-			void Buffer<Storage, Data, enabled>::write(const Data & data)
-			{
-				this->_storage->write(data);
-			}
+				/**
+				 * @fn VertexArray(VertexArray && move) noexcept
+				 * @param[in] move The VertexArray to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				VertexArray(VertexArray && move) noexcept = default;
 
-			template <template <class> class Storage, class Data, typename enabled>
-			void Buffer<Storage, Data, enabled>::copy(const Buffer<Storage, Data, enabled> & rhs)
-			{
-				this->_storage->copy(rhs);
-			}
+				/**
+				 * @fn ~VertexArray() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~VertexArray() noexcept = default;
 
-			template <template <class> class Storage, class Data, typename enabled>
-			inline std::size_t Buffer<Storage, Data, enabled>::size() const noexcept { return this->_storage->data().size(); }
+				/**
+				 * @fn VertexArray & operator=(const VertexArray & copy) noexcept
+				 * @param[in] copy The VertexArray to copy from.
+				 * @return The VertexArray copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				VertexArray & operator=(const VertexArray & copy) noexcept = default;
 
-			template <template <class> class Storage, class Data, typename enabled>
-			inline BufferFrequency Buffer<Storage, Data, enabled>::getFrequency() const { return this->_frequency; }
+				/**
+				 * @fn VertexArray & operator=(VertexArray && move) noexcept
+				 * @param[in] move The VertexArray to move.
+				 * @return The VertexArray moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				VertexArray & operator=(VertexArray && move) noexcept = default;
 
-			template <template <class> class Storage, class Data, typename enabled>
-			inline const Data & Buffer<Storage, Data, enabled>::data() const { return this->_storage->data(); }
+				inline virtual void bind() const override;
+
+				inline virtual void terminate() override;
+
+				inline int addLocation() noexcept;
+
+			private:
+				int _globalLocation;
+			};
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/buffer/vertex_array.inl"
+
+#endif // VERTEX_ARRAY_HPP

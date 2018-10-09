@@ -36,44 +36,29 @@
 
 */
 
+#include "renderer/opengl/opengl.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace buffer
 		{
-			template <template <class> class Storage, class Data, typename enabled>
-			inline Buffer<Storage, Data, enabled>::Buffer(const BufferFrequency frequency) noexcept : BaseBuffer(), _frequency(frequency), _storage()
+			using namespace opengl;
+
+			inline VertexArray::VertexArray() noexcept: ObjectOpenGL(), _globalLocation(0) { this->_handle = OpenGL::genVertexArrays(); }
+
+			inline void VertexArray::bind() const { OpenGL::bindVertexArray(this->_handle); }
+
+			inline void VertexArray::terminate() { OpenGL::deleteBuffer(this->_handle); }
+
+			inline int VertexArray::addLocation() noexcept
 			{
-				this->_storage = std::make_unique<Storage<Data>>(*this);
+				auto location = this->_globalLocation;
+				OpenGL::enableVertexAttribArray(location);
+				++this->_globalLocation;
+				return location;
 			}
-
-			template <template <class> class Storage, class Data, typename enabled>
-			Data Buffer<Storage, Data, enabled>::read() const
-			{
-				return this->_storage->read();
-			}
-
-			template <template <class> class Storage, class Data, typename enabled>
-			void Buffer<Storage, Data, enabled>::write(const Data & data)
-			{
-				this->_storage->write(data);
-			}
-
-			template <template <class> class Storage, class Data, typename enabled>
-			void Buffer<Storage, Data, enabled>::copy(const Buffer<Storage, Data, enabled> & rhs)
-			{
-				this->_storage->copy(rhs);
-			}
-
-			template <template <class> class Storage, class Data, typename enabled>
-			inline std::size_t Buffer<Storage, Data, enabled>::size() const noexcept { return this->_storage->data().size(); }
-
-			template <template <class> class Storage, class Data, typename enabled>
-			inline BufferFrequency Buffer<Storage, Data, enabled>::getFrequency() const { return this->_frequency; }
-
-			template <template <class> class Storage, class Data, typename enabled>
-			inline const Data & Buffer<Storage, Data, enabled>::data() const { return this->_storage->data(); }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

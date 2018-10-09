@@ -116,6 +116,8 @@ namespace ece
 				inline virtual std::size_t size() const noexcept override;
 				inline virtual BufferFrequency getFrequency() const override;
 
+				inline const Data & data() const;
+
 			protected:
 				BufferFrequency _frequency;
 				std::unique_ptr<Storage<Data>> _storage;
