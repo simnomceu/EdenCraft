@@ -137,6 +137,8 @@ namespace ece
 
 				void addInstance(const FloatMatrix4u & instance);
 
+				virtual void draw() override;
+
 			protected:
 				/**
 				 * @property _mesh
@@ -144,7 +146,7 @@ namespace ece
 				 */
 				Mesh::Reference _mesh;
 
-				std::vector<FloatMatrix4u> _instances;
+				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<FloatMatrix4u>>> _instances;
 			};
 		} // namespace renderable
 	} // namespace graphic

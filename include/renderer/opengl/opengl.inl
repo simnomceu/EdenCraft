@@ -266,7 +266,7 @@ namespace ece
 			}
 
 			template <class E>
-			inline void OpenGL::bufferData(const BufferType type, const std::size_t size, const BufferUsage usage, const int offset)
+			inline void OpenGL::bufferData(const BufferType type, const std::size_t size, const BufferUsage usage, const int /*offset*/)
 			{
 				checkErrors(glBufferData(static_cast<GLenum>(type), size * sizeof(E), nullptr, static_cast<GLenum>(usage)));
 			}

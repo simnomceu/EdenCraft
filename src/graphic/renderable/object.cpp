@@ -50,7 +50,16 @@ namespace ece
             Object::Object() noexcept: Renderable(), _mesh(), _instances()
             {
                 this->_mode = PrimitiveMode::TRIANGLES;
-				this->_instances.push_back(FloatMatrix4u::Identity());
+
+				renderer::buffer::BufferLayout layoutInstancing;
+				layoutInstancing.setInstanceBlockSize(1);
+				layoutInstancing.add<float>(4, false, false, true);
+				layoutInstancing.add<float>(4, false, false, true);
+				layoutInstancing.add<float>(4, false, false, true);
+				layoutInstancing.add<float>(4, false, false, true);
+				this->_instances = std::make_shared<VertexBuffer<SymetricStorage, std::vector<FloatMatrix4u>>>(layoutInstancing);
+
+				this->_instances->data().push_back(FloatMatrix4u::Identity());
             }
 
 			void Object::setMesh(const Mesh::Reference & mesh)
@@ -60,24 +69,12 @@ namespace ece
 
             void Object::prepare()
             {
-				// TODO: need to render not only the first submesh, but everything.
-				renderer::buffer::BufferLayout layout;
-                layout.add<float>(3, false, false, false);
-                layout.add<float>(3, false, false, false);
-                layout.add<float>(2, false, false, false);
-
-                this->_vao.sendData(layout, this->_mesh->getVertices(), renderer::buffer::BufferFrequency::STATIC);
-                this->_vao.addIndices(this->_mesh->getSubmeshes()[0].mesh.getFaces());
+				this->_mesh->update();
+				this->_mesh->getVertexBuffer()->attachTo(this->_vertexArray);
 
                 if (this->isInstancingEnabled()) {
-					renderer::buffer::BufferLayout layoutInstancing;
-					layoutInstancing.setInstanceBlockSize(1);
-                    layoutInstancing.add<float>(4, false, false, true);
-					layoutInstancing.add<float>(4, false, false, true);
-					layoutInstancing.add<float>(4, false, false, true);
-					layoutInstancing.add<float>(4, false, false, true);
-
-                    this->_vao.sendData(layoutInstancing, this->_instances, renderer::buffer::BufferFrequency::STATIC);
+					this->_instances->update();
+					this->_instances->attachTo(this->_vertexArray);
                 }
 
                 ShaderStage fsSource, vsSource;
@@ -100,8 +97,35 @@ namespace ece
 
 			void Object::addInstance(const FloatMatrix4u & offset)
 			{
-				this->_instances.push_back(offset.transpose());
+				this->_instances->data().push_back(offset.transpose());
 				++this->_numberOfInstances;
+			}
+
+			void Object::draw()
+			{
+				this->_program.use();
+				this->_vertexArray.bind();
+				for (auto & submesh : this->_mesh->getSubmeshes()) {
+					submesh.mesh.getIndexBuffer().bind();
+					this->_state.apply();
+					if (submesh.mesh.getIndexBuffer().size() > 0) {
+						if (this->isInstancingEnabled()) {
+							OpenGL::drawElementsInstanced(this->_mode, submesh.mesh.size(), DataType::UNSIGNED_INT, 0, this->_instances->size());
+
+						}
+						else {
+							OpenGL::drawElements(this->_mode, this->_mesh->size(), DataType::UNSIGNED_INT, 0);
+						}
+					}
+					else {
+						if (this->isInstancingEnabled()) {
+							OpenGL::drawArraysInstanced(this->_mode, 0, this->_mesh->size(), this->_instances->size());
+						}
+						else {
+							OpenGL::drawArrays(this->_mode, 0, this->_mesh->size());
+						}
+					}
+				}
 			}
 		}// namespace renderable
 	} // namespace graphic

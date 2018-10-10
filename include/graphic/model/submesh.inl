@@ -48,13 +48,15 @@ namespace ece
 
 			inline std::size_t Submesh::getNumberOfFaces() const { return this->_faces.size(); }
 
-			inline void Submesh::addFace(const Submesh::Face & face) { this->_faces.push_back(face); }
+			inline void Submesh::addFace(const Submesh::Face & face) { this->_faces.data().push_back(face); }
 
-			inline void Submesh::addFace(Submesh::Face && face) { this->_faces.push_back(std::move(face)); }
+			inline void Submesh::addFace(Submesh::Face && face) { this->_faces.data().push_back(std::move(face)); }
 
-			inline std::vector<Submesh::Face> & Submesh::getFaces() { return this->_faces; }
+			inline std::vector<Submesh::Face> & Submesh::getFaces() { return this->_faces.data(); }
 
-			inline const std::vector<Submesh::Face> & Submesh::getFaces()const { return this->_faces; }
+			inline const std::vector<Submesh::Face> & Submesh::getFaces() const { return this->_faces.data(); }
+
+			inline IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> & Submesh::getIndexBuffer() { return this->_faces; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

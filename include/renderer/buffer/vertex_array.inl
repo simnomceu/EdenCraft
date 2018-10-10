@@ -59,6 +59,8 @@ namespace ece
 				++this->_globalLocation;
 				return location;
 			}
+
+			inline void VertexArray::resetLocation() noexcept { this->_globalLocation = 0; }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

@@ -45,6 +45,7 @@
 #include "renderer/resource.hpp"
 #include "core/resource.hpp"
 #include "renderer/pipeline.hpp"
+#include "renderer/buffer.hpp"
 
 namespace ece
 {
@@ -124,6 +125,7 @@ namespace ece
 
 			protected:
 				VAO _vao;
+				VertexArray _vertexArray;
 
 				PrimitiveMode _mode;
 

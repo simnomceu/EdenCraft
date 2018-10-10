@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
+#include "renderer/buffer.hpp"
 
 #include <vector>
 
@@ -141,13 +142,17 @@ namespace ece
 				inline void addFace(Submesh::Face && face);
 
 				inline std::vector<Submesh::Face> & getFaces();
-				inline const std::vector<Submesh::Face> & getFaces()const ;
+				inline const std::vector<Submesh::Face> & getFaces() const;
+
+				inline IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> & getIndexBuffer();
+
+				void update();
 			private:
                 /**
                  * @property _faces
                  * @brief The list of faces using the vertices.
                  */
-				std::vector<Submesh::Face> _faces;
+				IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> _faces;
 			};
 		} // namespace model
 	} // namespace graphic

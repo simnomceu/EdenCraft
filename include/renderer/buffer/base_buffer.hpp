@@ -75,7 +75,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				BaseBuffer(const BaseBuffer & copy) noexcept = default;
+				BaseBuffer(const BaseBuffer & copy) = default;
 
 				/**
 				 * @fn BaseBuffer(BaseBuffer && move) noexcept
@@ -99,7 +99,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				BaseBuffer & operator=(const BaseBuffer & copy) noexcept = default;
+				BaseBuffer & operator=(const BaseBuffer & copy);
 
 				/**
 				 * @fn BaseBuffer & operator=(BaseBuffer && move) noexcept
@@ -108,7 +108,7 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				BaseBuffer & operator=(BaseBuffer && move) noexcept = default;
+				BaseBuffer & operator=(BaseBuffer && move) noexcept;
 
 				inline virtual void bind() const override;
 				inline virtual void terminate() override;

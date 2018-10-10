@@ -42,6 +42,8 @@
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 
+#include <array>
+
 namespace ece
 {
 	namespace renderer

@@ -48,7 +48,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)
+			Renderable::Renderable() noexcept: _vao(), _vertexArray(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)
 			{
 				this->_model.setIdentity();
 			}

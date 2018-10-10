@@ -46,6 +46,7 @@
 #include "graphic/model/phong_material.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
+#include "renderer/buffer.hpp"
 
 namespace ece
 {
@@ -81,7 +82,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Mesh() noexcept = default;
+				Mesh() noexcept;
 
 				/**
 				 * @fn Mesh(const Mesh & copy) noexcept
@@ -159,6 +160,10 @@ namespace ece
 				inline std::vector<Mesh::Vertex> & getVertices();
 				inline const std::vector<Mesh::Vertex> & getVertices() const;
 
+				void update();
+
+				inline std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>>> & getVertexBuffer();
+
 			protected:
 				std::vector<SubmeshData> _submeshes;
 
@@ -166,7 +171,7 @@ namespace ece
 				 * @property _vertices
 				 * @brief The list of vertices of the mesh.
 				 */
-				std::vector<Mesh::Vertex> _vertices;
+				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>>> _vertices;
 			};
 		} // namespace model
 	} // namespace graphic

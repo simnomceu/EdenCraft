@@ -64,7 +64,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline Buffer(const BufferFrequency frequency) noexcept;
+				Buffer(const BufferFrequency frequency) noexcept;
 
 				/**
 				 * @fn Buffer(const Buffer & copy) noexcept
@@ -72,7 +72,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Buffer(const Buffer<Storage, Data, enabled> & copy) noexcept = default;
+				Buffer(const Buffer<Storage, Data, enabled> & copy) noexcept;
 
 				/**
 				 * @fn Buffer(Buffer && move) noexcept
@@ -80,7 +80,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Buffer(Buffer<Storage, Data, enabled> && move) noexcept = default;
+				Buffer(Buffer<Storage, Data, enabled> && move) noexcept;
 
 				/**
 				 * @fn ~Buffer() noexcept
@@ -96,7 +96,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Buffer<Storage, Data, enabled> & operator=(const Buffer<Storage, Data, enabled> & copy) noexcept = default;
+				Buffer<Storage, Data, enabled> & operator=(const Buffer<Storage, Data, enabled> & copy) noexcept;
 
 				/**
 				 * @fn Buffer & operator=(Buffer && move) noexcept
@@ -105,7 +105,7 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Buffer<Storage, Data, enabled> & operator=(Buffer<Storage, Data, enabled> && move) noexcept = default;
+				Buffer<Storage, Data, enabled> & operator=(Buffer<Storage, Data, enabled> && move) noexcept;
 
 				Data read() const;
 
@@ -113,9 +113,12 @@ namespace ece
 
 				void copy(const Buffer<Storage, Data, enabled> & rhs);
 
+				void update();
+
 				inline virtual std::size_t size() const noexcept override;
 				inline virtual BufferFrequency getFrequency() const override;
 
+				inline Data & data();
 				inline const Data & data() const;
 
 			protected:

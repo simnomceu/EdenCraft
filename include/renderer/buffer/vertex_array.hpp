@@ -110,6 +110,7 @@ namespace ece
 				inline virtual void terminate() override;
 
 				inline int addLocation() noexcept;
+				inline void resetLocation() noexcept;
 
 			private:
 				int _globalLocation;

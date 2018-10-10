@@ -37,7 +37,6 @@
 */
 
 #include "renderer/buffer/base_buffer.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
 
 namespace ece
 {
@@ -45,51 +44,20 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template<class T>
-			SymetricStorage<T>::SymetricStorage(BaseBuffer & buffer): _buffer(buffer), _data() {}
-
-			template<class T>
-			SymetricStorage<T>::SymetricStorage(const SymetricStorage<T> & copy) noexcept: _buffer(copy._buffer), _data(copy._data) {}
-
-			template<class T>
-			SymetricStorage<T>::SymetricStorage(SymetricStorage<T> && move) noexcept: _buffer(move._buffer), _data(std::move(data)) {}
-
-
-			template<class T>
-			inline T & SymetricStorage<T>::data() noexcept { return this->_data; }
-
-			template<class T>
-			inline const T & SymetricStorage<T>::data() const noexcept { return this->_data; }
-
-			template<class T>
-			T SymetricStorage<T>::read() const
+			BaseBuffer & BaseBuffer::operator=(const BaseBuffer & copy)
 			{
-				/*T data;
-				this->_buffer.lock()->bind();
-				OpenGL::bufferData(this->_buffer.lock()->getType(), data, BUFFER_USAGE[this->_buffer.lock()->getUsage()][Method::READ], this->_buffer.lock()->getDescriptor().offset);*/
-				return this->_data;
+				this->_descriptor = copy._descriptor;
+				this->_type = copy._type;
+
+				return *this;
 			}
 
-			template<class T>
-			void SymetricStorage<T>::write(const T & data)
+			BaseBuffer & BaseBuffer::operator=(BaseBuffer && move) noexcept
 			{
-				this->_data = data;
-				this->_buffer.bind();
-				OpenGL::bufferData(this->_buffer.getType(), this->_data, BUFFER_USAGE[this->_buffer.getFrequency()][BufferMethod::DRAW], this->_buffer.getDataDescriptor().offset);
-			}
+				this->_descriptor = std::move(move._descriptor);
+				this->_type = std::move(move._type);
 
-			template<class T>
-			void SymetricStorage<T>::copy(const BaseBuffer & rhs)
-			{
-				this->_buffer.bind();
-				OpenGL::bufferData<decltype(this->_data.begin())>(this->_buffer.getType(), rhs.size(), BUFFER_USAGE[this->_buffer.getFrequency()][BufferMethod::COPY], this->_buffer.getDataDescriptor().offset);
-			}
-
-			template <class T>
-			void SymetricStorage<T>::update()
-			{
-				this->_buffer.bind();
-				OpenGL::bufferData(this->_buffer.getType(), this->_data, BUFFER_USAGE[this->_buffer.getFrequency()][BufferMethod::DRAW], this->_buffer.getDataDescriptor().offset);
+				return *this;
 			}
 		} // namespace buffer
 	} // namespace renderer

@@ -75,7 +75,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				SymetricStorage(const SymetricStorage & copy) noexcept = default;
+				SymetricStorage(const SymetricStorage & copy) noexcept;
 
 				/**
 				 * @fn SymetricStorage(SymetricStorage && move) noexcept
@@ -83,7 +83,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				SymetricStorage(SymetricStorage && move) noexcept = default;
+				SymetricStorage(SymetricStorage && move) noexcept;
 
 				/**
 				 * @fn ~SymetricStorage() noexcept
@@ -99,7 +99,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				SymetricStorage & operator=(const SymetricStorage & copy) noexcept = default;
+				SymetricStorage & operator=(const SymetricStorage & copy) noexcept = delete;
 
 				/**
 				 * @fn SymetricStorage & operator=(SymetricStorage && move) noexcept
@@ -108,7 +108,7 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				SymetricStorage & operator=(SymetricStorage && move) noexcept = default;
+				SymetricStorage & operator=(SymetricStorage && move) noexcept = delete;
 
 				inline T & data() noexcept;
 				inline const T & data() const noexcept;
@@ -118,6 +118,8 @@ namespace ece
 				void write(const T & data);
 
 				void copy(const BaseBuffer & rhs);
+
+				void update();
 
 			private:
 				BaseBuffer & _buffer;

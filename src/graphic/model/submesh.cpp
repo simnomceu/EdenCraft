@@ -46,19 +46,10 @@ namespace ece
 	{
 		namespace model
 		{
-			/*Box3D Submesh::getBouncingBox() const
+			void Submesh::update()
 			{
-				auto xMin = std::min_element(this->_vertices.begin(), this->_vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[0] < b._position[0]; })->_position[0];
-				auto xMax = std::max_element(this->_vertices.begin(), this->_vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[0] < b._position[0]; })->_position[0];
-
-				auto yMin = std::min_element(this->_vertices.begin(), this->_vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[1] < b._position[1]; })->_position[1];
-				auto yMax = std::max_element(this->_vertices.begin(), this->_vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[1] < b._position[1]; })->_position[1];
-
-				auto zMin = std::min_element(this->_vertices.begin(), this->_vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[2] < b._position[2]; })->_position[2];
-				auto zMax = std::max_element(this->_vertices.begin(), this->_vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[2] < b._position[2]; })->_position[2];
-
-				return Box3D(FloatVector3u{ xMin, yMin, zMin }, FloatVector3u{ xMax, yMax, zMax });
-			}*/
+				this->_faces.update();
+			}
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
