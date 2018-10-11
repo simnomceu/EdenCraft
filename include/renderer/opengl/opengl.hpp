@@ -167,8 +167,8 @@ namespace ece
 				static inline void bindBuffer(const BufferType type, const Handle handle);
 				//		static inline void bindBufferRange(GLenum target, unsigned int index, unsigned int buffer, GLintptr offset, GLsizeiptr size);
 				//		static inline void bindBufferBase(GLenum target, unsigned int index, unsigned int buffer);
-				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
-				static inline void bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset = 0);
+				template<class C, typename enabled = std::enable_if_t<contiguous_container_v<C> && is_container_v<C>>>
+				static inline void bufferData(const BufferType type, const C & data, const BufferUsage usage, const int offset = 0);
 				template <class E>
 				static inline void bufferData(const BufferType type, const std::size_t size, const BufferUsage usage, int offset = 0);
 				//		static inline void bufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const void * data);

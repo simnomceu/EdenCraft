@@ -36,12 +36,12 @@
 
 */
 
-#ifndef CAN_ACCESS_DATA_HPP
-#define CAN_ACCESS_DATA_HPP
+#ifndef IS_CONTAINER_HPP
+#define IS_CONTAINER_HPP
 
 #include "utility/config.hpp"
-
-#include <type_traits>
+#include "utility/container/container_type.hpp"
+#include "utility/container/container_method.hpp"
 
 namespace ece
 {
@@ -49,73 +49,34 @@ namespace ece
 	{
 		namespace container
 		{
-			/**
-			 * @struct can_access_data
-			 * @tparam T a type to check
-			 * @brief Checks if a type can be passed to std::data
-			 * Check whether T can be passed to std::data. Provides the member constant value which is equal to true, if std::data<T> is available. It is guaranteed to be equal to true, if T is the type
-			 * std::array, std::deque, std::forwarrd_list, std::list, std::map, std::regex, std::set, std::string, std::string_view, std::unordered_set, or std::vector.
-			 * @extends std::false_type
-			 */
-			template <class T, typename = void>
-			struct ECE_UTILITY_API can_access_data : std::false_type
-			{
-			};
+			template <class T>
+			struct ECE_UTILITY_API is_container: std::bool_constant<has_value_type_v<T>
+													&& has_reference_v<T>
+													&& has_const_reference_v<T>
+													&& has_iterator_v<T>
+													&& has_const_iterator_v<T>
+													&& has_difference_type_v<T>
+													&& has_size_type_v<T>
+													&& has_empty_constructor_v<T>
+													&& has_copy_constructor_v<T>
+													&& has_copy_assignment_operator_v<T>
+													&& has_destructor_v<T>
+													&& has_method_begin_v<T>
+													&& has_method_end_v<T>
+													&& has_method_cbegin_v<T>
+													&& has_method_cend_v<T>
+													&& equal_to_operator_v<T>
+													&& not_equal_to_operator_v<T>
+													&& has_swap_method_v<T>
+													&& has_swap_function_v<T>
+													&& has_size_method_v<T>
+													&& has_max_size_method_v<T>
+													&& has_empty_method_v<T>> {};
 
 			template <class T>
-			struct ECE_UTILITY_API can_access_data<T, std::void_t<decltype(std::data<T>(std::declval<T>()))>> : std::true_type
-			{
-			};
+			inline constexpr bool is_container_v = is_container<T>::value;
+		} // namespace container
+	} // namespace utility
+} // namespace ece
 
-			/**
-			 * @related can_access_data
-			 */
-			template <class T>
-			inline ECE_UTILITY_API constexpr bool can_access_data_v = can_access_data<T>::value;
-
-			/**
-			 * @related can_access_data
-			 * @code{.cpp}
-			 * #include <iostream>
-			 * #include <vector>
-			 * #include "utility/container.hpp"
-			 *
-			 * class A {};
-			 * 
-			 * class B
-			 * {
-			 *		inline constexpr auto data() const { return "some data"; }
-			 * };
-			 *
-			 * template <class T>
-			 * T f(T c)
-			 * {
-			 *		static_assert(ece::can_access_data<T>::value, "::data() required.");
-			 *		return c.data();
-			 * }
-			 *
-			 * int main()
-			 * {
-			 *		std::cout << std::boolalpha;
-			 *		std::cout << ece::can_access_data<A>::value << std::endl;
-			 *		std::cout << ece::can_access_data<B>::value << std::endl;
-			 *		std::cout << ece::can_access_data<int>::value << std::endl;
-			 *		std::cout << ece::can_access_data<std::vector>::value << std::endl;
-			 *		std::cout << f(std::string("::data() available")) << std::endl;
-			 * }
-			 * @endcode
-			 *
-			 * Output:
-			 * @code
-			 * false
-			 * true
-			 * false
-			 * true
-			 * ::data() available
-			 * @endcode
-			 */
-		}
-	}
-}
-
-#endif // CAN_ACCESS_DATA_HPP
+#endif // IS_CONTAINER_HPP

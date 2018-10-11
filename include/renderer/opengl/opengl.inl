@@ -259,10 +259,10 @@ namespace ece
 			//	inline void OpenGL::bindBufferRange(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/, GLintptr /*offset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindBufferBase(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
 
-			template <template <class, class...> class T, class E, class... TT, typename enabled>
-			inline void OpenGL::bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset)
+			template <class C, typename enabled>
+			inline void OpenGL::bufferData(const BufferType type, const C & data, const BufferUsage usage, const int offset)
 			{
-				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(E), std::data(data) + offset, static_cast<GLenum>(usage)));
+				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(typename C::value_type), std::data(data) + offset, static_cast<GLenum>(usage)));
 			}
 
 			template <class E>

@@ -39,9 +39,11 @@
 #ifndef CONTAINER_HPP
 #define CONTAINER_HPP
 
-#include "utility/container/can_access_data.hpp"
+#include "utility/container/container_data_type.hpp"
+#include "utility/container/container_method.hpp"
+#include "utility/container/container_type.hpp"
 #include "utility/container/contiguous_container.hpp"
-#include "utility/container/has_size.hpp"
+#include "utility/container/is_container.hpp"
 
 namespace ece
 {
