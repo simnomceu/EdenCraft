@@ -105,11 +105,14 @@ namespace ece
 				 */
 				Sprite & operator=(Sprite && move) noexcept = default;
 
+				virtual void draw() override;
 			private:
 				Texture2D::Texture2DReference _texture;
 				Rectangle<float> _textureClip;
 
 				Rectangle<float> _bounds;
+				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<float>>> _vertices;
+				IndexBuffer<SymetricStorage, std::vector<unsigned int>> _index;
 			};
 		} // namespace renderable
 	} // namespace graphic

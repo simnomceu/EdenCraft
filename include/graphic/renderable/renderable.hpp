@@ -110,11 +110,7 @@ namespace ece
 				 */
 				Renderable & operator=(Renderable && move) noexcept = default;
 
-				virtual void draw() override;
-
 				void applyTransformation(const FloatMatrix4u & transformation);
-
-                inline bool isIndexed() const;
 
                 bool isInstancingEnabled() const;
 
@@ -124,7 +120,6 @@ namespace ece
 				inline virtual void prepare();
 
 			protected:
-				VAO _vao;
 				VertexArray _vertexArray;
 
 				PrimitiveMode _mode;

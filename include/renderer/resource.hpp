@@ -47,8 +47,6 @@
 #include "renderer/resource/shader.hpp"
 #include "renderer/resource/texture2d.hpp"
 #include "renderer/resource/uniform.hpp"
-#include "renderer/resource/vao.hpp"
-#include "renderer/resource/vbo.hpp"
 
 namespace ece
 {

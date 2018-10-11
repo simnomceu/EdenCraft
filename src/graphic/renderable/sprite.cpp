@@ -48,7 +48,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds)
+			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds), _vertices(nullptr), _index()
 			{
 				if (this->_bounds == Rectangle<float>()) {
 					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
@@ -64,26 +64,21 @@ namespace ece
 
 				this->_mode = PrimitiveMode::TRIANGLES;
 
-				const std::vector<float> points{ this->_bounds.getX(), this->_bounds.getY(),
-					this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight(),
-					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight(),
-					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY()
-				};
-
-				const std::vector<float> texPos{ this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight(),
-												 this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
-												 (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
-												 (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
-				};
-
-				const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
+				this->_index.write({ 0, 1, 2, 2, 3, 0 });
 
                 renderer::buffer::BufferLayout layout;
                 layout.add<float>(2, false, false, false);
                 layout.add<float>(2, false, false, false);
 
-				this->_vao.sendData(layout, points, renderer::buffer::BufferFrequency::STATIC);
-				this->_vao.addIndices(index);
+				this->_vertices = std::make_shared<VertexBuffer<SymetricStorage, std::vector<float>>>(layout);
+				this->_vertices->write({ 
+					this->_bounds.getX(), this->_bounds.getY(), this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight(),
+					this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight(), this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
+					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
+					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
+				});
+				this->_vertices->attachTo(this->_vertexArray);
+				
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/sprite.frag");
@@ -95,6 +90,15 @@ namespace ece
 				this->_program.use();
 
 				this->_program.uniform("theTexture", 0);
+			}
+
+			void Sprite::draw()
+			{
+				this->_program.use();
+				this->_vertexArray.bind();
+				this->_index.bind();
+				this->_state.apply();
+				OpenGL::drawElements(this->_mode, this->_vertices->size(), DataType::UNSIGNED_INT, 0);
 			}
 		} //namespace renderable
 	} // namespace graphic

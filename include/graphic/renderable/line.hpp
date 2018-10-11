@@ -121,11 +121,15 @@ namespace ece
 				inline void setColor(const FloatVector3u & color) noexcept;
 				inline void set(const float width) noexcept;
 
+				virtual void draw() override;
+
 			private:
 				FloatVector3u _begin;
 				FloatVector3u _end;
 				FloatVector3u _color;
 				float _width;
+
+				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<FloatVector3u>>> _vertices;
 			};
 		} // namespace renderable
 	} // namespace graphic

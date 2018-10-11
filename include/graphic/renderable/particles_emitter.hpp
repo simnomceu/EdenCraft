@@ -115,10 +115,13 @@ namespace ece
 				ParticlesEmitter & operator=(ParticlesEmitter && move) noexcept = default;
 
 				void update(const float elapsedTime);
+
+				virtual void draw() override;
 			private:
-				std::vector<Particle> _particles;
+				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<Particle>>> _particles;
 				std::size_t _size;
-				size_t _dataIndex;
+
+				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<float>>> _vertices;
 			};
 		} // namespace renderable
 	} // namespace graphic

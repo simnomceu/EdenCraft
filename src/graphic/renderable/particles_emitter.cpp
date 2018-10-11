@@ -56,16 +56,8 @@ namespace ece
 	{
 		namespace renderable
 		{
-			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _dataIndex(0)
+			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(nullptr), _size(size), _vertices(nullptr)
 			{
-				for (int i = 0; i < 10; ++i) {
-					this->_particles.push_back({ 1.0f,
-						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
-						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
-						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
-				}
-				this->_numberOfInstances = this->_particles.size();
-
 				this->_state._pointSize = 4.0f;
 				this->_state._blending = true;
 				this->_state._sourceBlend = BlendingFactor::SRC_ALPHA;
@@ -78,14 +70,9 @@ namespace ece
 				layout.add<float>(3, false, true, false);
 				layout.add<float>(2, false, true, false);
 
-//				auto mesh = makeQuad(0.1f);
-//				this->_vao.sendData(layout, mesh.getVertices(), BufferObject::BufferFrequency::STATIC);
-//				this->_vao.addIndices(mesh.getFaces());
-
-                std::vector<float> mesh = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
-//                std::vector<unsigned int> faces = { 1 };
-				this->_vao.sendData(layout, mesh, renderer::buffer::BufferFrequency::STATIC);
-//				this->_vao.addIndices(faces);
+				this->_vertices = std::make_shared<VertexBuffer<SymetricStorage, std::vector<float>>>(layout);
+				this->_vertices->write({ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
+				this->_vertices->attachTo(this->_vertexArray);
 
 				renderer::buffer::BufferLayout instanceLayout;
 				instanceLayout.setInstanceBlockSize(1);
@@ -93,7 +80,16 @@ namespace ece
 				instanceLayout.add<float>(3, false, false, true);
 				instanceLayout.add<float>(3, false, true, false);
 				instanceLayout.add<float>(4, false, false, true);
-				this->_dataIndex = this->_vao.sendData(instanceLayout, this->_particles, renderer::buffer::BufferFrequency::STATIC);
+				this->_particles = std::make_shared<VertexBuffer<SymetricStorage, std::vector<Particle>>>(instanceLayout);
+				this->_particles->attachTo(this->_vertexArray);
+
+				for (int i = 0; i < 10; ++i) {
+					this->_particles->data().push_back({ 1.0f,
+						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
+						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
+						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
+				}
+				this->_numberOfInstances = this->_particles->size();
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/particles_forever/particles.frag");
@@ -107,17 +103,17 @@ namespace ece
 
 			void ParticlesEmitter::update(const float elapsedTime)
 			{
-				this->_particles.erase(std::remove_if(this->_particles.begin(), this->_particles.end(), [](const ParticlesEmitter::Particle & element) { return element._life <= 0.0f; }), this->_particles.end());
+				this->_particles->data().erase(std::remove_if(this->_particles->data().begin(), this->_particles->data().end(), [](const ParticlesEmitter::Particle & element) { return element._life <= 0.0f; }), this->_particles->data().end());
 
-				auto particlesToCreate = std::min(this->_size - this->_particles.size(), std::size_t(10));
+				auto particlesToCreate = std::min(this->_size - this->_particles->size(), std::size_t(10));
 				for (size_t i = 0; i < particlesToCreate; ++i) {
-					this->_particles.push_back({ 1.0f,
+					this->_particles->data().push_back({ 1.0f,
 						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
 						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
 
-				for (auto & particle : this->_particles) {
+				for (auto & particle : this->_particles->data()) {
 					particle._life -= elapsedTime;
 					if (particle._life > 0.0f) {
 						particle._position -= particle._velocity * elapsedTime;
@@ -125,10 +121,18 @@ namespace ece
 					}
 				}
 
-				this->_numberOfInstances = this->_particles.size();
+				this->_numberOfInstances = this->_particles->size();
 
-				//this->_vao.sendData(instanceLayout, this->_particles, BufferObject::BufferFrequency::STATIC);
-				this->_vao.updateData(this->_dataIndex, this->_particles);
+				this->_particles->update();
+			}
+
+			void ParticlesEmitter::draw()
+			{
+				this->_program.use();
+				this->_vertexArray.bind();
+				this->_state.apply();
+
+				OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices->size(), this->_size);
 			}
 		} // namespace renderable
 	} // namespace graphic

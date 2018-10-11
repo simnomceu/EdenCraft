@@ -49,13 +49,15 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Point::Point() noexcept : Renderable(), _position(), _color(), _size(1)
+			Point::Point() noexcept : Renderable(), _position(), _color(), _size(1), _vertices(nullptr)
 			{
 				this->_mode = PrimitiveMode::POINTS;
 
 				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
+
+				this->_vertices = std::make_shared<VertexBuffer<SymetricStorage, std::vector<FloatVector3u>>>(layout);
 
 				if (this->_size > 1.0f) {
 					OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
@@ -65,9 +67,8 @@ namespace ece
 				}
 				OpenGL::pointSize(this->_size);
 
-				std::vector<FloatVector3u> data = { this->_position, this->_color };
-
-				this->_vao.sendData(layout, data, renderer::buffer::BufferFrequency::STATIC);
+				this->_vertices->write({ this->_position, this->_color });
+				this->_vertices->attachTo(this->_vertexArray);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/point.frag");
@@ -79,13 +80,15 @@ namespace ece
 				this->_program.use();
 			}
 
-			Point::Point(const FloatVector3u & color, const FloatVector3u position, const float size) noexcept : Renderable(), _position(position), _color(color), _size(size)
+			Point::Point(const FloatVector3u & color, const FloatVector3u position, const float size) noexcept : Renderable(), _position(position), _color(color), _size(size), _vertices(nullptr)
 			{
 				this->_mode = PrimitiveMode::POINTS;
 
 				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
+
+				this->_vertices = std::make_shared<VertexBuffer<SymetricStorage, std::vector<FloatVector3u>>>(layout);
 
 				if (this->_size > 1.0f) {
 					OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
@@ -95,9 +98,8 @@ namespace ece
 				}
 				OpenGL::pointSize(this->_size);
 
-				std::vector<FloatVector3u> data = { this->_position, this->_color };
-
-				this->_vao.sendData(layout, data, renderer::buffer::BufferFrequency::STATIC);
+				this->_vertices->write({ this->_position, this->_color });
+				this->_vertices->attachTo(this->_vertexArray);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/point.frag");
@@ -107,6 +109,19 @@ namespace ece
 				this->_program.setStage(vsSource);
 				this->_program.link();
 				this->_program.use();
+			}
+
+			void Point::draw()
+			{
+				this->_program.use();
+				this->_vertexArray.bind();
+				this->_state.apply();
+				if (this->isInstancingEnabled()) {
+					OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices->size() * 3, this->_numberOfInstances);
+				}
+				else {
+					OpenGL::drawArrays(this->_mode, 0, this->_vertices->size() * 3);
+				}
 			}
 		} // namespace renderable
 	} // namespace graphic
