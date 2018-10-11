@@ -59,9 +59,9 @@ namespace ece
 
 			inline BufferType BaseBuffer::getType() const { return this->_type; }
 
-			inline void BaseBuffer::setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept { this->_descriptor = descriptor; }
+			inline void BaseBuffer::setDataDescriptor(const BaseBuffer::DataDescriptor & descriptor) noexcept { this->_descriptor = descriptor; }
 
-			inline const BufferDataDescriptor &BaseBuffer::getDataDescriptor() const noexcept { return this->_descriptor; }
+			inline const BaseBuffer::DataDescriptor &BaseBuffer::getDataDescriptor() const noexcept { return this->_descriptor; }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

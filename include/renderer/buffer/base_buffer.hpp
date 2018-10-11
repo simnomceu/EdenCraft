@@ -43,7 +43,6 @@
 #include "renderer/buffer/buffer_usage.hpp"
 #include "renderer/buffer/buffer_type.hpp"
 #include "renderer/resource/object_opengl.hpp"
-#include "renderer/buffer/buffer_data_descriptor.hpp"
 
 #include <cstddef>
 
@@ -62,6 +61,12 @@ namespace ece
 			class ECE_RENDERER_API BaseBuffer: public ObjectOpenGL
 			{
 			public:
+				struct DataDescriptor
+				{
+					int offset;
+					int stride;
+				};
+
 				/**
 				 * @fn constexpr BaseBuffer() noexcept
 				 * @brief Default constructor.
@@ -118,11 +123,11 @@ namespace ece
 
 				inline BufferType getType() const;
 
-				inline void setDataDescriptor(const BufferDataDescriptor & descriptor) noexcept;
-				inline const BufferDataDescriptor & getDataDescriptor() const noexcept;
+				inline void setDataDescriptor(const DataDescriptor & descriptor) noexcept;
+				inline const DataDescriptor & getDataDescriptor() const noexcept;
 
 			protected:
-				BufferDataDescriptor _descriptor;
+				DataDescriptor _descriptor;
 				BufferType _type;
 			};
 		} // namespace buffer

@@ -41,7 +41,6 @@
 
 #include "renderer/buffer/base_buffer.hpp"
 #include "renderer/buffer/buffer.hpp"
-#include "renderer/buffer/buffer_data_descriptor.hpp"
 #include "renderer/buffer/buffer_layout.hpp"
 #include "renderer/buffer/buffer_operation.hpp"
 #include "renderer/buffer/buffer_type.hpp"

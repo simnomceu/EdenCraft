@@ -35,9 +35,6 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
-
-#include "renderer/buffer/buffer_data_descriptor.hpp"
-
 namespace ece
 {
 	namespace renderer

@@ -36,8 +36,6 @@
 
 */
 
-#include "renderer/buffer/buffer_data_descriptor.hpp"
-
 namespace ece
 {
 	namespace renderer
