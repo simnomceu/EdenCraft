@@ -36,11 +36,9 @@
 
 */
 
-#ifndef VERTEX_BUFFER_HPP
-#define VERTEX_BUFFER_HPP
+#include "renderer/buffer/vertex_array.hpp"
 
-#include "renderer/config.hpp"
-#include "renderer/buffer/buffer.hpp"
+#include "renderer/buffer/base_buffer.hpp"
 
 namespace ece
 {
@@ -48,66 +46,47 @@ namespace ece
 	{
 		namespace buffer
 		{
-			/**
-			 * @class VertexBuffer
-			 * @brief
-			 */
-			template <template <class> class Storage, class Data>
-			class ECE_RENDERER_API VertexBuffer : public Buffer<Storage, Data>
+			void VertexArray::attach(const BaseBuffer & buffer, BufferLayout layout)
 			{
-			public:
-				/**
-				 * @fn constexpr VertexBuffer() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				VertexBuffer(const buffer::BufferLayout & layout) noexcept;
+				this->bind();
+				buffer.bind();
+				for (size_t i = 0; i < layout.size(); ++i) {
+					auto & elementLayout = layout.getElement(i);
+					if (!elementLayout._ignored) {
+						auto location = this->addAttribute();
+						OpenGL::vertexAttribPointer(location,
+													elementLayout._count,
+													elementLayout._type,
+													elementLayout._normalized,
+													layout.getStride(),
+													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : buffer.size() / layout.size());
+						if (elementLayout._instanced) {
+							OpenGL::vertexAttribDivisor(location, layout.getInstanceBlockSize());
+						}
+					}
+				}
+			}
 
-				/**
-				 * @fn VertexBuffer(const VertexBuffer & copy) noexcept
-				 * @param[in] copy The VertexBuffer to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				VertexBuffer(const VertexBuffer & copy) noexcept = default;
+			void VertexArray::reset()
+			{
+				for (auto i = FIRST_LOCATION; i < this->_nextAttributeLocation; ++i) {
+					OpenGL::disableVertexAttribArray(i);
+				}
+				this->_nextAttributeLocation = FIRST_LOCATION;
+			}
 
-				/**
-				 * @fn VertexBuffer(VertexBuffer && move) noexcept
-				 * @param[in] move The VertexBuffer to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				VertexBuffer(VertexBuffer && move) noexcept = default;
+			VertexArray::AttributeLocation VertexArray::addAttribute()
+			{
+				const auto maxVertexAttribs = OpenGL::getInteger(Parameter::MAX_VERTEX_ATTRIBS)[0];
+				if (this->_nextAttributeLocation >= maxVertexAttribs) {
+					throw std::runtime_error("The number of vertex attributes in a VAO cannot exceed " + std::to_string(maxVertexAttribs) + ".");
+				}
 
-				/**
-				 * @fn ~VertexBuffer() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~VertexBuffer() noexcept = default;
-
-				/**
-				 * @fn VertexBuffer & operator=(const VertexBuffer & copy) noexcept
-				 * @param[in] copy The VertexBuffer to copy from.
-				 * @return The VertexBuffer copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				VertexBuffer & operator=(const VertexBuffer & copy) noexcept = default;
-
-				/**
-				 * @fn VertexBuffer & operator=(VertexBuffer && move) noexcept
-				 * @param[in] move The VertexBuffer to move.
-				 * @return The VertexBuffer moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				VertexBuffer & operator=(VertexBuffer && move) noexcept = default;
-			};
+				auto location = this->_nextAttributeLocation;
+				OpenGL::enableVertexAttribArray(location);
+				++this->_nextAttributeLocation;
+				return location;
+			}
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
-
-#include "renderer/buffer/vertex_buffer.inl"
-
-#endif // VERTEX_BUFFER_HPP

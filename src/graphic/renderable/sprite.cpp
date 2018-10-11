@@ -77,7 +77,7 @@ namespace ece
 					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
 					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
 				});
-				this->_vertices->attachTo(this->_vertexArray);
+				this->_vertexArray.attach(*this->_vertices, this->_vertices->getDataDescriptor().layout);
 				
 
 				ShaderStage fsSource, vsSource;

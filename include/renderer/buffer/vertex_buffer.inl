@@ -37,7 +37,6 @@
 */
 
 #include "renderer/buffer/buffer_data_descriptor.hpp"
-#include "renderer/buffer/vertex_array.hpp"
 
 namespace ece
 {
@@ -53,27 +52,6 @@ namespace ece
 				this->_descriptor.stride = 0;
 				this->_descriptor.layout = layout;
 				this->_type = BufferType::ARRAY_BUFFER;
-			}
-
-			template<template <class> class Storage, class Data>
-			void VertexBuffer<Storage, Data>::attachTo(VertexArray & vao)
-			{
-				vao.bind();
-				for (size_t i = 0; i < this->_descriptor.layout.size(); ++i) {
-					auto & elementLayout = this->_descriptor.layout.getElement(i);
-					if (!elementLayout._ignored) {
-						auto location = vao.addLocation();
-						OpenGL::vertexAttribPointer(location,
-													elementLayout._count,
-													elementLayout._type,
-													elementLayout._normalized,
-													this->_descriptor.layout.getStride(),
-													(this->_descriptor.layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : this->size() / this->_descriptor.layout.size());
-						if (elementLayout._instanced) {
-							OpenGL::vertexAttribDivisor(location, this->_descriptor.layout.getInstanceBlockSize());
-						}
-					}
-				}
 			}
 		} // namespace buffer
 	} // namespace renderer

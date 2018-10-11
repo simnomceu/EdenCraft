@@ -68,7 +68,7 @@ namespace ece
 				OpenGL::pointSize(this->_size);
 
 				this->_vertices->write({ this->_position, this->_color });
-				this->_vertices->attachTo(this->_vertexArray);
+				this->_vertexArray.attach(*this->_vertices, this->_vertices->getDataDescriptor().layout);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/point.frag");
@@ -99,7 +99,7 @@ namespace ece
 				OpenGL::pointSize(this->_size);
 
 				this->_vertices->write({ this->_position, this->_color });
-				this->_vertices->attachTo(this->_vertexArray);
+				this->_vertexArray.attach(*this->_vertices, this->_vertices->getDataDescriptor().layout);
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/point.frag");

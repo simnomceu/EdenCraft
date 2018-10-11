@@ -72,7 +72,7 @@ namespace ece
 
 				this->_vertices = std::make_shared<VertexBuffer<SymetricStorage, std::vector<float>>>(layout);
 				this->_vertices->write({ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
-				this->_vertices->attachTo(this->_vertexArray);
+				this->_vertexArray.attach(*this->_vertices, this->_vertices->getDataDescriptor().layout);
 
 				renderer::buffer::BufferLayout instanceLayout;
 				instanceLayout.setInstanceBlockSize(1);
@@ -81,7 +81,7 @@ namespace ece
 				instanceLayout.add<float>(3, false, true, false);
 				instanceLayout.add<float>(4, false, false, true);
 				this->_particles = std::make_shared<VertexBuffer<SymetricStorage, std::vector<Particle>>>(instanceLayout);
-				this->_particles->attachTo(this->_vertexArray);
+				this->_vertexArray.attach(*this->_particles, this->_particles->getDataDescriptor().layout);
 
 				for (int i = 0; i < 10; ++i) {
 					this->_particles->data().push_back({ 1.0f,

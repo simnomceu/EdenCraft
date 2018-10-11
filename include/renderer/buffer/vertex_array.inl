@@ -46,21 +46,11 @@ namespace ece
 		{
 			using namespace opengl;
 
-			inline VertexArray::VertexArray() noexcept: ObjectOpenGL(), _globalLocation(0) { this->_handle = OpenGL::genVertexArrays(); }
+			inline VertexArray::VertexArray() noexcept: ObjectOpenGL(), _nextAttributeLocation(FIRST_LOCATION) { this->_handle = OpenGL::genVertexArrays(); }
 
 			inline void VertexArray::bind() const { OpenGL::bindVertexArray(this->_handle); }
 
 			inline void VertexArray::terminate() { OpenGL::deleteBuffer(this->_handle); }
-
-			inline int VertexArray::addLocation() noexcept
-			{
-				auto location = this->_globalLocation;
-				OpenGL::enableVertexAttribArray(location);
-				++this->_globalLocation;
-				return location;
-			}
-
-			inline void VertexArray::resetLocation() noexcept { this->_globalLocation = 0; }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

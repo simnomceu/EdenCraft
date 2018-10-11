@@ -41,6 +41,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/resource/object_opengl.hpp"
+#include "renderer/buffer/buffer_layout.hpp"
 
 namespace ece
 {
@@ -49,6 +50,7 @@ namespace ece
 		namespace buffer
 		{
 			using resource::ObjectOpenGL;
+			class BaseBuffer;
 
 			/**
 			 * @class VertexArray
@@ -57,6 +59,8 @@ namespace ece
 			class ECE_RENDERER_API VertexArray: public ObjectOpenGL
 			{
 			public:
+				using AttributeLocation = unsigned short int;
+
 				/**
 				 * @fn constexpr VertexArray() noexcept
 				 * @brief Default constructor.
@@ -109,11 +113,16 @@ namespace ece
 
 				inline virtual void terminate() override;
 
-				inline int addLocation() noexcept;
-				inline void resetLocation() noexcept;
+				void attach(const BaseBuffer & buffer, BufferLayout layout);
 
-			private:
-				int _globalLocation;
+				void reset();
+
+			protected:
+				AttributeLocation addAttribute();
+
+				AttributeLocation _nextAttributeLocation;
+
+				static constexpr AttributeLocation FIRST_LOCATION = 0;
 			};
 		} // namespace buffer
 	} // namespace renderer

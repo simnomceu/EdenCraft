@@ -70,11 +70,11 @@ namespace ece
             void Object::prepare()
             {
 				this->_mesh->update();
-				this->_mesh->getVertexBuffer()->attachTo(this->_vertexArray);
+				this->_vertexArray.attach(*this->_mesh->getVertexBuffer(), this->_mesh->getVertexBuffer()->getDataDescriptor().layout);
 
                 if (this->isInstancingEnabled()) {
 					this->_instances->update();
-					this->_instances->attachTo(this->_vertexArray);
+					this->_vertexArray.attach(*this->_instances, this->_instances->getDataDescriptor().layout);
                 }
 
                 ShaderStage fsSource, vsSource;

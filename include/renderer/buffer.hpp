@@ -50,6 +50,7 @@
 #include "renderer/buffer/is_buffer_storage.hpp"
 #include "renderer/buffer/opengl_container.hpp"
 #include "renderer/buffer/symetric_storage.hpp"
+#include "renderer/buffer/vertex_array.hpp"
 #include "renderer/buffer/vertex_buffer.hpp"
 
 namespace ece
