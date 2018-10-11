@@ -129,7 +129,7 @@ namespace ece
 				FloatVector3u _color;
 				float _width;
 
-				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<FloatVector3u>>> _vertices;
+				VertexBuffer<SymetricStorage, std::vector<FloatVector3u>> _vertices;
 			};
 		} // namespace renderable
 	} // namespace graphic

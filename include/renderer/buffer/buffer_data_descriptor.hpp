@@ -40,7 +40,6 @@
 #define BUFFER_DATA_DESCRIPTOR_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/buffer/buffer_layout.hpp"
 
 namespace ece
 {
@@ -52,7 +51,6 @@ namespace ece
 			{
 				int offset;
 				int stride;
-				BufferLayout layout;
 			};
 		} // namespace buffer
 	} // namespace renderer

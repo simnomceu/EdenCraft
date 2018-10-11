@@ -146,7 +146,7 @@ namespace ece
 				 */
 				Mesh::Reference _mesh;
 
-				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<FloatMatrix4u>>> _instances;
+				VertexBuffer<SymetricStorage, std::vector<FloatMatrix4u>> _instances;
 			};
 		} // namespace renderable
 	} // namespace graphic

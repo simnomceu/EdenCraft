@@ -46,18 +46,13 @@ namespace ece
 	{
 		namespace model
 		{
-			Mesh::Mesh() noexcept: _submeshes(), _vertices(nullptr)
+			Mesh::Mesh() noexcept: _submeshes(), _vertices()
 			{
-				BufferLayout layout;
-				layout.add<float>(3, false, false, false);
-				layout.add<float>(3, false, false, false);
-				layout.add<float>(2, false, false, false);
-				this->_vertices = std::make_shared<VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>>>(layout);
 			}
 
 			Box3D Mesh::getBouncingBox() const
 			{
-				auto & vertices = this->_vertices->data();
+				auto & vertices = this->_vertices.data();
 				auto xMin = std::min_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[0] < b._position[0]; })->_position[0];
 				auto xMax = std::max_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[0] < b._position[0]; })->_position[0];
 
@@ -72,7 +67,7 @@ namespace ece
 
 			std::size_t Mesh::addVertex(const Mesh::Vertex & vertex)
 			{
-				auto & vertices = this->_vertices->data();
+				auto & vertices = this->_vertices.data();
 				std::size_t index = std::find_if(vertices.begin(), vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
 					return vertex._position == lhs._position && vertex._textureCoordinate == lhs._textureCoordinate;
 				}) - vertices.begin();
@@ -92,7 +87,7 @@ namespace ece
 
 			std::size_t Mesh::addVertex(Mesh::Vertex && vertex)
 			{
-				auto & vertices = this->_vertices->data();
+				auto & vertices = this->_vertices.data();
 				std::size_t index = std::find_if(vertices.begin(), vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
 					return vertex._position == lhs._position && vertex._textureCoordinate == lhs._textureCoordinate;
 				}) - vertices.begin();
@@ -112,10 +107,20 @@ namespace ece
 
 			void Mesh::update()
 			{
-				this->_vertices->update();
+				this->_vertices.update();
 				for (auto & submesh : this->_submeshes) {
 					submesh.mesh.update();
 				}
+			}
+
+			BufferLayout Mesh::getLayout() const
+			{
+				BufferLayout layout;
+				layout.add<float>(3, false, false, false);
+				layout.add<float>(3, false, false, false);
+				layout.add<float>(2, false, false, false);
+
+				return std::move(layout);
 			}
 		} // namespace model
 	} // namespace graphic

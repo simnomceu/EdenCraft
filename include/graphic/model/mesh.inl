@@ -54,11 +54,11 @@ namespace ece
 
 			inline const std::vector<Mesh::SubmeshData> & Mesh::getSubmeshes() const { return this->_submeshes; }
 
-			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices->data(); }
+			inline std::vector<Mesh::Vertex> & Mesh::getVertices() { return this->_vertices.data(); }
 
-			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices->data(); }
+			inline const std::vector<Mesh::Vertex> & Mesh::getVertices() const { return this->_vertices.data(); }
 
-			inline std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>>> & Mesh::getVertexBuffer() { return this->_vertices; }
+			inline VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> & Mesh::getVertexBuffer() { return this->_vertices; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

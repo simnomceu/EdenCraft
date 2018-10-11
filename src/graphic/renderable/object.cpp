@@ -51,15 +51,7 @@ namespace ece
             {
                 this->_mode = PrimitiveMode::TRIANGLES;
 
-				renderer::buffer::BufferLayout layoutInstancing;
-				layoutInstancing.setInstanceBlockSize(1);
-				layoutInstancing.add<float>(4, false, false, true);
-				layoutInstancing.add<float>(4, false, false, true);
-				layoutInstancing.add<float>(4, false, false, true);
-				layoutInstancing.add<float>(4, false, false, true);
-				this->_instances = std::make_shared<VertexBuffer<SymetricStorage, std::vector<FloatMatrix4u>>>(layoutInstancing);
-
-				this->_instances->data().push_back(FloatMatrix4u::Identity());
+				this->_instances.data().push_back(FloatMatrix4u::Identity());
             }
 
 			void Object::setMesh(const Mesh::Reference & mesh)
@@ -70,11 +62,18 @@ namespace ece
             void Object::prepare()
             {
 				this->_mesh->update();
-				this->_vertexArray.attach(*this->_mesh->getVertexBuffer(), this->_mesh->getVertexBuffer()->getDataDescriptor().layout);
+				this->_vertexArray.attach(this->_mesh->getVertexBuffer(), this->_mesh->getLayout());
 
                 if (this->isInstancingEnabled()) {
-					this->_instances->update();
-					this->_vertexArray.attach(*this->_instances, this->_instances->getDataDescriptor().layout);
+					renderer::buffer::BufferLayout layoutInstancing;
+					layoutInstancing.setInstanceBlockSize(1);
+					layoutInstancing.add<float>(4, false, false, true);
+					layoutInstancing.add<float>(4, false, false, true);
+					layoutInstancing.add<float>(4, false, false, true);
+					layoutInstancing.add<float>(4, false, false, true);
+
+					this->_instances.update();
+					this->_vertexArray.attach(this->_instances, layoutInstancing);
                 }
 
                 ShaderStage fsSource, vsSource;
@@ -97,7 +96,7 @@ namespace ece
 
 			void Object::addInstance(const FloatMatrix4u & offset)
 			{
-				this->_instances->data().push_back(offset.transpose());
+				this->_instances.data().push_back(offset.transpose());
 				++this->_numberOfInstances;
 			}
 
@@ -110,7 +109,7 @@ namespace ece
 					this->_state.apply();
 					if (submesh.mesh.getIndexBuffer().size() > 0) {
 						if (this->isInstancingEnabled()) {
-							OpenGL::drawElementsInstanced(this->_mode, submesh.mesh.size(), DataType::UNSIGNED_INT, 0, this->_instances->size());
+							OpenGL::drawElementsInstanced(this->_mode, submesh.mesh.size(), DataType::UNSIGNED_INT, 0, this->_instances.size());
 
 						}
 						else {
@@ -119,7 +118,7 @@ namespace ece
 					}
 					else {
 						if (this->isInstancingEnabled()) {
-							OpenGL::drawArraysInstanced(this->_mode, 0, this->_mesh->size(), this->_instances->size());
+							OpenGL::drawArraysInstanced(this->_mode, 0, this->_mesh->size(), this->_instances.size());
 						}
 						else {
 							OpenGL::drawArrays(this->_mode, 0, this->_mesh->size());

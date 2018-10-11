@@ -56,7 +56,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(nullptr), _size(size), _vertices(nullptr)
+			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _vertices()
 			{
 				this->_state._pointSize = 4.0f;
 				this->_state._blending = true;
@@ -70,9 +70,8 @@ namespace ece
 				layout.add<float>(3, false, true, false);
 				layout.add<float>(2, false, true, false);
 
-				this->_vertices = std::make_shared<VertexBuffer<SymetricStorage, std::vector<float>>>(layout);
-				this->_vertices->write({ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
-				this->_vertexArray.attach(*this->_vertices, this->_vertices->getDataDescriptor().layout);
+				this->_vertices.write({ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
+				this->_vertexArray.attach(this->_vertices, layout);
 
 				renderer::buffer::BufferLayout instanceLayout;
 				instanceLayout.setInstanceBlockSize(1);
@@ -80,16 +79,16 @@ namespace ece
 				instanceLayout.add<float>(3, false, false, true);
 				instanceLayout.add<float>(3, false, true, false);
 				instanceLayout.add<float>(4, false, false, true);
-				this->_particles = std::make_shared<VertexBuffer<SymetricStorage, std::vector<Particle>>>(instanceLayout);
-				this->_vertexArray.attach(*this->_particles, this->_particles->getDataDescriptor().layout);
+
+				this->_vertexArray.attach(this->_particles, layout);
 
 				for (int i = 0; i < 10; ++i) {
-					this->_particles->data().push_back({ 1.0f,
+					this->_particles.data().push_back({ 1.0f,
 						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
 						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
-				this->_numberOfInstances = this->_particles->size();
+				this->_numberOfInstances = this->_particles.size();
 
 				ShaderStage fsSource, vsSource;
 				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/particles_forever/particles.frag");
@@ -103,17 +102,17 @@ namespace ece
 
 			void ParticlesEmitter::update(const float elapsedTime)
 			{
-				this->_particles->data().erase(std::remove_if(this->_particles->data().begin(), this->_particles->data().end(), [](const ParticlesEmitter::Particle & element) { return element._life <= 0.0f; }), this->_particles->data().end());
+				this->_particles.data().erase(std::remove_if(this->_particles.data().begin(), this->_particles.data().end(), [](const ParticlesEmitter::Particle & element) { return element._life <= 0.0f; }), this->_particles.data().end());
 
-				auto particlesToCreate = std::min(this->_size - this->_particles->size(), std::size_t(10));
+				auto particlesToCreate = std::min(this->_size - this->_particles.size(), std::size_t(10));
 				for (size_t i = 0; i < particlesToCreate; ++i) {
-					this->_particles->data().push_back({ 1.0f,
+					this->_particles.data().push_back({ 1.0f,
 						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
 						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
 
-				for (auto & particle : this->_particles->data()) {
+				for (auto & particle : this->_particles.data()) {
 					particle._life -= elapsedTime;
 					if (particle._life > 0.0f) {
 						particle._position -= particle._velocity * elapsedTime;
@@ -121,9 +120,9 @@ namespace ece
 					}
 				}
 
-				this->_numberOfInstances = this->_particles->size();
+				this->_numberOfInstances = this->_particles.size();
 
-				this->_particles->update();
+				this->_particles.update();
 			}
 
 			void ParticlesEmitter::draw()
@@ -132,7 +131,7 @@ namespace ece
 				this->_vertexArray.bind();
 				this->_state.apply();
 
-				OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices->size(), this->_size);
+				OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices.size(), this->_size);
 			}
 		} // namespace renderable
 	} // namespace graphic

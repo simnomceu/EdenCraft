@@ -118,10 +118,10 @@ namespace ece
 
 				virtual void draw() override;
 			private:
-				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<Particle>>> _particles;
+				VertexBuffer<SymetricStorage, std::vector<Particle>> _particles;
 				std::size_t _size;
 
-				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<float>>> _vertices;
+				VertexBuffer<SymetricStorage, std::vector<float>> _vertices;
 			};
 		} // namespace renderable
 	} // namespace graphic

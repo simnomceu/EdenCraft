@@ -162,7 +162,8 @@ namespace ece
 
 				void update();
 
-				inline std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>>> & getVertexBuffer();
+				inline VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> & getVertexBuffer();
+				BufferLayout getLayout() const;
 
 			protected:
 				std::vector<SubmeshData> _submeshes;
@@ -171,7 +172,7 @@ namespace ece
 				 * @property _vertices
 				 * @brief The list of vertices of the mesh.
 				 */
-				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>>> _vertices;
+				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;
 			};
 		} // namespace model
 	} // namespace graphic

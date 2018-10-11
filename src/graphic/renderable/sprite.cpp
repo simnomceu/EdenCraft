@@ -48,7 +48,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds), _vertices(nullptr), _index()
+			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds), _vertices(), _index()
 			{
 				if (this->_bounds == Rectangle<float>()) {
 					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
@@ -70,14 +70,13 @@ namespace ece
                 layout.add<float>(2, false, false, false);
                 layout.add<float>(2, false, false, false);
 
-				this->_vertices = std::make_shared<VertexBuffer<SymetricStorage, std::vector<float>>>(layout);
-				this->_vertices->write({ 
+				this->_vertices.write({ 
 					this->_bounds.getX(), this->_bounds.getY(), this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight(),
 					this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight(), this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
 					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
 					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
 				});
-				this->_vertexArray.attach(*this->_vertices, this->_vertices->getDataDescriptor().layout);
+				this->_vertexArray.attach(this->_vertices, layout);
 				
 
 				ShaderStage fsSource, vsSource;
@@ -98,7 +97,7 @@ namespace ece
 				this->_vertexArray.bind();
 				this->_index.bind();
 				this->_state.apply();
-				OpenGL::drawElements(this->_mode, this->_vertices->size(), DataType::UNSIGNED_INT, 0);
+				OpenGL::drawElements(this->_mode, this->_vertices.size(), DataType::UNSIGNED_INT, 0);
 			}
 		} //namespace renderable
 	} // namespace graphic

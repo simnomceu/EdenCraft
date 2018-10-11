@@ -61,7 +61,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				VertexBuffer(const buffer::BufferLayout & layout) noexcept;
+				VertexBuffer() noexcept;
 
 				/**
 				 * @fn VertexBuffer(const VertexBuffer & copy) noexcept

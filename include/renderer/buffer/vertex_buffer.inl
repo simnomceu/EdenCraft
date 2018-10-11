@@ -45,12 +45,11 @@ namespace ece
 		namespace buffer
 		{
 			template<template <class> class Storage, class Data>
-			VertexBuffer<Storage, Data>::VertexBuffer(const buffer::BufferLayout & layout) noexcept : Buffer<Storage, Data>(BufferFrequency::STATIC)
+			VertexBuffer<Storage, Data>::VertexBuffer() noexcept : Buffer<Storage, Data>(BufferFrequency::STATIC)
 			{
 				this->_handle = OpenGL::genBuffers();
 				this->_descriptor.offset = 0;
 				this->_descriptor.stride = 0;
-				this->_descriptor.layout = layout;
 				this->_type = BufferType::ARRAY_BUFFER;
 			}
 		} // namespace buffer

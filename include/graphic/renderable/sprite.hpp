@@ -111,7 +111,7 @@ namespace ece
 				Rectangle<float> _textureClip;
 
 				Rectangle<float> _bounds;
-				std::shared_ptr<VertexBuffer<SymetricStorage, std::vector<float>>> _vertices;
+				VertexBuffer<SymetricStorage, std::vector<float>> _vertices;
 				IndexBuffer<SymetricStorage, std::vector<unsigned int>> _index;
 			};
 		} // namespace renderable
