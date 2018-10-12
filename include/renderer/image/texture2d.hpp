@@ -41,7 +41,7 @@
 #define TEXTURE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl.hpp"
+#include "renderer/opengl/opengl.hpp"
 #include "core/resource.hpp"
 
 #include <cstddef>
@@ -50,8 +50,10 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace image
 		{
+			using namespace opengl;
+
 			/**
 			 * @class Texture2D
 			 * @brief OpenGL 2D texture.
@@ -231,10 +233,10 @@ namespace ece
 				 */
 				Handle _handle;
 			};
-		} // namespace resource
+		} // namespace image
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/resource/texture2d.inl"
+#include "renderer/image/texture2d.inl"
 
 #endif // TEXTURE_HPP

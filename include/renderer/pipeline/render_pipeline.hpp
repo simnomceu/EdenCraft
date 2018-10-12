@@ -41,7 +41,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/pipeline/render_state.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {

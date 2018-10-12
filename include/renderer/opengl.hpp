@@ -53,6 +53,7 @@
 #include "renderer/opengl/gl46_extension.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 #include "renderer/opengl/opengl_extension.hpp"
+#include "renderer/opengl/object_opengl.hpp"
 #include "renderer/opengl/opengl.hpp"
 
 namespace ece

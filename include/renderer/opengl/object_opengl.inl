@@ -38,26 +38,15 @@
 
 */
 
-#include "renderer/resource/base_uniform.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace opengl
 		{
-			Handle BaseUniform::getLocation() const
-			{
-				guard();
-				return OpenGL::getUniformLocation(this->_owner, this->_name);
-			}
+			inline constexpr ObjectOpenGL::ObjectOpenGL() noexcept : _handle(NullHandle) {}
 
-			void BaseUniform::guard() const
-			{
-				if (static_cast<int>(this->_owner) != OpenGL::getInteger(Parameter::CURRENT_PROGRAM)[0]) {
-					throw std::runtime_error("The current shader program is not the owner of this uniform.");
-				}
-			}
-		} // namespace resource
+			inline Handle  ObjectOpenGL::getHandle() const { return this->_handle; }
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece

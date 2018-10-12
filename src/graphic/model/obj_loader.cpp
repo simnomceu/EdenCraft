@@ -42,7 +42,7 @@
 
 #include "utility/file_system.hpp"
 #include "utility/formats.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 #include "core/resource.hpp"
 
 namespace ece

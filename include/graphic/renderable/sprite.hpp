@@ -44,7 +44,7 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 #include "utility/mathematics.hpp"
 
 namespace ece

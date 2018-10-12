@@ -48,17 +48,17 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
 			class Shader;
-		} // namespace resource
+		} // namespace shader
 	} // namespace renderable
 
 	namespace graphic
 	{
 		namespace model
 		{
-			using renderer::resource::Shader;
+			using renderer::shader::Shader;
 
 			/**
 			 * @class Material

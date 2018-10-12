@@ -37,13 +37,13 @@
 */
 
 
-#include "renderer/resource/texture2d.hpp"
+#include "renderer/image/texture2d.hpp"
 
 #include "utility/formats/bitmap.hpp"
 #include "utility/file_system.hpp"
-#include "renderer/image.hpp"
 #include "core/format.hpp"
 #include "utility/debug.hpp"
+#include "renderer/image/loader_image.hpp"
 
 #include <memory>
 
@@ -51,7 +51,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace image
 		{
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
@@ -125,6 +125,6 @@ namespace ece
 			}
 
 			void Texture2D::terminate() {}
-		} // namespace resource
+		} // namespace image
 	} // namespace renderer
 } // namespace ece

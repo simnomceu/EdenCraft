@@ -38,121 +38,104 @@
 
 */
 
-#ifndef BASE_UNIFORM_HPP
-#define BASE_UNIFORM_HPP
-
-#include <string>
+#ifndef UNIFORM_HPP
+#define UNIFORM_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl.hpp"
+#include "renderer/shader/base_uniform.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
 			/**
-			 * @class BaseUniform
-			 * @brief
+			 * @class Uniform
+			 * @tparam T the type of data of the uniform.
+			 * @brief A uniform as defined in OpenGL.
 			 */
-			class ECE_RENDERER_API BaseUniform
+			template <class T>
+			class ECE_RENDERER_API Uniform : public BaseUniform
 			{
 			public:
 				/**
-				 * @fn BaseUniform() noexcept
+				 * @fn Uniform(const Handle owner, const std::string & location, const T & data)
+				 * @param[in] location The location of the uniform.
+				 * @param[in] data The data to set.
+				 * @brief Build a uniform from its location and the data to set.
+				 * @throw
+				 */
+				Uniform(const Handle owner, const std::string & location, const T & data);
+
+				/**
+				 * @fn constexpr Uniform() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				BaseUniform() noexcept = default;
+				constexpr Uniform() noexcept = default;
 
 				/**
-				 * @fn BaseUniform(const BaseUniform & copy)
-				 * @param[in] copy The BaseUniform to copy from.
+				 * @fn Uniform(const Uniform & copy) noexcept
+				 * @param[in] copy The Uniform to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				BaseUniform(const BaseUniform & copy) = default;
+				Uniform(const Uniform & copy) noexcept = default;
 
 				/**
-				 * @fn BaseUniform(BaseUniform && move) noexcept
-				 * @param[in] move The BaseUniform to move.
+				 * @fn Uniform(Uniform && move) noexcept
+				 * @param[in] move The Uniform to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				BaseUniform(BaseUniform && move) noexcept = default;
+				Uniform(Uniform && move) noexcept = default;
 
 				/**
-				 * @fn ~BaseUniform() noexcept
+				 * @fn ~Uniform() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BaseUniform() noexcept = default;
+				~Uniform() noexcept = default;
 
 				/**
-				 * @fn BaseUniform & operator=(const BaseUniform & copy)
-				 * @param[in] copy The BaseUniform to copy from.
-				 * @return The BaseUniform copied.
+				 * @fn Uniform & operator=(const Uniform & copy) noexcept
+				 * @param[in] copy The Uniform to copy from.
+				 * @return The Uniform copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				BaseUniform & operator=(const BaseUniform & copy) = default;
+				Uniform & operator=(const Uniform & copy) noexcept = default;
 
 				/**
-				 * @fn BaseUniform & operator=(BaseUniform && move) noexcept
-				 * @param[in] move The BaseUniform to move from.
-				 * @return The BaseUniform moved.
+				 * @fn Uniform & operator=(Uniform && move) noexcept
+				 * @param[in] move The Uniform to move from.
+				 * @return The Uniform moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				BaseUniform & operator=(BaseUniform && move) noexcept = default;
+				Uniform & operator=(Uniform && move) noexcept = default;
 
 				/**
-				 * @fn bool isOwned() const noexcept
-				 * @return True if it has an owner, false else.
-				 * @brief Check if the uniform is already set in a shader program or not.
-				 * @throw noexcept
-				 */
-				inline bool isOwned() const noexcept;
-
-				/**
-				 * @fn Handle getOwner() const noexcept
-				 * @return The owner of the uniform.
-				 * @brief Get the owner of the uniform.
-				 * @throw noexcept
-				 */
-				inline Handle getOwner() const noexcept;
-
-				/**
-				 * @fn const std::string & getName() const noexcept
-				 * @return The string location.
-				 * @brief Get the string name of the uniform.
-				 * @throw noexcept
-				 */
-				inline const std::string & getName() const noexcept;
-
-				/**
-				 * @fn Handle getLocation() const
-				 * @return The location of the uniform.
-				 * @brief Get the location of the uniform in the owner program.
+				 * @fn T getData() const
+				 * @return The content of the uniform.
+				 * @brief Get the data content of the uniform.
 				 * @throw
 				 */
-				Handle getLocation() const;
+				T getData() const;
 
-				inline void setOwner(const Handle owner);
-
-				inline void setName(const std::string & name);
-
-			protected:
-				Handle _owner;
-				std::string _name;
-
-				void guard() const;
+				/**
+				 * @fn void setData(const T & data)
+				 * @param[in] data The data to set.
+				 * @brief Set the content of the uniform.
+				 * @throw
+				 */
+				void setData(const T & data);
 			};
-		} // namespace resource
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/resource/base_uniform.inl"
+#include "renderer/shader/uniform.inl"
 
-#endif // BASE_UNIFORM_HPP
+#endif // UNIFORM_HPP

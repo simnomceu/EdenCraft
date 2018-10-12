@@ -36,87 +36,155 @@
 
 */
 
-
-#ifndef ENHANCED_SHADER_HPP
-#define ENHANCED_SHADER_HPP
+#ifndef SHADER_HPP
+#define SHADER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource/shader.hpp"
+#include "renderer/opengl.hpp"
+#include "renderer/shader/shader_stage.hpp"
+#include "utility/template_expression.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
+			class BaseUniform;
+
 			/**
-			 * @class EnhancedShader
-			 * @€xtends Shader
-			 * @brief A shader program with automatic features, to enhance its use.
-			 * @see Shader
+			 * @class Shader
+			 * @brief A shader program, as a combination of shader stages.
 			 */
-			class ECE_RENDERER_API EnhancedShader : public Shader
+			class ECE_RENDERER_API Shader
 			{
 			public:
 				/**
-				 * @fn EnhancedShader()
+				 * @fn Shader()
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				EnhancedShader() = default;
+				inline Shader();
 
 				/**
-				 * @fn EnhancedShader(const EnhancedShader & copy)
+				 * @fn Shader(const Handle handle) noexcept
+				 * @param[in] handle The id to use.
+				 * @brief Build a shader program with a specific id.
+				 * @throw noexcept
+				 */
+				inline Shader(const Handle handle) noexcept;
+
+				/**
+				 * @fn Shader(const Shader & copy)
 				 * @param[in] copy The shader program to copy from.
 				 * @brief Default copy constructor.
 				 * @throw
 				 */
-				EnhancedShader(const EnhancedShader & copy) = default;
+				Shader(const Shader & copy) = default;
 
 				/**
-				 * @fn EnhancedShader(EnhancedShader && move) noexcept
+				 * @fn Shader(Shader && move) noexcept
 				 * @param[in] move The shader program to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				EnhancedShader(EnhancedShader && move) noexcept = default;
+				Shader(Shader && move) noexcept = default;
 
 				/**
-				 * @fn ~EnhancedShader() noexcept
+				 * @fn ~Shader() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~EnhancedShader() noexcept = default;
+				~Shader() noexcept;
 
 				/**
-				 * @fn EnhancedShader & operator=(const EnhancedShader & copy)
-				 * @param[in] copyy The shader program to copy from.
+				 * @fn Shader & operator=(const Shader & copy)
+				 * @param[in] copy The shader program to copy from.
 				 * @return The shader program copied.
 				 * @brief Default copy assignment operator.
 				 * @throw
 				 */
-				EnhancedShader & operator=(const EnhancedShader & copy) = default;
+				Shader & operator=(const Shader & copy) = default;
 
 				/**
-				 * @fn EnhancedShader & operator=(EnhancedShader && move) noexcept
+				 * @fn Shader & operator=(Shader && move) noexcept
 				 * @param[in] move The shader program to move.
 				 * @return The shader program moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				EnhancedShader & operator=(EnhancedShader && move) noexcept = default;
+				Shader & operator=(Shader && move) noexcept = default;
+
+				/**
+				 * @fn Handle getHandle() const
+				 * @return The id of the shader program.
+				 * @brief Get the id of the shader program.
+				 * @throw
+				 */
+				inline Handle getHandle() const;
 
 				/**
 				 * @fn void setStage(ShaderStage & stage)
 				 * @param[in] stage The shader stage to add.
 				 * @brief Set a shader stage of the program.
 				 * @throw
-				 * @see void Shader::setStage(ShaderStage & stage)
 				 */
-				virtual void setStage(ShaderStage & stage) override;
+				virtual void setStage(ShaderStage & stage);
+
+				/**
+				 * @fn void link()
+				 * @brief Link the shader program.
+				 * @throw
+				 */
+				void link();
+
+				/**
+				 * @fn bool isLinked() const
+				 * @return True, if the program has been linked successfully, false else.
+				 * @brief check if the program has been linked successfully or not.
+				 * @throw noexcept
+				 */
+				inline bool isLinked() const noexcept;
+
+				/**
+				 * @fn void use() const
+				 * @brief Put the shader program in a buffer to be used.
+				 * @throw
+				 */
+				inline void use() const;
+
+				/**
+				 * @fn void uniform(const std::string & uniform, const T & value)
+				 * @tparam T The type of value to set.
+				 * @param[in] uniform The name of the uniform to set.
+				 * @param[in] value The value to set.
+				 * @brief Set the value of a uniform from the shader program.
+				 */
+				template<class T> void uniform(const std::string & uniform, const T & value);
+				template<class E, int Size> void uniform(const std::string & uniform, const Vector<E, Size> & value);
+
+				/**
+				 * @fn void terminate()
+				 * @brief Delete the shader program.
+				 * @throw
+				 */
+				void terminate();
+
+			protected:
+				/**
+				 * @property _handle
+				 * @brief The id of the shader program.
+				 */
+				Handle _handle;
+
+				std::vector<std::shared_ptr<BaseUniform>> _uniforms;
+
+				bool _linkedSuccessfully;
 			};
-		} // namespace resource
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece
 
-#endif // ENHANCED_SHADER_HPP
+#include "renderer/shader/shader.inl"
+
+#endif // SHADER_HPP

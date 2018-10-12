@@ -36,21 +36,55 @@
 
 */
 
-#ifndef RENDERER_RESOURCE_HPP
-#define RENDERER_RESOURCE_HPP
+#include "renderer/shader/shader.hpp"
 
-#include "renderer/resource/base_uniform.hpp"
-#include "renderer/resource/buffer_object.hpp"
-#include "renderer/resource/enhanced_shader.hpp"
-#include "renderer/resource/object_opengl.hpp"
-#include "renderer/resource/shader_stage.hpp"
-#include "renderer/resource/shader.hpp"
-#include "renderer/resource/texture2d.hpp"
-#include "renderer/resource/uniform.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
-	using namespace renderer::resource;
-}
+	namespace renderer
+	{
+		namespace shader
+		{
+			Shader::~Shader()
+			{
+				this->terminate();
+			}
 
-#endif // RENDERER_RESOURCE_HPP
+			void Shader::setStage(ShaderStage & stage)
+			{
+				if (stage.isCompilationRequired()) {
+					stage.compile();
+				}
+				OpenGL::attachShader(this->_handle, stage.getHandle());
+				stage.terminate();
+
+				this->_linkedSuccessfully = false;
+			}
+
+			void Shader::link()
+			{
+				OpenGL::linkProgram(this->_handle);
+
+				if (OpenGL::getProgramiv(this->_handle, ProgramParameter::LINK_STATUS)[0]) {
+					this->use();
+					this->_linkedSuccessfully = true;
+
+					auto shaders = OpenGL::getAttachedShaders(this->_handle);
+					for (auto & it : shaders) {
+						OpenGL::detachShader(this->_handle, it);
+					}
+				} else {
+                    std::string infoLog = OpenGL::getProgramInfoLog(this->_handle);
+                    //ServiceLoggerLocator::getService().logError(infoLog);
+                }
+			}
+
+			void Shader::terminate()
+			{
+				OpenGL::deleteShader(this->_handle);
+				this->_handle = 0;
+			}
+		} // namespace shader
+	} // namespace renderer
+} // namespace ece

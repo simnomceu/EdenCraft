@@ -39,7 +39,7 @@
 */
 
 #include "graphic/renderable/object.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {

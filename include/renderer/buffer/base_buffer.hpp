@@ -42,7 +42,7 @@
 #include "renderer/config.hpp"
 #include "renderer/buffer/buffer_usage.hpp"
 #include "renderer/buffer/buffer_type.hpp"
-#include "renderer/resource/object_opengl.hpp"
+#include "renderer/opengl/object_opengl.hpp"
 
 #include <cstddef>
 
@@ -52,7 +52,7 @@ namespace ece
 	{
 		namespace buffer
 		{
-			using resource::ObjectOpenGL;
+			using opengl::ObjectOpenGL;
 
 			/**
 			 * @class BaseBuffer

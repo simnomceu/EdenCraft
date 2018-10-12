@@ -45,14 +45,14 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
 			class Shader;
 		}
 
 		namespace pipeline
 		{
-			using resource::Shader;
+			using shader::Shader;
 			class RenderState;
 
 			class ECE_RENDERER_API Drawable

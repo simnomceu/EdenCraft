@@ -41,7 +41,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
 			inline ShaderStage::ShaderStage() noexcept: _filename(), _source(), _type(ShaderType::FRAGMENT_SHADER), _handle(), _compilationRequired(false) {}
 
@@ -69,6 +69,6 @@ namespace ece
 			inline Handle ShaderStage::getHandle() const { return this->_handle; }
 
 			inline bool ShaderStage::isCompilationRequired() const { return this->_compilationRequired; }
-		} // namespace resource
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece

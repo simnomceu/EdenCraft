@@ -41,7 +41,7 @@
 #include "graphic/renderable/point.hpp"
 
 #include "renderer/opengl.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {

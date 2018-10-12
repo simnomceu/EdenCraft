@@ -36,54 +36,43 @@
 
 */
 
+#include <algorithm>
+
+#include "renderer/shader/uniform.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
-			inline Texture2D::Texture2D()noexcept : _filename(), _data(), _width(), _height(), _type(TextureTypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture()) {}
+			inline Shader::Shader() : _handle(0), _uniforms(), _linkedSuccessfully(false) { this->_handle = OpenGL::createProgram(); }
 
-			inline Texture2D::Texture2D(const Texture2D & copy) : _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), _type(copy._type),
-				_handle(copy._handle) {}
+			inline Shader::Shader(const Handle handle) noexcept : _handle(handle) {}
 
-			inline Texture2D::Texture2D(Texture2D && move) noexcept : _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), _height(move._height), _type(move._type),
-				_handle(move._handle)
+			inline Handle Shader::getHandle() const { return this->_handle; }
+
+			template<class T>
+			void Shader::uniform(const std::string & uniform, const T & value)
 			{
-				move._data.clear();
-				move._handle = 0;
+				// TODO: need to be sure that the program as been linked successfully.
+				this->use();
+
+				OpenGL::uniform<T, 1>(OpenGL::getUniformLocation(this->_handle, uniform), std::array<T, 1>{value});
 			}
 
-			inline const std::string & Texture2D::getFilename() const { return this->_filename; }
-
-			inline const std::vector<std::byte> & Texture2D::getData() const { return this->_data; }
-
-			inline std::size_t Texture2D::getWidth() const { return this->_width; }
-
-			inline std::size_t Texture2D::getHeight() const { return this->_height; }
-
-			inline TextureTypeTarget Texture2D::getType() const { return this->_type; }
-
-			inline Handle Texture2D::getHandle() const { return this->_handle; }
-
-			inline void Texture2D::bind(const TextureTarget target) { OpenGL::bindTexture(target, this->_handle); }
-
-			inline void Texture2D::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
-
-			template <typename T>
-			void Texture2D::setParameter(const TextureParameter name, const T value)
+			template <class E, int Size>
+			void Shader::uniform(const std::string & uniform, const Vector<E, Size> & value)
 			{
-				this->bind(TextureTarget::TEXTURE_2D);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, name, value);
+				// TODO: need to be sure that the program as been linked successfully.
+				this->use();
+
+				OpenGL::uniform<E, Size>(OpenGL::getUniformLocation(this->_handle, uniform), value.data());
 			}
 
-			template <typename T>
-			void Texture2D::setParameter(const TextureParameter name, const std::vector<T> & value)
-			{
-				this->bind(TextureTarget::TEXTURE_2D);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, name, value);
-			}
-		} // namespace resource
+			inline bool Shader::isLinked() const noexcept { return this->_linkedSuccessfully; }
+
+			inline void Shader::use() const { OpenGL::useProgram(this->_handle); }
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece

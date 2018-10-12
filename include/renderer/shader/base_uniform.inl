@@ -42,13 +42,17 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
-			using opengl::NullHandle;
+			inline bool BaseUniform::isOwned() const noexcept { return this->_owner != 0; }
 
-			inline constexpr ObjectOpenGL::ObjectOpenGL() noexcept : _handle(NullHandle) {}
+			inline Handle BaseUniform::getOwner() const noexcept { return this->_owner; }
 
-			inline Handle  ObjectOpenGL::getHandle() const { return this->_handle; }
-		} // namespace resource
+			inline const std::string & BaseUniform::getName() const noexcept { return this->_name; }
+
+			inline void BaseUniform::setOwner(const Handle owner) { this->_owner = owner; }
+
+			inline void BaseUniform::setName(const std::string & name) { this->_name = name; }
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece

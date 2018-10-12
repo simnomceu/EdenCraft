@@ -49,7 +49,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
 			/**
 			 * @class ShaderStage
@@ -209,10 +209,10 @@ namespace ece
 				 */
 				bool _compilationRequired;
 			};
-		} // namespace resource
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/resource/shader_stage.inl"
+#include "renderer/shader/shader_stage.inl"
 
 #endif // SHADER_STAGE_HPP

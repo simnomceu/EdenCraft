@@ -38,31 +38,26 @@
 
 */
 
+#include "renderer/shader/base_uniform.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
-			template<class T>
-			inline Uniform<T>::Uniform(const Handle owner, const std::string & location, const T & data) : BaseUniform()
-			{
-				this->setData(data);
-			}
-
-			template <class T>
-			T Uniform<T>::getData() const
+			Handle BaseUniform::getLocation() const
 			{
 				guard();
-				return T();// OpenGL::getUniform<T>(this->_owner, this->getLocation());
+				return OpenGL::getUniformLocation(this->_owner, this->_name);
 			}
 
-			template<class T>
-			inline void Uniform<T>::setData(const T & data)
+			void BaseUniform::guard() const
 			{
-				guard();
-				OpenGL::uniform<T>(this->getLocation(), data);
+				if (static_cast<int>(this->_owner) != OpenGL::getInteger(Parameter::CURRENT_PROGRAM)[0]) {
+					throw std::runtime_error("The current shader program is not the owner of this uniform.");
+				}
 			}
-		} // namespace resource
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece

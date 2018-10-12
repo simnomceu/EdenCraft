@@ -40,7 +40,6 @@
 #include "renderer/win32/data_context_opengl.hpp"
 
 #include "renderer/win32/wgl_extension.hpp"
-#include "renderer/rendering.hpp"
 #include "window/common.hpp"
 #include "window/win32/data_window_adapter.hpp"
 #include "utility/log.hpp"

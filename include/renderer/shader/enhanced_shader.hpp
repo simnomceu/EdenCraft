@@ -36,43 +36,87 @@
 
 */
 
-#include <algorithm>
 
-#include "renderer/resource/uniform.hpp"
+#ifndef ENHANCED_SHADER_HPP
+#define ENHANCED_SHADER_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/shader/shader.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
-			inline Shader::Shader() : _handle(0), _uniforms(), _linkedSuccessfully(false) { this->_handle = OpenGL::createProgram(); }
-
-			inline Shader::Shader(const Handle handle) noexcept : _handle(handle) {}
-
-			inline Handle Shader::getHandle() const { return this->_handle; }
-
-			template<class T>
-			void Shader::uniform(const std::string & uniform, const T & value)
+			/**
+			 * @class EnhancedShader
+			 * @€xtends Shader
+			 * @brief A shader program with automatic features, to enhance its use.
+			 * @see Shader
+			 */
+			class ECE_RENDERER_API EnhancedShader : public Shader
 			{
-				// TODO: need to be sure that the program as been linked successfully.
-				this->use();
+			public:
+				/**
+				 * @fn EnhancedShader()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				EnhancedShader() = default;
 
-				OpenGL::uniform<T, 1>(OpenGL::getUniformLocation(this->_handle, uniform), std::array<T, 1>{value});
-			}
+				/**
+				 * @fn EnhancedShader(const EnhancedShader & copy)
+				 * @param[in] copy The shader program to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				EnhancedShader(const EnhancedShader & copy) = default;
 
-			template <class E, int Size>
-			void Shader::uniform(const std::string & uniform, const Vector<E, Size> & value)
-			{
-				// TODO: need to be sure that the program as been linked successfully.
-				this->use();
+				/**
+				 * @fn EnhancedShader(EnhancedShader && move) noexcept
+				 * @param[in] move The shader program to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				EnhancedShader(EnhancedShader && move) noexcept = default;
 
-				OpenGL::uniform<E, Size>(OpenGL::getUniformLocation(this->_handle, uniform), value.data());
-			}
+				/**
+				 * @fn ~EnhancedShader() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~EnhancedShader() noexcept = default;
 
-			inline bool Shader::isLinked() const noexcept { return this->_linkedSuccessfully; }
+				/**
+				 * @fn EnhancedShader & operator=(const EnhancedShader & copy)
+				 * @param[in] copyy The shader program to copy from.
+				 * @return The shader program copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				EnhancedShader & operator=(const EnhancedShader & copy) = default;
 
-			inline void Shader::use() const { OpenGL::useProgram(this->_handle); }
-		} // namespace resource
+				/**
+				 * @fn EnhancedShader & operator=(EnhancedShader && move) noexcept
+				 * @param[in] move The shader program to move.
+				 * @return The shader program moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				EnhancedShader & operator=(EnhancedShader && move) noexcept = default;
+
+				/**
+				 * @fn void setStage(ShaderStage & stage)
+				 * @param[in] stage The shader stage to add.
+				 * @brief Set a shader stage of the program.
+				 * @throw
+				 * @see void Shader::setStage(ShaderStage & stage)
+				 */
+				virtual void setStage(ShaderStage & stage) override;
+			};
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece
+
+#endif // ENHANCED_SHADER_HPP

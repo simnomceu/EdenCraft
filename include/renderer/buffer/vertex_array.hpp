@@ -40,7 +40,7 @@
 #define VERTEX_ARRAY_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/resource/object_opengl.hpp"
+#include "renderer/opengl/object_opengl.hpp"
 #include "renderer/buffer/buffer_layout.hpp"
 
 namespace ece
@@ -49,7 +49,7 @@ namespace ece
 	{
 		namespace buffer
 		{
-			using resource::ObjectOpenGL;
+			using opengl::ObjectOpenGL;
 			class BaseBuffer;
 
 			/**

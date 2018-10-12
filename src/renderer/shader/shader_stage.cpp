@@ -37,7 +37,7 @@
 */
 
 
-#include "renderer/resource/shader_stage.hpp"
+#include "renderer/shader/shader_stage.hpp"
 
 #include "utility/file_system.hpp"
 #include "utility/debug.hpp"
@@ -47,7 +47,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
 			ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
 			{
@@ -129,6 +129,6 @@ namespace ece
 					this->_compilationRequired = true;
 				}
 			}
-		} // namespace resource
+		} // namespace shader
 	} // namespace renderer
 } // namespace ece

@@ -38,21 +38,96 @@
 
 */
 
+#ifndef OBJECT_OPENGL_HPP
+#define OBJECT_OPENGL_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/opengl/opengl.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace opengl
 		{
-			inline bool BaseUniform::isOwned() const noexcept { return this->_owner != 0; }
+			/**
+			 * @class ObjectOpenGL
+			 * @brief Base class for any object of the OpenGL API.
+			 */
+			class ECE_RENDERER_API ObjectOpenGL
+			{
+			public:
+				/**
+				 * @fn constexpr ObjectOpenGL() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline constexpr ObjectOpenGL() noexcept;
 
-			inline Handle BaseUniform::getOwner() const noexcept { return this->_owner; }
+				/**
+				 * @fn ObjectOpenGL(const ObjectOpenGL & copy) noexcept
+				 * @param[in] copy The object to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				ObjectOpenGL(const ObjectOpenGL & copy) noexcept = delete;
 
-			inline const std::string & BaseUniform::getName() const noexcept { return this->_name; }
+				/**
+				 * @fn ObjectOpenGL(ObjectOpenGL && move) noexcept
+				 * @param[in] move The object to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ObjectOpenGL(ObjectOpenGL && move) noexcept = default;
 
-			inline void BaseUniform::setOwner(const Handle owner) { this->_owner = owner; }
+				/**
+				 * @fn ~ObjectOpenGL() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~ObjectOpenGL() noexcept = default;
+				
+				/**
+				 * @fn ObjectOpenGL & operator=(const ObjectOpenGL & copy) noexcept
+				 * @param[in] copy The object to copy from.
+				 * @return The object copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				ObjectOpenGL & operator=(const ObjectOpenGL & copy) noexcept = delete;
 
-			inline void BaseUniform::setName(const std::string & name) { this->_name = name; }
-		} // namespace resource
+				/**
+				 * @fn ObjectOpenGL & operator=(ObjectOpenGL && move) noexcept
+				 * @param[in] move The object to move.
+				 * @return The object moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ObjectOpenGL & operator=(ObjectOpenGL && move) noexcept = default;
+
+				virtual void bind() const = 0;
+
+				virtual void terminate() = 0;
+
+				/**
+				 * @fn Handle getHandle() const
+				 * @return The id of the object.
+				 * @brief Get the id of the object.
+				 * @throw
+				 */
+				inline Handle getHandle() const;
+
+			protected:
+				/**
+				 * @property _handle
+				 * @brief The id of the object.
+				 */
+				Handle _handle;
+			};
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/opengl/object_opengl.inl"
+
+#endif // OBJECT_OPENGL_HPP

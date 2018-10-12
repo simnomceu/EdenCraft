@@ -42,7 +42,7 @@
 #define RENDERABLE_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 #include "core/resource.hpp"
 #include "renderer/pipeline.hpp"
 #include "renderer/buffer.hpp"

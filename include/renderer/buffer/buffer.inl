@@ -65,7 +65,7 @@ namespace ece
 			}
 
 			template <template <class, class...> class Storage, class Data, typename enabled>
-			inline void Buffer<Storage, Data, enabled>::write(const typename Buffer<Storage, Data, enabled>::data_type & data)
+			inline void Buffer<Storage, Data, enabled>::write(const data_type & data)
 			{
 				this->bind();
 				this->_storage.write(this->_descriptor, this->_type, this->_frequency, data);

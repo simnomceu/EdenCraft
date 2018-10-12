@@ -44,7 +44,7 @@
 #include "graphic/config.hpp"
 #include "graphic/model/material.hpp"
 #include "utility/mathematics.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {
