@@ -52,7 +52,7 @@ namespace ece
 			 * @class VertexBuffer
 			 * @brief
 			 */
-			template <template <class> class Storage, class Data>
+			template <template <class, class...> class Storage, class Data>
 			class ECE_RENDERER_API VertexBuffer : public Buffer<Storage, Data>
 			{
 			public:
@@ -63,13 +63,7 @@ namespace ece
 				 */
 				VertexBuffer() noexcept;
 
-				/**
-				 * @fn VertexBuffer(const VertexBuffer & copy) noexcept
-				 * @param[in] copy The VertexBuffer to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				VertexBuffer(const VertexBuffer & copy) noexcept = default;
+				VertexBuffer(const VertexBuffer & copy) noexcept = delete;
 
 				/**
 				 * @fn VertexBuffer(VertexBuffer && move) noexcept
@@ -86,14 +80,7 @@ namespace ece
 				 */
 				~VertexBuffer() noexcept = default;
 
-				/**
-				 * @fn VertexBuffer & operator=(const VertexBuffer & copy) noexcept
-				 * @param[in] copy The VertexBuffer to copy from.
-				 * @return The VertexBuffer copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				VertexBuffer & operator=(const VertexBuffer & copy) noexcept = default;
+				VertexBuffer & operator=(const VertexBuffer & copy) noexcept = delete;
 
 				/**
 				 * @fn VertexBuffer & operator=(VertexBuffer && move) noexcept

@@ -72,7 +72,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				ObjectOpenGL(const ObjectOpenGL & copy) noexcept = default;
+				ObjectOpenGL(const ObjectOpenGL & copy) noexcept = delete;
 
 				/**
 				 * @fn ObjectOpenGL(ObjectOpenGL && move) noexcept
@@ -96,7 +96,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				ObjectOpenGL & operator=(const ObjectOpenGL & copy) noexcept = default;
+				ObjectOpenGL & operator=(const ObjectOpenGL & copy) noexcept = delete;
 
 				/**
 				 * @fn ObjectOpenGL & operator=(ObjectOpenGL && move) noexcept
@@ -110,7 +110,6 @@ namespace ece
 				virtual void bind() const = 0;
 
 				virtual void terminate() = 0;
-				
 
 				/**
 				 * @fn Handle getHandle() const

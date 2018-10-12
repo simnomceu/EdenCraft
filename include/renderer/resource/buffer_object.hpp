@@ -123,7 +123,7 @@ namespace ece
 				* @param[in] usage The kind of usage the buffer.
 				* @brief Set data in the VBO.
 				*/
-				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && can_access_data_v<T<TT...>> && has_size_v<T<TT...>>>>
+				template<template <class...> class T, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<TT...>> && is_container_v<T<TT...>>>>
 				void bufferData(const T<TT...> & data, const BufferMethod method, const int offset = 0);
 				// invalidateBufferData
 				// clearBufferData

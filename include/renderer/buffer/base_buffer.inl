@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace buffer
 		{
-			inline BaseBuffer::BaseBuffer() noexcept : ObjectOpenGL(), _descriptor{ 0, 0 }, _type(BufferType::ARRAY_BUFFER) {}
+			inline constexpr BaseBuffer::BaseBuffer() noexcept : ObjectOpenGL(), _descriptor{}, _type(BufferType::ARRAY_BUFFER), _frequency(BufferFrequency::STATIC) {}
 
 			inline void BaseBuffer::bind() const
 			{
@@ -57,11 +57,13 @@ namespace ece
 				this->_handle = NullHandle;
 			}
 
-			inline BufferType BaseBuffer::getType() const { return this->_type; }
+			inline BufferType BaseBuffer::getType() const noexcept { return this->_type; }
+
+			inline BufferFrequency BaseBuffer::getFrequency() const noexcept { return this->_frequency; }
 
 			inline void BaseBuffer::setDataDescriptor(const BaseBuffer::DataDescriptor & descriptor) noexcept { this->_descriptor = descriptor; }
 
-			inline const BaseBuffer::DataDescriptor &BaseBuffer::getDataDescriptor() const noexcept { return this->_descriptor; }
+			inline const BaseBuffer::DataDescriptor & BaseBuffer::getDataDescriptor() const noexcept { return this->_descriptor; }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

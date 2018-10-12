@@ -40,6 +40,8 @@
 
 #include "renderer/opengl/opengl.hpp"
 
+#include <numeric>
+
 namespace ece
 {
     namespace renderer
@@ -62,6 +64,12 @@ namespace ece
 											ignored,
 											instanced });
             }
+			
+			inline std::size_t BufferLayout::getStride() const
+			{
+				return std::accumulate(this->_elements.begin(), this->_elements.end(), std::size_t(0),
+					[](const std::size_t ac, const ElementLayout & element) -> std::size_t { return ac + (element._count * element._unitSize); });
+			}
 
             inline BufferLayout::ElementLayout & BufferLayout::getElement(const std::size_t index) { return this->_elements[index]; }
 

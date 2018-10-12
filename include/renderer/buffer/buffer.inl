@@ -42,81 +42,57 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template <template <class> class Storage, class Data, typename enabled>
-			Buffer<Storage, Data, enabled>::Buffer(const BufferFrequency frequency) noexcept : BaseBuffer(), _frequency(frequency), _storage()
-			{
-				this->_storage = std::make_unique<Storage<Data>>(*this);
-			}
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			Buffer<Storage, Data, enabled>::Buffer() noexcept : BaseBuffer(), _storage() {}
 
-			template <template <class> class Storage, class Data, typename enabled>
-			Buffer<Storage, Data, enabled>::Buffer(const Buffer<Storage, Data, enabled> & copy) noexcept: BaseBuffer(copy), _frequency(copy._frequency), _storage()
-			{
-				this->_storage = std::make_unique<Storage<Data>>(*this);
-				this->_storage->copy(copy);
-			}
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			Buffer<Storage, Data, enabled>::Buffer(Buffer<Storage, Data, enabled> && move) noexcept : BaseBuffer(std::move(move)), _storage(std::move(move._storage)) {}
 
-			template <template <class> class Storage, class Data, typename enabled>
-			Buffer<Storage, Data, enabled>::Buffer(Buffer<Storage, Data, enabled> && move) noexcept : BaseBuffer(move), _frequency(std::move(move._frequency)), _storage()
-			{
-				this->_storage = std::make_unique<Storage<Data>>(*this);
-				this->_storage->copy(move);
-			}
-
-			template <template <class> class Storage, class Data, typename enabled>
-			Buffer<Storage, Data, enabled> & Buffer<Storage, Data, enabled>::operator=(const Buffer<Storage, Data, enabled> & copy) noexcept
-			{
-				BaseBuffer::operator=(copy);
-				this->_frequency = copy._frequency;
-				this->copy(copy);
-
-				return *this;
-			}
-
-			template <template <class> class Storage, class Data, typename enabled>
+			template <template <class, class...> class Storage, class Data, typename enabled>
 			Buffer<Storage, Data, enabled> & Buffer<Storage, Data, enabled>::operator=(Buffer<Storage, Data, enabled> && move) noexcept
 			{
-				BaseBuffer::operator=(move);
-				this->_frequency = std::move(move._frequency);
-				this->copy(move);
+				BaseBuffer::operator=(std::move(move));
+				this->_storage = std::move(move._storage);
 
 				return *this;
 			}
 
-			template <template <class> class Storage, class Data, typename enabled>
-			Data Buffer<Storage, Data, enabled>::read() const
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			inline typename Buffer<Storage, Data, enabled>::data_type Buffer<Storage, Data, enabled>::read() const
 			{
-				return this->_storage->read();
+				this->bind();
+				return this->_storage.read(this->_descriptor, this->_type, this->_frequency);
 			}
 
-			template <template <class> class Storage, class Data, typename enabled>
-			void Buffer<Storage, Data, enabled>::write(const Data & data)
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			inline void Buffer<Storage, Data, enabled>::write(const typename Buffer<Storage, Data, enabled>::data_type & data)
 			{
-				this->_storage->write(data);
+				this->bind();
+				this->_storage.write(this->_descriptor, this->_type, this->_frequency, data);
 			}
 
-			template <template <class> class Storage, class Data, typename enabled>
-			void Buffer<Storage, Data, enabled>::copy(const Buffer<Storage, Data, enabled> & rhs)
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			inline void Buffer<Storage, Data, enabled>::copy(const Buffer<Storage, Data, enabled> & rhs)
 			{
-				this->_storage->copy(rhs);
+				this->bind();
+				this->_storage.copy(this->_descriptor, this->_type, this->_frequency, rhs);
 			}
 
-			template <template <class> class Storage, class Data, typename enabled>
-			void Buffer<Storage, Data, enabled>::update()
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			inline void Buffer<Storage, Data, enabled>::update()
 			{
-				this->_storage->update();
+				this->bind();
+				this->_storage.update(this->_descriptor, this->_type, this->_frequency);
 			}
 
-			template <template <class> class Storage, class Data, typename enabled>
-			inline std::size_t Buffer<Storage, Data, enabled>::size() const noexcept { return this->_storage->data().size(); }
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			inline typename Buffer<Storage, Data, enabled>::size_type Buffer<Storage, Data, enabled>::size() const noexcept { return this->_storage.data().size(); }
 
-			template <template <class> class Storage, class Data, typename enabled>
-			inline BufferFrequency Buffer<Storage, Data, enabled>::getFrequency() const { return this->_frequency; }
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			inline typename Buffer<Storage, Data, enabled>::data_type & Buffer<Storage, Data, enabled>::data() { return this->_storage.data(); }
 
-			template <template <class> class Storage, class Data, typename enabled>
-			inline Data & Buffer<Storage, Data, enabled>::data() { return this->_storage->data(); }
-
-			template <template <class> class Storage, class Data, typename enabled>
-			inline const Data & Buffer<Storage, Data, enabled>::data() const { return this->_storage->data(); }
+			template <template <class, class...> class Storage, class Data, typename enabled>
+			inline const typename Buffer<Storage, Data, enabled>::data_type & Buffer<Storage, Data, enabled>::data() const { return this->_storage.data(); }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

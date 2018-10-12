@@ -44,18 +44,11 @@ namespace ece
 	{
 		namespace buffer
 		{
-			BaseBuffer & BaseBuffer::operator=(const BaseBuffer & copy)
-			{
-				this->_descriptor = copy._descriptor;
-				this->_type = copy._type;
-
-				return *this;
-			}
-
 			BaseBuffer & BaseBuffer::operator=(BaseBuffer && move) noexcept
 			{
 				this->_descriptor = std::move(move._descriptor);
 				this->_type = std::move(move._type);
+				this->_frequency = std::move(move._frequency);
 
 				return *this;
 			}

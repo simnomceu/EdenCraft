@@ -79,7 +79,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw
 				 */
-				Submesh(const Submesh & copy) = default;
+				Submesh(const Submesh & copy);
 
 				/**
 				 * @fn Submesh(Submesh && move) noexcept
@@ -103,7 +103,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw
 				 */
-				Submesh & operator=(const Submesh & copy) = default;
+				Submesh & operator=(const Submesh & copy);
 
 				/**
 				 * @fn Submesh & operator=(Submesh && move) noexcept

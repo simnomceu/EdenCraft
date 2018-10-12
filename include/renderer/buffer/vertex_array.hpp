@@ -68,13 +68,7 @@ namespace ece
 				 */
 				inline VertexArray() noexcept;
 
-				/**
-				 * @fn VertexArray(const VertexArray & copy) noexcept
-				 * @param[in] copy The VertexArray to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				VertexArray(const VertexArray & copy) noexcept = default;
+				VertexArray(const VertexArray & copy) noexcept = delete;
 
 				/**
 				 * @fn VertexArray(VertexArray && move) noexcept
@@ -91,14 +85,7 @@ namespace ece
 				 */
 				~VertexArray() noexcept = default;
 
-				/**
-				 * @fn VertexArray & operator=(const VertexArray & copy) noexcept
-				 * @param[in] copy The VertexArray to copy from.
-				 * @return The VertexArray copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				VertexArray & operator=(const VertexArray & copy) noexcept = default;
+				VertexArray & operator=(const VertexArray & copy) noexcept = delete;
 
 				/**
 				 * @fn VertexArray & operator=(VertexArray && move) noexcept

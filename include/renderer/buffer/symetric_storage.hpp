@@ -40,7 +40,7 @@
 #define SYMETRIC_STORAGE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/buffer/opengl_container.hpp"
+#include "utility/container.hpp"
 
 namespace ece
 {
@@ -54,20 +54,18 @@ namespace ece
 			 * @class SymetricStorage
 			 * @brief
 			 */
-			template<class T>
-			class ECE_RENDERER_API SymetricStorage: public OpenGLContainer<T>
+			template<class T, typename enabled = std::enable_if_t<contiguous_container_v<T> && is_container_v<T>>>
+			class ECE_RENDERER_API SymetricStorage
 			{
 			public:
-				using Data = T;
+				using data_type = T;
 
 				/**
 				 * @fn constexpr SymetricStorage() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr SymetricStorage() noexcept = delete;
-
-				SymetricStorage(BaseBuffer & buffer);
+				constexpr SymetricStorage() noexcept = default;
 
 				/**
 				 * @fn SymetricStorage(const SymetricStorage & copy) noexcept
@@ -75,7 +73,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				SymetricStorage(const SymetricStorage & copy) noexcept;
+				SymetricStorage(const SymetricStorage & copy) noexcept = default;
 
 				/**
 				 * @fn SymetricStorage(SymetricStorage && move) noexcept
@@ -83,7 +81,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				SymetricStorage(SymetricStorage && move) noexcept;
+				SymetricStorage(SymetricStorage && move) noexcept = default;
 
 				/**
 				 * @fn ~SymetricStorage() noexcept
@@ -99,7 +97,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				SymetricStorage & operator=(const SymetricStorage & copy) noexcept = delete;
+				SymetricStorage & operator=(const SymetricStorage & copy) noexcept = default;
 
 				/**
 				 * @fn SymetricStorage & operator=(SymetricStorage && move) noexcept
@@ -108,22 +106,21 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				SymetricStorage & operator=(SymetricStorage && move) noexcept = delete;
+				SymetricStorage & operator=(SymetricStorage && move) noexcept = default;
 
-				inline T & data() noexcept;
-				inline const T & data() const noexcept;
+				inline data_type & data() noexcept;
+				inline const data_type & data() const noexcept;
 
-				T read() const;
+				data_type read(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency) const;
 
-				void write(const T & data);
+				void write(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency, const data_type & data);
 
-				void copy(const BaseBuffer & rhs);
+				void copy(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency, const BaseBuffer & rhs);
 
-				void update();
+				void update(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency);
 
 			private:
-				BaseBuffer & _buffer;
-				T _data;
+				data_type _data;
 			};
 		} // namespace buffer
 	} // namespace renderer

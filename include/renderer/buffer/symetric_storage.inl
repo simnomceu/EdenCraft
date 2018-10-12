@@ -37,7 +37,6 @@
 */
 
 #include "renderer/buffer/base_buffer.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
 
 namespace ece
 {
@@ -45,24 +44,14 @@ namespace ece
 	{
 		namespace buffer
 		{
-			template<class T>
-			SymetricStorage<T>::SymetricStorage(BaseBuffer & buffer): _buffer(buffer), _data() {}
+			template<class T, typename enabled>
+			inline typename SymetricStorage<T, enabled>::data_type & SymetricStorage<T, enabled>::data() noexcept { return this->_data; }
 
-			template<class T>
-			SymetricStorage<T>::SymetricStorage(const SymetricStorage<T> & copy) noexcept: _buffer(copy._buffer), _data(copy._data) {}
+			template<class T, typename enabled>
+			inline const typename SymetricStorage<T, enabled>::data_type & SymetricStorage<T, enabled>::data() const noexcept { return this->_data; }
 
-			template<class T>
-			SymetricStorage<T>::SymetricStorage(SymetricStorage<T> && move) noexcept: _buffer(move._buffer), _data(std::move(data)) {}
-
-
-			template<class T>
-			inline T & SymetricStorage<T>::data() noexcept { return this->_data; }
-
-			template<class T>
-			inline const T & SymetricStorage<T>::data() const noexcept { return this->_data; }
-
-			template<class T>
-			T SymetricStorage<T>::read() const
+			template<class T, typename enabled>
+			typename SymetricStorage<T, enabled>::data_type SymetricStorage<T, enabled>::read(const BaseBuffer::DataDescriptor & /*descriptor*/, BufferType /*type*/, BufferFrequency /*frequency*/) const
 			{
 				/*T data;
 				this->_buffer.lock()->bind();
@@ -70,26 +59,23 @@ namespace ece
 				return this->_data;
 			}
 
-			template<class T>
-			void SymetricStorage<T>::write(const T & data)
+			template<class T, typename enabled>
+			void SymetricStorage<T, enabled>::write(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency, const typename SymetricStorage<T, enabled>::data_type & data)
 			{
 				this->_data = data;
-				this->_buffer.bind();
-				OpenGL::bufferData(this->_buffer.getType(), this->_data, BUFFER_USAGE[this->_buffer.getFrequency()][BufferMethod::DRAW], this->_buffer.getDataDescriptor().offset);
+				OpenGL::bufferData(type, this->_data, BUFFER_USAGE[frequency][BufferMethod::DRAW], descriptor.offset);
 			}
 
-			template<class T>
-			void SymetricStorage<T>::copy(const BaseBuffer & rhs)
+			template<class T, typename enabled>
+			void SymetricStorage<T, enabled>::copy(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency, const BaseBuffer & rhs)
 			{
-				this->_buffer.bind();
-				OpenGL::bufferData<decltype(this->_data.begin())>(this->_buffer.getType(), rhs.size(), BUFFER_USAGE[this->_buffer.getFrequency()][BufferMethod::COPY], this->_buffer.getDataDescriptor().offset);
+				OpenGL::bufferData<decltype(this->_data.begin())>(type, rhs.size(), BUFFER_USAGE[frequency][BufferMethod::COPY], descriptor.offset);
 			}
 
-			template <class T>
-			void SymetricStorage<T>::update()
+			template <class T, typename enabled>
+			void SymetricStorage<T, enabled>::update(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency)
 			{
-				this->_buffer.bind();
-				OpenGL::bufferData(this->_buffer.getType(), this->_data, BUFFER_USAGE[this->_buffer.getFrequency()][BufferMethod::DRAW], this->_buffer.getDataDescriptor().offset);
+				OpenGL::bufferData(type, this->_data, BUFFER_USAGE[frequency][BufferMethod::DRAW], descriptor.offset);
 			}
 		} // namespace buffer
 	} // namespace renderer

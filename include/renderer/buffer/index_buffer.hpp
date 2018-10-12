@@ -52,7 +52,7 @@ namespace ece
 			 * @class IndexBuffer
 			 * @brief
 			 */
-			template <template <class> class Storage, class Data>
+			template <template <class, class...> class Storage, class Data>
 			class ECE_RENDERER_API IndexBuffer: public Buffer<Storage, Data>
 			{
 			public:
@@ -63,13 +63,7 @@ namespace ece
 				 */
 				IndexBuffer() noexcept;
 
-				/**
-				 * @fn IndexBuffer(const IndexBuffer & copy) noexcept
-				 * @param[in] copy The IndexBuffer to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				IndexBuffer(const IndexBuffer<Storage, Data> & copy) noexcept = default;
+				IndexBuffer(const IndexBuffer<Storage, Data> & copy) noexcept = delete;
 
 				/**
 				 * @fn IndexBuffer(IndexBuffer && move) noexcept
@@ -86,14 +80,7 @@ namespace ece
 				 */
 				~IndexBuffer() noexcept = default;
 
-				/**
-				 * @fn IndexBuffer & operator=(const IndexBuffer & copy) noexcept
-				 * @param[in] copy The IndexBuffer to copy from.
-				 * @return The IndexBuffer copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				IndexBuffer<Storage, Data> & operator=(const IndexBuffer<Storage, Data> & copy) noexcept = default;
+				IndexBuffer<Storage, Data> & operator=(const IndexBuffer<Storage, Data> & copy) noexcept = delete;
 
 				/**
 				 * @fn IndexBuffer & operator=(IndexBuffer && move) noexcept

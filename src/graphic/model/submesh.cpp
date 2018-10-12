@@ -46,6 +46,18 @@ namespace ece
 	{
 		namespace model
 		{
+			Submesh::Submesh(const Submesh & copy): _faces()
+			{
+				_faces.write(copy._faces.data());
+			}
+
+			Submesh & Submesh::operator=(const Submesh & copy)
+			{
+				this->_faces.write(copy._faces.data());
+
+				return *this;
+			}
+
 			void Submesh::update()
 			{
 				this->_faces.update();

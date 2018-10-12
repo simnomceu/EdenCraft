@@ -61,6 +61,8 @@ namespace ece
 			class ECE_RENDERER_API BaseBuffer: public ObjectOpenGL
 			{
 			public:
+				using size_type = std::size_t;
+
 				struct DataDescriptor
 				{
 					int offset;
@@ -72,15 +74,9 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline BaseBuffer() noexcept;
+				inline constexpr BaseBuffer() noexcept;
 
-				/**
-				 * @fn BaseBuffer(const BaseBuffer & copy) noexcept
-				 * @param[in] copy The BaseBuffer to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				BaseBuffer(const BaseBuffer & copy) = default;
+				BaseBuffer(const BaseBuffer & copy) = delete;
 
 				/**
 				 * @fn BaseBuffer(BaseBuffer && move) noexcept
@@ -97,14 +93,7 @@ namespace ece
 				 */
 				~BaseBuffer() noexcept = default;
 
-				/**
-				 * @fn BaseBuffer & operator=(const BaseBuffer & copy) noexcept
-				 * @param[in] copy The BaseBuffer to copy from.
-				 * @return The BaseBuffer copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				BaseBuffer & operator=(const BaseBuffer & copy);
+				BaseBuffer & operator=(const BaseBuffer & copy) = delete;
 
 				/**
 				 * @fn BaseBuffer & operator=(BaseBuffer && move) noexcept
@@ -118,10 +107,10 @@ namespace ece
 				inline virtual void bind() const override;
 				inline virtual void terminate() override;
 
-				virtual std::size_t size() const noexcept = 0;
-				virtual BufferFrequency getFrequency() const = 0;
+				virtual size_type size() const noexcept = 0;
 
-				inline BufferType getType() const;
+				inline BufferType getType() const noexcept;
+				inline BufferFrequency getFrequency() const noexcept;
 
 				inline void setDataDescriptor(const DataDescriptor & descriptor) noexcept;
 				inline const DataDescriptor & getDataDescriptor() const noexcept;
@@ -129,6 +118,7 @@ namespace ece
 			protected:
 				DataDescriptor _descriptor;
 				BufferType _type;
+				BufferFrequency _frequency;
 			};
 		} // namespace buffer
 	} // namespace renderer

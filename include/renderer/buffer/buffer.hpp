@@ -55,24 +55,21 @@ namespace ece
 			 * @class Buffer
 			 * @brief
 			 */
-			template <template <class> class Storage, class Data, typename enabled = std::enable_if_t<is_buffer_storage_v<Storage, Data>>>
+			template <template <class, class...> class Storage, class Data, typename enabled = std::enable_if_t<is_buffer_storage_v<Storage, Data>>>
 			class ECE_RENDERER_API Buffer: public BaseBuffer
 			{
 			public:
+				using data_type = Data;
+				using data_storage = Storage<Data>;
+
 				/**
 				 * @fn Buffer(const BufferFrequency frequency) noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Buffer(const BufferFrequency frequency) noexcept;
+				Buffer() noexcept;
 
-				/**
-				 * @fn Buffer(const Buffer & copy) noexcept
-				 * @param[in] copy The Buffer to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				Buffer(const Buffer<Storage, Data, enabled> & copy) noexcept;
+				Buffer(const Buffer<Storage, Data, enabled> & copy) noexcept = delete;
 
 				/**
 				 * @fn Buffer(Buffer && move) noexcept
@@ -89,14 +86,7 @@ namespace ece
 				 */
 				~Buffer() noexcept = default;
 
-				/**
-				 * @fn Buffer & operator=(const Buffer & copy) noexcept
-				 * @param[in] copy The Buffer to copy from.
-				 * @return The Buffer copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				Buffer<Storage, Data, enabled> & operator=(const Buffer<Storage, Data, enabled> & copy) noexcept;
+				Buffer<Storage, Data, enabled> & operator=(const Buffer<Storage, Data, enabled> & copy) noexcept = delete;
 
 				/**
 				 * @fn Buffer & operator=(Buffer && move) noexcept
@@ -107,23 +97,21 @@ namespace ece
 				 */
 				Buffer<Storage, Data, enabled> & operator=(Buffer<Storage, Data, enabled> && move) noexcept;
 
-				Data read() const;
+				inline data_type read() const;
 
-				void write(const Data & data);
+				inline void write(const data_type & data);
 
-				void copy(const Buffer<Storage, Data, enabled> & rhs);
+				inline void copy(const Buffer<Storage, Data, enabled> & rhs);
 
-				void update();
+				inline void update();
 
-				inline virtual std::size_t size() const noexcept override;
-				inline virtual BufferFrequency getFrequency() const override;
+				inline virtual size_type size() const noexcept override;
 
-				inline Data & data();
-				inline const Data & data() const;
+				inline data_type & data();
+				inline const data_type & data() const;
 
 			protected:
-				BufferFrequency _frequency;
-				std::unique_ptr<Storage<Data>> _storage;
+				data_storage _storage;
 			};
 		} // namespace buffer
 	} // namespace renderer
