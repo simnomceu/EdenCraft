@@ -43,6 +43,7 @@
 
 #include "renderer/buffer.hpp"
 #include "renderer/rendering.hpp"
+#include "renderer/image.hpp"
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
 

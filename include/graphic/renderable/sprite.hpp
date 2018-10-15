@@ -44,7 +44,7 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "renderer/shader.hpp"
+#include "renderer/image/texture2d.hpp"
 #include "utility/mathematics.hpp"
 
 namespace ece
@@ -53,6 +53,8 @@ namespace ece
 	{
 		namespace renderable
 		{
+			using renderer::image::Texture2D;
+
 			/**
 			 * @class Sprite
 			 * @brief

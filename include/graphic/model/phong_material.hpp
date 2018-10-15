@@ -44,7 +44,7 @@
 #include "graphic/config.hpp"
 #include "graphic/model/material.hpp"
 #include "utility/mathematics.hpp"
-#include "renderer/shader.hpp"
+#include "renderer/image/texture2d.hpp"
 
 namespace ece
 {
@@ -52,6 +52,8 @@ namespace ece
 	{
 		namespace model
 		{
+			using renderer::image::Texture2D;
+
 			/**
 			 * @class PhongMaterial
 			 * @brief

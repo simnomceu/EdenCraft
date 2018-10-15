@@ -41,6 +41,7 @@
 
 #include "renderer/opengl/opengl.hpp"
 #include "renderer/x11/glx_extension.hpp"
+#include "renderer/rendering.hpp"
 #include "window/common.hpp"
 #include "window/x11/data_window_adapter.hpp"
 #include "utility/log.hpp"

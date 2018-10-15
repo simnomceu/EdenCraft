@@ -39,7 +39,7 @@
 #ifndef COLOR_HPP
 #define COLOR_HPP
 
-#include "renderer/image.hpp"
+#include "renderer/image/pixel_format.hpp"
 
 namespace ece
 {

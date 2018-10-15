@@ -52,7 +52,10 @@ namespace ece
 	{
 		namespace image
 		{
-			using namespace opengl;
+			using opengl::TextureParameter;
+			using opengl::TextureTarget;
+			using opengl::TextureTypeTarget;
+			using opengl::Handle;
 
 			/**
 			 * @class Texture2D

@@ -40,8 +40,6 @@
 
 #include "graphic/renderable/sprite.hpp"
 
-#include "renderer/shader.hpp"
-
 namespace ece
 {
 	namespace graphic
