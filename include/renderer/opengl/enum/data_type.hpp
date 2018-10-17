@@ -36,57 +36,42 @@
 
 */
 
-#include "renderer/buffer/vertex_array.hpp"
+#ifndef OPENGL_DATA_TYPE_HPP
+#define OPENGL_DATA_TYPE_HPP
 
-#include "renderer/buffer/base_buffer.hpp"
+#include "renderer/config.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
+#include "renderer/buffer/data_type.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace buffer
+		namespace opengl
 		{
-			void VertexArray::attach(const BaseBuffer & buffer, BufferLayout layout)
+			enum class DataType : unsigned short int
 			{
-				this->bind();
-				buffer.bind();
-				for (size_t i = 0; i < layout.size(); ++i) {
-					auto & elementLayout = layout.getElement(i);
-					if (!elementLayout._ignored) {
-						auto location = this->addAttribute();
-						OpenGL::vertexAttribPointer(location,
-													elementLayout._count,
-													getDataType(elementLayout._type),
-													elementLayout._normalized,
-													layout.getStride(),
-													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : buffer.size() / layout.size());
-						if (elementLayout._instanced) {
-							OpenGL::vertexAttribDivisor(location, layout.getInstanceBlockSize());
-						}
-					}
-				}
-			}
+				BYTE = GL_BYTE,
+				UNSIGNED_BYTE = GL_UNSIGNED_BYTE,
+				SHORT = GL_SHORT,
+				UNSIGNED_SHORT = GL_UNSIGNED_SHORT,
+				INT = GL_INT,
+				UNSIGNED_INT = GL_UNSIGNED_INT,
+				HALF_FLOAT = GL_HALF_FLOAT,
+				FLOAT = GL_FLOAT,
+				DOUBLE = GL_DOUBLE,
+				FIXED = GL_FIXED,
+				INT_2_10_10_10_REV = GL_INT_2_10_10_10_REV,
+				UNSIGNED_INT_2_10_10_10_REV = GL_UNSIGNED_INT_2_10_10_10_REV,
+				UNSIGNED_INT_10F_11F_11F_REV = GL_UNSIGNED_INT_10F_11F_11F_REV
+			};
 
-			void VertexArray::reset()
-			{
-				for (auto i = FIRST_LOCATION; i < this->_nextAttributeLocation; ++i) {
-					OpenGL::disableVertexAttribArray(i);
-				}
-				this->_nextAttributeLocation = FIRST_LOCATION;
-			}
+			ECE_RENDERER_API DataType getDataType(buffer::DataType type);
 
-			VertexArray::AttributeLocation VertexArray::addAttribute()
-			{
-				const auto maxVertexAttribs = OpenGL::getInteger(Parameter::MAX_VERTEX_ATTRIBS)[0];
-				if (this->_nextAttributeLocation >= maxVertexAttribs) {
-					throw std::runtime_error("The number of vertex attributes in a VAO cannot exceed " + std::to_string(maxVertexAttribs) + ".");
-				}
-
-				auto location = this->_nextAttributeLocation;
-				OpenGL::enableVertexAttribArray(location);
-				++this->_nextAttributeLocation;
-				return location;
-			}
-		} // namespace buffer
+			ECE_RENDERER_API std::string to_string(DataType type);
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
+
+#endif // OPENGL_DATA_TYPE_HPP

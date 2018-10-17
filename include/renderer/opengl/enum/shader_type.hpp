@@ -36,57 +36,39 @@
 
 */
 
-#include "renderer/buffer/vertex_array.hpp"
+#ifndef OPENGL_SHADER_TYPE
+#define OPENGL_SHADER_TYPE
 
-#include "renderer/buffer/base_buffer.hpp"
+#include "renderer/config.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
+#include "renderer/shader/shader_stage.hpp"
+
+#include <string>
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace buffer
+		namespace opengl
 		{
-			void VertexArray::attach(const BaseBuffer & buffer, BufferLayout layout)
-			{
-				this->bind();
-				buffer.bind();
-				for (size_t i = 0; i < layout.size(); ++i) {
-					auto & elementLayout = layout.getElement(i);
-					if (!elementLayout._ignored) {
-						auto location = this->addAttribute();
-						OpenGL::vertexAttribPointer(location,
-													elementLayout._count,
-													getDataType(elementLayout._type),
-													elementLayout._normalized,
-													layout.getStride(),
-													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : buffer.size() / layout.size());
-						if (elementLayout._instanced) {
-							OpenGL::vertexAttribDivisor(location, layout.getInstanceBlockSize());
-						}
-					}
-				}
-			}
+			using shader::ShaderStage;
 
-			void VertexArray::reset()
+			enum class ShaderType : unsigned short int
 			{
-				for (auto i = FIRST_LOCATION; i < this->_nextAttributeLocation; ++i) {
-					OpenGL::disableVertexAttribArray(i);
-				}
-				this->_nextAttributeLocation = FIRST_LOCATION;
-			}
+				COMPUTE_SHADER = GL_COMPUTE_SHADER,
+				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
+				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
+				VERTEX_SHADER = GL_VERTEX_SHADER,
+				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
+				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
+			};
 
-			VertexArray::AttributeLocation VertexArray::addAttribute()
-			{
-				const auto maxVertexAttribs = OpenGL::getInteger(Parameter::MAX_VERTEX_ATTRIBS)[0];
-				if (this->_nextAttributeLocation >= maxVertexAttribs) {
-					throw std::runtime_error("The number of vertex attributes in a VAO cannot exceed " + std::to_string(maxVertexAttribs) + ".");
-				}
+			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
 
-				auto location = this->_nextAttributeLocation;
-				OpenGL::enableVertexAttribArray(location);
-				++this->_nextAttributeLocation;
-				return location;
-			}
-		} // namespace buffer
+			ECE_RENDERER_API std::string to_string(ShaderType type);
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
+
+#endif // OPENGL_SHADER_TYPE

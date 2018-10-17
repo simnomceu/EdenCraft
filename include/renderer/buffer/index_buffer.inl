@@ -36,6 +36,8 @@
 
 */
 
+#include "renderer/opengl.hpp"
+
 namespace ece
 {
 	namespace renderer
@@ -46,7 +48,7 @@ namespace ece
 			IndexBuffer<Storage, Data>::IndexBuffer() noexcept: Buffer<Storage, Data>()
 			{
 				this->_handle = OpenGL::genBuffers();
-				this->_type = BufferType::ELEMENT_ARRAY_BUFFER;
+				this->_type = BaseBuffer::Type::ELEMENT_ARRAY;
 			}
 		} // namespace buffer
 	} // namespace renderer

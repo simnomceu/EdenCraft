@@ -39,6 +39,7 @@
 */
 
 #include "renderer/shader/base_uniform.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {

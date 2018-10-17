@@ -77,12 +77,12 @@ namespace ece
                 }
 
                 ShaderStage fsSource, vsSource;
-                fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../resource/shader/phong.frag");
+                fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../resource/shader/phong.frag");
                 if (this->isInstancingEnabled()) {
-                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../resource/shader/phong_instance.vert");
+                    vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../resource/shader/phong_instance.vert");
                 }
                 else {
-                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../resource/shader/phong.vert");
+                    vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../resource/shader/phong.vert");
                 }
 
                 this->_program.setStage(fsSource);
@@ -109,11 +109,11 @@ namespace ece
 					this->_state.apply();
 					if (submesh.mesh.getIndexBuffer().size() > 0) {
 						if (this->isInstancingEnabled()) {
-							OpenGL::drawElementsInstanced(this->_mode, submesh.mesh.size(), DataType::UNSIGNED_INT, 0, this->_instances.size());
+							OpenGL::drawElementsInstanced(this->_mode, submesh.mesh.size(), renderer::opengl::DataType::UNSIGNED_INT, 0, this->_instances.size());
 
 						}
 						else {
-							OpenGL::drawElements(this->_mode, this->_mesh->size(), DataType::UNSIGNED_INT, 0);
+							OpenGL::drawElements(this->_mode, this->_mesh->size(), renderer::opengl::DataType::UNSIGNED_INT, 0);
 						}
 					}
 					else {

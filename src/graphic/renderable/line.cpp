@@ -69,8 +69,8 @@ namespace ece
 				this->_vertexArray.attach(this->_vertices, layout);
 
 				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");
-				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/line.vert");
+				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/line.frag");
+				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/line.vert");
 
 				this->_program.setStage(fsSource);
 				this->_program.setStage(vsSource);
@@ -98,8 +98,8 @@ namespace ece
 				this->_vertexArray.attach(this->_vertices, layout);
 
 				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");
-				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/line.vert");
+				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/line.frag");
+				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/line.vert");
 
 				this->_program.setStage(fsSource);
 				this->_program.setStage(vsSource);

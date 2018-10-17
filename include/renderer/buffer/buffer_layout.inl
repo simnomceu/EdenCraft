@@ -38,8 +38,6 @@
 
 */
 
-#include "renderer/opengl/opengl.hpp"
-
 #include <numeric>
 
 namespace ece
@@ -56,7 +54,7 @@ namespace ece
             void BufferLayout::add(const std::size_t size, const bool normalized, const bool ignored, const bool instanced)
             {
 				const auto index = this->_elements.size();
-				this->_elements.push_back({ OpenGL::dataType<T>(),
+				this->_elements.push_back({ dataType<T>(),
 											sizeof(T),
 											size,
 											(index == 0 || this->_strategy == Strategy::CONCATENATED) ? 0 : this->_elements[index - 1]._offset + this->_elements[index - 1]._unitSize * this->_elements[index - 1]._count,

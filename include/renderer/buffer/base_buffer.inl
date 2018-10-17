@@ -36,30 +36,17 @@
 
 */
 
-#include "renderer/opengl.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace buffer
 		{
-			inline constexpr BaseBuffer::BaseBuffer() noexcept : ObjectOpenGL(), _descriptor{}, _type(BufferType::ARRAY_BUFFER), _frequency(BufferFrequency::STATIC) {}
+			inline constexpr BaseBuffer::BaseBuffer() noexcept : ObjectOpenGL(), _descriptor{}, _type(Type::ARRAY), _frequency(Frequency::STATIC) {}
 
-			inline void BaseBuffer::bind() const
-			{
-				OpenGL::bindBuffer(this->_type, this->_handle);
-			}
+			inline BaseBuffer::Type BaseBuffer::getType() const noexcept { return this->_type; }
 
-			inline void BaseBuffer::terminate()
-			{
-				OpenGL::deleteBuffer(this->_handle);
-				this->_handle = NullHandle;
-			}
-
-			inline BufferType BaseBuffer::getType() const noexcept { return this->_type; }
-
-			inline BufferFrequency BaseBuffer::getFrequency() const noexcept { return this->_frequency; }
+			inline BaseBuffer::Frequency BaseBuffer::getFrequency() const noexcept { return this->_frequency; }
 
 			inline void BaseBuffer::setDataDescriptor(const BaseBuffer::DataDescriptor & descriptor) noexcept { this->_descriptor = descriptor; }
 

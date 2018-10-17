@@ -42,8 +42,6 @@
 #include "renderer/buffer/base_buffer.hpp"
 #include "renderer/buffer/buffer.hpp"
 #include "renderer/buffer/buffer_layout.hpp"
-#include "renderer/buffer/buffer_type.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
 #include "renderer/buffer/index_buffer.hpp"
 #include "renderer/buffer/is_buffer_storage.hpp"
 #include "renderer/buffer/symetric_storage.hpp"

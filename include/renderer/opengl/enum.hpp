@@ -43,6 +43,10 @@
 #include "GL/glext.h"
 
 #include "utility/enumeration.hpp"
+#include "renderer/opengl/enum/buffer_type.hpp"
+#include "renderer/opengl/enum/buffer_usage.hpp"
+#include "renderer/opengl/enum/data_type.hpp"
+#include "renderer/opengl/enum/shader_type.hpp"
 
 #ifdef _WIN32
 #	undef NO_ERROR
@@ -55,33 +59,6 @@ namespace ece
 		namespace opengl
 		{
 			// TODO: replace lot of enumerations by assert to check the value ?
-
-			enum class ShaderType : unsigned short int
-			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
-			};
-
-			enum class DataType : unsigned short int
-			{
-				BYTE = GL_BYTE,
-				UNSIGNED_BYTE = GL_UNSIGNED_BYTE,
-				SHORT = GL_SHORT,
-				UNSIGNED_SHORT = GL_UNSIGNED_SHORT,
-				INT = GL_INT,
-				UNSIGNED_INT = GL_UNSIGNED_INT,
-				HALF_FLOAT = GL_HALF_FLOAT,
-				FLOAT = GL_FLOAT,
-				DOUBLE = GL_DOUBLE,
-				FIXED = GL_FIXED,
-				INT_2_10_10_10_REV = GL_INT_2_10_10_10_REV,
-				UNSIGNED_INT_2_10_10_10_REV = GL_UNSIGNED_INT_2_10_10_10_REV,
-				UNSIGNED_INT_10F_11F_11F_REV = GL_UNSIGNED_INT_10F_11F_11F_REV
-			};
 
 			enum class PrimitiveMode : unsigned short int
 			{

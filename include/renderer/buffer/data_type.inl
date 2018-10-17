@@ -36,11 +36,7 @@
 
 */
 
-#ifndef BUFFER_TYPE_HPP
-#define BUFFER_TYPE_HPP
-
-#include "renderer/config.hpp"
-#include "GL/glcorearb.h"
+#include <stdexcept>
 
 namespace ece
 {
@@ -48,25 +44,26 @@ namespace ece
 	{
 		namespace buffer
 		{
-			enum class BufferType : unsigned short int
-			{
-				ARRAY_BUFFER = GL_ARRAY_BUFFER,
-				ATOMIC_COUNTER_BUFFER = GL_ATOMIC_COUNTER_BUFFER,
-				COPY_READ_BUFFER = GL_COPY_READ_BUFFER,
-				COPY_WRITE_BUFFER = GL_COPY_WRITE_BUFFER,
-				DISPATCH_INDIRECT_BUFFER = GL_DISPATCH_INDIRECT_BUFFER,
-				DRAW_INDIRECT_BUFFER = GL_DRAW_INDIRECT_BUFFER,
-				ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER,
-				PIXEL_PACK_BUFFER = GL_PIXEL_PACK_BUFFER,
-				PIXEL_UNPACK_BUFFER = GL_PIXEL_UNPACK_BUFFER,
-				QUERY_BUFFER = GL_QUERY_BUFFER,
-				SHADER_STORAGE_BUFFER = GL_SHADER_STORAGE_BUFFER,
-				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-				TRANSFORM_FEEDBACK_BUFFER = GL_TRANSFORM_FEEDBACK,
-				UNIFORM_BUFFER = GL_UNIFORM_BUFFER
-			};
+			template <class T>
+			inline constexpr DataType dataType() { throw std::runtime_error("This type cannot be passed."); }
+
+			template <>
+			inline DataType dataType<short int>() { return DataType::SHORT; }
+
+			template <>
+			inline DataType dataType<unsigned short int>() { return DataType::UNSIGNED_SHORT; }
+
+			template <>
+			inline DataType dataType<int>() { return DataType::INT; }
+
+			template <>
+			inline DataType dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
+
+			template <>
+			inline DataType dataType<float>() { return DataType::FLOAT; }
+
+			template <>
+			inline DataType dataType<double>() { return DataType::DOUBLE; }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
-
-#endif // BUFFER_TYPE_HPP

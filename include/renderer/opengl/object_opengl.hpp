@@ -42,7 +42,7 @@
 #define OBJECT_OPENGL_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl/handle.hpp"
 
 namespace ece
 {

@@ -40,8 +40,6 @@
 #define BASE_BUFFER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
-#include "renderer/buffer/buffer_type.hpp"
 #include "renderer/opengl/object_opengl.hpp"
 
 #include <cstddef>
@@ -67,6 +65,38 @@ namespace ece
 				{
 					int offset;
 					int stride;
+				};
+
+				enum class Type : unsigned short int
+				{
+					ARRAY = 0x00,
+					ATOMIC_COUNTER = 0x01,
+					COPY_READ = 0x02,
+					COPY_WRITE = 0x03,
+					DISPATCH_INDIRECT = 0x04,
+					DRAW_INDIRECT = 0x05,
+					ELEMENT_ARRAY = 0x06,
+					PIXEL_PACK= 0x07,
+					PIXEL_UNPACK = 0x08,
+					QUERY = 0x09,
+					SHADER_STORAGE = 0x10,
+					TEXTURE = 0x11,
+					TRANSFORM_FEEDBACK = 0x12,
+					UNIFORM = 0x13
+				};
+
+				enum class Frequency : unsigned short int
+				{
+					STATIC	= 0x0,
+					DYNAMIC	= 0x1,
+					STREAM	= 0x2
+				};
+
+				enum class Method : unsigned short int
+				{
+					DRAW = 0x0,
+					READ = 0x1,
+					COPY = 0x2
 				};
 
 				/**
@@ -104,21 +134,21 @@ namespace ece
 				 */
 				BaseBuffer & operator=(BaseBuffer && move) noexcept;
 
-				inline virtual void bind() const override;
-				inline virtual void terminate() override;
+				virtual void bind() const override;
+				virtual void terminate() override;
 
 				virtual size_type size() const noexcept = 0;
 
-				inline BufferType getType() const noexcept;
-				inline BufferFrequency getFrequency() const noexcept;
+				inline Type getType() const noexcept;
+				inline Frequency getFrequency() const noexcept;
 
 				inline void setDataDescriptor(const DataDescriptor & descriptor) noexcept;
 				inline const DataDescriptor & getDataDescriptor() const noexcept;
 
 			protected:
 				DataDescriptor _descriptor;
-				BufferType _type;
-				BufferFrequency _frequency;
+				Type _type;
+				Frequency _frequency;
 			};
 		} // namespace buffer
 	} // namespace renderer

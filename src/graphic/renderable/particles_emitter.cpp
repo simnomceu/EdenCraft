@@ -91,8 +91,8 @@ namespace ece
 				this->_numberOfInstances = this->_particles.size();
 
 				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/particles_forever/particles.frag");
-				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/particles_forever/particles.vert");
+				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/particles_forever/particles.frag");
+				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/particles_forever/particles.vert");
 
 				this->_program.setStage(fsSource);
 				this->_program.setStage(vsSource);

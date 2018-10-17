@@ -36,57 +36,47 @@
 
 */
 
-#include "renderer/buffer/vertex_array.hpp"
+#ifndef OPENGL_BUFFER_TYPE
+#define OPENGL_BUFFER_TYPE
 
+#include "renderer/config.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 #include "renderer/buffer/base_buffer.hpp"
+
+#include <string>
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace buffer
+		namespace opengl
 		{
-			void VertexArray::attach(const BaseBuffer & buffer, BufferLayout layout)
-			{
-				this->bind();
-				buffer.bind();
-				for (size_t i = 0; i < layout.size(); ++i) {
-					auto & elementLayout = layout.getElement(i);
-					if (!elementLayout._ignored) {
-						auto location = this->addAttribute();
-						OpenGL::vertexAttribPointer(location,
-													elementLayout._count,
-													getDataType(elementLayout._type),
-													elementLayout._normalized,
-													layout.getStride(),
-													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : buffer.size() / layout.size());
-						if (elementLayout._instanced) {
-							OpenGL::vertexAttribDivisor(location, layout.getInstanceBlockSize());
-						}
-					}
-				}
-			}
+			using buffer::BaseBuffer;
 
-			void VertexArray::reset()
+			enum class BufferType : unsigned short int
 			{
-				for (auto i = FIRST_LOCATION; i < this->_nextAttributeLocation; ++i) {
-					OpenGL::disableVertexAttribArray(i);
-				}
-				this->_nextAttributeLocation = FIRST_LOCATION;
-			}
+				ARRAY_BUFFER = GL_ARRAY_BUFFER,
+				ATOMIC_COUNTER_BUFFER = GL_ATOMIC_COUNTER_BUFFER,
+				COPY_READ_BUFFER = GL_COPY_READ_BUFFER,
+				COPY_WRITE_BUFFER = GL_COPY_WRITE_BUFFER,
+				DISPATCH_INDIRECT_BUFFER = GL_DISPATCH_INDIRECT_BUFFER,
+				DRAW_INDIRECT_BUFFER = GL_DRAW_INDIRECT_BUFFER,
+				ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER,
+				PIXEL_PACK_BUFFER = GL_PIXEL_PACK_BUFFER,
+				PIXEL_UNPACK_BUFFER = GL_PIXEL_UNPACK_BUFFER,
+				QUERY_BUFFER = GL_QUERY_BUFFER,
+				SHADER_STORAGE_BUFFER = GL_SHADER_STORAGE_BUFFER,
+				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
+				TRANSFORM_FEEDBACK_BUFFER = GL_TRANSFORM_FEEDBACK,
+				UNIFORM_BUFFER = GL_UNIFORM_BUFFER
+			};
 
-			VertexArray::AttributeLocation VertexArray::addAttribute()
-			{
-				const auto maxVertexAttribs = OpenGL::getInteger(Parameter::MAX_VERTEX_ATTRIBS)[0];
-				if (this->_nextAttributeLocation >= maxVertexAttribs) {
-					throw std::runtime_error("The number of vertex attributes in a VAO cannot exceed " + std::to_string(maxVertexAttribs) + ".");
-				}
+			ECE_RENDERER_API BufferType getBufferType(BaseBuffer::Type type);
 
-				auto location = this->_nextAttributeLocation;
-				OpenGL::enableVertexAttribArray(location);
-				++this->_nextAttributeLocation;
-				return location;
-			}
-		} // namespace buffer
+			ECE_RENDERER_API std::string to_string(BufferType type);
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
+
+#endif // OPENGL_BUFFER_TYPE

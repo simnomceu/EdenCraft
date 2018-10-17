@@ -42,7 +42,7 @@
 #define BUFFER_LAYOUT_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/enum.hpp"
+#include "renderer/buffer/data_type.hpp"
 
 #include <vector>
 
@@ -52,8 +52,6 @@ namespace ece
     {
         namespace buffer
         {
-			using opengl::DataType;
-
             /**
              * @class BufferLayout
              * @brief

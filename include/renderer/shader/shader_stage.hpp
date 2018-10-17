@@ -41,7 +41,7 @@
 #define SHADER_STAGE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl.hpp"
+#include "renderer/opengl/handle.hpp"
 
 #include <string>
 
@@ -51,6 +51,8 @@ namespace ece
 	{
 		namespace shader
 		{
+			using opengl::Handle;
+
 			/**
 			 * @class ShaderStage
 			 * @brief A shader stage is a step in the render pipeline.
@@ -58,6 +60,16 @@ namespace ece
 			class ECE_RENDERER_API ShaderStage
 			{
 			public:
+				enum class Type : unsigned char
+				{
+					COMPUTE			=	0x0,
+					FRAGMENT		=	0x1,
+					GEOMETRY		=	0x2,
+					VERTEX			=	0x3,
+					TESS_EVALUATION	=	0x4,
+					TESS_CONTROL	=	0x5
+				};
+
 				/**
 				 * @fn ShaderStage() noexcept
 				 * @brief Default constructor.
@@ -107,22 +119,22 @@ namespace ece
 				ShaderStage & operator=(ShaderStage && move) noexcept;
 
 				/**
-				 * @fn void loadFromFile(const ShaderType type, const std::string & filename)
+				 * @fn void loadFromFile(const Type type, const std::string & filename)
 				 * @param[in] type The stage to define.
 				 * @param[in] filename The file that contain the source of the shader stage.
 				 * @brief Load the stage from a source file.
 				 * @throw
 				 */
-				void loadFromFile(const ShaderType type, const std::string & filename);
+				void loadFromFile(const Type type, const std::string & filename);
 
 				/**
-				 * @fn void loadFromFile(const ShaderType type, const std::string & sourceCode)
+				 * @fn void loadFromFile(const Type type, const std::string & sourceCode)
 				 * @param[in] type The stage to define.
 				 * @param[in] sourceCode The source of the shader stage.
 				 * @brief Load the stage from a string.
 				 * @throw
 				 */
-				void loadFromString(const ShaderType type, const std::string & sourceCode);
+				void loadFromString(const Type type, const std::string & sourceCode);
 
 				/**
 				 * @fn const std::string & getFilename() const
@@ -141,12 +153,12 @@ namespace ece
 				inline const std::string & getSource() const;
 
 				/**
-				 * @fn ShaderType getType() const
+				 * @fn Type getType() const
 				 * @return The type of stage.
 				 * @brief Get the type of stage.
 				 * @throw
 				 */
-				inline ShaderType getType() const;
+				inline Type getType() const;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -195,7 +207,7 @@ namespace ece
 				 * @property _ type
 				 * @brief The type of shader stage.
 				 */
-				ShaderType _type;
+				Type _type;
 
 				/**
 				 * @property _handle

@@ -111,13 +111,13 @@ namespace ece
 				inline data_type & data() noexcept;
 				inline const data_type & data() const noexcept;
 
-				data_type read(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency) const;
+				data_type read(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency) const;
 
-				void write(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency, const data_type & data);
+				void write(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency, const data_type & data);
 
-				void copy(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency, const BaseBuffer & rhs);
+				void copy(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency, const BaseBuffer & rhs);
 
-				void update(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BufferFrequency frequency);
+				void update(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency);
 
 			private:
 				data_type _data;

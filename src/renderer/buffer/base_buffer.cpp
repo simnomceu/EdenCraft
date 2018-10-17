@@ -37,6 +37,7 @@
 */
 
 #include "renderer/buffer/base_buffer.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -51,6 +52,17 @@ namespace ece
 				this->_frequency = std::move(move._frequency);
 
 				return *this;
+			}
+
+			void BaseBuffer::bind() const
+			{
+				OpenGL::bindBuffer(getBufferType(this->_type), this->_handle);
+			}
+
+			void BaseBuffer::terminate()
+			{
+				OpenGL::deleteBuffer(this->_handle);
+				this->_handle = NullHandle;
 			}
 		} // namespace buffer
 	} // namespace renderer

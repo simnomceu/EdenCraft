@@ -50,8 +50,7 @@
 #include "renderer/opengl/enum.hpp"
 #include "utility/indexing.hpp"
 #include "utility/container.hpp"
-#include "renderer/buffer/buffer_type.hpp"
-#include "renderer/buffer/buffer_usage.hpp"
+#include "renderer/opengl/handle.hpp"
 
 namespace ece
 {
@@ -65,18 +64,9 @@ namespace ece
 		namespace opengl
 		{
 			using rendering::RenderContext;
-			using buffer::BufferType;
-			using buffer::BufferUsage;
-
-			using Handle = unsigned int;
-			static constexpr Handle NullHandle = 0;
 
 			namespace OpenGL
 			{
-				// Helpers
-				template <class T> static inline constexpr DataType dataType();
-				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
-
 				// OpenGL headers
 
 				static inline ErrorGL getError();
@@ -696,13 +686,6 @@ namespace ece
 				//
 				//		static inline void specializeShader(unsigned int shader, const char *pEntryPoint​, unsigned int numSpecializationConstants​, const unsigned int *pConstantIndex​, const unsigned int *pConstantValue​);
 				//		static inline void polygonOffsetClamp(float factor, float units, float clamp);
-
-				template<> inline DataType dataType<short int>();
-				template<> inline DataType dataType<unsigned short int>();
-				template<> inline DataType dataType<int>();
-				template<> inline DataType dataType<unsigned int>();
-				template<> inline DataType dataType<float>();
-				template<> inline DataType dataType<double>();
 
 				template<> inline void uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
 				template<> inline void uniform<float, 1>(const int location, const std::array<float, 1> & v);

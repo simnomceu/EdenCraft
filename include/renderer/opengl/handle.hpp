@@ -36,57 +36,19 @@
 
 */
 
-#include "renderer/buffer/vertex_array.hpp"
-
-#include "renderer/buffer/base_buffer.hpp"
+#ifndef HANDLE_HPP
+#define HANDLE_HPP
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace buffer
+		namespace opengl
 		{
-			void VertexArray::attach(const BaseBuffer & buffer, BufferLayout layout)
-			{
-				this->bind();
-				buffer.bind();
-				for (size_t i = 0; i < layout.size(); ++i) {
-					auto & elementLayout = layout.getElement(i);
-					if (!elementLayout._ignored) {
-						auto location = this->addAttribute();
-						OpenGL::vertexAttribPointer(location,
-													elementLayout._count,
-													getDataType(elementLayout._type),
-													elementLayout._normalized,
-													layout.getStride(),
-													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : buffer.size() / layout.size());
-						if (elementLayout._instanced) {
-							OpenGL::vertexAttribDivisor(location, layout.getInstanceBlockSize());
-						}
-					}
-				}
-			}
-
-			void VertexArray::reset()
-			{
-				for (auto i = FIRST_LOCATION; i < this->_nextAttributeLocation; ++i) {
-					OpenGL::disableVertexAttribArray(i);
-				}
-				this->_nextAttributeLocation = FIRST_LOCATION;
-			}
-
-			VertexArray::AttributeLocation VertexArray::addAttribute()
-			{
-				const auto maxVertexAttribs = OpenGL::getInteger(Parameter::MAX_VERTEX_ATTRIBS)[0];
-				if (this->_nextAttributeLocation >= maxVertexAttribs) {
-					throw std::runtime_error("The number of vertex attributes in a VAO cannot exceed " + std::to_string(maxVertexAttribs) + ".");
-				}
-
-				auto location = this->_nextAttributeLocation;
-				OpenGL::enableVertexAttribArray(location);
-				++this->_nextAttributeLocation;
-				return location;
-			}
-		} // namespace buffer
+			using Handle = unsigned int;
+			static constexpr Handle NullHandle = 0;
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
+
+#endif // HANDLE_HPP

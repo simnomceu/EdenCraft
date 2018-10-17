@@ -36,11 +36,13 @@
 
 */
 
-#ifndef BUFFER_USAGE_HPP
-#define BUFFER_USAGE_HPP
+#ifndef OPENGL_BUFFER_USAGE_HPP
+#define OPENGL_BUFFER_USAGE_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
+#include "GL/glext.h"
+#include "renderer/buffer/base_buffer.hpp"
 
 #include <array>
 
@@ -48,7 +50,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace buffer
+		namespace opengl
 		{
 			enum class BufferUsage : unsigned short int
 			{
@@ -63,31 +65,17 @@ namespace ece
 				DYNAMIC_COPY = GL_DYNAMIC_COPY
 			};
 
-			enum class BufferFrequency : unsigned short int
-			{
-				STATIC = 0,
-				DYNAMIC = 1,
-				STREAM = 2
-			};
-
-			enum class BufferMethod : unsigned short int
-			{
-				DRAW = 0,
-				READ = 1,
-				COPY = 2
-			};
-
 			template <class T>
-			struct ECE_RENDERER_API UsageMap: public std::array<T, 3>
+			struct ECE_RENDERER_API UsageMap : public std::array<T, 3>
 			{
-				inline T & operator[](const BufferFrequency & index) { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
-				inline const T & operator[](const BufferFrequency & index) const { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline T & operator[](const BaseBuffer::Frequency & index) { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline const T & operator[](const BaseBuffer::Frequency & index) const { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
 			};
 
 			struct ECE_RENDERER_API MethodMap : public std::array<BufferUsage, 3>
 			{
-				inline BufferUsage & operator[](const BufferMethod & index) { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
-				inline const BufferUsage & operator[](const BufferMethod & index) const { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline BufferUsage & operator[](const BaseBuffer::Method & index) { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline const BufferUsage & operator[](const BaseBuffer::Method & index) const { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
 			};
 
 			static const UsageMap<MethodMap> BUFFER_USAGE{
@@ -95,8 +83,8 @@ namespace ece
 				BufferUsage::DYNAMIC_DRAW, BufferUsage::DYNAMIC_READ, BufferUsage::DYNAMIC_COPY,
 				BufferUsage::STREAM_DRAW, BufferUsage::STREAM_READ, BufferUsage::STREAM_COPY
 			};
-		} // namespace buffer
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // BUFFER_USAGE_HPP
+#endif // OPENGL_BUFFER_USAGE_HPP

@@ -36,9 +36,10 @@
 
 */
 
-#include "renderer/buffer/vertex_array.hpp"
+#ifndef DATA_TYPE_HPP
+#define DATA_TYPE_HPP
 
-#include "renderer/buffer/base_buffer.hpp"
+#include "renderer/config.hpp"
 
 namespace ece
 {
@@ -46,47 +47,35 @@ namespace ece
 	{
 		namespace buffer
 		{
-			void VertexArray::attach(const BaseBuffer & buffer, BufferLayout layout)
+			enum class DataType : unsigned short int
 			{
-				this->bind();
-				buffer.bind();
-				for (size_t i = 0; i < layout.size(); ++i) {
-					auto & elementLayout = layout.getElement(i);
-					if (!elementLayout._ignored) {
-						auto location = this->addAttribute();
-						OpenGL::vertexAttribPointer(location,
-													elementLayout._count,
-													getDataType(elementLayout._type),
-													elementLayout._normalized,
-													layout.getStride(),
-													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : buffer.size() / layout.size());
-						if (elementLayout._instanced) {
-							OpenGL::vertexAttribDivisor(location, layout.getInstanceBlockSize());
-						}
-					}
-				}
-			}
+				BYTE = 0x00,
+				UNSIGNED_BYTE = 0x01,
+				SHORT = 0x02,
+				UNSIGNED_SHORT = 0x03,
+				INT = 0x04,
+				UNSIGNED_INT = 0x05,
+				HALF_FLOAT = 0x06,
+				FLOAT = 0x07,
+				DOUBLE = 0x08,
+				FIXED = 0x09,
+				INT_2_10_10_10_REV = 0x10,
+				UNSIGNED_INT_2_10_10_10_REV = 0x11,
+				UNSIGNED_INT_10F_11F_11F_REV = 0x12
+			};
 
-			void VertexArray::reset()
-			{
-				for (auto i = FIRST_LOCATION; i < this->_nextAttributeLocation; ++i) {
-					OpenGL::disableVertexAttribArray(i);
-				}
-				this->_nextAttributeLocation = FIRST_LOCATION;
-			}
+			template <class T> static inline constexpr DataType dataType();
 
-			VertexArray::AttributeLocation VertexArray::addAttribute()
-			{
-				const auto maxVertexAttribs = OpenGL::getInteger(Parameter::MAX_VERTEX_ATTRIBS)[0];
-				if (this->_nextAttributeLocation >= maxVertexAttribs) {
-					throw std::runtime_error("The number of vertex attributes in a VAO cannot exceed " + std::to_string(maxVertexAttribs) + ".");
-				}
-
-				auto location = this->_nextAttributeLocation;
-				OpenGL::enableVertexAttribArray(location);
-				++this->_nextAttributeLocation;
-				return location;
-			}
+			template<> inline DataType dataType<short int>();
+			template<> inline DataType dataType<unsigned short int>();
+			template<> inline DataType dataType<int>();
+			template<> inline DataType dataType<unsigned int>();
+			template<> inline DataType dataType<float>();
+			template<> inline DataType dataType<double>();
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/buffer/data_type.inl"
+
+#endif // INDEX_BUFFER_HPP

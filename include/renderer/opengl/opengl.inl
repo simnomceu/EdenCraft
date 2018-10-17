@@ -45,48 +45,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			template <class T>
-			inline constexpr DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
-
-			template <>
-			inline DataType OpenGL::dataType<short int>() { return DataType::SHORT; }
-
-			template <>
-			inline DataType OpenGL::dataType<unsigned short int>() { return DataType::UNSIGNED_SHORT; }
-
-			template <>
-			inline DataType OpenGL::dataType<int>() { return DataType::INT; }
-
-			template <>
-			inline DataType OpenGL::dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
-
-			template <>
-			inline DataType OpenGL::dataType<float>() { return DataType::FLOAT; }
-
-			template <>
-			inline DataType OpenGL::dataType<double>() { return DataType::DOUBLE; }
-
-			template <DataType Type>
-			inline constexpr std::size_t OpenGL::dataTypeSize() { throw std::runtime_error("This type cannot be passed."); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::SHORT>() { return sizeof(short int); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::UNSIGNED_SHORT>() { return sizeof(unsigned short int); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::INT>() { return sizeof(int); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::UNSIGNED_INT>() { return sizeof(unsigned int); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::FLOAT>() { return sizeof(float); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::DOUBLE>() { return sizeof(double); }
-
 			// New version
 
 			inline ErrorGL OpenGL::getError() { return ErrorGL(glGetError()); }

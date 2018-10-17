@@ -43,7 +43,7 @@ namespace ece
 	{
 		namespace shader
 		{
-			inline ShaderStage::ShaderStage() noexcept: _filename(), _source(), _type(ShaderType::FRAGMENT_SHADER), _handle(), _compilationRequired(false) {}
+			inline ShaderStage::ShaderStage() noexcept: _filename(), _source(), _type(Type::FRAGMENT), _handle(), _compilationRequired(false) {}
 
 			inline ShaderStage::ShaderStage(const ShaderStage & copy) noexcept :
 				_filename(copy._filename), _source(copy._source), _type(copy._type), _handle(copy._handle),
@@ -64,7 +64,7 @@ namespace ece
 
 			inline const std::string & ShaderStage::getSource() const { return this->_source; }
 
-			inline ShaderType ShaderStage::getType() const { return this->_type; }
+			inline ShaderStage::Type ShaderStage::getType() const { return this->_type; }
 
 			inline Handle ShaderStage::getHandle() const { return this->_handle; }
 

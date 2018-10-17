@@ -78,8 +78,8 @@ namespace ece
 				
 
 				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/sprite.frag");
-				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/sprite.vert");
+				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/sprite.frag");
+				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/sprite.vert");
 
 				this->_program.setStage(fsSource);
 				this->_program.setStage(vsSource);
@@ -95,7 +95,7 @@ namespace ece
 				this->_vertexArray.bind();
 				this->_index.bind();
 				this->_state.apply();
-				OpenGL::drawElements(this->_mode, this->_vertices.size(), DataType::UNSIGNED_INT, 0);
+				OpenGL::drawElements(this->_mode, this->_vertices.size(), renderer::opengl::DataType::UNSIGNED_INT, 0);
 			}
 		} //namespace renderable
 	} // namespace graphic
