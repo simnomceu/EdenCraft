@@ -40,7 +40,6 @@
 #define RENDER_STATE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -48,8 +47,6 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			using namespace opengl;
-
 			/**
 			 * @class RenderState
 			 * @brief
@@ -57,6 +54,54 @@ namespace ece
 			class ECE_RENDERER_API RenderState
 			{
 			public:
+				enum class CullFaceMode : unsigned short int
+				{
+					FRONT			= 0x0,
+					BACK			= 0x1,
+					FRONT_AND_BACK	= 0x2
+				};
+
+				enum class FrontFaceMode : unsigned short int
+				{
+					CLOCKWISE			= 0x0,
+					COUNTERCLOCKWISE	= 0x1
+				};
+
+				enum class DepthFunctionCondition : unsigned short int
+				{
+					NEVER		= 0x0,
+					LESS		= 0x1,
+					EQUAL		= 0x2,
+					LEQUAL		= 0x3,
+					GREATER		= 0x4,
+					NOTEQUAL	= 0x5,
+					GEQUAL		= 0x6,
+					ALWAYS		= 0x7
+				};
+
+				enum class BlendingFactor : unsigned short int
+				{
+					ZERO						= 0x00,
+					ONE							= 0x01,
+					SRC_COLOR					= 0x02,
+					ONE_MINUS_SRC_COLOR			= 0x03,
+					DST_COLOR					= 0x04,
+					ONE_MINUS_DST_COLOR			= 0x05,
+					SRC_ALPHA					= 0x06,
+					ONE_MINUS_SRC_ALPHA			= 0x07,
+					DST_ALPHA					= 0x08,
+					ONE_MINUS_DST_ALPHA			= 0x09,
+					CONSTANT_COLOR				= 0x10,
+					ONE_MINUS_CONSTANT_COLOR	= 0x11,
+					CONSTANT_ALPHA				= 0x12,
+					ONE_MINUS_CONSTANT_ALPHA	= 0x13,
+					SRC_ALPHA_SATURATE			= 0x14,
+					SRC1_COLOR					= 0x15,
+					ONE_MINUS_SRC1_COLOR		= 0x16,
+					SRC1_ALPHA					= 0x17,
+					ONE_MINUS_SRC1_ALPHA		= 0x18
+				};
+
 				/**
 				 * @fn RenderState() noexcept
 				 * @brief Default constructor.

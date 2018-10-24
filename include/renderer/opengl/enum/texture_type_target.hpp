@@ -36,15 +36,13 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#ifndef OPENGL_TEXTURE_TYPE_TARGET_HPP
+#define OPENGL_TEXTURE_TYPE_TARGET_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
-
-#include <string>
+#include "renderer/image/texture.hpp"
 
 namespace ece
 {
@@ -52,23 +50,30 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
+			using image::Texture;
 
-			enum class ShaderType : unsigned short int
+			enum class TextureTypeTarget : unsigned short int
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
+				TEXTURE_2D = GL_TEXTURE_2D,
+				PROXY_TEXTURE_2D = GL_PROXY_TEXTURE_2D,
+				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
+				PROXY_TEXTURE_1D_ARRAY = GL_PROXY_TEXTURE_1D_ARRAY,
+				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
+				PROXY_TEXTURE_RECTANGLE = GL_PROXY_TEXTURE_RECTANGLE,
+				TEXTURE_CUBE_MAP_POSITIVE_X = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+				TEXTURE_CUBE_MAP_NEGATIVE_X = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+				TEXTURE_CUBE_MAP_POSITIVE_Y = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+				TEXTURE_CUBE_MAP_NEGATIVE_Y = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+				TEXTURE_CUBE_MAP_POSITIVE_Z = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+				TEXTURE_CUBE_MAP_NEGATIVE_Z = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
+				PROXY_TEXTURE_CUBE_MAP = GL_PROXY_TEXTURE_CUBE_MAP
 			};
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
+			ECE_RENDERER_API TextureTypeTarget getTextureTypeTarget(Texture::TypeTarget type);
 
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			ECE_RENDERER_API std::string to_string(TextureTypeTarget type);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_SHADER_TYPE_HPP
+#endif // OPENGL_TEXTURE_TYPE_TARGET_HPP

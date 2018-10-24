@@ -36,15 +36,13 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#ifndef OPENGL_TEXTURE_TARGET_HPP
+#define OPENGL_TEXTURE_TARGET_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
-
-#include <string>
+#include "renderer/image/texture.hpp"
 
 namespace ece
 {
@@ -52,23 +50,28 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
+			using image::Texture;
 
-			enum class ShaderType : unsigned short int
+			enum class TextureTarget : unsigned short int
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
+				TEXTURE_1D = GL_TEXTURE_1D,
+				TEXTURE_2D = GL_TEXTURE_2D,
+				TEXTURE_3D = GL_TEXTURE_3D,
+				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
+				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
+				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
+				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
+				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY,
+				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
+				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
+				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 			};
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
+			ECE_RENDERER_API TextureTarget getTextureTarget(Texture::Target type);
 
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			ECE_RENDERER_API std::string to_string(TextureTarget type);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_SHADER_TYPE_HPP
+#endif // OPENGL_TEXTURE_TARGET_HPP

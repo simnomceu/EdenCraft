@@ -37,12 +37,15 @@
 */
 
 
-#ifndef TEXTURE_2D_HPP
-#define TEXTURE_2D_HPP
+#ifndef TEXTURE_HPP
+#define TEXTURE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/image/texture.hpp"
-#include "core/resource.hpp"
+#include "renderer/opengl/handle.hpp"
+
+#include <string>
+#include <vector>
+#include <cstddef>
 
 namespace ece
 {
@@ -50,63 +53,68 @@ namespace ece
 	{
 		namespace image
 		{
+			using opengl::Handle;
+
 			/**
 			 * @class Texture2D
 			 * @brief OpenGL 2D texture.
 			 * @remark Split the image and the texture implementations. A texture can use an image but it is not an image.
 			 */
-			class ECE_RENDERER_API Texture2D: public Texture
+			class ECE_RENDERER_API Texture
 			{
 			public:
-				using Texture2DReference = ResourceHandler<Texture2D>;
+				enum class TypeTarget : unsigned short int
+				{
+					TEXTURE_2D = 0x00,
+					PROXY_2D = 0x01,
+					TEXTURE_1D_ARRAY = 0x02,
+					PROXY_1D_ARRAY = 0x03,
+					RECTANGLE = 0x04,
+					PROXY_RECTANGLE = 0x05,
+					CUBE_MAP_POSITIVE_X = 0x06,
+					CUBE_MAP_NEGATIVE_X = 0x07,
+					CUBE_MAP_POSITIVE_Y = 0x08,
+					CUBE_MAP_NEGATIVE_Y = 0x09,
+					CUBE_MAP_POSITIVE_Z = 0x10,
+					CUBE_MAP_NEGATIVE_Z = 0x11,
+					PROXY_CUBE_MAP = 0x12
+				};
 
-				/**
-				 * @fn Texture2D() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				inline Texture2D() noexcept;
+				enum class Target : unsigned short int
+				{
+					TEXTURE_1D = 0x00,
+					TEXTURE_2D = 0x01,
+					TEXTURE_3D = 0x02,
+					TEXTURE_1D_ARRAY = 0x03,
+					TEXTURE_2D_ARRAY = 0x04,
+					RECTANGLE = 0x05,
+					CUBE_MAP = 0x06,
+					CUBE_MAP_ARRAY = 0x07,
+					BUFFER = 0x08,
+					TEXTURE_2D_MULTISAMPLE = 0x09,
+					TEXTURE_2D_MULTISAMPLE_ARRAY = 0x10
+				};
 
-				/**
-				 * @fn Texture2D(const Texture2D & copy)
-				 * @param[in] copy The texture to copy from.
-				 * @brief Default copy constructor.
-				 * throw
-				 */
-				inline Texture2D(const Texture2D & copy);
-
-				/**
-				 * @fn Texture2D(Texture2D && move) noexcept
-				 * @param[in] move The texture to move.
-				 * @brief Default move constructor.
-				 * throw noexcept
-				 */
-				inline Texture2D(Texture2D && move) noexcept;
-
-				/**
-				 * @fn ~Texture2D() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~Texture2D() noexcept = default;
-
-				/**
-				 * @fn Texture2D & operator=(const Texture2D & copy)
-				 * @param[in] copy The texture to copy from.
-				 * @return The texture copied.
-				 * @brief Default copy assignment operator.
-				 * @throw
-				 */
-				Texture2D & operator=(const Texture2D & copy);
-
-				/**
-				 * @fn Texture2D & operator=(Texture2D && move) noexcept
-				 * @param[in] move The texture to move.
-				 * @return The texture moved.
-				 * @bried Default move assignment operator.
-				 * @throw noexcept
-				 */
-				Texture2D & operator=(Texture2D && move) noexcept;
+				enum class Parameter : unsigned short int
+				{
+					DEPTH_STENCIL_MODE = 0x00,
+					BASE_LEVEL = 0x01,
+					COMPARE_FUNC = 0x02,
+					COMPARE_MODE = 0x03,
+					LOD_BIAS = 0x04,
+					MIN_FILTER = 0x05,
+					MAG_FILTER = 0x06,
+					MIN_LOD = 0x07,
+					MAX_LOD = 0x08,
+					MAX_LEVEL = 0x09,
+					SWIZZLE_R = 0x10,
+					SWIZZLE_G = 0x11,
+					SWIZZLE_B = 0x12,
+					SWIZZLE_A = 0x13,
+					WRAP_S = 0x14,
+					WRAP_T = 0x15,
+					WRAP_R = 0x16
+				};
 
 				/**
 				 * @fn void loadFromFile(const TypeTarget type, const std::string & filename)
@@ -115,7 +123,7 @@ namespace ece
 				 * @brief Load a texture from a file.
 				 * @throw
 				 */
-				virtual void loadFromFile(const TypeTarget type, const std::string & filename) override;
+				virtual void loadFromFile(const TypeTarget type, const std::string & filename) = 0;
 
 				/**
 				 * @fn const std::string & getFilename() const
@@ -123,7 +131,7 @@ namespace ece
 				 * @brief Get he filename which is the source of the texture.
 				 * @throw
 				 */
-				inline virtual const std::string & getFilename() const override;
+				virtual const std::string & getFilename() const = 0;
 
 				/**
 				 * @fn const std::vector<std::byte> & getData() const
@@ -131,7 +139,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				inline virtual const std::vector<std::byte> & getData() const override;
+				virtual const std::vector<std::byte> & getData() const = 0;
 
 				/**
 				 * @fn std::size_t getWidth() const
@@ -139,7 +147,7 @@ namespace ece
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				inline virtual std::size_t getWidth() const override;
+				virtual std::size_t getWidth() const = 0;
 
 				/**
 				* @fn std::size_t getHeight() const
@@ -147,7 +155,7 @@ namespace ece
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				inline virtual std::size_t getHeight() const override;
+				virtual std::size_t getHeight() const = 0;
 
 				/**
 				 * @fn TextureTypeTarget getType() const
@@ -155,7 +163,7 @@ namespace ece
 				 * @brief Get the type of texture.
 				 * @throw
 				 */
-				inline virtual TypeTarget getType() const override;
+				virtual TypeTarget getType() const = 0;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -163,7 +171,7 @@ namespace ece
 				 * @brief Get the id of the texture.
 				 * @throw
 				 */
-				inline virtual Handle getHandle() const override;
+				virtual Handle getHandle() const = 0;
 
 				/**
 				 * @fn void bind(const TextureTarget target)
@@ -171,68 +179,26 @@ namespace ece
 				 * @brief Copy the texture in a buffer to use it.
 				 * @throw
 				 */
-				void virtual bind(const Target target) override;
+				virtual void bind(const Target target) = 0;
 
-				inline virtual void active(const unsigned int channel) override;
-
-				template <typename T> void setParameter(const Parameter name, const T value);
-				template <typename T> void setParameter(const Parameter name, const std::vector<T> & value);
+				virtual void active(const unsigned int channel) = 0;
 
 				/**
 				 * @fn void update()
 				 * @brief Update the texture settings.
 				 * @throw
 				 */
-				virtual void update() override;
+				virtual void update() = 0;
 
 				/**
 				 * @fn void terminate()
 				 * @brief Clear and delete the texture.
 				 * @throw
 				 */
-				void terminate();
-
-			private:
-				/**
-				 * @property _filename
-				 * @brief
-				 */
-				std::string _filename;
-
-				/**
-				 * @property _data
-				 * @brief The pixels of the texture.
-				 */
-				std::vector<std::byte> _data;
-
-				/**
-				 * @property _width
-				 * @brief The width of the texture.
-				 */
-				std::size_t _width;
-
-				/**
-				 * @property _height
-				 * @brief The height of the texture.
-				 */
-				std::size_t _height;
-
-				/**
-				 * @property _type
-				 * @brief Type of texture used.
-				 */
-				TypeTarget _type;
-
-				/**
-				 * @property _handle
-				 * @brief The texture handle to use for any OpenGL call.
-				 */
-				Handle _handle;
+				virtual void terminate() = 0;
 			};
 		} // namespace image
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/image/texture2d.inl"
-
-#endif // TEXTURE_2D_HPP
+#endif // TEXTURE_HPP

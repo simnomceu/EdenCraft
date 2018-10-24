@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -45,7 +46,7 @@ namespace ece
 		{
 			using namespace opengl;
 
-			inline Texture2D::Texture2D()noexcept : _filename(), _data(), _width(), _height(), _type(TextureTypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture()) {}
+			inline Texture2D::Texture2D()noexcept : _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture()) {}
 
 			inline Texture2D::Texture2D(const Texture2D & copy) : _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), _type(copy._type),
 				_handle(copy._handle) {}
@@ -65,26 +66,24 @@ namespace ece
 
 			inline std::size_t Texture2D::getHeight() const { return this->_height; }
 
-			inline TextureTypeTarget Texture2D::getType() const { return this->_type; }
+			inline Texture2D::TypeTarget Texture2D::getType() const { return this->_type; }
 
 			inline Handle Texture2D::getHandle() const { return this->_handle; }
-
-			inline void Texture2D::bind(const TextureTarget target) { OpenGL::bindTexture(target, this->_handle); }
 
 			inline void Texture2D::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
 
 			template <typename T>
-			void Texture2D::setParameter(const TextureParameter name, const T value)
+			void Texture2D::setParameter(const Parameter name, const T value)
 			{
-				this->bind(TextureTarget::TEXTURE_2D);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, name, value);
+				this->bind(Texture::Target::TEXTURE_2D);
+				OpenGL::texParameter(getTextureTarget(Texture::Target::TEXTURE_2D), getTextureParameter(name), value);
 			}
 
 			template <typename T>
-			void Texture2D::setParameter(const TextureParameter name, const std::vector<T> & value)
+			void Texture2D::setParameter(const Parameter name, const std::vector<T> & value)
 			{
-				this->bind(TextureTarget::TEXTURE_2D);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, name, value);
+				this->bind(Texture::Target::TEXTURE_2D);
+				OpenGL::texParameter(getTextureTarget(Texture::Target::TEXTURE_2D), getTextureParameter(name), value);
 			}
 		} // namespace image
 	} // namespace renderer

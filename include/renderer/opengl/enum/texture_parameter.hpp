@@ -36,15 +36,13 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#ifndef OPENGL_TEXTURE_PARAMETER_HPP
+#define OPENGL_TEXTURE_PARAMETER_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
-
-#include <string>
+#include "renderer/image/texture.hpp"
 
 namespace ece
 {
@@ -52,23 +50,34 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
+			using image::Texture;
 
-			enum class ShaderType : unsigned short int
+			enum class TextureParameter : unsigned short int
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
+				DEPTH_STENCIL_TEXTURE_MODE = GL_DEPTH_STENCIL_TEXTURE_MODE,
+				TEXTURE_BASE_LEVEL = GL_TEXTURE_BASE_LEVEL,
+				TEXTURE_COMPARE_FUNC = GL_TEXTURE_COMPARE_FUNC,
+				TEXTURE_COMPARE_MODE = GL_TEXTURE_COMPARE_MODE,
+				TEXTURE_LOD_BIAS = GL_TEXTURE_LOD_BIAS,
+				TEXTURE_MIN_FILTER = GL_TEXTURE_MIN_FILTER,
+				TEXTURE_MAG_FILTER = GL_TEXTURE_MAG_FILTER,
+				TEXTURE_MIN_LOD = GL_TEXTURE_MIN_LOD,
+				TEXTURE_MAX_LOD = GL_TEXTURE_MAX_LOD,
+				TEXTURE_MAX_LEVEL = GL_TEXTURE_MAX_LEVEL,
+				TEXTURE_SWIZZLE_R = GL_TEXTURE_SWIZZLE_R,
+				TEXTURE_SWIZZLE_G = GL_TEXTURE_SWIZZLE_G,
+				TEXTURE_SWIZZLE_B = GL_TEXTURE_SWIZZLE_B,
+				TEXTURE_SWIZZLE_A = GL_TEXTURE_SWIZZLE_A,
+				TEXTURE_WRAP_S = GL_TEXTURE_WRAP_S,
+				TEXTURE_WRAP_T = GL_TEXTURE_WRAP_T,
+				TEXTURE_WRAP_R = GL_TEXTURE_WRAP_R
 			};
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
+			ECE_RENDERER_API TextureParameter getTextureParameter(Texture::Parameter type);
 
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			ECE_RENDERER_API std::string to_string(TextureParameter type);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_SHADER_TYPE_HPP
+#endif // OPENGL_TEXTURE_PARAMETER_HPP

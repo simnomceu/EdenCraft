@@ -36,13 +36,13 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#ifndef BLENDING_FACTOR_HPP
+#define BLENDING_FACTOR_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 #include <string>
 
@@ -52,23 +52,36 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
+			using pipeline::RenderState;
 
-			enum class ShaderType : unsigned short int
+			enum class BlendingFactor : unsigned short int
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
+				ZERO = GL_ZERO,
+				ONE = GL_ONE,
+				SRC_COLOR = GL_SRC_COLOR,
+				ONE_MINUS_SRC_COLOR = GL_ONE_MINUS_SRC_COLOR,
+				DST_COLOR = GL_DST_COLOR,
+				ONE_MINUS_DST_COLOR = GL_ONE_MINUS_DST_COLOR,
+				SRC_ALPHA = GL_SRC_ALPHA,
+				ONE_MINUS_SRC_ALPHA = GL_ONE_MINUS_SRC_ALPHA,
+				DST_ALPHA = GL_DST_ALPHA,
+				ONE_MINUS_DST_ALPHA = GL_ONE_MINUS_DST_ALPHA,
+				CONSTANT_COLOR = GL_CONSTANT_COLOR,
+				ONE_MINUS_CONSTANT_COLOR = GL_ONE_MINUS_CONSTANT_COLOR,
+				CONSTANT_ALPHA = GL_CONSTANT_ALPHA,
+				ONE_MINUS_CONSTANT_ALPHA = GL_ONE_MINUS_CONSTANT_ALPHA,
+				SRC_ALPHA_SATURATE = GL_SRC_ALPHA_SATURATE,
+				SRC1_COLOR = GL_SRC1_COLOR,
+				ONE_MINUS_SRC1_COLOR = GL_ONE_MINUS_SRC1_COLOR,
+				SRC1_ALPHA = GL_SRC1_ALPHA,
+				ONE_MINUS_SRC1_ALPHA = GL_ONE_MINUS_SRC1_ALPHA,
 			};
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
+			ECE_RENDERER_API BlendingFactor getBlendingFactor(RenderState::BlendingFactor type);
 
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			ECE_RENDERER_API std::string to_string(BlendingFactor type);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_SHADER_TYPE_HPP
+#endif // BLENDING_FACTOR_HPP

@@ -112,7 +112,7 @@ namespace ece
 					if (!material.getDiffuseMap().empty()) {
 						auto diffuseMap = makeResource<Texture2D>(material.getDiffuseMap());
 						if (diffuseMap->getData().empty()) {
-							diffuseMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
+							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
 						}
 						materialResource->setDiffuseMap(diffuseMap);
 					}
@@ -120,7 +120,7 @@ namespace ece
 					if (!material.getSpecularMap().empty()) {
 						auto specularMap = makeResource<Texture2D>(material.getSpecularMap());
 						if (specularMap->getData().empty()) {
-							specularMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
+							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
 						}
 						materialResource->setSpecularMap(specularMap);
 					}

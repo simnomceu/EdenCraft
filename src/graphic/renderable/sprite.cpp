@@ -57,7 +57,7 @@ namespace ece
 				}
 
 				this->_texture->active(0);
-				this->_texture->bind(TextureTarget::TEXTURE_2D);
+				this->_texture->bind(Texture::Target::TEXTURE_2D);
 				this->_texture->update();
 
 				this->_mode = PrimitiveMode::TRIANGLES;

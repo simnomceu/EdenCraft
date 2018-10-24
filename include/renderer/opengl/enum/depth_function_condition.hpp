@@ -36,13 +36,13 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#ifndef DEPTH_FUNCTION_CONDITION_HPP
+#define DEPTH_FUNCTION_CONDITION_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 #include <string>
 
@@ -52,23 +52,25 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
+			using pipeline::RenderState;
 
-			enum class ShaderType : unsigned short int
+			enum class DepthFunctionCondition : unsigned short int
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
+				NEVER = GL_NEVER,
+				LESS = GL_LESS,
+				EQUAL = GL_EQUAL,
+				LEQUAL = GL_LEQUAL,
+				GREATER = GL_GREATER,
+				NOTEQUAL = GL_NOTEQUAL,
+				GEQUAL = GL_GEQUAL,
+				ALWAYS = GL_ALWAYS
 			};
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
+			ECE_RENDERER_API DepthFunctionCondition getDepthFunctionCondition(RenderState::DepthFunctionCondition condition);
 
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			ECE_RENDERER_API std::string to_string(DepthFunctionCondition condition);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_SHADER_TYPE_HPP
+#endif // DEPTH_FUNCTION_CONDITION_HPP

@@ -36,13 +36,13 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#ifndef FRONT_FACE_MODE_HPP
+#define FRONT_FACE_MODE_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 #include <string>
 
@@ -52,23 +52,19 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
+			using pipeline::RenderState;
 
-			enum class ShaderType : unsigned short int
+			enum class FrontFaceMode : unsigned short int
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
+				CW = GL_CW,
+				CCW = GL_CCW
 			};
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
+			ECE_RENDERER_API FrontFaceMode getFrontFaceMode(RenderState::FrontFaceMode mode);
 
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			ECE_RENDERER_API std::string to_string(FrontFaceMode mode);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_SHADER_TYPE_HPP
+#endif // FRONT_FACE_MODE_HPP

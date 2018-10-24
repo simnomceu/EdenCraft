@@ -36,15 +36,9 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#include "renderer/opengl/enum/front_face_mode.h"
 
-#include "renderer/config.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
-
-#include <string>
+#include <stdexcept>
 
 namespace ece
 {
@@ -52,23 +46,23 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
-
-			enum class ShaderType : unsigned short int
+			FrontFaceMode getFrontFaceMode(RenderState::FrontFaceMode mode)
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
-			};
+				switch (mode) {
+				case RenderState::FrontFaceMode::CLOCKWISE: return FrontFaceMode::CW; break;
+				case RenderState::FrontFaceMode::COUNTERCLOCKWISE: return FrontFaceMode::CCW; break;
+				default: throw std::runtime_error("Unknown value for FrontFaceMode enumeration."); break;
+				}
+			}
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
-
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			std::string to_string(FrontFaceMode mode)
+			{
+				switch (mode) {
+				case FrontFaceMode::CW: return "GL_CW"; break;
+				case FrontFaceMode::CCW: return "GL_CCW"; break;
+				default: throw std::runtime_error("Unknown value for FrontFaceMode enumeration."); break;
+				}
+			}
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
-
-#endif // OPENGL_SHADER_TYPE_HPP

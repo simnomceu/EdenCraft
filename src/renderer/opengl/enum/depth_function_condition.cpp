@@ -36,15 +36,9 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#include "renderer/opengl/enum/depth_function_condition.hpp"
 
-#include "renderer/config.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
-
-#include <string>
+#include <stdexcept>
 
 namespace ece
 {
@@ -52,23 +46,35 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
-
-			enum class ShaderType : unsigned short int
+			DepthFunctionCondition getDepthFunctionCondition(RenderState::DepthFunctionCondition condition)
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
-			};
+				switch (condition) {
+				case RenderState::DepthFunctionCondition::NEVER: return DepthFunctionCondition::NEVER; break;
+				case RenderState::DepthFunctionCondition::LESS: return DepthFunctionCondition::LESS; break;
+				case RenderState::DepthFunctionCondition::EQUAL: return DepthFunctionCondition::EQUAL; break;
+				case RenderState::DepthFunctionCondition::LEQUAL: return DepthFunctionCondition::LEQUAL; break;
+				case RenderState::DepthFunctionCondition::GREATER: return DepthFunctionCondition::GREATER; break;
+				case RenderState::DepthFunctionCondition::NOTEQUAL: return DepthFunctionCondition::NOTEQUAL; break;
+				case RenderState::DepthFunctionCondition::GEQUAL: return DepthFunctionCondition::GEQUAL; break;
+				case RenderState::DepthFunctionCondition::ALWAYS: return DepthFunctionCondition::ALWAYS; break;
+				default: throw std::runtime_error("Unknown value for DepthFunctionCondition enumeration."); break;
+				}
+			}
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
-
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			std::string to_string(DepthFunctionCondition condition)
+			{
+				switch (condition) {
+				case DepthFunctionCondition::NEVER: return "GL_NEVER"; break;
+				case DepthFunctionCondition::LESS: return "GL_LESS"; break;
+				case DepthFunctionCondition::EQUAL: return "GL_EQUAL"; break;
+				case DepthFunctionCondition::LEQUAL: return "GL_LEQUAL"; break;
+				case DepthFunctionCondition::GREATER: return "GL_GREATER"; break;
+				case DepthFunctionCondition::NOTEQUAL: return "GL_NOTEQUAL"; break;
+				case DepthFunctionCondition::GEQUAL: return "GL_GEQUAL"; break;
+				case DepthFunctionCondition::ALWAYS: return "GL_ALWAYS"; break;
+				default: throw std::runtime_error("Unknown value for DepthFunctionCondition enumeration."); break;
+				}
+			}
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
-
-#endif // OPENGL_SHADER_TYPE_HPP

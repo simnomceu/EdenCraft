@@ -36,13 +36,13 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#ifndef CULL_FACE_MODE_HPP
+#define CULL_FACE_MODE_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 #include <string>
 
@@ -52,23 +52,20 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
+			using pipeline::RenderState;
 
-			enum class ShaderType : unsigned short int
+			enum class CullFaceMode : unsigned short int
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
+				FRONT = GL_FRONT,
+				BACK = GL_BACK,
+				FRONT_AND_BACK = GL_FRONT_AND_BACK
 			};
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
+			ECE_RENDERER_API CullFaceMode getCullFaceMode(RenderState::CullFaceMode mode);
 
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			ECE_RENDERER_API std::string to_string(CullFaceMode mode);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_SHADER_TYPE_HPP
+#endif // CULL_FACE_MODE_HPP

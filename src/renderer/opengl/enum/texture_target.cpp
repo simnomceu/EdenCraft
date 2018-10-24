@@ -36,7 +36,7 @@
 
 */
 
-#include "renderer/opengl/enum/data_type.hpp"
+#include "renderer/opengl/enum/texture_target.hpp"
 
 #include <stdexcept>
 
@@ -46,44 +46,39 @@ namespace ece
 	{
 		namespace opengl
 		{
-
-			DataType getDataType(buffer::DataType type)
+			TextureTarget getTextureTarget(Texture::Target type)
 			{
 				switch (type) {
-				case buffer::DataType::BYTE: return DataType::BYTE; break;
-				case buffer::DataType::UNSIGNED_BYTE: return DataType::UNSIGNED_BYTE; break;
-				case buffer::DataType::SHORT: return DataType::SHORT; break;
-				case buffer::DataType::UNSIGNED_SHORT: return DataType::UNSIGNED_SHORT; break;
-				case buffer::DataType::INT: return DataType::INT; break;
-				case buffer::DataType::UNSIGNED_INT: return DataType::UNSIGNED_INT; break;
-				case buffer::DataType::HALF_FLOAT: return DataType::HALF_FLOAT; break;
-				case buffer::DataType::FLOAT: return DataType::FLOAT; break;
-				case buffer::DataType::DOUBLE: return DataType::DOUBLE; break;
-				case buffer::DataType::FIXED: return DataType::FIXED; break;
-				case buffer::DataType::INT_2_10_10_10_REV: return DataType::INT_2_10_10_10_REV; break;
-				case buffer::DataType::UNSIGNED_INT_2_10_10_10_REV: return DataType::UNSIGNED_INT_2_10_10_10_REV; break;
-				case buffer::DataType::UNSIGNED_INT_10F_11F_11F_REV: return DataType::UNSIGNED_INT_10F_11F_11F_REV; break;
-				default: throw std::runtime_error("Unknown value for DataType enumeration."); break;
+				case Texture::Target::TEXTURE_1D: return TextureTarget::TEXTURE_1D; break;
+				case Texture::Target::TEXTURE_2D: return TextureTarget::TEXTURE_2D; break;
+				case Texture::Target::TEXTURE_3D: return TextureTarget::TEXTURE_3D; break;
+				case Texture::Target::TEXTURE_1D_ARRAY: return TextureTarget::TEXTURE_1D_ARRAY; break;
+				case Texture::Target::TEXTURE_2D_ARRAY: return TextureTarget::TEXTURE_2D_ARRAY; break;
+				case Texture::Target::RECTANGLE: return TextureTarget::TEXTURE_RECTANGLE; break;
+				case Texture::Target::CUBE_MAP: return TextureTarget::TEXTURE_CUBE_MAP; break;
+				case Texture::Target::CUBE_MAP_ARRAY: return TextureTarget::TEXTURE_CUBE_MAP_ARRAY; break;
+				case Texture::Target::BUFFER: return TextureTarget::TEXTURE_BUFFER; break;
+				case Texture::Target::TEXTURE_2D_MULTISAMPLE: return TextureTarget::TEXTURE_2D_MULTISAMPLE; break;
+				case Texture::Target::TEXTURE_2D_MULTISAMPLE_ARRAY: return TextureTarget::TEXTURE_2D_MULTISAMPLE_ARRAY; break;
+				default: throw std::runtime_error("Unknown value for TextureTarget enumeration."); break;
 				}
 			}
 
-			std::string to_string(DataType type)
+			std::string to_string(TextureTarget type)
 			{
 				switch (type) {
-				case DataType::BYTE: return "GL_BYTE"; break;
-				case DataType::UNSIGNED_BYTE: return "GL_UNSIGNED_BYTE"; break;
-				case DataType::SHORT: return "GL_SHORT"; break;
-				case DataType::UNSIGNED_SHORT: return "GL_UNSIGNED_SHORT"; break;
-				case DataType::INT: return "GL_INT"; break;
-				case DataType::UNSIGNED_INT: return "GL_UNSIGNED_INT"; break;
-				case DataType::HALF_FLOAT: return "GL_HALF_FLOAT"; break;
-				case DataType::FLOAT: return "GL_FLOAT"; break;
-				case DataType::DOUBLE: return "GL_DOUBLE"; break;
-				case DataType::FIXED: return "GL_FIXED"; break;
-				case DataType::INT_2_10_10_10_REV: return "GL_INT_2_10_10_10_REV"; break;
-				case DataType::UNSIGNED_INT_2_10_10_10_REV: return "GL_UNSIGNED_INT_2_10_10_10_REV"; break;
-				case DataType::UNSIGNED_INT_10F_11F_11F_REV: return "GL_UNSIGNED_INT_10F_11F_11F_REV"; break;
-				default: throw std::runtime_error("Unknown value for DataType enumeration."); break;
+				case TextureTarget::TEXTURE_1D: return "GL_TEXTURE_1D"; break;
+				case TextureTarget::TEXTURE_2D: return "GL_TEXTURE_2D"; break;
+				case TextureTarget::TEXTURE_3D: return "GL_TEXTURE_3D"; break;
+				case TextureTarget::TEXTURE_1D_ARRAY: return "GL_TEXTURE_1D_ARRAY"; break;
+				case TextureTarget::TEXTURE_2D_ARRAY: return "GL_TEXTURE_2D_ARRAY"; break;
+				case TextureTarget::TEXTURE_RECTANGLE: return "GL_TEXTURE_RECTANGLE"; break;
+				case TextureTarget::TEXTURE_CUBE_MAP: return "GL_TEXTURE_CUBE_MAP"; break;
+				case TextureTarget::TEXTURE_CUBE_MAP_ARRAY: return "GL_TEXTURE_CUBE_MAP_ARRAY"; break;
+				case TextureTarget::TEXTURE_BUFFER: return "GL_TEXTURE_BUFFER"; break;
+				case TextureTarget::TEXTURE_2D_MULTISAMPLE: return "GL_TEXTURE_2D_MULTISAMPLE"; break;
+				case TextureTarget::TEXTURE_2D_MULTISAMPLE_ARRAY: return "GL_TEXTURE_2D_MULTISAMPLE_ARRAY"; break;
+				default: throw std::runtime_error("Unknown value for TextureTarget enumeration."); break;
 				}
 			}
 		} // namespace opengl

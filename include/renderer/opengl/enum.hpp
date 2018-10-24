@@ -43,10 +43,17 @@
 #include "GL/glext.h"
 
 #include "utility/enumeration.hpp"
+#include "renderer/opengl/enum/blending_factor.hpp"
 #include "renderer/opengl/enum/buffer_type.hpp"
 #include "renderer/opengl/enum/buffer_usage.hpp"
+#include "renderer/opengl/enum/cull_face_mode.hpp"
 #include "renderer/opengl/enum/data_type.hpp"
+#include "renderer/opengl/enum/depth_function_condition.hpp"
+#include "renderer/opengl/enum/front_face_mode.h"
 #include "renderer/opengl/enum/shader_type.hpp"
+#include "renderer/opengl/enum/texture_parameter.hpp"
+#include "renderer/opengl/enum/texture_target.hpp"
+#include "renderer/opengl/enum/texture_type_target.hpp"
 
 #ifdef _WIN32
 #	undef NO_ERROR
@@ -366,19 +373,6 @@ namespace ece
 				MAX_ELEMENT_INDEX = GL_MAX_ELEMENT_INDEX
 			};
 
-			enum class CullFaceMode : unsigned short int
-			{
-				FRONT = GL_FRONT,
-				BACK = GL_BACK,
-				FRONT_AND_BACK = GL_FRONT_AND_BACK
-			};
-
-			enum class FrontFaceMode : unsigned short int
-			{
-				CW = GL_CW,
-				CCW = GL_CCW
-			};
-
 			enum class InfoGL : unsigned short int
 			{
 				VENDOR = GL_VENDOR,
@@ -389,18 +383,6 @@ namespace ece
 
 			using ExtensionsGL = unsigned short int;
 			static constexpr ExtensionsGL EXTENSIONS = GL_EXTENSIONS;
-
-			enum class DepthFunctionCondition : unsigned short int
-			{
-				NEVER = GL_NEVER,
-				LESS = GL_LESS,
-				EQUAL = GL_EQUAL,
-				LEQUAL = GL_LEQUAL,
-				GREATER = GL_GREATER,
-				NOTEQUAL = GL_NOTEQUAL,
-				GEQUAL = GL_GEQUAL,
-				ALWAYS = GL_ALWAYS
-			};
 
 			enum class ErrorGL : unsigned short int
 			{
@@ -421,21 +403,6 @@ namespace ece
 				FILL = GL_FILL
 			};
 
-			enum class TextureTarget : unsigned short int
-			{
-				TEXTURE_1D = GL_TEXTURE_1D,
-				TEXTURE_2D = GL_TEXTURE_2D,
-				TEXTURE_3D = GL_TEXTURE_3D,
-				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
-				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
-				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
-				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
-				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY,
-				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
-				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
-			};
-
 			enum class MipmapTarget : unsigned short int
 			{
 				TEXTURE_1D = GL_TEXTURE_1D,
@@ -445,23 +412,6 @@ namespace ece
 				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
 				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
 				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY
-			};
-
-			enum class TextureTypeTarget : unsigned short int
-			{
-				TEXTURE_2D = GL_TEXTURE_2D,
-				PROXY_TEXTURE_2D = GL_PROXY_TEXTURE_2D,
-				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
-				PROXY_TEXTURE_1D_ARRAY = GL_PROXY_TEXTURE_1D_ARRAY,
-				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
-				PROXY_TEXTURE_RECTANGLE = GL_PROXY_TEXTURE_RECTANGLE,
-				TEXTURE_CUBE_MAP_POSITIVE_X = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
-				TEXTURE_CUBE_MAP_NEGATIVE_X = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-				TEXTURE_CUBE_MAP_POSITIVE_Y = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
-				TEXTURE_CUBE_MAP_NEGATIVE_Y = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-				TEXTURE_CUBE_MAP_POSITIVE_Z = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
-				TEXTURE_CUBE_MAP_NEGATIVE_Z = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
-				PROXY_TEXTURE_CUBE_MAP = GL_PROXY_TEXTURE_CUBE_MAP
 			};
 
 			enum class PixelFormat : unsigned short int
@@ -568,27 +518,6 @@ namespace ece
 				COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT = GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
 			};
 
-			enum class TextureParameter : unsigned short int
-			{
-				DEPTH_STENCIL_TEXTURE_MODE = GL_DEPTH_STENCIL_TEXTURE_MODE,
-				TEXTURE_BASE_LEVEL = GL_TEXTURE_BASE_LEVEL,
-				TEXTURE_COMPARE_FUNC = GL_TEXTURE_COMPARE_FUNC,
-				TEXTURE_COMPARE_MODE = GL_TEXTURE_COMPARE_MODE,
-				TEXTURE_LOD_BIAS = GL_TEXTURE_LOD_BIAS,
-				TEXTURE_MIN_FILTER = GL_TEXTURE_MIN_FILTER,
-				TEXTURE_MAG_FILTER = GL_TEXTURE_MAG_FILTER,
-				TEXTURE_MIN_LOD = GL_TEXTURE_MIN_LOD,
-				TEXTURE_MAX_LOD = GL_TEXTURE_MAX_LOD,
-				TEXTURE_MAX_LEVEL = GL_TEXTURE_MAX_LEVEL,
-				TEXTURE_SWIZZLE_R = GL_TEXTURE_SWIZZLE_R,
-				TEXTURE_SWIZZLE_G = GL_TEXTURE_SWIZZLE_G,
-				TEXTURE_SWIZZLE_B = GL_TEXTURE_SWIZZLE_B,
-				TEXTURE_SWIZZLE_A = GL_TEXTURE_SWIZZLE_A,
-				TEXTURE_WRAP_S = GL_TEXTURE_WRAP_S,
-				TEXTURE_WRAP_T = GL_TEXTURE_WRAP_T,
-				TEXTURE_WRAP_R = GL_TEXTURE_WRAP_R
-			};
-
 			enum class ProgramParameter : unsigned short int
 			{
 				DELETE_STATUS = GL_DELETE_STATUS,
@@ -679,29 +608,6 @@ namespace ece
 				TEXTURE29 = GL_TEXTURE29,
 				TEXTURE30 = GL_TEXTURE30,
 				TEXTURE31 = GL_TEXTURE31,
-			};
-
-			enum class BlendingFactor : unsigned short int
-			{
-				ZERO = GL_ZERO,
-				ONE = GL_ONE,
-				SRC_COLOR = GL_SRC_COLOR,
-				ONE_MINUS_SRC_COLOR = GL_ONE_MINUS_SRC_COLOR,
-				DST_COLOR = GL_DST_COLOR,
-				ONE_MINUS_DST_COLOR = GL_ONE_MINUS_DST_COLOR,
-				SRC_ALPHA = GL_SRC_ALPHA,
-				ONE_MINUS_SRC_ALPHA = GL_ONE_MINUS_SRC_ALPHA,
-				DST_ALPHA = GL_DST_ALPHA,
-				ONE_MINUS_DST_ALPHA = GL_ONE_MINUS_DST_ALPHA,
-				CONSTANT_COLOR = GL_CONSTANT_COLOR,
-				ONE_MINUS_CONSTANT_COLOR = GL_ONE_MINUS_CONSTANT_COLOR,
-				CONSTANT_ALPHA = GL_CONSTANT_ALPHA,
-				ONE_MINUS_CONSTANT_ALPHA = GL_ONE_MINUS_CONSTANT_ALPHA,
-				SRC_ALPHA_SATURATE = GL_SRC_ALPHA_SATURATE,
-				SRC1_COLOR = GL_SRC1_COLOR,
-				ONE_MINUS_SRC1_COLOR = GL_ONE_MINUS_SRC1_COLOR,
-				SRC1_ALPHA = GL_SRC1_ALPHA,
-				ONE_MINUS_SRC1_ALPHA = GL_ONE_MINUS_SRC1_ALPHA,
 			};
 
 			enum class ContextFlag : unsigned short int

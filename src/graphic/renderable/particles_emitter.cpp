@@ -60,8 +60,8 @@ namespace ece
 			{
 				this->_state._pointSize = 4.0f;
 				this->_state._blending = true;
-				this->_state._sourceBlend = BlendingFactor::SRC_ALPHA;
-				this->_state._destinationBlend = BlendingFactor::ONE;
+				this->_state._sourceBlend = RenderState::BlendingFactor::SRC_ALPHA;
+				this->_state._destinationBlend = RenderState::BlendingFactor::ONE;
 
 				this->_mode = PrimitiveMode::POINTS;
 

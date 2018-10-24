@@ -36,15 +36,9 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE_HPP
-#define OPENGL_SHADER_TYPE_HPP
+#include "renderer/opengl/enum/cull_face_mode.hpp"
 
-#include "renderer/config.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/shader/shader_stage.hpp"
-
-#include <string>
+#include <stdexcept>
 
 namespace ece
 {
@@ -52,23 +46,25 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using shader::ShaderStage;
-
-			enum class ShaderType : unsigned short int
+			CullFaceMode getCullFaceMode(RenderState::CullFaceMode mode)
 			{
-				COMPUTE_SHADER = GL_COMPUTE_SHADER,
-				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
-				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
-				VERTEX_SHADER = GL_VERTEX_SHADER,
-				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
-				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER
-			};
+				switch (mode) {
+				case RenderState::CullFaceMode::BACK: return CullFaceMode::BACK; break;
+				case RenderState::CullFaceMode::FRONT: return CullFaceMode::FRONT; break;
+				case RenderState::CullFaceMode::FRONT_AND_BACK: return CullFaceMode::FRONT_AND_BACK; break;
+				default: throw std::runtime_error("Unknown value for CullFaceMode enumeration."); break;
+				}
+			}
 
-			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
-
-			ECE_RENDERER_API std::string to_string(ShaderType type);
+			std::string to_string(CullFaceMode mode)
+			{
+				switch (mode) {
+				case CullFaceMode::BACK: return "GL_BACK"; break;
+				case CullFaceMode::FRONT: return "GL_FRONT"; break;
+				case CullFaceMode::FRONT_AND_BACK: return "GL_FRONT_AND_BACK"; break;
+				default: throw std::runtime_error("Unknown value for CullFaceMode enumeration."); break;
+				}
+			}
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
-
-#endif // OPENGL_SHADER_TYPE_HPP

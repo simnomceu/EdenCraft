@@ -56,7 +56,7 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 	ece::RenderState states;
 	states._depthTest = true;
-	states._depthFunction = ece::DepthFunctionCondition::LESS;
+	states._depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
 	states.apply(true);
 
 	{
