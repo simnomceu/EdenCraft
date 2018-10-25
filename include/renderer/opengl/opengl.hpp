@@ -50,7 +50,7 @@
 #include "renderer/opengl/enum.hpp"
 #include "utility/indexing.hpp"
 #include "utility/container.hpp"
-#include "renderer/opengl/handle.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {

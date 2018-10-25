@@ -40,7 +40,7 @@
 #define SHADER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/handle.hpp"
+#include "utility/types.hpp"
 #include "renderer/shader/shader_stage.hpp"
 #include "utility/template_expression.hpp"
 
@@ -51,7 +51,6 @@ namespace ece
 		namespace shader
 		{
 			class BaseUniform;
-			using opengl::Handle;
 
 			/**
 			 * @class Shader

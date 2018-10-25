@@ -41,7 +41,7 @@
 #define TEXTURE_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/handle.hpp"
+#include "utility/types.hpp"
 
 #include <string>
 #include <vector>
@@ -53,8 +53,6 @@ namespace ece
 	{
 		namespace image
 		{
-			using opengl::Handle;
-
 			/**
 			 * @class Texture2D
 			 * @brief OpenGL 2D texture.
