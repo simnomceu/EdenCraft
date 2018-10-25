@@ -40,7 +40,7 @@
 #define BASE_BUFFER_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/object_opengl.hpp"
+#include "utility/types.hpp"
 
 #include <cstddef>
 
@@ -50,13 +50,11 @@ namespace ece
 	{
 		namespace buffer
 		{
-			using opengl::ObjectOpenGL;
-
 			/**
 			 * @class BaseBuffer
 			 * @brief
 			 */
-			class ECE_RENDERER_API BaseBuffer: public ObjectOpenGL
+			class ECE_RENDERER_API BaseBuffer
 			{
 			public:
 				using size_type = std::size_t;
@@ -134,8 +132,8 @@ namespace ece
 				 */
 				BaseBuffer & operator=(BaseBuffer && move) noexcept;
 
-				virtual void bind() const override;
-				virtual void terminate() override;
+				void bind() const;
+				void terminate();
 
 				virtual size_type size() const noexcept = 0;
 
@@ -146,6 +144,7 @@ namespace ece
 				inline const DataDescriptor & getDataDescriptor() const noexcept;
 
 			protected:
+				Handle _handle;
 				DataDescriptor _descriptor;
 				Type _type;
 				Frequency _frequency;

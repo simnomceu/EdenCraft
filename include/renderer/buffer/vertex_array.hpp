@@ -40,7 +40,7 @@
 #define VERTEX_ARRAY_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/object_opengl.hpp"
+#include "utility/types.hpp"
 #include "renderer/buffer/buffer_layout.hpp"
 
 namespace ece
@@ -49,14 +49,13 @@ namespace ece
 	{
 		namespace buffer
 		{
-			using opengl::ObjectOpenGL;
 			class BaseBuffer;
 
 			/**
 			 * @class VertexArray
 			 * @brief
 			 */
-			class ECE_RENDERER_API VertexArray: public ObjectOpenGL
+			class ECE_RENDERER_API VertexArray
 			{
 			public:
 				using AttributeLocation = unsigned short int;
@@ -96,15 +95,17 @@ namespace ece
 				 */
 				VertexArray & operator=(VertexArray && move) noexcept = default;
 
-				inline virtual void bind() const override;
+				inline void bind() const;
 
-				inline virtual void terminate() override;
+				inline void terminate();
 
 				void attach(const BaseBuffer & buffer, BufferLayout layout);
 
 				void reset();
 
 			protected:
+				Handle _handle;
+
 				AttributeLocation addAttribute();
 
 				AttributeLocation _nextAttributeLocation;
