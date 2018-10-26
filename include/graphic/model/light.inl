@@ -56,15 +56,9 @@ namespace ece
 			
 			inline void Light::setDirection(const FloatVector3u & direction) noexcept { this->_direction = direction; }
 			
-			inline void Light::setConstant(const float constant) noexcept { this->_constant = constant; }
+			inline void Light::setAttenuation(const Attenuation & attenuation) noexcept { this->_attenuation = attenuation; }
 			
-			inline void Light::setLinear(const float linear) noexcept { this->_linear = linear; }
-			
-			inline void Light::setQuadratic(const float quadratic) noexcept { this->_quadratic = quadratic; }
-			
-			inline void Light::setInnerCutOff(const float innerCutOff) noexcept { this->_innerCutOff = innerCutOff; }
-			
-			inline void Light::setOuterCutOff(const float outerCutOff) noexcept { this->_outerCutOff = outerCutOff; }
+			inline void Light::setCutOff(const CutOff & cutOff) noexcept { this->_cutOff = cutOff; }
 
 			inline float Light::getAmbient() const noexcept { return this->_ambient; }
 
@@ -74,37 +68,31 @@ namespace ece
 
 			inline const FloatVector3u & Light::getColor() const noexcept { return this->_color; }
 
-			inline const FloatVector3u & Light::getPosition() const noexcept { return this->_position; }
+			inline const FloatVector3u & Light::getPosition() const noexcept { return this->_position.value(); }
 
-			inline const FloatVector3u & Light::getDirection() const noexcept { return this->_direction; }
+			inline const FloatVector3u & Light::getDirection() const noexcept { return this->_direction.value(); }
 
-			inline float Light::getConstant() const noexcept { return this->_constant; }
+			inline Light::Attenuation Light::getAttenuation() const noexcept { return this->_attenuation.value(); }
 
-			inline float Light::getLinear() const noexcept { return this->_linear; }
+			inline Light::CutOff Light::getCutoff() const noexcept { return this->_cutOff.value(); }
 
-			inline float Light::getQuadratic() const noexcept { return this->_quadratic; }
+			inline void Light::resetPosition() noexcept { this->_position.reset(); }
 
-			inline float Light::getInnerCutoff() const noexcept { return this->_innerCutOff; }
+			inline void Light::resetDirection() noexcept { this->_direction.reset(); }
 
-			inline float Light::getOuterCutoff() const noexcept { return this->_outerCutOff; }
+			inline void Light::resetAttenuation() noexcept { this->_attenuation.reset(); }
 
-			inline void Light::usePosition(const bool used) noexcept { this->_usePosition = used; }
-
-			inline void Light::useDirection(const bool used) noexcept { this->_useDirection = used; }
-
-			inline void Light::useAttenuation(const bool used) noexcept { this->_useAttenuation = used; }
-
-			inline void Light::useCutOff(const bool used) noexcept { this->_useCutOff = used; }
+			inline void Light::resetCutOff() noexcept { this->_cutOff.reset(); }
 
 			inline void Light::useBlinn(const bool used) noexcept { this->_useBlinn = used; }
 
-			inline bool Light::isPositionUsed() const noexcept { return this->_usePosition; }
+			inline bool Light::isPositionUsed() const noexcept { return this->_position.has_value(); }
 
-			inline bool Light::isDirectionUsed() const noexcept { return this->_useDirection; }
+			inline bool Light::isDirectionUsed() const noexcept { return this->_direction.has_value(); }
 
-			inline bool Light::isAttenuationUsed() const noexcept { return this->_useAttenuation; }
+			inline bool Light::isAttenuationUsed() const noexcept { return this->_attenuation.has_value(); }
 
-			inline bool Light::isCutOffUsed() const noexcept { return this->_useCutOff; }
+			inline bool Light::isCutOffUsed() const noexcept { return this->_cutOff.has_value(); }
 
 			inline bool Light::isBlinnUsed() const noexcept { return this->_useBlinn; }
 		} // namespace model

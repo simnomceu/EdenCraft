@@ -48,8 +48,8 @@ namespace ece
 	{
 		namespace model
 		{
-			Light::Light() noexcept : _ambient(1.0f), _diffuse(1.0f), _specular(1.0f), _color{ 1.0f, 1.0f, 1.0f }, _position{ 0.0f, 0.0f, 0.0f }, _direction{ 0.0f, 0.0f, 0.0f }, _constant(1.0f), 
-				_linear(0.0f), _quadratic(0.0f), _innerCutOff(0.0f), _outerCutOff(0.0f), _usePosition(false), _useDirection(false), _useAttenuation(false), _useCutOff(false), _useBlinn(false)
+			Light::Light() noexcept : _ambient(1.0f), _diffuse(1.0f), _specular(1.0f), _color{ 1.0f, 1.0f, 1.0f }, _position(), _direction(), _attenuation(), 
+									_cutOff(), _useBlinn(false)
 			{
 			}
 
@@ -60,17 +60,17 @@ namespace ece
 				shader.uniform<float, 3>("lights[" + tmpId + "].ambient", this->_color * this->_ambient);
 				shader.uniform<float, 3>("lights[" + tmpId + "].diffuse", this->_color * this->_diffuse);
 				shader.uniform("lights[" + tmpId + "].specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
-				shader.uniform("lights[" + tmpId + "].position", this->_position);
-				shader.uniform("lights[" + tmpId + "].direction", this->_direction);
-				shader.uniform("lights[" + tmpId + "].constant", this->_constant);
-				shader.uniform("lights[" + tmpId + "].linear", this->_linear);
-				shader.uniform("lights[" + tmpId + "].quadratic", this->_quadratic);
-				shader.uniform("lights[" + tmpId + "].innerCutOff", this->_innerCutOff);
-				shader.uniform("lights[" + tmpId + "].outerCutOff", this->_outerCutOff);
-				shader.uniform("lights[" + tmpId + "].usePosition", this->_usePosition);
-				shader.uniform("lights[" + tmpId + "].useDirection", this->_useDirection);
-				shader.uniform("lights[" + tmpId + "].useAttenuation", this->_useAttenuation);
-				shader.uniform("lights[" + tmpId + "].useCutOff", this->_useCutOff);
+				shader.uniform("lights[" + tmpId + "].position", this->_position.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }));
+				shader.uniform("lights[" + tmpId + "].direction", this->_direction.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }));
+				shader.uniform("lights[" + tmpId + "].constant", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).constant);
+				shader.uniform("lights[" + tmpId + "].linear", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).linear);
+				shader.uniform("lights[" + tmpId + "].quadratic", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).quadratic);
+				shader.uniform("lights[" + tmpId + "].innerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).inner);
+				shader.uniform("lights[" + tmpId + "].outerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).outer);
+				shader.uniform("lights[" + tmpId + "].usePosition", this->isPositionUsed());
+				shader.uniform("lights[" + tmpId + "].useDirection", this->isDirectionUsed());
+				shader.uniform("lights[" + tmpId + "].useAttenuation", this->isAttenuationUsed());
+				shader.uniform("lights[" + tmpId + "].useCutOff", this->isCutOffUsed());
 				shader.uniform("numberOfLights", 1);
 			}
 		} // namespace model
