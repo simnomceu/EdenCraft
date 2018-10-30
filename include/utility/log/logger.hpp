@@ -39,10 +39,10 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <string>
-
 #include "utility/config.hpp"
-#include "utility/log/base_logger.hpp"
+
+#include <string>
+#include <iostream>
 
 namespace ece
 {
@@ -56,7 +56,7 @@ namespace ece
         	 * @brief Logger implementation.
         	 * @see BaseLogger
         	 */
-        	class ECE_UTILITY_API Logger: public BaseLogger
+        	class ECE_UTILITY_API Logger
         	{
         	public:
         		/**
@@ -64,7 +64,7 @@ namespace ece
         		 * @brief Default constructor.
         		 * @throw
         		 */
-        		Logger() = default;
+        		Logger();
 
         		/**
         		 * @fn Logger(const Logger & copy)
@@ -113,7 +113,7 @@ namespace ece
         		 * @brief Log data with the tag ERROR.
         		 * @throw
         		 */
-        		virtual void logError(const std::string & data) override;
+        		virtual void logError(const std::string & data);
 
         		/**
         		 * @fn void logWarning(const std::string & data)
@@ -121,7 +121,7 @@ namespace ece
         		 * @brief Log data with the tag WARNING.
         		 * @throw
         		 */
-        		virtual void logWarning(const std::string & data) override;
+        		virtual void logWarning(const std::string & data);
 
         		/**
         		 * @fn void logInfo(const std::string & data)
@@ -129,7 +129,14 @@ namespace ece
         		 * @brief Log data with the tag INFO.
         		 * @throw
         		 */
-        		virtual void logInfo(const std::string & data) override;
+        		virtual void logInfo(const std::string & data);
+
+            protected:
+                /**
+                 * @property _target
+                 * @brief  The target stream to send the log.
+                 */
+                std::ostream & _target;
         	};
         } // namespace log
     } // namespace utility

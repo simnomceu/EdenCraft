@@ -74,9 +74,7 @@ namespace ece
         		 * @throw
         		 * @remark Should be rename as consume() ?
         		 */
-        		static Base & getService();
-
-        		//static std::weak_ptr<Base> getServicePtr();
+        		static auto getService() -> Base &;
 
         		/**
         		 * @fn void stop()

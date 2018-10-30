@@ -65,7 +65,7 @@ namespace ece
         		 * @remark It should be refactor to something like that: build(Args...&& args)
         		 */
         		template <class Derived>
-        		static std::shared_ptr<Base> build();
+        		static auto build() -> std::shared_ptr<Base>;
         	};
         } // namespace service
     } // namespace utility
