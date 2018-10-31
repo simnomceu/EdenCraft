@@ -36,37 +36,20 @@
 
 */
 
-#include "utility/log/logger.hpp"
-
-#include <ctime>
-
-#ifdef __linux__
-	#define localtime_s(time, result) localtime_r(result, time)
-#endif
-
 namespace ece
 {
     namespace utility
     {
         namespace log
         {
-            using namespace std::string_literals;
 
-            void Logger::log(const std::string & tag, const std::string & data)
-            {
-        		auto result = std::time(nullptr);
-        		auto today = tm{};
-        		localtime_s(&today, &result);
+        inline Logger::Logger(): _target(std::cerr) {}
 
-        		auto day = (today.tm_mday < 10 ? "0"s : ""s) + std::to_string(today.tm_mday);
-        		auto month = (today.tm_mon + 1 < 10 ? "0"s : ""s) + std::to_string(today.tm_mon + 1);
-        		auto year = std::to_string(today.tm_year + 1900);
-        		auto hour = (today.tm_hour < 10 ? "0"s : ""s) + std::to_string(today.tm_hour);
-        		auto min = (today.tm_min < 10 ? "0"s : ""s) + std::to_string(today.tm_min);
-        		auto sec = (today.tm_sec < 10 ? "0"s : ""s) + std::to_string(today.tm_sec);
+        inline void Logger::logError(const std::string & data) { this->log("ERROR", data); }
 
-        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][" << tag << "]" << data << std::endl;
-            }
+        inline void Logger::logWarning(const std::string & data) { this->log("WARNING", data); }
+
+        inline void Logger::logInfo(const std::string & data) { this->log("INFO", data); }
         } // namespace log
     } // namespace utility
 } // namespace ece

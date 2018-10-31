@@ -64,7 +64,7 @@ namespace ece
         		 * @brief Default constructor.
         		 * @throw
         		 */
-        		Logger();
+        		inline Logger();
 
         		/**
         		 * @fn Logger(const Logger & copy)
@@ -113,7 +113,7 @@ namespace ece
         		 * @brief Log data with the tag ERROR.
         		 * @throw
         		 */
-        		virtual void logError(const std::string & data);
+        		inline virtual void logError(const std::string & data);
 
         		/**
         		 * @fn void logWarning(const std::string & data)
@@ -121,7 +121,7 @@ namespace ece
         		 * @brief Log data with the tag WARNING.
         		 * @throw
         		 */
-        		virtual void logWarning(const std::string & data);
+        		inline virtual void logWarning(const std::string & data);
 
         		/**
         		 * @fn void logInfo(const std::string & data)
@@ -129,9 +129,11 @@ namespace ece
         		 * @brief Log data with the tag INFO.
         		 * @throw
         		 */
-        		virtual void logInfo(const std::string & data);
+        		inline virtual void logInfo(const std::string & data);
 
             protected:
+                void log(const std::string & tag, const std::string & data);
+
                 /**
                  * @property _target
                  * @brief  The target stream to send the log.
@@ -141,5 +143,7 @@ namespace ece
         } // namespace log
     } // namespace utility
 } // namespace ece
+
+#include "utility/log/logger.inl"
 
 #endif // LOGGER_HPP
