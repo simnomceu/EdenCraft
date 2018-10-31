@@ -66,7 +66,7 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 	{
 		auto & camera = this->_scene.getCamera();
-		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
+		camera.getProjection().setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
 		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 	}
@@ -82,7 +82,7 @@ void RenderSystem::update()
 
 	ece::Staging staging;
 	staging._view = this->_scene.getCamera().getView();
-	staging._projection = this->_scene.getCamera().getProjection();
+	staging._projection = this->_scene.getCamera().getProjection().getMatrix();
 	this->_process->draw(staging);
 
 //	this->_scene.prepare();

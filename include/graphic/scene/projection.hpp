@@ -133,7 +133,7 @@ namespace ece
 				 * @brief Get the projection matrix.
 				 * @throw
 				 */
-				inline const FloatMatrix4u & getProjection() const;
+				inline const FloatMatrix4u & getMatrix() const;
 
 			private:
 				/**

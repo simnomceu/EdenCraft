@@ -164,33 +164,13 @@ namespace ece
 				inline FloatMatrix4u getView() const;
 
                 /**
-                 * @fn void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
-                 * @param[in] FOV The field of view of the camera.
-                 * @param[in] ratio The ratio of the screen.
-                 * @param[in] nearClipping The nearest plan of the scene to capture.
-                 * @param[in] farClipping The furthest plan of the scene to capture.
-                 * @brief Set the projection matrix.
-                 * @throw
-                 */
-                inline void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
-
-                /**
-                 * @fn void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
-                 * @param[in] screen The screen rectangle to project the rendering.
-                 * @param[in] nearClipping Nearest distance of the frustum view.
-                 * @param[in] farClipping Furthest distance of the frustum view.
-                 * @brief Set the projection matrix.
-                 * @throw
-                 */
-                inline void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
-
-                /**
                  * @fn const FloatMatrix4u & getProjection() const
                  * @return The projection matrix.
                  * @brief Get the projection matrix.
                  * @throw
                  */
-                inline const FloatMatrix4u & getProjection() const;
+                inline const Projection & getProjection() const;
+                inline Projection & getProjection();
 			private:
 				/**
 				 * @fn void updatePosition(const FloatVector3u & position, const FloatVector3u & target)
