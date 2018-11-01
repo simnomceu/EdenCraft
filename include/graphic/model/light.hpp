@@ -62,14 +62,6 @@ namespace ece
 		{
 			using renderer::shader::Shader;
 
-			enum class LightType : int
-			{
-				BASIC_LIGHT = 0,
-				DIRECTIONAL_LIGHT = 1,
-				POINT_LIGHT = 2,
-				SPOT_LIGHT = 3
-			};
-
 			/**
 			 * @class Light
 			 * @brief
