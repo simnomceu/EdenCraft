@@ -70,8 +70,8 @@ namespace ece
 					this->use();
 					this->_linkedSuccessfully = true;
 
-					auto shaders = OpenGL::getAttachedShaders(this->_handle);
-					for (auto & it : shaders) {
+					auto stages = OpenGL::getAttachedShaders(this->_handle);
+					for (auto & it : stages) {
 						OpenGL::detachShader(this->_handle, it);
 					}
 				} else {
@@ -79,6 +79,19 @@ namespace ece
                     //ServiceLoggerLocator::getService().logError(infoLog);
                 }
 			}
+
+            void Shader::bind(const BaseUniform & uniform, const std::string & location)
+            {
+			    // TODO: need to be sure that the program as been linked successfully.
+                this->use();
+                try {
+                    auto handle = this->getLocation(location);
+                    uniform.bind(handle);
+                }
+                catch (std::runtime_error & e) {
+                    ServiceLoggerLocator::getService().logWarning(e.what());
+                }
+            }
 
 			void Shader::terminate()
 			{
