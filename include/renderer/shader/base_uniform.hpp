@@ -108,22 +108,6 @@ namespace ece
 				BaseUniform & operator=(BaseUniform && move) noexcept = default;
 
 				/**
-				 * @fn bool isOwned() const noexcept
-				 * @return True if it has an owner, false else.
-				 * @brief Check if the uniform is already set in a shader program or not.
-				 * @throw noexcept
-				 */
-				inline bool isOwned() const noexcept;
-
-				/**
-				 * @fn Handle getOwner() const noexcept
-				 * @return The owner of the uniform.
-				 * @brief Get the owner of the uniform.
-				 * @throw noexcept
-				 */
-				inline Handle getOwner() const noexcept;
-
-				/**
 				 * @fn const std::string & getName() const noexcept
 				 * @return The string location.
 				 * @brief Get the string name of the uniform.
@@ -131,23 +115,12 @@ namespace ece
 				 */
 				inline const std::string & getName() const noexcept;
 
-				/**
-				 * @fn Handle getLocation() const
-				 * @return The location of the uniform.
-				 * @brief Get the location of the uniform in the owner program.
-				 * @throw
-				 */
-				Handle getLocation() const;
-
-				inline void setOwner(const Handle owner);
-
 				inline void setName(const std::string & name);
 
-			protected:
-				Handle _owner;
-				std::string _name;
+				virtual void bind(const Handle & location) = 0;
 
-				void guard() const;
+			protected:
+				std::string _name;
 			};
 		} // namespace shader
 	} // namespace renderer

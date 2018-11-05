@@ -77,8 +77,9 @@ namespace ece
 				this->_vertexArray.attach(this->_vertices, layout);
 				
 
-				ShaderStage fsSource, vsSource;
+				ShaderStage fsSource;
 				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/sprite.frag");
+				ShaderStage vsSource;
 				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/sprite.vert");
 
 				this->_program.setStage(fsSource);
@@ -86,7 +87,7 @@ namespace ece
 				this->_program.link();
 				this->_program.use();
 
-				this->_program.uniform("theTexture", 0);
+				this->_program.bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
 			}
 
 			void Sprite::draw()

@@ -55,18 +55,20 @@ namespace ece
 			 * @tparam T the type of data of the uniform.
 			 * @brief A uniform as defined in OpenGL.
 			 */
-			template <class T>
+			template <class T, std::size_t Size = 1>
 			class ECE_RENDERER_API Uniform : public BaseUniform
 			{
 			public:
+				using data_type = std::conditional_t<Size == 1, T, std::array<T, Size>>;
+
 				/**
-				 * @fn Uniform(const Handle owner, const std::string & location, const T & data)
-				 * @param[in] location The location of the uniform.
+				 * @fn Uniform(const std::string & name, const T & data)
+				 * @param[in] name The name of the uniform.
 				 * @param[in] data The data to set.
 				 * @brief Build a uniform from its location and the data to set.
 				 * @throw
 				 */
-				Uniform(const Handle owner, const std::string & location, const T & data);
+				Uniform(const std::string & name, data_type data);
 
 				/**
 				 * @fn constexpr Uniform() noexcept
@@ -116,13 +118,15 @@ namespace ece
 				 */
 				Uniform & operator=(Uniform && move) noexcept = default;
 
+				inline virtual void bind(const Handle & location) override;
+
 				/**
 				 * @fn T getData() const
 				 * @return The content of the uniform.
 				 * @brief Get the data content of the uniform.
 				 * @throw
 				 */
-				T getData() const;
+				inline data_type getData() const;
 
 				/**
 				 * @fn void setData(const T & data)
@@ -130,7 +134,10 @@ namespace ece
 				 * @brief Set the content of the uniform.
 				 * @throw
 				 */
-				void setData(const T & data);
+				inline void setData(const data_type & data);
+
+			private:
+				data_type _data;
 			};
 		} // namespace shader
 	} // namespace renderer

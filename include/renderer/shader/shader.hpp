@@ -155,7 +155,8 @@ namespace ece
 
                 inline Handle getLocation(const std::string & location);
 
-                void bind(const BaseUniform & uniform, const std::string & location);
+                void bind(BaseUniform & uniform, const std::string & location);
+				void bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location);
 
 				/**
 				 * @fn void terminate()

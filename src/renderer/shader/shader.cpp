@@ -76,11 +76,11 @@ namespace ece
 					}
 				} else {
                     std::string infoLog = OpenGL::getProgramInfoLog(this->_handle);
-                    //ServiceLoggerLocator::getService().logError(infoLog);
+                    ServiceLoggerLocator::getService().logError(infoLog);
                 }
 			}
 
-            void Shader::bind(const BaseUniform & uniform, const std::string & location)
+            void Shader::bind(BaseUniform & uniform, const std::string & location)
             {
 			    // TODO: need to be sure that the program as been linked successfully.
                 this->use();
@@ -92,6 +92,19 @@ namespace ece
                     ServiceLoggerLocator::getService().logWarning(e.what());
                 }
             }
+
+			void Shader::bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location)
+			{
+				// TODO: need to be sure that the program as been linked successfully.
+				this->use();
+				try {
+					auto handle = this->getLocation(location);
+					uniform->bind(handle);
+				}
+				catch (std::runtime_error & e) {
+					ServiceLoggerLocator::getService().logWarning(e.what());
+				}
+			}
 
 			void Shader::terminate()
 			{

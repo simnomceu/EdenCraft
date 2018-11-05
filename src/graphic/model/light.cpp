@@ -57,21 +57,21 @@ namespace ece
 			{
 				shader.use();
 				auto tmpId = std::to_string(0);
-				shader.uniform<float, 3>("lights[" + tmpId + "].ambient", this->_color * this->_ambient);
-				shader.uniform<float, 3>("lights[" + tmpId + "].diffuse", this->_color * this->_diffuse);
-				shader.uniform("lights[" + tmpId + "].specular", FloatVector3u{ this->_specular, this->_specular, this->_specular });
-				shader.uniform("lights[" + tmpId + "].position", this->_position.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }));
-				shader.uniform("lights[" + tmpId + "].direction", this->_direction.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }));
-				shader.uniform("lights[" + tmpId + "].constant", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).constant);
-				shader.uniform("lights[" + tmpId + "].linear", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).linear);
-				shader.uniform("lights[" + tmpId + "].quadratic", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).quadratic);
-				shader.uniform("lights[" + tmpId + "].innerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).inner);
-				shader.uniform("lights[" + tmpId + "].outerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).outer);
-				shader.uniform("lights[" + tmpId + "].usePosition", this->isPositionUsed());
-				shader.uniform("lights[" + tmpId + "].useDirection", this->isDirectionUsed());
-				shader.uniform("lights[" + tmpId + "].useAttenuation", this->isAttenuationUsed());
-				shader.uniform("lights[" + tmpId + "].useCutOff", this->isCutOffUsed());
-				shader.uniform("numberOfLights", 1);
+				shader.bind(std::make_shared<Uniform<float, 3>>("ambient", FloatVector3u(this->_color * this->_ambient).data()), "lights[" + tmpId + "].ambient");
+				shader.bind(std::make_shared<Uniform<float, 3>>("diffuse", FloatVector3u(this->_color * this->_diffuse).data()), "lights[" + tmpId + "].diffuse");
+				shader.bind(std::make_shared<Uniform<float, 3>>("specular", std::array<float, 3>{ this->_specular, this->_specular, this->_specular }), "lights[" + tmpId + "].specular");
+				shader.bind(std::make_shared<Uniform<float, 3>>("position", this->_position.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }).data()), "lights[" + tmpId + "].position");
+				shader.bind(std::make_shared<Uniform<float, 3>>("direction", this->_direction.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }).data()), "lights[" + tmpId + "].direction");
+				shader.bind(std::make_shared<Uniform<float>>("constant", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).constant), "lights[" + tmpId + "].constant");
+				shader.bind(std::make_shared<Uniform<float>>("linear", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).linear), "lights[" + tmpId + "].linear");
+				shader.bind(std::make_shared<Uniform<float>>("quadratic", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).quadratic), "lights[" + tmpId + "].quadratic");
+				shader.bind(std::make_shared<Uniform<float>>("innerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).inner), "lights[" + tmpId + "].innerCutOff");
+				shader.bind(std::make_shared<Uniform<float>>("outerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).outer), "lights[" + tmpId + "].outerCutOff");
+				shader.bind(std::make_shared<Uniform<bool>>("usePosition", this->isPositionUsed()), "lights[" + tmpId + "].usePosition");
+				shader.bind(std::make_shared<Uniform<bool>>("useDirection", this->isDirectionUsed()), "lights[" + tmpId + "].useDirection");
+				shader.bind(std::make_shared<Uniform<bool>>("useAttenuation", this->isAttenuationUsed()), "lights[" + tmpId + "].useAttenuation");
+				shader.bind(std::make_shared<Uniform<bool>>("useCutOff", this->isCutOffUsed()), "lights[" + tmpId + "].useCutOff");
+				shader.bind(std::make_shared<Uniform<int>>("numberOfLights", 1), "numberOfLights");
 			}
 		} // namespace model
 	} // namespace graphic

@@ -45,25 +45,25 @@ namespace ece
 	{
 		namespace shader
 		{
-			template<class T>
-			inline Uniform<T>::Uniform(const Handle owner, const std::string & location, const T & data) : BaseUniform()
+			template<class T, std::size_t Size>
+			inline Uniform<T, Size>::Uniform(const std::string & name, data_type data) : BaseUniform(), _data(std::move(data)) { this->setName(name); }
+
+			template <class T, std::size_t Size>
+			inline void Uniform<T, Size>::bind(const Handle & location)
 			{
-				this->setData(data);
+				if constexpr (Size == 1) {
+					OpenGL::uniform<T, Size>(location, std::array<T, 1>{ this->_data });
+				}
+				else {
+					OpenGL::uniform<T, Size>(location, this->_data);
+				}
 			}
 
-			template <class T>
-			T Uniform<T>::getData() const
-			{
-				guard();
-				return T();// OpenGL::getUniform<T>(this->_owner, this->getLocation());
-			}
+			template <class T, std::size_t Size>
+			inline typename Uniform<T, Size>::data_type Uniform<T, Size>::getData() const { return this->_data; }
 
-			template<class T>
-			inline void Uniform<T>::setData(const T & data)
-			{
-				guard();
-				OpenGL::uniform<T>(this->getLocation(), data);
-			}
+			template<class T, std::size_t Size>
+			inline void Uniform<T, Size>::setData(const data_type & data) { this->_data = data; }
 		} // namespace shader
 	} // namespace renderer
 } // namespace ece

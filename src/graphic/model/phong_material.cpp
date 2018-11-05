@@ -50,31 +50,31 @@ namespace ece
 		{
 			void PhongMaterial::apply(Shader & shader)
 			{
-				shader.uniform<bool>("material.diffuseMapEnabled", !this->_diffuseMap.isDirty());
-				shader.uniform<bool>("material.specularMapEnabled", !this->_specularMap.isDirty());
+				shader.bind(std::make_shared<Uniform<bool>>("diffuseMapEnabled", !this->_diffuseMap.isDirty()), "material.diffuseMapEnabled");
+				shader.bind(std::make_shared<Uniform<bool>>("specularMapEnabled", !this->_specularMap.isDirty()), "material.specularMapEnabled");
 
 				if (this->_diffuseMap.isDirty()) {
-					shader.uniform("material.ambient", this->_ambient);
-					shader.uniform("material.diffuse", this->_diffuse);
+					shader.bind(std::make_shared<Uniform<float, 3>>("ambient", this->_ambient.data()), "material.ambient");
+					shader.bind(std::make_shared<Uniform<float, 3>>("diffuse", this->_diffuse.data()), "material.diffuse");
 				}
 				else {
-					shader.uniform<int>("material.diffuseMap", 0);
+					shader.bind(std::make_shared<Uniform<int>>("diffuseMap", 0), "material.diffuseMap");
 					this->_diffuseMap->active(0);
 					this->_diffuseMap->bind(Texture::Target::TEXTURE_2D);
 					this->_diffuseMap->update();
 				}
 
 				if (this->_specularMap.isDirty()) {
-					shader.uniform("material.specular", this->_specular);
+					shader.bind(std::make_shared<Uniform<float, 3>>("specular", this->_specular.data()), "material.specular");
 				}
 				else {
-					shader.uniform<int>("material.specularMap", 1);
+					shader.bind(std::make_shared<Uniform<int>>("specularMap", 1), "material.specularMap");
 					this->_specularMap->active(1);
 					this->_specularMap->bind(Texture::Target::TEXTURE_2D);
 					this->_specularMap->update();
 				}
 
-				shader.uniform("material.shininess", this->_shininess);
+				shader.bind(std::make_shared<Uniform<float>>("shininess", this->_shininess), "material.shininess");
 			}
 		} // namespace model
 	} // namespace graphic
