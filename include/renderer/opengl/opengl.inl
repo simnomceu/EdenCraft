@@ -366,7 +366,20 @@ namespace ece
 			//	inline void OpenGL::getActiveUniformBlockiv(unsigned int /*program*/, unsigned int /*uniformBlockIndex*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getUniformIndices(unsigned int /*program*/, GLsizei /*uniformCount*/, const char ** /*uniformNames*/, unsigned int * /*uniformIndices*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getActiveUniformName(unsigned int /*program*/, unsigned int /*uniformIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformName*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveUniform(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
+
+			inline UniformInfo OpenGL::getActiveUniform(const Handle program, const Handle index)
+			{
+				UniformInfo info;
+				GLint length, size;
+				GLenum type;
+				GLchar name[1024];
+				checkErrors(glGetActiveUniform(program, index, 1024, &length, &size, &type, name));
+				info.size = size;
+				info.type = static_cast<UniformDataType>(type);
+				info.name = std::string(name, length);
+				return std::move(info);
+			}
+
 			//	inline void OpenGL::getActiveUniformsiv(unsigned int /*program*/, GLsizei /*uniformCount*/, const unsigned int * /*uniformIndices*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 
 			template <class T, unsigned int S>

@@ -54,6 +54,7 @@
 #include "renderer/opengl/enum/texture_parameter.hpp"
 #include "renderer/opengl/enum/texture_target.hpp"
 #include "renderer/opengl/enum/texture_type_target.hpp"
+#include "renderer/opengl/enum/uniform_data_type.hpp"
 
 #ifdef _WIN32
 #	undef NO_ERROR

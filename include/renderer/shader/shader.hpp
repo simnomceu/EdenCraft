@@ -42,6 +42,9 @@
 #include "renderer/config.hpp"
 #include "utility/types.hpp"
 #include "renderer/shader/shader_stage.hpp"
+#include "renderer/shader/base_uniform.hpp"
+
+#include <vector>
 
 namespace ece
 {
@@ -49,8 +52,6 @@ namespace ece
 	{
 		namespace shader
 		{
-			class BaseUniform;
-
 			/**
 			 * @class Shader
 			 * @brief A shader program, as a combination of shader stages.
@@ -163,6 +164,8 @@ namespace ece
 				 * @throw
 				 */
 				void terminate();
+
+				std::vector<BaseUniform::Info> getUniforms() const;
 
 			protected:
 				/**
