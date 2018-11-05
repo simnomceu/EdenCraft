@@ -42,7 +42,6 @@
 #include "renderer/config.hpp"
 #include "utility/types.hpp"
 #include "renderer/shader/shader_stage.hpp"
-#include "utility/template_expression.hpp"
 
 namespace ece
 {

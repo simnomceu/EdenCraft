@@ -39,7 +39,6 @@
 
 #include "renderer/shader/enhanced_shader.hpp"
 
-#include "renderer/opengl.hpp"
 #include "renderer/rendering.hpp"
 
 namespace ece

@@ -36,9 +36,6 @@
 
 */
 
-#include <algorithm>
-
-#include "renderer/shader/uniform.hpp"
 #include "renderer/opengl.hpp"
 
 namespace ece
@@ -57,10 +54,7 @@ namespace ece
 
 			inline void Shader::use() const { OpenGL::useProgram(this->_handle); }
 
-            inline Handle Shader::getLocation(const std::string & location)
-            {
-                return OpenGL::getUniformLocation(this->_handle, location);
-            }
+            inline Handle Shader::getLocation(const std::string & location) { return OpenGL::getUniformLocation(this->_handle, location); }
 		} // namespace shader
 	} // namespace renderer
 } // namespace ece
