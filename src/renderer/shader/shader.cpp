@@ -119,7 +119,7 @@ namespace ece
 				std::vector<BaseUniform::Info> uniforms;
 				std::size_t count = OpenGL::getProgramiv(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
 				for (auto i = std::size_t{ 0 }; i < count; ++i) {
-					auto uniform = OpenGL::getActiveUniform(this->_handle, Handle{i});
+					auto uniform = OpenGL::getActiveUniform(this->_handle, static_cast<Handle>(i));
 					uniforms.push_back(getUniformInfo(uniform));
 				}
 				return std::move(uniforms);

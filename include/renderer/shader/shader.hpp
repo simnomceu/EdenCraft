@@ -45,6 +45,7 @@
 #include "renderer/shader/base_uniform.hpp"
 
 #include <vector>
+#include <memory>
 
 namespace ece
 {
