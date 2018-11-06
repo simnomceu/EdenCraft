@@ -36,25 +36,38 @@
 
 */
 
+#ifndef COLOR_HPP
+#define COLOR_HPP
+
+#include "renderer/image/pixel_format.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace image
 		{
-			inline void Viewport::resetViewport(const Rectangle<float> & bounds) noexcept
-			{
-				this->_bounds = bounds;
-				this->_ratio = Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f);
-			}
+			using Color = RGBA32;
 
-			inline void Viewport::setViewportRatio(const Rectangle<float> & ratio) noexcept { this->_ratio = ratio; }
-
-			inline const Rectangle<float> & Viewport::getViewport() const noexcept { return this->_bounds; }
-
-			inline const Rectangle<float> & Viewport::getViewportRatio() const noexcept { return this->_ratio; }
-
-			inline bool Viewport::isRatioUsed() const noexcept { return this->_ratio != Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f); }
-		} // namespace rendering
+			static const Color WHITE(255, 255, 255, 100);
+			static const Color SILVER(192, 192, 192, 100);
+			static const Color GRAY(128, 128, 128, 100);
+			static const Color BLACK(0, 0, 0, 100);
+			static const Color RED(255, 0, 0, 100);
+			static const Color MAROON(128, 0, 0, 100);
+			static const Color YELLOW(255, 255, 0, 100);
+			static const Color OLIVE(128, 128, 0, 100);
+			static const Color LIME(192, 255, 0, 100);
+			static const Color GREEN(0, 255, 0, 100);
+			static const Color CYAN(0, 255, 255, 100);
+			static const Color TEAL(0, 128, 128, 100);
+			static const Color BLUE(0, 0, 255, 100);
+			static const Color NAVY(0, 0, 128, 100);
+			static const Color FUSHIA(255, 0, 255, 100);
+			static const Color PURPLE(128, 0, 128, 100);
+			static const Color VIOLET(128, 0, 255, 100);
+		} // namespace image
 	} // namespace renderer
 } // namespace ece
+
+#endif // COLOR_HPP

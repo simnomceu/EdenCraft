@@ -36,91 +36,74 @@
 
 */
 
-#ifndef VIEWPORT_HPP
-#define VIEWPORT_HPP
+#ifndef SCISSOR_HPP
+#define SCISSOR_HPP
 
-#include "renderer/config.hpp"
 #include "utility/mathematics.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace pipeline
 		{
 			/**
-			 * @class Viewport
+			 * @class Scissor
 			 * @brief
 			 */
-			class ECE_RENDERER_API Viewport
+			class Scissor: public Rectangle<float>
 			{
 			public:
 				/**
-				 * @fn constexpr Viewport() noexcept
+				 * @fn constexpr Scissor() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Viewport() noexcept = default;
+				constexpr Scissor() noexcept = default;
 
 				/**
-				 * @fn Viewport(const Viewport & copy) noexcept
-				 * @param[in] copy The Viewport to copy from.
+				 * @fn Scissor(const Scissor & copy) noexcept
+				 * @param[in] copy The Scissor to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Viewport(const Viewport & copy) noexcept = default;
+				Scissor(const Scissor & copy) noexcept = default;
 
 				/**
-				 * @fn Viewport(Viewport && move) noexcept
-				 * @param[in] move The Viewport to move.
+				 * @fn Scissor(Scissor && move) noexcept
+				 * @param[in] move The Scissor to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Viewport(Viewport && move) noexcept = default;
+				Scissor(Scissor && move) noexcept = default;
 
 				/**
-				 * @fn ~Viewport() noexcept
+				 * @fn ~Scissor() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Viewport() noexcept = default;
+				~Scissor() noexcept = default;
 
 				/**
-				 * @fn Viewport & operator=(const Viewport & copy) noexcept
-				 * @param[in] copy The Viewport to copy from.
-				 * @return The Viewport copied.
+				 * @fn Scissor & operator=(const Scissor & copy) noexcept
+				 * @param[in] copy The Scissor to copy from.
+				 * @return The Scissor copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Viewport & operator=(const Viewport & copy) noexcept = default;
+				Scissor & operator=(const Scissor & copy) noexcept = default;
 
 				/**
-				 * @fn Viewport & operator=(Viewport && move) noexcept
-				 * @param[in] move The Viewport to move.
-				 * @return The Viewport moved.
+				 * @fn Scissor & operator=(Scissor && move) noexcept
+				 * @param[in] move The Scissor to move.
+				 * @return The Scissor moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Viewport & operator=(Viewport && move) noexcept = default;
-
-				inline void resetViewport(const Rectangle<float> & bounds) noexcept;
-
-				inline void setViewportRatio(const Rectangle<float> & ratio) noexcept;
-
-				inline const Rectangle<float> & getViewport() const noexcept;
-
-				inline const Rectangle<float> & getViewportRatio() const noexcept;
-
-				inline bool isRatioUsed() const noexcept;
-
-			private:
-				Rectangle<float> _bounds;
-				Rectangle<float> _ratio;
+				Scissor & operator=(Scissor && move) noexcept = default;
 			};
-		} // namespace rendering
+		} // namespace pipeline
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/rendering/viewport.inl"
-
-#endif // VIEWPORT_HPP
+#endif // SCISSOR_HPP

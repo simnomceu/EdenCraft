@@ -45,8 +45,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			inline const Viewport & RenderTarget::getCurrentViewport() const { return this->_currentViewport; }
-
 			inline void RenderTarget::setCurrent() { Renderer::setCurrentTarget(this->weak_from_this()); }
 
 			inline bool RenderTarget::isCurrent() const noexcept

@@ -36,22 +36,25 @@
 
 */
 
-#ifndef PIPELINE_HPP
-#define PIPELINE_HPP
-
-#include "renderer/pipeline/drawable.hpp"
-#include "renderer/pipeline/forward_rendering.hpp"
-#include "renderer/pipeline/render_pipeline.hpp"
-#include "renderer/pipeline/render_process.hpp"
-#include "renderer/pipeline/render_queue.hpp"
-#include "renderer/pipeline/render_state.hpp"
-#include "renderer/pipeline/scissor.hpp"
-#include "renderer/pipeline/staging.hpp"
-#include "renderer/pipeline/viewport.hpp"
-
 namespace ece
 {
-	using namespace renderer::pipeline;
-}
+	namespace renderer
+	{
+		namespace pipeline
+		{
+			inline void Viewport::resetViewport(const Rectangle<float> & bounds) noexcept
+			{
+				this->_bounds = bounds;
+				this->_ratio = Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f);
+			}
 
-#endif // PIPELINE_HPP
+			inline void Viewport::setViewportRatio(const Rectangle<float> & ratio) noexcept { this->_ratio = ratio; }
+
+			inline const Rectangle<float> & Viewport::getViewport() const noexcept { return this->_bounds; }
+
+			inline const Rectangle<float> & Viewport::getViewportRatio() const noexcept { return this->_ratio; }
+
+			inline bool Viewport::isRatioUsed() const noexcept { return this->_ratio != Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f); }
+		} // namespace pipeline
+	} // namespace renderer
+} // namespace ece

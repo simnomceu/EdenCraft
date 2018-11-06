@@ -71,10 +71,18 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 	}
 	this->_scene.updateCamera();
+
+	ece::Viewport viewport;
+	viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
+	viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f));
+	ece::RenderPipeline pipeline;
+	pipeline.setViewport(std::move(viewport));
+	this->_process->setPipeline(std::move(pipeline));
 }
 
 void RenderSystem::update()
 {
+	this->_process->clear(ece::BLACK);
 	/*for (auto object : this->_scene.getObjects()) {
 		object->prepare();
 		this->_process->pushObject(*object);

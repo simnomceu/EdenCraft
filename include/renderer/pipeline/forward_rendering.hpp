@@ -104,6 +104,9 @@ namespace ece
 				 */
 				ForwardRendering & operator=(ForwardRendering && move) noexcept = default;
 
+				virtual void setPipeline(RenderPipeline pipeline) override;
+
+				virtual void clear(const Color & color = BLACK) override;
 				virtual void draw(const Staging & staging) override;
 
 				virtual void pushObject(const std::shared_ptr<Drawable> & drawable) override;
@@ -115,6 +118,8 @@ namespace ece
 
 				RenderQueue _objects;
 				RenderQueue _sprites;
+
+				RenderPipeline _pipeline;
 			};
 		} // namespace pipeline
 	} // namespace renderer

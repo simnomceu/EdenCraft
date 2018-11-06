@@ -106,7 +106,6 @@ int main()
 		app.onPreUpdate.connect([&window, &fps]() {
 			if (fps.isReadyToUpdate()) {
 				window.lock()->setTitle("More cubes ... - Frame " +  std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
-				window.lock()->clear(ece::BLACK);
 			}
 		});
 
@@ -147,11 +146,6 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
 	window.lock()->limitUPS(100000);
-
-	ece::Viewport viewport;
-	viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
-	viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f));
-	window.lock()->setViewport(viewport);
 
 	return std::move(window);
 }
