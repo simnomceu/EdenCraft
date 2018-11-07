@@ -61,7 +61,6 @@ namespace ece
 					shader.bind(std::make_shared<Uniform<int>>("diffuseMap", 0), "material.diffuseMap");
 					this->_diffuseMap->active(0);
 					this->_diffuseMap->bind(Texture::Target::TEXTURE_2D);
-					this->_diffuseMap->update();
 				}
 
 				if (this->_specularMap.isDirty()) {
@@ -71,7 +70,6 @@ namespace ece
 					shader.bind(std::make_shared<Uniform<int>>("specularMap", 1), "material.specularMap");
 					this->_specularMap->active(1);
 					this->_specularMap->bind(Texture::Target::TEXTURE_2D);
-					this->_specularMap->update();
 				}
 
 				shader.bind(std::make_shared<Uniform<float>>("shininess", this->_shininess), "material.shininess");

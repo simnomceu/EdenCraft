@@ -55,7 +55,6 @@ namespace ece
 
 			void Light::apply(Shader & shader)
 			{
-				shader.use();
 				auto tmpId = std::to_string(0);
 				shader.bind(std::make_shared<Uniform<float, 3>>("ambient", FloatVector3u(this->_color * this->_ambient).data()), "lights[" + tmpId + "].ambient");
 				shader.bind(std::make_shared<Uniform<float, 3>>("diffuse", FloatVector3u(this->_color * this->_diffuse).data()), "lights[" + tmpId + "].diffuse");

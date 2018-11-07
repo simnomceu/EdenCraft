@@ -109,12 +109,10 @@ int main()
 			}
 		});
 
-		app.onPostUpdate.connect([&renderSystem, &window, /*&element*/&cube]() {
+		app.onPostUpdate.connect([&renderSystem, &window, &cube]() {
 			window.lock()->display();
 			cube.update();
 		});
-
-		ece::IndexBuffer<ece::SymetricStorage, std::array<float, 3>> ibo;
 
 		app.run();
 	}

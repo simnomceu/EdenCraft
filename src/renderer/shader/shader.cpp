@@ -84,7 +84,6 @@ namespace ece
             void Shader::bind(BaseUniform & uniform, const std::string & location)
             {
 			    // TODO: need to be sure that the program as been linked successfully.
-                this->use();
                 try {
                     auto handle = this->getLocation(location);
                     uniform.bind(handle);
@@ -97,7 +96,6 @@ namespace ece
 			void Shader::bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location)
 			{
 				// TODO: need to be sure that the program as been linked successfully.
-				this->use();
 				try {
 					auto handle = this->getLocation(location);
 					uniform->bind(handle);
@@ -115,7 +113,6 @@ namespace ece
 
 			std::vector<BaseUniform::Info> Shader::getUniforms() const
 			{
-				this->use();
 				std::vector<BaseUniform::Info> uniforms;
 				std::size_t count = OpenGL::getProgramiv(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
 				for (auto i = std::size_t{ 0 }; i < count; ++i) {

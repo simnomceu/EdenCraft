@@ -46,9 +46,9 @@ namespace ece
 		{
 			inline void Mesh::reset() { return this->_submeshes.clear(); }
 
-			inline std::size_t Mesh::size() const { return std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), 0, [](std::size_t result, auto rhs) { return result + rhs.mesh.size(); }); }
+			inline std::size_t Mesh::size() const { return std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), std::size_t{ 0 }, [](std::size_t result, auto rhs) { return result + rhs.mesh.size(); }); }
 
-			inline std::size_t Mesh::getNumberOfFaces() const { return std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), 0, [](std::size_t result, auto rhs) { return result + rhs.mesh.getNumberOfFaces(); }); }
+			inline std::size_t Mesh::getNumberOfFaces() const { return std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), std::size_t{ 0 }, [](std::size_t result, auto rhs) { return result + rhs.mesh.getNumberOfFaces(); }); }
 
 			inline std::vector<Mesh::SubmeshData> & Mesh::getSubmeshes() { return this->_submeshes; }
 
