@@ -43,7 +43,6 @@
 
 Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.createEntity())
 {
-//	auto renderable = scene.addObject();
 	auto renderable = ece::makeResource<ece::Object>("cube");
 
 	{
