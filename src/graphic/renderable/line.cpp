@@ -67,15 +67,6 @@ namespace ece
 
 				this->_vertices.write({ this->_begin, this->_color, this->_end, this->_color });
 				this->_vertexArray.attach(this->_vertices, layout);
-
-				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/line.frag");
-				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/line.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
 			}
 
 			Line::Line(const FloatVector3u & begin, const FloatVector3u & end, const FloatVector3u & color, const float width) noexcept : Renderable(), _begin(begin), _end(end), _color(color), _width(width), _vertices()
@@ -96,20 +87,10 @@ namespace ece
 
 				this->_vertices.write({ this->_begin, this->_color, this->_end, this->_color });
 				this->_vertexArray.attach(this->_vertices, layout);
-
-				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/line.frag");
-				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/line.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
 			}
 
-			void Line::draw()
+			void Line::draw(std::shared_ptr<Shader> program)
 			{
-				this->_program.use();
 				this->_vertexArray.bind();
 				this->_state.apply();
 				if (this->isInstancingEnabled()) {

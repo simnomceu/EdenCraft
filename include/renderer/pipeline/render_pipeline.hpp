@@ -111,6 +111,8 @@ namespace ece
 				inline void setViewport(Viewport viewport);
 				inline void setScissor(Scissor scissor);
 
+				inline std::shared_ptr<Shader> getProgram();
+
 				inline const Viewport & getViewport() const;
 				inline const Scissor & getScissor() const;
 

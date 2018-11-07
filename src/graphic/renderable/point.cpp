@@ -67,15 +67,6 @@ namespace ece
 
 				this->_vertices.write({ this->_position, this->_color });
 				this->_vertexArray.attach(this->_vertices, layout);
-
-				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/point.frag");
-				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/point.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
 			}
 
 			Point::Point(const FloatVector3u & color, const FloatVector3u position, const float size) noexcept : Renderable(), _position(position), _color(color), _size(size), _vertices()
@@ -96,20 +87,10 @@ namespace ece
 
 				this->_vertices.write({ this->_position, this->_color });
 				this->_vertexArray.attach(this->_vertices, layout);
-
-				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/point.frag");
-				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/point.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
 			}
 
-			void Point::draw()
+			void Point::draw(std::shared_ptr<Shader> program)
 			{
-				this->_program.use();
 				this->_vertexArray.bind();
 				this->_state.apply();
 				if (this->isInstancingEnabled()) {

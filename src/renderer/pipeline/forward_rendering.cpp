@@ -54,6 +54,11 @@ namespace ece
 				this->_pipeline = std::move(pipeline);
 			}
 
+			RenderPipeline & ForwardRendering::getPipeline()
+			{
+				return this->_pipeline;
+			}
+
 			void ForwardRendering::clear(const Color & color)
 			{
 				auto target = Renderer::getCurrentTarget().lock();
@@ -89,6 +94,10 @@ namespace ece
 			{
 				// sort queues
 
+				auto program = this->_pipeline.getProgram();
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "view"), false, staging._view);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "projection"), false, staging._projection);
+
 				for (auto & object : this->_objects) {
 					this->drawObject(object, staging);
 				}
@@ -111,16 +120,14 @@ namespace ece
 				this->_sprites.add(drawable);
 			}
 
-			void ForwardRendering::drawObject(const std::shared_ptr<Drawable> & drawable, const Staging & staging)
+			void ForwardRendering::drawObject(const std::shared_ptr<Drawable> & drawable, const Staging & /*staging*/)
 			{
-				this->_pipeline.setProgram(std::make_shared<Shader>(drawable->getProgram()));
 				this->_pipeline.setState(drawable->getState());
 				this->_pipeline.apply();
 
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(drawable->getProgram().getHandle(), "view"), false, staging._view);
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(drawable->getProgram().getHandle(), "projection"), false, staging._projection);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_pipeline.getProgram()->getHandle(), "model"), true, drawable->getModel());
 
-				drawable->draw();
+				drawable->draw(this->_pipeline.getProgram());
 			}
 
 			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & /*drawable*/, const Staging & /*staging*/)

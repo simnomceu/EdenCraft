@@ -75,24 +75,12 @@ namespace ece
 					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
 				});
 				this->_vertexArray.attach(this->_vertices, layout);
-				
-
-				ShaderStage fsSource;
-				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/sprite.frag");
-				ShaderStage vsSource;
-				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/sprite.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
-
-				this->_program.bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
 			}
 
-			void Sprite::draw()
+			void Sprite::draw(std::shared_ptr<Shader> program)
 			{
-				this->_program.use();
+				program->bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
+
 				this->_vertexArray.bind();
 				this->_index.bind();
 				this->_state.apply();

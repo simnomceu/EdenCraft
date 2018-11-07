@@ -89,15 +89,6 @@ namespace ece
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
 				this->_numberOfInstances = this->_particles.size();
-
-				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/particles_forever/particles.frag");
-				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/particles_forever/particles.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
 			}
 
 			void ParticlesEmitter::update(const float elapsedTime)
@@ -125,9 +116,8 @@ namespace ece
 				this->_particles.update();
 			}
 
-			void ParticlesEmitter::draw()
+			void ParticlesEmitter::draw(std::shared_ptr<Shader> program)
 			{
-				this->_program.use();
 				this->_vertexArray.bind();
 				this->_state.apply();
 

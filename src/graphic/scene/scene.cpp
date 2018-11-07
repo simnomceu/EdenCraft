@@ -73,6 +73,11 @@ namespace ece
 				return std::move(list);
 			}
 
+			std::vector<Light::Reference> Scene::getLights()
+			{
+				return this->_lights;
+			}
+
 			void Scene::prepare()
 			{
 				for (auto & object : this->_objects) {
@@ -80,23 +85,6 @@ namespace ece
 						object._value->prepare();
 						object._hasChanged = false;
 					}
-				}
-			}
-
-			void Scene::draw()
-			{
-				for (auto & object : this->_objects) {
-					auto & program = object._value->getProgram();
-					program.use();
-					for (auto & light : this->_lights) {
-						light._value->apply(program);
-					}
-					if (this->_camera._hasChanged) {
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "view"), false, this->_camera._value.getView());
-						OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program.getHandle(), "projection"), false, this->_camera._value.getProjection().getMatrix());
-						this->_camera._hasChanged = false;
-					}
-					object._value->draw();
 				}
 			}
 		} // namespace scene

@@ -137,7 +137,7 @@ namespace ece
 
 				void addInstance(const FloatMatrix4u & instance);
 
-				virtual void draw() override;
+				virtual void draw(std::shared_ptr<Shader> program) override;
 
 			protected:
 				/**
