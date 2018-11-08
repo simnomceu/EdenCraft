@@ -43,6 +43,7 @@
 
 #include "graphic/config.hpp"
 #include "core/resource.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {
@@ -70,11 +71,11 @@ namespace ece
 				using Reference = ResourceHandler<Material>;
 
 				/**
-				 * @fn constexpr Material() noexcept
+				 * @fn Material() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Material() noexcept = default;
+				Material() noexcept = default;
 
 				/**
 				 * @fn Material(const Material & copy) noexcept
@@ -117,10 +118,25 @@ namespace ece
 				 */
 				Material & operator=(Material && move) noexcept = default;
 
-				virtual void apply(Shader & shader) = 0;
+			//	virtual void apply(Shader & shader) = 0;
+
+				inline std::vector<std::shared_ptr<BaseUniform>> & getProperties();
+				template <class T> std::shared_ptr<Uniform<T>> getProperty(const std::string name);
+				std::shared_ptr<BaseUniform> getProperty(const std::string name);
+
+				void addProperty(std::shared_ptr<BaseUniform> property);
+				template <class T> bool hasProperty(const std::string name);
+				bool hasProperty(const std::string name);
+				template <class T> void setProperty(const std::string name, T value);
+
+				static Material makePhong();
+			private:
+				std::vector<std::shared_ptr<BaseUniform>> _properties;
 			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
+
+#include "graphic/model/material.inl"
 
 #endif // MATERIAL_HPP
