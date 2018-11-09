@@ -46,7 +46,7 @@ namespace ece
 	{
 		namespace model
 		{
-			std::shared_ptr<BaseUniform> Material::getProperty(const std::string name)
+/*			std::shared_ptr<BaseUniform> Material::getProperty(const std::string name)
 			{
 				if (this->hasProperty(name)) {
 					return *std::find_if(this->_properties.begin(), this->_properties.end(), [name](auto element) { return element->getName() == name; });
@@ -80,7 +80,7 @@ namespace ece
 				material.addProperty(std::make_shared<Uniform<int>>("diffuseMap")); // TODO : An optional property ?
 				material.addProperty(std::make_shared<Uniform<int>>("specularMap")); // TODO : An optional property ?
 				material.addProperty(std::make_shared<Uniform<float>>("shininess"));
-			}
+			}*/
 		}
 	}
 }

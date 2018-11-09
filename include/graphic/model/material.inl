@@ -46,7 +46,7 @@ namespace ece
 	{
 		namespace model
 		{
-			inline std::vector<std::shared_ptr<BaseUniform>> & Material::getProperties() { return this->_properties;}
+/*			inline std::vector<std::shared_ptr<BaseUniform>> & Material::getProperties() { return this->_properties;}
 
 			template <class T>
 			std::shared_ptr<Uniform<T>> Material::getProperty(const std::string name)
@@ -78,7 +78,7 @@ namespace ece
 				if (property) {
 					property->setData(value);
 				}
-			}
+			}*/
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

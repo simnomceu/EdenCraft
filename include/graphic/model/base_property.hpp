@@ -38,44 +38,90 @@
 
 */
 
-#include "graphic/model/phong_material.hpp"
+#ifndef BASE_PROPERTY_HPP
+#define BASE_PROPERTY_HPP
 
-#include "renderer/shader.hpp"
+#include "graphic/config.hpp"
+
+#include <memory>
+#include <string>
+#include <functional>
 
 namespace ece
 {
+	namespace renderer
+	{
+		namespace shader
+		{
+			class BaseUniform;
+		} // namespace shader
+	} // namespace renderer
+
 	namespace graphic
 	{
 		namespace model
 		{
-			void PhongMaterial::apply(Shader & shader)
+			using renderer::shader::BaseUniform;
+
+			/**
+			 * @class BaseProperty
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API BaseProperty
 			{
-				this->_properties.push_back(makeProperty(5));
+			public:
+				/**
+				 * @fn constexpr BaseProperty() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr BaseProperty() noexcept = default;
 
-				shader.bind(std::make_shared<Uniform<bool>>("diffuseMapEnabled", !this->_diffuseMap.isDirty()), "material.diffuseMapEnabled");
-				shader.bind(std::make_shared<Uniform<bool>>("specularMapEnabled", !this->_specularMap.isDirty()), "material.specularMapEnabled");
+				/**
+				 * @fn BaseProperty(const BaseProperty & copy) noexcept
+				 * @param[in] copy The BaseProperty to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				BaseProperty(const BaseProperty & copy) noexcept = default;
 
-				if (this->_diffuseMap.isDirty()) {
-					shader.bind(std::make_shared<Uniform<float, 3>>("ambient", this->_ambient.data()), "material.ambient");
-					shader.bind(std::make_shared<Uniform<float, 3>>("diffuse", this->_diffuse.data()), "material.diffuse");
-				}
-				else {
-					shader.bind(std::make_shared<Uniform<int>>("diffuseMap", 0), "material.diffuseMap");
-					this->_diffuseMap->active(0);
-					this->_diffuseMap->bind(Texture::Target::TEXTURE_2D);
-				}
+				/**
+				 * @fn BaseProperty(BaseProperty && move) noexcept
+				 * @param[in] move The BaseProperty to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				BaseProperty(BaseProperty && move) noexcept = default;
 
-				if (this->_specularMap.isDirty()) {
-					shader.bind(std::make_shared<Uniform<float, 3>>("specular", this->_specular.data()), "material.specular");
-				}
-				else {
-					shader.bind(std::make_shared<Uniform<int>>("specularMap", 1), "material.specularMap");
-					this->_specularMap->active(1);
-					this->_specularMap->bind(Texture::Target::TEXTURE_2D);
-				}
+				/**
+				 * @fn ~BaseProperty() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~BaseProperty() noexcept = default;
 
-				shader.bind(std::make_shared<Uniform<float>>("shininess", this->_shininess), "material.shininess");
-			}
+				/**
+				 * @fn BaseProperty & operator=(const BaseProperty & copy) noexcept
+				 * @param[in] copy The BaseProperty to copy from.
+				 * @return The BaseProperty copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				BaseProperty & operator=(const BaseProperty & copy) noexcept = default;
+
+				/**
+				 * @fn BaseProperty & operator=(BaseProperty && move) noexcept
+				 * @param[in] move The BaseProperty to move.
+				 * @return The BaseProperty moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				BaseProperty & operator=(BaseProperty && move) noexcept = default;
+
+				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) = 0;
+			};
 		} // namespace model
 	} // namespace graphic
-} // namespace ece
+} // namespace model
+
+#endif // BASE_PROPERTY_HPP

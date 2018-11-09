@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "core/resource.hpp"
 #include "renderer/shader.hpp"
+#include "graphic/model/property.hpp"
 
 namespace ece
 {
@@ -118,9 +119,9 @@ namespace ece
 				 */
 				Material & operator=(Material && move) noexcept = default;
 
-			//	virtual void apply(Shader & shader) = 0;
+				virtual void apply(Shader & shader) = 0;
 
-				inline std::vector<std::shared_ptr<BaseUniform>> & getProperties();
+/*				inline std::vector<std::shared_ptr<BaseUniform>> & getProperties();
 				template <class T> std::shared_ptr<Uniform<T>> getProperty(const std::string name);
 				std::shared_ptr<BaseUniform> getProperty(const std::string name);
 
@@ -131,7 +132,9 @@ namespace ece
 
 				static Material makePhong();
 			private:
-				std::vector<std::shared_ptr<BaseUniform>> _properties;
+				std::vector<std::shared_ptr<BaseUniform>> _properties;*/
+			protected:
+				std::vector<std::shared_ptr<BaseProperty>> _properties;
 			};
 		} // namespace model
 	} // namespace graphic
