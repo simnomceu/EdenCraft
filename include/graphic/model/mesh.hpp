@@ -43,7 +43,7 @@
 
 #include "graphic/config.hpp"
 #include "graphic/model/submesh.hpp"
-#include "graphic/model/phong_material.hpp"
+#include "graphic/material/phong_material.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
 #include "renderer/buffer.hpp"
@@ -54,6 +54,8 @@ namespace ece
 	{
 		namespace model
 		{
+			using material::PhongMaterial;
+
 			/**
 			 * @class Mesh
 			 * @brief

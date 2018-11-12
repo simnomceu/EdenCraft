@@ -38,49 +38,24 @@
 
 */
 
-#include "graphic/model/material.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-/*			std::shared_ptr<BaseUniform> Material::getProperty(const std::string name)
+			template <class T>
+			ComputedProperty<T>::ComputedProperty(Function computedValue) : _computedValue(std::move(computedValue))
 			{
-				if (this->hasProperty(name)) {
-					return *std::find_if(this->_properties.begin(), this->_properties.end(), [name](auto element) { return element->getName() == name; });
-				}
-				else {
-					return nullptr;
-				}
 			}
 
-			void Material::addProperty(std::shared_ptr<BaseUniform> property)
+			template <class T>
+			std::shared_ptr<BaseUniform> ComputedProperty<T>::getUniform(std::string name)
 			{
-				if (!this->hasProperty(property->getName())) {
-					this->_properties.push_back(property);
-				}
+				return std::make_shared<Uniform<U>>(name, this->_computedValue());
 			}
-
-			bool Material::hasProperty(const std::string name)
-			{
-
-				auto element = std::find_if(this->_properties.begin(), this->_properties.end(), [name](auto element) { return element->getName() == name; });
-				return (element != this->_properties.end());
-			}
-
-			Material Material::makePhong()
-			{
-				// TODO : make DynamicUniform based on Signal/Slot mechanism ?
-				Material material;
-				material.addProperty(std::make_shared<Uniform<float, 3>>("ambient"));
-				material.addProperty(std::make_shared<Uniform<float, 3>>("diffuse"));
-				material.addProperty(std::make_shared<Uniform<float, 3>>("specular"));
-				material.addProperty(std::make_shared<Uniform<int>>("diffuseMap")); // TODO : An optional property ?
-				material.addProperty(std::make_shared<Uniform<int>>("specularMap")); // TODO : An optional property ?
-				material.addProperty(std::make_shared<Uniform<float>>("shininess"));
-			}*/
-		}
-	}
-}
+		} // namespace material
+	} // namespace graphic
+} // namespace model

@@ -38,35 +38,45 @@
 
 */
 
+#include "graphic/material/material.hpp"
+
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			inline void PhongMaterial::setAmbient(const FloatVector3u & ambient) { this->_ambient = ambient; }
-			
-			inline void PhongMaterial::setDiffuse(const FloatVector3u & diffuse) { this->_diffuse = diffuse; }
-			
-			inline void PhongMaterial::setSpecular(const FloatVector3u & specular) { this->_specular = specular; }
-			
-			inline void PhongMaterial::setShininess(const float shininess) { this->_shininess = shininess; }
+			inline std::vector<std::shared_ptr<BaseUniform>> Material::getProperties()
+			{
+				std::vector<std::shared_ptr<BaseUniform>> properties;
+				for (auto[key, value] : this->_properties) {
+					properties.push_back(value->getUniform(key));
+				}
+				return std::move(properties);
+			}
 
-			inline void PhongMaterial::setDiffuseMap(const Texture2D::Texture2DReference & texture) { this->_diffuseMap = texture; }
+			std::shared_ptr<BaseProperty> Material::getProperty(const std::string name)
+			{
+				if (this->hasProperty(name)) {
+					return this->_properties.find(name)->second;
+				}
+				else {
+					return nullptr;
+				}
+			}
 
-			inline void PhongMaterial::setSpecularMap(const Texture2D::Texture2DReference & texture) { this->_specularMap = texture; }
+			void Material::addProperty(const std::string name, std::shared_ptr<BaseProperty> property)
+			{
+				if (!this->hasProperty(name)) {
+					this->_properties.insert({ name, property });
+				}
+			}
 
-			inline const FloatVector3u & PhongMaterial::getAmbient() const { return this->_ambient; }
-			
-			inline const FloatVector3u & PhongMaterial::getDiffuse() const { return this->_diffuse; }
-			
-			inline const FloatVector3u & PhongMaterial::getSpecular() const { return this->_specular; }
-			
-			inline float PhongMaterial::getShininess() const { return this->_shininess; }
-
-			inline Texture2D::Texture2DReference PhongMaterial::getDiffuseMap() const { return this->_diffuseMap; }
-			
-			inline Texture2D::Texture2DReference PhongMaterial::getSpecularMap() const { return this->_specularMap; }
-		} // namespace model
+			bool Material::hasProperty(const std::string name)
+			{
+				auto element = this->_properties.find(name);
+				return (element != this->_properties.end());
+			}
+		} // namespace material
 	} // namespace graphic
 } // namespace ece

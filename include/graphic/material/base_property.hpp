@@ -38,47 +38,90 @@
 
 */
 
-#include <algorithm>
+#ifndef BASE_PROPERTY_HPP
+#define BASE_PROPERTY_HPP
+
+#include "graphic/config.hpp"
+
+#include <memory>
+#include <string>
+#include <functional>
 
 namespace ece
 {
+	namespace renderer
+	{
+		namespace shader
+		{
+			class BaseUniform;
+		} // namespace shader
+	} // namespace renderer
+
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-/*			inline std::vector<std::shared_ptr<BaseUniform>> & Material::getProperties() { return this->_properties;}
+			using renderer::shader::BaseUniform;
 
-			template <class T>
-			std::shared_ptr<Uniform<T>> Material::getProperty(const std::string name)
+			/**
+			 * @class BaseProperty
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API BaseProperty
 			{
-				if (this->hasProperty<T>(name)) {
-					return std::static_pointer_cast<Uniform<T>>(*std::find_if(this->_properties.begin(), this->_properties.end(), [name](auto element) { return element->getName() == name; }));
-				}
-				else {
-					return nullptr;
-				}
-			}
+			public:
+				/**
+				 * @fn constexpr BaseProperty() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr BaseProperty() noexcept = default;
 
-			template <class T>
-			bool Material::hasProperty(const std::string name)
-			{
-				auto element = std::find_if(this->_properties.begin(), this->_properties.end(), [name](auto element) { return element->getName() == name; });
-				if (element == this->_properties.end()) {
-					return false;
-				}
-				
-				auto cast = std::dynamic_pointer_cast<Uniform<T>>(*element);
-				return !!cast;
-			}
+				/**
+				 * @fn BaseProperty(const BaseProperty & copy) noexcept
+				 * @param[in] copy The BaseProperty to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				BaseProperty(const BaseProperty & copy) noexcept = default;
 
-			template <class T>
-			void Material::setProperty(const std::string name, T value)
-			{
-				auto property = this->getProperty<T>(name);
-				if (property) {
-					property->setData(value);
-				}
-			}*/
-		} // namespace model
+				/**
+				 * @fn BaseProperty(BaseProperty && move) noexcept
+				 * @param[in] move The BaseProperty to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				BaseProperty(BaseProperty && move) noexcept = default;
+
+				/**
+				 * @fn ~BaseProperty() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~BaseProperty() noexcept = default;
+
+				/**
+				 * @fn BaseProperty & operator=(const BaseProperty & copy) noexcept
+				 * @param[in] copy The BaseProperty to copy from.
+				 * @return The BaseProperty copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				BaseProperty & operator=(const BaseProperty & copy) noexcept = default;
+
+				/**
+				 * @fn BaseProperty & operator=(BaseProperty && move) noexcept
+				 * @param[in] move The BaseProperty to move.
+				 * @return The BaseProperty moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				BaseProperty & operator=(BaseProperty && move) noexcept = default;
+
+				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) = 0;
+			};
+		} // namespace material
 	} // namespace graphic
-} // namespace ece
+} // namespace model
+
+#endif // BASE_PROPERTY_HPP

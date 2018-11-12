@@ -38,24 +38,18 @@
 
 */
 
-#ifndef GRAPHIC_MODEL_HPP
-#define GRAPHIC_MODEL_HPP
+#ifndef GRAPHIC_MATERIAL_HPP
+#define GRAPHIC_MATERIAL_HPP
 
-#include "graphic/model/animation.hpp"
-#include "graphic/model/light.hpp"
-#include "graphic/model/loader_object.hpp"
-#include "graphic/model/make_light.hpp"
-#include "graphic/model/mesh.hpp"
-#include "graphic/model/movable.hpp"
-#include "graphic/model/obj_loader.hpp"
-#include "graphic/model/obj_saver.hpp"
-#include "graphic/model/primitives.hpp"
-#include "graphic/model/skeleton.hpp"
-#include "graphic/model/submesh.hpp"
+#include "graphic/material/base_property.hpp"
+#include "graphic/material/computed_property.hpp"
+#include "graphic/material/material.hpp"
+#include "graphic/material/phong_material.hpp"
+#include "graphic/material/property.hpp"
 
 namespace ece
 {
-	using namespace graphic::model;
+	using namespace graphic::material;
 }
 
-#endif // GRAPHIC_MODEL_HPP
+#endif // GRAPHIC_MATERIAL_HPP

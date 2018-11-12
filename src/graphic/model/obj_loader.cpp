@@ -44,6 +44,7 @@
 #include "utility/formats.hpp"
 #include "renderer/shader.hpp"
 #include "core/resource.hpp"
+#include "renderer/image.hpp"
 
 namespace ece
 {

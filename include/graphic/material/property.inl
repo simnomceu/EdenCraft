@@ -38,44 +38,38 @@
 
 */
 
-#include "graphic/model/phong_material.hpp"
-
 #include "renderer/shader.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			void PhongMaterial::apply(Shader & shader)
+			template <class T, class U>
+			Property<T, U>::Property(T value, Function computedValue) : _value(std::move(value)), _computedValue(std::move(computedValue))
 			{
-				this->_properties.push_back(makeProperty(5));
-
-				shader.bind(std::make_shared<Uniform<bool>>("diffuseMapEnabled", !this->_diffuseMap.isDirty()), "material.diffuseMapEnabled");
-				shader.bind(std::make_shared<Uniform<bool>>("specularMapEnabled", !this->_specularMap.isDirty()), "material.specularMapEnabled");
-
-				if (this->_diffuseMap.isDirty()) {
-					shader.bind(std::make_shared<Uniform<float, 3>>("ambient", this->_ambient.data()), "material.ambient");
-					shader.bind(std::make_shared<Uniform<float, 3>>("diffuse", this->_diffuse.data()), "material.diffuse");
-				}
-				else {
-					shader.bind(std::make_shared<Uniform<int>>("diffuseMap", 0), "material.diffuseMap");
-					this->_diffuseMap->active(0);
-					this->_diffuseMap->bind(Texture::Target::TEXTURE_2D);
-				}
-
-				if (this->_specularMap.isDirty()) {
-					shader.bind(std::make_shared<Uniform<float, 3>>("specular", this->_specular.data()), "material.specular");
-				}
-				else {
-					shader.bind(std::make_shared<Uniform<int>>("specularMap", 1), "material.specularMap");
-					this->_specularMap->active(1);
-					this->_specularMap->bind(Texture::Target::TEXTURE_2D);
-				}
-
-				shader.bind(std::make_shared<Uniform<float>>("shininess", this->_shininess), "material.shininess");
 			}
-		} // namespace model
+
+			template <class T, class U>
+			std::shared_ptr<BaseUniform> Property<T, U>::getUniform(std::string name)
+			{
+				return std::make_shared<Uniform<U>>(name, this->_computedValue(this->_value));
+			}
+
+			template <class T, class U>
+			Property<T, U> & Property<T, U>::operator=(const T & value)
+			{
+				this->_value = value;
+				return *this;
+			}
+
+			template <class T, class U>
+			Property<T, U> & Property<T, U>::operator=(T && value)
+			{
+				this->_value = value;
+				return *this;
+			}
+		} // namespace material
 	} // namespace graphic
-} // namespace ece
+} // namespace model

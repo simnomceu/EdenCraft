@@ -38,24 +38,42 @@
 
 */
 
-#ifndef GRAPHIC_MODEL_HPP
-#define GRAPHIC_MODEL_HPP
+#include "graphic/material/phong_material.hpp"
 
-#include "graphic/model/animation.hpp"
-#include "graphic/model/light.hpp"
-#include "graphic/model/loader_object.hpp"
-#include "graphic/model/make_light.hpp"
-#include "graphic/model/mesh.hpp"
-#include "graphic/model/movable.hpp"
-#include "graphic/model/obj_loader.hpp"
-#include "graphic/model/obj_saver.hpp"
-#include "graphic/model/primitives.hpp"
-#include "graphic/model/skeleton.hpp"
-#include "graphic/model/submesh.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {
-	using namespace graphic::model;
-}
+	namespace graphic
+	{
+		namespace material
+		{
+			void PhongMaterial::apply(Shader & shader)
+			{
+				shader.bind(std::make_shared<Uniform<bool>>("diffuseMapEnabled", !this->_diffuseMap.isDirty()), "material.diffuseMapEnabled");
+				shader.bind(std::make_shared<Uniform<bool>>("specularMapEnabled", !this->_specularMap.isDirty()), "material.specularMapEnabled");
 
-#endif // GRAPHIC_MODEL_HPP
+				if (this->_diffuseMap.isDirty()) {
+					shader.bind(std::make_shared<Uniform<float, 3>>("ambient", this->_ambient.data()), "material.ambient");
+					shader.bind(std::make_shared<Uniform<float, 3>>("diffuse", this->_diffuse.data()), "material.diffuse");
+				}
+				else {
+					shader.bind(std::make_shared<Uniform<int>>("diffuseMap", 0), "material.diffuseMap");
+					this->_diffuseMap->active(0);
+					this->_diffuseMap->bind(Texture::Target::TEXTURE_2D);
+				}
+
+				if (this->_specularMap.isDirty()) {
+					shader.bind(std::make_shared<Uniform<float, 3>>("specular", this->_specular.data()), "material.specular");
+				}
+				else {
+					shader.bind(std::make_shared<Uniform<int>>("specularMap", 1), "material.specularMap");
+					this->_specularMap->active(1);
+					this->_specularMap->bind(Texture::Target::TEXTURE_2D);
+				}
+
+				shader.bind(std::make_shared<Uniform<float>>("shininess", this->_shininess), "material.shininess");
+			}
+		} // namespace material
+	} // namespace graphic
+} // namespace ece

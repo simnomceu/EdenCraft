@@ -38,38 +38,35 @@
 
 */
 
-#include "renderer/shader.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			template <class T, typename F>
-			Property<T, F>::Property(T value, F computedValue) : _value(std::move(value)), _computedValue(computedValue)
-			{
-			}
+			inline void PhongMaterial::setAmbient(const FloatVector3u & ambient) { this->_ambient = ambient; }
+			
+			inline void PhongMaterial::setDiffuse(const FloatVector3u & diffuse) { this->_diffuse = diffuse; }
+			
+			inline void PhongMaterial::setSpecular(const FloatVector3u & specular) { this->_specular = specular; }
+			
+			inline void PhongMaterial::setShininess(const float shininess) { this->_shininess = shininess; }
 
-			template <class T, typename F>
-			std::shared_ptr<BaseUniform> Property<T, F>::getUniform(std::string name)
-			{
-				return std::make_shared<Uniform<T>>(name, this->_computedValue(this->_value));
-			}
+			inline void PhongMaterial::setDiffuseMap(const Texture2D::Texture2DReference & texture) { this->_diffuseMap = texture; }
 
-			template <class T, typename F>
-			Property<T, F> & Property<T, F>::operator=(const T & value)
-			{
-				this->_value = value;
-				return *this;
-			}
+			inline void PhongMaterial::setSpecularMap(const Texture2D::Texture2DReference & texture) { this->_specularMap = texture; }
 
-			template <class T, typename F>
-			Property<T, F> & Property<T, F>::operator=(T && value)
-			{
-				this->_value = value;
-				return *this;
-			}
-		} // namespace model
+			inline const FloatVector3u & PhongMaterial::getAmbient() const { return this->_ambient; }
+			
+			inline const FloatVector3u & PhongMaterial::getDiffuse() const { return this->_diffuse; }
+			
+			inline const FloatVector3u & PhongMaterial::getSpecular() const { return this->_specular; }
+			
+			inline float PhongMaterial::getShininess() const { return this->_shininess; }
+
+			inline Texture2D::Texture2DReference PhongMaterial::getDiffuseMap() const { return this->_diffuseMap; }
+			
+			inline Texture2D::Texture2DReference PhongMaterial::getSpecularMap() const { return this->_specularMap; }
+		} // namespace material
 	} // namespace graphic
-} // namespace model
+} // namespace ece

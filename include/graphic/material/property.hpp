@@ -42,69 +42,27 @@
 #define PROPERTY_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/base_property.hpp"
+#include "graphic/material/base_property.hpp"
 
 #include <functional>
-
-// ==================WORKING CODE===========================================
-/*#include <iostream>
-#include <functional>
-#include <memory>
-
-auto defaultComputed = [](auto && a) { return std::forward<decltype(a)>(a); };
-
-class BaseProperty
-{
-public:
-	~BaseProperty() = default;
-	virtual void display() = 0;
-};
-
-template <class T, class F = decltype(defaultComputed)&>
-class Property final : public BaseProperty
-{
-public:
-	Property(T a = T(), F computed = defaultComputed) : _value(a), _computedValue(computed) {}
-
-	auto get() { return this->_computedValue(this->_value); }
-	virtual void display() override { std::cerr << this->get() << std::endl; }
-private:
-	T _value;
-	F _computedValue;
-};
-
-template <typename T, typename F = decltype(defaultComputed)&>
-auto makeProperty(T&& a, F&& computed = defaultComputed) {
-	return std::make_shared<Property<T, F>>(std::forward<T>(a), std::forward<F>(computed));
-}
-
-int main()
-{
-	std::shared_ptr<BaseProperty> a(makeProperty(5)); a->display();
-	auto b = makeProperty(5, [](auto a) -> auto { return a * 2.12f; }); b->display();
-	auto c = makeProperty(5, [](auto a) -> float { return a * 2.0f; }); c->display();
-
-	return 0;
-}*/
-// =============================================
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			static auto DefaultComputed = [](auto && a) -> auto { return std::forward<decltype(a)>(a); };
-
 			/**
 			 * @class Property
 			 * @brief
 			 */
-			template <class T, typename F>
+			template <class T, class U = T>
 			class ECE_GRAPHIC_API Property final: public BaseProperty
 			{
 			public:
-				Property(T value, F computedValue);
+				using Function = std::function<U(T)>;
+
+				Property(T value = T(), Function computedValue = [](T value) -> U { return std::forward<decltype(value)>(value); });
 
 				/**
 				 * @fn Property(const Property & copy)
@@ -112,7 +70,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw
 				 */
-				Property(const Property<T, F> & copy) = default;
+				Property(const Property<T, U> & copy) = default;
 
 				/**
 				 * @fn Property(Property && move)
@@ -120,7 +78,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw
 				 */
-				Property(Property<T, F> && move) = default;
+				Property(Property<T, U> && move) = default;
 
 				/**
 				 * @fn ~Property() noexcept
@@ -136,7 +94,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw
 				 */
-				Property<T, F> & operator=(const Property<T, F> & copy) = default;
+				Property<T, U> & operator=(const Property<T, U> & copy) = default;
 
 				/**
 				 * @fn Property & operator=(Property && move)
@@ -145,31 +103,26 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw
 				 */
-				Property<T, F> & operator=(Property<T, F> && move) = default;
+				Property<T, U> & operator=(Property<T, U> && move) = default;
 
 				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) override;
 
-				Property<T, F> & operator=(const T & value);
-				Property<T, F> & operator=(T && value);
+				Property<T, U> & operator=(const T & value);
+				Property<T, U> & operator=(T && value);
 
 			private:
 				T _value;
-				F _computedValue;
+				Function _computedValue;
 			};
 
-			/*template <typename T, typename F = decltype(DefaultComputed)&>
-			auto makeProperty(T&& a, F&& computed = DefaultComputed) {
-				return Property(std::forward<T>(a), std::forward<F>(computed));
-			}*/
-
-			template <typename T, typename F = decltype(DefaultComputed)&>
-			ECE_GRAPHIC_API auto makeProperty(T&& a = T(), F&& computed = DefaultComputed) {
-				return std::make_shared<Property<T, F>>(std::forward<T>(a), std::forward<F>(computed));
+			template <class T, class U = T>
+			ECE_GRAPHIC_API auto makeProperty(T value = T(), typename Property<T, U>::Function computed = [](T value) -> U { return std::forward<decltype(value)>(value); }) {
+				return std::make_shared<Property<T, U>>(std::forward<T>(value), std::forward<Property<T, U>::Function>(computed));
 			}
-		} // namespace model
+		} // namespace material
 	} // namespace graphic
 } // namespace model
 
-#include "graphic/model/property.inl"
+#include "graphic/material/property.inl"
 
 #endif // PROPERTY_HPP

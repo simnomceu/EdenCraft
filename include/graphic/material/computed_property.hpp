@@ -38,90 +38,87 @@
 
 */
 
-#ifndef BASE_PROPERTY_HPP
-#define BASE_PROPERTY_HPP
+#ifndef COMPUTED_PROPERTY_HPP
+#define COMPUTED_PROPERTY_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/material/base_property.hpp"
 
-#include <memory>
-#include <string>
 #include <functional>
 
 namespace ece
 {
-	namespace renderer
-	{
-		namespace shader
-		{
-			class BaseUniform;
-		} // namespace shader
-	} // namespace renderer
-
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			using renderer::shader::BaseUniform;
-
 			/**
-			 * @class BaseProperty
+			 * @class Property
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API BaseProperty
+			template <class T>
+			class ECE_GRAPHIC_API ComputedProperty final: public BaseProperty
 			{
 			public:
-				/**
-				 * @fn constexpr BaseProperty() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				constexpr BaseProperty() noexcept = default;
+				using Function = std::function<T()>;
+
+				ComputedProperty(Function computedValue = [](T value) -> U { return std::forward<decltype(value)>(value); });
 
 				/**
-				 * @fn BaseProperty(const BaseProperty & copy) noexcept
-				 * @param[in] copy The BaseProperty to copy from.
+				 * @fn Property(const Property & copy)
+				 * @param[in] copy The Property to copy from.
 				 * @brief Default copy constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				BaseProperty(const BaseProperty & copy) noexcept = default;
+				ComputedProperty(const ComputedProperty<T> & copy) = default;
 
 				/**
-				 * @fn BaseProperty(BaseProperty && move) noexcept
-				 * @param[in] move The BaseProperty to move.
+				 * @fn Property(Property && move)
+				 * @param[in] move The Property to move.
 				 * @brief Default move constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				BaseProperty(BaseProperty && move) noexcept = default;
+				ComputedProperty(ComputedProperty<T> && move) = default;
 
 				/**
-				 * @fn ~BaseProperty() noexcept
+				 * @fn ~Property() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BaseProperty() noexcept = default;
+				~ComputedProperty() noexcept = default;
 
 				/**
-				 * @fn BaseProperty & operator=(const BaseProperty & copy) noexcept
-				 * @param[in] copy The BaseProperty to copy from.
-				 * @return The BaseProperty copied.
+				 * @fn Property & operator=(const Property & copy)
+				 * @param[in] copy The Property to copy from.
+				 * @return The Property copied.
 				 * @brief Default copy assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				BaseProperty & operator=(const BaseProperty & copy) noexcept = default;
+				ComputedProperty<T> & operator=(const ComputedProperty<T> & copy) = default;
 
 				/**
-				 * @fn BaseProperty & operator=(BaseProperty && move) noexcept
-				 * @param[in] move The BaseProperty to move.
-				 * @return The BaseProperty moved.
+				 * @fn Property & operator=(Property && move)
+				 * @param[in] move The Property to move.
+				 * @return The Property moved.
 				 * @brief Default move assignment operator.
-				 * @throw noexcept
+				 * @throw
 				 */
-				BaseProperty & operator=(BaseProperty && move) noexcept = default;
+				ComputedProperty<T> & operator=(ComputedProperty<T> && move) = default;
 
-				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) = 0;
+				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) override;
+
+			private:
+				Function _computedValue;
 			};
-		} // namespace model
+
+			template <class T>
+			ECE_GRAPHIC_API auto makeComputedProperty(typename ComputedProperty<T>::Function computed = []() -> T { return T(); }) {
+				return std::make_shared<ComputedProperty<T>>(std::forward<Property<T>::Function>(computed));
+			}
+		} // namespace material
 	} // namespace graphic
 } // namespace model
 
-#endif // BASE_PROPERTY_HPP
+#include "graphic/material/computed_property.inl"
+
+#endif // COMPUTED_PROPERTY_HPP

@@ -44,7 +44,7 @@
 #include "graphic/config.hpp"
 #include "core/resource.hpp"
 #include "renderer/shader.hpp"
-#include "graphic/model/property.hpp"
+#include "graphic/material/property.hpp"
 
 namespace ece
 {
@@ -58,7 +58,7 @@ namespace ece
 
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
 			using renderer::shader::Shader;
 
@@ -72,11 +72,11 @@ namespace ece
 				using Reference = ResourceHandler<Material>;
 
 				/**
-				 * @fn Material() noexcept
+				 * @fn Material()
 				 * @brief Default constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				Material() noexcept = default;
+				Material() = default;
 
 				/**
 				 * @fn Material(const Material & copy) noexcept
@@ -121,25 +121,17 @@ namespace ece
 
 				virtual void apply(Shader & shader) = 0;
 
-/*				inline std::vector<std::shared_ptr<BaseUniform>> & getProperties();
-				template <class T> std::shared_ptr<Uniform<T>> getProperty(const std::string name);
-				std::shared_ptr<BaseUniform> getProperty(const std::string name);
+				inline std::vector<std::shared_ptr<BaseUniform>> getProperties();
+				std::shared_ptr<BaseProperty> getProperty(const std::string name);
 
-				void addProperty(std::shared_ptr<BaseUniform> property);
-				template <class T> bool hasProperty(const std::string name);
+				void addProperty(const std::string name, std::shared_ptr<BaseProperty> property);
 				bool hasProperty(const std::string name);
-				template <class T> void setProperty(const std::string name, T value);
 
-				static Material makePhong();
-			private:
-				std::vector<std::shared_ptr<BaseUniform>> _properties;*/
 			protected:
-				std::vector<std::shared_ptr<BaseProperty>> _properties;
+				std::unordered_map<std::string, std::shared_ptr<BaseProperty>> _properties;
 			};
-		} // namespace model
+		} // namespace material
 	} // namespace graphic
 } // namespace ece
-
-#include "graphic/model/material.inl"
 
 #endif // MATERIAL_HPP

@@ -42,7 +42,7 @@
 #define PHONG_MATERIAL_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/material.hpp"
+#include "graphic/material/material.hpp"
 #include "utility/mathematics.hpp"
 #include "renderer/image/texture2d.hpp"
 
@@ -50,7 +50,7 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
 			using renderer::image::Texture2D;
 
@@ -64,11 +64,11 @@ namespace ece
 				using Reference = ResourceHandler<PhongMaterial>;
 
 				/**
-				 * @fn constexpr PhongMaterial() noexcept
+				 * @fn constexpr PhongMaterial()
 				 * @brief Default constructor.
-				 * @throw noexcept
+				 * @throw
 				 */
-				PhongMaterial() noexcept = default;
+				PhongMaterial() = default;
 
 				/**
 				 * @fn PhongMaterial(const PhongMaterial & copy) noexcept
@@ -136,10 +136,10 @@ namespace ece
 				Texture2D::Texture2DReference _diffuseMap;
 				Texture2D::Texture2DReference _specularMap;
 			};
-		} // namespace model
+		} // namespace material
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/phong_material.inl"
+#include "graphic/material/phong_material.inl"
 
 #endif // PHONG_MATERIAL_HPP
