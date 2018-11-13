@@ -121,7 +121,7 @@ namespace ece
 				 */
 				Material & operator=(Material && move) noexcept = default;
 
-				inline std::vector<std::shared_ptr<BaseUniform>> getProperties();
+				std::vector<std::shared_ptr<BaseUniform>> getProperties();
 				std::shared_ptr<BaseProperty> getProperty(const std::string name);
 
 				void addProperty(const std::string name, std::shared_ptr<BaseProperty> property);

@@ -120,7 +120,7 @@ namespace ece
 
 			template <class T, class U = T>
 			ECE_GRAPHIC_API auto makeProperty(T value = T(), typename Property<T, U>::Function computed = [](T value) -> U { return std::forward<decltype(value)>(value); }) {
-				return std::make_shared<Property<T, U>>(std::forward<T>(value), std::forward<Property<T, U>::Function>(computed));
+				return std::make_shared<Property<T, U>>(std::forward<T>(value), std::forward<typename Property<T, U>::Function>(computed));
 			}
 		} // namespace material
 	} // namespace graphic

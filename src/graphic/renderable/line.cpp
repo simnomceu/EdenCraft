@@ -89,7 +89,7 @@ namespace ece
 				this->_vertexArray.attach(this->_vertices, layout);
 			}
 
-			void Line::draw(std::shared_ptr<Shader> program)
+			void Line::draw(std::shared_ptr<Shader> /*program*/)
 			{
 				this->_vertexArray.bind();
 				this->_state.apply();

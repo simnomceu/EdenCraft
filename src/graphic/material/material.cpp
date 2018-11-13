@@ -46,7 +46,7 @@ namespace ece
 	{
 		namespace material
 		{
-			inline std::vector<std::shared_ptr<BaseUniform>> Material::getProperties()
+			std::vector<std::shared_ptr<BaseUniform>> Material::getProperties()
 			{
 				std::vector<std::shared_ptr<BaseUniform>> properties;
 				for (auto[key, value] : this->_properties) {
