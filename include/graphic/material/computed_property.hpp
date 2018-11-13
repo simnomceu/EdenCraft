@@ -62,7 +62,7 @@ namespace ece
 			public:
 				using Function = std::function<T()>;
 
-				ComputedProperty(Function computedValue = [](T value) -> U { return std::forward<decltype(value)>(value); });
+				ComputedProperty(Function computedValue);
 
 				/**
 				 * @fn Property(const Property & copy)
@@ -113,7 +113,7 @@ namespace ece
 
 			template <class T>
 			ECE_GRAPHIC_API auto makeComputedProperty(typename ComputedProperty<T>::Function computed = []() -> T { return T(); }) {
-				return std::make_shared<ComputedProperty<T>>(std::forward<Property<T>::Function>(computed));
+				return std::make_shared<ComputedProperty<T>>(std::forward<ComputedProperty<T>::Function>(computed));
 			}
 		} // namespace material
 	} // namespace graphic

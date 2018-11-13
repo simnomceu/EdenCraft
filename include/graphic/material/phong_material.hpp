@@ -42,7 +42,9 @@
 #define PHONG_MATERIAL_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/material/material.hpp"
+#include "graphic/material/material_visitor.hpp"
+#include "graphic/material/computed_property.hpp"
+#include "graphic/material/property.hpp"
 #include "utility/mathematics.hpp"
 #include "renderer/image/texture2d.hpp"
 
@@ -58,7 +60,7 @@ namespace ece
 			 * @class PhongMaterial
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API PhongMaterial: public Material
+			class ECE_GRAPHIC_API PhongMaterial: public Material::Visitor
 			{
 			public:
 				using Reference = ResourceHandler<PhongMaterial>;
@@ -111,7 +113,12 @@ namespace ece
 				 */
 				PhongMaterial & operator=(PhongMaterial && move) noexcept = default;
 
-				virtual void apply(Shader & shader) override;
+				inline virtual void setMaterial(const std::shared_ptr<Material> & material) override;
+				inline virtual std::shared_ptr<Material> getMaterial() override;
+
+				virtual bool isValid() override;
+				virtual void initialize() override;
+				virtual void clear() override;
 
 				inline void setAmbient(const FloatVector3u & ambient);
 				inline void setDiffuse(const FloatVector3u & diffuse);
@@ -128,13 +135,16 @@ namespace ece
 				inline Texture2D::Texture2DReference getSpecularMap() const;
 
 			private:
-				FloatVector3u _ambient;
-				FloatVector3u _diffuse;
-				FloatVector3u _specular;
-				float _shininess;
+				std::shared_ptr<Material> _material;
 
-				Texture2D::Texture2DReference _diffuseMap;
-				Texture2D::Texture2DReference _specularMap;
+				using DiffuseMap = Property<Texture2D::Texture2DReference, int>;
+				using SpecularMap = Property<Texture2D::Texture2DReference, int>;
+				using DiffuseMapEnabled = ComputedProperty<bool>;
+				using SpecularMapEnabled = ComputedProperty<bool>;
+				using Ambient = Property<FloatVector3u, std::array<float, 3>>;
+				using Diffuse = Property<FloatVector3u, std::array<float, 3>>;
+				using Specular = Property<FloatVector3u, std::array<float, 3>>;
+				using Shininess = Property<float, float>;
 			};
 		} // namespace material
 	} // namespace graphic

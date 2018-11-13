@@ -74,8 +74,12 @@ namespace ece
 
 			bool Material::hasProperty(const std::string name)
 			{
-				auto element = this->_properties.find(name);
-				return (element != this->_properties.end());
+				return !this->_properties.empty() && (this->_properties.find(name) != this->_properties.end());
+			}
+
+			void Material::removeProperty(const std::string name)
+			{
+				this->_properties.erase(name);
 			}
 		} // namespace material
 	} // namespace graphic

@@ -43,8 +43,9 @@
 
 #include "graphic/config.hpp"
 #include "core/resource.hpp"
-#include "renderer/shader.hpp"
-#include "graphic/material/property.hpp"
+#include "graphic/material/base_property.hpp"
+
+#include <type_traits>
 
 namespace ece
 {
@@ -70,6 +71,7 @@ namespace ece
 			{
 			public:
 				using Reference = ResourceHandler<Material>;
+				class Visitor;
 
 				/**
 				 * @fn Material()
@@ -119,13 +121,15 @@ namespace ece
 				 */
 				Material & operator=(Material && move) noexcept = default;
 
-				virtual void apply(Shader & shader) = 0;
-
 				inline std::vector<std::shared_ptr<BaseUniform>> getProperties();
 				std::shared_ptr<BaseProperty> getProperty(const std::string name);
 
 				void addProperty(const std::string name, std::shared_ptr<BaseProperty> property);
 				bool hasProperty(const std::string name);
+				void removeProperty(const std::string name);
+
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<Visitor, T>>>
+				bool isValid() const;
 
 			protected:
 				std::unordered_map<std::string, std::shared_ptr<BaseProperty>> _properties;
@@ -133,5 +137,7 @@ namespace ece
 		} // namespace material
 	} // namespace graphic
 } // namespace ece
+
+#include "graphic/material/material.inl"
 
 #endif // MATERIAL_HPP

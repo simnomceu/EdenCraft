@@ -38,8 +38,11 @@
 
 */
 
-#include "utility/container.hpp"
-#include "renderer/shader/uniform.hpp"
+#ifndef MATERIAL_VISITOR_HPP
+#define MATERIAL_VISITOR_HPP
+
+#include "graphic/config.hpp"
+#include "graphic/material/material.hpp"
 
 namespace ece
 {
@@ -47,43 +50,70 @@ namespace ece
 	{
 		namespace material
 		{
-			using renderer::shader::Uniform;
-
-			template <class T, class U>
-			Property<T, U>::Property(T value, Function computedValue) : _value(std::move(value)), _computedValue(std::move(computedValue))
+			/**
+			 * @class Material::Visitor
+			 * @brief
+			 */
+			class Material::Visitor
 			{
-			}
+			public:
+				/**
+				 * @fn constexpr Material::Visitor() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr Visitor() noexcept = default;
 
-			template <class T, class U>
-			std::shared_ptr<BaseUniform> Property<T, U>::getUniform(std::string name)
-			{
-				if constexpr (is_container_v<U>) {
-					return std::make_shared<Uniform<std::tuple_element_t<0, U>, std::tuple_size_v<U>>>(name, this->_computedValue(this->_value));
-				}
-				else {
-					return std::make_shared<Uniform<U>>(name, this->_computedValue(this->_value));
-				}
-			}
+				/**
+				 * @fn Material::Visitor(const Material::Visitor & copy) noexcept
+				 * @param[in] copy The Material::Visitor to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Visitor(const Visitor & copy) noexcept = default;
 
-			template <class T, class U>
-			Property<T, U> & Property<T, U>::operator=(const T & value)
-			{
-				this->_value = value;
-				return *this;
-			}
+				/**
+				 * @fn Material::Visitor(Material::Visitor && move) noexcept
+				 * @param[in] move The Material::Visitor to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Visitor(Visitor && move) noexcept = default;
 
-			template <class T, class U>
-			Property<T, U> & Property<T, U>::operator=(T && value)
-			{
-				this->_value = value;
-				return *this;
-			}
+				/**
+				 * @fn ~Material::Visitor() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Visitor() noexcept = default;
 
-			template <class T, class U>
-			inline T & Property<T, U>::get() { return this->_value; }
+				/**
+				 * @fn Material::Visitor & operator=(const Material::Visitor & copy) noexcept
+				 * @param[in] copy The Material::Visitor to copy from.
+				 * @return The Material::Visitor copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Visitor & operator=(const Visitor & copy) noexcept = default;
 
-			template <class T, class U>
-			inline const T & Property<T, U>::get() const { return this->_value; }
+				/**
+				 * @fn Material::Visitor & operator=(Material::Visitor && move) noexcept
+				 * @param[in] move The Material::Visitor to move.
+				 * @return The Material::Visitor moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Visitor & operator=(Visitor && move) noexcept = default;
+
+				virtual void setMaterial(const std::shared_ptr<Material> & material) = 0;
+				virtual std::shared_ptr<Material> getMaterial() = 0;
+
+				virtual bool isValid() = 0;
+				virtual void initialize() = 0;
+				virtual void clear() = 0;
+			};
 		} // namespace material
 	} // namespace graphic
-} // namespace model
+} // namespace ece
+
+#endif // MATERIAL_VISITOR_HPP

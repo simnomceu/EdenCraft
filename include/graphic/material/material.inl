@@ -38,52 +38,19 @@
 
 */
 
-#include "utility/container.hpp"
-#include "renderer/shader/uniform.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
 		namespace material
 		{
-			using renderer::shader::Uniform;
-
-			template <class T, class U>
-			Property<T, U>::Property(T value, Function computedValue) : _value(std::move(value)), _computedValue(std::move(computedValue))
-			{
-			}
-
-			template <class T, class U>
-			std::shared_ptr<BaseUniform> Property<T, U>::getUniform(std::string name)
-			{
-				if constexpr (is_container_v<U>) {
-					return std::make_shared<Uniform<std::tuple_element_t<0, U>, std::tuple_size_v<U>>>(name, this->_computedValue(this->_value));
+				template <class T, typename enabled>
+				bool Material::isValid() const
+				{
+					T t;
+					t.setMaterial(*this);
+					return T.isValid();
 				}
-				else {
-					return std::make_shared<Uniform<U>>(name, this->_computedValue(this->_value));
-				}
-			}
-
-			template <class T, class U>
-			Property<T, U> & Property<T, U>::operator=(const T & value)
-			{
-				this->_value = value;
-				return *this;
-			}
-
-			template <class T, class U>
-			Property<T, U> & Property<T, U>::operator=(T && value)
-			{
-				this->_value = value;
-				return *this;
-			}
-
-			template <class T, class U>
-			inline T & Property<T, U>::get() { return this->_value; }
-
-			template <class T, class U>
-			inline const T & Property<T, U>::get() const { return this->_value; }
 		} // namespace material
 	} // namespace graphic
-} // namespace model
+} // namespace ece

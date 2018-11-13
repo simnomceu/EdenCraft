@@ -43,7 +43,7 @@
 
 #include "graphic/config.hpp"
 #include "graphic/model/submesh.hpp"
-#include "graphic/material/phong_material.hpp"
+#include "graphic/material/material.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
 #include "renderer/buffer.hpp"
@@ -54,7 +54,7 @@ namespace ece
 	{
 		namespace model
 		{
-			using material::PhongMaterial;
+			using material::Material;
 
 			/**
 			 * @class Mesh
@@ -75,7 +75,7 @@ namespace ece
 				struct SubmeshData
 				{
 					Submesh mesh;
-					PhongMaterial::Reference material;
+					Material::Reference material;
 					FloatMatrix4u model;
 				};
 

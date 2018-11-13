@@ -38,7 +38,7 @@
 
 */
 
-#include "renderer/shader.hpp"
+#include "renderer/shader/uniform.hpp"
 
 namespace ece
 {
@@ -46,6 +46,8 @@ namespace ece
 	{
 		namespace material
 		{
+			using renderer::shader::Uniform;
+
 			template <class T>
 			ComputedProperty<T>::ComputedProperty(Function computedValue) : _computedValue(std::move(computedValue))
 			{
@@ -54,7 +56,7 @@ namespace ece
 			template <class T>
 			std::shared_ptr<BaseUniform> ComputedProperty<T>::getUniform(std::string name)
 			{
-				return std::make_shared<Uniform<U>>(name, this->_computedValue());
+				return std::make_shared<Uniform<T>>(name, this->_computedValue());
 			}
 		} // namespace material
 	} // namespace graphic

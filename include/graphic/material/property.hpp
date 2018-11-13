@@ -56,13 +56,13 @@ namespace ece
 			 * @class Property
 			 * @brief
 			 */
-			template <class T, class U = T>
+			template <class T, class U>
 			class ECE_GRAPHIC_API Property final: public BaseProperty
 			{
 			public:
 				using Function = std::function<U(T)>;
 
-				Property(T value = T(), Function computedValue = [](T value) -> U { return std::forward<decltype(value)>(value); });
+				Property(T value, Function computedValue);
 
 				/**
 				 * @fn Property(const Property & copy)
@@ -109,6 +109,9 @@ namespace ece
 
 				Property<T, U> & operator=(const T & value);
 				Property<T, U> & operator=(T && value);
+
+				inline T & get();
+				inline const T & get() const;
 
 			private:
 				T _value;

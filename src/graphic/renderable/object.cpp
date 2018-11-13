@@ -88,7 +88,11 @@ namespace ece
 				this->_vertexArray.bind();
 				for (auto & submesh : this->_mesh->getSubmeshes()) {
 					if (*submesh.material) {
-						submesh.material->apply(*program);
+						auto uniforms = submesh.material->getProperties();
+						for (auto uniform : uniforms) {
+							program->bind(uniform, "material." + uniform->getName());
+						}
+					//	submesh.material->apply(*program);
 					}
 					submesh.mesh.getIndexBuffer().bind();
 					if (submesh.mesh.getIndexBuffer().size() > 0) {
