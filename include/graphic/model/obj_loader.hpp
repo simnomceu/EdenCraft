@@ -44,7 +44,6 @@
 #include "graphic/config.hpp"
 #include "graphic/model/loader_object.hpp"
 #include "graphic/model/mesh.hpp"
-#include "graphic/model/phong_material.hpp"
 #include "utility/formats.hpp"
 
 namespace ece

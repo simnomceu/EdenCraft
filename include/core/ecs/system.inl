@@ -42,6 +42,8 @@ namespace ece
 	{
 		namespace ecs
 		{
+			inline System::System(World & world): _world(world) {}
+
 			inline System::~System() {}
 		} // namespace ecs
 	} // namespace core

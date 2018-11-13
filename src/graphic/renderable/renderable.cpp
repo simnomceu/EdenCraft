@@ -48,40 +48,16 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Renderable::Renderable() noexcept: _vao(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)
+			Renderable::Renderable() noexcept: _vertexArray(), _mode(), _model(), _state(), _numberOfInstances(1)
 			{
 				this->_model.setIdentity();
 			}
 
 			Renderable::~Renderable() {}
 
-			void Renderable::draw()
-			{
-				this->_program.use();
-				this->_vao.bind();
-				this->_vao.bindIndexBuffer();
-				this->_state.apply();
-                if (this->isIndexed()) {
-                    if (this->isInstancingEnabled()) {
-    		            OpenGL::drawElementsInstanced(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0, this->_numberOfInstances);
-                    }
-                    else {
-    		            OpenGL::drawElements(this->_mode, this->_vao.getNumberIndices(), DataType::UNSIGNED_INT, 0);
-                    }
-                } else {
-                    if (this->isInstancingEnabled()) {
-    		            OpenGL::drawArraysInstanced(this->_mode, 0, this->_vao.getNumberOfVertices(), this->_numberOfInstances);
-                    }
-                    else {
-    		            OpenGL::drawArrays(this->_mode, 0, this->_vao.getNumberOfVertices());
-                    }
-                }
-			}
-
 			void Renderable::applyTransformation(const FloatMatrix4u & transformation)
 			{
 				this->_model = transformation * this->_model;
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
 			}
 
             bool Renderable::isInstancingEnabled() const

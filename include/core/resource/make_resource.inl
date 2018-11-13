@@ -56,6 +56,16 @@ namespace ece
 				}
 				return std::move(resource);
 			}
+
+			template <class Type>
+			ResourceHandler<Type> getResource(const std::string & identifier)
+			{
+				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
+				if (resource.isDirty()) {
+					throw std::runtime_error("Resource " + identifier + " not found.");
+				}
+				return std::move(resource);
+			}
 		} // namespace resource
 	} // namespace core
 } // namespace ece

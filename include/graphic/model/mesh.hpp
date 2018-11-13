@@ -43,9 +43,10 @@
 
 #include "graphic/config.hpp"
 #include "graphic/model/submesh.hpp"
-#include "graphic/model/phong_material.hpp"
+#include "graphic/material/material.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
+#include "renderer/buffer.hpp"
 
 namespace ece
 {
@@ -53,6 +54,8 @@ namespace ece
 	{
 		namespace model
 		{
+			using material::Material;
+
 			/**
 			 * @class Mesh
 			 * @brief
@@ -62,10 +65,17 @@ namespace ece
 			public:
 				using Reference = ResourceHandler<Mesh>;
 
+				struct Vertex
+				{
+					FloatVector3u _position;
+					FloatVector3u _normal;
+					FloatVector2u _textureCoordinate;
+				};
+
 				struct SubmeshData
 				{
 					Submesh mesh;
-					PhongMaterial::Reference material;
+					Material::Reference material;
 					FloatMatrix4u model;
 				};
 
@@ -74,7 +84,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Mesh() noexcept = default;
+				Mesh() noexcept;
 
 				/**
 				 * @fn Mesh(const Mesh & copy) noexcept
@@ -146,8 +156,25 @@ namespace ece
 				inline std::vector<SubmeshData> & getSubmeshes();
 				inline const std::vector<SubmeshData> & getSubmeshes() const;
 
+				std::size_t addVertex(const Mesh::Vertex & vertex);
+				std::size_t addVertex(Mesh::Vertex && vertex);
+
+				inline std::vector<Mesh::Vertex> & getVertices();
+				inline const std::vector<Mesh::Vertex> & getVertices() const;
+
+				void update();
+
+				inline VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> & getVertexBuffer();
+				BufferLayout getLayout() const;
+
 			protected:
 				std::vector<SubmeshData> _submeshes;
+
+				/**
+				 * @property _vertices
+				 * @brief The list of vertices of the mesh.
+				 */
+				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;
 			};
 		} // namespace model
 	} // namespace graphic

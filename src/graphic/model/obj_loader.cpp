@@ -42,8 +42,10 @@
 
 #include "utility/file_system.hpp"
 #include "utility/formats.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 #include "core/resource.hpp"
+#include "renderer/image.hpp"
+#include "graphic/material/phong_material.hpp"
 
 namespace ece
 {
@@ -51,6 +53,8 @@ namespace ece
 	{
 		namespace model
 		{
+			using material::PhongMaterial;
+
 			void OBJLoader::loadFromFile(const std::string & filename)
 			{
 				std::ifstream file(filename, std::ios::out);
@@ -103,26 +107,34 @@ namespace ece
 					parserMaterial.load(materialFile);
 					auto material = parserMaterial.getMaterials()[0];
 
-					auto materialResource = makeResource<PhongMaterial>(material.getName());
-					materialResource->setAmbient(material.getAmbientFactor());
-					materialResource->setDiffuse(material.getDiffuseFactor());
-					materialResource->setSpecular(material.getSpecularFactor());
-					materialResource->setShininess(material.getSpecularExponent());
+					auto materialResource = makeResource<Material>(material.getName());
+					PhongMaterial materialVisitor;
+					materialVisitor.setMaterial(*materialResource);
+					materialVisitor.initialize();
+
+					materialVisitor.setAmbient(material.getAmbientFactor());
+					materialVisitor.setDiffuse(material.getDiffuseFactor());
+					materialVisitor.setSpecular(material.getSpecularFactor());
+					materialVisitor.setShininess(material.getSpecularExponent());
 
 					if (!material.getDiffuseMap().empty()) {
 						auto diffuseMap = makeResource<Texture2D>(material.getDiffuseMap());
 						if (diffuseMap->getData().empty()) {
-							diffuseMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
+							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
 						}
-						materialResource->setDiffuseMap(diffuseMap);
+						diffuseMap->bind(Texture::Target::TEXTURE_2D);
+						diffuseMap->update();
+						materialVisitor.setDiffuseMap(diffuseMap);
 					}
 
 					if (!material.getSpecularMap().empty()) {
 						auto specularMap = makeResource<Texture2D>(material.getSpecularMap());
 						if (specularMap->getData().empty()) {
-							specularMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
+							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
 						}
-						materialResource->setSpecularMap(specularMap);
+						specularMap->bind(Texture::Target::TEXTURE_2D);
+						specularMap->update();
+						materialVisitor.setSpecularMap(specularMap);
 					}
 				}
 
@@ -134,7 +146,7 @@ namespace ece
 					submeshes.resize(object.getGroups().size());
 
 					for (std::size_t g = 0; g < object.getGroups().size(); ++g) {
-						submeshes[g].material = makeResource<PhongMaterial>(object.getGroups()[g].material);
+						submeshes[g].material = makeResource<Material>(object.getGroups()[g].material);
 						for (auto it : object.getGroups()[g].faces) {
 							auto f = object.getFaces()[it];
 							if (object.getFaceFormat().size > 3) {
@@ -143,7 +155,7 @@ namespace ece
 
 								int i = 0;
 								for (auto & fElement : f) {
-									Submesh::Vertex vertex;
+									Mesh::Vertex vertex;
 
 									if (fElement._v > 0) {
 										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
@@ -157,7 +169,7 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = submeshes[g].mesh.addVertex(vertex);
+									auto index = this->_meshes[n]->addVertex(vertex);
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -176,7 +188,7 @@ namespace ece
 
 								int i = 0;
 								for (auto & fElement : f) {
-									Submesh::Vertex vertex;
+									Mesh::Vertex vertex;
 
 									if (fElement._v > 0) {
 										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
@@ -190,7 +202,7 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = submeshes[n].mesh.addVertex(vertex);
+									auto index = this->_meshes[n]->addVertex(vertex);
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}

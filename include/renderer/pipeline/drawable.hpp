@@ -40,19 +40,22 @@
 #define DRAWABLE_HPP
 
 #include "renderer/config.hpp"
+#include "utility/mathematics.hpp"
+
+#include <memory>
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
+		namespace shader
 		{
 			class Shader;
 		}
 
 		namespace pipeline
 		{
-			using resource::Shader;
+			using shader::Shader;
 			class RenderState;
 
 			class ECE_RENDERER_API Drawable
@@ -106,8 +109,8 @@ namespace ece
 				 */
 				Drawable & operator=(Drawable && move) noexcept = default;
 
-				virtual void draw() = 0;
-				virtual Shader & getProgram() = 0;
+				virtual void draw(std::shared_ptr<Shader> program) = 0;
+				virtual const FloatMatrix4u & getModel() const = 0;
 				virtual RenderState & getState() = 0;
 			};
 		} // namespace pipeline

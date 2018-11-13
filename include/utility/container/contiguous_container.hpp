@@ -54,37 +54,25 @@ namespace ece
 		namespace container
 		{
 			template <class T>
-			struct ECE_UTILITY_API contiguous_container: std::false_type
-			{
-			};
+			struct ECE_UTILITY_API contiguous_container: std::false_type {};
 
 			template <class T>
 			inline ECE_UTILITY_API constexpr bool contiguous_container_v = contiguous_container<T>::value;
 
 			template <class Type, class Allocator>
-			struct ECE_UTILITY_API contiguous_container<std::vector<Type, Allocator>>: std::true_type
-			{
-			};
+			struct ECE_UTILITY_API contiguous_container<std::vector<Type, Allocator>>: std::true_type {};
 
 			template <class Type, std::size_t Size>
-			struct ECE_UTILITY_API contiguous_container<std::array<Type, Size>> : std::true_type
-			{
-			};
+			struct ECE_UTILITY_API contiguous_container<std::array<Type, Size>> : std::true_type {};
 
 			template <class Type>
-			struct ECE_UTILITY_API contiguous_container<std::valarray<Type>> : std::true_type
-			{
-			};
+			struct ECE_UTILITY_API contiguous_container<std::valarray<Type>> : std::true_type {};
 
 			template <class CharT, class Traits, class Allocator>
-			struct ECE_UTILITY_API contiguous_container<std::basic_string<CharT, Traits, Allocator>> : std::true_type
-			{
-			};
+			struct ECE_UTILITY_API contiguous_container<std::basic_string<CharT, Traits, Allocator>> : std::true_type {};
 
 			template <class CharT, class Traits>
-			struct ECE_UTILITY_API contiguous_container<std::basic_string_view<CharT, Traits>> : std::true_type
-			{
-			};
+			struct ECE_UTILITY_API contiguous_container<std::basic_string_view<CharT, Traits>> : std::true_type {};
 		}
 	}
 }

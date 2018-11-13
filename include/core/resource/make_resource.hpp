@@ -51,6 +51,9 @@ namespace ece
 
 			template <class Type, class... Args>
 			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);
+
+			template <class Type>
+			ResourceHandler<Type> getResource(const std::string & identifier);
 		} // namespace resource
 	} // namespace core
 } // namespace ece

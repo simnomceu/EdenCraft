@@ -47,6 +47,10 @@ namespace ece
         	inline int UpdatePerSecond::getLimit() const noexcept { return static_cast<int>(this->_rate * 1000); }
 
         	inline double UpdatePerSecond::getUPS() const noexcept { return 1000.0 / this->_average; }
+
+			inline double UpdatePerSecond::getAverage() const noexcept { return this->_average; }
+
+			inline long int UpdatePerSecond::getNumberOfFrames() const noexcept { return this->_nbFrames; }
         } // namespace time
     } // namespace utility
 } // namespace ece

@@ -39,7 +39,7 @@
 */
 
 #include "graphic/renderable/object.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {
@@ -50,7 +50,8 @@ namespace ece
             Object::Object() noexcept: Renderable(), _mesh(), _instances()
             {
                 this->_mode = PrimitiveMode::TRIANGLES;
-				this->_instances.push_back(FloatMatrix4u::Identity());
+
+				this->_instances.data().push_back(FloatMatrix4u::Identity());
             }
 
 			void Object::setMesh(const Mesh::Reference & mesh)
@@ -60,48 +61,58 @@ namespace ece
 
             void Object::prepare()
             {
-				// TODO: need to render not only the first submesh, but everything.
-                BufferLayout layout;
-                layout.add<float>(3, false, false, false);
-                layout.add<float>(3, false, false, false);
-                layout.add<float>(2, false, false, false);
-
-                this->_vao.sendData(layout, this->_mesh->getSubmeshes()[0].mesh.getVertices(), BufferObject::Usage::STATIC);
-                this->_vao.addIndices(this->_mesh->getSubmeshes()[0].mesh.getFaces());
+				this->_mesh->update();
+				this->_vertexArray.attach(this->_mesh->getVertexBuffer(), this->_mesh->getLayout());
 
                 if (this->isInstancingEnabled()) {
-                    BufferLayout layoutInstancing;
+					renderer::buffer::BufferLayout layoutInstancing;
 					layoutInstancing.setInstanceBlockSize(1);
-                    layoutInstancing.add<float>(4, false, false, true);
+					layoutInstancing.add<float>(4, false, false, true);
 					layoutInstancing.add<float>(4, false, false, true);
 					layoutInstancing.add<float>(4, false, false, true);
 					layoutInstancing.add<float>(4, false, false, true);
 
-                    this->_vao.sendData(layoutInstancing, this->_instances, BufferObject::Usage::STATIC);
+					this->_instances.update();
+					this->_vertexArray.attach(this->_instances, layoutInstancing);
                 }
-
-                ShaderStage fsSource, vsSource;
-                fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../resource/shader/phong.frag");
-                if (this->isInstancingEnabled()) {
-                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../resource/shader/phong_instance.vert");
-                }
-                else {
-                    vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../resource/shader/phong.vert");
-                }
-
-                this->_program.setStage(fsSource);
-                this->_program.setStage(vsSource);
-                this->_program.link();
-                this->_program.use();
-				if (*this->_mesh->getSubmeshes()[0].material) {
-					this->_mesh->getSubmeshes()[0].material->apply(this->_program);
-				}
             }
 
 			void Object::addInstance(const FloatMatrix4u & offset)
 			{
-				this->_instances.push_back(offset.transpose());
+				this->_instances.data().push_back(offset.transpose());
 				++this->_numberOfInstances;
+			}
+
+			void Object::draw(std::shared_ptr<Shader> program)
+			{
+				this->_vertexArray.bind();
+				for (auto & submesh : this->_mesh->getSubmeshes()) {
+					if (*submesh.material) {
+						auto uniforms = submesh.material->getProperties();
+						for (auto uniform : uniforms) {
+							program->bind(uniform, "material." + uniform->getName());
+						}
+					//	submesh.material->apply(*program);
+					}
+					submesh.mesh.getIndexBuffer().bind();
+					if (submesh.mesh.getIndexBuffer().size() > 0) {
+						if (this->isInstancingEnabled()) {
+							OpenGL::drawElementsInstanced(this->_mode, submesh.mesh.size(), renderer::opengl::DataType::UNSIGNED_INT, 0, this->_instances.size());
+
+						}
+						else {
+							OpenGL::drawElements(this->_mode, this->_mesh->size(), renderer::opengl::DataType::UNSIGNED_INT, 0);
+						}
+					}
+					else {
+						if (this->isInstancingEnabled()) {
+							OpenGL::drawArraysInstanced(this->_mode, 0, this->_mesh->size(), this->_instances.size());
+						}
+						else {
+							OpenGL::drawArrays(this->_mode, 0, this->_mesh->size());
+						}
+					}
+				}
 			}
 		}// namespace renderable
 	} // namespace graphic

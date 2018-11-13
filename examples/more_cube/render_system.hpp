@@ -51,11 +51,11 @@ class RenderSystem: public ece::System
 {
 public:
 	/**
-	 * @fn constexpr RenderSystem() noexcept
+	 * @fn constexpr RenderSystem(World & world) noexcept
 	 * @brief Default constructor.
 	 * @throw noexcept
 	 */
-	RenderSystem() noexcept;
+	RenderSystem(ece::World & world) noexcept;
 
 	/**
 	 * @fn RenderSystem(const RenderSystem & copy) noexcept

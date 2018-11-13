@@ -47,11 +47,6 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace resource
-		{
-			class VAO;
-		}
-
 		namespace rendering
 		{
 			class RenderTarget;

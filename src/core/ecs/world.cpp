@@ -66,6 +66,7 @@ namespace ece
 				World::Entity entity = { this->_entityGenerator.next(), false };
 				EntityHandler handler(entity._id, *this);
 				this->_entities.push_back(std::move(entity));
+				this->onEntityCreated(handler);
 				return std::move(handler);
 			}
 

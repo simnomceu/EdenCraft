@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
+#include "renderer/buffer.hpp"
 
 #include <vector>
 
@@ -63,13 +64,6 @@ namespace ece
 			public:
 				using Reference = ResourceHandler<Submesh>;
 
-				struct Vertex
-				{
-					FloatVector3u _position;
-					FloatVector3u _normal;
-					FloatVector2u _textureCoordinate;
-				};
-
 				using Face = std::array<unsigned int, 3>;
 
 				/**
@@ -85,7 +79,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw
 				 */
-				Submesh(const Submesh & copy) = default;
+				Submesh(const Submesh & copy);
 
 				/**
 				 * @fn Submesh(Submesh && move) noexcept
@@ -109,7 +103,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw
 				 */
-				Submesh & operator=(const Submesh & copy) = default;
+				Submesh & operator=(const Submesh & copy);
 
 				/**
 				 * @fn Submesh & operator=(Submesh && move) noexcept
@@ -142,31 +136,23 @@ namespace ece
 				 * @brief Get the bouncing box of the mesh.
 				 * @throw
 				 */
-				Box3D getBouncingBox() const;
-
-				std::size_t addVertex(const Submesh::Vertex & vertex);
-				std::size_t addVertex(Submesh::Vertex && vertex);
-
-				inline std::vector<Submesh::Vertex> & getVertices();
-				inline const std::vector<Submesh::Vertex> & getVertices() const;
+			//	Box3D getBouncingBox() const;
 
 				inline void addFace(const Submesh::Face & face);
 				inline void addFace(Submesh::Face && face);
 
 				inline std::vector<Submesh::Face> & getFaces();
-				inline const std::vector<Submesh::Face> & getFaces()const ;
-			private:
-				/**
-				 * @property _vertices
-				 * @brief The list of vertices of the mesh.
-				 */
-				std::vector<Submesh::Vertex> _vertices;
+				inline const std::vector<Submesh::Face> & getFaces() const;
 
+				inline IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> & getIndexBuffer();
+
+				void update();
+			private:
                 /**
                  * @property _faces
                  * @brief The list of faces using the vertices.
                  */
-				std::vector<Submesh::Face> _faces;
+				IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> _faces;
 			};
 		} // namespace model
 	} // namespace graphic

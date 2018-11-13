@@ -38,6 +38,8 @@
 
 #include "core/ecs/world.hpp"
 
+#include <utility>
+
 namespace ece
 {
 	namespace core
@@ -51,10 +53,12 @@ namespace ece
 			template <class ComponentType, class ... Args>
 			ComponentType & EntityHandler::addComponent(Args&&... args)
 			{
-				ComponentType component(std::forward(args)...);
+				ComponentType component(args...);
 				component.setOwner(this->_id);
-				this->_world.getTank<ComponentType>()->push_back(std::move(component));
-				return this->_world.getTank<ComponentType>()->back();
+				auto tank = this->_world.getTank<ComponentType>().lock();
+				tank->push_back(std::move(component));
+				this->_world.onComponentCreated(tank->back());
+				return tank->back();
 			}
 
 			template <class ComponentType>

@@ -44,7 +44,7 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/image/texture2d.hpp"
 #include "utility/mathematics.hpp"
 
 namespace ece
@@ -53,6 +53,8 @@ namespace ece
 	{
 		namespace renderable
 		{
+			using renderer::image::Texture2D;
+
 			/**
 			 * @class Sprite
 			 * @brief
@@ -105,11 +107,14 @@ namespace ece
 				 */
 				Sprite & operator=(Sprite && move) noexcept = default;
 
+				virtual void draw(std::shared_ptr<Shader> program) override;
 			private:
 				Texture2D::Texture2DReference _texture;
 				Rectangle<float> _textureClip;
 
 				Rectangle<float> _bounds;
+				VertexBuffer<SymetricStorage, std::vector<float>> _vertices;
+				IndexBuffer<SymetricStorage, std::vector<unsigned int>> _index;
 			};
 		} // namespace renderable
 	} // namespace graphic

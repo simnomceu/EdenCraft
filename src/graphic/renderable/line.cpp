@@ -41,7 +41,7 @@
 #include "graphic/renderable/line.hpp"
 
 #include "renderer/opengl.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
 
 namespace ece
 {
@@ -49,11 +49,11 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Line::Line() noexcept: Renderable(), _begin(), _end(), _color(), _width(1.0f)
+			Line::Line() noexcept: Renderable(), _begin(), _end(), _color(), _width(1.0f), _vertices()
 			{
 				this->_mode = PrimitiveMode::LINES;
 
-				BufferLayout layout;
+				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -65,25 +65,15 @@ namespace ece
 				}
 				OpenGL::lineWidth(this->_width);
 
-				std::vector<FloatVector3u> data = { this->_begin, this->_color, this->_end, this->_color };
-
-				this->_vao.sendData(layout, data, BufferObject::Usage::STATIC);
-
-				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");
-				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/line.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
+				this->_vertices.write({ this->_begin, this->_color, this->_end, this->_color });
+				this->_vertexArray.attach(this->_vertices, layout);
 			}
 
-			Line::Line(const FloatVector3u & begin, const FloatVector3u & end, const FloatVector3u & color, const float width) noexcept : Renderable(), _begin(begin), _end(end), _color(color), _width(width)
+			Line::Line(const FloatVector3u & begin, const FloatVector3u & end, const FloatVector3u & color, const float width) noexcept : Renderable(), _begin(begin), _end(end), _color(color), _width(width), _vertices()
 			{
 				this->_mode = PrimitiveMode::LINES;
 
-				BufferLayout layout;
+				renderer::buffer::BufferLayout layout;
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -95,18 +85,20 @@ namespace ece
 				}
 				OpenGL::lineWidth(this->_width);
 
-				std::vector<FloatVector3u> data = { this->_begin, this->_color, this->_end, this->_color };
+				this->_vertices.write({ this->_begin, this->_color, this->_end, this->_color });
+				this->_vertexArray.attach(this->_vertices, layout);
+			}
 
-				this->_vao.sendData(layout, data, BufferObject::Usage::STATIC);
-
-				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/line.frag");
-				vsSource.loadFromFile(ShaderType::VERTEX_SHADER, "../../examples/more_cube/line.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
+			void Line::draw(std::shared_ptr<Shader> program)
+			{
+				this->_vertexArray.bind();
+				this->_state.apply();
+				if (this->isInstancingEnabled()) {
+					OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices.size() * 3, this->_numberOfInstances);
+				}
+				else {
+					OpenGL::drawArrays(this->_mode, 0, this->_vertices.size() * 3);
+				}
 			}
 		} // namespace renderable
 	} // namespace graphic

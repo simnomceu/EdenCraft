@@ -41,7 +41,9 @@
 
 #include "renderer/config.hpp"
 #include "renderer/pipeline/render_state.hpp"
-#include "renderer/resource.hpp"
+#include "renderer/shader.hpp"
+#include "renderer/pipeline/viewport.hpp"
+#include "renderer/pipeline/scissor.hpp"
 
 namespace ece
 {
@@ -106,6 +108,13 @@ namespace ece
 
 				inline void setState(const RenderState & state);
 				inline void setProgram(const std::shared_ptr<Shader> & program);
+				inline void setViewport(Viewport viewport);
+				inline void setScissor(Scissor scissor);
+
+				inline std::shared_ptr<Shader> getProgram();
+
+				inline const Viewport & getViewport() const;
+				inline const Scissor & getScissor() const;
 
 				void apply();
 
@@ -114,6 +123,9 @@ namespace ece
 
 				RenderState _state;
 				std::shared_ptr<Shader> _program;
+
+				Viewport _viewport;
+				Scissor _scissor;
 			};
 		} // namespace pipeline
 	} // namespace renderer

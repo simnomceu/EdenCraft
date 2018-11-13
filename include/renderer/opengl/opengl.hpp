@@ -50,6 +50,7 @@
 #include "renderer/opengl/enum.hpp"
 #include "utility/indexing.hpp"
 #include "utility/container.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
@@ -64,14 +65,8 @@ namespace ece
 		{
 			using rendering::RenderContext;
 
-			using Handle = unsigned int;
-
 			namespace OpenGL
 			{
-				// Helpers
-				template <class T> static inline constexpr DataType dataType();
-				template <DataType Type> static inline constexpr std::size_t dataTypeSize();
-
 				// OpenGL headers
 
 				static inline ErrorGL getError();
@@ -162,8 +157,10 @@ namespace ece
 				static inline void bindBuffer(const BufferType type, const Handle handle);
 				//		static inline void bindBufferRange(GLenum target, unsigned int index, unsigned int buffer, GLintptr offset, GLsizeiptr size);
 				//		static inline void bindBufferBase(GLenum target, unsigned int index, unsigned int buffer);
-				template<template <class, class...> class T, class E, class... TT, typename enabled = std::enable_if_t<contiguous_container_v<T<E, TT...>> && can_access_data_v<T<E, TT...>> && has_size_v<T<E, TT...>>>>
-				static inline void bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset = 0);
+				template<class C, typename enabled = std::enable_if_t<contiguous_container_v<C> && is_container_v<C>>>
+				static inline void bufferData(const BufferType type, const C & data, const BufferUsage usage, const int offset = 0);
+				template <class E>
+				static inline void bufferData(const BufferType type, const std::size_t size, const BufferUsage usage, int offset = 0);
 				//		static inline void bufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const void * data);
 				//		static inline void * mapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
 				//		static inline void * mapBuffer(GLenum target, GLenum access);
@@ -218,7 +215,7 @@ namespace ece
 				//		static inline void getActiveUniformBlockiv(unsigned int program, unsigned int uniformBlockIndex, GLenum pname, int *params);
 				//		static inline void getUniformIndices(unsigned int program, GLsizei uniformCount, const char **uniformNames, unsigned int *uniformIndices);
 				//		static inline void getActiveUniformName(unsigned int program, unsigned int uniformIndex, GLsizei bufSize, GLsizei *length, char *uniformName);
-				//		static inline void getActiveUniform(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, int *size, GLenum *type, char *name);
+				static inline UniformInfo getActiveUniform(const Handle program, const Handle index);
 				//		static inline void getActiveUniformsiv(unsigned int program, GLsizei uniformCount, const unsigned int *uniformIndices, GLenum pname, int *params);
 				template <class T, unsigned int S> static inline void uniform(const int location, const std::array<T, S> & v);
 				//		static inline void uniform1fv(int location, GLsizei count, const float *value);
@@ -689,13 +686,6 @@ namespace ece
 				//
 				//		static inline void specializeShader(unsigned int shader, const char *pEntryPoint​, unsigned int numSpecializationConstants​, const unsigned int *pConstantIndex​, const unsigned int *pConstantValue​);
 				//		static inline void polygonOffsetClamp(float factor, float units, float clamp);
-
-				template<> inline DataType dataType<short int>();
-				template<> inline DataType dataType<unsigned short int>();
-				template<> inline DataType dataType<int>();
-				template<> inline DataType dataType<unsigned int>();
-				template<> inline DataType dataType<float>();
-				template<> inline DataType dataType<double>();
 
 				template<> inline void uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
 				template<> inline void uniform<float, 1>(const int location, const std::array<float, 1> & v);

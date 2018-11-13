@@ -47,6 +47,8 @@ namespace ece
 	{
 		namespace ecs
 		{
+			class World;
+
 			/**
 			 * @class System
 			 * @brief A system handle some specific kinds of components and do operations on them.
@@ -59,7 +61,9 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr System() noexcept = default;
+				constexpr System() noexcept = delete;
+
+				inline System(World & world);
 
 				/**
 				 * @fn System(const System & copy) noexcept
@@ -103,6 +107,9 @@ namespace ece
 				System & operator=(System && move) noexcept = default;
 
 				virtual void update() = 0;
+
+			protected:
+				World & _world;
 			};
 		} // namespace ecs
 	} // namespace core
