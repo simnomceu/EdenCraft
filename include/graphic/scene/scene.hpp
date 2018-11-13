@@ -44,7 +44,7 @@
 #include "graphic/config.hpp"
 #include "graphic/scene/camera.hpp"
 #include "graphic/renderable.hpp"
-#include "graphic/model.hpp"
+#include "graphic/scene/light.hpp"
 
 #include <vector>
 

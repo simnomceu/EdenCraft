@@ -38,7 +38,7 @@
 
 */
 
-#include "graphic/model/light.hpp"
+#include "graphic/scene/light.hpp"
 
 #include "renderer/shader.hpp"
 
@@ -46,7 +46,7 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace scene
 		{
 			Light::Light() noexcept : _ambient(1.0f), _diffuse(1.0f), _specular(1.0f), _color{ 1.0f, 1.0f, 1.0f }, _position(), _direction(), _attenuation(), 
 									_cutOff(), _useBlinn(false)
@@ -72,6 +72,6 @@ namespace ece
 				shader.bind(std::make_shared<Uniform<bool>>("useCutOff", this->isCutOffUsed()), "lights[" + tmpId + "].useCutOff");
 				shader.bind(std::make_shared<Uniform<int>>("numberOfLights", 1), "numberOfLights");
 			}
-		} // namespace model
+		} // namespace scene
 	} // namespace graphic
 } // namespace ece

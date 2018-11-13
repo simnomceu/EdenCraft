@@ -42,7 +42,7 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace scene
 		{
 			inline void Light::setAmbient(const float ambient) noexcept { this->_ambient = ambient; }
 
@@ -95,6 +95,6 @@ namespace ece
 			inline bool Light::isCutOffUsed() const noexcept { return this->_cutOff.has_value(); }
 
 			inline bool Light::isBlinnUsed() const noexcept { return this->_useBlinn; }
-		} // namespace model
+		} // namespace scene
 	} // namespace graphic
 } // namespace ece

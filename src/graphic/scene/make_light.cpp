@@ -38,7 +38,7 @@
 
 */
 
-#include "graphic/model/make_light.hpp"
+#include "graphic/scene/make_light.hpp"
 
 #include "core/resource.hpp"
 
@@ -46,7 +46,7 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace scene
 		{
 			Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position)
 			{
@@ -96,6 +96,6 @@ namespace ece
 				light->useBlinn(true);
 				return std::move(light);
 			}
-		} // namespace model
+		} // namespace scene
 	} // namespace graphic
 } // namespace ece

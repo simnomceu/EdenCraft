@@ -43,7 +43,6 @@
 #include "utility/mathematics.hpp"
 #include "graphic/renderable.hpp"
 #include "core/resource.hpp"
-#include "renderer/opengl.hpp"
 
 namespace ece
 {

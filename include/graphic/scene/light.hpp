@@ -58,7 +58,7 @@ namespace ece
 
 	namespace graphic
 	{
-		namespace model
+		namespace scene
 		{
 			using renderer::shader::Shader;
 
@@ -181,10 +181,10 @@ namespace ece
 
 				bool _useBlinn;
 			};
-		} // namespace model
+		} // namespace scene
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/light.inl"
+#include "graphic/scene/light.inl"
 
 #endif // LIGHT_HPP
