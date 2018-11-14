@@ -52,7 +52,7 @@ namespace ece
 	{
 		namespace shader
 		{
-			class Shader;
+			class BaseUniform;
 		} // namespace shader
 	} // namespace renderable
 
@@ -60,7 +60,7 @@ namespace ece
 	{
 		namespace scene
 		{
-			using renderer::shader::Shader;
+			using renderer::shader::BaseUniform;
 
 			/**
 			 * @class Light
@@ -162,7 +162,7 @@ namespace ece
 				inline bool isCutOffUsed() const noexcept;
 				inline bool isBlinnUsed() const noexcept;
 
-				void apply(Shader & shader);
+				std::vector<std::shared_ptr<BaseUniform>> getUniforms() const;
 
 			protected:
 				// Use structure here ? "factors" ?

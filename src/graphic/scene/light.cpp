@@ -53,24 +53,24 @@ namespace ece
 			{
 			}
 
-			void Light::apply(Shader & shader)
+			std::vector<std::shared_ptr<BaseUniform>> Light::getUniforms() const
 			{
-				auto tmpId = std::to_string(0);
-				shader.bind(std::make_shared<Uniform<float, 3>>("ambient", FloatVector3u(this->_color * this->_ambient).data()), "lights[" + tmpId + "].ambient");
-				shader.bind(std::make_shared<Uniform<float, 3>>("diffuse", FloatVector3u(this->_color * this->_diffuse).data()), "lights[" + tmpId + "].diffuse");
-				shader.bind(std::make_shared<Uniform<float, 3>>("specular", std::array<float, 3>{ this->_specular, this->_specular, this->_specular }), "lights[" + tmpId + "].specular");
-				shader.bind(std::make_shared<Uniform<float, 3>>("position", this->_position.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }).data()), "lights[" + tmpId + "].position");
-				shader.bind(std::make_shared<Uniform<float, 3>>("direction", this->_direction.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }).data()), "lights[" + tmpId + "].direction");
-				shader.bind(std::make_shared<Uniform<float>>("constant", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).constant), "lights[" + tmpId + "].constant");
-				shader.bind(std::make_shared<Uniform<float>>("linear", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).linear), "lights[" + tmpId + "].linear");
-				shader.bind(std::make_shared<Uniform<float>>("quadratic", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).quadratic), "lights[" + tmpId + "].quadratic");
-				shader.bind(std::make_shared<Uniform<float>>("innerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).inner), "lights[" + tmpId + "].innerCutOff");
-				shader.bind(std::make_shared<Uniform<float>>("outerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).outer), "lights[" + tmpId + "].outerCutOff");
-				shader.bind(std::make_shared<Uniform<bool>>("usePosition", this->isPositionUsed()), "lights[" + tmpId + "].usePosition");
-				shader.bind(std::make_shared<Uniform<bool>>("useDirection", this->isDirectionUsed()), "lights[" + tmpId + "].useDirection");
-				shader.bind(std::make_shared<Uniform<bool>>("useAttenuation", this->isAttenuationUsed()), "lights[" + tmpId + "].useAttenuation");
-				shader.bind(std::make_shared<Uniform<bool>>("useCutOff", this->isCutOffUsed()), "lights[" + tmpId + "].useCutOff");
-				shader.bind(std::make_shared<Uniform<int>>("numberOfLights", 1), "numberOfLights");
+				return std::vector<std::shared_ptr<BaseUniform>>{
+					std::make_shared<Uniform<float, 3>>("ambient", FloatVector3u(this->_color * this->_ambient).data()),
+						std::make_shared<Uniform<float, 3>>("diffuse", FloatVector3u(this->_color * this->_diffuse).data()),
+						std::make_shared<Uniform<float, 3>>("specular", std::array<float, 3>{ this->_specular, this->_specular, this->_specular }),
+						std::make_shared<Uniform<float, 3>>("position", this->_position.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }).data()),
+						std::make_shared<Uniform<float, 3>>("direction", this->_direction.value_or(FloatVector3u{ 0.0f, 0.0f, 0.0f }).data()),
+						std::make_shared<Uniform<float>>("constant", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).constant),
+						std::make_shared<Uniform<float>>("linear", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).linear),
+						std::make_shared<Uniform<float>>("quadratic", this->_attenuation.value_or(Attenuation{ 1.0f, 0.0f, 0.0f }).quadratic),
+						std::make_shared<Uniform<float>>("innerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).inner),
+						std::make_shared<Uniform<float>>("outerCutOff", this->_cutOff.value_or(CutOff{ 0.0f, 0.0f }).outer),
+						std::make_shared<Uniform<bool>>("usePosition", this->isPositionUsed()),
+						std::make_shared<Uniform<bool>>("useDirection", this->isDirectionUsed()),
+						std::make_shared<Uniform<bool>>("useAttenuation", this->isAttenuationUsed()),
+						std::make_shared<Uniform<bool>>("useCutOff", this->isCutOffUsed())
+				};
 			}
 		} // namespace scene
 	} // namespace graphic
