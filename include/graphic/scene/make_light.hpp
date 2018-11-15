@@ -42,13 +42,13 @@
 #define MAKE_LIGHT_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/light.hpp"
+#include "graphic/scene/light.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace scene
 		{
 			ECE_GRAPHIC_API Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position);
 
@@ -57,7 +57,7 @@ namespace ece
 			ECE_GRAPHIC_API Light::Reference makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic);
 
 			ECE_GRAPHIC_API Light::Reference makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff);
-		} // namespace model
+		} // namespace scene
 	} // namespace graphic
 } // namespace ece
 

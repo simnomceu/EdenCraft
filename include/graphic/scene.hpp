@@ -42,6 +42,8 @@
 #define GRAPHIC_SCENE_HPP
 
 #include "graphic/scene/camera.hpp"
+#include "graphic/scene/light.hpp"
+#include "graphic/scene/make_light.hpp"
 #include "graphic/scene/projection.hpp"
 #include "graphic/scene/scene.hpp"
 

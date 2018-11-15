@@ -61,7 +61,7 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 	states.apply(true);
 
 	{
-		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
+		auto light = ece::makeSpotLight(0.7f, 0.6f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
 		this->_scene.addLight(light);
 	}
 
@@ -108,8 +108,15 @@ void RenderSystem::update()
 	auto & pipeline = this->_process->getPipeline();
 	auto program = pipeline.getProgram();
 	auto lights = this->_scene.getLights();
-	for (auto light : lights) {
-		light->apply(*program);
+	program->bind(std::make_shared<ece::Uniform<int>>("numberOfLights", lights.size()), "numberOfLights");
+
+	int lightId = 0;
+	for (auto & light : lights) {
+		auto uniforms = light->getUniforms();
+		for (auto & uniform : uniforms) {
+			program->bind(uniform, "lights[" + std::to_string(lightId) + "]." + uniform->getName());
+		}
+		++lightId;
 	}
 
 	ece::Staging staging;

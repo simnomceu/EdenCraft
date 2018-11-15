@@ -49,7 +49,7 @@ namespace ece
 				{
 					T t;
 					t.setMaterial(*this);
-					return T.isValid();
+					return t.isValid();
 				}
 		} // namespace material
 	} // namespace graphic

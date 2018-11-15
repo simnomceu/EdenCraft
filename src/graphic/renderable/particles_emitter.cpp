@@ -116,7 +116,7 @@ namespace ece
 				this->_particles.update();
 			}
 
-			void ParticlesEmitter::draw(std::shared_ptr<Shader> program)
+			void ParticlesEmitter::draw(std::shared_ptr<Shader> /*program*/)
 			{
 				this->_vertexArray.bind();
 				this->_state.apply();
