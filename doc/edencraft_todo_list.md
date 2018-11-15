@@ -32,12 +32,12 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Utility
  + [x] Basic exception specialization.
  + [x] Enumeration used like C-like flags.
- + [ ] Reflective enumeration traits.
+ * [x] Reflective enumeration traits.
  + [ ] Reading and writing files and binary files.
+ + [ ] Dealing with paths (relative and absolute).
  * [x] Parsing BMP images.
  * [x] Parsing OBJ and MTL Wavefront formats.
  * [x] Parsing JSON formats.
- + [ ] Dealing with paths (relative and absolute).
  * [x] Version handling.
  * [x] Unique ID generator.
  * [x] Localization handling.
