@@ -25,10 +25,6 @@ Release is the final stage  of the software. A release is stable and completed. 
 For an alpha version, all code needs to be commented obviously. However, it is not mandatory to have all unit tests. It is only supposed to compile and run.
 
 ### alpha-0.1.0 (aka. Basics update)
-* [ ] Continuous integration pipeline. (Git / GitFlow / etc...).
-+ [ ] AppVeyor profile for Windows (x86 and x64).
-+ [ ] Travis CI profile for Linux (x86 and x64) and MacOSX (x64).
-+ [ ] Coveralls profile.
 + [x] Scripts automation for project generation (Premake5).
 + [x] Doxygen profile.
 + [x] Licensing.
@@ -38,32 +34,29 @@ For an alpha version, all code needs to be commented obviously. However, it is n
  + [x] Enumeration used like C-like flags.
  + [ ] Reflective enumeration traits.
  + [ ] Reading and writing files and binary files.
- + [ ] Parsing BMP images.
- + [ ] Parsing OBJ and MTL Wavefront formats.
+ * [x] Parsing BMP images.
+ * [x] Parsing OBJ and MTL Wavefront formats.
  * [x] Parsing JSON formats.
  + [ ] Dealing with paths (relative and absolute).
- + [ ] Indexing multi-dimensional arrays.
- * [ ] Version handling.
- * [ ] Unique ID generator.
+ * [x] Version handling.
+ * [x] Unique ID generator.
  * [x] Localization handling.
- + [ ] Console/file logger.
+ * [x] Console/file logger.
  * [x] Geometric operations.
  * [x] Matrix and vector handling, with expression templates.
  * [x] 3D rotation using quaternions, matrix, and Euler angles.
  + [x] Pimpl design pattern implementation.
- + [ ] Listener/listenable design pattern.
+ * [x] Listener/listenable design pattern.
  * [x] Service-consumer pattern implementation.
- + [ ] Timer, and UPS/FPS counter.
+ * [x] Timer, and UPS/FPS counter.
 ##### Core
- + [ ] General application management.
- + [ ] Application lifecycle.
- + [ ] CLI parser.
- * [ ] Basic Entity-Component-System pattern.
- + [ ] Signal/Slot mechanism (Qt-like).
- + [ ] Pluggable module for application (extending application capabilities).
+ * [x] General application management.
+ * [x] CLI parser.
+ * [x] Basic Entity-Component-System pattern.
+ * [x] Signal/Slot mechanism (Qt-like).
  * [x] Basic resources manager without any strategy (like, unloading the resource proportionally to the elapsed time since the last use).
 ##### Window
-+ [ ] Windowed application.
+* [x] Windowed application.
 * [x] Common interface to handle window.
 + [ ] Enqueuing window events.
 + [ ] Dealing with screen ratio/resolution.
@@ -74,17 +67,16 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Renderer
 * [x] Common interface for OpenGL context.
 * [x] OpenGL extensions loader with lazy-loading.
-+ [ ] OpenGL support from OpenGL 3.2 to OpenGL 4.6.
++ [ ] OpenGL support from OpenGL 3.3 to OpenGL 4.6.
 * [x] WGL implementation for Win32.
 * [x] GLX implementation for X11.
 * [x] Basic 2D and 3D renderer.
 * [x] Basic shaders.
 * [x] Basic 2D textures.
-+ [ ] Enhanced shaders, with hot reloading, and some other features.
-+ [ ] Particle renderer.
 + [ ] MSAA with OpenGL implementation.
 * [x] Phong ligthing model.
 * [x] Render state used for draw calls.
+* [x] Light emitter (spot, directional, point).
 ##### Graphic
 * [x] Basic particle generator.
 * [x] 3D scene with 3D objects.
@@ -108,12 +100,13 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Basic GUI renderer.
 + [ ] PBR lighting model.
 + [ ] IBL implementation.
-+ [ ] Light emitter (spot, directional, point).
 + [ ] Toon shading
 + [ ] Reflection and Refraction.
++ [ ] Particle renderer.
 + [ ] Shader AST.
 + [ ] BatchRenderer (to merge several draw calls of 2D objects in a single one).
 + [ ] CubeMap
++ [ ] Enhanced shaders, with hot reloading, and some other features.
 
 ##### Graphic
 + [ ] Scene graph.
@@ -183,6 +176,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ### alpha-0.7.0 (aka. Intelligent update)
 ##### Utility
 ##### Core
+* [ ] Pluggable module for application (extending application capabilities).
 + [ ] Lua binding.
 + [ ] Python binding.
 
@@ -213,6 +207,10 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 
 ### beta-1.0.0
 + [ ] Unit testing everywhere.
+* [ ] Continuous integration pipeline. (Git / GitFlow / etc...).
++ [ ] AppVeyor profile for Windows (x86 and x64).
++ [ ] Travis CI profile for Linux (x86 and x64) and MacOSX (x64).
++ [ ] Coveralls profile.
 
 ##### Utility
 ##### Core
