@@ -7,3 +7,6 @@
 [submodule "build/modules/enhanced_premake"]
 	path = build/modules/enhanced_premake
 	url = https://framagit.org/simnomce_u/enhanced_premake.git
+[submodule "extlibs/lua"]
+	path = extlibs/lua
+	url = https://github.com/lua/lua
