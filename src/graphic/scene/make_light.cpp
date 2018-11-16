@@ -38,7 +38,7 @@
 
 */
 
-#include "graphic/model/make_light.hpp"
+#include "graphic/scene/make_light.hpp"
 
 #include "core/resource.hpp"
 
@@ -46,7 +46,7 @@ namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace scene
 		{
 			Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position)
 			{
@@ -56,7 +56,6 @@ namespace ece
 				light->setSpecular(specular);
 				light->setColor(color);
 				light->setPosition(position);
-				light->usePosition(true);
 				return std::move(light);
 			}
 
@@ -68,7 +67,6 @@ namespace ece
 				light->setSpecular(specular);
 				light->setColor(color);
 				light->setDirection(direction);
-				light->useDirection(true);
 				return std::move(light);
 			}
 
@@ -80,11 +78,7 @@ namespace ece
 				light->setSpecular(specular);
 				light->setColor(color);
 				light->setPosition(position);
-				light->usePosition(true);
-				light->setConstant(constant);
-				light->setLinear(linear);
-				light->setQuadratic(quadratic);
-				light->useAttenuation(true);
+				light->setAttenuation({ constant, linear, quadratic });
 				return std::move(light);
 			}
 			
@@ -96,19 +90,12 @@ namespace ece
 				light->setSpecular(specular);
 				light->setColor(color);
 				light->setPosition(position);
-				light->usePosition(true);
 				light->setDirection(direction);
-				light->useDirection(true);
-				light->setConstant(constant);
-				light->setLinear(linear);
-				light->setQuadratic(quadratic);
-				light->useAttenuation(true);
-				light->setInnerCutOff(innerCutOff);
-				light->setOuterCutOff(outerCutOff);
-				light->useCutOff(true);
+				light->setAttenuation({ constant, linear, quadratic });
+				light->setCutOff({ innerCutOff, outerCutOff });
 				light->useBlinn(true);
 				return std::move(light);
 			}
-		} // namespace model
+		} // namespace scene
 	} // namespace graphic
 } // namespace ece

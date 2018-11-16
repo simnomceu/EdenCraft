@@ -37,14 +37,12 @@
 */
 
 
-#ifndef TEXTURE_HPP
-#define TEXTURE_HPP
+#ifndef TEXTURE_2D_HPP
+#define TEXTURE_2D_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/image/texture.hpp"
 #include "core/resource.hpp"
-
-#include <cstddef>
 
 namespace ece
 {
@@ -52,17 +50,12 @@ namespace ece
 	{
 		namespace image
 		{
-			using opengl::TextureParameter;
-			using opengl::TextureTarget;
-			using opengl::TextureTypeTarget;
-			using opengl::Handle;
-
 			/**
 			 * @class Texture2D
 			 * @brief OpenGL 2D texture.
 			 * @remark Split the image and the texture implementations. A texture can use an image but it is not an image.
 			 */
-			class ECE_RENDERER_API Texture2D
+			class ECE_RENDERER_API Texture2D: public Texture
 			{
 			public:
 				using Texture2DReference = ResourceHandler<Texture2D>;
@@ -116,13 +109,13 @@ namespace ece
 				Texture2D & operator=(Texture2D && move) noexcept;
 
 				/**
-				 * @fn void loadFromFile(const TextureTypeTarget type, const std::string & filename)
+				 * @fn void loadFromFile(const TypeTarget type, const std::string & filename)
 				 * @param[in] type The type of texture to define.
 				 * @param[in] filename The source file to use.
 				 * @brief Load a texture from a file.
 				 * @throw
 				 */
-				void loadFromFile(const TextureTypeTarget type, const std::string & filename);
+				virtual void loadFromFile(const TypeTarget type, const std::string & filename) override;
 
 				/**
 				 * @fn const std::string & getFilename() const
@@ -130,7 +123,7 @@ namespace ece
 				 * @brief Get he filename which is the source of the texture.
 				 * @throw
 				 */
-				inline const std::string & getFilename() const;
+				inline virtual const std::string & getFilename() const override;
 
 				/**
 				 * @fn const std::vector<std::byte> & getData() const
@@ -138,7 +131,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				inline const std::vector<std::byte> & getData() const;
+				inline virtual const std::vector<std::byte> & getData() const override;
 
 				/**
 				 * @fn std::size_t getWidth() const
@@ -146,7 +139,7 @@ namespace ece
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				inline std::size_t getWidth() const;
+				inline virtual std::size_t getWidth() const override;
 
 				/**
 				* @fn std::size_t getHeight() const
@@ -154,7 +147,7 @@ namespace ece
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				inline std::size_t getHeight() const;
+				inline virtual std::size_t getHeight() const override;
 
 				/**
 				 * @fn TextureTypeTarget getType() const
@@ -162,7 +155,7 @@ namespace ece
 				 * @brief Get the type of texture.
 				 * @throw
 				 */
-				inline TextureTypeTarget getType() const;
+				inline virtual TypeTarget getType() const override;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -170,7 +163,7 @@ namespace ece
 				 * @brief Get the id of the texture.
 				 * @throw
 				 */
-				inline Handle getHandle() const;
+				inline virtual Handle getHandle() const override;
 
 				/**
 				 * @fn void bind(const TextureTarget target)
@@ -178,19 +171,19 @@ namespace ece
 				 * @brief Copy the texture in a buffer to use it.
 				 * @throw
 				 */
-				inline void bind(const TextureTarget target);
+				void virtual bind(const Target target) override;
 
-				inline void active(const unsigned int channel);
+				inline virtual void active(const unsigned int channel) override;
 
-				template <typename T> void setParameter(const TextureParameter name, const T value);
-				template <typename T> void setParameter(const TextureParameter name, const std::vector<T> & value);
+				template <typename T> void setParameter(const Parameter name, const T value);
+				template <typename T> void setParameter(const Parameter name, const std::vector<T> & value);
 
 				/**
 				 * @fn void update()
 				 * @brief Update the texture settings.
 				 * @throw
 				 */
-				void update();
+				virtual void update() override;
 
 				/**
 				 * @fn void terminate()
@@ -228,7 +221,7 @@ namespace ece
 				 * @property _type
 				 * @brief Type of texture used.
 				 */
-				TextureTypeTarget _type;
+				TypeTarget _type;
 
 				/**
 				 * @property _handle
@@ -242,4 +235,4 @@ namespace ece
 
 #include "renderer/image/texture2d.inl"
 
-#endif // TEXTURE_HPP
+#endif // TEXTURE_2D_HPP

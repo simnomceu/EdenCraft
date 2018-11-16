@@ -39,6 +39,7 @@
 #include "renderer/shader/shader.hpp"
 
 #include "utility/log.hpp"
+#include "renderer/shader/uniform.hpp"
 
 namespace ece
 {
@@ -70,20 +71,55 @@ namespace ece
 					this->use();
 					this->_linkedSuccessfully = true;
 
-					auto shaders = OpenGL::getAttachedShaders(this->_handle);
-					for (auto & it : shaders) {
+					auto stages = OpenGL::getAttachedShaders(this->_handle);
+					for (auto & it : stages) {
 						OpenGL::detachShader(this->_handle, it);
 					}
 				} else {
                     std::string infoLog = OpenGL::getProgramInfoLog(this->_handle);
-                    //ServiceLoggerLocator::getService().logError(infoLog);
+                    ServiceLoggerLocator::getService().logError(infoLog);
                 }
+			}
+
+            void Shader::bind(BaseUniform & uniform, const std::string & location)
+            {
+			    // TODO: need to be sure that the program as been linked successfully.
+                try {
+                    auto handle = this->getLocation(location);
+                    uniform.bind(handle);
+                }
+                catch (std::runtime_error & e) {
+                    ServiceLoggerLocator::getService().logWarning(e.what());
+                }
+            }
+
+			void Shader::bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location)
+			{
+				// TODO: need to be sure that the program as been linked successfully.
+				try {
+					auto handle = this->getLocation(location);
+					uniform->bind(handle);
+				}
+				catch (std::runtime_error & e) {
+					ServiceLoggerLocator::getService().logWarning(e.what());
+				}
 			}
 
 			void Shader::terminate()
 			{
 				OpenGL::deleteShader(this->_handle);
 				this->_handle = 0;
+			}
+
+			std::vector<BaseUniform::Info> Shader::getUniforms() const
+			{
+				std::vector<BaseUniform::Info> uniforms;
+				std::size_t count = OpenGL::getProgramiv(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
+				for (auto i = std::size_t{ 0 }; i < count; ++i) {
+					auto uniform = OpenGL::getActiveUniform(this->_handle, static_cast<Handle>(i));
+					uniforms.push_back(getUniformInfo(uniform));
+				}
+				return std::move(uniforms);
 			}
 		} // namespace shader
 	} // namespace renderer

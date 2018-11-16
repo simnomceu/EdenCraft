@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace buffer
 		{
-			inline constexpr BaseBuffer::BaseBuffer() noexcept : ObjectOpenGL(), _descriptor{}, _type(Type::ARRAY), _frequency(Frequency::STATIC) {}
+			inline constexpr BaseBuffer::BaseBuffer() noexcept : _handle(NullHandle), _descriptor{}, _type(Type::ARRAY), _frequency(Frequency::STATIC) {}
 
 			inline BaseBuffer::Type BaseBuffer::getType() const noexcept { return this->_type; }
 

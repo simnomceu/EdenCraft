@@ -50,7 +50,7 @@
 #include "renderer/opengl/enum.hpp"
 #include "utility/indexing.hpp"
 #include "utility/container.hpp"
-#include "renderer/opengl/handle.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
@@ -215,7 +215,7 @@ namespace ece
 				//		static inline void getActiveUniformBlockiv(unsigned int program, unsigned int uniformBlockIndex, GLenum pname, int *params);
 				//		static inline void getUniformIndices(unsigned int program, GLsizei uniformCount, const char **uniformNames, unsigned int *uniformIndices);
 				//		static inline void getActiveUniformName(unsigned int program, unsigned int uniformIndex, GLsizei bufSize, GLsizei *length, char *uniformName);
-				//		static inline void getActiveUniform(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, int *size, GLenum *type, char *name);
+				static inline UniformInfo getActiveUniform(const Handle program, const Handle index);
 				//		static inline void getActiveUniformsiv(unsigned int program, GLsizei uniformCount, const unsigned int *uniformIndices, GLenum pname, int *params);
 				template <class T, unsigned int S> static inline void uniform(const int location, const std::array<T, S> & v);
 				//		static inline void uniform1fv(int location, GLsizei count, const float *value);

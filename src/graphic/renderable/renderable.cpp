@@ -48,7 +48,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Renderable::Renderable() noexcept: _vertexArray(), _mode(), _program(), _model(), _state(), _numberOfInstances(1)
+			Renderable::Renderable() noexcept: _vertexArray(), _mode(), _model(), _state(), _numberOfInstances(1)
 			{
 				this->_model.setIdentity();
 			}
@@ -58,7 +58,6 @@ namespace ece
 			void Renderable::applyTransformation(const FloatMatrix4u & transformation)
 			{
 				this->_model = transformation * this->_model;
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_program.getHandle(), "model"), true, this->_model);
 			}
 
             bool Renderable::isInstancingEnabled() const

@@ -63,7 +63,7 @@ namespace ece
 				case buffer::DataType::INT_2_10_10_10_REV: return DataType::INT_2_10_10_10_REV; break;
 				case buffer::DataType::UNSIGNED_INT_2_10_10_10_REV: return DataType::UNSIGNED_INT_2_10_10_10_REV; break;
 				case buffer::DataType::UNSIGNED_INT_10F_11F_11F_REV: return DataType::UNSIGNED_INT_10F_11F_11F_REV; break;
-				default: throw std::runtime_error("Unknown value for ShaderType enumeration."); break;
+				default: throw std::runtime_error("Unknown value for DataType enumeration."); break;
 				}
 			}
 
@@ -83,7 +83,7 @@ namespace ece
 				case DataType::INT_2_10_10_10_REV: return "GL_INT_2_10_10_10_REV"; break;
 				case DataType::UNSIGNED_INT_2_10_10_10_REV: return "GL_UNSIGNED_INT_2_10_10_10_REV"; break;
 				case DataType::UNSIGNED_INT_10F_11F_11F_REV: return "GL_UNSIGNED_INT_10F_11F_11F_REV"; break;
-				default: throw std::runtime_error("Unknown value for ShaderType enumeration."); break;
+				default: throw std::runtime_error("Unknown value for DataType enumeration."); break;
 				}
 			}
 		} // namespace opengl

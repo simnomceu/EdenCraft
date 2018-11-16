@@ -36,8 +36,8 @@
 
 */
 
-#ifndef OPENGL_SHADER_TYPE
-#define OPENGL_SHADER_TYPE
+#ifndef OPENGL_SHADER_TYPE_HPP
+#define OPENGL_SHADER_TYPE_HPP
 
 #include "renderer/config.hpp"
 #include "GL/glcorearb.h"
@@ -71,4 +71,4 @@ namespace ece
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_SHADER_TYPE
+#endif // OPENGL_SHADER_TYPE_HPP

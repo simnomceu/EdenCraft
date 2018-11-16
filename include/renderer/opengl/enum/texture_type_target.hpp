@@ -36,91 +36,44 @@
 
 */
 
-#ifndef VIEWPORT_HPP
-#define VIEWPORT_HPP
+#ifndef OPENGL_TEXTURE_TYPE_TARGET_HPP
+#define OPENGL_TEXTURE_TYPE_TARGET_HPP
 
 #include "renderer/config.hpp"
-#include "utility/mathematics.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
+#include "renderer/image/texture.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace opengl
 		{
-			/**
-			 * @class Viewport
-			 * @brief
-			 */
-			class ECE_RENDERER_API Viewport
+			using image::Texture;
+
+			enum class TextureTypeTarget : unsigned short int
 			{
-			public:
-				/**
-				 * @fn constexpr Viewport() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				constexpr Viewport() noexcept = default;
-
-				/**
-				 * @fn Viewport(const Viewport & copy) noexcept
-				 * @param[in] copy The Viewport to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				Viewport(const Viewport & copy) noexcept = default;
-
-				/**
-				 * @fn Viewport(Viewport && move) noexcept
-				 * @param[in] move The Viewport to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				Viewport(Viewport && move) noexcept = default;
-
-				/**
-				 * @fn ~Viewport() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~Viewport() noexcept = default;
-
-				/**
-				 * @fn Viewport & operator=(const Viewport & copy) noexcept
-				 * @param[in] copy The Viewport to copy from.
-				 * @return The Viewport copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				Viewport & operator=(const Viewport & copy) noexcept = default;
-
-				/**
-				 * @fn Viewport & operator=(Viewport && move) noexcept
-				 * @param[in] move The Viewport to move.
-				 * @return The Viewport moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				Viewport & operator=(Viewport && move) noexcept = default;
-
-				inline void resetViewport(const Rectangle<float> & bounds) noexcept;
-
-				inline void setViewportRatio(const Rectangle<float> & ratio) noexcept;
-
-				inline const Rectangle<float> & getViewport() const noexcept;
-
-				inline const Rectangle<float> & getViewportRatio() const noexcept;
-
-				inline bool isRatioUsed() const noexcept;
-
-			private:
-				Rectangle<float> _bounds;
-				Rectangle<float> _ratio;
+				TEXTURE_2D = GL_TEXTURE_2D,
+				PROXY_TEXTURE_2D = GL_PROXY_TEXTURE_2D,
+				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
+				PROXY_TEXTURE_1D_ARRAY = GL_PROXY_TEXTURE_1D_ARRAY,
+				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
+				PROXY_TEXTURE_RECTANGLE = GL_PROXY_TEXTURE_RECTANGLE,
+				TEXTURE_CUBE_MAP_POSITIVE_X = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+				TEXTURE_CUBE_MAP_NEGATIVE_X = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+				TEXTURE_CUBE_MAP_POSITIVE_Y = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+				TEXTURE_CUBE_MAP_NEGATIVE_Y = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+				TEXTURE_CUBE_MAP_POSITIVE_Z = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+				TEXTURE_CUBE_MAP_NEGATIVE_Z = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
+				PROXY_TEXTURE_CUBE_MAP = GL_PROXY_TEXTURE_CUBE_MAP
 			};
-		} // namespace rendering
+
+			ECE_RENDERER_API TextureTypeTarget getTextureTypeTarget(Texture::TypeTarget type);
+
+			ECE_RENDERER_API std::string to_string(TextureTypeTarget type);
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/rendering/viewport.inl"
-
-#endif // VIEWPORT_HPP
+#endif // OPENGL_TEXTURE_TYPE_TARGET_HPP

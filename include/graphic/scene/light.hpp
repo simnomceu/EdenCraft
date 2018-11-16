@@ -44,6 +44,7 @@
 #include "graphic/config.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
+#include <optional>
 
 namespace ece
 {
@@ -51,23 +52,15 @@ namespace ece
 	{
 		namespace shader
 		{
-			class Shader;
+			class BaseUniform;
 		} // namespace shader
 	} // namespace renderable
 
 	namespace graphic
 	{
-		namespace model
+		namespace scene
 		{
-			using renderer::shader::Shader;
-
-			enum class LightType : int
-			{
-				BASIC_LIGHT = 0,
-				DIRECTIONAL_LIGHT = 1,
-				POINT_LIGHT = 2,
-				SPOT_LIGHT = 3
-			};
+			using renderer::shader::BaseUniform;
 
 			/**
 			 * @class Light
@@ -77,6 +70,19 @@ namespace ece
 			{
 			public:
 				using Reference = ResourceHandler<Light>;
+
+				struct CutOff
+				{
+					float inner;
+					float outer;
+				};
+
+				struct Attenuation
+				{
+					float constant;
+					float linear;
+					float quadratic;
+				};
 
 				/**
 				 * @fn Light() noexcept
@@ -132,11 +138,8 @@ namespace ece
 				inline void setColor (const FloatVector3u & color) noexcept;
 				inline void setPosition(const FloatVector3u & position) noexcept;
 				inline void setDirection(const FloatVector3u & direction) noexcept;
-				inline void setConstant(const float constant) noexcept;
-				inline void setLinear(const float linear) noexcept;
-				inline void setQuadratic(const float quadratic) noexcept;
-				inline void setInnerCutOff(const float innerCutOff) noexcept;
-				inline void setOuterCutOff(const float outerCutOff) noexcept;
+				inline void setAttenuation(const Attenuation & attenuation) noexcept;
+				inline void setCutOff(const CutOff & cutOff) noexcept;
 
 				inline float getAmbient() const noexcept;
 				inline float getDiffuse() const noexcept;
@@ -144,16 +147,13 @@ namespace ece
 				inline const FloatVector3u & getColor() const noexcept;
 				inline const FloatVector3u & getPosition() const noexcept;
 				inline const FloatVector3u & getDirection() const noexcept;
-				inline float getConstant() const noexcept;
-				inline float getLinear() const noexcept;
-				inline float getQuadratic() const noexcept;
-				inline float getInnerCutoff() const noexcept;
-				inline float getOuterCutoff() const noexcept;
+				inline Attenuation getAttenuation() const noexcept;
+				inline CutOff getCutoff() const noexcept;
 
-				inline void usePosition(const bool used) noexcept;
-				inline void useDirection(const bool used) noexcept;
-				inline void useAttenuation(const bool used) noexcept;
-				inline void useCutOff(const bool used) noexcept;
+				inline void resetPosition() noexcept;
+				inline void resetDirection() noexcept;
+				inline void resetAttenuation() noexcept;
+				inline void resetCutOff() noexcept;
 				inline void useBlinn(const bool used) noexcept;
 
 				inline bool isPositionUsed() const noexcept;
@@ -162,7 +162,7 @@ namespace ece
 				inline bool isCutOffUsed() const noexcept;
 				inline bool isBlinnUsed() const noexcept;
 
-				void apply(Shader & shader);
+				std::vector<std::shared_ptr<BaseUniform>> getUniforms() const;
 
 			protected:
 				// Use structure here ? "factors" ?
@@ -172,28 +172,19 @@ namespace ece
 
 				FloatVector3u _color;
 
-				FloatVector3u _position;
-				FloatVector3u _direction;
+				std::optional<FloatVector3u> _position;
+				std::optional<FloatVector3u> _direction;
 
-				// Use structure here
-				float _constant;
-				float _linear;
-				float _quadratic;
+				std::optional<Attenuation> _attenuation;
 
-				// Use structure here
-				float _innerCutOff;
-				float _outerCutOff;
+				std::optional<CutOff> _cutOff;
 
-				bool _usePosition;
-				bool _useDirection;
-				bool _useAttenuation;
-				bool _useCutOff;
 				bool _useBlinn;
 			};
-		} // namespace model
+		} // namespace scene
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/light.inl"
+#include "graphic/scene/light.inl"
 
 #endif // LIGHT_HPP

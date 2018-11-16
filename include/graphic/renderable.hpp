@@ -46,7 +46,6 @@
 #include "graphic/renderable/particles_emitter.hpp"
 #include "graphic/renderable/point.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "graphic/renderable/shader_source.hpp"
 #include "graphic/renderable/sprite.hpp"
 
 namespace ece

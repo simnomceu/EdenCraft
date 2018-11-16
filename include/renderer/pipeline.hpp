@@ -45,7 +45,9 @@
 #include "renderer/pipeline/render_process.hpp"
 #include "renderer/pipeline/render_queue.hpp"
 #include "renderer/pipeline/render_state.hpp"
+#include "renderer/pipeline/scissor.hpp"
 #include "renderer/pipeline/staging.hpp"
+#include "renderer/pipeline/viewport.hpp"
 
 namespace ece
 {

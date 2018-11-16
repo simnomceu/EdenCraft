@@ -41,7 +41,6 @@
 
 #include "core/ecs.hpp"
 #include "core/resource.hpp"
-//#include "graphic/renderable.hpp"
 #include "graphic/scene.hpp"
 
 /**
@@ -100,8 +99,6 @@ public:
 
 private:
 	ece::EntityHandler _handle;
-
-//	ece::ResourceHandler<ece::Object> _graphicComponent;
 };
 
 #endif // CUBE_HPP

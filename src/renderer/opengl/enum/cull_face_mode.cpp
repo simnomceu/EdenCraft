@@ -36,25 +36,35 @@
 
 */
 
+#include "renderer/opengl/enum/cull_face_mode.hpp"
+
+#include <stdexcept>
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace opengl
 		{
-			inline void Viewport::resetViewport(const Rectangle<float> & bounds) noexcept
+			CullFaceMode getCullFaceMode(RenderState::CullFaceMode mode)
 			{
-				this->_bounds = bounds;
-				this->_ratio = Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f);
+				switch (mode) {
+				case RenderState::CullFaceMode::BACK: return CullFaceMode::BACK; break;
+				case RenderState::CullFaceMode::FRONT: return CullFaceMode::FRONT; break;
+				case RenderState::CullFaceMode::FRONT_AND_BACK: return CullFaceMode::FRONT_AND_BACK; break;
+				default: throw std::runtime_error("Unknown value for CullFaceMode enumeration."); break;
+				}
 			}
 
-			inline void Viewport::setViewportRatio(const Rectangle<float> & ratio) noexcept { this->_ratio = ratio; }
-
-			inline const Rectangle<float> & Viewport::getViewport() const noexcept { return this->_bounds; }
-
-			inline const Rectangle<float> & Viewport::getViewportRatio() const noexcept { return this->_ratio; }
-
-			inline bool Viewport::isRatioUsed() const noexcept { return this->_ratio != Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f); }
-		} // namespace rendering
+			std::string to_string(CullFaceMode mode)
+			{
+				switch (mode) {
+				case CullFaceMode::BACK: return "GL_BACK"; break;
+				case CullFaceMode::FRONT: return "GL_FRONT"; break;
+				case CullFaceMode::FRONT_AND_BACK: return "GL_FRONT_AND_BACK"; break;
+				default: throw std::runtime_error("Unknown value for CullFaceMode enumeration."); break;
+				}
+			}
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece

@@ -46,8 +46,6 @@ namespace ece
     {
         namespace buffer
         {
-			using namespace opengl;
-
 			inline BufferLayout::BufferLayout(const BufferLayout::Strategy strategy) noexcept: _elements(), _instanceBlockSize(0), _strategy(strategy) {}
 
             template <class T>

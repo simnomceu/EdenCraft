@@ -38,27 +38,19 @@
 
 */
 
-#ifndef MAKE_LIGHT_HPP
-#define MAKE_LIGHT_HPP
-
-#include "graphic/config.hpp"
-#include "graphic/model/light.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			ECE_GRAPHIC_API Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position);
-
-			ECE_GRAPHIC_API Light::Reference makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction);
-
-			ECE_GRAPHIC_API Light::Reference makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic);
-
-			ECE_GRAPHIC_API Light::Reference makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff);
-		} // namespace model
+				template <class T, typename enabled>
+				bool Material::isValid() const
+				{
+					T t;
+					t.setMaterial(*this);
+					return t.isValid();
+				}
+		} // namespace material
 	} // namespace graphic
 } // namespace ece
-
-#endif // MAKE_LIGHT_HPP

@@ -80,7 +80,7 @@ namespace ece
 				return *this;
 			}
 
-			void Texture2D::loadFromFile(const TextureTypeTarget type, const std::string & filename)
+			void Texture2D::loadFromFile(const TypeTarget type, const std::string & filename)
 			{
 				this->terminate();
 
@@ -112,16 +112,21 @@ namespace ece
 				}
 			}
 
+			void Texture2D::bind(const Target target)
+			{
+				OpenGL::bindTexture(getTextureTarget(target), this->_handle);
+			}
+
 			void Texture2D::update()
 			{
 				// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
 				// TODO: adding properties for each texParameter here ?
-				OpenGL::texImage2D(this->_type, 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
+				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
 				OpenGL::generateMipmap(MipmapTarget::TEXTURE_2D);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_WRAP_S, GL_REPEAT);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_WRAP_T, GL_REPEAT);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_MAG_FILTER, GL_NEAREST);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::WRAP_S), GL_REPEAT);
+				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::WRAP_T), GL_REPEAT);
+				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MAG_FILTER), GL_NEAREST);
+				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MIN_FILTER), GL_NEAREST_MIPMAP_NEAREST);
 			}
 
 			void Texture2D::terminate() {}

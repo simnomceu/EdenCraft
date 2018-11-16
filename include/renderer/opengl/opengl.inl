@@ -354,8 +354,11 @@ namespace ece
 
 			inline Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
 			{
-				Handle location = checkErrors(glGetUniformLocation(handle, uniform.data()));
-				return std::move(location);
+				int location = checkErrors(glGetUniformLocation(handle, uniform.data()));
+                if (location < 0) {
+                    throw std::runtime_error("No " + uniform + " uniform in the current shader program.");
+                }
+				return static_cast<Handle>(location);
 			}
 
 			//	inline unsigned int OpenGL::getUniformBlockIndex(unsigned int /*program*/, const char * /*uniformBlockName*/) { static_assert(false, "Not implemented yet."); }
@@ -363,7 +366,20 @@ namespace ece
 			//	inline void OpenGL::getActiveUniformBlockiv(unsigned int /*program*/, unsigned int /*uniformBlockIndex*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getUniformIndices(unsigned int /*program*/, GLsizei /*uniformCount*/, const char ** /*uniformNames*/, unsigned int * /*uniformIndices*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getActiveUniformName(unsigned int /*program*/, unsigned int /*uniformIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformName*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveUniform(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
+
+			inline UniformInfo OpenGL::getActiveUniform(const Handle program, const Handle index)
+			{
+				UniformInfo info;
+				GLint length, size;
+				GLenum type;
+				GLchar name[1024];
+				checkErrors(glGetActiveUniform(program, index, 1024, &length, &size, &type, name));
+				info.size = size;
+				info.type = static_cast<UniformDataType>(type);
+				info.name = std::string(name, length);
+				return std::move(info);
+			}
+
 			//	inline void OpenGL::getActiveUniformsiv(unsigned int /*program*/, GLsizei /*uniformCount*/, const unsigned int * /*uniformIndices*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 
 			template <class T, unsigned int S>
@@ -1018,12 +1034,12 @@ namespace ece
 			//	inline void OpenGL::invalidateSubFramebuffer(GLenum /*target*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/, int /*x*/, int /*y*/, int /*width*/, int /*height*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::invalidateFramebuffer(GLenum /*target*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::copyImageSubData(unsigned int /*srcName*/, GLenum /*srcTarget*/, int /*srcLevel*/, int /*srcX*/, int /*srcY*/, int /*srcZ*/, unsigned int /*dstName*/, GLenum /*dstTarget*/, int /*dstLevel*/, int /*dstX*/, int /*dstY*/, int /*dstZ*/, GLsizei /*srcWidth*/, GLsizei /*srcHeight*/, GLsizei /*srcDepth*/) { static_assert(false, "Not implemented yet."); }
-			
+
 			inline void OpenGL::debugMessageCallback(GLDEBUGPROC callback, const void * userParam)
 			{
 				checkErrors(glDebugMessageCallback(callback, userParam));
 			}
-			
+
 			inline void OpenGL::debugMessageControl(const SourceDebugMessage source, const TypeDebugMessage type, const SeverityDebugMessage severity, const std::vector<unsigned int> & ids, bool enabled)
 			{
 				if (ids.size() > 0) {

@@ -38,35 +38,27 @@
 
 */
 
+#ifndef MAKE_LIGHT_HPP
+#define MAKE_LIGHT_HPP
+
+#include "graphic/config.hpp"
+#include "graphic/scene/light.hpp"
+
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace scene
 		{
-			inline void PhongMaterial::setAmbient(const FloatVector3u & ambient) { this->_ambient = ambient; }
-			
-			inline void PhongMaterial::setDiffuse(const FloatVector3u & diffuse) { this->_diffuse = diffuse; }
-			
-			inline void PhongMaterial::setSpecular(const FloatVector3u & specular) { this->_specular = specular; }
-			
-			inline void PhongMaterial::setShininess(const float shininess) { this->_shininess = shininess; }
+			ECE_GRAPHIC_API Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position);
 
-			inline void PhongMaterial::setDiffuseMap(const Texture2D::Texture2DReference & texture) { this->_diffuseMap = texture; }
+			ECE_GRAPHIC_API Light::Reference makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction);
 
-			inline void PhongMaterial::setSpecularMap(const Texture2D::Texture2DReference & texture) { this->_specularMap = texture; }
+			ECE_GRAPHIC_API Light::Reference makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic);
 
-			inline const FloatVector3u & PhongMaterial::getAmbient() const { return this->_ambient; }
-			
-			inline const FloatVector3u & PhongMaterial::getDiffuse() const { return this->_diffuse; }
-			
-			inline const FloatVector3u & PhongMaterial::getSpecular() const { return this->_specular; }
-			
-			inline float PhongMaterial::getShininess() const { return this->_shininess; }
-
-			inline Texture2D::Texture2DReference PhongMaterial::getDiffuseMap() const { return this->_diffuseMap; }
-			
-			inline Texture2D::Texture2DReference PhongMaterial::getSpecularMap() const { return this->_specularMap; }
-		} // namespace model
+			ECE_GRAPHIC_API Light::Reference makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff);
+		} // namespace scene
 	} // namespace graphic
 } // namespace ece
+
+#endif // MAKE_LIGHT_HPP

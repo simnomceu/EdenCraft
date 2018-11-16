@@ -38,94 +38,106 @@
 
 */
 
-#ifndef SHADER_SOURCE_HPP
-#define SHADER_SOURCE_HPP
+#ifndef MATERIAL_HPP
+#define MATERIAL_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/opengl.hpp"
+#include "core/resource.hpp"
+#include "graphic/material/base_property.hpp"
 
-#include <string>
+#include <type_traits>
 
 namespace ece
 {
+	namespace renderer
+	{
+		namespace shader
+		{
+			class Shader;
+		} // namespace shader
+	} // namespace renderable
+
 	namespace graphic
 	{
-		namespace renderable
+		namespace material
 		{
+			using renderer::shader::Shader;
+
 			/**
-			 * @class ShaderSource
-			 * @brief The sources of a shader program.
-			 * @remark Not sure this class is still useful.
+			 * @class Material
+			 * @brief
 			 */
-			class ECE_GRAPHIC_API ShaderSource
+			class ECE_GRAPHIC_API Material
 			{
 			public:
-				/**
-				 * @fn constexpr ShaderSource() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				constexpr ShaderSource() noexcept = default;
+				using Reference = ResourceHandler<Material>;
+				class Visitor;
 
 				/**
-				 * @fn ShaderSource(const ShaderSource & copy) noexcept
-				 * @param[in] copy The ShaderSource to copy from.
+				 * @fn Material()
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				Material() = default;
+
+				/**
+				 * @fn Material(const Material & copy) noexcept
+				 * @param[in] copy The Material to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				ShaderSource(const ShaderSource & copy) noexcept = default;
+				Material(const Material & copy) noexcept = default;
 
 				/**
-				 * @fn ShaderSource(ShaderSource && move) noexcept
-				 * @param[in] move The ShaderSource to move.
+				 * @fn Material(Material && move) noexcept
+				 * @param[in] move The Material to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				ShaderSource(ShaderSource && move) noexcept = default;
+				Material(Material && move) noexcept = default;
 
 				/**
-				 * @fn ~ShaderSource() noexcept
+				 * @fn ~Material() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~ShaderSource() noexcept = default;
+				~Material() noexcept = default;
 
 				/**
-				 * @fn ShaderSource & operator=(const ShaderSource & copy) noexcept
-				 * @param[in] copy The ShaderSource to copy from.
-				 * @return The ShaderSource copied.
+				 * @fn Material & operator=(const Material & copy) noexcept
+				 * @param[in] copy The Material to copy from.
+				 * @return The Material copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				ShaderSource & operator=(const ShaderSource & copy) noexcept = default;
+				Material & operator=(const Material & copy) noexcept = default;
 
 				/**
-				 * @fn ShaderSource & operator=(ShaderSource && move) noexcept
-				 * @param[in] move The ShaderSource to move from.
-				 * @return The ShaderSource moved.
+				 * @fn Material & operator=(Material && move) noexcept
+				 * @param[in] move The Material to move.
+				 * @return The Material moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				ShaderSource & operator=(ShaderSource && move) noexcept = default;
+				Material & operator=(Material && move) noexcept = default;
 
-				/**
-				 * @fn const ShaderType & getType() const
-				 * @return The type of shader.
-				 * @brief Get the type of the shader.
-				 * @throw
-				 */
-				virtual const ShaderType & getType() const = 0;
+				std::vector<std::shared_ptr<BaseUniform>> getProperties();
+				std::shared_ptr<BaseProperty> getProperty(const std::string name);
 
-				/**
-				 * @fn const std::string & getSource() const
-				 * @return The source.
-				 * @brief Get the source of the shader.
-				 * @throw
-				 */
-				virtual const std::string & getSource() const = 0;
+				void addProperty(const std::string name, std::shared_ptr<BaseProperty> property);
+				bool hasProperty(const std::string name);
+				void removeProperty(const std::string name);
+
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<Visitor, T>>>
+				bool isValid() const;
+
+			protected:
+				std::unordered_map<std::string, std::shared_ptr<BaseProperty>> _properties;
 			};
-		} // namespace renderable
+		} // namespace material
 	} // namespace graphic
 } // namespace ece
 
-#endif // SHADER_SOURCE_HPP
+#include "graphic/material/material.inl"
+
+#endif // MATERIAL_HPP

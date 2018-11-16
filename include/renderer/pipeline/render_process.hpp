@@ -40,6 +40,8 @@
 #define RENDER_PROCESS_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pipeline/render_pipeline.hpp"
+#include "renderer/image.hpp"
 
 #include <memory>
 
@@ -107,6 +109,10 @@ namespace ece
 				 */
 				RenderProcess & operator=(RenderProcess && move) noexcept = default;
 
+				virtual void setPipeline(RenderPipeline pipeline) = 0;
+				virtual RenderPipeline & getPipeline() = 0;
+
+				virtual void clear(const Color & color = BLACK) = 0;
 				virtual void draw(const Staging & staging) = 0;
 
 				virtual void pushObject(const std::shared_ptr<Drawable> & drawable) = 0;

@@ -1,3 +1,4 @@
+#include "render_pipeline.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -45,6 +46,16 @@ namespace ece
 			inline void RenderPipeline::setState(const RenderState & state) { this->_state = state; }
 
 			inline void RenderPipeline::setProgram(const std::shared_ptr<Shader> & program) { this->_program = program; }
+
+			inline void RenderPipeline::setViewport(Viewport viewport) { this->_viewport = std::move(viewport); }
+
+			inline void RenderPipeline::setScissor(Scissor scissor) { this->_scissor = std::move(scissor); }
+
+			inline std::shared_ptr<Shader> RenderPipeline::getProgram() { return this->_program; }
+
+			inline const Viewport & RenderPipeline::getViewport() const { return this->_viewport; }
+
+			inline const Scissor & RenderPipeline::getScissor() const { return this->_scissor; }
 
 			inline bool RenderPipeline::isValid() const { return !!this->_program; }
 		} // namespace pipeline

@@ -38,108 +38,82 @@
 
 */
 
-#ifndef PHONG_MATERIAL_HPP
-#define PHONG_MATERIAL_HPP
+#ifndef MATERIAL_VISITOR_HPP
+#define MATERIAL_VISITOR_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/material.hpp"
-#include "utility/mathematics.hpp"
-#include "renderer/image/texture2d.hpp"
+#include "graphic/material/material.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			using renderer::image::Texture2D;
-
 			/**
-			 * @class PhongMaterial
+			 * @class Material::Visitor
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API PhongMaterial: public Material
+			class Material::Visitor
 			{
 			public:
-				using Reference = ResourceHandler<PhongMaterial>;
-
 				/**
-				 * @fn constexpr PhongMaterial() noexcept
+				 * @fn constexpr Material::Visitor() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				PhongMaterial() noexcept = default;
+				constexpr Visitor() noexcept = default;
 
 				/**
-				 * @fn PhongMaterial(const PhongMaterial & copy) noexcept
-				 * @param[in] copy The PhongMaterial to copy from.
+				 * @fn Material::Visitor(const Material::Visitor & copy) noexcept
+				 * @param[in] copy The Material::Visitor to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				PhongMaterial(const PhongMaterial & copy) noexcept = default;
+				Visitor(const Visitor & copy) noexcept = default;
 
 				/**
-				 * @fn PhongMaterial(PhongMaterial && move) noexcept
-				 * @param[in] move The PhongMaterial to move.
+				 * @fn Material::Visitor(Material::Visitor && move) noexcept
+				 * @param[in] move The Material::Visitor to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				PhongMaterial(PhongMaterial && move) noexcept = default;
+				Visitor(Visitor && move) noexcept = default;
 
 				/**
-				 * @fn ~PhongMaterial() noexcept
+				 * @fn ~Material::Visitor() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~PhongMaterial() noexcept = default;
+				~Visitor() noexcept = default;
 
 				/**
-				 * @fn PhongMaterial & operator=(const PhongMaterial & copy) noexcept
-				 * @param[in] copy The PhongMaterial to copy from.
-				 * @return The PhongMaterial copied.
+				 * @fn Material::Visitor & operator=(const Material::Visitor & copy) noexcept
+				 * @param[in] copy The Material::Visitor to copy from.
+				 * @return The Material::Visitor copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				PhongMaterial & operator=(const PhongMaterial & copy) noexcept = default;
+				Visitor & operator=(const Visitor & copy) noexcept = default;
 
 				/**
-				 * @fn PhongMaterial & operator=(PhongMaterial && move) noexcept
-				 * @param[in] move The PhongMaterial to move.
-				 * @return The PhongMaterial moved.
+				 * @fn Material::Visitor & operator=(Material::Visitor && move) noexcept
+				 * @param[in] move The Material::Visitor to move.
+				 * @return The Material::Visitor moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				PhongMaterial & operator=(PhongMaterial && move) noexcept = default;
+				Visitor & operator=(Visitor && move) noexcept = default;
 
-				virtual void apply(Shader & shader) override;
+				virtual void setMaterial(const std::shared_ptr<Material> & material) = 0;
+				virtual std::shared_ptr<Material> getMaterial() = 0;
 
-				inline void setAmbient(const FloatVector3u & ambient);
-				inline void setDiffuse(const FloatVector3u & diffuse);
-				inline void setSpecular(const FloatVector3u & specular);
-				inline void setShininess(const float shininess);
-				inline void setDiffuseMap(const Texture2D::Texture2DReference & texture);
-				inline void setSpecularMap(const Texture2D::Texture2DReference & texture);
-
-				inline const FloatVector3u & getAmbient() const;
-				inline const FloatVector3u & getDiffuse() const;
-				inline const FloatVector3u & getSpecular() const;
-				inline float getShininess() const;
-				inline Texture2D::Texture2DReference getDiffuseMap() const;
-				inline Texture2D::Texture2DReference getSpecularMap() const;
-
-			private:
-				FloatVector3u _ambient;
-				FloatVector3u _diffuse;
-				FloatVector3u _specular;
-				float _shininess;
-
-				Texture2D::Texture2DReference _diffuseMap;
-				Texture2D::Texture2DReference _specularMap;
+				virtual bool isValid() = 0;
+				virtual void initialize() = 0;
+				virtual void clear() = 0;
 			};
-		} // namespace model
+		} // namespace material
 	} // namespace graphic
 } // namespace ece
 
-#include "graphic/model/phong_material.inl"
-
-#endif // PHONG_MATERIAL_HPP
+#endif // MATERIAL_VISITOR_HPP

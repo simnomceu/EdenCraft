@@ -75,23 +75,6 @@ namespace ece
 					this->_instances.update();
 					this->_vertexArray.attach(this->_instances, layoutInstancing);
                 }
-
-                ShaderStage fsSource, vsSource;
-                fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../resource/shader/phong.frag");
-                if (this->isInstancingEnabled()) {
-                    vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../resource/shader/phong_instance.vert");
-                }
-                else {
-                    vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../resource/shader/phong.vert");
-                }
-
-                this->_program.setStage(fsSource);
-                this->_program.setStage(vsSource);
-                this->_program.link();
-                this->_program.use();
-				if (*this->_mesh->getSubmeshes()[0].material) {
-					this->_mesh->getSubmeshes()[0].material->apply(this->_program);
-				}
             }
 
 			void Object::addInstance(const FloatMatrix4u & offset)
@@ -100,13 +83,18 @@ namespace ece
 				++this->_numberOfInstances;
 			}
 
-			void Object::draw()
+			void Object::draw(std::shared_ptr<Shader> program)
 			{
-				this->_program.use();
 				this->_vertexArray.bind();
 				for (auto & submesh : this->_mesh->getSubmeshes()) {
+					if (*submesh.material) {
+						auto uniforms = submesh.material->getProperties();
+						for (auto uniform : uniforms) {
+							program->bind(uniform, "material." + uniform->getName());
+						}
+					//	submesh.material->apply(*program);
+					}
 					submesh.mesh.getIndexBuffer().bind();
-					this->_state.apply();
 					if (submesh.mesh.getIndexBuffer().size() > 0) {
 						if (this->isInstancingEnabled()) {
 							OpenGL::drawElementsInstanced(this->_mode, submesh.mesh.size(), renderer::opengl::DataType::UNSIGNED_INT, 0, this->_instances.size());

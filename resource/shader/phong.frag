@@ -102,7 +102,7 @@ vec3 getLightDir(int i)
 {
     if (lights[i].usePosition) {
         return normalize(lights[i].position - fragPos);
-    } else {
+    } else if (lights[i].useDirection) {
         return normalize(-lights[i].direction);
     }
 }

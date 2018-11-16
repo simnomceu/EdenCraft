@@ -107,7 +107,7 @@ namespace ece
 				 */
 				Sprite & operator=(Sprite && move) noexcept = default;
 
-				virtual void draw() override;
+				virtual void draw(std::shared_ptr<Shader> program) override;
 			private:
 				Texture2D::Texture2DReference _texture;
 				Rectangle<float> _textureClip;

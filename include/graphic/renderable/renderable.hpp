@@ -42,7 +42,6 @@
 #define RENDERABLE_HPP
 
 #include "graphic/config.hpp"
-#include "renderer/shader.hpp"
 #include "core/resource.hpp"
 #include "renderer/pipeline.hpp"
 #include "renderer/buffer.hpp"
@@ -110,11 +109,12 @@ namespace ece
 				 */
 				Renderable & operator=(Renderable && move) noexcept = default;
 
+				inline virtual const FloatMatrix4u & getModel() const override;
+
 				void applyTransformation(const FloatMatrix4u & transformation);
 
                 bool isInstancingEnabled() const;
 
-				inline virtual Shader & getProgram() override;
 				inline virtual RenderState & getState() override;
 
 				inline virtual void prepare();
@@ -123,8 +123,6 @@ namespace ece
 				VertexArray _vertexArray;
 
 				PrimitiveMode _mode;
-
-				EnhancedShader _program;
 
 				FloatMatrix4u _model;
 

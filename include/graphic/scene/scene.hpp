@@ -44,7 +44,7 @@
 #include "graphic/config.hpp"
 #include "graphic/scene/camera.hpp"
 #include "graphic/renderable.hpp"
-#include "graphic/model.hpp"
+#include "graphic/scene/light.hpp"
 
 #include <vector>
 
@@ -132,9 +132,9 @@ namespace ece
 				inline void updateCamera();
 
 				std::vector<Renderable::Reference> getObjects();
+				std::vector<Light::Reference> getLights();
 
 				void prepare();
-				void draw();
 
 			private:
 				struct CameraWrapper
@@ -146,12 +146,6 @@ namespace ece
 				struct ObjectWrapper
 				{
 					Renderable::Reference _value;
-					bool _hasChanged;
-				};
-
-				struct LightWrapper
-				{
-					Light::Reference _value;
 					bool _hasChanged;
 				};
 
@@ -167,7 +161,7 @@ namespace ece
 				 */
 				std::vector<ObjectWrapper> _objects;
 
-				std::vector<LightWrapper> _lights;
+				std::vector<Light::Reference> _lights;
 			};
 		} // namespace scene
 	} // namespace graphic

@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-            inline Shader & Renderable::getProgram() { return this->_program; }
+			inline const FloatMatrix4u & Renderable::getModel() const { return this->_model; }
 
 			inline RenderState & Renderable::getState() { return this->_state; }
 

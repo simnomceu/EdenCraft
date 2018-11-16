@@ -40,6 +40,7 @@
 
 #include "renderer/pipeline.hpp"
 #include "renderer/opengl.hpp"
+#include "renderer/shader.hpp"
 #include "graphic_component.hpp"
 #include "graphic/renderable.hpp"
 
@@ -56,37 +57,74 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 	ece::RenderState states;
 	states._depthTest = true;
-	states._depthFunction = ece::DepthFunctionCondition::LESS;
+	states._depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
 	states.apply(true);
 
 	{
-		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
+		auto light = ece::makeSpotLight(0.7f, 0.6f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
 		this->_scene.addLight(light);
 	}
 
 	{
 		auto & camera = this->_scene.getCamera();
-		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
+		camera.getProjection().setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
 		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 	}
 	this->_scene.updateCamera();
+
+
+	ece::RenderPipeline pipeline;
+
+	{
+		ece::ShaderStage fsSource;
+		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/phong.frag");
+		ece::ShaderStage vsSource;
+		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/phong_instance.vert");
+
+		auto program = std::make_shared<ece::EnhancedShader>();
+		program->setStage(fsSource);
+		program->setStage(vsSource);
+		program->link();
+		pipeline.setProgram(program);
+	}
+
+	{
+		ece::Viewport viewport;
+		viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
+		viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f));
+		pipeline.setViewport(std::move(viewport));
+	}
+
+	this->_process->setPipeline(std::move(pipeline));
 }
 
 void RenderSystem::update()
 {
-	/*for (auto object : this->_scene.getObjects()) {
-		object->prepare();
+	auto objects = this->_scene.getObjects();
+	for (auto object : objects) {
 		this->_process->pushObject(*object);
-	}*/
+	}
+	auto & pipeline = this->_process->getPipeline();
+	auto program = pipeline.getProgram();
+	auto lights = this->_scene.getLights();
+	program->bind(std::make_shared<ece::Uniform<int>>("numberOfLights", lights.size()), "numberOfLights");
+
+	int lightId = 0;
+	for (auto & light : lights) {
+		auto uniforms = light->getUniforms();
+		for (auto & uniform : uniforms) {
+			program->bind(uniform, "lights[" + std::to_string(lightId) + "]." + uniform->getName());
+		}
+		++lightId;
+	}
 
 	ece::Staging staging;
 	staging._view = this->_scene.getCamera().getView();
-	staging._projection = this->_scene.getCamera().getProjection();
-	this->_process->draw(staging);
+	staging._projection = this->_scene.getCamera().getProjection().getMatrix();
 
-//	this->_scene.prepare();
-	this->_scene.draw();
+	this->_process->clear(ece::BLACK);
+	this->_process->draw(staging);
 }
 
 ece::Scene & RenderSystem::getScene()

@@ -38,44 +38,87 @@
 
 */
 
-#include "graphic/model/phong_material.hpp"
+#ifndef COMPUTED_PROPERTY_HPP
+#define COMPUTED_PROPERTY_HPP
 
-#include "renderer/shader.hpp"
+#include "graphic/config.hpp"
+#include "graphic/material/base_property.hpp"
+
+#include <functional>
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			void PhongMaterial::apply(Shader & shader)
+			/**
+			 * @class Property
+			 * @brief
+			 */
+			template <class T>
+			class ECE_GRAPHIC_API ComputedProperty final: public BaseProperty
 			{
-				shader.uniform<bool>("material.diffuseMapEnabled", !this->_diffuseMap.isDirty());
-				shader.uniform<bool>("material.specularMapEnabled", !this->_specularMap.isDirty());
+			public:
+				using Function = std::function<T()>;
 
-				if (this->_diffuseMap.isDirty()) {
-					shader.uniform("material.ambient", this->_ambient);
-					shader.uniform("material.diffuse", this->_diffuse);
-				}
-				else {
-					shader.uniform<int>("material.diffuseMap", 0);
-					this->_diffuseMap->active(0);
-					this->_diffuseMap->bind(TextureTarget::TEXTURE_2D);
-					this->_diffuseMap->update();
-				}
+				ComputedProperty(Function computedValue);
 
-				if (this->_specularMap.isDirty()) {
-					shader.uniform("material.specular", this->_specular);
-				}
-				else {
-					shader.uniform<int>("material.specularMap", 1);
-					this->_specularMap->active(1);
-					this->_specularMap->bind(TextureTarget::TEXTURE_2D);
-					this->_specularMap->update();
-				}
+				/**
+				 * @fn Property(const Property & copy)
+				 * @param[in] copy The Property to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				ComputedProperty(const ComputedProperty<T> & copy) = default;
 
-				shader.uniform("material.shininess", this->_shininess);
+				/**
+				 * @fn Property(Property && move)
+				 * @param[in] move The Property to move.
+				 * @brief Default move constructor.
+				 * @throw
+				 */
+				ComputedProperty(ComputedProperty<T> && move) = default;
+
+				/**
+				 * @fn ~Property() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~ComputedProperty() noexcept = default;
+
+				/**
+				 * @fn Property & operator=(const Property & copy)
+				 * @param[in] copy The Property to copy from.
+				 * @return The Property copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				ComputedProperty<T> & operator=(const ComputedProperty<T> & copy) = default;
+
+				/**
+				 * @fn Property & operator=(Property && move)
+				 * @param[in] move The Property to move.
+				 * @return The Property moved.
+				 * @brief Default move assignment operator.
+				 * @throw
+				 */
+				ComputedProperty<T> & operator=(ComputedProperty<T> && move) = default;
+
+				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) override;
+
+			private:
+				Function _computedValue;
+			};
+
+			template <class T>
+			ECE_GRAPHIC_API auto makeComputedProperty(typename ComputedProperty<T>::Function computed = []() -> T { return T(); }) {
+				return std::make_shared<ComputedProperty<T>>(std::forward<typename ComputedProperty<T>::Function>(computed));
 			}
-		} // namespace model
+		} // namespace material
 	} // namespace graphic
-} // namespace ece
+} // namespace model
+
+#include "graphic/material/computed_property.inl"
+
+#endif // COMPUTED_PROPERTY_HPP

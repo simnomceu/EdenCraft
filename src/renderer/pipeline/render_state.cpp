@@ -51,7 +51,7 @@ namespace ece
 			RenderState::RenderState() noexcept :
 				_faceCulling(true),
 				_cullFaceMode(CullFaceMode::BACK),
-				_frontFaceMode(FrontFaceMode::CCW),
+				_frontFaceMode(FrontFaceMode::COUNTERCLOCKWISE),
 				_depthTest(true),
 				_depthFunction(DepthFunctionCondition::LESS),
 				_pointSize(0.0f),
@@ -85,8 +85,8 @@ namespace ece
 
 					if (RenderState::_currentState._faceCulling) {
 						OpenGL::enable(Capability::CULL_FACE);
-						OpenGL::cullFace(RenderState::_currentState._cullFaceMode);
-						OpenGL::frontFace(RenderState::_currentState._frontFaceMode);
+						OpenGL::cullFace(getCullFaceMode(RenderState::_currentState._cullFaceMode));
+						OpenGL::frontFace(getFrontFaceMode(RenderState::_currentState._frontFaceMode));
 					}
 					else {
 						OpenGL::disable(Capability::CULL_FACE);
@@ -94,7 +94,7 @@ namespace ece
 
 					if (RenderState::_currentState._depthTest) {
 						OpenGL::enable(Capability::DEPTH_TEST);
-						OpenGL::depthFunc(RenderState::_currentState._depthFunction);
+						OpenGL::depthFunc(getDepthFunctionCondition(RenderState::_currentState._depthFunction));
 					}
 					else {
 						OpenGL::disable(Capability::DEPTH_TEST);
@@ -123,7 +123,7 @@ namespace ece
 
 					if (RenderState::_currentState._blending) {
 						OpenGL::enable(Capability::BLEND);
-						OpenGL::blendFunc(RenderState::_currentState._sourceBlend, RenderState::_currentState._destinationBlend);
+						OpenGL::blendFunc(getBlendingFactor(RenderState::_currentState._sourceBlend), getBlendingFactor(RenderState::_currentState._destinationBlend));
 					}
 					else {
 						OpenGL::disable(Capability::BLEND);

@@ -57,7 +57,7 @@ namespace ece
 				}
 
 				this->_texture->active(0);
-				this->_texture->bind(TextureTarget::TEXTURE_2D);
+				this->_texture->bind(Texture::Target::TEXTURE_2D);
 				this->_texture->update();
 
 				this->_mode = PrimitiveMode::TRIANGLES;
@@ -75,23 +75,12 @@ namespace ece
 					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
 				});
 				this->_vertexArray.attach(this->_vertices, layout);
-				
-
-				ShaderStage fsSource, vsSource;
-				fsSource.loadFromFile(ShaderStage::Type::FRAGMENT, "../../examples/more_cube/sprite.frag");
-				vsSource.loadFromFile(ShaderStage::Type::VERTEX, "../../examples/more_cube/sprite.vert");
-
-				this->_program.setStage(fsSource);
-				this->_program.setStage(vsSource);
-				this->_program.link();
-				this->_program.use();
-
-				this->_program.uniform("theTexture", 0);
 			}
 
-			void Sprite::draw()
+			void Sprite::draw(std::shared_ptr<Shader> program)
 			{
-				this->_program.use();
+				program->bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
+
 				this->_vertexArray.bind();
 				this->_index.bind();
 				this->_state.apply();

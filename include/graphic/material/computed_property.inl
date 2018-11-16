@@ -38,89 +38,26 @@
 
 */
 
-#ifndef MATERIAL_HPP
-#define MATERIAL_HPP
-
-#include "graphic/config.hpp"
-#include "core/resource.hpp"
+#include "renderer/shader/uniform.hpp"
 
 namespace ece
 {
-	namespace renderer
-	{
-		namespace shader
-		{
-			class Shader;
-		} // namespace shader
-	} // namespace renderable
-
 	namespace graphic
 	{
-		namespace model
+		namespace material
 		{
-			using renderer::shader::Shader;
+			using renderer::shader::Uniform;
 
-			/**
-			 * @class Material
-			 * @brief
-			 */
-			class ECE_GRAPHIC_API Material
+			template <class T>
+			ComputedProperty<T>::ComputedProperty(Function computedValue) : _computedValue(std::move(computedValue))
 			{
-			public:
-				using Reference = ResourceHandler<Material>;
+			}
 
-				/**
-				 * @fn constexpr Material() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				constexpr Material() noexcept = default;
-
-				/**
-				 * @fn Material(const Material & copy) noexcept
-				 * @param[in] copy The Material to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				Material(const Material & copy) noexcept = default;
-
-				/**
-				 * @fn Material(Material && move) noexcept
-				 * @param[in] move The Material to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				Material(Material && move) noexcept = default;
-
-				/**
-				 * @fn ~Material() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~Material() noexcept = default;
-
-				/**
-				 * @fn Material & operator=(const Material & copy) noexcept
-				 * @param[in] copy The Material to copy from.
-				 * @return The Material copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				Material & operator=(const Material & copy) noexcept = default;
-
-				/**
-				 * @fn Material & operator=(Material && move) noexcept
-				 * @param[in] move The Material to move.
-				 * @return The Material moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				Material & operator=(Material && move) noexcept = default;
-
-				virtual void apply(Shader & shader) = 0;
-			};
-		} // namespace model
+			template <class T>
+			std::shared_ptr<BaseUniform> ComputedProperty<T>::getUniform(std::string name)
+			{
+				return std::make_shared<Uniform<T>>(name, this->_computedValue());
+			}
+		} // namespace material
 	} // namespace graphic
-} // namespace ece
-
-#endif // MATERIAL_HPP
+} // namespace model

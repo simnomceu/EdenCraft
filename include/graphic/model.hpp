@@ -42,15 +42,11 @@
 #define GRAPHIC_MODEL_HPP
 
 #include "graphic/model/animation.hpp"
-#include "graphic/model/light.hpp"
 #include "graphic/model/loader_object.hpp"
-#include "graphic/model/make_light.hpp"
-#include "graphic/model/material.hpp"
 #include "graphic/model/mesh.hpp"
 #include "graphic/model/movable.hpp"
 #include "graphic/model/obj_loader.hpp"
 #include "graphic/model/obj_saver.hpp"
-#include "graphic/model/phong_material.hpp"
 #include "graphic/model/primitives.hpp"
 #include "graphic/model/skeleton.hpp"
 #include "graphic/model/submesh.hpp"

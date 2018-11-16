@@ -116,7 +116,7 @@ namespace ece
 
 				void update(const float elapsedTime);
 
-				virtual void draw() override;
+				virtual void draw(std::shared_ptr<Shader> program) override;
 			private:
 				VertexBuffer<SymetricStorage, std::vector<Particle>> _particles;
 				std::size_t _size;
