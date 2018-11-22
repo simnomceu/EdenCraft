@@ -1,3 +1,4 @@
+
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -43,8 +44,8 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "renderer/resource/texture2d.hpp"
-#include "utility/mathematics/rectangle.hpp"
+#include "renderer/image/texture2d.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -52,8 +53,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::resource::Texture2D;
-			using utility::mathematics::Rectangle;
+			using renderer::image::Texture2D;
 
 			/**
 			 * @class Sprite
@@ -62,6 +62,13 @@ namespace ece
 			class ECE_GRAPHIC_API Sprite : public Renderable
 			{
 			public:
+				struct Vertex
+				{
+					FloatVector2u _position;
+					FloatVector2u _textureCoordinate;
+				};
+				using Face = std::array<unsigned int, 3>;
+
 				constexpr Sprite() noexcept = delete;
 
 				Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
@@ -107,13 +114,14 @@ namespace ece
 				 */
 				Sprite & operator=(Sprite && move) noexcept = default;
 
-				virtual void prepare() override;
-
+				virtual void draw(std::shared_ptr<Shader> program) override;
 			private:
 				Texture2D::Texture2DReference _texture;
 				Rectangle<float> _textureClip;
 
 				Rectangle<float> _bounds;
+				VertexBuffer<SymetricStorage, std::vector<Sprite::Vertex>> _vertices;
+				IndexBuffer<SymetricStorage, std::vector<Sprite::Face>> _index;
 			};
 		} // namespace renderable
 	} // namespace graphic

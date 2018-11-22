@@ -40,8 +40,7 @@
 #define SERVICE_RESOURCE_HPP
 
 #include "core/config.hpp"
-#include "utility/service/service_factory.hpp"
-#include "utility/service/service_locator.hpp"
+#include "utility/service.hpp"
 #include "core/resource/resource_manager.hpp"
 
 namespace ece

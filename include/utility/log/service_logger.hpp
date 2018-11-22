@@ -40,17 +40,13 @@
 #define SERVICE_LOGGER_HPP
 
 #include "utility/config.hpp"
-#include "utility/service/service_factory.hpp"
-#include "utility/service/service_locator.hpp"
+#include "utility/service.hpp"
 #include "utility/log/base_logger.hpp"
 
 namespace ece
 {
     namespace utility
     {
-        using service::ServiceFactory;
-		using service::ServiceLocator;
-
 		namespace service
 		{
 			template <>

@@ -40,7 +40,7 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics.hpp"
 
 #include <chrono>
 #include <vector>
@@ -51,10 +51,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatVector4u;
-			using renderer::resource::BufferLayout;
-
 			/**
 			 * @class ParticlesEmitter
 			 * @brief
@@ -119,10 +115,13 @@ namespace ece
 				ParticlesEmitter & operator=(ParticlesEmitter && move) noexcept = default;
 
 				void update(const float elapsedTime);
+
+				virtual void draw(std::shared_ptr<Shader> program) override;
 			private:
-				std::vector<Particle> _particles;
+				VertexBuffer<SymetricStorage, std::vector<Particle>> _particles;
 				std::size_t _size;
-				size_t _dataIndex;
+
+				VertexBuffer<SymetricStorage, std::vector<float>> _vertices;
 			};
 		} // namespace renderable
 	} // namespace graphic

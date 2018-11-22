@@ -38,18 +38,12 @@
 
 */
 
-#include "utility/mathematics/transform.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
 		namespace scene
 		{
-			using utility::mathematics::perspective;
-			using utility::mathematics::orthographic;
-			using window::common::RATIO_4_3;
-
 			inline Projection::Projection() noexcept: _projection(FloatMatrix4u::Identity())
 			{
 				this->_projection = perspective(20.0f, static_cast<float>(RATIO_4_3), 0.3f, 30.0f);
@@ -65,7 +59,7 @@ namespace ece
 				this->_projection = orthographic(screen, nearClipping, farClipping);
 			}
 
-			inline const FloatMatrix4u & Projection::getProjection() const { return this->_projection; }
+			inline const FloatMatrix4u & Projection::getMatrix() const { return this->_projection; }
 		} // namespace scene
 	} // namespace graphic
 } // namespace ece

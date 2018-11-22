@@ -37,7 +37,7 @@
 */
 
 #include "renderer/opengl/opengl_extension.hpp"
-#include "renderer/debug/debugging.hpp"
+#include "renderer/debug.hpp"
 
 namespace ece
 {
@@ -45,50 +45,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using namespace debug;
-
-			template <class T>
-			inline constexpr DataType OpenGL::dataType() { throw std::runtime_error("This type cannot be passed."); }
-
-			template <>
-			inline DataType OpenGL::dataType<short int>() { return DataType::SHORT; }
-
-			template <>
-			inline DataType OpenGL::dataType<unsigned short int>() { return DataType::UNSIGNED_SHORT; }
-
-			template <>
-			inline DataType OpenGL::dataType<int>() { return DataType::INT; }
-
-			template <>
-			inline DataType OpenGL::dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
-
-			template <>
-			inline DataType OpenGL::dataType<float>() { return DataType::FLOAT; }
-
-			template <>
-			inline DataType OpenGL::dataType<double>() { return DataType::DOUBLE; }
-
-			template <DataType Type>
-			inline constexpr std::size_t OpenGL::dataTypeSize() { throw std::runtime_error("This type cannot be passed."); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::SHORT>() { return sizeof(short int); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::UNSIGNED_SHORT>() { return sizeof(unsigned short int); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::INT>() { return sizeof(int); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::UNSIGNED_INT>() { return sizeof(unsigned int); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::FLOAT>() { return sizeof(float); }
-
-			template <>
-			inline constexpr std::size_t OpenGL::dataTypeSize<DataType::DOUBLE>() { return sizeof(double); }
-
 			// New version
 
 			inline ErrorGL OpenGL::getError() { return ErrorGL(glGetError()); }
@@ -261,10 +217,16 @@ namespace ece
 			//	inline void OpenGL::bindBufferRange(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/, GLintptr /*offset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindBufferBase(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
 
-			template <template <class, class...> class T, class E, class... TT, typename enabled>
-			inline void OpenGL::bufferData(const BufferType type, const T<E, TT...> & data, const BufferUsage usage, const int offset)
+			template <class C, typename enabled>
+			inline void OpenGL::bufferData(const BufferType type, const C & data, const BufferUsage usage, const int offset)
 			{
-				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(E), std::data(data) + offset, static_cast<GLenum>(usage)));
+				checkErrors(glBufferData(static_cast<GLenum>(type), std::size(data) * sizeof(typename C::value_type), std::data(data) + offset, static_cast<GLenum>(usage)));
+			}
+
+			template <class E>
+			inline void OpenGL::bufferData(const BufferType type, const std::size_t size, const BufferUsage usage, const int /*offset*/)
+			{
+				checkErrors(glBufferData(static_cast<GLenum>(type), size * sizeof(E), nullptr, static_cast<GLenum>(usage)));
 			}
 
 			//	inline void OpenGL::bufferSubData(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*size*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
@@ -392,8 +354,11 @@ namespace ece
 
 			inline Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
 			{
-				Handle location = checkErrors(glGetUniformLocation(handle, uniform.data()));
-				return std::move(location);
+				int location = checkErrors(glGetUniformLocation(handle, uniform.data()));
+                if (location < 0) {
+                    throw std::runtime_error("No " + uniform + " uniform in the current shader program.");
+                }
+				return static_cast<Handle>(location);
 			}
 
 			//	inline unsigned int OpenGL::getUniformBlockIndex(unsigned int /*program*/, const char * /*uniformBlockName*/) { static_assert(false, "Not implemented yet."); }
@@ -401,7 +366,20 @@ namespace ece
 			//	inline void OpenGL::getActiveUniformBlockiv(unsigned int /*program*/, unsigned int /*uniformBlockIndex*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getUniformIndices(unsigned int /*program*/, GLsizei /*uniformCount*/, const char ** /*uniformNames*/, unsigned int * /*uniformIndices*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getActiveUniformName(unsigned int /*program*/, unsigned int /*uniformIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformName*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveUniform(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
+
+			inline UniformInfo OpenGL::getActiveUniform(const Handle program, const Handle index)
+			{
+				UniformInfo info;
+				GLint length, size;
+				GLenum type;
+				GLchar name[1024];
+				checkErrors(glGetActiveUniform(program, index, 1024, &length, &size, &type, name));
+				info.size = size;
+				info.type = static_cast<UniformDataType>(type);
+				info.name = std::string(name, length);
+				return std::move(info);
+			}
+
 			//	inline void OpenGL::getActiveUniformsiv(unsigned int /*program*/, GLsizei /*uniformCount*/, const unsigned int * /*uniformIndices*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 
 			template <class T, unsigned int S>
@@ -1056,12 +1034,12 @@ namespace ece
 			//	inline void OpenGL::invalidateSubFramebuffer(GLenum /*target*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/, int /*x*/, int /*y*/, int /*width*/, int /*height*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::invalidateFramebuffer(GLenum /*target*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::copyImageSubData(unsigned int /*srcName*/, GLenum /*srcTarget*/, int /*srcLevel*/, int /*srcX*/, int /*srcY*/, int /*srcZ*/, unsigned int /*dstName*/, GLenum /*dstTarget*/, int /*dstLevel*/, int /*dstX*/, int /*dstY*/, int /*dstZ*/, GLsizei /*srcWidth*/, GLsizei /*srcHeight*/, GLsizei /*srcDepth*/) { static_assert(false, "Not implemented yet."); }
-			
+
 			inline void OpenGL::debugMessageCallback(GLDEBUGPROC callback, const void * userParam)
 			{
 				checkErrors(glDebugMessageCallback(callback, userParam));
 			}
-			
+
 			inline void OpenGL::debugMessageControl(const SourceDebugMessage source, const TypeDebugMessage type, const SeverityDebugMessage severity, const std::vector<unsigned int> & ids, bool enabled)
 			{
 				if (ids.size() > 0) {

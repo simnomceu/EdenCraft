@@ -40,20 +40,34 @@
 #define FILE_HPP
 
 #include "utility/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/enum.hpp"
+#include "utility/mathematics.hpp"
+#include "utility/enumeration.hpp"
 
 #include <string>
 #include <vector>
+#include <fstream>
 
 namespace ece
 {
     namespace utility
     {
-        using mathematics::FloatVector3u;
-
         namespace file_system
         {
+			/**
+			* @enum OpenMode
+			* @brief Alias to Standard Library openmode.
+			* @see http://en.cppreference.com/w/cpp/io/ios_base/openmode
+			*/
+			EnumFlagsT(/*std::ios_base::openmode*/unsigned short int, OpenMode)
+			{
+				app = std::fstream::app, /*< @brief "Seek to the end of stream before each write". */
+					binary = std::fstream::binary, /*< @brief "Open in binary mode". */
+					in = std::fstream::in, /*< @brief "Open for reading". */
+					out = std::fstream::out, /*< @brief "Open for writing". */
+					trunc = std::fstream::trunc, /*< @brief "Discard the contents of the stream when opening". */
+					ate = std::fstream::ate /*< @brief "Seek to the end of stream immediately after open". */
+			};
+
         	/**
         	 * @class File
         	 * @brief Handle file as a stream.
@@ -242,6 +256,8 @@ namespace ece
         		 * @throw
         		 */
         		inline void moveCursorTo(const unsigned int position);
+
+				inline std::fstream & getStream();
 
         	protected:
         		/**

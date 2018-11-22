@@ -39,9 +39,9 @@
 #ifndef CONTEXT_OPENGL_HPP
 #define CONTEXT_OPENGL_HPP
 
-#include "renderer/rendering/render_context.hpp"
-#include "utility/pattern/pimpl.hpp"
-#include "utility/indexing/version.hpp"
+#include "renderer/rendering.hpp"
+#include "utility/pattern.hpp"
+#include "utility/indexing.hpp"
 
 namespace ece
 {
@@ -49,11 +49,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using rendering::RenderContext;
-			using rendering::ContextSettings;
-			using utility::pattern::Pimpl;
-			using utility::indexing::Version;
-
 			struct DataContextOpenGL;
 
 			/**

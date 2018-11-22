@@ -38,9 +38,8 @@
 
 #include "utility/locale/locale_loader.hpp"
 
-#include "utility/file_system/parser_json.hpp"
-#include "utility/debug/exception.hpp"
-#include "utility/json/atomic_json.hpp"
+#include "utility/formats/json.hpp"
+#include "utility/debug.hpp"
 
 #include <utility>
 #include <iostream>
@@ -50,11 +49,6 @@ namespace ece
 {
     namespace utility
     {
-        using debug::FileException;
-        using json::ObjectJSON;
-		using json::StringJSON;
-        using file_system::ParserJSON;
-
         namespace locale
         {
         	std::string LocaleLoader::_path = "";
@@ -80,12 +74,17 @@ namespace ece
         		this->generateResource(file);
         	}
 
-        	void LocaleLoader::generateResource(const std::string & file)
+        	void LocaleLoader::generateResource(const std::string & filename)
         	{
         		this->_resource.clear();
         		try {
+					File file;
+					if (!file.open(filename, OpenMode::in)) {
+						throw std::runtime_error(filename + " has not been opened.");
+					}
+
         			ParserJSON parser;
-        			parser.loadFromFile(file);
+        			parser.load(file.getStream());
         			std::shared_ptr<ObjectJSON> jsonObject = parser.getObject();
 
         			for (auto it = jsonObject->begin(); it != jsonObject->end(); ++it) {

@@ -40,12 +40,17 @@
 #define WORLD_HPP
 
 #include "core/config.hpp"
-#include "core/ecs/base_system.hpp"
-#include "core/ecs/component_tank.hpp"
-#include "utility/indexing/unique_id.hpp"
+#include "core/ecs/system.hpp"
+#include "utility/indexing.hpp"
+#include "core/ecs/base_component_tank.hpp"
+#include "core/ecs/base_component.hpp"
+#include "core/signal.hpp"
 
 #include <memory>
 #include <vector>
+#include <unordered_map>
+#include <typeindex>
+#include <functional>
 
 namespace ece
 {
@@ -53,59 +58,118 @@ namespace ece
 	{
 		namespace ecs
 		{
-			using utility::indexing::UniqueID;
+			template <class ComponentType> class ComponentTank;
+			class EntityHandler;
 
 			/**
 			 * @class World
-			 * @brief The environment were all entities are being.
+			 * @brief
 			 */
 			class ECE_CORE_API World
 			{
 			public:
+				using Prototype = std::function<EntityHandler(World&)>;
+
 				/**
 				 * @typedef Entity
 				 * @brief Define an entity of the world.
 				 */
-				using Entity = unsigned int;
+				struct Entity
+				{
+					unsigned int _id;
+					bool _dirty;
+				};
 
 				/**
-				 * @fn World()
+				 * @fn constexpr World() noexcept
 				 * @brief Default constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				inline World();
+				inline World() noexcept;
 
 				/**
-				 * @fn ~World()
-				 * @brief Default destructor.
-				 * @throw
+				 * @fn World(const World & copy) noexcept
+				 * @param[in] copy The World to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
 				 */
-				inline ~World();
+				World(const World & copy) noexcept = delete;
+
+				/**
+				 * @fn World(World && move) noexcept
+				 * @param[in] move The World to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				World(World && move) = default;
+
+				/**
+				 * @fn ~World() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				inline ~World() noexcept;
+
+				/**
+				 * @fn World & operator=(const World & copy) noexcept
+				 * @param[in] copy The World to copy from.
+				 * @return The World copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				World & operator=(const World & copy) noexcept = delete;
+
+				/**
+				 * @fn World & operator=(World && move) noexcept
+				 * @param[in] move The World to move.
+				 * @return The World moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				World & operator=(World && move) noexcept = default;
+
+				void update();
+
+				template <class ComponentType> std::weak_ptr<ComponentTank<ComponentType>> getTank();
+
+				template <class SystemType, class... Args> std::weak_ptr<SystemType> addSystem(Args&&... args);
+				template <class SystemType> bool hasSystem() const;
+
+				EntityHandler createEntity();
+				EntityHandler createEntity(Prototype prototype);
+
+				template <class ComponentType> bool hasComponent(const unsigned int entityID) const;
+				template <class ComponentType> ComponentType & getComponent(const unsigned int entityID);
+
+				Signal<EntityHandler &> onEntityCreated;
+				Signal<BaseComponent &> onComponentCreated;
 
 			private:
 				/**
-				 * @property _systems
-				 * @brief The list of system running in the world.
-				 */
-				std::vector<std::unique_ptr<BaseSystem>> _systems;
+				* @property _systems
+				* @brief The list of system running in the world.
+				*/
+				std::unordered_map<std::type_index, std::shared_ptr<System>> _systems;
 
 				/**
-				 * @property _components
-				 * @brief The list of components composing all the entities of the world.
-				 */
-				ComponentTank _components;
+				* @property _components
+				* @brief The list of components composing all the entities of the world.
+				*/
+				std::unordered_map<std::type_index, std::shared_ptr<BaseComponentTank>> _tanks;
 
 				/**
-				 * @property _entities
-				 * @brief The list of entities being in the world.
-				 */
+				* @property _entities
+				* @brief The list of entities being in the world.
+				*/
 				std::vector<Entity> _entities;
 
 				/**
-				 * @property _entityGenerator
-				 * @brief To create a new entity.
-				 */
+				* @property _entityGenerator
+				* @brief To create a new entity.
+				*/
 				UniqueID _entityGenerator;
+
+				template <class ComponentType> void addTank();
 			};
 		} // namespace ecs
 	} // namespace core

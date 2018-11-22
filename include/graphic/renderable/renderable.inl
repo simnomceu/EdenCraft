@@ -44,9 +44,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-            inline bool Renderable::isIndexed() const { return this->_vao.isIndexed(); }
-
-            inline Shader & Renderable::getProgram() { return this->_program; }
+			inline const FloatMatrix4u & Renderable::getModel() const { return this->_model; }
 
 			inline RenderState & Renderable::getState() { return this->_state; }
 

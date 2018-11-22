@@ -64,7 +64,7 @@ public:
 	 * @brief Default constructor.
 	 * @throw noexcept
 	 */
-	Game() noexcept;
+	Game(ece::World & world) noexcept;
 
 	/**
 	 * @fn Game(const Game & copy) noexcept
@@ -109,7 +109,7 @@ public:
 
 	void setState(const Game::State state);
 
-	void draw();
+//	void draw();
 
 	ece::Signal<> onSplashScreenEntered;
 	ece::Signal<> onPlayEntered;
@@ -117,9 +117,10 @@ public:
 private:
 	Game::State _current;
 	
-	ece::Scene _scene;
+//	ece::Scene _scene;
 
-	ece::ResourceHandler<ece::Sprite> _background;
+//	ece::ResourceHandler<ece::Sprite> _background;
+	ece::EntityHandler _background;
 };
 
 #endif // GAME_HPP

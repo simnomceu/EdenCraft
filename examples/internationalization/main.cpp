@@ -38,9 +38,7 @@
 */
 
 #include <iostream>
-#include "utility/locale/locale_loader.hpp"
-#include "utility/locale/country.hpp"
-#include "utility/locale/language.hpp"
+#include "utility/locale.hpp"
 
 auto main() -> int
 {

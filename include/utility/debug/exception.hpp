@@ -40,7 +40,7 @@
 #define EXCEPTION_HPP
 
 #include "utility/config.hpp"
-#include "utility/enum.hpp"
+#include "utility/enumeration.hpp"
 
 #include <string>
 #include <stdexcept>
@@ -125,6 +125,12 @@ namespace ece
         		template <class V, class... Args>
         		std::string mapString(const std::string & content, V value, Args... args) noexcept;
         	};
+
+			enum FileCodeError : unsigned short int
+			{
+				BAD_PATH = 0,
+				PARSE_ERROR = 1
+			};
 
         	/**
         	 * @class FileException

@@ -36,7 +36,7 @@
 */
 
 #include "window/common/window_adapter.hpp"
-#include "window/win32/data_window_adapter.hpp"
+#include "window/win32.hpp"
 
 #include <iostream>
 #include <Windowsx.h>
@@ -47,12 +47,6 @@ namespace ece
 	{
 		namespace common
 		{
-			using utility::pattern::makePimpl;
-			using win32::className;
-			using win32::interpretKey;
-			using win32::processMessagesCallback;
-			using win32::registerPattern;
-
 			// TODO: Refactor applying correctly use of Desktop Window Manager (DWM windowing system).
 			WindowAdapter::WindowAdapter() noexcept: BaseWindowAdapter(), _data(makePimpl<DataWindowAdapter>(nullptr)) {}
 

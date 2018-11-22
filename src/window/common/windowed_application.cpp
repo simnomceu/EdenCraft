@@ -71,8 +71,6 @@ namespace ece
 					this->onPreUpdate();
 					this->update();
 					this->onPostUpdate();
-					this->render();
-					this->onPostRender();
 				}
 
 				for (auto & window : this->_windows) {
@@ -82,6 +80,13 @@ namespace ece
 				this->onPreTerminate();
 				this->terminate();
 				this->onPreTerminate();
+			}
+
+			void WindowedApplication::processEvents()
+			{
+				for (auto & window : this->_windows) {
+					window->processEvents();
+				}
 			}
 		} // namespace common
 	} // namespace window

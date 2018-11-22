@@ -39,8 +39,8 @@
 #define MOUSE_HPP
 
 #include "window/config.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "utility/enumeration/enum_count.hpp"
+#include "utility/mathematics.hpp"
+#include "utility/enumeration.hpp"
 
 #include <array>
 
@@ -50,8 +50,6 @@ namespace ece
 	{
 		namespace event
 		{
-			using utility::mathematics::IntVector2u;
-
 			/**
 			 * @class Mouse
 			 * @brief A mouse input device.

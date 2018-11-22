@@ -42,7 +42,7 @@
 #include <memory>
 
 #include "renderer/config.hpp"
-#include "utility/indexing/version.hpp"
+#include "utility/indexing.hpp"
 #include "renderer/rendering/context_settings.hpp"
 
 namespace ece
@@ -51,8 +51,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using utility::indexing::Version;
-
 			/**
 			 * @class RenderContext
 			 * @brief Generic render context.

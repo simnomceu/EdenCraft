@@ -40,16 +40,13 @@
 
 #include "game.hpp"
 #include "core/resource.hpp"
+#include "graphic_component.hpp"
 
-Game::Game() noexcept: onSplashScreenEntered(), onPlayEntered(), _current(NONE), _scene(), _background()
+Game::Game(ece::World & world) noexcept: onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity())
 {
-	auto & camera = this->_scene.getCamera();
-	camera.setOrthographic(ece::Rectangle<float>(0, 0, 1920.0f, 1080.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
-	//camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-	camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
-	camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
-	this->_scene.updateCamera();
-
+	auto sprite = ece::makeResource<ece::Sprite>("titel_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"));
+	sprite->prepare();
+	this->_background.addComponent<GraphicComponent>(sprite);
 	this->setState(SPLASHSCREEN);
 }
 
@@ -59,25 +56,29 @@ void Game::setState(const Game::State state)
 	switch (state)
 	{
 	case SPLASHSCREEN:
-		this->_background = ece::makeResource<ece::Sprite>("titel_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"));
-		this->_scene.addObject(this->_background);
+	{
+		auto sprite = ece::makeResource<ece::Sprite>("titel_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"));
+		sprite->prepare();
+		this->_background.getComponent<GraphicComponent>().setRenderable(sprite);
 		this->onSplashScreenEntered();
 		break;
+	}
 	case PLAY:
-		this->_background = ece::makeResource<ece::Sprite>("strand1_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("strand1"));
+	{
+		auto sprite = ece::makeResource<ece::Sprite>("strand1_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("strand1"));
+		sprite->prepare();
+		this->_background.getComponent<GraphicComponent>().setRenderable(sprite);
 		this->onPlayEntered();
 		break;
+	}
 	case NONE:
 		break;
 	default:
 		break;
 	}
-	this->_background->prepare();
-	this->_scene.prepare();
 }
-
+/*
 void Game::draw()
 {
 	this->_background->draw();
-	this->_scene.draw();
-}
+}*/

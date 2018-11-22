@@ -36,9 +36,9 @@
 
 */
 
-#include "utility/debug/assertion.hpp"
+#include "utility/debug.hpp"
 #include "renderer/rendering/renderer.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -46,9 +46,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using namespace utility::debug;
-			using utility::log::ServiceLoggerLocator;
-
 			inline RenderContext::RenderContext() noexcept: std::enable_shared_from_this<RenderContext>() {}
 
 			bool RenderContext::isCreated() const noexcept { return this->_created; }

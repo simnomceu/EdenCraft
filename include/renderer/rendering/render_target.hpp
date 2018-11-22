@@ -40,10 +40,9 @@
 #define RENDER_TARGET_HPP
 
 #include "renderer/config.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "renderer/rendering/color.hpp"
-#include "renderer/rendering/viewport.hpp"
-#include "utility/pattern/virtual_enable_shared_from_this.hpp"
+#include "utility/mathematics.hpp"
+#include "renderer/pipeline/viewport.hpp"
+#include "utility/pattern.hpp"
 
 #include <memory>
 
@@ -53,12 +52,7 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using utility::mathematics::IntVector2u;
-			using utility::mathematics::Rectangle;
-			using utility::pattern::virtual_enable_shared_from_this;
-
-			// TODO: Renderable vs Drawable ?
-			class Renderable;
+			using pipeline::Viewport;
 
 			/**
 			 * @class RenderTarget
@@ -123,27 +117,10 @@ namespace ece
 				 */
 				virtual IntVector2u getSize() const = 0;
 
-				/**
-				 * @fn void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>())
-				 * @param[in] color The color to use to clean the render target.
-				 * @param[in] scissorArea The area of the render target to limit the cleaning.
-				 * @brief Clean the render target using a specific color.
-				 * @throw
-				 */
-				virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) = 0;
-
 				Viewport getDefaultViewport() const;
-
-				void setViewport(const Viewport & viewport);
-
-				inline const Viewport & getCurrentViewport() const;
 
 				inline void setCurrent();
 				inline bool isCurrent() const noexcept;
-
-			protected:
-				Viewport _currentViewport;
-				bool _viewportHasChanged;
 			};
 		} // namespace rendering
 	} // namespace renderer

@@ -38,8 +38,6 @@
 
 */
 
-#include "utility/mathematics/transform.hpp"
-
 namespace ece
 {
 	namespace graphic
@@ -62,11 +60,9 @@ namespace ece
 
 			inline FloatMatrix4u Camera::getView() const { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
 
-            inline void Camera::setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping) { this->_projection.setPerspective(FOV, ratio, nearClipping, farClipping); }
+            inline const Projection & Camera::getProjection() const { return this->_projection; }
 
-            inline void Camera::setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping) { this->_projection.setOrthographic(screen, nearClipping, farClipping); }
-
-            inline const FloatMatrix4u & Camera::getProjection() const { return this->_projection.getProjection(); }
+            inline Projection & Camera::getProjection() { return this->_projection; }
 		} // namespace scene
 	} // namespace camera
 } // namespace ece

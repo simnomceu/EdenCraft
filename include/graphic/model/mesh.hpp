@@ -42,12 +42,11 @@
 #define MESH_HPP
 
 #include "graphic/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "utility/mathematics/box3d.hpp"
-#include "core/resource/resource_handler.hpp"
-
-#include <vector>
+#include "graphic/model/submesh.hpp"
+#include "graphic/material/material.hpp"
+#include "utility/mathematics.hpp"
+#include "core/resource.hpp"
+#include "renderer/buffer.hpp"
 
 namespace ece
 {
@@ -55,15 +54,11 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatVector2u;
-			using utility::mathematics::Box3D;
-			using core::resource::ResourceHandler;
+			using material::Material;
 
 			/**
 			 * @class Mesh
-			 * @brief A mesh as defined in 3D modelling.
-			 * @remark It has to be refactored soon, as it is redudant with Renderer.
+			 * @brief
 			 */
 			class ECE_GRAPHIC_API Mesh
 			{
@@ -77,22 +72,27 @@ namespace ece
 					FloatVector2u _textureCoordinate;
 				};
 
-				using Face = std::array<unsigned int, 3>;
+				struct SubmeshData
+				{
+					Submesh mesh;
+					Material::Reference material;
+					FloatMatrix4u model;
+				};
 
 				/**
 				 * @fn Mesh() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Mesh() noexcept = default;
+				Mesh() noexcept;
 
 				/**
-				 * @fn Mesh(const Mesh & copy)
+				 * @fn Mesh(const Mesh & copy) noexcept
 				 * @param[in] copy The Mesh to copy from.
 				 * @brief Default copy constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Mesh(const Mesh & copy) = default;
+				Mesh(const Mesh & copy) noexcept = default;
 
 				/**
 				 * @fn Mesh(Mesh && move) noexcept
@@ -110,22 +110,24 @@ namespace ece
 				~Mesh() noexcept = default;
 
 				/**
-				 * @fn Mesh & operator=(const Mesh & copy)
+				 * @fn Mesh & operator=(const Mesh & copy) noexcept
 				 * @param[in] copy The Mesh to copy from.
 				 * @return The Mesh copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Mesh & operator=(const Mesh & copy) = default;
+				Mesh & operator=(const Mesh & copy) noexcept = default;
 
 				/**
 				 * @fn Mesh & operator=(Mesh && move) noexcept
-				 * @param[in] move The Mesh to move from.
+				 * @param[in] move The Mesh to move.
 				 * @return The Mesh moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
 				Mesh & operator=(Mesh && move) noexcept = default;
+
+				inline void reset();
 
 				/**
 				 * @fn std::size_t getNumberOfVertices() const
@@ -151,35 +153,28 @@ namespace ece
 				 */
 				Box3D getBouncingBox() const;
 
+				inline std::vector<SubmeshData> & getSubmeshes();
+				inline const std::vector<SubmeshData> & getSubmeshes() const;
+
 				std::size_t addVertex(const Mesh::Vertex & vertex);
 				std::size_t addVertex(Mesh::Vertex && vertex);
 
 				inline std::vector<Mesh::Vertex> & getVertices();
 				inline const std::vector<Mesh::Vertex> & getVertices() const;
 
-				inline void addFace(const Mesh::Face & face);
-				inline void addFace(Mesh::Face && face);
+				void update();
 
-				inline std::vector<Mesh::Face> & getFaces();
-				inline const std::vector<Mesh::Face> & getFaces()const ;
-			private:
+				inline VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> & getVertexBuffer();
+				BufferLayout getLayout() const;
+
+			protected:
+				std::vector<SubmeshData> _submeshes;
+
 				/**
 				 * @property _vertices
 				 * @brief The list of vertices of the mesh.
 				 */
-				std::vector<Mesh::Vertex> _vertices;
-
-                /**
-                 * @property _faces
-                 * @brief The list of faces using the vertices.
-                 */
-				std::vector<Mesh::Face> _faces;
-
-                /**
-                 * @property _submeshes
-                 * @brief The list of submeshes composing this mesh.
-                 */
-                std::vector<Mesh> _meshes;
+				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;
 			};
 		} // namespace model
 	} // namespace graphic

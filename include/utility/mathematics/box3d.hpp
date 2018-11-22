@@ -123,18 +123,17 @@ namespace ece
         		 */
         		inline FloatVector3u getCenter() const noexcept;
 
-        	private:
         		/**
         		 * @property _a
         		 * @brief The left-bottom vertex of the box.
         		 */
-        		FloatVector3u _a;
+        		FloatVector3u a;
 
         		/**
         		 * @property _b
         		 * @brief The right-top vertex of the box.
         		 */
-        		FloatVector3u _b;
+        		FloatVector3u b;
         	};
         } // namespace mathematics
     } // namespace utility

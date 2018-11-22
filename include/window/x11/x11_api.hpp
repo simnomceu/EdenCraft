@@ -42,10 +42,8 @@
 #include <vector>
 #include <X11/Xlib.h>
 
-#include "utility/mathematics/vector2u.hpp"
-#include "window/event/input_event.hpp"
-#include "window/event/keyboard.hpp"
-#include "window/event/mouse.hpp"
+#include "utility/mathematics.hpp"
+#include "window/event.hpp"
 
 namespace ece
 {
@@ -58,10 +56,6 @@ namespace ece
 
 		namespace x11
 		{
-			using utility::mathematics::IntVector2u;
-			using window::event::InputEvent;
-			using window::event::Keyboard;
-			using window::event::Mouse;
 			using common::WindowMessage;
 
 			/**

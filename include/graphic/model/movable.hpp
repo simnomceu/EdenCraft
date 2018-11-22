@@ -42,7 +42,7 @@
 #define MOVABLE_HPP
 
 #include "graphic/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -50,8 +50,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-
 			/**
 			 * @class Movable
 			 * @brief Define the ability to be moved.

@@ -41,7 +41,7 @@
 #include "window/config.hpp"
 #include "window/event/mouse.hpp"
 #include "window/event/keyboard.hpp"
-#include "utility/mathematics/vector2u.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -49,8 +49,6 @@ namespace ece
 	{
 		namespace event
 		{
-			using utility::mathematics::IntVector2u;
-
 			/**
 			 * @class InputEvent
 			 * @brief Event from a user input.

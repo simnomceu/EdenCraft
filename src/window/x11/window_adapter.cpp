@@ -39,7 +39,7 @@
 #include "window/x11/data_window_adapter.hpp"
 #include "window/x11/xcb_impl.hpp"
 #include "window/x11/xlib_impl.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -47,8 +47,6 @@ namespace ece
 	{
 		namespace common
 		{
-			using utility::log::ServiceLoggerLocator;
-			using utility::pattern::makePimpl;
 			using x11::XCBImpl;
 			using x11::XlibImpl;
 

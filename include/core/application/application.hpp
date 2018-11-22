@@ -40,9 +40,10 @@
 #define APPLICATION_HPP
 
 #include "core/config.hpp"
-#include "core/argument/argument_analyzer.hpp"
-#include "core/module/module_manager.hpp"
-#include "core/signal/signal.hpp"
+#include "core/argument.hpp"
+#include "core/module.hpp"
+#include "core/signal.hpp"
+#include "core/ecs.hpp"
 
 #include <memory>
 #include <vector>
@@ -53,12 +54,6 @@ namespace ece
 	{
 		namespace application
 		{
-			using argument::ArgumentAnalyzer;
-			using module::ModuleManager;
-			using module::ModuleMethodHandle;
-			using module::ModuleMethod;
-			using signal::Signal;
-
 			/**
 			 * @class Application
 			 * @brief A general application to handle core concepts.
@@ -116,7 +111,7 @@ namespace ece
 				inline ArgumentAnalyzer & getArgumentAnalyzer();
 
 				/**
-				 * @fn T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID)
+				 * @fn T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD)
 				 * @tparam T The type of module.
 				 * @param[in] init The hook to init the module.
 				 * @param[in] update The hook to update the module.
@@ -125,7 +120,7 @@ namespace ece
 				 * @throw
 				 */
 				template <class T>
-				inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
+				inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD);
 
 				/**
 				 * @fn void removeModule()
@@ -142,6 +137,8 @@ namespace ece
 				 * @throw
 				 */
 				template <class T> inline T & getModule();
+
+				World & addWorld();
 
 				/**
 				 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
@@ -172,12 +169,6 @@ namespace ece
 				 * @brief Register a callback on post-update event.
 				 */
 				Signal<> onPostUpdate;
-
-				/**
-				 * @fn void onPostRender(const Listener & listener, const unsigned int slot)
-				 * @brief Register a callback on post-render event.
-				 */
-				Signal<> onPostRender;
 
 				/**
 				 * @fn void onPreTerminate(const Listener & listener, const unsigned int slot)
@@ -212,41 +203,34 @@ namespace ece
 				 */
 				ModuleManager _moduleManager;
 
+				std::vector<World> _worlds;
 				/**
 				 * @fn void init()
 				 * @brief Initialize the application.
 				 * @throw
 				 */
-				void init();
+				virtual void init();
 
 				/**
 				 * void update()
 				 * @brief Update the logic of the application.
 				 * @throw
 				 */
-				void update();
+				virtual void update();
 
 				/**
 				 * void processEvents()
 				 * @brief Process all the events.
 				 * @throw
 				 */
-				void processEvents();
-
-				/**
-				 * @fn void render()
-				 * @brief Render the new frame.
-				 * @throw
-				 * @remark It should not be in the core.
-				 */
-				void render();
+				virtual void processEvents();
 
 				/**
 				 * @fn void terminate()
 				 * @brief Terminate the application.
 				 * @throw
 				 */
-				void terminate();
+				virtual void terminate();
 			};
 		} // namespace application
 	} // namespace core

@@ -120,13 +120,13 @@ namespace ece
         		 */
         		virtual void saveToString(std::string & content) = 0;
 
-        		/**
-        		 * @fn void saveToMemory(void * content)
-        		 * @param[out] content The memory to save into.
-        		 * @brief Formate and save data into memory.
-        		 * @throw
-        		 */
-        		virtual void saveToMemory(void * content) = 0;
+				/**
+				 * @fn void saveToStream(const std::ostream & stream)
+				 * @param[inout] stream The stream to save through.
+				 * @brief Formate and save data through a stream.
+				 * @throw
+				 */
+				virtual void saveToStream(std::ostream & stream) = 0;
 			};
 		} // namespace file_system
 	} // namespace utility

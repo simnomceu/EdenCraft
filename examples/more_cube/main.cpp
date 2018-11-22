@@ -36,35 +36,16 @@
 
 */
 
-#include "window/common/windowed_application.hpp"
-#include "renderer/rendering.hpp"
-#include "utility/log.hpp"
-#include "graphic/scene.hpp"
-#include "renderer/resource.hpp"
-#include "graphic/model.hpp"
-#include "graphic/renderable.hpp"
-#include "utility/mathematics.hpp"
-#include "core/resource.hpp"
-#include "utility/time.hpp"
+#include "core/format.hpp"
+
 #include "render_system.hpp"
+#include "cube.hpp"
 
-#include <ctime>
-#include <string>
-
-namespace ece
-{
-	using namespace renderer;
-
-	using window::common::WindowedApplication;
-	using window::common::WindowSetting;
-	using window::event::InputEvent;
-	using utility::time::FramePerSecond;
-	using window::event::InputEvent;
-}
+#include "renderer/buffer.hpp"
+#include "renderer/rendering.hpp"
+#include "renderer/image.hpp"
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
-ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize);
-void setScene(ece::Scene & scene);
 
 int main()
 {
@@ -74,39 +55,65 @@ int main()
 		ece::WindowedApplication app;
 		auto window = createMainWindow(app);
 
-		RenderSystem renderSystem;
-		auto & scene = renderSystem.getScene();
-		setScene(scene);
+		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
+		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
-        auto element = createBox(scene, 100);
-		element->prepare();
+        auto & world = app.addWorld();
+        auto renderSystem = world.addSystem<RenderSystem>().lock();
+
+		auto & scene = renderSystem->getScene();
+		auto & camera = scene.getCamera();
+
+		Cube cube(world, 100);
 
 		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key == ece::Keyboard::Key::A) {
-				std::cerr << 'A' << std::endl;
+		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
+			if (event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
+				std::cerr << static_cast<char>(static_cast<unsigned int>(event._key) + 34);
+			}
+			else if (event._key == ece::Keyboard::Key::SPACEBAR) {
+				std::cerr << ' ';
+			}
+			else if (event._key == ece::Keyboard::Key::RETURN) {
+				std::cerr << '\n';
 			}
 			else if (event._key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
+			}
+			else if (event._key == ece::Keyboard::Key::LEFT) {
+				camera.moveIn({ -1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::RIGHT) {
+				camera.moveIn({ 1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::UP) {
+				camera.moveIn({ 0.0f, 0.0f, -1.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::DOWN) {
+				camera.moveIn({ 0.0f, 0.0f, 1.0f });
+				scene.updateCamera();
 			}
 		});
 		window.lock()->onWindowClosed.connect([&app]() {
 			app.stop();
 		});
 
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_60);
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
 
-		app.onPostUpdate.connect([&window, &fps, &element]() {
-			window.lock()->setTitle("Test - Frame " + std::to_string(fps.getFPS()));
-			window.lock()->clear(ece::BLACK);
-			element->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+		app.onPreUpdate.connect([&window, &fps]() {
+			if (fps.isReadyToUpdate()) {
+				window.lock()->setTitle("More cubes ... - Frame " +  std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
+			}
 		});
-		app.onPostRender.connect([&renderSystem, &window]() {
-			renderSystem.update();
+
+		app.onPostUpdate.connect([&window, &cube]() {
 			window.lock()->display();
-			window.lock()->processEvents();
+			cube.update();
 		});
-		
+
 		app.run();
 	}
 	catch (std::runtime_error & e) {
@@ -125,7 +132,7 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 
 	ece::WindowSetting settings;
 	settings._position = ece::IntVector2u{ 10, 10 };
-	settings._title = "Test";
+	settings._title = "More cubes ...";
 
 	auto & contextSettings = window.lock()->getContextSettings();
 	contextSettings.maxVersion = { 4, 0 };
@@ -136,68 +143,7 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	window.lock()->updateContext();
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
-	window.lock()->limitUPS(100);
-
-	ece::Viewport viewport;
-	viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
-	viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f));
-	window.lock()->setViewport(viewport);
+	window.lock()->limitUPS(100000);
 
 	return std::move(window);
-}
-
-ece::Object::Reference createBox(ece::Scene & scene, const std::size_t chunkSize)
-{
-	auto element = scene.addObject();
-
-	{
-		ece::OBJLoader loader;
-		loader.loadFromFile("../../examples/more_cube/cube.obj");
-		//auto mesh = std::make_shared<ece::Mesh>(loader.getMesh());
-		auto mesh = ece::makeResource<ece::Mesh>("cube_mesh", ece::makeCube(0.5f));
-		element->setMesh(mesh);
-	}
-
-	{
-		auto material = std::make_shared<ece::PhongMaterial>();
-		material->setShininess(41.5f);
-
-		auto box = ece::makeResource<ece::Texture2D>("box");
-		box->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box.bmp");
-		material->setDiffuseMap(box);
-
-		auto box_specular = ece::makeResource<ece::Texture2D>("box_specular");
-		box_specular->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/box_specular.bmp");
-		material->setSpecularMap(box_specular);
-		element->setMaterial(material);
-	}
-
-	for (std::size_t i = 0; i < chunkSize; ++i) {
-		for (std::size_t j = 0; j < chunkSize; ++j) {
-			for (std::size_t k = 0; k < chunkSize; ++k) {
-				element->addInstance(ece::translate(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f }));
-			}
-		}
-	}
-
-	return element;
-}
-
-void setScene(ece::Scene & scene)
-{
-	{
-		auto light = ece::makeSpotLight(1.0f, 0.8f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
-		scene.addLight(light);
-		//light->setColor({ std::sin(std::rand() * 2.0f), std::sin(std::rand() * 0.7f), std::sin(std::rand() * 1.3f) });
-		// ####################
-	}
-
-	{
-		auto & camera = scene.getCamera();
-		//		camera.setOrthographic(ece::Rectangle<float>(0, 0, window.getSize()[0] * 0.5f, window.getSize()[1] * 1.0f), 0.0f, 100.0f); // TODO: using window.getViewportSize() ?
-		camera.setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
-		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
-	}
-	scene.updateCamera();
 }

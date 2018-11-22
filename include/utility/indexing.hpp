@@ -43,6 +43,7 @@
 #include "utility/indexing/index2u.hpp"
 #include "utility/indexing/index3u.hpp"
 #include "utility/indexing/unique_id.hpp"
+#include "utility/indexing/version.hpp"
 
 namespace ece
 {

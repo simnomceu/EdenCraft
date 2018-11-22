@@ -39,14 +39,12 @@
 #ifndef VECTOR4U_HPP
 #define VECTOR4U_HPP
 
-#include "utility/template_expression/vector.hpp"
+#include "utility/template_expression.hpp"
 
 namespace ece
 {
     namespace utility
     {
-        using namespace template_expression;
-
         namespace mathematics
         {
         	/**

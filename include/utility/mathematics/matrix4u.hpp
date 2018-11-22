@@ -39,7 +39,7 @@
 #ifndef MATRIX4U_HPP
 #define MATRIX4U_HPP
 
-#include "utility/template_expression/matrix.hpp"
+#include "utility/template_expression.hpp"
 
 namespace ece
 {
@@ -65,8 +65,6 @@ namespace ece
             	inline Matrix<double, 4, 4> operator()(const Matrix<T, 4, 4> & matrix, bool & invertible) const;
             };
         }
-
-        using namespace template_expression;
 
         namespace mathematics
         {

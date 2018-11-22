@@ -42,7 +42,7 @@
 #define ANIMATION_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/animation/transformation.hpp"
+#include "graphic/animation.hpp"
 
 #include <queue>
 #include <memory>
@@ -53,8 +53,6 @@ namespace ece
 	{
 		namespace model
 		{
-			using animation::Transformation;
-
 			/**
 			 * @class Animation
 			 * @brief A set of transformations.

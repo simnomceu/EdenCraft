@@ -40,7 +40,7 @@
 #define RENDER_WINDOW_HPP
 
 #include "renderer/config.hpp"
-#include "window/common/window.hpp"
+#include "window/common.hpp"
 #include "renderer/rendering/renderer.hpp"
 #include "renderer/rendering/render_context.hpp"
 #include "renderer/rendering/render_target.hpp"
@@ -55,7 +55,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using window::common::Window;
 			using pipeline::RenderState;
 
 			/**
@@ -133,15 +132,6 @@ namespace ece
 				 * @throw
 				 */
 				virtual IntVector2u getSize() const override;
-
-				/**
-				 * @fn void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>())
-				 * @param[in] color The color to use to clean the render target.
-				 * @param[in] scissorArea The area of the render target to limit the cleaning.
-				 * @brief Clean the render target using a specific color.
-				 * @throw
-				 */
-				virtual void clear(const Color & color = BLACK, const Rectangle<float> & scissorArea = Rectangle<float>()) override;
 
 				/**
 				 * void display()

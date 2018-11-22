@@ -37,8 +37,6 @@
 
 #include <iostream>
 
-#include "window/common/window.hpp"
-
 namespace ece
 {
 	namespace window

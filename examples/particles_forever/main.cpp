@@ -5,17 +5,11 @@
 #include "renderer/rendering.hpp"
 #include "window/event.hpp"
 #include "graphic/scene.hpp"
-#include "graphic/renderable/particles_emitter.hpp"
+#include "graphic/renderable.hpp"
 #include "utility/time.hpp"
-#include "core/resource/make_resource.hpp"
+#include "core/resource.hpp"
 #include "utility/log.hpp"
 #include "window/common.hpp"
-
-namespace ece
-{
-	using graphic::renderable::ParticlesEmitter;
-	using core::resource::makeResource;
-}
 
 int main()
 {
@@ -62,9 +56,7 @@ int main()
 			scene.draw();
 			window.display();
 
-			if (window.pollEvent(event)) {
-
-			}
+			window.processEvents();
 		}
 	}
 	catch (std::runtime_error & e) {

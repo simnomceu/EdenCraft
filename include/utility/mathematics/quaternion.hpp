@@ -39,6 +39,8 @@
 #ifndef QUATERNION_HPP
 #define QUATERNION_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
     namespace utility
@@ -66,7 +68,7 @@ namespace ece
         	 * @remark Add a check for templated parameter (numeric type)
         	 */
         	template <class T>
-        	class Quaternion
+        	class ECE_UTILITY_API Quaternion
         	{
         	public:
         		/**

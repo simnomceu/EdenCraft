@@ -42,7 +42,6 @@
 namespace ece
 {
 	using renderer::opengl::OpenGLExtensionException;
-	using utility::indexing::Version;
 }
 
 inline GLXContext glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list)

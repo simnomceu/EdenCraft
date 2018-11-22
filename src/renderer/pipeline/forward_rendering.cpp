@@ -39,7 +39,7 @@
 #include "renderer/pipeline/forward_rendering.hpp"
 
 #include "renderer/pipeline/render_pipeline.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 #include "renderer/pipeline/staging.hpp"
 #include "renderer/pipeline/drawable.hpp"
 
@@ -49,11 +49,54 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			using namespace opengl;
+			void ForwardRendering::setPipeline(RenderPipeline pipeline)
+			{
+				this->_pipeline = std::move(pipeline);
+			}
+
+			RenderPipeline & ForwardRendering::getPipeline()
+			{
+				return this->_pipeline;
+			}
+
+			void ForwardRendering::clear(const Color & color)
+			{
+				auto target = Renderer::getCurrentTarget().lock();
+
+				Rectangle<float> viewport;
+				if (this->_pipeline.getViewport().isRatioUsed()) {
+					viewport = Rectangle<float>(0.0f, 0.0f, target->getSize()[0] * this->_pipeline.getViewport().getViewportRatio().getWidth(), target->getSize()[1] * this->_pipeline.getViewport().getViewportRatio().getHeight());
+				}
+				else {
+					viewport = this->_pipeline.getViewport().getViewport();
+				}
+
+				OpenGL::viewport(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+
+				if (this->_pipeline.getScissor() != Rectangle<float>()) {
+					OpenGL::scissor(static_cast<int>(this->_pipeline.getScissor().getX()), static_cast<int>(this->_pipeline.getScissor().getY()), static_cast<int>(this->_pipeline.getScissor().getWidth()), static_cast<int>(this->_pipeline.getScissor().getHeight()));
+					OpenGL::enable(Capability::SCISSOR_TEST);
+				}
+
+				if (this->_pipeline.getScissor() == Rectangle<float>()) {
+					OpenGL::scissor(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+					OpenGL::enable(Capability::SCISSOR_TEST);
+				}
+
+				OpenGL::clearColor(static_cast<float>(color.red) / 255.0f,
+					static_cast<float>(color.green) / 255.0f,
+					static_cast<float>(color.blue) / 255.0f,
+					static_cast<float>(color.alpha) / 100.0f);
+				OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
+			}
 
 			void ForwardRendering::draw(const Staging & staging)
 			{
 				// sort queues
+
+				auto program = this->_pipeline.getProgram();
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "view"), false, staging._view);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "projection"), false, staging._projection);
 
 				for (auto & object : this->_objects) {
 					this->drawObject(object, staging);
@@ -77,21 +120,21 @@ namespace ece
 				this->_sprites.add(drawable);
 			}
 
-			void ForwardRendering::drawObject(const std::shared_ptr<Drawable> & drawable, const Staging & staging)
+			void ForwardRendering::drawObject(const std::shared_ptr<Drawable> & drawable, const Staging & /*staging*/)
 			{
-				RenderPipeline pipeline;
-				pipeline.setProgram(std::make_shared<Shader>(drawable->getProgram()));
-				pipeline.setState(drawable->getState());
-				pipeline.apply();
+				this->_pipeline.setState(drawable->getState());
+				this->_pipeline.apply();
 
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(drawable->getProgram().getHandle(), "view"), false, staging._view);
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(drawable->getProgram().getHandle(), "projection"), false, staging._projection);
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_pipeline.getProgram()->getHandle(), "model"), true, drawable->getModel());
 
-				drawable->draw();
+				drawable->draw(this->_pipeline.getProgram());
 			}
 
-			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & /*drawable*/, const Staging & /*staging*/)
+			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & drawable, const Staging & /*staging*/)
 			{
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_pipeline.getProgram()->getHandle(), "model"), true, drawable->getModel());
+				
+				drawable->draw(this->_pipeline.getProgram());
 			}
 		}
 	}

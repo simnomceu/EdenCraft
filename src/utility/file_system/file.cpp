@@ -38,7 +38,7 @@
 
 #include "utility/file_system/file.hpp"
 
-#include "utility/debug/exception.hpp"
+#include "utility/debug.hpp"
 
 #include <iostream>
 #include <sys/types.h>
@@ -52,8 +52,6 @@ namespace ece
 {
     namespace utility
     {
-        using debug::FileException;
-
         namespace file_system
         {
         	File::File(const File & copy) : _filename(copy._filename), _stream()

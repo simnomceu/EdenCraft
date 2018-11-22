@@ -37,7 +37,7 @@
 */
 
 #include "renderer/rendering/render_target.hpp"
-#include "renderer/opengl/opengl.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -45,9 +45,7 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using namespace opengl;
-
-			RenderTarget::RenderTarget() noexcept: virtual_enable_shared_from_this<RenderTarget>(), _currentViewport(), _viewportHasChanged(false)
+			RenderTarget::RenderTarget() noexcept: virtual_enable_shared_from_this<RenderTarget>()
 			{
 			}
 
@@ -56,12 +54,6 @@ namespace ece
 				Viewport dummy;
 				dummy.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
 				return dummy;
-			}
-
-			void RenderTarget::setViewport(const Viewport & viewport)
-			{
-				this->_currentViewport = viewport;
-				this->_viewportHasChanged = true;
 			}
 		} // namespace rendering
 	} // namespace renderer

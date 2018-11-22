@@ -40,13 +40,13 @@
 
 #include "window/config.hpp"
 #include "window/common/window_adapter.hpp"
-#include "utility/mathematics/vector2u.hpp"
+#include "utility/mathematics.hpp"
 #include "window/common/video_mode.hpp"
 #include "window/common/window_setting.hpp"
-#include "utility/time/update_per_second.hpp"
-#include "core/signal/signal.hpp"
-#include "window/event/event_handler.hpp"
-#include "utility/pattern/virtual_enable_shared_from_this.hpp"
+#include "utility/time.hpp"
+#include "core/signal.hpp"
+#include "window/event.hpp"
+#include "utility/pattern.hpp"
 
 #include <string>
 
@@ -56,12 +56,6 @@ namespace ece
 	{
 		namespace common
 		{
-			using utility::mathematics::IntVector2u;
-			using utility::time::UpdatePerSecond;
-			using core::signal::Signal;
-			using event::EventHandler;
-			using utility::pattern::virtual_enable_shared_from_this;
-
 			class InputEvent;
 
 			/**

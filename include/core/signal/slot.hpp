@@ -40,7 +40,7 @@
 #define SLOT_HPP
 
 #include "core/config.hpp"
-#include "utility/pattern/observer.hpp"
+#include "utility/pattern.hpp"
 
 #include <functional>
 
@@ -50,8 +50,6 @@ namespace ece
 	{
 		namespace signal
 		{
-			using utility::pattern::Observer;
-
 			/**
 			 * @class Slot
 			 * @brief

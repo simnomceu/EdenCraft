@@ -39,12 +39,10 @@
 
 #include "core/application/application.hpp"
 
-#include "utility/log/service_logger.hpp"
-#include "utility/log/logger.hpp"
-#include "core/resource/service_resource.hpp"
-#include "core/resource/resource_manager.hpp"
-#include "core/module/module_method.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/log.hpp"
+#include "core/resource.hpp"
+#include "core/format.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
@@ -52,20 +50,14 @@ namespace ece
 	{
 		namespace application
 		{
-			using utility::log::ServiceLoggerLocator;
-			using utility::log::ServiceLoggerFactory;
-			using utility::log::Logger;
-			using core::resource::ServiceResourceLocator;
-			using core::resource::ServiceResourceFactory;
-			using core::resource::ResourceManager;
-
-			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPostRender(), onPreTerminate(), onPostTerminate(),_running(false), _moduleManager()
+			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
+				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 			}
 
-			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager()
+			Application::Application(int argc, char * argv[]) : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
@@ -91,13 +83,17 @@ namespace ece
 					this->onPreUpdate();
 					this->update();
 					this->onPostUpdate();
-					this->render();
-					this->onPostRender();
 				}
 
 				this->onPreTerminate();
 				this->terminate();
 				this->onPostTerminate();
+			}
+
+			World & Application::addWorld()
+			{
+				this->_worlds.emplace_back();
+				return this->_worlds.back();
 			}
 
 			void Application::init()
@@ -113,16 +109,16 @@ namespace ece
 
 			void Application::update()
 			{
+				for (auto & world : this->_worlds) {
+					world.update();
+				}
+
 				this->_moduleManager.updateAll();
 			}
 
 			void Application::processEvents()
 			{
 				//EventServiceLocator::getService().clear();
-			}
-
-			void Application::render()
-			{
 			}
 
 			void Application::terminate()

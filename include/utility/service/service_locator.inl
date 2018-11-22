@@ -36,14 +36,12 @@
 
 */
 
-#include "utility/debug/exception.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
     namespace utility
     {
-        using debug::MemoryAccessException;
-
         namespace service
         {
         	template <class Base, class Null>

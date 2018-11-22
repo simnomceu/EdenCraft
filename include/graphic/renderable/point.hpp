@@ -42,9 +42,9 @@
 #define POINT_HPP
 
 #include "graphic/config.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "core/resource/resource_handler.hpp"
-#include "graphic/renderable/renderable.hpp"
+#include "utility/mathematics.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
 
 namespace ece
 {
@@ -52,9 +52,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using utility::mathematics::FloatVector3u;
-			using core::resource::ResourceHandler;
-
 			/**
 			 * @class Point
 			 * @brief
@@ -122,10 +119,14 @@ namespace ece
 				inline void setColor(const FloatVector3u & color) noexcept;
 				inline void setSize(const float size) noexcept;
 
+				virtual void draw(std::shared_ptr<Shader> program) override;
+
 			private:
 				FloatVector3u _position;
 				FloatVector3u _color;
 				float _size;
+
+				VertexBuffer<SymetricStorage, std::vector<FloatVector3u>> _vertices;
 			};
 		} // namespace renderable
 	} // namespace graphic

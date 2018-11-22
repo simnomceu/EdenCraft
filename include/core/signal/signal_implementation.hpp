@@ -40,7 +40,7 @@
 #define SIGNAL_IMPLEMENTATION_HPP
 
 #include "core/config.hpp"
-#include "utility/pattern/observable.hpp"
+#include "utility/pattern.hpp"
 #include "core/signal/connection.hpp"
 
 namespace ece
@@ -49,8 +49,6 @@ namespace ece
 	{
 		namespace signal
 		{
-			using utility::pattern::Observable;
-
 			/**
 			 * @class SignalImplementation
 			 * @brief

@@ -43,48 +43,82 @@
 #include "window/common.hpp"
 #include "renderer/rendering.hpp"
 #include "utility/log.hpp"
+#include "render_system.hpp"
 #include "assets.hpp"
 #include "game.hpp"
+#include "core/format.hpp"
+
+std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
 
 int main()
 {
 	try {
 		ece::WindowedApplication app;
-		auto window = app.addWindow<ece::RenderWindow>();
-		auto & contextSettings = window.lock()->getContextSettings();
-		contextSettings.maxVersion = { 4, 6 };
+		auto window = createMainWindow(app);
 
-		std::shared_ptr<Game> game;
+		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
-		window.lock()->onWindowOpened.connect([&window, &game]() {
+		auto & world = app.addWorld();
+		auto renderSystem = world.addSystem<RenderSystem>().lock();
+
+		auto & scene = renderSystem->getScene();
+		auto & camera = scene.getCamera();
+
+		std::shared_ptr<Game> game = nullptr;
+
+		app.onPostInit.connect([&window, &game, &world]() {
 			window.lock()->setTitle("Bubble Volley");
 			window.lock()->maximize();
 
-			ece::Viewport viewport;
-			viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
-			viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f));
-			window.lock()->setViewport(viewport);
-
 			Assets::loadAssets();
 
-			game = std::make_shared<Game>();
+			game = std::make_shared<Game>(world);
 		});
 
 		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key == ece::Keyboard::Key::ESCAPE) {
+		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
+			if (event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
+				std::cerr << static_cast<char>(static_cast<unsigned int>(event._key) + 34);
+			}
+			else if (event._key == ece::Keyboard::Key::SPACEBAR) {
+				std::cerr << ' ';
+			}
+			else if (event._key == ece::Keyboard::Key::RETURN) {
+				std::cerr << '\n';
+			}
+			else if (event._key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
+			}
+			else if (event._key == ece::Keyboard::Key::LEFT) {
+				camera.moveIn({ -1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::RIGHT) {
+				camera.moveIn({ 1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::UP) {
+				camera.moveIn({ 0.0f, 0.0f, -1.0f });
+				scene.updateCamera();
+			}
+			else if (event._key == ece::Keyboard::Key::DOWN) {
+				camera.moveIn({ 0.0f, 0.0f, 1.0f });
+				scene.updateCamera();
+			}
+		});
+		window.lock()->onWindowClosed.connect([&app]() {
+			app.stop();
+		});
+
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
+
+		app.onPreUpdate.connect([&window, &fps]() {
+			if (fps.isReadyToUpdate()) {
+				window.lock()->setTitle("Bubble Volley - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
 			}
 		});
 
 		app.onPostUpdate.connect([&window]() {
-			window.lock()->clear(ece::BLACK);
-		});
-		app.onPostRender.connect([&window, &game]() {
-			game->draw();
 			window.lock()->display();
 		});
 
@@ -98,4 +132,26 @@ int main()
 	}
 
 	return EXIT_SUCCESS;
+}
+
+std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app)
+{
+	auto window = app.addWindow<ece::RenderWindow>();
+
+	ece::WindowSetting settings;
+	settings._position = ece::IntVector2u{ 10, 10 };
+	settings._title = "Bubble Volley";
+
+	auto & contextSettings = window.lock()->getContextSettings();
+	contextSettings.maxVersion = { 4, 0 };
+
+	window.lock()->open();
+	contextSettings.antialiasingSamples = 0;
+	contextSettings.maxVersion = { 4, 6 };
+	window.lock()->updateContext();
+	window.lock()->setSettings(settings);
+	window.lock()->maximize();
+	window.lock()->limitUPS(100000);
+
+	return std::move(window);
 }

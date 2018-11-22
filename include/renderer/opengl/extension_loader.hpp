@@ -41,7 +41,7 @@
 #define EXTENSION_LOADER_HPP
 
 #include "renderer/config.hpp"
-#include "utility/indexing/version.hpp"
+#include "utility/indexing.hpp"
 
 #include <string>
 
@@ -51,8 +51,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using namespace utility::indexing;
-
 			/**
 			 * @fn void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 			 * @param[in] name The name of the extension.

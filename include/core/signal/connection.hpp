@@ -41,6 +41,8 @@
 
 #include "core/config.hpp"
 
+#include <memory>
+
 namespace ece
 {
 	namespace core

@@ -43,10 +43,8 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "graphic/model/mesh.hpp"
-#include "core/resource/resource_handler.hpp"
-#include "graphic/model/material.hpp"
-#include "graphic/model/light.hpp"
+#include "graphic/model.hpp"
+#include "core/resource.hpp"
 
 #include <memory>
 
@@ -56,13 +54,6 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using model::Mesh;
-			using model::Light;
-			using model::Material;
-            using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatMatrix4u;
-			using core::resource::ResourceHandler;
-
 			/**
 			 * @class Object
 			 * @extends Renderable
@@ -131,8 +122,6 @@ namespace ece
 				 */
 				void setMesh(const Mesh::Reference & mesh);
 
-				void setMaterial(const std::shared_ptr<Material> & material);
-
 				// NOTE: accessing one of the elements linked to this object should not modify the object itself
 				// but it should also not forbid modification on the elements.
 
@@ -144,11 +133,11 @@ namespace ece
 				 */
 				inline Mesh::Reference getMesh() const;
 
-				inline std::shared_ptr<Material> getMaterial() const;
-
                 virtual void prepare() override;
 
 				void addInstance(const FloatMatrix4u & instance);
+
+				virtual void draw(std::shared_ptr<Shader> program) override;
 
 			protected:
 				/**
@@ -157,9 +146,7 @@ namespace ece
 				 */
 				Mesh::Reference _mesh;
 
-				std::shared_ptr<Material> _material;
-
-				std::vector<FloatMatrix4u> _instances;
+				VertexBuffer<SymetricStorage, std::vector<FloatMatrix4u>> _instances;
 			};
 		} // namespace renderable
 	} // namespace graphic
