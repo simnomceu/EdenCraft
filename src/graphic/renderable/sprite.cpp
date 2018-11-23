@@ -68,8 +68,8 @@ namespace ece
 				auto & vertices = this->_vertices.data();
 				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX(), this->_bounds.getY() }, { this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight() } });
 				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight() }, { this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX() + this->_bounds.getWidth() }, { this->_bounds.getY() + this->_bounds.getHeight(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX() + this->_bounds.getWidth() }, { this->_bounds.getY(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight() }, { (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() }, { (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight() } });
 				this->_vertices.update();
 				this->_vertexArray.attach(this->_vertices, layout);
 
@@ -89,7 +89,7 @@ namespace ece
 				program->bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
 
 				this->_index.bind();
-				OpenGL::drawElements(this->_mode, this->_vertices.size(), renderer::opengl::DataType::UNSIGNED_INT, 0);
+				OpenGL::drawElements(this->_mode, this->_index.size() * 3, renderer::opengl::DataType::UNSIGNED_INT, 0);
 			}
 		} //namespace renderable
 	} // namespace graphic

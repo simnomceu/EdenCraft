@@ -103,7 +103,7 @@ void RenderSystem::update()
 {
 	auto objects = this->_scene.getObjects();
 	for (auto object : objects) {
-		this->_process->pushObject(*object);
+//		this->_process->pushObject(*object);
 		this->_process->pushSprite(*object);
 	}
 	auto & pipeline = this->_process->getPipeline();
