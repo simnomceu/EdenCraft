@@ -122,11 +122,17 @@ namespace ece
 				// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
 				// TODO: adding properties for each texParameter here ?
 				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
-				OpenGL::generateMipmap(MipmapTarget::TEXTURE_2D);
 				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::WRAP_S), GL_REPEAT);
 				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::WRAP_T), GL_REPEAT);
+				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MIN_FILTER), GL_LINEAR);
+			//	this->enableMipmap();
+			}
+
+			void Texture2D::enableMipmap()
+			{
 				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MAG_FILTER), GL_NEAREST);
 				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MIN_FILTER), GL_NEAREST_MIPMAP_NEAREST);
+				OpenGL::generateMipmap(MipmapTarget::TEXTURE_2D);
 			}
 
 			void Texture2D::terminate() {}

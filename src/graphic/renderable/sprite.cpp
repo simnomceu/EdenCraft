@@ -41,6 +41,10 @@
 #include "graphic/renderable/sprite.hpp"
 #include "renderer/image.hpp"
 
+#ifdef _MSC_VER
+#undef max
+#endif
+
 namespace ece
 {
 	namespace graphic
@@ -52,6 +56,9 @@ namespace ece
 				if (this->_bounds == Rectangle<float>()) {
 					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
 				}
+				auto widthRatio = this->_bounds.getWidth() / (std::max(this->_bounds.getWidth(), this->_bounds.getHeight()));
+				auto heightRatio = this->_bounds.getHeight() / (std::max(this->_bounds.getWidth(), this->_bounds.getHeight()));
+				std::cerr << widthRatio << " | " << heightRatio << std::endl;
 
 				if (this->_textureClip == Rectangle<float>()) {
 					this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
@@ -66,17 +73,21 @@ namespace ece
                 layout.add<float>(2, false, false, false);
 
 				auto & vertices = this->_vertices.data();
-				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX(), this->_bounds.getY() }, { this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight() }, { this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight() }, { (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() }, { (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { 0.0f, 0.0f }, { this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { 0.0f, heightRatio }, { this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { widthRatio, heightRatio }, { (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { widthRatio, 0.0f }, { (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight() } });
 				this->_vertices.update();
 				this->_vertexArray.attach(this->_vertices, layout);
 
 				auto & indices = this->_index.data();
-				indices.push_back(Sprite::Face{ 0, 1, 2 });
-				indices.push_back(Sprite::Face{ 2, 3, 0 });
+				indices.push_back(Sprite::Face{ 0, 3, 1 });
+				indices.push_back(Sprite::Face{ 1, 3, 2 });
 				this->_index.update();
+
+				// TODO : Have to deal with position and size of the sprite shape.
+				this->applyTransformation(ece::scale({ 2.0f, 2.0f, 1.0f }));
+				this->applyTransformation(ece::translate({ -1.0f, -1.0f, 0.0f }));
 			}
 
 			void Sprite::draw(std::shared_ptr<Shader> program)

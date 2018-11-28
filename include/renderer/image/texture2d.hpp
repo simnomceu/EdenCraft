@@ -185,6 +185,8 @@ namespace ece
 				 */
 				virtual void update() override;
 
+				void enableMipmap();
+
 				/**
 				 * @fn void terminate()
 				 * @brief Clear and delete the texture.
