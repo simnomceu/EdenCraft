@@ -119,7 +119,7 @@ namespace ece
 				Texture2D::Texture2DReference _texture;
 				Rectangle<float> _textureClip;
 
-				Rectangle<float> _bounds;
+				AdaptativeProportion<Rectangle<float>> _bounds;
 				VertexBuffer<SymetricStorage, std::vector<Sprite::Vertex>> _vertices;
 				IndexBuffer<SymetricStorage, std::vector<Sprite::Face>> _index;
 			};

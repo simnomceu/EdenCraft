@@ -1,3 +1,4 @@
+#include "adaptative_proportion.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -36,17 +37,33 @@
 
 */
 
-#include "renderer/rendering/renderer.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace image
 		{
-			std::weak_ptr<RenderTarget> Renderer::_currentTarget;
-			std::weak_ptr<RenderContext> Renderer::_currentContext;
-			std::map<Texture::Target, std::weak_ptr<Texture>> Renderer::_currentTextures;
-		} // rendering
-	} // renderer
-} // ece
+				template <class T>
+				AdaptativeProportion<T>::AdaptativeProportion(proportion_type targetResolution, proportion_type measure) noexcept : 
+					_targetResolution(std::move(targetResolution)), _measure(std::move(measure))
+				{
+				}
+
+				template <class T>
+				inline AdaptativeProportion<T> & AdaptativeProportion<T>::operator=(proportion_type measure) noexcept { this->_measure = std::move(measure); return *this; }
+
+				template <class T>
+				inline void AdaptativeProportion<T>::setTargetResolution(proportion_type targetResolution) { this->_targetResolution = std::move(targetResolution); }
+
+				template<class T>
+				inline T AdaptativeProportion<T>::get(proportion_type currentResolution) { return this->_measure * (currentResolution / this->_targetResolution); }
+
+				template<class T>
+				inline const T & AdaptativeProportion<T>::getTargetResolution() const noexcept { return this->_targetResolution; }
+
+				template<class T>
+				inline const T & AdaptativeProportion<T>::getMeasure() const noexcept { return this->_measure; }
+
+		} // namespace image
+	} // namespace renderer
+} // namespace ece

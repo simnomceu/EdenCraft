@@ -48,7 +48,6 @@ void Assets::loadTexture(const std::string & name, const std::string & path)
 	auto blue0 = ece::makeResource<ece::Texture2D>(name);
 	blue0->loadFromFile(ece::Texture::TypeTarget::TEXTURE_2D, path);
 	blue0->bind(ece::Texture::Target::TEXTURE_2D);
-	blue0->update();
 }
 
 void Assets::loadAssets()

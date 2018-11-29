@@ -53,29 +53,40 @@ namespace ece
 	{
 		namespace image
 		{
+			Texture2D::Texture2D()noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture())
+			{
+				this->setParameter<int>(Parameter::WRAP_S, GL_REPEAT);
+				this->setParameter<int>(Parameter::WRAP_T, GL_REPEAT);
+				this->setParameter<int>(Parameter::MIN_FILTER, GL_LINEAR);
+			}
+
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
-				this->_filename = copy._filename;
-				this->_data = copy._data;
-				this->_width = copy._width;
-				this->_height = copy._height;
-				this->_type = copy._type;
-				this->_handle = copy._handle;
+				if (this != &copy) {
+					this->_filename = copy._filename;
+					this->_data = copy._data;
+					this->_width = copy._width;
+					this->_height = copy._height;
+					this->_type = copy._type;
+					this->_handle = copy._handle;
+				}
 
 				return *this;
 			}
 
 			Texture2D & Texture2D::operator=(Texture2D && move) noexcept
 			{
-				this->_filename = std::move(move._filename);
-				this->_data = std::move(move._data);
-				this->_width = move._width;
-				this->_height = move._height;
-				this->_type = move._type;
-				this->_handle = move._handle;
+				if (this != &move) {
+					this->_filename = std::move(move._filename);
+					this->_data = std::move(move._data);
+					this->_width = move._width;
+					this->_height = move._height;
+					this->_type = move._type;
+					this->_handle = move._handle;
 
-				move._data.clear();
-				move._handle = 0;
+					move._data.clear();
+					move._handle = 0;
+				}
 
 				return *this;
 			}
@@ -105,6 +116,8 @@ namespace ece
 						this->_width = image.getWidth();
 						this->_height = image.getHeight();
 						this->_type = type;
+
+						OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
 					}
 					catch (FileException & e) {
 						throw e;
@@ -114,21 +127,13 @@ namespace ece
 
 			void Texture2D::bind(const Target target)
 			{
-				OpenGL::bindTexture(getTextureTarget(target), this->_handle);
+				if (!this->isCurrent(target)) {
+					this->setCurrent(target);
+					OpenGL::bindTexture(getTextureTarget(target), this->_handle);
+				}
 			}
 
-			void Texture2D::update()
-			{
-				// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
-				// TODO: adding properties for each texParameter here ?
-				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::WRAP_S), GL_REPEAT);
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::WRAP_T), GL_REPEAT);
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MIN_FILTER), GL_LINEAR);
-			//	this->enableMipmap();
-			}
-
-			void Texture2D::enableMipmap()
+			void Texture2D::generateMipmap()
 			{
 				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MAG_FILTER), GL_NEAREST);
 				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MIN_FILTER), GL_NEAREST_MIPMAP_NEAREST);

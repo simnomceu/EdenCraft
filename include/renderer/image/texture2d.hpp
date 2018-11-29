@@ -65,7 +65,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline Texture2D() noexcept;
+				Texture2D() noexcept;
 
 				/**
 				 * @fn Texture2D(const Texture2D & copy)
@@ -178,14 +178,7 @@ namespace ece
 				template <typename T> void setParameter(const Parameter name, const T value);
 				template <typename T> void setParameter(const Parameter name, const std::vector<T> & value);
 
-				/**
-				 * @fn void update()
-				 * @brief Update the texture settings.
-				 * @throw
-				 */
-				virtual void update() override;
-
-				void enableMipmap();
+				void generateMipmap();
 
 				/**
 				 * @fn void terminate()

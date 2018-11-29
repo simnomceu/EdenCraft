@@ -36,100 +36,93 @@
 
 */
 
-#ifndef RENDERER_HPP
-#define RENDERER_HPP
+
+#ifndef ADAPTATIVE_PROPORTION_HPP
+#define ADAPTATIVE_PROPORTION_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/image/texture.hpp"
-
-#include <memory>
-#include <map>
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace image
 		{
-			class RenderTarget;
-			class RenderContext;
-			using image::Texture;
-
 			/**
-			 * @class Renderer
-			 * @brief Manage objects that need to be rendered.
+			 * @class AdaptativeProportion
+			 * @brief
 			 */
-			class ECE_RENDERER_API Renderer
+			template <class T>
+			class ECE_RENDERER_API AdaptativeProportion
 			{
 			public:
+				using proportion_type = T;
+
 				/**
-				 * @fn constexpr Renderer() noexcept
+				 * @fn constexpr AdaptativeProportion() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Renderer() noexcept = delete;
+				AdaptativeProportion(proportion_type targetResolution, proportion_type measure) noexcept;
 
 				/**
-				 * @fn Renderer(const Renderer & copy) noexcept
-				 * @param[in] copy The Renderer to copy from.
+				 * @fn AdaptativeProportion(const AdaptativeProportion & copy) noexcept
+				 * @param[in] copy The AdaptativeProportion to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Renderer(const Renderer & copy) noexcept = delete;
+				AdaptativeProportion(const AdaptativeProportion & copy) noexcept = default;
 
 				/**
-				 * @fn Renderer(Renderer && move) noexcept
-				 * @param[in] move The Renderer to move.
+				 * @fn AdaptativeProportion(AdaptativeProportion && move) noexcept
+				 * @param[in] move The AdaptativeProportion to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Renderer(Renderer && move) noexcept = delete;
+				AdaptativeProportion(AdaptativeProportion && move) noexcept = default;
 
 				/**
-				 * @fn ~Renderer()
+				 * @fn ~AdaptativeProportion() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Renderer() noexcept = delete;
+				~AdaptativeProportion() noexcept = default;
 
 				/**
-				 * @fn Renderer & operator=(const Renderer & copy) noexcept
-				 * @param[in] copy The Renderer to copy from.
-				 * @return The Renderer copied.
+				 * @fn AdaptativeProportion & operator=(const AdaptativeProportion & copy) noexcept
+				 * @param[in] copy The AdaptativeProportion to copy from.
+				 * @return The AdaptativeProportion copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Renderer & operator=(const Renderer & copy) noexcept = delete;
+				AdaptativeProportion & operator=(const AdaptativeProportion & copy) noexcept = default;
 
 				/**
-				 * @fn Renderer & operator=(Renderer && move) noexcept
-				 * @param[in] move The Renderer to move.
-				 * @return The Renderer moved.
+				 * @fn AdaptativeProportion & operator=(AdaptativeProportion && move) noexcept
+				 * @param[in] move The AdaptativeProportion to move.
+				 * @return The AdaptativeProportion moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Renderer & operator=(Renderer && move) noexcept = delete;
+				AdaptativeProportion & operator=(AdaptativeProportion && move) noexcept = default;
 
-				static inline void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
-				static inline std::weak_ptr<RenderTarget> getCurrentTarget();
+				inline AdaptativeProportion & operator=(proportion_type measure) noexcept;
 
-				static inline void setCurrentContext(const std::weak_ptr<RenderContext> & context);
-				static inline std::weak_ptr<RenderContext> getCurrentContext();
+				inline void setTargetResolution(proportion_type targetResolution);
 
-				static inline void setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture);
-				static inline std::weak_ptr<Texture> getCurrentTexture(Texture::Target target);
+				inline T get(proportion_type currentResolution);
 
-				static inline bool isInitialized() noexcept;
+				inline const T & getTargetResolution() const noexcept;
+				inline const T & getMeasure() const noexcept;
 
 			private:
-				static std::weak_ptr<RenderTarget> _currentTarget;
-				static std::weak_ptr<RenderContext> _currentContext;
-				static std::map<Texture::Target, std::weak_ptr<Texture>> _currentTextures;
+				proportion_type _targetResolution;
+				proportion_type _measure;
 			};
-		} // namespace rendering
+		} // namespace image
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/rendering/renderer.inl"
+#include "renderer/image/adaptative_proportion.inl"
 
-#endif // RENDERER_HPP
+#endif // ADAPTATIVE_PROPORTION_HPP

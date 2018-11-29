@@ -54,6 +54,16 @@ namespace ece
 			template <typename T>
 			inline bool Rectangle<T>::operator!=(const Rectangle<T> & rhs) const noexcept { return !this->operator==(rhs); }
 
+			template <typename T>
+			inline Rectangle<T> Rectangle<T>::operator*(const Rectangle<T> & rhs) const noexcept { return { this->_x * rhs.getX(), this->_y * rhs.getY(), 
+																											this->_w * rhs.getWidth(), this->_h * rhs.getHeight() }; }
+
+			template <typename T>
+			inline Rectangle<T> Rectangle<T>::operator/(const Rectangle<T> & rhs) const noexcept { return { rhs.getX() == T(0) ? T(0) : this->_x / rhs.getX(), 
+																											rhs.getY() == T(0) ? T(0) : this->_y / rhs.getY(),
+																											rhs.getWidth() == T(0) ? T(0) : this->_w / rhs.getWidth(),
+																											rhs.getHeight() == T(0) ? T(0) : this->_h / rhs.getHeight() }; }
+
 			template<typename T>
 			inline T Rectangle<T>::getX() const noexcept { return this->_x; }
 

@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooo     ooo     .    o8o  oooo   o8o      .
-															`888'     `8'   .o8    `"'  `888   `"'    .o8
-															 888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo
-															 888       8    888   `888   888  `888    888    `88.  .8'
-															 888       8    888    888   888   888    888     `88..8'
-															 `88.    .8'    888 .  888   888   888    888 .    `888'
-															   `YbodP'      "888" o888o o888o o888o   "888"     .8'
-																											.o..P'
-																											`Y8P'
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
 
-				This file is part of EdenCraft Engine - Utility module.
+
+
+				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,31 +36,29 @@
 
 */
 
-#include <utility>
-#include <memory>
+#include "renderer/image/texture.hpp"
+#include "renderer/rendering/renderer.hpp"
 
 namespace ece
 {
-	namespace utility
+	namespace renderer
 	{
-		namespace pattern
+		namespace image
 		{
-			template <class T>
-			template <class... Args>
-			inline Holder<T>::Holder(Args&&... args) noexcept: _content(std::forward<Args>(args)...) {}
+			using rendering::Renderer;
 
-			template <class T>
-			Holder<T> * Holder<T>::clone() { return new Holder<T>(this->_content); }
+			void Texture::setCurrent(Target target) { Renderer::setCurrentTexture(target, this->weak_from_this()); }
 
-			template <class T>
-			void Holder<T>::destroy()
+			bool Texture::isCurrent(Target target) const noexcept
 			{
-				(void)sizeof(T);
-				std::default_delete<Holder<T>>()(this);
+				try {
+					return Renderer::getCurrentTexture(target).lock().get() == this;
+				}
+				catch (std::bad_weak_ptr & e) {
+					ServiceLoggerLocator::getService().logError(std::string("A Texture need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. ") + e.what());
+					return false;
+				}
 			}
-
-			template <class T>
-			void * Holder<T>::get() { return static_cast<void *>(&this->_content); }
-		} // namespace pattern
-	} // namespace utility
+		} // namespace image
+	} // namespace renderer
 } // namespace ece
