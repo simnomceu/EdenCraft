@@ -139,7 +139,6 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	auto window = app.addWindow<ece::RenderWindow>();
 
 	ece::WindowSetting settings;
-	settings._position = ece::IntVector2u{ 10, 10 };
 	settings._title = "Bubble Volley";
 
 	auto & contextSettings = window.lock()->getContextSettings();

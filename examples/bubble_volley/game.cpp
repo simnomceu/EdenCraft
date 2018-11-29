@@ -44,7 +44,7 @@
 
 Game::Game(ece::World & world) noexcept: onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity())
 {
-	auto sprite = ece::makeResource<ece::Sprite>("titel_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"));
+	auto sprite = ece::makeResource<ece::Sprite>("titel_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 500.0f, 700.0f, 300.0f, 100.0f }, ece::Rectangle<float>{ 200.0f, 200.0f, 400.0f, 200.0f });
 	sprite->prepare();
 	this->_background.addComponent<GraphicComponent>(sprite);
 	this->setState(SPLASHSCREEN);

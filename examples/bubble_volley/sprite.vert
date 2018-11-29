@@ -6,9 +6,9 @@ layout(location = 1) in vec2 inTexture;
 out vec2 texturePos;
 
 uniform mat4 model;
-uniform mat4 resolution;
+uniform mat4 projection;
 
 void main() {
     texturePos = inTexture;
-	gl_Position = model * resolution * vec4(inPosition, 0.0, 1.0);
+	gl_Position = projection * model * vec4(inPosition, 0.0, 1.0);
 }

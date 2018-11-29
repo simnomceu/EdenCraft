@@ -53,8 +53,37 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(Rectangle<float>{0.0f, 0.0f, 1920.0f, 1080.0f}, bounds), _vertices(), _index()
+			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds), _vertices(), _index()
 			{
+				if (this->_bounds == Rectangle<float>()) {
+					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
+				}
+				if (this->_textureClip == Rectangle<float>()) {
+					this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
+				}
+
+				this->_mode = PrimitiveMode::TRIANGLES;
+
+				this->_vertexArray.bind();
+
+				renderer::buffer::BufferLayout layout;
+				layout.add<float>(2, false, false, false);
+				layout.add<float>(2, false, false, false);
+
+				auto & vertices = this->_vertices.data();
+				vertices.push_back(Sprite::Vertex{ { 0.0f, 0.0f },																						{ this->_textureClip.getX() / this->_texture->getWidth(), this->_textureClip.getY() / this->_texture->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { 0.0f, static_cast<float>(this->_texture->getHeight()) },											{ this->_textureClip.getX() / this->_texture->getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_texture->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()) }, { (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_texture->getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_texture->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture->getWidth()), 0.0f },											{ (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_texture->getWidth(), this->_textureClip.getY() / this->_texture->getHeight() } });
+				this->_vertices.update();
+				this->_vertexArray.attach(this->_vertices, layout);
+
+				auto & indices = this->_index.data();
+				indices.push_back(Sprite::Face{ 0, 3, 1 });
+				indices.push_back(Sprite::Face{ 1, 3, 2 });
+				this->_index.update();
+
+
 				// TODO: fix computation of Sprite clipping/transforming.
 				// ProjectionMatrix = { BaseResolution => ScreenResolution => [-1 ; 1] }
 				// ModelMatrix = Rotate * Translate * Scale (not sure the order ?)
@@ -64,43 +93,6 @@ namespace ece
 				// sprite.wh = sprite.clip.wh (before projection)
 				// TextureCoordinate = sprites.clip.xywh / sprites.textures.xywh (has to be between 0 and 1)
 				// Coordinate = sprites.textures.xywh (before everything else)
-
-				if (this->_bounds.getMeasure() == Rectangle<float>()) {
-					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
-				}
-				auto widthRatio = this->_bounds.getMeasure().getWidth() / this->_bounds.getTargetResolution().getWidth();
-				auto heightRatio = this->_bounds.getMeasure().getHeight() / this->_bounds.getTargetResolution().getHeight();
-
-				if (this->_textureClip == Rectangle<float>()) {
-					this->_textureClip = Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f);
-				}
-				else {
-					this->_textureClip = Rectangle<float>{ this->_textureClip.getX() / this->_bounds.getMeasure().getWidth(),
-															this->_textureClip.getY() / this->_bounds.getMeasure().getHeight(),
-															this->_textureClip.getWidth() / this->_bounds.getMeasure().getWidth(),
-															this->_textureClip.getHeight() / this->_bounds.getMeasure().getHeight() };
-				}
-
-				this->_mode = PrimitiveMode::TRIANGLES;
-
-				this->_vertexArray.bind();
-
-                renderer::buffer::BufferLayout layout;
-                layout.add<float>(2, false, false, false);
-                layout.add<float>(2, false, false, false);
-
-				auto & vertices = this->_vertices.data();
-				vertices.push_back(Sprite::Vertex{ { 0.0f, 0.0f }, { this->_textureClip.getX(), this->_textureClip.getY()} });
-				vertices.push_back(Sprite::Vertex{ { 0.0f, heightRatio }, { this->_textureClip.getX(), this->_textureClip.getY() + this->_textureClip.getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { widthRatio, heightRatio }, { this->_textureClip.getX() + this->_textureClip.getWidth(), this->_textureClip.getY() + this->_textureClip.getHeight()} });
-				vertices.push_back(Sprite::Vertex{ { widthRatio, 0.0f }, { this->_textureClip.getX() + this->_textureClip.getWidth(), this->_textureClip.getY() } });
-				this->_vertices.update();
-				this->_vertexArray.attach(this->_vertices, layout);
-
-				auto & indices = this->_index.data();
-				indices.push_back(Sprite::Face{ 0, 3, 1 });
-				indices.push_back(Sprite::Face{ 1, 3, 2 });
-				this->_index.update();
 			}
 
 			void Sprite::draw(std::shared_ptr<Shader> program)
@@ -112,13 +104,13 @@ namespace ece
 				this->_texture->bind(Texture::Target::TEXTURE_2D);
 				program->bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
 
-				// TODO : Have to deal with position and size of the sprite shape.
-				auto bounds = this->_bounds.get(Rectangle<float>{0.0f, 0.0f, 1920.0f, 1080.0f}); // Take window size here
-				auto resolution = ece::scale({ bounds.getWidth() / this->_texture->getWidth(), bounds.getHeight() / this->_texture->getHeight(), 1.0f });
-				resolution = ece::translate({ bounds.getX(), bounds.getY(), 0.0f }) * resolution;
-				resolution = ece::scale({ 2.0f, 2.0f, 1.0f }) * resolution;
-				resolution = ece::translate({ -1.0f, -1.0f, 0.0f }) * resolution;
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "resolution"), true, resolution);
+				auto projection = ece::translate({ -1.0f, -1.0f, 0.0f }) * ece::scale({ 1.0f / this->_texture->getWidth(), 1.0f / this->_texture->getHeight(), 1.0f });
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "projection"), true, projection);
+
+				this->_model.setIdentity();
+				this->applyTransformation(ece::scale({ this->_bounds.getWidth() / this->_textureClip.getWidth(), this->_bounds.getHeight() / this->_textureClip.getHeight(), 1.0f }));
+				this->applyTransformation(ece::rotate(FRONT, -static_cast<float>(PI) / 4.0f));
+				this->applyTransformation(ece::translate({ this->_bounds.getX(), this->_bounds.getY(), 0.0f }));
 
 				this->_index.bind();
 				OpenGL::drawElements(this->_mode, this->_index.size() * 3, renderer::opengl::DataType::UNSIGNED_INT, 0);
