@@ -58,6 +58,10 @@ float computeDiffuseFactor(int i, vec3 lightDir);
 
 void main()
 {
+    /*
+        TODO: Volumic light test : if not in the light sphere area, do not compute and just put a black pixel. (Intersection sphere/cube)
+        TODO: linear calculs could be moved from fragment to vertex shader.
+    */
     vec3 viewPos = vec3(view[3]);
     vec3 viewDir = normalize(viewPos - fragPos);
 
