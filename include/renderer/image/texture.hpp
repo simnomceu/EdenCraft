@@ -42,6 +42,7 @@
 
 #include "renderer/config.hpp"
 #include "utility/types.hpp"
+#include "utility/pattern.hpp"
 
 #include <string>
 #include <vector>
@@ -58,7 +59,7 @@ namespace ece
 			 * @brief OpenGL 2D texture.
 			 * @remark Split the image and the texture implementations. A texture can use an image but it is not an image.
 			 */
-			class ECE_RENDERER_API Texture
+			class ECE_RENDERER_API Texture : public virtual_enable_shared_from_this<Texture>
 			{
 			public:
 				enum class TypeTarget : unsigned short int
@@ -179,14 +180,7 @@ namespace ece
 				 */
 				virtual void bind(const Target target) = 0;
 
-				virtual void active(const unsigned int channel) = 0;
-
-				/**
-				 * @fn void update()
-				 * @brief Update the texture settings.
-				 * @throw
-				 */
-				virtual void update() = 0;
+				virtual void active(const unsigned int channel) = 0; 
 
 				/**
 				 * @fn void terminate()
@@ -194,6 +188,10 @@ namespace ece
 				 * @throw
 				 */
 				virtual void terminate() = 0;
+
+			protected:
+				void setCurrent(Target target);
+				bool isCurrent(Target target) const noexcept;
 			};
 		} // namespace image
 	} // namespace renderer

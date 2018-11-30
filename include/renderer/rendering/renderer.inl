@@ -53,6 +53,10 @@ namespace ece
 
 			inline std::weak_ptr<RenderContext> Renderer::getCurrentContext() { return Renderer::_currentContext; }
 
+			inline void Renderer::setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture) { Renderer::_currentTextures[target] = texture; }
+
+			inline std::weak_ptr<Texture> Renderer::getCurrentTexture(Texture::Target target) { return Renderer::_currentTextures[target]; }
+
 			inline bool Renderer::isInitialized() noexcept { return !Renderer::_currentContext.expired(); }
 		} // namespace rendering
 	} // namespace renderer

@@ -40,8 +40,10 @@
 #define RENDERER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/image/texture.hpp"
 
 #include <memory>
+#include <map>
 
 namespace ece
 {
@@ -51,6 +53,7 @@ namespace ece
 		{
 			class RenderTarget;
 			class RenderContext;
+			using image::Texture;
 
 			/**
 			 * @class Renderer
@@ -113,11 +116,15 @@ namespace ece
 				static inline void setCurrentContext(const std::weak_ptr<RenderContext> & context);
 				static inline std::weak_ptr<RenderContext> getCurrentContext();
 
+				static inline void setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture);
+				static inline std::weak_ptr<Texture> getCurrentTexture(Texture::Target target);
+
 				static inline bool isInitialized() noexcept;
 
 			private:
 				static std::weak_ptr<RenderTarget> _currentTarget;
 				static std::weak_ptr<RenderContext> _currentContext;
+				static std::map<Texture::Target, std::weak_ptr<Texture>> _currentTextures;
 			};
 		} // namespace rendering
 	} // namespace renderer

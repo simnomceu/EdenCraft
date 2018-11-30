@@ -36,6 +36,9 @@
 
 */
 
+#include <utility>
+#include <memory>
+
 namespace ece
 {
 	namespace utility

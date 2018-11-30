@@ -123,7 +123,7 @@ namespace ece
 							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
 						}
 						diffuseMap->bind(Texture::Target::TEXTURE_2D);
-						diffuseMap->update();
+						diffuseMap->generateMipmap();
 						materialVisitor.setDiffuseMap(diffuseMap);
 					}
 
@@ -133,7 +133,7 @@ namespace ece
 							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
 						}
 						specularMap->bind(Texture::Target::TEXTURE_2D);
-						specularMap->update();
+						specularMap->generateMipmap();
 						materialVisitor.setSpecularMap(specularMap);
 					}
 				}

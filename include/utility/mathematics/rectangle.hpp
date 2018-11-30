@@ -124,6 +124,10 @@ namespace ece
 
 				inline bool operator!=(const Rectangle<T> & rhs) const noexcept;
 
+				inline Rectangle<T> operator*(const Rectangle<T> & rhs) const noexcept;
+
+				inline Rectangle<T> operator/(const Rectangle<T> & rhs) const noexcept;
+
 				/**
 				  * @fn T getX() const noexcept
 				  * @return The position on the x-axis. The value returned is of the same type used to define the rectangle.

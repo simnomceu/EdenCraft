@@ -65,13 +65,13 @@ namespace ece
 
 			void PhongMaterial::initialize()
 			{
-				this->_material->addProperty("diffuseMap", makeProperty<Texture2D::Texture2DReference, int>(Texture2D::Texture2DReference(), [this](auto property) -> int {
+				this->_material->addProperty("diffuseMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
 					property->active(0);
 					property->bind(Texture::Target::TEXTURE_2D);
 					return 0;
 				}));
 
-				this->_material->addProperty("specularMap", makeProperty<Texture2D::Texture2DReference, int>(Texture2D::Texture2DReference(), [this](auto property) -> int {
+				this->_material->addProperty("specularMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
 					property->active(1);
 					property->bind(Texture::Target::TEXTURE_2D);
 					return 1;

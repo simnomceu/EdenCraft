@@ -39,6 +39,13 @@
 */
 
 #include "graphic/renderable/sprite.hpp"
+#include "renderer/image.hpp"
+#include "renderer/rendering.hpp"
+
+#ifdef _MSC_VER
+#undef max
+#undef min
+#endif
 
 namespace ece
 {
@@ -46,45 +53,65 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Sprite::Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : Renderable(), _texture(texture), _textureClip(textureClip), _bounds(bounds), _vertices(), _index()
+			Sprite::Sprite(const Texture2D::Reference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : 
+				Renderable(), _texture{ texture, textureClip }, _bounds(bounds), _rotation(0.0f), _vertices(), _index()
 			{
 				if (this->_bounds == Rectangle<float>()) {
-					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
+					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture.ref->getWidth()), static_cast<float>(this->_texture.ref->getHeight()));
 				}
-
-				if (this->_textureClip == Rectangle<float>()) {
-					this->_textureClip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture->getWidth()), static_cast<float>(this->_texture->getHeight()));
+				if (this->_texture.clip == Rectangle<float>()) {
+					this->_texture.clip = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture.ref->getWidth()), static_cast<float>(this->_texture.ref->getHeight()));
 				}
-
-				this->_texture->active(0);
-				this->_texture->bind(Texture::Target::TEXTURE_2D);
-				this->_texture->update();
 
 				this->_mode = PrimitiveMode::TRIANGLES;
 
-				this->_index.write({ 0, 1, 2, 2, 3, 0 });
+				this->_vertexArray.bind();
 
-                renderer::buffer::BufferLayout layout;
-                layout.add<float>(2, false, false, false);
-                layout.add<float>(2, false, false, false);
+				this->setTexture(texture);
 
-				this->_vertices.write({ 
-					this->_bounds.getX(), this->_bounds.getY(), this->_textureClip.getX() / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight(),
-					this->_bounds.getX(), this->_bounds.getY() + this->_bounds.getHeight(), this->_textureClip.getX() / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
-					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY() + this->_bounds.getHeight(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), (this->_textureClip.getY() + this->_textureClip.getHeight()) / this->_bounds.getHeight(),
-					this->_bounds.getX() + this->_bounds.getWidth(), this->_bounds.getY(), (this->_textureClip.getX() + this->_textureClip.getWidth()) / this->_bounds.getWidth(), this->_textureClip.getY() / this->_bounds.getHeight()
-				});
-				this->_vertexArray.attach(this->_vertices, layout);
+				auto & indices = this->_index.data();
+				indices.push_back(Sprite::Face{ 0, 3, 1 });
+				indices.push_back(Sprite::Face{ 1, 3, 2 });
+				this->_index.update();
 			}
 
 			void Sprite::draw(std::shared_ptr<Shader> program)
 			{
+				program->use();
+				this->_vertexArray.bind();
+
+				this->_texture.ref->active(0);
+				this->_texture.ref->bind(Texture::Target::TEXTURE_2D);
 				program->bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
 
-				this->_vertexArray.bind();
+				auto projection = ece::translate({ -1.0f, -1.0f, 0.0f }) * ece::scale({ 2.0f, 2.0f, 1.0f }) * ece::scale({ 1.0f / 1920.0f, 1.0f / 1080.0f, 1.0f });
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "projection"), true, projection);
+
+				this->_model.setIdentity();
+				this->applyTransformation(ece::scale({ this->_bounds.getWidth() / this->_texture.clip.getWidth(), this->_bounds.getHeight() / this->_texture.clip.getHeight(), 1.0f }));
+				this->applyTransformation(ece::rotate(FRONT, this->_rotation * static_cast<float>(PI) / 180.0f));
+				this->applyTransformation(ece::translate({ this->_bounds.getX(), this->_bounds.getY(), 0.0f }));
+				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "model"), true, this->_model);
+
 				this->_index.bind();
-				this->_state.apply();
-				OpenGL::drawElements(this->_mode, this->_vertices.size(), renderer::opengl::DataType::UNSIGNED_INT, 0);
+				OpenGL::drawElements(this->_mode, this->_index.size() * 3, renderer::opengl::DataType::UNSIGNED_INT, 0);
+			}
+
+			void Sprite::setTexture(const Texture2D::Reference & texture)
+			{
+				this->_texture.ref = texture;
+
+				renderer::buffer::BufferLayout layout;
+				layout.add<float>(2, false, false, false);
+				layout.add<float>(2, false, false, false);
+
+				auto & vertices = this->_vertices.data();
+				vertices.push_back(Sprite::Vertex{ { 0.0f, 0.0f },																						{ this->_texture.clip.getX() / this->_texture.ref->getWidth(), this->_texture.clip.getY() / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { 0.0f, static_cast<float>(this->_texture.ref->getHeight()) },											{ this->_texture.clip.getX() / this->_texture.ref->getWidth(), (this->_texture.clip.getY() + this->_texture.clip.getHeight()) / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), static_cast<float>(this->_texture.ref->getHeight()) }, { (this->_texture.clip.getX() + this->_texture.clip.getWidth()) / this->_texture.ref->getWidth(), (this->_texture.clip.getY() + this->_texture.clip.getHeight()) / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), 0.0f },											{ (this->_texture.clip.getX() + this->_texture.clip.getWidth()) / this->_texture.ref->getWidth(), this->_texture.clip.getY() / this->_texture.ref->getHeight() } });
+				this->_vertices.update();
+				this->_vertexArray.attach(this->_vertices, layout);
 			}
 		} //namespace renderable
 	} // namespace graphic

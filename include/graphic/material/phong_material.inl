@@ -56,9 +56,9 @@ namespace ece
 			
 			inline void PhongMaterial::setShininess(const float shininess) { *std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess")) = shininess; }
 
-			inline void PhongMaterial::setDiffuseMap(const Texture2D::Texture2DReference & texture) { *std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap")) = texture; }
+			inline void PhongMaterial::setDiffuseMap(const Texture2D::Reference & texture) { *std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap")) = texture; }
 
-			inline void PhongMaterial::setSpecularMap(const Texture2D::Texture2DReference & texture) { *std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap")) = texture; }
+			inline void PhongMaterial::setSpecularMap(const Texture2D::Reference & texture) { *std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap")) = texture; }
 
 			inline const FloatVector3u & PhongMaterial::getAmbient() const { return std::dynamic_pointer_cast<Ambient>(this->_material->getProperty("ambient"))->get(); }
 			
@@ -68,9 +68,9 @@ namespace ece
 			
 			inline float PhongMaterial::getShininess() const { return std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess"))->get(); }
 
-			inline Texture2D::Texture2DReference PhongMaterial::getDiffuseMap() const { return std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap"))->get(); }
+			inline Texture2D::Reference PhongMaterial::getDiffuseMap() const { return std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap"))->get(); }
 			
-			inline Texture2D::Texture2DReference PhongMaterial::getSpecularMap() const { return std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap"))->get(); }
+			inline Texture2D::Reference PhongMaterial::getSpecularMap() const { return std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap"))->get(); }
 		} // namespace material
 	} // namespace graphic
 } // namespace ece

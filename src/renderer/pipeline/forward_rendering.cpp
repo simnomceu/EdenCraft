@@ -130,8 +130,9 @@ namespace ece
 				drawable->draw(this->_pipeline.getProgram());
 			}
 
-			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & /*drawable*/, const Staging & /*staging*/)
+			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & drawable, const Staging & /*staging*/)
 			{
+				drawable->draw(this->_pipeline.getProgram());
 			}
 		}
 	}

@@ -102,12 +102,13 @@ namespace ece
 				this->_buffer = new E[width * height]();
 				for (size_t i = 0; i < height; ++i) {
 					for (size_t j = 0; j < width; ++j) {
-						if (i >= this->_height || j >= this->_width) {
+			//			if (i >= this->_height || j >= this->_width) {
 							this->_buffer[j + i * width] = E();
-						}
-						else {
-							this->_buffer[j + i * width] = dirtyBuffer[j + i * width];
-						}
+			//			}
+			//			else {
+			//				this->_buffer[j + i * width] = dirtyBuffer[j + i * width];
+			//			}
+			// TODO: conserving the old data while resizing is very buggy sometimes. I couldn't figure out why.
 					}
 				}
 				

@@ -124,21 +124,21 @@ namespace ece
 				inline void setDiffuse(const FloatVector3u & diffuse);
 				inline void setSpecular(const FloatVector3u & specular);
 				inline void setShininess(const float shininess);
-				inline void setDiffuseMap(const Texture2D::Texture2DReference & texture);
-				inline void setSpecularMap(const Texture2D::Texture2DReference & texture);
+				inline void setDiffuseMap(const Texture2D::Reference & texture);
+				inline void setSpecularMap(const Texture2D::Reference & texture);
 
 				inline const FloatVector3u & getAmbient() const;
 				inline const FloatVector3u & getDiffuse() const;
 				inline const FloatVector3u & getSpecular() const;
 				inline float getShininess() const;
-				inline Texture2D::Texture2DReference getDiffuseMap() const;
-				inline Texture2D::Texture2DReference getSpecularMap() const;
+				inline Texture2D::Reference getDiffuseMap() const;
+				inline Texture2D::Reference getSpecularMap() const;
 
 			private:
 				std::shared_ptr<Material> _material;
 
-				using DiffuseMap = Property<Texture2D::Texture2DReference, int>;
-				using SpecularMap = Property<Texture2D::Texture2DReference, int>;
+				using DiffuseMap = Property<Texture2D::Reference, int>;
+				using SpecularMap = Property<Texture2D::Reference, int>;
 				using DiffuseMapEnabled = ComputedProperty<bool>;
 				using SpecularMapEnabled = ComputedProperty<bool>;
 				using Ambient = Property<FloatVector3u, std::array<float, 3>>;

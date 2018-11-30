@@ -58,14 +58,14 @@ namespace ece
 			class ECE_RENDERER_API Texture2D: public Texture
 			{
 			public:
-				using Texture2DReference = ResourceHandler<Texture2D>;
+				using Reference = ResourceHandler<Texture2D>;
 
 				/**
 				 * @fn Texture2D() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline Texture2D() noexcept;
+				Texture2D() noexcept;
 
 				/**
 				 * @fn Texture2D(const Texture2D & copy)
@@ -178,12 +178,7 @@ namespace ece
 				template <typename T> void setParameter(const Parameter name, const T value);
 				template <typename T> void setParameter(const Parameter name, const std::vector<T> & value);
 
-				/**
-				 * @fn void update()
-				 * @brief Update the texture settings.
-				 * @throw
-				 */
-				virtual void update() override;
+				void generateMipmap();
 
 				/**
 				 * @fn void terminate()

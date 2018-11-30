@@ -42,13 +42,14 @@ struct Light
 in vec3 normal;
 in vec3 fragPos;
 in vec2 texturePos;
+in vec3 viewPos;
+in vec3 viewDir;
 
 out vec4 fragColor;
 
 uniform Material material;
 uniform Light lights[MAX_NUMBER_OF_LIGHTS];
 uniform int numberOfLights;
-uniform mat4 view;
 
 vec3 getLightDir(int i);
 float computeIntensity(vec3 lightDir, int i);
@@ -58,9 +59,10 @@ float computeDiffuseFactor(int i, vec3 lightDir);
 
 void main()
 {
-    vec3 viewPos = vec3(view[3]);
-    vec3 viewDir = normalize(viewPos - fragPos);
-
+    /*
+        TODO: Volumic light test : if not in the light sphere area, do not compute and just put a black pixel. (Intersection sphere/cube)
+        TODO: linear calculs could be moved from fragment to vertex shader.
+    */
     vec3 ambient = vec3(0.0, 0.0, 0.0);
     vec3 diffuse = vec3(0.0, 0.0, 0.0);
     vec3 specular = vec3(0.0, 0.0, 0.0);
