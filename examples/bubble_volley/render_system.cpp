@@ -78,9 +78,9 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 	{
 		ece::ShaderStage fsSource;
-		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../examples/bubble_volley/sprite.frag");
+		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/sprite.frag");
 		ece::ShaderStage vsSource;
-		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../examples/bubble_volley/sprite.vert");
+		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/sprite.vert");
 
 		auto program = std::make_shared<ece::EnhancedShader>();
 		program->setStage(fsSource);
