@@ -42,13 +42,14 @@
 #include "core/resource.hpp"
 #include "graphic_component.hpp"
 
-Game::Game(ece::World & world) noexcept: onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity())
+Game::Game(ece::World & world) noexcept : 
+	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 }
 {
-	ece::makeResource<ece::Sprite>("strand1_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("strand1"));
-	auto sprite = ece::makeResource<ece::Sprite>("titel_sprite", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 500.0f, 700.0f, 300.0f, 100.0f }, ece::Rectangle<float>{ 200.0f, 200.0f, 400.0f, 200.0f });
-	sprite->prepare();
-	this->_background.addComponent<GraphicComponent>(sprite);
-	this->setState(SPLASHSCREEN);
+	{
+		auto sprite = ece::makeResource<ece::Sprite>("background", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 240.0f, 0.0f, 1440.0f, 1080.0f });
+		this->_background.addComponent<GraphicComponent>(sprite);
+	}
+	this->setState(PLAY);
 }
 
 void Game::setState(const Game::State state)
@@ -58,17 +59,32 @@ void Game::setState(const Game::State state)
 	{
 	case SPLASHSCREEN:
 	{
-		auto sprite = ece::getResource<ece::Sprite>("titel_sprite");
-		sprite->prepare();
-		this->_background.getComponent<GraphicComponent>().setRenderable(sprite);
+		{
+			auto sprite = ece::getResource<ece::Sprite>("background");
+			sprite->setTexture(ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"));
+		}
 		this->onSplashScreenEntered();
 		break;
 	}
 	case PLAY:
 	{
-		auto sprite = ece::getResource<ece::Sprite>("strand1_sprite");
-		sprite->prepare();
-		this->_background.getComponent<GraphicComponent>().setRenderable(sprite);
+		{
+			auto sprite = ece::getResource<ece::Sprite>("background");
+			sprite->setTexture(ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("strand1"));
+		}
+		{
+			auto sprite = ece::makeResource<ece::Sprite>("scoreA", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
+			auto bounds = sprite->getBounds();
+			sprite->setBounds({ 20.0f, 940.0f, bounds.getWidth() * 2.0f, bounds.getHeight() * 2.0f });
+			this->_scoreA.handle.addComponent<GraphicComponent>(sprite);
+		}
+		{
+			auto sprite = ece::makeResource<ece::Sprite>("scoreB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
+			auto bounds = sprite->getBounds();
+			sprite->setBounds({ 1840.0f, 940.0f, bounds.getWidth() * 2.0f, bounds.getHeight() * 2.0f });
+			this->_scoreB.handle.addComponent<GraphicComponent>(sprite);
+		}
+
 		this->onPlayEntered();
 		break;
 	}

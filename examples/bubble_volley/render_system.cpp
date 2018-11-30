@@ -60,11 +60,6 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 	states._depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
 	states.apply(true);
 
-/*	{
-		auto light = ece::makeSpotLight(0.7f, 0.6f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
-		this->_scene.addLight(light);
-	}*/
-
 	{
 		auto & camera = this->_scene.getCamera();
 		camera.getProjection().setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
@@ -103,22 +98,10 @@ void RenderSystem::update()
 {
 	auto objects = this->_scene.getObjects();
 	for (auto object : objects) {
-//		this->_process->pushObject(*object);
 		this->_process->pushSprite(*object);
 	}
 	auto & pipeline = this->_process->getPipeline();
 	auto program = pipeline.getProgram();
-/*	auto lights = this->_scene.getLights();
-	program->bind(std::make_shared<ece::Uniform<int>>("numberOfLights", lights.size()), "numberOfLights");
-
-	int lightId = 0;
-	for (auto & light : lights) {
-		auto uniforms = light->getUniforms();
-		for (auto & uniform : uniforms) {
-			program->bind(uniform, "lights[" + std::to_string(lightId) + "]." + uniform->getName());
-		}
-		++lightId;
-	}*/
 
 	ece::Staging staging;
 	staging._view = this->_scene.getCamera().getView();

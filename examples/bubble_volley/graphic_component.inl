@@ -36,8 +36,12 @@
 
 */
 
-inline GraphicComponent::GraphicComponent(const ece::Renderable::Reference & renderable): _renderable(renderable) {}
+inline GraphicComponent::GraphicComponent(const ece::Renderable::Reference & renderable): _renderable(renderable), _level(0) {}
 
 inline void GraphicComponent::setRenderable(const ece::Renderable::Reference & renderable) { this->_renderable = renderable; }
 
 inline const ece::Renderable::Reference & GraphicComponent::getRenderable() const { return this->_renderable; }
+
+inline void GraphicComponent::setLevel(int level) { this->_level = level; }
+
+inline int GraphicComponent::getLevel() const { return this->_level; }

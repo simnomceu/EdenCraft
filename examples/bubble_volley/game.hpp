@@ -115,12 +115,21 @@ public:
 	ece::Signal<> onPlayEntered;
 
 private:
+	struct Score
+	{
+		ece::EntityHandler handle;
+		int value;
+	};
+
 	Game::State _current;
 	
 //	ece::Scene _scene;
 
 //	ece::ResourceHandler<ece::Sprite> _background;
 	ece::EntityHandler _background;
+
+	Score _scoreA;
+	Score _scoreB;
 };
 
 #endif // GAME_HPP

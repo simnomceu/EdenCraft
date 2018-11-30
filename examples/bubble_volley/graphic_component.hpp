@@ -102,8 +102,13 @@ public:
 
 	inline const ece::Renderable::Reference & getRenderable() const;
 
+	inline void setLevel(int level);
+
+	inline int getLevel() const;
+
 private:
 	ece::ResourceHandler<ece::Renderable> _renderable;
+	int _level;
 };
 
 #include "graphic_component.inl"

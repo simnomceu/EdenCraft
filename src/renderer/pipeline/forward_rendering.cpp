@@ -132,8 +132,6 @@ namespace ece
 
 			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & drawable, const Staging & /*staging*/)
 			{
-				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(this->_pipeline.getProgram()->getHandle(), "model"), true, drawable->getModel());
-				
 				drawable->draw(this->_pipeline.getProgram());
 			}
 		}
