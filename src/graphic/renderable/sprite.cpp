@@ -54,7 +54,7 @@ namespace ece
 		namespace renderable
 		{
 			Sprite::Sprite(const Texture2D::Reference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : 
-				Renderable(), _texture{ texture, textureClip }, _bounds(bounds), _rotation(0.0f), _vertices(), _index()
+				Renderable(), _texture{ texture, textureClip }, _bounds(bounds), _rotation(0.0f), _vertices(), _index(), _level(0)
 			{
 				if (this->_bounds == Rectangle<float>()) {
 					this->_bounds = Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->_texture.ref->getWidth()), static_cast<float>(this->_texture.ref->getHeight()));

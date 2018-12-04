@@ -58,7 +58,7 @@ namespace ece
 			Object::Reference Scene::addObject()
 			{
 				auto object = makeResource<Object>("");
-				this->_objects.push_back({ object, true });
+				this->_objects.push_back({ object, true, 0 });
 				return std::move(object);
 			}
 
@@ -84,6 +84,13 @@ namespace ece
 						object._hasChanged = false;
 					}
 				}
+			}
+
+			void Scene::sortObjects()
+			{
+				std::sort(this->_objects.begin(), this->_objects.end(), [](const auto & a, const auto & b) -> bool {
+					return a._level >= b._level;
+				});
 			}
 		} // namespace scene
 	} // namespace graphic

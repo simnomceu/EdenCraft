@@ -49,6 +49,10 @@ namespace ece
 
 			inline void Sprite::setBounds(Rectangle<float> bounds) { this->_bounds = bounds; }
 
+			inline void Sprite::moveTo(ece::FloatVector2u position) { this->_bounds = { position[0], position[1], this->_bounds.getWidth(), this->_bounds.getHeight() }; }
+
+			inline void Sprite::resize(ece::FloatVector2u size) { this->_bounds = { this->_bounds.getX(), this->_bounds.getY(), size[0], size[1] }; }
+
 			inline void Sprite::resetRotation() { this->_rotation = 0.0f; }
 
 			inline void Sprite::rotate(float angle) { this->_rotation += angle; }
@@ -58,6 +62,10 @@ namespace ece
 			inline const Rectangle<float> & Sprite::getBounds() const { return this->_bounds; }
 
 			inline float Sprite::getRotation() const { return this->_rotation; }
+
+			inline void Sprite::setLevel(int level) { this->_level = level; }
+
+			inline int Sprite::getLevel() const { return this->_level; }
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece
