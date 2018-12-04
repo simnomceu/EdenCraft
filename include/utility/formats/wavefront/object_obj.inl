@@ -103,8 +103,7 @@ namespace ece
 					}
 
 					for (auto group : this->_currentGroups) {
-						auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
-						it->faces.push_back(this->_f.size() - 1);
+						this->_groups[group].faces.push_back(this->_f.size() - 1);
 					}
 				}
 
@@ -116,8 +115,7 @@ namespace ece
 					}
 
 					for (auto group : this->_currentGroups) {
-						auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
-						it->faces.push_back(this->_f.size() - 1);
+						this->_groups[group].faces.push_back(this->_f.size() - 1);
 					}
 				}
 
@@ -131,8 +129,8 @@ namespace ece
 
 				inline void ObjectOBJ::addGroup(const std::string & group)
 				{
-					if (std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; }) == this->_groups.end()) {
-						this->_groups.push_back({ group, "", {} });
+					if (this->_groups.find(group) != this->_groups.end()) {
+						this->_groups[group] = { group, "", {} };
 					}
 					this->_currentGroups.push_back(group);
 				}
@@ -143,16 +141,15 @@ namespace ece
 						this->addGroup("default");
 					}
 					for (auto group : this->_currentGroups) {
-						auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
-						it->material = material;
+						this->_groups[group].material = material;
 					}
 				}
 
 				inline std::size_t ObjectOBJ::getNumberOfGroups() const { return this->_groups.size(); }
 
-				inline std::vector<ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() { return this->_groups; }
+				inline std::unordered_map<std::string, ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() { return this->_groups; }
 
-				inline const std::vector<ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() const { return this->_groups; }
+				inline const std::unordered_map<std::string, ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() const { return this->_groups; }
 			} // namespace wavefront
 		} // namespace formats
 	} // namespace utility

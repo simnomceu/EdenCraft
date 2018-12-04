@@ -190,8 +190,8 @@ namespace ece
 					inline void setMaterial(const std::string & material);
 
 					inline std::size_t getNumberOfGroups() const;
-					inline std::vector<FaceGroup> & getGroups();
-					inline const std::vector<FaceGroup> & getGroups() const;
+					inline std::unordered_map<std::string, FaceGroup> & getGroups();
+					inline const std::unordered_map<std::string, FaceGroup> & getGroups() const;
 
 				private:
 					std::string _o; // object name
@@ -203,7 +203,7 @@ namespace ece
 
 					FaceFormat _faceFormat;
 					std::vector<Face> _f; // face
-					std::vector<FaceGroup> _groups;
+					std::unordered_map<std::string, FaceGroup> _groups;
 					std::vector<std::string> _currentGroups;
 				};
 			} // namespace wavefront

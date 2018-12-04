@@ -145,9 +145,10 @@ namespace ece
 					auto & submeshes = this->_meshes[n]->getSubmeshes();
 					submeshes.resize(object.getGroups().size());
 
-					for (std::size_t g = 0; g < object.getGroups().size(); ++g) {
-						submeshes[g].material = makeResource<Material>(object.getGroups()[g].material);
-						for (auto it : object.getGroups()[g].faces) {
+					int g = 0;
+					for (auto [key, group] : object.getGroups()) {
+						submeshes[g].material = makeResource<Material>(group.material);
+						for (auto it : group.faces) {
 							auto f = object.getFaces()[it];
 							if (object.getFaceFormat().size > 3) {
 								/* Basic triangulation, working only for full convex polygons. */
@@ -216,6 +217,7 @@ namespace ece
 								submeshes[g].mesh.addFace(std::move(face));
 							}
 						}
+						++g;
 					}
 				}
 			}
