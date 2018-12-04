@@ -1043,7 +1043,7 @@ namespace ece
 			inline void OpenGL::debugMessageControl(const SourceDebugMessage source, const TypeDebugMessage type, const SeverityDebugMessage severity, const std::vector<unsigned int> & ids, bool enabled)
 			{
 				if (ids.size() > 0) {
-					checkErrors(glDebugMessageControl(static_cast<GLenum>(source), static_cast<GLenum>(type), static_cast<GLenum>(severity), ids.size(), ids.data(), enabled));
+					checkErrors(glDebugMessageControl(static_cast<GLenum>(source), static_cast<GLenum>(type), static_cast<GLenum>(severity), static_cast<GLsizei>(ids.size()), ids.data(), enabled));
 				}
 				else {
 					checkErrors(glDebugMessageControl(static_cast<GLenum>(source), static_cast<GLenum>(type), static_cast<GLenum>(severity), 0, nullptr, enabled));
