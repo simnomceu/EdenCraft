@@ -6,6 +6,8 @@ layout(location = 2) in vec2 inTexture;
 out vec3 normal;
 out vec3 fragPos;
 out vec2 texturePos;
+out vec3 viewPos;
+out vec3 viewDir;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -18,5 +20,7 @@ void main() {
 
     normal = normalize(transpose(inverse(mat3(model))) * inNormal);
     fragPos = vec3(worldPos);
+    viewPos = vec3(view[3]);
+    viewDir = normalize(viewPos - fragPos);
     texturePos = inTexture;
 }
