@@ -118,7 +118,11 @@ namespace ece
 
 				void setTexture(const Texture2D::Reference & texture);
 				inline void clipTexture(Rectangle<float> textureClip);
+
 				inline void setBounds(Rectangle<float> bounds);
+				inline void moveTo(ece::FloatVector2u position);
+				inline void resize(ece::FloatVector2u size);
+
 				inline void resetRotation();
 				inline void rotate(float angle);
 
