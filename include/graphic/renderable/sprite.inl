@@ -62,6 +62,10 @@ namespace ece
 			inline const Rectangle<float> & Sprite::getBounds() const { return this->_bounds; }
 
 			inline float Sprite::getRotation() const { return this->_rotation; }
+
+			inline void Sprite::setLevel(int level) { this->_level = level; }
+
+			inline int Sprite::getLevel() const { return this->_level; }
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

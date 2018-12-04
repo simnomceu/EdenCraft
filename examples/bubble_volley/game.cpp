@@ -74,8 +74,9 @@ void Game::setState(const Game::State state)
 		}
 		{
 			auto sprite = ece::makeResource<ece::Sprite>("scoreA", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
+			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
-			sprite->setBounds({ 20.0f, 940.0f, bounds.getWidth() * 2.0f, bounds.getHeight() * 2.0f });
+			sprite->setBounds({ 220.0f, 940.0f, bounds.getWidth() * 2.0f, bounds.getHeight() * 2.0f });
 			this->_scoreA.handle.addComponent<GraphicComponent>(sprite);
 		}
 		{

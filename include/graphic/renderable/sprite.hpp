@@ -130,6 +130,9 @@ namespace ece
 				inline const Rectangle<float> & getBounds() const;
 				inline float getRotation() const;
 
+				inline void setLevel(int level);
+				inline int getLevel() const;
+
 			private:
 				struct {
 					Texture2D::Reference ref;
@@ -141,6 +144,8 @@ namespace ece
 
 				VertexBuffer<SymetricStorage, std::vector<Sprite::Vertex>> _vertices;
 				IndexBuffer<SymetricStorage, std::vector<Sprite::Face>> _index;
+
+				int _level;
 			};
 		} // namespace renderable
 	} // namespace graphic

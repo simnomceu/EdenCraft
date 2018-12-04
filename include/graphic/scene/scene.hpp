@@ -117,7 +117,7 @@ namespace ece
 				 */
 				Object::Reference addObject();
 
-				inline void addObject(const Renderable::Reference & object);
+				inline void addObject(const Renderable::Reference & object, int level = 0);
 
 				inline void addLight(const Light::Reference & light);
 
@@ -136,6 +136,8 @@ namespace ece
 
 				void prepare();
 
+				void sortObjects();
+
 			private:
 				struct CameraWrapper
 				{
@@ -147,6 +149,7 @@ namespace ece
 				{
 					Renderable::Reference _value;
 					bool _hasChanged;
+					int _level;
 				};
 
 				/**
