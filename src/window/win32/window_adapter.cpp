@@ -168,7 +168,7 @@ namespace ece
 				if (this->_data->_windowId == message._windowId) {
 					switch (message._message) {
 					case WM_KEYDOWN: {
-						auto keyCode = Keyboard::getKey(message._wParam);
+						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message._wParam));
 						if (this->_keyRepeat || (!this->_keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
 							InputEvent newEvent;
 							newEvent._type = InputEvent::Type::ECE_KEY_PRESSED;
@@ -179,7 +179,7 @@ namespace ece
 						break;
 					}
 					case WM_KEYUP: {
-						auto keyCode = Keyboard::getKey(message._wParam);
+						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message._wParam));
 						InputEvent newEvent;
 						newEvent._type = InputEvent::Type::ECE_KEY_RELEASED;
 						newEvent._key = keyCode;
