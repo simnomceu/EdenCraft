@@ -36,77 +36,41 @@
 
 */
 
-#ifndef PARSER_OBJ_HPP
-#define PARSER_OBJ_HPP
-
-#include "utility/config.hpp"
-#include "utility/formats/wavefront/object_obj.hpp"
-#include "utility/string.hpp"
-
-#include <vector>
-
 namespace ece
 {
-    namespace utility
-    {
-		namespace formats
+	namespace utility
+	{
+		namespace string
 		{
-			namespace wavefront
+			template <class T>
+			T from_string(std::string value)
 			{
-				// TODO add parser MKL
-
-				/**
-				 * @class ParserOBJ
-				 * @extends Parser
-				 * @brief A parser to load/save OBJ Wavefront structure from/to memory, file, or string.
-				 * @remark The OBJ Wavefront structure is so much more complexe and should be refactored.
-				 * @see Parser
-				 */
-				class ECE_UTILITY_API ParserOBJ
-				{
-				public:
-					/**
-					 * @fn ParserOBJ()
-					 * @brief Unique constructor for a ParserOBJ. No OBJ is loaded.
-					 * @throw
-					 */
-					inline ParserOBJ();
-
-					/**
-					 * @fn void load(std::istream & stream)
-					 * @param[in] stream The stream to load through.
-					 * @brief Load and parse data through a stream.
-					 * @throw
-					 */
-					void load(std::istream & stream);
-
-					/**
-					 * @fn void save(const std::ostream & stream)
-					 * @param[inout] stream The stream to save through.
-					 * @brief Formate and save data through a stream.
-					 * @throw
-					 */
-					void save(std::ostream & stream);
-
-					inline std::vector<ObjectOBJ> & getObjects();
-					inline const std::vector<ObjectOBJ> & getObjects() const;
-
-					inline std::vector<std::string> & getMaterials();
-					inline const std::vector<std::string> & getMaterials() const;
-
-				private:
-					std::vector<ObjectOBJ> _objects;
-					std::vector<ObjectOBJ>::iterator _currentObject;
-					std::vector<std::string> _materials;
-
-					void processLine(StringStream & line);
-					std::vector<ObjectOBJ>::iterator addObject(const std::string & name);
-				};
-			} // namespace wavefront
-		} // namespace formats
-    } // namespace utility
+				throw std::runtime_error("No conversion defined from string to this type.");
+			}
+			
+			template <> inline short from_string(std::string value) { return static_cast<short>(std::stoi(value)); }
+			
+			template <> inline unsigned short from_string(std::string value) { return static_cast<unsigned short>(std::stoi(value)); }
+			
+			template <> inline int from_string(std::string value) { return std::stoi(value); }
+			
+			template <> inline unsigned int from_string(std::string value) { return static_cast<unsigned int>(std::stoi(value)); }
+			
+			template <> inline long from_string(std::string value) { return std::stol(value); }
+			
+			template <> inline unsigned long from_string(std::string value) { return std::stoul(value); }
+			
+			template <> inline long long from_string(std::string value) { return std::stoll(value); }
+			
+			template <> inline unsigned long long from_string(std::string value) { return std::stoull(value); }
+			
+			template <> inline float from_string(std::string value) { return std::stof(value); }
+			
+			template <> inline double from_string(std::string value) { return std::stod(value); }
+			
+			template <> inline long double from_string(std::string value) { return std::stold(value); }
+			
+			template <> inline bool from_string(std::string value) { return static_cast<bool>(std::stoi(value)); }
+		} // namespace string
+	} // namespace utility
 } // namespace ece
-
-#include "utility/formats/wavefront/parser_obj.inl"
-
-#endif // PARSER_OBJ_HPP

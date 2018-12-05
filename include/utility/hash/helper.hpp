@@ -36,77 +36,31 @@
 
 */
 
-#ifndef PARSER_OBJ_HPP
-#define PARSER_OBJ_HPP
+#ifndef HASH_HELPER_HPP
+#define HASH_HELPER_HPP
 
 #include "utility/config.hpp"
-#include "utility/formats/wavefront/object_obj.hpp"
-#include "utility/string.hpp"
+#include "utility/mathematics.hpp"
 
-#include <vector>
+#include <cstddef>
 
 namespace ece
 {
-    namespace utility
-    {
-		namespace formats
+	namespace utility
+	{
+		namespace hash
 		{
-			namespace wavefront
-			{
-				// TODO add parser MKL
+			ECE_UTILITY_API inline std::size_t hash_combine(std::size_t lhs, std::size_t rhs);
 
-				/**
-				 * @class ParserOBJ
-				 * @extends Parser
-				 * @brief A parser to load/save OBJ Wavefront structure from/to memory, file, or string.
-				 * @remark The OBJ Wavefront structure is so much more complexe and should be refactored.
-				 * @see Parser
-				 */
-				class ECE_UTILITY_API ParserOBJ
-				{
-				public:
-					/**
-					 * @fn ParserOBJ()
-					 * @brief Unique constructor for a ParserOBJ. No OBJ is loaded.
-					 * @throw
-					 */
-					inline ParserOBJ();
+			template <class T>
+			ECE_UTILITY_API inline std::size_t hash(const Vector3u<T> & value);
 
-					/**
-					 * @fn void load(std::istream & stream)
-					 * @param[in] stream The stream to load through.
-					 * @brief Load and parse data through a stream.
-					 * @throw
-					 */
-					void load(std::istream & stream);
-
-					/**
-					 * @fn void save(const std::ostream & stream)
-					 * @param[inout] stream The stream to save through.
-					 * @brief Formate and save data through a stream.
-					 * @throw
-					 */
-					void save(std::ostream & stream);
-
-					inline std::vector<ObjectOBJ> & getObjects();
-					inline const std::vector<ObjectOBJ> & getObjects() const;
-
-					inline std::vector<std::string> & getMaterials();
-					inline const std::vector<std::string> & getMaterials() const;
-
-				private:
-					std::vector<ObjectOBJ> _objects;
-					std::vector<ObjectOBJ>::iterator _currentObject;
-					std::vector<std::string> _materials;
-
-					void processLine(StringStream & line);
-					std::vector<ObjectOBJ>::iterator addObject(const std::string & name);
-				};
-			} // namespace wavefront
-		} // namespace formats
-    } // namespace utility
+			template <class T>
+			ECE_UTILITY_API inline std::size_t hash(const Vector2u<T> & value);
+		} // namespace hash
+	} // namespace utility
 } // namespace ece
 
-#include "utility/formats/wavefront/parser_obj.inl"
+#include "utility/hash/helper.inl"
 
-#endif // PARSER_OBJ_HPP
+#endif // HASH_HELPER_HPP
