@@ -61,7 +61,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline StringStream(std::string data) noexcept;
+				inline StringStream(const std::string & data) noexcept;
 
 				/**
 				 * @fn StringStream(const StringStream & copy) noexcept
@@ -106,6 +106,7 @@ namespace ece
 
 				inline void str(std::string data);
 				inline const std::string & str() const;
+				inline std::string substr() const;
 
 				inline char get();
 				inline std::string get(std::size_t count);
@@ -118,7 +119,12 @@ namespace ece
 				template <>
 				inline StringStream & operator>>(std::string & value);
 
+				template <class... Args>
+				void scan(std::string pattern, Args ... args);
+
 				inline bool eof() const;
+
+				inline std::size_t count(char search);
 
 			private:
 				std::string _data;

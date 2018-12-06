@@ -41,6 +41,7 @@
 
 #include "utility/config.hpp"
 #include "utility/formats/wavefront/material_mtl.hpp"
+#include "utility/string.hpp"
 
 #include <vector>
 
@@ -130,7 +131,7 @@ namespace ece
 					std::vector<MaterialMTL> _materials;
 					std::vector<MaterialMTL>::iterator _currentMaterial;
 
-					void processLine(const std::string & line);
+					void processLine(StringStream & line);
 					std::vector<MaterialMTL>::iterator addMaterial(const std::string & name);
 				};
 			} // namespace wavefront

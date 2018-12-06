@@ -38,17 +38,19 @@
 
 #include "utility/string/from_string.hpp"
 
+#include <cstdio>
+
 namespace ece
 {
 	namespace utility
 	{
 		namespace string
 		{
-			inline StringStream::StringStream(std::string data) noexcept: _data(data), _cursor(0) {}
+			inline StringStream::StringStream(const std::string & data) noexcept: _data(data), _cursor(0) {}
 
 			inline void StringStream::str(std::string data)
 			{
-				this->_data = data;
+				this->_data = std::move(data);
 				this->_cursor = 0;
 			}
 
@@ -56,6 +58,8 @@ namespace ece
 			{
 				return this->_data;
 			}
+
+			inline std::string StringStream::substr() const { return this->_data.substr(this->_cursor); }
 
 			inline char StringStream::get()
 			{
@@ -125,7 +129,21 @@ namespace ece
 				return *this;
 			}
 
-			inline bool StringStream::eof() const { return this->_cursor >= this->_data.size(); }
+			template <class... Args>
+			void StringStream::scan(std::string pattern, Args ... args)
+			{
+				int count = 0;
+				std::string search{ std::move(pattern) + "%n" };
+#pragma warning( push )
+#pragma warning( disable: 4996 )
+				std::sscanf(&this->_data[this->_cursor], search.data(), args..., &count);
+#pragma warning( pop )
+				this->_cursor += count;
+			}
+
+			inline bool StringStream::eof() const { return this->_cursor >= this->_data.size() ||this->_data[this->_cursor] == '\0'; }
+
+			inline std::size_t StringStream::count(char search) { return std::count(this->_data.begin() + this->_cursor, this->_data.end(), search); }
 		} // namespace string
 	} // namespace utility
 } // namespace ece

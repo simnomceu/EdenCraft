@@ -55,10 +55,12 @@ namespace ece
 					char line[std::numeric_limits<short>::max()];
 					StringStream lineStream("");
 					do {
-						stream.getline(line, std::numeric_limits<short>::max(), '\n');
+						stream.getline(line, std::numeric_limits<short>::max());
 						lineStream.str(line);
-						this->processLine(lineStream);
-					} while (stream.good() && stream);
+						if (lineStream.str().size() >= 2) {
+							this->processLine(lineStream);
+						}
+					} while (stream.good());
 					// TODO care about objects groups and faces groups
 				}
 
@@ -110,151 +112,126 @@ namespace ece
 
 				void ParserOBJ::processLine(StringStream & line)
 				{
-					if (line.str().size() >= 2) {
-						std::string command;
-						line >> command;
-
-						// TODO add checks for the format of the file
-
-						switch (command[0]) {
-						case 'v':
-							if (command == "v") {
-								if (this->_currentObject == this->_objects.end()) {
-									this->_currentObject = this->addObject("unnamed");
-								}
-
-								float vertice[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-								line >> vertice[0] >> vertice[1] >> vertice[2];
-								if (!line.eof()) {
-									line >> vertice[3];
-								}
-								this->_currentObject->addVertex({ vertice[0], vertice[1], vertice[2], vertice[3] });
-							}
-							else if (command == "vt") {
-								if (this->_currentObject == this->_objects.end()) {
-									this->_currentObject = this->addObject("unnamed");
-								}
-
-								float texture[3] = { 0.0f, 0.0f, 0.0f };
-								line >> texture[0];
-								if (!line.eof()) {
-									line >> texture[1];
-									if (!line.eof()) {
-										line >> texture[2];
-									}
-								}
-								// TODO: Deal with 1D, 2D, and 3D texture
-								this->_currentObject->addVertexTexture({ texture[0], texture[1], texture[2] });
-							}
-							else if (command == "vn") {
-								if (this->_currentObject == this->_objects.end()) {
-									this->_currentObject = this->addObject("unnamed");
-								}
-
-								float normal[3] = { 0.0f, 0.0f, 0.0f };
-								line >> normal[0] >> normal[1] >> normal[2];
-								this->_currentObject->addVertexNormal({ normal[0], normal[1], normal[2] });
-							}
-							else if (command == "vp") {
-								if (this->_currentObject == this->_objects.end()) {
-									this->_currentObject = this->addObject("unnamed");
-								}
-
-								float parameterSpace[3] = { 0.0f, 0.0f, 1.0f };
-								line >> parameterSpace[0];
-								if (!line.eof() && line.peek() != '\n') {
-									line >> parameterSpace[1];
-									if (!line.eof() && line.peek() != '\n') {
-										line >> parameterSpace[2];
-									}
-								}
-								// TODO: Deal with 1D and 2D parameter space.
-								this->_currentObject->addVertexSpaceParameter({ parameterSpace[0], parameterSpace[1], parameterSpace[2] });
-							}
-							break;
-						case 'f':
-						{
-							ObjectOBJ::Face face;
-							ObjectOBJ::Vertex vertex;
-
-							while (!line.eof()) {
-								vertex = { 0, 0, 0 };
-								line >> vertex._v;
-								if (line.peek() == '/') {
-									line.get();
-								}
-								else {
-									line >> vertex._vt;
-								}
-								if (line.peek() == ' ') {
-									line.get();
-								}
-								else {
-									line >> vertex._vn;
-								}
-								face.push_back(std::move(vertex));
+					// TODO add checks for the format of the file
+					switch (line.get()) {
+					case 'v':
+						if (line.peek() == 't') { //vt
+							line.get();
+							if (this->_currentObject == this->_objects.end()) {
+								this->_currentObject = this->addObject("unnamed");
 							}
 
-							if (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT) {
-								auto a = this->_currentObject->getVertices()[face[0]._v - 1];
-								auto b = this->_currentObject->getVertices()[face[1]._v - 1];
-								auto c = this->_currentObject->getVertices()[face[face.size() - 1]._v - 1];
-								FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] };
-								FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] };
-								FloatVector3u n = this->_currentObject->getVerticesNormal()[face[0]._vn - 1];
-								float det = (ab[0] * cb[1] * n[2]) + (cb[0] * n[1] * ab[2]) + (n[0] * ab[1] * cb[2]) - (n[0] * cb[1] * ab[2]) - (ab[0] * n[1] * cb[2]) - (cb[0] * ab[1] * n[2]);
-								auto angle = std::atan2(det, ab.dot(cb));
-								if (angle > 0) {
-									this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CW });
-								}
-								else if (angle < 0) {
-									this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CCW });
-								}
-								else {
-									this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::NON_SIGNIFICANT });
-								}
+							FloatVector3u texture = { 0.0f, 0.0f, 0.0f };
+							line.scan("%f %f %f", &texture[0], &texture[1], &texture[2]);
+							// TODO: Deal with 1D, 2D, and 3D texture
+							this->_currentObject->addVertexTexture({ texture[0], texture[1], texture[2] });
+						}
+						else if (line.peek() == 'n') { // vn
+							line.get();
+							if (this->_currentObject == this->_objects.end()) {
+								this->_currentObject = this->addObject("unnamed");
 							}
 
-							this->_currentObject->addFace(std::move(face));
+							FloatVector3u normal = { 0.0f, 0.0f, 0.0f };
+							line.scan("%f %f %f", &normal[0], &normal[1], &normal[2]);
+							this->_currentObject->addVertexNormal({ normal[0], normal[1], normal[2] });
+						}
+						else if (line.peek() == 'p') { // vp
+							line.get();
+							if (this->_currentObject == this->_objects.end()) {
+								this->_currentObject = this->addObject("unnamed");
+							}
 
-							// TODO check that it uses existing vertices, normales, and textures.
+							FloatVector3u parameterSpace = { 0.0f, 0.0f, 1.0f };
+							line.scan("%f %f %f", &parameterSpace[0], &parameterSpace[1], &parameterSpace[2]);
+							// TODO: Deal with 1D and 2D parameter space.
+							this->_currentObject->addVertexSpaceParameter({ parameterSpace[0], parameterSpace[1], parameterSpace[2] });
+						}
+						else { // v
+							line.get();
+							if (this->_currentObject == this->_objects.end()) {
+								this->_currentObject = this->addObject("unnamed");
+							}
+
+							FloatVector4u vertice = { 0.0f, 0.0f, 0.0f, 1.0f };
+							line.scan("%f %f %f %f", &vertice[0], &vertice[1], &vertice[2], &vertice[3]);
+							this->_currentObject->addVertex({ vertice[0], vertice[1], vertice[2], vertice[3] });
 						}
 						break;
-						case 'o':
-						{
-							std::string name;
-							line >> name;
-							this->_currentObject = this->addObject(name);
-						}
-						break;
-						case 'g':
-						{
-							this->_currentObject->resetCurrentGroups();
+					case 'f':
+					{
+						ObjectOBJ::Face face;
+						ObjectOBJ::Vertex vertex;
 
-							std::string group;
-							while (!line.eof()) {
-								line >> group;
-								this->_currentObject->addGroup(group);
+						auto faceSize = line.count(' ');
+						face.resize(faceSize);
+
+						for (unsigned int i = 0; i < faceSize; ++i) {
+							vertex = { 0, 0, 0 };
+							line.scan("%d/%d/%d", &vertex._v, &vertex._vt, &vertex._vn);
+							face[i] = std::move(vertex);
+						}
+
+						if (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT) {
+							auto a = this->_currentObject->getVertices()[face[0]._v - 1];
+							auto b = this->_currentObject->getVertices()[face[1]._v - 1];
+							auto c = this->_currentObject->getVertices()[face[face.size() - 1]._v - 1];
+							FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] };
+							FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] };
+							FloatVector3u n = this->_currentObject->getVerticesNormal()[face[0]._vn - 1];
+							float det = (ab[0] * cb[1] * n[2]) + (cb[0] * n[1] * ab[2]) + (n[0] * ab[1] * cb[2]) - (n[0] * cb[1] * ab[2]) - (ab[0] * n[1] * cb[2]) - (cb[0] * ab[1] * n[2]);
+							auto angle = std::atan2(det, ab.dot(cb));
+							if (angle > 0) {
+								this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CW });
 							}
-							// TODO: need to make the difference between object and group to complete implementation of submeshes for wavefront specification.
+							else if (angle < 0) {
+								this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CCW });
+							}
+							else {
+								this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::NON_SIGNIFICANT });
+							}
 						}
-						break;
-						case 'm': // mtllib
-						{
-							std::string materialFile;
-							line >> materialFile;
-							this->_materials.push_back(materialFile);
+
+						this->_currentObject->addFace(std::move(face));
+
+						// TODO check that it uses existing vertices, normales, and textures.
+					}
+					break;
+					case 'o':
+					{
+						std::string name = line.substr();
+						this->_currentObject = this->addObject(name);
+					}
+					break;
+					case 'g':
+					{
+						this->_currentObject->resetCurrentGroups();
+
+						std::string group;
+						while (!line.eof()) {
+							line >> group;
+							this->_currentObject->addGroup(group);
 						}
-						break;
-						case 'u': // usemtl
-						{
-							std::string material;
-							line >> material;
-							this->_currentObject->setMaterial(material);
-						}
-						break;
-						default: break;
-						}
+						// TODO: need to make the difference between object and group to complete implementation of submeshes for wavefront specification.
+					}
+					break;
+					case 'm': // mtllib
+					{
+						line.get(5);
+						std::string materialFile;
+						line >> materialFile;
+						this->_materials.push_back(materialFile);
+					}
+					break;
+					case 'u': // usemtl
+					{
+						line.get(5);
+						std::string material;
+						line >> material;
+						this->_currentObject->setMaterial(material);
+					}
+					break;
+					default: break;
 					}
 				}
 

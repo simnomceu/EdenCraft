@@ -71,17 +71,13 @@ namespace ece
 
 				auto it = this->_verticesIndexing.find(vertex);
 				if (it == this->_verticesIndexing.end()) {
-					this->_verticesIndexing[vertex] = index;
+					this->_verticesIndexing[vertex] = std::move(index);
 					vertices.push_back(vertex);
 				}
 				else {
 					index = it->second;
-					this->_verticesIndexing.erase(it);
 					
 					vertices[index]._normal += vertex._normal;
-					vertices[index]._normal = vertices[index]._normal.normalize();
-
-					this->_verticesIndexing[vertex] = index;
 
 					// OBJ uses "normal per face" while common use is "normal per vertex". n = normalize(n1 + n2 + n3) with n1, n2, n3 the face normals for one single vertex, to compute the normal of the vertex.
 					// Reverse process: n = normalize(n1 + n2 + n3 + n4) with n1, n2, n3, n4 the normal of the four vertices of a quad, to compute, the normal of the square.
@@ -97,17 +93,13 @@ namespace ece
 
 				auto it = this->_verticesIndexing.find(vertex);
 				if (it == this->_verticesIndexing.end()) {
-					this->_verticesIndexing[vertex] = index;
-					vertices[index] = vertex;
+					this->_verticesIndexing[vertex] = std::move(index);
+					vertices.push_back(vertex);
 				}
 				else {
 					index = it->second;
-					this->_verticesIndexing.erase(it);
 
 					vertices[index]._normal += vertex._normal;
-					vertices[index]._normal = vertices[index]._normal.normalize();
-
-					this->_verticesIndexing[vertex] = index;
 
 					// OBJ uses "normal per face" while common use is "normal per vertex". n = normalize(n1 + n2 + n3) with n1, n2, n3 the face normals for one single vertex, to compute the normal of the vertex.
 					// Reverse process: n = normalize(n1 + n2 + n3 + n4) with n1, n2, n3, n4 the normal of the four vertices of a quad, to compute, the normal of the square.

@@ -139,17 +139,17 @@ namespace ece
 				}
 
 				for (std::size_t n = 0; n < parser.getObjects().size(); ++n) {
-					auto object = parser.getObjects()[n];
+					auto & object = parser.getObjects()[n];
 					this->_meshes[n] = makeResource<Mesh>(object.getName());
 
 					auto & submeshes = this->_meshes[n]->getSubmeshes();
 					submeshes.resize(object.getGroups().size());
 
 					int g = 0;
-					for (auto [key, group] : object.getGroups()) {
+					for (auto & [key, group] : object.getGroups()) {
 						submeshes[g].material = makeResource<Material>(group.material);
-						for (auto it : group.faces) {
-							auto f = object.getFaces()[it];
+						for (auto & it : group.faces) {
+							auto & f = object.getFaces()[it];
 							if (object.getFaceFormat().size > 3) {
 								/* Basic triangulation, working only for full convex polygons. */
 								std::vector<unsigned int> face(object.getFaceFormat().size);
@@ -170,7 +170,7 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = this->_meshes[n]->addVertex(vertex);
+									auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -203,7 +203,7 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = this->_meshes[n]->addVertex(vertex);
+									auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -218,6 +218,10 @@ namespace ece
 							}
 						}
 						++g;
+					}
+
+					for (auto & vertex : this->_meshes[n]->getVertices()) {
+						vertex._normal = vertex._normal.normalize();
 					}
 				}
 			}

@@ -39,7 +39,6 @@
 #include "utility/formats/wavefront/parser_mtl.hpp"
 
 #include <iostream>
-#include <sstream>
 #include <string>
 
 namespace ece
@@ -52,11 +51,13 @@ namespace ece
 			{
 				void ParserMTL::load(std::istream & stream)
 				{
-					std::string line;
-					while (stream.good()) {
-						std::getline(stream, line);
-						this->processLine(line);
-					}
+					char line[std::numeric_limits<short>::max()];
+					StringStream lineStream("");
+					do {
+						stream.getline(line, std::numeric_limits<short>::max(), '\n');
+						lineStream.str(line);
+						this->processLine(lineStream);
+					} while (stream.good());
 				}
 
 				void ParserMTL::save(std::ostream & stream)
@@ -78,17 +79,18 @@ namespace ece
 					}
 				}
 
-				void ParserMTL::processLine(const std::string & line)
+				void ParserMTL::processLine(StringStream & line)
 				{
-					if (line.size() >= 2) {
-						std::string command = line.substr(0, line.find_first_of(' ')); //line.substr(0, 2);
-						std::istringstream stream(line.substr(line.find_first_of(' ') + 1));
+					if (line.str().size() >= 2) {
+						std::string command;
+						line >> command;
 
 						// TODO add checks for the format of the file
-
-						if (command == "newmtl") {
+						if (command == "#") {
+						}
+						else if (command == "newmtl") {
 							std::string name;
-							stream >> name;
+							line >> name;
 							this->_currentMaterial = this->addMaterial(name);
 						}
 						else {
@@ -98,62 +100,62 @@ namespace ece
 
 							if (command == "Ka") {
 								FloatVector3u ambient;
-								stream >> ambient[0] >> ambient[1] >> ambient[2];
+								line >> ambient[0] >> ambient[1] >> ambient[2];
 								this->_currentMaterial->setAmbientFactor(ambient);
 							}
 							else if (command == "Kd") {
 								FloatVector3u diffuse;
-								stream >> diffuse[0] >> diffuse[1] >> diffuse[2];
+								line >> diffuse[0] >> diffuse[1] >> diffuse[2];
 								this->_currentMaterial->setDiffuseFactor(diffuse);
 							}
 							else if (command == "Ks") {
 								FloatVector3u specular;
-								stream >> specular[0] >> specular[1] >> specular[2];
+								line >> specular[0] >> specular[1] >> specular[2];
 								this->_currentMaterial->setSpecularFactor(specular);
 							}
 							else if (command == "Tf") {
 								FloatVector3u tf;
-								stream >> tf[0] >> tf[1] >> tf[2];
+								line >> tf[0] >> tf[1] >> tf[2];
 								this->_currentMaterial->setTransmissionFilter(tf);
 							}
 							else if (command == "illum") {
 								std::string illumination;
-								stream >> illumination;
+								line >> illumination;
 								this->_currentMaterial->setIllumination(std::stoi(illumination.substr(illumination.size() - 1, 1)));
 							}
 							else if (command == "d") {
 								float dissolve;
-								stream >> dissolve;
+								line >> dissolve;
 								this->_currentMaterial->setDissolveFactor(dissolve);
 							}
 							else if (command == "Ns") {
 								float exponent;
-								stream >> exponent;
+								line >> exponent;
 								this->_currentMaterial->setSpecularExponent(exponent);
 							}
 							else if (command == "sharpness") {
 								unsigned int sharpness;
-								stream >> sharpness;
+								line >> sharpness;
 								this->_currentMaterial->setSharpness(sharpness);
 							}
 							else if (command == "Ni") {
 								float density;
-								stream >> density;
+								line >> density;
 								this->_currentMaterial->setOpticalDensity(density);
 							}
 							else if (command == "map_Ka") {
 								std::string path;
-								stream >> path;
+								line >> path;
 								this->_currentMaterial->setAmbientMap(path);
 							}
 							else if (command == "map_Kd") {
 								std::string path;
-								stream >> path;
+								line >> path;
 								this->_currentMaterial->setDiffuseMap(path);
 							}
 							else if (command == "map_Ks") {
 								std::string path;
-								stream >> path;
+								line >> path;
 								this->_currentMaterial->setSpecularMap(path);
 							}
 						}
