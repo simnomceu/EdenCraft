@@ -38,51 +38,17 @@
 
 */
 
-#include "graphic/material/material.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
 		namespace material
 		{
-			std::vector<std::shared_ptr<BaseUniform>> Material::getProperties()
-			{
-				std::vector<std::shared_ptr<BaseUniform>> properties;
-				for (auto[key, value] : this->_properties) {
-					if (value->isEnabled()) {
-						properties.push_back(value->getUniform(key));
-					}
-				}
-				return std::move(properties);
-			}
+			inline BaseProperty::BaseProperty() noexcept: _enabled(true) {}
 
-			std::shared_ptr<BaseProperty> Material::getProperty(const std::string name)
-			{
-				if (this->hasProperty(name)) {
-					return this->_properties.find(name)->second;
-				}
-				else {
-					return nullptr;
-				}
-			}
+			inline void BaseProperty::enable(bool enabled) noexcept { this->_enabled = enabled; }
 
-			void Material::addProperty(const std::string name, std::shared_ptr<BaseProperty> property)
-			{
-				if (!this->hasProperty(name)) {
-					this->_properties.insert({ name, property });
-				}
-			}
-
-			bool Material::hasProperty(const std::string name)
-			{
-				return !this->_properties.empty() && (this->_properties.find(name) != this->_properties.end());
-			}
-
-			void Material::removeProperty(const std::string name)
-			{
-				this->_properties.erase(name);
-			}
+			inline bool BaseProperty::isEnabled() const noexcept { return this->_enabled; }
 		} // namespace material
 	} // namespace graphic
-} // namespace ece
+} // namespace model

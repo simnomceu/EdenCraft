@@ -75,7 +75,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr BaseProperty() noexcept = default;
+				inline BaseProperty() noexcept;
 
 				/**
 				 * @fn BaseProperty(const BaseProperty & copy) noexcept
@@ -119,9 +119,17 @@ namespace ece
 				BaseProperty & operator=(BaseProperty && move) noexcept = default;
 
 				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) = 0;
+
+				inline void enable(bool enabled) noexcept;
+				inline bool isEnabled() const noexcept;
+
+			private:
+				bool _enabled;
 			};
 		} // namespace material
 	} // namespace graphic
 } // namespace model
+
+#include "graphic/material/base_property.inl"
 
 #endif // BASE_PROPERTY_HPP
