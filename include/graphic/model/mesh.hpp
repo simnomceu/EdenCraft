@@ -159,6 +159,8 @@ namespace ece
 
 				std::size_t addVertex(const Mesh::Vertex & vertex);
 				std::size_t addVertex(Mesh::Vertex && vertex);
+				void insertVertex(std::size_t position, const Mesh::Vertex & vertex);
+				void insertVertex(std::size_t position, Mesh::Vertex && vertex);
 
 				inline std::vector<Mesh::Vertex> & getVertices();
 				inline const std::vector<Mesh::Vertex> & getVertices() const;
@@ -171,30 +173,11 @@ namespace ece
 			protected:
 				std::vector<SubmeshData> _submeshes;
 
-				struct VertexCompare
-				{
-					bool operator()(const Mesh::Vertex & lhs, const Mesh::Vertex & rhs) const
-					{
-						return lhs._position == rhs._position && lhs._textureCoordinate == rhs._textureCoordinate;
-					}
-				};
-
-				struct VertexHash
-				{
-					std::size_t operator()(const Mesh::Vertex & vertex) const
-					{
-						std::size_t h1 = hash<float>(vertex._position);
-						std::size_t h2 = hash<float>(vertex._textureCoordinate);
-						return hash_combine(h1, h2);
-					}
-				};
-
 				/**
 				 * @property _vertices
 				 * @brief The list of vertices of the mesh.
 				 */
 				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;
-				std::unordered_map<Mesh::Vertex, std::size_t, Mesh::VertexHash, Mesh::VertexCompare> _verticesIndexing;
 			};
 		} // namespace model
 	} // namespace graphic

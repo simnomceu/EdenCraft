@@ -170,7 +170,11 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = this->_meshes[n]->addVertex(std::move(vertex));
+
+									auto index = object.getVertexIndice(fElement);
+									this->_meshes[n]->insertVertex(index, std::move(vertex));
+
+								//	auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -203,7 +207,9 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = this->_meshes[n]->addVertex(std::move(vertex));
+									auto index = object.getVertexIndice(fElement);
+									this->_meshes[n]->insertVertex(index, std::move(vertex));
+								//	auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}

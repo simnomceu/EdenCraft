@@ -48,9 +48,7 @@ namespace ece
 	{
 		namespace model
 		{
-			Mesh::Mesh() noexcept: _submeshes(), _vertices(), _verticesIndexing()
-			{
-			}
+			Mesh::Mesh() noexcept: _submeshes(), _vertices() {}
 
 			Box3D Mesh::getBouncingBox() const
 			{
@@ -63,49 +61,42 @@ namespace ece
 				return Box3D(FloatVector3u{ xMin->_position[0], yMin->_position[1], zMin->_position[2] },
 							 FloatVector3u{ xMax->_position[0], yMax->_position[1], zMax->_position[2] });
 			}
-
 			std::size_t Mesh::addVertex(const Mesh::Vertex & vertex)
 			{
 				auto & vertices = this->_vertices.data();
-				auto index = vertices.size();
+				vertices.push_back(vertex);
 
-				auto it = this->_verticesIndexing.find(vertex);
-				if (it == this->_verticesIndexing.end()) {
-					this->_verticesIndexing[vertex] = std::move(index);
-					vertices.push_back(vertex);
-				}
-				else {
-					index = it->second;
-					
-					vertices[index]._normal += vertex._normal;
-
-					// OBJ uses "normal per face" while common use is "normal per vertex". n = normalize(n1 + n2 + n3) with n1, n2, n3 the face normals for one single vertex, to compute the normal of the vertex.
-					// Reverse process: n = normalize(n1 + n2 + n3 + n4) with n1, n2, n3, n4 the normal of the four vertices of a quad, to compute, the normal of the square.
-				}
-
-				return index;
+				return vertices.size();
 			}
 
 			std::size_t Mesh::addVertex(Mesh::Vertex && vertex)
 			{
 				auto & vertices = this->_vertices.data();
-				auto index = vertices.size();
+				vertices.push_back(std::move(vertex));
 
-				auto it = this->_verticesIndexing.find(vertex);
-				if (it == this->_verticesIndexing.end()) {
-					this->_verticesIndexing[vertex] = std::move(index);
+				return vertices.size();
+			}
+
+			void Mesh::insertVertex(std::size_t position, const Mesh::Vertex & vertex)
+			{
+				auto & vertices = this->_vertices.data();
+				if (position >= vertices.size()) {
 					vertices.push_back(vertex);
 				}
 				else {
-					index = it->second;
-
-					vertices[index]._normal += vertex._normal;
-
-					// OBJ uses "normal per face" while common use is "normal per vertex". n = normalize(n1 + n2 + n3) with n1, n2, n3 the face normals for one single vertex, to compute the normal of the vertex.
-					// Reverse process: n = normalize(n1 + n2 + n3 + n4) with n1, n2, n3, n4 the normal of the four vertices of a quad, to compute, the normal of the square.
+					vertices[position]._normal += vertex._normal;
 				}
+			}
 
-				return index;
+			void Mesh::insertVertex(std::size_t position, Mesh::Vertex && vertex)
+			{
+				auto & vertices = this->_vertices.data();
+				if (position >= vertices.size()) {
+					vertices.push_back(vertex);
+				}
+				else {
+					vertices[position]._normal += vertex._normal;
+				}
 			}
 
 			void Mesh::update()

@@ -44,7 +44,8 @@ namespace ece
 		{
 			namespace wavefront
 			{
-				inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept : _o(name), _v(), _vt(), _vn(), _vp(), _faceFormat{ 0, ObjectOBJ::Clockwise::NON_SIGNIFICANT }, _f(), _groups(), _currentGroups() {}
+				inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept : _o(name), _v(), _vt(), _vn(), _vp(), _vertexIndexing(), 
+																				_faceFormat{ 0, ObjectOBJ::Clockwise::NON_SIGNIFICANT }, _f(), _groups(), _currentGroups() {}
 
 				inline const std::string & ObjectOBJ::getName() const { return this->_o; }
 
@@ -97,6 +98,10 @@ namespace ece
 
 				inline void ObjectOBJ::addFace(const ObjectOBJ::Face & f)
 				{
+					for (auto & vertex : f) {
+						this->_vertexIndexing.try_emplace(vertex, this->_vertexIndexing.size());
+					}
+
 					this->_f.push_back(f);
 					if (this->_currentGroups.empty()) {
 						this->addGroup("default");
@@ -109,6 +114,10 @@ namespace ece
 
 				inline void ObjectOBJ::addFace(ObjectOBJ::Face && f)
 				{
+					for (auto & vertex : f) {
+						this->_vertexIndexing.try_emplace(vertex, this->_vertexIndexing.size());
+					}
+
 					this->_f.push_back(std::move(f));
 					if (this->_currentGroups.empty()) {
 						this->addGroup("default");
@@ -150,6 +159,8 @@ namespace ece
 				inline std::unordered_map<std::string, ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() { return this->_groups; }
 
 				inline const std::unordered_map<std::string, ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() const { return this->_groups; }
+
+				inline std::size_t ObjectOBJ::getVertexIndice(const ObjectOBJ::Vertex & vertex) { return this->_vertexIndexing[vertex]; }
 			} // namespace wavefront
 		} // namespace formats
 	} // namespace utility
