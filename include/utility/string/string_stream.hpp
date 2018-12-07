@@ -116,9 +116,6 @@ namespace ece
 				template <class T>
 				StringStream & operator>>(T & value);
 
-				template <>
-				inline StringStream & operator>>(std::string & value);
-
 				template <class... Args>
 				void scan(std::string pattern, Args ... args);
 
@@ -131,6 +128,9 @@ namespace ece
 
 				std::size_t _cursor;
 			};
+
+			template <>
+			inline StringStream & StringStream::operator>> <std::string>(std::string & value);
 		} // namespace string
 	} // namespace utility
 } // namespace ece

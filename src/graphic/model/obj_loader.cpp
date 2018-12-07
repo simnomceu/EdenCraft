@@ -146,9 +146,9 @@ namespace ece
 					submeshes.resize(object.getGroups().size());
 
 					int g = 0;
-					for (auto & [key, group] : object.getGroups()) {
-						submeshes[g].material = makeResource<Material>(group.material);
-						for (auto & it : group.faces) {
+					for (auto & group : object.getGroups()) {
+						submeshes[g].material = makeResource<Material>(group.second.material);
+						for (auto & it : group.second.faces) {
 							auto & f = object.getFaces()[it];
 							if (object.getFaceFormat().size > 3) {
 								/* Basic triangulation, working only for full convex polygons. */

@@ -118,7 +118,7 @@ namespace ece
 			}
 
 			template <>
-			inline StringStream & StringStream::operator>>(std::string & value)
+			inline StringStream & StringStream::operator>> <std::string>(std::string & value)
 			{
 				auto end = this->_data.substr(this->_cursor).find_first_of(' ');
 				if (end == std::string::npos) {
@@ -134,10 +134,14 @@ namespace ece
 			{
 				int count = 0;
 				std::string search{ std::move(pattern) + "%n" };
+#ifdef _MSC_VER
 #pragma warning( push )
 #pragma warning( disable: 4996 )
+#endif
 				std::sscanf(&this->_data[this->_cursor], search.data(), args..., &count);
+#ifdef _MSC_VER
 #pragma warning( pop )
+#endif
 				this->_cursor += count;
 			}
 

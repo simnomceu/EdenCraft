@@ -93,12 +93,12 @@ namespace ece
 						}
 						stream << std::endl;
 
-						for (auto & [key, group] : object.getGroups()) {
-							stream << "g " << group.name << std::endl;
-							if (!group.material.empty()) {
-								stream << "usemtl " << group.material << std::endl;
+						for (auto & group : object.getGroups()) {
+							stream << "g " << group.second.name << std::endl;
+							if (!group.second.material.empty()) {
+								stream << "usemtl " << group.second.material << std::endl;
 							}
-							for (auto it : group.faces) {
+							for (auto it : group.second.faces) {
 								auto & face = object.getFaces()[it];
 								stream << "f";
 								for (auto & vertex : face) {
