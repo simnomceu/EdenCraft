@@ -50,7 +50,7 @@ namespace ece
 			{
 			}
 
-			Box3D Mesh::getBouncingBox() const
+			Box3D<float> Mesh::getBouncingBox() const
 			{
 				auto & vertices = this->_vertices.data();
 				auto xMin = std::min_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[0] < b._position[0]; })->_position[0];
@@ -62,7 +62,7 @@ namespace ece
 				auto zMin = std::min_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[2] < b._position[2]; })->_position[2];
 				auto zMax = std::max_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[2] < b._position[2]; })->_position[2];
 
-				return Box3D(FloatVector3u{ xMin, yMin, zMin }, FloatVector3u{ xMax, yMax, zMax });
+				return Box3D<float>(FloatVector3u{ xMin, yMin, zMin }, FloatVector3u{ xMax, yMax, zMax });
 			}
 
 			std::size_t Mesh::addVertex(const Mesh::Vertex & vertex)

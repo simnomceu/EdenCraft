@@ -151,7 +151,7 @@ namespace ece
 				 * @brief Get the bouncing box of the mesh.
 				 * @throw
 				 */
-				Box3D getBouncingBox() const;
+				Box3D<float> getBouncingBox() const;
 
 				inline std::vector<SubmeshData> & getSubmeshes();
 				inline const std::vector<SubmeshData> & getSubmeshes() const;
