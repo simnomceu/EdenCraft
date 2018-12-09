@@ -46,7 +46,7 @@ namespace ece
         	inline constexpr EulerAngle<T>::EulerAngle() noexcept: roll(T{ 0 }), pitch(T{ 0 }), yaw(T{ 0 }) {}
 
         	template <class T>
-        	inline EulerAngle<T>::EulerAngle(const T roll, const T pitch, const T yaw) noexcept: roll(roll), pitch(pitch), yaw(yaw) {}
+        	inline EulerAngle<T>::EulerAngle(const Radian<T> roll, const Radian<T> pitch, const Radian<T> yaw) noexcept: roll(roll), pitch(pitch), yaw(yaw) {}
 
         	template <class T>
         	EulerAngle<T>::EulerAngle(const Quaternion<T> & quaternion): roll(T{ 0 }), pitch(T{ 0 }), yaw(T{ 0 })

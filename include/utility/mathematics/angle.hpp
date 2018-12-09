@@ -36,22 +36,10 @@
 
 */
 
-#ifndef EULER_ANGLE_HPP
-#define EULER_ANGLE_HPP
+#ifndef ANGLE_HPP
+#define ANGLE_HPP
 
-namespace ece
-{
-    namespace utility
-    {
-        namespace mathematics
-        {
-	        template <class T> class Quaternion;
-        } // namespace mathematics
-    } // namespace utility
-} // namespace ece
-
-#include "utility/mathematics/matrix4u.hpp"
-#include "utility/mathematics/radian.hpp"
+#include <cmath>
 
 namespace ece
 {
@@ -60,121 +48,99 @@ namespace ece
         namespace mathematics
         {
         	/**
-        	 * @class EulerAngle
+        	 * @class Angle
         	 * @tparam T Euler angle accept any numeric type.
         	 * @brief Euler angle defines rotation of an object as X, Y, and Z axis independent rotations.
         	 * @remark A constructor from Matrix should be added.
         	 * @remark Add a check for templated parameter (numerical type)
         	 */
-        	template <class T>
-        	class EulerAngle
+        	template <template <class> class D, class T>
+        	class Angle
         	{
         	public:
         		/**
-        		 * @fn constexpr EulerAngle() noexcept
+        		 * @fn constexpr Angle() noexcept
         		 * @brief
         		 * @throw noexcept
         		 */
-        		inline constexpr EulerAngle() noexcept;
+        		inline constexpr Angle() noexcept = default;
+
+                inline Angle(T angle) noexcept;
 
         		/**
-        		 * @fn EulerAngle(const double roll, const double pitch, const double yaw) noexcept
-        		 * @param[in] roll
-        		 * @param[in] pitch
-        		 * @param[in] yaw
-        		 * @brief
-        		 * @throw noexcept
-        		 * @remark The parameters should be templated, according to the class definition.
-        		 */
-        		inline EulerAngle(const Radian<T> roll, const Radian<T> pitch, const Radian<T> yaw) noexcept;
-
-        		/**
-        		 * @fn EulerAngle(const Quaternion<T> & quaternion)
-        		 * @param[in] quaternion
-        		 * @brief
-        		 * @throw
-        		 */
-        		EulerAngle(const Quaternion<T> & quaternion);
-
-        		/**
-        		 * @fn EulerAngle(const EulerAngle<T> & copy) noexcept
+        		 * @fn Angle(const Angle<T> & copy) noexcept
         		 * @param[in] copy The Euler angle to copy from.
         		 * @brief Default copy constructor.
         		 * @throw noexcept
         		 */
-        		EulerAngle(const EulerAngle<T> & copy) noexcept = default;
+        		Angle(const Angle<D, T> & copy) noexcept = default;
 
         		/**
-        		 * @fn EulerAngle(EulerAngle<T> && move) noexcept
+        		 * @fn Angle(Angle<T> && move) noexcept
         		 * @param[in] move The Euler angle to move.
         		 * @brief Default move constructor.
         		 * @throw noexcept
         		 */
-        		EulerAngle(EulerAngle<T> && move) noexcept = default;
+        		Angle(Angle<D, T> && move) noexcept = default;
 
         		/**
-        		 * @fn ~EulerAngle()
+        		 * @fn ~Angle()
         		 * @brief Default destructor.
         		 * @throw noexcept
         		 */
-        		~EulerAngle() noexcept = default;
+        		~Angle() noexcept = default;
 
         		/**
-        		 * @fn EulerAngle<T> & operator=(const EulerAngle<T> & copy) noexcept
+        		 * @fn Angle<T> & operator=(const Angle<T> & copy) noexcept
         		 * @param[in] copy The Euler angle to copy from.
         		 * @return The Euler angle copied.
         		 * @brief Default copy assignment operator.
         		 * @throw noexcept
         		 */
-        		EulerAngle<T> & operator=(const EulerAngle<T> & copy) noexcept = default;
+        		Angle<D, T> & operator=(const Angle<D, T> & copy) noexcept = default;
 
         		/**
-        		 * @fn EulerAngle<T> & operator=(EulerAngle<T> && move) noexcept
+        		 * @fn Angle<T> & operator=(Angle<T> && move) noexcept
         		 * @param[in] move The Euler angle to move.
         		 * @return The Euler angle moved.
         		 * @brief Default move assignment operator.
         		 * @throw noexcept
         		 */
-        		EulerAngle<T> & operator=(EulerAngle<T> && move) noexcept = default;
+        		Angle<D, T> & operator=(Angle<D, T> && move) noexcept = default;
 
-        		/**
-        		 * @fn Quaternion<T> toQuaternion() const
-        		 * @return A quaternion representing the rotation.
-        		 * @brief Convert the Euler angle rotation to a quaternion representation.
-        		 * @throw
-        		 */
-        		auto toQuaternion() const -> Quaternion<T>;
+                inline Angle<D, T> & operator=(T angle) noexcept;
 
-        		/**
-        		 * @fn Matrix4u<T> toMatrix() const
-        		 * @return A matrix representing the rotation.
-        		 * @brief Convert the Euler angle rotation to a matrix representation.
-        		 * @throw
-        		 */
-        		auto toMatrix() const -> Matrix4u<T>;
+                inline operator T();
+                inline operator T &();
 
-        		/**
-        		 * @property roll
-        		 * @brief The x-axis rotation, according to Euler/aeronautic notation.
-        		 */
-        		Radian<T> roll;
+                inline auto operator-() const;
 
-        		/**
-        		 * @property pitch
-        		 * @brief The y-axis rotation, according to aeronautic notation.
-        		 */
-        		Radian<T> pitch;
-        		/**
-        		 * @property yaw
-        		 * @brief The z-axis rotation, according to aeronautic notation.
-        		 */
-        		Radian<T> yaw;
+                inline auto operator+(const D<T> & rhs) const;
+                inline auto operator-(const D<T> & rhs) const;
+
+                inline auto & operator+=(const D<T> & rhs);
+                inline auto & operator-=(const D<T> & rhs);
+
+                inline auto operator*(T scalar) const;
+                inline auto operator/(T scalar) const;
+
+                inline auto & operator*=(T scalar);
+                inline auto & operator/=(T scalar);
+
+                inline auto operator==(const D<T> & rhs) const;
+                inline auto operator!=(const D<T> & rhs) const;
+                inline auto operator>(const D<T> & rhs) const;
+                inline auto operator>=(const D<T> & rhs) const;
+                inline auto operator<(const D<T> & rhs) const;
+                inline auto operator<=(const D<T> & rhs) const;
+
+            private:
+                T _value;
         	};
         } // namespace mathematics
     } // namespace utility
 } // namespace ece
 
-#include "utility/mathematics/quaternion.hpp"
-#include "utility/mathematics/euler_angle.inl"
+#include "utility/mathematics/angle.inl"
 
-#endif // EULER_ANGLE_HPP
+#endif // ANGLE_HPP
