@@ -43,63 +43,66 @@ namespace ece
         namespace mathematics
         {
         	template <class T>
-        	inline constexpr EulerAngle<T>::EulerAngle() noexcept: _roll(0.0), _pitch(0.0), _yaw(0.0) {}
+        	inline constexpr EulerAngle<T>::EulerAngle() noexcept: roll(T{ 0 }), pitch(T{ 0 }), yaw(T{ 0 }) {}
 
         	template <class T>
-        	inline EulerAngle<T>::EulerAngle(const double roll, const double pitch, const double yaw) noexcept: _roll(roll), _pitch(pitch), _yaw(yaw) {}
+        	inline EulerAngle<T>::EulerAngle(const T roll, const T pitch, const T yaw) noexcept: roll(roll), pitch(pitch), yaw(yaw) {}
 
         	template <class T>
-        	EulerAngle<T>::EulerAngle(const Quaternion<T> & quaternion): _roll(0.0), _pitch(0.0), _yaw(0.0)
+        	EulerAngle<T>::EulerAngle(const Quaternion<T> & quaternion): roll(T{ 0 }), pitch(T{ 0 }), yaw(T{ 0 })
         	{
-        		double sinr = 2.0 * (quaternion.getW() * quaternion.getX() + quaternion.getY() * quaternion.getZ());
-        		double cosr = 1.0 - 2.0 * (quaternion.getX() * quaternion.getX() + quaternion.getY() * quaternion.getY());
-        		double sinp = 2.0 * (quaternion.getW() * quaternion.getY() - quaternion.getX() * quaternion.getZ());
-        		double siny = 2.0 * (quaternion.getW() * quaternion.getZ() + quaternion.getX() * quaternion.getY());
-        		double cosy = 1.0 - 2.0 * (quaternion.getY() * quaternion.getY() + quaternion.getZ() * quaternion.getZ());
+        		auto sinr = 2.0 * (quaternion.getW() * quaternion.getX() + quaternion.getY() * quaternion.getZ());
+        		auto cosr = 1.0 - 2.0 * (quaternion.getX() * quaternion.getX() + quaternion.getY() * quaternion.getY());
+        		auto sinp = 2.0 * (quaternion.getW() * quaternion.getY() - quaternion.getX() * quaternion.getZ());
+        		auto siny = 2.0 * (quaternion.getW() * quaternion.getZ() + quaternion.getX() * quaternion.getY());
+        		auto cosy = 1.0 - 2.0 * (quaternion.getY() * quaternion.getY() + quaternion.getZ() * quaternion.getZ());
 
-        		this->_roll = std::atan2(sinr, cosr);
-        		this->_pitch = std::fabs(sinp) >= 1.0 ? std::copysign(M_PI / 2, sinp) : std::asin(sinp);
-        		this->_yaw = std::atan2(siny, cosy);
+        		this->roll = std::atan2(sinr, cosr);
+        		this->pitch = std::fabs(sinp) >= 1.0 ? std::copysign(M_PI / 2, sinp) : std::asin(sinp);
+        		this->yaw = std::atan2(siny, cosy);
         	}
 
         	template <class T>
-        	Quaternion<T> EulerAngle<T>::toQuaternion() const
+        	auto EulerAngle<T>::toQuaternion() const -> Quaternion<T>
         	{
-        		double cy = cos(this->_yaw * 0.5);
-        		double sy = sin(this->_yaw * 0.5);
-        		double cr = cos(this->_roll * 0.5);
-        		double sr = sin(this->_roll * 0.5);
-        		double cp = cos(this->_pitch * 0.5);
-        		double sp = sin(this->_pitch * 0.5);
+        		auto cy = std::cos(this->yaw * 0.5);
+        		auto sy = std::sin(this->yaw * 0.5);
+        		auto cr = std::cos(this->roll * 0.5);
+        		auto sr = std::sin(this->roll * 0.5);
+        		auto cp = std::cos(this->pitch * 0.5);
+        		auto sp = std::sin(this->pitch * 0.5);
 
-        		return Quaternion<T>(cy * cr * cp + sy * sr * sp,
+        		return Quaternion<T>{
+                    cy * cr * cp + sy * sr * sp,
         			cy * sr * cp - sy * cr * sp,
         			cy * cr * sp + sy * sr * cp,
-        			sy * cr * cp - cy * sr * sp);
+        			sy * cr * cp - cy * sr * sp };
         	}
 
         	template <class T>
-        	Matrix4u<T> EulerAngle<T>::toMatrix() const
+        	auto EulerAngle<T>::toMatrix() const -> Matrix4u<T>
         	{
+                auto rx = Matrix4u<T>{
+                    T{ 1 }, T{ 0 }, T{ 0 }, T{ 0 },
+                    T{ 0 }, std::cos(this->roll), -std::sin(this->roll), T{ 0 },
+                    T{ 0 }, std::sin(this->roll), std::cos(this->roll), T{ 0 },
+                    T{ 0 }, T{ 0 }, T{ 0 }, T{ 1 }
+                };
+                auto ry = Matrix4u<T>{
+                    std::cos(this->pitch), T{ 0 }, std::sin(this->pitch), T{ 0 },
+                    T{ 0 }, T{ 1 }, T{ 0 }, T{ 0 },
+                    -std::sin(this->pitch), T{ 0 }, std::cos(this->pitch), T{ 0 },
+                    T{ 0 }, T{ 0 }, T{ 0 }, T{ 1 }
+                };
+                auto rz = Matrix4u<T>{
+                    std::cos(this->yaw), -std::sin(this->yaw), T{ 0 }, T{ 0 },
+                    std::sin(this->yaw), std::cos(this->yaw), T{ 0 }, T{ 0 },
+                    T{ 0 }, T{ 0 }, T{ 1 }, T{ 0 },
+                    T{ 0 }, T{ 0 }, T{ 0 }, T{ 1 }
+                };
+
+                return rz * ry * rx;
         	}
-
-        	template <class T>
-        	inline T & EulerAngle<T>::getRoll() noexcept { return this->_roll; }
-
-        	template <class T>
-        	inline T & EulerAngle<T>::getPitch() noexcept { return this->_pitch; }
-
-        	template <class T>
-        	inline T & EulerAngle<T>::getYaw() noexcept { return this->_yaw; }
-
-        	template <class T>
-        	inline T EulerAngle<T>::getRoll() const noexcept { return this->_roll; }
-
-        	template <class T>
-        	inline T EulerAngle<T>::getPitch() const noexcept { return this->_pitch; }
-
-        	template <class T>
-        	inline T EulerAngle<T>::getYaw() const noexcept { return this->_yaw; }
         } // namespace mathematics
     } // namespace utility
 } // namespace ece
