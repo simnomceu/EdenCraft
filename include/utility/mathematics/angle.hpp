@@ -55,7 +55,7 @@ namespace ece
         	 * @remark Add a check for templated parameter (numerical type)
         	 */
         	template <template <class> class D, class T>
-        	class Angle
+        	class ECE_UTILITY_API Angle
         	{
         	public:
         		/**

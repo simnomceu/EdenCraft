@@ -57,7 +57,7 @@ namespace ece
         	 * @remark Add a check for templated parameter (numerical type)
         	 */
         	template <class T>
-        	class Radian: public Angle<Radian, T>
+        	class ECE_UTILITY_API Radian: public Angle<Radian, T>
         	{
         	public:
         		/**

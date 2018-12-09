@@ -36,10 +36,7 @@
 
 */
 
-#ifndef INTERPOLATION_HPP
-#define INTERPOLATION_HPP
-
-#include "utility/config.hpp"
+#include <cmath>
 
 namespace ece
 {
@@ -47,38 +44,26 @@ namespace ece
     {
         namespace mathematics
         {
-        	/**
-        	 * T lerp(const T a, const T b)
-        	 * @tparam T Can be compute with any numerical type.
-        	 * @param[in] a The beginning of the interpolation.
-        	 * @param[in] b The end of the interpolation.
-             * @param[in] percent The percentage of progress between a and b.
-        	 * @return The interpolation.
-        	 * @brief Linear interpolation between a and b.
-        	 * @throw
-        	 */
-        	template <class T>
-			ECE_UTILITY_API auto lerp(const T a, const T b, float percent);
-
-        	/**
-        	 * Quaternion<T> slerp(const T t, const Quaternion<T> & a, const Quaternion<T> & b)
-        	 * @tparam T Can be compute with any numerical type.
-        	 * @param[in] t The percentage of interpolation to apply.
-        	 * @param[in] a The beginning of the interpolation.
-        	 * @param[in] b The end of the interpolation.
-        	 * @return The interpolation.
-        	 * @brief Spheric linear interpolation between a and b.
-        	 * @throw.
-        	 */
-        	template <class T>
-			ECE_UTILITY_API auto slerp(const T a, const T b, float percent);
+            template <class T>
+            auto lerp(const T a, const T b, float percent)
+            {
+               return T{ a + ((b - a) * percent) };
+            }
 
             template <class T>
-            ECE_UTILITY_API auto nlerp(const T a, const T b, float percent);
+            auto slerp(const T a, const T b, float percent)
+            {
+                const auto dot = std::clamp(a.dot(b), T{ -1 }, T{ 1 });
+                const auto theta = std::acos(dot) * percent;
+                const auto progress = (b - (a * percent)).normalize();
+                return (a * std::cos(theta)) + (progress * std::sin(theta));
+            }
+
+            template <class T>
+            auto nlerp(const T a, const T b, float percent)
+            {
+                return lerp(a, b, percent).normalize();
+            }
         } // namespace mathematics
     } // namespace utility
 } // namespace ece
-
-#include "utility/mathematics/interpolation.inl"
-
-#endif // INTERPOLATION_HPP
