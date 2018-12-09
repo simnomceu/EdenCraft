@@ -41,6 +41,9 @@
 
 #include "utility/config.hpp"
 #include "utility/mathematics.hpp"
+#include "utility/hash.hpp"
+
+#include <unordered_map>
 
 namespace ece
 {
@@ -190,8 +193,10 @@ namespace ece
 					inline void setMaterial(const std::string & material);
 
 					inline std::size_t getNumberOfGroups() const;
-					inline std::vector<FaceGroup> & getGroups();
-					inline const std::vector<FaceGroup> & getGroups() const;
+					inline std::unordered_map<std::string, FaceGroup> & getGroups();
+					inline const std::unordered_map<std::string, FaceGroup> & getGroups() const;
+
+					inline std::size_t getVertexIndice(const ObjectOBJ::Vertex & vertex);
 
 				private:
 					std::string _o; // object name
@@ -201,9 +206,29 @@ namespace ece
 					std::vector<FloatVector3u> _vn; // vertex normals
 					std::vector<FloatVector3u> _vp; // parameter space vertices
 
+					struct VertexCompare
+					{
+						bool operator()(const ObjectOBJ::Vertex & lhs, const ObjectOBJ::Vertex & rhs) const
+						{
+							return lhs._v == rhs._v && lhs._vt == rhs._vt;
+						}
+					};
+
+					struct VertexHash
+					{
+						std::size_t operator()(const ObjectOBJ::Vertex & vertex) const
+						{
+							std::size_t h1 = std::hash<int>{}(vertex._v);
+							std::size_t h2 = std::hash<int>{}(vertex._vt);
+							return hash_combine(h1, h2);
+						}
+					};
+
+					std::unordered_map<ObjectOBJ::Vertex, std::size_t, ObjectOBJ::VertexHash, ObjectOBJ::VertexCompare> _vertexIndexing;
+
 					FaceFormat _faceFormat;
 					std::vector<Face> _f; // face
-					std::vector<FaceGroup> _groups;
+					std::unordered_map<std::string, FaceGroup> _groups;
 					std::vector<std::string> _currentGroups;
 				};
 			} // namespace wavefront

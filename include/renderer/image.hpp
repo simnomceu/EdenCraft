@@ -39,6 +39,7 @@
 #ifndef RENDERER_IMAGE_HPP
 #define RENDERER_IMAGE_HPP
 
+#include "renderer/image/adaptative_proportion.hpp"
 #include "renderer/image/color.hpp"
 #include "renderer/image/image.hpp"
 #include "renderer/image/loader_bmp.hpp"

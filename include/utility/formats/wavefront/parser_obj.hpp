@@ -41,6 +41,7 @@
 
 #include "utility/config.hpp"
 #include "utility/formats/wavefront/object_obj.hpp"
+#include "utility/string.hpp"
 
 #include <vector>
 
@@ -98,7 +99,7 @@ namespace ece
 					std::vector<ObjectOBJ>::iterator _currentObject;
 					std::vector<std::string> _materials;
 
-					void processLine(const std::string & line);
+					void processLine(StringStream & line);
 					std::vector<ObjectOBJ>::iterator addObject(const std::string & name);
 				};
 			} // namespace wavefront

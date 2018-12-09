@@ -109,7 +109,7 @@ int main()
 			}
 		});
 
-		app.onPostUpdate.connect([&renderSystem, &window, &cube]() {
+		app.onPostUpdate.connect([&window, &cube]() {
 			window.lock()->display();
 			cube.update();
 		});

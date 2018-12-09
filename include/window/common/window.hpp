@@ -123,7 +123,7 @@ namespace ece
 				 * @throw
 				 * @see void open(const WindowSetting & settings)
 				 */
-				void open();
+				virtual void open();
 
 				/**
 				 * @fn void open(const WindowSetting & settings)

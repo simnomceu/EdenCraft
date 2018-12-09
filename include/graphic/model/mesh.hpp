@@ -47,6 +47,7 @@
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
 #include "renderer/buffer.hpp"
+#include "utility/hash.hpp"
 
 namespace ece
 {
@@ -100,7 +101,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Mesh(Mesh && move) noexcept = default;
+				Mesh(Mesh && move) = default;
 
 				/**
 				 * @fn ~Mesh() noexcept
@@ -158,6 +159,8 @@ namespace ece
 
 				std::size_t addVertex(const Mesh::Vertex & vertex);
 				std::size_t addVertex(Mesh::Vertex && vertex);
+				void insertVertex(std::size_t position, const Mesh::Vertex & vertex);
+				void insertVertex(std::size_t position, Mesh::Vertex && vertex);
 
 				inline std::vector<Mesh::Vertex> & getVertices();
 				inline const std::vector<Mesh::Vertex> & getVertices() const;

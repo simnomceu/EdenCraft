@@ -40,7 +40,6 @@
 #include "utility/formats/wavefront/parser_mtl.hpp"
 
 #include <iostream>
-#include <sstream>
 #include <string>
 
 namespace ece
@@ -53,35 +52,16 @@ namespace ece
 			{
 				void ParserOBJ::load(std::istream & stream)
 				{
-					std::string line;
-					while (stream.good()) {
-						std::getline(stream, line);
-						this->processLine(line);
-					}
+					char line[std::numeric_limits<short>::max()];
+					StringStream lineStream("");
+					do {
+						stream.getline(line, std::numeric_limits<short>::max());
+						lineStream.str(line);
+						if (lineStream.str().size() >= 2) {
+							this->processLine(lineStream);
+						}
+					} while (stream.good());
 					// TODO care about objects groups and faces groups
-
-					/* Check face format - Clockwising and size of the face. */
-					std::size_t i = 0;
-					while (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT && i < this->_currentObject->getNumberOfFaces()) {
-						auto face = this->_currentObject->getFaces()[i];
-						auto a = this->_currentObject->getVertices()[face[0]._v - 1];
-						auto b = this->_currentObject->getVertices()[face[1]._v - 1];
-						auto c = this->_currentObject->getVertices()[face[face.size() - 1]._v - 1];
-						FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] };
-						FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] };
-						FloatVector3u n = this->_currentObject->getVerticesNormal()[face[0]._vn - 1];
-						float det = (ab[0] * cb[1] * n[2]) + (cb[0] * n[1] * ab[2]) + (n[0] * ab[1] * cb[2]) - (n[0] * cb[1] * ab[2]) - (ab[0] * n[1] * cb[2]) - (cb[0] * ab[1] * n[2]);
-						auto angle = std::atan2(det, ab.dot(cb));
-						if (angle > 0) {
-							this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CW });
-						}
-						else if (angle < 0) {
-							this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CCW });
-						}
-						else {
-							this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::NON_SIGNIFICANT });
-						}
-					}
 				}
 
 				void ParserOBJ::save(std::ostream & stream)
@@ -114,11 +94,11 @@ namespace ece
 						stream << std::endl;
 
 						for (auto & group : object.getGroups()) {
-							stream << "g " << group.name << std::endl;
-							if (!group.material.empty()) {
-								stream << "usemtl " << group.material << std::endl;
+							stream << "g " << group.second.name << std::endl;
+							if (!group.second.material.empty()) {
+								stream << "usemtl " << group.second.material << std::endl;
 							}
-							for (auto it : group.faces) {
+							for (auto it : group.second.faces) {
 								auto & face = object.getFaces()[it];
 								stream << "f";
 								for (auto & vertex : face) {
@@ -130,119 +110,128 @@ namespace ece
 					}
 				}
 
-				void ParserOBJ::processLine(const std::string & line)
+				void ParserOBJ::processLine(StringStream & line)
 				{
-					if (line.size() >= 2) {
-						std::string command = line.substr(0, line.find_first_of(' ')); //line.substr(0, 2);
-						std::istringstream stream(line.substr(line.find_first_of(' ') + 1));
-
-						// TODO add checks for the format of the file
-
-						if (command == "v") {
+					// TODO add checks for the format of the file
+					switch (line.get()) {
+					case 'v':
+						if (line.peek() == 't') { //vt
+							line.get();
 							if (this->_currentObject == this->_objects.end()) {
 								this->_currentObject = this->addObject("unnamed");
 							}
 
-							float vertice[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-							stream >> vertice[0] >> vertice[1] >> vertice[2];
-							if (!stream.eof() && stream.peek() != '\r') {
-								stream >> vertice[3];
-							}
-							this->_currentObject->addVertex({ vertice[0], vertice[1], vertice[2], vertice[3] });
-						}
-						else if (command == "vt") {
-							if (this->_currentObject == this->_objects.end()) {
-								this->_currentObject = this->addObject("unnamed");
-							}
-
-							float texture[3] = { 0.0f, 0.0f, 0.0f };
-							stream >> texture[0];
-							if (!stream.eof() && stream.peek() != '\r') {
-								stream >> texture[1];
-								if (!stream.eof() && stream.peek() != '\r') {
-									stream >> texture[2];
-								}
-							}
+							FloatVector3u texture = { 0.0f, 0.0f, 0.0f };
+							line.scan("%f %f %f", &texture[0], &texture[1], &texture[2]);
 							// TODO: Deal with 1D, 2D, and 3D texture
 							this->_currentObject->addVertexTexture({ texture[0], texture[1], texture[2] });
 						}
-						else if (command == "vn") {
+						else if (line.peek() == 'n') { // vn
+							line.get();
 							if (this->_currentObject == this->_objects.end()) {
 								this->_currentObject = this->addObject("unnamed");
 							}
 
-							float normal[3] = { 0.0f, 0.0f, 0.0f };
-							stream >> normal[0] >> normal[1] >> normal[2];
+							FloatVector3u normal = { 0.0f, 0.0f, 0.0f };
+							line.scan("%f %f %f", &normal[0], &normal[1], &normal[2]);
 							this->_currentObject->addVertexNormal({ normal[0], normal[1], normal[2] });
 						}
-						else if (command == "vp") {
+						else if (line.peek() == 'p') { // vp
+							line.get();
 							if (this->_currentObject == this->_objects.end()) {
 								this->_currentObject = this->addObject("unnamed");
 							}
 
-							float parameterSpace[3] = { 0.0f, 0.0f, 1.0f };
-							stream >> parameterSpace[0];
-							if (!stream.eof() && stream.peek() != '\r') {
-								stream >> parameterSpace[1];
-								if (!stream.eof() && stream.peek() != '\r') {
-									stream >> parameterSpace[2];
-								}
-							}
+							FloatVector3u parameterSpace = { 0.0f, 0.0f, 1.0f };
+							line.scan("%f %f %f", &parameterSpace[0], &parameterSpace[1], &parameterSpace[2]);
 							// TODO: Deal with 1D and 2D parameter space.
 							this->_currentObject->addVertexSpaceParameter({ parameterSpace[0], parameterSpace[1], parameterSpace[2] });
 						}
-						else if (command == "f") {
-							ObjectOBJ::Face face;
-							ObjectOBJ::Vertex vertex;
-
-							while (!stream.eof() && stream.peek() != '\r') {
-								vertex = { 0, 0, 0 };
-								stream >> vertex._v;
-								stream.get();
-								if (stream.peek() == '/') {
-									stream.get();
-								}
-								else {
-									stream >> vertex._vt;
-								}
-								stream.get();
-								if (stream.peek() == ' ') {
-									stream.get();
-								}
-								else {
-									stream >> vertex._vn;
-								}
-								face.push_back(std::move(vertex));
+						else { // v
+							line.get();
+							if (this->_currentObject == this->_objects.end()) {
+								this->_currentObject = this->addObject("unnamed");
 							}
-							this->_currentObject->addFace(std::move(face));
 
-							// TODO check that it uses existing vertices, normales, and textures.
+							FloatVector4u vertice = { 0.0f, 0.0f, 0.0f, 1.0f };
+							line.scan("%f %f %f %f", &vertice[0], &vertice[1], &vertice[2], &vertice[3]);
+							this->_currentObject->addVertex({ vertice[0], vertice[1], vertice[2], vertice[3] });
 						}
-						else if (command == "o") {
-							std::string name;
-							stream >> name;
-							this->_currentObject = this->addObject(name);
-						}
-						else if (command == "g") {
-							this->_currentObject->resetCurrentGroups();
+						break;
+					case 'f':
+					{
+						ObjectOBJ::Face face;
+						ObjectOBJ::Vertex vertex;
 
-							std::string group;
-							while (!stream.eof() && stream.peek() != '\r') {
-								stream >> group;
-								this->_currentObject->addGroup(group);
+						auto faceSize = line.count(' ');
+						face.resize(faceSize);
+
+						for (unsigned int i = 0; i < faceSize; ++i) {
+							vertex = { 0, 0, 0 };
+							line.scan("%d/%d/%d", &vertex._v, &vertex._vt, &vertex._vn);
+							face[i] = std::move(vertex);
+						}
+
+						if (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT) {
+							auto a = this->_currentObject->getVertices()[face[0]._v - 1];
+							auto b = this->_currentObject->getVertices()[face[1]._v - 1];
+							auto c = this->_currentObject->getVertices()[face[face.size() - 1]._v - 1];
+							FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] };
+							FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] };
+							FloatVector3u n = this->_currentObject->getVerticesNormal()[face[0]._vn - 1];
+							float det = (ab[0] * cb[1] * n[2]) + (cb[0] * n[1] * ab[2]) + (n[0] * ab[1] * cb[2]) - (n[0] * cb[1] * ab[2]) - (ab[0] * n[1] * cb[2]) - (cb[0] * ab[1] * n[2]);
+							auto angle = std::atan2(det, ab.dot(cb));
+							if (angle > 0) {
+								this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CW });
 							}
-							// TODO: need to make the difference between object and group to complete implementation of submeshes for wavefront specification.
+							else if (angle < 0) {
+								this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::CCW });
+							}
+							else {
+								this->_currentObject->setFaceFormat({ face.size(), ObjectOBJ::Clockwise::NON_SIGNIFICANT });
+							}
 						}
-						else if (command == "mtllib") {
-							std::string materialFile;
-							stream >> materialFile;
-							this->_materials.push_back(materialFile);
+
+						this->_currentObject->addFace(std::move(face));
+
+						// TODO check that it uses existing vertices, normales, and textures.
+					}
+					break;
+					case 'o':
+					{
+						std::string name = line.substr();
+						this->_currentObject = this->addObject(name);
+					}
+					break;
+					case 'g':
+					{
+						this->_currentObject->resetCurrentGroups();
+
+						std::string group;
+						while (!line.eof()) {
+							line >> group;
+							this->_currentObject->addGroup(group);
 						}
-						else if (command == "usemtl") {
-							std::string material;
-							stream >> material;
-							this->_currentObject->setMaterial(material);
-						}
+						// TODO: need to make the difference between object and group to complete implementation of submeshes for wavefront specification.
+					}
+					break;
+					case 'm': // mtllib
+					{
+						line.get(5);
+						std::string materialFile;
+						line >> materialFile;
+						this->_materials.push_back(materialFile);
+					}
+					break;
+					case 'u': // usemtl
+					{
+						line.get(5);
+						std::string material;
+						line >> material;
+						this->_currentObject->setMaterial(material);
+					}
+					break;
+					default: break;
 					}
 				}
 

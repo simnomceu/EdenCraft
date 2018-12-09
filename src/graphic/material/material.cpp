@@ -50,7 +50,9 @@ namespace ece
 			{
 				std::vector<std::shared_ptr<BaseUniform>> properties;
 				for (auto[key, value] : this->_properties) {
-					properties.push_back(value->getUniform(key));
+					if (value->isEnabled()) {
+						properties.push_back(value->getUniform(key));
+					}
 				}
 				return std::move(properties);
 			}

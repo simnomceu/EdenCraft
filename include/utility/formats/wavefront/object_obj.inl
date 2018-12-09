@@ -44,7 +44,8 @@ namespace ece
 		{
 			namespace wavefront
 			{
-				inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept : _o(name), _v(), _vt(), _vn(), _vp(), _faceFormat{ 0, ObjectOBJ::Clockwise::NON_SIGNIFICANT }, _f(), _groups(), _currentGroups() {}
+				inline ObjectOBJ::ObjectOBJ(const std::string & name) noexcept : _o(name), _v(), _vt(), _vn(), _vp(), _vertexIndexing(), 
+																				_faceFormat{ 0, ObjectOBJ::Clockwise::NON_SIGNIFICANT }, _f(), _groups(), _currentGroups() {}
 
 				inline const std::string & ObjectOBJ::getName() const { return this->_o; }
 
@@ -97,28 +98,34 @@ namespace ece
 
 				inline void ObjectOBJ::addFace(const ObjectOBJ::Face & f)
 				{
+					for (auto & vertex : f) {
+						this->_vertexIndexing.try_emplace(vertex, this->_vertexIndexing.size());
+					}
+
 					this->_f.push_back(f);
 					if (this->_currentGroups.empty()) {
 						this->addGroup("default");
 					}
 
 					for (auto group : this->_currentGroups) {
-						auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
-						it->faces.push_back(this->_f.size() - 1);
+						this->_groups[group].faces.push_back(this->_f.size() - 1);
 					}
 				}
 
 				inline void ObjectOBJ::addFace(ObjectOBJ::Face && f)
 				{
+					for (auto & vertex : f) {
+						this->_vertexIndexing.try_emplace(vertex, this->_vertexIndexing.size());
+					}
+
 					this->_f.push_back(std::move(f));
 					if (this->_currentGroups.empty()) {
 						this->addGroup("default");
 					}
 
-					for (auto group : this->_currentGroups) {
-						auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
-						it->faces.push_back(this->_f.size() - 1);
-					}
+					std::for_each(this->_currentGroups.begin(), this->_currentGroups.end(), [this](auto group) {
+						this->_groups[group].faces.push_back(this->_f.size() - 1);
+					});
 				}
 
 				inline std::size_t ObjectOBJ::getNumberOfFaces() const { return this->_f.size(); }
@@ -131,8 +138,8 @@ namespace ece
 
 				inline void ObjectOBJ::addGroup(const std::string & group)
 				{
-					if (std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; }) == this->_groups.end()) {
-						this->_groups.push_back({ group, "", {} });
+					if (this->_groups.find(group) != this->_groups.end()) {
+						this->_groups[group] = { group, "", {} };
 					}
 					this->_currentGroups.push_back(group);
 				}
@@ -143,16 +150,17 @@ namespace ece
 						this->addGroup("default");
 					}
 					for (auto group : this->_currentGroups) {
-						auto it = std::find_if(this->_groups.begin(), this->_groups.end(), [group](auto element) {return element.name == group; });
-						it->material = material;
+						this->_groups[group].material = material;
 					}
 				}
 
 				inline std::size_t ObjectOBJ::getNumberOfGroups() const { return this->_groups.size(); }
 
-				inline std::vector<ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() { return this->_groups; }
+				inline std::unordered_map<std::string, ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() { return this->_groups; }
 
-				inline const std::vector<ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() const { return this->_groups; }
+				inline const std::unordered_map<std::string, ObjectOBJ::FaceGroup> & ObjectOBJ::getGroups() const { return this->_groups; }
+
+				inline std::size_t ObjectOBJ::getVertexIndice(const ObjectOBJ::Vertex & vertex) { return this->_vertexIndexing[vertex]; }
 			} // namespace wavefront
 		} // namespace formats
 	} // namespace utility

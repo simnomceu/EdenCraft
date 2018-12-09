@@ -123,7 +123,7 @@ namespace ece
 							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
 						}
 						diffuseMap->bind(Texture::Target::TEXTURE_2D);
-						diffuseMap->update();
+						diffuseMap->generateMipmap();
 						materialVisitor.setDiffuseMap(diffuseMap);
 					}
 
@@ -133,22 +133,23 @@ namespace ece
 							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
 						}
 						specularMap->bind(Texture::Target::TEXTURE_2D);
-						specularMap->update();
+						specularMap->generateMipmap();
 						materialVisitor.setSpecularMap(specularMap);
 					}
 				}
 
 				for (std::size_t n = 0; n < parser.getObjects().size(); ++n) {
-					auto object = parser.getObjects()[n];
+					auto & object = parser.getObjects()[n];
 					this->_meshes[n] = makeResource<Mesh>(object.getName());
 
 					auto & submeshes = this->_meshes[n]->getSubmeshes();
 					submeshes.resize(object.getGroups().size());
 
-					for (std::size_t g = 0; g < object.getGroups().size(); ++g) {
-						submeshes[g].material = makeResource<Material>(object.getGroups()[g].material);
-						for (auto it : object.getGroups()[g].faces) {
-							auto f = object.getFaces()[it];
+					int g = 0;
+					for (auto & group : object.getGroups()) {
+						submeshes[g].material = makeResource<Material>(group.second.material);
+						for (auto & it : group.second.faces) {
+							auto & f = object.getFaces()[it];
 							if (object.getFaceFormat().size > 3) {
 								/* Basic triangulation, working only for full convex polygons. */
 								std::vector<unsigned int> face(object.getFaceFormat().size);
@@ -169,7 +170,11 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = this->_meshes[n]->addVertex(vertex);
+
+									auto index = object.getVertexIndice(fElement);
+									this->_meshes[n]->insertVertex(index, std::move(vertex));
+
+								//	auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -202,7 +207,9 @@ namespace ece
 									if (fElement._vt > 0) {
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = this->_meshes[n]->addVertex(vertex);
+									auto index = object.getVertexIndice(fElement);
+									this->_meshes[n]->insertVertex(index, std::move(vertex));
+								//	auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -216,6 +223,11 @@ namespace ece
 								submeshes[g].mesh.addFace(std::move(face));
 							}
 						}
+						++g;
+					}
+
+					for (auto & vertex : this->_meshes[n]->getVertices()) {
+						vertex._normal = vertex._normal.normalize();
 					}
 				}
 			}

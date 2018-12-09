@@ -46,6 +46,7 @@ namespace ece
 		{
 			std::weak_ptr<RenderTarget> Renderer::_currentTarget;
 			std::weak_ptr<RenderContext> Renderer::_currentContext;
+			std::map<Texture::Target, std::weak_ptr<Texture>> Renderer::_currentTextures;
 		} // rendering
 	} // renderer
 } // ece

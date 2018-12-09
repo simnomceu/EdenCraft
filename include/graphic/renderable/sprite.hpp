@@ -62,9 +62,16 @@ namespace ece
 			class ECE_GRAPHIC_API Sprite : public Renderable
 			{
 			public:
+				struct Vertex
+				{
+					FloatVector2u _position;
+					FloatVector2u _textureCoordinate;
+				};
+				using Face = std::array<unsigned int, 3>;
+
 				constexpr Sprite() noexcept = delete;
 
-				Sprite(const Texture2D::Texture2DReference & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
+				Sprite(const Texture2D::Reference & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
 
 				/**
 				 * @fn Sprite(const Sprite & copy)
@@ -108,16 +115,42 @@ namespace ece
 				Sprite & operator=(Sprite && move) noexcept = default;
 
 				virtual void draw(std::shared_ptr<Shader> program) override;
+
+				void setTexture(const Texture2D::Reference & texture);
+				inline void clipTexture(Rectangle<float> textureClip);
+
+				inline void setBounds(Rectangle<float> bounds);
+				inline void moveTo(ece::FloatVector2u position);
+				inline void resize(ece::FloatVector2u size);
+
+				inline void resetRotation();
+				inline void rotate(float angle);
+
+				inline const Rectangle<float> & getTextureClip() const;
+				inline const Rectangle<float> & getBounds() const;
+				inline float getRotation() const;
+
+				inline void setLevel(int level);
+				inline int getLevel() const;
+
 			private:
-				Texture2D::Texture2DReference _texture;
-				Rectangle<float> _textureClip;
+				struct {
+					Texture2D::Reference ref;
+					Rectangle<float> clip;
+				} _texture;
 
 				Rectangle<float> _bounds;
-				VertexBuffer<SymetricStorage, std::vector<float>> _vertices;
-				IndexBuffer<SymetricStorage, std::vector<unsigned int>> _index;
+				float _rotation;
+
+				VertexBuffer<SymetricStorage, std::vector<Sprite::Vertex>> _vertices;
+				IndexBuffer<SymetricStorage, std::vector<Sprite::Face>> _index;
+
+				int _level;
 			};
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece
+
+#include "graphic/renderable/sprite.inl"
 
 #endif // SPRITE_HPP
