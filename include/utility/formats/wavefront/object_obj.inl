@@ -107,9 +107,9 @@ namespace ece
 						this->addGroup("default");
 					}
 
-					for (auto group : this->_currentGroups) {
+					std::for_each(this->_currentGroups.begin(), this->_currentGroups.end(), [this](auto group) {
 						this->_groups[group].faces.push_back(this->_f.size() - 1);
-					}
+					});
 				}
 
 				inline void ObjectOBJ::addFace(ObjectOBJ::Face && f)
