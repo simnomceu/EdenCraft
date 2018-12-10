@@ -127,7 +127,7 @@ namespace ece
         		 * @brief Get access to the locale resource loaded from the file.
         		 * @throw
         		 */
-        		inline LocaleResource & getResource();
+        		inline auto getResource() -> LocaleResource &;
 
         		/**
         		 * @fn void changeLocale(const Localization & locale)

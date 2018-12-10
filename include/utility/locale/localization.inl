@@ -50,9 +50,9 @@ namespace ece
         		std::transform(this->_country.begin(), this->_country.end(), this->_country.begin(), [](char c) { return static_cast<unsigned char>(std::toupper(c)); });
         	}
 
-        	inline const Language & Localization::getLanguage() const noexcept { return this->_language; }
+        	inline auto Localization::getLanguage() const noexcept { return this->_language; }
 
-        	inline const Country & Localization::getCountry() const noexcept { return this->_country; }
+        	inline auto Localization::getCountry() const noexcept { return this->_country; }
 
         	inline void Localization::setLanguage(const Language & language)
         	{
