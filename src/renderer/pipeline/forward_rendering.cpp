@@ -65,21 +65,21 @@ namespace ece
 
 				Rectangle<float> viewport;
 				if (this->_pipeline.getViewport().isRatioUsed()) {
-					viewport = Rectangle<float>(0.0f, 0.0f, target->getSize()[0] * this->_pipeline.getViewport().getViewportRatio().getWidth(), target->getSize()[1] * this->_pipeline.getViewport().getViewportRatio().getHeight());
+					viewport = Rectangle<float>(0.0f, 0.0f, target->getSize()[0] * this->_pipeline.getViewport().getViewportRatio().width, target->getSize()[1] * this->_pipeline.getViewport().getViewportRatio().height);
 				}
 				else {
 					viewport = this->_pipeline.getViewport().getViewport();
 				}
 
-				OpenGL::viewport(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+				OpenGL::viewport(static_cast<int>(viewport.x), static_cast<int>(viewport.y), static_cast<int>(viewport.width), static_cast<int>(viewport.height));
 
 				if (this->_pipeline.getScissor() != Rectangle<float>()) {
-					OpenGL::scissor(static_cast<int>(this->_pipeline.getScissor().getX()), static_cast<int>(this->_pipeline.getScissor().getY()), static_cast<int>(this->_pipeline.getScissor().getWidth()), static_cast<int>(this->_pipeline.getScissor().getHeight()));
+					OpenGL::scissor(static_cast<int>(this->_pipeline.getScissor().x), static_cast<int>(this->_pipeline.getScissor().y), static_cast<int>(this->_pipeline.getScissor().width), static_cast<int>(this->_pipeline.getScissor().height));
 					OpenGL::enable(Capability::SCISSOR_TEST);
 				}
 
 				if (this->_pipeline.getScissor() == Rectangle<float>()) {
-					OpenGL::scissor(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+					OpenGL::scissor(static_cast<int>(viewport.x), static_cast<int>(viewport.y), static_cast<int>(viewport.width), static_cast<int>(viewport.height));
 					OpenGL::enable(Capability::SCISSOR_TEST);
 				}
 

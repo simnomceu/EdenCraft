@@ -75,13 +75,13 @@ namespace ece
 
 			FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
 			{
-				float right = screen.getX() + screen.getWidth();
-				float top = screen.getY() + screen.getHeight();
+				float right = screen.x + screen.width;
+				float top = screen.y + screen.height;
 
-				return FloatMatrix4u{ 2.0f / screen.getWidth(), 0.0f, 0.0f, 0.0f,
-									 0.0f, 2.0f / screen.getHeight(), 0.0f, 0.0f,
+				return FloatMatrix4u{ 2.0f / screen.width, 0.0f, 0.0f, 0.0f,
+									 0.0f, 2.0f / screen.height, 0.0f, 0.0f,
 									 0.0f, 0.0f, 2.0f / (farClipping - nearClipping), 0.0f,
-									 -(right + screen.getX()) / screen.getWidth(), -(top + screen.getY()) / screen.getHeight(), -(farClipping + nearClipping) / (farClipping - nearClipping), 1.0f };
+									 -(right + screen.x) / screen.width, -(top + screen.y) / screen.height, -(farClipping + nearClipping) / (farClipping - nearClipping), 1.0f };
 			}
 
 			FloatMatrix4u scale(const FloatVector3u &  scale)

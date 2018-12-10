@@ -39,6 +39,8 @@
 #ifndef RECTANGLE_HPP
 #define RECTANGLE_HPP
 
+#include "utility/mathematics/vector2u.hpp"
+
 namespace ece
 {
     namespace utility
@@ -120,70 +122,37 @@ namespace ece
         		 **/
         		Rectangle & operator=(Rectangle && rightOperand) noexcept = default;
 
-				inline bool operator==(const Rectangle<T> & rhs) const noexcept;
+				inline auto operator==(const Rectangle<T> & rhs) const noexcept;
 
-				inline bool operator!=(const Rectangle<T> & rhs) const noexcept;
+				inline auto operator!=(const Rectangle<T> & rhs) const noexcept;
 
-				inline Rectangle<T> operator*(const Rectangle<T> & rhs) const noexcept;
+				auto contains(const Vector2u<T> & point) const noexcept;
 
-				inline Rectangle<T> operator/(const Rectangle<T> & rhs) const noexcept;
+				auto intersects(const Rectangle<T> & rhs) const noexcept;
 
-				/**
-				  * @fn T getX() const noexcept
-				  * @return The position on the x-axis. The value returned is of the same type used to define the rectangle.
-				  * @brief Access to the position of the rectangle on the x-axis.
-				  * @throw noexcept
-				  **/
-				inline T getX() const noexcept;
-
-        		/**
-        		 * @fn T getY() const noexcept
-        		 * @return The position on the y-axis. The value returned is of the same type used to define the rectangle.
-        		 * @brief Access to the position of the rectangle on the y-axis.
-        		 * @throw noexcept
-        		 **/
-        		inline T getY() const noexcept;
-
-        		/**
-        		 * @fn T getWidth() const noexcept
-        		 * @return The width of the rectangle. The value returned is of the same type used to define the rectangle.
-        		 * @brief Access to the width of the rectangle.
-        		 * @throw noexcept
-        		 **/
-        		inline T getWidth() const noexcept;
-
-        		/**
-        		 * @fn T getHeight() const noexcept
-        		 * @return The height of the rectangle. The value returned is of the same type used to define the rectangle.
-        		 * @brief Access to the height of the rectangle.
-        		 * @throw noexcept
-        		 **/
-        		inline T getHeight() const noexcept;
-
-        	private:
         		/**
         		 * @property _x
         		 * @brief Position on the x-axis.
         		 **/
-        		T _x;
+        		T x;
 
         		/**
         		 * @property _y
         		 * @brief Position on the y-axis.
         		 **/
-        		T _y;
+        		T y;
 
         		/**
         		 * @property _w
         		 * @brief Width of the rectangle.
         		 **/
-        		T _w;
+        		T width;
 
         		/**
         		 * @property _h
         		 * @brief Height of the rectangle.
         		 **/
-        		T _h;
+        		T height;
         	};
         } // namespace mathematics
     } // namespace utility
