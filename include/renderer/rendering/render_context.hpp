@@ -39,9 +39,8 @@
 #ifndef RENDER_CONTEXT_HPP
 #define RENDER_CONTEXT_HPP
 
-#include <memory>
-
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/indexing.hpp"
 #include "renderer/rendering/context_settings.hpp"
 

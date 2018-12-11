@@ -36,7 +36,7 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/module/module_manager.hpp"
 
 namespace ece

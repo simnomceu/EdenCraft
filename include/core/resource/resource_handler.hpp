@@ -41,9 +41,7 @@
 #define RESOURCE_HANDLER_HPP
 
 #include "core/config.hpp"
-
-#include <memory>
-#include <string>
+#include "core/pch.hpp"
 
 namespace ece
 {

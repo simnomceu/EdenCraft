@@ -36,6 +36,7 @@
 
 */
 
+#include "utility/config.hpp"
 #include "utility/debug.hpp"
 
 namespace ece

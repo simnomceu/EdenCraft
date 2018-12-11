@@ -40,9 +40,8 @@
 #define ARGUMENT_ANALYZER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option.hpp"
-
-#include <vector>
 
 namespace ece
 {

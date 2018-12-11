@@ -38,10 +38,9 @@
 #ifndef KEYBOARD_HPP
 #define KEYBOARD_HPP
 
+#include "window/pch.hpp"
 #include "window/config.hpp"
 #include "utility/enumeration.hpp"
-
-#include <array>
 
 namespace ece
 {

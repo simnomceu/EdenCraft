@@ -39,7 +39,8 @@
 #ifndef SERVICE_LOCATOR_HPP
 #define SERVICE_LOCATOR_HPP
 
-#include <memory>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {

@@ -36,9 +36,8 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/opengl/enum/front_face_mode.h"
-
-#include <stdexcept>
 
 namespace ece
 {

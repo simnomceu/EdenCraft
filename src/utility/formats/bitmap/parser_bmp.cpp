@@ -36,9 +36,8 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/bitmap/parser_bmp.hpp"
-
-#include <sstream>
 
 namespace ece
 {

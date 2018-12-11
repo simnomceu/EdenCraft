@@ -40,10 +40,8 @@
 #define EXCEPTION_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/enumeration.hpp"
-
-#include <string>
-#include <stdexcept>
 
 namespace ece
 {

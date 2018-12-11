@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/buffer/vertex_array.hpp"
 
 #include "renderer/buffer/base_buffer.hpp"

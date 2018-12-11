@@ -39,6 +39,7 @@
 #ifndef RECTANGLE_HPP
 #define RECTANGLE_HPP
 
+#include "utility/config.hpp"
 #include "utility/mathematics/vector2u.hpp"
 
 namespace ece
@@ -56,7 +57,7 @@ namespace ece
         	 * All the properties are defined, relating to the top left corner of the rectangle.
         	 **/
         	template<typename T>
-        	class Rectangle
+        	class ECE_UTILITY_API Rectangle
         	{
         	public:
 

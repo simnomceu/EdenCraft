@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/shader/shader.hpp"
 
 #include "utility/log.hpp"

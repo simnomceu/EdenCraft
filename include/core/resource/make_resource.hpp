@@ -39,7 +39,8 @@
 #ifndef MAKE_RESOURCE_HPP
 #define MAKE_RESOURCE_HPP
 
-#include <string>
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {

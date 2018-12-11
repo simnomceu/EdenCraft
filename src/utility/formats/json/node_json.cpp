@@ -36,6 +36,7 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/json/node_json.hpp"
 
 namespace ece

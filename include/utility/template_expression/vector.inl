@@ -36,10 +36,6 @@
 
 */
 
-#include <type_traits>
-#include <algorithm>
-#include <numeric>
-
 #include "utility/template_expression/filter.hpp"
 
 namespace ece

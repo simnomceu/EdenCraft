@@ -40,11 +40,8 @@
 #define RENDER_QUEUE_HPP
 
 #include "graphic/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/pipeline/drawable.hpp"
-
-#include <memory>
-#include <set>
-#include <functional>
 
 namespace ece
 {

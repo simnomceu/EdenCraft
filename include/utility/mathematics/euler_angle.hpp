@@ -39,6 +39,8 @@
 #ifndef EULER_ANGLE_HPP
 #define EULER_ANGLE_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
     namespace utility

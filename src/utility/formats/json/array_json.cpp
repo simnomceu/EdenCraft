@@ -36,11 +36,10 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/json/array_json.hpp"
 
 #include "utility/formats/json/object_json.hpp"
-
-#include <algorithm>
 
 namespace ece
 {

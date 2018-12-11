@@ -40,9 +40,7 @@
 #define BASE_RESOURCE_CONTAINER_HPP
 
 #include "core/config.hpp"
-
-#include <string>
-#include <vector>
+#include "core/pch.hpp"
 
 namespace ece
 {

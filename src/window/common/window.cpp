@@ -35,11 +35,10 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/window.hpp"
 
 #include "window/event.hpp"
-
-#include <iostream>
 
 namespace ece
 {

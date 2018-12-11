@@ -40,9 +40,8 @@
 #define BASE_BUFFER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
-
-#include <cstddef>
 
 namespace ece
 {

@@ -40,6 +40,7 @@
 #define DATA_TYPE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 
 namespace ece
 {

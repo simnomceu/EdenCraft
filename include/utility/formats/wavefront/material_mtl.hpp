@@ -40,9 +40,8 @@
 #define MATERIAL_MTL_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
-
-#include <variant>
 
 namespace ece
 {

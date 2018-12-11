@@ -39,7 +39,8 @@
 #ifndef DYNAMIC_2D_ARRAY_HPP
 #define DYNAMIC_2D_ARRAY_HPP
 
-#include <cstddef>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {

@@ -36,9 +36,8 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/mathematics/transform.hpp"
-
-#include <cmath>
 
 namespace ece
 {

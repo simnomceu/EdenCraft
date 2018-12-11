@@ -38,6 +38,7 @@
 #ifndef INPUT_EVENT_HPP
 #define INPUT_EVENT_HPP
 
+#include "window/pch.hpp"
 #include "window/config.hpp"
 #include "window/event/mouse.hpp"
 #include "window/event/keyboard.hpp"

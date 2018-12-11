@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/windowed_application.hpp"
 
 namespace ece

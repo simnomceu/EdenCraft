@@ -36,11 +36,9 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/wavefront/parser_obj.hpp"
 #include "utility/formats/wavefront/parser_mtl.hpp"
-
-#include <iostream>
-#include <string>
 
 namespace ece
 {
@@ -113,7 +111,8 @@ namespace ece
 				void ParserOBJ::processLine(StringStream & line)
 				{
 					// TODO add checks for the format of the file
-					switch (line.get()) {
+					auto first = line.get();
+					switch (first) {
 					case 'v':
 						if (line.peek() == 't') { //vt
 							line.get();
@@ -121,10 +120,10 @@ namespace ece
 								this->_currentObject = this->addObject("unnamed");
 							}
 
-							FloatVector3u texture = { 0.0f, 0.0f, 0.0f };
+							auto texture = FloatVector3u{ 0.0f, 0.0f, 0.0f };
 							line.scan("%f %f %f", &texture[0], &texture[1], &texture[2]);
 							// TODO: Deal with 1D, 2D, and 3D texture
-							this->_currentObject->addVertexTexture({ texture[0], texture[1], texture[2] });
+							this->_currentObject->addVertexTexture({ texture[0], texture[1] });
 						}
 						else if (line.peek() == 'n') { // vn
 							line.get();
@@ -132,9 +131,9 @@ namespace ece
 								this->_currentObject = this->addObject("unnamed");
 							}
 
-							FloatVector3u normal = { 0.0f, 0.0f, 0.0f };
+							auto normal = FloatVector3u{ 0.0f, 0.0f, 0.0f };
 							line.scan("%f %f %f", &normal[0], &normal[1], &normal[2]);
-							this->_currentObject->addVertexNormal({ normal[0], normal[1], normal[2] });
+							this->_currentObject->addVertexNormal(normal);
 						}
 						else if (line.peek() == 'p') { // vp
 							line.get();
@@ -142,10 +141,10 @@ namespace ece
 								this->_currentObject = this->addObject("unnamed");
 							}
 
-							FloatVector3u parameterSpace = { 0.0f, 0.0f, 1.0f };
+							auto parameterSpace = FloatVector3u{ 0.0f, 0.0f, 1.0f };
 							line.scan("%f %f %f", &parameterSpace[0], &parameterSpace[1], &parameterSpace[2]);
 							// TODO: Deal with 1D and 2D parameter space.
-							this->_currentObject->addVertexSpaceParameter({ parameterSpace[0], parameterSpace[1], parameterSpace[2] });
+							this->_currentObject->addVertexSpaceParameter(parameterSpace);
 						}
 						else { // v
 							line.get();
@@ -153,9 +152,9 @@ namespace ece
 								this->_currentObject = this->addObject("unnamed");
 							}
 
-							FloatVector4u vertice = { 0.0f, 0.0f, 0.0f, 1.0f };
+							auto vertice = FloatVector4u{ 0.0f, 0.0f, 0.0f, 1.0f };
 							line.scan("%f %f %f %f", &vertice[0], &vertice[1], &vertice[2], &vertice[3]);
-							this->_currentObject->addVertex({ vertice[0], vertice[1], vertice[2], vertice[3] });
+							this->_currentObject->addVertex(vertice);
 						}
 						break;
 					case 'f':

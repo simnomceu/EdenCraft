@@ -42,9 +42,8 @@
 #define BUFFER_LAYOUT_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/buffer/data_type.hpp"
-
-#include <vector>
 
 namespace ece
 {

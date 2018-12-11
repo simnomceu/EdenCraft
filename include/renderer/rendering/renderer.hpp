@@ -40,10 +40,8 @@
 #define RENDERER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/image/texture.hpp"
-
-#include <memory>
-#include <map>
 
 namespace ece
 {

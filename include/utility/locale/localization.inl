@@ -36,9 +36,6 @@
 
 */
 
-#include <cctype>
-#include <algorithm>
-
 namespace ece
 {
     namespace utility

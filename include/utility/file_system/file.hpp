@@ -40,12 +40,9 @@
 #define FILE_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "utility/enumeration.hpp"
-
-#include <string>
-#include <vector>
-#include <fstream>
 
 namespace ece
 {

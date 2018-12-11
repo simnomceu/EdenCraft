@@ -36,11 +36,10 @@
 
 */
 
+#include "core/pch.hpp"
 #include "core/ecs/world.hpp"
 
 #include "core/ecs/entity_handler.hpp"
-
-#include <algorithm>
 
 namespace ece
 {

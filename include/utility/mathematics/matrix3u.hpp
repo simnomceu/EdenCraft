@@ -39,6 +39,7 @@
 #ifndef MATRIX3U_HPP
 #define MATRIX3U_HPP
 
+#include "utility/config.hpp"
 #include "utility/template_expression.hpp"
 
 namespace ece

@@ -38,8 +38,6 @@
 
 */
 
-#include <numeric>
-
 namespace ece
 {
     namespace renderer

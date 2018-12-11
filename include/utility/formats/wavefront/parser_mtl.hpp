@@ -40,10 +40,9 @@
 #define PARSER_MTL_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/formats/wavefront/material_mtl.hpp"
 #include "utility/string.hpp"
-
-#include <vector>
 
 namespace ece
 {

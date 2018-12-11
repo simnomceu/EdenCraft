@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/base_window_adapter.hpp"
 
 namespace ece

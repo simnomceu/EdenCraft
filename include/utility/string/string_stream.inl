@@ -38,8 +38,6 @@
 
 #include "utility/string/from_string.hpp"
 
-#include <cstdio>
-
 namespace ece
 {
 	namespace utility
@@ -133,7 +131,7 @@ namespace ece
 			void StringStream::scan(std::string pattern, Args ... args)
 			{
 				int count = 0;
-				std::string search{ std::move(pattern) + "%n" };
+				auto search = std::string{ std::move(pattern) + "%n" };
 #ifdef _MSC_VER
 #pragma warning( push )
 #pragma warning( disable: 4996 )

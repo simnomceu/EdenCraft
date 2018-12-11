@@ -41,11 +41,9 @@
 #define LOCALE_LOADER_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/locale/localization.hpp"
 #include "utility/locale/resource_container.hpp"
-
-#include <string>
-#include <utility>
 
 namespace ece
 {

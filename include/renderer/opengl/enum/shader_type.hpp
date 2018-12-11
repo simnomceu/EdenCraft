@@ -40,11 +40,10 @@
 #define OPENGL_SHADER_TYPE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
 #include "renderer/shader/shader_stage.hpp"
-
-#include <string>
 
 namespace ece
 {

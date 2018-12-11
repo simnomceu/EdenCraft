@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/x11/xlib_impl.hpp"
 
 #include "utility/log.hpp"

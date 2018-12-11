@@ -42,10 +42,8 @@
 #define ANIMATION_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/animation.hpp"
-
-#include <queue>
-#include <memory>
 
 namespace ece
 {

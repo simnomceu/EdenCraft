@@ -40,6 +40,7 @@
 #define ENTITY_HANDLER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {

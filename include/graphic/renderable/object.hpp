@@ -42,11 +42,10 @@
 #define OBJECT_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/renderable/renderable.hpp"
 #include "graphic/model.hpp"
 #include "core/resource.hpp"
-
-#include <memory>
 
 namespace ece
 {

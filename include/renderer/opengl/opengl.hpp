@@ -39,12 +39,8 @@
 #ifndef OPENGL_HPP
 #define OPENGL_HPP
 
-#include <memory>
-#include <vector>
-#include <bitset>
-#include <array>
-
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 #include "utility/mathematics.hpp"
 #include "renderer/opengl/enum.hpp"

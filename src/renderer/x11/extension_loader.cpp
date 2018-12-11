@@ -36,7 +36,7 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/opengl/extension_loader.hpp"
 
 #include "renderer/x11/glx_extension.hpp"

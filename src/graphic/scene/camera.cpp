@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/scene/camera.hpp"
 
 #include "utility/debug.hpp"

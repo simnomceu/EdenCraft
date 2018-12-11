@@ -36,10 +36,8 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/argument/option.hpp"
-
-#include <iostream>
 
 namespace ece
 {

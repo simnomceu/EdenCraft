@@ -36,7 +36,7 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/application/application.hpp"
 
 #include "utility/log.hpp"

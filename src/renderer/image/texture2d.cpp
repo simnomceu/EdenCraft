@@ -36,7 +36,7 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/image/texture2d.hpp"
 
 #include "utility/formats/bitmap.hpp"
@@ -44,8 +44,6 @@
 #include "core/format.hpp"
 #include "utility/debug.hpp"
 #include "renderer/image/loader_image.hpp"
-
-#include <memory>
 
 namespace ece
 {

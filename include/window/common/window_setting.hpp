@@ -39,10 +39,9 @@
 #define WINDOW_SETTING_HPP
 
 #include "window/config.hpp"
+#include "window/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "utility/enumeration.hpp"
-
-#include <string>
 
 namespace ece
 {

@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/renderable.hpp"
 
 #include "utility/mathematics.hpp"

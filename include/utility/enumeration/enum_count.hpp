@@ -40,8 +40,7 @@
 #define ENUM_COUNT_HPP
 
 #include "utility/config.hpp"
-
-#include <type_traits>
+#include "utility/pch.hpp"
 
 namespace ece
 {

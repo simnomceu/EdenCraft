@@ -38,11 +38,10 @@
 #ifndef MOUSE_HPP
 #define MOUSE_HPP
 
+#include "window/pch.hpp"
 #include "window/config.hpp"
 #include "utility/mathematics.hpp"
 #include "utility/enumeration.hpp"
-
-#include <array>
 
 namespace ece
 {

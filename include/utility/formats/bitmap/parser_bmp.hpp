@@ -39,11 +39,8 @@
 #ifndef PARSER_BMP_HPP
 #define PARSER_BMP_HPP
 
-#include <array>
-#include <vector>
-#include <cstddef>
-
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/file_system.hpp"
 #include "utility/indexing.hpp"
 

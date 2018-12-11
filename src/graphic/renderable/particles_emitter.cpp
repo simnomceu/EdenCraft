@@ -38,12 +38,10 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/particles_emitter.hpp"
 
 #include "graphic/model.hpp"
-
-#include <vector>
-#include <algorithm>
 
 #ifdef _MSC_VER
 #	undef min

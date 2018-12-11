@@ -36,6 +36,7 @@
 
 */
 
+#include "core/pch.hpp"
 #include "core/format/service_format.hpp"
 
 namespace ece

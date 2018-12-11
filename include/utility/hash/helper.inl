@@ -36,8 +36,6 @@
 
 */
 
-#include <functional>
-
 namespace ece
 {
 	namespace utility

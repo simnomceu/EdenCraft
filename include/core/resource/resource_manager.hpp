@@ -40,11 +40,7 @@
 #define RESOURCE_MANAGER_HPP
 
 #include "core/config.hpp"
-
-#include <map>
-#include <string>
-#include <memory>
-#include <typeindex>
+#include "core/pch.hpp"
 
 namespace ece
 {

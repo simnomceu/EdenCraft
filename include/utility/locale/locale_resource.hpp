@@ -40,9 +40,7 @@
 #define LOCALE_RESOURCE_HPP
 
 #include "utility/config.hpp"
-
-#include <map>
-#include <string>
+#include "utility/pch.hpp"
 
 namespace ece
 {

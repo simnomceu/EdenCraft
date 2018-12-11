@@ -36,9 +36,8 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/opengl/enum/blending_factor.hpp"
-
-#include <stdexcept>
 
 namespace ece
 {

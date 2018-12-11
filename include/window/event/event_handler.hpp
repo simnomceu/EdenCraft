@@ -38,6 +38,7 @@
 #ifndef EVENT_HANDLER_HPP
 #define EVENT_HANDLER_HPP
 
+#include "window/pch.hpp"
 #include "window/config.hpp"
 #include "core/signal.hpp"
 #include "window/event/input_event.hpp"

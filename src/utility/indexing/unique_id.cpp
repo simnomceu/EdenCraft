@@ -36,9 +36,8 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/indexing/unique_id.hpp"
-
-#include <algorithm>
 
 namespace ece
 {

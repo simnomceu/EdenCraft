@@ -42,10 +42,9 @@
 #define MATERIAL_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "core/resource.hpp"
 #include "graphic/material/base_property.hpp"
-
-#include <type_traits>
 
 namespace ece
 {

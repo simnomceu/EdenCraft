@@ -42,11 +42,10 @@
 #define SCENE_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/scene/camera.hpp"
 #include "graphic/renderable.hpp"
 #include "graphic/scene/light.hpp"
-
-#include <vector>
 
 namespace ece
 {

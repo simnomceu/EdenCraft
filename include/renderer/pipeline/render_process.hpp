@@ -40,10 +40,9 @@
 #define RENDER_PROCESS_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/pipeline/render_pipeline.hpp"
 #include "renderer/image.hpp"
-
-#include <memory>
 
 namespace ece
 {

@@ -40,11 +40,8 @@
 #define OPTION_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option_value.hpp"
-
-#include <string>
-#include <memory>
-#include <functional>
 
 namespace ece
 {

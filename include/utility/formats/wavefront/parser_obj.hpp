@@ -40,10 +40,9 @@
 #define PARSER_OBJ_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/formats/wavefront/object_obj.hpp"
 #include "utility/string.hpp"
-
-#include <vector>
 
 namespace ece
 {

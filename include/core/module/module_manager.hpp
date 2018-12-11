@@ -40,10 +40,8 @@
 #define MODULE_MANAGER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/module/module.hpp"
-
-#include <vector>
-#include <memory>
 
 namespace ece
 {

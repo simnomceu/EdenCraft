@@ -36,9 +36,8 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/opengl/enum/depth_function_condition.hpp"
-
-#include <stdexcept>
 
 namespace ece
 {

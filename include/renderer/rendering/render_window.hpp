@@ -40,14 +40,12 @@
 #define RENDER_WINDOW_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "window/common.hpp"
 #include "renderer/rendering/renderer.hpp"
 #include "renderer/rendering/render_context.hpp"
 #include "renderer/rendering/render_target.hpp"
 #include "renderer/pipeline/render_state.hpp"
-
-#include <vector>
-#include <memory>
 
 namespace ece
 {

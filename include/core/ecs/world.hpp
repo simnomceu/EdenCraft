@@ -40,17 +40,12 @@
 #define WORLD_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/ecs/system.hpp"
 #include "utility/indexing.hpp"
 #include "core/ecs/base_component_tank.hpp"
 #include "core/ecs/base_component.hpp"
 #include "core/signal.hpp"
-
-#include <memory>
-#include <vector>
-#include <unordered_map>
-#include <typeindex>
-#include <functional>
 
 namespace ece
 {

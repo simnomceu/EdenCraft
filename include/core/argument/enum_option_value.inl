@@ -36,8 +36,6 @@
 
 */
 
-#include <algorithm>
-
 namespace ece
 {
 	namespace core

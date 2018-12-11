@@ -40,9 +40,8 @@
 #define HASH_HELPER_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
-
-#include <cstddef>
 
 namespace ece
 {

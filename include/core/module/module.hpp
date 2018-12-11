@@ -39,6 +39,8 @@
 #ifndef MODULE_HPP
 #define MODULE_HPP
 
+#include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/module/base_module.hpp"
 #include "core/module/module_method.hpp"
 

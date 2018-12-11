@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/model/primitives.hpp"
 
 #include "utility/mathematics.hpp"

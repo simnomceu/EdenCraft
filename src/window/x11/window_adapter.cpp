@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/window_adapter.hpp"
 #include "window/x11/data_window_adapter.hpp"
 #include "window/x11/xcb_impl.hpp"

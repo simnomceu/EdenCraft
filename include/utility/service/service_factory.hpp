@@ -39,7 +39,8 @@
 #ifndef SERVICE_FACTORY_HPP
 #define SERVICE_FACTORY_HPP
 
-#include <memory>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
