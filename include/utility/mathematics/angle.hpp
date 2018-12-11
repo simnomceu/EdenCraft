@@ -39,7 +39,8 @@
 #ifndef ANGLE_HPP
 #define ANGLE_HPP
 
-#include <cmath>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {

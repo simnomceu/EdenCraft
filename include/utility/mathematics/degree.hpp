@@ -39,6 +39,7 @@
 #ifndef DEGREE_HPP
 #define DEGREE_HPP
 
+#include "utility/config.hpp"
 #include "utility/mathematics/angle.hpp"
 
 namespace ece

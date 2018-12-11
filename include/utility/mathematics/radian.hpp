@@ -39,6 +39,7 @@
 #ifndef RADIAN_HPP
 #define RADIAN_HPP
 
+#include "utility/config.hpp"
 #include "utility/mathematics/angle.hpp"
 
 namespace ece
