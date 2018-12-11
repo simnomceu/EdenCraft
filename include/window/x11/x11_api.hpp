@@ -38,10 +38,9 @@
 #ifndef X11_API_HPP
 #define X11_API_HPP
 
-#include <string>
-#include <vector>
 #include <X11/Xlib.h>
 
+#include "window/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "window/event.hpp"
 

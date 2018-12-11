@@ -35,11 +35,10 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/x11/xcb_impl.hpp"
 
 #include "utility/log.hpp"
-
-#include <stdexcept>
 
 namespace ece
 {

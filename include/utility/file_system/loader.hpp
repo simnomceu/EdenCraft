@@ -40,8 +40,7 @@
 #define LOADER_HPP
 
 #include "utility/config.hpp"
-
-#include <string>
+#include "utility/pch.hpp"
 
 namespace ece
 {

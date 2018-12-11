@@ -39,6 +39,7 @@
 #define WINDOW_HPP
 
 #include "window/config.hpp"
+#include "window/pch.hpp"
 #include "window/common/window_adapter.hpp"
 #include "utility/mathematics.hpp"
 #include "window/common/video_mode.hpp"
@@ -47,8 +48,6 @@
 #include "core/signal.hpp"
 #include "window/event.hpp"
 #include "utility/pattern.hpp"
-
-#include <string>
 
 namespace ece
 {

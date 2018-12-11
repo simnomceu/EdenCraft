@@ -36,12 +36,6 @@
 
 */
 
-#include <sstream>
-#include <iterator>
-#include <algorithm>
-#include <fstream>
-#include <sys/stat.h>
-
 #ifndef __unix__
 	#define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
 	#define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)

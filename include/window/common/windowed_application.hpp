@@ -39,11 +39,9 @@
 #define WINDOWED_APPLICATION_HPP
 
 #include "window/config.hpp"
+#include "window/pch.hpp"
 #include "core/application.hpp"
 #include "window/common/window.hpp"
-
-#include <type_traits>
-#include <memory>
 
 namespace ece
 {

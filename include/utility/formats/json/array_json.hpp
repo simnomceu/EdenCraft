@@ -40,10 +40,9 @@
 #define ARRAY_JSON_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/formats/json/node_json.hpp"
 #include "utility/formats/json/atomic_json.hpp"
-
-#include <vector>
 
 namespace ece
 {

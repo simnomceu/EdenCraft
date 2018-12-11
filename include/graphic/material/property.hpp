@@ -42,9 +42,8 @@
 #define PROPERTY_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/material/base_property.hpp"
-
-#include <functional>
 
 namespace ece
 {

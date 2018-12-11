@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/scene/light.hpp"
 
 #include "renderer/shader.hpp"

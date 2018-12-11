@@ -42,10 +42,7 @@
 #define BASE_PROPERTY_HPP
 
 #include "graphic/config.hpp"
-
-#include <memory>
-#include <string>
-#include <functional>
+#include "graphic/pch.hpp"
 
 namespace ece
 {

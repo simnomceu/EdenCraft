@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/scene/make_light.hpp"
 
 #include "core/resource.hpp"

@@ -40,13 +40,11 @@
 #define APPLICATION_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument.hpp"
 #include "core/module.hpp"
 #include "core/signal.hpp"
 #include "core/ecs.hpp"
-
-#include <memory>
-#include <vector>
 
 namespace ece
 {

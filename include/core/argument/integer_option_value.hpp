@@ -40,6 +40,7 @@
 #define INTEGER_OPTION_VALUE_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option_value.hpp"
 
 namespace ece

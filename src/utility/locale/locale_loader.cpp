@@ -36,14 +36,11 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/locale/locale_loader.hpp"
 
 #include "utility/formats/json.hpp"
 #include "utility/debug.hpp"
-
-#include <utility>
-#include <iostream>
-#include <memory>
 
 namespace ece
 {

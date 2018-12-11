@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/sprite.hpp"
 #include "renderer/image.hpp"
 #include "renderer/rendering.hpp"

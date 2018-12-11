@@ -39,9 +39,8 @@
 #ifndef PIMPL_HPP
 #define PIMPL_HPP
 
-#include <memory>
-#include <functional>
-
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/pattern/holdable.hpp"
 
 namespace ece

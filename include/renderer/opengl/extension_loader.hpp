@@ -41,9 +41,8 @@
 #define EXTENSION_LOADER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/indexing.hpp"
-
-#include <string>
 
 namespace ece
 {

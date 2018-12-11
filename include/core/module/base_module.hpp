@@ -40,8 +40,7 @@
 #define BASE_MODULE_HPP
 
 #include "core/config.hpp"
-
-#include <functional>
+#include "core/pch.hpp"
 
 namespace ece
 {

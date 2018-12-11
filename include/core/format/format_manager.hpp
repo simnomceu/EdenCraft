@@ -40,12 +40,8 @@
 #define FORMAT_MANAGER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "utility/file_system.hpp"
-
-#include <unordered_map>
-#include <string>
-#include <memory>
-#include <type_traits>
 
 namespace ece
 {

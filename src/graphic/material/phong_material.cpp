@@ -38,12 +38,11 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/material/phong_material.hpp"
 
 #include "graphic/material/property.hpp"
 #include "graphic/material/computed_property.hpp"
-
-#include <array>
 
 namespace ece
 {

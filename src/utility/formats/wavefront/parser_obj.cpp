@@ -36,11 +36,9 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/wavefront/parser_obj.hpp"
 #include "utility/formats/wavefront/parser_mtl.hpp"
-
-#include <iostream>
-#include <string>
 
 namespace ece
 {

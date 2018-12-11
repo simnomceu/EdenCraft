@@ -38,8 +38,6 @@
 
 #include "core/ecs/world.hpp"
 
-#include <utility>
-
 namespace ece
 {
 	namespace core

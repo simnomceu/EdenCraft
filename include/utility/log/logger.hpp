@@ -39,9 +39,8 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <string>
-
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/log/base_logger.hpp"
 
 namespace ece

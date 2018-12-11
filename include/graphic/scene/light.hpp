@@ -42,9 +42,9 @@
 #define LIGHT_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
-#include <optional>
 
 namespace ece
 {

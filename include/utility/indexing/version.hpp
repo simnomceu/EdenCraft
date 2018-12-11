@@ -44,7 +44,8 @@
 #	undef max
 #endif
 
-#include <array>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -59,7 +60,7 @@ namespace ece
         	 * Level of versionning defines if you want version to be represented like X.X or X.X.X or X.X.X.X, etc ...
         	 */
         	template <unsigned short int level>
-        	class Version: protected std::array<unsigned short int, level>
+        	class ECE_UTILITY_API Version: protected std::array<unsigned short int, level>
         	{
         	public:
 

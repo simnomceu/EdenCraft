@@ -40,10 +40,9 @@
 #define OBJECT_OBJ_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "utility/hash.hpp"
-
-#include <unordered_map>
 
 namespace ece
 {

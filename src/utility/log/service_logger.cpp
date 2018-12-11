@@ -36,6 +36,7 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/log/service_logger.hpp"
 
 namespace ece

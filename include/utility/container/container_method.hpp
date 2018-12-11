@@ -40,9 +40,7 @@
 #define CONTAINER_METHOD_HPP
 
 #include "utility/config.hpp"
-
-#include <type_traits>
-#include <algorithm>
+#include "utility/pch.hpp"
 
 namespace ece
 {

@@ -40,12 +40,7 @@
 #define CONTIGUOUS_CONTAINER_HPP
 
 #include "utility/config.hpp"
-
-#include <vector>
-#include <array>
-#include <valarray>
-#include <string>
-#include <string_view>
+#include "utility/pch.hpp"
 
 namespace ece
 {

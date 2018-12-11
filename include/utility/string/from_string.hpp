@@ -40,8 +40,7 @@
 #define FROM_STRING_HPP
 
 #include "utility/config.hpp"
-
-#include <string>
+#include "utility/pch.hpp"
 
 namespace ece
 {

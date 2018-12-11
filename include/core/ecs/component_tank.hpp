@@ -40,12 +40,10 @@
 #define COMPONENT_TANK_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/ecs/base_component_tank.hpp"
 #include "core/ecs/component.hpp"
 #include "utility/indexing.hpp"
-
-#include <memory>
-#include <vector>
 
 namespace ece
 {

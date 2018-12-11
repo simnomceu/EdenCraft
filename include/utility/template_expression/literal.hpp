@@ -39,6 +39,8 @@
 #ifndef LITERAL_HPP
 #define LITERAL_HPP
 
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/linear_expression.hpp"
 
 namespace ece

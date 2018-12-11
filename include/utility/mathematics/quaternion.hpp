@@ -40,6 +40,7 @@
 #define QUATERNION_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {

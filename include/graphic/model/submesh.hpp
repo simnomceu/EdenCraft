@@ -42,11 +42,10 @@
 #define SUBMESH_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
 #include "renderer/buffer.hpp"
-
-#include <vector>
 
 namespace ece
 {

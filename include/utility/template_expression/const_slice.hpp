@@ -39,9 +39,9 @@
 #ifndef CONST_SLICE_HPP
 #define CONST_SLICE_HPP
 
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/vector.hpp"
-
-#include <iostream>
 
 namespace ece
 {

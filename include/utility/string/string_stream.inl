@@ -38,8 +38,6 @@
 
 #include "utility/string/from_string.hpp"
 
-#include <cstdio>
-
 namespace ece
 {
 	namespace utility

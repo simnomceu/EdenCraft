@@ -36,18 +36,8 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/file_system/path.hpp"
-
-#ifdef __linux__
-	#include <unistd.h>
-#else
-	#include <Windows.h>
-#endif
-
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
-#include <sstream>
 
 namespace ece
 {

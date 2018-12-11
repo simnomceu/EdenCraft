@@ -40,8 +40,7 @@
 #define CHRONO_HPP
 
 #include "utility/config.hpp"
-
-#include <chrono>
+#include "utility/pch.hpp"
 
 namespace ece
 {

@@ -36,12 +36,11 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/image/loader_bmp.hpp"
 
 #include "utility/formats/bitmap.hpp"
 #include "utility/debug.hpp"
-
-#include <fstream>
 
 namespace ece
 {

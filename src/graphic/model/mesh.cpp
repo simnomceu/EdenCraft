@@ -38,9 +38,8 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/model/mesh.hpp"
-
-#include <algorithm>
 
 namespace ece
 {

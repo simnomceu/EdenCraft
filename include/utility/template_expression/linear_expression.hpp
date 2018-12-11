@@ -39,7 +39,8 @@
 #ifndef LINEAR_EXPRESSION_HPP
 #define LINEAR_EXPRESSION_HPP
 
-#include <type_traits>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {

@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/event/event_handler.hpp"
 
 namespace ece

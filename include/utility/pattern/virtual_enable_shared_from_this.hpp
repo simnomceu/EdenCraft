@@ -40,8 +40,7 @@
 #define VIRTUAL_ENABLE_SHARED_FROM_THIS_HPP
 
 #include "utility/config.hpp"
-
-#include <memory>
+#include "utility/pch.hpp"
 
 // see: https://stackoverflow.com/questions/15549722/double-inheritance-of-enable-shared-from-this
 // see: https://stackoverflow.com/questions/14939190/boost-shared-from-this-and-multiple-inheritance

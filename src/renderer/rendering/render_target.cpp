@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/rendering/render_target.hpp"
 #include "renderer/opengl.hpp"
 

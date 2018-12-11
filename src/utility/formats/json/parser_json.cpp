@@ -36,16 +36,13 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/json/parser_json.hpp"
 
 #include "utility/file_system.hpp"
 #include "utility/debug.hpp"
 #include "utility/formats/json/array_json.hpp"
 #include "utility/formats/json/object_json.hpp"
-
-#include <sstream>
-#include <cmath>
-#include <string>
 
 namespace ece
 {

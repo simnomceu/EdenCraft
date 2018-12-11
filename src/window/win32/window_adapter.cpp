@@ -35,10 +35,10 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/window_adapter.hpp"
 #include "window/win32.hpp"
 
-#include <iostream>
 #include <Windowsx.h>
 
 namespace ece

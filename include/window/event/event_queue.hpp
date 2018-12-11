@@ -38,10 +38,9 @@
 #ifndef EVENT_QUEUE_HPP
 #define EVENT_QUEUE_HPP
 
+#include "window/pch.hpp"
 #include "window/config.hpp"
 #include "window/event/input_event.hpp"
-
-#include <queue>
 
 namespace ece
 {

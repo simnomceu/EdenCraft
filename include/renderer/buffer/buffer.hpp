@@ -40,10 +40,9 @@
 #define BUFFER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/buffer/base_buffer.hpp"
 #include "renderer/buffer/is_buffer_storage.hpp"
-
-#include <memory>
 
 namespace ece
 {

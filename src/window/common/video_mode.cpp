@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/video_mode.hpp"
 
 namespace ece

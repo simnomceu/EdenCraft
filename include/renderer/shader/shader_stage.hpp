@@ -41,9 +41,8 @@
 #define SHADER_STAGE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
-
-#include <string>
 
 namespace ece
 {

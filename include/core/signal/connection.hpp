@@ -40,8 +40,7 @@
 #define CONNECTION_HPP
 
 #include "core/config.hpp"
-
-#include <memory>
+#include "core/pch.hpp"
 
 namespace ece
 {

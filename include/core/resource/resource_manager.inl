@@ -36,9 +36,6 @@
 
 */
 
-#include <typeinfo>
-#include <utility>
-
 #include "core/resource/resource_container.hpp"
 #include "core/resource/resource_handler.hpp"
 

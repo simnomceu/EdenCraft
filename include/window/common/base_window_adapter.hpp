@@ -39,12 +39,10 @@
 #define BASE_WINDOW_ADAPTER_HPP
 
 #include "window/config.hpp"
+#include "window/pch.hpp"
 #include "window/event.hpp"
 #include "utility/pattern.hpp"
 #include "utility/mathematics.hpp"
-
-#include <memory>
-#include <string>
 
 namespace ece
 {

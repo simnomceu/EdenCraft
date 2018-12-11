@@ -39,9 +39,8 @@
 #ifndef OBJECT_JSON_HPP
 #define OBJECT_JSON_HPP
 
-#include <unordered_map>
-
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/formats/json/node_json.hpp"
 #include "utility/formats/json/atomic_json.hpp"
 

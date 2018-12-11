@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/event/keyboard.hpp"
 
 #include <X11/keysym.h>

@@ -41,9 +41,8 @@
 #ifndef BASE_UNIFORM_HPP
 #define BASE_UNIFORM_HPP
 
-#include <string>
-
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
 
 namespace ece

@@ -40,6 +40,7 @@
 #define LOCALIZATION_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/locale/language.hpp"
 #include "utility/locale/country.hpp"
 

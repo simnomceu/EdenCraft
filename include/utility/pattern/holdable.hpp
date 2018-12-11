@@ -39,6 +39,8 @@
 #ifndef HOLDABLE_HPP
 #define HOLDABLE_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
 	namespace utility

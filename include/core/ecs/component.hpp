@@ -40,6 +40,7 @@
 #define COMPONENT_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/ecs/base_component.hpp"
 
 namespace ece

@@ -40,9 +40,7 @@
 #define PATH_HPP
 
 #include "utility/config.hpp"
-
-#include <string>
-#include <vector>
+#include "utility/pch.hpp"
 
 namespace ece
 {

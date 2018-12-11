@@ -36,13 +36,10 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/file_system/file.hpp"
 
 #include "utility/debug.hpp"
-
-#include <iostream>
-#include <sys/types.h>
-#include <sys/stat.h>
 
 #ifdef _WIN32
 #	define stat _stat

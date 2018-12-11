@@ -40,11 +40,10 @@
 #define RENDER_TARGET_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "renderer/pipeline/viewport.hpp"
 #include "utility/pattern.hpp"
-
-#include <memory>
 
 namespace ece
 {

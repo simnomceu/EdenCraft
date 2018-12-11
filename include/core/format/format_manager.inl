@@ -36,9 +36,6 @@
 
 */
 
-#include <memory>
-#include <cassert>
-
 namespace ece
 {
 	namespace core

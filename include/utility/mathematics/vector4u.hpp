@@ -39,6 +39,7 @@
 #ifndef VECTOR4U_HPP
 #define VECTOR4U_HPP
 
+#include "utility/config.hpp"
 #include "utility/template_expression.hpp"
 
 namespace ece

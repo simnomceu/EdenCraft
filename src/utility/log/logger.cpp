@@ -36,12 +36,10 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/log/logger.hpp"
 
 #include "utility/log/service_logger.hpp"
-
-#include <iostream>
-#include <ctime>
 
 #ifdef __linux__
 	#define localtime_s(time, result) localtime_r(result, time)

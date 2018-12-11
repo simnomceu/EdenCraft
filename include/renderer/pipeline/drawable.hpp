@@ -40,9 +40,8 @@
 #define DRAWABLE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/mathematics.hpp"
-
-#include <memory>
 
 namespace ece
 {

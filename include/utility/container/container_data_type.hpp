@@ -40,8 +40,7 @@
 #define CONTAINER_DATA_TYPE_HPP
 
 #include "utility/config.hpp"
-
-#include <cstddef>
+#include "utility/pch.hpp"
 
 namespace ece
 {

@@ -36,9 +36,8 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/opengl/enum/cull_face_mode.hpp"
-
-#include <stdexcept>
 
 namespace ece
 {

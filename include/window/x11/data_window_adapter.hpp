@@ -38,8 +38,7 @@
 #ifndef DATA_WINDOW_ADAPTER_HPP
 #define DATA_WINDOW_ADAPTER_HPP
 
-#include <memory>
-
+#include "window/pch.hpp"
 #include "window/x11/x11_api.hpp"
 
 namespace ece

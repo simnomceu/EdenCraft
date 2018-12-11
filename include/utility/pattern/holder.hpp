@@ -39,6 +39,8 @@
 #ifndef HOLDER_HPP
 #define HOLDER_HPP
 
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/pattern/holdable.hpp"
 
 namespace ece

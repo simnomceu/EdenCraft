@@ -44,10 +44,8 @@
 #	undef max
 #endif
 
-#include <array>
-#include <type_traits>
-#include <cmath>
-
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/linear_expression.hpp"
 #include "utility/template_expression/linear_operation.hpp"
 #include "utility/template_expression/linear_unary_operation.hpp"

@@ -40,11 +40,10 @@
 #define DEPTH_FUNCTION_CONDITION_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
 #include "renderer/pipeline/render_state.hpp"
-
-#include <string>
 
 namespace ece
 {

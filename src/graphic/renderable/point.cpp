@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/point.hpp"
 
 #include "renderer/opengl.hpp"

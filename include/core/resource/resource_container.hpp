@@ -40,12 +40,8 @@
 #define RESOURCE_CONTAINER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/resource/base_resource_container.hpp"
-
-#include <unordered_map>
-#include <chrono>
-#include <type_traits>
-#include <utility>
 
 namespace ece
 {

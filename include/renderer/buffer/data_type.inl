@@ -36,8 +36,6 @@
 
 */
 
-#include <stdexcept>
-
 namespace ece
 {
 	namespace renderer

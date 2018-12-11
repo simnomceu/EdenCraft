@@ -39,11 +39,9 @@
 */
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/renderable/renderable.hpp"
 #include "utility/mathematics.hpp"
-
-#include <chrono>
-#include <vector>
 
 namespace ece
 {

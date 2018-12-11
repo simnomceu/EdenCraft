@@ -40,12 +40,10 @@
 #define SHADER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
 #include "renderer/shader/shader_stage.hpp"
 #include "renderer/shader/base_uniform.hpp"
-
-#include <vector>
-#include <memory>
 
 namespace ece
 {
