@@ -44,11 +44,11 @@ namespace ece
         {
         	inline constexpr Index3u::Index3u() noexcept : _i(0), _j(0), _k(0) {}
 
-        	inline Index3u::Index3u(const int i, const int j, const int k) noexcept : _i(i), _j(j), _k(k) {}
+        	inline Index3u::Index3u(const std::size_t i, const std::size_t j, const std::size_t k) noexcept : _i(i), _j(j), _k(k) {}
 
-        	inline int Index3u::get(const int maxI, const int maxJ) noexcept { return this->_k * maxI * maxJ + this->_j * maxI + this->_i; }
+        	inline std::size_t Index3u::get(const std::size_t maxI, const std::size_t maxJ) noexcept { return this->_k * maxI * maxJ + this->_j * maxI + this->_i; }
 
-        	inline void Index3u::set(const int maxI, const int maxJ, const int index)
+        	inline void Index3u::set(const std::size_t maxI, const std::size_t maxJ, const std::size_t index)
         	{
         		this->_k = index / (maxI * maxJ);
         		this->_j = (index - this->_k * (maxI * maxJ)) / maxI;

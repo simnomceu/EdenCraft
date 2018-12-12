@@ -46,6 +46,7 @@
 #include <chrono>
 #include <ctime>
 #include <optional>
+#include <filesystem>
 
 #include <cctype>
 #include <cstddef>

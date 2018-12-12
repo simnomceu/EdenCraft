@@ -67,7 +67,7 @@ namespace ece
 		{
 			namespace json
 			{
-				enum TypeNodeJSON : unsigned short int
+				enum class TypeNodeJSON : unsigned short int
 				{
 					NULL_JSON = 0,
 					BOOLEAN_JSON = 1,
@@ -142,7 +142,7 @@ namespace ece
 					 * @brief Get the parent of the node if it exists. Else, returns an empty pointer.
 					 * @throw noexcept
 					 */
-					inline std::shared_ptr<NodeJSON> getParent() noexcept;
+					inline auto getParent() noexcept;
 
 					/**
 					 * @fn bool hasParent() const
@@ -150,7 +150,7 @@ namespace ece
 					 * @brief Indicates if a node has a parent or not.
 					 * @throw noexcept
 					 */
-					inline bool hasParent() const noexcept;
+					inline auto hasParent() const noexcept;
 
 					/**
 					 * @pure
@@ -161,7 +161,7 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					virtual bool isAtomic() const noexcept = 0;
+					virtual auto isAtomic() const noexcept -> bool = 0;
 
 					/**
 					 * @pure
@@ -172,7 +172,7 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					virtual TypeNodeJSON getType() const noexcept = 0;
+					virtual auto getType() const noexcept -> TypeNodeJSON = 0;
 
 				private:
 					/**

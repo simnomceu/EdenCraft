@@ -42,7 +42,6 @@
 #include "graphic/scene/scene.hpp"
 
 #include "utility/mathematics.hpp"
-#include "graphic/renderable.hpp"
 
 namespace ece
 {

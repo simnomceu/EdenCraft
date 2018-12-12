@@ -56,7 +56,7 @@ namespace ece
 			struct ECE_UTILITY_API has_empty_constructor<T, std::void_t<decltype(T())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_empty_constructor_v = has_empty_constructor<T>::value;
+			inline constexpr auto has_empty_constructor_v = has_empty_constructor<T>::value;
 
 			/* Container::Container(Container) */
 			template <class T, typename = void>
@@ -66,7 +66,7 @@ namespace ece
 			struct ECE_UTILITY_API has_copy_constructor<T, std::void_t<decltype(T(std::declval<T>()))>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_copy_constructor_v = has_copy_constructor<T>::value;
+			inline constexpr auto has_copy_constructor_v = has_copy_constructor<T>::value;
 
 			/* Container & Container::operator=(Container) */
 			template <class T, typename = void>
@@ -76,7 +76,7 @@ namespace ece
 			struct ECE_UTILITY_API has_copy_assignment_operator<T, std::void_t<decltype(std::declval<T>().operator=(std::declval<T>()))>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_copy_assignment_operator_v = has_copy_assignment_operator<T>::value;
+			inline constexpr auto has_copy_assignment_operator_v = has_copy_assignment_operator<T>::value;
 
 			/* Container::~Container() */
 			template <class T, typename = void>
@@ -86,7 +86,7 @@ namespace ece
 			struct ECE_UTILITY_API has_destructor<T, std::void_t<decltype(std::declval<T>().~T())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_destructor_v = has_destructor<T>::value;
+			inline constexpr auto has_destructor_v = has_destructor<T>::value;
 
 			/* Container::iterator Container::begin() */
 			template <class T, typename = void>
@@ -96,7 +96,7 @@ namespace ece
 			struct ECE_UTILITY_API has_method_begin<T, std::void_t<decltype(std::declval<T>().begin())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_method_begin_v = has_method_begin<T>::value;
+			inline constexpr auto has_method_begin_v = has_method_begin<T>::value;
 
 			/* Container::iterator Container::end() */
 			template <class T, typename = void>
@@ -106,7 +106,7 @@ namespace ece
 			struct ECE_UTILITY_API has_method_end<T, std::void_t<decltype(std::declval<T>().end())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_method_end_v = has_method_end<T>::value;
+			inline constexpr auto has_method_end_v = has_method_end<T>::value;
 
 			/* Container::const_iterator Container::cbegin() */
 			template <class T, typename = void>
@@ -116,7 +116,7 @@ namespace ece
 			struct ECE_UTILITY_API has_method_cbegin<T, std::void_t<decltype(std::declval<T>().cbegin())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_method_cbegin_v = has_method_cbegin<T>::value;
+			inline constexpr auto has_method_cbegin_v = has_method_cbegin<T>::value;
 
 			/* Container::const_iterator Container::cend() */
 			template <class T, typename = void>
@@ -126,7 +126,7 @@ namespace ece
 			struct ECE_UTILITY_API has_method_cend<T, std::void_t<decltype(std::declval<T>().cend())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_method_cend_v = has_method_cend<T>::value;
+			inline constexpr auto has_method_cend_v = has_method_cend<T>::value;
 
 			/* bool Container::operator==(Container) */
 			template <class T, typename = void>
@@ -136,7 +136,7 @@ namespace ece
 			struct ECE_UTILITY_API equal_to_operator<T, std::void_t<decltype(operator==(std::declval<T>(), std::declval<T>()))>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool equal_to_operator_v = equal_to_operator<T>::value;
+			inline constexpr auto equal_to_operator_v = equal_to_operator<T>::value;
 
 			/* bool Container::operator!=(Container) */
 			template <class T, typename = void>
@@ -146,7 +146,7 @@ namespace ece
 			struct ECE_UTILITY_API not_equal_to_operator<T, std::void_t<decltype(operator!=(std::declval<T>(), std::declval<T>()))>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool not_equal_to_operator_v = not_equal_to_operator<T>::value;
+			inline constexpr auto not_equal_to_operator_v = not_equal_to_operator<T>::value;
 
 			/* void Container::swap(Container) */
 			template <class T, typename = void>
@@ -156,7 +156,7 @@ namespace ece
 			struct ECE_UTILITY_API has_swap_method<T, std::void_t<decltype(std::declval<T>().swap(std::declval<T&>()))>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_swap_method_v = has_swap_method<T>::value;
+			inline constexpr auto has_swap_method_v = has_swap_method<T>::value;
 
 			/* void std::swap(Container, Container) */
 			template <class T, typename = void>
@@ -166,7 +166,7 @@ namespace ece
 			struct ECE_UTILITY_API has_swap_function<T, std::void_t<decltype(std::swap(std::declval<T&>(), std::declval<T&>()))>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_swap_function_v = has_swap_function<T>::value;
+			inline constexpr auto has_swap_function_v = has_swap_function<T>::value;
 
 			/* Container::size_type Container::size() */
 			template <class T, typename = void>
@@ -176,7 +176,7 @@ namespace ece
 			struct ECE_UTILITY_API has_size_method<T, std::void_t<decltype(std::declval<T>().size())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_size_method_v = has_size_method<T>::value;
+			inline constexpr auto has_size_method_v = has_size_method<T>::value;
 
 			/* Container::size_type Container::max_size() */
 			template <class T, typename = void>
@@ -186,7 +186,7 @@ namespace ece
 			struct ECE_UTILITY_API has_max_size_method<T, std::void_t<decltype(std::declval<T>().max_size())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_max_size_method_v = has_max_size_method<T>::value;
+			inline constexpr auto has_max_size_method_v = has_max_size_method<T>::value;
 
 			/* bool Container::empty() */
 			template <class T, typename = void>
@@ -196,7 +196,7 @@ namespace ece
 			struct ECE_UTILITY_API has_empty_method<T, std::void_t<decltype(std::declval<T>().empty())>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_empty_method_v = has_empty_method<T>::value;
+			inline constexpr auto has_empty_method_v = has_empty_method<T>::value;
 		} // namespace container
 	} // namespace utility
 } // namespace ece

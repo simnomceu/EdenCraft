@@ -64,7 +64,7 @@ namespace ece
 				template <class Derived>
 				static auto build() -> std::shared_ptr<log::Logger>
 				{
-					if (!std::is_base_of<log::Logger, Derived>()) {
+					if constexpr (!std::is_base_of<log::Logger, Derived>()) {
 						throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
 					}
 					return std::make_shared<Derived>();

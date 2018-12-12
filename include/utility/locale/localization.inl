@@ -44,7 +44,7 @@ namespace ece
         {
         	inline Localization::Localization(const Language & language, const Country & country) : _language(language), _country(country)
         	{
-        		std::transform(this->_country.begin(), this->_country.end(), this->_country.begin(), [](char c) { return static_cast<unsigned char>(std::toupper(c)); });
+				this->setLanguage(language);
         	}
 
         	inline auto Localization::getLanguage() const noexcept { return this->_language; }

@@ -162,7 +162,7 @@ namespace ece
 				* @property _entityGenerator
 				* @brief To create a new entity.
 				*/
-				UniqueID _entityGenerator;
+				UniqueID<std::size_t> _entityGenerator;
 
 				template <class ComponentType> void addTank();
 			};

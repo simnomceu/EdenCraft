@@ -106,37 +106,6 @@ namespace ece
 					 */
 					MaterialMTL & operator=(MaterialMTL && move) noexcept = default;
 
-					inline const std::string & getName() const noexcept;
-					inline const FloatVector3u & getAmbientFactor() const noexcept;
-					inline const FloatVector3u & getDiffuseFactor() const noexcept;
-					inline const FloatVector3u & getSpecularFactor() const noexcept;
-					inline const FloatVector3u & getTransmissionFilter() const noexcept;
-					inline unsigned int getIllumination() const noexcept;
-					inline float getDissolveFactor() const noexcept;
-					inline float getSpecularExponent() const noexcept;
-					inline unsigned int getSharpness() const noexcept;
-					inline float getOpticalDensity() const noexcept;
-					inline const std::string & getAmbientMap() const noexcept;
-					inline const std::string & getDiffuseMap() const noexcept;
-					inline const std::string & getSpecularMap() const noexcept;
-
-					inline void setName(const std::string & name) noexcept;
-					inline void setAmbientFactor(const FloatVector3u & ambient) noexcept;
-					inline void setDiffuseFactor(const FloatVector3u & diffuse) noexcept;
-					inline void setSpecularFactor(const FloatVector3u & specular) noexcept;
-					inline void setTransmissionFilter(const FloatVector3u & transmissionFilter) noexcept;
-					inline void setIllumination(const unsigned int illumination) noexcept;
-					inline void setDissolveFactor(const float dissolve) noexcept;
-					inline void setSpecularExponent(const float exponent) noexcept;
-					inline void setSharpness(const unsigned int sharpness) noexcept;
-					inline void setOpticalDensity(const float opticalDensity) noexcept;
-					inline void setAmbientMap(const std::string & path) noexcept;
-					inline void setDiffuseMap(const std::string & path) noexcept;
-					inline void setSpecularMap(const std::string & path) noexcept;
-
-				private:
-
-
 					struct LightFactor
 					{
 						enum Type
@@ -148,37 +117,37 @@ namespace ece
 
 						struct Spectral
 						{
-							std::string _file;
+							std::string file;
 							float factor;
 						};
 
-						Type _statement;
-						std::variant<FloatVector3u, Spectral> _value;
+						Type statement;
+						std::variant<FloatVector3u, Spectral> value;
 					};
 
 					struct Dissolve
 					{
-						float _factor;
+						float factor;
 
 						struct {
-							float _value;
-							bool _enabled;
+							float value;
+							bool enabled;
 						} halo;
 					};
 
-					std::string _name;
-					LightFactor _ka;
-					LightFactor _kd;
-					LightFactor _ks;
-					LightFactor _tf;
-					unsigned int _illum;
-					Dissolve _d;
-					float _ns;
-					unsigned int _sharpness;
-					float _ni;
-					std::string _mapKa;
-					std::string _mapKd;
-					std::string _mapKs;
+					std::string name;
+					LightFactor ambient;
+					LightFactor diffuse;
+					LightFactor specular;
+					LightFactor transmissionFilter;
+					unsigned int illumination;
+					Dissolve dissolve;
+					float specularExponent;
+					unsigned int sharpness;
+					float opticalDensity;
+					std::string mapAmbient;
+					std::string mapDiffuse;
+					std::string mapSpecular;
 				};
 			} // namespace wavefront
 		} // namespace formats

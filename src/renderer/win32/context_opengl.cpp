@@ -161,8 +161,8 @@ namespace ece
 				auto latestVersion = ContextOpenGL::_maxVersionAvailable;
 
 				const int glVersion[] = {
-					WGL_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
-					WGL_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
+					WGL_CONTEXT_MAJOR_VERSION_ARB, static_cast<int>(latestVersion[0]),
+					WGL_CONTEXT_MINOR_VERSION_ARB, static_cast<int>(latestVersion[1]),
 					WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB,
 					WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
 					0

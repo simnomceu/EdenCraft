@@ -234,7 +234,7 @@ namespace ece
 					}
 				}
 
-				std::vector<ObjectOBJ>::iterator ParserOBJ::addObject(const std::string & name)
+				auto ParserOBJ::addObject(const std::string & name) -> std::vector<ObjectOBJ>::iterator
 				{
 					this->_objects.emplace_back(name);
 					return this->_objects.end() - 1;

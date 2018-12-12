@@ -174,8 +174,8 @@ namespace ece
 				else {
 					auto latestVersion = ContextOpenGL::_maxVersionAvailable;
 					const int glVersion[] = {
-						GLX_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
-						GLX_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
+						GLX_CONTEXT_MAJOR_VERSION_ARB, static_cast<int>(latestVersion[0]),
+						GLX_CONTEXT_MINOR_VERSION_ARB, static_cast<int>(latestVersion[1]),
 						GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
 						None
 					};

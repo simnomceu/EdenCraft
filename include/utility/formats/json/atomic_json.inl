@@ -49,31 +49,31 @@ namespace ece
 					NodeJSON(parent), _key(key), _value(value) {}
 
 				template<class T>
-				inline bool AtomicJSON<T>::isAtomic() const noexcept { return true; }
+				inline constexpr auto AtomicJSON<T>::isAtomic() const noexcept -> bool { return true; }
 
 				template<class T>
-				inline TypeNodeJSON AtomicJSON<T>::getType() const noexcept { return TypeNodeJSON::NULL_JSON; }
+				inline auto AtomicJSON<T>::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::NULL_JSON; }
 
 				template<>
-				inline TypeNodeJSON BooleanJSON::getType() const noexcept { return TypeNodeJSON::BOOLEAN_JSON; }
+				inline auto BooleanJSON::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::BOOLEAN_JSON; }
 
 				template<>
-				inline TypeNodeJSON IntegerJSON::getType() const noexcept { return TypeNodeJSON::INTEGER_JSON; }
+				inline auto IntegerJSON::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::INTEGER_JSON; }
 
 				template<>
-				inline TypeNodeJSON DoubleJSON::getType() const noexcept { return TypeNodeJSON::DOUBLE_JSON; }
+				inline auto DoubleJSON::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::DOUBLE_JSON; }
 
 				template<>
-				inline TypeNodeJSON StringJSON::getType() const noexcept { return TypeNodeJSON::STRING_JSON; }
+				inline auto StringJSON::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::STRING_JSON; }
 
 				template<class T>
-				inline const T & AtomicJSON<T>::getValue() const { return this->_value; }
+				inline auto AtomicJSON<T>::getValue() const { return this->_value; }
 
 				template<class T>
 				inline void AtomicJSON<T>::setValue(const T & value) { this->_value = value; }
 
 				template<class T>
-				inline const std::string & AtomicJSON<T>::getKey() const { return this->_key; }
+				inline auto AtomicJSON<T>::getKey() const { return this->_key; }
 			} // namespace json
 		} // namespace formats
     } // namespace utility

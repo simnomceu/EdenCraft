@@ -57,9 +57,7 @@ namespace ece
 
         	LocaleLoader::LocaleLoader(const std::string & filename, const Localization & locale): _locale(locale), _resource(), _filename(filename)
         	{
-        		this->_locale = locale;
-        		const auto file = LocaleLoader::_path + this->_filename + "_" + this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
-        		this->generateResource(file);
+				this->changeLocale(locale);
         	}
 
         	void LocaleLoader::changeLocale(const Localization & locale)

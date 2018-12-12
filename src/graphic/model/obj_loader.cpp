@@ -108,30 +108,30 @@ namespace ece
 					parserMaterial.load(materialFile);
 					auto material = parserMaterial.getMaterials()[0];
 
-					auto materialResource = makeResource<Material>(material.getName());
+					auto materialResource = makeResource<Material>(material.name);
 					PhongMaterial materialVisitor;
 					materialVisitor.setMaterial(*materialResource);
 					materialVisitor.initialize();
 
-					materialVisitor.setAmbient(material.getAmbientFactor());
-					materialVisitor.setDiffuse(material.getDiffuseFactor());
-					materialVisitor.setSpecular(material.getSpecularFactor());
-					materialVisitor.setShininess(material.getSpecularExponent());
+					materialVisitor.setAmbient(std::get<FloatVector3u>(material.ambient.value));
+					materialVisitor.setDiffuse(std::get<FloatVector3u>(material.diffuse.value));
+					materialVisitor.setSpecular(std::get<FloatVector3u>(material.specular.value));
+					materialVisitor.setShininess(material.specularExponent);
 
-					if (!material.getDiffuseMap().empty()) {
-						auto diffuseMap = makeResource<Texture2D>(material.getDiffuseMap());
+					if (!material.mapDiffuse.empty()) {
+						auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
 						if (diffuseMap->getData().empty()) {
-							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
+							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
 						}
 						diffuseMap->bind(Texture::Target::TEXTURE_2D);
 						diffuseMap->generateMipmap();
 						materialVisitor.setDiffuseMap(diffuseMap);
 					}
 
-					if (!material.getSpecularMap().empty()) {
-						auto specularMap = makeResource<Texture2D>(material.getSpecularMap());
+					if (!material.mapSpecular.empty()) {
+						auto specularMap = makeResource<Texture2D>(material.mapSpecular);
 						if (specularMap->getData().empty()) {
-							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
+							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
 						}
 						specularMap->bind(Texture::Target::TEXTURE_2D);
 						specularMap->generateMipmap();

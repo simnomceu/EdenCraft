@@ -42,17 +42,36 @@ namespace ece
     {
         namespace indexing
         {
-        	inline UniqueID::UniqueID() : std::deque<unsigned int>()
+			template <class T>
+        	inline UniqueID<T>::UniqueID() : std::deque<unsigned int>()
         	{
-        		// TODO: to replace by emplace_back ?
-        		this->push_back(0);
+        		this->emplace_back(0);
         	}
 
-        	inline UniqueID::UniqueID(const unsigned int start) : std::deque<unsigned int>()
+			template <class T>
+        	inline UniqueID<T>::UniqueID(const type_index start) : std::deque<type_index>()
         	{
-        		// TODO: to replace by emplace_back ?
-        		this->push_back(start);
+        		this->emplace_back(start);
         	}
+
+			template <class T>
+			auto UniqueID<T>::next()
+			{
+				auto id = this->back();
+				this->pop_back();
+				if (this->empty()) {
+					this->emplace_back(id + 1);
+				}
+				return id;
+			}
+
+			template <class T>
+			void UniqueID<T>::restack(const type_index value)
+			{
+				if (value < this->front() && std::find(this->begin(), this->end(), value) == this->end()) {
+					this->emplace_back(value);
+				}
+			}
         } // namespace indexing
     } // namespace utility
 } // namespace ece

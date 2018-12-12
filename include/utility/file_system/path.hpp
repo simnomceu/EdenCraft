@@ -55,7 +55,7 @@ namespace ece
         	 * @remark Should define a non-member operation make_path to create a Path object and throw an exception if it is not valid.
         	 * @remark Look at the Filesystem standard library from C++17. Be careful with backward compatibility.
         	 */
-        	class ECE_UTILITY_API Path
+        	class ECE_UTILITY_API [[deprecated]] Path
         	{
         	public:
         		/**
@@ -64,7 +64,7 @@ namespace ece
         		 * @brief Get the current location during runtime.
         		 * @throw
         		 */
-        		static Path currentPath();
+        		static auto currentPath();
 
         		/**
         		 * @fn Path() noexcept
@@ -129,7 +129,7 @@ namespace ece
         		 * @brief Access the depth of the current path. It is equivalent to number of segment level in the path.
         		 * @throw
         		 */
-        		inline std::size_t getDepth() const;
+        		inline auto getDepth() const;
 
         		/**
         		 * @fn std::string getPathname() const
@@ -138,7 +138,7 @@ namespace ece
         		 * It returns the complete current path, whatever it is, folder or file. It doesn't mean the path is valid.
         		 * @throw
         		 */
-        		std::string getPathname() const;
+				auto getPathname() const;
 
         		/**
         		 * @fn std::string getPath() const
@@ -147,7 +147,7 @@ namespace ece
         		 * If it defines a file, it returns the path to this file. It doesn't mean the path is valid.
         		 * @throw
         		 */
-        		std::string getPath() const;
+				auto getPath() const;
 
         		/**
         		 * @fn std::string getFilename() const
@@ -155,7 +155,7 @@ namespace ece
         		 * @brief Access to the filename defined by the path, or nothing if it defines a folder. It doesn't mean the path is valid.
         		 * @throw
         		 */
-        		inline std::string getFilename() const;
+        		inline auto getFilename() const;
 
         		/**
         		 * @fn std::string & operator[](const int index)
@@ -165,7 +165,7 @@ namespace ece
         		 * @see const std::string & operator[](const int index) const
         		 * @throw
         		 */
-        		inline std::string & operator[](const int index);
+        		inline auto & operator[](const int index);
 
         		/**
         		 * @fn const std::string & operator[](const int index) const
@@ -175,7 +175,7 @@ namespace ece
         		 * @see std::string & operator[](const int index)
         		 * @throw
         		 */
-        		inline const std::string & operator[](const int index) const;
+        		inline auto operator[](const int index) const;
 
         		/**
         		 * @fn bool exists() const
@@ -184,7 +184,7 @@ namespace ece
         		 * A valid path could defines a file, or a folder.
         		 * @throw
         		 */
-        		inline bool exists() const;
+        		inline auto exists() const;
 
         		/**
         		 * @fn bool isFile() const
@@ -192,7 +192,7 @@ namespace ece
         		 * @brief Indicates if the current path is a file, or not.
         		 * @throw
         		 */
-        		inline bool isFile() const;
+        		inline auto isFile() const -> bool;
 
         		/**
         		 * @fn bool isFolder()
@@ -200,7 +200,7 @@ namespace ece
         		 * @brief Indicates if the current path is a folder, or not.
         		 * @throw
         		 */
-        		inline bool isFolder() const;
+        		inline auto isFolder() const -> bool;
 
         	private:
         		/**

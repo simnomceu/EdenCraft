@@ -42,7 +42,6 @@
 #include "utility/file_system.hpp"
 #include "utility/debug.hpp"
 #include "utility/formats/json/array_json.hpp"
-#include "utility/formats/json/object_json.hpp"
 
 namespace ece
 {
@@ -55,17 +54,17 @@ namespace ece
 				void ParserJSON::load(std::istream & stream)
 				{
 
-					std::string content = "";
+					auto content = std::string{};
+					auto line = std::string{};
 					while (stream.good()) {
-						std::string line;
 						std::getline(stream, line);
 						content.append(line + "\n");
 					}
 
-					std::shared_ptr<NodeJSON> currentNode;
-					std::string currentKey = "";
+					auto currentNode = std::shared_ptr<NodeJSON>{};
+					auto currentKey = std::string{};
 					while (!content.empty()) {
-						char key = content[0];
+						const auto key = content[0];
 						switch (key) {
 						case '{':
 							if (currentKey.empty()) {
@@ -77,9 +76,6 @@ namespace ece
 								}
 								else if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
 									currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addObject();
-								}
-								else {
-									// HOHO
 								}
 							}
 							content = content.substr(1);
@@ -96,9 +92,6 @@ namespace ece
 							}
 							else if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
 								currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addArray();
-							}
-							else {
-								// HOHO
 							}
 							break;
 						case ']':
@@ -131,20 +124,17 @@ namespace ece
 							break;
 						default:
 							if (key >= '0' && key <= '9') {
-								std::istringstream streamVal(content);
-								double value;
+								auto streamVal = std::istringstream{ content };
+								auto value = 0.0;
 								streamVal >> value;
 								if (value == std::floor(value)) {
-									int integer = static_cast<int>(value);
+									auto integer = static_cast<int>(value);
 									content = content.substr(std::to_string(integer).size());
 									if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addInteger(integer);
 									}
 									else if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
 										std::static_pointer_cast<ObjectJSON>(currentNode)->addInteger(currentKey, integer);
-									}
-									else {
-
 									}
 								}
 								else {
@@ -155,22 +145,16 @@ namespace ece
 									else if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
 										std::static_pointer_cast<ObjectJSON>(currentNode)->addDouble(currentKey, value);
 									}
-									else {
-
-									}
 								}
 							}
 							else if (key >= 'a' && key <= 'z') {
 								if (key == 't' || key == 'f') {
-									bool value = (key == 't');
+									auto value = (key == 't');
 									if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addBoolean(value);
 									}
 									else if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
 										std::static_pointer_cast<ObjectJSON>(currentNode)->addBoolean(currentKey, value);
-									}
-									else {
-
 									}
 								}
 								else if (key == 'n') {
@@ -179,9 +163,6 @@ namespace ece
 									}
 									else if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
 										std::static_pointer_cast<ObjectJSON>(currentNode)->addNull(currentKey);
-									}
-									else {
-
 									}
 								}
 								content = content.substr(4);
@@ -195,7 +176,7 @@ namespace ece
 					this->_contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
 				}
 
-				void ParserJSON::save(std::ostream & /*stream*/)
+				void ParserJSON::save([[maybe_unused]] std::ostream & stream)
 				{
 					/* NOT IMPLEMENTED YET*/
 				}

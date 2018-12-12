@@ -134,7 +134,7 @@ namespace ece
 					 * @brief Get the image currently loaded.
 					 * @throw noexcept
 					 */
-					inline Dynamic2DArray<std::array<std::byte, 3>> & getPixels() noexcept;
+					inline auto & getPixels() noexcept;
 
 					/**
 					 * @fn const Dynamic2DArray<std::array<std::byte, 3>> & getPixels() const
@@ -142,7 +142,7 @@ namespace ece
 					 * @brief Get the image currently loaded.
 					 * @throw noexcept
 					 */
-					inline const Dynamic2DArray<std::array<std::byte, 3>> & getPixels() const noexcept;
+					inline auto getPixels() const noexcept;
 
 				private:
 					/**
