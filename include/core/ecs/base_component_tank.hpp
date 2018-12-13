@@ -103,9 +103,9 @@ namespace ece
 				 */
 				BaseComponentTank & operator=(BaseComponentTank && move) noexcept = default;
 
-				virtual std::size_t size() const noexcept = 0;
+				virtual auto size() const noexcept -> std::size_t = 0;
 
-				virtual bool empty() const noexcept = 0;
+				virtual auto empty() const noexcept -> bool = 0;
 
 				virtual void update() = 0;
 			};

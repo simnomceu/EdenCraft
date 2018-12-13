@@ -52,7 +52,7 @@ namespace ece
 				ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service = service;
 			}
 
-			core::resource::ResourceManager & ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::getService()
+			auto ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::getService() -> core::resource::ResourceManager &
 			{
 				if (ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service.get() == nullptr) {
 					throw MemoryAccessException("A service.");

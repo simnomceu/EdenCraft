@@ -82,7 +82,7 @@ namespace ece
 			}
 
 			template <class Resource>
-			ResourceHandler<Resource> ResourceManager::getResource(const std::string & identifier)
+			auto ResourceManager::getResource(const std::string & identifier)
 			{
 				auto container = this->_containers.find(std::type_index(typeid(Resource)));
 				if (container == this->_containers.end()) {

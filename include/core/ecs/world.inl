@@ -47,7 +47,7 @@ namespace ece
 			inline World::~World() noexcept {}
 
 			template <class ComponentType>
-			std::weak_ptr<ComponentTank<ComponentType>> World::getTank()
+			auto World::getTank()
 			{
 				if (this->_tanks.find(std::type_index(typeid(ComponentType))) == this->_tanks.end()) {
 					this->_tanks[std::type_index(typeid(ComponentType))] = std::make_shared<ComponentTank<ComponentType>>();
@@ -56,14 +56,15 @@ namespace ece
 			}
 
 			template <class SystemType, class... Args>
-			std::weak_ptr<SystemType> World::addSystem(Args&&... args)
+			auto World::addSystem(Args&&... args)
 			{
 				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
 				this->_systems.emplace(std::type_index(typeid(SystemType)), std::make_shared<SystemType>(*this, std::forward<Args>(args)...));
                 return std::static_pointer_cast<SystemType>(this->_systems[std::type_index(typeid(SystemType))]);
 			}
 
-			template <class SystemType> bool World::hasSystem() const
+			template <class SystemType>
+			auto World::hasSystem() const
 			{
 				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
 				return this->_systems.find(std::type_index(typeid(SystemType))) != this->_systems.end();
@@ -76,17 +77,17 @@ namespace ece
 			}
 
 			template <class ComponentType>
-			bool World::hasComponent(const unsigned int entityID) const
+			auto World::hasComponent(const unsigned int entityID) const
 			{
-				auto tank = this->getTank<ComponentType>().lock();
+				auto tank = this->getTank<ComponentType>();
 				auto it = std::find_if(tank->begin(), tank->end(), [entityID](auto & element) {return element.getOwner() == entityID; });
 				return it != tank->end();
 			}
 
 			template <class ComponentType>
-			ComponentType & World::getComponent(const unsigned int entityID)
+			auto & World::getComponent(const unsigned int entityID)
 			{
-				auto tank = this->getTank<ComponentType>().lock();
+				auto tank = this->getTank<ComponentType>();
 				auto it = std::find_if(tank->begin(), tank->end(), [entityID](auto & element) {return element.getOwner() == entityID; });
 				if (it == tank->end()) {
 					throw std::runtime_error("This entity does not have a component of this type");

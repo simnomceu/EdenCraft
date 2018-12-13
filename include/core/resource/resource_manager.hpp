@@ -119,7 +119,7 @@ namespace ece
 				 * @throw
 				 */
 				template <class Resource>
-				ResourceHandler<Resource> getResource(const std::string & identifier);
+				auto getResource(const std::string & identifier);
 
 				/**
 				 * @fn void clear()

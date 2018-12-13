@@ -117,7 +117,7 @@ namespace ece
 				 * @brief Try to apply the command linked to this option.
 				 * @throw
 				 */
-				bool apply(const std::string & optionName, const std::string & optionValue = "");
+				auto apply(const std::string & optionName, const std::string & optionValue = "") -> bool;
 
 			private:
 				/**

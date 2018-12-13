@@ -40,6 +40,7 @@
 #define BASE_COMPONENT_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -115,7 +116,7 @@ namespace ece
 				 * @brief Get The component id.
 				 * @throw
 				 */
-				virtual ComponentID getID() const = 0;
+				virtual auto getID() const -> ComponentID = 0;
 
 				virtual void setOwner(const unsigned int owner) = 0;
 
@@ -123,9 +124,9 @@ namespace ece
 				 * @fn unsigned int getOwner() const
 				 * @return The entity owner.
 				 */
-				virtual unsigned int getOwner() const = 0;
+				virtual auto getOwner() const -> std::size_t = 0;
 
-				virtual bool isDirty() const = 0;
+				virtual auto isDirty() const -> bool = 0;
 			};
 		} // namespace ecs
 	} // namespace core

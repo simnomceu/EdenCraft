@@ -49,16 +49,16 @@ namespace ece
 			Component<T>::~Component() {}
 
 			template<class T>
-			inline ComponentID Component<T>::getID() const { return this->_id; }
+			inline auto Component<T>::getID() const -> ComponentID { return this->_id; }
 
 			template<class T>
-			inline void Component<T>::setOwner(const unsigned int owner) { this->_owner = owner; }
+			inline void Component<T>::setOwner(const std::size_t owner) { this->_owner = owner; }
 
 			template<class T>
-			inline unsigned int Component<T>::getOwner() const { return this->_owner; }
+			inline auto Component<T>::getOwner() const -> std::size_t { return this->_owner; }
 
             template <class T>
-			inline bool Component<T>::isDirty() const { return this->_dirty; }
+			inline auto Component<T>::isDirty() const -> bool { return this->_dirty; }
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

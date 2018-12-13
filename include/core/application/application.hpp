@@ -106,7 +106,7 @@ namespace ece
 				 * @fn ArgumentAnalyzer & getArgumentAnalyzer()
 				 * @return The argument analyzer of the application.
 				 */
-				inline ArgumentAnalyzer & getArgumentAnalyzer();
+				inline auto getArgumentAnalyzer() -> ArgumentAnalyzer &;
 
 				/**
 				 * @fn T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD)
@@ -118,7 +118,7 @@ namespace ece
 				 * @throw
 				 */
 				template <class T>
-				inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD);
+				inline auto & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD);
 
 				/**
 				 * @fn void removeModule()
@@ -126,7 +126,8 @@ namespace ece
 				 * @brief Remove the module.
 				 * @throw
 				 */
-				template <class T> inline void removeModule();
+				template <class T>
+				inline void removeModule();
 
 				/**
 				 * @fn T & getModule()
@@ -134,9 +135,10 @@ namespace ece
 				 * @brief Get a module.
 				 * @throw
 				 */
-				template <class T> inline T & getModule();
+				template <class T>
+				inline auto getModule() -> T &;
 
-				World & addWorld();
+				auto addWorld() -> World &;
 
 				/**
 				 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
@@ -187,7 +189,7 @@ namespace ece
 				 * @brief Check if the application is running or not.
 				 * @throw
 				 */
-				inline bool isRunning() const;
+				inline auto isRunning() const;
 
 				/**
 				 * @property _running

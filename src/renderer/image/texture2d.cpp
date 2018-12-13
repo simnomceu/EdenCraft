@@ -99,7 +99,7 @@ namespace ece
 					try {
 						this->_data.clear();
 
-						auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename).lock();
+						auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename);
 
 						loader->loadFromFile(this->_filename);
 

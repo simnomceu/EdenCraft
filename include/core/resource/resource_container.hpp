@@ -116,17 +116,17 @@ namespace ece
 
 				inline virtual void clear() override;
 
-				ResourceHandler<Resource> getResource(const std::string & key);
+				auto getResource(const std::string & key);
 
 			private:
 				struct ResourceWrapper
 				{
-					std::shared_ptr<Resource> _content;
+					std::shared_ptr<Resource> content;
 
-					std::chrono::time_point<std::chrono::system_clock> _created;
-					std::chrono::time_point<std::chrono::system_clock> _lastAccess;
+					std::chrono::time_point<std::chrono::system_clock> created;
+					std::chrono::time_point<std::chrono::system_clock> lastAccess;
 
-					bool _dirty;
+					bool dirty;
 				};
 
 				std::unordered_map<std::string, ResourceWrapper> _resources;
