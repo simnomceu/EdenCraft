@@ -41,12 +41,8 @@ namespace ece
 	{
 		namespace event
 		{
-			inline InputEvent::InputEvent() noexcept:
-				_type(InputEvent::Type::ECE_TYPE_NONE),
-				_doubleTap(InputEvent::DoubleTap::ECE_TAP_NONE),
-				_mouseButton(Mouse::Button::ECE_MOUSE_NONE),
-				_mousePosition(),
-				_key(Keyboard::Key::KEY_NONE) {}
+			inline InputEvent::InputEvent() noexcept: type(InputEvent::Type::NONE), doubleTap(InputEvent::DoubleTap::NONE), mouseButton(Mouse::Button::NONE), mousePosition(), 
+													  key(Keyboard::Key::NONE) {}
 		} // namespace window_event
 	} // namespace event
 } // namespace ece

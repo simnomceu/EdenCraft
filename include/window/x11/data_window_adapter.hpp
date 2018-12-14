@@ -61,7 +61,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline DataWindowAdapter(std::shared_ptr<X11API> && api) : _api(std::move(api)) {}
+				inline DataWindowAdapter(std::shared_ptr<X11API> && api) : api(std::move(api)) {}
 
 				/**
 				 * @fn DataWindowAdapter(const DataWindowAdapter & copy) noexcept
@@ -79,7 +79,7 @@ namespace ece
 				 */
 				DataWindowAdapter(DataWindowAdapter && move) noexcept = default;
 
-				std::shared_ptr<X11API> _api;
+				std::shared_ptr<X11API> api;
 			};
 		} // namespace common
 	} // namespace window

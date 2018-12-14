@@ -61,7 +61,7 @@ namespace ece
 				 */
 				enum class Key : short int
 				{
-					KEY_NONE = -1,
+					NONE = -1,
 					BACKSPACE = 0,
 					TAB = 1,
 					RETURN = 2,
@@ -204,7 +204,7 @@ namespace ece
 				 * @brief Check if a key is currently pressed or not.
 				 * @throw
 				 */
-				inline static bool isKeyPressed(const Key code);
+				inline static auto isKeyPressed(const Key code);
 
 				/**
 				 * @fn void pressKey(const Button code, const bool state)
@@ -215,7 +215,7 @@ namespace ece
 				 */
 				inline static void pressKey(const Key code, const bool state);
 
-				static Keyboard::Key getKey(const unsigned int keycode);
+				static auto getKey(const unsigned int keycode) -> Keyboard::Key;
 
 			private:
 				/**
@@ -240,7 +240,7 @@ namespace ece
         		 * @property EnumCount<Keyboard::Key>::value
         		 * @brief The number of supported keyboard keys.
         		 */
-        		static constexpr unsigned short int value = static_cast<unsigned short int>(Keyboard::Key::OEM_PERIOD) + 1;
+        		static constexpr auto value = static_cast<std::size_t>(Keyboard::Key::OEM_PERIOD) + 1;
         	};    
         } // namespace enumeration
     } // namespace utility

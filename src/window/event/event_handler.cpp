@@ -46,26 +46,26 @@ namespace ece
 		{
 			void EventHandler::process(const InputEvent & event)
 			{
-				switch (event._type) {
-				case InputEvent::Type::ECE_MOUSE_PRESSED:
+				switch (event.type) {
+				case InputEvent::Type::MOUSE_PRESSED:
 					this->onMouseButtonPressed(event, this->_owner);
 					break;
-				case InputEvent::Type::ECE_MOUSE_RELEASED:
+				case InputEvent::Type::MOUSE_RELEASED:
 					this->onMouseButtonReleased(event, this->_owner);
 					break;
-				case InputEvent::Type::ECE_MOUSE_MOVED:
+				case InputEvent::Type::MOUSE_MOVED:
 					this->onMouseMoved(event, this->_owner);
 					break;
-				case InputEvent::Type::ECE_MOUSE_SCROLLED:
+				case InputEvent::Type::MOUSE_SCROLLED:
 					this->onMouseWheelScrolled(event, this->_owner);
 					break;
-				case InputEvent::Type::ECE_KEY_PRESSED:
+				case InputEvent::Type::KEY_PRESSED:
 					this->onKeyPressed(event, this->_owner);
 					break;
-				case InputEvent::Type::ECE_KEY_RELEASED:
+				case InputEvent::Type::KEY_RELEASED:
 					this->onKeyReleased(event, this->_owner);
 					break;
-				case InputEvent::Type::ECE_TYPE_NONE:
+				case InputEvent::Type::NONE:
 					break;
 				default:
 					break;

@@ -134,7 +134,7 @@ namespace ece
 				return std::filesystem::is_regular_file(std::filesystem::path(filename));
         	}
 
-			auto File::getLastTimeModification(const std::string & filename)
+			auto File::getLastTimeModification(const std::string & filename) -> long long
         	{
         		// according to : https://stackoverflow.com/questions/40504281/c-how-to-check-the-last-modified-time-of-a-file
         		struct stat result;
@@ -142,7 +142,7 @@ namespace ece
         		{
         			return result.st_mtime;
         		}
-				return long long{ -1 };
+				return -1;
         	}
         } // namespace file_system
     } // namespace utility

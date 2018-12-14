@@ -198,7 +198,7 @@ namespace ece
         		 * @brief Get the last time the file has been modified.
         		 * @throw
         		 */
-				[[deprecated]] static auto getLastTimeModification(const std::string & filename);
+				[[deprecated]] static auto getLastTimeModification(const std::string & filename) -> long long;
 
         		/**
         		 * @fn File & operator>>(T & value)

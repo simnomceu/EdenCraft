@@ -121,8 +121,8 @@ namespace ece
 
 			void ContextOpenGL::createModernContext(const ContextSettings & settings)
 			{
-				this->_data->_windowHandle = settings.window.lock()->getAdapter().lock()->getImpl()->_api->getWindowHandle();
-				this->_data->_display = settings.window.lock()->getAdapter().lock()->getImpl()->_api->getDevice();
+				this->_data->_windowHandle = settings.window.lock()->getAdapter()->getImpl()->api->getWindowHandle();
+				this->_data->_display = settings.window.lock()->getAdapter()->getImpl()->api->getDevice();
 
 				int nbFramebufferConfigs = 0;
 				GLXFBConfig * framebufferConfig = nullptr;

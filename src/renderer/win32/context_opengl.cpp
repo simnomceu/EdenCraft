@@ -123,7 +123,7 @@ namespace ece
 			void ContextOpenGL::createModernContext(const ContextSettings & settings)
 			{
 				// Create real context
-				this->_data->_windowHandle = settings.window.lock()->getAdapter().lock()->getImpl()->_windowId;
+				this->_data->_windowHandle = settings.window.lock()->getAdapter()->getImpl()->windowId;
 				this->_data->_device = GetDC(this->_data->_windowHandle);
 				if (!this->_data->_device) {
 					throw std::runtime_error("The device associated to that window cannot be used or there is not device.");

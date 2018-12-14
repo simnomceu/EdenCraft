@@ -43,7 +43,7 @@ namespace ece
         namespace indexing
         {
 			template <class T>
-        	inline UniqueID<T>::UniqueID() : std::deque<unsigned int>()
+        	inline UniqueID<T>::UniqueID() : std::deque<T>()
         	{
         		this->emplace_back(0);
         	}

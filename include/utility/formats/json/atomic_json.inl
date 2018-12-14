@@ -49,7 +49,7 @@ namespace ece
 					NodeJSON(parent), _key(key), _value(value) {}
 
 				template<class T>
-				inline constexpr auto AtomicJSON<T>::isAtomic() const noexcept -> bool { return true; }
+				inline auto AtomicJSON<T>::isAtomic() const noexcept -> bool { return true; }
 
 				template<class T>
 				inline auto AtomicJSON<T>::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::NULL_JSON; }

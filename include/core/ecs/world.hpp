@@ -71,7 +71,7 @@ namespace ece
 				 */
 				struct Entity
 				{
-					unsigned int id;
+					std::size_t id;
 					bool dirty;
 				};
 

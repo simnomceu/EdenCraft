@@ -133,25 +133,25 @@ namespace ece
 				 * @property _title
 				 * @brief The title to set to a window.
 				 */
-				std::string _title;
+				std::string title;
 
 				/**
 				 * @property _position
 				 * @brief The position to set to a window.
 				 */
-				IntVector2u _position;
+				IntVector2u position;
 
 				/**
 				 * @property _minimumSize
 				 * @brief The minimum size to set to a window.
 				 */
-				IntVector2u _minimumSize;
+				IntVector2u minimumSize;
 
 				/**
 				 * @property _maximumSize
 				 * @brief The maximum size to set to a window.
 				 */
-				IntVector2u _maximumSize;
+				IntVector2u maximumSize;
 			};
 		} // namespace common
 	} // namespace window

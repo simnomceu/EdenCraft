@@ -44,6 +44,10 @@
 #include "window/event/keyboard.hpp"
 #include "utility/mathematics.hpp"
 
+#ifdef _MSC_VER
+#undef MOUSE_MOVED
+#endif
+
 namespace ece
 {
 	namespace window
@@ -63,13 +67,13 @@ namespace ece
 				 */
 				enum class Type : short int
 				{
-					ECE_TYPE_NONE = -1,
-					ECE_MOUSE_PRESSED = 0,
-					ECE_MOUSE_RELEASED = 1,
-					ECE_MOUSE_MOVED = 2,
-					ECE_MOUSE_SCROLLED = 3,
-					ECE_KEY_PRESSED = 4,
-					ECE_KEY_RELEASED = 5,
+					NONE = -1,
+					MOUSE_PRESSED = 0,
+					MOUSE_RELEASED = 1,
+					MOUSE_MOVED = 2,
+					MOUSE_SCROLLED = 3,
+					KEY_PRESSED = 4,
+					KEY_RELEASED = 5,
 				};
 
 				/**
@@ -78,9 +82,9 @@ namespace ece
 				 */
 				enum class DoubleTap : short int
 				{
-					ECE_TAP_NONE = -1,
-					ECE_FIRST_OF = 0,
-					ECE_LAST_OF = 1
+					NONE = -1,
+					FIRST_OF = 0,
+					LAST_OF = 1
 				};
 
 				/**
@@ -135,31 +139,31 @@ namespace ece
 				 * @property _type
 				 * @brief The type of event produced.
 				 */
-				InputEvent::Type _type;
+				InputEvent::Type type;
 
 				/**
 				 * @property _doubleTap
 				 * @brief If it is produced from a double tap event.
 				 */
-				DoubleTap _doubleTap;
+				DoubleTap doubleTap;
 
 				/**
 				 * @property _mouseButton
 				 * @brief The mouse button pressed.
 				 */
-				Mouse::Button _mouseButton;
+				Mouse::Button mouseButton;
 
 				/**
 				 * @property _mousePosition
 				 * @brief The position of the mouse cursor.
 				 */
-				IntVector2u _mousePosition;
+				IntVector2u mousePosition;
 
 				/**
 				 * @property _key
 				 * @brief The keyboard key pressed.
 				 */
-				Keyboard::Key _key;
+				Keyboard::Key key;
 			};
 		} // namespace event
 	} // namespace window

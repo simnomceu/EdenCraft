@@ -121,7 +121,7 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					inline virtual constexpr auto isAtomic() const noexcept -> bool override;
+					inline virtual auto isAtomic() const noexcept -> bool override;
 
 					/**
 					 * @fn TypeNodeJSON getType() const

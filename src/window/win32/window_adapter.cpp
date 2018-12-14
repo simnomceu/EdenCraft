@@ -38,8 +38,9 @@
 #include "window/pch.hpp"
 #include "window/common/window_adapter.hpp"
 #include "window/win32.hpp"
+#include "utility/log.hpp"
 
-#include <Windowsx.h>
+#include <windowsx.h>
 
 namespace ece
 {
@@ -54,107 +55,98 @@ namespace ece
 			{
 				registerPattern();
 
-				DWORD settingsEx = WS_EX_TOPMOST;
-				DWORD settings = WS_OVERLAPPEDWINDOW;
+				auto settingsEx = WS_EX_TOPMOST;
+				auto settings = WS_OVERLAPPEDWINDOW;
 
-				this->_data->_windowId = CreateWindowEx(settingsEx, className, L"", settings, 0, 0, 320, 320, nullptr, nullptr, GetModuleHandle(nullptr), this);
-				ShowWindow(this->_data->_windowId, SW_SHOW);
-				UpdateWindow(this->_data->_windowId);
+				this->_data->windowId = CreateWindowEx(settingsEx, className, L"", settings, 0, 0, 320, 320, nullptr, nullptr, GetModuleHandle(nullptr), this);
+				ShowWindow(this->_data->windowId, SW_SHOW);
+				UpdateWindow(this->_data->windowId);
 			}
 
 			void WindowAdapter::deleteWindow()
 			{
-				int codeError = DestroyWindow(this->_data->_windowId);
+				auto codeError = DestroyWindow(this->_data->windowId);
 				if (codeError == 0) {
-					std::cout << "Erreur destruction HWND. (WGL)";
-					std::cout << " Code " << GetLastError() << std::endl;
+					ServiceLoggerLocator::getService().logError("Erreur destruction HWND. (WGL) Code " + std::to_string(GetLastError()));
 				}
-				this->_data->_windowId = nullptr;
+				this->_data->windowId = nullptr;
 			}
 
-			bool WindowAdapter::isWindowCreated() const
+			auto WindowAdapter::isWindowCreated() const -> bool
 			{
-				return this->_data->_windowId != nullptr;
+				return this->_data->windowId != nullptr;
 			}
 
 			void WindowAdapter::setTitle(const std::string & title)
 			{
-				bool success = SetWindowTextA(this->_data->_windowId, title.data());
+				auto success = SetWindowTextA(this->_data->windowId, title.data());
 				if (!success) {
-					std::cout << "Error while renaming window. (WGL)";
-					std::cout << " Code " << GetLastError() << std::endl;
+					ServiceLoggerLocator::getService().logError("Erreur while renaming window. (WGL) Code " + std::to_string(GetLastError()));
 				}
 			}
 
-			std::string WindowAdapter::getTitle() const
+			auto WindowAdapter::getTitle() const -> std::string
 			{
-				LPSTR title = nullptr;
-				bool success = GetWindowTextA(this->_data->_windowId, title, GetWindowTextLengthA(this->_data->_windowId));
+				auto title = LPSTR{ nullptr };
+				auto success = GetWindowTextA(this->_data->windowId, title, GetWindowTextLengthA(this->_data->windowId));
 				if (!success) {
-					std::cout << "Error while getting window name. (WGL)";
-					std::cout << " Code " << GetLastError() << std::endl;
+					ServiceLoggerLocator::getService().logError("Erreur while getting window name. (WGL) Code " + std::to_string(GetLastError()));
 				}
-				return std::string(title);
+				return { title };
 			}
 
 			void WindowAdapter::setPosition(const IntVector2u & position)
 			{
-				bool success = SetWindowPos(this->_data->_windowId, HWND_NOTOPMOST, position[0], position[1], 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+				auto success = SetWindowPos(this->_data->windowId, HWND_NOTOPMOST, position[0], position[1], 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 				if (!success) {
-					std::cout << "Error while moving window. (WGL)";
-					std::cout << " Code " << GetLastError() << std::endl;
+					ServiceLoggerLocator::getService().logError("Erreur while moving window. (WGL) Code " + std::to_string(GetLastError()));
 				}
 			}
 
-			IntVector2u WindowAdapter::getSize() const
+			auto WindowAdapter::getSize() const -> IntVector2u
 			{
-				RECT bounds;
-				bool success = GetWindowRect(this->_data->_windowId, &bounds);
+				auto bounds = RECT{};
+				auto success = GetWindowRect(this->_data->windowId, &bounds);
 				if (!success) {
-					std::cout << "Error while retrieving window bounds. (WGL)";
-					std::cout << " Code " << GetLastError() << std::endl;
+					ServiceLoggerLocator::getService().logError("Erreur while retrieving window bounds. (WGL) Code " + std::to_string(GetLastError()));
 				}
 
-				return IntVector2u{ bounds.right - bounds.left, bounds.bottom - bounds.top };
+				return { bounds.right - bounds.left, bounds.bottom - bounds.top };
 			}
 
-			IntVector2u WindowAdapter::getPosition() const
+			auto WindowAdapter::getPosition() const -> IntVector2u
 			{
-				RECT bounds;
-				bool success = GetWindowRect(this->_data->_windowId, &bounds);
+				auto bounds = RECT{};
+				auto success = GetWindowRect(this->_data->windowId, &bounds);
 				if (!success) {
-					std::cout << "Error while retrieving window bounds. (WGL)";
-					std::cout << " Code " << GetLastError() << std::endl;
+					ServiceLoggerLocator::getService().logError("Erreur while retrieving window bounds. (WGL) Code " + std::to_string(GetLastError()));
 				}
-				return IntVector2u{ bounds.left, bounds.top };
+				return { bounds.left, bounds.top };
 			}
 
 			void WindowAdapter::minimize()
 			{
-				bool success = ShowWindow(this->_data->_windowId, SW_SHOWMINIMIZED);
+				auto success = ShowWindow(this->_data->windowId, SW_SHOWMINIMIZED);
 				if (!success) {
-					std::cout << "Error while minimizing window. (WGL)";
-					std::cout << " Code " << GetLastError() << std::endl;
+					ServiceLoggerLocator::getService().logError("Erreur while minimizing window. (WGL) Code " + std::to_string(GetLastError()));
 				}
 			}
 
 			void WindowAdapter::maximize()
 			{
-				bool success = ShowWindow(this->_data->_windowId, SW_SHOWMAXIMIZED);
+				auto success = ShowWindow(this->_data->windowId, SW_SHOWMAXIMIZED);
 				if (!success) {
-					std::cout << "Error while maximizing window. (WGL)";
-					std::cout << " Code " << GetLastError() << std::endl;
+					ServiceLoggerLocator::getService().logError("Erreur while maximizing window. (WGL) Code " + std::to_string(GetLastError()));
 				}
 			}
 
 			void WindowAdapter::processEvent(const bool blocking)
 			{
-				MSG message;
+				auto message = MSG{};
 				if (blocking) {
-					bool success = WaitMessage();
+					auto success = WaitMessage();
 					if (!success) {
-						std::cout << "Error while blocking messages queue window. (WGL)";
-						std::cout << " Code " << GetLastError() << std::endl;
+						ServiceLoggerLocator::getService().logError("Erreur while blocking messages queue window. (WGL) Code " + std::to_string(GetLastError()));
 					}
 				}
 				while (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE)) {
@@ -165,114 +157,114 @@ namespace ece
 
 			void WindowAdapter::processMessage(const WindowMessage & message)
 			{
-				if (this->_data->_windowId == message._windowId) {
-					switch (message._message) {
+				if (this->_data->windowId == message.windowId) {
+					switch (message.message) {
 					case WM_KEYDOWN: {
-						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message._wParam));
+						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message.wParam));
 						if (this->_keyRepeat || (!this->_keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
-							InputEvent newEvent;
-							newEvent._type = InputEvent::Type::ECE_KEY_PRESSED;
-							newEvent._key = keyCode;
+							auto newEvent = InputEvent{};
+							newEvent.type = InputEvent::Type::KEY_PRESSED;
+							newEvent.key = keyCode;
 							this->pushEvent(newEvent);
 							Keyboard::pressKey(keyCode, true);
 						}
 						break;
 					}
 					case WM_KEYUP: {
-						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message._wParam));
-						InputEvent newEvent;
-						newEvent._type = InputEvent::Type::ECE_KEY_RELEASED;
-						newEvent._key = keyCode;
+						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message.wParam));
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::KEY_RELEASED;
+						newEvent.key = keyCode;
 						this->pushEvent(newEvent);
 						Keyboard::pressKey(keyCode, false);
 						break;
 					}
 					case WM_LBUTTONDOWN: {
-						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::ECE_MOUSE_LEFT))) {
-							InputEvent newEvent;
-							newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
-							newEvent._mouseButton = Mouse::Button::ECE_MOUSE_LEFT;
+						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::LEFT))) {
+							auto newEvent = InputEvent{};
+							newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+							newEvent.mouseButton = Mouse::Button::LEFT;
 							this->pushEvent(newEvent);
-							Mouse::pressKey(Mouse::Button::ECE_MOUSE_LEFT, true);
+							Mouse::pressKey(Mouse::Button::LEFT, true);
 						}
 						break;
 					}
 					case WM_LBUTTONUP: {
-						InputEvent newEvent;
-						newEvent._type = InputEvent::Type::ECE_MOUSE_RELEASED;
-						newEvent._mouseButton = Mouse::Button::ECE_MOUSE_LEFT;
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
+						newEvent.mouseButton = Mouse::Button::LEFT;
 						this->pushEvent(newEvent);
-						Mouse::pressKey(Mouse::Button::ECE_MOUSE_LEFT, false);
+						Mouse::pressKey(Mouse::Button::LEFT, false);
 						break;
 					}
 					case WM_LBUTTONDBLCLK: {
-						InputEvent newEvent;
-						newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
-						newEvent._mouseButton = Mouse::Button::ECE_MOUSE_LEFT;
-						newEvent._doubleTap = InputEvent::DoubleTap::ECE_FIRST_OF;
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+						newEvent.mouseButton = Mouse::Button::LEFT;
+						newEvent.doubleTap = InputEvent::DoubleTap::FIRST_OF;
 						this->pushEvent(newEvent);
-						newEvent._doubleTap = InputEvent::DoubleTap::ECE_LAST_OF;
+						newEvent.doubleTap = InputEvent::DoubleTap::LAST_OF;
 						this->pushEvent(newEvent);
 						break;
 					}
 					case WM_RBUTTONDOWN: {
-						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::ECE_MOUSE_RIGHT))) {
-							InputEvent newEvent;
-							newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
-							newEvent._mouseButton = Mouse::Button::ECE_MOUSE_RIGHT;
+						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::RIGHT))) {
+							auto newEvent = InputEvent{};
+							newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+							newEvent.mouseButton = Mouse::Button::RIGHT;
 							this->pushEvent(newEvent);
-							Mouse::pressKey(Mouse::Button::ECE_MOUSE_RIGHT, true);
+							Mouse::pressKey(Mouse::Button::RIGHT, true);
 						}
 						break;
 					}
 					case WM_RBUTTONUP: {
-						InputEvent newEvent;
-						newEvent._type = InputEvent::Type::ECE_MOUSE_RELEASED;
-						newEvent._mouseButton = Mouse::Button::ECE_MOUSE_RIGHT;
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
+						newEvent.mouseButton = Mouse::Button::RIGHT;
 						this->pushEvent(newEvent);
-						Mouse::pressKey(Mouse::Button::ECE_MOUSE_RIGHT, false);
+						Mouse::pressKey(Mouse::Button::RIGHT, false);
 						break;
 					}
 					case WM_RBUTTONDBLCLK: {
-						InputEvent newEvent;
-						newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
-						newEvent._mouseButton = Mouse::Button::ECE_MOUSE_RIGHT;
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+						newEvent.mouseButton = Mouse::Button::RIGHT;
 						this->pushEvent(newEvent);
 						this->pushEvent(newEvent);
 						break;
 					}
 					case WM_MBUTTONDOWN: {
-						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::ECE_MOUSE_WHEEL))) {
-							InputEvent newEvent;
-							newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
-							newEvent._mouseButton = Mouse::Button::ECE_MOUSE_WHEEL;
+						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::WHEEL))) {
+							auto newEvent = InputEvent{};
+							newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+							newEvent.mouseButton = Mouse::Button::WHEEL;
 							this->pushEvent(newEvent);
-							Mouse::pressKey(Mouse::Button::ECE_MOUSE_WHEEL, true);
+							Mouse::pressKey(Mouse::Button::WHEEL, true);
 						}
 						break;
 					}
 					case WM_MBUTTONUP: {
-						InputEvent newEvent;
-						newEvent._type = InputEvent::Type::ECE_MOUSE_RELEASED;
-						newEvent._mouseButton = Mouse::Button::ECE_MOUSE_WHEEL;
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
+						newEvent.mouseButton = Mouse::Button::WHEEL;
 						this->pushEvent(newEvent);
-						Mouse::pressKey(Mouse::Button::ECE_MOUSE_WHEEL, false);
+						Mouse::pressKey(Mouse::Button::WHEEL, false);
 						break;
 					}
 					case WM_MBUTTONDBLCLK: {
-						InputEvent newEvent;
-						newEvent._type = InputEvent::Type::ECE_MOUSE_PRESSED;
-						newEvent._mouseButton = Mouse::Button::ECE_MOUSE_WHEEL;
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+						newEvent.mouseButton = Mouse::Button::WHEEL;
 						this->pushEvent(newEvent);
 						this->pushEvent(newEvent);
 						break;
 					}
 					case WM_MOUSEMOVE: {
-						InputEvent newEvent;
-						newEvent._type = InputEvent::Type::ECE_MOUSE_MOVED;
-						newEvent._mousePosition[0] = GET_X_LPARAM(message._lParam);
-						newEvent._mousePosition[1] = GET_Y_LPARAM(message._lParam);
-						Mouse::setPosition(this->getPosition() + newEvent._mousePosition);
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_MOVED;
+						newEvent.mousePosition[0] = GET_X_LPARAM(message.lParam);
+						newEvent.mousePosition[1] = GET_Y_LPARAM(message.lParam);
+						Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
 						this->pushEvent(newEvent);
 						break;
 					}
@@ -307,7 +299,7 @@ namespace ece
 
 			void registerPattern()
 			{
-				WNDCLASSEX windowPattern;
+				auto windowPattern = WNDCLASSEX{};
 				if (!GetClassInfoEx(GetModuleHandle(nullptr), className, &windowPattern)) {
 					windowPattern.cbClsExtra = 0;
 					windowPattern.cbSize = sizeof(WNDCLASSEX);
@@ -322,10 +314,9 @@ namespace ece
 					windowPattern.lpszMenuName = nullptr;
 					windowPattern.style = CS_DBLCLKS;
 
-					int codeError = RegisterClassEx(&windowPattern);
+					auto codeError = RegisterClassEx(&windowPattern);
 					if (codeError == 0) {
-						std::cout << "Erreur enregistrement du WNDCLASSEX window pattern. (WGL)";
-						std::cout << " Code " << GetLastError() << std::endl;
+						ServiceLoggerLocator::getService().logError("Erreur while registering WNDCLASSEX window pattern. (WGL) Code " + std::to_string(GetLastError()));
 					}
 				}
 			}

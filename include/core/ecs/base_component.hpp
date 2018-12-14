@@ -118,7 +118,7 @@ namespace ece
 				 */
 				virtual auto getID() const -> ComponentID = 0;
 
-				virtual void setOwner(const unsigned int owner) = 0;
+				virtual void setOwner(const std::size_t owner) = 0;
 
 				/**
 				 * @fn unsigned int getOwner() const
