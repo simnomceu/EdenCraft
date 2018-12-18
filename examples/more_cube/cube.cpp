@@ -46,7 +46,7 @@ Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.creat
 	auto renderable = ece::makeResource<ece::Object>("cube");
 
 	{
-		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/assets/cube.obj").lock();
+		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/assets/cube.obj");
 		loader->loadFromFile("../../examples/more_cube/assets/cube.obj");
 		renderable->setMesh(loader->getMeshes()[0]);
 	}
