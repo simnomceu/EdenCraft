@@ -48,7 +48,7 @@ namespace ece
 
 			inline void BaseProperty::enable(bool enabled) noexcept { this->_enabled = enabled; }
 
-			inline bool BaseProperty::isEnabled() const noexcept { return this->_enabled; }
+			inline auto BaseProperty::isEnabled() const noexcept -> bool { return this->_enabled; }
 		} // namespace material
 	} // namespace graphic
 } // namespace model

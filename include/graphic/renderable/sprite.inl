@@ -57,15 +57,15 @@ namespace ece
 
 			inline void Sprite::rotate(float angle) { this->_rotation += angle; }
 
-			inline const Rectangle<float> & Sprite::getTextureClip() const { return this->_texture.clip; }
+			inline auto Sprite::getTextureClip() const -> const Rectangle<float> & { return this->_texture.clip; }
 
-			inline const Rectangle<float> & Sprite::getBounds() const { return this->_bounds; }
+			inline auto Sprite::getBounds() const -> const Rectangle<float> & { return this->_bounds; }
 
-			inline float Sprite::getRotation() const { return this->_rotation; }
+			inline auto Sprite::getRotation() const -> float { return this->_rotation; }
 
 			inline void Sprite::setLevel(int level) { this->_level = level; }
 
-			inline int Sprite::getLevel() const { return this->_level; }
+			inline auto Sprite::getLevel() const -> int { return this->_level; }
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

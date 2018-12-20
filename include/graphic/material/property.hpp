@@ -104,13 +104,13 @@ namespace ece
 				 */
 				Property<T, U> & operator=(Property<T, U> && move) = default;
 
-				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) override;
+				virtual auto getUniform(std::string name) -> std::shared_ptr<BaseUniform> override;
 
-				Property<T, U> & operator=(const T & value);
-				Property<T, U> & operator=(T && value);
+				auto & operator=(const T & value);
+				auto & operator=(T && value);
 
-				inline T & get();
-				inline const T & get() const;
+				inline auto & get();
+				inline const auto & get() const;
 
 			private:
 				T _value;

@@ -59,7 +59,7 @@ namespace ece
 				this->_projection = orthographic(screen, nearClipping, farClipping);
 			}
 
-			inline const FloatMatrix4u & Projection::getMatrix() const { return this->_projection; }
+			inline auto Projection::getMatrix() const -> const FloatMatrix4u & { return this->_projection; }
 		} // namespace scene
 	} // namespace graphic
 } // namespace ece

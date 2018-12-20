@@ -66,15 +66,15 @@ namespace ece
 
 			inline float Light::getSpecular() const noexcept { return this->_specular; }
 
-			inline const FloatVector3u & Light::getColor() const noexcept { return this->_color; }
+			inline auto Light::getColor() const noexcept -> const FloatVector3u & { return this->_color; }
 
-			inline const FloatVector3u & Light::getPosition() const noexcept { return this->_position.value(); }
+			inline auto Light::getPosition() const noexcept -> const FloatVector3u & { return this->_position.value(); }
 
-			inline const FloatVector3u & Light::getDirection() const noexcept { return this->_direction.value(); }
+			inline auto Light::getDirection() const noexcept -> const FloatVector3u & { return this->_direction.value(); }
 
-			inline Light::Attenuation Light::getAttenuation() const noexcept { return this->_attenuation.value(); }
+			inline auto Light::getAttenuation() const noexcept -> Light::Attenuation { return this->_attenuation.value(); }
 
-			inline Light::CutOff Light::getCutoff() const noexcept { return this->_cutOff.value(); }
+			inline auto Light::getCutoff() const noexcept -> Light::CutOff { return this->_cutOff.value(); }
 
 			inline void Light::resetPosition() noexcept { this->_position.reset(); }
 
@@ -86,15 +86,15 @@ namespace ece
 
 			inline void Light::useBlinn(const bool used) noexcept { this->_useBlinn = used; }
 
-			inline bool Light::isPositionUsed() const noexcept { return this->_position.has_value(); }
+			inline auto Light::isPositionUsed() const noexcept -> bool { return this->_position.has_value(); }
 
-			inline bool Light::isDirectionUsed() const noexcept { return this->_direction.has_value(); }
+			inline auto Light::isDirectionUsed() const noexcept -> bool { return this->_direction.has_value(); }
 
-			inline bool Light::isAttenuationUsed() const noexcept { return this->_attenuation.has_value(); }
+			inline auto Light::isAttenuationUsed() const noexcept -> bool { return this->_attenuation.has_value(); }
 
-			inline bool Light::isCutOffUsed() const noexcept { return this->_cutOff.has_value(); }
+			inline auto Light::isCutOffUsed() const noexcept -> bool { return this->_cutOff.has_value(); }
 
-			inline bool Light::isBlinnUsed() const noexcept { return this->_useBlinn; }
+			inline auto Light::isBlinnUsed() const noexcept -> bool { return this->_useBlinn; }
 		} // namespace scene
 	} // namespace graphic
 } // namespace ece

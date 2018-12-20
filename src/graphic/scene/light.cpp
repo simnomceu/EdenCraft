@@ -54,9 +54,9 @@ namespace ece
 			{
 			}
 
-			std::vector<std::shared_ptr<BaseUniform>> Light::getUniforms() const
+			auto Light::getUniforms() const -> std::vector<std::shared_ptr<BaseUniform>>
 			{
-				return std::vector<std::shared_ptr<BaseUniform>>{
+				return {
 					std::make_shared<Uniform<float, 3>>("ambient", FloatVector3u(this->_color * this->_ambient).data()),
 						std::make_shared<Uniform<float, 3>>("diffuse", FloatVector3u(this->_color * this->_diffuse).data()),
 						std::make_shared<Uniform<float, 3>>("specular", std::array<float, 3>{ this->_specular, this->_specular, this->_specular }),

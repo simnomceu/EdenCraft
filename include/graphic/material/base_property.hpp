@@ -115,10 +115,10 @@ namespace ece
 				 */
 				BaseProperty & operator=(BaseProperty && move) noexcept = default;
 
-				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) = 0;
+				virtual auto getUniform(std::string name) -> std::shared_ptr<BaseUniform> = 0;
 
 				inline void enable(bool enabled) noexcept;
-				inline bool isEnabled() const noexcept;
+				inline auto isEnabled() const noexcept -> bool;
 
 			private:
 				bool _enabled;

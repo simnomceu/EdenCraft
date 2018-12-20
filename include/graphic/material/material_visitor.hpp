@@ -105,10 +105,10 @@ namespace ece
 				 */
 				Visitor & operator=(Visitor && move) noexcept = default;
 
-				virtual void setMaterial(const std::shared_ptr<Material> & material) = 0;
-				virtual std::shared_ptr<Material> getMaterial() = 0;
+				virtual void setMaterial(const std::weak_ptr<Material> & material) = 0;
+				virtual auto getMaterial() -> std::weak_ptr<Material> = 0;
 
-				virtual bool isValid() = 0;
+				virtual auto isValid() -> bool = 0;
 				virtual void initialize() = 0;
 				virtual void clear() = 0;
 			};

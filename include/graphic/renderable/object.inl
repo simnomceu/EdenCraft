@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			inline Mesh::Reference Object::getMesh() const { return this->_mesh; }
+			inline auto Object::getMesh() const -> Mesh::Reference { return this->_mesh; }
 		} // namespace renderable
 	} // namespace graphic
 } // namespace ece

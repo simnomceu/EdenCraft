@@ -44,19 +44,19 @@ namespace ece
 	{
 		namespace model
 		{
-			inline std::size_t Submesh::size() const { return this->_faces.size() * 3; }
+			inline auto Submesh::size() const -> std::size_t { return this->_faces.size() * 3; }
 
-			inline std::size_t Submesh::getNumberOfFaces() const { return this->_faces.size(); }
+			inline auto Submesh::getNumberOfFaces() const -> std::size_t { return this->_faces.size(); }
 
 			inline void Submesh::addFace(const Submesh::Face & face) { this->_faces.data().push_back(face); }
 
 			inline void Submesh::addFace(Submesh::Face && face) { this->_faces.data().push_back(std::move(face)); }
 
-			inline std::vector<Submesh::Face> & Submesh::getFaces() { return this->_faces.data(); }
+			inline auto Submesh::getFaces() -> std::vector<Submesh::Face> & { return this->_faces.data(); }
 
-			inline const std::vector<Submesh::Face> & Submesh::getFaces() const { return this->_faces.data(); }
+			inline auto Submesh::getFaces() const -> const std::vector<Submesh::Face> & { return this->_faces.data(); }
 
-			inline IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> & Submesh::getIndexBuffer() { return this->_faces; }
+			inline auto Submesh::getIndexBuffer() -> IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> & { return this->_faces; }
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

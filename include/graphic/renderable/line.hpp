@@ -111,17 +111,17 @@ namespace ece
 				 */
 				Line & operator=(Line && move) noexcept = default;
 
-				inline const FloatVector3u & getBegin() const noexcept;
-				inline const FloatVector3u & getEnd() const noexcept;
-				inline const FloatVector3u & getColor() const noexcept;
-				inline float getWidth() const noexcept;
+				inline auto getBegin() const noexcept -> const FloatVector3u &;
+				inline auto getEnd() const noexcept -> const FloatVector3u &;
+				inline auto getColor() const noexcept -> const FloatVector3u &;
+				inline auto getWidth() const noexcept -> float;
 
 				inline void setBegin(const FloatVector3u & begin) noexcept;
 				inline void setEnd(const FloatVector3u & end) noexcept;
 				inline void setColor(const FloatVector3u & color) noexcept;
 				inline void set(const float width) noexcept;
 
-				virtual void draw(std::shared_ptr<Shader> program) override;
+				virtual void draw([[maybe_unused]] std::shared_ptr<Shader> program) override;
 
 			private:
 				FloatVector3u _begin;

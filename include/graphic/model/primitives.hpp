@@ -50,13 +50,13 @@ namespace ece
 	{
 		namespace model
 		{
-			ECE_GRAPHIC_API Mesh makeCircle(const float radius, const size_t numberOfVertices);
-			ECE_GRAPHIC_API Mesh makeSphere(const float radius, const size_t numberOfVertices);
-			ECE_GRAPHIC_API Mesh makeCylinder(const float radius, const float height, const size_t numberOfVertices);
-			ECE_GRAPHIC_API Mesh makeTorus(const float innerRadius, const float outerRadius, const size_t numberOfSlices, const size_t numberOfRings);
-			ECE_GRAPHIC_API Mesh makeCone(const float radius, const float height, const size_t numberOfVertices);
-			ECE_GRAPHIC_API Mesh makeQuad(const float size);
-			ECE_GRAPHIC_API Mesh makeCube(const float size);
+			ECE_GRAPHIC_API auto makeCircle(const float radius, const size_t numberOfVertices);
+			ECE_GRAPHIC_API auto makeSphere(const float radius, const size_t numberOfVertices);
+			ECE_GRAPHIC_API auto makeCylinder(const float radius, const float height, const size_t numberOfVertices);
+			ECE_GRAPHIC_API auto makeTorus(const float innerRadius, const float outerRadius, const size_t numberOfSlices, const size_t numberOfRings);
+			ECE_GRAPHIC_API auto makeCone(const float radius, const float height, const size_t numberOfVertices);
+			ECE_GRAPHIC_API auto makeQuad(const float size);
+			ECE_GRAPHIC_API auto makeCube(const float size);
 		} // namespace model
 	} // namespace graphic
 } // namespace ece

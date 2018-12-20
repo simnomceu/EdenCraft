@@ -131,7 +131,7 @@ namespace ece
 				 */
 				virtual void loadFromStream(std::istream & stream) override;
 
-				inline virtual const std::vector<Mesh::Reference> & getMeshes() const override;
+				inline virtual auto getMeshes() const -> const std::vector<Mesh::Reference> & override;
 
 			protected:
 				void load(const std::string & filename, ParserOBJ & parser);

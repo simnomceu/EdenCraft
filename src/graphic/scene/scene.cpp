@@ -52,26 +52,26 @@ namespace ece
 			Scene::Scene() noexcept: _camera(), _objects()
 			{
 				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera._value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
+				this->_camera.value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
 			}
 
-			Object::Reference Scene::addObject()
+			auto Scene::addObject() -> Object::Reference
 			{
 				auto object = makeResource<Object>("");
 				this->_objects.push_back({ object, true, 0 });
 				return std::move(object);
 			}
 
-			std::vector<Renderable::Reference> Scene::getObjects()
+			auto Scene::getObjects() -> std::vector<Renderable::Reference>
 			{
-				std::vector<Renderable::Reference> list;
+				auto list = std::vector<Renderable::Reference>{};
 				for (auto & object : this->_objects) {
-					list.push_back(object._value);
+					list.emplace_back(object.value);
 				}
 				return std::move(list);
 			}
 
-			std::vector<Light::Reference> Scene::getLights()
+			auto Scene::getLights() -> std::vector<Light::Reference>
 			{
 				return this->_lights;
 			}
@@ -79,9 +79,9 @@ namespace ece
 			void Scene::prepare()
 			{
 				for (auto & object : this->_objects) {
-					if (object._hasChanged) {
-						object._value->prepare();
-						object._hasChanged = false;
+					if (object.hasChanged) {
+						object.value->prepare();
+						object.hasChanged = false;
 					}
 				}
 			}
@@ -89,7 +89,7 @@ namespace ece
 			void Scene::sortObjects()
 			{
 				std::sort(this->_objects.begin(), this->_objects.end(), [](const auto & a, const auto & b) -> bool {
-					return a._level >= b._level;
+					return a.level >= b.level;
 				});
 			}
 		} // namespace scene
