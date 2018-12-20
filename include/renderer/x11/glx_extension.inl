@@ -44,9 +44,9 @@ namespace ece
 	using renderer::opengl::OpenGLExtensionException;
 }
 
-inline GLXContext glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list)
+inline auto glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list) -> GLXContext
 {
-    static auto proxy = ece::renderer::opengl::loadOpenGLProc<PFNGLXCREATECONTEXTATTRIBSARBPROC>("glXCreateContextAttribsARB", ece::Version<2>{ 3, 2 });
+    static auto proxy = ece::renderer::opengl::loadOpenGLProc<PFNGLXCREATECONTEXTATTRIBSARBPROC>("glXCreateContextAttribsARB", ece::Version<2>{ 3, 3 });
     if (!proxy) {
 		throw ece::OpenGLExtensionException("glXCreateContextAttribsARB");
 	}

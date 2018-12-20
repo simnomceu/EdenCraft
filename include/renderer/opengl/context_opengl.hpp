@@ -60,7 +60,7 @@ namespace ece
 			class ContextOpenGL : public RenderContext
 			{
 			public:
-				static std::shared_ptr<RenderContext> DummyContext();
+				static auto DummyContext() -> std::shared_ptr<RenderContext>;
 
 				/**
 				 * @fn ContextOpenGL() noexcept
@@ -117,7 +117,7 @@ namespace ece
 				 * @throw
 				 * @see Version<2> RenderContext::getCurrentVersion() const
 				 */
-				virtual Version<2> getCurrentVersion() const override;
+				virtual auto getCurrentVersion() const -> Version<2> override;
 
 				/**
 				 * @fn void create(const RenderWindow & window)
@@ -160,7 +160,7 @@ namespace ece
 				 */
 				virtual void logInfos() const override;
 
-				inline static const Version<2> & getMaxVersionAvailable() noexcept;
+				inline static auto getMaxVersionAvailable() noexcept -> const Version<2> &;
 
 				void setDebugContext();
 

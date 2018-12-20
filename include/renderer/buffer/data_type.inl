@@ -43,25 +43,25 @@ namespace ece
 		namespace buffer
 		{
 			template <class T>
-			inline constexpr DataType dataType() { throw std::runtime_error("This type cannot be passed."); }
+			inline constexpr auto dataType() { throw std::runtime_error("This type cannot be passed."); }
 
 			template <>
-			inline DataType dataType<short int>() { return DataType::SHORT; }
+			inline auto dataType<short int>() { return DataType::SHORT; }
 
 			template <>
-			inline DataType dataType<unsigned short int>() { return DataType::UNSIGNED_SHORT; }
+			inline auto dataType<unsigned short int>() { return DataType::UNSIGNED_SHORT; }
 
 			template <>
-			inline DataType dataType<int>() { return DataType::INT; }
+			inline auto dataType<int>() { return DataType::INT; }
 
 			template <>
-			inline DataType dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
+			inline auto dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
 
 			template <>
-			inline DataType dataType<float>() { return DataType::FLOAT; }
+			inline auto dataType<float>() { return DataType::FLOAT; }
 
 			template <>
-			inline DataType dataType<double>() { return DataType::DOUBLE; }
+			inline auto dataType<double>() { return DataType::DOUBLE; }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

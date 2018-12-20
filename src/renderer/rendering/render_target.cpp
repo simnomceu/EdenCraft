@@ -39,6 +39,7 @@
 #include "renderer/pch.hpp"
 #include "renderer/rendering/render_target.hpp"
 #include "renderer/opengl.hpp"
+#include "renderer/pipeline/viewport.hpp"
 
 namespace ece
 {
@@ -46,15 +47,17 @@ namespace ece
 	{
 		namespace rendering
 		{
+			using pipeline::Viewport;
+
 			RenderTarget::RenderTarget() noexcept: virtual_enable_shared_from_this<RenderTarget>()
 			{
 			}
 
-			Viewport RenderTarget::getDefaultViewport() const
+			auto RenderTarget::getDefaultViewport() const
 			{
 				Viewport dummy;
-				dummy.resetViewport(Rectangle<float>(0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1])));
-				return dummy;
+				dummy.area = { 0.0f, 0.0f, static_cast<float>(this->getSize()[0]), static_cast<float>(this->getSize()[1]) };
+				return std::move(dummy);
 			}
 		} // namespace rendering
 	} // namespace renderer

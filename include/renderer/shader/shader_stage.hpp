@@ -139,7 +139,7 @@ namespace ece
 				 * @brief Get the filename containing the source.
 				 * @throw
 				 */
-				inline const std::string & getFilename() const;
+				inline const auto & getFilename() const;
 
 				/**
 				 * @fn const std::string & getSource() const
@@ -147,7 +147,7 @@ namespace ece
 				 * @brief Get the source of the stage.
 				 * @throw
 				 */
-				inline const std::string & getSource() const;
+				inline const auto & getSource() const;
 
 				/**
 				 * @fn Type getType() const
@@ -155,7 +155,7 @@ namespace ece
 				 * @brief Get the type of stage.
 				 * @throw
 				 */
-				inline Type getType() const;
+				inline auto getType() const;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -163,7 +163,7 @@ namespace ece
 				 * @brief Get the id of the shader stage.
 				 * @throw
 				 */
-				inline Handle getHandle() const;
+				inline auto getHandle() const;
 
 				/**
 				 * @fn bool isCompilationRequired() const
@@ -171,7 +171,7 @@ namespace ece
 				 * @brief Check if it is required to compile the shader stage or not.
 				 * @throw
 				 */
-				inline bool isCompilationRequired() const;
+				inline auto isCompilationRequired() const;
 
 				/**
 				 * @fn void compile()

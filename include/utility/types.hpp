@@ -42,7 +42,7 @@
 namespace ece
 {
 	using Handle = unsigned int;
-	static constexpr Handle NullHandle = 0;
+	static constexpr Handle NULL_HANDLE = 0;
 }
 
 #endif // TYPES_HPP

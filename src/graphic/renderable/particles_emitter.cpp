@@ -56,10 +56,10 @@ namespace ece
 		{
 			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _vertices()
 			{
-				this->_state._pointSize = 4.0f;
-				this->_state._blending = true;
-				this->_state._sourceBlend = RenderState::BlendingFactor::SRC_ALPHA;
-				this->_state._destinationBlend = RenderState::BlendingFactor::ONE;
+				this->_state.pointSize = 4.0f;
+				this->_state.blending = true;
+				this->_state.sourceBlend = RenderState::BlendingFactor::SRC_ALPHA;
+				this->_state.destinationBlend = RenderState::BlendingFactor::ONE;
 
 				this->_mode = PrimitiveMode::POINTS;
 

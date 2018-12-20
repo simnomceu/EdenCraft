@@ -36,7 +36,7 @@
 
 */
 
-#include "renderer/opengl/opengl_extension.hpp"
+#include "renderer/opengl/extension.hpp"
 #include "renderer/debug.hpp"
 
 namespace ece
@@ -47,7 +47,7 @@ namespace ece
 		{
 			// New version
 
-			inline ErrorGL OpenGL::getError() { return ErrorGL(glGetError()); }
+			inline auto OpenGL::getError() -> ErrorGL { return ErrorGL(glGetError()); }
 
 			//	inline void OpenGL::vertexAttrib1f(unsigned int /*index*/, float /*v0*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexAttrib1s(unsigned int /*index*/, short /*v0*/) { static_assert(false, "Not implemented yet."); }
@@ -158,9 +158,8 @@ namespace ece
 
 			inline void OpenGL::drawElements(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset)
 			{
-				unsigned char * byteOffset = nullptr;
-				byteOffset += offset * sizeof(unsigned int);
-				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), byteOffset));
+				auto byteOffset = offset * sizeof(unsigned int);
+				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(byteOffset)));
 			}
 
 			//	inline void OpenGL::multiDrawElements(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
@@ -172,9 +171,8 @@ namespace ece
 
             inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset, const std::size_t primcount)
             {
-				unsigned char * byteOffset = nullptr;
-				byteOffset += offset * sizeof(unsigned int);
-				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), byteOffset, static_cast<GLsizei>(primcount)));
+				auto byteOffset = offset * sizeof(unsigned int);
+				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(byteOffset), static_cast<GLsizei>(primcount)));
             }
 
             //	inline void OpenGL::drawElementsBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
@@ -182,20 +180,18 @@ namespace ece
 			//	inline void OpenGL::drawElementsInstancedBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, GLsizei /*primcount*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::multiDrawElementsBaseVertex(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/, const int * /*basevertex*/) { static_assert(false, "Not implemented yet."); }
 
-			inline Handle OpenGL::genBuffers()
+			inline auto OpenGL::genBuffers() -> Handle
 			{
-				Handle handle = 0;
+				auto handle = NULL_HANDLE;
 				checkErrors(glGenBuffers(1, &handle));
 				return std::move(handle);
 			}
 
-			inline std::vector<Handle> OpenGL::genBuffers(const int count)
+			inline auto OpenGL::genBuffers(const int count) -> std::vector<Handle>
 			{
-				std::vector<Handle> handles;
-				if (count != 0) {
-					handles.resize(handles.size() + count);
-					checkErrors(glGenBuffers(count, &handles.back() - count + 1));
-				}
+				auto handles = std::vector<Handle>(count, NULL_HANDLE);
+				checkErrors(glGenBuffers(count, &handles.front()));
+
 				return std::move(handles);
 			}
 
@@ -236,20 +232,18 @@ namespace ece
 			//	inline bool OpenGL::unmapBuffer(GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::copyBufferSubData(GLenum /*readTarget*/, GLenum /*writeTarget*/, GLintptr /*readOffset*/, GLintptr /*writeOffset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
 
-			inline Handle OpenGL::genVertexArrays()
+			inline auto OpenGL::genVertexArrays() -> Handle
 			{
-				Handle handle = 0;
+				auto handle = NULL_HANDLE;
 				checkErrors(glGenVertexArrays(1, &handle));
 				return std::move(handle);
 			}
 
-			inline std::vector<Handle> OpenGL::genVertexArrays(const int count)
+			inline auto OpenGL::genVertexArrays(const int count) -> std::vector<Handle>
 			{
-				std::vector<Handle> handles;
-				if (count != 0) {
-					handles.resize(handles.size() + count);
-					checkErrors(glGenVertexArrays(count, &handles.back() - count + 1));
-				}
+				auto handles = std::vector<Handle>(count, NULL_HANDLE);
+				checkErrors(glGenVertexArrays(count, &handles.front()));
+
 				return std::move(handles);
 			}
 
@@ -290,9 +284,9 @@ namespace ece
 			//	inline void OpenGL::getQueryObjecti64v(unsigned int /*id*/, GLenum /*pname*/, GLint64 * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getQueryObjectui64v(unsigned int /*id*/, GLenum /*pname*/, GLuint64 * /*params*/) { static_assert(false, "Not implemented yet."); }
 
-			inline Handle OpenGL::createShader(const ShaderType type)
+			inline auto OpenGL::createShader(const ShaderType type) -> Handle
 			{
-				Handle shaderHandle = checkErrors(glCreateShader(static_cast<GLenum>(type)));
+				auto shaderHandle = checkErrors(glCreateShader(static_cast<GLenum>(type)));
 				return shaderHandle;
 			}
 
@@ -304,7 +298,7 @@ namespace ece
 
 			inline void OpenGL::shaderSource(const Handle handle, const std::vector<std::string>& source)
 			{
-				std::vector<const char*> sourcesPtr{};
+				auto sourcesPtr = std::vector<const char*>{};
 				for (const auto & string : source) {
 					sourcesPtr.push_back(string.data());
 				}
@@ -321,9 +315,9 @@ namespace ece
 				checkErrors(glDeleteShader(handle));
 			}
 
-			inline Handle OpenGL::createProgram()
+			inline auto OpenGL::createProgram() -> Handle
 			{
-				Handle programHandle = checkErrors(glCreateProgram());
+				auto programHandle = checkErrors(glCreateProgram());
 				return programHandle;
 			}
 
@@ -352,13 +346,13 @@ namespace ece
 			//	inline int OpenGL::getAttribLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindAttribLocation(unsigned int /*program*/, unsigned int /*index*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 
-			inline Handle OpenGL::getUniformLocation(const Handle handle, const std::string & uniform)
+			inline auto OpenGL::getUniformLocation(const Handle handle, const std::string & uniform) -> Handle
 			{
-				int location = checkErrors(glGetUniformLocation(handle, uniform.data()));
+				auto location = checkErrors(glGetUniformLocation(handle, uniform.data()));
                 if (location < 0) {
                     throw std::runtime_error("No " + uniform + " uniform in the current shader program.");
                 }
-				return static_cast<Handle>(location);
+				return location;
 			}
 
 			//	inline unsigned int OpenGL::getUniformBlockIndex(unsigned int /*program*/, const char * /*uniformBlockName*/) { static_assert(false, "Not implemented yet."); }
@@ -367,23 +361,20 @@ namespace ece
 			//	inline void OpenGL::getUniformIndices(unsigned int /*program*/, GLsizei /*uniformCount*/, const char ** /*uniformNames*/, unsigned int * /*uniformIndices*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getActiveUniformName(unsigned int /*program*/, unsigned int /*uniformIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformName*/) { static_assert(false, "Not implemented yet."); }
 
-			inline UniformInfo OpenGL::getActiveUniform(const Handle program, const Handle index)
+			inline auto OpenGL::getActiveUniform(const Handle program, const Handle index) -> UniformInfo
 			{
-				UniformInfo info;
-				GLint length, size;
-				GLenum type;
-				GLchar name[1024];
-				checkErrors(glGetActiveUniform(program, index, 1024, &length, &size, &type, name));
-				info.size = size;
-				info.type = static_cast<UniformDataType>(type);
-				info.name = std::string(name, length);
-				return std::move(info);
+				auto length = 0;
+				auto size = 0;
+				auto type = GLenum{};
+				auto name = std::string(1024, '\0');
+				checkErrors(glGetActiveUniform(program, index, 1024, &length, &size, &type, name.data()));
+				return { name.substr(0, length), static_cast<UniformDataType>(type), static_cast<std::size_t>(size) };
 			}
 
 			//	inline void OpenGL::getActiveUniformsiv(unsigned int /*program*/, GLsizei /*uniformCount*/, const unsigned int * /*uniformIndices*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 
 			template <class T, unsigned int S>
-			inline void OpenGL::uniform(const int /*location*/, const std::array<T, S> & /*v*/)
+			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] const std::array<T, S> & v)
 			{
 				static_assert("No existing specialization for OpenGL::uniform.");
 			}
@@ -553,15 +544,15 @@ namespace ece
 			//	inline void OpenGL::getTransformFeedbackVarying(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, GLsizei * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::validateProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
 
-			inline std::vector<int> OpenGL::getProgramiv(const Handle program, const ProgramParameter pname)
+			inline auto OpenGL::getProgramiv(const Handle program, const ProgramParameter pname) -> std::vector<int>
 			{
-				std::vector<int> result;
+				auto result = std::vector<int>{};
 				if (pname == ProgramParameter::COMPUTE_WORK_GROUP_SIZE) {
 					result.resize(3);
 					checkErrors(glGetProgramiv(static_cast<GLuint>(program), static_cast<GLenum>(pname), result.data()));
 				}
 				else {
-					int dummy;
+					auto dummy = 0;
 					checkErrors(glGetProgramiv(static_cast<GLuint>(program), static_cast<GLenum>(pname), &dummy));
 					result.push_back(std::move(dummy));
 				}
@@ -572,28 +563,28 @@ namespace ece
 			//	inline int OpenGL::getFragDataLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
 			//	inline bool OpenGL::isShader(unsigned int /*shader*/) { static_assert(false, "Not implemented yet."); }
 
-			inline int OpenGL::getShaderiv(const Handle shader, const ShaderParameter pname)
+			inline auto OpenGL::getShaderiv(const Handle shader, const ShaderParameter pname) -> int
             {
-				int result;
+				auto result = 0;
 				checkErrors(glGetShaderiv(static_cast<GLuint>(shader), static_cast<GLenum>(pname), &result));
 				return std::move(result);
             }
 
-			inline std::vector<Handle> OpenGL::getAttachedShaders(const Handle program)
+			inline auto OpenGL::getAttachedShaders(const Handle program) -> std::vector<Handle>
 			{
-				std::vector<Handle> result;
-				GLsizei size;
+				auto result = std::vector<Handle>{};
+				auto size = 0;
 
-				std::array<GLuint, 6> shaders;
+				auto shaders = std::array<GLuint, 6>{};
 				checkErrors(glGetAttachedShaders(static_cast<GLuint>(program), 6, &size, shaders.data()));
-				for (unsigned int i = 0; i < static_cast<unsigned int>(size); ++i) {
+				for (auto i = 0; i < size; ++i) {
 					result.push_back(std::move(static_cast<Handle>(shaders[i])));
 				}
 
 				return std::move(result);
 			}
 
-			inline std::string OpenGL::getShaderInfoLog(const Handle shader)
+			inline auto OpenGL::getShaderInfoLog(const Handle shader) -> std::string
             {
                 GLsizei size;
                 char infoLog[512];
@@ -613,12 +604,12 @@ namespace ece
 			//	inline void OpenGL::getUniformuiv(unsigned int /*program*/, int /*location*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline bool OpenGL::isProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
 
-            inline std::string OpenGL::getProgramInfoLog(const Handle program)
+            inline auto OpenGL::getProgramInfoLog(const Handle program) -> std::string
             {
-                GLsizei size;
-                char infoLog[512];
-                checkErrors(glGetProgramInfoLog(static_cast<GLuint>(program), 512, &size, static_cast<GLchar *>(infoLog)));
-                return std::string(infoLog);
+                auto size = 0;
+                auto infoLog = std::string(512, '\r');
+                checkErrors(glGetProgramInfoLog(static_cast<GLuint>(program), 512, &size, infoLog.data()));
+                return infoLog.substr(0, static_cast<std::size_t>(size));
             }
 			//	inline void OpenGL::getMultisamplefv(GLenum /*pname*/, unsigned int /*index*/, float * /*val*/) { static_assert(false, "Not implemented yet."); }
 
@@ -729,21 +720,19 @@ namespace ece
 
 			//	inline void OpenGL::deleteTextures(GLsizei /*n*/, const unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
 
-			inline Handle OpenGL::genTexture()
+			inline auto OpenGL::genTexture() -> Handle
 			{
-				Handle handle;
+				auto handle = NULL_HANDLE;
 				checkErrors(glGenTextures(1, &handle));
-				return handle;
+				return std::move(handle);
 			}
 
-			inline std::vector<Handle> OpenGL::genTextures(const unsigned int n)
+			inline auto OpenGL::genTextures(const unsigned int n) -> std::vector<Handle>
 			{
-				std::vector<Handle> handles;
-				if (n != 0) {
-					handles.resize(handles.size() + n);
-					checkErrors(glGenTextures(n, &handles.back() - n + 1));
-				}
-				return handles;
+				auto handles = std::vector<Handle>(n, NULL_HANDLE);
+				checkErrors(glGenTextures(n, &handles.back() - n + 1));
+
+				return std::move(handles);
 			}
 
 			//	inline void OpenGL::getTexParameterfv(GLenum /*target*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
@@ -843,9 +832,9 @@ namespace ece
 			//	inline void OpenGL::getDoublev(GLenum /*pname*/, double * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getFloatv(GLenum /*pname*/, float * /*data*/) { static_assert(false, "Not implemented yet."); }
 
-			inline std::vector<int> OpenGL::getInteger(const Parameter parameter)
+			inline auto OpenGL::getInteger(const Parameter parameter) -> std::vector<int>
 			{
-				std::vector<int> tmp = { static_cast<int>(parameter) };
+				auto tmp = std::vector<int>{ static_cast<int>(parameter) };
 				checkErrors(glGetIntegerv(static_cast<GLenum>(parameter), tmp.data()));
 				return tmp;
 			}
@@ -857,9 +846,9 @@ namespace ece
 			//	inline bool OpenGL::isEnabled(GLenum /*cap*/) { static_assert(false, "Not implemented yet."); }
 			//	inline bool OpenGL::isEnabledi(GLenum /*cap*/, unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
 
-			inline std::string OpenGL::getString(const InfoGL parameter)
+			inline auto OpenGL::getString(const InfoGL parameter) -> std::string
 			{
-				const GLubyte * tmp = checkErrors(glGetString(static_cast<GLenum>(parameter)));
+				const auto tmp = checkErrors(glGetString(static_cast<GLenum>(parameter)));
 				return std::string(reinterpret_cast<const char *>(tmp));
 			}
 

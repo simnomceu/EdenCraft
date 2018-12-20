@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace opengl
 		{
-			inline const Version<2> & ContextOpenGL::getMaxVersionAvailable() noexcept { return ContextOpenGL::_maxVersionAvailable; }
+			inline auto ContextOpenGL::getMaxVersionAvailable() noexcept -> const Version<2> & { return ContextOpenGL::_maxVersionAvailable; }
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece

@@ -37,12 +37,12 @@
 */
 
 
-#ifndef GL32_EXTENSION_HPP
-#define GL32_EXTENSION_HPP
+#ifndef GL33_EXTENSION_HPP
+#define GL33_EXTENSION_HPP
 
 #include "renderer/config.hpp"
 
-#include "GL/glcorearb.h"
+#include <GL/glcorearb.h>
 
 #include "utility/indexing.hpp"
 #include "renderer/opengl/extension_loader.hpp"
@@ -53,24 +53,25 @@ namespace ece
 	using renderer::opengl::OpenGLExtensionException;
 }
 
+
 ECE_RENDERER_API inline GLenum glGetError();
 ECE_RENDERER_API inline void glVertexAttrib1f(GLuint index, GLfloat v0);
 ECE_RENDERER_API inline void glVertexAttrib1s(GLuint index, GLshort v0);
 ECE_RENDERER_API inline void glVertexAttrib1d(GLuint index, GLdouble v0);
 ECE_RENDERER_API inline void glVertexAttribI1i(GLuint index, GLint v0);
 ECE_RENDERER_API inline void glVertexAttribI1ui(GLuint index, GLuint v0);
-ECE_RENDERER_API inline void glVertexAttrib2f(GLuint index, GLfloat v0,	GLfloat v1);
-ECE_RENDERER_API inline void glVertexAttrib2s(GLuint index, GLshort v0,	GLshort v1);
+ECE_RENDERER_API inline void glVertexAttrib2f(GLuint index, GLfloat v0, GLfloat v1);
+ECE_RENDERER_API inline void glVertexAttrib2s(GLuint index, GLshort v0, GLshort v1);
 ECE_RENDERER_API inline void glVertexAttrib2d(GLuint index, GLdouble v0, GLdouble v1);
 ECE_RENDERER_API inline void glVertexAttribI2i(GLuint index, GLint v0, GLint v1);
 ECE_RENDERER_API inline void glVertexAttribI2ui(GLuint index, GLuint v0, GLuint v1);
-ECE_RENDERER_API inline void glVertexAttrib3f(GLuint index, GLfloat v0,	GLfloat v1,	GLfloat v2);
-ECE_RENDERER_API inline void glVertexAttrib3s(GLuint index, GLshort v0,	GLshort v1,	GLshort v2);
+ECE_RENDERER_API inline void glVertexAttrib3f(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2);
+ECE_RENDERER_API inline void glVertexAttrib3s(GLuint index, GLshort v0, GLshort v1, GLshort v2);
 ECE_RENDERER_API inline void glVertexAttrib3d(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2);
 ECE_RENDERER_API inline void glVertexAttribI3i(GLuint index, GLint v0, GLint v1, GLint v2);
 ECE_RENDERER_API inline void glVertexAttribI3ui(GLuint index, GLuint v0, GLuint v1, GLuint v2);
-ECE_RENDERER_API inline void glVertexAttrib4f(GLuint index, GLfloat v0,	GLfloat v1,	GLfloat v2,	GLfloat v3);
-ECE_RENDERER_API inline void glVertexAttrib4s(GLuint index, GLshort v0, GLshort v1,GLshort v2, GLshort v3);
+ECE_RENDERER_API inline void glVertexAttrib4f(GLuint index, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+ECE_RENDERER_API inline void glVertexAttrib4s(GLuint index, GLshort v0, GLshort v1, GLshort v2, GLshort v3);
 ECE_RENDERER_API inline void glVertexAttrib4d(GLuint index, GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3);
 ECE_RENDERER_API inline void glVertexAttrib4Nub(GLuint index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3);
 ECE_RENDERER_API inline void glVertexAttribI4i(GLuint index, GLint v0, GLint v1, GLint v2, GLint v3);
@@ -330,7 +331,7 @@ ECE_RENDERER_API inline void glDepthMask(GLboolean flag);
 ECE_RENDERER_API inline void glStencilMask(GLuint mask);
 ECE_RENDERER_API inline void glStencilMaskSeparate(GLenum face, GLuint mask);
 ECE_RENDERER_API inline void glClear(GLbitfield mask);
-ECE_RENDERER_API inline void glClearColor(GLfloat red, 	GLfloat green, GLfloat blue, GLfloat alpha);
+ECE_RENDERER_API inline void glClearColor(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 ECE_RENDERER_API inline void glClearDepth(GLdouble depth);
 ECE_RENDERER_API inline void glClearStencil(GLint s);
 ECE_RENDERER_API inline void glClearBufferiv(GLenum buffer, GLint drawbuffer, const GLint * value);
@@ -393,61 +394,62 @@ ECE_RENDERER_API inline void glGetSamplerParameterIiv(GLuint sampler, GLenum pna
 ECE_RENDERER_API inline void glGetSamplerParameterIuiv(GLuint sampler, GLenum pname, GLuint * params);
 ECE_RENDERER_API inline void glBindFragDataLocationIndexed(GLuint program, GLuint colorNumber, GLuint index, const GLchar *name);
 ECE_RENDERER_API inline GLint glGetFragDataIndex(GLuint program, const GLchar * name);
+ECE_RENDERER_API inline void glVertexAttribDivisor(GLuint index, GLuint divisor);
 
 /**
- * fn CALLGL32(SIGNATURE, NAME, ...)
+ * fn CALLGL33(SIGNATURE, NAME)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
- * @brief Load the opengl 3.2 extension and call it.
+ * @brief Load the opengl 3.3 extension and call it.
  */
-#define CALLGL32(SIGNATURE, NAME) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+#define CALLGL33(SIGNATURE, NAME) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	proxy();
 
 /**
- * fn R_CALLGL32(SIGNATURE, NAME, ...)
+ * fn R_CALLGL33(SIGNATURE, NAME)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
- * @brief Load the opengl 3.2 extension and call it.
+ * @brief Load the opengl 3.3 extension and call it.
  */
-#define R_CALLGL32(SIGNATURE, NAME) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+#define R_CALLGL33(SIGNATURE, NAME) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	return proxy();
 
 /**
- * fn CALLGL32_V(SIGNATURE, NAME, ...)
+ * fn CALLGL33_V(SIGNATURE, NAME, ...)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
  * @param[in] ... The parameters to forward to the function.
- * @brief Load the opengl 3.2 extension and call it.
+ * @brief Load the opengl 3.3 extension and call it.
  */
-#define CALLGL32_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+#define CALLGL33_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	proxy(__VA_ARGS__);
 
 /**
- * fn R_CALLGL32_V(SIGNATURE, NAME, ...)
+ * fn R_CALLGL33_V(SIGNATURE, NAME, ...)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
  * @param[in] ... The parameters to forward to the function.
- * @brief Load the opengl 3.2 extension and call it.
+ * @brief Load the opengl 3.3 extension and call it.
  */
-#define R_CALLGL32_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 2 }); \
+#define R_CALLGL33_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 3, 3 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	return proxy(__VA_ARGS__);
 
-#include "renderer/opengl/gl32_extension.inl"
+#include "renderer/opengl/extension/gl33_extension.inl"
 
-#endif // GL32_EXTENSION_HPP
+#endif // GL33_EXTENSION_HPP

@@ -52,7 +52,7 @@ namespace ece
 			{
 				auto error(OpenGL::getError());
 				while (error != ErrorGL::NO_ERROR) {
-					std::string errorMessage;
+					auto errorMessage = std::string{};
 
 					switch (error) {
 					case ErrorGL::INVALID_ENUM:	errorMessage = "INVALID_ENUM"; break;
@@ -72,7 +72,7 @@ namespace ece
 
 			void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei /*length*/, const GLchar *message, const void * /*userParam*/)
 			{
-				std::string debugMessage = " Debug OpenGL: (" + std::to_string(id) + "): " + std::string(message);
+				auto debugMessage = std::string{ " Debug OpenGL: (" + std::to_string(id) + "): " + message };
 
 				switch (source)
 				{

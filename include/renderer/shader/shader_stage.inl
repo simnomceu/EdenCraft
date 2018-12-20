@@ -54,21 +54,21 @@ namespace ece
 				_compilationRequired(move._compilationRequired)
 			{
 				move._filename.clear();
-				move._handle = 0;
+				move._handle = NULL_HANDLE;
 				move._compilationRequired = false;
 			}
 
 			inline ShaderStage::~ShaderStage() noexcept { this->terminate(); }
 
-			inline const std::string & ShaderStage::getFilename() const { return this->_filename; }
+			inline const auto & ShaderStage::getFilename() const { return this->_filename; }
 
-			inline const std::string & ShaderStage::getSource() const { return this->_source; }
+			inline const auto & ShaderStage::getSource() const { return this->_source; }
 
-			inline ShaderStage::Type ShaderStage::getType() const { return this->_type; }
+			inline auto ShaderStage::getType() const { return this->_type; }
 
-			inline Handle ShaderStage::getHandle() const { return this->_handle; }
+			inline auto ShaderStage::getHandle() const { return this->_handle; }
 
-			inline bool ShaderStage::isCompilationRequired() const { return this->_compilationRequired; }
+			inline auto ShaderStage::isCompilationRequired() const { return this->_compilationRequired; }
 		} // namespace shader
 	} // namespace renderer
 } // namespace ece

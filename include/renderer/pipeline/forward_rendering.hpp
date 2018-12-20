@@ -105,7 +105,7 @@ namespace ece
 				ForwardRendering & operator=(ForwardRendering && move) noexcept = default;
 
 				virtual void setPipeline(RenderPipeline pipeline) override;
-				virtual RenderPipeline & getPipeline() override;
+				virtual auto getPipeline() -> RenderPipeline & override;
 
 				virtual void clear(const Color & color = BLACK) override;
 				virtual void draw(const Staging & staging) override;

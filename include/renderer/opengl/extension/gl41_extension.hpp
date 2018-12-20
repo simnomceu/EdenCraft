@@ -179,6 +179,6 @@ ECE_RENDERER_API inline void glScissorIndexedv(GLuint index, const GLint *v);
 	} \
 	return proxy(__VA_ARGS__);
 
-#include "renderer/opengl/gl41_extension.inl"
+#include "renderer/opengl/extension/gl41_extension.inl"
 
 #endif // GL41_EXTENSION_HPP

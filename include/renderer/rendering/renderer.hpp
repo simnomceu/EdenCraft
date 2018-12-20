@@ -109,17 +109,18 @@ namespace ece
 				Renderer & operator=(Renderer && move) noexcept = delete;
 
 				static inline void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
-				static inline std::weak_ptr<RenderTarget> getCurrentTarget();
+				static inline auto getCurrentTarget() -> std::weak_ptr<RenderTarget>;
 
 				static inline void setCurrentContext(const std::weak_ptr<RenderContext> & context);
-				static inline std::weak_ptr<RenderContext> getCurrentContext();
+				static inline auto getCurrentContext() -> std::weak_ptr<RenderContext>;
 
 				static inline void setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture);
-				static inline std::weak_ptr<Texture> getCurrentTexture(Texture::Target target);
+				static inline auto getCurrentTexture(Texture::Target target) -> std::weak_ptr<Texture>;
 
-				static inline bool isInitialized() noexcept;
+				static inline auto isInitialized() noexcept;
 
 			private:
+				// TODO: All this is not working because of virtual_shared_from_this.
 				static std::weak_ptr<RenderTarget> _currentTarget;
 				static std::weak_ptr<RenderContext> _currentContext;
 				static std::map<Texture::Target, std::weak_ptr<Texture>> _currentTextures;

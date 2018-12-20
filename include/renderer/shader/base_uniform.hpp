@@ -229,7 +229,7 @@ namespace ece
 				 * @brief Get the string name of the uniform.
 				 * @throw noexcept
 				 */
-				inline const std::string & getName() const noexcept;
+				inline const auto & getName() const noexcept;
 
 				inline void setName(const std::string & name);
 

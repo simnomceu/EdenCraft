@@ -53,20 +53,20 @@ namespace ece
 				_handle(move._handle)
 			{
 				move._data.clear();
-				move._handle = 0;
+				move._handle = NULL_HANDLE;
 			}
 
-			inline const std::string & Texture2D::getFilename() const { return this->_filename; }
+			inline auto Texture2D::getFilename() const -> const std::string & { return this->_filename; }
 
-			inline const std::vector<std::byte> & Texture2D::getData() const { return this->_data; }
+			inline auto Texture2D::getData() const -> const std::vector<std::byte> & { return this->_data; }
 
-			inline std::size_t Texture2D::getWidth() const { return this->_width; }
+			inline auto Texture2D::getWidth() const -> std::size_t { return this->_width; }
 
-			inline std::size_t Texture2D::getHeight() const { return this->_height; }
+			inline auto Texture2D::getHeight() const -> std::size_t { return this->_height; }
 
-			inline Texture2D::TypeTarget Texture2D::getType() const { return this->_type; }
+			inline auto Texture2D::getType() const -> Texture::TypeTarget { return this->_type; }
 
-			inline Handle Texture2D::getHandle() const { return this->_handle; }
+			inline auto Texture2D::getHandle() const -> Handle { return this->_handle; }
 
 			inline void Texture2D::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
 

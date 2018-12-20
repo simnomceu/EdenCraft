@@ -127,8 +127,8 @@ namespace ece
 				 */
 				virtual void loadFromStream(std::istream & stream) override;
 
-				inline virtual Image<RGB24> & getImage() override;
-				inline virtual const Image<RGB24> & getImage() const override;
+				inline virtual auto getImage() -> Image<RGB24> & override;
+				inline virtual auto getImage() const -> const Image<RGB24> & override;
 
 			private:
 				Image<RGB24> _image;

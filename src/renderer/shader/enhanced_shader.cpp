@@ -51,9 +51,9 @@ namespace ece
 			{
 				// TODO: it should be the version of the current context an not the latest version available.
 				auto latestVersion = Renderer::getCurrentContext().lock()->getCurrentVersion();
-				std::string versionTag = std::to_string(latestVersion[0]) + std::to_string(latestVersion[1]) + "0";
+				auto versionTag = std::to_string(latestVersion[0]) + std::to_string(latestVersion[1]) + "0";
 
-				std::string tag("#version ");
+				auto tag = std::string("#version ");
 				auto source = stage.getSource();
 				auto pos = source.find(tag);
 				if (pos != std::string::npos) {

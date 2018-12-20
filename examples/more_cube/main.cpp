@@ -64,7 +64,7 @@ int main()
 		auto & scene = renderSystem->getScene();
 		auto & camera = scene.getCamera();
 
-		Cube cube(world, 100);
+		Cube cube(world, 1);
 
  		auto & eventHandler = window.lock()->getEventHandler();
 		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {

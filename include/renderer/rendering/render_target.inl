@@ -47,12 +47,12 @@ namespace ece
 		{
 			inline void RenderTarget::setCurrent() { Renderer::setCurrentTarget(this->weak_from_this()); }
 
-			inline bool RenderTarget::isCurrent() const noexcept
+			inline auto RenderTarget::isCurrent() const noexcept
 			{
 				try {
 					return Renderer::getCurrentTarget().lock().get() == this;
 				}
-				catch (std::bad_weak_ptr & e) {
+				catch (const std::bad_weak_ptr & e) {
 					ServiceLoggerLocator::getService().logError(std::string("A RenderTarget need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. ") + e.what());
 					return false;
 				}

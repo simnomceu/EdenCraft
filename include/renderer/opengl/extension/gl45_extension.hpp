@@ -212,6 +212,6 @@ ECE_RENDERER_API inline void glGetTransformFeedbacki64_v(GLuint xfb, GLenum pnam
 	} \
 	return proxy(__VA_ARGS__);
 
-#include "renderer/opengl/gl45_extension.inl"
+#include "renderer/opengl/extension/gl45_extension.inl"
 
 #endif // GL45_EXTENSION_HPP
