@@ -46,9 +46,9 @@ namespace ece
 	{
 		namespace event
 		{
-			Keyboard::Key Keyboard::getKey(const unsigned int keycode)
+			auto Keyboard::getKey(const unsigned int keycode) -> Keyboard::Key
 			{
-				Keyboard::Key key = Keyboard::Key::KEY_NONE;
+				auto key = Keyboard::Key::NONE;
 				switch (keycode) {
 			#ifdef XK_MISCELLANY
 				case XK_BackSpace: key = Keyboard::Key::BACKSPACE; break;  /* Back space, back char */
@@ -1756,7 +1756,7 @@ namespace ece
 				case XK_EuroSign        : break; /* U+20AC EURO SIGN */
 			#endif /* XK_CURRENCY */
 				default:
-					key = Keyboard::Key::KEY_NONE;
+					key = Keyboard::Key::NONE;
 					break;
 				}
 				return key;

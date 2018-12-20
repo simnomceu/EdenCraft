@@ -54,7 +54,7 @@ namespace ece
 				auto addr = name.data();
 				auto proc = glXGetProcAddress(reinterpret_cast<const GLubyte *>(addr));
 				if (proc == nullptr) {
-					if (requiredVersion > ece::Version<2>{ 3, 2} && ContextOpenGL::getMaxVersionAvailable() < requiredVersion) {
+					if (requiredVersion > ece::Version<2>{ 3, 3} && ContextOpenGL::getMaxVersionAvailable() < requiredVersion) {
 						ServiceLoggerLocator::getService().logError(name + " is not available. You need at least a " + std::to_string(requiredVersion[0]) + "." + std::to_string(requiredVersion[1]) + " context.");
 					}
 					else {
@@ -64,9 +64,9 @@ namespace ece
 				return reinterpret_cast<void *>(proc);
 			}
 
-			Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+			auto initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL) -> Version<2>
 			{
-				Version<2> latestVersionAvailable;
+				auto latestVersionAvailable = Version<2>{};
 				auto version = glGetString(GL_VERSION);
 				if (version) {
 					std::string versionPtr(reinterpret_cast<const char *>(version));

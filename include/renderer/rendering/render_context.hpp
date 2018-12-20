@@ -42,7 +42,6 @@
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
 #include "utility/indexing.hpp"
-#include "renderer/rendering/context_settings.hpp"
 
 namespace ece
 {
@@ -50,6 +49,8 @@ namespace ece
 	{
 		namespace rendering
 		{
+			class ContextSettings;
+
 			/**
 			 * @class RenderContext
 			 * @brief Generic render context.
@@ -83,7 +84,7 @@ namespace ece
 				 * @brief Get the version used of the render context.
 				 * @throw
 				 */
-				virtual Version<2> getCurrentVersion() const = 0;
+				virtual auto getCurrentVersion() const -> Version<2> = 0;
 
 				/**
 				 * @fn void create(const RenderWindow & window)
@@ -106,7 +107,7 @@ namespace ece
 				 * @brief Checks if the context is created or not.
 				 * @throw noexcept
 				 */
-				inline bool isCreated() const noexcept;
+				inline auto isCreated() const noexcept;
 
 				/**
 				 * @fn void swapBuffers()
@@ -121,7 +122,7 @@ namespace ece
 				 * @throw
 				 */
 				inline virtual void setCurrent();
-				inline bool isCurrent() const noexcept;
+				inline auto isCurrent() const noexcept;
 
 				/**
 				 * @fn void logInfos()

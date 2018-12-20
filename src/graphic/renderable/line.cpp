@@ -54,7 +54,7 @@ namespace ece
 			{
 				this->_mode = PrimitiveMode::LINES;
 
-				renderer::buffer::BufferLayout layout;
+				auto layout = renderer::buffer::BufferLayout{};
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -74,7 +74,7 @@ namespace ece
 			{
 				this->_mode = PrimitiveMode::LINES;
 
-				renderer::buffer::BufferLayout layout;
+				auto layout = renderer::buffer::BufferLayout{};
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -90,7 +90,7 @@ namespace ece
 				this->_vertexArray.attach(this->_vertices, layout);
 			}
 
-			void Line::draw(std::shared_ptr<Shader> /*program*/)
+			void Line::draw([[maybe_unused]] std::shared_ptr<Shader> program)
 			{
 				this->_vertexArray.bind();
 				this->_state.apply();

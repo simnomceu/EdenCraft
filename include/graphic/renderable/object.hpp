@@ -130,7 +130,7 @@ namespace ece
 				 * @brief Get the mesh of the object.
 				 * @throw
 				 */
-				inline Mesh::Reference getMesh() const;
+				inline auto getMesh() const -> Mesh::Reference;
 
                 virtual void prepare() override;
 

@@ -64,8 +64,8 @@ namespace ece
 			public:
 				struct Vertex
 				{
-					FloatVector2u _position;
-					FloatVector2u _textureCoordinate;
+					FloatVector2u position;
+					FloatVector2u textureCoordinate;
 				};
 				using Face = std::array<unsigned int, 3>;
 
@@ -126,12 +126,12 @@ namespace ece
 				inline void resetRotation();
 				inline void rotate(float angle);
 
-				inline const Rectangle<float> & getTextureClip() const;
-				inline const Rectangle<float> & getBounds() const;
-				inline float getRotation() const;
+				inline auto getTextureClip() const -> const Rectangle<float> &;
+				inline auto getBounds() const -> const Rectangle<float> &;
+				inline auto getRotation() const -> float;
 
 				inline void setLevel(int level);
-				inline int getLevel() const;
+				inline auto getLevel() const -> int;
 
 			private:
 				struct {

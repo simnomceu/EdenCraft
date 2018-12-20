@@ -44,11 +44,11 @@ namespace ece
 	{
 		namespace renderable
 		{
-			inline const FloatVector3u & Point::getPosition() const noexcept { return this->_position; }
+			inline auto Point::getPosition() const noexcept -> const FloatVector3u & { return this->_position; }
 
-			inline const FloatVector3u & Point::getColor() const noexcept { return this->_color; }
+			inline auto Point::getColor() const noexcept -> const FloatVector3u & { return this->_color; }
 
-			inline float Point::getSize() const noexcept { return this->_size; }
+			inline auto Point::getSize() const noexcept -> float { return this->_size; }
 
 			inline void Point::setPosition(const FloatVector3u & position) noexcept { this->_position = position; }
 

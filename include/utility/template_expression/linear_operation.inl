@@ -57,7 +57,7 @@ namespace ece
         	auto LinearOperation<E1, E2, Op>::cell(const unsigned int index) const { return (*this)[index]; }
 
         	template <class E1, class E2, class Op>
-        	inline unsigned int LinearOperation<E1, E2, Op>::size() const { return std::max(this->_lhs.size(), this->_rhs.size()); }
+        	inline auto LinearOperation<E1, E2, Op>::size() const { return std::max(this->_lhs.size(), this->_rhs.size()); }
         } // namespace template_expression
     } // namespace utility
 } // namespace ece

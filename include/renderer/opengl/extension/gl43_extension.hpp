@@ -154,6 +154,6 @@ ECE_RENDERER_API inline void glGetInternalformati64v(GLenum target, GLenum inter
 	} \
 	return proxy(__VA_ARGS__);
 
-#include "renderer/opengl/gl43_extension.inl"
+#include "renderer/opengl/extension/gl43_extension.inl"
 
 #endif // GL43_EXTENSION_HPP

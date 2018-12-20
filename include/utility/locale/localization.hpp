@@ -121,14 +121,14 @@ namespace ece
         		 * @return The localization language.
         		 * @brief Get the localization language.
         		 */
-        		inline const Language & getLanguage() const noexcept;
+        		inline auto getLanguage() const noexcept;
 
         		/**
         		 * @fn const Country & getCountry() const
         		 * @return The localization country.
         		 * @brief Get the localization country.
         		 */
-        		inline const Country & getCountry() const noexcept;
+        		inline auto getCountry() const noexcept;
 
         		/**
         		 * @fn void setLanguage(const Language & language)

@@ -111,7 +111,7 @@ namespace ece
 				 * @throw noexcept
 				 * @see bool OptionValue::isValid(const std::string & value)
 				 */
-				virtual bool isValid(const std::string & value) = 0;
+				virtual auto isValid(const std::string & value) -> bool = 0;
 			};
 		} // namespace argument
 	} // namespace core

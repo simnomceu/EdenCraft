@@ -60,7 +60,7 @@ namespace ece
 			}
 
 			template <class T, std::size_t Size>
-			inline typename Uniform<T, Size>::data_type Uniform<T, Size>::getData() const { return this->_data; }
+			inline auto Uniform<T, Size>::getData() const { return this->_data; }
 
 			template<class T, std::size_t Size>
 			inline void Uniform<T, Size>::setData(const data_type & data) { this->_data = data; }

@@ -65,7 +65,7 @@ namespace ece
 			{
 				// OpenGL headers
 
-				static inline ErrorGL getError();
+				static inline auto getError() -> ErrorGL;
 				//		static inline void vertexAttrib1f(unsigned int index, float v0);
 				//		static inline void vertexAttrib1s(unsigned int index, short v0);
 				//		static inline void vertexAttrib1d(unsigned int index, double v0);
@@ -146,8 +146,8 @@ namespace ece
 				//		static inline void drawRangeElementsBaseVertex(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, void * indices, int basevertex);
 				//		static inline void drawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei primcount, int basevertex);
 				//		static inline void multiDrawElementsBaseVertex(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount, const int * basevertex);
-				static inline Handle genBuffers();
-				static inline std::vector<Handle> genBuffers(const int count);
+				static inline auto genBuffers() -> Handle;
+				static inline auto genBuffers(const int count) -> std::vector<Handle>;
 				static inline void deleteBuffer(const Handle buffer);
 				static inline void deleteBuffers(const std::vector<Handle> & buffers);
 				static inline void bindBuffer(const BufferType type, const Handle handle);
@@ -163,8 +163,8 @@ namespace ece
 				//		static inline void flushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length);
 				//		static inline bool unmapBuffer(GLenum target);
 				//		static inline void copyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-				static inline Handle genVertexArrays();
-				static inline std::vector<Handle> genVertexArrays(const int count);
+				static inline auto genVertexArrays() -> Handle;
+				static inline auto genVertexArrays(const int count) -> std::vector<Handle>;
 				//		static inline void deleteVertexArrays(GLsizei n, const unsigned int *arrays);
 				static inline void bindVertexArray(const Handle handle);
 				//		static inline bool isBuffer(unsigned int buffer);
@@ -191,12 +191,12 @@ namespace ece
 				//		static inline void getQueryObjectuiv(unsigned int id, GLenum pname, unsigned int * params);
 				//		static inline void getQueryObjecti64v(unsigned int id, GLenum pname, GLint64 * params);
 				//		static inline void getQueryObjectui64v(unsigned int id, GLenum pname, GLuint64 * params);
-				static inline Handle createShader(const ShaderType type);
+				static inline auto createShader(const ShaderType type) -> Handle;
 				static inline void shaderSource(const Handle handle, const std::string & source);
 				static inline void shaderSource(const Handle handle, const std::vector<std::string> & source);
 				static inline void compileShader(const Handle handle);
 				static inline void deleteShader(const Handle handle);
-				static inline Handle createProgram();
+				static inline auto createProgram() -> Handle;
 				static inline void attachShader(const Handle program, const Handle shader);
 				static inline void detachShader(const Handle program, const Handle shader);
 				static inline void linkProgram(const Handle handle);
@@ -205,15 +205,15 @@ namespace ece
 				//		static inline void getActiveAttrib(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, int *size, GLenum *type, char *name);
 				//		static inline int getAttribLocation(unsigned int program, const char *name);
 				//		static inline void bindAttribLocation(unsigned int program, unsigned int index, const char *name);
-				static inline Handle getUniformLocation(const Handle handle, const std::string & name);
+				static inline auto getUniformLocation(const Handle handle, const std::string & name) -> Handle;
 				//		static inline unsigned int getUniformBlockIndex(unsigned int program, const char *uniformBlockName);
 				//		static inline void getActiveUniformBlockName(unsigned int program, unsigned int uniformBlockIndex, GLsizei bufSize, GLsizei *length, char *uniformBlockName);
 				//		static inline void getActiveUniformBlockiv(unsigned int program, unsigned int uniformBlockIndex, GLenum pname, int *params);
 				//		static inline void getUniformIndices(unsigned int program, GLsizei uniformCount, const char **uniformNames, unsigned int *uniformIndices);
 				//		static inline void getActiveUniformName(unsigned int program, unsigned int uniformIndex, GLsizei bufSize, GLsizei *length, char *uniformName);
-				static inline UniformInfo getActiveUniform(const Handle program, const Handle index);
+				static inline auto getActiveUniform(const Handle program, const Handle index) -> UniformInfo;
 				//		static inline void getActiveUniformsiv(unsigned int program, GLsizei uniformCount, const unsigned int *uniformIndices, GLenum pname, int *params);
-				template <class T, unsigned int S> static inline void uniform(const int location, const std::array<T, S> & v);
+				template <class T, unsigned int S> static inline void uniform([[maybe_unused]] const int location, [[maybe_unused]] const std::array<T, S> & v);
 				//		static inline void uniform1fv(int location, GLsizei count, const float *value);
 				//		static inline void uniform2fv(int location, GLsizei count, const float *value);
 				//		static inline void uniform3fv(int location, GLsizei count, const float *value);
@@ -240,13 +240,13 @@ namespace ece
 				//		static inline void transformFeedbackVaryings(unsigned int program, GLsizei count, const char **varyings, GLenum bufferMode);
 				//		static inline void getTransformFeedbackVarying(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, char *name);
 				//		static inline void validateProgram(unsigned int program);
-				static inline std::vector<int> getProgramiv(const Handle program, const ProgramParameter pname);
+				static inline auto getProgramiv(const Handle program, const ProgramParameter pname) -> std::vector<int>;
 				//		static inline void bindFragDataLocation(unsigned int program, unsigned int colorNumber, const char * name);
 				//		static inline int getFragDataLocation(unsigned int program, const char * name);
 				//		static inline bool isShader(unsigned int shader);
-				static inline int getShaderiv(const Handle shader, const ShaderParameter pname);
-				static inline std::vector<Handle> getAttachedShaders(const Handle program);
-				static inline std::string getShaderInfoLog(const Handle shader);
+				static inline auto getShaderiv(const Handle shader, const ShaderParameter pname) -> int;
+				static inline auto getAttachedShaders(const Handle program) -> std::vector<Handle>;
+				static inline auto getShaderInfoLog(const Handle shader) -> std::string;
 				//		static inline void getShaderSource(unsigned int shader, GLsizei bufSize, GLsizei *length, char *source);
 				//		static inline void getVertexAttribdv(unsigned int index, GLenum pname, double *params);
 				//		static inline void getVertexAttribfv(unsigned int index, GLenum pname, float *params);
@@ -258,7 +258,7 @@ namespace ece
 				//		static inline void getUniformiv(unsigned int program, int location, int *params);
 				//		static inline void getUniformuiv(unsigned int program, int location, unsigned int *params);
 				//		static inline bool isProgram(unsigned int program);
-				static inline std::string getProgramInfoLog(const Handle program);
+				static inline auto getProgramInfoLog(const Handle program) -> std::string;
 				//		static inline void getMultisamplefv(GLenum pname, unsigned int index, float *val);
 				static inline void pointSize(const float size);
 				//		static inline void pointParameterf(GLenum pname, float param);
@@ -300,8 +300,8 @@ namespace ece
 				static inline void generateMipmap(const MipmapTarget target);
 				static inline void bindTexture(const TextureTarget target, const Handle texture);
 				//		static inline void deleteTextures(GLsizei n, const unsigned int * textures);
-				static inline Handle genTexture();
-				static inline std::vector<Handle> genTextures(const unsigned int n);
+				static inline auto genTexture() -> Handle;
+				static inline auto genTextures(const unsigned int n) -> std::vector<Handle>;
 				//		static inline void getTexParameterfv(GLenum target, GLenum pname, float * params);
 				//		static inline void getTexParameteriv(GLenum target, GLenum pname, int * params);
 				//		static inline void getTexParameterIiv(GLenum target, GLenum pname, int * params);
@@ -374,14 +374,14 @@ namespace ece
 				//		static inline void getBooleanv(GLenum pname, bool * data);
 				//		static inline void getDoublev(GLenum pname, double * data);
 				//		static inline void getFloatv(GLenum pname, float * data);
-				static inline std::vector<int> getInteger(const Parameter parameter);
+				static inline auto getInteger(const Parameter parameter) -> std::vector<int>;
 				//		static inline void getInteger64v(GLenum pname, GLint64 * data);
 				//		static inline void getBooleani_v(GLenum target, unsigned int index, bool * data);
 				//		static inline void getIntegeri_v(GLenum target, unsigned int index, int * data);
 				//		static inline void getInteger64i_v(GLenum target, unsigned int index, GLint64 * data);
 				//		static inline bool isEnabled(GLenum cap);
 				//		static inline bool isEnabledi(GLenum cap, unsigned int index);
-				static inline std::string getString(const InfoGL parameter);
+				static inline auto getString(const InfoGL parameter) -> std::string;
 				//		static inline const GLubyte *getStringi(GLenum name, unsigned int index);
 				//		static inline void queryCounter(unsigned int id, GLenum target);
 				//		static inline void genSamplers(GLsizei n, unsigned int *samplers);

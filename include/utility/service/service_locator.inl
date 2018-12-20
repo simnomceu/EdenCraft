@@ -46,7 +46,7 @@ namespace ece
         namespace service
         {
         	template <class Base, class Null>
-        	std::shared_ptr<Base> ServiceLocator<Base, Null>::_service = std::shared_ptr<Null>();
+        	std::shared_ptr<Base> ServiceLocator<Base, Null>::_service = std::make_shared<Null>();
 
         	template <class Base, class Null>
         	inline void ServiceLocator<Base, Null>::provide(const std::shared_ptr<Base> & service)
@@ -55,7 +55,7 @@ namespace ece
         	}
 
         	template <class Base, class Null>
-        	Base & ServiceLocator<Base, Null>::getService()
+        	auto ServiceLocator<Base, Null>::getService() -> Base &
         	{
         		if (ServiceLocator<Base, Null>::_service.get() == nullptr) {
         			throw MemoryAccessException("A service.");
@@ -63,19 +63,10 @@ namespace ece
         		return *ServiceLocator<Base, Null>::_service;
         	}
 
-        	/*template <class Base, class Null>
-        	std::weak_ptr<Base> ServiceLocator<Base, Null>::getServicePtr()
-        	{
-        	if (ServiceLocator<Base, Null>::service.get() == nullptr) {
-        	throw std::exception("Invalid pointer to a service.");
-        	}
-        	return ServiceLocator<Base, Null>::service;
-        	}*/
-
         	template <class Base, class Null>
         	inline void ServiceLocator<Base, Null>::stop()
         	{
-        		ServiceLocator<Base, Null>::_service = std::shared_ptr<Null>();
+        		ServiceLocator<Base, Null>::_service = std::make_shared<Null>();
         	}
         } // namespace service
     } // namespace utility

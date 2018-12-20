@@ -56,11 +56,11 @@ namespace ece
 				template <class... Args>
 				inline Holder(Args&&... args) noexcept;
 
-				virtual Holder * clone() override;
+				virtual auto clone() -> Holder * override;
 
 				virtual void destroy() override;
 
-				virtual void * get() override;
+				virtual auto get() -> void * override;
 
 			private:
 				T _content;

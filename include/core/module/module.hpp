@@ -119,7 +119,7 @@ namespace ece
 				 * @brief Get the object referenced.
 				 * @throw
 				 */
-				inline T & get();
+				inline auto & get();
 
 				/**
 				 * @fn void init()

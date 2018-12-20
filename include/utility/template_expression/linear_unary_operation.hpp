@@ -138,7 +138,7 @@ namespace ece
         		 * @brief Get the size of the resulting vector.
         		 * @throw
         		 */
-        		inline unsigned int size() const;
+        		inline auto size() const;
 
         	private:
         		/**

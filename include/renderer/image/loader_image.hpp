@@ -105,8 +105,8 @@ namespace ece
 				 */
 				LoaderImage & operator=(LoaderImage && move) noexcept = default;
 
-				virtual Image<RGB24> & getImage() = 0;
-				virtual const Image<RGB24> & getImage() const = 0;
+				virtual auto getImage() -> Image<RGB24> & = 0;
+				virtual auto getImage() const -> const Image<RGB24> & = 0;
 			};
 		} // namespace image
 	} // namespace renderer

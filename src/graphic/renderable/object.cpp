@@ -66,7 +66,7 @@ namespace ece
 				this->_vertexArray.attach(this->_mesh->getVertexBuffer(), this->_mesh->getLayout());
 
                 if (this->isInstancingEnabled()) {
-					renderer::buffer::BufferLayout layoutInstancing;
+					auto layoutInstancing = renderer::buffer::BufferLayout{};
 					layoutInstancing.setInstanceBlockSize(1);
 					layoutInstancing.add<float>(4, false, false, true);
 					layoutInstancing.add<float>(4, false, false, true);
@@ -93,7 +93,6 @@ namespace ece
 						for (auto uniform : uniforms) {
 							program->bind(uniform, "material." + uniform->getName());
 						}
-					//	submesh.material->apply(*program);
 					}
 					submesh.mesh.getIndexBuffer().bind();
 					if (submesh.mesh.getIndexBuffer().size() > 0) {

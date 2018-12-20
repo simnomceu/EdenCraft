@@ -48,9 +48,11 @@ namespace ece
 		{
 			BaseBuffer & BaseBuffer::operator=(BaseBuffer && move) noexcept
 			{
-				this->_descriptor = std::move(move._descriptor);
-				this->_type = std::move(move._type);
-				this->_frequency = std::move(move._frequency);
+				if (this != &move) {
+					this->_descriptor = std::move(move._descriptor);
+					this->_type = std::move(move._type);
+					this->_frequency = std::move(move._frequency);
+				}
 
 				return *this;
 			}
@@ -63,7 +65,7 @@ namespace ece
 			void BaseBuffer::terminate()
 			{
 				OpenGL::deleteBuffer(this->_handle);
-				this->_handle = NullHandle;
+				this->_handle = NULL_HANDLE;
 			}
 		} // namespace buffer
 	} // namespace renderer

@@ -60,22 +60,26 @@ namespace ece
 
         	File & File::operator=(const File & copy)
         	{
-        		this->_filename = copy._filename;
-        		this->_stream.copyfmt(copy._stream);
-        		this->_stream.clear(copy._stream.rdstate());
-        		this->_stream.basic_fstream<char>::basic_ios<char>::rdbuf(copy._stream.rdbuf());
+				if (this != &copy) {
+					this->_filename = copy._filename;
+					this->_stream.copyfmt(copy._stream);
+					this->_stream.clear(copy._stream.rdstate());
+					this->_stream.basic_fstream<char>::basic_ios<char>::rdbuf(copy._stream.rdbuf());
+				}
         		return *this;
         	}
 
         	File & File::operator=(File && move)
         	{
-        		this->_filename = std::move(move._filename);
-        		this->_stream = std::move(move._stream);
-        		move.close();
+				if (this != &move) {
+					this->_filename = std::move(move._filename);
+					this->_stream = std::move(move._stream);
+					move.close();
+				}
         		return *this;
         	}
 
-        	bool File::open(const std::string & filename, const OpenMode & mode)
+        	auto File::open(const std::string & filename, const OpenMode & mode) -> bool
         	{
         		this->_stream.close();
         		if (!File::exists(filename)) {
@@ -93,12 +97,12 @@ namespace ece
         		}
         	}
 
-        	std::string File::parseToString()
+			auto File::parseToString() -> std::string
         	{
-        		std::string content = "";
+				auto content = std::string{};
         		if (this->isOpen()) {
+					auto line = std::string{};
         			while (this->_stream.good()) {
-        				std::string line;
         				std::getline(this->_stream, line);
         				content.append(line + "\n");
         			}
@@ -107,11 +111,11 @@ namespace ece
         	}
 
         	template<>
-        	std::vector<FloatVector3u> File::parseToVector<FloatVector3u>()
+			auto File::parseToVector<FloatVector3u>()
         	{
-        		std::vector<FloatVector3u> content;
+				auto content = std::vector<FloatVector3u>{};
         		if (this->isOpen()) {
-        			FloatVector3u value;
+					auto value = FloatVector3u{};
         			try {
         				while (this->_stream.good()) {
         					*this >> value[0] >> value[1] >> value[2];
@@ -125,16 +129,12 @@ namespace ece
         		return content;
         	}
 
-        	bool File::exists(const std::string & filename)
+        	auto File::exists(const std::string & filename) -> bool
         	{
-        		struct stat info;
-        		int ret = -1;
-
-        		ret = stat(filename.c_str(), &info);
-        		return 0 == ret;
+				return std::filesystem::is_regular_file(std::filesystem::path(filename));
         	}
 
-        	long long File::getLastTimeModification(const std::string & filename)
+			auto File::getLastTimeModification(const std::string & filename) -> long long
         	{
         		// according to : https://stackoverflow.com/questions/40504281/c-how-to-check-the-last-modified-time-of-a-file
         		struct stat result;
@@ -142,7 +142,7 @@ namespace ece
         		{
         			return result.st_mtime;
         		}
-        		return -1;
+				return -1;
         	}
         } // namespace file_system
     } // namespace utility

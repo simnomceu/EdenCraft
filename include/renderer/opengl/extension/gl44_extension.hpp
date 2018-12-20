@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
 	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
@@ -37,8 +37,8 @@
 */
 
 
-#ifndef GL46_EXTENSION_HPP
-#define GL46_EXTENSION_HPP
+#ifndef GL44_EXTENSION_HPP
+#define GL44_EXTENSION_HPP
 
 #include "renderer/config.hpp"
 
@@ -53,63 +53,70 @@ namespace ece
 	using renderer::opengl::OpenGLExtensionException;
 }
 
-ECE_RENDERER_API inline void glSpecializeShader(GLuint shader, const GLchar * pEntryPoint, GLuint numSpecializationConstants, const GLuint * pConstantIndex, const GLuint * pConstantValue);
-ECE_RENDERER_API inline void glPolygonOffsetClamp(GLfloat factor, GLfloat units, GLfloat clamp);
+ECE_RENDERER_API inline void glBindBuffersRange(GLenum target, GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLintptr *sizes);
+ECE_RENDERER_API inline void glBindBuffersBase(GLenum target, GLuint first, GLsizei count, const GLuint *buffers);
+ECE_RENDERER_API inline void glBufferStorage(GLenum target, GLsizeiptr size, const GLvoid * data, GLbitfield flags);
+ECE_RENDERER_API inline void glBindTextures(GLuint first, GLsizei count, const GLuint *textures);
+ECE_RENDERER_API inline void glBindSamplers(GLuint first, GLsizei count, const GLuint *samplers);
+ECE_RENDERER_API inline void glClearTexSubImage(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * data);
+ECE_RENDERER_API inline void glClearTexImage(GLuint texture, GLint level, GLenum format, GLenum type, const GLvoid * data);
+ECE_RENDERER_API inline void glBindImageTextures(GLuint first, GLsizei count, const GLuint *textures);
+ECE_RENDERER_API inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
 
 /**
- * fn CALLGL46(SIGNATURE, NAME)
+ * fn CALLGL44(SIGNATURE, NAME)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
- * @brief Load the opengl 4.6 extension and call it.
+ * @brief Load the opengl 4.4 extension and call it.
  */
-#define CALLGL46(SIGNATURE, NAME) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+#define CALLGL44(SIGNATURE, NAME) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	proxy();
 
 /**
- * fn R_CALLGL46(SIGNATURE, NAME)
+ * fn R_CALLGL44(SIGNATURE, NAME)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
- * @brief Load the opengl 4.6 extension and call it.
+ * @brief Load the opengl 4.4 extension and call it.
  */
-#define R_CALLGL46(SIGNATURE, NAME) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+#define R_CALLGL44(SIGNATURE, NAME) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	return proxy();
 
 /**
- * fn CALLGL46_V(SIGNATURE, NAME, ...)
+ * fn CALLGL44_V(SIGNATURE, NAME, ...)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
  * @param[in] ... The parameters to forward to the function.
- * @brief Load the opengl 4.6 extension and call it.
+ * @brief Load the opengl 4.4 extension and call it.
  */
-#define CALLGL46_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+#define CALLGL44_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	proxy(__VA_ARGS__);
 
 /**
- * fn R_CALLGL46_V(SIGNATURE, NAME, ...)
+ * fn R_CALLGL44_V(SIGNATURE, NAME, ...)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
  * @param[in] ... The parameters to forward to the function.
- * @brief Load the opengl 4.6 extension and call it.
+ * @brief Load the opengl 4.4 extension and call it.
  */
-#define R_CALLGL46_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 6 }); \
+#define R_CALLGL44_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	return proxy(__VA_ARGS__);
 
-#include "renderer/opengl/gl46_extension.inl"
+#include "renderer/opengl/extension/gl44_extension.inl"
 
-#endif // GL46_EXTENSION_HPP
+#endif // GL44_EXTENSION_HPP

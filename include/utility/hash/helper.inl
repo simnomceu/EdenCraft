@@ -42,10 +42,10 @@ namespace ece
 	{
 		namespace hash
 		{
-			inline std::size_t hash_combine(std::size_t lhs, std::size_t rhs) { return lhs ^ (rhs << 1); }
+			inline auto hash_combine(std::size_t lhs, std::size_t rhs) { return lhs ^ (rhs << 1); }
 
 			template <class T>
-			inline std::size_t hash(const Vector3u<T> & value)
+			inline auto hash(const Vector3u<T> & value)
 			{
 				auto seed = std::hash<T>{}(value[0]);
 				seed = hash_combine(seed, std::hash<T>{}(value[1]));
@@ -53,7 +53,7 @@ namespace ece
 			}
 
 			template <class T>
-			inline std::size_t hash(const Vector2u<T> & value)
+			inline auto hash(const Vector2u<T> & value)
 			{
 				return hash_combine(std::hash<T>{}(value[0]), std::hash<T>{}(value[1]));
 			}

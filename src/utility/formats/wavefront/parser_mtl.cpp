@@ -61,19 +61,19 @@ namespace ece
 				void ParserMTL::save(std::ostream & stream)
 				{
 					for (auto & material : this->_materials) {
-						stream << "newmtl " << material.getName() << std::endl;
-						stream << "Ka " << material.getAmbientFactor()[0] << " " << material.getAmbientFactor()[1] << " " << material.getAmbientFactor()[2] << std::endl;
-						stream << "Kd " << material.getDiffuseFactor()[0] << " " << material.getDiffuseFactor()[1] << " " << material.getDiffuseFactor()[2] << std::endl;
-						stream << "Ks " << material.getSpecularFactor()[0] << " " << material.getSpecularFactor()[1] << " " << material.getSpecularFactor()[2] << std::endl;
-						stream << "Tf " << material.getTransmissionFilter()[0] << " " << material.getTransmissionFilter()[1] << " " << material.getTransmissionFilter()[2] << std::endl;
-						stream << "illum " << material.getIllumination() << std::endl;
-						stream << "d " << material.getDissolveFactor() << std::endl;
-						stream << "Ns " << material.getSpecularExponent() << std::endl;
-						stream << "sharpness" << material.getSharpness() << std::endl;
-						stream << "Ni" << material.getOpticalDensity() << std::endl;
-						stream << "map_Ka " << material.getAmbientMap() << std::endl;
-						stream << "map_Kd " << material.getDiffuseMap() << std::endl;
-						stream << "map_Ks " << material.getSpecularMap() << std::endl;
+						stream << "newmtl " << material.name << std::endl;
+						stream << "Ka " << std::get<FloatVector3u>(material.ambient.value)[0] << " " << std::get<FloatVector3u>(material.ambient.value)[1] << " " << std::get<FloatVector3u>(material.ambient.value)[2] << std::endl;
+						stream << "Kd " << std::get<FloatVector3u>(material.diffuse.value)[0] << " " << std::get<FloatVector3u>(material.diffuse.value)[1] << " " << std::get<FloatVector3u>(material.diffuse.value)[2] << std::endl;
+						stream << "Ks " << std::get<FloatVector3u>(material.specular.value)[0] << " " << std::get<FloatVector3u>(material.specular.value)[1] << " " << std::get<FloatVector3u>(material.specular.value)[2] << std::endl;
+						stream << "Tf " << std::get<FloatVector3u>(material.transmissionFilter.value)[0] << " " << std::get<FloatVector3u>(material.transmissionFilter.value)[1] << " " << std::get<FloatVector3u>(material.transmissionFilter.value)[2] << std::endl;
+						stream << "illum " << material.illumination << std::endl;
+						stream << "d " << material.dissolve.factor << std::endl;
+						stream << "Ns " << material.specularExponent << std::endl;
+						stream << "sharpness" << material.sharpness << std::endl;
+						stream << "Ni" << material.opticalDensity << std::endl;
+						stream << "map_Ka " << material.mapAmbient << std::endl;
+						stream << "map_Kd " << material.mapDiffuse << std::endl;
+						stream << "map_Ks " << material.mapSpecular << std::endl;
 					}
 				}
 
@@ -97,70 +97,52 @@ namespace ece
 							}
 
 							if (command == "Ka") {
-								FloatVector3u ambient;
+								FloatVector3u & ambient = std::get<FloatVector3u>(this->_currentMaterial->ambient.value);
 								line >> ambient[0] >> ambient[1] >> ambient[2];
-								this->_currentMaterial->setAmbientFactor(ambient);
 							}
 							else if (command == "Kd") {
-								FloatVector3u diffuse;
+								FloatVector3u & diffuse = std::get<FloatVector3u>(this->_currentMaterial->diffuse.value);
 								line >> diffuse[0] >> diffuse[1] >> diffuse[2];
-								this->_currentMaterial->setDiffuseFactor(diffuse);
 							}
 							else if (command == "Ks") {
-								FloatVector3u specular;
+								FloatVector3u & specular = std::get<FloatVector3u>(this->_currentMaterial->specular.value);
 								line >> specular[0] >> specular[1] >> specular[2];
-								this->_currentMaterial->setSpecularFactor(specular);
 							}
 							else if (command == "Tf") {
-								FloatVector3u tf;
+								FloatVector3u & tf = std::get<FloatVector3u>(this->_currentMaterial->transmissionFilter.value);
 								line >> tf[0] >> tf[1] >> tf[2];
-								this->_currentMaterial->setTransmissionFilter(tf);
 							}
 							else if (command == "illum") {
 								std::string illumination;
 								line >> illumination;
-								this->_currentMaterial->setIllumination(std::stoi(illumination.substr(illumination.size() - 1, 1)));
+								this->_currentMaterial->illumination = std::stoi(illumination.substr(illumination.size() - 1, 1));
 							}
 							else if (command == "d") {
-								float dissolve;
-								line >> dissolve;
-								this->_currentMaterial->setDissolveFactor(dissolve);
+								line >> this->_currentMaterial->dissolve.factor;
 							}
 							else if (command == "Ns") {
-								float exponent;
-								line >> exponent;
-								this->_currentMaterial->setSpecularExponent(exponent);
+								line >> this->_currentMaterial->specularExponent;
 							}
 							else if (command == "sharpness") {
-								unsigned int sharpness;
-								line >> sharpness;
-								this->_currentMaterial->setSharpness(sharpness);
+								line >> this->_currentMaterial->sharpness;
 							}
 							else if (command == "Ni") {
-								float density;
-								line >> density;
-								this->_currentMaterial->setOpticalDensity(density);
+								line >> this->_currentMaterial->opticalDensity;
 							}
 							else if (command == "map_Ka") {
-								std::string path;
-								line >> path;
-								this->_currentMaterial->setAmbientMap(path);
+								line >> this->_currentMaterial->mapAmbient;
 							}
 							else if (command == "map_Kd") {
-								std::string path;
-								line >> path;
-								this->_currentMaterial->setDiffuseMap(path);
+								line >> this->_currentMaterial->mapDiffuse;
 							}
 							else if (command == "map_Ks") {
-								std::string path;
-								line >> path;
-								this->_currentMaterial->setSpecularMap(path);
+								line >> this->_currentMaterial->mapSpecular;
 							}
 						}
 					}
 				}
 
-				std::vector<MaterialMTL>::iterator ParserMTL::addMaterial(const std::string & name)
+				auto ParserMTL::addMaterial(const std::string & name) -> std::vector<MaterialMTL>::iterator
 				{
 					this->_materials.emplace_back(name);
 					return this->_materials.end() - 1;

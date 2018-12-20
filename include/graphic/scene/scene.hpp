@@ -114,9 +114,9 @@ namespace ece
 				 * @brief Add a new empty object to the scene.
 				 * @throw
 				 */
-				Object::Reference addObject();
+				auto addObject() -> Object::Reference;
 
-				inline void addObject(const Renderable::Reference & object, int level = 0);
+				inline void addObject(const Renderable::Reference & object, int level = DEFAULT_LEVEL);
 
 				inline void addLight(const Light::Reference & light);
 
@@ -126,12 +126,12 @@ namespace ece
 				 * @brief Get the camera of the scene.
 				 * @throw
 				 */
-				inline Camera & getCamera();
+				inline auto getCamera() -> Camera &;
 
 				inline void updateCamera();
 
-				std::vector<Renderable::Reference> getObjects();
-				std::vector<Light::Reference> getLights();
+				auto getObjects() -> std::vector<Renderable::Reference>;
+				auto getLights() -> std::vector<Light::Reference>;
 
 				void prepare();
 
@@ -140,15 +140,15 @@ namespace ece
 			private:
 				struct CameraWrapper
 				{
-					Camera _value;
-					bool _hasChanged;
+					Camera value;
+					bool hasChanged;
 				};
 
 				struct ObjectWrapper
 				{
-					Renderable::Reference _value;
-					bool _hasChanged;
-					int _level;
+					Renderable::Reference value;
+					bool hasChanged;
+					int level;
 				};
 
 				/**
@@ -164,6 +164,8 @@ namespace ece
 				std::vector<ObjectWrapper> _objects;
 
 				std::vector<Light::Reference> _lights;
+
+				static const int DEFAULT_LEVEL = 0;
 			};
 		} // namespace scene
 	} // namespace graphic

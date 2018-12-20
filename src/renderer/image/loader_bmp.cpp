@@ -52,7 +52,7 @@ namespace ece
 
 			void LoaderBMP::loadFromFile(const std::string & filename)
 			{
-				std::ifstream file(filename, std::ios::binary | std::ios::in);
+				auto file = std::ifstream(filename, std::ios::binary | std::ios::in);
 				if (!file.is_open()) {
 					throw FileException(FileCodeError::BAD_PATH, filename);
 				}
@@ -62,7 +62,7 @@ namespace ece
 
 			void LoaderBMP::loadFromString(const std::string & content)
 			{
-				std::istringstream stream(content);
+				auto stream = std::istringstream(content);
 				if (!stream) {
 					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
 				}
@@ -72,14 +72,14 @@ namespace ece
 
 			void LoaderBMP::loadFromStream(std::istream & stream)
 			{
-				ParserBMP parser;
+				auto parser = ParserBMP{};
 				parser.load(stream);
 
 				auto & image = parser.getPixels();
 				auto buffer = image.data();
 
 				this->_image.resize(image.getWidth(), image.getHeight());
-				for (std::size_t i = 0; i < image.getWidth() * image.getHeight(); ++i) {
+				for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
 					this->_image.data()[i].red = buffer[i][0];
 					this->_image.data()[i].green = buffer[i][1];
 					this->_image.data()[i].blue = buffer[i][2];

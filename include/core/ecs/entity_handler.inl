@@ -44,29 +44,29 @@ namespace ece
 	{
 		namespace ecs
 		{
-			inline EntityHandler::EntityHandler(const unsigned int id, World & world) noexcept: _id(id), _world(world) {}
+			inline EntityHandler::EntityHandler(const std::size_t id, World & world) noexcept: _id(id), _world(world) {}
 
-			inline unsigned int EntityHandler::getId() const { return this->_id; }
+			inline auto EntityHandler::getId() const { return this->_id; }
 
 			template <class ComponentType, class ... Args>
-			ComponentType & EntityHandler::addComponent(Args&&... args)
+			auto & EntityHandler::addComponent(Args&&... args)
 			{
-				ComponentType component(args...);
+				auto component = ComponentType(args...);
 				component.setOwner(this->_id);
-				auto tank = this->_world.getTank<ComponentType>().lock();
+				auto tank = this->_world.getTank<ComponentType>();
 				tank->push_back(std::move(component));
 				this->_world.onComponentCreated(tank->back());
 				return tank->back();
 			}
 
 			template <class ComponentType>
-			bool EntityHandler::HasComponent() const
+			auto EntityHandler::HasComponent() const
 			{
 				return this->_world.hasComponent<ComponentType>(this->_id);
 			}
 
 			template <class ComponentType>
-			ComponentType & EntityHandler::getComponent()
+			auto & EntityHandler::getComponent()
 			{
 				return this->_world.getComponent<ComponentType>(this->_id);
 			}

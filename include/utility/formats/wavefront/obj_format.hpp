@@ -55,7 +55,7 @@ namespace ece
 				 * @class OBJFormat
 				 * @brief
 				 */
-				class ECE_UTILITY_API OBJFormat
+				class [[deprecated]] OBJFormat
 				{
 				public:
 					struct GeometryStatement

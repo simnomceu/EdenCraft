@@ -50,13 +50,13 @@ namespace ece
 
 			inline void RenderPipeline::setScissor(Scissor scissor) { this->_scissor = std::move(scissor); }
 
-			inline std::shared_ptr<Shader> RenderPipeline::getProgram() { return this->_program; }
+			inline auto RenderPipeline::getProgram() { return this->_program; }
 
-			inline const Viewport & RenderPipeline::getViewport() const { return this->_viewport; }
+			inline auto RenderPipeline::getViewport() const { return this->_viewport; }
 
-			inline const Scissor & RenderPipeline::getScissor() const { return this->_scissor; }
+			inline auto RenderPipeline::getScissor() const { return this->_scissor; }
 
-			inline bool RenderPipeline::isValid() const { return !!this->_program; }
+			inline auto RenderPipeline::isValid() const { return !!this->_program; }
 		} // namespace pipeline
 	} // namespace renderer
 } // namespace ece

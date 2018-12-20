@@ -79,17 +79,17 @@ namespace ece
 				 * @brief Get The component id.
 				 * @throw
 				 */
-				inline virtual ComponentID getID() const override;
+				inline virtual auto getID() const -> ComponentID override;
 
-				inline virtual void setOwner(const unsigned int owner) override;
+				inline virtual void setOwner(const std::size_t owner) override;
 
 				/**
 				 * @fn unsigned int getOwner() const
 				 * @return The entity owner.
 				 */
-				inline virtual unsigned int getOwner() const override;
+				inline virtual auto getOwner() const -> std::size_t override;
 
-				inline virtual bool isDirty() const override;
+				inline virtual auto isDirty() const -> bool override;
 
 			protected:
 				/**
@@ -102,7 +102,7 @@ namespace ece
 				 * @property _owner
 				 * @brief The entity which own the component.
 				 */
-				unsigned int _owner;
+				std::size_t _owner;
 
 				bool _dirty;
 			};

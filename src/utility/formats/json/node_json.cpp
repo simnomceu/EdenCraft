@@ -49,13 +49,17 @@ namespace ece
 			{
 				NodeJSON & NodeJSON::operator=(const NodeJSON & copy) noexcept
 				{
-					this->_parent = copy._parent;
+					if (this != &copy) {
+						this->_parent = copy._parent;
+					}
 					return *this;
 				}
 
 				NodeJSON & NodeJSON::operator=(NodeJSON && move) noexcept
 				{
-					this->_parent = std::move(move._parent);
+					if (this != &move) {
+						this->_parent = std::move(move._parent);
+					}
 					return *this;
 				}
 			} // namespace json

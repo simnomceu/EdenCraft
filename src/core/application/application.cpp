@@ -42,7 +42,6 @@
 #include "utility/log.hpp"
 #include "core/resource.hpp"
 #include "core/format.hpp"
-#include "utility/debug.hpp"
 
 namespace ece
 {
@@ -90,7 +89,7 @@ namespace ece
 				this->onPostTerminate();
 			}
 
-			World & Application::addWorld()
+			auto Application::addWorld() -> World &
 			{
 				this->_worlds.emplace_back();
 				return this->_worlds.back();
@@ -101,7 +100,7 @@ namespace ece
 				try {
 					this->_moduleManager.initAll();
 				}
-				catch (std::runtime_error & e) {
+				catch (const std::runtime_error & e) {
 					ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
 				}
 				this->_running = true;
@@ -118,7 +117,6 @@ namespace ece
 
 			void Application::processEvents()
 			{
-				//EventServiceLocator::getService().clear();
 			}
 
 			void Application::terminate()

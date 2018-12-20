@@ -59,8 +59,8 @@ namespace ece
         	 * @brief Define a type of version, with some useful operation, like comparison.
         	 * Level of versionning defines if you want version to be represented like X.X or X.X.X or X.X.X.X, etc ...
         	 */
-        	template <unsigned short int level>
-        	class ECE_UTILITY_API Version: protected std::array<unsigned short int, level>
+        	template <std::size_t level>
+        	class ECE_UTILITY_API Version: protected std::array<std::size_t, level>
         	{
         	public:
 
@@ -78,7 +78,7 @@ namespace ece
         		 * If the size of the list is not the size of the object, the behaviour is undefined.
         		 * @throw noexcept
         		 */
-        		inline Version(const std::initializer_list<unsigned short int> & il) noexcept;
+        		inline Version(const std::initializer_list<std::size_t> & il) noexcept;
 
         		/**
         		 * @fn Version(const Version<level> & copy) noexcept
@@ -164,7 +164,7 @@ namespace ece
         		 * @brief Compare if this version is greater than the other or not.
         		 * @throw noexcept
         		 */
-        		bool operator>(const Version<level> & rhs) const noexcept;
+				inline bool operator>(const Version<level> & rhs) const noexcept;
 
         		/**
         		 * @fn bool operator>=(const Version<level> & rhs) const noexcept
@@ -173,12 +173,12 @@ namespace ece
         		 * @brief Compare if this version is greater than or equal to the other or not.
         		 * @throw noexcept
         		 */
-        		bool operator>=(const Version<level> & rhs) const noexcept;
+				inline bool operator>=(const Version<level> & rhs) const noexcept;
 
         		/**
         		 * @see http://en.cppreference.com/w/cpp/container/array/operator_at
         		 */
-        		using std::array<unsigned short int, level>::operator[];
+        		using std::array<std::size_t, level>::operator[];
         	};
 
         	/**
@@ -190,8 +190,8 @@ namespace ece
         	 * @brief Get the lowest of both versions.
         	 * @throw noexcept
         	 */
-        	template <unsigned short int level>
-        	Version<level> min(const Version<level> & lhs, const Version<level> & rhs) noexcept;
+        	template <std::size_t level>
+        	inline Version<level> min(const Version<level> & lhs, const Version<level> & rhs) noexcept;
 
         	/**
         	 * @fn Version<level> max(const Version<level> & lhs, const Version<level> & rhs)
@@ -202,8 +202,8 @@ namespace ece
         	 * @brief Get the greatest of both versions.
         	 * @throw noexcept
         	 */
-        	template <unsigned short int level>
-        	Version<level> max(const Version<level> & lhs, const Version<level> & rhs) noexcept;
+        	template <std::size_t level>
+			inline Version<level> max(const Version<level> & lhs, const Version<level> & rhs) noexcept;
         } // namespace indexing
     } // namespace utility
 } // namespace ece

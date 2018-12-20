@@ -43,10 +43,10 @@ namespace ece
 		namespace ecs
 		{
 			template <class ComponentType>
-			inline std::size_t ComponentTank<ComponentType>::size() const noexcept { return std::vector<ComponentType>::size(); }
+			inline auto ComponentTank<ComponentType>::size() const noexcept -> std::size_t { return std::vector<ComponentType>::size(); }
 
 			template <class ComponentType>
-			inline bool ComponentTank<ComponentType>::empty() const noexcept { return std::vector<ComponentType>::empty(); }
+			inline auto ComponentTank<ComponentType>::empty() const noexcept -> bool { return std::vector<ComponentType>::empty(); }
 
 			template <class ComponentType>
 			void ComponentTank<ComponentType>::update()

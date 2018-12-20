@@ -123,7 +123,7 @@ namespace ece
 				 * @brief Get he filename which is the source of the texture.
 				 * @throw
 				 */
-				inline virtual const std::string & getFilename() const override;
+				inline virtual auto getFilename() const -> const std::string & override;
 
 				/**
 				 * @fn const std::vector<std::byte> & getData() const
@@ -131,7 +131,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				inline virtual const std::vector<std::byte> & getData() const override;
+				inline virtual auto getData() const -> const std::vector<std::byte> & override;
 
 				/**
 				 * @fn std::size_t getWidth() const
@@ -139,7 +139,7 @@ namespace ece
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				inline virtual std::size_t getWidth() const override;
+				inline virtual auto getWidth() const -> std::size_t override;
 
 				/**
 				* @fn std::size_t getHeight() const
@@ -147,7 +147,7 @@ namespace ece
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				inline virtual std::size_t getHeight() const override;
+				inline virtual auto getHeight() const -> std::size_t override;
 
 				/**
 				 * @fn TextureTypeTarget getType() const
@@ -155,7 +155,7 @@ namespace ece
 				 * @brief Get the type of texture.
 				 * @throw
 				 */
-				inline virtual TypeTarget getType() const override;
+				inline virtual auto getType() const -> TypeTarget override;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -163,7 +163,7 @@ namespace ece
 				 * @brief Get the id of the texture.
 				 * @throw
 				 */
-				inline virtual Handle getHandle() const override;
+				inline virtual auto getHandle() const -> Handle override;
 
 				/**
 				 * @fn void bind(const TextureTarget target)

@@ -128,7 +128,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use emplace_back instead of push_back, with move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addNull();
+					auto addNull() -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addBoolean(const bool value)
@@ -139,7 +139,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use emplace_back instead of push_back, with move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addBoolean(const bool value);
+					auto addBoolean(const bool value) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addInteger(const int value)
@@ -150,7 +150,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use emplace_back instead of push_back, with move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addInteger(const int value);
+					auto addInteger(const int value) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addDouble(const double value)
@@ -161,7 +161,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use emplace_back instead of push_back, with move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addDouble(const double value);
+					auto addDouble(const double value) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addString(const std::string & value)
@@ -172,7 +172,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use emplace_back instead of push_back, with move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addString(const std::string & value);
+					auto addString(const std::string & value) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addObject()
@@ -182,7 +182,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use emplace_back instead of push_back, with move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addObject();
+					auto addObject() -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addArray()
@@ -192,7 +192,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use emplace_back instead of push_back, with move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addArray();
+					auto addArray() -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn void remove(const std::shared_ptr<NodeJSON> & child)
@@ -230,7 +230,7 @@ namespace ece
 					 * If there is no child, the iterator shall not be dereferenced.
 					 * @throw noexcept
 					 */
-					inline IteratorArrayJSON begin() noexcept;
+					inline auto begin() noexcept;
 
 					/**
 					 * @fn IteratorArrayJSON end()
@@ -239,7 +239,7 @@ namespace ece
 					 * If there is no child, it returns the same as ArrayJSON::begin.
 					 * @throw noexcept
 					 */
-					inline IteratorArrayJSON end() noexcept;
+					inline auto end() noexcept;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> operator[](const int key)
@@ -248,7 +248,7 @@ namespace ece
 					 * @brief Get a specific child of the current node.
 					 * @throw out_of_range
 					 */
-					inline std::shared_ptr<NodeJSON> operator[](const int key);
+					inline auto operator[](const int key);
 
 					/**
 					 * @fn void clear()
@@ -263,7 +263,7 @@ namespace ece
 					 * @brief Get the number of children nodes of the current node.
 					 * @throw noexcept
 					 */
-					inline std::size_t size() const noexcept;
+					inline auto size() const noexcept;
 
 				private:
 					/**

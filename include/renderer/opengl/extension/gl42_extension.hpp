@@ -36,9 +36,8 @@
 
 */
 
-
-#ifndef GL44_EXTENSION_HPP
-#define GL44_EXTENSION_HPP
+#ifndef GL42_EXTENSION_HPP
+#define GL42_EXTENSION_HPP
 
 #include "renderer/config.hpp"
 
@@ -53,70 +52,73 @@ namespace ece
 	using renderer::opengl::OpenGLExtensionException;
 }
 
-ECE_RENDERER_API inline void glBindBuffersRange(GLenum target, GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLintptr *sizes);
-ECE_RENDERER_API inline void glBindBuffersBase(GLenum target, GLuint first, GLsizei count, const GLuint *buffers);
-ECE_RENDERER_API inline void glBufferStorage(GLenum target, GLsizeiptr size, const GLvoid * data, GLbitfield flags);
-ECE_RENDERER_API inline void glBindTextures(GLuint first, GLsizei count, const GLuint *textures);
-ECE_RENDERER_API inline void glBindSamplers(GLuint first, GLsizei count, const GLuint *samplers);
-ECE_RENDERER_API inline void glClearTexSubImage(GLuint texture, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const GLvoid * data);
-ECE_RENDERER_API inline void glClearTexImage(GLuint texture, GLint level, GLenum format, GLenum type, const GLvoid * data);
-ECE_RENDERER_API inline void glBindImageTextures(GLuint first, GLsizei count, const GLuint *textures);
-ECE_RENDERER_API inline void glBindVertexBuffers(GLuint first, GLsizei count, const GLuint *buffers, const GLintptr *offsets, const GLsizei *strides);
+ECE_RENDERER_API inline void glGetActiveAtomicCounterBufferiv(GLuint program, GLuint bufferIndex, GLenum pname, GLint *params);
+ECE_RENDERER_API inline void glMemoryBarrier(GLbitfield barriers);
+ECE_RENDERER_API inline void glTexStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
+ECE_RENDERER_API inline void glTexStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
+ECE_RENDERER_API inline void glTexStorage3D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
+ECE_RENDERER_API inline void glBindImageTexture(GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
+ECE_RENDERER_API inline void glDrawArraysInstancedBaseInstance(GLenum mode, GLint first, GLsizei count, GLsizei primcount, GLuint baseinstance);
+ECE_RENDERER_API inline void glDrawElementsInstancedBaseInstance(GLenum mode, GLsizei count, GLenum type, const GLvoid * indices, GLsizei primcount, GLuint baseinstance);
+ECE_RENDERER_API inline void glDrawElementsInstancedBaseVertexBaseInstance(GLenum mode, GLsizei count, GLenum type, GLvoid *indices, GLsizei primcount, GLint basevertex, GLuint baseinstance);
+ECE_RENDERER_API inline void glDrawTransformFeedbackInstanced(GLenum mode, GLuint id, GLsizei primcount);
+ECE_RENDERER_API inline void glDrawTransformFeedbackStreamInstanced(GLenum mode, GLuint id, GLuint stream, GLsizei primcount);
+ECE_RENDERER_API inline void glGetInternalformativ(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint *params);
 
 /**
- * fn CALLGL44(SIGNATURE, NAME)
+ * fn CALLGL42(SIGNATURE, NAME)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
- * @brief Load the opengl 4.4 extension and call it.
+ * @brief Load the opengl 4.2 extension and call it.
  */
-#define CALLGL44(SIGNATURE, NAME) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+#define CALLGL42(SIGNATURE, NAME) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	proxy();
 
 /**
- * fn R_CALLGL44(SIGNATURE, NAME)
+ * fn R_CALLGL42(SIGNATURE, NAME)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
- * @brief Load the opengl 4.4 extension and call it.
+ * @brief Load the opengl 4.2 extension and call it.
  */
-#define R_CALLGL44(SIGNATURE, NAME) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+#define R_CALLGL42(SIGNATURE, NAME) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	return proxy();
 
 /**
- * fn CALLGL44_V(SIGNATURE, NAME, ...)
+ * fn CALLGL42_V(SIGNATURE, NAME, ...)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
  * @param[in] ... The parameters to forward to the function.
- * @brief Load the opengl 4.4 extension and call it.
+ * @brief Load the opengl 4.2 extension and call it.
  */
-#define CALLGL44_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+#define CALLGL42_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	proxy(__VA_ARGS__);
 
 /**
- * fn R_CALLGL44_V(SIGNATURE, NAME, ...)
+ * fn R_CALLGL42_V(SIGNATURE, NAME, ...)
  * @param[in] SIGNATURE The opengl function to call.
  * @param[in] NAME The name of the opengl function.
  * @param[in] ... The parameters to forward to the function.
- * @brief Load the opengl 4.4 extension and call it.
+ * @brief Load the opengl 4.2 extension and call it.
  */
-#define R_CALLGL44_V(SIGNATURE, NAME, ...) \
-	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 4 }); \
+#define R_CALLGL42_V(SIGNATURE, NAME, ...) \
+	static auto proxy = ece::renderer::opengl::loadOpenGLProc<SIGNATURE>(NAME, ece::Version<2>{ 4, 2 }); \
 	if (!proxy) { \
 		throw ece::OpenGLExtensionException(NAME); \
 	} \
 	return proxy(__VA_ARGS__);
 
-#include "renderer/opengl/gl44_extension.inl"
+#include "renderer/opengl/extension/gl42_extension.inl"
 
-#endif // GL44_EXTENSION_HPP
+#endif // GL42_EXTENSION_HPP

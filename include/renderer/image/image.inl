@@ -48,8 +48,8 @@ namespace ece
 			template<class E>
 			void Image<E>::flipHorizontally()
 			{
-				for (std::size_t j = 0; j < this->_height; ++j) {
-					for (std::size_t i = 0; i < this->_width / 2; ++i) {
+				for (auto j = std::size_t{ 0 }; j < this->_height; ++j) {
+					for (auto i = std::size_t{ 0 }; i < this->_width / 2; ++i) {
 						std::swap(this->_buffer[j][i], this->_buffer[j][this->_width - 1 - i]);
 					}
 				}
@@ -58,8 +58,8 @@ namespace ece
 			template<class E>
 			void Image<E>::flipVertically()
 			{
-				for (std::size_t j = 0; j < this->_height / 2; ++j) {
-					for (std::size_t i = 0; i < this->_width; ++i) {
+				for (auto j = std::size_t{ 0 }; j < this->_height / 2; ++j) {
+					for (auto i = std::size_t{ 0 }; i < this->_width; ++i) {
 						std::swap(this->_buffer[j][i], this->_buffer[this->_height - 1 - j][i]);
 					}
 				}
@@ -68,11 +68,11 @@ namespace ece
 			template<class E>
 			void Image<E>::rotateOnRight()
 			{
-				Dynamic2DArray<E> dirty(this->_buffer);
+				auto dirty = Dynamic2DArray<E>(this->_buffer);
 
 				this->_buffer.resize(dirty.getHeight(), dirty.getWidth());
-				for (std::size_t j = 0; j < dirty.getHeight(); ++j) {
-					for (std::size_t i = 0; i < dirty.getWidth(); ++i) {
+				for (auto j = std::size_t{ 0 }; j < dirty.getHeight(); ++j) {
+					for (auto i = std::size_t{ 0 }; i < dirty.getWidth(); ++i) {
 						this->_buffer[i][this->_width - 1 - j] = dirty[j][i];
 					}
 				}
@@ -81,11 +81,11 @@ namespace ece
 			template<class E>
 			void Image<E>::rotateOnLeft()
 			{
-				Dynamic2DArray<E> dirty(this->_buffer);
+				auto dirty = Dynamic2DArray<E>(this->_buffer);
 
 				this->_buffer.resize(dirty.getHeight(), dirty.getWidth());
-				for (std::size_t j = 0; j < dirty.getHeight(); ++j) {
-					for (std::size_t i = 0; i < dirty.getWidth(); ++i) {
+				for (auto j = std::size_t{ 0 }; j < dirty.getHeight(); ++j) {
+					for (auto i = std::size_t{ 0 }; i < dirty.getWidth(); ++i) {
 						this->_buffer[this->height - 1 - i][j] = dirty[j][i];
 					}
 				}

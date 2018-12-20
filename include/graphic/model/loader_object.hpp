@@ -106,7 +106,7 @@ namespace ece
 				 */
 				LoaderObject & operator=(LoaderObject && move) noexcept = default;
 
-				virtual const std::vector<Mesh::Reference> & getMeshes() const = 0;
+				virtual auto getMeshes() const -> const std::vector<Mesh::Reference> & = 0;
 			};
 		} // namespace model
 	} // namespace graphic

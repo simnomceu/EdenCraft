@@ -40,13 +40,8 @@
 #include "renderer/opengl/context_opengl.hpp"
 #include "renderer/x11/data_context_opengl.hpp"
 
-#include "renderer/opengl/opengl.hpp"
 #include "renderer/x11/glx_extension.hpp"
-#include "renderer/rendering.hpp"
-#include "window/common.hpp"
 #include "window/x11/data_window_adapter.hpp"
-#include "utility/log.hpp"
-#include "renderer/debug.hpp"
 
 namespace ece
 {
@@ -60,11 +55,11 @@ namespace ece
 
 			ContextOpenGL::~ContextOpenGL() noexcept
 			{
-				if (this->_data->_context) {
+				if (this->_data->context) {
 					if (this->isCurrent()) {
-						glXMakeCurrent(this->_data->_display, 0, 0);
+						glXMakeCurrent(this->_data->display, 0, 0);
 					}
-					glXDestroyContext(this->_data->_display, this->_data->_context);
+					glXDestroyContext(this->_data->display, this->_data->context);
 
 					// ERROR: crash with RootWindow (for dummy context)
 					/*if (this->_data->_windowHandle) {
@@ -79,13 +74,13 @@ namespace ece
 
 			void ContextOpenGL::createOldContext()
 			{
-				this->_data->_display = XOpenDisplay(nullptr);
+				this->_data->display = XOpenDisplay(nullptr);
 
-				int nbFBConfig = 0;
-				GLXFBConfig * FBConfig = nullptr;
+				auto nbFBConfig = 0;
 
-				int glxMajor = 0, glxMinor = 0;
-				glXQueryVersion(this->_data->_display, &glxMajor, &glxMinor);
+				auto glxMajor = 0;
+				auto glxMinor = 0;
+				glXQueryVersion(this->_data->display, &glxMajor, &glxMinor);
 
 				if ((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
 					ServiceLoggerLocator::getService().logWarning("GLX 1.3 or greater is not available. Most recent version is GLX " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
@@ -94,26 +89,26 @@ namespace ece
 						ServiceLoggerLocator::getService().logInfo("GLX version: " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
                 }
 
-            	const int visual_attribs[] = {
+            	const auto visual_attribs = std::array{
 					GLX_RENDER_TYPE, GLX_RGBA_BIT,
 					GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
 					GLX_DEPTH_SIZE, 24,
 					GLX_STENCIL_SIZE, 8,
-					None
+						static_cast<int>(None)
 				};
-				FBConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visual_attribs, &nbFBConfig);
+				auto FBConfig = glXChooseFBConfig(this->_data->display, DefaultScreen(this->_data->display), visual_attribs.data(), &nbFBConfig);
 
 				if (!FBConfig) {
 					throw std::runtime_error("No frame buffer configuration choosen for OpenGL dummy context.");
 				}
 				//XVisualInfo * visualInfo = glXGetVisualFromFBConfig(this->_dummy.display, FBConfig[0]);
 
-				this->_data->_windowHandle = RootWindow(this->_data->_display, DefaultScreen(this->_data->_display));
-				XMapWindow(this->_data->_display, this->_data->_windowHandle);
+				this->_data->windowHandle = RootWindow(this->_data->display, DefaultScreen(this->_data->display));
+				XMapWindow(this->_data->display, this->_data->windowHandle);
 
-				this->_data->_context = glXCreateNewContext(this->_data->_display, FBConfig[0], GLX_RGBA_TYPE, nullptr, true);
+				this->_data->context = glXCreateNewContext(this->_data->display, FBConfig[0], GLX_RGBA_TYPE, nullptr, true);
 
-				glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context);
+				glXMakeCurrent(this->_data->display, this->_data->windowHandle, this->_data->context);
 				glXCreateContextAttribs(nullptr, 0, nullptr, false, nullptr); //dummy call
 
 				XFree(FBConfig);
@@ -121,16 +116,17 @@ namespace ece
 
 			void ContextOpenGL::createModernContext(const ContextSettings & settings)
 			{
-				this->_data->_windowHandle = settings.window.lock()->getAdapter().lock()->getImpl()->_api->getWindowHandle();
-				this->_data->_display = settings.window.lock()->getAdapter().lock()->getImpl()->_api->getDevice();
+				this->_data->windowHandle = settings.window.lock()->getAdapter()->getImpl()->api->getWindowHandle();
+				this->_data->display = settings.window.lock()->getAdapter()->getImpl()->api->getDevice();
 
-				int nbFramebufferConfigs = 0;
+				auto nbFramebufferConfigs = 0;
 				GLXFBConfig * framebufferConfig = nullptr;
 
-				int glxMajor = 0, glxMinor = 0;
-				glXQueryVersion(this->_data->_display, &glxMajor, &glxMinor);
+				auto glxMajor = 0;
+				auto glxMinor = 0;
+				glXQueryVersion(this->_data->display, &glxMajor, &glxMinor);
 				if ((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
-					const int visualAttribs[] = {
+					const auto visualAttribs = std::array{
 						GLX_X_RENDERABLE, GL_TRUE,
 						GLX_RENDER_TYPE, GLX_RGBA_BIT,
 						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
@@ -141,12 +137,12 @@ namespace ece
 						GLX_BLUE_SIZE, 8,
 						GLX_DEPTH_SIZE, 24,
 						GLX_STENCIL_SIZE, 8,
-						None
+						static_cast<int>(None)
 					};
-					framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
+					framebufferConfig = glXChooseFBConfig(this->_data->display, DefaultScreen(this->_data->display), visualAttribs.data(), &nbFramebufferConfigs);
 				}
 				else {
-					const int visualAttribs[] = {
+					const auto visualAttribs = std::array{
 						GLX_X_RENDERABLE, GL_TRUE,
 						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
 						GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
@@ -158,31 +154,31 @@ namespace ece
 						GLX_STENCIL_SIZE, static_cast<int>(settings.stencilBits),
 						GLX_SAMPLE_BUFFERS, settings.antialiasingSamples > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
 						GLX_SAMPLES, static_cast<int>(settings.antialiasingSamples), // Number of samples,
-						None
+						static_cast<int>(None)
 					};
-					framebufferConfig = glXChooseFBConfig(this->_data->_display, DefaultScreen(this->_data->_display), visualAttribs, &nbFramebufferConfigs);
+					framebufferConfig = glXChooseFBConfig(this->_data->display, DefaultScreen(this->_data->display), visualAttribs.data(), &nbFramebufferConfigs);
 				}
 
 				if (!framebufferConfig) {
 					throw std::runtime_error("There is no video mode available for this device.");
 				}
 
-				auto glxExts = std::string(glXQueryExtensionsString(this->_data->_display, DefaultScreen(this->_data->_display)));
+				auto glxExts = std::string(glXQueryExtensionsString(this->_data->display, DefaultScreen(this->_data->display)));
 				if (glxExts.find("GLX_ARB_create_context") == std::string::npos) {
-					this->_data->_context = glXCreateNewContext(this->_data->_display, framebufferConfig[0], GLX_RGBA_TYPE, nullptr, true);
+					this->_data->context = glXCreateNewContext(this->_data->display, framebufferConfig[0], GLX_RGBA_TYPE, nullptr, true);
 				}
 				else {
 					auto latestVersion = ContextOpenGL::_maxVersionAvailable;
-					const int glVersion[] = {
-						GLX_CONTEXT_MAJOR_VERSION_ARB, latestVersion[0],
-						GLX_CONTEXT_MINOR_VERSION_ARB, latestVersion[1],
+					const auto glVersion = std::array{
+						GLX_CONTEXT_MAJOR_VERSION_ARB, static_cast<int>(latestVersion[0]),
+						GLX_CONTEXT_MINOR_VERSION_ARB, static_cast<int>(latestVersion[1]),
 						GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-						None
+						static_cast<int>(None)
 					};
-					this->_data->_context = glXCreateContextAttribs(this->_data->_display, framebufferConfig[0], nullptr, true, glVersion);
+					this->_data->context = glXCreateContextAttribs(this->_data->display, framebufferConfig[0], nullptr, true, glVersion.data());
 				}
 
-				if (this->_data->_context == nullptr) {
+				if (this->_data->context == nullptr) {
 					throw std::runtime_error("The context cannot be created.");
 				}
 			}
@@ -194,13 +190,13 @@ namespace ece
 
 			void ContextOpenGL::swapBuffers()
 			{
-				glXSwapBuffers(this->_data->_display, this->_data->_windowHandle);
+				glXSwapBuffers(this->_data->display, this->_data->windowHandle);
 			}
 
 			void ContextOpenGL::setCurrent()
 			{
 				RenderContext::setCurrent();
-				if (!glXMakeCurrent(this->_data->_display, this->_data->_windowHandle, this->_data->_context)) {
+				if (!glXMakeCurrent(this->_data->display, this->_data->windowHandle, this->_data->context)) {
 					throw std::runtime_error("The context cannot be used.");
 				}
 			}

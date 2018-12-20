@@ -110,9 +110,9 @@ namespace ece
 				 */
 				ComponentTank & operator=(ComponentTank && move) noexcept = default;
 
-				inline virtual std::size_t size() const noexcept override;
+				inline virtual auto size() const noexcept -> std::size_t override;
 
-				inline virtual bool empty() const noexcept override;
+				inline virtual auto empty() const noexcept -> bool override;
 
 				using std::vector<ComponentType>::at;
 				using std::vector<ComponentType>::operator[];

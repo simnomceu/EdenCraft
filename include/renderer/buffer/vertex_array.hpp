@@ -41,7 +41,6 @@
 
 #include "renderer/config.hpp"
 #include "utility/types.hpp"
-#include "renderer/buffer/buffer_layout.hpp"
 
 namespace ece
 {
@@ -50,6 +49,7 @@ namespace ece
 		namespace buffer
 		{
 			class BaseBuffer;
+			class BufferLayout;
 
 			/**
 			 * @class VertexArray
@@ -106,7 +106,7 @@ namespace ece
 			protected:
 				Handle _handle;
 
-				AttributeLocation addAttribute();
+				auto addAttribute() -> VertexArray::AttributeLocation;
 
 				AttributeLocation _nextAttributeLocation;
 

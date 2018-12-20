@@ -42,7 +42,7 @@
 #include <GL/glx.h>
 #include "GL/glxext.h"
 
-inline GLXContext glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list);
+inline auto glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list) -> GLXContext;
 
 #include "renderer/x11/glx_extension.inl"
 

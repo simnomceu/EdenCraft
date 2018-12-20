@@ -49,10 +49,9 @@ namespace ece
 			Connection<Args...>::Connection(const std::weak_ptr<SignalImplementation<Args...>> & signal, const std::weak_ptr<Slot<Args...>> & slot) noexcept: _signal(signal), _slot(slot) {}
 
 			template <class... Args>
-			bool Connection<Args...>::isConnected() const noexcept
+			auto Connection<Args...>::isConnected() const noexcept
 			{
-				return (!this->_signal.expired()) 
-					&& (!this->_slot.expired()); 
+				return (!this->_signal.expired()) && (!this->_slot.expired()); 
 			}
 
 			template <class... Args>

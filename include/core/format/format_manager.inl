@@ -55,9 +55,9 @@ namespace ece
 			}
 
 			template <class T>
-			inline std::weak_ptr<T> FormatManager::getLoader(const std::string & filename)
+			inline auto FormatManager::getLoader(const std::string & filename)
 			{
-				std::string extension = filename.substr(filename.find_last_of('.') + 1);
+				auto extension = filename.substr(filename.find_last_of('.') + 1);
 				if (extension.empty()) {
 					extension = filename;
 				}
@@ -68,9 +68,9 @@ namespace ece
 			}
 
 			template <class T>
-			inline std::weak_ptr<T> FormatManager::getSaver(const std::string & filename)
+			inline auto FormatManager::getSaver(const std::string & filename)
 			{
-				std::string extension = filename.substr(filename.find_last_of('.') + 1);
+				auto extension = filename.substr(filename.find_last_of('.') + 1);
 				if (extension.empty()) {
 					extension = filename;
 				}
@@ -80,12 +80,12 @@ namespace ece
 				return std::static_pointer_cast<T>(this->_savers[extension]);
 			}
 
-			inline bool FormatManager::hasLoaderFor(const std::string & extension) const
+			inline auto FormatManager::hasLoaderFor(const std::string & extension) const
 			{
 				return this->_loaders.find(extension) != this->_loaders.end();
 			}
 
-			inline bool FormatManager::hasSaverFor(const std::string & extension) const
+			inline auto FormatManager::hasSaverFor(const std::string & extension) const
 			{
 				return this->_savers.find(extension) != this->_savers.end();
 			}

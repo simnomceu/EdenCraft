@@ -129,7 +129,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addNull(const std::string & key);
+					auto addNull(const std::string & key) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addBoolean(const std::string & key, const bool value)
@@ -141,7 +141,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addBoolean(const std::string & key, const bool value);
+					auto addBoolean(const std::string & key, const bool value) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addInteger(const std::string & key, const int value)
@@ -153,7 +153,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addInteger(const std::string & key, const int value);
+					auto addInteger(const std::string & key, const int value) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addDouble(const std::string & key, const double value)
@@ -165,7 +165,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addDouble(const std::string & key, const double value);
+					auto addDouble(const std::string & key, const double value) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addString(const std::string & key, const std::string & value)
@@ -177,7 +177,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addString(const std::string & key, const std::string & value);
+					auto addString(const std::string & key, const std::string & value) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addObject(const std::string & key)
@@ -188,7 +188,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addObject(const std::string & key);
+					auto addObject(const std::string & key) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> addArray(const std::string & key)
@@ -199,7 +199,7 @@ namespace ece
 					 * @remark Maybe it should return the exact type of node created.
 					 * @remark This method should use move syntax.
 					 */
-					std::shared_ptr<NodeJSON> addArray(const std::string & key);
+					auto addArray(const std::string & key) -> std::shared_ptr<NodeJSON>;
 
 					/**
 					 * @fn void remove(const std::string & key)
@@ -218,7 +218,7 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					inline virtual bool isAtomic() const noexcept override;
+					inline virtual auto isAtomic() const noexcept -> bool override;
 
 					/**
 					 * @fn TypeNodeJSON getType() const
@@ -228,7 +228,7 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					inline virtual TypeNodeJSON getType() const noexcept override;
+					inline virtual auto getType() const noexcept -> TypeNodeJSON override;
 
 					/**
 					 * @fn IteratorObjectJSON begin()
@@ -237,7 +237,7 @@ namespace ece
 					 * If there is no child, the iterator shall not be dereferenced.
 					 * @throw noexcept
 					 */
-					inline IteratorObjectJSON begin() noexcept;
+					inline auto begin() noexcept;
 
 					/**
 					 * @fn IteratorObjectJSON end()
@@ -246,7 +246,7 @@ namespace ece
 					 * If there is no child, it returns the same as ObjectJSON::begin.
 					 * @throw noexcept
 					 */
-					inline IteratorObjectJSON end() noexcept;
+					inline auto end() noexcept;
 
 					/**
 					 * @fn std::shared_ptr<NodeJSON> operator[](const std::string & key)
@@ -255,7 +255,7 @@ namespace ece
 					 * @brief Get a specific child of the current node.
 					 * @throw out_of_range
 					 */
-					inline std::shared_ptr<NodeJSON> operator[](const std::string & key);
+					inline auto operator[](const std::string & key);
 
 					/**
 					 * @fn void clear()
@@ -270,7 +270,7 @@ namespace ece
 					 * @brief Get the number of children nodes of the current node.
 					 * @throw noexcept
 					 */
-					inline std::size_t size() const noexcept;
+					inline auto size() const noexcept;
 
 				private:
 					/**

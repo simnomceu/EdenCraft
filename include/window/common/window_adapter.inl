@@ -41,7 +41,7 @@ namespace ece
 	{
 		namespace common
 		{
-			inline Pimpl<DataWindowAdapter> & WindowAdapter::getImpl() { return this->_data; }
+			inline auto WindowAdapter::getImpl() -> Pimpl<DataWindowAdapter> & { return this->_data; }
 		} // namespace common
 	} // namespace window
 } // namespace ece

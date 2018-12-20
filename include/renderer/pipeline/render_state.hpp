@@ -156,20 +156,20 @@ namespace ece
 
 				void apply(const bool forced = false);
 
-				bool _faceCulling;
-				CullFaceMode _cullFaceMode;
-				FrontFaceMode _frontFaceMode;
+				bool faceCulling;
+				CullFaceMode cullFaceMode;
+				FrontFaceMode frontFaceMode;
 
-				bool _depthTest;
-				DepthFunctionCondition _depthFunction;
+				bool depthTest;
+				DepthFunctionCondition depthFunction;
 
-				float _pointSize;
-				float _lineWidth;
-				bool _smoothLine;
+				float pointSize;
+				float lineWidth;
+				bool smoothLine;
 
-				bool _blending;
-				BlendingFactor _sourceBlend;
-				BlendingFactor _destinationBlend;
+				bool blending;
+				BlendingFactor sourceBlend;
+				BlendingFactor destinationBlend;
 
 			private:
 				static RenderState _currentState;

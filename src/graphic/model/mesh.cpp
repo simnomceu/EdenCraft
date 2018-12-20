@@ -49,18 +49,19 @@ namespace ece
 		{
 			Mesh::Mesh() noexcept: _submeshes(), _vertices() {}
 
-			Box3D Mesh::getBouncingBox() const
+			auto Mesh::getBouncingBox() const
 			{
 				auto & vertices = this->_vertices.data();
 
-				auto[xMin, xMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[0] < b._position[0]; });
-				auto[yMin, yMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[1] < b._position[1]; });
-				auto[zMin, zMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[2] < b._position[2]; });
+				auto [xMin, xMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[0] < b._position[0]; });
+				auto [yMin, yMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[1] < b._position[1]; });
+				auto [zMin, zMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[2] < b._position[2]; });
 
-				return Box3D(FloatVector3u{ xMin->_position[0], yMin->_position[1], zMin->_position[2] },
+				return Box3D<float>(FloatVector3u{ xMin->_position[0], yMin->_position[1], zMin->_position[2] },
 							 FloatVector3u{ xMax->_position[0], yMax->_position[1], zMax->_position[2] });
 			}
-			std::size_t Mesh::addVertex(const Mesh::Vertex & vertex)
+
+			auto Mesh::addVertex(const Mesh::Vertex & vertex) -> std::size_t
 			{
 				auto & vertices = this->_vertices.data();
 				vertices.push_back(vertex);
@@ -68,7 +69,7 @@ namespace ece
 				return vertices.size();
 			}
 
-			std::size_t Mesh::addVertex(Mesh::Vertex && vertex)
+			auto Mesh::addVertex(Mesh::Vertex && vertex) -> std::size_t
 			{
 				auto & vertices = this->_vertices.data();
 				vertices.push_back(std::move(vertex));
@@ -106,9 +107,9 @@ namespace ece
 				}
 			}
 
-			BufferLayout Mesh::getLayout() const
+			auto Mesh::getLayout() const -> BufferLayout
 			{
-				BufferLayout layout;
+				auto layout = BufferLayout();
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(2, false, false, false);

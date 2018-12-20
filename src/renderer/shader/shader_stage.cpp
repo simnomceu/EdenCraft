@@ -52,27 +52,29 @@ namespace ece
 		{
 			ShaderStage & ShaderStage::operator=(const ShaderStage & copy) noexcept
 			{
-				this->_filename = copy._filename;
-				this->_source = copy._filename;
-				this->_type = copy._type;
-				this->_handle = copy._handle;
-				this->_compilationRequired = copy._compilationRequired;
-
+				if (this != &copy) {
+					this->_filename = copy._filename;
+					this->_source = copy._filename;
+					this->_type = copy._type;
+					this->_handle = copy._handle;
+					this->_compilationRequired = copy._compilationRequired;
+				}
 				return *this;
 			}
 
 			ShaderStage & ShaderStage::operator=(ShaderStage && move) noexcept
 			{
-				this->_filename = std::move(move._filename);
-				this->_source = std::move(move._filename);
-				this->_type = move._type;
-				this->_handle = move._handle;
-				this->_compilationRequired = move._compilationRequired;
+				if (this != &move) {
+					this->_filename = std::move(move._filename);
+					this->_source = std::move(move._filename);
+					this->_type = move._type;
+					this->_handle = move._handle;
+					this->_compilationRequired = move._compilationRequired;
 
-				move._filename.clear();
-				move._handle = 0;
-				move._compilationRequired = false;
-
+					move._filename.clear();
+					move._handle = NULL_HANDLE;
+					move._compilationRequired = false;
+				}
 				return *this;
 			}
 
@@ -84,13 +86,13 @@ namespace ece
 					this->_filename = filename;
 
 					this->_source.clear();
-					File shaderFile;
+					auto shaderFile = File();
 					try {
 						shaderFile.open(this->_filename);
 						this->_source = shaderFile.parseToString();
 						shaderFile.close();
 					}
-					catch (FileException & e) {
+					catch (const FileException & e) {
 						ServiceLoggerLocator::getService().logError(e.what());
 					}
 					this->_type = type;
@@ -117,16 +119,16 @@ namespace ece
 				if (OpenGL::getShaderiv(this->_handle, ShaderParameter::COMPILE_STATUS)) {
     				this->_compilationRequired = false;
 				} else {
-                    std::string infoLog = OpenGL::getShaderInfoLog(this->_handle);
+                    auto infoLog = OpenGL::getShaderInfoLog(this->_handle);
                     ServiceLoggerLocator::getService().logError(infoLog);
                 }
 			}
 
 			void ShaderStage::terminate()
 			{
-				if (this->_handle != 0) {
+				if (this->_handle != NULL_HANDLE) {
 					OpenGL::deleteShader(this->_handle);
-					this->_handle = 0;
+					this->_handle = NULL_HANDLE;
 					this->_compilationRequired = true;
 				}
 			}

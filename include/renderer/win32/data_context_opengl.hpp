@@ -63,7 +63,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline DataContextOpenGL(HGLRC context, HDC device, HWND handle) : _context(context), _device(device), _windowHandle(handle) {}
+				inline DataContextOpenGL(HGLRC context, HDC device, HWND handle) : context(context), device(device), windowHandle(handle) {}
 
 				/**
 				 * @fn FARPROC getProcAddress(const std::string & name)
@@ -72,31 +72,31 @@ namespace ece
 				 * @brief Load an OpenGL extension from a Wndows platform.
 				 * @throw
 				 */
-				static FARPROC getProcAddress(const std::string & name);
+				static auto getProcAddress(const std::string & name) -> FARPROC;
 
 				/**
 				 * @property _context
 				 * @brief The OpenGL context.
 				 */
-				HGLRC _context;
+				HGLRC context;
 
 				/**
 				 * @property _device
 				 * @brief The device used.
 				 */
-				HDC _device;
+				HDC device;
 
 				/**
 				 * @property _windowHandle
 				 * @brief The window concerned.
 				 */
-				HWND _windowHandle;
+				HWND windowHandle;
 
 				/**
 				 * @property _openglLib
 				 * @brief THe external library exposing OpenGL.
 				 */
-				static HMODULE _openglLib;
+				static HMODULE openglLib;
 			};
 		} // namespace opengl
 	} // namespace renderer

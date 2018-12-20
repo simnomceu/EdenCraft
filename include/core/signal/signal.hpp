@@ -104,12 +104,12 @@ namespace ece
 				 */
 				Signal & operator=(Signal && move) noexcept = default;
 
-				Connection<Args...> connect(const std::function<void(Args...)> & callback);
-				Connection<Args...> connect(std::function<void(Args...)> && callback);
-				template <class T> Connection<Args...> connect(T & object, void (T::*method)(Args... args));
-				template <class T> Connection<Args...> connect(std::weak_ptr<T> & object, void (T::*method)(Args... args));
-				template <class T> Connection<Args...> connect(const T & object, void (T::*method)(Args... args) const);
-				template <class T> Connection<Args...> connect(const std::weak_ptr<T> & object, void (T::*method)(Args... args) const);
+				auto connect(const std::function<void(Args...)> & callback);
+				auto connect(std::function<void(Args...)> && callback);
+				template <class T> auto connect(T & object, void (T::*method)(Args... args));
+				template <class T> auto connect(std::weak_ptr<T> & object, void (T::*method)(Args... args));
+				template <class T> auto connect(const T & object, void (T::*method)(Args... args) const);
+				template <class T> auto connect(const std::weak_ptr<T> & object, void (T::*method)(Args... args) const);
 
 				inline void disconnect(const std::shared_ptr<Slot<Args...>> & slot);
 

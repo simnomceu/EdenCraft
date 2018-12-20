@@ -46,13 +46,13 @@ namespace ece
 			{
 				inline ParserOBJ::ParserOBJ() : _objects(), _currentObject(this->_objects.end()) {}
 
-				inline std::vector<ObjectOBJ> & ParserOBJ::getObjects() { return this->_objects; }
+				inline auto & ParserOBJ::getObjects() { return this->_objects; }
 
-				inline const std::vector<ObjectOBJ> & ParserOBJ::getObjects() const { return this->_objects; }
+				inline auto ParserOBJ::getObjects() const { return this->_objects; }
 
-				inline std::vector<std::string> & ParserOBJ::getMaterials() { return this->_materials; }
+				inline auto & ParserOBJ::getMaterials() { return this->_materials; }
 
-				inline const std::vector<std::string> & ParserOBJ::getMaterials() const { return this->_materials; }
+				inline auto ParserOBJ::getMaterials() const { return this->_materials; }
 			} // namespace wavefront
 		} // namespace formats
     } // namespace utility

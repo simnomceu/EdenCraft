@@ -47,17 +47,17 @@ namespace ece
 			inline Holder<T>::Holder(Args&&... args) noexcept: _content(std::forward<Args>(args)...) {}
 
 			template <class T>
-			Holder<T> * Holder<T>::clone() { return new Holder<T>(this->_content); }
+			auto Holder<T>::clone() -> Holder<T> *  { return new Holder<T>(this->_content); }
 
 			template <class T>
 			void Holder<T>::destroy()
 			{
-				(void)sizeof(T);
+			//	(void)sizeof(T);
 				std::default_delete<Holder<T>>()(this);
 			}
 
 			template <class T>
-			void * Holder<T>::get() { return static_cast<void *>(&this->_content); }
+			auto Holder<T>::get() -> void * { return static_cast<void *>(&this->_content); }
 		} // namespace pattern
 	} // namespace utility
 } // namespace ece

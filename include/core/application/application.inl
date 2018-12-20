@@ -44,12 +44,10 @@ namespace ece
 		{
 			inline void Application::stop() { this->_running = false; }
 
-			inline ArgumentAnalyzer & Application::getArgumentAnalyzer() { return this->getModule<ArgumentAnalyzer>(); }
+			inline auto Application::getArgumentAnalyzer() -> ArgumentAnalyzer & { return this->getModule<ArgumentAnalyzer>(); }
 
 			template <class T>
-			inline T & Application::addModule(const ModuleMethodHandle<T> & init,
-				const ModuleMethodHandle<T> & update,
-				const ModuleMethodHandle<T> & terminate)
+			inline auto & Application::addModule(const ModuleMethodHandle<T> & init, const ModuleMethodHandle<T> & update, const ModuleMethodHandle<T> & terminate)
 			{
 				return this->_moduleManager.add<T>(init, update, terminate);
 			}
@@ -58,9 +56,9 @@ namespace ece
 			inline void Application::removeModule() { this->_moduleManager.remove<T>(); }
 
 			template <class T>
-			inline T & Application::getModule() { return this->_moduleManager.get<T>(); }
+			inline auto Application::getModule() -> T & { return this->_moduleManager.get<T>(); }
 
-			inline bool Application::isRunning() const { return this->_running; }
+			inline auto Application::isRunning() const { return this->_running; }
 		} // namespace application
 	} // namespace core
 } // namespace ece

@@ -132,7 +132,7 @@ namespace ece
 				 * @throw
 				 * @see void open()
 				 */
-				inline void open(const WindowSetting & settings);
+				inline void open([[maybe_unused]] const WindowSetting & settings);
 
 				/**
 				 * @fn void close()
@@ -146,7 +146,7 @@ namespace ece
 				 * @fn bool isOpened() const
 				 * @return True if the window is opened, false else.
 				 */
-				inline bool isOpened() const;
+				inline auto isOpened() const;
 
 				/**
 				 * @fn WindowSetting getSettings() const
@@ -154,7 +154,7 @@ namespace ece
 				 * @brief Get the current window settings.
 				 * @throw
 				 */
-				WindowSetting getSettings() const;
+				auto getSettings() const;
 
 				/**
 				 * @fn void setSettings(const WindowSetting & settings)
@@ -170,7 +170,7 @@ namespace ece
 				 * @brief get The window title.
 				 * @throw
 				 */
-				inline std::string getTitle() const;
+				inline auto getTitle() const;
 
 				/**
 				 * @fn void setTitle(const std::string & title)
@@ -194,7 +194,7 @@ namespace ece
 				 * @brief Get the current size of the window.
 				 * @throw
 				 */
-				inline IntVector2u getSize() const;
+				inline auto getSize() const;
 
 				/**
 				 * @fn void setMinimumSize(const IntVector2u & size)
@@ -202,7 +202,7 @@ namespace ece
 				 * @brief Set the minimum size that the window could reach.
 				 * @throw
 				 */
-				inline void setMinimumSize(const IntVector2u & size);
+				inline void setMinimumSize([[maybe_unused]] const IntVector2u & size);
 
 				/**
 				 * @fn void setMaximumSize(const IntVector2u & size)
@@ -210,7 +210,7 @@ namespace ece
 				 * @brief Set the maximum size that the window could reach.
 				 * @throw
 				 */
-				inline void setMaximumSize(const IntVector2u & size);
+				inline void setMaximumSize([[maybe_unused]] const IntVector2u & size);
 
 				/**
 				 * @fn void maximize()
@@ -232,7 +232,7 @@ namespace ece
 				 * @brief Enable or disable the fullscreen mode.
 				 * @throw
 				 */
-				inline void setFullscreen(const bool fullscreen);
+				inline void setFullscreen([[maybe_unused]] const bool fullscreen);
 
 				/**
 				 * @fn void enableDoubleClick(const bool enabled)
@@ -240,7 +240,7 @@ namespace ece
 				 * @brief Enable or disable the double click mode.
 				 * @throw
 				 */
-				inline void enableDoubleClick(const bool enabled);
+				inline void enableDoubleClick([[maybe_unused]] const bool enabled);
 
 				/**
 				 * @fn bool isDoubleClickEnabled() const
@@ -248,7 +248,7 @@ namespace ece
 				 * @brief Check if double click mode is enabled or not.
 				 * @throw
 				 */
-				inline bool isDoubleClickEnabled() const;
+				inline auto isDoubleClickEnabled() const;
 
 				/**
 				 * @fn void enableKeyRepeat(const bool enabled)
@@ -264,7 +264,7 @@ namespace ece
 				 * @brief Check if key repeating mode is enabled or not.
 				 * @throw
 				 */
-				inline bool isKeyRepeatedEnabled() const;
+				inline auto isKeyRepeatedEnabled() const;
 
 				/**
 				 * @fn void limitUPS(const int limit)
@@ -282,7 +282,7 @@ namespace ece
 				 * This method is blocking the thread until an event is get.
 				 * @throw
 				 */
-				bool waitEvent(InputEvent & event);
+				[[deprecated]] auto waitEvent(InputEvent & event);
 
 				/**
 				 * @fn bool pollEvent(InputEvent & event)
@@ -292,7 +292,7 @@ namespace ece
 				 * This is not blocking the thread.
 				 * @throw
 				 */
-				bool pollEvent(InputEvent & event);
+				[[deprecated]] auto pollEvent(InputEvent & event);
 
 				void processEvents();
 
@@ -302,7 +302,7 @@ namespace ece
 				 * @brief Get the window adapter of this window.
 				 * @throw
 				 */
-				inline std::weak_ptr<BaseWindowAdapter> getAdapter() const;
+				inline auto getAdapter() const;
 
 				/**
 				 * @fn VideoMode & getVideoMode()
@@ -311,7 +311,7 @@ namespace ece
 				 * @throw
 				 * @see const VideoMode & getVideoMode() const
 				 */
-				inline VideoMode & getVideoMode();
+				inline auto & getVideoMode();
 
 				/**
 				 * @fn const VideoMode & getVideoMode() const
@@ -320,7 +320,7 @@ namespace ece
 				 * @throw
 				 * @see VideoMode & getVideoMode()
 				 */
-				inline const VideoMode & getVideoMode() const;
+				inline const auto & getVideoMode() const;
 
 				/**
 				 * @fn void updateVideoMode()
@@ -329,7 +329,7 @@ namespace ece
 				 */
 				virtual void updateVideoMode();
 
-				inline EventHandler & getEventHandler();
+				inline auto & getEventHandler();
 
 				Signal<> onWindowOpened;
 				Signal<> onWindowClosed;

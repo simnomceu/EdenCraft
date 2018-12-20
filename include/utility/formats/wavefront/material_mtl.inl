@@ -44,60 +44,10 @@ namespace ece
 		{
 			namespace wavefront
 			{
-				inline MaterialMTL::MaterialMTL(const std::string & name) noexcept : _name(name), _ka{ LightFactor::Type::K, FloatVector3u{1.0f, 1.0f, 1.0f} }, _kd{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } }, _ks{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } },
-					_tf{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } }, _illum(0), _d{ 0.0f, { 0.0f, false } }, _ns(0), _sharpness(60), _ni(1.0f), _mapKa(), _mapKd(), _mapKs() {}
-
-				inline const std::string & MaterialMTL::getName() const noexcept { return this->_name; }
-
-				inline const FloatVector3u & MaterialMTL::getAmbientFactor() const noexcept { return std::get<FloatVector3u>(this->_ka._value); }
-
-				inline const FloatVector3u & MaterialMTL::getDiffuseFactor() const noexcept { return std::get<FloatVector3u>(this->_kd._value); }
-
-				inline const FloatVector3u & MaterialMTL::getSpecularFactor() const noexcept { return std::get<FloatVector3u>(this->_ks._value); }
-
-				inline const FloatVector3u & MaterialMTL::getTransmissionFilter() const noexcept { return std::get<FloatVector3u>(this->_tf._value); }
-
-				inline unsigned int MaterialMTL::getIllumination() const noexcept { return this->_illum; }
-
-				inline float MaterialMTL::getDissolveFactor() const noexcept { return this->_d._factor; }
-
-				inline float MaterialMTL::getSpecularExponent() const noexcept { return this->_ns; }
-
-				inline unsigned int MaterialMTL::getSharpness() const noexcept { return this->_sharpness; }
-
-				inline float MaterialMTL::getOpticalDensity() const noexcept { return this->_ni; }
-
-				inline const std::string & MaterialMTL::getAmbientMap() const noexcept { return this->_mapKa; }
-
-				inline const std::string & MaterialMTL::getDiffuseMap() const noexcept { return this->_mapKd; }
-
-				inline const std::string &MaterialMTL::getSpecularMap() const noexcept { return this->_mapKs; }
-
-				inline void MaterialMTL::setName(const std::string & name) noexcept { this->_name = name; }
-
-				inline void MaterialMTL::setAmbientFactor(const FloatVector3u & ambient) noexcept { this->_ka._value = ambient; }
-
-				inline void MaterialMTL::setDiffuseFactor(const FloatVector3u & diffuse) noexcept { this->_kd._value = diffuse; }
-
-				inline void MaterialMTL::setSpecularFactor(const FloatVector3u & specular) noexcept { this->_ks._value = specular; }
-
-				inline void MaterialMTL::setTransmissionFilter(const FloatVector3u & transmissionFilter) noexcept { this->_tf._value = transmissionFilter; }
-
-				inline void MaterialMTL::setIllumination(const unsigned int illumination) noexcept { this->_illum = illumination; }
-
-				inline void MaterialMTL::setDissolveFactor(const float dissolve) noexcept { this->_d._factor = dissolve; }
-
-				inline void MaterialMTL::setSpecularExponent(const float exponent) noexcept { this->_ns = exponent; }
-
-				inline void MaterialMTL::setSharpness(const unsigned int sharpness) noexcept { this->_sharpness = sharpness; }
-
-				inline void MaterialMTL::setOpticalDensity(const float opticalDensity) noexcept { this->_ni = opticalDensity; }
-
-				inline void MaterialMTL::setAmbientMap(const std::string & path) noexcept { this->_mapKa = path; }
-
-				inline void MaterialMTL::setDiffuseMap(const std::string & path) noexcept { this->_mapKd = path; }
-
-				inline void MaterialMTL::setSpecularMap(const std::string & path) noexcept { this->_mapKs = path; }
+				inline MaterialMTL::MaterialMTL(const std::string & name) noexcept : name(name), ambient{ LightFactor::Type::K, FloatVector3u{1.0f, 1.0f, 1.0f} }, 
+					diffuse{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } }, specular{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } },
+					transmissionFilter{ LightFactor::Type::K, FloatVector3u{ 1.0f, 1.0f, 1.0f } }, illumination(0), dissolve{ 0.0f, { 0.0f, false } }, specularExponent(0), 
+					sharpness(60), opticalDensity(1.0f), mapAmbient(), mapDiffuse(), mapSpecular() {}
 			} // namespace wavefront
 		} // namespace formats
 	} // namespace utility

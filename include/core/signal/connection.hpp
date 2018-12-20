@@ -102,7 +102,7 @@ namespace ece
 				 */
 				Connection & operator=(Connection && move) noexcept = default;
 
-				bool isConnected() const noexcept;
+				auto isConnected() const noexcept;
 
 				void disconnect();
 

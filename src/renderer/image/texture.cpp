@@ -50,7 +50,7 @@ namespace ece
 
 			void Texture::setCurrent(Target target) { Renderer::setCurrentTexture(target, this->weak_from_this()); }
 
-			bool Texture::isCurrent(Target target) const noexcept
+			auto Texture::isCurrent(Target target) const noexcept -> bool
 			{
 				try {
 					return Renderer::getCurrentTexture(target).lock().get() == this;

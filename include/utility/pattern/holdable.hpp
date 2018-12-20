@@ -50,20 +50,14 @@ namespace ece
 			class Holdable
 			{
 			public:
-				inline Holdable() noexcept;
-
-				inline virtual ~Holdable() noexcept;
-
-				virtual Holdable * clone() = 0;
+				virtual auto clone() -> Holdable * = 0;
 
 				virtual void destroy() = 0;
 
-				virtual void * get() = 0;
+				virtual auto get() -> void * = 0;
 			};
 		} // namespace pattern
 	} // namespace utility
 } // namespace ece
-
-#include "utility/pattern/holdable.inl"
 
 #endif // HOLDABLE_HPP

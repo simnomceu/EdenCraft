@@ -40,15 +40,26 @@ namespace ece
 {
     namespace utility
     {
-        namespace log
+        namespace mathematics
         {
-        	inline BaseLogger::BaseLogger() : _target(std::cerr) {}
+            template <class T>
+            inline Degree<T>::Degree(T angle) noexcept: Angle<Degree, T>(angle) {}
 
-        	inline void BaseLogger::logError(const std::string & /*data*/) {}
+            template <class T>
+            inline constexpr auto Degree<T>::toRadian() const { return Radian<T>{ this->_value * static_cast<T>(M_PI) / T{ 180 } }; }
 
-        	inline void BaseLogger::logWarning(const std::string & /*data*/) {}
+            template <class T>
+            inline auto Degree<T>::normalize180() const
+            {
+                auto result = this->normalize360();
+                if (result > T{ 180 }) {
+                    result -= T{ 360 };
+                }
+                return std::move(result);
+            }
 
-        	inline void BaseLogger::logInfo(const std::string & /*data*/) {}
-        } // namespace log
+            template <class T>
+            inline auto Degree<T>::normalize360() const { return Degree<T>{ this->_value - (std::floor(this->_value * 1.0f / 360.0f) * T{ 360 }) }; }
+        } // namespace mathematics
     } // namespace utility
 } // namespace ece

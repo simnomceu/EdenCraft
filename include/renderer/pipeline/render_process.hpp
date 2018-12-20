@@ -109,7 +109,7 @@ namespace ece
 				RenderProcess & operator=(RenderProcess && move) noexcept = default;
 
 				virtual void setPipeline(RenderPipeline pipeline) = 0;
-				virtual RenderPipeline & getPipeline() = 0;
+				virtual auto getPipeline() -> RenderPipeline & = 0;
 
 				virtual void clear(const Color & color = BLACK) = 0;
 				virtual void draw(const Staging & staging) = 0;

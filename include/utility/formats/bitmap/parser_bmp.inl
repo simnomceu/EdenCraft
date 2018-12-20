@@ -46,9 +46,9 @@ namespace ece
 			{
 				inline ParserBMP::ParserBMP() noexcept: Parser(), _pixels(0, 0) {}
 
-				inline Dynamic2DArray<std::array<std::byte, 3>> & ParserBMP::getPixels() noexcept { return this->_pixels; }
+				inline auto & ParserBMP::getPixels() noexcept { return this->_pixels; }
 
-				inline const Dynamic2DArray<std::array<std::byte, 3>> & ParserBMP::getPixels() const noexcept { return this->_pixels; }
+				inline auto ParserBMP::getPixels() const noexcept { return this->_pixels; }
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

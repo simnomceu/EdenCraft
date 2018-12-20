@@ -47,17 +47,17 @@ namespace ece
 		{
 			inline void Renderer::setCurrentTarget(const std::weak_ptr<RenderTarget> & target) { Renderer::_currentTarget = target; }
 
-			inline std::weak_ptr<RenderTarget> Renderer::getCurrentTarget() { return Renderer::_currentTarget; }
+			inline auto Renderer::getCurrentTarget() -> std::weak_ptr<RenderTarget> { return Renderer::_currentTarget; }
 
 			inline void Renderer::setCurrentContext(const std::weak_ptr<RenderContext> & context) { Renderer::_currentContext = context;  }
 
-			inline std::weak_ptr<RenderContext> Renderer::getCurrentContext() { return Renderer::_currentContext; }
+			inline auto Renderer::getCurrentContext() -> std::weak_ptr<RenderContext> { return Renderer::_currentContext; }
 
 			inline void Renderer::setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture) { Renderer::_currentTextures[target] = texture; }
 
-			inline std::weak_ptr<Texture> Renderer::getCurrentTexture(Texture::Target target) { return Renderer::_currentTextures[target]; }
+			inline auto Renderer::getCurrentTexture(Texture::Target target) -> std::weak_ptr<Texture> { return Renderer::_currentTextures[target]; }
 
-			inline bool Renderer::isInitialized() noexcept { return !Renderer::_currentContext.expired(); }
+			inline auto Renderer::isInitialized() noexcept { return !Renderer::_currentContext.expired(); }
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

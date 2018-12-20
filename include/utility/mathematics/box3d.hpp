@@ -60,19 +60,20 @@ namespace ece
         	 *   | /     | /
         	 *   a-------*
         	 */
+            template <class E>
         	class ECE_UTILITY_API Box3D
         	{
         	public:
         		Box3D() = delete;
 
         		/**
-        		 * @fn Box3D(const FloatVector3u & a, const FloatVector3u & b)
+        		 * @fn Box3D(FloatVector3u a, FloatVector3u b)
         		 * @param[in] a The left-bottom vertex of the box
         		 * @param[in] b The right-top vertex of the box
         		 * @brief  Build a box in 3D space.
         		 * @throw
         		 */
-        		inline Box3D(const FloatVector3u & a, const FloatVector3u & b);
+        		inline Box3D(Vector3u<E> a, Vector3u<E> b);
 
         		/**
         		 * @fn Box3D(const Box3D & copy)
@@ -121,19 +122,19 @@ namespace ece
         		 * @brief Get the center of the box as a 3D vertex.
         		 * @throw noexcept.
         		 */
-        		inline FloatVector3u getCenter() const noexcept;
+        		inline auto getCenter() const noexcept;
 
         		/**
         		 * @property _a
         		 * @brief The left-bottom vertex of the box.
         		 */
-        		FloatVector3u a;
+        		Vector3u<E> a;
 
         		/**
         		 * @property _b
         		 * @brief The right-top vertex of the box.
         		 */
-        		FloatVector3u b;
+        		Vector3u<E> b;
         	};
         } // namespace mathematics
     } // namespace utility

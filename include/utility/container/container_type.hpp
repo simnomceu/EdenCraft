@@ -56,7 +56,7 @@ namespace ece
 			struct ECE_UTILITY_API has_value_type<T, std::void_t<typename T::value_type>>: std::true_type {}; // Todo: T::value_type should be 'Erasable'.
 
 			template <class T>
-			inline constexpr bool has_value_type_v = has_value_type<T>::value;
+			inline constexpr auto has_value_type_v = has_value_type<T>::value;
 
 			/* Container::reference */
 			template <class T, typename = void>
@@ -66,7 +66,7 @@ namespace ece
 			struct ECE_UTILITY_API has_reference<T, std::void_t<typename T::reference>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_reference_v = has_reference<T>::value;
+			inline constexpr auto has_reference_v = has_reference<T>::value;
 
 			/* Container::const_reference */
 			template <class T, typename = void>
@@ -76,7 +76,7 @@ namespace ece
 			struct ECE_UTILITY_API has_const_reference<T, std::void_t<typename T::const_reference>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_const_reference_v = has_const_reference<T>::value;
+			inline constexpr auto has_const_reference_v = has_const_reference<T>::value;
 
 			/* Container::iterator */
 			template <class T, typename = void>
@@ -86,7 +86,7 @@ namespace ece
 			struct ECE_UTILITY_API has_iterator<T, std::void_t<typename T::iterator>> : std::true_type {}; // Todo: T::iterator should be 'ForwardIterator'.
 
 			template <class T>
-			inline constexpr bool has_iterator_v = has_iterator<T>::value;
+			inline constexpr auto has_iterator_v = has_iterator<T>::value;
 
 			/* Container::const_iterator */
 			template <class T, typename = void>
@@ -96,7 +96,7 @@ namespace ece
 			struct ECE_UTILITY_API has_const_iterator<T, std::void_t<typename T::const_iterator>> : std::true_type {}; // Todo: T::iterator should be 'ForwardIterator'.
 
 			template <class T>
-			inline constexpr bool has_const_iterator_v = has_const_iterator<T>::value;
+			inline constexpr auto has_const_iterator_v = has_const_iterator<T>::value;
 
 			/* Container::difference_type */
 			template <class T, typename = void>
@@ -106,7 +106,7 @@ namespace ece
 			struct ECE_UTILITY_API has_difference_type<T, std::void_t<typename T::difference_type>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_difference_type_v = has_difference_type<T>::value;
+			inline constexpr auto has_difference_type_v = has_difference_type<T>::value;
 
 			/* Container::size_type */
 			template <class T, typename = void>
@@ -116,7 +116,7 @@ namespace ece
 			struct ECE_UTILITY_API has_size_type<T, std::void_t<typename T::size_type>> : std::true_type {};
 
 			template <class T>
-			inline constexpr bool has_size_type_v = has_size_type<T>::value;
+			inline constexpr auto has_size_type_v = has_size_type<T>::value;
 		} // namespace container
 	} // namespace utility
 } // namespace ece

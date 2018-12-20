@@ -131,7 +131,7 @@ namespace ece
         		 * @brief Get he number of elements.
         		 * @throw noexcept
         		 */
-        		inline unsigned int size() const noexcept;
+        		inline auto size() const noexcept;
 
         		/**
         		 * @fn operator E & () noexcept

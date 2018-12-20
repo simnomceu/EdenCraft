@@ -51,14 +51,16 @@ namespace ece
 			template <template <class, class...> class Storage, class Data, typename enabled>
 			Buffer<Storage, Data, enabled> & Buffer<Storage, Data, enabled>::operator=(Buffer<Storage, Data, enabled> && move) noexcept
 			{
-				BaseBuffer::operator=(std::move(move));
-				this->_storage = std::move(move._storage);
+				if (this != &move) {
+					BaseBuffer::operator=(std::move(move));
+					this->_storage = std::move(move._storage);
+				}
 
 				return *this;
 			}
 
 			template <template <class, class...> class Storage, class Data, typename enabled>
-			inline typename Buffer<Storage, Data, enabled>::data_type Buffer<Storage, Data, enabled>::read() const
+			inline auto Buffer<Storage, Data, enabled>::read() const
 			{
 				this->bind();
 				return this->_storage.read(this->_descriptor, this->_type, this->_frequency);
@@ -86,13 +88,13 @@ namespace ece
 			}
 
 			template <template <class, class...> class Storage, class Data, typename enabled>
-			inline typename Buffer<Storage, Data, enabled>::size_type Buffer<Storage, Data, enabled>::size() const noexcept { return this->_storage.data().size(); }
+			inline auto Buffer<Storage, Data, enabled>::size() const noexcept -> typename Buffer<Storage, Data, enabled>::size_type { return this->_storage.data().size(); }
 
 			template <template <class, class...> class Storage, class Data, typename enabled>
-			inline typename Buffer<Storage, Data, enabled>::data_type & Buffer<Storage, Data, enabled>::data() { return this->_storage.data(); }
+			inline auto Buffer<Storage, Data, enabled>::data() -> Buffer<Storage, Data, enabled>::data_type & { return this->_storage.data(); }
 
 			template <template <class, class...> class Storage, class Data, typename enabled>
-			inline const typename Buffer<Storage, Data, enabled>::data_type & Buffer<Storage, Data, enabled>::data() const { return this->_storage.data(); }
+			inline auto Buffer<Storage, Data, enabled>::data() const -> const Buffer<Storage, Data, enabled>::data_type & { return this->_storage.data(); }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

@@ -104,7 +104,7 @@ namespace ece
 				 */
 				ComputedProperty<T> & operator=(ComputedProperty<T> && move) = default;
 
-				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) override;
+				virtual auto getUniform(std::string name) -> std::shared_ptr<BaseUniform> override;
 
 			private:
 				Function _computedValue;

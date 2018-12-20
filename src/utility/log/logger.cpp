@@ -51,53 +51,23 @@ namespace ece
     {
         namespace log
         {
-        	void Logger::logError(const std::string & data)
-        	{
-        		std::time_t result = std::time(nullptr);
-        		tm today;
+            using namespace std::string_literals;
+
+            void Logger::log(const std::string & tag, const std::string & data)
+            {
+        		auto result = std::time(nullptr);
+        		auto today = tm{};
         		localtime_s(&today, &result);
 
-        		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
-        		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
-        		std::string year = std::to_string(today.tm_year + 1900);
-        		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
-        		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
-        		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
+        		auto day = (today.tm_mday < 10 ? "0"s : ""s) + std::to_string(today.tm_mday);
+        		auto month = (today.tm_mon + 1 < 10 ? "0"s : ""s) + std::to_string(today.tm_mon + 1);
+        		auto year = std::to_string(today.tm_year + 1900);
+        		auto hour = (today.tm_hour < 10 ? "0"s : ""s) + std::to_string(today.tm_hour);
+        		auto min = (today.tm_min < 10 ? "0"s : ""s) + std::to_string(today.tm_min);
+        		auto sec = (today.tm_sec < 10 ? "0"s : ""s) + std::to_string(today.tm_sec);
 
-        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][ERROR]" << data << std::endl;
-        	}
-
-        	void Logger::logWarning(const std::string & data)
-        	{
-        		std::time_t result = std::time(nullptr);
-        		tm today;
-        		localtime_s(&today, &result);
-
-        		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
-        		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
-        		std::string year = std::to_string(today.tm_year + 1900);
-        		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
-        		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
-        		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
-
-        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][WARNING]" << data << std::endl;
-        	}
-
-        	void Logger::logInfo(const std::string & data)
-        	{
-        		std::time_t result = std::time(nullptr);
-        		tm today;
-        		localtime_s(&today, &result);
-
-        		std::string day = (today.tm_mday < 10 ? "0" : "") + std::to_string(today.tm_mday);
-        		std::string month = (today.tm_mon + 1 < 10 ? "0" : "") + std::to_string(today.tm_mon + 1);
-        		std::string year = std::to_string(today.tm_year + 1900);
-        		std::string hour = (today.tm_hour < 10 ? "0" : "") + std::to_string(today.tm_hour);
-        		std::string min = (today.tm_min < 10 ? "0" : "") + std::to_string(today.tm_min);
-        		std::string sec = (today.tm_sec < 10 ? "0" : "") + std::to_string(today.tm_sec);
-
-        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][INFO]" << data << std::endl;
-        	}
+        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][" << tag << "]" << data << std::endl;
+            }
         } // namespace log
     } // namespace utility
 } // namespace ece

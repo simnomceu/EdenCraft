@@ -80,10 +80,10 @@ namespace ece
 			}
 
 			template <class Resource>
-			ResourceHandler<Resource> ResourceContainer<Resource>::getResource(const std::string & key)
+			auto ResourceContainer<Resource>::getResource(const std::string & key)
 			{
-				this->_resources[key]._lastAccess = std::chrono::system_clock::now();
-				return ResourceHandler(this->_resources[key]._content);
+				this->_resources[key].lastAccess = std::chrono::system_clock::now();
+				return ResourceHandler(this->_resources[key].content);
 			}
 
 		} // namespace resource
