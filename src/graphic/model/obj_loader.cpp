@@ -41,10 +41,6 @@
 #include "graphic/pch.hpp"
 #include "graphic/model/obj_loader.hpp"
 
-#include "utility/file_system.hpp"
-#include "utility/formats.hpp"
-#include "renderer/shader.hpp"
-#include "core/resource.hpp"
 #include "renderer/image.hpp"
 #include "graphic/material/phong_material.hpp"
 
@@ -56,7 +52,7 @@ namespace ece
 		{
 			using material::PhongMaterial;
 
-			void OBJLoader::loadFromFile(const std::string & filename)
+			void OBJLoader::loadFromFile(const std::filesystem::path & filename)
 			{
 				auto file = std::ifstream(filename, std::ios::out);
 				if (!file.is_open()) {
@@ -90,12 +86,13 @@ namespace ece
 				this->load("", parser);
 			}
 
-			void OBJLoader::load(const std::string & filename, ParserOBJ & parser)
+			void OBJLoader::load(const std::filesystem::path & filename, ParserOBJ & parser)
 			{
+				auto fn = filename.string();
 				this->clear();
 				this->_meshes.resize(parser.getObjects().size());
 
-				auto relativePath = filename.substr(0, filename.find_last_of('/') + 1);
+				auto relativePath = fn.substr(0, fn.find_last_of('/') + 1);
 
 				for (auto n = std::size_t{ 0 }; n < parser.getMaterials().size(); ++n) {
 					auto materialFilename = relativePath + parser.getMaterials()[n];

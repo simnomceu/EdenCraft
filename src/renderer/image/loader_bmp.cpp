@@ -50,7 +50,7 @@ namespace ece
 		{
 			using utility::formats::bitmap::ParserBMP;
 
-			void LoaderBMP::loadFromFile(const std::string & filename)
+			void LoaderBMP::loadFromFile(const std::filesystem::path & filename)
 			{
 				auto file = std::ifstream(filename, std::ios::binary | std::ios::in);
 				if (!file.is_open()) {

@@ -108,12 +108,12 @@ namespace ece
 				OBJSaver & operator=(OBJSaver && move) noexcept = default;
 
 				/**
-				 * @fn void saveToFile(const std::string & filename)
+				 * @fn void saveToFile(const std::filesystem::path & filename)
 				 * @param[out] filename The name of the file to save into.
 				 * @brief Formate and save data into a file.
 				 * @throw
 				 */
-				virtual void saveToFile(const std::string & filename) override;
+				virtual void saveToFile(const std::filesystem::path & filename) override;
 
 				/**
 				 * @fn void saveToString(std::string & content)
@@ -134,7 +134,7 @@ namespace ece
 				inline void setMesh(Mesh::Reference && mesh);
 
 			protected:
-				void save(const std::string & filename, ParserOBJ & parser);
+				void save([[maybe_unused]] const std::filesystem::path & filename, ParserOBJ & parser);
 
 			private:
 				Mesh::Reference _mesh;

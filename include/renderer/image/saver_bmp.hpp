@@ -106,12 +106,12 @@ namespace ece
 				SaverBMP & operator=(SaverBMP && move) noexcept = default;
 
 				/**
-				 * @fn void saveToFile(const std::string & filename)
+				 * @fn void saveToFile(const std::filesystem::path & filename)
 				 * @param[out] filename The name of the file to save into.
 				 * @brief Formate and save data into a file.
 				 * @throw
 				 */
-				virtual void saveToFile(const std::string & filename) override;
+				virtual void saveToFile(const std::filesystem::path & filename) override;
 
 				/**
 				 * @fn void saveToString(std::string & content)

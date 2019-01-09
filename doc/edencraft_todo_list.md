@@ -33,8 +33,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
  + [x] Basic exception specialization.
  + [x] Enumeration used like C-like flags.
  * [x] Reflective enumeration traits.
- + [ ] Reading and writing files and binary files.
- + [ ] Dealing with paths (relative and absolute).
+ * [x] Reading and writing files and binary files.
  * [x] Parsing BMP images.
  * [x] Parsing OBJ and MTL Wavefront formats.
  * [x] Parsing JSON formats.
