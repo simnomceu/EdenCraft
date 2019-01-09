@@ -50,20 +50,35 @@ namespace ece
         {
         	/* ########## FileException methods ########## */
 
-        	FileException::FileException(const FileCodeError codeError, const std::string & filename) : Exception()
+        	FileException::FileException(const FileCodeError codeError, const std::filesystem::path & filename) : Exception()
         	{
         		switch (codeError) {
         		case BAD_PATH:
-        			this->setMessage("Code %. This file doesn't exist: %.", (int)codeError, filename);
+        			this->setMessage("Code %. This file doesn't exist: %.", (int)codeError, filename.string());
         			break;
         		case PARSE_ERROR:
-        			this->setMessage("Code %. Error while trying to parse %. Check the content format.", (int)codeError, filename);
+        			this->setMessage("Code %. Error while trying to parse %. Check the content format.", (int)codeError, filename.string());
         			break;
         		default:
-        			this->setMessage("Code %i. Undefined error on file %.", (int)codeError, filename);
+        			this->setMessage("Code %i. Undefined error on file %.", (int)codeError, filename.string());
         			break;
         		}
         	}
+
+			FileException::FileException(const FileCodeError codeError, const std::filesystem::path & filename, const std::string & details) : Exception()
+			{
+				switch (codeError) {
+				case BAD_PATH:
+					this->setMessage("Code %. This file doesn't exist: %. (%)", (int)codeError, filename.string(), details);
+					break;
+				case PARSE_ERROR:
+					this->setMessage("Code %. Error while trying to parse %. Check the content format. (%)", (int)codeError, filename.string(), details);
+					break;
+				default:
+					this->setMessage("Code %i. Undefined error on file %. (%)", (int)codeError, filename.string(), details);
+					break;
+				}
+			}
 
         	/* ########## BadInputException methods ########## */
 

@@ -79,10 +79,10 @@ namespace ece
         		return *this;
         	}
 
-        	auto File::open(const std::string & filename, const OpenMode & mode) -> bool
+        	auto File::open(const std::filesystem::path & filename, const OpenMode & mode) -> bool
         	{
         		this->_stream.close();
-        		if (!File::exists(filename)) {
+        		if (!std::filesystem::is_regular_file(filename)) {
         			throw FileException(BAD_PATH, filename);
         		}
         		this->_filename = filename;
@@ -123,26 +123,10 @@ namespace ece
         				}
         			}
         			catch (std::exception & e) {
-        				throw FileException(PARSE_ERROR, this->_filename + " (" + e.what() + ")");
+        				throw FileException(PARSE_ERROR, this->_filename, e.what());
         			}
         		}
         		return content;
-        	}
-
-        	auto File::exists(const std::string & filename) -> bool
-        	{
-				return std::filesystem::is_regular_file(std::filesystem::path(filename));
-        	}
-
-			auto File::getLastTimeModification(const std::string & filename) -> long long
-        	{
-        		// according to : https://stackoverflow.com/questions/40504281/c-how-to-check-the-last-modified-time-of-a-file
-        		struct stat result;
-        		if (stat(filename.c_str(), &result) == 0)
-        		{
-        			return result.st_mtime;
-        		}
-				return -1;
         	}
         } // namespace file_system
     } // namespace utility
