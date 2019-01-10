@@ -36,32 +36,28 @@
 
 */
 
+#ifndef PACKED_VERTEX_ATTRIB_TYPE_HPP
+#define PACKED_VERTEX_ATTRIB_TYPE_HPP
+
+#include "renderer/config.hpp"
 #include "renderer/pch.hpp"
-#include "renderer/opengl/enum/front_face_mode.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 
 namespace ece
 {
-	namespace renderer
-	{
-		namespace opengl
-		{
-			FrontFaceMode getFrontFaceMode(RenderState::FrontFaceMode mode)
-			{
-				switch (mode) {
-				case RenderState::FrontFaceMode::CLOCKWISE: return FrontFaceMode::CW; break;
-				case RenderState::FrontFaceMode::COUNTERCLOCKWISE: return FrontFaceMode::CCW; break;
-				default: throw std::runtime_error("Unknown value for FrontFaceMode enumeration."); break;
-				}
-			}
+    namespace renderer
+    {
+        namespace opengl
+        {
+            enum class PackedVertexAttribType : unsigned int
+            {
+                SIGNED = GL_INT_2_10_10_10_REV,
+                UNSIGNED = GL_UNSIGNED_INT_2_10_10_10_REV,
+                FLOATING = GL_UNSIGNED_INT_10F_11F_11F_REV
+            };
+        } // namespace opengl.hpp
+    }
+}
 
-			std::string to_string(FrontFaceMode mode)
-			{
-				switch (mode) {
-				case FrontFaceMode::CW: return "GL_CW"; break;
-				case FrontFaceMode::CCW: return "GL_CCW"; break;
-				default: throw std::runtime_error("Unknown value for FrontFaceMode enumeration."); break;
-				}
-			}
-		} // namespace opengl
-	} // namespace renderer
-} // namespace ece
+#endif // PACKED_VERTEX_ATTRIB_TYPE_HPP

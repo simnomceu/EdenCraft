@@ -49,7 +49,9 @@
 #include "renderer/opengl/enum/cull_face_mode.hpp"
 #include "renderer/opengl/enum/data_type.hpp"
 #include "renderer/opengl/enum/depth_function_condition.hpp"
-#include "renderer/opengl/enum/front_face_mode.h"
+#include "renderer/opengl/enum/front_face_mode.hpp"
+#include "renderer/opengl/enum/packed_vertex_attrib_type.hpp"
+#include "renderer/opengl/enum/primitive_mode.hpp"
 #include "renderer/opengl/enum/shader_type.hpp"
 #include "renderer/opengl/enum/texture_parameter.hpp"
 #include "renderer/opengl/enum/texture_target.hpp"
@@ -68,20 +70,96 @@ namespace ece
 		{
 			// TODO: replace lot of enumerations by assert to check the value ?
 
-			enum class PrimitiveMode : unsigned short int
+			enum class VertexAttribParameter : unsigned short int
 			{
-				POINTS = GL_POINTS,
-				LINE_STRIP = GL_LINE_STRIP,
-				LINE_LOOP = GL_LINE_LOOP,
-				LINES = GL_LINES,
-				LINE_STRIP_ADJACENCY = GL_LINE_STRIP_ADJACENCY,
-				LINES_ADJACENCY = GL_LINES_ADJACENCY,
-				TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
-				TRIANGLE_FAN = GL_TRIANGLE_FAN,
-				TRIANGLES = GL_TRIANGLES,
-				TRIANGLES_STRIP_ADJACENCY = GL_TRIANGLE_STRIP_ADJACENCY,
-				TRIANGLES_ADJACENCY = GL_TRIANGLES_ADJACENCY,
-				PATCHES = GL_PATCHES
+				ARRAY_BUFFER_BINDING = GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING,
+				ARRAY_ENABLED = GL_VERTEX_ATTRIB_ARRAY_ENABLED,
+				ARRAY_SIZE = GL_VERTEX_ATTRIB_ARRAY_SIZE,
+				ARRAY_STRIDE = GL_VERTEX_ATTRIB_ARRAY_STRIDE,
+				ARRAY_TYPE = GL_VERTEX_ATTRIB_ARRAY_TYPE,
+				ARRAY_NORMALIZED = GL_VERTEX_ATTRIB_ARRAY_NORMALIZED,
+				ARRAY_INTEGER = GL_VERTEX_ATTRIB_ARRAY_INTEGER,
+				ARRAY_DIVISOR = GL_VERTEX_ATTRIB_ARRAY_DIVISOR,
+				CURRENT = GL_CURRENT_VERTEX_ATTRIB
+			};
+
+			enum class VaryingBufferMode : unsigned short int
+			{
+				INTERLEAVED_ATTRIBS = GL_INTERLEAVED_ATTRIBS,
+				SEPARATE_ATTRIBS = GL_SEPARATE_ATTRIBS
+			};
+
+			enum class UniformBlockParameter : unsigned short int
+			{
+				BINDING = GL_UNIFORM_BLOCK_BINDING,
+				DATA_SIZE = GL_UNIFORM_BLOCK_DATA_SIZE,
+				NAME_LENGTH = GL_UNIFORM_BLOCK_NAME_LENGTH,
+				ACTIVE_UNIFORMS = GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS,
+				ACTIVE_UNIFORM_INDICES = GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES,
+				REFERENCED_BY_VERTEX_SHADER = GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER,
+				REFERENCED_BY_TESS_CONTROL_SHADER = GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER,
+				REFERENCED_BY_TESS_EVALUATION_SHADER = GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_EVALUATION_SHADER,
+				REFERENCED_BY_GEOMETRY_SHADER = GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER,
+				REFERENCED_BY_FRAGMENT_SHADER = GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER,
+				REFERENCED_BY_COMPUTE_SHADER = GL_UNIFORM_BLOCK_REFERENCED_BY_COMPUTE_SHADER
+			};
+
+			struct UniformBlock
+			{
+				std::vector<std::string> names;
+				std::vector<int> indices;
+			};
+
+			struct VaryingInfo
+			{
+				std::string name;
+				std::size_t size;
+				GLenum type;
+			};
+
+			enum class AttributeType : unsigned short int
+			{
+				FLOAT = GL_FLOAT,
+				FLOAT_VEC2 = GL_FLOAT_VEC2,
+				FLOAT_VEC3 = GL_FLOAT_VEC3,
+				FLOAT_VEC4 = GL_FLOAT_VEC4,
+				FLOAT_MAT2 = GL_FLOAT_MAT2,
+				FLOAT_MAT3 = GL_FLOAT_MAT3,
+				FLOAT_MAT4 = GL_FLOAT_MAT4,
+				FLOAT_MAT2x3 = GL_FLOAT_MAT2x3,
+				FLOAT_MAT2x4 = GL_FLOAT_MAT2x4,
+				FLOAT_MAT3x2 = GL_FLOAT_MAT3x2,
+				FLOAT_MAT3x4 = GL_FLOAT_MAT3x4,
+				FLOAT_MAT4x2 = GL_FLOAT_MAT4x2,
+				FLOAT_MAT4x3 = GL_FLOAT_MAT4x3,
+				INT = GL_INT,
+				INT_VEC2 = GL_INT_VEC2,
+				INT_VEC3 = GL_INT_VEC3,
+				INT_VEC4 = GL_INT_VEC4,
+				UNSIGNED_INT = GL_UNSIGNED_INT,
+				UNSIGNED_INT_VEC2 = GL_UNSIGNED_INT_VEC2,
+				UNSIGNED_INT_VEC3 = GL_UNSIGNED_INT_VEC3,
+				UNSIGNED_INT_VEC4 = GL_UNSIGNED_INT_VEC4,
+				DOUBLE = GL_DOUBLE,
+				DOUBLE_VEC2 = GL_DOUBLE_VEC2,
+				DOUBLE_VEC3 = GL_DOUBLE_VEC3,
+				DOUBLE_VEC4 = GL_DOUBLE_VEC4,
+				DOUBLE_MAT2 = GL_DOUBLE_MAT2,
+				DOUBLE_MAT3 = GL_DOUBLE_MAT3,
+				DOUBLE_MAT4 = GL_DOUBLE_MAT4,
+				DOUBLE_MAT2x3 = GL_DOUBLE_MAT2x3,
+				DOUBLE_MAT2x4 = GL_DOUBLE_MAT2x4,
+				DOUBLE_MAT3x2 = GL_DOUBLE_MAT3x2,
+				DOUBLE_MAT3x4 = GL_DOUBLE_MAT3x4,
+				DOUBLE_MAT4x2 = GL_DOUBLE_MAT4x2,
+				DOUBLE_MAT4x3 = GL_DOUBLE_MAT4x3
+			};
+
+			struct ProgramAttribute
+			{
+				std::string name;
+				AttributeType type;
+				std::size_t size;
 			};
 
 			EnumFlagsT(unsigned short int, Bitfield)
@@ -89,6 +167,82 @@ namespace ece
 				COLOR_BUFFER_BIT = GL_COLOR_BUFFER_BIT,
 					DEPTH_BUFFER_BIT = GL_DEPTH_BUFFER_BIT,
 					STENCIL_BUFFER_BIT = GL_STENCIL_BUFFER_BIT
+			};
+
+			enum class ProvokeMode : unsigned short int
+			{
+				FIRST_VERTEX_CONVENTION = GL_FIRST_VERTEX_CONVENTION,
+				LAST_VERTEX_CONVENTION = GL_LAST_VERTEX_CONVENTION
+			};
+
+			enum class ConditionalRenderQueryMode : unsigned short int
+			{
+				QUERY_BY_REGION_WAIT = GL_QUERY_BY_REGION_WAIT,
+				QUERY_BY_REGION_NO_WAIT = GL_QUERY_BY_REGION_NO_WAIT
+			};
+
+			enum class QueryObjectType : unsigned short int
+			{
+				SAMPLES_PASSED = GL_SAMPLES_PASSED,
+				ANY_SAMPLES_PASSED = GL_ANY_SAMPLES_PASSED,
+				ANY_SAMPLES_PASSED_CONSERVATIVE = GL_ANY_SAMPLES_PASSED_CONSERVATIVE,
+				PRIMITIVES_GENERATED = GL_PRIMITIVES_GENERATED,
+				TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN = GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN,
+				TIME_ELAPSED = GL_TIME_ELAPSED,
+				TIMESTAMP = GL_TIMESTAMP
+			};
+
+			enum class QueryObjectTypeName : unsigned short int
+			{
+				QUERY_RESULT = GL_QUERY_RESULT,
+				QUERY_RESULT_NO_WAIT = GL_QUERY_RESULT_NO_WAIT,
+				QUERY_RESULT_AVAILABLE = GL_QUERY_RESULT_AVAILABLE
+			};
+
+			enum class QueryObjectTypeParameter : unsigned short int
+			{
+				CURRENT_QUERY = GL_CURRENT_QUERY,
+				QUERY_COUNTER_BITS = GL_QUERY_COUNTER_BITS
+			};
+
+			enum class BufferParameter : unsigned short int
+			{
+				ACCESS = GL_BUFFER_ACCESS,
+				ACCESS_FLAGS = GL_BUFFER_ACCESS_FLAGS,
+				IMMUTABLE_STORAGE = GL_BUFFER_IMMUTABLE_STORAGE,
+				MAPPED = GL_BUFFER_MAPPED,
+				MAP_LENGTH = GL_BUFFER_MAP_LENGTH,
+				MAP_OFFSET = GL_BUFFER_MAP_OFFSET,
+				SIZE = GL_BUFFER_SIZE,
+				STORAGE_FLAGS = GL_BUFFER_STORAGE_FLAGS,
+				USAGE = GL_BUFFER_USAGE
+			};
+
+			enum class IndexedBufferTarget : unsigned short int
+			{
+				ATOMIC_COUNTER = GL_ATOMIC_COUNTER_BUFFER,
+				TRANSFORM_FEEDBACK = GL_TRANSFORM_FEEDBACK_BUFFER,
+				UNIFORM = GL_UNIFORM_BUFFER,
+				SHADER_STORAGE = GL_SHADER_STORAGE_BUFFER
+			};
+
+			EnumFlagsT(unsigned short int, MapBufferRangeAccessFlag)
+			{
+				READ = GL_MAP_READ_BIT,
+				WRITE = GL_MAP_WRITE_BIT,
+				PERSISTENT = GL_MAP_PERSISTENT_BIT,
+				COHERENT = GL_MAP_COHERENT_BIT,
+				INVALIDATE_RANGE = GL_MAP_INVALIDATE_RANGE_BIT,
+				INVALIDATE_BUFFER = GL_MAP_INVALIDATE_BUFFER_BIT,
+				FLUSH_EXPLICIT = GL_MAP_FLUSH_EXPLICIT_BIT,
+				UNSYNCHRONIZED = GL_MAP_UNSYNCHRONIZED_BIT
+			};
+
+			EnumFlagsT(unsigned short int, MapBufferAccessFlag)
+			{
+				READ_ONLY = GL_READ_ONLY,
+				WRITE_ONLY = GL_WRITE_ONLY,
+				READ_WRITE = GL_READ_WRITE
 			};
 
 			enum class Capability : unsigned short int

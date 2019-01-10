@@ -49,73 +49,177 @@ namespace ece
 
 			inline auto OpenGL::getError() -> ErrorGL { return ErrorGL(glGetError()); }
 
-			//	inline void OpenGL::vertexAttrib1f(unsigned int /*index*/, float /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib1s(unsigned int /*index*/, short /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib1d(unsigned int /*index*/, double /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI1i(unsigned int /*index*/, int /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI1ui(unsigned int /*index*/, unsigned int /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib2f(unsigned int /*index*/, float /*v0*/, float /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib2s(unsigned int /*index*/, short /*v0*/, short /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib2d(unsigned int /*index*/, double /*v0*/, double /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI2i(unsigned int /*index*/, int /*v0*/, int /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI2ui(unsigned int /*index*/, unsigned int /*v0*/, unsigned int /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib3f(unsigned int /*index*/, float /*v0*/, float /*v1*/, float /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib3s(unsigned int /*index*/, short /*v0*/, short /*v1*/, short /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib3d(unsigned int /*index*/, double /*v0*/, double /*v1*/, double /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI3i(unsigned int /*index*/, int /*v0*/, int /*v1*/, int /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI3ui(unsigned int /*index*/, unsigned int /*v0*/, unsigned int /*v1*/, unsigned int /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4f(unsigned int /*index*/, float /*v0*/, float /*v1*/, float /*v2*/, float /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4s(unsigned int /*index*/, short /*v0*/, short /*v1*/, short /*v2*/, short /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4d(unsigned int /*index*/, double /*v0*/, double /*v1*/, double /*v2*/, double /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4Nub(unsigned int /*index*/, GLubyte /*v0*/, GLubyte /*v1*/, GLubyte /*v2*/, GLubyte /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI4i(unsigned int /*index*/, int /*v0*/, int /*v1*/, int /*v2*/, int /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI4ui(unsigned int /*index*/, unsigned int /*v0*/, unsigned int /*v1*/, unsigned int /*v2*/, unsigned int /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib1fv(unsigned int /*index*/, const float * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib1sv(unsigned int /*index*/, const short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib1dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI1iv(unsigned int /*index*/, const int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI1uiv(unsigned int /*index*/, const unsigned int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib2fv(unsigned int /*index*/, const float * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib2sv(unsigned int /*index*/, const short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib2dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI2iv(unsigned int /*index*/, const int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI2uiv(unsigned int /*index*/, const unsigned int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib3fv(unsigned int /*index*/, const float * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib3sv(unsigned int /*index*/, const short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib3dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI3iv(unsigned int /*index*/, const int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI3uiv(unsigned int /*index*/, const unsigned int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4fv(unsigned int /*index*/, const float * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4sv(unsigned int /*index*/, const short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4iv(unsigned int /*index*/, const int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4bv(unsigned int /*index*/, const GLbyte * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4ubv(unsigned int /*index*/, const GLubyte * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4usv(unsigned int /*index*/, const unsigned short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4uiv(unsigned int /*index*/, const unsigned int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4Nbv(unsigned int /*index*/, const GLbyte * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4Nsv(unsigned int /*index*/, const short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4Niv(unsigned int /*index*/, const int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4Nubv(unsigned int /*index*/, const GLubyte * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4Nusv(unsigned int /*index*/, const unsigned short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttrib4Nuiv(unsigned int /*index*/, const unsigned int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI4bv(unsigned int /*index*/, const GLbyte * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI4ubv(unsigned int /*index*/, const GLubyte * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI4sv(unsigned int /*index*/, const short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI4usv(unsigned int /*index*/, const unsigned short * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI4iv(unsigned int /*index*/, const int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribI4uiv(unsigned int /*index*/, const unsigned int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribP1ui(unsigned int /*index*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribP2ui(unsigned int /*index*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribP3ui(unsigned int /*index*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribP4ui(unsigned int /*index*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*value*/) { static_assert(false, "Not implemented yet."); }
+			template <class T>
+			inline void OpenGL::vertexAttrib(Handle index, T v)
+			{
+				throw std::runtime_error("OpenGL::vertexAttrib method is not defined for this type");
+			}
+
+			template <class T>
+			inline void vertexAttrib(Handle index, Vector2u<T> v)
+			{
+				throw std::runtime_error("OpenGL::vertexAttrib method is not defined for this type");
+			}
+
+			template <class T>
+			inline void vertexAttrib(Handle index, Vector3u<T> v)
+			{
+				throw std::runtime_error("OpenGL::vertexAttrib method is not defined for this type");
+			}
+
+			template <class T>
+			inline void vertexAttrib(Handle index, Vector4u<T> v)
+			{
+				throw std::runtime_error("OpenGL::vertexAttrib method is not defined for this type");
+			}
+
+			template <std::size_t Size, typename enabled>
+			inline void OpenGL::vertexAttribP(Handle index, PackedVertexAttribType type, bool normalized, unsigned int value)
+			{
+				if constexpr (Size == 1) {
+					checkErrors(glVertexAttribP1ui(static_cast<unsigned int>(index), static_cast<GLenum>(type), normalized, value));
+				}
+				else if (Size == 2) {
+					checkErrors(glVertexAttribP2ui(static_cast<unsigned int>(index), static_cast<GLenum>(type), normalized, value));
+				}
+				else if (Size == 3) {
+					checkErrors(glVertexAttribP3ui(static_cast<unsigned int>(index), static_cast<GLenum>(type), normalized, value));
+				}
+				else if (Size == 4) {
+					checkErrors(glVertexAttribP4ui(static_cast<unsigned int>(index), static_cast<GLenum>(type), normalized, value));
+				}
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, float v)
+			{
+				checkErrors(glVertexAttrib1f(static_cast<unsigned int>(index), v));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, short v)
+			{
+				checkErrors(glVertexAttrib1s(static_cast<unsigned int>(index), v));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, double v)
+			{
+				checkErrors(glVertexAttrib1d(static_cast<unsigned int>(index), v));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, int v)
+			{
+				checkErrors(glVertexAttribI1i(static_cast<unsigned int>(index), v));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, unsigned int v)
+			{
+				checkErrors(glVertexAttribI1ui(static_cast<unsigned int>(index), v));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector2u<float> v)
+			{
+				checkErrors(glVertexAttrib2f(static_cast<unsigned int>(index), v[0], v[1]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector2u<short> v)
+			{
+				checkErrors(glVertexAttrib2s(static_cast<unsigned int>(index), v[0], v[1]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector2u<double> v)
+			{
+				checkErrors(glVertexAttrib2d(static_cast<unsigned int>(index), v[0], v[1]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector2u<int> v)
+			{
+				checkErrors(glVertexAttribI2i(static_cast<unsigned int>(index), v[0], v[1]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector2u<unsigned int> v)
+			{
+				checkErrors(glVertexAttribI2ui(static_cast<unsigned int>(index), v[0], v[1]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector3u<float> v)
+			{
+				checkErrors(glVertexAttrib3f(static_cast<float>(index), v[0], v[1], v[2]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector3u<short> v)
+			{
+				checkErrors(glVertexAttrib3s(static_cast<float>(index), v[0], v[1], v[2]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector3u<double> v)
+			{
+				checkErrors(glVertexAttrib3d(static_cast<float>(index), v[0], v[1], v[2]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector3u<int> v)
+			{
+				checkErrors(glVertexAttribI3i(static_cast<float>(index), v[0], v[1], v[2]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector3u<unsigned int> v)
+			{
+				checkErrors(glVertexAttribI3ui(static_cast<float>(index), v[0], v[1], v[2]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector4u<float> v)
+			{
+				checkErrors(glVertexAttrib4f(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector4u<short> v)
+			{
+				checkErrors(glVertexAttrib4s(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector4u<double> v)
+			{
+				checkErrors(glVertexAttrib4d(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector4u<int> v)
+			{
+				checkErrors(glVertexAttribI4i(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, Vector4u<unsigned int> v)
+			{
+				checkErrors(glVertexAttribI4ui(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+			}
+
+			template<>
+			inline void OpenGL::vertexAttrib(Handle index, std::array<std::byte, 4> v)
+			{
+				checkErrors(glVertexAttrib4Nub(static_cast<float>(index), static_cast<GLubyte>(v[0]), static_cast<GLubyte>(v[1]), static_cast<GLubyte>(std::move(v[2])), static_cast<GLubyte>(std::move(v[3]))));
+			}
 
 			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
 			{
 				checkErrors(glVertexAttribPointer(location, static_cast<GLint>(size), static_cast<GLenum>(type), normalized, static_cast<GLsizei>(stride), reinterpret_cast<GLvoid *>(offset)));
 			}
-
-			//	inline void OpenGL::vertexAttribIPointer(unsigned int /*index*/, int /*size*/, GLenum /*type*/, GLsizei /*stride*/, const void * /*pointer*/) { static_assert(false, "Not implemented yet."); }
 
 			inline void OpenGL::enableVertexAttribArray(const int location)
 			{
@@ -147,38 +251,74 @@ namespace ece
 				checkErrors(glDisablei(static_cast<GLenum>(cap), index));
 			}
 
-			//	inline void OpenGL::primitiveRestartIndex(unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::primitiveRestartIndex(std::size_t index)
+			{
+				checkErrors(glPrimitiveRestartIndex(static_cast<GLuint>(index)));
+			}
 
 			inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const std::size_t count)
 			{
 				checkErrors(glDrawArrays(static_cast<GLenum>(mode), first, static_cast<GLsizei>(count)));
 			}
 
-			//	inline void OpenGL::multiDrawArrays(GLenum /*mode*/, const int * /*first*/, const GLsizei * /*count*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
-
-			inline void OpenGL::drawElements(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset)
+			inline void OpenGL::multiDrawArrays(PrimitiveMode mode, const std::vector<int> & first, const std::vector<std::size_t> & count, std::size_t drawcount)
 			{
-				auto byteOffset = offset * sizeof(unsigned int);
-				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(byteOffset)));
+				checkErrors(glMultiDrawArrays(static_cast<GLenum>(mode), first.data(), reinterpret_cast<const GLsizei *>(count.data()), static_cast<GLsizei>(drawcount)));
 			}
 
-			//	inline void OpenGL::multiDrawElements(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawRangeElements(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, const void * /*indices*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::drawElements(const PrimitiveMode mode, const std::size_t count, const int offset)
+			{
+				const auto type = GL_UNSIGNED_INT;
+				auto byteOffset = offset * sizeof(unsigned int);
+				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), type, reinterpret_cast<GLvoid *>(byteOffset)));
+			}
+
+			inline void OpenGL::multiDrawElements(PrimitiveMode mode, const std::vector<std::size_t> & count, const std::vector<std::size_t *> & indices, std::size_t drawcount)
+			{
+				const auto type = GL_UNSIGNED_INT;
+				checkErrors(glMultiDrawElements(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), type, reinterpret_cast<const GLvoid * const *>(indices.data()), static_cast<GLsizei>(drawcount)));
+			}
+
+			inline void OpenGL::drawRangeElements(PrimitiveMode mode, std::size_t start, std::size_t end, std::size_t count, const std::size_t * indices)
+			{
+				const auto type = GL_UNSIGNED_INT;
+				checkErrors(glDrawRangeElements(static_cast<GLenum>(mode), start, end, count, type, static_cast<const GLvoid *>(indices)));
+			}
+
 			inline void OpenGL::drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount)
             {
-                checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, static_cast<GLsizei>(count), static_cast<GLsizei>(primcount)));
+                checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, count, static_cast<GLsizei>(primcount)));
             }
 
-            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const DataType type, const int offset, const std::size_t primcount)
+            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const int offset, const std::size_t primcount)
             {
-				auto byteOffset = offset * sizeof(unsigned int);
-				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(byteOffset), static_cast<GLsizei>(primcount)));
+				const auto type = GL_UNSIGNED_INT;
+				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(offset), static_cast<GLsizei>(primcount)));
             }
 
-            //	inline void OpenGL::drawElementsBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawRangeElementsBaseVertex(GLenum /*mode*/, unsigned int /*start*/, unsigned int /*end*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawElementsInstancedBaseVertex(GLenum /*mode*/, GLsizei /*count*/, GLenum /*type*/, void * /*indices*/, GLsizei /*primcount*/, int /*basevertex*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::multiDrawElementsBaseVertex(GLenum /*mode*/, const GLsizei * /*count*/, GLenum /*type*/, const void * const * /*indices*/, GLsizei /*drawcount*/, const int * /*basevertex*/) { static_assert(false, "Not implemented yet."); }
+            inline void OpenGL::drawElementsBaseVertex(PrimitiveMode mode, std::size_t count, std::vector<std::size_t> & indices, int basevertex)
+			{
+				const auto type = GL_UNSIGNED_INT;
+				checkErrors(glDrawElementsBaseVertex(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(indices.data()), basevertex));
+			}
+
+			inline void OpenGL::drawRangeElementsBaseVertex(PrimitiveMode mode, std::size_t start, std::size_t end, std::size_t count, std::vector<std::size_t> & indices, int basevertex)
+			{
+				const auto type = GL_UNSIGNED_INT;
+				checkErrors(glDrawRangeElementsBaseVertex(static_cast<GLenum>(mode), start, end, count, type, reinterpret_cast<GLvoid *>(indices.data()), basevertex));
+			}
+
+			inline void OpenGL::drawElementsInstancedBaseVertex(PrimitiveMode mode, std::size_t count, std::vector<std::size_t> & indices, std::size_t primcount, int basevertex)
+			{
+				const auto type = GL_UNSIGNED_INT;
+				checkErrors(glDrawElementsInstancedBaseVertex(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(indices.data()), static_cast<GLsizei>(primcount), basevertex));
+			}
+
+			inline void OpenGL::multiDrawElementsBaseVertex(PrimitiveMode mode, const std::vector<std::size_t> & count, const std::vector<std::size_t *> & indices, std::size_t drawcount, const std::vector<int> & basevertex)
+			{
+				const auto type = GL_UNSIGNED_INT;
+				checkErrors(glMultiDrawElementsBaseVertex(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), type, reinterpret_cast<const GLvoid * const *>(indices.data()), drawcount, basevertex.data()));
+			}
 
 			inline auto OpenGL::genBuffers() -> Handle
 			{
@@ -210,8 +350,15 @@ namespace ece
 				checkErrors(glBindBuffer(static_cast<GLenum>(type), handle));
 			}
 
-			//	inline void OpenGL::bindBufferRange(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/, GLintptr /*offset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindBufferBase(GLenum /*target*/, unsigned int /*index*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::bindBufferRange(IndexedBufferTarget target, Handle index, Handle buffer, int offset, std::size_t size)
+			{
+				checkErrors(glBindBufferRange(static_cast<GLenum>(target), index, buffer, offset, size));
+			}
+
+			inline void OpenGL::bindBufferBase(IndexedBufferTarget target, Handle index, Handle buffer)
+			{
+				checkErrors(glBindBufferBase(static_cast<GLenum>(target), index, buffer));
+			}
 
 			template <class C, typename enabled>
 			inline void OpenGL::bufferData(const BufferType type, const C & data, const BufferUsage usage, const int offset)
@@ -225,12 +372,36 @@ namespace ece
 				checkErrors(glBufferData(static_cast<GLenum>(type), size * sizeof(E), nullptr, static_cast<GLenum>(usage)));
 			}
 
-			//	inline void OpenGL::bufferSubData(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*size*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void * OpenGL::mapBufferRange(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*length*/, GLbitfield /*access*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void * OpenGL::mapBuffer(GLenum /*target*/, GLenum /*access*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::flushMappedBufferRange(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*length*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::unmapBuffer(GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyBufferSubData(GLenum /*readTarget*/, GLenum /*writeTarget*/, GLintptr /*readOffset*/, GLintptr /*writeOffset*/, GLsizeiptr /*size*/) { static_assert(false, "Not implemented yet."); }
+			template <class C, typename enabled>
+			inline void OpenGL::bufferSubData(BufferType target, int offset, std::size_t size, const C & data)
+			{
+				checkErrors(glBufferSubData(static_cast<GLenum>(target), offset, size, reinterpret_cast<GLvoid *>(data.data())));
+			}
+
+			inline auto OpenGL::mapBufferRange(BufferType target, int offset, std::size_t length, MapBufferRangeAccessFlag access) -> void *
+			{
+				return checkErrors(glMapBufferRange(static_cast<GLenum>(target), offset, length, static_cast<GLbitfield>(access)));
+			}
+
+			inline auto OpenGL::mapBuffer(BufferType target, MapBufferAccessFlag access) -> void *
+			{
+				return checkErrors(glMapBuffer(static_cast<GLenum>(target), static_cast<GLbitfield>(access)));
+			}
+
+			inline void OpenGL::flushMappedBufferRange(BufferType target, int offset, std::size_t length)
+			{
+				return checkErrors(glFlushMappedBufferRange(static_cast<GLenum>(target), offset, length));
+			}
+
+			inline auto OpenGL::unmapBuffer(BufferType target) -> bool
+			{
+				return checkErrors(glUnmapBuffer(static_cast<GLenum>(target)));
+			}
+
+			inline void OpenGL::copyBufferSubData(BufferType readTarget, BufferType writeTarget, int readOffset, int writeOffset, std::size_t size)
+			{
+				checkErrors(glCopyBufferSubData(static_cast<GLenum>(readTarget), static_cast<GLenum>(writeTarget), readOffset, writeOffset, size));
+			}
 
 			inline auto OpenGL::genVertexArrays() -> Handle
 			{
@@ -247,42 +418,158 @@ namespace ece
 				return std::move(handles);
 			}
 
-			//	inline void OpenGL::deleteVertexArrays(GLsizei /*n*/, const unsigned int * /*arrays*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::deleteVertexArrays(std::size_t n, const std::vector<Handle> & arrays)
+			{
+				checkErrors(glDeleteVertexArrays(n, arrays.data()));
+			}
 
 			inline void OpenGL::bindVertexArray(const Handle handle)
 			{
 				checkErrors(glBindVertexArray(handle));
 			}
 
-			//	inline bool OpenGL::isBuffer(unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getBufferParameteriv(GLenum /*target*/, GLenum /*value*/, int * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getBufferParameteri64v(GLenum /*target*/, GLenum /*value*/, GLint64 * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getBufferSubData(GLenum /*target*/, GLintptr /*offset*/, GLsizeiptr /*size*/, void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getBufferPointerv(GLenum /*target*/, GLenum /*pname*/, void ** /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isVertexArray(unsigned int /*array*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::depthRange(double /*nearVal*/, double /*farVal*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::isBuffer(Handle buffer) -> bool
+			{
+				return checkErrors(glIsBuffer(buffer));
+			}
+
+			inline auto OpenGL::getBufferParameteriv(BufferType target, BufferParameter value) -> int
+			{
+				auto data = 0;
+				checkErrors(glGetBufferParameteriv(static_cast<GLenum>(target), static_cast<GLenum>(value), &data));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::getBufferParameteri64v(BufferType target, BufferParameter value) -> int64_t
+			{
+				auto data = int64_t{ 0 };
+				checkErrors(glGetBufferParameteri64v(static_cast<GLenum>(target), static_cast<GLenum>(value), &data));
+				return std::move(data);
+			}
+
+			template <class T>
+			inline auto OpenGL::getBufferSubData(BufferType target, int offset, std::size_t size) -> std::vector<T>
+			{
+				auto data = std::vector<T>{};
+				checkErrors(glGetBufferSubData(static_cast<GLenum>(target), offset, size, reinterpret_cast<GLvoid *>(data.data())));
+				return std::move(data);
+			}
+
+			template <class T>
+			inline auto OpenGL::getBufferPointerv(BufferType target) -> T *
+			{
+				const auto pname = GL_BUFFER_MAP_POINTER;
+				T * params = nullptr;
+				checkErrors(glGetBufferPointerv(static_cast<GLenum>(target), pname, reinterpret_cast<GLvoid**>(&params)));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::isVertexArray(Handle array) -> bool
+			{
+				return checkErrors(glIsVertexArray(array));
+			}
+
+			inline void OpenGL::depthRange(double nearVal, double farVal)
+			{
+				checkErrors(glDepthRange(nearVal, farVal));
+			}
 
 			inline void OpenGL::viewport(const int x, const int y, const unsigned int width, const unsigned int height)
 			{
 				checkErrors(glViewport(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
 			}
 
-			//	inline void OpenGL::clampColor(GLenum /*target*/, GLenum /*clamp*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::provokingVertex(GLenum /*provokeMode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::beginConditionalRender(unsigned int /*id*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::endConditionalRender() { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::beginTransformFeedback(GLenum /*primitiveMode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::endTransformFeedback() { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::beginQuery(GLenum /*target*/, unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::endQuery(GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::genQueries(GLsizei /*n*/, unsigned int * /*ids*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::deleteQueries(GLsizei /*n*/, const unsigned int * /*ids*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isQuery(unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getQueryiv(GLenum /*target*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getQueryObjectiv(unsigned int /*id*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getQueryObjectuiv(unsigned int /*id*/, GLenum /*pname*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getQueryObjecti64v(unsigned int /*id*/, GLenum /*pname*/, GLint64 * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getQueryObjectui64v(unsigned int /*id*/, GLenum /*pname*/, GLuint64 * /*params*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::clampColor(bool clamp)
+			{
+				checkErrors(glClampColor(GL_CLAMP_READ_COLOR, static_cast<GLenum>(clamp)));
+			}
+
+			inline void OpenGL::provokingVertex(ProvokeMode provokeMode)
+			{
+				checkErrors(glProvokingVertex(static_cast<GLenum>(provokeMode)));
+			}
+
+			inline void OpenGL::beginConditionalRender(Handle id, ConditionalRenderQueryMode mode)
+			{
+				checkErrors(glBeginConditionalRender(id, static_cast<GLenum>(mode)));
+			}
+
+			inline void OpenGL::endConditionalRender()
+			{
+				checkErrors(glEndConditionalRender());
+			}
+
+			inline void OpenGL::beginTransformFeedback(PrimitiveMode primitiveMode)
+			{
+				checkErrors(glBeginTransformFeedback(static_cast<GLenum>(primitiveMode)));
+			}
+
+			inline void OpenGL::endTransformFeedback()
+			{
+				checkErrors(glEndTransformFeedback());
+			}
+
+			inline void OpenGL::beginQuery(QueryObjectType target, Handle id)
+			{
+				checkErrors(glBeginQuery(static_cast<GLenum>(target), id))
+			}
+
+			inline void OpenGL::endQuery(QueryObjectType target)
+			{
+				checkErrors(glEndQuery(static_cast<GLenum>(target)));
+			}
+
+			inline auto OpenGL::genQueries(std::size_t n) -> std::vector<Handle>
+			{
+				auto ids = std::vector<Handle>{};
+				checkErrors(glGenQueries(n, reinterpret_cast<GLuint *>(ids.data())));
+				return ids;
+			}
+
+			inline void OpenGL::deleteQueries(const std::vector<Handle> & ids)
+			{
+				checkErrors(glDeleteQueries(ids.size(), ids.data()));
+			}
+
+			inline auto OpenGL::isQuery(Handle id) -> bool
+			{
+				return checkErrors(glIsQuery(id));
+			}
+
+			inline auto OpenGL::getQueryiv(QueryObjectType target, QueryObjectTypeParameter pname) -> std::vector<int>
+			{
+				auto params = std::vector<int>{};
+				checkErrors(glGetQueryiv(static_cast<GLenum>(target), static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getQueryObjectiv(Handle id, QueryObjectTypeName pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetQueryObjectiv(id, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getQueryObjectuiv(Handle id, QueryObjectTypeName pname) -> unsigned int
+			{
+				auto params = (unsigned int){ 0 };
+				checkErrors(glGetQueryObjectuiv(id, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getQueryObjecti64v(Handle id, QueryObjectTypeName pname) -> int64_t
+			{
+				auto params = int64_t{ 0 };
+				checkErrors(glGetQueryObjecti64v(id, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getQueryObjectui64v(Handle id, QueryObjectTypeName pname) -> uint64_t
+			{
+				auto params = uint64_t{ 0 };
+				checkErrors(glGetQueryObjectui64v(id, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
 
 			inline auto OpenGL::createShader(const ShaderType type) -> Handle
 			{
@@ -341,10 +628,34 @@ namespace ece
 				checkErrors(glUseProgram(handle));
 			}
 
-			//	inline void OpenGL::deleteProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveAttrib(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline int OpenGL::getAttribLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindAttribLocation(unsigned int /*program*/, unsigned int /*index*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::deleteProgram(Handle program)
+			{
+				checkErrors(glDeleteProgram(program));
+			}
+
+			inline auto OpenGL::getActiveAttrib(Handle program, unsigned int index) -> ProgramAttribute
+			{
+				const auto bufSize = std::size_t{ 4096 };
+
+				auto length = std::size_t{ 0 };
+				auto result = ProgramAttribute{};
+				result.name.resize(bufSize);
+
+				checkErrors(glGetActiveAttrib(program, index, bufSize, reinterpret_cast<GLsizei*>(&length), reinterpret_cast<GLint*>(&result.size), reinterpret_cast<GLenum*>(&result.type), result.name.data()));
+				result.name = result.name.substr(0, length);
+
+				return std::move(result);
+			}
+
+			inline auto OpenGL::getAttribLocation(Handle program, const std::string & name) -> int
+			{
+				return checkErrors(glGetAttribLocation(program, name.data()));
+			}
+
+			inline void OpenGL::bindAttribLocation(Handle program, unsigned int index, const std::string & name)
+			{
+				checkErrors(glBindAttribLocation(program, index, name.data()));
+			}
 
 			inline auto OpenGL::getUniformLocation(const Handle handle, const std::string & uniform) -> Handle
 			{
@@ -355,11 +666,50 @@ namespace ece
 				return location;
 			}
 
-			//	inline unsigned int OpenGL::getUniformBlockIndex(unsigned int /*program*/, const char * /*uniformBlockName*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveUniformBlockName(unsigned int /*program*/, unsigned int /*uniformBlockIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformBlockName*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveUniformBlockiv(unsigned int /*program*/, unsigned int /*uniformBlockIndex*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getUniformIndices(unsigned int /*program*/, GLsizei /*uniformCount*/, const char ** /*uniformNames*/, unsigned int * /*uniformIndices*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveUniformName(unsigned int /*program*/, unsigned int /*uniformIndex*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*uniformName*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::getUniformBlockIndex(Handle program, const std::string & uniformBlockName) -> unsigned int
+			{
+				return checkErrors(glGetUniformBlockIndex(program, uniformBlockName.data()));
+			}
+
+			inline auto OpenGL::getActiveUniformBlockName(Handle program, unsigned int uniformBlockIndex) -> std::string
+			{
+				const auto bufSize = std::size_t{ 4096 };
+
+				auto length = std::size_t{ 0 };
+				auto name = std::string(bufSize, '\0');
+				checkErrors(glGetActiveUniformBlockName(program, uniformBlockIndex, bufSize, reinterpret_cast<GLsizei *>(&length), name.data()));
+				name = name.substr(0, length);
+
+				return std::move(name);
+			}
+
+			inline auto OpenGL::getActiveUniformBlockiv(Handle program, unsigned int uniformBlockIndex, UniformBlockParameter pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetActiveUniformBlockiv(program, uniformBlockIndex, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getUniformIndices(Handle program, std::size_t uniformCount) -> UniformBlock
+			{
+				auto result = UniformBlock();
+				result.names.resize(uniformCount);
+				result.indices.resize(uniformCount);
+				checkErrors(glGetUniformIndices(program, uniformCount, reinterpret_cast<const GLchar **>(result.names.data()), reinterpret_cast<GLuint *>(result.indices.data())));
+				return std::move(result);
+			}
+
+			inline auto OpenGL::getActiveUniformName(Handle program, unsigned int uniformIndex) -> std::string
+			{
+				const auto bufSize = std::size_t{ 4096 };
+
+				auto length = std::size_t{ 0 };
+				auto name = std::string(bufSize, '\0');
+				checkErrors(glGetActiveUniformName(program, uniformIndex, bufSize, reinterpret_cast<GLsizei *>(&length), name.data()));
+				name = name.substr(0, length);
+
+				return std::move(name);
+			}
 
 			inline auto OpenGL::getActiveUniform(const Handle program, const Handle index) -> UniformInfo
 			{
@@ -371,7 +721,12 @@ namespace ece
 				return { name.substr(0, length), static_cast<UniformDataType>(type), static_cast<std::size_t>(size) };
 			}
 
-			//	inline void OpenGL::getActiveUniformsiv(unsigned int /*program*/, GLsizei /*uniformCount*/, const unsigned int * /*uniformIndices*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::getActiveUniformsiv(Handle program, const std::vector<unsigned int> & uniformIndices, UniformDataType pname) -> std::vector<int>
+			{
+				auto params = std::vector<int>(uniformIndices.size(), 0);
+				checkErrors(glGetActiveUniformsiv(program, uniformIndices.size(), uniformIndices.data(), static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
 
 			template <class T, unsigned int S>
 			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] const std::array<T, S> & v)
@@ -457,21 +812,86 @@ namespace ece
 				checkErrors(glUniform4ui(location, v[0], v[1], v[2], v[3]));
 			}
 
-			//	inline void OpenGL::uniform1fv(int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform2fv(int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform3fv(int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform4fv(int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform1iv(int /*location*/, GLsizei /*count*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform2iv(int /*location*/, GLsizei /*count*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform3iv(int /*location*/, GLsizei /*count*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform4iv(int /*location*/, GLsizei /*count*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform1uiv(int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform2uiv(int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform3uiv(int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniform4uiv(int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
+			template <class T, unsigned int S>
+			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] std::size_t count, [[maybe_unused]] const std::array<T, S> & v)
+			{
+				static_assert("No existing specialization for OpenGL::uniform.");
+			}
+
+			template<>
+			inline void OpenGL::uniform<float, 1>(int location, std::size_t count, const std::array<float, 1> & value)
+			{
+				checkErrors(glUniform1fv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<float, 2>(int location, std::size_t count, const std::array<float, 2> & value)
+			{
+				checkErrors(glUniform2fv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<float, 3>(int location, std::size_t count, const std::array<float, 3> & value)
+			{
+				checkErrors(glUniform3fv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<float, 4>(int location, std::size_t count, const std::array<float, 4> & value)
+			{
+				checkErrors(glUniform4fv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<int, 1>(int location, std::size_t count, const std::array<int, 1> & value)
+			{
+				checkErrors(glUniform1iv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<int, 2>(int location, std::size_t count, const std::array<int, 2> & value)
+			{
+				checkErrors(glUniform2iv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<int, 3>(int location, std::size_t count, const std::array<int, 3> & value)
+			{
+				checkErrors(glUniform3iv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<int, 4>(int location, std::size_t count, const std::array<int, 4> & value)
+			{
+				checkErrors(glUniform4iv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<unsigned int, 1>(int location, std::size_t count, const std::array<unsigned int, 1> & value)
+			{
+				checkErrors(glUniform1uiv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<unsigned int, 2>(int location, std::size_t count, const std::array<unsigned int, 2> & value)
+			{
+				checkErrors(glUniform2uiv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<unsigned int, 3>(int location, std::size_t count, const std::array<unsigned int, 3> & value)
+			{
+				checkErrors(glUniform3uiv(location, count, value.data()));
+			}
+
+			template<>
+			inline void OpenGL::uniform<unsigned int, 4>(int location, std::size_t count, const std::array<unsigned int, 4> & value)
+			{
+				checkErrors(glUniform4uiv(location, count, value.data()));
+			}
 
 			template <class T, unsigned int M, unsigned int N>
-			inline void OpenGL::uniform(const int location, const bool transpose, const Matrix<T, M, N> & v)
+			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v)
 			{
 				static_assert("No existing specialization for OpenGL::uniform.");
 			}
@@ -530,19 +950,94 @@ namespace ece
 				checkErrors(glUniformMatrix4x3fv(location, 1, transpose, v.data()));
 			}
 
-			//	inline void OpenGL::uniformMatrix2fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformMatrix3fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformMatrix4fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformMatrix2x3fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformMatrix3x2fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformMatrix2x4fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformMatrix4x2fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformMatrix3x4fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformMatrix4x3fv(int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformBlockBinding(unsigned int /*program*/, unsigned int /*uniformBlockIndex*/, unsigned int /*uniformBlockBinding*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::transformFeedbackVaryings(unsigned int /*program*/, GLsizei /*count*/, const char ** /*varyings*/, GLenum /*bufferMode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTransformFeedbackVarying(unsigned int /*program*/, unsigned int /*index*/, GLsizei /*bufSize*/, GLsizei * /*length*/, GLsizei * /*size*/, GLenum * /*type*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::validateProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
+			template <class T, unsigned int M, unsigned int N>
+			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] std::size_t count, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v)
+			{
+				static_assert("No existing specialization for OpenGL::uniform.");
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 2> & v)
+			{
+				checkErrors(glUniformMatrix2fv(location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 3> & v)
+			{
+				checkErrors(glUniformMatrix3fv(location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 4> & v)
+			{
+				checkErrors(glUniformMatrix4fv(location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 3> & v)
+			{
+				checkErrors(glUniformMatrix2x3fv(location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 2> & v)
+			{
+				checkErrors(glUniformMatrix3x2fv(location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 4> & v)
+			{
+				checkErrors(glUniformMatrix2x4fv(location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 2> & v)
+			{
+				checkErrors(glUniformMatrix4x2fv(location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 4> & v)
+			{
+				checkErrors(glUniformMatrix3x4fv(location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 3> & v)
+			{
+				checkErrors(glUniformMatrix4x3fv(location, count, transpose, v.data()));
+			}
+
+			inline void OpenGL::uniformBlockBinding(Handle program, unsigned int uniformBlockIndex, unsigned int uniformBlockBinding)
+			{
+				checkErrors(glUniformBlockBinding(program, uniformBlockIndex, uniformBlockBinding));
+			}
+
+			inline void OpenGL::transformFeedbackVaryings(Handle program, std::size_t count, const std::vector<std::string> & varyings, VaryingBufferMode bufferMode)
+			{
+				auto ptr = varyings[0].data();
+				checkErrors(glTransformFeedbackVaryings(program, count, reinterpret_cast<const GLchar **>(&ptr), static_cast<GLenum>(bufferMode)));
+			}
+
+			inline auto OpenGL::getTransformFeedbackVarying(Handle program, unsigned int index) -> VaryingInfo
+			{
+				const auto bufSize = std::size_t{ 4096 };
+
+				auto length = std::size_t{ 0 };
+				auto result = VaryingInfo{};
+				result.name.resize(bufSize);
+				checkErrors(glGetTransformFeedbackVarying(program, index, bufSize, reinterpret_cast<GLsizei *>(&length), reinterpret_cast<GLsizei *>(&result.size), &result.type, result.name.data()));
+				result.name = result.name.substr(0, length);
+
+				return std::move(result);
+			}
+
+			inline void OpenGL::validateProgram(Handle program)
+			{
+				checkErrors(glValidateProgram(program));
+			}
 
 			inline auto OpenGL::getProgramiv(const Handle program, const ProgramParameter pname) -> std::vector<int>
 			{
@@ -559,9 +1054,20 @@ namespace ece
 				return std::move(result);
 			}
 
-			//	inline void OpenGL::bindFragDataLocation(unsigned int /*program*/, unsigned int /*colorNumber*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline int OpenGL::getFragDataLocation(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isShader(unsigned int /*shader*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::bindFragDataLocation(Handle program, unsigned int colorNumber, const std::string & name)
+			{
+				checkErrors(glBindFragDataLocation(program, colorNumber, name.data()));
+			}
+
+			inline auto OpenGL::getFragDataLocation(Handle program, const std::string & name) -> int
+			{
+				return checkErrors(glGetFragDataLocation(program, name.data()));
+			}
+
+			inline auto OpenGL::isShader(Handle shader) -> bool
+			{
+				return checkErrors(glIsShader(shader));
+			}
 
 			inline auto OpenGL::getShaderiv(const Handle shader, const ShaderParameter pname) -> int
             {
@@ -592,17 +1098,64 @@ namespace ece
                 return std::string(infoLog);
             }
 
-            //	inline void OpenGL::getShaderSource(unsigned int /*shader*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*source*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getVertexAttribdv(unsigned int /*index*/, GLenum /*pname*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getVertexAttribfv(unsigned int /*index*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getVertexAttribiv(unsigned int /*index*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getVertexAttribIiv(unsigned int /*index*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getVertexAttribIuiv(unsigned int /*index*/, GLenum /*pname*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
+            inline auto OpenGL::getShaderSource(Handle shader) -> std::string
+			{
+				const auto bufSize = std::size_t{ 16384 };
+
+				auto length = std::size_t{ 0 };
+				auto source = std::string(bufSize, '\0');
+				checkErrors(glGetShaderSource(shader, bufSize, reinterpret_cast<GLsizei *>(&length), source.data()));
+				source = source.substr(0, length);
+				return std::move(source);
+			}
+
+			template <class T>
+			inline auto OpenGL::getVertexAttrib([[maybe_unused]] Handle index, [[maybe_unused]] VertexAttribParameter pname) -> T
+			{
+				static_assert("No existing specialization for OpenGL::uniform.");
+			}
+
+			template<>
+			inline auto OpenGL::getVertexAttrib<double>(Handle index, VertexAttribParameter pname) -> double
+			{
+				auto params = 0.0;
+				checkErrors(glGetVertexAttribdv(index, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			template<>
+			inline auto OpenGL::getVertexAttrib<float>(Handle index, VertexAttribParameter pname) -> float
+			{
+				auto params = 0.0f;
+				checkErrors(glGetVertexAttribfv(index, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			template<>
+			inline auto OpenGL::getVertexAttrib<int>(Handle index, VertexAttribParameter pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetVertexAttribiv(index, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			template<>
+			inline auto OpenGL::getVertexAttrib<unsigned int>(Handle index, VertexAttribParameter pname) -> unsigned int
+			{
+				auto params = (unsigned int){ 0 };
+				checkErrors(glGetVertexAttribIuiv(index, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
 			//	inline void OpenGL::getVertexAttribPointerv(unsigned int /*index*/, GLenum /*pname*/, void ** /*pointer*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getUniformfv(unsigned int /*program*/, int /*location*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getUniformiv(unsigned int /*program*/, int /*location*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getUniformuiv(unsigned int /*program*/, int /*location*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isProgram(unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
+
+			inline auto OpenGL::isProgram(Handle program) -> bool
+			{
+				return checkErrors(glIsProgram(program));
+			}
 
             inline auto OpenGL::getProgramInfoLog(const Handle program) -> std::string
             {
@@ -636,7 +1189,11 @@ namespace ece
 				checkErrors(glPolygonMode(GL_FRONT_AND_BACK, static_cast<GLenum>(mode)));
 			}
 
-			//	inline void OpenGL::polygonOffset(float /*factor*/, float /*units*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::polygonOffset(float factor, float units)
+			{
+				checkErrors(glPolygonOffset(factor, units));
+			}
+
 			//	inline void OpenGL::pixelStoref(GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pixelStorei(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
 

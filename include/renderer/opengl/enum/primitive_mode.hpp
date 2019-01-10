@@ -36,32 +36,37 @@
 
 */
 
+#ifndef PRIMITIVE_MODE_HPP
+#define PRIMITIVE_MODE_HPP
+
+#include "renderer/config.hpp"
 #include "renderer/pch.hpp"
-#include "renderer/opengl/enum/front_face_mode.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 
 namespace ece
 {
-	namespace renderer
-	{
-		namespace opengl
-		{
-			FrontFaceMode getFrontFaceMode(RenderState::FrontFaceMode mode)
+    namespace renderer
+    {
+        namespace opengl
+        {
+			enum class PrimitiveMode : unsigned short int
 			{
-				switch (mode) {
-				case RenderState::FrontFaceMode::CLOCKWISE: return FrontFaceMode::CW; break;
-				case RenderState::FrontFaceMode::COUNTERCLOCKWISE: return FrontFaceMode::CCW; break;
-				default: throw std::runtime_error("Unknown value for FrontFaceMode enumeration."); break;
-				}
-			}
+				POINTS = GL_POINTS,
+				LINE_STRIP = GL_LINE_STRIP,
+				LINE_LOOP = GL_LINE_LOOP,
+				LINES = GL_LINES,
+				LINE_STRIP_ADJACENCY = GL_LINE_STRIP_ADJACENCY,
+				LINES_ADJACENCY = GL_LINES_ADJACENCY,
+				TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
+				TRIANGLE_FAN = GL_TRIANGLE_FAN,
+				TRIANGLES = GL_TRIANGLES,
+				TRIANGLES_STRIP_ADJACENCY = GL_TRIANGLE_STRIP_ADJACENCY,
+				TRIANGLES_ADJACENCY = GL_TRIANGLES_ADJACENCY,
+				PATCHES = GL_PATCHES
+			};
+        }
+    }
+}
 
-			std::string to_string(FrontFaceMode mode)
-			{
-				switch (mode) {
-				case FrontFaceMode::CW: return "GL_CW"; break;
-				case FrontFaceMode::CCW: return "GL_CCW"; break;
-				default: throw std::runtime_error("Unknown value for FrontFaceMode enumeration."); break;
-				}
-			}
-		} // namespace opengl
-	} // namespace renderer
-} // namespace ece
+#endif // PRIMITIVE_MODE_HPP
