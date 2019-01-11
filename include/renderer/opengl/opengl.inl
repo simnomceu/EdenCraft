@@ -77,143 +77,143 @@ namespace ece
 			inline void OpenGL::vertexAttribP(Handle index, PackedVertexAttribType type, bool normalized, unsigned int value)
 			{
 				if constexpr (Size == 1) {
-					checkErrors(glVertexAttribP1ui(static_cast<unsigned int>(index), static_cast<GLenum>(type), normalized, value));
+					checkErrors(glVertexAttribP1ui(index, static_cast<GLenum>(type), normalized, value));
 				}
 				else if (Size == 2) {
-					checkErrors(glVertexAttribP2ui(static_cast<unsigned int>(index), static_cast<GLenum>(type), normalized, value));
+					checkErrors(glVertexAttribP2ui(index, static_cast<GLenum>(type), normalized, value));
 				}
 				else if (Size == 3) {
-					checkErrors(glVertexAttribP3ui(static_cast<unsigned int>(index), static_cast<GLenum>(type), normalized, value));
+					checkErrors(glVertexAttribP3ui(index, static_cast<GLenum>(type), normalized, value));
 				}
 				else if (Size == 4) {
-					checkErrors(glVertexAttribP4ui(static_cast<unsigned int>(index), static_cast<GLenum>(type), normalized, value));
+					checkErrors(glVertexAttribP4ui(index, static_cast<GLenum>(type), normalized, value));
 				}
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, float v)
 			{
-				checkErrors(glVertexAttrib1f(static_cast<unsigned int>(index), v));
+				checkErrors(glVertexAttrib1f(index, v));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, short v)
 			{
-				checkErrors(glVertexAttrib1s(static_cast<unsigned int>(index), v));
+				checkErrors(glVertexAttrib1s(index, v));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, double v)
 			{
-				checkErrors(glVertexAttrib1d(static_cast<unsigned int>(index), v));
+				checkErrors(glVertexAttrib1d(index, v));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, int v)
 			{
-				checkErrors(glVertexAttribI1i(static_cast<unsigned int>(index), v));
+				checkErrors(glVertexAttribI1i(index, v));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, unsigned int v)
 			{
-				checkErrors(glVertexAttribI1ui(static_cast<unsigned int>(index), v));
+				checkErrors(glVertexAttribI1ui(index, v));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector2u<float> v)
 			{
-				checkErrors(glVertexAttrib2f(static_cast<unsigned int>(index), v[0], v[1]));
+				checkErrors(glVertexAttrib2f(index, v[0], v[1]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector2u<short> v)
 			{
-				checkErrors(glVertexAttrib2s(static_cast<unsigned int>(index), v[0], v[1]));
+				checkErrors(glVertexAttrib2s(index, v[0], v[1]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector2u<double> v)
 			{
-				checkErrors(glVertexAttrib2d(static_cast<unsigned int>(index), v[0], v[1]));
+				checkErrors(glVertexAttrib2d(index, v[0], v[1]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector2u<int> v)
 			{
-				checkErrors(glVertexAttribI2i(static_cast<unsigned int>(index), v[0], v[1]));
+				checkErrors(glVertexAttribI2i(index, v[0], v[1]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector2u<unsigned int> v)
 			{
-				checkErrors(glVertexAttribI2ui(static_cast<unsigned int>(index), v[0], v[1]));
+				checkErrors(glVertexAttribI2ui(index, v[0], v[1]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector3u<float> v)
 			{
-				checkErrors(glVertexAttrib3f(static_cast<float>(index), v[0], v[1], v[2]));
+				checkErrors(glVertexAttrib3f(index, v[0], v[1], v[2]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector3u<short> v)
 			{
-				checkErrors(glVertexAttrib3s(static_cast<float>(index), v[0], v[1], v[2]));
+				checkErrors(glVertexAttrib3s(index, v[0], v[1], v[2]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector3u<double> v)
 			{
-				checkErrors(glVertexAttrib3d(static_cast<float>(index), v[0], v[1], v[2]));
+				checkErrors(glVertexAttrib3d(index, v[0], v[1], v[2]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector3u<int> v)
 			{
-				checkErrors(glVertexAttribI3i(static_cast<float>(index), v[0], v[1], v[2]));
+				checkErrors(glVertexAttribI3i(index, v[0], v[1], v[2]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector3u<unsigned int> v)
 			{
-				checkErrors(glVertexAttribI3ui(static_cast<float>(index), v[0], v[1], v[2]));
+				checkErrors(glVertexAttribI3ui(index, v[0], v[1], v[2]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector4u<float> v)
 			{
-				checkErrors(glVertexAttrib4f(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+				checkErrors(glVertexAttrib4f(index, v[0], v[1], v[2], v[3]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector4u<short> v)
 			{
-				checkErrors(glVertexAttrib4s(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+				checkErrors(glVertexAttrib4s(index, v[0], v[1], v[2], v[3]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector4u<double> v)
 			{
-				checkErrors(glVertexAttrib4d(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+				checkErrors(glVertexAttrib4d(index, v[0], v[1], v[2], v[3]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector4u<int> v)
 			{
-				checkErrors(glVertexAttribI4i(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+				checkErrors(glVertexAttribI4i(index, v[0], v[1], v[2], v[3]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, Vector4u<unsigned int> v)
 			{
-				checkErrors(glVertexAttribI4ui(static_cast<float>(index), v[0], v[1], v[2], v[3]));
+				checkErrors(glVertexAttribI4ui(index, v[0], v[1], v[2], v[3]));
 			}
 
 			template<>
 			inline void OpenGL::vertexAttrib(Handle index, std::array<std::byte, 4> v)
 			{
-				checkErrors(glVertexAttrib4Nub(static_cast<float>(index), static_cast<GLubyte>(v[0]), static_cast<GLubyte>(v[1]), static_cast<GLubyte>(std::move(v[2])), static_cast<GLubyte>(std::move(v[3]))));
+				checkErrors(glVertexAttrib4Nub(index, static_cast<GLubyte>(v[0]), static_cast<GLubyte>(v[1]), static_cast<GLubyte>(std::move(v[2])), static_cast<GLubyte>(std::move(v[3]))));
 			}
 
 			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
@@ -552,7 +552,7 @@ namespace ece
 
 			inline auto OpenGL::getQueryObjectuiv(Handle id, QueryObjectTypeName pname) -> unsigned int
 			{
-				auto params = (unsigned int){ 0 };
+				auto params = static_cast<unsigned int>(0);
 				checkErrors(glGetQueryObjectuiv(id, static_cast<GLenum>(pname), &params));
 				return std::move(params);
 			}
@@ -1142,7 +1142,7 @@ namespace ece
 			template<>
 			inline auto OpenGL::getVertexAttrib<unsigned int>(Handle index, VertexAttribParameter pname) -> unsigned int
 			{
-				auto params = (unsigned int){ 0 };
+				auto params = static_cast<unsigned int>(0);
 				checkErrors(glGetVertexAttribIuiv(index, static_cast<GLenum>(pname), &params));
 				return std::move(params);
 			}

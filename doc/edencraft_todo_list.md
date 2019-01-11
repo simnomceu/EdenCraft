@@ -73,7 +73,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 * [x] Basic 2D and 3D renderer.
 * [x] Basic shaders.
 * [x] Basic 2D textures.
-+ [ ] MSAA with OpenGL implementation.
+* [x] MSAA with OpenGL implementation.
 * [x] Phong ligthing model.
 * [x] Render state used for draw calls.
 * [x] Light emitter (spot, directional, point).
