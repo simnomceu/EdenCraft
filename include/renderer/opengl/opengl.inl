@@ -456,7 +456,7 @@ namespace ece
 			}
 
 			template <class T>
-			inline auto OpenGL::getBufferPointerv(BufferType target) -> T *
+			inline auto OpenGL::getBufferPointer(BufferType target) -> T *
 			{
 				const auto pname = GL_BUFFER_MAP_POINTER;
 				T * params = nullptr;
@@ -536,35 +536,45 @@ namespace ece
 				return checkErrors(glIsQuery(id));
 			}
 
-			inline auto OpenGL::getQueryiv(QueryObjectType target, QueryObjectTypeParameter pname) -> std::vector<int>
+			inline auto OpenGL::getQuery(QueryObjectType target, QueryObjectTypeParameter pname) -> std::vector<int>
 			{
 				auto params = std::vector<int>{};
 				checkErrors(glGetQueryiv(static_cast<GLenum>(target), static_cast<GLenum>(pname), params.data()));
 				return std::move(params);
 			}
 
-			inline auto OpenGL::getQueryObjectiv(Handle id, QueryObjectTypeName pname) -> int
+			template <typename T>
+			inline auto OpenGL::getQueryObject([[maybe_unused]] Handle id, [[maybe_unused]] QueryObjectTypeName pname) -> T
+			{
+				throw std::runtime_error("OpenGL::getQueryObject method is not defined for this type");
+			}
+
+			template <>
+			inline auto OpenGL::getQueryObject(Handle id, QueryObjectTypeName pname) -> int
 			{
 				auto params = 0;
 				checkErrors(glGetQueryObjectiv(id, static_cast<GLenum>(pname), &params));
 				return std::move(params);
 			}
 
-			inline auto OpenGL::getQueryObjectuiv(Handle id, QueryObjectTypeName pname) -> unsigned int
+			template <>
+			inline auto OpenGL::getQueryObject(Handle id, QueryObjectTypeName pname) -> unsigned int
 			{
-				auto params = static_cast<unsigned int>(0);
+				auto params = 0u;
 				checkErrors(glGetQueryObjectuiv(id, static_cast<GLenum>(pname), &params));
 				return std::move(params);
 			}
 
-			inline auto OpenGL::getQueryObjecti64v(Handle id, QueryObjectTypeName pname) -> int64_t
+			template <>
+			inline auto OpenGL::getQueryObject(Handle id, QueryObjectTypeName pname) -> int64_t
 			{
 				auto params = int64_t{ 0 };
 				checkErrors(glGetQueryObjecti64v(id, static_cast<GLenum>(pname), &params));
 				return std::move(params);
 			}
 
-			inline auto OpenGL::getQueryObjectui64v(Handle id, QueryObjectTypeName pname) -> uint64_t
+			template <>
+			inline auto OpenGL::getQueryObject(Handle id, QueryObjectTypeName pname) -> uint64_t
 			{
 				auto params = uint64_t{ 0 };
 				checkErrors(glGetQueryObjectui64v(id, static_cast<GLenum>(pname), &params));
@@ -683,7 +693,7 @@ namespace ece
 				return std::move(name);
 			}
 
-			inline auto OpenGL::getActiveUniformBlockiv(Handle program, unsigned int uniformBlockIndex, UniformBlockParameter pname) -> int
+			inline auto OpenGL::getActiveUniformBlock(Handle program, unsigned int uniformBlockIndex, UniformBlockParameter pname) -> int
 			{
 				auto params = 0;
 				checkErrors(glGetActiveUniformBlockiv(program, uniformBlockIndex, static_cast<GLenum>(pname), &params));
@@ -721,7 +731,7 @@ namespace ece
 				return { name.substr(0, length), static_cast<UniformDataType>(type), static_cast<std::size_t>(size) };
 			}
 
-			inline auto OpenGL::getActiveUniformsiv(Handle program, const std::vector<unsigned int> & uniformIndices, UniformDataType pname) -> std::vector<int>
+			inline auto OpenGL::getActiveUniforms(Handle program, const std::vector<unsigned int> & uniformIndices, UniformDataType pname) -> std::vector<int>
 			{
 				auto params = std::vector<int>(uniformIndices.size(), 0);
 				checkErrors(glGetActiveUniformsiv(program, uniformIndices.size(), uniformIndices.data(), static_cast<GLenum>(pname), params.data()));
@@ -1039,7 +1049,7 @@ namespace ece
 				checkErrors(glValidateProgram(program));
 			}
 
-			inline auto OpenGL::getProgramiv(const Handle program, const ProgramParameter pname) -> std::vector<int>
+			inline auto OpenGL::getProgram(const Handle program, const ProgramParameter pname) -> std::vector<int>
 			{
 				auto result = std::vector<int>{};
 				if (pname == ProgramParameter::COMPUTE_WORK_GROUP_SIZE) {
@@ -1069,7 +1079,7 @@ namespace ece
 				return checkErrors(glIsShader(shader));
 			}
 
-			inline auto OpenGL::getShaderiv(const Handle shader, const ShaderParameter pname) -> int
+			inline auto OpenGL::getShader(const Handle shader, const ShaderParameter pname) -> int
             {
 				auto result = 0;
 				checkErrors(glGetShaderiv(static_cast<GLuint>(shader), static_cast<GLenum>(pname), &result));
@@ -1142,15 +1152,50 @@ namespace ece
 			template<>
 			inline auto OpenGL::getVertexAttrib<unsigned int>(Handle index, VertexAttribParameter pname) -> unsigned int
 			{
-				auto params = static_cast<unsigned int>(0);
+				auto params = 0u;
 				checkErrors(glGetVertexAttribIuiv(index, static_cast<GLenum>(pname), &params));
 				return std::move(params);
 			}
 
-			//	inline void OpenGL::getVertexAttribPointerv(unsigned int /*index*/, GLenum /*pname*/, void ** /*pointer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getUniformfv(unsigned int /*program*/, int /*location*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getUniformiv(unsigned int /*program*/, int /*location*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getUniformuiv(unsigned int /*program*/, int /*location*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::getVertexAttribPointer(Handle index) -> void *
+			{
+				const auto pname = GL_VERTEX_ATTRIB_ARRAY_POINTER;
+
+				void * pointer = nullptr;
+				checkErrors(glGetVertexAttribPointerv(index, pname, &pointer));
+
+				return std::move(pointer);
+			}
+
+			template <typename T>
+			inline auto OpenGL::getUniform([[maybe_unused]] Handle program, [[maybe_unused]] int location) -> T
+			{
+				static_assert("No existing specialization for OpenGL::getUniform.");
+			}
+
+			template <>
+			inline auto OpenGL::getUniform(Handle program, int location) -> float
+			{
+				auto params = 0.0f;
+				checkErrors(glGetUniformfv(program, location, reinterpret_cast<GLfloat *>(&params)));
+				return std::move(params);
+			}
+
+			template <>
+			inline auto OpenGL::getUniform(Handle program, int location) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetUniformiv(program, location, reinterpret_cast<GLint *>(&params)));
+				return std::move(params);
+			}
+
+			template <>
+			inline auto OpenGL::getUniform(Handle program, int location) -> unsigned int
+			{
+				auto params = 0u;
+				checkErrors(glGetUniformuiv(program, location, reinterpret_cast<GLuint *>(&params)));
+				return std::move(params);
+			}
 
 			inline auto OpenGL::isProgram(Handle program) -> bool
 			{
@@ -1164,14 +1209,38 @@ namespace ece
                 checkErrors(glGetProgramInfoLog(static_cast<GLuint>(program), 512, &size, infoLog.data()));
                 return infoLog.substr(0, static_cast<std::size_t>(size));
             }
-			//	inline void OpenGL::getMultisamplefv(GLenum /*pname*/, unsigned int /*index*/, float * /*val*/) { static_assert(false, "Not implemented yet."); }
+
+			inline auto OpenGL::getMultisample(Handle index) -> FloatVector2u
+			{
+				const auto pname = GL_SAMPLE_POSITION;
+
+				auto val = FloatVector2u{};
+				checkErrors(glGetMultisamplefv(pname, index, reinterpret_cast<GLfloat *>(val.data().data())));
+				return std::move(val);
+			}
 
 			inline void OpenGL::pointSize(const float size) { checkErrors(glPointSize(size)) }
 
-			//	inline void OpenGL::pointParameterf(GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::pointParameteri(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::pointParameterfv(GLenum /*pname*/, const float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::pointParameteriv(GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::pointParameter(PointParameter pname, float param)
+			{
+				checkErrors(glPointParameterf(static_cast<GLenum>(pname), param));
+			}
+
+			inline void OpenGL::pointParameter(PointParameter pname, int param)
+			{
+				checkErrors(glPointParameteri(static_cast<GLenum>(pname), param));
+			}
+
+			inline void OpenGL::pointParameter(PointParameter pname, float & params)
+			{
+				checkErrors(glPointParameterfv(static_cast<GLenum>(pname), reinterpret_cast<const GLfloat *>(&params)));
+			}
+
+			inline void OpenGL::pointParameter(PointParameter pname, int & params)
+			{
+				checkErrors(glPointParameteriv(static_cast<GLenum>(pname), reinterpret_cast<const GLint *>(&params)));
+			}
+
 			inline void OpenGL::lineWidth(const float width) { checkErrors(glLineWidth(width)); }
 
 			inline void OpenGL::frontFace(const FrontFaceMode mode)
@@ -1194,8 +1263,15 @@ namespace ece
 				checkErrors(glPolygonOffset(factor, units));
 			}
 
-			//	inline void OpenGL::pixelStoref(GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::pixelStorei(GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::pixelStore(PixelParameter pname, float param)
+			{
+				checkErrors(glPixelStoref(static_cast<GLenum>(pname), param));
+			}
+
+			inline void OpenGL::pixelStore(PixelParameter pname, int param)
+			{
+				checkErrors(glPixelStorei(static_cast<GLenum>(pname), param));
+			}
 
 			inline void OpenGL::activeTexture(const unsigned int texture)
 			{
@@ -1205,7 +1281,10 @@ namespace ece
 				checkErrors(glActiveTexture(static_cast<GLenum>(TextureUnit::TEXTURE0) + texture));
 			}
 
-			//	inline void OpenGL::texImage3D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::texImage3D(TargetTexture3D target, int level, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, PixelDataType type, const void * data)
+			{
+				checkErrors(glTexImage3D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLsizei>(depth), 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
+			}
 
 			inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const std::size_t width, const std::size_t height, const PixelFormat format, const PixelDataType type, const void * data)
 			{
@@ -1213,24 +1292,97 @@ namespace ece
 				checkErrors(glTexImage2D(static_cast<GLenum>(target), levelSec, static_cast<unsigned int>(internalFormat), static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
 			}
 
-			//	inline void OpenGL::texImage1D(GLenum /*target*/, int /*level*/, int /*internalFormat*/, GLsizei /*width*/, int /*border*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyTexImage2D(GLenum /*target*/, int /*level*/, GLenum /*internalformat*/, int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/, int /*border*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyTexImage1D(GLenum /*target*/, int /*level*/, GLenum /*internalformat*/, int /*x*/, int /*y*/, GLsizei /*width*/, int /*border*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::texSubImage3D(GLenum /*target*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, GLenum /*format*/, GLenum /*type*/, const void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::texSubImage2D(GLenum /*target*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLenum /*type*/, const void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::texSubImage1D(GLenum /*target*/, int /*level*/, int /*xoffset*/, GLsizei /*width*/, GLenum /*format*/, GLenum /*type*/, const void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyTexSubImage3D(GLenum /*target*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyTexSubImage2D(GLenum /*target*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyTexSubImage1D(GLenum /*target*/, int /*level*/, int /*xoffset*/, int /*x*/, int /*y*/, GLsizei /*width*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTexImage3D(GLenum /*target*/, int /*level*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, int /*border*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTexImage2D(GLenum /*target*/, int /*level*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, int /*border*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTexImage1D(GLenum /*target*/, int /*level*/, GLenum /*internalformat*/, GLsizei /*width*/, int /*border*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTexSubImage3D(GLenum /*target*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTexSubImage2D(GLenum /*target*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTexSubImage1D(GLenum /*target*/, int /*level*/, int /*xoffset*/, GLsizei /*width*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::texImage3DMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, bool /*fixedsamplelocations*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::texImage2DMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, bool /*fixedsamplelocations*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::texBuffer(GLenum /*target*/, GLenum /*internalFormat*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::texImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, std::size_t width, PixelFormat format, PixelDataType type, const void * data)
+			{
+				checkErrors(glTexImage1D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), static_cast<GLsizei>(width), 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
+			}
+
+			inline void OpenGL::copyTexImage2D(TextureTypeTarget target, int level, PixelInternalFormat internalFormat, int x, int y, std::size_t width, std::size_t height)
+			{
+				checkErrors(glCopyTexImage2D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), x, y, width, height, 0));
+			}
+
+			inline void OpenGL::copyTexImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, int x, int y, std::size_t width)
+			{
+				checkErrors(glCopyTexImage1D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), x, y, width, 0));
+			}
+
+			inline void OpenGL::texSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, std::size_t  width, std::size_t  height, std::size_t depth, PixelFormat format, PixelDataType type, const void * pixels)
+			{
+				checkErrors(glTexSubImage3D(static_cast<GLenum>(target), level, xoffset, yoffset, zoffset, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLsizei>(depth), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
+			}
+
+			inline void OpenGL::texSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, std::size_t width, std::size_t height, PixelFormat format, PixelDataType type, const void * pixels)
+			{
+				checkErrors(glTexSubImage2D(static_cast<GLenum>(target), level, xoffset, yoffset, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
+			}
+
+			inline void OpenGL::texSubImage1D(TargetTexture1D target, int level, int xoffset, std::size_t width, PixelFormat format, PixelDataType type, const void * pixels)
+			{
+				checkErrors(glTexSubImage1D(static_cast<GLenum>(target), level, xoffset, static_cast<GLsizei>(width), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
+			}
+
+			inline void OpenGL::copyTexSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, int x, int y, std::size_t width, std::size_t height)
+			{
+				checkErrors(glCopyTexSubImage3D(static_cast<GLenum>(target), level, xoffset, yoffset, zoffset, x, y, width, height));
+			}
+
+			inline void OpenGL::copyTexSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, int x, int y, std::size_t width, std::size_t height)
+			{
+				checkErrors(glCopyTexSubImage2D(static_cast<GLenum>(target), level, xoffset, yoffset, x, y, width, height));
+			}
+
+			inline void OpenGL::copyTexSubImage1D(TargetTexture1D target, int level, int xoffset, int x, int y, std::size_t width)
+			{
+				checkErrors(glCopyTexSubImage1D(static_cast<GLenum>(target), level, xoffset, x, y, width));
+			}
+
+			inline void OpenGL::compressedTexImage3D(TargetTexture3D target, int level, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, std::size_t depth, std::size_t imageSize, const void * data)
+			{
+				checkErrors(glCompressedTexImage3D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), width, height, depth, 0, imageSize, data));
+			}
+
+			inline void OpenGL::compressedTexImage2D(TextureTypeTarget target, int level, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, std::size_t imageSize, const void * data)
+			{
+				checkErrors(glCompressedTexImage2D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), width, height, 0, imageSize, data));
+			}
+
+			inline void OpenGL::compressedTexImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, std::size_t width, std::size_t imageSize, const void * data)
+			{
+				checkErrors(glCompressedTexImage1D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), width, 0, imageSize, data));
+			}
+
+			inline void OpenGL::compressedTexSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, std::size_t imageSize, const void * data)
+			{
+				checkErrors(glCompressedTexSubImage3D(static_cast<GLenum>(target), level, xoffset, yoffset, zoffset, width, height, depth, static_cast<unsigned int>(format), imageSize, data));
+			}
+
+			inline void OpenGL::compressedTexSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, std::size_t width, std::size_t height, PixelFormat format, std::size_t imageSize, const void * data)
+			{
+				checkErrors(glCompressedTexSubImage2D(static_cast<GLenum>(target), level, xoffset, yoffset, width, height, static_cast<unsigned int>(format), imageSize, data));
+			}
+
+			inline void OpenGL::compressedTexSubImage1D(TargetTexture1D target, int level, int xoffset, std::size_t width, PixelFormat format, std::size_t imageSize, const void * data)
+			{
+				checkErrors(glCompressedTexSubImage1D(static_cast<GLenum>(target), level, xoffset, width, static_cast<unsigned int>(format), imageSize, data));
+			}
+
+			inline void OpenGL::texImage3DMultisample(TargetTextureMultisample target, std::size_t samples, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, std::size_t depth, bool fixedSamplelLocations)
+			{
+				checkErrors(glTexImage3DMultisample(static_cast<GLenum>(target), samples, static_cast<unsigned int>(internalFormat), width, height, depth, fixedSamplelLocations));
+			}
+
+			inline void OpenGL::texImage2DMultisample(TargetTextureMultisample target, std::size_t samples, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, bool fixedSamplelLocations)
+			{
+				checkErrors(glTexImage2DMultisample(static_cast<GLenum>(target), samples, static_cast<unsigned int>(internalFormat), width, height, fixedSamplelLocations));
+			}
+
+			inline void OpenGL::texBuffer(PixelInternalFormat internalFormat, Handle buffer)
+			{
+				const auto target = GL_TEXTURE_BUFFER;
+
+				checkErrors(glTexBuffer(target, static_cast<unsigned int>(internalFormat), buffer));
+			}
 
 			template <class T> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const T param)
 			{
@@ -1252,18 +1404,23 @@ namespace ece
 				static_assert("No existing specialization for OpenGL::texParameter");
 			}
 
-			template <> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<float> & param)
+			template <>
+			inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<float> & param)
 			{
 				checkErrors(glTexParameterfv(static_cast<GLenum>(target), static_cast<GLenum>(pname), param.data()));
 			}
 
-			template <> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<int> & param)
+			template <>
+			inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<int> & param)
 			{
 				checkErrors(glTexParameteriv(static_cast<GLenum>(target), static_cast<GLenum>(pname), param.data()));
 			}
 
-			//	inline void OpenGL::texParameterIiv(GLenum /*target*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::texParameterIuiv(GLenum /*target*/, GLenum /*pname*/, const unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
+			template <>
+			inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<unsigned int> & param)
+			{
+				checkErrors(glTexParameterIuiv(static_cast<GLenum>(target), static_cast<GLenum>(pname), param.data()));
+			}
 
 			inline void OpenGL::generateMipmap(const MipmapTarget target)
 			{
@@ -1275,7 +1432,10 @@ namespace ece
 				checkErrors(glBindTexture(static_cast<GLenum>(target), texture));
 			}
 
-			//	inline void OpenGL::deleteTextures(GLsizei /*n*/, const unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::deleteTextures(const std::vector<Handle> & textures)
+			{
+				checkErrors(glDeleteTextures(textures.size(), textures.data()));
+			}
 
 			inline auto OpenGL::genTexture() -> Handle
 			{
@@ -1300,7 +1460,12 @@ namespace ece
 			//	inline void OpenGL::getTexLevelParameteriv(GLenum /*target*/, int /*level*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getTexImage(GLenum /*target*/, int /*level*/, GLenum /*format*/, GLenum /*type*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getCompressedTexImage(GLenum /*target*/, int /*level*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isTexture(unsigned int /*texture*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline auto OpenGL::isTexture(Handle texture) -> bool
+			{
+				return checkErrors(glIsTexture(texture));
+			}
+
 			//	inline void OpenGL::hint(GLenum /*target*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::readPixels(int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLenum /*type*/, void * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::readBuffer(GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
@@ -1332,7 +1497,11 @@ namespace ece
 				checkErrors(glBlendFunc(static_cast<GLenum>(sfactor), static_cast<GLenum>(dfactor)));
 			}
 
-			//	inline void OpenGL::blendColor(float /*red*/, float /*green*/, float /*blue*/, float /*alpha*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::blendColor(float red, float green, float blue, float alpha)
+			{
+				checkErrors(glBlendColor(red, green, blue, alpha));
+			}
+			
 			//	inline void OpenGL::logicOp(GLenum /*opcode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawBuffer(GLenum /*buf*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawBuffers(GLsizei /*n*/, const GLenum * /*bufs*/) { static_assert(false, "Not implemented yet."); }
