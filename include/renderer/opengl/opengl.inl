@@ -1452,45 +1452,153 @@ namespace ece
 				return std::move(handles);
 			}
 
-			//	inline void OpenGL::getTexParameterfv(GLenum /*target*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTexParameteriv(GLenum /*target*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTexParameterIiv(GLenum /*target*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTexParameterIuiv(GLenum /*target*/, GLenum /*pname*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTexLevelParameterfv(GLenum /*target*/, int /*level*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTexLevelParameteriv(GLenum /*target*/, int /*level*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTexImage(GLenum /*target*/, int /*level*/, GLenum /*format*/, GLenum /*type*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getCompressedTexImage(GLenum /*target*/, int /*level*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
+			template <class T>
+			inline auto OpenGL::getTexParameter(TextureTarget target, TextureParameter pname) -> std::vector<T>
+			{
+				throw std::runtime_error("OpenGL::getTexParameter method is not defined for this type");
+			}
+
+			template <>
+			inline auto OpenGL::getTexParameter<float>(TextureTarget target, TextureParameter pname) -> std::vector<float>
+			{
+				auto params = std::vector<float>{};
+				checkErrors(glGetTexParameterfv(static_cast<GLenum>(target), static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			template <>
+			inline auto OpenGL::getTexParameter<int>(TextureTarget target, TextureParameter pname) -> std::vector<int>
+			{
+				auto params = std::vector<int>{};
+				checkErrors(glGetTexParameteriv(static_cast<GLenum>(target), static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			template <>
+			inline auto OpenGL::getTexParameter<unsigned int>(TextureTarget target, TextureParameter pname) -> std::vector<unsigned int>
+			{
+				auto params = std::vector<unsigned int>{};
+				checkErrors(glGetTexParameterIuiv(static_cast<GLenum>(target), static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			template <class T>
+			inline auto OpenGL::getTexLevelParameter(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<T>
+			{
+				throw std::runtime_error("OpenGL::getTexLevelParameter method is not defined for this type");
+			}
+
+			template <> 
+			inline auto OpenGL::getTexLevelParameter<float>(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<float>
+			{
+				auto params = std::vector<float>{};
+				checkErrors(glGetTexLevelParameterfv(static_cast<GLenum>(target), level, static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			template <>
+			inline auto OpenGL::getTexLevelParameter<int>(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<int>
+			{
+				auto params = std::vector<int>{};
+				checkErrors(glGetTexLevelParameteriv(static_cast<GLenum>(target), level, static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getTexImage(TextureTarget target, int level, PixelFormat format, DataType type) -> void *
+			{
+				auto pixels = static_cast<void *>(nullptr); // TODO: should be not working.
+				checkErrors(glGetTexImage(static_cast<GLenum>(target), level, static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
+				return std::move(pixels);
+			}
+
+			inline auto OpenGL::getCompressedTexImage(TextureTarget target, int level) -> void *
+			{
+				auto pixels = static_cast<void *>(nullptr); // TODO: should be not working.
+				checkErrors(glGetCompressedTexImage(static_cast<GLenum>(target), level, pixels));
+				return std::move(pixels);
+			}
 			
 			inline auto OpenGL::isTexture(Handle texture) -> bool
 			{
 				return checkErrors(glIsTexture(texture));
 			}
 
-			//	inline void OpenGL::hint(GLenum /*target*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::readPixels(int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLenum /*type*/, void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::readBuffer(GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blitFramebuffer(int /*srcX0*/, int /*srcY0*/, int /*srcX1*/, int /*srcY1*/, int /*dstX0*/, int /*dstY0*/, int /*dstX1*/, int /*dstY1*/, GLbitfield /*mask*/, GLenum /*filter*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::hint(Hint target, HintMode mode)
+			{
+				checkErrors(glHint(static_cast<GLenum>(target), static_cast<GLenum>(mode)));
+			}
+
+			inline auto OpenGL::readPixels(int x, int y, std::size_t width, std::size_t height, PixelFormat format, DataType type) -> void *
+			{
+				auto pixels = reinterpret_cast<void *>(std::vector<float>(width * height).data()); // TODO: should be not working.
+				checkErrors(glReadPixels(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
+				return std::move(pixels);
+			}
+			
+			inline void OpenGL::readBuffer(ColorBuffer mode)
+			{
+				checkErrors(glReadBuffer(static_cast<GLenum>(mode)));
+			}
+			
+			inline void OpenGL::blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter)
+			{
+				checkErrors(glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<GLbitfield>(mask), static_cast<GLenum>(filter)));
+			}
 
 			inline void OpenGL::scissor(const int x, const int y, const unsigned int width, const unsigned int height)
 			{
 				checkErrors(glScissor(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
 			}
 
-			//	inline void OpenGL::sampleCoverage(float /*value*/, bool /*invert*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::sampleMaski(unsigned int /*maskNumber*/, GLbitfield /*mask*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::stencilFunc(GLenum /*func*/, int /*ref*/, unsigned int /*mask*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::stencilFuncSeparate(GLenum /*face*/, GLenum /*func*/, int /*ref*/, unsigned int /*mask*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::stencilOp(GLenum /*sfail*/, GLenum /*dpfail*/, GLenum /*dppass*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::stencilOpSeparate(GLenum /*face*/, GLenum /*sfail*/, GLenum /*dpfail*/, GLenum /*dppass*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::sampleCoverage(float value, bool invert)
+			{
+				checkErrors(glSampleCoverage(value, invert));
+			}
+
+			inline void OpenGL::sampleMask(unsigned int maskNumber, std::bitset<32> mask)
+			{
+				checkErrors(glSampleMaski(maskNumber, static_cast<GLbitfield>(mask.to_ulong())));
+			}
+
+			inline void OpenGL::stencilFunc(DepthFunctionCondition func, int ref, unsigned int mask)
+			{
+				checkErrors(glStencilFunc(static_cast<GLenum>(func), ref, mask));
+			}
+
+			inline void OpenGL::stencilFuncSeparate(CullFaceMode face, DepthFunctionCondition func, int ref, unsigned int mask)
+			{
+				checkErrors(glStencilFuncSeparate(static_cast<GLenum>(face), static_cast<GLenum>(func), ref, mask));
+			}
+
+			inline void OpenGL::stencilOp(TestCondition sfail, TestCondition dpfail, TestCondition dppass)
+			{
+				checkErrors(glStencilOp(static_cast<GLenum>(sfail), static_cast<GLenum>(dpfail), static_cast<GLenum>(dppass)));
+			}
+
+			inline void OpenGL::stencilOpSeparate(CullFaceMode face, TestCondition sfail, TestCondition dpfail, TestCondition dppass)
+			{
+				checkErrors(glStencilOpSeparate(static_cast<GLenum>(face), static_cast<GLenum>(sfail), static_cast<GLenum>(dpfail), static_cast<GLenum>(dppass)));
+			}
 
 			inline void OpenGL::depthFunc(const DepthFunctionCondition condition)
 			{
 				checkErrors(glDepthFunc(static_cast<GLenum>(condition)));
 			}
 
-			//	inline void OpenGL::blendEquation(GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendEquationSeparate(GLenum /*modeRGB*/, GLenum /*modeAlpha*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendFuncSeparate(GLenum /*srcRGB*/, GLenum /*dstRGB*/, GLenum /*srcAlpha*/, GLenum /*dstAlpha*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::blendEquation(BlendEquationMode mode)
+			{
+				checkErrors(glBlendEquation(static_cast<GLenum>(mode)));
+			}
+
+			inline void OpenGL::blendEquationSeparate(BlendEquationMode modeRGB, BlendEquationMode modeAlpha)
+			{
+				checkErrors(glBlendEquationSeparate(static_cast<GLenum>(modeRGB), static_cast<GLenum>(modeAlpha)));
+			}
+
+			inline void OpenGL::blendFuncSeparate(BlendingFactor srcRGB, BlendingFactor dstRGB, BlendingFactor srcAlpha, BlendingFactor dstAlpha)
+			{
+				checkErrors(glBlendFuncSeparate(static_cast<GLenum>(srcRGB), static_cast<GLenum>(dstRGB), static_cast<GLenum>(srcAlpha), static_cast<GLenum>(dstAlpha)));
+			}
 
 			inline void OpenGL::blendFunc(const BlendingFactor sfactor, const BlendingFactor dfactor)
 			{
@@ -1502,14 +1610,45 @@ namespace ece
 				checkErrors(glBlendColor(red, green, blue, alpha));
 			}
 			
-			//	inline void OpenGL::logicOp(GLenum /*opcode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawBuffer(GLenum /*buf*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawBuffers(GLsizei /*n*/, const GLenum * /*bufs*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::colorMask(bool /*red*/, bool /*green*/, bool /*blue*/, bool /*alpha*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::colorMaski(unsigned int /*buf*/, bool /*red*/, bool /*green*/, bool /*blue*/, bool /*alpha*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::depthMask(bool /*flag*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::stencilMask(unsigned int /*mask*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::stencilMaskSeparate(GLenum /*face*/, unsigned int /*mask*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::logicOp(LogicalOperation opcode)
+			{
+				checkErrors(glLogicOp(static_cast<GLenum>(opcode)));
+			}
+
+			inline void OpenGL::drawBuffer(ColorBuffer buf)
+			{
+				checkErrors(glDrawBuffer(static_cast<GLenum>(buf)));
+			}
+
+			inline void OpenGL::drawBuffers(const std::vector<ColorBuffer> & bufs)
+			{
+				checkErrors(glDrawBuffers(bufs.size(), reinterpret_cast<const GLenum *>(bufs.data())));
+			}
+
+			inline void OpenGL::colorMask(bool red, bool green, bool blue, bool alpha)
+			{
+				checkErrors(glColorMask(red, green, blue, alpha));
+			}
+
+			inline void OpenGL::colorMask(unsigned int buf, bool red, bool green, bool blue, bool alpha)
+			{
+				checkErrors(glColorMaski(buf, red, green, blue, alpha));
+			}
+
+			inline void OpenGL::depthMask(bool flag)
+			{
+				checkErrors(glDepthMask(flag));
+			}
+
+			inline void OpenGL::stencilMask(unsigned int mask)
+			{
+				checkErrors(glStencilMask(mask));
+			}
+
+			inline void OpenGL::stencilMaskSeparate(CullFaceMode face, unsigned int mask)
+			{
+				checkErrors(glStencilMaskSeparate(static_cast<GLenum>(face), mask));
+			}
 
 			inline void OpenGL::clear(const Bitfield mask)
 			{
@@ -1521,18 +1660,71 @@ namespace ece
 				checkErrors(glClearColor(r, g, b, a));
 			}
 
-			//	inline void OpenGL::clearDepth(double /*depth*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearStencil(int /*s*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearBufferiv(GLenum /*buffer*/, int /*drawbuffer*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearBufferuiv(GLenum /*buffer*/, int /*drawbuffer*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearBufferfv(GLenum /*buffer*/, int /*drawbuffer*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearBufferfi(GLenum /*buffer*/, int /*drawbuffer*/, float /*depth*/, int /*stencil*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindFramebuffer(GLenum /*target*/, unsigned int /*framebuffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::deleteFramebuffers(GLsizei /*n*/, unsigned int * /*framebuffers*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::genFramebuffers(GLsizei /*n*/, unsigned int * /*ids*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindRenderbuffer(GLenum /*target*/, unsigned int /*renderbuffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::deleteRenderbuffers(GLsizei /*n*/, unsigned int * /*renderbuffers*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::genRenderbuffers(GLsizei /*n*/, unsigned int * /*renderbuffers*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::clearDepth(double depth)
+			{
+				checkErrors(glClearDepth(depth));
+			}
+
+			inline void OpenGL::clearStencil(int s)
+			{
+				checkErrors(glClearStencil(s));
+			}
+
+			static inline void OpenGL::clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<int> & value)
+			{
+				checkErrors(glClearBufferiv(static_cast<GLenum>(buffer), drawbuffer, value.data()));
+			}
+
+			static inline void OpenGL::clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<unsigned int> & value)
+			{
+				checkErrors(glClearBufferuiv(static_cast<GLenum>(buffer), drawbuffer, value.data()));
+			}
+
+			static inline void OpenGL::clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<float> & value)
+			{
+				checkErrors(glClearBufferfv(static_cast<GLenum>(buffer), drawbuffer, value.data()));
+			}
+
+			static inline void OpenGL::clearBuffer(GLenum buffer, int drawbuffer, float depth, int stencil)
+			{
+				checkErrors(glClearBufferfi(static_cast<GLenum>(buffer), drawbuffer, depth, stencil));
+			}
+
+			inline void OpenGL::bindFramebuffer(FramebufferTarget target, Handle framebuffer)
+			{
+				checkErrors(glBindFramebuffer(static_cast<GLenum>(target), framebuffer));
+			}
+
+			inline void OpenGL::deleteFramebuffers(std::vector<Handle> & framebuffers)
+			{
+				checkErrors(glDeleteFramebuffers(static_cast<GLsizei>(framebuffers.size()), reinterpret_cast<GLuint *>(framebuffers.data())));
+			}
+			
+			inline auto OpenGL::genFramebuffers(std::size_t n) -> std::vector<Handle>
+			{
+				auto ids = std::vector<Handle>(n);
+				checkErrors(glGenFramebuffers(n, reinterpret_cast<GLuint *>(ids.data())));
+				return std::move(ids);
+			}
+
+			inline void OpenGL::bindRenderbuffer(Handle renderbuffer)
+			{
+				const auto target = GL_RENDERBUFFER;
+				checkErrors(glBindRenderbuffer(target, renderbuffer));
+			}
+
+			inline void OpenGL::deleteRenderbuffers(std::vector<Handle> & renderbuffers)
+			{
+				checkErrors(glDeleteRenderbuffers(static_cast<GLsizei>(renderbuffers.size()), reinterpret_cast<GLuint *>(renderbuffers.data())));
+			}
+
+			inline auto OpenGL::genRenderbuffers(std::size_t n) -> std::vector<Handle>
+			{
+				auto ids = std::vector<Handle>(n);
+				checkErrors(glGenRenderbuffers(n, reinterpret_cast<GLuint *>(ids.data())));
+				return std::move(ids);
+			}
+
 			//	inline void OpenGL::renderbufferStorageMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::renderbufferStorage(GLenum /*target*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::framebufferRenderbuffer(GLenum /*target*/, GLenum /*attachment*/, GLenum /*renderbuffertarget*/, unsigned int /*renderbuffer*/) { static_assert(false, "Not implemented yet."); }
@@ -1541,13 +1733,37 @@ namespace ece
 			//	inline void OpenGL::framebufferTexture2D(GLenum /*target*/, GLenum /*attachment*/, GLenum /*textarget*/, unsigned int /*texture*/, int /*level*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::framebufferTexture3D(GLenum /*target*/, GLenum /*attachment*/, GLenum /*textarget*/, unsigned int /*texture*/, int /*level*/, int /*layer*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::framebufferTextureLayer(GLenum /*target*/, GLenum /*attachment*/, unsigned int /*texture*/, int /*level*/, int /*layer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline GLenum OpenGL::checkFramebufferStatus(GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isFramebuffer(unsigned int /*framebuffer*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline auto OpenGL::checkFramebufferStatus(FramebufferTarget target) -> FramebufferStatus
+			{
+				auto result = checkErrors(glCheckFramebufferStatus(static_cast<GLenum>(target)));
+				return std::move(static_cast<FramebufferStatus>(result));
+			}
+
+			inline auto OpenGL::isFramebuffer(Handle framebuffer) -> bool
+			{
+				return checkErrors(glIsFramebuffer(framebuffer));
+			}
+
 			//	inline void OpenGL::getFramebufferAttachmentParameteriv(GLenum /*target*/, GLenum /*attachment*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isRenderbuffer(unsigned int /*renderbuffer*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline auto OpenGL::isRenderbuffer(Handle renderbuffer) -> bool
+			{
+				return checkErrors(isRenderbuffer(renderbuffer));
+			}
+
 			//	inline void OpenGL::getRenderbufferParameteriv(GLenum /*target*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::flush() { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::finish() { static_assert(false, "Not implemented yet."); }
+
+			inline void OpenGL::flush()
+			{
+				checkErrors(glFlush());
+			}
+
+			inline void OpenGL::finish()
+			{
+				checkErrors(glFinish());
+			}
+
 			//	inline GLsync OpenGL::fenceSync(GLenum /*condition*/, GLbitfield /*flags*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::deleteSync(GLsync /*sync*/) { static_assert(false, "Not implemented yet."); }
 			//	inline GLenum OpenGL::clientWaitSync(GLsync /*sync*/, GLbitfield /*flags*/, GLuint64 /*timeout*/) { static_assert(false, "Not implemented yet."); }
@@ -1623,12 +1839,24 @@ namespace ece
 			//	inline void OpenGL::deleteTransformFeedbacks(GLsizei /*n*/, const unsigned int * /*ids*/) { static_assert(false, "Not implemented yet."); }
 			//	inline bool OpenGL::isTransformFeedback(unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindTransformFeedback(GLenum /*target*/, unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::pauseTransformFeedback() { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::resumeTransformFeedback() { static_assert(false, "Not implemented yet."); }
+
+			inline void OpenGL::pauseTransformFeedback()
+			{
+				checkErrors(glPauseTransformFeedback());
+			}
+
+			inline void OpenGL::resumeTransformFeedback()
+			{
+				checkErrors(glResumeTransformFeedback());
+			}
+
 			//	inline void OpenGL::drawTransformFeedback(GLenum /*mode*/, unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawTransformFeedbackStream(GLenum /*mode*/, unsigned int /*id*/, unsigned int /*stream*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::minSampleShading(float /*value*/) { static_assert(false, "Not implemented yet."); }
-			//
+			inline void OpenGL::minSampleShading(float value)
+			{
+				checkErrors(glMinSampleShading(value));
+			}
+
 			//	inline void OpenGL::vertexAttribL1d(unsigned int /*index*/, double /*v0*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexAttribL2d(unsigned int /*index*/, double /*v0*/, double /*v1*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexAttribL3d(unsigned int /*index*/, double /*v0*/, double /*v1*/, double /*v2*/) { static_assert(false, "Not implemented yet."); }
