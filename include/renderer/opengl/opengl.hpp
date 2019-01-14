@@ -301,53 +301,55 @@ namespace ece
 				static inline void deleteTextures(const std::vector<Handle> & textures);
 				static inline auto genTexture() -> Handle;
 				static inline auto genTextures(const unsigned int n) -> std::vector<Handle>;
-				//		static inline void getTexParameterfv(GLenum target, GLenum pname, float * params);
-				//		static inline void getTexParameteriv(GLenum target, GLenum pname, int * params);
-				//		static inline void getTexParameterIuiv(GLenum target, GLenum pname, unsigned int * params);
-				//		static inline void getTexLevelParameterfv(GLenum target, int level, GLenum pname, float * params);
-				//		static inline void getTexLevelParameteriv(GLenum target, int level, GLenum pname, int * params);
-				//		static inline void getTexImage(GLenum target, int level, GLenum format, GLenum type, void * pixels);
-				//		static inline void getCompressedTexImage(GLenum target, int level, void * pixels);
+				template <class T> static inline auto getTexParameter(TextureTarget target, TextureParameter pname) -> std::vector<T>;
+				template <> inline auto getTexParameter<float>(TextureTarget target, TextureParameter pname) -> std::vector<float>;
+				template <> inline auto getTexParameter<int>(TextureTarget target, TextureParameter pname) -> std::vector<int>;
+				template <> inline auto getTexParameter<unsigned int>(TextureTarget target, TextureParameter pname) -> std::vector<unsigned int>;
+				template <class T> static inline auto getTexLevelParameter(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<T>;
+				template <> inline auto getTexLevelParameter<float>(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<float>;
+				template <> inline auto getTexLevelParameter<int>(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<int>;
+				static inline auto getTexImage(TextureTarget target, int level, PixelFormat format, DataType type) -> void *;
+				static inline auto getCompressedTexImage(TextureTarget target, int level) -> void *;
 				static inline auto isTexture(Handle texture) -> bool;
-				//		static inline void hint(GLenum target, GLenum mode);
-				//		static inline void readPixels(int x, int y, GLsizei width, GLsizei height, GLenum format, GLenum type, void * data);
-				//		static inline void readBuffer(GLenum mode);
-				//		static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, GLbitfield mask, GLenum filter);
+				static inline void hint(Hint target, HintMode mode);
+				static inline auto readPixels(int x, int y, std::size_t width, std::size_t height, PixelFormat format, DataType type) -> void *;
+				static inline void readBuffer(ColorBuffer mode);
+				static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter);
 				static inline void scissor(const int x, const int y, const unsigned int width, const unsigned int height);
-				//		static inline void sampleCoverage(float value, bool invert);
-				//		static inline void sampleMaski(unsigned int maskNumber, GLbitfield mask);
-				//		static inline void stencilFunc(GLenum func, int ref, unsigned int mask);
-				//		static inline void stencilFuncSeparate(GLenum face, GLenum func, int ref, unsigned int mask);
-				//		static inline void stencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
-				//		static inline void stencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
+				static inline void sampleCoverage(float value, bool invert);
+				static inline void sampleMask(unsigned int maskNumber, std::bitset<32> mask);
+				static inline void stencilFunc(DepthFunctionCondition func, int ref, unsigned int mask);
+				static inline void stencilFuncSeparate(CullFaceMode face, DepthFunctionCondition func, int ref, unsigned int mask);
+				static inline void stencilOp(TestCondition sfail, TestCondition dpfail, TestCondition dppass);
+				static inline void stencilOpSeparate(CullFaceMode face, TestCondition sfail, TestCondition dpfail, TestCondition dppass);
 				static inline void depthFunc(const DepthFunctionCondition condition);
-				//		static inline void blendEquation(GLenum mode);
-				//		static inline void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
-				//		static inline void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
+				static inline void blendEquation(BlendEquationMode mode);
+				static inline void blendEquationSeparate(BlendEquationMode modeRGB, BlendEquationMode modeAlpha);
+				static inline void blendFuncSeparate(BlendingFactor srcRGB, BlendingFactor dstRGB, BlendingFactor srcAlpha, BlendingFactor dstAlpha);
 				static inline void blendFunc(const BlendingFactor sfactor, const BlendingFactor dfactor);
 				static inline void blendColor(float red, float green, float blue, float alpha);
-				//		static inline void logicOp(GLenum opcode);
-				//		static inline void drawBuffer(GLenum buf);
-				//		static inline void drawBuffers(GLsizei n, const GLenum *bufs);
-				//		static inline void colorMask(bool red, bool green, bool blue, bool alpha);
-				//		static inline void colorMaski(unsigned int buf, bool red, bool green, bool blue, bool alpha);
-				//		static inline void depthMask(bool flag);
-				//		static inline void stencilMask(unsigned int mask);
-				//		static inline void stencilMaskSeparate(GLenum face, unsigned int mask);
+				static inline void logicOp(LogicalOperation opcode);
+				static inline void drawBuffer(ColorBuffer buf);
+				static inline void drawBuffers(const std::vector<ColorBuffer> & bufs);
+				static inline void colorMask(bool red, bool green, bool blue, bool alpha);
+				static inline void colorMask(unsigned int buf, bool red, bool green, bool blue, bool alpha);
+				static inline void depthMask(bool flag);
+				static inline void stencilMask(unsigned int mask);
+				static inline void stencilMaskSeparate(CullFaceMode face, unsigned int mask);
 				static inline void clear(const Bitfield mask);
 				static inline void clearColor(const float r, const float g, const float b, const float a);
-				//		static inline void clearDepth(double depth);
-				//		static inline void clearStencil(int s);
-				//		static inline void clearBufferiv(GLenum buffer, int drawbuffer, const int * value);
-				//		static inline void clearBufferuiv(GLenum buffer, int drawbuffer, const unsigned int * value);
-				//		static inline void clearBufferfv(GLenum buffer, int drawbuffer, const float * value);
-				//		static inline void clearBufferfi(GLenum buffer, int drawbuffer, float depth, int stencil);
-				//		static inline void bindFramebuffer(GLenum target, unsigned int framebuffer);
-				//		static inline void deleteFramebuffers(GLsizei n, unsigned int *framebuffers);
-				//		static inline void genFramebuffers(GLsizei n, unsigned int *ids);
-				//		static inline void bindRenderbuffer(GLenum target, unsigned int renderbuffer);
-				//		static inline void deleteRenderbuffers(GLsizei n, unsigned int *renderbuffers);
-				//		static inline void genRenderbuffers(GLsizei n, unsigned int *renderbuffers);
+				static inline void clearDepth(double depth);
+				static inline void clearStencil(int s);
+				static inline void clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<int> & value);
+				static inline void clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<unsigned int> & value);
+				static inline void clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<float> & value);
+				static inline void clearBuffer(GLenum buffer, int drawbuffer, float depth, int stencil);
+				static inline void bindFramebuffer(FramebufferTarget target, Handle framebuffer);
+				static inline void deleteFramebuffers(std::vector<Handle> & framebuffers);
+				static inline auto genFramebuffers(std::size_t n) -> std::vector<Handle>;
+				static inline void bindRenderbuffer(Handle renderbuffer);
+				static inline void deleteRenderbuffers(std::vector<Handle> & renderbuffers);
+				static inline auto genRenderbuffers(std::size_t n) -> std::vector<Handle>;
 				//		static inline void renderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
 				//		static inline void renderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
 				//		static inline void framebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, unsigned int renderbuffer);
@@ -356,13 +358,13 @@ namespace ece
 				//		static inline void framebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, unsigned int texture, int level);
 				//		static inline void framebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, unsigned int texture, int level, int layer);
 				//		static inline void framebufferTextureLayer(GLenum target, GLenum attachment, unsigned int texture, int level, int layer);
-				//		static inline GLenum checkFramebufferStatus(GLenum target);
-				//		static inline bool isFramebuffer(unsigned int framebuffer);
+				static inline auto checkFramebufferStatus(FramebufferTarget target) -> FramebufferStatus;
+				static inline auto isFramebuffer(Handle framebuffer) -> bool;
 				//		static inline void getFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, int *params);
-				//		static inline bool isRenderbuffer(unsigned int renderbuffer);
+				static inline auto isRenderbuffer(Handle renderbuffer) -> bool;
 				//		static inline void getRenderbufferParameteriv(GLenum target, GLenum pname, int *params);
-				//		static inline void flush();
-				//		static inline void finish();
+				static inline void flush();
+				static inline void finish();
 				//		static inline GLsync fenceSync(GLenum condition, GLbitfield flags);
 				//		static inline void deleteSync(GLsync sync);
 				//		static inline GLenum clientWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout);
@@ -398,9 +400,8 @@ namespace ece
 				//		static inline void getSamplerParameterIuiv(unsigned int sampler, GLenum pname, unsigned int * params);
 				//		static inline void bindFragDataLocationIndexed(unsigned int program, unsigned int colorNumber, unsigned int index, const char *name);
 				//		static inline int getFragDataIndex(unsigned int program, const char * name);
-				//
 				static inline void vertexAttribDivisor(const int index, const std::size_t divisor);
-				//
+
 				//		static inline void getUniformdv(unsigned int program, int location, double *params);
 				//		static inline void blendEquationi(unsigned int buf, GLenum mode);
 				//		static inline void blendEquationSeparatei(unsigned int buf, GLenum modeRGB, GLenum modeAlpha);
@@ -419,18 +420,18 @@ namespace ece
 				//		static inline void getUniformSubroutineuiv(GLenum shadertype, int location, unsigned int *values);
 				//		static inline void getProgramStageiv(unsigned int program, GLenum shadertype, GLenum pname, int *values);
 				//		static inline void patchParameteri(GLenum pname, int value);
-				//		static inline  void patchParameterfv(GLenum pname, const float *values);
-				//		static inline  void drawArraysIndirect(GLenum mode, const void *indirect);
-				//		static inline  void genTransformFeedbacks(GLsizei n, unsigned int *ids);
-				//		static inline  void deleteTransformFeedbacks(GLsizei n, const unsigned int *ids);
-				//		static inline  bool isTransformFeedback(unsigned int id);
-				//		static inline  void bindTransformFeedback(GLenum target, unsigned int id);
-				//		static inline  void pauseTransformFeedback();
-				//		static inline  void resumeTransformFeedback();
-				//		static inline  void drawTransformFeedback(GLenum mode, unsigned int id);
-				//		static inline  void drawTransformFeedbackStream(GLenum mode, unsigned int id, unsigned int stream);
-				//		static inline  void minSampleShading(float value);
-				//
+				//		static inline void patchParameterfv(GLenum pname, const float *values);
+				//		static inline void drawArraysIndirect(GLenum mode, const void *indirect);
+				//		static inline void genTransformFeedbacks(GLsizei n, unsigned int *ids);
+				//		static inline void deleteTransformFeedbacks(GLsizei n, const unsigned int *ids);
+				//		static inline bool isTransformFeedback(unsigned int id);
+				//		static inline void bindTransformFeedback(GLenum target, unsigned int id);
+				static inline void pauseTransformFeedback();
+				static inline void resumeTransformFeedback();
+				//		static inline void drawTransformFeedback(GLenum mode, unsigned int id);
+				//		static inline void drawTransformFeedbackStream(GLenum mode, unsigned int id, unsigned int stream);
+				static inline void minSampleShading(float value);
+
 				//		static inline void vertexAttribL1d(unsigned int index, double v0);
 				//		static inline void vertexAttribL2d(unsigned int index, double v0, double v1);
 				//		static inline void vertexAttribL3d(unsigned int index, double v0, double v1, double v2);
@@ -502,7 +503,7 @@ namespace ece
 				//		static inline void scissorArrayv(unsigned int first, GLsizei count, const int *v);
 				//		static inline void scissorIndexed(unsigned int index, int left, int bottom, GLsizei width, GLsizei height);
 				//		static inline void scissorIndexedv(unsigned int index, const int *v);
-				//
+
 				//		static inline void getActiveAtomicCounterBufferiv(unsigned int program, unsigned int bufferIndex, GLenum pname, int *params);
 				//		static inline void memoryBarrier(GLbitfield barriers);
 				//		static inline void texStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
@@ -515,7 +516,7 @@ namespace ece
 				//		static inline void drawTransformFeedbackInstanced(GLenum mode, unsigned int id, GLsizei primcount);
 				//		static inline void drawTransformFeedbackStreamInstanced(GLenum mode, unsigned int id, unsigned int stream, GLsizei primcount);
 				//		static inline void getInternalformativ(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, int *params);
-				//
+
 				//		static inline void clearBufferSubData(GLenum target, GLenum internalformat, GLintptr offset, GLsizeiptr size, GLenum format, GLenum type, const void * data);
 				//		static inline void clearBufferData(GLenum target, GLenum internalformat, GLenum format, GLenum type, const void * data);
 				//		static inline void invalidateBufferSubData(unsigned int buffer, GLintptr offset, GLsizeiptr length);
@@ -562,7 +563,7 @@ namespace ece
 				//		static inline void getObjectLabel(GLenum identifier, unsigned int name, GLsizei bifSize, GLsizei * length, char * label);
 				//		static inline void getObjectPtrLabel(void * ptr, GLsizei bifSize, GLsizei * length, char * label);
 				//		static inline void getInternalformati64v(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint64 *params);
-				//
+
 				//		static inline void bindBuffersRange(GLenum target, unsigned int first, GLsizei count, const unsigned int *buffers, const GLintptr *offsets, const GLintptr *sizes);
 				//		static inline void bindBuffersBase(GLenum target, unsigned int first, GLsizei count, const unsigned int *buffers);
 				//		static inline void bufferStorage(GLenum target, GLsizeiptr size, const void * data, GLbitfield flags);
@@ -572,7 +573,7 @@ namespace ece
 				//		static inline void clearTexImage(unsigned int texture, int level, GLenum format, GLenum type, const void * data);
 				//		static inline void bindImageTextures(unsigned int first, GLsizei count, const unsigned int *textures);
 				//		static inline void bindVertexBuffers(unsigned int first, GLsizei count, const unsigned int *buffers, const GLintptr *offsets, const GLsizei *strides);
-				//
+
 				//		static inline void enableVertexArrayAttrib(unsigned int vaobj, unsigned int index);
 				//		static inline void disableVertexArrayAttrib(unsigned int vaobj, unsigned int index);
 				//		static inline void namedBufferData(unsigned int buffer, GLsizei size, const void *data, GLenum usage);
@@ -677,7 +678,7 @@ namespace ece
 				//		static inline void getTransformFeedbackiv(unsigned int xfb, GLenum pname, int *param);
 				//		static inline void getTransformFeedbacki_v(unsigned int xfb, GLenum pname, unsigned int index, int *param);
 				//		static inline void getTransformFeedbacki64_v(unsigned int xfb, GLenum pname, unsigned int index, GLint64 *param);
-				//
+
 				//		static inline void specializeShader(unsigned int shader, const char *pEntryPoint​, unsigned int numSpecializationConstants​, const unsigned int *pConstantIndex​, const unsigned int *pConstantValue​);
 				//		static inline void polygonOffsetClamp(float factor, float units, float clamp);
 			} //namespace OpengL
