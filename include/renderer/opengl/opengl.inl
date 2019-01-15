@@ -1725,14 +1725,48 @@ namespace ece
 				return std::move(ids);
 			}
 
-			//	inline void OpenGL::renderbufferStorageMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::renderbufferStorage(GLenum /*target*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::framebufferRenderbuffer(GLenum /*target*/, GLenum /*attachment*/, GLenum /*renderbuffertarget*/, unsigned int /*renderbuffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::framebufferTexture(GLenum /*target*/, GLenum /*attachment*/, unsigned int /*texture*/, int /*level*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::framebufferTexture1D(GLenum /*target*/, GLenum /*attachment*/, GLenum /*textarget*/, unsigned int /*texture*/, int /*level*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::framebufferTexture2D(GLenum /*target*/, GLenum /*attachment*/, GLenum /*textarget*/, unsigned int /*texture*/, int /*level*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::framebufferTexture3D(GLenum /*target*/, GLenum /*attachment*/, GLenum /*textarget*/, unsigned int /*texture*/, int /*level*/, int /*layer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::framebufferTextureLayer(GLenum /*target*/, GLenum /*attachment*/, unsigned int /*texture*/, int /*level*/, int /*layer*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::renderbufferStorageMultisample(std::size_t samples, PixelFormat internalformat, std::size_t width, std::size_t height)
+			{
+				const auto target = GL_RENDERBUFFER;
+				checkErrors(glRenderbufferStorageMultisample(target, static_cast<GLsizei>(samples), static_cast<GLenum>(internalformat), static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
+			}
+			
+			inline void OpenGL::renderbufferStorage(PixelFormat internalformat, std::size_t width, std::size_t height)
+			{
+				const auto target = GL_RENDERBUFFER;
+				checkErrors(glRenderbufferStorage(target, static_cast<GLenum>(internalformat), static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
+			}
+
+			inline void OpenGL::framebufferRenderbuffer(FramebufferTarget target, FramebufferAttachment attachment, unsigned int renderbuffer)
+			{
+				const auto renderbuffertarget = GL_RENDERBUFFER;
+				checkErrors(glFramebufferRenderbuffer(static_cast<GLenum>(target), static_cast<GLenum>(attachment), renderbuffertarget, renderbuffer));
+			}
+
+			inline void OpenGL::framebufferTexture(FramebufferTarget target, FramebufferAttachment attachment, Handle texture, int level)
+			{
+				checkErrors(glFramebufferTexture(static_cast<GLenum>(target), static_cast<GLenum>(attachment), texture, level));
+			}
+
+			inline void OpenGL::framebufferTexture1D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level)
+			{
+				checkErrors(glFramebufferTexture1D(static_cast<GLenum>(target), static_cast<GLenum>(attachment), static_cast<GLenum>(textarget), texture, level));
+			}
+
+			inline void OpenGL::framebufferTexture2D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level)
+			{
+				checkErrors(glFramebufferTexture2D(static_cast<GLenum>(target), static_cast<GLenum>(attachment), static_cast<GLenum>(textarget), texture, level));
+			}
+			
+			inline void OpenGL::framebufferTexture3D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level, int layer)
+			{
+				checkErrors(glFramebufferTexture3D(static_cast<GLenum>(target), static_cast<GLenum>(attachment), static_cast<GLenum>(textarget), texture, level, layer));
+			}
+			
+			inline void OpenGL::framebufferTextureLayer(FramebufferTarget target, FramebufferAttachment attachment, Handle texture, int level, int layer)
+			{
+				checkErrors(glFramebufferTextureLayer(static_cast<GLenum>(target), static_cast<GLenum>(attachment), texture, level, layer));
+			}
 			
 			inline auto OpenGL::checkFramebufferStatus(FramebufferTarget target) -> FramebufferStatus
 			{
@@ -1745,14 +1779,25 @@ namespace ece
 				return checkErrors(glIsFramebuffer(framebuffer));
 			}
 
-			//	inline void OpenGL::getFramebufferAttachmentParameteriv(GLenum /*target*/, GLenum /*attachment*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::getFramebufferAttachmentParameter(FramebufferTarget target, FramebufferAttachment attachment, FramebufferAttachmentParameter pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetFramebufferAttachmentParameteriv(static_cast<GLenum>(target), static_cast<GLenum>(attachment), static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
 			
 			inline auto OpenGL::isRenderbuffer(Handle renderbuffer) -> bool
 			{
 				return checkErrors(isRenderbuffer(renderbuffer));
 			}
 
-			//	inline void OpenGL::getRenderbufferParameteriv(GLenum /*target*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::getRenderbufferParameter(RenderbufferParameter pname) -> int
+			{
+				const auto target = GL_RENDERBUFFER;
+				auto params = 0;
+				checkErrors(glGetRenderbufferParameteriv(target, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
 
 			inline void OpenGL::flush()
 			{
@@ -1764,57 +1809,222 @@ namespace ece
 				checkErrors(glFinish());
 			}
 
-			//	inline GLsync OpenGL::fenceSync(GLenum /*condition*/, GLbitfield /*flags*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::deleteSync(GLsync /*sync*/) { static_assert(false, "Not implemented yet."); }
-			//	inline GLenum OpenGL::clientWaitSync(GLsync /*sync*/, GLbitfield /*flags*/, GLuint64 /*timeout*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::waitSync(GLsync /*sync*/, GLbitfield /*flags*/, GLuint64 /*timeout*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getSynciv(GLsync /*sync*/, GLenum /*pname*/, GLsizei /*bufSize*/, GLsizei * /*length*/, int * /*values*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isSync(GLsync /*sync*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getBooleanv(GLenum /*pname*/, bool * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getDoublev(GLenum /*pname*/, double * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getFloatv(GLenum /*pname*/, float * /*data*/) { static_assert(false, "Not implemented yet."); }
-
-			inline auto OpenGL::getInteger(const Parameter parameter) -> std::vector<int>
+			inline auto OpenGL::fenceSync() -> Sync
 			{
-				auto tmp = std::vector<int>{ static_cast<int>(parameter) };
-				checkErrors(glGetIntegerv(static_cast<GLenum>(parameter), tmp.data()));
-				return tmp;
+				const auto condition = GL_SYNC_GPU_COMMANDS_COMPLETE;
+				const auto flags = 0;
+				return checkErrors(glFenceSync(condition, flags));
 			}
 
-			//	inline void OpenGL::getInteger64v(GLenum /*pname*/, GLint64 * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getBooleani_v(GLenum /*target*/, unsigned int /*index*/, bool * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getIntegeri_v(GLenum /*target*/, unsigned int /*index*/, int * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getInteger64i_v(GLenum /*target*/, unsigned int /*index*/, GLint64 * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isEnabled(GLenum /*cap*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isEnabledi(GLenum /*cap*/, unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::deleteSync(Sync sync)
+			{
+				checkErrors(glDeleteSync(sync));
+			}
 
-			inline auto OpenGL::getString(const InfoGL parameter) -> std::string
+			inline auto OpenGL::clientWaitSync(Sync sync, const std::bitset<8> & flags, std::uint64_t timeout) -> SyncStatus
+			{
+				auto result = checkErrors(glClientWaitSync(sync, flags.to_ulong(), timeout));
+				return std::move(static_cast<SyncStatus>(result));
+			}
+
+			inline void OpenGL::waitSync(Sync sync, const std::bitset<8> & flags)
+			{
+				const auto timeout = GL_TIMEOUT_IGNORED;
+				checkErrors(glWaitSync(sync, flags.to_ulong(), timeout));
+			}
+
+			inline auto OpenGL::getSync(Sync sync, SyncParameter pname) -> int
+			{
+				const auto bufSize = GLsizei{ 1 };
+				auto length = GLsizei{};
+				auto values = 0;
+				checkErrors(glGetSynciv(sync, static_cast<GLenum>(pname), bufSize, &length, &values));
+				return std::move(values);
+			}
+			
+			inline auto OpenGL::isSync(Sync sync) -> bool
+			{
+				return checkErrors(glIsSync(sync));
+			}
+
+			static inline auto OpenGL::getBoolean(Parameter pname) -> std::vector<bool>
+			{
+				const auto maxSize = std::size_t{ 16 };
+				auto data = std::vector<unsigned char>(maxSize);
+				checkErrors(glGetBooleanv(static_cast<GLenum>(pname), reinterpret_cast<GLboolean *>(data.data())));
+				return std::vector<bool>(data.begin(), data.end());
+			}
+
+			static inline auto OpenGL::getDouble(Parameter pname) -> std::vector<double>
+			{
+				const auto maxSize = std::size_t{ 16 };
+				auto data = std::vector<double>(maxSize);
+				checkErrors(glGetDoublev(static_cast<GLenum>(pname), reinterpret_cast<GLdouble *>(data.data())));
+				return std::move(data);
+			}
+
+			static inline auto OpenGL::getFloat(Parameter pname) -> std::vector<float>
+			{
+				const auto maxSize = std::size_t{ 16 };
+				auto data = std::vector<float>(maxSize);
+				checkErrors(glGetFloatv(static_cast<GLenum>(pname), reinterpret_cast<GLfloat *>(data.data())));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::getInteger(Parameter pname) -> std::vector<int>
+			{
+				const auto maxSize = std::size_t{ 16 };
+				auto data = std::vector<int>(maxSize);
+				checkErrors(glGetIntegerv(static_cast<GLenum>(pname), data.data()));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::getInteger64(Parameter pname) -> std::vector<std::int64_t>
+			{
+				const auto maxSize = std::size_t{ 16 };
+				auto data = std::vector<std::int64_t>(maxSize);
+				checkErrors(glGetInteger64v(static_cast<GLenum>(pname), data.data()));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::getBoolean(Parameter target, unsigned int index) -> bool
+			{
+				auto data = false;
+				checkErrors(glGetBooleani_v(static_cast<GLenum>(target), index, reinterpret_cast<GLboolean *>(&data)));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::getInteger(Parameter target, unsigned int index) -> int
+			{
+				auto data = 0;
+				checkErrors(glGetIntegeri_v(static_cast<GLenum>(target), index, &data));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::getInteger64(Parameter target, unsigned int index) -> std::int64_t
+			{
+				auto data = std::int64_t{ 0 };
+				checkErrors(glGetInteger64i_v(static_cast<GLenum>(target), index, &data));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::isEnabled(Capability cap) -> bool
+			{
+				return checkErrors(glIsEnabled(static_cast<GLenum>(cap)));
+			}
+
+			inline auto OpenGL::isEnabled(Capability cap, unsigned int index) -> bool
+			{
+				return checkErrors(glIsEnabledi(static_cast<GLenum>(cap), index));
+			}
+
+			inline auto OpenGL::getString(InfoGL parameter) -> std::string
 			{
 				const auto tmp = checkErrors(glGetString(static_cast<GLenum>(parameter)));
 				return std::string(reinterpret_cast<const char *>(tmp));
 			}
 
-			//	inline const GLubyte * OpenGL::getStringi(GLenum /*name*/, unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::queryCounter(unsigned int /*id*/, GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::genSamplers(GLsizei /*n*/, unsigned int * /*samplers*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindSampler(unsigned int /*unit*/, unsigned int /*sampler*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::samplerParameterf(unsigned int /*sampler*/, GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::samplerParameteri(unsigned int /*sampler*/, GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::samplerParameterfv(unsigned int /*sampler*/, GLenum /*pname*/, const float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::samplerParameteriv(unsigned int /*sampler*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::samplerParameterIiv(unsigned int /*sampler*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::samplerParameterIuiv(unsigned int /*sampler*/, GLenum /*pname*/, const unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::deleteSamplers(GLsizei /*n*/, const unsigned int * /*samplers*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isSampler(unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getSamplerParameterfv(unsigned int /*sampler*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getSamplerParameteriv(unsigned int /*sampler*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getSamplerParameterIiv(unsigned int /*sampler*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getSamplerParameterIuiv(unsigned int /*sampler*/, GLenum /*pname*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindFragDataLocationIndexed(unsigned int /*program*/, unsigned int /*colorNumber*/, unsigned int /*index*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline int OpenGL::getFragDataIndex(unsigned int /*program*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//
-				inline void OpenGL::vertexAttribDivisor(const int index, const std::size_t divisor) { checkErrors(glVertexAttribDivisor(static_cast<GLuint>(index), static_cast<GLuint>(divisor))); }
-			//
+			inline auto OpenGL::getString(InfoGL name, unsigned int index) -> std::string
+			{
+				const auto tmp = checkErrors(glGetStringi(static_cast<GLenum>(name), index));
+				return std::string(reinterpret_cast<const char *>(tmp));
+			}
+
+			inline void OpenGL::queryCounter(Handle id)
+			{
+				const auto target = GL_TIMESTAMP;
+				checkErrors(glQueryCounter(id, target));
+			}
+
+			inline auto OpenGL::genSamplers(std::size_t n) -> std::vector<Handle>
+			{
+				auto samplers = std::vector<Handle>{};
+				checkErrors(glGenSamplers(static_cast<GLsizei>(n), samplers.data()));
+				return std::move(samplers);
+			}
+
+			inline void OpenGL::bindSampler(Handle unit, Handle sampler)
+			{
+				checkErrors(glBindSampler(unit, sampler));
+			}
+
+			inline void OpenGL::samplerParameter(Handle sampler, SamplerParameter pname, float param)
+			{
+				checkErrors(glSamplerParameterf(sampler, static_cast<GLenum>(pname), param));
+			}
+
+			inline void OpenGL::samplerParameter(Handle sampler, SamplerParameter pname, int param)
+			{
+				checkErrors(glSamplerParameteri(sampler, static_cast<GLenum>(pname), param));
+			}
+
+			inline void OpenGL::samplerParameter(Handle sampler, SamplerParameter pname, const std::vector<float> & params)
+			{
+				checkErrors(glSamplerParameterfv(sampler, static_cast<GLenum>(pname), params.data()));
+			}
+
+			inline void OpenGL::samplerParameter(Handle sampler, SamplerParameter pname, const std::vector<int> & params)
+			{
+				checkErrors(glSamplerParameteriv(sampler, static_cast<GLenum>(pname), params.data()));
+			}
+
+			inline void OpenGL::samplerParameter(Handle sampler, SamplerParameter pname, const std::vector<unsigned int> & params)
+			{
+				checkErrors(glSamplerParameterIuiv(sampler, static_cast<GLenum>(pname), params.data()));
+			}
+
+			inline void OpenGL::deleteSamplers(const std::vector<Handle> & samplers)
+			{
+				checkErrors(glDeleteSamplers(samplers.size(), samplers.data()));
+			}
+			
+			inline auto OpenGL::isSampler(Handle id) -> bool
+			{
+				return checkErrors(glIsSampler(id));
+			}
+
+			template <class T>
+			inline auto OpenGL::getSamplerParameter(Handle sampler, SamplerParameter pname) -> std::vector<T>
+			{
+				throw std::runtime_error("OpenGL::getSamplerParameter method is not defined for this type");
+			}
+
+			template <> inline auto OpenGL::getSamplerParameter<float>(Handle sampler, SamplerParameter pname) -> std::vector<float>
+			{
+				const auto maxSize = std::size_t{ 16 };
+				auto params = std::vector<float>(maxSize);
+				checkErrors(glGetSamplerParameterfv(sampler, static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			template <> inline auto OpenGL::getSamplerParameter<int>(Handle sampler, SamplerParameter pname) -> std::vector<int>
+			{
+				const auto maxSize = std::size_t{ 16 };
+				auto params = std::vector<int>(maxSize);
+				checkErrors(glGetSamplerParameteriv(sampler, static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			template <> inline auto OpenGL::getSamplerParameter<unsigned int>(Handle sampler, SamplerParameter pname) -> std::vector<unsigned int>
+			{
+				const auto maxSize = std::size_t{ 16 };
+				auto params = std::vector<unsigned int>(maxSize);
+				checkErrors(glGetSamplerParameterIuiv(sampler, static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+			
+			inline void OpenGL::bindFragDataLocationIndexed(Handle program, Handle colorNumber, Handle index, const std::string & name)
+			{
+				checkErrors(glBindFragDataLocationIndexed(program, colorNumber, index, name.data()))
+			}
+			
+			inline auto OpenGL::getFragDataIndex(Handle program, const std::string & name) -> int
+			{
+				return checkErrors(glGetFragDataIndex(program, name.data()));
+			}
+
+			inline void OpenGL::vertexAttribDivisor(const int index, const std::size_t divisor) { checkErrors(glVertexAttribDivisor(static_cast<GLuint>(index), static_cast<GLuint>(divisor))); }
+
 			//	inline void OpenGL::getUniformdv(unsigned int /*program*/, int /*location*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendEquationi(unsigned int /*buf*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::blendEquationSeparatei(unsigned int /*buf*/, GLenum /*modeRGB*/, GLenum /*modeAlpha*/) { static_assert(false, "Not implemented yet."); }
@@ -1868,11 +2078,21 @@ namespace ece
 			//	inline void OpenGL::vertexAttribLPointer(unsigned int /*index*/, int /*size*/, GLenum /*type*/, GLsizei /*stride*/, const void * /*pointer*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::depthRangef(float /*nearVal*/, float /*farVal*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getVertexAttribLdv(unsigned int /*index*/, GLenum /*pname*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearDepthf(float /*depth*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::clearDepth(float depth)
+			{
+				checkErrors(glClearDepth(depth));
+			}
+
 			//	inline void OpenGL::getFloati_v(GLenum /*target*/, unsigned int /*index*/, float * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getDoublei_v(GLenum /*target*/, unsigned int /*index*/, double * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::shaderBinary(GLsizei /*count*/, const unsigned int * /*shaders*/, GLenum /*binaryFormat*/, const void * /*binary*/, GLsizei /*length*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::releaseShaderCompiler() { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::releaseShaderCompiler()
+			{
+				checkErrors(glReleaseShaderCompiler());
+			}
+
 			//	inline unsigned int OpenGL::createShaderProgramv(GLenum /*type*/, GLsizei /*count*/, const char ** /*strings*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::programParameteri(unsigned int /*program*/, GLenum /*pname*/, int /*value*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::genProgramPipelines(GLsizei /*n*/, unsigned int * /*pipelines*/) { static_assert(false, "Not implemented yet."); }
@@ -1994,7 +2214,12 @@ namespace ece
 			}
 			//	inline void OpenGL::debugMessageInsert(GLenum /*source*/, GLenum /*type*/, unsigned int /*id*/, GLenum /*severity*/, GLsizei /*length*/, const char * /*message*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::pushDebugGroup(GLenum /*source*/, unsigned int /*id*/, GLsizei /*length*/, const char * /*message*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::popDebugGroup() { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::popDebugGroup()
+			{
+				checkErrors(glPopDebugGroup());
+			}
+
 			//	inline void OpenGL::objectLabel(GLenum /*identifier*/, unsigned int /*name*/, GLsizei /*length*/, const char * /*label*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::objectPtrLabel(void * /*ptr*/, GLsizei /*length*/, const char * /*label*/) { static_assert(false, "Not implemented yet."); }
 			//	inline unsigned int OpenGL::getDebugMessageLog(unsigned int /*count*/, GLsizei /*bufSize*/, GLenum * /*sources*/, GLenum * /*types*/, unsigned int * /*ids*/, GLenum * /*severities*/, GLsizei * /*lengths*/, char * /*messageLog*/) { static_assert(false, "Not implemented yet."); }
@@ -2094,7 +2319,12 @@ namespace ece
 			//	inline void OpenGL::namedFramebufferParameteri(unsigned int /*framebuffer*/, GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getNamedFramebufferParameteriv(unsigned int /*framebuffer*/, GLenum /*pname*/, int * /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::createRenderbuffers(GLsizei /*n*/, unsigned int * /*renderbuffers*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureBarrier() { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::textureBarrier()
+			{
+				checkErrors(glTextureBarrier());
+			}
+
 			//	inline void OpenGL::createVertexArrays(GLsizei /*n*/, unsigned int * /*arrays*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexArrayElementBuffer(unsigned int /*vaobj*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexArrayAttribFormat(unsigned int /*vaobj*/, unsigned int /*attribindex*/, int /*size*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*relativeoffset*/) { static_assert(false, "Not implemented yet."); }
