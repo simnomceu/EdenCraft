@@ -71,6 +71,53 @@ namespace ece
 		{
 			// TODO: replace lot of enumerations by assert to check the value ?
 
+			struct DrawArraysIndirectCommand
+			{
+				unsigned int count;
+				unsigned int primCount;
+				unsigned int first;
+				unsigned int baseInstance;
+			};
+
+			enum class PatchParameter : unsigned short int
+			{
+				VERTICES = GL_PATCH_VERTICES,
+				DEFAULT_OUTER_LEVEL = GL_PATCH_DEFAULT_OUTER_LEVEL,
+				DEFAULT_INNER_LEVEL = GL_PATCH_DEFAULT_INNER_LEVEL
+			};
+
+			enum class ShaderSubroutineParameter : unsigned short int
+			{
+				ACTIVE_SUBROUTINE_UNIFORMS = GL_ACTIVE_SUBROUTINE_UNIFORMS,
+				ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS = GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS,
+				ACTIVE_SUBROUTINES = GL_ACTIVE_SUBROUTINES,
+				ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH = GL_ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH,
+				ACTIVE_SUBROUTINE_MAX_LENGTH = GL_ACTIVE_SUBROUTINE_MAX_LENGTH
+			};
+
+			enum class ShaderSubroutineUniformParameter : unsigned short int
+			{
+				NUM_COMPATIBLE_SUBROUTINES = GL_NUM_COMPATIBLE_SUBROUTINES,
+				COMPATIBLE_SUBROUTINES = GL_COMPATIBLE_SUBROUTINES,
+				UNIFORM_SIZE = GL_UNIFORM_SIZE,
+				UNIFORM_NAME_LENGTH = GL_UNIFORM_NAME_LENGTH
+			};
+
+			enum class QueryObjectTargetParameter : unsigned short int
+			{
+				CURRENT_QUERY = GL_CURRENT_QUERY,
+				QUERY_COUNTER_BITS = GL_QUERY_COUNTER_BITS
+			};
+
+			struct DrawElementsIndirectCommand
+			{
+				unsigned int count;
+				unsigned int primCount;
+				unsigned int firstIndex;
+				unsigned int baseVertex;
+				unsigned int baseInstance;
+			};
+
 			enum class SamplerParameter : unsigned short int
 			{
 				WRAP_S = GL_TEXTURE_WRAP_S,

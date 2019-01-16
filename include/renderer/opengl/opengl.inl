@@ -2023,32 +2023,155 @@ namespace ece
 				return checkErrors(glGetFragDataIndex(program, name.data()));
 			}
 
-			inline void OpenGL::vertexAttribDivisor(const int index, const std::size_t divisor) { checkErrors(glVertexAttribDivisor(static_cast<GLuint>(index), static_cast<GLuint>(divisor))); }
+			inline void OpenGL::vertexAttribDivisor(const int index, const std::size_t divisor)
+			{
+				checkErrors(glVertexAttribDivisor(static_cast<GLuint>(index), static_cast<GLuint>(divisor)));
+			}
 
-			//	inline void OpenGL::getUniformdv(unsigned int /*program*/, int /*location*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendEquationi(unsigned int /*buf*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendEquationSeparatei(unsigned int /*buf*/, GLenum /*modeRGB*/, GLenum /*modeAlpha*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendFuncSeparatei(unsigned int /*buf*/, GLenum /*srcRGB*/, GLenum /*dstRGB*/, GLenum /*srcAlpha*/, GLenum /*dstAlpha*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blendFunci(unsigned int /*buf*/, GLenum /*sfactor*/, GLenum /*dfactor*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawElementsIndirect(GLenum /*mode*/, GLenum /*type*/, const void * /*indirect*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::beginQueryIndexed(GLenum /*target*/, unsigned int /*index*/, unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::endQueryIndexed(GLenum /*target*/, unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getQueryIndexediv(GLenum /*target*/, unsigned int /*index*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline int getSubroutineUniformLocation(unsigned int /*program*/, GLenum /*shadertype*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline unsigned int OpenGL::getSubroutineIndex(unsigned int /*program*/, GLenum /*shadertype*/, const char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveSubroutineName(unsigned int /*program*/, GLenum /*shadertype*/, unsigned int /*index*/, GLsizei /*bufsize*/, GLsizei * /*length*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveSubroutineUniformName(unsigned int /*program*/, GLenum /*shadertype*/, unsigned int /*index*/, GLsizei /*bufsize*/, GLsizei * /*length*/, char * /*name*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getActiveSubroutineUniformiv(unsigned int /*program*/, GLenum /*shadertype*/, unsigned int /*index*/, GLenum /*pname*/, int * /*values*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::uniformSubroutinesuiv(GLenum /*shadertype*/, GLsizei /*count*/, const unsigned int * /*indices*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getUniformSubroutineuiv(GLenum /*shadertype*/, int /*location*/, unsigned int * /*values*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getProgramStageiv(unsigned int /*program*/, GLenum /*shadertype*/, GLenum /*pname*/, int * /*values*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::patchParameteri(GLenum /*pname*/, int /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::patchParameterfv(GLenum /*pname*/, const float * /*values*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawArraysIndirect(GLenum /*mode*/, const void * /*indirect*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::genTransformFeedbacks(GLsizei /*n*/, unsigned int * /*ids*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::deleteTransformFeedbacks(GLsizei /*n*/, const unsigned int * /*ids*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isTransformFeedback(unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindTransformFeedback(GLenum /*target*/, unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
+			template <>
+			inline auto OpenGL::getUniform(Handle program, int location) -> double
+			{
+				auto params = 0.0;
+				checkErrors(glGetUniformdv(program, location, reinterpret_cast<GLdouble *>(&params)));
+				return std::move(params);
+			}
+
+			inline void OpenGL::blendEquation(Handle buf, BlendEquationMode mode)
+			{
+				checkErrors(glBlendEquationi(buf, static_cast<GLenum>(mode)));
+			}
+			
+			inline void OpenGL::blendEquationSeparate(Handle buf, BlendEquationMode modeRGB, BlendEquationMode modeAlpha)
+			{
+				checkErrors(glBlendEquationSeparatei(buf, static_cast<GLenum>(modeRGB), static_cast<GLenum>(modeAlpha)));
+			}
+
+			inline void OpenGL::blendFuncSeparate(Handle buf, BlendingFactor srcRGB, BlendingFactor dstRGB, BlendingFactor srcAlpha, BlendingFactor dstAlpha)
+			{
+				checkErrors(glBlendFuncSeparatei(buf, static_cast<GLenum>(srcRGB), static_cast<GLenum>(dstRGB), static_cast<GLenum>(srcAlpha), static_cast<GLenum>(dstAlpha)));
+			}
+
+			inline void OpenGL::blendFunc(Handle buf, const BlendingFactor sfactor, const BlendingFactor dfactor)
+			{
+				checkErrors(glBlendFunci(buf, static_cast<GLenum>(sfactor), static_cast<GLenum>(dfactor)));
+			}
+
+			inline void OpenGL::drawElementsIndirect(PrimitiveMode mode, DrawElementsIndirectCommand & indirect)
+			{
+				const auto type = GL_INT;
+				checkErrors(glDrawElementsIndirect(static_cast<GLenum>(mode), type, reinterpret_cast<const GLvoid *>(&indirect)));
+			}
+
+			inline void OpenGL::beginQueryIndexed(QueryObjectType target, Handle index, Handle id)
+			{
+				checkErrors(glBeginQueryIndexed(static_cast<GLenum>(target), index, id));
+			}
+
+			inline void OpenGL::endQueryIndexed(QueryObjectType target, Handle index)
+			{
+				checkErrors(glEndQueryIndexed(static_cast<GLenum>(target), index));
+			}
+
+			inline auto OpenGL::getQueryIndexed(QueryObjectType target, Handle index, QueryObjectTargetParameter pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetQueryIndexediv(static_cast<GLenum>(target), index, static_cast<GLenum>(pname), reinterpret_cast<GLint *>(&params)));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getSubroutineUniformLocation(Handle program, ShaderType shadertype, const std::string & name) -> int
+			{
+				return checkErrors(glGetSubroutineUniformLocation(program, static_cast<GLenum>(shadertype), name.data()));
+			}
+
+			inline auto OpenGL::getSubroutineIndex(Handle program, ShaderType shadertype, const std::string & name) -> Handle
+			{
+				return checkErrors(glGetSubroutineIndex(program, static_cast<GLenum>(shadertype), name.data()));
+			}
+
+			inline auto OpenGL::getActiveSubroutineName(Handle program, ShaderType shadertype, Handle index) -> std::string
+			{
+				const auto bufsize = std::size_t{ 4096 };
+				auto length = std::size_t{ 0 };
+				auto name = std::string(bufsize, '\0');
+				checkErrors(glGetActiveSubroutineName(program, static_cast<GLenum>(shadertype), index, static_cast<GLsizei>(bufsize), reinterpret_cast<GLsizei *>(&length), name.data()));
+				return std::move(name);
+			}
+
+			inline auto OpenGL::getActiveSubroutineUniformName(Handle program, ShaderType shadertype, Handle index) -> std::string
+			{
+				const auto bufsize = std::size_t{ 4096 };
+				auto length = std::size_t{ 0 };
+				auto name = std::string(bufsize, '\0');
+				checkErrors(glGetActiveSubroutineUniformName(program, static_cast<GLenum>(shadertype), index, static_cast<GLsizei>(bufsize), reinterpret_cast<GLsizei *>(&length), name.data()));
+				return std::move(name);
+			}
+
+			inline auto OpenGL::getActiveSubroutineUniform(Handle program, ShaderType shadertype, Handle index, ShaderSubroutineUniformParameter pname) -> std::vector<int>
+			{
+				const auto maxSize = 512;
+				auto values = std::vector<int>(maxSize);
+				checkErrors(glGetActiveSubroutineUniformiv(program, static_cast<GLenum>(shadertype), index, static_cast<GLenum>(pname), values.data()));
+				return std::move(values);
+			}
+
+			inline void OpenGL::uniformSubroutines(ShaderType shadertype, const std::vector<unsigned int> & indices)
+			{
+				checkErrors(glUniformSubroutinesuiv(static_cast<GLenum>(shadertype), indices.size(), indices.data()));
+			}
+
+			inline auto OpenGL::getUniformSubroutine(ShaderType shadertype, int location) -> std::vector<unsigned int>
+			{
+				const auto maxSize = 512;
+				auto values = std::vector<unsigned int>(maxSize);
+				checkErrors(glGetUniformSubroutineuiv(static_cast<GLenum>(shadertype), location, values.data()));
+				return std::move(values);
+			}
+
+			inline auto OpenGL::getProgramStage(Handle program, ShaderType shadertype, ShaderSubroutineParameter pname) -> int
+			{
+				auto values = 0;
+				checkErrors(glGetProgramStageiv(program, static_cast<GLenum>(shadertype), static_cast<GLenum>(pname), &values));
+				return std::move(values);
+			}
+
+			inline void OpenGL::patchParameter(PatchParameter pname, int value)
+			{
+				checkErrors(glPatchParameteri(static_cast<GLenum>(pname), value));
+			}
+
+			inline void OpenGL::patchParameter(PatchParameter pname, const std::vector<float> & values)
+			{
+				checkErrors(glPatchParameterfv(static_cast<GLenum>(pname), values.data()));
+			}
+
+			inline void OpenGL::drawArraysIndirect(PrimitiveMode mode, DrawArraysIndirectCommand & indirect)
+			{
+				checkErrors(glDrawArraysIndirect(static_cast<GLenum>(mode), reinterpret_cast<const void *>(&indirect)));
+			}
+
+			inline auto OpenGL::genTransformFeedbacks(std::size_t n) -> std::vector<Handle>
+			{
+				auto ids = std::vector<Handle>(n);
+				checkErrors(glGenTransformFeedbacks(static_cast<GLsizei>(n), ids.data()));
+				return std::move(ids);
+			}
+
+			inline void OpenGL::deleteTransformFeedbacks(const std::vector<Handle> & ids)
+			{
+				checkErrors(glDeleteTransformFeedbacks(ids.size(), ids.data()));
+			}
+
+			inline auto OpenGL::isTransformFeedback(Handle id) -> bool
+			{
+				return checkErrors(glIsTransformFeedback(id));
+			}
+
+			inline void OpenGL::bindTransformFeedback(Handle id)
+			{
+				const auto target = GL_TRANSFORM_FEEDBACK;
+				checkErrors(glBindTransformFeedback(target, id));
+			}
 
 			inline void OpenGL::pauseTransformFeedback()
 			{
@@ -2060,8 +2183,16 @@ namespace ece
 				checkErrors(glResumeTransformFeedback());
 			}
 
-			//	inline void OpenGL::drawTransformFeedback(GLenum /*mode*/, unsigned int /*id*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::drawTransformFeedbackStream(GLenum /*mode*/, unsigned int /*id*/, unsigned int /*stream*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::drawTransformFeedback(PrimitiveMode mode, Handle id)
+			{
+				checkErrors(glDrawTransformFeedback(static_cast<GLenum>(mode), id));
+			}
+
+			inline void OpenGL::drawTransformFeedbackStream(PrimitiveMode mode, Handle id, Handle stream)
+			{
+				checkErrors(glDrawTransformFeedbackStream(static_cast<GLenum>(mode), id, stream));
+			}
+
 			inline void OpenGL::minSampleShading(float value)
 			{
 				checkErrors(glMinSampleShading(value));
@@ -2076,7 +2207,12 @@ namespace ece
 			//	inline void OpenGL::vertexAttribL3dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexAttribL4dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexAttribLPointer(unsigned int /*index*/, int /*size*/, GLenum /*type*/, GLsizei /*stride*/, const void * /*pointer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::depthRangef(float /*nearVal*/, float /*farVal*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::depthRange(float nearVal, float farVal)
+			{
+				checkErrors(glDepthRangef(nearVal, farVal));
+			}
+
 			//	inline void OpenGL::getVertexAttribLdv(unsigned int /*index*/, GLenum /*pname*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
 			
 			inline void OpenGL::clearDepth(float depth)
