@@ -431,23 +431,13 @@ namespace ece
 				static inline void drawTransformFeedbackStream(PrimitiveMode mode, Handle id, Handle stream);
 				static inline void minSampleShading(float value);
 
-				//		static inline void vertexAttribL1d(unsigned int index, double v0);
-				//		static inline void vertexAttribL2d(unsigned int index, double v0, double v1);
-				//		static inline void vertexAttribL3d(unsigned int index, double v0, double v1, double v2);
-				//		static inline void vertexAttribL4d(unsigned int index, double v0, double v1, double v2, double v3);
-				//		static inline void vertexAttribL1dv(unsigned int index, const double * v);
-				//		static inline void vertexAttribL2dv(unsigned int index, const double * v);
-				//		static inline void vertexAttribL3dv(unsigned int index, const double * v);
-				//		static inline void vertexAttribL4dv(unsigned int index, const double * v);
-				//		static inline void vertexAttribLPointer(unsigned int index, int size, GLenum type, GLsizei stride, const void * pointer);
 				static inline void depthRange(float nearVal, float farVal);
-				//		static inline void getVertexAttribLdv(unsigned int index, GLenum pname, double *params);
 				static inline void clearDepth(float depth);
-				//		static inline void getFloati_v(GLenum target, unsigned int index, float * data);
-				//		static inline void getDoublei_v(GLenum target, unsigned int index, double * data);
-				//		static inline void shaderBinary(GLsizei count, const unsigned int *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
+				static inline auto getFloat(Parameter target, unsigned int index) -> float;
+				static inline auto getDouble(Parameter target, unsigned int index) -> double;
+				static inline void shaderBinary(const std::vector<Handle> & shaders, BinaryFormat binaryFormat, const void * binary, std::size_t length);
 				static inline void releaseShaderCompiler();
-				//		static inline unsigned int createShaderProgramv(GLenum type, GLsizei count, const char **strings);
+				static inline auto createShaderProgram(ShaderType type, std::vector<std::string> & strings) -> Handle;
 				//		static inline void programParameteri(unsigned int program, GLenum pname, int value);
 				//		static inline void genProgramPipelines(GLsizei n, unsigned int *pipelines);
 				//		static inline void deleteProgramPipelines(GLsizei n, const unsigned int *pipelines);

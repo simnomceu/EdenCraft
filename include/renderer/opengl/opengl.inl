@@ -1027,8 +1027,12 @@ namespace ece
 
 			inline void OpenGL::transformFeedbackVaryings(Handle program, std::size_t count, const std::vector<std::string> & varyings, VaryingBufferMode bufferMode)
 			{
-				auto ptr = varyings[0].data();
-				checkErrors(glTransformFeedbackVaryings(program, count, reinterpret_cast<const GLchar **>(&ptr), static_cast<GLenum>(bufferMode)));
+
+				auto varyingsPtr = std::vector<const char*>{};
+				for (const auto & string : varyings) {
+					varyingsPtr.push_back(string.data());
+				}
+				checkErrors(glTransformFeedbackVaryings(program, count, reinterpret_cast<const GLchar **>(&varyingsPtr), static_cast<GLenum>(bufferMode)));
 			}
 
 			inline auto OpenGL::getTransformFeedbackVarying(Handle program, unsigned int index) -> VaryingInfo
@@ -2198,38 +2202,49 @@ namespace ece
 				checkErrors(glMinSampleShading(value));
 			}
 
-			//	inline void OpenGL::vertexAttribL1d(unsigned int /*index*/, double /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribL2d(unsigned int /*index*/, double /*v0*/, double /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribL3d(unsigned int /*index*/, double /*v0*/, double /*v1*/, double /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribL4d(unsigned int /*index*/, double /*v0*/, double /*v1*/, double /*v2*/, double /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribL1dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribL2dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribL3dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribL4dv(unsigned int /*index*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexAttribLPointer(unsigned int /*index*/, int /*size*/, GLenum /*type*/, GLsizei /*stride*/, const void * /*pointer*/) { static_assert(false, "Not implemented yet."); }
-			
 			inline void OpenGL::depthRange(float nearVal, float farVal)
 			{
 				checkErrors(glDepthRangef(nearVal, farVal));
 			}
 
-			//	inline void OpenGL::getVertexAttribLdv(unsigned int /*index*/, GLenum /*pname*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
-			
 			inline void OpenGL::clearDepth(float depth)
 			{
 				checkErrors(glClearDepth(depth));
 			}
 
-			//	inline void OpenGL::getFloati_v(GLenum /*target*/, unsigned int /*index*/, float * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getDoublei_v(GLenum /*target*/, unsigned int /*index*/, double * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::shaderBinary(GLsizei /*count*/, const unsigned int * /*shaders*/, GLenum /*binaryFormat*/, const void * /*binary*/, GLsizei /*length*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::getFloat(Parameter target, unsigned int index) -> float
+			{
+				auto data = 0.0f;
+				checkErrors(glGetFloati_v(static_cast<GLenum>(target), index, &data));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::getDouble(Parameter target, unsigned int index) -> double
+			{
+				auto data = 0.0;
+				checkErrors(glGetDoublei_v(static_cast<GLenum>(target), index, &data));
+				return std::move(data);
+			}
+
+			inline void OpenGL::shaderBinary(const std::vector<Handle> & shaders, BinaryFormat binaryFormat, const void * binary, std::size_t length)
+			{
+				checkErrors(glShaderBinary(static_cast<GLsizei>(shaders.size()), shaders.data(), static_cast<GLenum>(binaryFormat), binary, static_cast<GLsizei>(length)));
+			}
 			
 			inline void OpenGL::releaseShaderCompiler()
 			{
 				checkErrors(glReleaseShaderCompiler());
 			}
 
-			//	inline unsigned int OpenGL::createShaderProgramv(GLenum /*type*/, GLsizei /*count*/, const char ** /*strings*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::createShaderProgram(ShaderType type, std::vector<std::string> & strings) -> Handle
+			{
+				auto stringsPtr = std::vector<const char*>{};
+				for (const auto & string : strings) {
+					stringsPtr.push_back(string.data());
+				}
+				return checkErrors(glCreateShaderProgramv(static_cast<GLenum>(type), strings.size(), reinterpret_cast<const GLchar **>(&stringsPtr)));
+			}
+
 			//	inline void OpenGL::programParameteri(unsigned int /*program*/, GLenum /*pname*/, int /*value*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::genProgramPipelines(GLsizei /*n*/, unsigned int * /*pipelines*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::deleteProgramPipelines(GLsizei /*n*/, const unsigned int * /*pipelines*/) { static_assert(false, "Not implemented yet."); }

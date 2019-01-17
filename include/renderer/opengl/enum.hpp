@@ -71,6 +71,8 @@ namespace ece
 		{
 			// TODO: replace lot of enumerations by assert to check the value ?
 
+			using BinaryFormat = GLenum;
+
 			struct DrawArraysIndirectCommand
 			{
 				unsigned int count;
