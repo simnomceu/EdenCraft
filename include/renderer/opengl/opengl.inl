@@ -2245,61 +2245,341 @@ namespace ece
 				return checkErrors(glCreateShaderProgramv(static_cast<GLenum>(type), strings.size(), reinterpret_cast<const GLchar **>(&stringsPtr)));
 			}
 
-			//	inline void OpenGL::programParameteri(unsigned int /*program*/, GLenum /*pname*/, int /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::genProgramPipelines(GLsizei /*n*/, unsigned int * /*pipelines*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::deleteProgramPipelines(GLsizei /*n*/, const unsigned int * /*pipelines*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::isProgramPipeline(unsigned int /*pipeline*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindProgramPipeline(unsigned int /*pipeline*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::useProgramStages(unsigned int /*pipeline*/, GLbitfield /*stages*/, unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::activeShaderProgram(unsigned int /*pipeline*/, unsigned int /*program*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getProgramBinary(unsigned int /*program*/, GLsizei /*bufsize*/, GLsizei * /*length*/, GLenum * /*binaryFormat*/, void * /*binary*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programBinary(unsigned int /*program*/, GLenum /*binaryFormat*/, const void * /*binary*/, GLsizei /*length*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform1f(unsigned int /*program*/, int /*location*/, float /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform2f(unsigned int /*program*/, int /*location*/, float /*v0*/, float /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform3f(unsigned int /*program*/, int /*location*/, float /*v0*/, float /*v1*/, float /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform4f(unsigned int /*program*/, int /*location*/, float /*v0*/, float /*v1*/, float /*v2*/, float /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform1i(unsigned int /*program*/, int /*location*/, int /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform2i(unsigned int /*program*/, int /*location*/, int /*v0*/, int /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform3i(unsigned int /*program*/, int /*location*/, int /*v0*/, int /*v1*/, int /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform4i(unsigned int /*program*/, int /*location*/, int /*v0*/, int /*v1*/, int /*v2*/, int /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform1ui(unsigned int /*program*/, int /*location*/, unsigned int /*v0*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform2ui(unsigned int /*program*/, int /*location*/, int /*v0*/, unsigned int /*v1*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform3ui(unsigned int /*program*/, int /*location*/, int /*v0*/, int /*v1*/, unsigned int /*v2*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform4ui(unsigned int /*program*/, int /*location*/, int /*v0*/, int /*v1*/, int /*v2*/, unsigned int /*v3*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform1fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform2fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform3fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform4fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform1iv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform2iv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform3iv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform4iv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform1uiv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform2uiv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform3uiv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniform4uiv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix2fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix3fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix4fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix2x3fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix3x2fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix2x4fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix4x2fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix3x4fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::programUniformMatrix4x3fv(unsigned int /*program*/, int /*location*/, GLsizei /*count*/, bool /*transpose*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getProgramPipelineiv(unsigned int /*pipeline*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getProgramPipelineInfoLog(unsigned int /*pipeline*/, GLsizei /*bufSize*/, GLsizei * /*length*/, char * /*infoLog*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getShaderPrecisionFormat(GLenum /*shaderType*/, GLenum /*precisionType*/, int * /*range*/, int * /*precision*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::validateProgramPipeline(unsigned int /*pipeline*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::depthRangeArrayv(unsigned int /*first*/, GLsizei /*count*/, const double * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::depthRangeIndexed(unsigned int /*index*/, double /*nearVal*/, double /*farVal*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::viewportArrayv(unsigned int /*first*/, GLsizei /*count*/, const float * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::viewportIndexedf(unsigned int /*index*/, float /*x*/, float /*y*/, float /*w*/, float /*h*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::viewportIndexedfv(unsigned int /*index*/, const float * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::scissorArrayv(unsigned int /*first*/, GLsizei /*count*/, const int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::scissorIndexed(unsigned int /*index*/, int /*left*/, int /*bottom*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::scissorIndexedv(unsigned int /*index*/, const int * /*v*/) { static_assert(false, "Not implemented yet."); }
-			//
+			inline void OpenGL::programParameter(Handle program, ProgramHint pname, int value)
+			{
+				checkErrors(glProgramParameteri(program, static_cast<GLenum>(pname), value));
+			}
+
+			inline auto OpenGL::genProgramPipelines(std::size_t n) -> std::vector<Handle>
+			{
+				auto pipelines = std::vector<Handle>(n);
+				checkErrors(glGenProgramPipelines(n, pipelines.data()));
+				return std::move(pipelines);
+			}
+
+			inline void OpenGL::deleteProgramPipelines(const std::vector<Handle> & pipelines)
+			{
+				checkErrors(glDeleteProgramPipelines(pipelines.size(), pipelines.data()));
+			}
+
+			inline auto OpenGL::isProgramPipeline(Handle pipeline) -> bool
+			{
+				return checkErrors(glIsProgramPipeline(pipeline));
+			}
+			
+			inline void OpenGL::bindProgramPipeline(Handle pipeline)
+			{
+				checkErrors(glBindProgramPipeline(pipeline));
+			}
+			
+			inline void OpenGL::useProgramStages(Handle pipeline, ProgramStageBitfield stages, Handle program)
+			{
+				checkErrors(glUseProgramStages(pipeline, static_cast<GLenum>(stages), program));
+			}
+
+			inline void OpenGL::activeShaderProgram(Handle pipeline, Handle program)
+			{
+				checkErrors(glActiveShaderProgram(pipeline, program));
+			}
+
+			inline auto OpenGL::getProgramBinary(Handle program) -> ProgramBinary
+			{
+				const auto bufsize = std::size_t{ 8192 };
+				ProgramBinary result;
+				checkErrors(glGetProgramBinary(program, bufsize, reinterpret_cast<GLsizei *>(&result.length), reinterpret_cast<GLenum *>(&result.binaryFormat), result.binary));
+				return std::move(result);
+			}
+
+			inline void OpenGL::programBinary(Handle program, ProgramBinary & binary)
+			{
+				checkErrors(glProgramBinary(program, binary.binaryFormat, binary.binary, binary.length));
+			}
+
+			template <class T, unsigned int S>
+			inline void OpenGL::programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] const std::array<T, S> & v)
+			{
+				static_assert("No existing specialization for OpenGL::programUniform.");
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 1>(Handle program, const int location, const std::array<float, 1> & v)
+			{
+				checkErrors(glProgramUniform1f(program, location, v[0]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 2>(Handle program, const int location, const std::array<float, 2> & v)
+			{
+				checkErrors(glProgramUniform2f(program, location, v[0], v[1]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 3>(Handle program, const int location, const std::array<float, 3> & v)
+			{
+				checkErrors(glProgramUniform3f(program, location, v[0], v[1], v[2]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 4>(Handle program, const int location, const std::array<float, 4> & v)
+			{
+				checkErrors(glProgramUniform4f(program, location, v[0], v[1], v[2], v[3]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<int, 1>(Handle program, const int location, const std::array<int, 1> & v)
+			{
+				checkErrors(glProgramUniform1i(program, location, v[0]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<int, 2>(Handle program, const int location, const std::array<int, 2> & v)
+			{
+				checkErrors(glProgramUniform2i(program, location, v[0], v[1]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<int, 3>(Handle program, const int location, const std::array<int, 3> & v)
+			{
+				checkErrors(glProgramUniform3i(program, location, v[0], v[1], v[2]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<int, 4>(Handle program, const int location, const std::array<int, 4> & v)
+			{
+				checkErrors(glProgramUniform4i(program, location, v[0], v[1], v[2], v[3]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<unsigned int, 1>(Handle program, const int location, const std::array<unsigned int, 1> & v)
+			{
+				checkErrors(glProgramUniform1ui(program, location, v[0]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<unsigned int, 2>(Handle program, const int location, const std::array<unsigned int, 2> & v)
+			{
+				checkErrors(glProgramUniform2ui(program, location, v[0], v[1]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<unsigned int, 3>(Handle program, const int location, const std::array<unsigned int, 3> & v)
+			{
+				checkErrors(glProgramUniform3ui(program, location, v[0], v[1], v[2]));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<unsigned int, 4>(Handle program, const int location, const std::array<unsigned int, 4> & v)
+			{
+				checkErrors(glProgramUniform4ui(program, location, v[0], v[1], v[2], v[3]));
+			}
+
+			template <class T, unsigned int S>
+			inline void OpenGL::programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] std::size_t count, [[maybe_unused]] const std::array<T, S> & v)
+			{
+				static_assert("No existing specialization for OpenGL::programUniform.");
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 1>(Handle program, const int location, std::size_t count, const std::array<float, 1> & v)
+			{
+				checkErrors(glProgramUniform1fv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 2>(Handle program, const int location, std::size_t count, const std::array<float, 2> & v)
+			{
+				checkErrors(glProgramUniform2fv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 3>(Handle program, const int location, std::size_t count, const std::array<float, 3> & v)
+			{
+				checkErrors(glProgramUniform3fv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 4>(Handle program, const int location, std::size_t count, const std::array<float, 4> & v)
+			{
+				checkErrors(glProgramUniform4fv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<int, 1>(Handle program, const int location, std::size_t count, const std::array<int, 1> & v)
+			{
+				checkErrors(glProgramUniform1iv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<int, 2>(Handle program, const int location, std::size_t count, const std::array<int, 2> & v)
+			{
+				checkErrors(glProgramUniform2iv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<int, 3>(Handle program, const int location, std::size_t count, const std::array<int, 3> & v)
+			{
+				checkErrors(glProgramUniform3iv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<int, 4>(Handle program, const int location, std::size_t count, const std::array<int, 4> & v)
+			{
+				checkErrors(glProgramUniform4iv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<unsigned int, 1>(Handle program, const int location, std::size_t count, const std::array<unsigned int, 1> & v)
+			{
+				checkErrors(glProgramUniform1uiv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<unsigned int, 2>(Handle program, const int location, std::size_t count, const std::array<unsigned int, 2> & v)
+			{
+				checkErrors(glProgramUniform2uiv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<unsigned int, 3>(Handle program, const int location, std::size_t count, const std::array<unsigned int, 3> & v)
+			{
+				checkErrors(glProgramUniform3uiv(program, location, count, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<unsigned int, 4>(Handle program, const int location, std::size_t count, const std::array<unsigned int, 4> & v)
+			{
+				checkErrors(glProgramUniform4uiv(program, location, count, v.data()));
+			}
+
+			template <class T, unsigned int M, unsigned int N>
+			inline void OpenGL::programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] std::size_t count, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v)
+			{
+				static_assert("No existing specialization for OpenGL::programUniform.");
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 2, 2>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 2> & v)
+			{
+				checkErrors(glProgramUniformMatrix2fv(program, location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 3, 3>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 3> & v)
+			{
+				checkErrors(glProgramUniformMatrix3fv(program, location, count, transpose, v.data()));
+			}
+			
+			template <>
+			inline void OpenGL::programUniform<float, 4, 4>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 4> & v)
+			{
+				checkErrors(glProgramUniformMatrix4fv(program, location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 2, 3>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 3> & v)
+			{
+				checkErrors(glProgramUniformMatrix2x3fv(program, location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 3, 2>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 2> & v)
+			{
+				checkErrors(glProgramUniformMatrix3x2fv(program, location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 2, 4>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 4> & v)
+			{
+				checkErrors(glProgramUniformMatrix2x4fv(program, location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 4, 2>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 2> & v)
+			{
+				checkErrors(glProgramUniformMatrix4x2fv(program, location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 3, 4>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 4> & v)
+			{
+				checkErrors(glProgramUniformMatrix3x4fv(program, location, count, transpose, v.data()));
+			}
+
+			template <>
+			inline void OpenGL::programUniform<float, 4, 3>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 3> & v)
+			{
+				checkErrors(glProgramUniformMatrix4x3fv(program, location, count, transpose, v.data()));
+			}
+
+			inline auto OpenGL::getProgramPipeline(Handle pipeline, ProgramPipelineProperty pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetProgramPipelineiv(pipeline, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getProgramPipelineInfoLog(Handle pipeline) -> std::string
+			{
+				const auto bufSize = std::size_t{ 4096 };
+				auto length = std::size_t{ 0 };
+				auto infoLog = std::string(4096, '\0');
+				checkErrors(glGetProgramPipelineInfoLog(pipeline, bufSize, reinterpret_cast<GLsizei *>(&length), infoLog.data()));
+				infoLog.resize(length);
+				return std::move(infoLog);
+			}
+
+			inline auto OpenGL::getShaderPrecisionFormat(ShaderType shaderType, ShaderPrecisionType precisionType) -> ShaderPrecisionFormat
+			{
+				ShaderPrecisionFormat precisionFormat;
+				checkErrors(glGetShaderPrecisionFormat(static_cast<GLenum>(shaderType), static_cast<GLenum>(precisionType), precisionFormat.range.data(), &precisionFormat.precision));
+				return std::move(precisionFormat);
+			}
+
+			inline void OpenGL::validateProgramPipeline(Handle pipeline)
+			{
+				checkErrors(glValidateProgramPipeline(pipeline));
+			}
+
+			inline void OpenGL::depthRangeArray(Handle first, const std::vector<std::array<double, 2>> & v)
+			{
+				checkErrors(glDepthRangeArrayv(first, v.size(), v[0].data()));
+			}
+			
+			inline void OpenGL::depthRangeIndexed(Handle index, double nearVal, double farVal)
+			{
+				checkErrors(glDepthRangeIndexed(index, nearVal, farVal));
+			}
+
+			inline void OpenGL::viewportArray(Handle first, const std::vector<std::array<float, 4>> & v)
+			{
+				checkErrors(glViewportArrayv(first, v.size(), v[0].data()));
+			}
+
+			inline void OpenGL::viewportIndexed(Handle index, float x, float y, float w, float h)
+			{
+				checkErrors(glViewportIndexedf(index, x, y, w, h));
+			}
+			
+			inline void OpenGL::viewportIndexed(Handle index, const std::array<float, 4> & v)
+			{
+				checkErrors(glViewportIndexedfv(index, v.data()));
+			}
+			
+			inline void OpenGL::scissorArray(Handle first, const std::vector<std::array<int, 4>> & v)
+			{
+				checkErrors(glScissorArrayv(first, v.size(), v[0].data()));
+			}
+			
+			inline void OpenGL::scissorIndexed(Handle index, int left, int bottom, std::size_t width, std::size_t height)
+			{
+				checkErrors(glScissorIndexed(index, left, bottom, width, height));
+			}
+
+			inline void OpenGL::scissorIndexed(Handle index, const std::array<int, 4> & v)
+			{
+				checkErrors(glScissorIndexedv(index, v.data()));
+			}
+
 			//	inline void OpenGL::getActiveAtomicCounterBufferiv(unsigned int /*program*/, unsigned int /*bufferIndex*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::memoryBarrier(GLbitfield /*barriers*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::texStorage1D(GLenum /*target*/, GLsizei /*levels*/, GLenum /*internalformat*/, GLsizei /*width*/) { static_assert(false, "Not implemented yet."); }
@@ -2312,7 +2592,7 @@ namespace ece
 			//	inline void OpenGL::drawTransformFeedbackInstanced(GLenum /*mode*/, unsigned int /*id*/, GLsizei /*primcount*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::drawTransformFeedbackStreamInstanced(GLenum /*mode*/, unsigned int /*id*/, unsigned int /*stream*/, GLsizei /*primcount*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getInternalformativ(GLenum /*target*/, GLenum /*internalformat*/, GLenum /*pname*/, GLsizei /*bufSize*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//
+
 			//	inline void OpenGL::clearBufferSubData(GLenum /*target*/, GLenum /*internalformat*/, GLintptr /*offset*/, GLsizeiptr /*size*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::clearBufferData(GLenum /*target*/, GLenum /*internalformat*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::invalidateBufferSubData(unsigned int /*buffer*/, GLintptr /*offset*/, GLsizeiptr /*length*/) { static_assert(false, "Not implemented yet."); }
@@ -2330,7 +2610,12 @@ namespace ece
 			//	inline void OpenGL::texStorage2DMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, bool /*fixedsamplelocations*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::texStorage3DMultisample(GLenum /*target*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, bool /*fixedsamplelocations*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::invalidateTexSubImage(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::invalidateTexImage(unsigned int /*texture*/, int /*level*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::invalidateTexImage(Handle texture, int level)
+			{
+				checkErrors(glInvalidateTexImage(texture, level));
+			}
+
 			//	inline void OpenGL::framebufferParameteri(GLenum /*target*/, GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getFramebufferParameteriv(GLenum /*target*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::vertexAttribFormat(unsigned int /*attribindex*/, int /*size*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*relativeoffset*/) { static_assert(false, "Not implemented yet."); }
@@ -2377,7 +2662,7 @@ namespace ece
 			//	inline void OpenGL::getObjectLabel(GLenum /*identifier*/, unsigned int /*name*/, GLsizei /*bifSize*/, GLsizei * /*length*/, char * /*label*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getObjectPtrLabel(void * /*ptr*/, GLsizei /*bifSize*/, GLsizei * /*length*/, char * /*label*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getInternalformati64v(GLenum /*target*/, GLenum /*internalformat*/, GLenum /*pname*/, GLsizei /*bufSize*/, GLint64 * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//
+
 			//	inline void OpenGL::bindBuffersRange(GLenum /*target*/, unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*buffers*/, const GLintptr * /*offsets*/, const GLintptr * /*sizes*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindBuffersBase(GLenum /*target*/, unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*buffers*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bufferStorage(GLenum /*target*/, GLsizeiptr /*size*/, const void * /*data*/, GLbitfield /*flags*/) { static_assert(false, "Not implemented yet."); }
@@ -2387,7 +2672,7 @@ namespace ece
 			//	inline void OpenGL::clearTexImage(unsigned int /*texture*/, int /*level*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindImageTextures(unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::bindVertexBuffers(unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*buffers*/, const GLintptr * /*offsets*/, const GLsizei * /*strides*/) { static_assert(false, "Not implemented yet."); }
-			//
+
 			//	inline void OpenGL::enableVertexArrayAttrib(unsigned int /*vaobj*/, unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::disableVertexArrayAttrib(unsigned int /*vaobj*/, unsigned int /*index*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::namedBufferData(unsigned int /*buffer*/, GLsizei /*size*/, const void * /*data*/, GLenum /*usage*/) { static_assert(false, "Not implemented yet."); }
@@ -2395,7 +2680,12 @@ namespace ece
 			//	inline void * OpenGL::mapNamedBufferRange(unsigned int /*buffer*/, GLintptr /*offset*/, GLsizei /*length*/, GLbitfield /*access*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void * OpenGL::mapNamedBuffer(unsigned int /*buffer*/, GLenum /*access*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::flushMappedNamedBufferRange(unsigned int /*buffer*/, GLintptr /*offset*/, GLsizei /*length*/) { static_assert(false, "Not implemented yet."); }
-			//	inline bool OpenGL::unmapNamedBuffer(unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline auto OpenGL::unmapNamedBuffer(Handle buffer) -> bool
+			{
+				return checkErrors(glUnmapNamedBuffer(buffer));
+			}
+
 			//	inline void OpenGL::copyNamedBufferSubData(unsigned int /*readBuffer*/, unsigned int /*writeBuffer*/, GLintptr /*readOffset*/, GLintptr /*writeOffset*/, GLsizei /*size*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getNamedBufferParameteriv(unsigned int /*buffer*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getNamedBufferParameteri64v(unsigned int /*buffer*/, GLenum /*pname*/, GLint64 * /*params*/) { static_assert(false, "Not implemented yet."); }
@@ -2421,7 +2711,12 @@ namespace ece
 			//	inline void OpenGL::textureParameteriv(unsigned int /*texture*/, GLenum /*pname*/, const int * /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::textureParameterIiv(unsigned int /*texture*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::textureParameterIuiv(unsigned int /*texture*/, GLenum /*pname*/, const unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::generateTextureMipmap(unsigned int /*texture*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::generateTextureMipmap(Handle texture)
+			{
+				checkErrors(glGenerateTextureMipmap(texture));
+			}
+
 			//	inline void OpenGL::getTextureParameterfv(unsigned int /*texture*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getTextureParameteriv(unsigned int /*texture*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getTextureParameterIiv(unsigned int /*texture*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
@@ -2497,10 +2792,9 @@ namespace ece
 			//	inline void OpenGL::getTransformFeedbackiv(unsigned int /*xfb*/, GLenum /*pname*/, int * /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getTransformFeedbacki_v(unsigned int /*xfb*/, GLenum /*pname*/, unsigned int /*index*/, int * /*param*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getTransformFeedbacki64_v(unsigned int /*xfb*/, GLenum /*pname*/, unsigned int /*index*/, GLint64 * /*param*/) { static_assert(false, "Not implemented yet."); }
-			//
+
 			//	inline void OpenGL::specializeShader(unsigned int /*shader*/, const char * /*pEntryPoint​*/, unsigned int /*numSpecializationConstants​*/, const unsigned int * /*pConstantIndex*/, const unsigned int * /*pConstantValue*/​) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::polygonOffsetClamp(float /*factor*/, float /*units*/, float /*clamp*/) { static_assert(false, "Not implemented yet."); }
-
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece

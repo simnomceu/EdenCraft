@@ -71,6 +71,59 @@ namespace ece
 		{
 			// TODO: replace lot of enumerations by assert to check the value ?
 
+			struct ShaderPrecisionFormat
+			{
+				std::array<int, 2> range;
+				int precision;
+			};
+
+			enum ShaderPrecisionType : unsigned short int
+			{
+				LOW_FLOAT = GL_LOW_FLOAT,
+				MEDIUM_FLOAT = GL_MEDIUM_FLOAT,
+				HIGH_FLOAT = GL_HIGH_FLOAT,
+				LOW_INT = GL_LOW_INT,
+				MEDIUM_INT = GL_MEDIUM_INT,
+				HIGH_INT = GL_HIGH_INT,
+			};
+
+			enum class ProgramPipelineProperty : unsigned short int
+			{
+				ACTIVE_PROGRAM = GL_ACTIVE_PROGRAM,
+				VERTEX_SHADER = GL_VERTEX_SHADER,
+				TESS_CONTROL_SHADER = GL_TESS_CONTROL_SHADER,
+				TESS_EVALUATION_SHADER = GL_TESS_EVALUATION_SHADER,
+				GEOMETRY_SHADER = GL_GEOMETRY_SHADER,
+				FRAGMENT_SHADER = GL_FRAGMENT_SHADER,
+				INFO_LOG_LENGTH = GL_INFO_LOG_LENGTH
+			};
+
+			using BinaryFormat = GLenum;
+
+			struct ProgramBinary
+			{
+				std::size_t length;
+				BinaryFormat binaryFormat;
+				void * binary;
+			};
+
+			EnumFlagsT(unsigned int, ProgramStageBitfield)
+			{
+				VERTEX = GL_VERTEX_SHADER_BIT,
+				TESS_CONTROL= GL_TESS_CONTROL_SHADER_BIT,
+				TESS_EVALUATION = GL_TESS_EVALUATION_SHADER_BIT,
+				GEOMETRY = GL_GEOMETRY_SHADER_BIT,
+				FRAGMENT = GL_FRAGMENT_SHADER_BIT,
+				COMPUTE = GL_COMPUTE_SHADER_BIT,
+				ALL_SHADERS = GL_ALL_SHADER_BITS
+			};
+
+			enum class ProgramHint : unsigned short int
+			{
+				BINARY_RETRIEVABLE_HINT = GL_PROGRAM_BINARY_RETRIEVABLE_HINT,
+				SEPARABLE = GL_PROGRAM_SEPARABLE
+			};
+
 			using BinaryFormat = GLenum;
 
 			struct DrawArraysIndirectCommand
