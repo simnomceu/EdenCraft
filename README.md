@@ -1,6 +1,6 @@
 # EdenCraft
 
-[![GitLab Releases](https://img.shields.io/badge/dynamic/json.svg?label=release&url=https://framagit.org/api/v4/projects/%{project_id}/repository/tags&query=$[0].name&colorB=blue&logo=gitlab)](https://framagit.org/simnomce_u/EdenCraft/tags)
+[![GitLab Releases](https://img.shields.io/badge/dynamic/json.svg?label=release&url=https://framagit.org/api/v4/projects/24785/repository/tags&query=$[0].name&colorB=blue&logo=gitlab)](https://framagit.org/simnomce_u/EdenCraft/tags)
 [![Build Status](https://travis-ci.org/simnomceu/EdenCraft.svg?branch=master)](https://travis-ci.org/simnomceu/EdenCraft)
 [![Build status](https://ci.appveyor.com/api/projects/status/h14mj302e5x0amy4/branch/master?svg=true)](https://ci.appveyor.com/project/simnomceu/edencraft/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/simnomceu/EdenCraft/badge.svg?branch=master)](https://coveralls.io/github/Isilin/EdenCraft?branch=master)
