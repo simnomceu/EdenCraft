@@ -21,7 +21,7 @@ This project use [Premake5](https://premake.github.io/download.html) to generate
 Tutorials and documentation is not available yet. Work in progress.
 
 ## Contribution to EdenCraft Engine
-Bugs can be reported on the Framagit issue tracker here: [(https://img.shields.io/badge/Framagit-Open%20an%20issue-blue.svg)](https://framagit.org/simnomce_u/EdenCraft/issues)
+Bugs can be reported on the Framagit issue tracker [here](https://framagit.org/simnomce_u/EdenCraft/issues).
 
 Mirrors are available on [Github](https://github.com/simnomceu/EdenCraft) and [Bitbucket](https://bitbucket.org/simnomce_u/edencraft) for read access only (clone and fork). To contribute to the project, please use the [Framagit](https://framagit.org/simnomce_u/EdenCraft) account.
 
