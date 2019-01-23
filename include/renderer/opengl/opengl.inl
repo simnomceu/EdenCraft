@@ -2799,20 +2799,50 @@ namespace ece
 				checkErrors(glVertexBindingDivisor(bindingindex, divisor));
 			}
 
-			//	inline void OpenGL::multiDrawArraysIndirect(GLenum /*mode*/, const void * /*indirect*/, GLsizei /*drawcount*/, GLsizei /*stride*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::multiDrawArraysIndirectCount(GLenum /*mode*/, const void * /*indirect*/, GLintptr /*drawcount*/, GLintptr /*maxdrawcount*/, GLsizei /*stride*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::multiDrawElementsIndirect(GLenum /*mode*/, GLenum /*type*/, const void * /*indirect*/, GLsizei /*drawcount*/, GLsizei /*stride*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::multiDrawElementsIndirectCount(GLenum /*mode*/, GLenum /*type*/, const void * /*indirect*/, GLintptr /*drawcount*/, GLsizei /*maxdrawcount*/, GLsizei /*stride*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::dispatchCompute(unsigned int /*num_groups_x*/, unsigned int /*num_groups_y*/, unsigned int /*num_groups_z*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::multiDrawArraysIndirect(PrimitiveMode mode, const std::vector<DrawArraysIndirectCommand> & indirect, std::size_t drawcount, std::size_t stride)
+			{
+				checkErrors(glMultiDrawArraysIndirect(static_cast<GLenum>(mode), reinterpret_cast<const GLvoid *>(indirect.data()), drawcount, stride));
+			}
+
+			inline void OpenGL::multiDrawArraysIndirectCount(PrimitiveMode mode, const std::vector<DrawArraysIndirectCommand> & indirect, int drawcount, std::size_t maxdrawcount, std::size_t stride)
+			{
+				checkErrors(glMultiDrawArraysIndirectCount(static_cast<GLenum>(mode), reinterpret_cast<const GLvoid *>(indirect.data()), reinterpret_cast<GLintptr>(&drawcount), maxdrawcount, stride));
+			}
+
+			inline void OpenGL::multiDrawElementsIndirect(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, std::size_t drawcount, std::size_t stride)
+			{
+				checkErrors(glMultiDrawElementsIndirect(static_cast<GLenum>(mode), static_cast<GLenum>(type), reinterpret_cast<const GLvoid *>(indirect.data()), drawcount, stride));
+			}
+
+			inline void OpenGL::multiDrawElementsIndirectCount(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, int drawcount, std::size_t maxdrawcount, std::size_t stride)
+			{
+				checkErrors(glMultiDrawElementsIndirectCount(static_cast<GLenum>(mode), static_cast<GLenum>(type), reinterpret_cast<const GLvoid *>(indirect.data()), reinterpret_cast<GLintptr>(&drawcount), maxdrawcount, stride));
+			}
+
+			inline void OpenGL::dispatchCompute(unsigned int num_groups_x, unsigned int num_groups_y, unsigned int num_groups_z)
+			{
+				checkErrors(glDispatchCompute(num_groups_x, num_groups_y, num_groups_z));
+			}
 			
 			inline void OpenGL::dispatchComputeIndirect(int indirect)
 			{
 				checkErrors(glDispatchComputeIndirect(reinterpret_cast<GLintptr>(&indirect)));
 			}
 
-			//	inline void OpenGL::invalidateSubFramebuffer(GLenum /*target*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/, int /*x*/, int /*y*/, int /*width*/, int /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::invalidateFramebuffer(GLenum /*target*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyImageSubData(unsigned int /*srcName*/, GLenum /*srcTarget*/, int /*srcLevel*/, int /*srcX*/, int /*srcY*/, int /*srcZ*/, unsigned int /*dstName*/, GLenum /*dstTarget*/, int /*dstLevel*/, int /*dstX*/, int /*dstY*/, int /*dstZ*/, GLsizei /*srcWidth*/, GLsizei /*srcHeight*/, GLsizei /*srcDepth*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::invalidateSubFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachment> & attachments, int x, int y, int width, int height)
+			{
+				checkErrors(glInvalidateSubFramebuffer(static_cast<GLenum>(target), attachments.size(), reinterpret_cast<const GLenum *>(attachments.data()), x, y, width, height));
+			}
+
+			inline void OpenGL::invalidateFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachment> & attachments)
+			{
+				checkErrors(glInvalidateFramebuffer(static_cast<GLenum>(target), attachments.size(), reinterpret_cast<const GLenum *>(attachments.data())));
+			}
+
+			inline void OpenGL::copyImageSubData(Handle srcName, TextureTarget srcTarget, int srcLevel, int srcX, int srcY, int srcZ, Handle dstName, TextureTarget dstTarget, int dstLevel, int dstX, int dstY, int dstZ, std::size_t srcWidth, std::size_t srcHeight, std::size_t srcDepth)
+			{
+				checkErrors(glCopyImageSubData(srcName, static_cast<GLenum>(srcTarget), srcLevel, srcX, srcY, srcZ, dstName, static_cast<GLenum>(dstTarget), dstLevel, dstX, dstY, dstZ, srcWidth, srcHeight, srcDepth));
+			}
 
 			inline void OpenGL::debugMessageCallback(GLDEBUGPROC callback, const void * userParam)
 			{
@@ -2844,11 +2874,58 @@ namespace ece
 				checkErrors(glPopDebugGroup());
 			}
 
-			//	inline void OpenGL::objectLabel(GLenum /*identifier*/, unsigned int /*name*/, GLsizei /*length*/, const char * /*label*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::objectPtrLabel(void * /*ptr*/, GLsizei /*length*/, const char * /*label*/) { static_assert(false, "Not implemented yet."); }
-			//	inline unsigned int OpenGL::getDebugMessageLog(unsigned int /*count*/, GLsizei /*bufSize*/, GLenum * /*sources*/, GLenum * /*types*/, unsigned int * /*ids*/, GLenum * /*severities*/, GLsizei * /*lengths*/, char * /*messageLog*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getObjectLabel(GLenum /*identifier*/, unsigned int /*name*/, GLsizei /*bifSize*/, GLsizei * /*length*/, char * /*label*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getObjectPtrLabel(void * /*ptr*/, GLsizei /*bifSize*/, GLsizei * /*length*/, char * /*label*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::objectLabel(Identifier identifier, Handle name, const std::string & label)
+			{
+				checkErrors(glObjectLabel(static_cast<GLenum>(identifier), name, label.size(), label.data()));
+			}
+
+			inline void OpenGL::objectPtrLabel(void * ptr, const std::string & label)
+			{
+				checkErrors(glObjectPtrLabel(ptr, label.size(), label.data()));
+			}
+
+			inline auto OpenGL::getDebugMessageLog(std::size_t count) -> std::vector<DebugMessage>
+			{
+				const auto bufSize = std::size_t{ 4096 };
+				auto sources = std::vector<SourceDebugMessage>(count);
+				auto types = std::vector<TypeDebugMessage>(count);
+				auto ids = std::vector<Handle>(count);
+				auto severities = std::vector<SeverityDebugMessage>(count);
+				auto lengths = std::vector<std::size_t>(count);
+				auto messageLog = std::vector<std::string>(count, std::string(bufSize, '\0'));
+
+				auto size = checkErrors(glGetDebugMessageLog(count, bufSize, reinterpret_cast<GLenum *>(sources.data()), reinterpret_cast<GLenum *>(types.data()), reinterpret_cast<GLuint *>(ids.data()), reinterpret_cast<GLenum *>(severities.data()), reinterpret_cast<GLsizei *>(lengths.data()), reinterpret_cast<GLchar *>(messageLog[0].data())));
+
+				auto messages = std::vector<DebugMessage>(size);
+				for (auto i = std::size_t{ 0 }; i < size; ++i) {
+					messages[i].source = sources[i];
+					messages[i].type = types[i];
+					messages[i].id = ids[i];
+					messages[i].severity = severities[i];
+					messages[i].message = messageLog[i].substr(0, lengths[i]);
+				}
+				return std::move(messages);
+			}
+
+			inline auto OpenGL::getObjectLabel(Identifier identifier, Handle name) -> std::string
+			{
+				const auto bifSize = std::size_t{ 4096 };
+				auto length = std::size_t{ 0 };
+				auto label = std::string(bifSize, '\0');
+				checkErrors(glGetObjectLabel(static_cast<GLenum>(identifier), name, bifSize, reinterpret_cast<GLsizei *>(&length), label.data()));
+				label.resize(length);
+				return std::move(label);
+			}
+
+			inline auto OpenGL::getObjectPtrLabel(void * ptr) -> std::string
+			{
+				const auto bifSize = std::size_t{ 4096 };
+				auto length = std::size_t{ 0 };
+				auto label = std::string(bifSize, '\0');
+				checkErrors(glGetObjectPtrLabel(ptr, bifSize, reinterpret_cast<GLsizei *>(&length), label.data()));
+				label.resize(length);
+				return std::move(label);
+			}
 			
 			inline auto OpenGL::getInternalformat64(TextureTarget target, PixelInternalFormat internalformat, InternalFormatInformation pname) -> std::vector<std::int64_t>
 			{
@@ -2859,15 +2936,53 @@ namespace ece
 				return std::move(params);
 			}
 
-			//	inline void OpenGL::bindBuffersRange(GLenum /*target*/, unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*buffers*/, const GLintptr * /*offsets*/, const GLintptr * /*sizes*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindBuffersBase(GLenum /*target*/, unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*buffers*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bufferStorage(GLenum /*target*/, GLsizeiptr /*size*/, const void * /*data*/, GLbitfield /*flags*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindTextures(unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindSamplers(unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*samplers*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearTexSubImage(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearTexImage(unsigned int /*texture*/, int /*level*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindImageTextures(unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::bindVertexBuffers(unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*buffers*/, const GLintptr * /*offsets*/, const GLsizei * /*strides*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::bindBuffersRange(IndexedBufferTarget target, Handle first, std::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
+			{
+				checkErrors(glBindBuffersRange(static_cast<GLenum>(target), first, count, reinterpret_cast<const GLuint *>(buffers.data()), reinterpret_cast<const GLintptr *>(offsets.data()), reinterpret_cast<const GLintptr *>(sizes.data())));
+			}
+
+			inline void OpenGL::bindBuffersBase(IndexedBufferTarget target, Handle first, const std::vector<Handle> & buffers)
+			{
+				checkErrors(glBindBuffersBase(static_cast<GLenum>(target), first, buffers.size(), reinterpret_cast<const GLuint *>(buffers.data())));
+			}
+
+			template <class T>
+			inline void OpenGL::bufferStorage(BufferType target, const std::vector<T> & data, BufferDataUsage flags)
+			{
+				checkErrors(glBufferStorage(static_cast<GLenum>(target), data.size() * sizeof(T), data.data(), static_cast<GLbitfield>(flags)));
+			}
+
+			inline void OpenGL::bindTextures(Handle first, const std::vector<Handle> & textures)
+			{
+				checkErrors(glBindTextures(first, textures.size(), reinterpret_cast<const GLuint *>(textures.data())));
+			}
+
+			inline void OpenGL::bindSamplers(Handle first, const std::vector<Handle> & samplers)
+			{
+				checkErrors(glBindSamplers(first, samplers.size(), reinterpret_cast<const GLuint *>(samplers.data())));
+			}
+
+			template <class T>
+			inline void OpenGL::clearTexSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, DataType type, const std::vector<T> & data)
+			{
+				checkErrors(glClearTexSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth, static_cast<GLenum>(format), static_cast<GLenum>(type), reinterpret_cast<const GLvoid *>(data.data())));
+			}
+
+			template <class T>
+			inline void OpenGL::clearTexImage(Handle texture, int level, PixelFormat format, DataType type, const std::vector<T> & data)
+			{
+				checkErrors(glClearTexImage(texture, level, static_cast<GLenum>(format), static_cast<GLenum>(type), reinterpret_cast<const GLvoid *>(data.data())));
+			}
+
+			inline void OpenGL::bindImageTextures(Handle first, const std::vector<Handle> & textures)
+			{
+				checkErrors(glBindImageTextures(first, textures.size(), reinterpret_cast<const GLuint *>(textures.data())));
+			}
+
+			inline void OpenGL::bindVertexBuffers(Handle first, std::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
+			{
+				checkErrors(glBindVertexBuffers(first, count, reinterpret_cast<const GLuint *>(buffers.data()), reinterpret_cast<const GLintptr *>(offsets.data()), reinterpret_cast<const GLsizei *>(sizes.data())));
+			}
 
 			inline void OpenGL::enableVertexArrayAttrib(Handle vaobj, unsigned int index)
 			{
@@ -2908,13 +3023,36 @@ namespace ece
 			//	inline void OpenGL::compressedTextureSubImage3D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::compressedTextureSubImage2D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::compressedTextureSubImage1D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, GLsizei /*width*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureBuffer(unsigned int /*texture*/, GLenum /*internalformat*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureParameterf(unsigned int /*texture*/, GLenum /*pname*/, float /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureParameteri(unsigned int /*texture*/, GLenum /*pname*/, int /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureParameterfv(unsigned int /*texture*/, GLenum /*pname*/, const float * /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureParameteriv(unsigned int /*texture*/, GLenum /*pname*/, const int * /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureParameterIiv(unsigned int /*texture*/, GLenum /*pname*/, const int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureParameterIuiv(unsigned int /*texture*/, GLenum /*pname*/, const unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
+			
+			inline void OpenGL::textureBuffer(Handle texture, PixelInternalFormat internalformat, Handle buffer)
+			{
+				return checkErrors(glTextureBuffer(texture, static_cast<GLenum>(internalformat), buffer));
+			}
+
+			inline void OpenGL::textureParameter(TextureTarget texture, TextureParameter pname, float param)
+			{
+				checkErrors(glTextureParameterf(static_cast<GLenum>(texture), static_cast<GLenum>(pname), param));
+			}
+
+			inline void OpenGL::textureParameter(TextureTarget texture, TextureParameter pname, int param)
+			{
+				checkErrors(glTextureParameteri(static_cast<GLenum>(texture), static_cast<GLenum>(pname), param));
+			}
+
+			inline void OpenGL::textureParameter(TextureTarget texture, TextureParameter pname, const std::vector<float> & param)
+			{
+				checkErrors(glTextureParameterfv(static_cast<GLenum>(texture), static_cast<GLenum>(pname), param.data()));
+			}
+
+			inline void OpenGL::textureParameter(TextureTarget texture, TextureParameter pname, const std::vector<int> & param)
+			{
+				checkErrors(glTextureParameteriv(static_cast<GLenum>(texture), static_cast<GLenum>(pname), param.data()));
+			}
+
+			inline void OpenGL::textureParameter(TextureTarget texture, TextureParameter pname, const std::vector<unsigned int> & param)
+			{
+				checkErrors(glTextureParameterIuiv(static_cast<GLenum>(texture), static_cast<GLenum>(pname), param.data()));
+			}
 			
 			inline void OpenGL::generateTextureMipmap(Handle texture)
 			{
@@ -2948,28 +3086,76 @@ namespace ece
 			//	inline GLenum OpenGL::checkNamedFramebufferStatus(unsigned int /*framebuffer*/, GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getNamedFramebufferAttachmentParameteriv(unsigned int /*framebuffer*/, GLenum /*attachment*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
 			//	inline void OpenGL::getNamedRenderbufferParameteriv(unsigned int /*renderbuffer*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline GLenum OpenGL::getGraphicsResetStatus() { static_assert(false, "Not implemented yet."); }
+			
+			inline auto OpenGL::getGraphicsResetStatus() -> GraphicResetStatus 
+			{
+				auto result = checkErrors(glGetGraphicsResetStatus());
+				return std::move(static_cast<GraphicResetStatus>(result));
+			}
+			
 			//	inline void OpenGL::createBuffers(GLsizei /*n*/, unsigned int * /*buffers*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedBufferStorage(unsigned int /*buffer*/, GLsizei /*size*/, const void * /*data*/, GLbitfield /*flags*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearNamedBufferData(unsigned int /*buffer*/, GLenum /*internalformat*/, GLenum /*format*/, GLenum /*type*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::createProgramPipelines(GLsizei /*n*/, unsigned int * /*pipelines*/) { static_assert(false, "Not implemented yet."); }
+			
+			template <class T>
+			inline void OpenGL::namedBufferStorage(Handle buffer, const std::vector<T> & data, BufferDataUsage flags)
+			{
+				checkErrors(glNamedBufferStorage(buffer, data.size() * sizeof(T), data.data(), static_cast<GLbitfield>(flags)));
+			}
+
+			template <class T>
+			inline void OpenGL::clearNamedBufferData(BufferType buffer, PixelInternalFormat internalformat, PixelFormat format, DataType type, const std::vector<T> & data)
+			{
+				checkErrors(glClearNamedBufferData(static_cast<GLenum>(buffer), static_cast<GLenum>(internalformat), static_cast<GLenum>(format), static_cast<GLenum>(type), reinterpret_cast<const void *>(data.data())));
+			}
+			
+			inline auto OpenGL::createProgramPipelines(std::size_t n) -> std::vector<Handle>
+			{
+				auto pipelines = std::vector<Handle>(n);
+				checkErrors(glCreateProgramPipelines(n, reinterpret_cast<GLuint *>(pipelines.data())));
+				return std::move(pipelines);
+			}
 
 			inline void OpenGL::memoryBarrierByRegion(BarrierByRegion barriers)
 			{
 				checkErrors(glMemoryBarrierByRegion(static_cast<GLbitfield>(barriers)));
 			}
 
-			//	inline void OpenGL::bindTextureUnit(unsigned int /*unit*/, unsigned int /*texture*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::createTextures(GLenum /*target*/, GLsizei /*n*/, unsigned int * /*textures*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::createSamplers(GLsizei /*n*/, unsigned int * /*samplers*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::bindTextureUnit(Handle unit, Handle texture)
+			{
+				checkErrors(glBindTextureUnit(unit, texture));
+			}
+
+			inline auto OpenGL::createTextures(TextureTarget target, std::size_t n) -> std::vector<Handle>
+			{
+				auto textures = std::vector<Handle>(n);
+				checkErrors(glCreateTextures(static_cast<GLenum>(target), n, reinterpret_cast<GLuint *>(textures.data())));
+				return std::move(textures);
+			}
+
+			inline auto OpenGL::createSamplers(std::size_t n) -> std::vector<Handle>
+			{
+				auto samplers = std::vector<Handle>(n);
+				checkErrors(glCreateSamplers(n, reinterpret_cast<GLuint *>(samplers.data())));
+				return std::move(samplers);
+			}
 			
 			inline void OpenGL::textureBufferRange(Handle texture, PixelInternalFormat internalFormat, Handle buffer, int offset, std::size_t size)
 			{
 				checkErrors(glTextureBufferRange(texture, static_cast<GLenum>(internalFormat), buffer, reinterpret_cast<GLintptr>(&offset), size));
 			}
 
-			//	inline void OpenGL::getTextureSubImage(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, GLenum /*format*/, GLenum /*type*/, GLsizei /*bufSize*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getCompressedTextureSubImage(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, GLsizei /*bufSize*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::getTextureSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, DataType type, std::size_t bufSize) -> void *
+			{
+				auto pixels = reinterpret_cast<void *>(0);
+				checkErrors(glGetTextureSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
+				return std::move(pixels);
+			}
+
+			inline auto OpenGL::getCompressedTextureSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, std::size_t bufSize) -> void *
+			{
+				auto pixels = reinterpret_cast<void *>(0);
+				checkErrors(glGetCompressedTextureSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth, bufSize, pixels));
+				return std::move(pixels);
+			}
 			
 			inline void OpenGL::textureStorage1D(Handle texture, std::size_t levels, PixelInternalFormat internalformat, std::size_t width)
 			{
@@ -2996,7 +3182,12 @@ namespace ece
 				checkErrors(glTextureStorage3DMultisample(texture, samples, static_cast<GLenum>(internalformat), width, height, depth, fixedsamplelocations));
 			}
 
-			//	inline void OpenGL::createFramebuffers(GLsizei /*n*/, unsigned int * /*ids*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::createFramebuffers(std::size_t n) -> std::vector<Handle>
+			{
+				auto ids = std::vector<Handle>(n);
+				checkErrors(glCreateFramebuffers(n, ids.data()));
+				return std::move(ids);
+			}
 
 			inline void OpenGL::namedFramebufferParameteri(Handle framebuffer, FramebufferParameter pname, int param)
 			{
@@ -3010,20 +3201,54 @@ namespace ece
 				return std::move(params);
 			}
 
-			//	inline void OpenGL::createRenderbuffers(GLsizei /*n*/, unsigned int * /*renderbuffers*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::createRenderbuffers(std::size_t n) -> std::vector<Handle>
+			{
+				auto renderbuffers = std::vector<Handle>(n);
+				checkErrors(glCreateRenderbuffers(n, renderbuffers.data()));
+				return std::move(renderbuffers);
+			}
 			
 			inline void OpenGL::textureBarrier()
 			{
 				checkErrors(glTextureBarrier());
 			}
 
-			//	inline void OpenGL::createVertexArrays(GLsizei /*n*/, unsigned int * /*arrays*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexArrayElementBuffer(unsigned int /*vaobj*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexArrayAttribFormat(unsigned int /*vaobj*/, unsigned int /*attribindex*/, int /*size*/, GLenum /*type*/, bool /*normalized*/, unsigned int /*relativeoffset*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexArrayAttribIFormat(unsigned int /*vaobj*/, unsigned int /*attribindex*/, int /*size*/, GLenum /*type*/, unsigned int /*relativeoffset*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexArrayAttribLFormat(unsigned int /*vaobj*/, unsigned int /*attribindex*/, int /*size*/, GLenum /*type*/, unsigned int /*relativeoffset*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexArrayVertexBuffer(unsigned int /*vaobj*/, unsigned int /*bindingindex*/, unsigned int /*buffer*/, GLintptr /*offset*/, GLsizei /*stride*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::vertexArrayVertexBuffers(unsigned int /*vaobj*/, unsigned int /*first*/, GLsizei /*count*/, const unsigned int * /*buffers*/, const GLintptr * /*offsets*/, const GLsizei * /*strides*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::createVertexArrays(std::size_t n) -> std::vector<Handle>
+			{
+				auto arrays = std::vector<Handle>(n);
+				checkErrors(glCreateVertexArrays(n, arrays.data()));
+				return std::move(arrays);
+			}
+
+			inline void OpenGL::vertexArrayElementBuffer(Handle vaobj, Handle buffer)
+			{
+				checkErrors(glVertexArrayElementBuffer(vaobj, buffer));
+			}
+
+			inline void OpenGL::vertexArrayAttribFormat(Handle vaobj, Handle attribindex, int size, DataType type, bool normalized, unsigned int relativeoffset)
+			{
+				checkErrors(glVertexArrayAttribFormat(vaobj, attribindex, size, static_cast<GLenum>(type), normalized, relativeoffset));
+			}
+
+			inline void OpenGL::vertexArrayAttribIFormat(Handle vaobj, Handle attribindex, int size, DataType type, unsigned int relativeoffset)
+			{
+				checkErrors(glVertexArrayAttribIFormat(vaobj, attribindex, size, static_cast<GLenum>(type), relativeoffset));
+			}
+
+			inline void OpenGL::vertexArrayAttribLFormat(Handle vaobj, Handle attribindex, int size, DataType type, unsigned int relativeoffset)
+			{
+				checkErrors(glVertexArrayAttribLFormat(vaobj, attribindex, size, static_cast<GLenum>(type), relativeoffset));
+			}
+
+			inline void OpenGL::vertexArrayVertexBuffer(Handle vaobj, Handle bindingindex, Handle buffer, int offset, std::size_t stride)
+			{
+				checkErrors(glVertexArrayVertexBuffer(vaobj, bindingindex, buffer, reinterpret_cast<GLintptr>(&offset), stride));
+			}
+			
+			inline void OpenGL::vertexArrayVertexBuffers(Handle vaobj, Handle first, std::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
+			{
+				checkErrors(glVertexArrayVertexBuffers(vaobj, first, count, reinterpret_cast<const GLuint *>(buffers.data()), reinterpret_cast<const GLintptr *>(offsets.data()), reinterpret_cast<const GLsizei *>(sizes.data())));
+			}
 			
 			inline void OpenGL::vertexArrayAttribBinding(Handle vaobj, unsigned int attribindex, unsigned int bindingindex)
 			{
@@ -3035,20 +3260,86 @@ namespace ece
 				checkErrors(glVertexArrayBindingDivisor(vaobj, bindingindex, divisor));
 			}
 
-			//	inline void OpenGL::getVertexArrayiv(unsigned int /*vaobj*/, GLenum /*pname*/, int * /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getVertexArrayIndexed64iv(unsigned int /*vaobj*/, unsigned int /*index*/, GLenum /*pname*/, GLint64 * /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getVertexArrayIndexediv(unsigned int /*vaobj*/, unsigned int /*index*/, GLenum /*pname*/, int * /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::createTransformFeedbacks(GLsizei /*n*/, unsigned int * /*ids*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::transformFeedbackBufferRange(unsigned int /*xfb*/, unsigned int /*index*/, unsigned int /*buffer*/, GLintptr /*offset*/, GLsizei /*size*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::transformFeedbackBufferBase(unsigned int /*xfb*/, unsigned int /*index*/, unsigned int /*buffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clipControl(GLenum /*origin*/, GLenum /*depth*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::invalidateNamedFramebufferSubData(unsigned int /*framebuffer*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/, int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::invalidateNamedFramebufferData(unsigned int /*framebuffer*/, GLsizei /*numAttachments*/, const GLenum * /*attachments*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTransformFeedbackiv(unsigned int /*xfb*/, GLenum /*pname*/, int * /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTransformFeedbacki_v(unsigned int /*xfb*/, GLenum /*pname*/, unsigned int /*index*/, int * /*param*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTransformFeedbacki64_v(unsigned int /*xfb*/, GLenum /*pname*/, unsigned int /*index*/, GLint64 * /*param*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::getVertexArray(Handle vaobj) -> int
+			{
+				const auto pname = GL_ELEMENT_ARRAY_BUFFER_BINDING;
 
-			//	inline void OpenGL::specializeShader(unsigned int /*shader*/, const char * /*pEntryPoint​*/, unsigned int /*numSpecializationConstants​*/, const unsigned int * /*pConstantIndex*/, const unsigned int * /*pConstantValue*/​) { static_assert(false, "Not implemented yet."); }
+				auto params = 0;
+				checkErrors(glGetVertexArrayiv(vaobj, pname, &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getVertexArrayIndexed64(Handle vaobj, Handle index, VertexAttribParameter pname) -> std::int64_t
+			{
+				auto param = std::int64_t{ 0 };
+				checkErrors(glGetVertexArrayIndexed64iv(vaobj, index, static_cast<GLenum>(pname), &param));
+				return std::move(param);
+			}
+
+			inline auto OpenGL::getVertexArrayIndexed(Handle vaobj, Handle index, VertexAttribParameter pname) -> int
+			{
+				auto param = 0;
+				checkErrors(glGetVertexArrayIndexediv(vaobj, index, static_cast<GLenum>(pname), &param));
+				return std::move(param);
+			}
+			
+			inline auto OpenGL::createTransformFeedbacks(std::size_t n) -> std::vector<Handle>
+			{
+				auto ids = std::vector<Handle>(n);
+				checkErrors(glCreateTransformFeedbacks(n, reinterpret_cast<GLuint *>(ids.data())));
+				return std::move(ids);
+			}
+			
+			inline void OpenGL::transformFeedbackBufferRange(Handle xfb, Handle index, Handle buffer, int offset, std::size_t size)
+			{
+				checkErrors(glTransformFeedbackBufferRange(xfb, index, buffer, offset, size));
+			}
+
+			inline void OpenGL::transformFeedbackBufferBase(Handle xfb, Handle index, Handle buffer)
+			{
+				checkErrors(glTransformFeedbackBufferBase(xfb, index, buffer));
+			}
+			
+			inline void OpenGL::clipControl(ClipControl origin, ClipControlDepthMode depth)
+			{
+				checkErrors(glClipControl(static_cast<GLenum>(origin), static_cast<GLenum>(depth)));
+			}
+			
+			inline void OpenGL::invalidateNamedFramebufferSubData(Handle framebuffer, const std::vector<FramebufferAttachment> & attachments, int x, int y, int width, int height)
+			{
+				checkErrors(glInvalidateNamedFramebufferSubData(framebuffer, attachments.size(), reinterpret_cast<const GLenum *>(attachments.data()), x, y, width, height));
+			}
+
+			inline void OpenGL::invalidateNamedFramebufferData(Handle framebuffer, const std::vector<FramebufferAttachment> & attachments)
+			{
+				checkErrors(glInvalidateNamedFramebufferData(framebuffer, attachments.size(), reinterpret_cast<const GLenum *>(attachments.data())));
+			}
+
+			inline auto OpenGL::getTransformFeedback(Handle xfb, TransformFeedbackParameter pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetTransformFeedbackiv(xfb, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getTransformFeedback(Handle xfb, TransformFeedbackParameter pname, Handle index) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetTransformFeedbacki_v(xfb, static_cast<GLenum>(pname), index, &params));
+				return std::move(params);
+			}
+			
+			inline auto OpenGL::getTransformFeedback64(Handle xfb, TransformFeedbackParameter pname, Handle index) -> std::int64_t
+			{
+				auto params = std::int64_t{ 0 };
+				checkErrors(glGetTransformFeedbacki64_v(xfb, static_cast<GLenum>(pname), index, &params));
+				return std::move(params);
+			}
+
+			inline void OpenGL::specializeShader(Handle shader, const std::string & pEntryPoint​, const std::vector<Handle> & pConstantIndex​, const std::vector<Handle> & pConstantValue)
+			{
+				checkErrors(glSpecializeShader(shader, pEntryPoint​.data(), pConstantIndex​.size(), reinterpret_cast<const GLuint *>(pConstantIndex​.data()), reinterpret_cast<const GLuint *>(pConstantValue.data())));
+			}
 			
 			inline void OpenGL::polygonOffsetClamp(float factor, float units, float clamp)
 			{

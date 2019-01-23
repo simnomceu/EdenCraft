@@ -71,6 +71,77 @@ namespace ece
 		{
 			// TODO: replace lot of enumerations by assert to check the value ?
 
+			enum class GraphicResetStatus : unsigned short int
+			{
+				NO_ERROR = GL_NO_ERROR,
+				GUILTY = GL_GUILTY_CONTEXT_RESET,
+				INNOCENT = GL_INNOCENT_CONTEXT_RESET,
+				UNKNOWN = GL_UNKNOWN_CONTEXT_RESET
+			};
+
+			enum class TransformFeedbackParameter : unsigned short int
+			{
+				BUFFER_BINDING = GL_TRANSFORM_FEEDBACK_BUFFER_BINDING,
+				BUFFER_START = GL_TRANSFORM_FEEDBACK_BUFFER_START,
+				BUFFER_SIZE = GL_TRANSFORM_FEEDBACK_BUFFER_SIZE,
+				PAUSED = GL_TRANSFORM_FEEDBACK_PAUSED,
+				ACTIVE = GL_TRANSFORM_FEEDBACK_ACTIVE
+			};
+
+			enum class ClipControl : unsigned short int
+			{
+				LOWER_LEFT = GL_LOWER_LEFT,
+				UPPER_LEFT = GL_UPPER_LEFT
+			};
+
+			enum class ClipControlDepthMode : unsigned short int
+			{
+				NEGATIVE_ONE_TO_ONE = GL_NEGATIVE_ONE_TO_ONE,
+				ZERO_TO_ONE = GL_ZERO_TO_ONE
+			};
+
+			EnumFlagsT(unsigned int, BufferDataUsage)
+			{
+				DYNAMIC_STORAGE_BIT = GL_DYNAMIC_STORAGE_BIT,
+				MAP_READ_BIT = GL_MAP_READ_BIT,
+				MAP_WRITE_BIT = GL_MAP_WRITE_BIT,
+				MAP_PERSISTENT_BIT = GL_MAP_PERSISTENT_BIT,
+				MAP_COHERENT_BIT = GL_MAP_COHERENT_BIT,
+				CLIENT_STORAGE_BIT = GL_CLIENT_STORAGE_BIT
+			};
+
+			enum class Identifier : unsigned short int
+			{
+				BUFFER = GL_BUFFER,
+				SHADER = GL_SHADER,
+				PROGRAM = GL_PROGRAM,
+				VERTEX_ARRAY = GL_VERTEX_ARRAY,
+				QUERY = GL_QUERY,
+				PROGRAM_PIPELINE = GL_PROGRAM_PIPELINE,
+				TRANSFORM_FEEDBACK = GL_TRANSFORM_FEEDBACK,
+				SAMPLER = GL_SAMPLER,
+				TEXTURE = GL_TEXTURE,
+				RENDERBUFFER = GL_RENDERBUFFER,
+				FRAMEBUFFER = GL_FRAMEBUFFER
+			};
+
+			struct DrawElementsIndirectCommand
+			{
+				unsigned int count;
+				unsigned int instanceCount;
+				unsigned int firstIndex;
+				unsigned int baseVertex;
+				unsigned int baseInstance;
+			};
+
+			struct DrawArraysIndirectCommand
+			{
+				unsigned int count;
+				unsigned int instanceCount;
+				unsigned int first;
+				unsigned int baseInstance;
+			};
+
 			enum class Pointer : unsigned short int
 			{
 				DEBUG_CALLBACK_FUNCTION = GL_DEBUG_CALLBACK_FUNCTION,
@@ -313,14 +384,6 @@ namespace ece
 
 			using BinaryFormat = GLenum;
 
-			struct DrawArraysIndirectCommand
-			{
-				unsigned int count;
-				unsigned int primCount;
-				unsigned int first;
-				unsigned int baseInstance;
-			};
-
 			enum class PatchParameter : unsigned short int
 			{
 				VERTICES = GL_PATCH_VERTICES,
@@ -349,15 +412,6 @@ namespace ece
 			{
 				CURRENT_QUERY = GL_CURRENT_QUERY,
 				QUERY_COUNTER_BITS = GL_QUERY_COUNTER_BITS
-			};
-
-			struct DrawElementsIndirectCommand
-			{
-				unsigned int count;
-				unsigned int primCount;
-				unsigned int firstIndex;
-				unsigned int baseVertex;
-				unsigned int baseInstance;
 			};
 
 			enum class SamplerParameter : unsigned short int
@@ -1434,6 +1488,15 @@ namespace ece
 				DEBUG_SEVERITY_HIGH = GL_DEBUG_SEVERITY_HIGH,
 				DEBUG_SEVERITY_NOTIFICATION = GL_DEBUG_SEVERITY_NOTIFICATION,
 				DONT_CARE = GL_DONT_CARE
+			};
+
+			struct DebugMessage
+			{
+				SourceDebugMessage source;
+				TypeDebugMessage type;
+				Handle id;
+				SeverityDebugMessage severity;
+				std::string message;
 			};
 		}
 	} // namespace renderer
