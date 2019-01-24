@@ -36,29 +36,37 @@
 
 */
 
+#ifndef PRIMITIVE_MODE_HPP
+#define PRIMITIVE_MODE_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
+
 namespace ece
 {
-	namespace renderer
-	{
-		namespace opengl
-		{
-			inline auto ContextOpenGL::getMaxVersionAvailable() noexcept -> const Version<2> & { return ContextOpenGL::_maxVersionAvailable; }
+    namespace renderer
+    {
+        namespace opengl
+        {
+			enum class PrimitiveMode : unsigned short int
+			{
+				POINTS = GL_POINTS,
+				LINE_STRIP = GL_LINE_STRIP,
+				LINE_LOOP = GL_LINE_LOOP,
+				LINES = GL_LINES,
+				LINE_STRIP_ADJACENCY = GL_LINE_STRIP_ADJACENCY,
+				LINES_ADJACENCY = GL_LINES_ADJACENCY,
+				TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
+				TRIANGLE_FAN = GL_TRIANGLE_FAN,
+				TRIANGLES = GL_TRIANGLES,
+				TRIANGLES_STRIP_ADJACENCY = GL_TRIANGLE_STRIP_ADJACENCY,
+				TRIANGLES_ADJACENCY = GL_TRIANGLES_ADJACENCY,
+				PATCHES = GL_PATCHES
+			};
+        }
+    }
+}
 
-			inline auto ContextOpenGL::isOpenGL33Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 3, 3 }); }
-
-			inline auto ContextOpenGL::isOpenGL40Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 0 }); }
-
-			inline auto ContextOpenGL::isOpenGL41Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 1 }); }
-
-			inline auto ContextOpenGL::isOpenGL42Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 2 }); }
-
-			inline auto ContextOpenGL::isOpenGL43Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 3 }); }
-
-			inline auto ContextOpenGL::isOpenGL44Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 4 }); }
-
-			inline auto ContextOpenGL::isOpenGL45Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 5 }); }
-
-			inline auto ContextOpenGL::isOpenGL46Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 6 }); }
-		} // namespace opengl
-	} // namespace renderer
-} // namespace ece
+#endif // PRIMITIVE_MODE_HPP

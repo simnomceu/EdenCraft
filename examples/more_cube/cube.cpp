@@ -49,7 +49,7 @@ Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.creat
 	//	auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/assets/cube.obj").lock();
 	//	loader->loadFromFile("../../examples/more_cube/assets/cube.obj");
 		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../../eROMA/coding_resource/hylas_bas_relief.obj");
-		loader->loadFromFile("../../../eROMA/coding_resource/hylas_bas_relief.obj");
+		loader->loadFromFile("../../examples/more_cube/assets/cube.obj");
 		renderable->setMesh(loader->getMeshes()[0]);
 	}
 

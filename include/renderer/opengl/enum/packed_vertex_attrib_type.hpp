@@ -36,29 +36,28 @@
 
 */
 
+#ifndef PACKED_VERTEX_ATTRIB_TYPE_HPP
+#define PACKED_VERTEX_ATTRIB_TYPE_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
+
 namespace ece
 {
-	namespace renderer
-	{
-		namespace opengl
-		{
-			inline auto ContextOpenGL::getMaxVersionAvailable() noexcept -> const Version<2> & { return ContextOpenGL::_maxVersionAvailable; }
+    namespace renderer
+    {
+        namespace opengl
+        {
+            enum class PackedVertexAttribType : unsigned int
+            {
+                SIGNED = GL_INT_2_10_10_10_REV,
+                UNSIGNED = GL_UNSIGNED_INT_2_10_10_10_REV,
+                FLOATING = GL_UNSIGNED_INT_10F_11F_11F_REV
+            };
+        } // namespace opengl.hpp
+    }
+}
 
-			inline auto ContextOpenGL::isOpenGL33Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 3, 3 }); }
-
-			inline auto ContextOpenGL::isOpenGL40Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 0 }); }
-
-			inline auto ContextOpenGL::isOpenGL41Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 1 }); }
-
-			inline auto ContextOpenGL::isOpenGL42Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 2 }); }
-
-			inline auto ContextOpenGL::isOpenGL43Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 3 }); }
-
-			inline auto ContextOpenGL::isOpenGL44Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 4 }); }
-
-			inline auto ContextOpenGL::isOpenGL45Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 5 }); }
-
-			inline auto ContextOpenGL::isOpenGL46Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 6 }); }
-		} // namespace opengl
-	} // namespace renderer
-} // namespace ece
+#endif // PACKED_VERTEX_ATTRIB_TYPE_HPP
