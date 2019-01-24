@@ -43,6 +43,22 @@ namespace ece
 		namespace opengl
 		{
 			inline auto ContextOpenGL::getMaxVersionAvailable() noexcept -> const Version<2> & { return ContextOpenGL::_maxVersionAvailable; }
+
+			inline auto ContextOpenGL::isOpenGL33Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 3, 3 }); }
+
+			inline auto ContextOpenGL::isOpenGL40Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 0 }); }
+
+			inline auto ContextOpenGL::isOpenGL41Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 1 }); }
+
+			inline auto ContextOpenGL::isOpenGL42Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 2 }); }
+
+			inline auto ContextOpenGL::isOpenGL43Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 3 }); }
+
+			inline auto ContextOpenGL::isOpenGL44Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 4 }); }
+
+			inline auto ContextOpenGL::isOpenGL45Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 5 }); }
+
+			inline auto ContextOpenGL::isOpenGL46Available() -> bool { return ContextOpenGL::_maxVersionAvailable >= Version<2>({ 4, 6 }); }
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
