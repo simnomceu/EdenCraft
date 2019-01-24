@@ -2994,35 +2994,149 @@ namespace ece
 				checkErrors(glDisableVertexArrayAttrib(vaobj, index));
 			}
 
-			//	inline void OpenGL::namedBufferData(unsigned int /*buffer*/, GLsizei /*size*/, const void * /*data*/, GLenum /*usage*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedBufferSubData(unsigned int /*buffer*/, GLintptr /*offset*/, GLsizei /*size*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void * OpenGL::mapNamedBufferRange(unsigned int /*buffer*/, GLintptr /*offset*/, GLsizei /*length*/, GLbitfield /*access*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void * OpenGL::mapNamedBuffer(unsigned int /*buffer*/, GLenum /*access*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::flushMappedNamedBufferRange(unsigned int /*buffer*/, GLintptr /*offset*/, GLsizei /*length*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::namedBufferData(Handle buffer, std::size_t size, const void * data, BufferUsage usage)
+			{
+				checkErrors(glNamedBufferData(buffer, size, data, static_cast<GLenum>(usage)));
+			}
+
+			inline void OpenGL::namedBufferSubData(Handle buffer, int offset, std::size_t size, const void * data)
+			{
+				checkErrors(glNamedBufferSubData(buffer, reinterpret_cast<GLintptr>(&offset), size, data));
+			}
+
+			inline auto OpenGL::mapNamedBufferRange(Handle buffer, int offset, std::size_t length, MapBufferRangeAccessFlag access) -> void *
+			{
+				return checkErrors(glMapNamedBufferRange(buffer, reinterpret_cast<GLintptr>(&offset), length, static_cast<GLbitfield>(access)));
+			}
+
+			inline auto OpenGL::mapNamedBuffer(Handle buffer, MapBufferRangeAccessFlag access) -> void *
+			{
+				return checkErrors(glMapNamedBuffer(buffer, static_cast<GLbitfield>(access)));
+			}
+			
+			inline void OpenGL::flushMappedNamedBufferRange(Handle buffer, int offset, std::size_t length)
+			{
+				checkErrors(glFlushMappedNamedBufferRange(buffer, reinterpret_cast<GLintptr>(&offset), length))
+			}
 			
 			inline auto OpenGL::unmapNamedBuffer(Handle buffer) -> bool
 			{
 				return checkErrors(glUnmapNamedBuffer(buffer));
 			}
 
-			//	inline void OpenGL::copyNamedBufferSubData(unsigned int /*readBuffer*/, unsigned int /*writeBuffer*/, GLintptr /*readOffset*/, GLintptr /*writeOffset*/, GLsizei /*size*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getNamedBufferParameteriv(unsigned int /*buffer*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getNamedBufferParameteri64v(unsigned int /*buffer*/, GLenum /*pname*/, GLint64 * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getNamedBufferSubData(unsigned int /*buffer*/, GLintptr /*offset*/, GLsizei /*size*/, void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getNamedBufferPointerv(unsigned int /*buffer*/, GLenum /*pname*/, void ** /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getnUniformfv(unsigned int /*program*/, int /*location*/, GLsizei /*bufSize*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getnUniformiv(unsigned int /*program*/, int /*location*/, GLsizei /*bufSize*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getnUniformuiv(unsigned int /*program*/, int /*location*/, GLsizei /*bufSize*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getnUniformdv(unsigned int /*program*/, int /*location*/, GLsizei /*bufSize*/, double * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureSubImage3D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, GLenum /*format*/, GLenum /*type*/, const void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureSubImage2D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLenum /*type*/, const void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::textureSubImage1D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, GLsizei /*width*/, GLenum /*format*/, GLenum /*type*/, const void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyTextureSubImage3D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyTextureSubImage2D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::copyTextureSubImage1D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*x*/, int /*y*/, GLsizei /*width*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTextureSubImage3D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, int /*zoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLsizei /*depth*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTextureSubImage2D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, int /*yoffset*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::compressedTextureSubImage1D(unsigned int /*texture*/, int /*level*/, int /*xoffset*/, GLsizei /*width*/, GLenum /*format*/, GLsizei /*imageSize*/, const void * /*data*/) { static_assert(false, "Not implemented yet."); }
+			inline void OpenGL::copyNamedBufferSubData(Handle readBuffer, Handle writeBuffer, int readOffset, int writeOffset, std::size_t size)
+			{
+				checkErrors(glCopyNamedBufferSubData(readBuffer, writeBuffer, reinterpret_cast<GLintptr>(&readOffset), reinterpret_cast<GLintptr>(&writeOffset), size));
+			}
+
+			inline auto OpenGL::getNamedBufferParameter(Handle buffer, BufferParameter pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetNamedBufferParameteriv(buffer, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getNamedBufferParameter64(Handle buffer, BufferParameter pname) ->std::int64_t
+			{
+				auto params = std::int64_t{ 0 };
+				checkErrors(glGetNamedBufferParameteri64v(buffer, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getNamedBufferSubData(Handle buffer, int offset, std::size_t size) -> void *
+			{
+				auto data = reinterpret_cast<void *>(0);
+				checkErrors(glGetNamedBufferSubData(buffer, reinterpret_cast<GLintptr>(&offset), size, data));
+				return std::move(data);
+			}
+
+			inline auto OpenGL::getNamedBufferPointer(Handle buffer) -> void *
+			{
+				const auto pname = GL_BUFFER_MAP_POINTER;
+
+				auto params = reinterpret_cast<void *>(0);
+				checkErrors(glGetNamedBufferPointerv(buffer, pname, &params));
+				return std::move(params);
+			}
+			
+			template <class T>
+			inline auto OpenGL::getnUniform([[maybe_unused]] Handle program, [[maybe_unused]] int location, [[maybe_unused]] std::size_t bufSize) -> std::vector<T>
+			{
+				static_assert("No existing specialization for OpenGL::getnUniform.");
+			}
+
+			template <> inline auto OpenGL::getnUniform<float>(Handle program, int location, std::size_t bufSize) -> std::vector<float>
+			{
+				auto params = std::vector<float>(bufSize);
+				checkErrors(glGetnUniformfv(program, location, bufSize, reinterpret_cast<GLfloat *>(params.data())));
+				return std::move(params);
+			}
+
+			template <> inline auto OpenGL::getnUniform<int>(Handle program, int location, std::size_t bufSize) -> std::vector<int>
+			{
+				auto params = std::vector<int>(bufSize);
+				checkErrors(glGetnUniformiv(program, location, bufSize, reinterpret_cast<GLint *>(params.data())));
+				return std::move(params);
+			}
+
+			template <> inline auto OpenGL::getnUniform<unsigned int>(Handle program, int location, std::size_t bufSize) -> std::vector<unsigned int>
+			{
+				auto params = std::vector<unsigned int>(bufSize);
+				checkErrors(glGetnUniformuiv(program, location, bufSize, reinterpret_cast<GLuint *>(params.data())));
+				return std::move(params);
+			}
+
+			template <> inline auto OpenGL::getnUniform<double>(Handle program, int location, std::size_t bufSize) -> std::vector<double>
+			{
+				auto params = std::vector<double>(bufSize);
+				checkErrors(glGetnUniformdv(program, location, bufSize, reinterpret_cast<GLdouble *>(params.data())));
+				return std::move(params);
+			}
+
+			inline void OpenGL::textureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t  width, std::size_t  height, std::size_t depth, PixelFormat format, PixelDataType type, const void * pixels)
+			{
+				checkErrors(glTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, width, height, depth, static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
+			}
+
+			inline void OpenGL::textureSubImage2D(Handle texture, int level, int xoffset, int yoffset, std::size_t width, std::size_t height, PixelFormat format, PixelDataType type, const void *pixels)
+			{
+				checkErrors(glTextureSubImage2D(texture, level, xoffset, yoffset, width, height, static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
+			}
+
+			inline void OpenGL::textureSubImage1D(Handle texture, int level, int xoffset, std::size_t width, PixelFormat format, PixelDataType type, const void *pixels)
+			{
+				checkErrors(glTextureSubImage1D(texture, level, xoffset, width, static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
+			}
+			
+			inline void OpenGL::copyTextureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, int x, int y, std::size_t width, std::size_t height)
+			{
+				checkErrors(glCopyTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, x, y, width, height));
+			}
+
+			inline void OpenGL::copyTextureSubImage2D(Handle texture, int level, int xoffset, int yoffset, int x, int y, std::size_t width, std::size_t height)
+			{
+				checkErrors(glCopyTextureSubImage2D(texture, level, xoffset, yoffset, x, y, width, height));
+			}
+
+			inline void OpenGL::copyTextureSubImage1D(Handle texture, int level, int xoffset, int x, int y, std::size_t width)
+			{
+				checkErrors(glCopyTextureSubImage1D(texture, level, xoffset, x, y, width));
+			}
+			
+			inline void OpenGL::compressedTextureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, std::size_t imageSize, const void * data)
+			{
+				checkErrors(glCompressedTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, width, height, depth, static_cast<GLenum>(format), imageSize, data));
+			}
+			
+			inline void OpenGL::compressedTextureSubImage2D(Handle texture, int level, int xoffset, int yoffset, std::size_t width, std::size_t height, PixelFormat format, std::size_t imageSize, const void *data)
+			{
+				checkErrors(glCompressedTextureSubImage2D(texture, level, xoffset, yoffset, width, height, static_cast<GLenum>(format), imageSize, data));
+			}
+
+			inline void OpenGL::compressedTextureSubImage1D(Handle texture, int level, int xoffset, std::size_t width, PixelFormat format, std::size_t imageSize, const void *data)
+			{
+				checkErrors(glCompressedTextureSubImage1D(texture, level, xoffset, width, static_cast<GLenum>(format), imageSize, data));
+			}
 			
 			inline void OpenGL::textureBuffer(Handle texture, PixelInternalFormat internalformat, Handle buffer)
 			{
@@ -3059,33 +3173,178 @@ namespace ece
 				checkErrors(glGenerateTextureMipmap(texture));
 			}
 
-			//	inline void OpenGL::getTextureParameterfv(unsigned int /*texture*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTextureParameteriv(unsigned int /*texture*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTextureParameterIiv(unsigned int /*texture*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTextureParameterIuiv(unsigned int /*texture*/, GLenum /*pname*/, unsigned int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTextureLevelParameterfv(unsigned int /*texture*/, int /*level*/, GLenum /*pname*/, float * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTextureLevelParameteriv(unsigned int /*texture*/, int /*level*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getnTexImage(GLenum /*target*/, int /*level*/, GLenum /*format*/, GLenum /*type*/, GLsizei /*bufSize*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getTextureImage(unsigned int /*texture*/, int /*level*/, GLenum /*format*/, GLenum /*type*/, GLsizei /*bufSize*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getnCompressedTexImage(GLenum /*target*/, int /*level*/, GLsizei /*bufSize*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getCompressedTextureImage(unsigned int /*texture*/, int /*level*/, GLsizei /*bufSize*/, void * /*pixels*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::readnPixels(int /*x*/, int /*y*/, GLsizei /*width*/, GLsizei /*height*/, GLenum /*format*/, GLenum /*type*/, GLsizei /*bufSize*/, void * /*data*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedFramebufferReadBuffer(unsigned int /*framebuffer*/, GLenum /*mode*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::blitNamedFramebuffer(unsigned int /*readFramebuffer*/, unsigned int /*drawFramebuffer*/, int /*srcX0*/, int /*srcY0*/, int /*srcX1*/, int /*srcY1*/, int /*dstX0*/, int /*dstY0*/, int /*dstX1*/, int /*dstY1*/, GLbitfield /*mask*/, GLenum /*filter*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedFramebufferDrawBuffer(unsigned int /*framebuffer*/, GLenum /*buf*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedFramebufferDrawBuffers(unsigned int /*framebuffer*/, GLsizei /*n*/, const GLenum * /*bufs*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearNamedFramebufferiv(unsigned int /*framebuffer*/, GLenum /*buffer*/, int /*drawbuffer*/, const int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearNamedFramebufferuiv(unsigned int /*framebuffer*/, GLenum /*buffer*/, int /*drawbuffer*/, const unsigned int * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearNamedFramebufferfv(unsigned int /*framebuffer*/, GLenum /*buffer*/, int /*drawbuffer*/, const float * /*value*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::clearNamedFramebufferfi(unsigned int /*framebuffer*/, GLenum /*buffer*/, int /*drawbuffer*/, float /*depth*/, int /*stencil*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedRenderbufferStorageMultisample(unsigned int /*renderbuffer*/, GLsizei /*samples*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedRenderbufferStorage(unsigned int /*renderbuffer*/, GLenum /*internalformat*/, GLsizei /*width*/, GLsizei /*height*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedFramebufferRenderbuffer(unsigned int /*framebuffer*/, GLenum /*attachment*/, GLenum /*renderbuffertarget*/, unsigned int /*renderbuffer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedFramebufferTexture(unsigned int /*framebuffer*/, GLenum /*attachment*/, unsigned int /*texture*/, int /*level*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::namedFramebufferTextureLayer(unsigned int /*framebuffer*/, GLenum /*attachment*/, unsigned int /*texture*/, int /*level*/, int /*layer*/) { static_assert(false, "Not implemented yet."); }
-			//	inline GLenum OpenGL::checkNamedFramebufferStatus(unsigned int /*framebuffer*/, GLenum /*target*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getNamedFramebufferAttachmentParameteriv(unsigned int /*framebuffer*/, GLenum /*attachment*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
-			//	inline void OpenGL::getNamedRenderbufferParameteriv(unsigned int /*renderbuffer*/, GLenum /*pname*/, int * /*params*/) { static_assert(false, "Not implemented yet."); }
+			template <class T>
+			inline auto OpenGL::getTextureParameter(Handle texture, TextureParameter pname) -> std::vector<T>
+			{
+				static_assert("No existing specialization for OpenGL::getTextureParameter.");
+			}
+
+			template <>
+			inline auto OpenGL::getTextureParameter<float>(Handle texture, TextureParameter pname) -> std::vector<float>
+			{
+				auto params = std::vector<float>{};
+				checkErrors(glGetTextureParameterfv(texture, static_cast<GLenum>(pname), reinterpret_cast<GLfloat *>(params.data())));
+				return std::move(params);
+			}
+
+			template <>
+			inline auto OpenGL::getTextureParameter<int>(Handle texture, TextureParameter pname) -> std::vector<int>
+			{
+				auto params = std::vector<int>{};
+				checkErrors(glGetTextureParameteriv(texture, static_cast<GLenum>(pname), reinterpret_cast<GLint *>(params.data())));
+				return std::move(params);
+			}
+
+			template <>
+			inline auto OpenGL::getTextureParameter<unsigned int>(Handle texture, TextureParameter pname) -> std::vector<unsigned int>
+			{
+				auto params = std::vector<unsigned int>{};
+				checkErrors(glGetTextureParameterIuiv(texture, static_cast<GLenum>(pname), reinterpret_cast<GLuint *>(params.data())));
+				return std::move(params);
+			}
+
+			template <class T>
+			inline auto OpenGL::getTextureLevelParameter(Handle texture, int level, TextureLevelParameter pname) -> std::vector<T>
+			{
+				static_assert("No existing specialization for OpenGL::getTextureLevelParameter.");
+			}
+
+			template <>
+			inline auto OpenGL::getTextureLevelParameter<float>(Handle texture, int level, TextureLevelParameter pname) -> std::vector<float>
+			{
+				auto params = std::vector<float>{};
+				checkErrors(glGetTextureLevelParameterfv(texture, level, static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+
+			template <>
+			inline auto OpenGL::getTextureLevelParameter<int>(Handle texture, int level, TextureLevelParameter pname) -> std::vector<int>
+			{
+				auto params = std::vector<int>{};
+				checkErrors(glGetTextureLevelParameteriv(texture, level, static_cast<GLenum>(pname), params.data()));
+				return std::move(params);
+			}
+			
+			inline auto OpenGL::getnTexImage(TextureTarget target, int level, PixelFormat format, DataType type, std::size_t bufSize) -> void *
+			{
+				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				checkErrors(glGetnTexImage(static_cast<GLenum>(target), level, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
+				return std::move(pixels);
+			}
+			
+			inline auto OpenGL::getTextureImage(Handle texture, int level, PixelFormat format, DataType type, std::size_t bufSize) -> void *
+			{
+				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				checkErrors(glGetTextureImage(texture, level, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
+				return std::move(pixels);
+			}
+			
+			inline auto OpenGL::getnCompressedTexImage(TextureTarget target, int level, std::size_t bufSize) -> void *
+			{
+				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				checkErrors(glGetnCompressedTexImage(static_cast<GLenum>(target), level, bufSize, pixels));
+				return std::move(pixels);
+			}
+			
+			inline auto OpenGL::getCompressedTextureImage(Handle texture, int level, std::size_t bufSize) -> void *
+			{
+				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				checkErrors(glGetCompressedTextureImage(texture, level, bufSize, pixels));
+				return std::move(pixels);
+			}
+			
+			inline auto OpenGL::readnPixels(int x, int y, std::size_t width, std::size_t height, PixelFormat format, DataType type, std::size_t bufSize) -> void *
+			{
+				auto pixels = reinterpret_cast<void *>(std::vector<float>(bufSize).data()); // TODO: should be not working.
+				checkErrors(glReadnPixels(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
+				return std::move(pixels);
+			}
+			
+			inline void OpenGL::namedFramebufferReadBuffer(Handle framebuffer, ColorBuffer mode)
+			{
+				checkErrors(glNamedFramebufferReadBuffer(framebuffer, static_cast<GLenum>(mode)));
+			}
+
+			inline void OpenGL::blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter)
+			{
+				checkErrors(glBlitNamedFramebuffer(readFramebuffer, drawFramebuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<GLbitfield>(mask), static_cast<GLenum>(filter)));
+			}
+		
+			inline void OpenGL::namedFramebufferDrawBuffer(Handle framebuffer, ColorBuffer buf)
+			{
+				checkErrors(glNamedFramebufferDrawBuffer(framebuffer, static_cast<GLenum>(buf)));
+			}
+
+			inline void OpenGL::namedFramebufferDrawBuffers(Handle framebuffer, const std::vector<ColorBuffer> & bufs)
+			{
+				checkErrors(glNamedFramebufferDrawBuffers(framebuffer, bufs.size(), reinterpret_cast<const GLenum *>(bufs.data())));
+			}
+			
+			inline void OpenGL::clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<int> & value)
+			{
+				checkErrors(glClearNamedFramebufferiv(framebuffer, static_cast<GLenum>(buffer), drawbuffer, reinterpret_cast<const GLint *>(value.data())));
+			}
+			
+			inline void OpenGL::clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<unsigned int> & value)
+			{
+				checkErrors(glClearNamedFramebufferuiv(framebuffer, static_cast<GLenum>(buffer), drawbuffer, reinterpret_cast<const GLuint *>(value.data())));
+			}
+			
+			inline void OpenGL::clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<float>value)
+			{
+				checkErrors(glClearNamedFramebufferfv(framebuffer, static_cast<GLenum>(buffer), drawbuffer, reinterpret_cast<const GLfloat *>(value.data())));
+			}
+			
+			inline void OpenGL::clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, float depth, int stencil)
+			{
+				checkErrors(glClearNamedFramebufferfi(framebuffer, static_cast<GLenum>(buffer), drawbuffer, depth, stencil));
+			}
+			
+			inline void OpenGL::namedRenderbufferStorageMultisample(Handle renderbuffer, std::size_t samples, PixelInternalFormat internalformat, std::size_t width, std::size_t height)
+			{
+				checkErrors(glNamedRenderbufferStorageMultisample(renderbuffer, samples, static_cast<GLenum>(internalformat), width, height));
+			}
+			
+			inline void OpenGL::namedRenderbufferStorage(Handle renderbuffer, PixelInternalFormat internalformat, std::size_t width, std::size_t height)
+			{
+				checkErrors(glNamedRenderbufferStorage(renderbuffer, static_cast<GLenum>(internalformat), width, height));
+			}
+			
+			inline void OpenGL::namedFramebufferRenderbuffer(Handle framebuffer, FramebufferAttachment attachment, unsigned int renderbuffer)
+			{
+				const auto renderbuffertarget = GL_RENDERBUFFER;
+				checkErrors(glNamedFramebufferRenderbuffer(framebuffer, static_cast<GLenum>(attachment), renderbuffertarget, renderbuffer));
+			}
+			
+			inline void OpenGL::namedFramebufferTexture(Handle framebuffer, FramebufferAttachment attachment, Handle texture, int level)
+			{
+				checkErrors(glNamedFramebufferTexture(framebuffer, static_cast<GLenum>(attachment), texture, level));
+			}
+			
+			inline void OpenGL::namedFramebufferTextureLayer(Handle framebuffer, FramebufferAttachment attachment, Handle texture, int level, int layer)
+			{
+				checkErrors(glNamedFramebufferTextureLayer(framebuffer, static_cast<GLenum>(attachment), texture, level, layer));
+			}
+			
+			inline auto OpenGL::checkNamedFramebufferStatus(Handle framebuffer, FramebufferTarget target) -> FramebufferStatus
+			{
+				auto result = checkErrors(glCheckNamedFramebufferStatus(framebuffer, static_cast<GLenum>(target)));
+				return std::move(static_cast<FramebufferStatus>(result));
+			}
+
+			inline auto OpenGL::getNamedFramebufferAttachmentParameter(Handle framebuffer, FramebufferAttachment attachment, FramebufferAttachmentParameter pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetNamedFramebufferAttachmentParameteriv(framebuffer, static_cast<GLenum>(attachment), static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
+
+			inline auto OpenGL::getNamedRenderbufferParameter(Handle renderbuffer, RenderbufferParameter pname) -> int
+			{
+				auto params = 0;
+				checkErrors(glGetNamedRenderbufferParameteriv(renderbuffer, static_cast<GLenum>(pname), &params));
+				return std::move(params);
+			}
 			
 			inline auto OpenGL::getGraphicsResetStatus() -> GraphicResetStatus 
 			{
@@ -3093,7 +3352,12 @@ namespace ece
 				return std::move(static_cast<GraphicResetStatus>(result));
 			}
 			
-			//	inline void OpenGL::createBuffers(GLsizei /*n*/, unsigned int * /*buffers*/) { static_assert(false, "Not implemented yet."); }
+			inline auto OpenGL::createBuffers(std::size_t n) -> std::vector<Handle>
+			{
+				auto buffers = std::vector<Handle>(n);
+				checkErrors(glCreateBuffers(n, reinterpret_cast<GLuint *>(buffers.data())));
+				return std::move(buffers);
+			}
 			
 			template <class T>
 			inline void OpenGL::namedBufferStorage(Handle buffer, const std::vector<T> & data, BufferDataUsage flags)
@@ -3336,9 +3600,9 @@ namespace ece
 				return std::move(params);
 			}
 
-			inline void OpenGL::specializeShader(Handle shader, const std::string & pEntryPoint​, const std::vector<Handle> & pConstantIndex​, const std::vector<Handle> & pConstantValue)
+			inline void OpenGL::specializeShader(Handle shader, const std::string & pEntryPoint, const std::vector<Handle> & pConstantIndex, const std::vector<Handle> & pConstantValue)
 			{
-				checkErrors(glSpecializeShader(shader, pEntryPoint​.data(), pConstantIndex​.size(), reinterpret_cast<const GLuint *>(pConstantIndex​.data()), reinterpret_cast<const GLuint *>(pConstantValue.data())));
+				checkErrors(glSpecializeShader(shader, pEntryPoint.data(), pConstantIndex.size(), reinterpret_cast<const GLuint *>(pConstantIndex.data()), reinterpret_cast<const GLuint *>(pConstantValue.data())));
 			}
 			
 			inline void OpenGL::polygonOffsetClamp(float factor, float units, float clamp)
