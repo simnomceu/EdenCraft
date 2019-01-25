@@ -58,24 +58,8 @@ namespace ece
 			 * @class InputEvent
 			 * @brief Event from a user input.
 			 */
-			class ECE_WINDOW_API InputEvent
+			struct ECE_WINDOW_API InputEvent
 			{
-			public:
-				/**
-				 * @enum Type
-				 * @brief Type of event produced.
-				 */
-				enum class Type : short int
-				{
-					NONE = -1,
-					MOUSE_PRESSED = 0,
-					MOUSE_RELEASED = 1,
-					MOUSE_MOVED = 2,
-					MOUSE_SCROLLED = 3,
-					KEY_PRESSED = 4,
-					KEY_RELEASED = 5,
-				};
-
 				/**
 				 * @enum DoubleTap
 				 * @brief Which part of the double tap is an event.
@@ -87,88 +71,82 @@ namespace ece
 					LAST_OF = 1
 				};
 
-				/**
-				 * @fn InputEvent()
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
-				inline InputEvent() noexcept;
+				struct MouseButtonEvent
+				{
+					/**
+					 * @property _doubleTap
+					 * @brief If it is produced from a double tap event.
+					 */
+					DoubleTap doubleTap;
 
-				/**
-				 * @fn InputEvent(const InputEvent & copy)
-				 * @param[in] copy The event to copy from.
-				 * @brief Default copy constructor.
-				 * @throw
-				 */
-				InputEvent(const InputEvent & copy) = default;
+					/**
+					 * @property _mouseButton
+					 * @brief The mouse button pressed.
+					 */
+					Mouse::Button mouseButton;
+				};
 
-				/**
-				 * @fn InputEvent(InputEvent && move) noexcept
-				 * @param[in] move The event to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				InputEvent(InputEvent && move) noexcept = default;
+				struct MouseEvent
+				{
+					/**
+					 * @property _mousePosition
+					 * @brief The position of the mouse cursor.
+					 */
+					IntVector2u position;
+				};
 
-				/**
-				 * @fn ~InputEvent() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				~InputEvent() noexcept = default;
+				struct MouseWheelEvent
+				{
+					int delta;
+				};
 
-				/**
-				 * @fn InputEvent & operator=(const InputEvent & copy)
-				 * @param[in] copy The event to copy from.
-				 * @return The event copied.
-				 * @brief Default copy assignment operator.
-				 * @throw
-				 */
-				InputEvent & operator=(const InputEvent & copy) = default;
+				struct KeyEvent
+				{
+					/**
+					 * @property _key
+					 * @brief The keyboard key pressed.
+					 */
+					Keyboard::Key key;
+				};
 
-				/**
-				 * @fn InputEvent & operator=(InputEvent && move) noexcept
-				 * @param[in] move The event to move.
-				 * @return The event moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				InputEvent & operator=(InputEvent && move) noexcept = default;
+				struct WindowPositionEvent
+				{
+					UintVector2u position;
+				};
 
-				/**
-				 * @property _type
-				 * @brief The type of event produced.
-				 */
-				InputEvent::Type type;
+				struct WindowSizeEvent
+				{
+					UintVector2u size;
+				};
 
-				/**
-				 * @property _doubleTap
-				 * @brief If it is produced from a double tap event.
-				 */
-				DoubleTap doubleTap;
+				enum class Type : int
+				{
+					NONE = -1,
+					MOUSE_PRESSED = 0,
+					MOUSE_RELEASED = 1,
+					MOUSE_MOVED = 2,
+					MOUSE_SCROLLED = 3,
+					KEY_PRESSED = 4,
+					KEY_RELEASED = 5,
+					WINDOW_OPENED = 6,
+					WINDOW_RESIZED = 7,
+					WINDOW_MOVED = 8,
+					WINDOW_CLOSED = 9,
+					WINDOW_FOCUS_GAINED = 10,
+					WINDOW_FOCUS_LOST = 11,
+				};
 
-				/**
-				 * @property _mouseButton
-				 * @brief The mouse button pressed.
-				 */
-				Mouse::Button mouseButton;
+				Type type;
 
-				/**
-				 * @property _mousePosition
-				 * @brief The position of the mouse cursor.
-				 */
-				IntVector2u mousePosition;
-
-				/**
-				 * @property _key
-				 * @brief The keyboard key pressed.
-				 */
-				Keyboard::Key key;
+				std::variant<MouseButtonEvent,
+					MouseEvent,
+					MouseWheelEvent,
+					KeyEvent,
+					WindowPositionEvent,
+					WindowSizeEvent> data;
 			};
 		} // namespace event
 	} // namespace window
 } // namespace ece
-
-#include "window/event/input_event.inl"
 
 #endif // INPUT_EVENT_HPP

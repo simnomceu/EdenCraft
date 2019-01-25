@@ -236,7 +236,7 @@ namespace ece
 						auto keyCode = Keyboard::getKey(keySym);
 						if (keyRepeat || (!keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
 							newEvent.type = InputEvent::Type::KEY_PRESSED;
-							newEvent.key = keyCode;
+							newEvent.data = InputEvent::KeyEvent{ keyCode };
 							Keyboard::pressKey(keyCode, true);
 						}
 						break;
@@ -245,7 +245,7 @@ namespace ece
 						auto keySym = XkbKeycodeToKeysym(this->_connection, message.impl.xkey.keycode, 0, message.impl.xkey.state & ShiftMask ? 1 : 0);
 						auto keyCode = Keyboard::getKey(keySym);
 						newEvent.type = InputEvent::Type::KEY_RELEASED;
-						newEvent.key = keyCode;
+						newEvent.data = InputEvent::KeyEvent{ keyCode };
 						Keyboard::pressKey(keyCode, false);
 						break;
 					}
@@ -258,9 +258,8 @@ namespace ece
 					case MotionNotify: {
 						if (0 != message.impl.xmotion.x || 0 != message.impl.xmotion.y) {
 							newEvent.type = InputEvent::Type::MOUSE_MOVED;
-							newEvent.mousePosition[0] = message.impl.xmotion.x;
-							newEvent.mousePosition[1] = message.impl.xmotion.y;
-							Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
+							newEvent.data = InputEvent::MouseEvent{ { message.impl.xmotion.x, message.impl.xmotion.y } };
+							Mouse::setPosition(this->getPosition() + std::get< InputEvent::MouseEvent>(newEvent.data).position);
 						}
 						break;
 					}

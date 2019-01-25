@@ -55,7 +55,7 @@ namespace ece
 	{
 		namespace common
 		{
-			class InputEvent;
+			struct InputEvent;
 
 			/**
 			 * @class Window
