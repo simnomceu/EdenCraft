@@ -58,13 +58,14 @@ namespace ece
 
 			void OBJLoader::loadFromFile(const std::string & filename)
 			{
-				auto file = std::ifstream(filename, std::ios::out);
+				auto file = std::ifstream(filename, std::ios::in);
 				if (!file.is_open()) {
 					throw FileException(FileCodeError::BAD_PATH, filename);
 				}
 
 				auto parser = ParserOBJ();
 				parser.load(file);
+				file.close();
 
 				this->load(filename, parser);
 			}
@@ -99,7 +100,10 @@ namespace ece
 
 				for (auto n = std::size_t{ 0 }; n < parser.getMaterials().size(); ++n) {
 					auto materialFilename = relativePath + parser.getMaterials()[n];
-					auto materialFile = std::ifstream(materialFilename, std::ios::out);
+					if (!std::filesystem::exists(materialFilename)) {
+						throw FileException(FileCodeError::BAD_PATH, materialFilename);
+					}
+					auto materialFile = std::ifstream(materialFilename, std::ios::in);
 					if (!materialFile.is_open()) {
 						throw FileException(FileCodeError::BAD_PATH, materialFilename);
 					}

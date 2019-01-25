@@ -146,6 +146,13 @@ namespace ece
 			inline bool StringStream::eof() const { return this->_cursor >= this->_data.size() ||this->_data[this->_cursor] == '\0'; }
 
 			inline std::size_t StringStream::count(char search) { return std::count(this->_data.begin() + this->_cursor, this->_data.end(), search); }
+
+			inline void StringStream::ignore(std::vector<char> characters)
+			{
+				for (auto c : characters) {
+					this->_data.erase(std::remove_if(this->_data.begin(), this->_data.end(), [c](char it) { return c == it; }), this->_data.end());
+				}
+			}
 		} // namespace string
 	} // namespace utility
 } // namespace ece

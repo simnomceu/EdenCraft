@@ -122,6 +122,8 @@ namespace ece
 
 				inline std::size_t count(char search);
 
+				inline void ignore(std::vector<char> characters);
+
 			private:
 				std::string _data;
 

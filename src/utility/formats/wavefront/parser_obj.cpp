@@ -112,6 +112,7 @@ namespace ece
 				{
 					// TODO add checks for the format of the file
 					auto first = line.get();
+					line.ignore({ '\r', '\n', });
 					switch (first) {
 					case 'v':
 						if (line.peek() == 't') { //vt
