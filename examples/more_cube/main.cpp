@@ -68,31 +68,32 @@ int main()
 
  		auto & eventHandler = window.lock()->getEventHandler();
 		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
-			if (event.key >= ece::Keyboard::Key::A && event.key <= ece::Keyboard::Key::Z) {
-				std::cerr << static_cast<char>(static_cast<unsigned int>(event.key) + 34);
+			auto key = std::get<ece::InputEvent::KeyEvent>(event.data).key;
+			if (key >= ece::Keyboard::Key::A && key <= ece::Keyboard::Key::Z) {
+				std::cerr << static_cast<char>(static_cast<unsigned int>(key) + 34);
 			}
-			else if (event.key == ece::Keyboard::Key::SPACEBAR) {
+			else if (key == ece::Keyboard::Key::SPACEBAR) {
 				std::cerr << ' ';
 			}
-			else if (event.key == ece::Keyboard::Key::RETURN) {
+			else if (key == ece::Keyboard::Key::RETURN) {
 				std::cerr << '\n';
 			}
-			else if (event.key == ece::Keyboard::Key::ESCAPE) {
+			else if (key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
 			}
-			else if (event.key == ece::Keyboard::Key::LEFT) {
+			else if (key == ece::Keyboard::Key::LEFT) {
 				camera.moveIn({ -1.0f, 0.0f, 0.0f });
 				scene.updateCamera();
 			}
-			else if (event.key == ece::Keyboard::Key::RIGHT) {
+			else if (key == ece::Keyboard::Key::RIGHT) {
 				camera.moveIn({ 1.0f, 0.0f, 0.0f });
 				scene.updateCamera();
 			}
-			else if (event.key == ece::Keyboard::Key::UP) {
+			else if (key == ece::Keyboard::Key::UP) {
 				camera.moveIn({ 0.0f, 0.0f, -1.0f });
 				scene.updateCamera();
 			}
-			else if (event.key == ece::Keyboard::Key::DOWN) {
+			else if (key == ece::Keyboard::Key::DOWN) {
 				camera.moveIn({ 0.0f, 0.0f, 1.0f });
 				scene.updateCamera();
 			}

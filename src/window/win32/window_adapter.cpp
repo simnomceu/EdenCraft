@@ -164,7 +164,7 @@ namespace ece
 						if (this->_keyRepeat || (!this->_keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
 							auto newEvent = InputEvent{};
 							newEvent.type = InputEvent::Type::KEY_PRESSED;
-							newEvent.key = keyCode;
+							newEvent.data = InputEvent::KeyEvent{ keyCode };
 							this->pushEvent(newEvent);
 							Keyboard::pressKey(keyCode, true);
 						}
@@ -174,7 +174,7 @@ namespace ece
 						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message.wParam));
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::KEY_RELEASED;
-						newEvent.key = keyCode;
+						newEvent.data = InputEvent::KeyEvent{ keyCode };
 						this->pushEvent(newEvent);
 						Keyboard::pressKey(keyCode, false);
 						break;
@@ -183,7 +183,7 @@ namespace ece
 						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::LEFT))) {
 							auto newEvent = InputEvent{};
 							newEvent.type = InputEvent::Type::MOUSE_PRESSED;
-							newEvent.mouseButton = Mouse::Button::LEFT;
+							newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::NONE, Mouse::Button::LEFT };
 							this->pushEvent(newEvent);
 							Mouse::pressKey(Mouse::Button::LEFT, true);
 						}
@@ -192,7 +192,7 @@ namespace ece
 					case WM_LBUTTONUP: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
-						newEvent.mouseButton = Mouse::Button::LEFT;
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::NONE, Mouse::Button::LEFT };
 						this->pushEvent(newEvent);
 						Mouse::pressKey(Mouse::Button::LEFT, false);
 						break;
@@ -200,10 +200,9 @@ namespace ece
 					case WM_LBUTTONDBLCLK: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
-						newEvent.mouseButton = Mouse::Button::LEFT;
-						newEvent.doubleTap = InputEvent::DoubleTap::FIRST_OF;
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::FIRST_OF, Mouse::Button::LEFT };
 						this->pushEvent(newEvent);
-						newEvent.doubleTap = InputEvent::DoubleTap::LAST_OF;
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::LAST_OF, Mouse::Button::LEFT };
 						this->pushEvent(newEvent);
 						break;
 					}
@@ -211,7 +210,7 @@ namespace ece
 						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::RIGHT))) {
 							auto newEvent = InputEvent{};
 							newEvent.type = InputEvent::Type::MOUSE_PRESSED;
-							newEvent.mouseButton = Mouse::Button::RIGHT;
+							newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::NONE, Mouse::Button::RIGHT };
 							this->pushEvent(newEvent);
 							Mouse::pressKey(Mouse::Button::RIGHT, true);
 						}
@@ -220,7 +219,7 @@ namespace ece
 					case WM_RBUTTONUP: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
-						newEvent.mouseButton = Mouse::Button::RIGHT;
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::NONE, Mouse::Button::RIGHT };
 						this->pushEvent(newEvent);
 						Mouse::pressKey(Mouse::Button::RIGHT, false);
 						break;
@@ -228,8 +227,9 @@ namespace ece
 					case WM_RBUTTONDBLCLK: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
-						newEvent.mouseButton = Mouse::Button::RIGHT;
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::FIRST_OF, Mouse::Button::RIGHT };
 						this->pushEvent(newEvent);
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::LAST_OF, Mouse::Button::RIGHT };
 						this->pushEvent(newEvent);
 						break;
 					}
@@ -237,7 +237,7 @@ namespace ece
 						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::WHEEL))) {
 							auto newEvent = InputEvent{};
 							newEvent.type = InputEvent::Type::MOUSE_PRESSED;
-							newEvent.mouseButton = Mouse::Button::WHEEL;
+							newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::NONE, Mouse::Button::WHEEL };
 							this->pushEvent(newEvent);
 							Mouse::pressKey(Mouse::Button::WHEEL, true);
 						}
@@ -246,7 +246,7 @@ namespace ece
 					case WM_MBUTTONUP: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
-						newEvent.mouseButton = Mouse::Button::WHEEL;
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::NONE, Mouse::Button::WHEEL };
 						this->pushEvent(newEvent);
 						Mouse::pressKey(Mouse::Button::WHEEL, false);
 						break;
@@ -254,34 +254,64 @@ namespace ece
 					case WM_MBUTTONDBLCLK: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
-						newEvent.mouseButton = Mouse::Button::WHEEL;
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::FIRST_OF, Mouse::Button::WHEEL };
 						this->pushEvent(newEvent);
+						newEvent.data = InputEvent::MouseButtonEvent{ InputEvent::DoubleTap::LAST_OF, Mouse::Button::WHEEL };
 						this->pushEvent(newEvent);
 						break;
 					}
 					case WM_MOUSEMOVE: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_MOVED;
-						newEvent.mousePosition[0] = GET_X_LPARAM(message.lParam);
-						newEvent.mousePosition[1] = GET_Y_LPARAM(message.lParam);
-						Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
+						newEvent.data = InputEvent::MouseEvent{ { GET_X_LPARAM(message.lParam), GET_Y_LPARAM(message.lParam) } };
+						Mouse::setPosition(this->getPosition() + std::get<InputEvent::MouseEvent>(newEvent.data).position);
+						this->pushEvent(newEvent);
+						break;
+					}
+					case WM_MOUSEWHEEL: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_SCROLLED;
+						newEvent.data = InputEvent::MouseWheelEvent{ GET_WHEEL_DELTA_WPARAM(message.wParam) };
 						this->pushEvent(newEvent);
 						break;
 					}
 					case WM_MOVE: {
-						break;
-					}
-					case WM_MOVING: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::WINDOW_MOVED;
+						newEvent.data = InputEvent::WindowPositionEvent{ { LOWORD(message.lParam), HIWORD(message.lParam) } };
+						this->pushEvent(newEvent);
 						break;
 					}
 					case WM_SIZE: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::WINDOW_RESIZED;
+						newEvent.data = InputEvent::WindowSizeEvent{ { LOWORD(message.lParam), HIWORD(message.lParam) } };
+						this->pushEvent(newEvent);
 						break;
 					}
-					case WM_SIZING: {
+					case WM_CREATE: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::WINDOW_OPENED;
+						this->pushEvent(newEvent);
 						break;
 					}
 					case WM_CLOSE: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::WINDOW_CLOSED;
+						this->pushEvent(newEvent);
 						this->deleteWindow();
+						break;
+					}
+					case WM_SETFOCUS: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::WINDOW_FOCUS_GAINED;
+						this->pushEvent(newEvent);
+						break;
+					}
+					case WM_KILLFOCUS: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::WINDOW_FOCUS_LOST;
+						this->pushEvent(newEvent);
 						break;
 					}
 					default: {
