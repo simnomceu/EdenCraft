@@ -79,6 +79,7 @@ namespace ece
 
 				void ParserMTL::processLine(StringStream & line)
 				{
+					line.ignore({ '\r', '\n', });
 					if (line.str().size() >= 2) {
 						std::string command;
 						line >> command;
