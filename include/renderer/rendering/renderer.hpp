@@ -108,19 +108,20 @@ namespace ece
 				 */
 				Renderer & operator=(Renderer && move) noexcept = delete;
 
-				static inline void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
-				static inline auto getCurrentTarget() -> std::weak_ptr<RenderTarget>;
+				// NOTE: can't be inlined, else there is a bug with static attributes which are not used in the DLL scope. 
+				//       So MSVC choose to optimize it and remove the attribute initialization.
+				static void setCurrentTarget(const std::weak_ptr<RenderTarget> & target);
+				static auto getCurrentTarget() -> std::weak_ptr<RenderTarget>;
 
-				static inline void setCurrentContext(const std::weak_ptr<RenderContext> & context);
-				static inline auto getCurrentContext() -> std::weak_ptr<RenderContext>;
+				static void setCurrentContext(const std::weak_ptr<RenderContext> & context);
+				static auto getCurrentContext() -> std::weak_ptr<RenderContext>;
 
-				static inline void setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture);
-				static inline auto getCurrentTexture(Texture::Target target) -> std::weak_ptr<Texture>;
+				static void setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture);
+				static auto getCurrentTexture(Texture::Target target) -> std::weak_ptr<Texture>;
 
-				static inline auto isInitialized() noexcept;
+				static auto isInitialized() noexcept -> bool;
 
 			private:
-				// TODO: All this is not working because of virtual_shared_from_this.
 				static std::weak_ptr<RenderTarget> _currentTarget;
 				static std::weak_ptr<RenderContext> _currentContext;
 				static std::map<Texture::Target, std::weak_ptr<Texture>> _currentTextures;
@@ -128,7 +129,5 @@ namespace ece
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
-
-#include "renderer/rendering/renderer.inl"
 
 #endif // RENDERER_HPP

@@ -39,6 +39,7 @@
 #include "renderer/pch.hpp"
 #include "renderer/image/texture.hpp"
 #include "renderer/rendering/renderer.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {

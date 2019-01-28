@@ -56,8 +56,8 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 	});
 
 	ece::RenderState states;
-	states._depthTest = true;
-	states._depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
+	states.depthTest = true;
+	states.depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
 	states.apply(true);
 
 	{
@@ -86,8 +86,8 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 	{
 		ece::Viewport viewport;
-		viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
-		viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f));
+		viewport.area = { 0.0f, 0.0f, 1.0f, 1.0f };
+		viewport.mode = ece::Viewport::Mode::RATIO;
 		pipeline.setViewport(std::move(viewport));
 	}
 
