@@ -40,12 +40,7 @@
 #define CONTIGUOUS_CONTAINER_HPP
 
 #include "utility/config.hpp"
-
-#include <vector>
-#include <array>
-#include <valarray>
-#include <string>
-#include <string_view>
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -57,7 +52,7 @@ namespace ece
 			struct ECE_UTILITY_API contiguous_container: std::false_type {};
 
 			template <class T>
-			inline ECE_UTILITY_API constexpr bool contiguous_container_v = contiguous_container<T>::value;
+			inline ECE_UTILITY_API constexpr auto contiguous_container_v = contiguous_container<T>::value;
 
 			template <class Type, class Allocator>
 			struct ECE_UTILITY_API contiguous_container<std::vector<Type, Allocator>>: std::true_type {};

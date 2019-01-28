@@ -42,9 +42,9 @@
 #define LIGHT_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
-#include <optional>
 
 namespace ece
 {
@@ -141,14 +141,14 @@ namespace ece
 				inline void setAttenuation(const Attenuation & attenuation) noexcept;
 				inline void setCutOff(const CutOff & cutOff) noexcept;
 
-				inline float getAmbient() const noexcept;
-				inline float getDiffuse() const noexcept;
-				inline float getSpecular() const noexcept;
-				inline const FloatVector3u & getColor() const noexcept;
-				inline const FloatVector3u & getPosition() const noexcept;
-				inline const FloatVector3u & getDirection() const noexcept;
-				inline Attenuation getAttenuation() const noexcept;
-				inline CutOff getCutoff() const noexcept;
+				inline auto getAmbient() const noexcept -> float;
+				inline auto getDiffuse() const noexcept -> float;
+				inline auto getSpecular() const noexcept -> float;
+				inline auto getColor() const noexcept -> const FloatVector3u &;
+				inline auto getPosition() const noexcept -> const FloatVector3u &;
+				inline auto getDirection() const noexcept -> const FloatVector3u &;
+				inline auto getAttenuation() const noexcept -> Attenuation;
+				inline auto getCutoff() const noexcept -> CutOff;
 
 				inline void resetPosition() noexcept;
 				inline void resetDirection() noexcept;
@@ -156,13 +156,13 @@ namespace ece
 				inline void resetCutOff() noexcept;
 				inline void useBlinn(const bool used) noexcept;
 
-				inline bool isPositionUsed() const noexcept;
-				inline bool isDirectionUsed() const noexcept;
-				inline bool isAttenuationUsed() const noexcept;
-				inline bool isCutOffUsed() const noexcept;
-				inline bool isBlinnUsed() const noexcept;
+				inline auto isPositionUsed() const noexcept -> bool ;
+				inline auto isDirectionUsed() const noexcept -> bool;
+				inline auto isAttenuationUsed() const noexcept -> bool;
+				inline auto isCutOffUsed() const noexcept -> bool;
+				inline auto isBlinnUsed() const noexcept -> bool;
 
-				std::vector<std::shared_ptr<BaseUniform>> getUniforms() const;
+				auto getUniforms() const -> std::vector<std::shared_ptr<BaseUniform>>;
 
 			protected:
 				// Use structure here ? "factors" ?

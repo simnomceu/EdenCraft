@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/rendering/renderer.hpp"
 
 namespace ece

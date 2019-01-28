@@ -40,11 +40,9 @@
 #define RENDER_TARGET_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/mathematics.hpp"
-#include "renderer/pipeline/viewport.hpp"
 #include "utility/pattern.hpp"
-
-#include <memory>
 
 namespace ece
 {
@@ -52,8 +50,6 @@ namespace ece
 	{
 		namespace rendering
 		{
-			using pipeline::Viewport;
-
 			/**
 			 * @class RenderTarget
 			 * @brief
@@ -115,12 +111,12 @@ namespace ece
 				 * @brief Get the size of the render target.
 				 * @throw
 				 */
-				virtual IntVector2u getSize() const = 0;
+				virtual auto getSize() const -> IntVector2u = 0;
 
-				Viewport getDefaultViewport() const;
+				auto getDefaultViewport() const;
 
 				inline void setCurrent();
-				inline bool isCurrent() const noexcept;
+				inline auto isCurrent() const noexcept;
 			};
 		} // namespace rendering
 	} // namespace renderer

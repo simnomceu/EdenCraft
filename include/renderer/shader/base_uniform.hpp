@@ -41,9 +41,8 @@
 #ifndef BASE_UNIFORM_HPP
 #define BASE_UNIFORM_HPP
 
-#include <string>
-
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
 
 namespace ece
@@ -230,7 +229,7 @@ namespace ece
 				 * @brief Get the string name of the uniform.
 				 * @throw noexcept
 				 */
-				inline const std::string & getName() const noexcept;
+				inline const auto & getName() const noexcept;
 
 				inline void setName(const std::string & name);
 

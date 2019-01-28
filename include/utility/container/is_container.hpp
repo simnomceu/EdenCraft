@@ -74,7 +74,7 @@ namespace ece
 													&& has_empty_method_v<T>> {};
 
 			template <class T>
-			inline constexpr bool is_container_v = is_container<T>::value;
+			inline constexpr auto is_container_v = is_container<T>::value;
 		} // namespace container
 	} // namespace utility
 } // namespace ece

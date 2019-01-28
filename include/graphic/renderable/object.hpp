@@ -42,11 +42,10 @@
 #define OBJECT_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/renderable/renderable.hpp"
 #include "graphic/model.hpp"
 #include "core/resource.hpp"
-
-#include <memory>
 
 namespace ece
 {
@@ -131,7 +130,7 @@ namespace ece
 				 * @brief Get the mesh of the object.
 				 * @throw
 				 */
-				inline Mesh::Reference getMesh() const;
+				inline auto getMesh() const -> Mesh::Reference;
 
                 virtual void prepare() override;
 

@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/sprite.hpp"
 #include "renderer/image.hpp"
 #include "renderer/rendering.hpp"
@@ -53,7 +54,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Sprite::Sprite(const Texture2D::Reference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) : 
+			Sprite::Sprite(const Texture2D::Reference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) :
 				Renderable(), _texture{ texture, textureClip }, _bounds(bounds), _rotation(0.0f), _vertices(), _index(), _level(0)
 			{
 				if (this->_bounds == Rectangle<float>()) {
@@ -88,13 +89,13 @@ namespace ece
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "projection"), true, projection);
 
 				this->_model.setIdentity();
-				this->applyTransformation(ece::scale({ this->_bounds.getWidth() / this->_texture.clip.getWidth(), this->_bounds.getHeight() / this->_texture.clip.getHeight(), 1.0f }));
+				this->applyTransformation(ece::scale({ this->_bounds.width / this->_texture.clip.width, this->_bounds.height / this->_texture.clip.height, 1.0f }));
 				this->applyTransformation(ece::rotate(FRONT, this->_rotation * static_cast<float>(PI) / 180.0f));
-				this->applyTransformation(ece::translate({ this->_bounds.getX(), this->_bounds.getY(), 0.0f }));
+				this->applyTransformation(ece::translate({ this->_bounds.x, this->_bounds.y, 0.0f }));
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "model"), true, this->_model);
 
 				this->_index.bind();
-				OpenGL::drawElements(this->_mode, this->_index.size() * 3, renderer::opengl::DataType::UNSIGNED_INT, 0);
+				OpenGL::drawElements(this->_mode, this->_index.size() * 3, 0);
 			}
 
 			void Sprite::setTexture(const Texture2D::Reference & texture)
@@ -106,10 +107,10 @@ namespace ece
 				layout.add<float>(2, false, false, false);
 
 				auto & vertices = this->_vertices.data();
-				vertices.push_back(Sprite::Vertex{ { 0.0f, 0.0f },																						{ this->_texture.clip.getX() / this->_texture.ref->getWidth(), this->_texture.clip.getY() / this->_texture.ref->getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { 0.0f, static_cast<float>(this->_texture.ref->getHeight()) },											{ this->_texture.clip.getX() / this->_texture.ref->getWidth(), (this->_texture.clip.getY() + this->_texture.clip.getHeight()) / this->_texture.ref->getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), static_cast<float>(this->_texture.ref->getHeight()) }, { (this->_texture.clip.getX() + this->_texture.clip.getWidth()) / this->_texture.ref->getWidth(), (this->_texture.clip.getY() + this->_texture.clip.getHeight()) / this->_texture.ref->getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), 0.0f },											{ (this->_texture.clip.getX() + this->_texture.clip.getWidth()) / this->_texture.ref->getWidth(), this->_texture.clip.getY() / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { 0.0f, 0.0f },																						{ this->_texture.clip.x / this->_texture.ref->getWidth(), this->_texture.clip.y / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { 0.0f, static_cast<float>(this->_texture.ref->getHeight()) },											{ this->_texture.clip.x / this->_texture.ref->getWidth(), (this->_texture.clip.y + this->_texture.clip.height) / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), static_cast<float>(this->_texture.ref->getHeight()) }, { (this->_texture.clip.x + this->_texture.clip.width) / this->_texture.ref->getWidth(), (this->_texture.clip.y + this->_texture.clip.height) / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), 0.0f },											{ (this->_texture.clip.x + this->_texture.clip.width) / this->_texture.ref->getWidth(), this->_texture.clip.y / this->_texture.ref->getHeight() } });
 				this->_vertices.update();
 				this->_vertexArray.attach(this->_vertices, layout);
 			}

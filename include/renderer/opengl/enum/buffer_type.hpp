@@ -40,11 +40,10 @@
 #define OPENGL_BUFFER_TYPE
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
 #include "renderer/buffer/base_buffer.hpp"
-
-#include <string>
 
 namespace ece
 {

@@ -39,7 +39,8 @@
 #ifndef MAKE_RESOURCE_HPP
 #define MAKE_RESOURCE_HPP
 
-#include <string>
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -50,10 +51,10 @@ namespace ece
 			template <class Resource> class ResourceHandler;
 
 			template <class Type, class... Args>
-			ResourceHandler<Type> makeResource(const std::string & identifier, Args&&... args);
+			auto makeResource(const std::string & identifier, Args&&... args);
 
 			template <class Type>
-			ResourceHandler<Type> getResource(const std::string & identifier);
+			auto getResource(const std::string & identifier);
 		} // namespace resource
 	} // namespace core
 } // namespace ece

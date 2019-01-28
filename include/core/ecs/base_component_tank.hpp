@@ -39,7 +39,8 @@
 #ifndef BASE_COMPONENT_TANK_HPP
 #define BASE_COMPONENT_TANK_HPP
 
-#include <cstddef>
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -102,9 +103,9 @@ namespace ece
 				 */
 				BaseComponentTank & operator=(BaseComponentTank && move) noexcept = default;
 
-				virtual std::size_t size() const noexcept = 0;
+				virtual auto size() const noexcept -> std::size_t = 0;
 
-				virtual bool empty() const noexcept = 0;
+				virtual auto empty() const noexcept -> bool = 0;
 
 				virtual void update() = 0;
 			};

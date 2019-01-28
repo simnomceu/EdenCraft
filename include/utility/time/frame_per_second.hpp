@@ -124,7 +124,7 @@ namespace ece
         		 * @brief Get the current FPS.
         		 * @throw noexcept
         		 */
-        		inline double getFPS() const noexcept;
+        		inline auto getFPS() const noexcept;
 
         		/**
         		 * @see UpdatePerSecond::isReadyToUpdate

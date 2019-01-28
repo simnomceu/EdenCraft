@@ -90,7 +90,7 @@ namespace ece
 				* @throw
 				* @remark Should be rename as consume() ?
 				*/
-				static core::format::FormatManager & getService();
+				static auto getService() -> core::format::FormatManager &;
 
 				//static std::weak_ptr<Base> getServicePtr();
 

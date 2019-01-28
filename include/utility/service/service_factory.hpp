@@ -39,7 +39,8 @@
 #ifndef SERVICE_FACTORY_HPP
 #define SERVICE_FACTORY_HPP
 
-#include <memory>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -65,7 +66,7 @@ namespace ece
         		 * @remark It should be refactor to something like that: build(Args...&& args)
         		 */
         		template <class Derived>
-        		static std::shared_ptr<Base> build();
+        		static auto build() -> std::shared_ptr<Base>;
         	};
         } // namespace service
     } // namespace utility

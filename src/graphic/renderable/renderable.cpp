@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/renderable.hpp"
 
 #include "utility/mathematics.hpp"
@@ -60,7 +61,7 @@ namespace ece
 				this->_model = transformation * this->_model;
 			}
 
-            bool Renderable::isInstancingEnabled() const
+            auto Renderable::isInstancingEnabled() const -> bool
             {
                 return this->_numberOfInstances > 1;
             }

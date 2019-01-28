@@ -39,11 +39,8 @@
 #ifndef PARSER_BMP_HPP
 #define PARSER_BMP_HPP
 
-#include <array>
-#include <vector>
-#include <cstddef>
-
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/file_system.hpp"
 #include "utility/indexing.hpp"
 
@@ -137,7 +134,7 @@ namespace ece
 					 * @brief Get the image currently loaded.
 					 * @throw noexcept
 					 */
-					inline Dynamic2DArray<std::array<std::byte, 3>> & getPixels() noexcept;
+					inline auto & getPixels() noexcept;
 
 					/**
 					 * @fn const Dynamic2DArray<std::array<std::byte, 3>> & getPixels() const
@@ -145,7 +142,7 @@ namespace ece
 					 * @brief Get the image currently loaded.
 					 * @throw noexcept
 					 */
-					inline const Dynamic2DArray<std::array<std::byte, 3>> & getPixels() const noexcept;
+					inline auto getPixels() const noexcept;
 
 				private:
 					/**

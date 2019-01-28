@@ -40,12 +40,9 @@
 #define FILE_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "utility/enumeration.hpp"
-
-#include <string>
-#include <vector>
-#include <fstream>
 
 namespace ece
 {
@@ -61,11 +58,11 @@ namespace ece
 			EnumFlagsT(/*std::ios_base::openmode*/unsigned short int, OpenMode)
 			{
 				app = std::fstream::app, /*< @brief "Seek to the end of stream before each write". */
-					binary = std::fstream::binary, /*< @brief "Open in binary mode". */
-					in = std::fstream::in, /*< @brief "Open for reading". */
-					out = std::fstream::out, /*< @brief "Open for writing". */
-					trunc = std::fstream::trunc, /*< @brief "Discard the contents of the stream when opening". */
-					ate = std::fstream::ate /*< @brief "Seek to the end of stream immediately after open". */
+				binary = std::fstream::binary, /*< @brief "Open in binary mode". */
+				in = std::fstream::in, /*< @brief "Open for reading". */
+				out = std::fstream::out, /*< @brief "Open for writing". */
+				trunc = std::fstream::trunc, /*< @brief "Discard the contents of the stream when opening". */
+				ate = std::fstream::ate /*< @brief "Seek to the end of stream immediately after open". */
 			};
 
         	/**
@@ -148,7 +145,7 @@ namespace ece
         		 * @brief Open a stream to the given file.
         		 * @throw
         		 */
-        		bool open(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
+        		auto open(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out) -> bool;
 
         		/**
         		 * @fn bool isOpen() const
@@ -156,7 +153,7 @@ namespace ece
         		 * @brief Indicates if the current file is opened or not. If no file is set, it returns FALSE.
         		 * @throw
         		 */
-        		inline bool isOpen() const;
+        		inline auto isOpen() const;
 
         		/**
         		 * @fn void close()
@@ -171,7 +168,7 @@ namespace ece
         		 * @brief Get the entire content of the file as a string.
         		 * @throw
         		 */
-        		std::string parseToString();
+				auto parseToString() -> std::string;
 
         		/**
         		 * @fn std::vector<T> parseToVector()
@@ -181,7 +178,8 @@ namespace ece
         		 * If the file is not opened, an empty vector is returned.
         		 * @throw
         		 */
-        		template<class T> std::vector<T> parseToVector();
+        		template<class T>
+				auto parseToVector();
 
         		/**
         		 * @fn bool exists(const std::string & filename)
@@ -191,7 +189,7 @@ namespace ece
         		 * @brief Check if the file is existing or not.
         		 * @throw
         		 */
-        		static bool exists(const std::string & filename);
+        		static auto exists(const std::string & filename) -> bool;
 
         		/**
         		 * @fn long long getLastModification(const std::string & filename)
@@ -200,7 +198,7 @@ namespace ece
         		 * @brief Get the last time the file has been modified.
         		 * @throw
         		 */
-        		static long long getLastTimeModification(const std::string & filename);
+				[[deprecated]] static auto getLastTimeModification(const std::string & filename) -> long long;
 
         		/**
         		 * @fn File & operator>>(T & value)
@@ -212,7 +210,8 @@ namespace ece
         		 * @remark The behaviour is undefined for a binary file.
         		 * @throw
         		 */
-        		template <class T> File & operator>>(T & value);
+        		template <class T>
+				auto & operator>>(T & value);
 
         		/**
         		 * @fn File & operator<<(T & value)
@@ -224,7 +223,8 @@ namespace ece
         		 * @remark The behaviour is undefined for a binary file.
         		 * @throw
         		 */
-        		template <class T> File & operator<<(T & value);
+        		template <class T>
+				auto & operator<<(T & value);
 
         		/**
         		 * @fn T read(const unsigned int size = sizeof(T))
@@ -235,7 +235,8 @@ namespace ece
         		 * The file cursor goes after the element read. If the file is not opened an exception is hired.
         		 * @throw
         		 */
-        		template <class T> T read(const unsigned int size = sizeof(T));
+        		template <class T>
+				auto read(const unsigned int size = sizeof(T));
 
         		/**
         		 * @fn File & operator<<(T & value)
@@ -247,7 +248,8 @@ namespace ece
         		 * @remark The behaviour is undefined for a binary file.
         		 * @throw
         		 */
-        		template <class T> void write(const T & value, const unsigned int size = sizeof(T));
+        		template <class T>
+				void write(const T & value, const unsigned int size = sizeof(T));
 
         		/**
         		 * @fn void moveCursorTo(const unsigned int position)
@@ -257,7 +259,7 @@ namespace ece
         		 */
         		inline void moveCursorTo(const unsigned int position);
 
-				inline std::fstream & getStream();
+				inline auto & getStream();
 
         	protected:
         		/**
@@ -278,7 +280,7 @@ namespace ece
         	 * @see std::vector<T> File::parseToVector()
         	 * @throw
         	 */
-        	template<> std::vector<FloatVector3u> File::parseToVector<FloatVector3u>();
+        	template<> auto File::parseToVector<FloatVector3u>();
         } // namespace file_system
     } // namespace utility
 } // namespace ece

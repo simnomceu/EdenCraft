@@ -39,6 +39,8 @@
 #ifndef EULER_ANGLE_HPP
 #define EULER_ANGLE_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
     namespace utility
@@ -51,6 +53,7 @@ namespace ece
 } // namespace ece
 
 #include "utility/mathematics/matrix4u.hpp"
+#include "utility/mathematics/radian.hpp"
 
 namespace ece
 {
@@ -85,7 +88,7 @@ namespace ece
         		 * @throw noexcept
         		 * @remark The parameters should be templated, according to the class definition.
         		 */
-        		inline EulerAngle(const double roll, const double pitch, const double yaw) noexcept;
+        		inline EulerAngle(const Radian<T> roll, const Radian<T> pitch, const Radian<T> yaw) noexcept;
 
         		/**
         		 * @fn EulerAngle(const Quaternion<T> & quaternion)
@@ -142,7 +145,7 @@ namespace ece
         		 * @brief Convert the Euler angle rotation to a quaternion representation.
         		 * @throw
         		 */
-        		Quaternion<T> toQuaternion() const;
+        		auto toQuaternion() const -> Quaternion<T>;
 
         		/**
         		 * @fn Matrix4u<T> toMatrix() const
@@ -150,76 +153,24 @@ namespace ece
         		 * @brief Convert the Euler angle rotation to a matrix representation.
         		 * @throw
         		 */
-        		Matrix4u<T> toMatrix() const;
+        		auto toMatrix() const -> Matrix4u<T>;
 
         		/**
-        		 * @fn T & getRoll() noexcept
-        		 * @return The roll rotation.
-        		 * @brief Get the roll rotation.
-        		 * @throw noexcept
-        		 * @remark This non-constant getter maybe should not exist.
-        		 */
-        		inline T & getRoll() noexcept;
-
-        		/**
-        		 * @fn T & getPitch() noexcept
-        		 * @return The pitch rotation.
-        		 * @brief Get the pitch rotation.
-        		 * @throw noexcept
-        		 * @remark This non-constant getter maybe should not exist.
-        		 */
-        		inline T & getPitch() noexcept;
-
-        		/**
-        		 * @fn T & getYaw() noexcept
-        		 * @return The yaw rotation.
-        		 * @brief Get the yaw rotation.
-        		 * @throw noexcept
-        		 * @remark This non-constant getter maybe should not exist.
-        		 */
-        		inline T & getYaw() noexcept;
-
-        		/**
-        		 * @fn T getRoll() const noexcept
-        		 * @return The roll rotation.
-        		 * @brief Get the roll rotation.
-        		 * @throw noexcept
-        		 */
-        		inline T getRoll() const noexcept;
-
-        		/**
-        		 * @fn T getPitch() const noexcept
-        		 * @return The pitch rotation.
-        		 * @brief Get the pitch rotation.
-        		 * @throw noexcept
-        		 */
-        		inline T getPitch() const noexcept;
-
-        		/**
-        		 * @fn T getYaw() const noexcept
-        		 * @return The yaw rotation.
-        		 * @brief Get the yaw rotation.
-        		 * @throw noexcept
-        		 */
-        		inline T getYaw() const noexcept;
-
-        	private:
-        		/**
-        		 * @property _roll
+        		 * @property roll
         		 * @brief The x-axis rotation, according to Euler/aeronautic notation.
         		 */
-        		T _roll;
+        		Radian<T> roll;
 
         		/**
-        		 * @property _pitch
+        		 * @property pitch
         		 * @brief The y-axis rotation, according to aeronautic notation.
         		 */
-        		T _pitch;
+        		Radian<T> pitch;
         		/**
-        		 * @property _yaw
+        		 * @property yaw
         		 * @brief The z-axis rotation, according to aeronautic notation.
         		 */
-        		T _yaw;
+        		Radian<T> yaw;
         	};
         } // namespace mathematics
     } // namespace utility

@@ -53,7 +53,7 @@ namespace ece
         	auto LinearUnaryOperation<E, Op>::cell(const unsigned int index) const { return (*this)[index]; }
 
         	template <class E, class Op>
-        	inline unsigned int LinearUnaryOperation<E, Op>::size() const { return this->_lhs.size(); }
+        	inline auto LinearUnaryOperation<E, Op>::size() const { return this->_lhs.size(); }
         } // namespace template_expression
     } // namespace utility
 } // namespace ece

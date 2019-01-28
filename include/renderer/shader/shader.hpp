@@ -40,12 +40,9 @@
 #define SHADER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
-#include "renderer/shader/shader_stage.hpp"
 #include "renderer/shader/base_uniform.hpp"
-
-#include <vector>
-#include <memory>
 
 namespace ece
 {
@@ -53,6 +50,8 @@ namespace ece
 	{
 		namespace shader
 		{
+			class ShaderStage;
+
 			/**
 			 * @class Shader
 			 * @brief A shader program, as a combination of shader stages.
@@ -122,7 +121,7 @@ namespace ece
 				 * @brief Get the id of the shader program.
 				 * @throw
 				 */
-				inline Handle getHandle() const;
+				inline auto getHandle() const;
 
 				/**
 				 * @fn void setStage(ShaderStage & stage)
@@ -145,7 +144,7 @@ namespace ece
 				 * @brief check if the program has been linked successfully or not.
 				 * @throw noexcept
 				 */
-				inline bool isLinked() const noexcept;
+				inline auto isLinked() const noexcept;
 
 				/**
 				 * @fn void use() const
@@ -154,7 +153,7 @@ namespace ece
 				 */
 				inline void use() const;
 
-                inline Handle getLocation(const std::string & location);
+                inline auto getLocation(const std::string & location);
 
                 void bind(BaseUniform & uniform, const std::string & location);
 				void bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location);
@@ -166,7 +165,7 @@ namespace ece
 				 */
 				void terminate();
 
-				std::vector<BaseUniform::Info> getUniforms() const;
+				auto getUniforms() const;
 
 			protected:
 				/**

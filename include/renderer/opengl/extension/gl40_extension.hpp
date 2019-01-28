@@ -137,6 +137,6 @@ ECE_RENDERER_API inline  void glMinSampleShading(GLfloat value);
 	} \
 	return proxy(__VA_ARGS__);
 
-#include "renderer/opengl/gl40_extension.inl"
+#include "renderer/opengl/extension/gl40_extension.inl"
 
 #endif // GL40_EXTENSION_HPP

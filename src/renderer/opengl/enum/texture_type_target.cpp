@@ -36,9 +36,8 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/opengl/enum/texture_type_target.hpp"
-
-#include <stdexcept>
 
 namespace ece
 {

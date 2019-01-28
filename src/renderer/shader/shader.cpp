@@ -36,10 +36,12 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/shader/shader.hpp"
 
 #include "utility/log.hpp"
 #include "renderer/shader/uniform.hpp"
+#include "renderer/shader/shader_stage.hpp"
 
 namespace ece
 {
@@ -67,7 +69,7 @@ namespace ece
 			{
 				OpenGL::linkProgram(this->_handle);
 
-				if (OpenGL::getProgramiv(this->_handle, ProgramParameter::LINK_STATUS)[0]) {
+				if (OpenGL::getProgram(this->_handle, ProgramParameter::LINK_STATUS)[0]) {
 					this->use();
 					this->_linkedSuccessfully = true;
 
@@ -76,7 +78,7 @@ namespace ece
 						OpenGL::detachShader(this->_handle, it);
 					}
 				} else {
-                    std::string infoLog = OpenGL::getProgramInfoLog(this->_handle);
+                    auto infoLog = OpenGL::getProgramInfoLog(this->_handle);
                     ServiceLoggerLocator::getService().logError(infoLog);
                 }
 			}
@@ -88,7 +90,7 @@ namespace ece
                     auto handle = this->getLocation(location);
                     uniform.bind(handle);
                 }
-                catch (std::runtime_error & e) {
+                catch (const std::runtime_error & e) {
                     ServiceLoggerLocator::getService().logWarning(e.what());
                 }
             }
@@ -100,7 +102,7 @@ namespace ece
 					auto handle = this->getLocation(location);
 					uniform->bind(handle);
 				}
-				catch (std::runtime_error & e) {
+				catch (const std::runtime_error & e) {
 					ServiceLoggerLocator::getService().logWarning(e.what());
 				}
 			}
@@ -111,11 +113,11 @@ namespace ece
 				this->_handle = 0;
 			}
 
-			std::vector<BaseUniform::Info> Shader::getUniforms() const
+			auto Shader::getUniforms() const
 			{
-				std::vector<BaseUniform::Info> uniforms;
-				std::size_t count = OpenGL::getProgramiv(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
-				for (auto i = std::size_t{ 0 }; i < count; ++i) {
+				auto uniforms = std::vector<BaseUniform::Info>{};
+				auto count = OpenGL::getProgram(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
+				for (auto i =  0; i < count; ++i) {
 					auto uniform = OpenGL::getActiveUniform(this->_handle, static_cast<Handle>(i));
 					uniforms.push_back(getUniformInfo(uniform));
 				}

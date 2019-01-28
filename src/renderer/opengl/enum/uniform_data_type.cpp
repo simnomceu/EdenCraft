@@ -36,9 +36,8 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/opengl/enum/uniform_data_type.hpp"
-
-#include <stdexcept>
 
 namespace ece
 {

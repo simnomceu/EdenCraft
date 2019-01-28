@@ -47,7 +47,7 @@ namespace ece
 		namespace resource
 		{
 			template <class Type, class... Args>
-			ResourceHandler<Type> makeResource(const std::string & identifier, Args &&... args)
+			auto makeResource(const std::string & identifier, Args &&... args)
 			{
 				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
 				if (resource.isDirty()) {
@@ -58,7 +58,7 @@ namespace ece
 			}
 
 			template <class Type>
-			ResourceHandler<Type> getResource(const std::string & identifier)
+			auto getResource(const std::string & identifier)
 			{
 				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
 				if (resource.isDirty()) {

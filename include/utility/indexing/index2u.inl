@@ -44,11 +44,11 @@ namespace ece
         {
         	inline constexpr Index2u::Index2u() noexcept: _i(0), _j(0) {}
 
-        	inline Index2u::Index2u(const int i, const int j) noexcept: _i(i), _j(j) {}
+        	inline Index2u::Index2u(const std::size_t i, const std::size_t j) noexcept: _i(i), _j(j) {}
 
-        	inline int Index2u::get(const int maxI) noexcept { return this->_j * maxI + this->_i; }
+        	inline std::size_t Index2u::get(const std::size_t maxI) noexcept { return this->_j * maxI + this->_i; }
 
-        	inline void Index2u::set(const int maxI, const int index)
+        	inline void Index2u::set(const std::size_t maxI, const std::size_t index)
         	{
         		this->_j = index / maxI;
         		this->_i = index - (this->_j * maxI);

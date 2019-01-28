@@ -40,17 +40,12 @@
 #define WORLD_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/ecs/system.hpp"
 #include "utility/indexing.hpp"
 #include "core/ecs/base_component_tank.hpp"
 #include "core/ecs/base_component.hpp"
 #include "core/signal.hpp"
-
-#include <memory>
-#include <vector>
-#include <unordered_map>
-#include <typeindex>
-#include <functional>
 
 namespace ece
 {
@@ -68,7 +63,7 @@ namespace ece
 			class ECE_CORE_API World
 			{
 			public:
-				using Prototype = std::function<EntityHandler(World&)>;
+				using Prototype = std::function<auto (World &) -> EntityHandler>;
 
 				/**
 				 * @typedef Entity
@@ -76,8 +71,8 @@ namespace ece
 				 */
 				struct Entity
 				{
-					unsigned int _id;
-					bool _dirty;
+					std::size_t id;
+					bool dirty;
 				};
 
 				/**
@@ -130,16 +125,23 @@ namespace ece
 
 				void update();
 
-				template <class ComponentType> std::weak_ptr<ComponentTank<ComponentType>> getTank();
+				template <class ComponentType>
+				auto getTank();
 
-				template <class SystemType, class... Args> std::weak_ptr<SystemType> addSystem(Args&&... args);
-				template <class SystemType> bool hasSystem() const;
+				template <class SystemType, class... Args>
+				auto addSystem(Args&&... args);
 
-				EntityHandler createEntity();
-				EntityHandler createEntity(Prototype prototype);
+				template <class SystemType>
+				auto hasSystem() const;
 
-				template <class ComponentType> bool hasComponent(const unsigned int entityID) const;
-				template <class ComponentType> ComponentType & getComponent(const unsigned int entityID);
+				auto createEntity() -> EntityHandler;
+				auto createEntity(Prototype prototype) -> EntityHandler;
+
+				template <class ComponentType>
+				auto hasComponent(const unsigned int entityID) const;
+
+				template <class ComponentType>
+				auto & getComponent(const unsigned int entityID);
 
 				Signal<EntityHandler &> onEntityCreated;
 				Signal<BaseComponent &> onComponentCreated;
@@ -167,9 +169,10 @@ namespace ece
 				* @property _entityGenerator
 				* @brief To create a new entity.
 				*/
-				UniqueID _entityGenerator;
+				UniqueID<std::size_t> _entityGenerator;
 
-				template <class ComponentType> void addTank();
+				template <class ComponentType>
+				void addTank();
 			};
 		} // namespace ecs
 	} // namespace core

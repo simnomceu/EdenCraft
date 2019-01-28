@@ -40,8 +40,7 @@
 #define IMAGE_FORMAT_HPP
 
 #include "renderer/config.hpp"
-
-#include <cstddef>
+#include "renderer/pch.hpp"
 
 namespace ece
 {

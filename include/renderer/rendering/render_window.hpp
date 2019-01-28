@@ -40,14 +40,13 @@
 #define RENDER_WINDOW_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "window/common.hpp"
 #include "renderer/rendering/renderer.hpp"
 #include "renderer/rendering/render_context.hpp"
 #include "renderer/rendering/render_target.hpp"
 #include "renderer/pipeline/render_state.hpp"
-
-#include <vector>
-#include <memory>
+#include "renderer/rendering/context_settings.hpp"
 
 namespace ece
 {
@@ -114,7 +113,7 @@ namespace ece
 				 */
 				RenderWindow & operator=(RenderWindow && move) noexcept = default;
 
-				inline ContextSettings & getContextSettings();
+				inline auto & getContextSettings();
 
 				/**
 				* @fn void open()
@@ -131,7 +130,7 @@ namespace ece
 				 * @brief Get the size of the render target.
 				 * @throw
 				 */
-				virtual IntVector2u getSize() const override;
+				virtual auto getSize() const -> IntVector2u override;
 
 				/**
 				 * void display()

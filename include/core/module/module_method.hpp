@@ -39,7 +39,8 @@
 #ifndef MODULE_METHOD_HPP
 #define MODULE_METHOD_HPP
 
-#include <functional>
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {

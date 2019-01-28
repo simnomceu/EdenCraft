@@ -39,7 +39,8 @@
 #ifndef DYNAMIC_2D_ARRAY_HPP
 #define DYNAMIC_2D_ARRAY_HPP
 
-#include <cstddef>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -56,6 +57,8 @@ namespace ece
         	class Dynamic2DArray
         	{
         	public:
+				using data_type = E;
+
         		constexpr Dynamic2DArray() noexcept = delete;
 
         		/**
@@ -115,7 +118,7 @@ namespace ece
         		 * @brief Get a line of the container.
         		 * @throw
         		 */
-        		inline E * operator[](const std::size_t index);
+        		inline auto operator[](const std::size_t index);
 
         		/**
         		 * @fn const E * operator[](const std::size_t index) const
@@ -124,7 +127,7 @@ namespace ece
         		 * @brief Get a line of the container.
         		 * @throw
         		 */
-        		inline const E * operator[](const std::size_t index) const;
+        		inline auto operator[](const std::size_t index) const;
 
         		/**
         		 * @fn E * data()
@@ -132,7 +135,7 @@ namespace ece
         		 * @brief Access directly the array of data in memory.
         		 * @throw noexcept
         		 */
-        		inline E * data() noexcept;
+        		inline auto data() noexcept;
 
         		/**
         		 * @fn const E * data() const
@@ -140,7 +143,7 @@ namespace ece
         		 * @brief Access directly the array of data in memory.
         		 * @throw noexcept
         		 */
-        		inline const E * data() const noexcept;
+        		inline auto data() const noexcept;
 
         		/**
         		 * @fn std::size_t getWidth() const noexcept
@@ -148,7 +151,7 @@ namespace ece
         		 * @brief Get the width of the two dimensional array.
         		 * @throw noexcept
         		 */
-        		inline std::size_t getWidth() const noexcept;
+        		inline auto getWidth() const noexcept;
 
         		/**
         		 * @fn std::size_t getHeight() const noexcept
@@ -156,7 +159,7 @@ namespace ece
         		 * @brief Get the height of the two dimensional array.
         		 * @throw noexcept
         		 */
-        		inline std::size_t getHeight() const noexcept;
+        		inline auto getHeight() const noexcept;
 
         		/**
         		 * @fn void resize(const std::size_t width, const std::size_t height)

@@ -39,12 +39,10 @@
 #define BASE_WINDOW_ADAPTER_HPP
 
 #include "window/config.hpp"
+#include "window/pch.hpp"
 #include "window/event.hpp"
 #include "utility/pattern.hpp"
 #include "utility/mathematics.hpp"
-
-#include <memory>
-#include <string>
 
 namespace ece
 {
@@ -141,7 +139,7 @@ namespace ece
 				 * @brief Check if the window is existing or not.
 				 * @throw
 				 */
-				virtual bool isWindowCreated() const = 0;
+				virtual auto isWindowCreated() const -> bool = 0;
 
 				/**
 				 * @fn void setTitle(const std::string & title)
@@ -157,7 +155,7 @@ namespace ece
 				 * @brief Get the window title.
 				 * @throw
 				 */
-				virtual std::string getTitle() const = 0;
+				virtual auto getTitle() const -> std::string = 0;
 
 				/**
 				 * @fn void setPosition(const IntVector2u & position)
@@ -173,7 +171,7 @@ namespace ece
 				 * @brief Get the position of the window.
 				 * @throw
 				 */
-				virtual IntVector2u getPosition() const = 0;
+				virtual auto getPosition() const -> IntVector2u = 0;
 
 				/**
 				 * @fn IntVector2u getSize() const
@@ -181,7 +179,7 @@ namespace ece
 				 * @brief Get the size of the window.
 				 * @throw
 				 */
-				virtual IntVector2u getSize() const = 0;
+				virtual auto getSize() const -> IntVector2u = 0;
 
 				/**
 				 * @fn void minimize()
@@ -219,7 +217,7 @@ namespace ece
 				 * @brief Check if there is new events to process or not.
 				 * @throw
 				 */
-				bool hasEvents() const;
+				auto hasEvents() const -> bool;
 
 				/**
 				 * @fn InputEvent popEvent()
@@ -228,7 +226,7 @@ namespace ece
 				 * It gets an empty event if the queue is empty.
 				 * @throw
 				 */
-				InputEvent popEvent();
+				auto popEvent() -> InputEvent;
 
 				/**
 				 * @fn Pimpl<DataWindowAdapter> & getImpl()
@@ -236,7 +234,7 @@ namespace ece
 				 * @brief Get the platform implementation of the window.
 				 * @throw
 				 */
-				virtual Pimpl<DataWindowAdapter> & getImpl() = 0;
+				virtual auto getImpl() -> Pimpl<DataWindowAdapter> & = 0;
 
 			protected:
 				/**
@@ -254,7 +252,7 @@ namespace ece
 				 * It is not removed from the queue.
 				 * @throw
 				 */
-				InputEvent & lastEvent();
+				auto & lastEvent();
 
 				/**
 				 * @property _keyRepeat

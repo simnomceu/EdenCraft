@@ -38,13 +38,28 @@
 
 namespace ece
 {
-	namespace utility
-	{
-		namespace pattern
-		{
-			inline Holdable::Holdable() noexcept {}
+    namespace utility
+    {
+        namespace mathematics
+        {
+            template <class T>
+            inline Degree<T>::Degree(T angle) noexcept: Angle<Degree, T>(angle) {}
 
-			inline Holdable::~Holdable() noexcept {}
-		} // namespace pattern
-	} // namespace utility
+            template <class T>
+            inline constexpr auto Degree<T>::toRadian() const { return Radian<T>{ this->_value * static_cast<T>(M_PI) / T{ 180 } }; }
+
+            template <class T>
+            inline auto Degree<T>::normalize180() const
+            {
+                auto result = this->normalize360();
+                if (result > T{ 180 }) {
+                    result -= T{ 360 };
+                }
+                return std::move(result);
+            }
+
+            template <class T>
+            inline auto Degree<T>::normalize360() const { return Degree<T>{ this->_value - (std::floor(this->_value * 1.0f / 360.0f) * T{ 360 }) }; }
+        } // namespace mathematics
+    } // namespace utility
 } // namespace ece

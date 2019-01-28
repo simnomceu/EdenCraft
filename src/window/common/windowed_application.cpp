@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/windowed_application.hpp"
 
 namespace ece
@@ -58,24 +59,21 @@ namespace ece
 				this->init();
 				this->onPostInit();
 
-				for (auto & window : this->_windows) {
+				std::for_each(this->_windows.begin(), this->_windows.end(), [](auto & window) {
 					window->open();
-				}
+				});
 
 				while (this->isRunning()) {
 					this->onPreProcess();
 					this->processEvents();
-					for (auto & window : this->_windows) {
-						window->processEvents();
-					}
 					this->onPreUpdate();
 					this->update();
 					this->onPostUpdate();
 				}
 
-				for (auto & window : this->_windows) {
+				std::for_each(this->_windows.begin(), this->_windows.end(), [](auto & window) {
 					window->close();
-				}
+				});
 
 				this->onPreTerminate();
 				this->terminate();
@@ -84,9 +82,9 @@ namespace ece
 
 			void WindowedApplication::processEvents()
 			{
-				for (auto & window : this->_windows) {
+				std::for_each(this->_windows.begin(), this->_windows.end(), [](auto & window) {
 					window->processEvents();
-				}
+				});
 			}
 		} // namespace common
 	} // namespace window

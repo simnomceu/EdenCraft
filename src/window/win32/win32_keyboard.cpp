@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/event/keyboard.hpp"
 
 #include <Windows.h>
@@ -45,9 +46,9 @@ namespace ece
 	{
 		namespace event
 		{
-			Keyboard::Key Keyboard::getKey(const unsigned int keycode)
+			auto Keyboard::getKey(const unsigned int keycode) -> Keyboard::Key
 			{
-				Keyboard::Key key = Keyboard::Key::KEY_NONE;
+				Keyboard::Key key = Keyboard::Key::NONE;
 				switch (keycode) {
 				case VK_CANCEL: //Control-break processing
 				case VK_BACK:
@@ -480,7 +481,7 @@ namespace ece
 				case VK_PA1: // PA1 key
 				case VK_OEM_CLEAR: // Clear key
 				default:
-					key = Keyboard::Key::KEY_NONE;
+					key = Keyboard::Key::NONE;
 					break;
 				}
 				return key;

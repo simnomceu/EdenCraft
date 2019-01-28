@@ -36,9 +36,8 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/bitmap/parser_bmp.hpp"
-
-#include <sstream>
 
 namespace ece
 {
@@ -50,9 +49,9 @@ namespace ece
 			{
 				void ParserBMP::load(std::istream & stream)
 				{
-					BMPHeader header;
-					BMPDIB DIB;
-					std::vector<std::byte> buffer;
+					auto header = BMPHeader{};
+					auto DIB = BMPDIB{};
+					auto buffer = std::vector<std::byte>{};
 
 					// see http://tipsandtricks.runicsoft.com/Cpp/BitmapTutorial.html
 					// see http://www.di.unito.it/~marcog/SM/BMPformat-Wiki.pdf
@@ -69,12 +68,12 @@ namespace ece
 
 					buffer.resize(header.size - header.pixelsOffset);
 					stream.seekg(header.pixelsOffset);
-					for (std::size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to read a contiguous value of size sizeof(std::byte)*nbBytes
+					for (auto i = std::size_t{ 0 }; i < buffer.size(); ++i) { // TODO: should be done with one call to read a contiguous value of size sizeof(std::byte)*nbBytes
 						stream.read(reinterpret_cast<char *>(&buffer[i]), sizeof(std::byte));
 					}
 
-					int padding = 0;
-					int scanLineBytes = DIB.width * 3;
+					auto padding = 0;
+					auto scanLineBytes = DIB.width * 3;
 					while ((scanLineBytes + padding) % 4 != 0) {
 						++padding;
 					}
@@ -82,8 +81,8 @@ namespace ece
 
 					this->_pixels.resize(psw / 3, DIB.height);
 					long bufPos = 0;
-					for (uint32_t y = 0; y < this->_pixels.getHeight(); ++y) {
-						for (uint32_t x = 0; x < 3 * this->_pixels.getWidth(); x += 3) {
+					for (auto y = std::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
+						for (auto x = std::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {
 							bufPos = (DIB.height - y - 1) * psw + x;
 
 							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = buffer[bufPos + 2]; // red
@@ -93,7 +92,7 @@ namespace ece
 					}
 				}
 
-				void ParserBMP::save(std::ostream & /*stream*/)
+				void ParserBMP::save([[maybe_unused]] std::ostream & stream)
 				{
 					/* NOT IMPLEMENTED YET*/
 				}

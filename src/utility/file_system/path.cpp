@@ -36,18 +36,8 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/file_system/path.hpp"
-
-#ifdef __linux__
-	#include <unistd.h>
-#else
-	#include <Windows.h>
-#endif
-
-#include <cstdio>
-#include <cstdlib>
-#include <iostream>
-#include <sstream>
 
 namespace ece
 {
@@ -55,52 +45,35 @@ namespace ece
     {
         namespace file_system
         {
-        	Path Path::currentPath()
-        	{
-        		std::string path;
-        		// BERK
-        #ifdef __linux__
-        		char result[FILENAME_MAX];
-        		ssize_t count = readlink("/proc/self/exe", result, FILENAME_MAX);
-        		path = std::string(result, (count > 0) ? count : 0);
-        #else
-        		wchar_t wresult[FILENAME_MAX];
-        		char result[FILENAME_MAX];
-        		int size = GetModuleFileName(NULL, wresult, FILENAME_MAX);
-				std::size_t copiedSize;
-        		auto error = wcstombs_s(&copiedSize, result, FILENAME_MAX, wresult, size);
-        		if (error != 0) {
-        			throw std::runtime_error("aie aie aie");
-        		}
-        		path = std::string(result, size);
-        #endif
-        		return Path(path);
+        	auto Path::currentPath()
+        	{				
+        		return Path(std::filesystem::current_path().string());
         	}
 
         	Path::Path(const std::string & pathname): _path()
         	{
         		// BERK
         		auto result = std::back_inserter(this->_path);
-        		std::stringstream ss;
-        		ss.str(pathname);
-        		std::string item;
+        		auto ss = std::stringstream(pathname);
+				auto item = std::string{};
         		while (std::getline(ss, item, '\\')) {
         			*(result++) = item;
         		}
         	}
 
-        	std::string Path::getPathname() const
+			auto Path::getPathname() const
         	{
-        		std::stringstream res;
+				auto res = std::stringstream{};
         		std::copy(this->_path.begin(), this->_path.end(), std::ostream_iterator<std::string>(res, "\\"));
-        		std::string  result = res.str();
+        		auto result = res.str();
         		return result.substr(0, result.size() - 1);
         	}
 
-        	std::string Path::getPath() const {
-        		std::stringstream res;
+			auto Path::getPath() const
+			{
+				auto res = std::stringstream{};
         		std::copy(this->_path.begin(), this->_path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
-        		std::string  result = res.str() + '\\';
+        		auto result = res.str() + '\\';
         		return result.substr(0, result.size() - 1);
         	}
         } // namespace file_system

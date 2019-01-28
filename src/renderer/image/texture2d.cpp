@@ -36,7 +36,7 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/image/texture2d.hpp"
 
 #include "utility/formats/bitmap.hpp"
@@ -44,8 +44,6 @@
 #include "core/format.hpp"
 #include "utility/debug.hpp"
 #include "renderer/image/loader_image.hpp"
-
-#include <memory>
 
 namespace ece
 {
@@ -85,7 +83,7 @@ namespace ece
 					this->_handle = move._handle;
 
 					move._data.clear();
-					move._handle = 0;
+					move._handle = NULL_HANDLE;
 				}
 
 				return *this;
@@ -98,30 +96,25 @@ namespace ece
 				if (this->_filename != filename) {
 					this->_filename = filename;
 
-					try {
-						this->_data.clear();
+					this->_data.clear();
 
-						auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename).lock();
+					auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename);
 
-						loader->loadFromFile(this->_filename);
+					loader->loadFromFile(this->_filename);
 
-						auto & image = loader->getImage();
-						auto buffer = image.data();
-						for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
-							this->_data.push_back(buffer[i].red); // red
-							this->_data.push_back(buffer[i].green); // green
-							this->_data.push_back(buffer[i].blue); // blue
-						}
-
-						this->_width = image.getWidth();
-						this->_height = image.getHeight();
-						this->_type = type;
-
-						OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
+					auto & image = loader->getImage();
+					auto buffer = image.data();
+					for (auto i = std::size_t{ 0 }; i < image.getHeight() * image.getWidth(); ++i) {
+						this->_data.push_back(buffer[i].red); // red
+						this->_data.push_back(buffer[i].green); // green
+						this->_data.push_back(buffer[i].blue); // blue
 					}
-					catch (FileException & e) {
-						throw e;
-					}
+
+					this->_width = image.getWidth();
+					this->_height = image.getHeight();
+					this->_type = type;
+
+					OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
 				}
 			}
 
@@ -135,8 +128,8 @@ namespace ece
 
 			void Texture2D::generateMipmap()
 			{
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MAG_FILTER), GL_NEAREST);
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MIN_FILTER), GL_NEAREST_MIPMAP_NEAREST);
+				this->setParameter<int>(Parameter::MAG_FILTER, GL_NEAREST);
+				this->setParameter<int>(Parameter::MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 				OpenGL::generateMipmap(MipmapTarget::TEXTURE_2D);
 			}
 

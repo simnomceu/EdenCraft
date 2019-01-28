@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/pipeline/render_state.hpp"
 
 #include "renderer/opengl.hpp"
@@ -49,68 +50,68 @@ namespace ece
 			RenderState RenderState::_currentState = RenderState();
 
 			RenderState::RenderState() noexcept :
-				_faceCulling(true),
-				_cullFaceMode(CullFaceMode::BACK),
-				_frontFaceMode(FrontFaceMode::COUNTERCLOCKWISE),
-				_depthTest(true),
-				_depthFunction(DepthFunctionCondition::LESS),
-				_pointSize(0.0f),
-				_lineWidth(0.0f),
-				_smoothLine(false),
-				_blending(false),
-				_sourceBlend(BlendingFactor::SRC_ALPHA),
-				_destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA)
+				faceCulling(true),
+				cullFaceMode(CullFaceMode::BACK),
+				frontFaceMode(FrontFaceMode::COUNTERCLOCKWISE),
+				depthTest(true),
+				depthFunction(DepthFunctionCondition::LESS),
+				pointSize(0.0f),
+				lineWidth(0.0f),
+				smoothLine(false),
+				blending(false),
+				sourceBlend(BlendingFactor::SRC_ALPHA),
+				destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA)
 			{
 			}
 
 			bool RenderState::operator==(const RenderState & rhs) const noexcept
 			{
-				return this->_faceCulling == rhs._faceCulling
-					&& this->_cullFaceMode == rhs._cullFaceMode
-					&& this->_frontFaceMode == rhs._frontFaceMode
-					&& this->_depthTest == rhs._depthTest
-					&& this->_depthFunction == rhs._depthFunction
-					&& this->_pointSize == rhs._pointSize
-					&& this->_lineWidth == rhs._lineWidth
-					&& this->_smoothLine == rhs._smoothLine
-					&& this->_blending == rhs._blending
-					&& this->_sourceBlend == rhs._sourceBlend
-					&& this->_destinationBlend == rhs._destinationBlend;
+				return this->faceCulling == rhs.faceCulling
+					&& this->cullFaceMode == rhs.cullFaceMode
+					&& this->frontFaceMode == rhs.frontFaceMode
+					&& this->depthTest == rhs.depthTest
+					&& this->depthFunction == rhs.depthFunction
+					&& this->pointSize == rhs.pointSize
+					&& this->lineWidth == rhs.lineWidth
+					&& this->smoothLine == rhs.smoothLine
+					&& this->blending == rhs.blending
+					&& this->sourceBlend == rhs.sourceBlend
+					&& this->destinationBlend == rhs.destinationBlend;
 			}
 
 			void RenderState::apply(const bool forced)
 			{
-				if (RenderState::_currentState != *this || forced) {
+				if (forced || RenderState::_currentState != *this) {
 					RenderState::_currentState = *this;
 
-					if (RenderState::_currentState._faceCulling) {
+					if (RenderState::_currentState.faceCulling) {
 						OpenGL::enable(Capability::CULL_FACE);
-						OpenGL::cullFace(getCullFaceMode(RenderState::_currentState._cullFaceMode));
-						OpenGL::frontFace(getFrontFaceMode(RenderState::_currentState._frontFaceMode));
+						OpenGL::cullFace(getCullFaceMode(RenderState::_currentState.cullFaceMode));
+						OpenGL::frontFace(getFrontFaceMode(RenderState::_currentState.frontFaceMode));
 					}
 					else {
 						OpenGL::disable(Capability::CULL_FACE);
 					}
 
-					if (RenderState::_currentState._depthTest) {
+					if (RenderState::_currentState.depthTest) {
 						OpenGL::enable(Capability::DEPTH_TEST);
-						OpenGL::depthFunc(getDepthFunctionCondition(RenderState::_currentState._depthFunction));
+						OpenGL::depthFunc(getDepthFunctionCondition(RenderState::_currentState.depthFunction));
 					}
 					else {
 						OpenGL::disable(Capability::DEPTH_TEST);
 					}
 
-					if (RenderState::_currentState._pointSize > 0.0f) {
+					if (RenderState::_currentState.pointSize > 0.0f) {
 						OpenGL::enable(Capability::PROGRAM_POINT_SIZE);
-						OpenGL::pointSize(RenderState::_currentState._pointSize);
+						OpenGL::pointSize(RenderState::_currentState.pointSize);
 					}
 					else {
 						OpenGL::disable(Capability::PROGRAM_POINT_SIZE);
 					}
 
-					if (RenderState::_currentState._lineWidth > 0.0f) {
-						OpenGL::lineWidth(RenderState::_currentState._lineWidth);
-						if (RenderState::_currentState._smoothLine) {
+					if (RenderState::_currentState.lineWidth > 0.0f) {
+						OpenGL::lineWidth(RenderState::_currentState.lineWidth);
+						if (RenderState::_currentState.smoothLine) {
 							OpenGL::enable(Capability::LINE_SMOOTH);
 						}
 						else {
@@ -121,9 +122,9 @@ namespace ece
 						OpenGL::disable(Capability::LINE_SMOOTH);
 					}
 
-					if (RenderState::_currentState._blending) {
+					if (RenderState::_currentState.blending) {
 						OpenGL::enable(Capability::BLEND);
-						OpenGL::blendFunc(getBlendingFactor(RenderState::_currentState._sourceBlend), getBlendingFactor(RenderState::_currentState._destinationBlend));
+						OpenGL::blendFunc(getBlendingFactor(RenderState::_currentState.sourceBlend), getBlendingFactor(RenderState::_currentState.destinationBlend));
 					}
 					else {
 						OpenGL::disable(Capability::BLEND);

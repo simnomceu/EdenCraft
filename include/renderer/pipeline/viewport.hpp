@@ -55,12 +55,18 @@ namespace ece
 			class ECE_RENDERER_API Viewport
 			{
 			public:
+				enum class Mode : bool
+				{
+					BOUNDS = 0,
+					RATIO = 1
+				};
+
 				/**
 				 * @fn constexpr Viewport() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Viewport() noexcept = default;
+				inline constexpr Viewport() noexcept;
 
 				/**
 				 * @fn Viewport(const Viewport & copy) noexcept
@@ -103,19 +109,11 @@ namespace ece
 				 */
 				Viewport & operator=(Viewport && move) noexcept = default;
 
-				inline void resetViewport(const Rectangle<float> & bounds) noexcept;
-
-				inline void setViewportRatio(const Rectangle<float> & ratio) noexcept;
-
-				inline const Rectangle<float> & getViewport() const noexcept;
-
-				inline const Rectangle<float> & getViewportRatio() const noexcept;
-
-				inline bool isRatioUsed() const noexcept;
+				Rectangle<float> area;
+				Mode mode;
 
 			private:
-				Rectangle<float> _bounds;
-				Rectangle<float> _ratio;
+				static const Mode DEFAULT_MODE = Mode::BOUNDS;
 			};
 		} // namespace pipeline
 	} // namespace renderer

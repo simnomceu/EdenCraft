@@ -161,7 +161,7 @@ namespace ece
 				 * @brief Get the view matrix according to the camera.
 				 * @throw
 				 */
-				inline FloatMatrix4u getView() const;
+				inline auto getView() const -> FloatMatrix4u;
 
                 /**
                  * @fn const FloatMatrix4u & getProjection() const
@@ -169,8 +169,8 @@ namespace ece
                  * @brief Get the projection matrix.
                  * @throw
                  */
-                inline const Projection & getProjection() const;
-                inline Projection & getProjection();
+                inline auto getProjection() const -> const Projection &;
+                inline auto getProjection() -> Projection &;
 			private:
 				/**
 				 * @fn void updatePosition(const FloatVector3u & position, const FloatVector3u & target)

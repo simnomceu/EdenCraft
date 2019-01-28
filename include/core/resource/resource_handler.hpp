@@ -41,9 +41,7 @@
 #define RESOURCE_HANDLER_HPP
 
 #include "core/config.hpp"
-
-#include <memory>
-#include <string>
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -116,16 +114,16 @@ namespace ece
 				 * @return The resource handled.
 				 * @brief Get The resource handled.
 				 */
-				inline std::shared_ptr<Resource> operator->();
+				inline auto operator->();
 
 				/**
 				 * @fn std::weak_ptr<Resource> operator*()
 				 * @return The resource handled.
 				 * @brief Get The resource handled.
 				 */
-				inline std::shared_ptr<Resource> operator*();
+				inline auto operator*();
 
-				inline bool isDirty() const;
+				inline auto isDirty() const;
 
 				template <class Parent> operator ResourceHandler<Parent>() const;
 

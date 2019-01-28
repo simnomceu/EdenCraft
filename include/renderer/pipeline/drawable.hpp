@@ -40,9 +40,8 @@
 #define DRAWABLE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/mathematics.hpp"
-
-#include <memory>
 
 namespace ece
 {
@@ -110,8 +109,8 @@ namespace ece
 				Drawable & operator=(Drawable && move) noexcept = default;
 
 				virtual void draw(std::shared_ptr<Shader> program) = 0;
-				virtual const FloatMatrix4u & getModel() const = 0;
-				virtual RenderState & getState() = 0;
+				virtual auto getModel() const -> const FloatMatrix4u & = 0;
+				virtual auto getState() -> RenderState & = 0;
 			};
 		} // namespace pipeline
 	} // namespace renderer

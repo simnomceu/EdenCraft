@@ -35,11 +35,10 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/window.hpp"
 
 #include "window/event.hpp"
-
-#include <iostream>
 
 namespace ece
 {
@@ -73,10 +72,10 @@ namespace ece
 				}
 			}
 
-			WindowSetting Window::getSettings() const
+			auto Window::getSettings() const
 			{
-				WindowSetting settings;
-				settings._title = this->getTitle();
+				auto settings = WindowSetting{};
+				settings.title = this->getTitle();
 
 				return settings;
 			}
@@ -84,8 +83,8 @@ namespace ece
 			void Window::setSettings(const WindowSetting & settings)
 			{
 				//		this->setBounds(settings.getBounds());
-				this->setTitle(settings._title);
-				this->setPosition(settings._position);
+				this->setTitle(settings.title);
+				this->setPosition(settings.position);
 				//		this->setState(settings.getState());
 			}
 
@@ -98,7 +97,7 @@ namespace ece
 			void Window::setPosition(const IntVector2u & position)
 			{
 				auto oldPosition = this->_adapter.get()->getPosition();
-				if (oldPosition != position) { // TODO : overload operator!= for vertex classes
+				if (oldPosition != position) {
 					this->_adapter.get()->setPosition(position);
 					this->onWindowMoved();
 				}
@@ -120,7 +119,7 @@ namespace ece
 				}
 			}
 
-			bool Window::waitEvent(InputEvent & event)
+			auto Window::waitEvent(InputEvent & event)
 			{
 				if (this->isOpened()) {
 					while (!this->_adapter.get()->hasEvents()) {
@@ -132,7 +131,7 @@ namespace ece
 				return false;
 			}
 
-			bool Window::pollEvent(InputEvent & event)
+			auto Window::pollEvent(InputEvent & event)
 			{
 				if (this->isOpened()) {
 					if (this->_ups.getLimit() == 0 || (this->_ups.getLimit() > 0 && this->_ups.isReadyToUpdate())) {
@@ -150,12 +149,10 @@ namespace ece
 
 			void Window::processEvents()
 			{
-				if (this->isOpened()) {
-					if (this->_ups.getLimit() == 0 || (this->_ups.getLimit() > 0 && this->_ups.isReadyToUpdate())) {
-						this->_adapter.get()->processEvent(false);
-						if (this->_adapter.get()->hasEvents()) {
-							this->_eventHandler.process(this->_adapter.get()->popEvent());
-						}
+				if (this->isOpened() && (this->_ups.getLimit() == 0 || (this->_ups.getLimit() > 0 && this->_ups.isReadyToUpdate()))) {
+					this->_adapter.get()->processEvent(false);
+					if (this->_adapter.get()->hasEvents()) {
+						this->_eventHandler.process(this->_adapter.get()->popEvent());
 					}
 				}
 			}
@@ -166,45 +163,6 @@ namespace ece
 					this->_videoMode.applyChanges();
 				}
 			}
-
-			/*void BaseWindow::setState(const ece::WindowState state)
-			{
-
-				if (this->isFullscreenActivated()) {
-					this->monitorToFill = glfwGetPrimaryMonitor();
-				}
-
-				if (this->isResizable()) {
-					glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-				}
-				else {
-					glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-				}
-
-				if (this->isToolbarActivated()) {
-					glfwWindowHint(GLFW_DECORATED, GL_TRUE);
-				}
-				else {
-					glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-				}
-			}
-
-			void BaseWindow::attachToMonitor(const int monitorIdIn)
-			{
-				if (monitorId < GLAdapter::getNumberOfMonitors()) {
-					this->monitorId = monitorIdIn;
-				}
-
-				if (this->isFullscreenActivated()) {
-					this->monitorToFill = GLAdapter::getMonitor(this->monitorId);
-				}
-
-				if (this->isOpened() && this->isFullscreenActivated()) {
-					this->close();
-					this->open();
-				}
-			}
-			*/
 		} // namespace common
 	} // namespace window
 } // namespace ece

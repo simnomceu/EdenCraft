@@ -46,7 +46,7 @@ namespace ece
 			Signal<Args...>::Signal() noexcept: _impl(std::make_shared<SignalImplementation<Args...>>()) {}
 
 			template <class... Args>
-			Connection<Args...> Signal<Args...>::connect(const std::function<void(Args...)> & callback)
+			auto Signal<Args...>::connect(const std::function<void(Args...)> & callback)
 			{
 				auto slot = std::make_shared<Slot<Args...>>(callback);
 				this->_impl->attach(slot);
@@ -54,7 +54,7 @@ namespace ece
 			}
 
 			template <class... Args>
-			Connection<Args...> Signal<Args...>::connect(std::function<void(Args...)> && callback)
+			auto Signal<Args...>::connect(std::function<void(Args...)> && callback)
 			{
 				auto slot = std::make_shared<Slot<Args...>>(callback);
 				this->_impl->attach(slot);
@@ -63,30 +63,23 @@ namespace ece
 
 			template <class... Args>
 			template <class T>
-			Connection<Args...> Signal<Args...>::connect(T & object, void (T::*method)(Args... args))
+			auto Signal<Args...>::connect(T & object, void (T::*method)(Args... args))
 			{
 				return this->connect([&object, method](Args... args) { (object.*method)(std::forward<Args>(args)...); });
 			}
 
 			template <class... Args>
 			template <class T>
-			Connection<Args...> Signal<Args...>::connect(std::weak_ptr<T> & object, void (T::*method)(Args... args))
+			auto Signal<Args...>::connect(std::weak_ptr<T> & object, void (T::*method)(Args... args))
 			{
 				return this->connect([&object, method](Args... args) { (object.lock()->*method)(std::forward<Args>(args)...); });
 			}
 
 			template <class... Args>
 			template <class T>
-			Connection<Args...> Signal<Args...>::connect(const T & object, void (T::*method)(Args... args) const)
+			auto Signal<Args...>::connect(const T & object, void (T::*method)(Args... args) const)
 			{
 				return this->connect([object, method](Args... args) { (object.*method)(std::forward<Args>(args)...); });
-			}
-
-			template <class... Args>
-			template <class T>
-			Connection<Args...> SignalImplementation<Args...>::connect(const std::weak_ptr<T> & object, void (T::*method)(Args... args) const)
-			{
-				return this->connect([object, method](Args... args) { (object.lock()->*method)(std::forward<Args>(args)...); });
 			}
 
 			template <class... Args>

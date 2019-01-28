@@ -36,7 +36,7 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/resource/resource_manager.hpp"
 
 namespace ece

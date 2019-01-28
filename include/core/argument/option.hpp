@@ -40,11 +40,8 @@
 #define OPTION_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option_value.hpp"
-
-#include <string>
-#include <memory>
-#include <functional>
 
 namespace ece
 {
@@ -120,7 +117,7 @@ namespace ece
 				 * @brief Try to apply the command linked to this option.
 				 * @throw
 				 */
-				bool apply(const std::string & optionName, const std::string & optionValue = "");
+				auto apply(const std::string & optionName, const std::string & optionValue = "") -> bool;
 
 			private:
 				/**

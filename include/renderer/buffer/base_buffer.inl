@@ -42,15 +42,15 @@ namespace ece
 	{
 		namespace buffer
 		{
-			inline constexpr BaseBuffer::BaseBuffer() noexcept : _handle(NullHandle), _descriptor{}, _type(Type::ARRAY), _frequency(Frequency::STATIC) {}
+			inline constexpr BaseBuffer::BaseBuffer() noexcept : _handle(NULL_HANDLE), _descriptor{}, _type(Type::ARRAY), _frequency(Frequency::STATIC) {}
 
-			inline BaseBuffer::Type BaseBuffer::getType() const noexcept { return this->_type; }
+			inline auto BaseBuffer::getType() const noexcept { return this->_type; }
 
-			inline BaseBuffer::Frequency BaseBuffer::getFrequency() const noexcept { return this->_frequency; }
+			inline auto BaseBuffer::getFrequency() const noexcept { return this->_frequency; }
 
 			inline void BaseBuffer::setDataDescriptor(const BaseBuffer::DataDescriptor & descriptor) noexcept { this->_descriptor = descriptor; }
 
-			inline const BaseBuffer::DataDescriptor & BaseBuffer::getDataDescriptor() const noexcept { return this->_descriptor; }
+			inline const auto & BaseBuffer::getDataDescriptor() const noexcept { return this->_descriptor; }
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

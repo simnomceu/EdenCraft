@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/event/mouse.hpp"
 
 namespace ece
@@ -46,9 +47,9 @@ namespace ece
 			std::array<bool, 10> Mouse::_states;
 			IntVector2u Mouse::_position;
 
-			bool Mouse::isKeyPressed(const Button code)
+			auto Mouse::isKeyPressed(const Button code) -> bool
 			{
-				if (code == Mouse::Button::ECE_MOUSE_NONE) {
+				if (code == Mouse::Button::NONE) {
 					throw std::runtime_error("That code is not a valid key.");
 				}
 				return Mouse::_states[static_cast<unsigned int>(code)];
@@ -56,7 +57,7 @@ namespace ece
 
 			void Mouse::pressKey(const Button code, const bool state)
 			{
-				if (code == Mouse::Button::ECE_MOUSE_NONE) {
+				if (code == Mouse::Button::NONE) {
 					throw std::runtime_error("That code is not a valid key.");
 				}
 				Mouse::_states[static_cast<unsigned int>(code)] = state;

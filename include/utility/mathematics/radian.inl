@@ -36,34 +36,30 @@
 
 */
 
-#include "utility/indexing/unique_id.hpp"
-
-#include <algorithm>
-
 namespace ece
 {
     namespace utility
     {
-        namespace indexing
+        namespace mathematics
         {
-        	unsigned int UniqueID::next()
-        	{
-        		// TODO: to replace by emplace_back ?
-        		int id = this->back();
-        		this->pop_back();
-        		if (this->empty()) {
-        			this->push_back(id + 1);
-        		}
-        		return id;
-        	}
+            template <class T>
+            inline Radian<T>::Radian(T angle) noexcept: Angle<Radian, T>(angle) {}
 
-        	void UniqueID::restack(const unsigned int value)
-        	{
-        		// TODO: to replace by emplace_back ?
-        		if (value < this->front() && std::find(this->begin(), this->end(), value) == this->end()) {
-        			this->push_back(value);
-        		}
-        	}
-        } // namespace indexing
+            template <class T>
+            inline constexpr auto Radian<T>::toDegree() const { return Radian<T>{ this->_value * T{ 180 } / static_cast<T>(M_PI) }; }
+
+            template <class T>
+            inline auto Radian<T>::normalizePi() const
+            {
+                auto result = this->normalizeTwoPi();
+                if (result > T{ M_PI }) {
+                    result -= T{ 2 * M_PI };
+                }
+                return std::move(result);
+            }
+
+            template <class T>
+            inline auto Radian<T>::normalizeTwoPi() const { return Radian<T>{ this->_value - (std::floor(this->_value * 1.0f / (2 * M_PI)) * T{ 2 * M_PI }) }; }
+        } // namespace mathematics
     } // namespace utility
 } // namespace ece

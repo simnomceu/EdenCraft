@@ -41,9 +41,8 @@
 #define EXTENSION_LOADER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/indexing.hpp"
-
-#include <string>
 
 namespace ece
 {
@@ -69,7 +68,7 @@ namespace ece
 			 * @throw
 			 */
 			template <class T>
-			inline T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
+			inline auto loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
 
 			/**
 			 * @fn Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
@@ -79,7 +78,7 @@ namespace ece
 			 * @brief Initialize the OpenGL extensions loader.
 			 * @throw
 			 */
-			Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
+			auto initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL) -> Version<2>;
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece

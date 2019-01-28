@@ -45,9 +45,9 @@ namespace ece
 		namespace material
 		{
 				template <class T, typename enabled>
-				bool Material::isValid() const
+				auto Material::isValid() const
 				{
-					T t;
+					auto t = T();
 					t.setMaterial(*this);
 					return t.isValid();
 				}

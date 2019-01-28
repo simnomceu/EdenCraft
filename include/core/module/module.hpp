@@ -39,6 +39,8 @@
 #ifndef MODULE_HPP
 #define MODULE_HPP
 
+#include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/module/base_module.hpp"
 #include "core/module/module_method.hpp"
 
@@ -117,7 +119,7 @@ namespace ece
 				 * @brief Get the object referenced.
 				 * @throw
 				 */
-				inline T & get();
+				inline auto & get();
 
 				/**
 				 * @fn void init()

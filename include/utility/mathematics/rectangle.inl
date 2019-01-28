@@ -43,38 +43,38 @@ namespace ece
         namespace mathematics
         {
         	template<typename T>
-        	inline constexpr Rectangle<T>::Rectangle() noexcept : _x(0), _y(0), _w(0), _h(0) {}
+        	inline constexpr Rectangle<T>::Rectangle() noexcept : x(0), y(0), width(0), height(0) {}
 
         	template<typename T>
-        	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : _x(x), _y(y), _w(w), _h(h) {}
+        	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : x(x), y(y), width(w), height(h) {}
 
 			template <typename T>
-			inline bool Rectangle<T>::operator==(const Rectangle<T> & rhs) const noexcept { return this->_x == rhs._x && this->_y == rhs._y && this->_w == rhs._w && this->_h == rhs._h; }
+			inline auto Rectangle<T>::operator==(const Rectangle<T> & rhs) const noexcept { return this->x == rhs.x && this->y == rhs.y && this->width == rhs.width && this->height == rhs.height; }
 
 			template <typename T>
-			inline bool Rectangle<T>::operator!=(const Rectangle<T> & rhs) const noexcept { return !this->operator==(rhs); }
+			inline auto Rectangle<T>::operator!=(const Rectangle<T> & rhs) const noexcept { return !this->operator==(rhs); }
 
 			template <typename T>
-			inline Rectangle<T> Rectangle<T>::operator*(const Rectangle<T> & rhs) const noexcept { return { this->_x * rhs.getX(), this->_y * rhs.getY(), 
-																											this->_w * rhs.getWidth(), this->_h * rhs.getHeight() }; }
+			auto Rectangle<T>::contains(const Vector2u<T> & point) const noexcept
+			{
+				return point[0] >= this->x
+					&& point[0] <= this->x + this->width
+					&& point[1] >= this->y
+					&& point[1] >= this->y + this->height;
+			}
 
 			template <typename T>
-			inline Rectangle<T> Rectangle<T>::operator/(const Rectangle<T> & rhs) const noexcept { return { rhs.getX() == T(0) ? T(0) : this->_x / rhs.getX(), 
-																											rhs.getY() == T(0) ? T(0) : this->_y / rhs.getY(),
-																											rhs.getWidth() == T(0) ? T(0) : this->_w / rhs.getWidth(),
-																											rhs.getHeight() == T(0) ? T(0) : this->_h / rhs.getHeight() }; }
+			auto Rectangle<T>::intersects(const Rectangle<T> & rhs) const noexcept
+			{
+				auto intersection = Rectangle<T>{};
 
-			template<typename T>
-			inline T Rectangle<T>::getX() const noexcept { return this->_x; }
+				intersection.x = std::max(this->x, rhs.x);
+				intersection.y = std::max(this->y, rhs.y);
+				intersection.width = std::min(this->x + this->width, rhs.x + rhs.width) - intersection.x;
+				intersection.height = std::min(this->y + this->height, rhs.y + rhs.height) - intersection.y;
 
-        	template<typename T>
-        	inline T Rectangle<T>::getY() const noexcept { return this->_y; }
-
-        	template<typename T>
-        	inline T Rectangle<T>::getWidth() const noexcept { return this->_w; }
-
-        	template<typename T>
-        	inline T Rectangle<T>::getHeight() const noexcept { return this->_h; }
+				return std::move(intersection);
+			}
         } // namespace mathematics
     } // namespace utility
 } // namespace ece

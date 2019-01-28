@@ -42,7 +42,7 @@ namespace ece
     {
         namespace locale
         {
-	       inline LocaleResource & LocaleLoader::getResource() { return this->_resource; }
+	       inline auto LocaleLoader::getResource() -> LocaleResource & { return this->_resource; }
        } // namespace locale
    } // namespace utility
 } // namespace ece

@@ -40,11 +40,8 @@
 #define RENDER_QUEUE_HPP
 
 #include "graphic/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/pipeline/drawable.hpp"
-
-#include <memory>
-#include <set>
-#include <functional>
 
 namespace ece
 {
@@ -117,10 +114,10 @@ namespace ece
 
 				void sort(const SortAlgorithm & algorithm);
 
-				inline Iterator begin() noexcept;
-				inline ConstIterator begin() const noexcept;
-				inline Iterator end() noexcept;
-				inline ConstIterator end() const noexcept;
+				inline auto begin() noexcept;
+				inline auto begin() const noexcept;
+				inline auto end() noexcept;
+				inline auto end() const noexcept;
 
 			private:
 				std::vector<std::shared_ptr<Drawable>> _drawables;

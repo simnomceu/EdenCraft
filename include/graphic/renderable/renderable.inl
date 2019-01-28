@@ -44,9 +44,9 @@ namespace ece
 	{
 		namespace renderable
 		{
-			inline const FloatMatrix4u & Renderable::getModel() const { return this->_model; }
+			inline auto Renderable::getModel() const -> const FloatMatrix4u & { return this->_model; }
 
-			inline RenderState & Renderable::getState() { return this->_state; }
+			inline auto Renderable::getState() -> RenderState & { return this->_state; }
 
 			inline void Renderable::prepare() {}
 		} // namespace renderable

@@ -42,9 +42,8 @@
 #define BUFFER_LAYOUT_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/buffer/data_type.hpp"
-
-#include <vector>
 
 namespace ece
 {
@@ -61,16 +60,16 @@ namespace ece
             public:
                 struct ElementLayout
                 {
-                    DataType _type;
-                    std::size_t _unitSize;
-                    std::size_t _count;
-					std::size_t _offset;
-                    bool _normalized;
-					bool _ignored;
-					bool _instanced;
+                    DataType type;
+                    std::size_t unitSize;
+                    std::size_t count;
+					std::size_t offset;
+                    bool normalized;
+					bool ignored;
+					bool instanced;
                 };
 
-				enum class Strategy : unsigned short int
+				enum class Strategy : unsigned char
 				{
 					STRUCTURED,
 					CONCATENATED
@@ -81,7 +80,7 @@ namespace ece
                  * @brief Default constructor.
                  * @throw noexcept
                  */
-                inline BufferLayout(const Strategy strategy = Strategy::STRUCTURED) noexcept;
+                inline BufferLayout(const Strategy strategy = DEFAULT_STRATEGY) noexcept;
 
                 /**
                  * @fn BufferLayout(const BufferLayout & copy)
@@ -126,16 +125,16 @@ namespace ece
 
                 template <class T> void add(const std::size_t size, const bool normalized, const bool ignored, const bool instanced);
 
-                std::size_t getStride() const;
+				auto getStride() const;
 
-                inline ElementLayout & getElement(const std::size_t index);
-                inline const ElementLayout & getElement(const std::size_t index) const;
-                inline std::size_t size() const;
+                inline auto & getElement(const std::size_t index);
+                inline const auto & getElement(const std::size_t index) const;
+                inline auto size() const;
 
 				inline void setInstanceBlockSize(const std::size_t size) noexcept;
-				inline std::size_t getInstanceBlockSize() const noexcept;
+				inline auto getInstanceBlockSize() const noexcept;
 
-				inline Strategy getStrategy() const noexcept;
+				inline auto getStrategy() const noexcept;
 
             private:
                 std::vector<ElementLayout> _elements;
@@ -143,6 +142,9 @@ namespace ece
 				std::size_t _instanceBlockSize;
 				
 				Strategy _strategy;
+
+				static constexpr auto DEFAULT_INSTANCE_BLOCK_SIZE = std::size_t{ 0 };
+				static constexpr auto DEFAULT_STRATEGY = Strategy::STRUCTURED;
             };
         } // namespace buffer
     } // namespace renderer

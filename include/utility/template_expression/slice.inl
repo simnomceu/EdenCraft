@@ -59,7 +59,7 @@ namespace ece
             inline auto & Slice<Container>::cell(const unsigned int index) { return (*this)[index]; }
 
         	template<class Container>
-        	inline constexpr unsigned int Slice<Container>::size() const noexcept { return this->_size; }
+        	inline constexpr auto Slice<Container>::size() const noexcept -> unsigned int { return this->_size; }
 
         	template<class Container>
         	inline auto Slice<Container>::begin() noexcept { return this->_container->begin(); }

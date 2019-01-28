@@ -40,12 +40,8 @@
 #define FORMAT_MANAGER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "utility/file_system.hpp"
-
-#include <unordered_map>
-#include <string>
-#include <memory>
-#include <type_traits>
 
 namespace ece
 {
@@ -115,13 +111,13 @@ namespace ece
 				void registerSaver(const std::string & extension);
 
 				template <class T>
-				inline std::weak_ptr<T> getLoader(const std::string & filename);
+				inline auto getLoader(const std::string & filename);
 
 				template <class T>
-				inline std::weak_ptr<T> getSaver(const std::string & filename);
+				inline auto getSaver(const std::string & filename);
 
-				inline bool hasLoaderFor(const std::string & extension) const;
-				inline bool hasSaverFor(const std::string & extension) const;
+				inline auto hasLoaderFor(const std::string & extension) const;
+				inline auto hasSaverFor(const std::string & extension) const;
 
 			private:
 				std::unordered_map<std::string, std::shared_ptr<Loader>> _loaders;

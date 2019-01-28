@@ -38,9 +38,6 @@
 
 #include "utility/pattern/observer.hpp"
 
-#include <algorithm>
-#include <utility>
-
 namespace ece
 {
 	namespace utility

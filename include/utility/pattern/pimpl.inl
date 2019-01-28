@@ -88,13 +88,13 @@ namespace ece
 			}
 
 			template<class Impl>
-			Impl & Pimpl<Impl>::operator*() const { return *this->get(); }
+			auto Pimpl<Impl>::operator*() const { return *this->get(); }
 
         	template<class Impl>
-        	Impl * Pimpl<Impl>::operator->() const noexcept { return this->get(); }
+        	auto Pimpl<Impl>::operator->() const noexcept { return this->get(); }
 
 			template <class Impl>
-			Impl * Pimpl<Impl>::get() const noexcept { return static_cast<Impl*>(this->_impl->get()); }
+			auto Pimpl<Impl>::get() const noexcept { return static_cast<Impl*>(this->_impl->get()); }
 
 			template <class Impl>
 			Pimpl<Impl>::operator bool() const noexcept { return !!this->_impl; }
@@ -103,11 +103,11 @@ namespace ece
 			void Pimpl<Impl>::swap(Pimpl<Impl> & rhs) noexcept { std::swap(this->_impl, rhs._impl); }
 
         	template<class ImplBis, class ...Args>
-        	Pimpl<ImplBis> makePimpl(Args && ...args)
+        	auto makePimpl(Args && ...args)
 			{
-				Pimpl<ImplBis> result(emptyPimpl);
+				auto result = Pimpl<ImplBis>{emptyPimpl};
 				result._impl = new Holder<ImplBis>(std::forward<Args>(args)...);
-				return result;
+				return std::move(result);
 			}
 
 			template <class Impl>

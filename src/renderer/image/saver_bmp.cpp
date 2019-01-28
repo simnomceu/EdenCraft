@@ -36,12 +36,11 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/image/saver_bmp.hpp"
 
 #include "utility/formats/bitmap.hpp"
 #include "utility/debug.hpp"
-
-#include <fstream>
 
 namespace ece
 {
@@ -53,7 +52,7 @@ namespace ece
 
 			void SaverBMP::saveToFile(const std::string & filename)
 			{
-				std::ofstream file(filename, std::ios::binary | std::ios::out);
+				auto file = std::ofstream(filename, std::ios::binary | std::ios::out);
 				if (!file.is_open()) {
 					throw FileException(FileCodeError::BAD_PATH, filename);
 				}
@@ -63,7 +62,7 @@ namespace ece
 
 			void SaverBMP::saveToString(std::string & content)
 			{
-				std::ostringstream stream(content);
+				auto stream = std::ostringstream(content);
 				if (!stream) {
 					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
 				}
@@ -73,13 +72,13 @@ namespace ece
 
 			void SaverBMP::saveToStream(std::ostream & stream)
 			{
-				ParserBMP parser;
+				auto parser = ParserBMP{};
 
 				auto & image = parser.getPixels();
 				image.resize(this->_image.getWidth(), this->_image.getHeight());
 				auto buffer = image.data();
 
-				for (std::size_t i = 0; i < image.getWidth() * image.getHeight(); ++i) {
+				for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
 					buffer[i][0] = this->_image.data()[i].red;
 					buffer[i][1] = this->_image.data()[i].green;
 					buffer[i][2] = this->_image.data()[i].blue;

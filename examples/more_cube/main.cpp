@@ -59,40 +59,40 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
         auto & world = app.addWorld();
-        auto renderSystem = world.addSystem<RenderSystem>().lock();
+        auto renderSystem = world.addSystem<RenderSystem>();
 
 		auto & scene = renderSystem->getScene();
 		auto & camera = scene.getCamera();
 
 		Cube cube(world, 100);
 
-		auto & eventHandler = window.lock()->getEventHandler();
+ 		auto & eventHandler = window.lock()->getEventHandler();
 		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
-				std::cerr << static_cast<char>(static_cast<unsigned int>(event._key) + 34);
+			if (event.key >= ece::Keyboard::Key::A && event.key <= ece::Keyboard::Key::Z) {
+				std::cerr << static_cast<char>(static_cast<unsigned int>(event.key) + 34);
 			}
-			else if (event._key == ece::Keyboard::Key::SPACEBAR) {
+			else if (event.key == ece::Keyboard::Key::SPACEBAR) {
 				std::cerr << ' ';
 			}
-			else if (event._key == ece::Keyboard::Key::RETURN) {
+			else if (event.key == ece::Keyboard::Key::RETURN) {
 				std::cerr << '\n';
 			}
-			else if (event._key == ece::Keyboard::Key::ESCAPE) {
+			else if (event.key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
 			}
-			else if (event._key == ece::Keyboard::Key::LEFT) {
+			else if (event.key == ece::Keyboard::Key::LEFT) {
 				camera.moveIn({ -1.0f, 0.0f, 0.0f });
 				scene.updateCamera();
 			}
-			else if (event._key == ece::Keyboard::Key::RIGHT) {
+			else if (event.key == ece::Keyboard::Key::RIGHT) {
 				camera.moveIn({ 1.0f, 0.0f, 0.0f });
 				scene.updateCamera();
 			}
-			else if (event._key == ece::Keyboard::Key::UP) {
+			else if (event.key == ece::Keyboard::Key::UP) {
 				camera.moveIn({ 0.0f, 0.0f, -1.0f });
 				scene.updateCamera();
 			}
-			else if (event._key == ece::Keyboard::Key::DOWN) {
+			else if (event.key == ece::Keyboard::Key::DOWN) {
 				camera.moveIn({ 0.0f, 0.0f, 1.0f });
 				scene.updateCamera();
 			}
@@ -116,10 +116,10 @@ int main()
 
 		app.run();
 	}
-	catch (std::runtime_error & e) {
+	catch (const std::runtime_error & e) {
 		ece::ServiceLoggerLocator::getService().logError(e.what());
 	}
-	catch (std::exception & e) {
+	catch (const std::exception & e) {
 		ece::ServiceLoggerLocator::getService().logError(e.what());
 	}
 
@@ -130,9 +130,9 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 {
 	auto window = app.addWindow<ece::RenderWindow>();
 
-	ece::WindowSetting settings;
-	settings._position = ece::IntVector2u{ 10, 10 };
-	settings._title = "More cubes ...";
+	auto settings = ece::WindowSetting{};
+	settings.position = ece::IntVector2u{ 10, 10 };
+	settings.title = "More cubes ...";
 
 	auto & contextSettings = window.lock()->getContextSettings();
 	contextSettings.maxVersion = { 4, 0 };

@@ -40,10 +40,8 @@
 #define EXCEPTION_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/enumeration.hpp"
-
-#include <string>
-#include <stdexcept>
 
 namespace ece
 {
@@ -93,7 +91,7 @@ namespace ece
         		 *
         		 * Get the exception message with all the parameters binded.
         		 */
-        		inline virtual const char * what() const noexcept override;
+        		inline virtual auto what() const noexcept -> const char * override;
 
         	private:
         		/**
@@ -109,7 +107,7 @@ namespace ece
         	   	 * @brief The end step of the recursive mapping throw template binding.
         		 * @throw noexcept
         		 */
-        		inline std::string mapString(const std::string & content) noexcept;
+        		inline auto mapString(const std::string & content) noexcept;
 
         		/**
         		 * @fn std::string mapString(const std::string & content, V value, Args... args)
@@ -123,7 +121,7 @@ namespace ece
         		 * @throw noexcept
         		 */
         		template <class V, class... Args>
-        		std::string mapString(const std::string & content, V value, Args... args) noexcept;
+        		auto mapString(const std::string & content, V value, Args... args) noexcept;
         	};
 
 			enum FileCodeError : unsigned short int

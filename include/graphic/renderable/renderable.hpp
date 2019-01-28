@@ -109,13 +109,13 @@ namespace ece
 				 */
 				Renderable & operator=(Renderable && move) noexcept = default;
 
-				inline virtual const FloatMatrix4u & getModel() const override;
+				inline virtual auto getModel() const -> const FloatMatrix4u & override;
 
 				void applyTransformation(const FloatMatrix4u & transformation);
 
-                bool isInstancingEnabled() const;
+                auto isInstancingEnabled() const -> bool;
 
-				inline virtual RenderState & getState() override;
+				inline virtual auto getState() -> RenderState & override;
 
 				inline virtual void prepare();
 

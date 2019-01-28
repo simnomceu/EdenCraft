@@ -40,11 +40,7 @@
 #define RESOURCE_MANAGER_HPP
 
 #include "core/config.hpp"
-
-#include <map>
-#include <string>
-#include <memory>
-#include <typeindex>
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -123,7 +119,7 @@ namespace ece
 				 * @throw
 				 */
 				template <class Resource>
-				ResourceHandler<Resource> getResource(const std::string & identifier);
+				auto getResource(const std::string & identifier);
 
 				/**
 				 * @fn void clear()

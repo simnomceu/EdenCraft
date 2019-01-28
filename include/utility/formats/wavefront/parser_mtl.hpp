@@ -40,10 +40,9 @@
 #define PARSER_MTL_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/formats/wavefront/material_mtl.hpp"
 #include "utility/string.hpp"
-
-#include <vector>
 
 namespace ece
 {
@@ -124,15 +123,15 @@ namespace ece
 					*/
 					void save(std::ostream & stream);
 
-					inline std::vector<MaterialMTL> & getMaterials();
-					inline const std::vector<MaterialMTL> & getMaterials() const;
+					inline auto & getMaterials();
+					inline auto getMaterials() const;
 
 				private:
 					std::vector<MaterialMTL> _materials;
 					std::vector<MaterialMTL>::iterator _currentMaterial;
 
 					void processLine(StringStream & line);
-					std::vector<MaterialMTL>::iterator addMaterial(const std::string & name);
+					auto addMaterial(const std::string & name) -> std::vector<MaterialMTL>::iterator;
 				};
 			} // namespace wavefront
 		} // namespace formats

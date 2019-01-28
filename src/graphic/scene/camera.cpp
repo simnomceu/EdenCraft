@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/scene/camera.hpp"
 
 #include "utility/debug.hpp"
@@ -54,7 +55,7 @@ namespace ece
 				this->_position = position;
 				this->_target = target;
 
-				FloatVector3u direction = target - position;
+				auto direction = FloatVector3u{ target - position };
 				direction = direction.normalize();
 				if (direction == this->_upAxis) {
 					if (direction == UP) {

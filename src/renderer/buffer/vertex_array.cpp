@@ -36,9 +36,11 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/buffer/vertex_array.hpp"
 
 #include "renderer/buffer/base_buffer.hpp"
+#include "renderer/buffer/buffer_layout.hpp"
 
 namespace ece
 {
@@ -50,17 +52,17 @@ namespace ece
 			{
 				this->bind();
 				buffer.bind();
-				for (size_t i = 0; i < layout.size(); ++i) {
+				for (auto i = size_t{ 0 }; i < layout.size(); ++i) {
 					auto & elementLayout = layout.getElement(i);
-					if (!elementLayout._ignored) {
+					if (!elementLayout.ignored) {
 						auto location = this->addAttribute();
 						OpenGL::vertexAttribPointer(location,
-													elementLayout._count,
-													getDataType(elementLayout._type),
-													elementLayout._normalized,
+													elementLayout.count,
+													getDataType(elementLayout.type),
+													elementLayout.normalized,
 													layout.getStride(),
-													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout._offset : buffer.size() / layout.size());
-						if (elementLayout._instanced) {
+													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout.offset : buffer.size() / layout.size());
+						if (elementLayout.instanced) {
 							OpenGL::vertexAttribDivisor(location, layout.getInstanceBlockSize());
 						}
 					}
@@ -75,7 +77,7 @@ namespace ece
 				this->_nextAttributeLocation = FIRST_LOCATION;
 			}
 
-			VertexArray::AttributeLocation VertexArray::addAttribute()
+			auto VertexArray::addAttribute() -> VertexArray::AttributeLocation
 			{
 				const auto maxVertexAttribs = OpenGL::getInteger(Parameter::MAX_VERTEX_ATTRIBS)[0];
 				if (this->_nextAttributeLocation >= maxVertexAttribs) {

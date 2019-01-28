@@ -40,10 +40,9 @@
 #define BUFFER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/buffer/base_buffer.hpp"
 #include "renderer/buffer/is_buffer_storage.hpp"
-
-#include <memory>
 
 namespace ece
 {
@@ -97,7 +96,7 @@ namespace ece
 				 */
 				Buffer<Storage, Data, enabled> & operator=(Buffer<Storage, Data, enabled> && move) noexcept;
 
-				inline data_type read() const;
+				inline auto read() const;
 
 				inline void write(const data_type & data);
 
@@ -105,10 +104,10 @@ namespace ece
 
 				inline void update();
 
-				inline virtual size_type size() const noexcept override;
+				inline virtual auto size() const noexcept -> size_type override;
 
-				inline data_type & data();
-				inline const data_type & data() const;
+				inline auto data() -> data_type &;
+				inline auto data() const -> const data_type &;
 
 			protected:
 				data_storage _storage;

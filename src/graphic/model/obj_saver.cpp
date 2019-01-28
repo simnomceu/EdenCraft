@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/model/obj_saver.hpp"
 
 #include "utility/file_system.hpp"
@@ -51,31 +52,31 @@ namespace ece
 		{
 			void OBJSaver::saveToFile(const std::string & filename)
 			{
-				std::ofstream file(filename, std::ios::in);
+				auto file = std::ofstream(filename, std::ios::in);
 				if (!file.is_open()) {
 					throw FileException(FileCodeError::BAD_PATH, filename);
 				}
 
-				ParserOBJ parser;
+				auto parser = ParserOBJ();
 				this->save(filename, parser);
 				parser.save(file);
 			}
 
 			void OBJSaver::saveToString(std::string & content)
 			{
-				std::ostringstream stream(content);
+				auto stream = std::ostringstream(content);
 				if (!stream) {
 					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
 				}
 
-				ParserOBJ parser;
+				auto parser = ParserOBJ();
 				this->save("", parser);
 				parser.save(stream);
 			}
 
 			void OBJSaver::saveToStream(std::ostream & stream)
 			{
-				ParserOBJ parser;
+				auto parser = ParserOBJ();
 				this->save("", parser);
 				parser.save(stream);
 			}

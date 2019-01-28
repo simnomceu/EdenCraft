@@ -63,7 +63,7 @@ namespace ece
         	 * @return A view matrix corresponding to the camera settings.
         	 * @brief Get a view matrix of the camera settings wished.
         	 */
-        	ECE_UTILITY_API FloatMatrix4u lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis);
+        	ECE_UTILITY_API auto lookAt(const FloatVector3u & eye, const FloatVector3u & target, const FloatVector3u & upAxis) -> FloatMatrix4u;
 
         	/**
         	 * @fn FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping)
@@ -74,7 +74,7 @@ namespace ece
         	 * @return A projection matrix corresponding to the rendering frustum settings with perspective.
         	 * @brief Get a perspective projection matrix of the frustum view.
         	 */
-			ECE_UTILITY_API FloatMatrix4u perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping);
+			ECE_UTILITY_API auto perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping) -> FloatMatrix4u;
 
         	/**
         	 * @fn FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
@@ -84,13 +84,13 @@ namespace ece
         	 * @return A projection matrix corresponding to the rendering frustum settings, in an orthographic view.
         	 * @brief Get an orthographic projection matrix of the frustum view.
         	 */
-			ECE_UTILITY_API FloatMatrix4u orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
+			ECE_UTILITY_API auto orthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping) -> FloatMatrix4u;
 
-			ECE_UTILITY_API FloatMatrix4u scale(const FloatVector3u &  scale);
+			ECE_UTILITY_API auto scale(const FloatVector3u &  scale) -> FloatMatrix4u;
 
-			ECE_UTILITY_API FloatMatrix4u translate(const FloatVector3u & translation);
+			ECE_UTILITY_API auto translate(const FloatVector3u & translation) -> FloatMatrix4u;
 
-			ECE_UTILITY_API FloatMatrix4u rotate(const FloatVector3u & axis, const float angle);
+			ECE_UTILITY_API auto rotate(const FloatVector3u & axis, const float angle) -> FloatMatrix4u;
         } // namespace mathematics
     } // namespace utility
 } // namespace ece

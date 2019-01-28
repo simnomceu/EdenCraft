@@ -40,6 +40,7 @@
 #define ENTITY_HANDLER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -63,7 +64,7 @@ namespace ece
 				 */
 				constexpr EntityHandler() noexcept = delete;
 
-				inline EntityHandler(const unsigned int id, World & world) noexcept;
+				inline EntityHandler(const std::size_t id, World & world) noexcept;
 
 				/**
 				 * @fn EntityHandler(const EntityHandler & copy) noexcept
@@ -106,16 +107,19 @@ namespace ece
 				 */
 				EntityHandler & operator=(EntityHandler && move) noexcept = default;
 
-				inline unsigned int getId() const;
+				inline auto getId() const;
 
-				template <class ComponentType, class ... Args> ComponentType & addComponent(Args&&... args);
+				template <class ComponentType, class ... Args>
+				auto & addComponent(Args&&... args);
 
-				template <class ComponentType> bool HasComponent() const;
+				template <class ComponentType>
+				auto HasComponent() const;
 
-				template <class ComponentType> ComponentType & getComponent();
+				template <class ComponentType>
+				auto & getComponent();
 
 			private:
-				unsigned int _id;
+				std::size_t _id;
 
 				World & _world;
 			};

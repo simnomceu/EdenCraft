@@ -36,7 +36,7 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/opengl/context_opengl.hpp"
 
 #include "renderer/opengl.hpp"
@@ -54,11 +54,11 @@ namespace ece
 	{
 		namespace opengl
 		{
-			Version<2> ContextOpenGL::_maxVersionAvailable{ 3, 2 };
+			Version<2> ContextOpenGL::_maxVersionAvailable{ 3, 3 };
 
-			std::shared_ptr<RenderContext> ContextOpenGL::DummyContext()
+			auto ContextOpenGL::DummyContext() -> std::shared_ptr<RenderContext>
 			{
-				ContextSettings settings;
+				auto settings = ContextSettings{};
 				settings.oldContext = true;
 
 				auto dummy = std::make_shared<ContextOpenGL>();
@@ -66,7 +66,7 @@ namespace ece
 				return dummy;
 			}
 
-			Version<2> ContextOpenGL::getCurrentVersion() const
+			auto ContextOpenGL::getCurrentVersion() const -> Version<2>
 			{
 				return this->_currentVersion;
 			}
@@ -80,8 +80,8 @@ namespace ece
 
 			void ContextOpenGL::setDebugContext()
 			{
-			#ifdef ECE_DEBUG
-				int flags = OpenGL::getInteger(Parameter::CONTEXT_FLAGS)[0];
+#			ifdef ECE_DEBUG
+				auto flags = OpenGL::getInteger(Parameter::CONTEXT_FLAGS)[0];
 				if (flags && static_cast<unsigned short int>(ContextFlag::CONTEXT_FLAG_DEBUG_BIT))
 				{
 					OpenGL::enable(Capability::DEBUG_OUTPUT);
@@ -89,7 +89,7 @@ namespace ece
 					OpenGL::debugMessageCallback(glDebugOutput, nullptr);
 					OpenGL::debugMessageControl(SourceDebugMessage::DONT_CARE, TypeDebugMessage::DONT_CARE, SeverityDebugMessage::DONT_CARE, {}, true);
 				}
-			#endif
+#			endif
 			}
 
 			void ContextOpenGL::create(const ContextSettings & settings)
@@ -99,7 +99,7 @@ namespace ece
 				}
 				else {
 					if (!Renderer::isInitialized()) {
-						auto dummy = ContextOpenGL::DummyContext();
+						[[maybe_unused]] auto dummy = ContextOpenGL::DummyContext();
 						ContextOpenGL::_maxVersionAvailable = max(initLoader(settings.minVersion, settings.maxVersion), ContextOpenGL::_maxVersionAvailable);
 					}
 
@@ -110,8 +110,8 @@ namespace ece
 
 				auto version = OpenGL::getString(InfoGL::VERSION);
 				if (!version.empty()) {
-					this->_currentVersion[0] = static_cast<unsigned short int>(std::stoi(version.substr(0, 1)));
-					this->_currentVersion[1] = static_cast<unsigned short int>(std::stoi(version.substr(2, 1)));
+					this->_currentVersion[0] = std::stoi(version.substr(0, 1));
+					this->_currentVersion[1] = std::stoi(version.substr(2, 1));
 				}
 
 				if (!settings.oldContext) {

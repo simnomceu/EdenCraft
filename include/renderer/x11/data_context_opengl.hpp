@@ -64,25 +64,25 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline DataContextOpenGL() : _context() {}
+				inline DataContextOpenGL() : context() {}
 
 				/**
 				 * @property _context
 				 * @brief The OpenGL context.
 				 */
-				GLXContext _context;
+				GLXContext context;
 
 				/**
 				 * @property _display
 				 * @brief The device used.
 				 */
-				Display * _display;
+				Display * display;
 
 				/**
 				 * @property _windowHandle
 				 * @brief The window concerned.
 				 */
-				::Window _windowHandle;
+				::Window windowHandle;
 			};
 		} // namespace opengl
 	} // namespace renderer

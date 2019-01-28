@@ -41,12 +41,9 @@
 #define TEXTURE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
 #include "utility/pattern.hpp"
-
-#include <string>
-#include <vector>
-#include <cstddef>
 
 namespace ece
 {
@@ -130,7 +127,7 @@ namespace ece
 				 * @brief Get he filename which is the source of the texture.
 				 * @throw
 				 */
-				virtual const std::string & getFilename() const = 0;
+				virtual auto getFilename() const -> const std::string & = 0;
 
 				/**
 				 * @fn const std::vector<std::byte> & getData() const
@@ -138,7 +135,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				virtual const std::vector<std::byte> & getData() const = 0;
+				virtual auto getData() const -> const std::vector<std::byte> & = 0;
 
 				/**
 				 * @fn std::size_t getWidth() const
@@ -146,7 +143,7 @@ namespace ece
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				virtual std::size_t getWidth() const = 0;
+				virtual auto getWidth() const -> std::size_t = 0;
 
 				/**
 				* @fn std::size_t getHeight() const
@@ -154,7 +151,7 @@ namespace ece
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				virtual std::size_t getHeight() const = 0;
+				virtual auto getHeight() const -> std::size_t = 0;
 
 				/**
 				 * @fn TextureTypeTarget getType() const
@@ -162,7 +159,7 @@ namespace ece
 				 * @brief Get the type of texture.
 				 * @throw
 				 */
-				virtual TypeTarget getType() const = 0;
+				virtual auto getType() const -> TypeTarget = 0;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -170,7 +167,7 @@ namespace ece
 				 * @brief Get the id of the texture.
 				 * @throw
 				 */
-				virtual Handle getHandle() const = 0;
+				virtual auto getHandle() const -> Handle = 0;
 
 				/**
 				 * @fn void bind(const TextureTarget target)
@@ -191,7 +188,7 @@ namespace ece
 
 			protected:
 				void setCurrent(Target target);
-				bool isCurrent(Target target) const noexcept;
+				auto isCurrent(Target target) const noexcept -> bool;
 			};
 		} // namespace image
 	} // namespace renderer

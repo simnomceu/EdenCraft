@@ -70,7 +70,7 @@ namespace ece
         		 * @brief Build a 2d index key and set the position to (i, j).
         		 * @throw noexcept
         		 */
-        		inline Index2u(const int i, const int j) noexcept;
+        		inline Index2u(const std::size_t i, const std::size_t j) noexcept;
 
         		/**
         		 * @fn Index2u(const Index2u & copy)
@@ -120,7 +120,7 @@ namespace ece
         		 * @brief Get the 1D position considering the max length of a row.
         		 * @throw noexcept
         		 */
-        		inline int get(const int maxI) noexcept;
+        		inline std::size_t get(const std::size_t maxI) noexcept;
 
         		/**
         		 * @fn void set(const int maxI, const int index)
@@ -129,19 +129,19 @@ namespace ece
         		 * @brief Convert a 1D position to a 2D position, considering the max length of a row.
         		 * @throw A division_by_zero exception if the max length is equal to 0.
         		 */
-        		inline void set(const int maxI, const int index);
+        		inline void set(const std::size_t maxI, const std::size_t index);
 
         		/**
         		 * @property _i
         		 * @brief The i position (usually on X-axis) of the index in 2D.
         		 */
-        		unsigned int _i;
+				std::size_t _i;
 
         		/**
         		 * @property _j
         		 * @brief The j position (usually on Y-axis) of the index in 2D.
         		 */
-        		unsigned int _j;
+				std::size_t _j;
         	};
         } // namespace indexing
     } // namespace utility

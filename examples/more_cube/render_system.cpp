@@ -47,17 +47,17 @@
 RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
 {
 	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
-	//	bool determined = false;
+		[[maybe_unused]] bool determined = false;
 		try {
 			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
 			this->_scene.addObject(graphicComponent.getRenderable());
-	//		determined = true;
+			determined = true;
 		} catch (std::bad_cast &) {/* Not a Graphic Component */}
 	});
 
 	ece::RenderState states;
-	states._depthTest = true;
-	states._depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
+	states.depthTest = true;
+	states.depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
 	states.apply(true);
 
 	{
@@ -91,8 +91,7 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 	{
 		ece::Viewport viewport;
-		viewport.resetViewport(ece::Rectangle<float>(0.0f, 0.0f, 1920.0f, 1080.0f));
-		viewport.setViewportRatio(ece::Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f));
+		viewport.area = { 0.0f, 0.0f, 1920.0f, 1080.0f };
 		pipeline.setViewport(std::move(viewport));
 	}
 

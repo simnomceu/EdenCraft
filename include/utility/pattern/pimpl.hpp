@@ -39,9 +39,8 @@
 #ifndef PIMPL_HPP
 #define PIMPL_HPP
 
-#include <memory>
-#include <functional>
-
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/pattern/holdable.hpp"
 
 namespace ece
@@ -114,7 +113,7 @@ namespace ece
         		 */
         		Pimpl & operator=(Pimpl && move) noexcept;
 
-				Impl & operator*() const;
+				auto operator*() const;
 
         		/**
         		* @fn Impl * operator->()
@@ -122,9 +121,9 @@ namespace ece
         		* @brief Get the hidden implementation.
         		* @throw noexcept
         		*/
-        		Impl * operator->() const noexcept;
+        		auto operator->() const noexcept;
 
-				Impl * get() const noexcept;
+				auto get() const noexcept;
 
 				explicit operator bool() const noexcept;
 
@@ -138,7 +137,7 @@ namespace ece
         		Holdable * _impl; // opaque pointer
 
 				template <class ImplBis, class... Args>
-				friend Pimpl<ImplBis> makePimpl(Args &&... args);
+				friend auto makePimpl(Args &&... args);
         	};
 
         	/**

@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/material/material.hpp"
 
 namespace ece
@@ -46,18 +47,18 @@ namespace ece
 	{
 		namespace material
 		{
-			std::vector<std::shared_ptr<BaseUniform>> Material::getProperties()
+			auto Material::getProperties() -> std::vector<std::shared_ptr<BaseUniform>>
 			{
-				std::vector<std::shared_ptr<BaseUniform>> properties;
-				for (auto[key, value] : this->_properties) {
+				auto properties = std::vector<std::shared_ptr<BaseUniform>>{};
+				for (auto [key, value] : this->_properties) {
 					if (value->isEnabled()) {
-						properties.push_back(value->getUniform(key));
+						properties.emplace_back(value->getUniform(key));
 					}
 				}
 				return std::move(properties);
 			}
 
-			std::shared_ptr<BaseProperty> Material::getProperty(const std::string name)
+			auto Material::getProperty(const std::string name) -> std::shared_ptr<BaseProperty>
 			{
 				if (this->hasProperty(name)) {
 					return this->_properties.find(name)->second;
@@ -74,7 +75,7 @@ namespace ece
 				}
 			}
 
-			bool Material::hasProperty(const std::string name)
+			auto Material::hasProperty(const std::string name) -> bool
 			{
 				return !this->_properties.empty() && (this->_properties.find(name) != this->_properties.end());
 			}

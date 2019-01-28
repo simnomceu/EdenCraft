@@ -36,11 +36,9 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/wavefront/parser_obj.hpp"
 #include "utility/formats/wavefront/parser_mtl.hpp"
-
-#include <iostream>
-#include <string>
 
 namespace ece
 {
@@ -236,7 +234,7 @@ namespace ece
 					}
 				}
 
-				std::vector<ObjectOBJ>::iterator ParserOBJ::addObject(const std::string & name)
+				auto ParserOBJ::addObject(const std::string & name) -> std::vector<ObjectOBJ>::iterator
 				{
 					this->_objects.emplace_back(name);
 					return this->_objects.end() - 1;

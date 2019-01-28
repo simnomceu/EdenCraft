@@ -36,110 +36,90 @@
 
 */
 
-#ifndef BASE_LOGGER_HPP
-#define BASE_LOGGER_HPP
+#ifndef DEGREE_HPP
+#define DEGREE_HPP
 
 #include "utility/config.hpp"
-
-#include <string>
-#include <iostream>
+#include "utility/mathematics/angle.hpp"
 
 namespace ece
 {
     namespace utility
     {
-        namespace log
+        namespace mathematics
         {
+            template <class T> class Radian;
+
         	/**
-        	 * @class BaseLogger
-        	 * @brief Empty base of the logger service.
+        	 * @class Degree
+        	 * @tparam T Euler Degree accept any numeric type.
+        	 * @brief Euler Degree defines rotation of an object as X, Y, and Z axis independent rotations.
+        	 * @remark A constructor from Matrix should be added.
+        	 * @remark Add a check for templated parameter (numerical type)
         	 */
-        	class ECE_UTILITY_API BaseLogger
+        	template <class T>
+        	class ECE_UTILITY_API Degree: public Angle<Degree, T>
         	{
         	public:
         		/**
-        		 * @fn BaseLogger()
-        		 * @brief Default constructor.
-        		 * @throw
+        		 * @fn constexpr Degree() noexcept
+        		 * @brief
+        		 * @throw noexcept
         		 */
-        		inline BaseLogger();
+        		inline constexpr Degree() noexcept = default;
+
+                inline Degree(T angle) noexcept;
 
         		/**
-        		 * @fn BaseLogger(const BaseLogger & copy)
-        		 * @param[in] copy The logger to copy from.
+        		 * @fn Degree(const Degree<T> & copy) noexcept
+        		 * @param[in] copy The Euler Degree to copy from.
         		 * @brief Default copy constructor.
-        		 * @throw
+        		 * @throw noexcept
         		 */
-        		BaseLogger(const BaseLogger & copy) = default;
+        		Degree(const Degree<T> & copy) noexcept = default;
 
         		/**
-        		 * @fn BaseLogger(BaseLogger && move)
-        		 * @param[in] move The logger to move.
+        		 * @fn Degree(Degree<T> && move) noexcept
+        		 * @param[in] move The Euler Degree to move.
         		 * @brief Default move constructor.
         		 * @throw noexcept
         		 */
-        		BaseLogger(BaseLogger && move) noexcept = default;
+        		Degree(Degree<T> && move) noexcept = default;
 
         		/**
-        		 * @fn ~BaseLogger()
+        		 * @fn ~Degree()
         		 * @brief Default destructor.
         		 * @throw noexcept
         		 */
-        		~BaseLogger() noexcept = default;
+        		~Degree() noexcept = default;
 
         		/**
-        		 * @fn BaseLogger & operator=(const BaseLogger & copy)
-        		 * @param[in] copy The logger to copy from.
-        		 * @return The logger copied.
+        		 * @fn Degree<T> & operator=(const Degree<T> & copy) noexcept
+        		 * @param[in] copy The Euler Degree to copy from.
+        		 * @return The Euler Degree copied.
         		 * @brief Default copy assignment operator.
-        		 * @throw
+        		 * @throw noexcept
         		 */
-        		BaseLogger & operator=(const BaseLogger & copy) = default;
+        		Degree<T> & operator=(const Degree<T> & copy) noexcept = default;
 
         		/**
-        		 * @fn BaseLogger & operator=(BaseLogger && move)
-        		 * @param[in] move The logger to move.
-        		 * @return The logger moved.
+        		 * @fn Degree<T> & operator=(Degree<T> && move) noexcept
+        		 * @param[in] move The Euler Degree to move.
+        		 * @return The Euler Degree moved.
         		 * @brief Default move assignment operator.
         		 * @throw noexcept
         		 */
-        		BaseLogger & operator=(BaseLogger && move) noexcept = default;
+        		Degree<T> & operator=(Degree<T> && move) noexcept = default;
 
-        		/**
-        		 * @fn void logError(const std::string & data)
-        		 * @param[in] data The data to log.
-        		 * @brief Log data with the tag ERROR.
-        		 * @throw
-        		 */
-        		inline virtual void logError(const std::string & data);
+                inline constexpr auto toRadian() const;
 
-        		/**
-        		 * @fn void logWarning(const std::string & data)
-        		 * @param[in] data The data to log.
-        		 * @brief Log data with the tag WARNING.
-        		 * @throw
-        		 */
-        		inline virtual void logWarning(const std::string & data);
-
-        		/**
-        		 * @fn void logInfo(const std::string & data)
-        		 * @param[in] data The data to log.
-        		 * @brief Log data with the tag INFO.
-        		 * @throw
-        		 */
-        		inline virtual void logInfo(const std::string & data);
-
-        	protected:
-        		/**
-        		 * @property _target
-        		 * @brief The target stream to send the log.
-        		 */
-        		std::ostream & _target;
+                inline auto normalize180() const;
+                inline auto normalize360() const;
         	};
-        } // namespace log
+        } // namespace mathematics
     } // namespace utility
 } // namespace ece
 
-#include "utility/log/base_logger.inl"
+#include "utility/mathematics/degree.inl"
 
-#endif // BASE_LOGGER_HPP
+#endif // DEGREE_HPP

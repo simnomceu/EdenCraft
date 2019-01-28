@@ -44,7 +44,7 @@ namespace ece
         {
         	inline FramePerSecond::FramePerSecond(FPSrate rate) : UpdatePerSecond(rate) {}
 
-        	inline double FramePerSecond::getFPS() const noexcept { return this->getUPS(); }
+        	inline auto FramePerSecond::getFPS() const noexcept { return this->getUPS(); }
         } // namespace time
     } // namespace utility
 } // namespace ece

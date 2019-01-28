@@ -40,9 +40,8 @@
 #define HASH_HELPER_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
-
-#include <cstddef>
 
 namespace ece
 {
@@ -50,16 +49,16 @@ namespace ece
 	{
 		namespace hash
 		{
-			ECE_UTILITY_API inline std::size_t hash_combine(std::size_t lhs, std::size_t rhs);
+			ECE_UTILITY_API inline auto hash_combine(std::size_t lhs, std::size_t rhs);
 
 			template <class T>
-			ECE_UTILITY_API inline std::size_t hash(const Vector4u<T> & value);
+			ECE_UTILITY_API inline auto hash(const Vector4u<T> & value);
 
 			template <class T>
-			ECE_UTILITY_API inline std::size_t hash(const Vector3u<T> & value);
+			ECE_UTILITY_API inline auto hash(const Vector3u<T> & value);
 
 			template <class T>
-			ECE_UTILITY_API inline std::size_t hash(const Vector2u<T> & value);
+			ECE_UTILITY_API inline auto hash(const Vector2u<T> & value);
 		} // namespace hash
 	} // namespace utility
 } // namespace ece

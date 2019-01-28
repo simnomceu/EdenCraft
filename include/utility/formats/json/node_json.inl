@@ -52,9 +52,9 @@ namespace ece
 
 				inline NodeJSON::~NodeJSON() noexcept { this->_parent.reset(); }
 
-				inline std::shared_ptr<NodeJSON> NodeJSON::getParent() noexcept { return this->_parent.lock(); }
+				inline auto NodeJSON::getParent() noexcept { return this->_parent.lock(); }
 
-				inline bool NodeJSON::hasParent() const noexcept { return !this->_parent.expired(); }
+				inline auto NodeJSON::hasParent() const noexcept { return !this->_parent.expired(); }
 			} // namespace json
 		} // namespace formats
     } // namespace utility

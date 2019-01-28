@@ -1,4 +1,3 @@
-#include "adaptative_proportion.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -37,33 +36,54 @@
 
 */
 
-namespace ece
-{
-	namespace renderer
-	{
-		namespace image
-		{
-				template <class T>
-				AdaptativeProportion<T>::AdaptativeProportion(proportion_type targetResolution, proportion_type measure) noexcept : 
-					_targetResolution(std::move(targetResolution)), _measure(std::move(measure))
-				{
-				}
+#ifndef RENDERER_PCH_HPP
+#define RENDERER_PCH_HPP
 
-				template <class T>
-				inline AdaptativeProportion<T> & AdaptativeProportion<T>::operator=(proportion_type measure) noexcept { this->_measure = std::move(measure); return *this; }
+#include <memory>
+#include <algorithm>
+#include <iterator>
+#include <functional>
+#include <utility>
+#include <chrono>
+#include <ctime>
+#include <optional>
+#include <filesystem>
 
-				template <class T>
-				inline void AdaptativeProportion<T>::setTargetResolution(proportion_type targetResolution) { this->_targetResolution = std::move(targetResolution); }
+#include <cctype>
+#include <cstddef>
+#include <cassert>
+#include <stdexcept>
+#include <type_traits>
+#include <variant>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <typeindex>
+#include <numeric>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 
-				template<class T>
-				inline T AdaptativeProportion<T>::get(proportion_type currentResolution) { return this->_measure * (currentResolution / this->_targetResolution); }
+#include <iostream>
+#include <string>
+#include <string_view>
+#include <sstream>
+#include <fstream>
 
-				template<class T>
-				inline const T & AdaptativeProportion<T>::getTargetResolution() const noexcept { return this->_targetResolution; }
+#include <array>
+#include <valarray>
+#include <vector>
+#include <map>
+#include <unordered_map>
+#include <deque>
+#include <queue>
+#include <initializer_list>
+#include <bitset>
+#include <set>
 
-				template<class T>
-				inline const T & AdaptativeProportion<T>::getMeasure() const noexcept { return this->_measure; }
+#ifdef __linux__
+#include <unistd.h>
+#else
+#include <Windows.h>
+#endif
 
-		} // namespace image
-	} // namespace renderer
-} // namespace ece
+#endif // RENDERER_PCH_HPP

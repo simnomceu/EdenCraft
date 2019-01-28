@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/model/obj_loader.hpp"
 
 #include "utility/file_system.hpp"
@@ -57,12 +58,12 @@ namespace ece
 
 			void OBJLoader::loadFromFile(const std::string & filename)
 			{
-				std::ifstream file(filename, std::ios::out);
+				auto file = std::ifstream(filename, std::ios::out);
 				if (!file.is_open()) {
 					throw FileException(FileCodeError::BAD_PATH, filename);
 				}
 
-				ParserOBJ parser;
+				auto parser = ParserOBJ();
 				parser.load(file);
 
 				this->load(filename, parser);
@@ -70,12 +71,12 @@ namespace ece
 
 			void OBJLoader::loadFromString(const std::string & content)
 			{
-				std::istringstream stream(content);
+				auto stream = std::istringstream(content);
 				if (!stream) {
 					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
 				}
 
-				ParserOBJ parser;
+				auto parser = ParserOBJ();
 				parser.load(stream);
 
 				this->load("", parser);
@@ -83,7 +84,7 @@ namespace ece
 
 			void OBJLoader::loadFromStream(std::istream & stream)
 			{
-				ParserOBJ parser;
+				auto parser = ParserOBJ();
 				parser.load(stream);
 
 				this->load("", parser);
@@ -94,43 +95,43 @@ namespace ece
 				this->clear();
 				this->_meshes.resize(parser.getObjects().size());
 
-				std::string relativePath = filename.substr(0, filename.find_last_of('/') + 1);
+				auto relativePath = filename.substr(0, filename.find_last_of('/') + 1);
 
-				for (std::size_t n = 0; n < parser.getMaterials().size(); ++n) {
-					std::string materialFilename = relativePath + parser.getMaterials()[n];
-					std::ifstream materialFile(materialFilename, std::ios::out);
+				for (auto n = std::size_t{ 0 }; n < parser.getMaterials().size(); ++n) {
+					auto materialFilename = relativePath + parser.getMaterials()[n];
+					auto materialFile = std::ifstream(materialFilename, std::ios::out);
 					if (!materialFile.is_open()) {
 						throw FileException(FileCodeError::BAD_PATH, materialFilename);
 					}
 
-					ParserMTL parserMaterial;
+					auto parserMaterial = ParserMTL();
 					parserMaterial.load(materialFile);
 					auto material = parserMaterial.getMaterials()[0];
 
-					auto materialResource = makeResource<Material>(material.getName());
-					PhongMaterial materialVisitor;
+					auto materialResource = makeResource<Material>(material.name);
+					auto materialVisitor = PhongMaterial();
 					materialVisitor.setMaterial(*materialResource);
 					materialVisitor.initialize();
 
-					materialVisitor.setAmbient(material.getAmbientFactor());
-					materialVisitor.setDiffuse(material.getDiffuseFactor());
-					materialVisitor.setSpecular(material.getSpecularFactor());
-					materialVisitor.setShininess(material.getSpecularExponent());
+					materialVisitor.setAmbient(std::get<FloatVector3u>(material.ambient.value));
+					materialVisitor.setDiffuse(std::get<FloatVector3u>(material.diffuse.value));
+					materialVisitor.setSpecular(std::get<FloatVector3u>(material.specular.value));
+					materialVisitor.setShininess(material.specularExponent);
 
-					if (!material.getDiffuseMap().empty()) {
-						auto diffuseMap = makeResource<Texture2D>(material.getDiffuseMap());
+					if (!material.mapDiffuse.empty()) {
+						auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
 						if (diffuseMap->getData().empty()) {
-							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
+							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
 						}
 						diffuseMap->bind(Texture::Target::TEXTURE_2D);
 						diffuseMap->generateMipmap();
 						materialVisitor.setDiffuseMap(diffuseMap);
 					}
 
-					if (!material.getSpecularMap().empty()) {
-						auto specularMap = makeResource<Texture2D>(material.getSpecularMap());
+					if (!material.mapSpecular.empty()) {
+						auto specularMap = makeResource<Texture2D>(material.mapSpecular);
 						if (specularMap->getData().empty()) {
-							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
+							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
 						}
 						specularMap->bind(Texture::Target::TEXTURE_2D);
 						specularMap->generateMipmap();
@@ -138,25 +139,25 @@ namespace ece
 					}
 				}
 
-				for (std::size_t n = 0; n < parser.getObjects().size(); ++n) {
+				for (auto n = std::size_t{ 0 }; n < parser.getObjects().size(); ++n) {
 					auto & object = parser.getObjects()[n];
 					this->_meshes[n] = makeResource<Mesh>(object.getName());
 
 					auto & submeshes = this->_meshes[n]->getSubmeshes();
 					submeshes.resize(object.getGroups().size());
 
-					int g = 0;
+					auto g = 0;
 					for (auto & group : object.getGroups()) {
 						submeshes[g].material = makeResource<Material>(group.second.material);
 						for (auto & it : group.second.faces) {
 							auto & f = object.getFaces()[it];
 							if (object.getFaceFormat().size > 3) {
 								/* Basic triangulation, working only for full convex polygons. */
-								std::vector<unsigned int> face(object.getFaceFormat().size);
+								auto face = std::vector<unsigned int>(object.getFaceFormat().size);
 
-								int i = 0;
+								auto i = 0;
 								for (auto & fElement : f) {
-									Mesh::Vertex vertex;
+									auto vertex = Mesh::Vertex();
 
 									if (fElement._v > 0) {
 										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
@@ -184,16 +185,16 @@ namespace ece
 									++i;
 								}
 
-								for (std::size_t j = 0; j < object.getFaceFormat().size - 2; ++j) {
+								for (auto j = std::size_t{ 0 }; j < object.getFaceFormat().size - 2; ++j) {
 									submeshes[g].mesh.addFace({ face[0], face[j + 1], face[j + 2] });
 								}
 							}
 							else {
-								Submesh::Face face;
+								auto face = Submesh::Face{};
 
-								int i = 0;
+								auto i = 0;
 								for (auto & fElement : f) {
-									Mesh::Vertex vertex;
+									auto vertex = Mesh::Vertex{};
 
 									if (fElement._v > 0) {
 										vertex._position[0] = object.getVertices()[fElement._v - 1][0];

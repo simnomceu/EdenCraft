@@ -36,11 +36,10 @@
 
 */
 
+#include "core/pch.hpp"
 #include "core/ecs/world.hpp"
 
 #include "core/ecs/entity_handler.hpp"
-
-#include <algorithm>
 
 namespace ece
 {
@@ -50,27 +49,27 @@ namespace ece
 		{
 			void World::update()
 			{
-				for (auto & system : this->_systems) {
+				std::for_each(this->_systems.begin(), this->_systems.end(), [](auto & system) {
 					system.second->update();
-				}
+				});
 
-				for (auto & tank : this->_tanks) {
+				std::for_each(this->_tanks.begin(), this->_tanks.end(), [](auto & tank) {
 					tank.second->update();
-				}
+				});
 
-				this->_entities.erase(std::remove_if(this->_entities.begin(), this->_entities.end(), [](auto & lhs) { return lhs._dirty; }), this->_entities.end());
+				this->_entities.erase(std::remove_if(this->_entities.begin(), this->_entities.end(), [](auto & lhs) { return lhs.dirty; }), this->_entities.end());
 			}
 
-			EntityHandler World::createEntity()
+			auto World::createEntity() -> EntityHandler
 			{
-				World::Entity entity = { this->_entityGenerator.next(), false };
-				EntityHandler handler(entity._id, *this);
+				auto entity = World::Entity{ this->_entityGenerator.next(), false };
+				auto handler = EntityHandler(entity.id, *this);
 				this->_entities.push_back(std::move(entity));
 				this->onEntityCreated(handler);
 				return std::move(handler);
 			}
 
-			EntityHandler World::createEntity(World::Prototype prototype)
+			auto World::createEntity(World::Prototype prototype) -> EntityHandler
 			{
 				return prototype(*this);
 			}

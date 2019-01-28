@@ -61,7 +61,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it = rhs;
@@ -75,7 +75,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator+=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it += rhs;
@@ -89,7 +89,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator-=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it = -rhs;
@@ -103,7 +103,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator*=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it *= rhs;
@@ -117,7 +117,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator/=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it /= rhs;
@@ -131,7 +131,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator%=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it %= rhs;
@@ -145,7 +145,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator&=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it &= rhs;
@@ -159,7 +159,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator|=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it |= rhs;
@@ -173,7 +173,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator^=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it ^= rhs;
@@ -187,7 +187,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator<<=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it <<= rhs;
@@ -201,7 +201,7 @@ namespace ece
         	template <class T>
         	Container & Filter<Container, Size, enabled>::operator>>=(const T & rhs)
         	{
-        		int i = 0;
+        		auto i = int{0};
         		for (auto & it : this->_container) {
         			if (this->_filter[i]) {
         				it >>= rhs;

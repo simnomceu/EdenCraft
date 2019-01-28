@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace shader
 		{
-			inline const std::string & BaseUniform::getName() const noexcept { return this->_name; }
+			inline const auto & BaseUniform::getName() const noexcept { return this->_name; }
 
 			inline void BaseUniform::setName(const std::string & name) { this->_name = name; }
 		} // namespace shader

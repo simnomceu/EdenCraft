@@ -76,13 +76,13 @@ void Game::setState(const Game::State state)
 			auto sprite = ece::makeResource<ece::Sprite>("scoreA", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
-			sprite->setBounds({ 220.0f, 940.0f, bounds.getWidth() * 2.0f, bounds.getHeight() * 2.0f });
+			sprite->setBounds({ 220.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
 			this->_scoreA.handle.addComponent<GraphicComponent>(sprite);
 		}
 		{
 			auto sprite = ece::makeResource<ece::Sprite>("scoreB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
 			auto bounds = sprite->getBounds();
-			sprite->setBounds({ 1840.0f, 940.0f, bounds.getWidth() * 2.0f, bounds.getHeight() * 2.0f });
+			sprite->setBounds({ 1840.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
 			this->_scoreB.handle.addComponent<GraphicComponent>(sprite);
 		}
 

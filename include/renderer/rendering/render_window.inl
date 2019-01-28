@@ -43,7 +43,7 @@ namespace ece
 	{
 		namespace rendering
 		{
-			inline ContextSettings & RenderWindow::getContextSettings() { return this->_contextSettings; }
+			inline auto & RenderWindow::getContextSettings() { return this->_contextSettings; }
 		}// namespace rendering
 	} // namespace renderer
 } // namespace ece

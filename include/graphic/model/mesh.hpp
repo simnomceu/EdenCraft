@@ -136,7 +136,7 @@ namespace ece
 				 * @brief Get the number of vertices of the mesh.
 				 * @throw
 				 */
-				inline std::size_t size() const;
+				inline auto size() const -> std::size_t;
 
 				/**
 				 * @fn std::size_t getNumberOfFaces() const
@@ -144,7 +144,7 @@ namespace ece
 				 * @brief Get the number of faces of the mesh.
 				 * @throw
 				 */
-				inline std::size_t getNumberOfFaces() const;
+				inline auto getNumberOfFaces() const -> std::size_t;
 
 				/**
 				 * @fn Box3D getBouncingBox() const
@@ -152,23 +152,23 @@ namespace ece
 				 * @brief Get the bouncing box of the mesh.
 				 * @throw
 				 */
-				Box3D getBouncingBox() const;
+				auto getBouncingBox() const;
 
-				inline std::vector<SubmeshData> & getSubmeshes();
-				inline const std::vector<SubmeshData> & getSubmeshes() const;
+				inline auto getSubmeshes() -> std::vector<SubmeshData> &;
+				inline auto getSubmeshes() const -> const std::vector<SubmeshData> &;
 
-				std::size_t addVertex(const Mesh::Vertex & vertex);
-				std::size_t addVertex(Mesh::Vertex && vertex);
+				auto addVertex(const Mesh::Vertex & vertex) -> std::size_t;
+				auto addVertex(Mesh::Vertex && vertex) -> std::size_t;
 				void insertVertex(std::size_t position, const Mesh::Vertex & vertex);
 				void insertVertex(std::size_t position, Mesh::Vertex && vertex);
 
-				inline std::vector<Mesh::Vertex> & getVertices();
-				inline const std::vector<Mesh::Vertex> & getVertices() const;
+				inline auto getVertices() -> std::vector<Mesh::Vertex> &;
+				inline auto getVertices() const -> const std::vector<Mesh::Vertex> &;
 
 				void update();
 
-				inline VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> & getVertexBuffer();
-				BufferLayout getLayout() const;
+				inline auto getVertexBuffer() -> VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> &;
+				auto getLayout() const -> BufferLayout;
 
 			protected:
 				std::vector<SubmeshData> _submeshes;

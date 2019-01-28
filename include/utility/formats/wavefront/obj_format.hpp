@@ -40,9 +40,8 @@
 #define OBJ_FORMAT_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
-
-#include <vector>
 
 namespace ece
 {
@@ -56,7 +55,7 @@ namespace ece
 				 * @class OBJFormat
 				 * @brief
 				 */
-				class ECE_UTILITY_API OBJFormat
+				class [[deprecated]] OBJFormat
 				{
 				public:
 					struct GeometryStatement

@@ -39,8 +39,8 @@
 #ifndef FUNCTIONAL_HPP
 #define FUNCTIONAL_HPP
 
-#include <utility>
-#include <cmath>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {

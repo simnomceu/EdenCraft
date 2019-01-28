@@ -40,9 +40,8 @@
 #define BASE_BUFFER_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
-
-#include <cstddef>
 
 namespace ece
 {
@@ -135,13 +134,13 @@ namespace ece
 				void bind() const;
 				void terminate();
 
-				virtual size_type size() const noexcept = 0;
+				virtual auto size() const noexcept -> size_type = 0;
 
-				inline Type getType() const noexcept;
-				inline Frequency getFrequency() const noexcept;
+				inline auto getType() const noexcept;
+				inline auto getFrequency() const noexcept;
 
 				inline void setDataDescriptor(const DataDescriptor & descriptor) noexcept;
-				inline const DataDescriptor & getDataDescriptor() const noexcept;
+				inline const auto & getDataDescriptor() const noexcept;
 
 			protected:
 				Handle _handle;

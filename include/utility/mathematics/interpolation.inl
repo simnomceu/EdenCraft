@@ -36,19 +36,34 @@
 
 */
 
+#include <cmath>
+
 namespace ece
 {
     namespace utility
     {
-        namespace log
+        namespace mathematics
         {
-        	inline BaseLogger::BaseLogger() : _target(std::cerr) {}
+            template <class T>
+            auto lerp(const T a, const T b, float percent)
+            {
+               return T{ a + ((b - a) * percent) };
+            }
 
-        	inline void BaseLogger::logError(const std::string & /*data*/) {}
+            template <class T>
+            auto slerp(const T a, const T b, float percent)
+            {
+                const auto dot = std::clamp(a.dot(b), T{ -1 }, T{ 1 });
+                const auto theta = std::acos(dot) * percent;
+                const auto progress = (b - (a * percent)).normalize();
+                return (a * std::cos(theta)) + (progress * std::sin(theta));
+            }
 
-        	inline void BaseLogger::logWarning(const std::string & /*data*/) {}
-
-        	inline void BaseLogger::logInfo(const std::string & /*data*/) {}
-        } // namespace log
+            template <class T>
+            auto nlerp(const T a, const T b, float percent)
+            {
+                return lerp(a, b, percent).normalize();
+            }
+        } // namespace mathematics
     } // namespace utility
 } // namespace ece

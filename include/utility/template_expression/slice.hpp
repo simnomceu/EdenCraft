@@ -39,10 +39,9 @@
 #ifndef SLICE_HPP
 #define SLICE_HPP
 
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/vector.hpp"
-
-#include <iostream>
-#include <memory>
 
 namespace ece
 {
@@ -160,7 +159,7 @@ namespace ece
         		 * @brief Get he number of elements.
         		 * @throw noexcept
         		 */
-        		inline constexpr unsigned int size() const noexcept;
+        		inline constexpr auto size() const noexcept -> unsigned int;
 
         		/**
         		 * @fn auto begin() noexcept

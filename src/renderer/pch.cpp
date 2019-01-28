@@ -36,13 +36,4 @@
 
 */
 
-namespace ece
-{
-	namespace renderer
-	{
-		namespace pipeline
-		{
-
-		} // namespace pipeline
-	} // namespace renderer
-} // namespace ece
+#include "renderer/pch.hpp"
