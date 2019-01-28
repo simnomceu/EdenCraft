@@ -38,84 +38,31 @@
 
 */
 
-#include "render_system.hpp"
-
-#include "renderer/pipeline.hpp"
-#include "renderer/opengl.hpp"
-#include "renderer/shader.hpp"
-#include "graphic_component.hpp"
+#include "physic_system.hpp"
 #include "space_component.hpp"
-#include "graphic/renderable.hpp"
 
-RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
+const float PhysicSystem::gravity = 9.81f;
+
+PhysicSystem::PhysicSystem(ece::World & world) noexcept: System(world), _nodes()
 {
 	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
-	//	bool determined = false;
+		//	bool determined = false;
 		try {
-			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
-			this->_scene.addObject(graphicComponent.getRenderable(), graphicComponent.getLevel());
-	//		determined = true;
-		} catch (std::bad_cast &) {/* Not a Graphic Component */}
+			auto & spaceComponent = dynamic_cast<SpaceComponent &>(component);
+			this->_nodes.push_back(std::reference_wrapper<SpaceComponent>(spaceComponent));
+			//		determined = true;
+		}
+		catch (std::bad_cast &) {/* Not a Space Component */ }
 	});
-
-	ece::RenderState states;
-	states.depthTest = true;
-	states.depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
-	states.apply(true);
-
-	{
-		auto & camera = this->_scene.getCamera();
-		camera.getProjection().setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
-		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
-	}
-	this->_scene.updateCamera();
-
-
-	ece::RenderPipeline pipeline;
-
-	{
-		ece::ShaderStage fsSource;
-		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/sprite.frag");
-		ece::ShaderStage vsSource;
-		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/sprite.vert");
-
-		auto program = std::make_shared<ece::EnhancedShader>();
-		program->setStage(fsSource);
-		program->setStage(vsSource);
-		program->link();
-		pipeline.setProgram(program);
-	}
-
-	{
-		ece::Viewport viewport;
-		viewport.area = { 0.0f, 0.0f, 1.0f, 1.0f };
-		viewport.mode = ece::Viewport::Mode::RATIO;
-		pipeline.setViewport(std::move(viewport));
-	}
-
-	this->_process->setPipeline(std::move(pipeline));
 }
 
-void RenderSystem::update()
+void PhysicSystem::update()
 {
-	this->_scene.sortObjects();
-	auto objects = this->_scene.getObjects();
-	for (auto object : objects) {
-		this->_process->pushSprite(*object);
+	const auto dt = 0.0005f;
+	for (auto & node : this->_nodes) {
+		const auto force = ece::FloatVector2u{ 0.0f, node.get().mass * -PhysicSystem::gravity };
+		ece::FloatVector2u acceleration = force / node.get().mass;
+		node.get().velocity += acceleration * dt;
+		node.get().position += node.get().velocity * dt;
 	}
-	auto & pipeline = this->_process->getPipeline();
-	auto program = pipeline.getProgram();
-
-	ece::Staging staging;
-	staging._view = this->_scene.getCamera().getView();
-	staging._projection = this->_scene.getCamera().getProjection().getMatrix();
-
-	this->_process->clear(ece::BLACK);
-	this->_process->draw(staging);
-}
-
-ece::Scene & RenderSystem::getScene()
-{
-	return this->_scene;
 }

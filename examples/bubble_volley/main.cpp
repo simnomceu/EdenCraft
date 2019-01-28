@@ -44,6 +44,7 @@
 #include "renderer/rendering.hpp"
 #include "utility/log.hpp"
 #include "render_system.hpp"
+#include "physic_system.hpp"
 #include "assets.hpp"
 #include "game.hpp"
 #include "core/format.hpp"
@@ -60,6 +61,7 @@ int main()
 
 		auto & world = app.addWorld();
 		auto renderSystem = world.addSystem<RenderSystem>();
+		auto physicSystem = world.addSystem<PhysicSystem>();
 
 		auto & scene = renderSystem->getScene();
 		auto & camera = scene.getCamera();

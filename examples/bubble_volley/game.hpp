@@ -130,6 +130,9 @@ private:
 
 	Score _scoreA;
 	Score _scoreB;
+
+	ece::EntityHandler _playerA;
+	ece::EntityHandler _playerB;
 };
 
 #endif // GAME_HPP

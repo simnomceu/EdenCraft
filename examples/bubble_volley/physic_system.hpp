@@ -38,84 +38,74 @@
 
 */
 
-#include "render_system.hpp"
+#ifndef PHYSIC_SYSTEM_HPP
+#define PHYSIC_SYSTEM_HPP
 
-#include "renderer/pipeline.hpp"
-#include "renderer/opengl.hpp"
-#include "renderer/shader.hpp"
-#include "graphic_component.hpp"
-#include "space_component.hpp"
-#include "graphic/renderable.hpp"
+#include "core/ecs.hpp"
 
-RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
+class SpaceComponent;
+
+/**
+ * @class PhysicSystem
+ * @brief
+ */
+class PhysicSystem : public ece::System
 {
-	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
-	//	bool determined = false;
-		try {
-			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
-			this->_scene.addObject(graphicComponent.getRenderable(), graphicComponent.getLevel());
-	//		determined = true;
-		} catch (std::bad_cast &) {/* Not a Graphic Component */}
-	});
+public:
+	/**
+	 * @fn constexpr PhysicSystem() noexcept
+	 * @brief Default constructor.
+	 * @throw noexcept
+	 */
+	PhysicSystem(ece::World & world) noexcept;
 
-	ece::RenderState states;
-	states.depthTest = true;
-	states.depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
-	states.apply(true);
+	/**
+	 * @fn PhysicSystem(const PhysicSystem & copy) noexcept
+	 * @param[in] copy The PhysicSystem to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	PhysicSystem(const PhysicSystem & copy) noexcept = default;
 
-	{
-		auto & camera = this->_scene.getCamera();
-		camera.getProjection().setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
-		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
-	}
-	this->_scene.updateCamera();
+	/**
+	 * @fn PhysicSystem(PhysicSystem && move) noexcept
+	 * @param[in] move The PhysicSystem to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	PhysicSystem(PhysicSystem && move) noexcept = default;
 
+	/**
+	 * @fn ~PhysicSystem() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~PhysicSystem() noexcept = default;
 
-	ece::RenderPipeline pipeline;
+	/**
+	 * @fn PhysicSystem & operator=(const PhysicSystem & copy) noexcept
+	 * @param[in] copy The PhysicSystem to copy from.
+	 * @return The PhysicSystem copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	PhysicSystem & operator=(const PhysicSystem & copy) noexcept = default;
 
-	{
-		ece::ShaderStage fsSource;
-		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/sprite.frag");
-		ece::ShaderStage vsSource;
-		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/sprite.vert");
+	/**
+	 * @fn PhysicSystem & operator=(PhysicSystem && move) noexcept
+	 * @param[in] move The PhysicSystem to move.
+	 * @return The PhysicSystem moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	PhysicSystem & operator=(PhysicSystem && move) noexcept = default;
 
-		auto program = std::make_shared<ece::EnhancedShader>();
-		program->setStage(fsSource);
-		program->setStage(vsSource);
-		program->link();
-		pipeline.setProgram(program);
-	}
+	virtual void update() override;
 
-	{
-		ece::Viewport viewport;
-		viewport.area = { 0.0f, 0.0f, 1.0f, 1.0f };
-		viewport.mode = ece::Viewport::Mode::RATIO;
-		pipeline.setViewport(std::move(viewport));
-	}
+private:
+	std::vector<std::reference_wrapper<SpaceComponent>> _nodes;
 
-	this->_process->setPipeline(std::move(pipeline));
-}
+	static const float gravity;
+};
 
-void RenderSystem::update()
-{
-	this->_scene.sortObjects();
-	auto objects = this->_scene.getObjects();
-	for (auto object : objects) {
-		this->_process->pushSprite(*object);
-	}
-	auto & pipeline = this->_process->getPipeline();
-	auto program = pipeline.getProgram();
-
-	ece::Staging staging;
-	staging._view = this->_scene.getCamera().getView();
-	staging._projection = this->_scene.getCamera().getProjection().getMatrix();
-
-	this->_process->clear(ece::BLACK);
-	this->_process->draw(staging);
-}
-
-ece::Scene & RenderSystem::getScene()
-{
-	return this->_scene;
-}
+#endif // PHYSIC_SYSTEM_HPP

@@ -38,84 +38,70 @@
 
 */
 
-#include "render_system.hpp"
+#ifndef SPACE_COMPONENT_HPP
+#define SPACE_COMPONENT_HPP
 
-#include "renderer/pipeline.hpp"
-#include "renderer/opengl.hpp"
-#include "renderer/shader.hpp"
-#include "graphic_component.hpp"
-#include "space_component.hpp"
-#include "graphic/renderable.hpp"
+#include "core/ecs.hpp"
+#include "utility/mathematics.hpp"
 
-RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
+/**
+	 * @class SpaceComponent
+	 * @brief
+	 */
+class SpaceComponent : public ece::Component<SpaceComponent>
 {
-	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
-	//	bool determined = false;
-		try {
-			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
-			this->_scene.addObject(graphicComponent.getRenderable(), graphicComponent.getLevel());
-	//		determined = true;
-		} catch (std::bad_cast &) {/* Not a Graphic Component */}
-	});
+public:
+	/**
+	 * @fn constexpr SpaceComponent() noexcept
+	 * @brief Default constructor.
+	 * @throw noexcept
+	 */
+	SpaceComponent() = default;
 
-	ece::RenderState states;
-	states.depthTest = true;
-	states.depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
-	states.apply(true);
+	/**
+	 * @fn SpaceComponent(const SpaceComponent & copy) noexcept
+	 * @param[in] copy The SpaceComponent to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	SpaceComponent(const SpaceComponent & copy) noexcept = default;
 
-	{
-		auto & camera = this->_scene.getCamera();
-		camera.getProjection().setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
-		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
-		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
-	}
-	this->_scene.updateCamera();
+	/**
+	 * @fn SpaceComponent(SpaceComponent && move) noexcept
+	 * @param[in] move The SpaceComponent to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	SpaceComponent(SpaceComponent && move) noexcept = default;
 
+	/**
+	 * @fn ~SpaceComponent() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~SpaceComponent() noexcept = default;
 
-	ece::RenderPipeline pipeline;
+	/**
+	 * @fn SpaceComponent & operator=(const SpaceComponent & copy) noexcept
+	 * @param[in] copy The SpaceComponent to copy from.
+	 * @return The SpaceComponent copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	SpaceComponent & operator=(const SpaceComponent & copy) noexcept = default;
 
-	{
-		ece::ShaderStage fsSource;
-		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/sprite.frag");
-		ece::ShaderStage vsSource;
-		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/sprite.vert");
+	/**
+	 * @fn SpaceComponent & operator=(SpaceComponent && move) noexcept
+	 * @param[in] move The SpaceComponent to move.
+	 * @return The SpaceComponent moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	SpaceComponent & operator=(SpaceComponent && move) noexcept = default;
 
-		auto program = std::make_shared<ece::EnhancedShader>();
-		program->setStage(fsSource);
-		program->setStage(vsSource);
-		program->link();
-		pipeline.setProgram(program);
-	}
+	ece::FloatVector2u position;
+	ece::FloatVector2u velocity;
+	float mass;
+};
 
-	{
-		ece::Viewport viewport;
-		viewport.area = { 0.0f, 0.0f, 1.0f, 1.0f };
-		viewport.mode = ece::Viewport::Mode::RATIO;
-		pipeline.setViewport(std::move(viewport));
-	}
-
-	this->_process->setPipeline(std::move(pipeline));
-}
-
-void RenderSystem::update()
-{
-	this->_scene.sortObjects();
-	auto objects = this->_scene.getObjects();
-	for (auto object : objects) {
-		this->_process->pushSprite(*object);
-	}
-	auto & pipeline = this->_process->getPipeline();
-	auto program = pipeline.getProgram();
-
-	ece::Staging staging;
-	staging._view = this->_scene.getCamera().getView();
-	staging._projection = this->_scene.getCamera().getProjection().getMatrix();
-
-	this->_process->clear(ece::BLACK);
-	this->_process->draw(staging);
-}
-
-ece::Scene & RenderSystem::getScene()
-{
-	return this->_scene;
-}
+#endif // SPACE_COMPONENT_HPP

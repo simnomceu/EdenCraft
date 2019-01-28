@@ -41,9 +41,11 @@
 #include "game.hpp"
 #include "core/resource.hpp"
 #include "graphic_component.hpp"
+#include "space_component.hpp"
 
 Game::Game(ece::World & world) noexcept : 
-	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 }
+	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 }, 
+	_playerA(world.createEntity()), _playerB(world.createEntity())
 {
 	{
 		auto sprite = ece::makeResource<ece::Sprite>("background", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 240.0f, 0.0f, 1440.0f, 1080.0f });
@@ -81,9 +83,32 @@ void Game::setState(const Game::State state)
 		}
 		{
 			auto sprite = ece::makeResource<ece::Sprite>("scoreB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
+			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
 			sprite->setBounds({ 1840.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
 			this->_scoreB.handle.addComponent<GraphicComponent>(sprite);
+		}
+
+		{
+			auto & space = this->_playerA.addComponent<SpaceComponent>();
+			space.position = { 0.0f, 0.0f };
+			space.velocity = { 0.5f, 0.0f };
+			auto sprite = ece::makeResource<ece::Sprite>("playerA", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("blue0"));
+			sprite->setLevel(1);
+			auto bounds = sprite->getBounds();
+			sprite->setBounds({ space.position[0], space.position[1], bounds.width, bounds.height });
+			this->_playerA.addComponent<GraphicComponent>(sprite);
+		}
+
+		{
+			auto & space = this->_playerB.addComponent<SpaceComponent>();
+			space.position = { 1200.0f, 0.0f };
+			space.velocity = { 0.5f, 0.0f };
+			auto sprite = ece::makeResource<ece::Sprite>("playerB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("red0"));
+			sprite->setLevel(1);
+			auto bounds = sprite->getBounds();
+			sprite->setBounds({ space.position[0], space.position[1], bounds.width, bounds.height });
+			this->_playerB.addComponent<GraphicComponent>(sprite);
 		}
 
 		this->onPlayEntered();
