@@ -101,15 +101,15 @@ namespace ece
 
 						}
 						else {
-							OpenGL::drawElements(this->_mode, this->_mesh->size(), renderer::opengl::DataType::UNSIGNED_INT, 0);
+							OpenGL::drawElements(this->_mode, submesh.mesh.size(), renderer::opengl::DataType::UNSIGNED_INT, 0);
 						}
 					}
 					else {
 						if (this->isInstancingEnabled()) {
-							OpenGL::drawArraysInstanced(this->_mode, 0, this->_mesh->size(), this->_instances.size());
+							OpenGL::drawArraysInstanced(this->_mode, 0, submesh.mesh.size(), this->_instances.size());
 						}
 						else {
-							OpenGL::drawArrays(this->_mode, 0, this->_mesh->size());
+							OpenGL::drawArrays(this->_mode, 0, submesh.mesh.size());
 						}
 					}
 				}
