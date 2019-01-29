@@ -49,6 +49,7 @@ Game::Game(ece::World & world) noexcept :
 {
 	{
 		auto sprite = ece::makeResource<ece::Sprite>("background", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 240.0f, 0.0f, 1440.0f, 1080.0f });
+		sprite->setLevel(0);
 		this->_background.addComponent<GraphicComponent>(sprite);
 	}
 	this->setState(PLAY);

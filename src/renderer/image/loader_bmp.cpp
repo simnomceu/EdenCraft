@@ -83,6 +83,7 @@ namespace ece
 					this->_image.data()[i].red = buffer[i][0];
 					this->_image.data()[i].green = buffer[i][1];
 					this->_image.data()[i].blue = buffer[i][2];
+					this->_image.data()[i].alpha = std::byte{ 255 };
 				}
 			}
 		} // namespace image

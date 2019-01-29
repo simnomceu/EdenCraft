@@ -89,7 +89,7 @@ namespace ece
 			void Scene::sortObjects()
 			{
 				std::sort(this->_objects.begin(), this->_objects.end(), [](const auto & a, const auto & b) -> bool {
-					return a.level >= b.level;
+					return a.level <= b.level;
 				});
 			}
 		} // namespace scene

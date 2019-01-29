@@ -59,13 +59,16 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 	});
 
 	ece::RenderState states;
-	states.depthTest = true;
-	states.depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
+	states.depthTest = false;
+	states.blending = true;
+	states.sourceBlend = ece::RenderState::BlendingFactor::SRC_ALPHA;
+	states.destinationBlend = ece::RenderState::BlendingFactor::ONE_MINUS_SRC_ALPHA;
 	states.apply(true);
 
 	{
 		auto & camera = this->_scene.getCamera();
-		camera.getProjection().setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
+		auto targetSize = ece::Renderer::getCurrentTarget().lock()->getSize();
+		camera.getProjection().setOrthographic({ 0.0f, 0.0f, static_cast<float>(targetSize[0]), static_cast<float>(targetSize[1]) }, 0.1f, 100.0f);
 		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
 		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 	}
@@ -104,8 +107,6 @@ void RenderSystem::update()
 	for (auto object : objects) {
 		this->_process->pushSprite(*object);
 	}
-	auto & pipeline = this->_process->getPipeline();
-	auto program = pipeline.getProgram();
 
 	ece::Staging staging;
 	staging._view = this->_scene.getCamera().getView();

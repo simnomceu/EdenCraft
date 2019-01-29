@@ -43,6 +43,7 @@
 #include "renderer/config.hpp"
 #include "renderer/image/texture.hpp"
 #include "core/resource.hpp"
+#include "renderer/image/color.hpp"
 
 namespace ece
 {
@@ -116,6 +117,8 @@ namespace ece
 				 * @throw
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) override;
+
+				virtual void loadFromImage(const TypeTarget type, const Image<RGBA32> & image) override;
 
 				/**
 				 * @fn const std::string & getFilename() const

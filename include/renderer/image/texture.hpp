@@ -44,6 +44,7 @@
 #include "renderer/pch.hpp"
 #include "utility/types.hpp"
 #include "utility/pattern.hpp"
+#include "renderer/image/image.hpp"
 
 namespace ece
 {
@@ -120,6 +121,8 @@ namespace ece
 				 * @throw
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) = 0;
+
+				virtual void loadFromImage(const TypeTarget type, const Image<RGBA32> & image) = 0;
 
 				/**
 				 * @fn const std::string & getFilename() const

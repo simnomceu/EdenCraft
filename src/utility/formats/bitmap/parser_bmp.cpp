@@ -79,7 +79,7 @@ namespace ece
 					}
 					int psw = scanLineBytes + padding; // TODO: all here is not efficient at all
 
-					this->_pixels.resize(psw / 3, DIB.height);
+					this->_pixels.resize(DIB.width, DIB.height);
 					long bufPos = 0;
 					for (auto y = std::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
 						for (auto x = std::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {

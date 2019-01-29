@@ -41,28 +41,42 @@
 #include "assets.hpp"
 
 #include "core/resource.hpp"
-#include "renderer/image.hpp"
+#include "core/format.hpp"
 
 void Assets::loadTexture(const std::string & name, const std::string & path)
 {
-	auto blue0 = ece::makeResource<ece::Texture2D>(name);
-	blue0->loadFromFile(ece::Texture::TypeTarget::TEXTURE_2D, path);
-	blue0->bind(ece::Texture::Target::TEXTURE_2D);
+	auto texture = ece::makeResource<ece::Texture2D>(name);
+	texture->bind(ece::Texture::Target::TEXTURE_2D);
+	texture->loadFromFile(ece::Texture::TypeTarget::TEXTURE_2D, path);
+}
+
+void Assets::loadTexture(const std::string & name, const std::string & path, const ece::Color alpha)
+{
+	auto texture = ece::makeResource<ece::Texture2D>(name);
+
+	auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderImage>(path);
+	loader->loadFromFile(path);
+
+	auto & image = loader->getImage();
+	image.setAlphaColor(alpha, [](const ece::RGBA32 & pixel, const ece::RGBA32 & mask) { return pixel.red == mask.red && pixel.green == mask.green && pixel.blue == mask.blue; });
+
+	texture->bind(ece::Texture::Target::TEXTURE_2D);
+	texture->loadFromImage(ece::Texture::TypeTarget::TEXTURE_2D, image);
 }
 
 void Assets::loadAssets()
 {
-	Assets::loadTexture("blue0", "../../examples/bubble_volley/assets/0b.bmp");
-	Assets::loadTexture("blue1", "../../examples/bubble_volley/assets/1b.bmp");
-	Assets::loadTexture("blue2", "../../examples/bubble_volley/assets/2b.bmp");
-	Assets::loadTexture("blue3", "../../examples/bubble_volley/assets/3b.bmp");
-	Assets::loadTexture("blue4", "../../examples/bubble_volley/assets/4b.bmp");
+	Assets::loadTexture("blue0", "../../examples/bubble_volley/assets/0b.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("blue1", "../../examples/bubble_volley/assets/1b.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("blue2", "../../examples/bubble_volley/assets/2b.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("blue3", "../../examples/bubble_volley/assets/3b.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("blue4", "../../examples/bubble_volley/assets/4b.bmp", {255, 255, 255, 0});
 
-	Assets::loadTexture("red0", "../../examples/bubble_volley/assets/0r.bmp");
-	Assets::loadTexture("red1", "../../examples/bubble_volley/assets/1r.bmp");
-	Assets::loadTexture("red2", "../../examples/bubble_volley/assets/2r.bmp");
-	Assets::loadTexture("red3", "../../examples/bubble_volley/assets/3r.bmp");
-	Assets::loadTexture("red4", "../../examples/bubble_volley/assets/4r.bmp");
+	Assets::loadTexture("red0", "../../examples/bubble_volley/assets/0r.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("red1", "../../examples/bubble_volley/assets/1r.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("red2", "../../examples/bubble_volley/assets/2r.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("red3", "../../examples/bubble_volley/assets/3r.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("red4", "../../examples/bubble_volley/assets/4r.bmp", {255, 255, 255, 0});
 
 	Assets::loadTexture("ball", "../../examples/bubble_volley/assets/ball01.bmp");
 	Assets::loadTexture("key", "../../examples/bubble_volley/assets/key.bmp");
@@ -70,15 +84,15 @@ void Assets::loadAssets()
 	Assets::loadTexture("strand1", "../../examples/bubble_volley/assets/strand1.bmp");
 	Assets::loadTexture("titel", "../../examples/bubble_volley/assets/titel.bmp");
 
-	Assets::loadTexture("f0", "../../examples/bubble_volley/assets/f0.bmp");
-	Assets::loadTexture("f1", "../../examples/bubble_volley/assets/f1.bmp");
-	Assets::loadTexture("f2", "../../examples/bubble_volley/assets/f2.bmp");
-	Assets::loadTexture("f3", "../../examples/bubble_volley/assets/f3.bmp");
-	Assets::loadTexture("f4", "../../examples/bubble_volley/assets/f4.bmp");
-	Assets::loadTexture("f5", "../../examples/bubble_volley/assets/f5.bmp");
-	Assets::loadTexture("f6", "../../examples/bubble_volley/assets/f6.bmp");
-	Assets::loadTexture("f7", "../../examples/bubble_volley/assets/f7.bmp");
-	Assets::loadTexture("f8", "../../examples/bubble_volley/assets/f8.bmp");
-	Assets::loadTexture("f9", "../../examples/bubble_volley/assets/f9.bmp");
-	Assets::loadTexture("f10", "../../examples/bubble_volley/assets/f10.bmp");
+	Assets::loadTexture("f0", "../../examples/bubble_volley/assets/f0.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f1", "../../examples/bubble_volley/assets/f1.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f2", "../../examples/bubble_volley/assets/f2.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f3", "../../examples/bubble_volley/assets/f3.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f4", "../../examples/bubble_volley/assets/f4.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f5", "../../examples/bubble_volley/assets/f5.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f6", "../../examples/bubble_volley/assets/f6.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f7", "../../examples/bubble_volley/assets/f7.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f8", "../../examples/bubble_volley/assets/f8.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f9", "../../examples/bubble_volley/assets/f9.bmp", {255, 255, 255, 0});
+	Assets::loadTexture("f10", "../../examples/bubble_volley/assets/f10.bmp", { 255, 255, 255, 0 });
 }

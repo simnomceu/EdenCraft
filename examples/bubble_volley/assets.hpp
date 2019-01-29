@@ -41,7 +41,7 @@
 #ifndef ASSETS_HPP
 #define ASSETS_HPP
 
-#include <string>
+#include "renderer/image.hpp"
 
 /**
  * @class Assets
@@ -51,6 +51,7 @@ class Assets
 {
 public:
 	static void loadTexture(const std::string & name, const std::string & path);
+	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
 	static void loadAssets();
 
 private:
