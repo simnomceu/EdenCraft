@@ -77,7 +77,7 @@ namespace ece
 			}
 
 			template <class ComponentType>
-			auto World::hasComponent(const unsigned int entityID) const
+			auto World::hasComponent(const unsigned int entityID)
 			{
 				auto tank = this->getTank<ComponentType>();
 				auto it = std::find_if(tank->begin(), tank->end(), [entityID](auto & element) {return element.getOwner() == entityID; });

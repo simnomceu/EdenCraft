@@ -58,7 +58,7 @@ PhysicSystem::PhysicSystem(ece::World & world) noexcept: System(world), _nodes()
 
 void PhysicSystem::update()
 {
-	const auto dt = 0.0005f;
+	const auto dt = 0.004f;
 	for (auto & node : this->_nodes) {
 		const auto force = ece::FloatVector2u{ 0.0f, node.get().mass * -PhysicSystem::gravity };
 		ece::FloatVector2u acceleration = force / node.get().mass;

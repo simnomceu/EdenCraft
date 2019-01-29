@@ -138,7 +138,7 @@ namespace ece
 				auto createEntity(Prototype prototype) -> EntityHandler;
 
 				template <class ComponentType>
-				auto hasComponent(const unsigned int entityID) const;
+				auto hasComponent(const unsigned int entityID);
 
 				template <class ComponentType>
 				auto & getComponent(const unsigned int entityID);

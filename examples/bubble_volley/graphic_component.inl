@@ -38,10 +38,10 @@
 
 */
 
-inline GraphicComponent::GraphicComponent(const ece::Renderable::Reference & renderable): _renderable(renderable) {}
+inline GraphicComponent::GraphicComponent(const ece::Sprite::Reference & sprite): _sprite(sprite) {}
 
-inline void GraphicComponent::setRenderable(const ece::Renderable::Reference & renderable) { this->_renderable = renderable; }
+inline void GraphicComponent::setSprite(const ece::Sprite::Reference & sprite) { this->_sprite = sprite; }
 
-inline const ece::Renderable::Reference & GraphicComponent::getRenderable() const { return this->_renderable; }
+inline const ece::Sprite::Reference & GraphicComponent::getSprite() const { return this->_sprite; }
 
-inline int GraphicComponent::getLevel() { return std::dynamic_pointer_cast<ece::Sprite>(*this->_renderable)->getLevel(); }
+inline int GraphicComponent::getLevel() { return this->_sprite->getLevel(); }

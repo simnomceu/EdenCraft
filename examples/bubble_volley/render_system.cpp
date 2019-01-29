@@ -53,9 +53,9 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 	//	bool determined = false;
 		try {
 			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
-			this->_scene.addObject(graphicComponent.getRenderable(), graphicComponent.getLevel());
+			this->_scene.addObject(graphicComponent.getSprite(), graphicComponent.getLevel());
 	//		determined = true;
-		} catch (std::bad_cast &) {/* Not a Graphic Component */}
+		} catch (std::bad_cast &){/* Not a Graphic Component */}
 	});
 
 	ece::RenderState states;
@@ -102,6 +102,15 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 void RenderSystem::update()
 {
+	
+	for (auto & node : *this->_world.getTank<SpaceComponent>()) {
+		auto entity = node.getOwner();
+		if (this->_world.hasComponent<GraphicComponent>(entity)) {
+			auto sprite = this->_world.getComponent<GraphicComponent>(entity).getSprite();
+			sprite->moveTo(node.position);
+		}
+	}
+
 	this->_scene.sortObjects();
 	auto objects = this->_scene.getObjects();
 	for (auto object : objects) {

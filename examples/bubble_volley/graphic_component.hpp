@@ -57,7 +57,7 @@ public:
 	 * @brief Default constructor.
 	 * @throw
 	 */
-	inline GraphicComponent(const ece::Renderable::Reference & renderable);
+	inline GraphicComponent(const ece::Sprite::Reference & renderable);
 
 	/**
 	 * @fn GraphicComponent(const GraphicComponent & copy) noexcept
@@ -100,14 +100,14 @@ public:
 	 */
 	GraphicComponent & operator=(GraphicComponent && move) noexcept = default;
 
-	inline void setRenderable(const ece::Renderable::Reference & renderable);
+	inline void setSprite(const ece::Sprite::Reference & sprite);
 
-	inline const ece::Renderable::Reference & getRenderable() const;
+	inline const ece::Sprite::Reference & getSprite() const;
 
 	inline int getLevel();
 
 private:
-	ece::Renderable::Reference _renderable;
+	ece::Sprite::Reference _sprite;
 };
 
 #include "graphic_component.inl"
