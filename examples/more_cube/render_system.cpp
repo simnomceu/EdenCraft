@@ -98,7 +98,7 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 	this->_process->setPipeline(std::move(pipeline));
 }
 
-void RenderSystem::update()
+void RenderSystem::update(float /*elapsedTime*/)
 {
 	auto objects = this->_scene.getObjects();
 	for (auto object : objects) {

@@ -46,6 +46,7 @@
 #include "core/ecs/base_component_tank.hpp"
 #include "core/ecs/base_component.hpp"
 #include "core/signal.hpp"
+#include "utility/time.hpp"
 
 namespace ece
 {
@@ -173,6 +174,8 @@ namespace ece
 
 				template <class ComponentType>
 				void addTank();
+
+				Chrono _chrono;
 			};
 		} // namespace ecs
 	} // namespace core

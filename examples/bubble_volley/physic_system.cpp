@@ -47,19 +47,18 @@ PhysicSystem::PhysicSystem(ece::World & world) noexcept: System(world)
 {
 }
 
-void PhysicSystem::update()
+void PhysicSystem::update(float elapsedTime)
 {
 	const auto floor = 200.0f;
-	const auto dt = 0.004f;
 	const auto ratioMeter = 400.0f / 2.43f;
 	for (auto & node : *this->_world.getTank<SpaceComponent>()) {
 		const auto force = ece::FloatVector2u{ 0.0f, node.mass * -PhysicSystem::gravity };
 		ece::FloatVector2u acceleration = force / node.mass;
-		node.velocity += acceleration * dt;
+		node.velocity += acceleration * elapsedTime;
 		node.velocity[0] = std::clamp(node.velocity[0], -4.0f, 4.0f);
 		node.velocity[1] = std::clamp(node.velocity[1], -7.0f, 7.0f);
 
-		node.position += node.velocity * dt * ratioMeter;
+		node.position += node.velocity * elapsedTime * ratioMeter;
 
 		node.position[1] = std::max(node.position[1], floor);
 	}

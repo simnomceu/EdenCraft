@@ -100,7 +100,7 @@ public:
 	 */
 	RenderSystem & operator=(RenderSystem && move) noexcept = default;
 
-	virtual void update() override;
+	virtual void update(float elapsedTime) override;
 
 	ece::Scene & getScene();
 

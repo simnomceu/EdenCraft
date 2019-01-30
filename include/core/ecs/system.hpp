@@ -107,7 +107,7 @@ namespace ece
 				 */
 				System & operator=(System && move) noexcept = default;
 
-				virtual void update() = 0;
+				virtual void update(float elapsedTime) = 0;
 
 			protected:
 				World & _world;
