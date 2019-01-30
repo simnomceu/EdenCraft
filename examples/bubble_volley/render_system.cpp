@@ -100,7 +100,6 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 
 void RenderSystem::update()
 {
-	
 	for (auto & node : *this->_world.getTank<SpaceComponent>()) {
 		auto entity = node.getOwner();
 		if (this->_world.hasComponent<GraphicComponent>(entity)) {

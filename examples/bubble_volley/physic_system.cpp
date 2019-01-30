@@ -43,23 +43,21 @@
 
 const float PhysicSystem::gravity = 9.81f;
 
-PhysicSystem::PhysicSystem(ece::World & world) noexcept: System(world), _nodes()
+PhysicSystem::PhysicSystem(ece::World & world) noexcept: System(world)
 {
-	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
-		if (component.is<SpaceComponent>()) {
-			auto & spaceComponent = component.to<SpaceComponent>();
-			this->_nodes.push_back(std::reference_wrapper<SpaceComponent>(spaceComponent));
-		}
-	});
 }
 
 void PhysicSystem::update()
 {
+	const auto floor = 200.0f;
 	const auto dt = 0.004f;
-	for (auto & node : this->_nodes) {
-		const auto force = ece::FloatVector2u{ 0.0f, node.get().mass * -PhysicSystem::gravity };
-		ece::FloatVector2u acceleration = force / node.get().mass;
-		node.get().velocity += acceleration * dt;
-		node.get().position += node.get().velocity * dt;
+	const auto ratioMeter = 400.0f / 2.43f;
+	for (auto & node : *this->_world.getTank<SpaceComponent>()) {
+		const auto force = ece::FloatVector2u{ 0.0f, node.mass * -PhysicSystem::gravity };
+		ece::FloatVector2u acceleration = force / node.mass;
+		node.velocity += acceleration * dt;
+		node.position += node.velocity * dt * ratioMeter;
+
+		node.position[1] = std::max(node.position[1], floor);
 	}
 }

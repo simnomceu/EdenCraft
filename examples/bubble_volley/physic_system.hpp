@@ -103,8 +103,6 @@ public:
 	virtual void update() override;
 
 private:
-	std::vector<std::reference_wrapper<SpaceComponent>> _nodes;
-
 	static const float gravity;
 };
 

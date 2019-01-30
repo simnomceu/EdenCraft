@@ -92,25 +92,25 @@ void Game::setState(const Game::State state)
 
 		{
 			auto & space = this->_playerA.addComponent<SpaceComponent>();
-			space.position = { 0.0f, 0.0f };
+			space.position = { 10.0f, 800.0f };
 			space.velocity = { 0.0f, 0.0f };
-			space.mass = 1.0f;
+			space.mass = 70.0f;
 			auto sprite = ece::makeResource<ece::Sprite>("playerA", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("blue0"));
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
-			sprite->setBounds({ space.position[0], space.position[1], bounds.width, bounds.height });
+			sprite->moveTo(space.position);
 			this->_playerA.addComponent<GraphicComponent>(sprite);
 		}
 
 		{
 			auto & space = this->_playerB.addComponent<SpaceComponent>();
-			space.position = { 0.0f, 200.0f };
-			space.velocity = { 250.0f, 0.0f };
-			space.mass = 1.0f;
+			space.position = { 0.0f, 400.0f };
+			space.velocity = { 25.0f, 0.0f };
+			space.mass = 70.0f;
 			auto sprite = ece::makeResource<ece::Sprite>("playerB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("red0"));
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
-			sprite->setBounds({ space.position[0], space.position[1], bounds.width, bounds.height });
+			sprite->moveTo(space.position);
 			this->_playerB.addComponent<GraphicComponent>(sprite);
 		}
 

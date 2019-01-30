@@ -60,8 +60,8 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 
 		auto & world = app.addWorld();
-		auto renderSystem = world.addSystem<RenderSystem>();
 		auto physicSystem = world.addSystem<PhysicSystem>();
+		auto renderSystem = world.addSystem<RenderSystem>();
 
 		auto & scene = renderSystem->getScene();
 		auto & camera = scene.getCamera();
