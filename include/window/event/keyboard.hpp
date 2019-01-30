@@ -204,7 +204,7 @@ namespace ece
 				 * @brief Check if a key is currently pressed or not.
 				 * @throw
 				 */
-				inline static auto isKeyPressed(const Key code);
+				static auto isKeyPressed(const Key code) -> bool;
 
 				/**
 				 * @fn void pressKey(const Button code, const bool state)
@@ -213,7 +213,7 @@ namespace ece
 				 * @brief Change the state of a mouse button.
 				 * @throw
 				 */
-				inline static void pressKey(const Key code, const bool state);
+				static void pressKey(const Key code, const bool state);
 
 				static auto getKey(const unsigned int keycode) -> Keyboard::Key;
 
@@ -245,7 +245,5 @@ namespace ece
         } // namespace enumeration
     } // namespace utility
 } // namespace ece
-
-#include "window/event/keyboard.inl"
 
 #endif // KEYBOARD_HPP

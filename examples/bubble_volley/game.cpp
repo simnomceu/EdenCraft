@@ -105,7 +105,7 @@ void Game::setState(const Game::State state)
 		{
 			auto & space = this->_playerB.addComponent<SpaceComponent>();
 			space.position = { 0.0f, 400.0f };
-			space.velocity = { 25.0f, 0.0f };
+			space.velocity = { 0.0f, 0.0f };
 			space.mass = 70.0f;
 			auto sprite = ece::makeResource<ece::Sprite>("playerB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("red0"));
 			sprite->setLevel(1);
@@ -123,8 +123,39 @@ void Game::setState(const Game::State state)
 		break;
 	}
 }
-/*
-void Game::draw()
+
+void Game::apply(KeyBinding key)
 {
-	this->_background->draw();
-}*/
+	auto vertical = ((key & KeyBinding::BLUE_UP) == KeyBinding::BLUE_UP) || ((key & KeyBinding::BLUE_DOWN) == KeyBinding::BLUE_DOWN);
+	auto horizontal = ((key & KeyBinding::BLUE_LEFT) == KeyBinding::BLUE_LEFT) || ((key & KeyBinding::BLUE_DOWN) == KeyBinding::BLUE_DOWN);
+	auto factor = (vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f;
+
+	if ((key & KeyBinding::BLUE_UP) == KeyBinding::BLUE_UP) {
+		this->_playerA.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 0.0f, 10.0f * factor };
+	}
+	if ((key & KeyBinding::BLUE_LEFT) == KeyBinding::BLUE_LEFT) {
+		this->_playerA.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ -1.0f * factor, 0.0f };
+	}
+	if ((key & KeyBinding::BLUE_DOWN) == KeyBinding::BLUE_DOWN) {
+		this->_playerA.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 0.0f, -10.0f * factor };
+	}
+	if ((key & KeyBinding::BLUE_RIGHT) == KeyBinding::BLUE_RIGHT) {
+		this->_playerA.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 1.0f * factor, 0.0f };
+	}
+
+	vertical = ((key & KeyBinding::RED_UP) == KeyBinding::RED_UP) || ((key & KeyBinding::RED_DOWN) == KeyBinding::RED_DOWN);
+	horizontal = ((key & KeyBinding::RED_LEFT) == KeyBinding::RED_LEFT) || ((key & KeyBinding::RED_DOWN) == KeyBinding::RED_DOWN);
+	factor = (vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f;
+	if ((key & KeyBinding::RED_UP) == KeyBinding::RED_UP) {
+		this->_playerB.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 0.0f, 10.0f * factor };
+	}
+	if ((key & KeyBinding::RED_LEFT) == KeyBinding::RED_LEFT) {
+		this->_playerB.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ -1.0f * factor, 0.0f };
+	}
+	if ((key & KeyBinding::RED_DOWN) == KeyBinding::RED_DOWN) {
+		this->_playerB.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 0.0f, -10.0f * factor };
+	}
+	if ((key & KeyBinding::RED_RIGHT) == KeyBinding::RED_RIGHT) {
+		this->_playerB.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 1.0f * factor, 0.0f };
+	}
+}

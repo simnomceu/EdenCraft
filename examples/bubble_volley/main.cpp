@@ -63,9 +63,6 @@ int main()
 		auto physicSystem = world.addSystem<PhysicSystem>();
 		auto renderSystem = world.addSystem<RenderSystem>();
 
-		auto & scene = renderSystem->getScene();
-		auto & camera = scene.getCamera();
-
 		std::shared_ptr<Game> game = nullptr;
 
 		app.onPostInit.connect([&window, &game, &world]() {
@@ -78,35 +75,37 @@ int main()
 		});
 
 		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
-			if (event.key >= ece::Keyboard::Key::A && event.key <= ece::Keyboard::Key::Z) {
-				std::cerr << static_cast<char>(static_cast<unsigned int>(event.key) + 34);
-			}
-			else if (event.key == ece::Keyboard::Key::SPACEBAR) {
-				std::cerr << ' ';
-			}
-			else if (event.key == ece::Keyboard::Key::RETURN) {
-				std::cerr << '\n';
-			}
-			else if (event.key == ece::Keyboard::Key::ESCAPE) {
+		eventHandler.onKeyPressed.connect([&game](const ece::InputEvent & event, ece::Window & window) {
+			if (event.key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
 			}
-			else if (event.key == ece::Keyboard::Key::LEFT) {
-				camera.moveIn({ -1.0f, 0.0f, 0.0f });
-				scene.updateCamera();
+			auto flags = KeyBinding::NONE;
+			if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::Z)) {
+				flags = flags | KeyBinding::BLUE_UP;
 			}
-			else if (event.key == ece::Keyboard::Key::RIGHT) {
-				camera.moveIn({ 1.0f, 0.0f, 0.0f });
-				scene.updateCamera();
+			if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::Q)) {
+				flags = flags | KeyBinding::BLUE_LEFT;
 			}
-			else if (event.key == ece::Keyboard::Key::UP) {
-				camera.moveIn({ 0.0f, 0.0f, -1.0f });
-				scene.updateCamera();
+			if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::S)) {
+				flags = flags | KeyBinding::BLUE_DOWN;
 			}
-			else if (event.key == ece::Keyboard::Key::DOWN) {
-				camera.moveIn({ 0.0f, 0.0f, 1.0f });
-				scene.updateCamera();
+			if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::D)) {
+				flags = flags | KeyBinding::BLUE_RIGHT;
 			}
+
+			if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::UP)) {
+				flags = flags | KeyBinding::RED_UP;
+			}
+			if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::LEFT)) {
+				flags = flags | KeyBinding::RED_LEFT;
+			}
+			if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::DOWN)) {
+				flags = flags | KeyBinding::RED_DOWN;
+			}
+			if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::RIGHT)) {
+				flags = flags | KeyBinding::RED_RIGHT;
+			}
+			game->apply(flags);
 		});
 		window.lock()->onWindowClosed.connect([&app]() {
 			app.stop();
