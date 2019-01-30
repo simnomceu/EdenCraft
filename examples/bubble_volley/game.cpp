@@ -105,7 +105,7 @@ void Game::setState(const Game::State state)
 		{
 			auto & space = this->_playerB.addComponent<SpaceComponent>();
 			space.position = { 0.0f, 200.0f };
-			space.velocity = { 500.0f, 0.0f };
+			space.velocity = { 250.0f, 0.0f };
 			space.mass = 1.0f;
 			auto sprite = ece::makeResource<ece::Sprite>("playerB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("red0"));
 			sprite->setLevel(1);

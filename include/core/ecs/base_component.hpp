@@ -127,9 +127,15 @@ namespace ece
 				virtual auto getOwner() const -> std::size_t = 0;
 
 				virtual auto isDirty() const -> bool = 0;
+
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline bool is() const;
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline T & to();
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline const T & to() const;
 			};
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
+
+#include "core/ecs/base_component.inl"
 
 #endif // BASE_COMPONENT_HPP

@@ -46,13 +46,10 @@ const float PhysicSystem::gravity = 9.81f;
 PhysicSystem::PhysicSystem(ece::World & world) noexcept: System(world), _nodes()
 {
 	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
-		//	bool determined = false;
-		try {
-			auto & spaceComponent = dynamic_cast<SpaceComponent &>(component);
+		if (component.is<SpaceComponent>()) {
+			auto & spaceComponent = component.to<SpaceComponent>();
 			this->_nodes.push_back(std::reference_wrapper<SpaceComponent>(spaceComponent));
-			//		determined = true;
 		}
-		catch (std::bad_cast &) {/* Not a Space Component */ }
 	});
 }
 

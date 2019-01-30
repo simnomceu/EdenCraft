@@ -50,12 +50,10 @@
 RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
 {
 	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
-	//	bool determined = false;
-		try {
-			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
+		if (component.is<GraphicComponent>()) {
+			auto & graphicComponent = component.to<GraphicComponent>();
 			this->_scene.addObject(graphicComponent.getSprite(), graphicComponent.getLevel());
-	//		determined = true;
-		} catch (std::bad_cast &){/* Not a Graphic Component */}
+		}
 	});
 
 	ece::RenderState states;
