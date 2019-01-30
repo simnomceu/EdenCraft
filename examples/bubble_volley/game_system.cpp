@@ -38,93 +38,42 @@
 
 */
 
-#include <iostream>
-
-#include "window/common.hpp"
-#include "renderer/rendering.hpp"
-#include "utility/log.hpp"
-#include "render_system.hpp"
-#include "physic_system.hpp"
 #include "game_system.hpp"
-#include "assets.hpp"
-#include "game.hpp"
-#include "core/format.hpp"
 
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
+GameSystem::GameSystem(ece::World & world) noexcept : System(world), _game(nullptr) {}
 
-int main()
+void GameSystem::update(float /*elapsedTime*/)
 {
-	try {
-		ece::WindowedApplication app;
-		auto window = createMainWindow(app);
-
-		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
-
-		auto & world = app.addWorld();
-		auto gameSystem = world.addSystem<GameSystem>();
-		auto physicSystem = world.addSystem<PhysicSystem>();
-		auto renderSystem = world.addSystem<RenderSystem>();
-
-		app.onPostInit.connect([&window, &gameSystem]() {
-			window.lock()->setTitle("Bubble Volley");
-			window.lock()->maximize();
-
-			Assets::loadAssets();
-
-			gameSystem->initGame();
-		});
-
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event.key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
-
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
-
-		app.onPreUpdate.connect([&window, &fps]() {
-			if (fps.isReadyToUpdate()) {
-				window.lock()->setTitle("Bubble Volley - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
-			}
-		});
-
-		app.onPostUpdate.connect([&window]() {
-			window.lock()->display();
-		});
-
-		app.run();
+	auto flags = KeyBinding::NONE;
+	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::Z)) {
+		flags = flags | KeyBinding::BLUE_UP;
 	}
-	catch (std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
+	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::Q)) {
+		flags = flags | KeyBinding::BLUE_LEFT;
 	}
-	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
+	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::S)) {
+		flags = flags | KeyBinding::BLUE_DOWN;
+	}
+	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::D)) {
+		flags = flags | KeyBinding::BLUE_RIGHT;
 	}
 
-	return EXIT_SUCCESS;
+	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::UP)) {
+		flags = flags | KeyBinding::RED_UP;
+	}
+	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::LEFT)) {
+		flags = flags | KeyBinding::RED_LEFT;
+	}
+	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::DOWN)) {
+		flags = flags | KeyBinding::RED_DOWN;
+	}
+	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::RIGHT)) {
+		flags = flags | KeyBinding::RED_RIGHT;
+	}
+	this->_game->apply(flags);
 }
 
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app)
+void GameSystem::initGame()
 {
-	auto window = app.addWindow<ece::RenderWindow>();
-
-	ece::WindowSetting settings;
-	settings.title = "Bubble Volley";
-
-	auto & contextSettings = window.lock()->getContextSettings();
-	contextSettings.maxVersion = { 4, 0 };
-
-	window.lock()->open();
-	contextSettings.antialiasingSamples = 0;
-	contextSettings.maxVersion = { 4, 6 };
-	window.lock()->updateContext();
-	window.lock()->setSettings(settings);
-	window.lock()->maximize();
-	window.lock()->limitUPS(100000);
-
-	return std::move(window);
+	this->_game = std::make_shared<Game>(this->_world);
 }
