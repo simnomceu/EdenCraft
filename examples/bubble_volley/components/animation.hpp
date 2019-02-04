@@ -38,93 +38,23 @@
 
 */
 
-#include <iostream>
+#ifndef ANIMATION_HPP
+#define ANIMATION_HPP
 
-#include "window/common.hpp"
-#include "renderer/rendering.hpp"
-#include "utility/log.hpp"
-#include "systems/render.hpp"
-#include "physic_system.hpp"
-#include "game_system.hpp"
-#include "assets.hpp"
-#include "game.hpp"
-#include "core/format.hpp"
+#include "renderer/image.hpp"
 
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
-
-int main()
+class Animation
 {
-	try {
-		ece::WindowedApplication app;
-		auto window = createMainWindow(app);
+public:
+    Animation() = default;
 
-		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
+    void push(ece::Texture2D::Reference texture);
+    void next();
 
-		auto & world = app.addWorld();
-		auto gameSystem = world.addSystem<GameSystem>();
-		auto physicSystem = world.addSystem<PhysicSystem>();
-		auto renderSystem = world.addSystem<Render>();
+    ece::Texture2D::Reference getCurrent() const;
+private:
+    std::vector<ece::Texture2D::Reference> _textures;
+    std::vector<ece::Texture2D::Reference>::iterator _current;
+};
 
-		app.onPostInit.connect([&window, &gameSystem]() {
-			window.lock()->setTitle("Bubble Volley");
-			window.lock()->maximize();
-
-			Assets::loadAssets();
-
-			gameSystem->initGame();
-		});
-
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event.key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
-
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
-
-		app.onPreUpdate.connect([&window, &fps]() {
-			if (fps.isReadyToUpdate()) {
-				window.lock()->setTitle("Bubble Volley - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
-			}
-		});
-
-		app.onPostUpdate.connect([&window]() {
-			window.lock()->display();
-		});
-
-		app.run();
-	}
-	catch (std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
-	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
-	}
-
-	return EXIT_SUCCESS;
-}
-
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app)
-{
-	auto window = app.addWindow<ece::RenderWindow>();
-
-	ece::WindowSetting settings;
-	settings.title = "Bubble Volley";
-
-	auto & contextSettings = window.lock()->getContextSettings();
-	contextSettings.maxVersion = { 4, 0 };
-
-	window.lock()->open();
-	contextSettings.antialiasingSamples = 0;
-	contextSettings.maxVersion = { 4, 6 };
-	window.lock()->updateContext();
-	window.lock()->setSettings(settings);
-	window.lock()->maximize();
-	window.lock()->limitUPS(100000);
-
-	return std::move(window);
-}
+#endif // ANIMATION_HPP

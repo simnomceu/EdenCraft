@@ -40,17 +40,17 @@
 
 #include "game.hpp"
 #include "core/resource.hpp"
-#include "graphic_component.hpp"
+#include "components/graphic.hpp"
 #include "space_component.hpp"
 
-Game::Game(ece::World & world) noexcept : 
-	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 }, 
+Game::Game(ece::World & world) noexcept :
+	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 },
 	_playerA(world.createEntity()), _playerB(world.createEntity())
 {
 	{
 		auto sprite = ece::makeResource<ece::Sprite>("background", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 240.0f, 0.0f, 1440.0f, 1080.0f });
 		sprite->setLevel(0);
-		this->_background.addComponent<GraphicComponent>(sprite);
+		this->_background.addComponent<Graphic>(sprite);
 	}
 	this->setState(PLAY);
 }
@@ -80,14 +80,14 @@ void Game::setState(const Game::State state)
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
 			sprite->setBounds({ 220.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
-			this->_scoreA.handle.addComponent<GraphicComponent>(sprite);
+			this->_scoreA.handle.addComponent<Graphic>(sprite);
 		}
 		{
 			auto sprite = ece::makeResource<ece::Sprite>("scoreB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
 			sprite->setBounds({ 1840.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
-			this->_scoreB.handle.addComponent<GraphicComponent>(sprite);
+			this->_scoreB.handle.addComponent<Graphic>(sprite);
 		}
 
 		{
@@ -99,7 +99,7 @@ void Game::setState(const Game::State state)
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
 			sprite->moveTo(space.position);
-			this->_playerA.addComponent<GraphicComponent>(sprite);
+			this->_playerA.addComponent<Graphic>(sprite);
 		}
 
 		{
@@ -111,7 +111,7 @@ void Game::setState(const Game::State state)
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
 			sprite->moveTo(space.position);
-			this->_playerB.addComponent<GraphicComponent>(sprite);
+			this->_playerB.addComponent<Graphic>(sprite);
 		}
 
 		this->onPlayEntered();
