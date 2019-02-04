@@ -66,9 +66,6 @@ int main()
 		world.addSystem<Render>();
 
 		app.onPostInit.connect([&window, &gameSystem]() {
-			window.lock()->setTitle("Bubble Volley");
-			window.lock()->maximize();
-
 			Assets::loadAssets();
 
 			gameSystem->initGame();

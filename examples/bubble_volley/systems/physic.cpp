@@ -74,9 +74,27 @@ void Physic::update(float elapsedTime)
 			// Check position with collisions
 			if (this->_world.hasComponent<Collision>(owner)) {
 				auto & collision = this->_world.getComponent<Collision>(owner);
+				collision.bounds.x = motion.position[0];
+				collision.bounds.y = motion.position[1];
 				for (auto & collisionBis : *this->_world.getTank<Collision>()) {
-					if (collisionBis.getID() != collision.getID()) {
+					if (collisionBis.getOwner() != collision.getOwner()) {
 						auto intersect = collisionBis.bounds.intersects(collision.bounds);
+						if (intersect.x >= 0 && intersect.y >= 0 && intersect.width >= 0 && intersect.height >= 0) {
+							auto ownerBis = collisionBis.getOwner();
+							if (!this->_world.hasComponent<Motion>(ownerBis) || (this->_world.hasComponent<Motion>(ownerBis) && this->_world.getComponent<Motion>(ownerBis).weight > motion.weight)) {
+								motion.velocity = -motion.velocity;
+								if (intersect.x > 0 || intersect.y > 0 || intersect.width > 0 || intersect.height > 0) {
+									motion.position += motion.velocity * elapsedTime * ratioMeter;
+								}
+							}
+							else {
+								auto motionBis = this->_world.getComponent<Motion>(ownerBis);
+								motionBis.velocity = -motionBis.velocity;
+								if (intersect.x > 0 || intersect.y > 0 || intersect.width > 0 || intersect.height > 0) {
+									motionBis.position += motionBis.velocity * elapsedTime * ratioMeter;
+								}
+							}
+						}
 					}
 				}
 			}

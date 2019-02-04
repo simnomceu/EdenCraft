@@ -43,6 +43,7 @@
 #include "components/graphic.hpp"
 #include "components/motion.hpp"
 #include "components/control.hpp"
+#include "components/collision.hpp"
 
 GameData::GameData(ece::World & world) noexcept :
 	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 },
@@ -72,10 +73,16 @@ void GameData::setState(const GameData::State state)
 	}
 	case PLAY:
 	{
+		// Background entity
 		{
 			auto sprite = ece::getResource<ece::Sprite>("background");
 			sprite->setTexture(ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("strand1"));
+
+			auto & collision = this->_background.addComponent<Collision>();
+			collision.bounds = sprite->getBounds();
 		}
+
+		// Score A entity
 		{
 			auto sprite = ece::makeResource<ece::Sprite>("scoreA", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
 			sprite->setLevel(1);
@@ -83,6 +90,8 @@ void GameData::setState(const GameData::State state)
 			sprite->setBounds({ 220.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
 			this->_scoreA.handle.addComponent<Graphic>(sprite);
 		}
+
+		// Score B entity
 		{
 			auto sprite = ece::makeResource<ece::Sprite>("scoreB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
 			sprite->setLevel(1);
@@ -91,6 +100,7 @@ void GameData::setState(const GameData::State state)
 			this->_scoreB.handle.addComponent<Graphic>(sprite);
 		}
 
+		// Player A entity
 		{
 			auto & space = this->_playerA.addComponent<Motion>();
 			space.position = { 10.0f, 800.0f };
@@ -106,8 +116,12 @@ void GameData::setState(const GameData::State state)
 			control.binding[ece::Keyboard::Key::Q] = Action::TO_LEFT;
 			control.binding[ece::Keyboard::Key::S] = Action::SNEAK;
 			control.binding[ece::Keyboard::Key::D] = Action::TO_RIGHT;
+
+			auto & collision = this->_playerA.addComponent<Collision>();
+			collision.bounds = sprite->getBounds();
 		}
 
+		// Player B entity
 		{
 			auto & space = this->_playerB.addComponent<Motion>();
 			space.position = { 0.0f, 400.0f };
@@ -123,6 +137,9 @@ void GameData::setState(const GameData::State state)
 			control.binding[ece::Keyboard::Key::LEFT] = Action::TO_LEFT;
 			control.binding[ece::Keyboard::Key::DOWN] = Action::SNEAK;
 			control.binding[ece::Keyboard::Key::RIGHT] = Action::TO_RIGHT;
+
+			auto & collision = this->_playerB.addComponent<Collision>();
+			collision.bounds = sprite->getBounds();
 		}
 
 		this->onPlayEntered();

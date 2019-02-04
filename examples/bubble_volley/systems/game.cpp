@@ -53,7 +53,7 @@ void Game::update(float elapsedTime)
 	if (this->_lastUpdate >= limit) {
 		for (auto & control : *this->_world.getTank<Control>()) {
 			control.current = Action::NONE;
-			for (auto[key, value] : control.binding) {
+			for (auto [key, value] : control.binding) {
 				if (ece::Keyboard::isKeyPressed(key)) {
 					control.current = control.current | value;
 				}
