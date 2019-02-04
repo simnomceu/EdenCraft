@@ -53,7 +53,7 @@ Game::Game(ece::World & world) noexcept : System(world), _game(nullptr), _lastUp
 			}
 			else {
 				auto & ground = this->_world.getComponent<Collision>(this->_groundId);
-				this->_groundId = (collision.bounds.y > ground.bounds.y) ? this->_groundId = collision.getOwner() : this->_groundId;
+				this->_groundId = (collision.bounds.y > ground.bounds.y) ? collision.getOwner() : this->_groundId;
 			}
 		}
 	});
