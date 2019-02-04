@@ -56,6 +56,7 @@ public:
 private:
 	std::shared_ptr<GameData> _game;
 	float _lastUpdate;
+	std::size_t _groundId;
 };
 
 #endif // GAME_HPP

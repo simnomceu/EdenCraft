@@ -81,7 +81,13 @@ void Physic::update(float elapsedTime)
 						auto intersect = collisionBis.bounds.intersects(collision.bounds);
 						if (intersect.x >= 0 && intersect.y >= 0 && intersect.width >= 0 && intersect.height >= 0) {
 							auto ownerBis = collisionBis.getOwner();
-							if (!this->_world.hasComponent<Motion>(ownerBis) || (this->_world.hasComponent<Motion>(ownerBis) && this->_world.getComponent<Motion>(ownerBis).weight > motion.weight)) {
+							if (!this->_world.hasComponent<Motion>(ownerBis)) {
+								if (intersect.x > 0 || intersect.y > 0 || intersect.width > 0 || intersect.height > 0) {
+									motion.position -= motion.velocity * elapsedTime * ratioMeter;
+								}
+								motion.velocity = { 0.0f, 0.0f };
+							}
+							else if (this->_world.hasComponent<Motion>(ownerBis) && this->_world.getComponent<Motion>(ownerBis).weight > motion.weight) {
 								motion.velocity = -motion.velocity;
 								if (intersect.x > 0 || intersect.y > 0 || intersect.width > 0 || intersect.height > 0) {
 									motion.position += motion.velocity * elapsedTime * ratioMeter;

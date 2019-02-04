@@ -41,9 +41,22 @@
 #include "systems/game.hpp"
 
 #include "components/control.hpp"
+#include "components/collision.hpp"
 
-Game::Game(ece::World & world) noexcept : System(world), _game(nullptr), _lastUpdate(0.0f)
+Game::Game(ece::World & world) noexcept : System(world), _game(nullptr), _lastUpdate(0.0f), _groundId(ece::NULL_HANDLE)
 {
+	this->_world.onComponentCreated.connect([this](ece::BaseComponent & component) {
+		if (component.is<Collision>()) {
+			auto & collision = component.to<Collision>();
+			if (!this->_world.hasComponent<Collision>(this->_groundId)) {
+				this->_groundId = component.getOwner();
+			}
+			else {
+				auto & ground = this->_world.getComponent<Collision>(this->_groundId);
+				this->_groundId = (collision.bounds.y > ground.bounds.y) ? this->_groundId = collision.getOwner() : this->_groundId;
+			}
+		}
+	});
 }
 
 void Game::update(float elapsedTime)
