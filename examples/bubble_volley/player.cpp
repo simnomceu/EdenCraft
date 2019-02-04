@@ -40,8 +40,8 @@
 
 #include "player.hpp"
 
-#include "space_component.hpp"
-#include "graphic_component.hpp"
+#include "components/motion.hpp"
+#include "components/graphic.hpp"
 
 Player::Player(ece::World & world, ID id) noexcept : _handle(world.createEntity())
 {
@@ -49,9 +49,9 @@ Player::Player(ece::World & world, ID id) noexcept : _handle(world.createEntity(
 	auto sprite = ece::makeResource<ece::Sprite>("player_" + stringId, ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>(stringId + "0"));
 	sprite->setLevel(1);
 
-	auto space = this->_handle.addComponent<SpaceComponent>();
-	space.mass = 70.0f;
-	this->_handle.addComponent<GraphicComponent>(sprite);
+	auto space = this->_handle.addComponent<Motion>();
+	space.weight = 70.0f;
+	this->_handle.addComponent<Graphic>(sprite);
 }
 
 std::string Player::toString(ID id) const
@@ -65,20 +65,20 @@ std::string Player::toString(ID id) const
 
 void Player::jump(bool diagonal)
 {
-	this->_handle.getComponent<SpaceComponent>().velocity[1] += (diagonal ? 10.0f / std::sqrt(2.0f) : 10.0f);
+	this->_handle.getComponent<Motion>().velocity[1] += (diagonal ? 10.0f / std::sqrt(2.0f) : 10.0f);
 }
 
 void Player::moveToLeft(bool diagonal)
 {
-	this->_handle.getComponent<SpaceComponent>().velocity[0] -= (diagonal ? 1.0f / std::sqrt(2.0f) : 1.0f);
+	this->_handle.getComponent<Motion>().velocity[0] -= (diagonal ? 1.0f / std::sqrt(2.0f) : 1.0f);
 }
 
 void Player::moveToRight(bool diagonal)
 {
-	this->_handle.getComponent<SpaceComponent>().velocity[0] += (diagonal ? 1.0f / std::sqrt(2.0f) : 1.0f);
+	this->_handle.getComponent<Motion>().velocity[0] += (diagonal ? 1.0f / std::sqrt(2.0f) : 1.0f);
 }
 
 void Player::sneak(bool diagonal)
 {
-	this->_handle.getComponent<SpaceComponent>().velocity[1] -= (diagonal ? 10.0f / std::sqrt(2.0f) : 10.0f);
+	this->_handle.getComponent<Motion>().velocity[1] -= (diagonal ? 10.0f / std::sqrt(2.0f) : 10.0f);
 }

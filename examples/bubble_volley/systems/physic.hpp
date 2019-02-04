@@ -38,116 +38,22 @@
 
 */
 
-#ifndef GAME_HPP
-#define GAME_HPP
+#ifndef PHYSIC_HPP
+#define PHYSIC_HPP
 
-#include "core/signal.hpp"
-#include "graphic/renderable.hpp"
-#include "graphic/scene.hpp"
+#include "core/ecs.hpp"
 
-EnumFlagsT(unsigned int, KeyBinding)
-{
-	NONE =			0b00000000,
-	BLUE_UP =		0b00000001,
-	BLUE_LEFT =		0b00000010,
-	BLUE_DOWN =		0b00000100,
-	BLUE_RIGHT =	0b00001000,
-	RED_UP =		0b00010000,
-	RED_LEFT =		0b00100000,
-	RED_DOWN =		0b01000000,
-	RED_RIGHT =		0b10000000,
-};
-
-/**
- * @class Game
- * @brief
- */
-class Game
+class Physic : public ece::System
 {
 public:
-	enum State
-	{
-		NONE,
-		SPLASHSCREEN,
-		PLAY
-	};
+	Physic(ece::World & world) noexcept;
 
-	/**
-	 * @fn constexpr Game() noexcept
-	 * @brief Default constructor.
-	 * @throw noexcept
-	 */
-	Game(ece::World & world) noexcept;
-
-	/**
-	 * @fn Game(const Game & copy) noexcept
-	 * @param[in] copy The Game to copy from.
-	 * @brief Default copy constructor.
-	 * @throw noexcept
-	 */
-	Game(const Game & copy) noexcept = default;
-
-	/**
-	 * @fn Game(Game && move) noexcept
-	 * @param[in] move The Game to move.
-	 * @brief Default move constructor.
-	 * @throw noexcept
-	 */
-	Game(Game && move) noexcept = default;
-
-	/**
-	 * @fn ~Game() noexcept
-	 * @brief Default destructor.
-	 * @throw noexcept
-	 */
-	~Game() noexcept = default;
-
-	/**
-	 * @fn Game & operator=(const Game & copy) noexcept
-	 * @param[in] copy The Game to copy from.
-	 * @return The Game copied.
-	 * @brief Default copy assignment operator.
-	 * @throw noexcept
-	 */
-	Game & operator=(const Game & copy) noexcept = default;
-
-	/**
-	 * @fn Game & operator=(Game && move) noexcept
-	 * @param[in] move The Game to move.
-	 * @return The Game moved.
-	 * @brief Default move assignment operator.
-	 * @throw noexcept
-	 */
-	Game & operator=(Game && move) noexcept = default;
-
-	void setState(const Game::State state);
-
-//	void draw();
-
-	ece::Signal<> onSplashScreenEntered;
-	ece::Signal<> onPlayEntered;
-
-	void apply(KeyBinding key);
+	virtual void update(float elapsedTime) override;
 
 private:
-	struct Score
-	{
-		ece::EntityHandler handle;
-		int value;
-	};
+	float _lastUpdate;
 
-	Game::State _current;
-	
-//	ece::Scene _scene;
-
-//	ece::ResourceHandler<ece::Sprite> _background;
-	ece::EntityHandler _background;
-
-	Score _scoreA;
-	Score _scoreB;
-
-	ece::EntityHandler _playerA;
-	ece::EntityHandler _playerB;
+	static const float gravity;
 };
 
-#endif // GAME_HPP
+#endif // PHYSIC_HPP

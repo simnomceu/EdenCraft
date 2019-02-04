@@ -38,42 +38,109 @@
 
 */
 
-#include "game_system.hpp"
+#ifndef GAME_DATA_HPP
+#define GAME_DATA_HPP
 
-GameSystem::GameSystem(ece::World & world) noexcept : System(world), _game(nullptr) {}
+#include "core/signal.hpp"
+#include "graphic/renderable.hpp"
+#include "graphic/scene.hpp"
 
-void GameSystem::update(float /*elapsedTime*/)
+EnumFlagsT(unsigned int, KeyBinding)
 {
-	auto flags = KeyBinding::NONE;
-	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::Z)) {
-		flags = flags | KeyBinding::BLUE_UP;
-	}
-	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::Q)) {
-		flags = flags | KeyBinding::BLUE_LEFT;
-	}
-	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::S)) {
-		flags = flags | KeyBinding::BLUE_DOWN;
-	}
-	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::D)) {
-		flags = flags | KeyBinding::BLUE_RIGHT;
-	}
+	NONE =			0b00000000,
+	BLUE_UP =		0b00000001,
+	BLUE_LEFT =		0b00000010,
+	BLUE_DOWN =		0b00000100,
+	BLUE_RIGHT =	0b00001000,
+	RED_UP =		0b00010000,
+	RED_LEFT =		0b00100000,
+	RED_DOWN =		0b01000000,
+	RED_RIGHT =		0b10000000,
+};
 
-	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::UP)) {
-		flags = flags | KeyBinding::RED_UP;
-	}
-	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::LEFT)) {
-		flags = flags | KeyBinding::RED_LEFT;
-	}
-	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::DOWN)) {
-		flags = flags | KeyBinding::RED_DOWN;
-	}
-	if (ece::Keyboard::isKeyPressed(ece::Keyboard::Key::RIGHT)) {
-		flags = flags | KeyBinding::RED_RIGHT;
-	}
-	this->_game->apply(flags);
-}
-
-void GameSystem::initGame()
+/**
+ * @class Game
+ * @brief
+ */
+class GameData
 {
-	this->_game = std::make_shared<Game>(this->_world);
-}
+public:
+	enum State
+	{
+		NONE,
+		SPLASHSCREEN,
+		PLAY
+	};
+
+	/**
+	 * @fn constexpr Game() noexcept
+	 * @brief Default constructor.
+	 * @throw noexcept
+	 */
+	GameData(ece::World & world) noexcept;
+
+	/**
+	 * @fn Game(const Game & copy) noexcept
+	 * @param[in] copy The Game to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	GameData(const GameData & copy) noexcept = default;
+
+	/**
+	 * @fn Game(Game && move) noexcept
+	 * @param[in] move The Game to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	GameData(GameData && move) noexcept = default;
+
+	/**
+	 * @fn ~Game() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~GameData() noexcept = default;
+
+	/**
+	 * @fn Game & operator=(const Game & copy) noexcept
+	 * @param[in] copy The Game to copy from.
+	 * @return The Game copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	GameData & operator=(const GameData & copy) noexcept = default;
+
+	/**
+	 * @fn Game & operator=(Game && move) noexcept
+	 * @param[in] move The Game to move.
+	 * @return The Game moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	GameData & operator=(GameData && move) noexcept = default;
+
+	void setState(const GameData::State state);
+
+	ece::Signal<> onSplashScreenEntered;
+	ece::Signal<> onPlayEntered;
+
+private:
+	struct Score
+	{
+		ece::EntityHandler handle;
+		int value;
+	};
+
+	GameData::State _current;
+
+	ece::EntityHandler _background;
+
+	Score _scoreA;
+	Score _scoreB;
+
+	ece::EntityHandler _playerA;
+	ece::EntityHandler _playerB;
+};
+
+#endif // GAME_DATA_HPP

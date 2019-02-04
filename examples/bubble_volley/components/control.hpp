@@ -42,18 +42,21 @@
 #define CONTROL_HPP
 
 #include "window/event.hpp"
+#include "core/ecs.hpp"
 
-struct Control
+EnumFlagsT(unsigned short int, Action)
 {
-    enum class Action : unsigned short int
-    {
-        JUMP,
-        TO_LEFT,
-        TO_RIGHT,
-        SNEAK
-    }
+	NONE		= 0b0000,
+	JUMP		= 0b0001,
+	TO_LEFT		= 0b0010,
+	TO_RIGHT	= 0b0100,
+	SNEAK		= 0b1000
+};
 
-    std::unordered_map<ece::Keyboard::Key, Action> binding;
+struct Control: public ece::Component<Control>
+{
+	std::unordered_map<ece::Keyboard::Key, Action> binding;
+	Action current;
 };
 
 #endif // CONTROL_HPP

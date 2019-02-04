@@ -38,12 +38,13 @@
 
 */
 
-#include "game.hpp"
+#include "game_data.hpp"
 #include "core/resource.hpp"
 #include "components/graphic.hpp"
-#include "space_component.hpp"
+#include "components/motion.hpp"
+#include "components/control.hpp"
 
-Game::Game(ece::World & world) noexcept :
+GameData::GameData(ece::World & world) noexcept :
 	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 },
 	_playerA(world.createEntity()), _playerB(world.createEntity())
 {
@@ -55,7 +56,7 @@ Game::Game(ece::World & world) noexcept :
 	this->setState(PLAY);
 }
 
-void Game::setState(const Game::State state)
+void GameData::setState(const GameData::State state)
 {
 	this->_current = state;
 	switch (state)
@@ -91,27 +92,37 @@ void Game::setState(const Game::State state)
 		}
 
 		{
-			auto & space = this->_playerA.addComponent<SpaceComponent>();
+			auto & space = this->_playerA.addComponent<Motion>();
 			space.position = { 10.0f, 800.0f };
 			space.velocity = { 0.0f, 0.0f };
-			space.mass = 70.0f;
+			space.weight = 70.0f;
 			auto sprite = ece::makeResource<ece::Sprite>("playerA", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("blue0"));
 			sprite->setLevel(1);
-			auto bounds = sprite->getBounds();
 			sprite->moveTo(space.position);
 			this->_playerA.addComponent<Graphic>(sprite);
+
+			auto & control = this->_playerA.addComponent<Control>();
+			control.binding[ece::Keyboard::Key::Z] = Action::JUMP;
+			control.binding[ece::Keyboard::Key::Q] = Action::TO_LEFT;
+			control.binding[ece::Keyboard::Key::S] = Action::SNEAK;
+			control.binding[ece::Keyboard::Key::D] = Action::TO_RIGHT;
 		}
 
 		{
-			auto & space = this->_playerB.addComponent<SpaceComponent>();
+			auto & space = this->_playerB.addComponent<Motion>();
 			space.position = { 0.0f, 400.0f };
 			space.velocity = { 0.0f, 0.0f };
-			space.mass = 70.0f;
+			space.weight = 70.0f;
 			auto sprite = ece::makeResource<ece::Sprite>("playerB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("red0"));
 			sprite->setLevel(1);
-			auto bounds = sprite->getBounds();
 			sprite->moveTo(space.position);
 			this->_playerB.addComponent<Graphic>(sprite);
+
+			auto & control = this->_playerB.addComponent<Control>();
+			control.binding[ece::Keyboard::Key::UP] = Action::JUMP;
+			control.binding[ece::Keyboard::Key::LEFT] = Action::TO_LEFT;
+			control.binding[ece::Keyboard::Key::DOWN] = Action::SNEAK;
+			control.binding[ece::Keyboard::Key::RIGHT] = Action::TO_RIGHT;
 		}
 
 		this->onPlayEntered();
@@ -121,41 +132,5 @@ void Game::setState(const Game::State state)
 		break;
 	default:
 		break;
-	}
-}
-
-void Game::apply(KeyBinding key)
-{
-	auto vertical = ((key & KeyBinding::BLUE_UP) == KeyBinding::BLUE_UP) || ((key & KeyBinding::BLUE_DOWN) == KeyBinding::BLUE_DOWN);
-	auto horizontal = ((key & KeyBinding::BLUE_LEFT) == KeyBinding::BLUE_LEFT) || ((key & KeyBinding::BLUE_DOWN) == KeyBinding::BLUE_DOWN);
-	auto factor = (vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f;
-
-	if ((key & KeyBinding::BLUE_UP) == KeyBinding::BLUE_UP) {
-		this->_playerA.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 0.0f, 10.0f * factor };
-	}
-	if ((key & KeyBinding::BLUE_LEFT) == KeyBinding::BLUE_LEFT) {
-		this->_playerA.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ -1.0f * factor, 0.0f };
-	}
-	if ((key & KeyBinding::BLUE_DOWN) == KeyBinding::BLUE_DOWN) {
-		this->_playerA.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 0.0f, -10.0f * factor };
-	}
-	if ((key & KeyBinding::BLUE_RIGHT) == KeyBinding::BLUE_RIGHT) {
-		this->_playerA.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 1.0f * factor, 0.0f };
-	}
-
-	vertical = ((key & KeyBinding::RED_UP) == KeyBinding::RED_UP) || ((key & KeyBinding::RED_DOWN) == KeyBinding::RED_DOWN);
-	horizontal = ((key & KeyBinding::RED_LEFT) == KeyBinding::RED_LEFT) || ((key & KeyBinding::RED_DOWN) == KeyBinding::RED_DOWN);
-	factor = (vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f;
-	if ((key & KeyBinding::RED_UP) == KeyBinding::RED_UP) {
-		this->_playerB.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 0.0f, 10.0f * factor };
-	}
-	if ((key & KeyBinding::RED_LEFT) == KeyBinding::RED_LEFT) {
-		this->_playerB.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ -1.0f * factor, 0.0f };
-	}
-	if ((key & KeyBinding::RED_DOWN) == KeyBinding::RED_DOWN) {
-		this->_playerB.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 0.0f, -10.0f * factor };
-	}
-	if ((key & KeyBinding::RED_RIGHT) == KeyBinding::RED_RIGHT) {
-		this->_playerB.getComponent<SpaceComponent>().velocity += ece::FloatVector2u{ 1.0f * factor, 0.0f };
 	}
 }

@@ -41,7 +41,9 @@
 #ifndef SCORING_HPP
 #define SCORING_HPP
 
-struct Scoring
+#include "core/ecs.hpp"
+
+struct Scoring: public  ece::Component<Scoring>
 {
     int count;
 };

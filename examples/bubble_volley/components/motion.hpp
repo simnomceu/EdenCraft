@@ -41,10 +41,13 @@
 #ifndef MOTION_HPP
 #define MOTION_HPP
 
-struct Motion
+#include "utility/mathematics.hpp"
+#include "core/ecs.hpp"
+
+struct Motion: public ece::Component<Motion>
 {
-    FloatVector2u position;
-    FloatVector2u velocity;
+    ece::FloatVector2u position;
+    ece::FloatVector2u velocity;
     float weight;
 
     float angle;

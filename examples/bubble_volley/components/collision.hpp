@@ -41,9 +41,12 @@
 #ifndef COLLISION_HPP
 #define COLLISION_HPP
 
-struct Collision
+#include "utility/mathematics.hpp"
+#include "core/ecs.hpp"
+
+struct Collision: public ece::Component<Collision>
 {
-    Rectangle<float> bounds;
+    ece::Rectangle<float> bounds;
     bool leftEnabled;
     bool bottomEnabled;
     bool rightEnabled;

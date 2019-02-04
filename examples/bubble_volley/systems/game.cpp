@@ -38,78 +38,33 @@
 
 */
 
-#ifndef GRAPHIC_COMPONENT_HPP
-#define GRAPHIC_COMPONENT_HPP
+#include "game.hpp"
 
-#include "core/ecs.hpp"
-#include "core/resource.hpp"
-#include "graphic/renderable.hpp"
+#include "../components/control.hpp"
 
-/**
- * @class GraphicComponent
- * @brief
- */
-class GraphicComponent: public ece::Component<GraphicComponent>
+Game::Game(ece::World & world) noexcept : System(world), _game(nullptr), _lastUpdate(0.0f)
 {
-public:
-	/**
-	 * @fn constexpr GraphicComponent()
-	 * @brief Default constructor.
-	 * @throw
-	 */
-	inline GraphicComponent(const ece::Sprite::Reference & renderable);
+}
 
-	/**
-	 * @fn GraphicComponent(const GraphicComponent & copy) noexcept
-	 * @param[in] copy The GraphicComponent to copy from.
-	 * @brief Default copy constructor.
-	 * @throw noexcept
-	 */
-	GraphicComponent(const GraphicComponent & copy) noexcept = default;
+void Game::update(float elapsedTime)
+{
+	const auto limit = 1.0f / 200.0f;
+	this->_lastUpdate += elapsedTime;
+	if (this->_lastUpdate >= limit) {
+		for (auto & control : *this->_world.getTank<Control>()) {
+			control.current = Action::NONE;
+			for (auto[key, value] : control.binding) {
+				if (ece::Keyboard::isKeyPressed(key)) {
+					control.current = control.current | value;
+				}
+			}
+		}
 
-	/**
-	 * @fn GraphicComponent(GraphicComponent && move) noexcept
-	 * @param[in] move The GraphicComponent to move.
-	 * @brief Default move constructor.
-	 * @throw noexcept
-	 */
-	GraphicComponent(GraphicComponent && move) noexcept = default;
+		this->_lastUpdate = 0.0f;
+	}
+}
 
-	/**
-	 * @fn ~GraphicComponent() noexcept
-	 * @brief Default destructor.
-	 * @throw noexcept
-	 */
-	~GraphicComponent() noexcept = default;
-
-	/**
-	 * @fn GraphicComponent & operator=(const GraphicComponent & copy) noexcept
-	 * @param[in] copy The GraphicComponent to copy from.
-	 * @return The GraphicComponent copied.
-	 * @brief Default copy assignment operator.
-	 * @throw noexcept
-	 */
-	GraphicComponent & operator=(const GraphicComponent & copy) noexcept = default;
-
-	/**
-	 * @fn GraphicComponent & operator=(GraphicComponent && move) noexcept
-	 * @param[in] move The GraphicComponent to move.
-	 * @return The GraphicComponent moved.
-	 * @brief Default move assignment operator.
-	 * @throw noexcept
-	 */
-	GraphicComponent & operator=(GraphicComponent && move) noexcept = default;
-
-	inline void setSprite(const ece::Sprite::Reference & sprite);
-
-	inline const ece::Sprite::Reference & getSprite() const;
-
-	inline int getLevel();
-
-private:
-	ece::Sprite::Reference _sprite;
-};
-
-#include "graphic_component.inl"
-
-#endif // GRAPHIC_COMPONENT_HPP
+void Game::initGame()
+{
+	this->_game = std::make_shared<GameData>(this->_world);
+}

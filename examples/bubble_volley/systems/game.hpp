@@ -38,28 +38,24 @@
 
 */
 
-#include "physic_system.hpp"
-#include "space_component.hpp"
+#ifndef GAME_HPP
+#define GAME_HPP
 
-const float PhysicSystem::gravity = 9.81f;
+#include "core/ecs.hpp"
+#include "../game_data.hpp"
 
-PhysicSystem::PhysicSystem(ece::World & world) noexcept: System(world)
+class Game : public ece::System
 {
-}
+public:
+	Game(ece::World & world) noexcept;
 
-void PhysicSystem::update(float elapsedTime)
-{
-	const auto floor = 200.0f;
-	const auto ratioMeter = 400.0f / 2.43f;
-	for (auto & node : *this->_world.getTank<SpaceComponent>()) {
-		const auto force = ece::FloatVector2u{ 0.0f, node.mass * -PhysicSystem::gravity };
-		ece::FloatVector2u acceleration = force / node.mass;
-		node.velocity += acceleration * elapsedTime;
-		node.velocity[0] = std::clamp(node.velocity[0], -4.0f, 4.0f);
-		node.velocity[1] = std::clamp(node.velocity[1], -7.0f, 7.0f);
+	virtual void update(float elapsedTime) override;
 
-		node.position += node.velocity * elapsedTime * ratioMeter;
+	void initGame();
 
-		node.position[1] = std::max(node.position[1], floor);
-	}
-}
+private:
+	std::shared_ptr<GameData> _game;
+	float _lastUpdate;
+};
+
+#endif // GAME_HPP

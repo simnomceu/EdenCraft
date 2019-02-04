@@ -42,7 +42,13 @@
 #define GRAPHIC_HPP
 
 #include "graphic/renderable.hpp"
+#include "core/ecs.hpp"
 
-using Graphic = ece::Sprite::Reference;
+struct Graphic : public ece::Component<Graphic>
+{
+	Graphic(ece::Sprite::Reference sprite) : sprite(sprite) {}
+
+	ece::Sprite::Reference sprite;
+};
 
 #endif // GRAPHIC_HPP

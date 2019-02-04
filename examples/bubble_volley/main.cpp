@@ -44,10 +44,10 @@
 #include "renderer/rendering.hpp"
 #include "utility/log.hpp"
 #include "systems/render.hpp"
-#include "physic_system.hpp"
-#include "game_system.hpp"
+#include "systems/physic.hpp"
+#include "systems/game.hpp"
 #include "assets.hpp"
-#include "game.hpp"
+#include "game_data.hpp"
 #include "core/format.hpp"
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
@@ -61,9 +61,9 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 
 		auto & world = app.addWorld();
-		auto gameSystem = world.addSystem<GameSystem>();
-		auto physicSystem = world.addSystem<PhysicSystem>();
-		auto renderSystem = world.addSystem<Render>();
+		auto gameSystem = world.addSystem<Game>();
+		world.addSystem<Physic>();
+		world.addSystem<Render>();
 
 		app.onPostInit.connect([&window, &gameSystem]() {
 			window.lock()->setTitle("Bubble Volley");

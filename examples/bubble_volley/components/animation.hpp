@@ -42,8 +42,9 @@
 #define ANIMATION_HPP
 
 #include "renderer/image.hpp"
+#include "core/ecs.hpp"
 
-class Animation
+class Animation: public ece::Component<Animation>
 {
 public:
     Animation() = default;

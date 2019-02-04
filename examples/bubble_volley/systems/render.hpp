@@ -48,7 +48,7 @@
 class Render : public ece::System
 {
 public:
-    System(ece::World & world) noexcept;
+	Render(ece::World & world) noexcept;
 
 	virtual void update(float elapsedTime) override;
 

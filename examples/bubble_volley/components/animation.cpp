@@ -38,7 +38,7 @@
 
 */
 
-#include "../components/animation.hpp"
+#include "animation.hpp"
 
 void Animation::push(ece::Texture2D::Reference texture)
 {

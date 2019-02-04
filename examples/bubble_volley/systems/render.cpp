@@ -40,13 +40,15 @@
 
 #include "../systems/render.hpp"
 #include "../components/graphic.hpp"
+#include "../components/motion.hpp"
+#include "../components/animation.hpp"
 
-System::System(ece::World & world) noexcept: ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene(), _lastUpdate(0.0f)
+Render::Render(ece::World & world) noexcept: ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene(), _lastUpdate(0.0f)
 {
-    world.onComponentCreated([this](ece::BaseComponent & component) {
+    world.onComponentCreated.connect([this](ece::BaseComponent & component) {
         if (component.is<Graphic>()) {
             auto & graphic = component.to<Graphic>();
-            this->_scene.addObject(graphic, graphic.getLevel());
+            this->_scene.addObject(graphic.sprite, graphic.sprite->getLevel());
         }
     });
 
@@ -90,20 +92,20 @@ System::System(ece::World & world) noexcept: ece::System(world), _process(std::m
 	this->_process->setPipeline(std::move(pipeline));
 }
 
-void System::update(float elapsedTime)
+void Render::update(float elapsedTime)
 {
-    const auto limit = 1000.0f / 60.0f;
+    const auto limit = 1.0f / 200.f;
     this->_lastUpdate += elapsedTime;
     if (this->_lastUpdate >= limit) {
         for (auto & graphic : *this->_world.getTank<Graphic>()) {
-            auto entity = node.getOwner();
+            auto entity = graphic.getOwner();
             if (this->_world.hasComponent<Motion>(entity)) {
                 auto motion = this->_world.getComponent<Motion>(entity);
-                graphic->moveTo(motion.position);
+                graphic.sprite->moveTo(motion.position);
             }
-            if (this->_world.hasComponent<Animation>()) {
+            if (this->_world.hasComponent<Animation>(entity)) {
                 auto animation = this->_world.getComponent<Animation>(entity);
-                graphic->setTexture(animation.getCurrent());
+                graphic.sprite->setTexture(animation.getCurrent());
             }
         }
 
