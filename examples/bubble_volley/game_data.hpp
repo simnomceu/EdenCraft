@@ -45,19 +45,6 @@
 #include "graphic/renderable.hpp"
 #include "graphic/scene.hpp"
 
-EnumFlagsT(unsigned int, KeyBinding)
-{
-	NONE =			0b00000000,
-	BLUE_UP =		0b00000001,
-	BLUE_LEFT =		0b00000010,
-	BLUE_DOWN =		0b00000100,
-	BLUE_RIGHT =	0b00001000,
-	RED_UP =		0b00010000,
-	RED_LEFT =		0b00100000,
-	RED_DOWN =		0b01000000,
-	RED_RIGHT =		0b10000000,
-};
-
 /**
  * @class Game
  * @brief

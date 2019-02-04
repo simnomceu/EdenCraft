@@ -38,10 +38,10 @@
 
 */
 
-#include "physic.hpp"
-#include "../components/motion.hpp"
-#include "../components/collision.hpp"
-#include "../components/control.hpp"
+#include "systems/physic.hpp"
+#include "components/motion.hpp"
+#include "components/collision.hpp"
+#include "components/control.hpp"
 
 const float Physic::gravity = 9.81f;
 

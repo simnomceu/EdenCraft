@@ -38,9 +38,9 @@
 
 */
 
-#include "game.hpp"
+#include "systems/game.hpp"
 
-#include "../components/control.hpp"
+#include "components/control.hpp"
 
 Game::Game(ece::World & world) noexcept : System(world), _game(nullptr), _lastUpdate(0.0f)
 {

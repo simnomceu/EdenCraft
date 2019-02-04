@@ -42,7 +42,7 @@
 #define GAME_HPP
 
 #include "core/ecs.hpp"
-#include "../game_data.hpp"
+#include "game_data.hpp"
 
 class Game : public ece::System
 {

@@ -38,10 +38,10 @@
 
 */
 
-#include "../systems/render.hpp"
-#include "../components/graphic.hpp"
-#include "../components/motion.hpp"
-#include "../components/animation.hpp"
+#include "systems/render.hpp"
+#include "components/graphic.hpp"
+#include "components/motion.hpp"
+#include "components/animation.hpp"
 
 Render::Render(ece::World & world) noexcept: ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene(), _lastUpdate(0.0f)
 {
