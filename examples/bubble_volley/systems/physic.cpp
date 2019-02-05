@@ -57,19 +57,13 @@ void Physic::update(float elapsedTime)
 	if (this->_lastUpdate >= limit) {
 		const auto floor = 200.0f;
 		const auto ratioMeter = 400.0f / 2.43f;
+
+		auto forces = std::unordered_map<std::size_t, std::vector<ece::FloatVector2u>>{};
 		for (auto & motion : *this->_world.getTank<Motion>()) {
-			// Update position
-			const auto force = ece::FloatVector2u{ 0.0f, motion.weight * -Physic::gravity };
-			ece::FloatVector2u acceleration = force / motion.weight;
-			motion.velocity += acceleration * elapsedTime;
-			motion.velocity[0] = std::clamp(motion.velocity[0], -4.0f, 4.0f);
-			motion.velocity[1] = std::clamp(motion.velocity[1], -7.0f, 7.0f);
-
-			motion.position += motion.velocity * elapsedTime * ratioMeter;
-
-			motion.position[1] = std::max(motion.position[1], floor);
-
 			auto owner = motion.getOwner();
+
+			forces[owner] = std::vector<ece::FloatVector2u>{};
+			forces[owner].push_back({ 0.0f, motion.weight * -Physic::gravity });
 
 			// Check position with collisions
 			if (this->_world.hasComponent<Collision>(owner)) {
@@ -82,28 +76,29 @@ void Physic::update(float elapsedTime)
 						if (intersect.x >= 0 && intersect.y >= 0 && intersect.width >= 0 && intersect.height >= 0) {
 							auto ownerBis = collisionBis.getOwner();
 							if (!this->_world.hasComponent<Motion>(ownerBis)) {
-								if (intersect.x > 0 || intersect.y > 0 || intersect.width > 0 || intersect.height > 0) {
-									motion.position -= motion.velocity * elapsedTime * ratioMeter;
-								}
-								motion.velocity = { 0.0f, 0.0f };
+								forces[owner].push_back(-motion.velocity);
 							}
 							else if (this->_world.hasComponent<Motion>(ownerBis) && this->_world.getComponent<Motion>(ownerBis).weight > motion.weight) {
-								motion.velocity = -motion.velocity;
-								if (intersect.x > 0 || intersect.y > 0 || intersect.width > 0 || intersect.height > 0) {
-									motion.position += motion.velocity * elapsedTime * ratioMeter;
-								}
-							}
-							else {
-								auto motionBis = this->_world.getComponent<Motion>(ownerBis);
-								motionBis.velocity = -motionBis.velocity;
-								if (intersect.x > 0 || intersect.y > 0 || intersect.width > 0 || intersect.height > 0) {
-									motionBis.position += motionBis.velocity * elapsedTime * ratioMeter;
-								}
+								forces[owner].push_back(-motion.velocity * 2);
 							}
 						}
 					}
 				}
 			}
+		}
+		
+		for (auto & motion : *this->_world.getTank<Motion>()) {
+			auto owner = motion.getOwner();
+			auto result = std::accumulate(forces[owner].begin(), forces[owner].end(), ece::FloatVector2u{ 0, 0 }, [](const auto & lhs, const auto & rhs) -> ece::FloatVector2u { return lhs + rhs; });
+
+			ece::FloatVector2u acceleration = result / motion.weight;
+			motion.velocity += acceleration * elapsedTime;
+			motion.velocity[0] = std::clamp(motion.velocity[0], -4.0f, 4.0f);
+			motion.velocity[1] = std::clamp(motion.velocity[1], -7.0f, 7.0f);
+
+			motion.position += motion.velocity * elapsedTime * ratioMeter;
+
+			motion.position[1] = std::max(motion.position[1], floor);
 
 			// Update acceleration
 			if (this->_world.hasComponent<Control>(owner)) {
@@ -114,24 +109,23 @@ void Physic::update(float elapsedTime)
 				auto factor = (vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f;
 
 				if ((control.current & Action::JUMP) == Action::JUMP) {
-					motion.velocity += ece::FloatVector2u{ 0.0f, 10.0f * factor };
+					motion.velocity += ece::FloatVector2u{ 0.0f, 5.0f * factor };
 				}
+
 				if ((control.current & Action::TO_LEFT) == Action::TO_LEFT) {
 					motion.velocity += ece::FloatVector2u{ -1.0f * factor, 0.0f };
 				}
-				if ((control.current & Action::SNEAK) == Action::SNEAK) {
-					motion.velocity += ece::FloatVector2u{ 0.0f, -10.0f * factor };
+				else if (motion.velocity[0] < 0.0f)
+				{
+					motion.velocity -= ece::FloatVector2u{ -1.0f * factor, 0.0f };
 				}
+
 				if ((control.current & Action::TO_RIGHT) == Action::TO_RIGHT) {
 					motion.velocity += ece::FloatVector2u{ 1.0f * factor, 0.0f };
 				}
-
-			/*	if (!vertical && motion.velocity[1] != 0.0f) {
-					motion.velocity += ece::FloatVector2u{ 0.0f, motion.velocity[1] > 0.0f ? -1.0f : 1.0f };
+				else if (motion.velocity[0] > 0.0f) {
+					motion.velocity -= ece::FloatVector2u{ 1.0f * factor, 0.0f };
 				}
-				if (!horizontal && motion.velocity[0] != 0.0f) {
-					motion.velocity += ece::FloatVector2u{ motion.velocity[0] > 0.0f ? -1.0f : 1.0f, 0.0f };
-				} */
 			}
 		}
 
