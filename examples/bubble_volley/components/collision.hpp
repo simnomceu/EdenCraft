@@ -47,10 +47,6 @@
 struct Collision: public ece::Component<Collision>
 {
     ece::Rectangle<float> bounds;
-    bool leftEnabled;
-    bool bottomEnabled;
-    bool rightEnabled;
-    bool topEnabled;
 };
 
 #endif // COLLISION_HPP

@@ -53,6 +53,22 @@ GameData::GameData(ece::World & world) noexcept :
 		auto sprite = ece::makeResource<ece::Sprite>("background", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 240.0f, 0.0f, 1440.0f, 1080.0f });
 		sprite->setLevel(0);
 		this->_background.addComponent<Graphic>(sprite);
+
+		auto leftWall = world.createEntity();
+		auto & leftCollision = leftWall.addComponent<Collision>();
+		leftCollision.bounds = {239.0f, 0.0f, 1.0f, 1080.0f };
+
+		auto rightWall = world.createEntity();
+		auto & rightCollision = rightWall.addComponent<Collision>();
+		rightCollision.bounds = { 1440.0f + 240.0f, 0.0f, 1.0f, 1080.0f };
+
+		auto upWall = world.createEntity();
+		auto & upCollision = upWall.addComponent<Collision>();
+		upCollision.bounds = { 240.0f, 1080.0f, 1440.0f, 1.0f };
+
+		auto bottomWall = world.createEntity();
+		auto & bottomCollision = bottomWall.addComponent<Collision>();
+		bottomCollision.bounds = { 240.0f, -1.0f, 1440.0f, 1.0f };
 	}
 	this->setState(PLAY);
 }
@@ -77,9 +93,6 @@ void GameData::setState(const GameData::State state)
 		{
 			auto sprite = ece::getResource<ece::Sprite>("background");
 			sprite->setTexture(ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("strand1"));
-
-			auto & collision = this->_background.addComponent<Collision>();
-			collision.bounds = sprite->getBounds();
 		}
 
 		// Score A entity
@@ -123,13 +136,13 @@ void GameData::setState(const GameData::State state)
 
 		// Player B entity
 		{
-			auto & space = this->_playerB.addComponent<Motion>();
+		/*	auto & space = this->_playerB.addComponent<Motion>();
 			space.position = { 0.0f, 400.0f };
 			space.velocity = { 0.0f, 0.0f };
-			space.weight = 70.0f;
+			space.weight = 70.0f;*/
 			auto sprite = ece::makeResource<ece::Sprite>("playerB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("red0"));
 			sprite->setLevel(1);
-			sprite->moveTo(space.position);
+		//	sprite->moveTo(space.position);
 			this->_playerB.addComponent<Graphic>(sprite);
 
 			auto & control = this->_playerB.addComponent<Control>();
