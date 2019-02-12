@@ -1,6 +1,6 @@
 #!lua
 
--- eROMA.lua
+-- EdenCraft.lua
 
 local resource = Solution:new()
 

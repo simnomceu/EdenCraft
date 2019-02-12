@@ -36,8 +36,8 @@
 
 */
 
-#ifndef DEBUG
-#define DEBUG
+#ifndef DEBUG_HPP
+#define DEBUG_HPP
 
 #include "utility/debug/assertion.hpp"
 #include "utility/debug/exception.hpp"
@@ -47,4 +47,4 @@ namespace ece
 	using namespace utility::debug;
 }
 
-#endif // DEBUG
+#endif // DEBUG_HPP
