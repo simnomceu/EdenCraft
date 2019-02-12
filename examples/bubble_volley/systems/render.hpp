@@ -38,29 +38,24 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef RENDER_HPP
+#define RENDER_HPP
 
-#include "renderer/image.hpp"
+#include "core/ecs.hpp"
+#include "renderer/pipeline.hpp"
+#include "graphic/scene.hpp"
 
-/**
- * @class Assets
- * @brief
- */
-class Assets
+class Render : public ece::System
 {
 public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
+	Render(ece::World & world) noexcept;
+
+	virtual void update(float elapsedTime) override;
 
 private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
+    std::unique_ptr<ece::RenderProcess> _process;
+    ece::Scene _scene;
+    float _lastUpdate;
 };
 
-#endif // ASSETS_HPP
+#endif // RENDER_HPP

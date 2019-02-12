@@ -38,29 +38,20 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef MOTION_HPP
+#define MOTION_HPP
 
-#include "renderer/image.hpp"
+#include "utility/mathematics.hpp"
+#include "core/ecs.hpp"
 
-/**
- * @class Assets
- * @brief
- */
-class Assets
+struct Motion: public ece::Component<Motion>
 {
-public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
+    ece::FloatVector2u position;
+    ece::FloatVector2u velocity;
+    float weight;
 
-private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
+    float angle;
+    float angularVelocity;
 };
 
-#endif // ASSETS_HPP
+#endif // MOTION_HPP

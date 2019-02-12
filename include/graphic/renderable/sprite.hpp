@@ -62,6 +62,8 @@ namespace ece
 			class ECE_GRAPHIC_API Sprite : public Renderable
 			{
 			public:
+				using Reference = ResourceHandler<Sprite>;
+
 				struct Vertex
 				{
 					FloatVector2u position;

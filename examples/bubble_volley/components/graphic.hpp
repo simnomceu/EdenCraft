@@ -38,29 +38,17 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef GRAPHIC_HPP
+#define GRAPHIC_HPP
 
-#include "renderer/image.hpp"
+#include "graphic/renderable.hpp"
+#include "core/ecs.hpp"
 
-/**
- * @class Assets
- * @brief
- */
-class Assets
+struct Graphic : public ece::Component<Graphic>
 {
-public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
+	Graphic(ece::Sprite::Reference sprite) : sprite(sprite) {}
 
-private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
+	ece::Sprite::Reference sprite;
 };
 
-#endif // ASSETS_HPP
+#endif // GRAPHIC_HPP

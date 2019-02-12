@@ -38,29 +38,15 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef COLLISION_HPP
+#define COLLISION_HPP
 
-#include "renderer/image.hpp"
+#include "utility/mathematics.hpp"
+#include "core/ecs.hpp"
 
-/**
- * @class Assets
- * @brief
- */
-class Assets
+struct Collision: public ece::Component<Collision>
 {
-public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
-
-private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
+    ece::Rectangle<float> bounds;
 };
 
-#endif // ASSETS_HPP
+#endif // COLLISION_HPP

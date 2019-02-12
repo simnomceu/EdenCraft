@@ -38,29 +38,25 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef GAME_HPP
+#define GAME_HPP
 
-#include "renderer/image.hpp"
+#include "core/ecs.hpp"
+#include "game_data.hpp"
 
-/**
- * @class Assets
- * @brief
- */
-class Assets
+class Game : public ece::System
 {
 public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
+	Game(ece::World & world) noexcept;
+
+	virtual void update(float elapsedTime) override;
+
+	void initGame();
 
 private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
+	std::shared_ptr<GameData> _game;
+	float _lastUpdate;
+	std::size_t _groundId;
 };
 
-#endif // ASSETS_HPP
+#endif // GAME_HPP

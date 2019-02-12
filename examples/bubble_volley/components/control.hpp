@@ -38,65 +38,25 @@
 
 */
 
-#include "game.hpp"
-#include "core/resource.hpp"
-#include "graphic_component.hpp"
+#ifndef CONTROL_HPP
+#define CONTROL_HPP
 
-Game::Game(ece::World & world) noexcept : 
-	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 }
-{
-	{
-		auto sprite = ece::makeResource<ece::Sprite>("background", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 240.0f, 0.0f, 1440.0f, 1080.0f });
-		this->_background.addComponent<GraphicComponent>(sprite);
-	}
-	this->setState(PLAY);
-}
+#include "window/event.hpp"
+#include "core/ecs.hpp"
 
-void Game::setState(const Game::State state)
+EnumFlagsT(unsigned short int, Action)
 {
-	this->_current = state;
-	switch (state)
-	{
-	case SPLASHSCREEN:
-	{
-		{
-			auto sprite = ece::getResource<ece::Sprite>("background");
-			sprite->setTexture(ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("titel"));
-		}
-		this->onSplashScreenEntered();
-		break;
-	}
-	case PLAY:
-	{
-		{
-			auto sprite = ece::getResource<ece::Sprite>("background");
-			sprite->setTexture(ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("strand1"));
-		}
-		{
-			auto sprite = ece::makeResource<ece::Sprite>("scoreA", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
-			sprite->setLevel(1);
-			auto bounds = sprite->getBounds();
-			sprite->setBounds({ 220.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
-			this->_scoreA.handle.addComponent<GraphicComponent>(sprite);
-		}
-		{
-			auto sprite = ece::makeResource<ece::Sprite>("scoreB", ece::ServiceResourceLocator::getService().getResource<ece::Texture2D>("f0"));
-			auto bounds = sprite->getBounds();
-			sprite->setBounds({ 1840.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
-			this->_scoreB.handle.addComponent<GraphicComponent>(sprite);
-		}
+	NONE		= 0b0000,
+	JUMP		= 0b0001,
+	TO_LEFT		= 0b0010,
+	TO_RIGHT	= 0b0100,
+	SNEAK		= 0b1000
+};
 
-		this->onPlayEntered();
-		break;
-	}
-	case NONE:
-		break;
-	default:
-		break;
-	}
-}
-/*
-void Game::draw()
+struct Control: public ece::Component<Control>
 {
-	this->_background->draw();
-}*/
+	std::unordered_map<ece::Keyboard::Key, Action> binding;
+	Action current;
+};
+
+#endif // CONTROL_HPP

@@ -38,29 +38,46 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#include "systems/game.hpp"
 
-#include "renderer/image.hpp"
+#include "components/control.hpp"
+#include "components/collision.hpp"
 
-/**
- * @class Assets
- * @brief
- */
-class Assets
+Game::Game(ece::World & world) noexcept : System(world), _game(nullptr), _lastUpdate(0.0f), _groundId(ece::NULL_HANDLE)
 {
-public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
+	this->_world.onComponentCreated.connect([this](ece::BaseComponent & component) {
+		if (component.is<Collision>()) {
+			auto & collision = component.to<Collision>();
+			if (!this->_world.hasComponent<Collision>(this->_groundId)) {
+				this->_groundId = component.getOwner();
+			}
+			else {
+				auto & ground = this->_world.getComponent<Collision>(this->_groundId);
+				this->_groundId = (collision.bounds.y > ground.bounds.y) ? collision.getOwner() : this->_groundId;
+			}
+		}
+	});
+}
 
-private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
-};
+void Game::update(float elapsedTime)
+{
+	const auto limit = 1.0f / 200.0f;
+	this->_lastUpdate += elapsedTime;
+	if (this->_lastUpdate >= limit) {
+		for (auto & control : *this->_world.getTank<Control>()) {
+			control.current = Action::NONE;
+			for (auto [key, value] : control.binding) {
+				if (ece::Keyboard::isKeyPressed(key)) {
+					control.current = control.current | value;
+				}
+			}
+		}
 
-#endif // ASSETS_HPP
+		this->_lastUpdate = 0.0f;
+	}
+}
+
+void Game::initGame()
+{
+	this->_game = std::make_shared<GameData>(this->_world);
+}

@@ -90,6 +90,18 @@ namespace ece
 					}
 				}
 			}
+
+			template<class E>
+			void Image<E>::setAlphaColor(E color, std::function<auto (const E &, const E &) -> bool> op)
+			{
+				for (auto j = std::size_t{ 0 }; j < this->_height; ++j) {
+					for (auto i = std::size_t{ 0 }; i < this->_width; ++i) {
+						if (op((*this)[j][i], color)) {
+							(*this)[j][i] = color;
+						}
+					}
+				}
+			}
 		} // namespace image
 	} // namespace renderer
 } // namespace ece

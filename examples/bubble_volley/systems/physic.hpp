@@ -38,29 +38,22 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef PHYSIC_HPP
+#define PHYSIC_HPP
 
-#include "renderer/image.hpp"
+#include "core/ecs.hpp"
 
-/**
- * @class Assets
- * @brief
- */
-class Assets
+class Physic : public ece::System
 {
 public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
+	Physic(ece::World & world) noexcept;
+
+	virtual void update(float elapsedTime) override;
 
 private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
+	float _lastUpdate;
+
+	static const float gravity;
 };
 
-#endif // ASSETS_HPP
+#endif // PHYSIC_HPP

@@ -38,29 +38,24 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef ANIMATION_HPP
+#define ANIMATION_HPP
 
 #include "renderer/image.hpp"
+#include "core/ecs.hpp"
 
-/**
- * @class Assets
- * @brief
- */
-class Assets
+class Animation: public ece::Component<Animation>
 {
 public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
+    Animation() = default;
 
+    void push(ece::Texture2D::Reference texture);
+    void next();
+
+    ece::Texture2D::Reference getCurrent() const;
 private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
+    std::vector<ece::Texture2D::Reference> _textures;
+    std::vector<ece::Texture2D::Reference>::iterator _current;
 };
 
-#endif // ASSETS_HPP
+#endif // ANIMATION_HPP

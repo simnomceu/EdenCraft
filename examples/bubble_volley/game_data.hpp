@@ -38,29 +38,96 @@
 
 */
 
-#ifndef ASSETS_HPP
-#define ASSETS_HPP
+#ifndef GAME_DATA_HPP
+#define GAME_DATA_HPP
 
-#include "renderer/image.hpp"
+#include "core/signal.hpp"
+#include "graphic/renderable.hpp"
+#include "graphic/scene.hpp"
 
 /**
- * @class Assets
+ * @class Game
  * @brief
  */
-class Assets
+class GameData
 {
 public:
-	static void loadTexture(const std::string & name, const std::string & path);
-	static void loadTexture(const std::string & name, const std::string & path, const ece::Color alpha);
-	static void loadAssets();
+	enum State
+	{
+		NONE,
+		SPLASHSCREEN,
+		PLAY
+	};
+
+	/**
+	 * @fn constexpr Game() noexcept
+	 * @brief Default constructor.
+	 * @throw noexcept
+	 */
+	GameData(ece::World & world) noexcept;
+
+	/**
+	 * @fn Game(const Game & copy) noexcept
+	 * @param[in] copy The Game to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	GameData(const GameData & copy) noexcept = default;
+
+	/**
+	 * @fn Game(Game && move) noexcept
+	 * @param[in] move The Game to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	GameData(GameData && move) noexcept = default;
+
+	/**
+	 * @fn ~Game() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~GameData() noexcept = default;
+
+	/**
+	 * @fn Game & operator=(const Game & copy) noexcept
+	 * @param[in] copy The Game to copy from.
+	 * @return The Game copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	GameData & operator=(const GameData & copy) noexcept = default;
+
+	/**
+	 * @fn Game & operator=(Game && move) noexcept
+	 * @param[in] move The Game to move.
+	 * @return The Game moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	GameData & operator=(GameData && move) noexcept = default;
+
+	void setState(const GameData::State state);
+
+	ece::Signal<> onSplashScreenEntered;
+	ece::Signal<> onPlayEntered;
 
 private:
-	constexpr Assets() noexcept = delete;
-	Assets(const Assets & copy) noexcept = delete;
-	Assets(Assets && move) noexcept = delete;
-	~Assets() noexcept = delete;
-	Assets & operator=(const Assets & copy) noexcept = delete;
-	Assets & operator=(Assets && move) noexcept = delete;
+	struct Score
+	{
+		ece::EntityHandler handle;
+		int value;
+	};
+
+	GameData::State _current;
+
+	ece::EntityHandler _background;
+
+	Score _scoreA;
+	Score _scoreB;
+
+	ece::EntityHandler _playerA;
+	ece::EntityHandler _playerB;
 };
 
-#endif // ASSETS_HPP
+#endif // GAME_DATA_HPP

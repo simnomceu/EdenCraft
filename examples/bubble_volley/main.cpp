@@ -43,9 +43,11 @@
 #include "window/common.hpp"
 #include "renderer/rendering.hpp"
 #include "utility/log.hpp"
-#include "render_system.hpp"
+#include "systems/render.hpp"
+#include "systems/physic.hpp"
+#include "systems/game.hpp"
 #include "assets.hpp"
-#include "game.hpp"
+#include "game_data.hpp"
 #include "core/format.hpp"
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
@@ -59,51 +61,20 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 
 		auto & world = app.addWorld();
-		auto renderSystem = world.addSystem<RenderSystem>().lock();
+		auto gameSystem = world.addSystem<Game>();
+		world.addSystem<Physic>();
+		world.addSystem<Render>();
 
-		auto & scene = renderSystem->getScene();
-		auto & camera = scene.getCamera();
-
-		std::shared_ptr<Game> game = nullptr;
-
-		app.onPostInit.connect([&window, &game, &world]() {
-			window.lock()->setTitle("Bubble Volley");
-			window.lock()->maximize();
-
+		app.onPostInit.connect([&window, &gameSystem]() {
 			Assets::loadAssets();
 
-			game = std::make_shared<Game>(world);
+			gameSystem->initGame();
 		});
 
 		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
-			if (event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
-				std::cerr << static_cast<char>(static_cast<unsigned int>(event._key) + 34);
-			}
-			else if (event._key == ece::Keyboard::Key::SPACEBAR) {
-				std::cerr << ' ';
-			}
-			else if (event._key == ece::Keyboard::Key::RETURN) {
-				std::cerr << '\n';
-			}
-			else if (event._key == ece::Keyboard::Key::ESCAPE) {
+		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
+			if (event.key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
-			}
-			else if (event._key == ece::Keyboard::Key::LEFT) {
-				camera.moveIn({ -1.0f, 0.0f, 0.0f });
-				scene.updateCamera();
-			}
-			else if (event._key == ece::Keyboard::Key::RIGHT) {
-				camera.moveIn({ 1.0f, 0.0f, 0.0f });
-				scene.updateCamera();
-			}
-			else if (event._key == ece::Keyboard::Key::UP) {
-				camera.moveIn({ 0.0f, 0.0f, -1.0f });
-				scene.updateCamera();
-			}
-			else if (event._key == ece::Keyboard::Key::DOWN) {
-				camera.moveIn({ 0.0f, 0.0f, 1.0f });
-				scene.updateCamera();
 			}
 		});
 		window.lock()->onWindowClosed.connect([&app]() {
@@ -139,7 +110,7 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	auto window = app.addWindow<ece::RenderWindow>();
 
 	ece::WindowSetting settings;
-	settings._title = "Bubble Volley";
+	settings.title = "Bubble Volley";
 
 	auto & contextSettings = window.lock()->getContextSettings();
 	contextSettings.maxVersion = { 4, 0 };

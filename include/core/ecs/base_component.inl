@@ -36,43 +36,28 @@
 
 */
 
-#include "core/pch.hpp"
-#include "core/ecs/world.hpp"
-
-#include "core/ecs/entity_handler.hpp"
-
 namespace ece
 {
 	namespace core
 	{
 		namespace ecs
 		{
-			void World::update()
+			template <class T, typename enabled>
+			inline bool BaseComponent::is() const
 			{
-				std::for_each(this->_systems.begin(), this->_systems.end(), [this](auto & system) {
-					system.second->update(this->_chrono.getElapsedTime() / 1000.0f);
-				});
-
-				std::for_each(this->_tanks.begin(), this->_tanks.end(), [](auto & tank) {
-					tank.second->update();
-				});
-
-				this->_entities.erase(std::remove_if(this->_entities.begin(), this->_entities.end(), [](auto & lhs) { return lhs.dirty; }), this->_entities.end());
-				this->_chrono.reset();
+				return (dynamic_cast<const T *>(this) != nullptr);
 			}
 
-			auto World::createEntity() -> EntityHandler
+			template <class T, typename enabled>
+			inline T & BaseComponent::to()
 			{
-				auto entity = World::Entity{ this->_entityGenerator.next(), false };
-				auto handler = EntityHandler(entity.id, *this);
-				this->_entities.push_back(std::move(entity));
-				this->onEntityCreated(handler);
-				return std::move(handler);
+				return dynamic_cast<T &>(*this);
 			}
 
-			auto World::createEntity(World::Prototype prototype) -> EntityHandler
+			template <class T, typename enabled>
+			inline const T & BaseComponent::to() const
 			{
-				return prototype(*this);
+				return dynamic_cast<const T &>(*this);
 			}
 		} // namespace ecs
 	} // namespace core
