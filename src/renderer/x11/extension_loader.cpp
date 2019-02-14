@@ -55,10 +55,10 @@ namespace ece
 				auto proc = glXGetProcAddress(reinterpret_cast<const GLubyte *>(addr));
 				if (proc == nullptr) {
 					if (requiredVersion > ece::Version<2>{ 3, 3} && ContextOpenGL::getMaxVersionAvailable() < requiredVersion) {
-						ServiceLoggerLocator::getService().logError(name + " is not available. You need at least a " + std::to_string(requiredVersion[0]) + "." + std::to_string(requiredVersion[1]) + " context.");
+						ERROR << name << " is not available. You need at least a " << requiredVersion[0] << "." << requiredVersion[1] << " context." << flush;
 					}
 					else {
-						ServiceLoggerLocator::getService().logError(name + " cannot be loaded.");
+						ERROR << name << " cannot be loaded." << flush;
 					}
 				}
 				return reinterpret_cast<void *>(proc);

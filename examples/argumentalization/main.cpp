@@ -68,7 +68,7 @@ int main(int argc, char * argv[])
 		app.run();
 	}
 	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError("Uncaught exception: " + std::string(e.what()));
+		ece::ERROR << "Uncaught exception: " << e.what() << ece::flush;
 	}
 
 	return EXIT_SUCCESS;

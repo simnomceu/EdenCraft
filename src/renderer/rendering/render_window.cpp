@@ -80,7 +80,7 @@ namespace ece
 						throw;
 					}
 					catch (std::runtime_error & e) {
-						ServiceLoggerLocator::getService().logError(e.what());
+						ERROR << e.what() << flush;
 					}
 
 					this->onWindowOpened();

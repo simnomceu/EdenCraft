@@ -101,7 +101,7 @@ namespace ece
 					this->_moduleManager.initAll();
 				}
 				catch (const std::runtime_error & e) {
-					ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
+					ERROR << "Invalid command argument: " << e.what() << flush;
 				}
 				this->_running = true;
 			}

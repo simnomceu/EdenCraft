@@ -36,16 +36,59 @@
 
 */
 
-#ifndef LOG_HPP
-#define LOG_HPP
+#ifndef LOG_CHANNEL_HPP
+#define LOG_CHANNEL_HPP
 
-#include "utility/log/logger.hpp"
-#include "utility/log/service_logger.hpp"
-#include "utility/log/log_channel.hpp"
+#include "utility/pch.hpp"
+#include "utility/config.hpp"
+
+#ifdef _MSC_VER
+#undef ERROR
+#endif
 
 namespace ece
 {
-	using namespace utility::log;
-}
+	namespace utility
+	{
+		namespace log
+		{
 
-#endif // LOG_HPP
+			class ECE_UTILITY_API LogChannel
+			{
+			public:
+				enum class Channel
+				{
+					INFO = 0,
+					WARNING = 1,
+					ERROR = 2
+				};
+
+				struct Flush
+				{
+					inline void operator()(LogChannel & channel) { channel.flush(); }
+				};
+
+				inline LogChannel(Channel channel) noexcept;
+
+				template <class T> LogChannel & operator<<(T data);
+
+				void flush();
+
+			private:
+				Channel _channel;
+				std::stringstream _buffer;
+			};
+
+			template<> ECE_UTILITY_API LogChannel & LogChannel::operator<< <LogChannel::Flush>(LogChannel::Flush data);
+
+			ECE_UTILITY_EXTERN static LogChannel INFO(LogChannel::Channel::INFO);
+			ECE_UTILITY_EXTERN static LogChannel WARNING(LogChannel::Channel::WARNING);
+			ECE_UTILITY_EXTERN static LogChannel ERROR(LogChannel::Channel::ERROR);
+			ECE_UTILITY_EXTERN static LogChannel::Flush flush;
+		} // namespace log
+	} // namespace utility
+} // namespace ece
+
+#include "utility/log/log_channel.inl"
+
+#endif // LOG_CHANNEL_HPP

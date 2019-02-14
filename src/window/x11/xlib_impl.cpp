@@ -66,7 +66,7 @@ namespace ece
 			{
 				this->_connection = XOpenDisplay(nullptr);
 				if (!this->_connection) {
-					ServiceLoggerLocator::getService().logError("No X server available.");
+					ERROR << "No X server available." << flush;
 				}
 				this->logInfos();
 
@@ -165,7 +165,7 @@ namespace ece
 
 			void XlibImpl::minimize()
 			{
-				ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to minimize the window.");
+				WARNING << "The window implementation does not provide any method to minimize the window." << flush;
 			}
 
 			void XlibImpl::maximize()
@@ -209,10 +209,10 @@ namespace ece
 			{
 				auto owner = std::string(XServerVendor(this->_connection));
 				auto version = std::to_string(XVendorRelease(this->_connection));
-				ServiceLoggerLocator::getService().logInfo("Xserver from: " + owner + " - version " + version + ".");
+				INFO << "Xserver from: " << owner << " - version " << version << "." << flush;
 				auto major = std::to_string(XProtocolVersion(this->_connection));
 				auto minor = std::to_string(XProtocolRevision(this->_connection));
-				ServiceLoggerLocator::getService().logInfo("Protocol X version " + major + "." + minor + " used.");
+				INFO << "Protocol X version " << major << "." << minor << " used." << flush;
 			}
 
 			auto XlibImpl::getNextMessage() -> WindowMessage

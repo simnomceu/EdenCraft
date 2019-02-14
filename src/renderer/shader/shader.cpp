@@ -79,7 +79,7 @@ namespace ece
 					}
 				} else {
                     auto infoLog = OpenGL::getProgramInfoLog(this->_handle);
-                    ServiceLoggerLocator::getService().logError(infoLog);
+					ERROR << infoLog << flush;
                 }
 			}
 
@@ -91,7 +91,7 @@ namespace ece
                     uniform.bind(handle);
                 }
                 catch (const std::runtime_error & e) {
-                    ServiceLoggerLocator::getService().logWarning(e.what());
+					WARNING << e.what() << flush;
                 }
             }
 
@@ -103,7 +103,7 @@ namespace ece
 					uniform->bind(handle);
 				}
 				catch (const std::runtime_error & e) {
-					ServiceLoggerLocator::getService().logWarning(e.what());
+					WARNING << e.what() << flush;
 				}
 			}
 

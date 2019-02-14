@@ -59,10 +59,7 @@ namespace ece
 					this->loadResource(identifier, this->_loaders[extension]);
 				}
 				else {
-					std::string errorMessage = "It is not possible to identify a loader for the resource "
-						+ identifier
-						+ ". Please, provide a loader explicitly for this resource.";
-					ServiceLoggerLocator::getService().logError(errorMessage);
+					ERROR << "It is not possible to identify a loader for the resource " << identifier << + ". Please, provide a loader explicitly for this resource." << flush;
 				}*/
 			}
 
@@ -74,10 +71,7 @@ namespace ece
 					this->unloadResource(identifier, this->_unloaders[extension]);
 				}
 				else {
-					std::string errorMessage = "It is not possible to identify an unloader for the resource "
-						+ identifier
-						+ ". Please, provide an unloader explicitly for this resource.";
-					ServiceLoggerLocator::getService().logError(errorMessage);
+					ERROR << "It is not possible to identify an unloader for the resource " << identifier << ". Please, provide an unloader explicitly for this resource." << flush;
 				}*/
 			}
 

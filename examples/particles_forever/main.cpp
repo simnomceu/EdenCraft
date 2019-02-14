@@ -60,10 +60,10 @@ int main()
 		}
 	}
 	catch (std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
+		ece::ERROR << e.what() << ece::flush;
 	}
 	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
+		ece::ERROR << e.what() << ece::flush;
 	}
 
 	return EXIT_SUCCESS;

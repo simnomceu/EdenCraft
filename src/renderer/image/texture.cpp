@@ -57,7 +57,7 @@ namespace ece
 					return Renderer::getCurrentTexture(target).lock().get() == this;
 				}
 				catch (std::bad_weak_ptr & e) {
-					ServiceLoggerLocator::getService().logError(std::string("A Texture need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. ") + e.what());
+					ERROR << "A Texture need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. " << e.what() << flush;
 					return false;
 				}
 			}
