@@ -314,7 +314,7 @@ namespace ece
 				static inline void hint(Hint target, HintMode mode);
 				static inline auto readPixels(int x, int y, std::size_t width, std::size_t height, PixelFormat format, DataType type) -> void *;
 				static inline void readBuffer(ColorBuffer mode);
-				static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter);
+				static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, BufferBit mask, InterpolationFilter filter);
 				static inline void scissor(const int x, const int y, const unsigned int width, const unsigned int height);
 				static inline void sampleCoverage(float value, bool invert);
 				static inline void sampleMask(unsigned int maskNumber, std::bitset<32> mask);
@@ -336,7 +336,7 @@ namespace ece
 				static inline void depthMask(bool flag);
 				static inline void stencilMask(unsigned int mask);
 				static inline void stencilMaskSeparate(CullFaceMode face, unsigned int mask);
-				static inline void clear(const Bitfield mask);
+				static inline void clear(const BufferBit mask);
 				static inline void clearColor(const float r, const float g, const float b, const float a);
 				static inline void clearDepth(double depth);
 				static inline void clearStencil(int s);
@@ -615,7 +615,7 @@ namespace ece
 				static inline auto getCompressedTextureImage(Handle texture, int level, std::size_t bufSize) -> void *;
 				static inline auto readnPixels(int x, int y, std::size_t width, std::size_t height, PixelFormat format, DataType type, std::size_t bufSize) -> void *;
 				static inline void namedFramebufferReadBuffer(Handle framebuffer, ColorBuffer mode);
-				static inline void blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter);
+				static inline void blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, BufferBit mask, ImageFilter filter);
 				static inline void namedFramebufferDrawBuffer(Handle framebuffer, ColorBuffer buf);
 				static inline void namedFramebufferDrawBuffers(Handle framebuffer, const std::vector<ColorBuffer> & bufs);
 				static inline void clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<int> & value);

@@ -36,20 +36,45 @@
 
 */
 
-#ifndef RENDERER_RENDERING_HPP
-#define RENDERER_RENDERING_HPP
-
-#include "renderer/rendering/context_settings.hpp"
-#include "renderer/rendering/framebuffer.hpp"
-#include "renderer/rendering/framebuffer_attachment.hpp"
-#include "renderer/rendering/render_context.hpp"
-#include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "renderer/rendering/renderer.hpp"
+#include "renderer/pch.hpp"
+#include "renderer/opengl/enum/buffer_bit.hpp"
 
 namespace ece
 {
-	using namespace renderer::rendering;
-}
+	namespace renderer
+	{
+		namespace opengl
+		{
+			BufferBit getBufferBit(Framebuffer::BufferBit mask)
+			{
+				BufferBit result = static_cast<BufferBit>(0);
+				if ((mask & Framebuffer::BufferBit::COLOR) == Framebuffer::BufferBit::COLOR) {
+					result = result | BufferBit::COLOR;
+				}
+				if ((mask & Framebuffer::BufferBit::DEPTH) == Framebuffer::BufferBit::DEPTH) {
+					result = result | BufferBit::DEPTH;
+				}
+				if ((mask & Framebuffer::BufferBit::STENCIL) == Framebuffer::BufferBit::STENCIL) {
+					result = result | BufferBit::STENCIL;
+				}
+				return std::move(result);
+			}
 
-#endif // RENDERER_RENDERING_HPP
+			std::string to_string(BufferBit mask)
+			{
+				auto result = std::string();
+
+				if ((mask & BufferBit::COLOR) == BufferBit::COLOR) {
+					result += "COLOR | "
+				}
+				if ((mask & BufferBit::DEPTH) == BufferBit::DEPTH) {
+					result += "DEPTH | "
+				}
+				if ((mask & BufferBit::STENCIL) == BufferBit::STENCIL) {
+					result += "STENCIL | "
+				}
+				return std::move(result.substr(0, result.size() - 3));
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

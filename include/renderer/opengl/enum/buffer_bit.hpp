@@ -36,20 +36,35 @@
 
 */
 
-#ifndef RENDERER_RENDERING_HPP
-#define RENDERER_RENDERING_HPP
+#ifndef BUFFER_BIT_HPP
+#define BUFFER_BIT_HPP
 
-#include "renderer/rendering/context_settings.hpp"
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 #include "renderer/rendering/framebuffer.hpp"
-#include "renderer/rendering/framebuffer_attachment.hpp"
-#include "renderer/rendering/render_context.hpp"
-#include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "renderer/rendering/renderer.hpp"
 
 namespace ece
 {
-	using namespace renderer::rendering;
-}
+	namespace renderer
+	{
+		namespace opengl
+		{
+			using rendering::Framebuffer;
 
-#endif // RENDERER_RENDERING_HPP
+			EnumFlagsT(unsigned short int, BufferBit)
+			{
+				COLOR = GL_COLOR_BUFFER_BIT,
+				DEPTH = GL_DEPTH_BUFFER_BIT,
+				STENCIL = GL_STENCIL_BUFFER_BIT
+			};
+
+			ECE_RENDERER_API BufferBit getBufferBit(Framebuffer::BufferBit mask);
+
+			ECE_RENDERER_API std::string to_string(BufferBit mask);
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
+
+#endif // BUFFER_BIT_HPP

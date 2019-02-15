@@ -1544,7 +1544,7 @@ namespace ece
 				checkErrors(glReadBuffer(static_cast<GLenum>(mode)));
 			}
 			
-			inline void OpenGL::blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter)
+			inline void OpenGL::blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, BufferBit mask, ImageFilter filter)
 			{
 				checkErrors(glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<GLbitfield>(mask), static_cast<GLenum>(filter)));
 			}
@@ -1654,7 +1654,7 @@ namespace ece
 				checkErrors(glStencilMaskSeparate(static_cast<GLenum>(face), mask));
 			}
 
-			inline void OpenGL::clear(const Bitfield mask)
+			inline void OpenGL::clear(const BufferBit mask)
 			{
 				checkErrors(glClear(GLbitfield(mask)));
 			}
@@ -3265,7 +3265,7 @@ namespace ece
 				checkErrors(glNamedFramebufferReadBuffer(framebuffer, static_cast<GLenum>(mode)));
 			}
 
-			inline void OpenGL::blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter)
+			inline void OpenGL::blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, BufferBit mask, ImageFilter filter)
 			{
 				checkErrors(glBlitNamedFramebuffer(readFramebuffer, drawFramebuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<GLbitfield>(mask), static_cast<GLenum>(filter)));
 			}

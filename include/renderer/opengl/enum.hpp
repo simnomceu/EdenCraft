@@ -44,12 +44,15 @@
 
 #include "utility/enumeration.hpp"
 #include "renderer/opengl/enum/blending_factor.hpp"
+#include "renderer/opengl/enum/buffer_bit.hpp"
 #include "renderer/opengl/enum/buffer_type.hpp"
 #include "renderer/opengl/enum/buffer_usage.hpp"
 #include "renderer/opengl/enum/cull_face_mode.hpp"
 #include "renderer/opengl/enum/data_type.hpp"
 #include "renderer/opengl/enum/depth_function_condition.hpp"
+#include "renderer/opengl/enum/framebuffer_target.hpp"
 #include "renderer/opengl/enum/front_face_mode.hpp"
+#include "renderer/opengl/enum/interpolation_filter.hpp"
 #include "renderer/opengl/enum/packed_vertex_attrib_type.hpp"
 #include "renderer/opengl/enum/primitive_mode.hpp"
 #include "renderer/opengl/enum/shader_type.hpp"
@@ -560,13 +563,6 @@ namespace ece
 				STEREO = GL_STEREO
 			};
 
-			enum class FramebufferTarget : unsigned short int
-			{
-				DRAW_FRAMEBUFFER = GL_DRAW_FRAMEBUFFER,
-				READ_FRAMEBUFFER = GL_READ_FRAMEBUFFER,
-				FRAMEBUFFER = GL_FRAMEBUFFER
-			};
-
 			enum class BufferKind : unsigned short int
 			{
 				COLOR = GL_COLOR,
@@ -837,19 +833,6 @@ namespace ece
 				std::string name;
 				AttributeType type;
 				std::size_t size;
-			};
-
-			EnumFlagsT(unsigned short int, Bitfield)
-			{
-				COLOR_BUFFER_BIT = GL_COLOR_BUFFER_BIT,
-					DEPTH_BUFFER_BIT = GL_DEPTH_BUFFER_BIT,
-					STENCIL_BUFFER_BIT = GL_STENCIL_BUFFER_BIT
-			};
-
-			enum class ImageFilter : unsigned short int
-			{
-				NEAREST = GL_NEAREST,
-				LINEAR = GL_LINEAR
 			};
 
 			enum class ProvokeMode : unsigned short int

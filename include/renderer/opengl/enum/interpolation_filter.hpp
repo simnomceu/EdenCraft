@@ -36,20 +36,34 @@
 
 */
 
-#ifndef RENDERER_RENDERING_HPP
-#define RENDERER_RENDERING_HPP
+#ifndef INTERPOLATION_FILTER_HPP
+#define INTERPOLATION_FILTER_HPP
 
-#include "renderer/rendering/context_settings.hpp"
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 #include "renderer/rendering/framebuffer.hpp"
-#include "renderer/rendering/framebuffer_attachment.hpp"
-#include "renderer/rendering/render_context.hpp"
-#include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "renderer/rendering/renderer.hpp"
 
 namespace ece
 {
-	using namespace renderer::rendering;
-}
+	namespace renderer
+	{
+		namespace opengl
+		{
+			using rendering::Framebuffer;
 
-#endif // RENDERER_RENDERING_HPP
+			enum class InterpolationFilter : unsigned short int
+			{
+				NEAREST = GL_NEAREST,
+				LINEAR = GL_LINEAR
+			};
+
+			ECE_RENDERER_API InterpolationFilter getInterpolationFilter(Framebuffer::InterpolationFilter filter);
+
+			ECE_RENDERER_API std::string to_string(InterpolationFilter filter);
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
+
+#endif // INTERPOLATION_FILTER_HPP

@@ -36,20 +36,36 @@
 
 */
 
-#ifndef RENDERER_RENDERING_HPP
-#define RENDERER_RENDERING_HPP
+#ifndef FRAMEBUFFER_TARGET_HPP
+#define FRAMEBUFFER_TARGET_HPP
 
-#include "renderer/rendering/context_settings.hpp"
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 #include "renderer/rendering/framebuffer.hpp"
-#include "renderer/rendering/framebuffer_attachment.hpp"
-#include "renderer/rendering/render_context.hpp"
-#include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "renderer/rendering/renderer.hpp"
 
 namespace ece
 {
-	using namespace renderer::rendering;
-}
+	namespace renderer
+	{
+		namespace opengl
+		{
+			using rendering::Framebuffer;
 
-#endif // RENDERER_RENDERING_HPP
+			enum class FramebufferTarget : unsigned short int
+			{
+				DRAW_FRAMEBUFFER = GL_DRAW_FRAMEBUFFER,
+				READ_FRAMEBUFFER = GL_READ_FRAMEBUFFER,
+				FRAMEBUFFER = GL_FRAMEBUFFER
+			};
+
+			ECE_RENDERER_API FramebufferTarget getFramebufferTarget(Framebuffer::Target target);
+
+			ECE_RENDERER_API std::string to_string(FramebufferTarget target);
+
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
+
+#endif // FRAMEBUFFER_TARGET_HPP

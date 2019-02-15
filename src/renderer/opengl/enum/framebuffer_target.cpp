@@ -36,20 +36,34 @@
 
 */
 
-#ifndef RENDERER_RENDERING_HPP
-#define RENDERER_RENDERING_HPP
-
-#include "renderer/rendering/context_settings.hpp"
-#include "renderer/rendering/framebuffer.hpp"
-#include "renderer/rendering/framebuffer_attachment.hpp"
-#include "renderer/rendering/render_context.hpp"
-#include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "renderer/rendering/renderer.hpp"
+#include "renderer/pch.hpp"
+#include "renderer/opengl/enum/framebuffer_target.hpp"
 
 namespace ece
 {
-	using namespace renderer::rendering;
-}
+	namespace renderer
+	{
+		namespace opengl
+		{
+			FramebufferTarget getFramebufferTarget(Framebuffer::Target target)
+			{
+				switch (target) {
+				case Framebuffer::Target::READ: return FramebufferTarget::READ_FRAMEBUFFER; break;
+				case Framebuffer::Target::DRAW: return FramebufferTarget::DRAW_FRAMEBUFFER; break;
+				case Framebuffer::Target::DRAW_AND_READ: return FramebufferTarget::FRAMEBUFFER; break;
+				default: throw std::runtime_error("Unknown value for FramebufferTarget enumeration."); break;
+				}
+			}
 
-#endif // RENDERER_RENDERING_HPP
+			std::string to_string(FramebufferTarget target)
+			{
+				switch (target) {
+				case FramebufferTarget::READ_FRAMEBUFFER: return "GL_READ_FRAMEBUFFER"; break;
+				case FramebufferTarget::DRAW_FRAMEBUFFER: return "GL_DRAW_FRAMEBUFFER"; break;
+				case FramebufferTarget::FRAMEBUFFER: return "GL_FRAMEBUFFER"; break;
+				default: throw std::runtime_error("Unknown value for FramebufferTarget enumeration."); break;
+				}
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

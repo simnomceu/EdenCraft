@@ -36,20 +36,22 @@
 
 */
 
-#ifndef RENDERER_RENDERING_HPP
-#define RENDERER_RENDERING_HPP
-
-#include "renderer/rendering/context_settings.hpp"
-#include "renderer/rendering/framebuffer.hpp"
-#include "renderer/rendering/framebuffer_attachment.hpp"
-#include "renderer/rendering/render_context.hpp"
-#include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "renderer/rendering/renderer.hpp"
+#ifndef FRAMEBUFFER_ATTACHMENT_HPP
+#define FRAMEBUFFER_ATTACHMENT_HPP
 
 namespace ece
 {
-	using namespace renderer::rendering;
-}
+	namespace renderer
+	{
+		namespace rendering
+		{
+			class FramebufferAttachment
+			{
+			public:
 
-#endif // RENDERER_RENDERING_HPP
+			};
+		} // namespace rendering
+	} // namespace renderer
+} // namespace ece
+
+#endif // FRAMEBUFFER_ATTACHMENT_HPP

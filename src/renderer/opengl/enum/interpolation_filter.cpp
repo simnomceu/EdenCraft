@@ -36,20 +36,32 @@
 
 */
 
-#ifndef RENDERER_RENDERING_HPP
-#define RENDERER_RENDERING_HPP
-
-#include "renderer/rendering/context_settings.hpp"
-#include "renderer/rendering/framebuffer.hpp"
-#include "renderer/rendering/framebuffer_attachment.hpp"
-#include "renderer/rendering/render_context.hpp"
-#include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/render_window.hpp"
-#include "renderer/rendering/renderer.hpp"
+#include "renderer/pch.hpp"
+#include "renderer/opengl/enum/interpolation_filter.hpp"
 
 namespace ece
 {
-	using namespace renderer::rendering;
-}
+	namespace renderer
+	{
+		namespace opengl
+		{
+			InterpolationFilter getInterpolationFilter(Framebuffer::InterpolationFilter filter)
+			{
+				switch (filter) {
+				case Framebuffer::InterpolationFilter::LINEAR: return InterpolationFilter::LINEAR; break;
+				case Framebuffer::InterpolationFilter::NEAREST: return InterpolationFilter::NEAREST; break;
+				default: throw std::runtime_error("Unknown value for InterpolationFilter enumeration."); break;
+				}
+			}
 
-#endif // RENDERER_RENDERING_HPP
+			std::string to_string(InterpolationFilter filter)
+			{
+				switch (filter) {
+				case InterpolationFilter::LINEAR: return "GL_LINEAR"; break;
+				case InterpolationFilter::NEAREST: return "GL_NEAREST"; break;
+				default: throw std::runtime_error("Unknown value for InterpolationFilter enumeration."); break;
+				}
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

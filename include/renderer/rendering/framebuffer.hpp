@@ -40,6 +40,7 @@
 #define FRAMEBUFFER_HPP
 
 #include "renderer/rendering/render_target.hpp"
+#include "renderer/rendering/framebuffer_attachment.hpp"
 
 namespace ece
 {
@@ -47,14 +48,22 @@ namespace ece
 	{
 		namespace rendering
 		{
-			class Framebuffer: public RenderTarget
+			class Framebuffer
 			{
 			public:
+				enum class BufferBit : unsigned short int;
+
 				enum class Target : unsigned short int
 				{
 					DRAW,
 					READ,
 					DRAW_AND_READ
+				};
+
+				enum class InterpolationFilter : unsigned short int
+				{
+					NEAREST = 0,
+					LINEAR = 1
 				};
 
 				Framebuffer() noexcept;
@@ -64,17 +73,26 @@ namespace ece
 
 				~Framebuffer() noexcept;
 
-				Framebuffer & operator=(const Framebuffer & copy) noexcept;
-				Framebuffer & operator=(Framebuffer && move) noexcept;
+				Framebuffer & operator=(const Framebuffer & copy) noexcept = delete;
+				Framebuffer & operator=(Framebuffer && move) noexcept = default;
 
 				void bind(Target target = Target::DRAW_AND_READ);
 
-				void attach();
+				void attach(FramebufferAttachment attachment);
 
-				void checkStatus();
+				auto checkStatus(Target target = Target::DRAW_AND_READ) -> bool;
+
+				void blit(Rectangle<float> area, Framebuffer & dst, Rectangle<float> dstArea, Framebuffer::BufferBit mask, InterpolationFilter filter);
 
 			private:
 				Handle _handle;
+			};
+
+			EnumFlagsT(unsigned short int, Framebuffer::BufferBit)
+			{
+				COLOR = 0b001,
+				DEPTH = 0b010,
+				STENCIL = 0b100
 			};
 		} // namespace rendering
 	} // namespace renderer
