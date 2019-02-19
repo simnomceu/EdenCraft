@@ -36,82 +36,45 @@
 
 */
 
-#ifndef IMAGE_FORMAT_HPP
-#define IMAGE_FORMAT_HPP
+#ifndef PIXEL_FORMAT_HPP
+#define PIXEL_FORMAT_HPP
 
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
+#include "renderer/image/pixel_format.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace image
+		namespace opengl
 		{
-			struct ECE_RENDERER_API RGB24
-			{
-				std::byte red;
-				std::byte green;
-				std::byte blue;
-
-				inline RGB24(): red(), green(), blue() {}
-
-				inline RGB24(const unsigned short int r, const unsigned short int g, const unsigned short int b):
-					red(static_cast<std::byte>(r)), green(static_cast<std::byte>(g)), blue(static_cast<std::byte>(b)) {}
-			};
-
-			struct ECE_RENDERER_API RGBA32 : public RGB24
-			{
-				std::byte alpha;
-
-				inline RGBA32(): RGB24(), alpha() {}
-
-				inline RGBA32(const unsigned short int r, const unsigned short int g, const unsigned short int b, const unsigned short int a):
-					RGB24(r, g, b), alpha(static_cast<std::byte>(a)) {}
-			};
-
-			struct ECE_RENDERER_API HSV
-			{
-				unsigned short int hue;
-				unsigned short int saturation;
-				unsigned short int value;
-			};
-
-			struct ECE_RENDERER_API HSL
-			{
-				unsigned short int hue;
-				unsigned short int saturation;
-				unsigned short int lightness;
-			};
-
-			struct ECE_RENDERER_API CMYK
-			{
-				unsigned short int cyan;
-				unsigned short int magenta;
-				unsigned short int yellow;
-				unsigned short int key;
-			};
-
 			enum class PixelFormat : unsigned short int
 			{
-				RED = 0,
-				RG = 1,
-				RGB = 2,
-				BGR = 3,
-				RGBA = 4,
-				BGRA = 5,
-				RED_INTEGER = 6,
-				RG_INTEGER = 7,
-				RGB_INTEGER = 8,
-				BGR_INTEGER = 9,
-				RGBA_INTEGER = 10,
-				BGRA_INTEGER = 11,
-				STENCIL_INDEX = 12,
-				DEPTH_COMPONENT = 13,
-				DEPTH_STENCIL = 14
+				RED = GL_RED,
+				RG = GL_RG,
+				RGB = GL_RGB,
+				BGR = GL_BGR,
+				RGBA = GL_RGBA,
+				BGRA = GL_BGRA,
+				RED_INTEGER = GL_RED_INTEGER,
+				RG_INTEGER = GL_RG_INTEGER,
+				RGB_INTEGER = GL_RGB_INTEGER,
+				BGR_INTEGER = GL_BGR_INTEGER,
+				RGBA_INTEGER = GL_RGBA_INTEGER,
+				BGRA_INTEGER = GL_BGRA_INTEGER,
+				STENCIL_INDEX = GL_STENCIL_INDEX,
+				DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
+				DEPTH_STENCIL = GL_DEPTH_STENCIL
 			};
-		} // namespace image
+
+			ECE_RENDERER_API PixelFormat getPixelFormat(image::PixelFormat format);
+
+			ECE_RENDERER_API std::string to_string(PixelFormat format);
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // IMAGE_FORMAT_HPP
+#endif // PIXEL_FORMAT_HPP

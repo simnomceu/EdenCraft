@@ -44,6 +44,7 @@
 #include "renderer/image/texture.hpp"
 #include "core/resource.hpp"
 #include "renderer/image/color.hpp"
+#include "renderer/image/pixel_format.hpp"
 
 namespace ece
 {
@@ -220,6 +221,12 @@ namespace ece
 				 * @brief Type of texture used.
 				 */
 				TypeTarget _type;
+
+				PixelInternalFormat _internalFormat;
+
+				PixelFormat _format;
+
+				PixelDataType _dataType;
 
 				/**
 				 * @property _handle

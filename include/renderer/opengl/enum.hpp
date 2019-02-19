@@ -55,6 +55,7 @@
 #include "renderer/opengl/enum/front_face_mode.hpp"
 #include "renderer/opengl/enum/interpolation_filter.hpp"
 #include "renderer/opengl/enum/packed_vertex_attrib_type.hpp"
+#include "renderer/opengl/enum/pixel_format.hpp"
 #include "renderer/opengl/enum/primitive_mode.hpp"
 #include "renderer/opengl/enum/shader_type.hpp"
 #include "renderer/opengl/enum/texture_parameter.hpp"
@@ -1195,25 +1196,6 @@ namespace ece
 				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
 				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
 				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY
-			};
-
-			enum class PixelFormat : unsigned short int
-			{
-				RED = GL_RED,
-				RG = GL_RG,
-				RGB = GL_RGB,
-				BGR = GL_BGR,
-				RGBA = GL_RGBA,
-				BGRA = GL_BGRA,
-				RED_INTEGER = GL_RED_INTEGER,
-				RG_INTEGER = GL_RG_INTEGER,
-				RGB_INTEGER = GL_RGB_INTEGER,
-				BGR_INTEGER = GL_BGR_INTEGER,
-				RGBA_INTEGER = GL_RGBA_INTEGER,
-				BGRA_INTEGER = GL_BGRA_INTEGER,
-				STENCIL_INDEX = GL_STENCIL_INDEX,
-				DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
-				DEPTH_STENCIL = GL_DEPTH_STENCIL
 			};
 
 			enum class PixelInternalFormat : unsigned short int
