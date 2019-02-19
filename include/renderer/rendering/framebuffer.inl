@@ -36,22 +36,15 @@
 
 */
 
-#ifndef FRAMEBUFFER_ATTACHMENT_HPP
-#define FRAMEBUFFER_ATTACHMENT_HPP
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace rendering
 		{
-			class FramebufferAttachment
-			{
-			public:
+			inline Framebuffer::Framebuffer(Handle handle) noexcept : _handle(handle) {}
 
-			};
+			inline void Framebuffer::setTarget(Target target) { this->_target = target; }
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
-
-#endif // FRAMEBUFFER_ATTACHMENT_HPP

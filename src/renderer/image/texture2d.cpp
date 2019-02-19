@@ -123,11 +123,11 @@ namespace ece
 				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGBA, this->_width, this->_height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
 			}
 
-			void Texture2D::bind(const Target target)
+			void Texture2D::bind()
 			{
-				if (!this->isCurrent(target)) {
-					this->setCurrent(target);
-					OpenGL::bindTexture(getTextureTarget(target), this->_handle);
+				if (!this->isCurrent()) {
+					this->setCurrent();
+					OpenGL::bindTexture(getTextureTarget(this->_target), this->_handle);
 				}
 			}
 

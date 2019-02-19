@@ -66,13 +66,13 @@ namespace ece
 			{
 				this->_material.lock()->addProperty("diffuseMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
 					property->active(0);
-					property->bind(Texture::Target::TEXTURE_2D);
+					property->setTarget(Texture::Target::TEXTURE_2D);
 					return 0;
 				}));
 
 				this->_material.lock()->addProperty("specularMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
 					property->active(1);
-					property->bind(Texture::Target::TEXTURE_2D);
+					property->setTarget(Texture::Target::TEXTURE_2D);
 					return 1;
 				}));
 

@@ -39,8 +39,9 @@
 #ifndef FRAMEBUFFER_HPP
 #define FRAMEBUFFER_HPP
 
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/framebuffer_attachment.hpp"
 
 namespace ece
 {
@@ -48,11 +49,16 @@ namespace ece
 	{
 		namespace rendering
 		{
-			class Framebuffer
+			EnumFlagsT(unsigned short int, FramebufferBufferBit)
+			{
+				COLOR = 0b001,
+				DEPTH = 0b010,
+				STENCIL = 0b100
+			};
+
+			class ECE_RENDERER_API Framebuffer
 			{
 			public:
-				enum class BufferBit : unsigned short int;
-
 				enum class Target : unsigned short int
 				{
 					DRAW,
@@ -66,7 +72,48 @@ namespace ece
 					LINEAR = 1
 				};
 
+				enum class AttachmentChannel : unsigned short int
+				{
+					COLOR0 = 0,
+					COLOR1 = 1,
+					COLOR2 = 2,
+					COLOR3 = 3,
+					COLOR4 = 4,
+					COLOR5 = 5,
+					COLOR6 = 6,
+					COLOR7 = 7,
+					COLOR8 = 8,
+					COLOR9 = 9,
+					COLOR10 = 10,
+					COLOR11 = 11,
+					COLOR12 = 12,
+					COLOR13 = 13,
+					COLOR14 = 14,
+					COLOR15 = 15,
+					COLOR16 = 16,
+					COLOR17 = 17,
+					COLOR18 = 18,
+					COLOR19 = 19,
+					COLOR20 = 20,
+					COLOR21 = 21,
+					COLOR22 = 22,
+					COLOR23 = 23,
+					COLOR24 = 24,
+					COLOR25 = 25,
+					COLOR26 = 26,
+					COLOR27 = 27,
+					COLOR28 = 28,
+					COLOR29 = 29,
+					COLOR30 = 30,
+					COLOR31 = 31,
+					DEPTH = 32,
+					STENCIL = 33,
+					DEPTH_STENCIL = 34
+				};
+
 				Framebuffer() noexcept;
+
+				inline Framebuffer(Handle handle) noexcept;
 
 				Framebuffer(const Framebuffer & copy) = delete;
 				Framebuffer(Framebuffer && move) = default;
@@ -76,26 +123,33 @@ namespace ece
 				Framebuffer & operator=(const Framebuffer & copy) noexcept = delete;
 				Framebuffer & operator=(Framebuffer && move) noexcept = default;
 
-				void bind(Target target = Target::DRAW_AND_READ);
+				void setTarget(Target target = Target::DRAW_AND_READ);
+				void bind();
+				void unbind();
 
-				void attach(FramebufferAttachment attachment);
+				inline void terminate();
 
-				auto checkStatus(Target target = Target::DRAW_AND_READ) -> bool;
+//				void attach(AttachmentChannel channel, Renderbuffer & attachment);
+				void attach(AttachmentChannel channel, Texture & attachment);
+//				void attach(AttachmentChannel channel, Texture1D & attachment);
+//				void attach(AttachmentChannel channel, Texture2D & attachment);
+//				void attach(AttachmentChannel channel, Texture3D & attachment);
+//				void attach(AttachmentChannel channel, TextureLayer & attachment);
 
-				void blit(Rectangle<float> area, Framebuffer & dst, Rectangle<float> dstArea, Framebuffer::BufferBit mask, InterpolationFilter filter);
+				auto checkStatus() -> bool;
+
+				void blit(Rectangle<int> area, Framebuffer & dst, Rectangle<int> dstArea, FramebufferBufferBit mask, InterpolationFilter filter);
+
+				static std::shared_ptr<Framebuffer> getFramebuffer(Handle handle);
 
 			private:
 				Handle _handle;
-			};
-
-			EnumFlagsT(unsigned short int, Framebuffer::BufferBit)
-			{
-				COLOR = 0b001,
-				DEPTH = 0b010,
-				STENCIL = 0b100
+				Target _target;
 			};
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/rendering/framebuffer.inl"
 
 #endif // FRAMEBUFFER_HPP

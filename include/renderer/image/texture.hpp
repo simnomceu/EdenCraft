@@ -113,6 +113,8 @@ namespace ece
 					WRAP_R = 0x16
 				};
 
+				Texture() noexcept;
+
 				/**
 				 * @fn void loadFromFile(const TypeTarget type, const std::string & filename)
 				 * @param[in] type The type of texture to define.
@@ -172,13 +174,17 @@ namespace ece
 				 */
 				virtual auto getHandle() const -> Handle = 0;
 
+				void setTarget(const Target target);
+
+				Target getTarget() const;
+
 				/**
 				 * @fn void bind(const TextureTarget target)
 				 * @param[in] target The buffer to use.
 				 * @brief Copy the texture in a buffer to use it.
 				 * @throw
 				 */
-				virtual void bind(const Target target) = 0;
+				virtual void bind() = 0;
 
 				virtual void active(const unsigned int channel) = 0; 
 
@@ -190,8 +196,10 @@ namespace ece
 				virtual void terminate() = 0;
 
 			protected:
-				void setCurrent(Target target);
-				auto isCurrent(Target target) const noexcept -> bool;
+				void setCurrent();
+				auto isCurrent() const noexcept -> bool;
+
+				Target _target;
 			};
 		} // namespace image
 	} // namespace renderer

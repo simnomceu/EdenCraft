@@ -174,7 +174,7 @@ namespace ece
 				 * @brief Copy the texture in a buffer to use it.
 				 * @throw
 				 */
-				void virtual bind(const Target target) override;
+				void virtual bind() override;
 
 				inline virtual void active(const unsigned int channel) override;
 

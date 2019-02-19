@@ -49,12 +49,24 @@ namespace ece
 		{
 			using rendering::Renderer;
 
-			void Texture::setCurrent(Target target) { Renderer::setCurrentTexture(target, this->weak_from_this()); }
+			Texture::Texture() noexcept: _target(Texture::Target::TEXTURE_2D) {}
 
-			auto Texture::isCurrent(Target target) const noexcept -> bool
+			void Texture::setTarget(const Texture::Target target)
+			{
+				this->_target = target;
+			}
+
+			Texture::Target Texture::getTarget() const
+			{
+				return this->_target;
+			}
+
+			void Texture::setCurrent() { Renderer::setCurrentTexture(this->_target, this->weak_from_this()); }
+
+			auto Texture::isCurrent() const noexcept -> bool
 			{
 				try {
-					return Renderer::getCurrentTexture(target).lock().get() == this;
+					return Renderer::getCurrentTexture(this->_target).lock().get() == this;
 				}
 				catch (std::bad_weak_ptr & e) {
 					ERROR << "A Texture need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. " << e.what() << flush;

@@ -45,16 +45,16 @@ namespace ece
 	{
 		namespace opengl
 		{
-			BufferBit getBufferBit(Framebuffer::BufferBit mask)
+			BufferBit getBufferBit(FramebufferBufferBit mask)
 			{
 				BufferBit result = static_cast<BufferBit>(0);
-				if ((mask & Framebuffer::BufferBit::COLOR) == Framebuffer::BufferBit::COLOR) {
+				if ((mask & FramebufferBufferBit::COLOR) == FramebufferBufferBit::COLOR) {
 					result = result | BufferBit::COLOR;
 				}
-				if ((mask & Framebuffer::BufferBit::DEPTH) == Framebuffer::BufferBit::DEPTH) {
+				if ((mask & FramebufferBufferBit::DEPTH) == FramebufferBufferBit::DEPTH) {
 					result = result | BufferBit::DEPTH;
 				}
-				if ((mask & Framebuffer::BufferBit::STENCIL) == Framebuffer::BufferBit::STENCIL) {
+				if ((mask & FramebufferBufferBit::STENCIL) == FramebufferBufferBit::STENCIL) {
 					result = result | BufferBit::STENCIL;
 				}
 				return std::move(result);
@@ -65,13 +65,13 @@ namespace ece
 				auto result = std::string();
 
 				if ((mask & BufferBit::COLOR) == BufferBit::COLOR) {
-					result += "COLOR | "
+					result += "COLOR | ";
 				}
 				if ((mask & BufferBit::DEPTH) == BufferBit::DEPTH) {
-					result += "DEPTH | "
+					result += "DEPTH | ";
 				}
 				if ((mask & BufferBit::STENCIL) == BufferBit::STENCIL) {
-					result += "STENCIL | "
+					result += "STENCIL | ";
 				}
 				return std::move(result.substr(0, result.size() - 3));
 			}

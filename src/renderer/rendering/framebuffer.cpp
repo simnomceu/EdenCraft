@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/rendering/framebuffer.hpp"
 #include "renderer/opengl.hpp"
 
@@ -56,20 +57,26 @@ namespace ece
 				OpenGL::deleteFramebuffers(handles);
 			}
 
-			void Framebuffer::bind(Target target)
+			void Framebuffer::bind()
 			{
-				OpenGL::bindFramebuffer(getFramebufferTarget(target), this->_handle);
+				OpenGL::bindFramebuffer(getFramebufferTarget(this->_target), this->_handle);
 			}
 
-			void Framebuffer::attach(FramebufferAttachment attachment)
+			void Framebuffer::unbind()
 			{
-
+				OpenGL::bindFramebuffer(getFramebufferTarget(this->_target), NULL_HANDLE);
 			}
 
-			auto Framebuffer::checkStatus(Target target) -> bool
+			void Framebuffer::terminate()
 			{
-				this->bind(target);
-				auto status = OpenGL::checkFramebufferStatus(getFramebufferTarget(target));
+				auto framebuffers = std::vector<Handle>({ this->_handle });
+				OpenGL::deleteFramebuffers(framebuffers);
+			}
+
+			auto Framebuffer::checkStatus() -> bool
+			{
+				this->bind();
+				auto status = OpenGL::checkFramebufferStatus(getFramebufferTarget(this->_target));
 				switch (status) {
 				case FramebufferStatus::COMPLETE:
 					INFO << "Framebuffer completed." << flush;
@@ -100,15 +107,37 @@ namespace ece
 					break;
 				default: break;
 				}
+
+				return status == FramebufferStatus::COMPLETE;
 			}
 
-			void Framebuffer::blit(Rectangle<float> area, Framebuffer & dst, Rectangle<float> dstArea, Framebuffer::BufferBit mask, InterpolationFilter filter)
+			void Framebuffer::blit(Rectangle<int> area, Framebuffer & dst, Rectangle<int> dstArea, FramebufferBufferBit mask, InterpolationFilter filter)
 			{
-				this->bind(Target::READ);
-				dst.bind(Target::READ);
+				this->setTarget(Target::READ);
+				this->bind();
+				dst.setTarget(Target::DRAW);
+				dst.bind();
 				OpenGL::blitFramebuffer(area.x, area.y, area.width, area.height, dstArea.x, dstArea.y, dstArea.width, dstArea.height, getBufferBit(mask), getInterpolationFilter(filter));
 				
 			}
+
+			std::shared_ptr<Framebuffer> Framebuffer::getFramebuffer(Handle handle)
+			{
+				if (OpenGL::isFramebuffer(handle)) {
+					return std::shared_ptr<Framebuffer>();
+				}
+				return std::make_shared<Framebuffer>(handle);
+			}
+
+			void Framebuffer::attach(AttachmentChannel channel, Texture & attachment)
+			{
+				this->bind();
+				attachment.bind();
+
+				const auto level = 0;
+				OpenGL::framebufferTexture(getFramebufferTarget(this->_target), getFramebufferAttachmentChannel(channel), attachment.getHandle(), level);
+			}
+
 		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

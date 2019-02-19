@@ -73,15 +73,15 @@ namespace ece
 			template <typename T>
 			void Texture2D::setParameter(const Parameter name, const T value)
 			{
-				this->bind(Texture::Target::TEXTURE_2D);
-				OpenGL::texParameter(getTextureTarget(Texture::Target::TEXTURE_2D), getTextureParameter(name), value);
+				this->bind();
+				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
 			}
 
 			template <typename T>
 			void Texture2D::setParameter(const Parameter name, const std::vector<T> & value)
 			{
-				this->bind(Texture::Target::TEXTURE_2D);
-				OpenGL::texParameter(getTextureTarget(Texture::Target::TEXTURE_2D), getTextureParameter(name), value);
+				this->bind();
+				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
 			}
 		} // namespace image
 	} // namespace renderer

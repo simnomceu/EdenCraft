@@ -82,7 +82,8 @@ namespace ece
 				this->_vertexArray.bind();
 
 				this->_texture.ref->active(0);
-				this->_texture.ref->bind(Texture::Target::TEXTURE_2D);
+				this->_texture.ref->setTarget(Texture::Target::TEXTURE_2D);
+				this->_texture.ref->bind();
 				program->bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
 
 				auto projection = ece::translate({ -1.0f, -1.0f, 0.0f }) * ece::scale({ 2.0f, 2.0f, 1.0f }) * ece::scale({ 1.0f / 1920.0f, 1.0f / 1080.0f, 1.0f });
