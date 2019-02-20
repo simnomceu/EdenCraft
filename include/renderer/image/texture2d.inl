@@ -83,6 +83,17 @@ namespace ece
 				this->bind();
 				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
 			}
+
+			inline void Texture2D::setPixelData(PixelData pixelData)
+			{
+				this->_pixelData = pixelData;
+				this->create();
+			}
+
+			inline PixelData Texture2D::getPixelData() const
+			{
+				return this->_pixelData;
+			}
 		} // namespace image
 	} // namespace renderer
 } // namespace ece

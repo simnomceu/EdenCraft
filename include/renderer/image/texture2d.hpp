@@ -184,6 +184,9 @@ namespace ece
 
 				void generateMipmap();
 
+				inline void setPixelData(PixelData pixelData);
+				inline PixelData getPixelData() const;
+
 				/**
 				 * @fn void terminate()
 				 * @brief Clear and delete the texture.
@@ -222,17 +225,15 @@ namespace ece
 				 */
 				TypeTarget _type;
 
-				PixelInternalFormat _internalFormat;
-
-				PixelFormat _format;
-
-				PixelDataType _dataType;
+				PixelData _pixelData;
 
 				/**
 				 * @property _handle
 				 * @brief The texture handle to use for any OpenGL call.
 				 */
 				Handle _handle;
+
+				void create();
 			};
 		} // namespace image
 	} // namespace renderer

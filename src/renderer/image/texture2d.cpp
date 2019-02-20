@@ -51,8 +51,8 @@ namespace ece
 	{
 		namespace image
 		{
-			Texture2D::Texture2D()noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), _internalFormat(PixelInternalFormat::RGBA), 
-				_format(PixelFormat::RGBA), _dataType(PixelDataType::UNSIGNED_BYTE), _handle(OpenGL::genTexture())
+			Texture2D::Texture2D()noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), 
+				_pixelData{ PixelData::Format::RGBA, PixelData::InternalFormat::RGBA, PixelData::DataType::UNSIGNED_BYTE }, _handle(OpenGL::genTexture())
 			{
 				this->setParameter<int>(Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
 				this->setParameter<int>(Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
@@ -67,9 +67,7 @@ namespace ece
 					this->_width = copy._width;
 					this->_height = copy._height;
 					this->_type = copy._type;
-					this->_internalFormat = copy._internalFormat;
-					this->_format = copy._format;
-					this->_dataType = copy._dataType;
+					this->_pixelData = copy._pixelData;
 					this->_handle = copy._handle;
 				}
 
@@ -84,9 +82,7 @@ namespace ece
 					this->_width = move._width;
 					this->_height = move._height;
 					this->_type = move._type;
-					this->_internalFormat = move._internalFormat;
-					this->_format = move._format;
-					this->_dataType = move._dataType;
+					this->_pixelData = move._pixelData;
 					this->_handle = move._handle;
 
 					move._data.clear();
@@ -127,7 +123,7 @@ namespace ece
 				this->_height = image.getHeight();
 				this->_type = type;
 
-				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, this->_internalFormat, this->_width, this->_height, getPixelFormat(this->_format), this->_dataType , &this->_data[0]);
+				this->create();
 			}
 
 			void Texture2D::bind()
@@ -146,6 +142,12 @@ namespace ece
 			}
 
 			void Texture2D::terminate() {}
+
+			void Texture2D::create()
+			{
+				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, getPixelInternalFormat(this->_pixelData.internalFormat), this->_width, this->_height,
+					getPixelFormat(this->_pixelData.format), getPixelDataType(this->_pixelData.type), &this->_data[0]);
+			}
 		} // namespace image
 	} // namespace renderer
 } // namespace ece

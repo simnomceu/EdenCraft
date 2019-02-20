@@ -45,47 +45,47 @@ namespace ece
 	{
 		namespace opengl
 		{
-			PixelFormat getPixelFormat(image::PixelFormat format)
+			PixelFormat getPixelFormat(PixelData::Format format)
 			{
 				switch (format) {
-				case image::PixelFormat::RED: return PixelFormat::RED; break;
-				case image::PixelFormat::RG: return PixelFormat::RG; break;
-				case image::PixelFormat::RGB: return PixelFormat::RGB; break;
-				case image::PixelFormat::BGR: return PixelFormat::BGR; break;
-				case image::PixelFormat::RGBA: return PixelFormat::RGBA; break;
-				case image::PixelFormat::BGRA: return PixelFormat::BGRA; break;
-				case image::PixelFormat::RED_INTEGER: return PixelFormat::RED_INTEGER; break;
-				case image::PixelFormat::RG_INTEGER: return PixelFormat::RG_INTEGER; break;
-				case image::PixelFormat::RGB_INTEGER: return PixelFormat::RGB_INTEGER; break;
-				case image::PixelFormat::BGR_INTEGER: return PixelFormat::BGR_INTEGER; break;
-				case image::PixelFormat::RGBA_INTEGER: return PixelFormat::RGBA_INTEGER; break;
-				case image::PixelFormat::BGRA_INTEGER: return PixelFormat::BGRA_INTEGER; break;
-				case image::PixelFormat::STENCIL_INDEX: return PixelFormat::STENCIL_INDEX; break;
-				case image::PixelFormat::DEPTH_COMPONENT: return PixelFormat::DEPTH_COMPONENT; break;
-				case image::PixelFormat::DEPTH_STENCIL: return PixelFormat::DEPTH_STENCIL; break;
-				default: throw std::runtime_error("Unknown value for FrontFaceMode enumeration."); break;
+				case PixelData::Format::RED: return PixelFormat::RED; break;
+				case PixelData::Format::RG: return PixelFormat::RG; break;
+				case PixelData::Format::RGB: return PixelFormat::RGB; break;
+				case PixelData::Format::BGR: return PixelFormat::BGR; break;
+				case PixelData::Format::RGBA: return PixelFormat::RGBA; break;
+				case PixelData::Format::BGRA: return PixelFormat::BGRA; break;
+				case PixelData::Format::RED_INTEGER: return PixelFormat::RED_INTEGER; break;
+				case PixelData::Format::RG_INTEGER: return PixelFormat::RG_INTEGER; break;
+				case PixelData::Format::RGB_INTEGER: return PixelFormat::RGB_INTEGER; break;
+				case PixelData::Format::BGR_INTEGER: return PixelFormat::BGR_INTEGER; break;
+				case PixelData::Format::RGBA_INTEGER: return PixelFormat::RGBA_INTEGER; break;
+				case PixelData::Format::BGRA_INTEGER: return PixelFormat::BGRA_INTEGER; break;
+				case PixelData::Format::STENCIL_INDEX: return PixelFormat::STENCIL_INDEX; break;
+				case PixelData::Format::DEPTH_COMPONENT: return PixelFormat::DEPTH_COMPONENT; break;
+				case PixelData::Format::DEPTH_STENCIL: return PixelFormat::DEPTH_STENCIL; break;
+				default: throw std::runtime_error("Unknown value for PixelFormat enumeration."); break;
 				}
 			}
 
 			std::string to_string(PixelFormat format)
 			{
 				switch (format) {
-				case PixelFormat::RED: return "RED"; break;
-				case PixelFormat::RG: return "RG"; break;
-				case PixelFormat::RGB: return "RGB"; break;
-				case PixelFormat::BGR: return "BGR"; break;
-				case PixelFormat::RGBA: return "RGBA"; break;
-				case PixelFormat::BGRA: return "BGRA"; break;
-				case PixelFormat::RED_INTEGER: return "RED_INTEGER"; break;
-				case PixelFormat::RG_INTEGER: return "RG_INTEGER"; break;
-				case PixelFormat::RGB_INTEGER: return "RGB_INTEGER"; break;
-				case PixelFormat::BGR_INTEGER: return "BGR_INTEGER"; break;
-				case PixelFormat::RGBA_INTEGER: return "RGBA_INTEGER"; break;
-				case PixelFormat::BGRA_INTEGER: return "BGRA_INTEGER"; break;
-				case PixelFormat::STENCIL_INDEX: return "STENCIL_INDEX"; break;
-				case PixelFormat::DEPTH_COMPONENT: return "DEPTH_COMPONENT"; break;
-				case PixelFormat::DEPTH_STENCIL: return "DEPTH_STENCIL"; break;
-				default: throw std::runtime_error("Unknown value for FrontFaceMode enumeration."); break;
+				case PixelFormat::RED: return "GL_RED"; break;
+				case PixelFormat::RG: return "GL_RG"; break;
+				case PixelFormat::RGB: return "GL_RGB"; break;
+				case PixelFormat::BGR: return "GL_BGR"; break;
+				case PixelFormat::RGBA: return "GL_RGBA"; break;
+				case PixelFormat::BGRA: return "GL_BGRA"; break;
+				case PixelFormat::RED_INTEGER: return "GL_RED_INTEGER"; break;
+				case PixelFormat::RG_INTEGER: return "GL_RG_INTEGER"; break;
+				case PixelFormat::RGB_INTEGER: return "GL_RGB_INTEGER"; break;
+				case PixelFormat::BGR_INTEGER: return "GL_BGR_INTEGER"; break;
+				case PixelFormat::RGBA_INTEGER: return "GL_RGBA_INTEGER"; break;
+				case PixelFormat::BGRA_INTEGER: return "GL_BGRA_INTEGER"; break;
+				case PixelFormat::STENCIL_INDEX: return "GL_STENCIL_INDEX"; break;
+				case PixelFormat::DEPTH_COMPONENT: return "GL_DEPTH_COMPONENT"; break;
+				case PixelFormat::DEPTH_STENCIL: return "GL_DEPTH_STENCIL"; break;
+				default: throw std::runtime_error("Unknown value for PixelFormat enumeration."); break;
 				}
 			}
 		} // namespace opengl
