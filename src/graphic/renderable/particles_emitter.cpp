@@ -54,7 +54,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _vertices()
+			ParticlesEmitter::ParticlesEmitter(const ece::size_t size) noexcept : Renderable(), _particles(), _size(size), _vertices()
 			{
 				this->_state.pointSize = 4.0f;
 				this->_state.blending = true;
@@ -86,7 +86,7 @@ namespace ece
 						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
-				this->_numberOfInstances = this->_particles.size();
+				this->_numberOfInstances = static_cast<ece::size_t>(this->_particles.size());
 			}
 
 			void ParticlesEmitter::update(const float elapsedTime)
@@ -109,7 +109,7 @@ namespace ece
 					}
 				}
 
-				this->_numberOfInstances = this->_particles.size();
+				this->_numberOfInstances = static_cast<ece::size_t>(this->_particles.size());
 
 				this->_particles.update();
 			}
@@ -119,7 +119,7 @@ namespace ece
 				this->_vertexArray.bind();
 				this->_state.apply();
 
-				OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices.size(), this->_size);
+				OpenGL::drawArraysInstanced(this->_mode, 0, static_cast<ece::size_t>(this->_vertices.size()), this->_size);
 			}
 		} // namespace renderable
 	} // namespace graphic

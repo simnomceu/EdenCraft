@@ -69,7 +69,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				ParticlesEmitter(const std::size_t size) noexcept;
+				ParticlesEmitter(const ece::size_t size) noexcept;
 
 				/**
 				 * @fn ParticlesEmitter(const ParticlesEmitter & copy)
@@ -117,7 +117,7 @@ namespace ece
 				virtual void draw([[maybe_unused]] std::shared_ptr<Shader> program) override;
 			private:
 				VertexBuffer<SymetricStorage, std::vector<Particle>> _particles;
-				std::size_t _size;
+				ece::size_t _size;
 
 				VertexBuffer<SymetricStorage, std::vector<float>> _vertices;
 			};

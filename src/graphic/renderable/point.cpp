@@ -95,10 +95,10 @@ namespace ece
 				this->_vertexArray.bind();
 				this->_state.apply();
 				if (this->isInstancingEnabled()) {
-					OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices.size() * 3, this->_numberOfInstances);
+					OpenGL::drawArraysInstanced(this->_mode, 0, static_cast<ece::size_t>(this->_vertices.size() * 3), this->_numberOfInstances);
 				}
 				else {
-					OpenGL::drawArrays(this->_mode, 0, this->_vertices.size() * 3);
+					OpenGL::drawArrays(this->_mode, 0, static_cast<ece::size_t>(this->_vertices.size() * 3));
 				}
 			}
 		} // namespace renderable

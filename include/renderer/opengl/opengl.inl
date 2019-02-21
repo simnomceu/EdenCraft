@@ -73,7 +73,7 @@ namespace ece
 				throw std::runtime_error("OpenGL::vertexAttrib method is not defined for this type");
 			}
 
-			template <std::size_t Size, typename enabled>
+			template <ece::size_t Size, typename enabled>
 			inline void OpenGL::vertexAttribP(Handle index, PackedVertexAttribType type, bool normalized, unsigned int value)
 			{
 				if constexpr (Size == 1) {
@@ -216,7 +216,7 @@ namespace ece
 				checkErrors(glVertexAttrib4Nub(index, static_cast<GLubyte>(v[0]), static_cast<GLubyte>(v[1]), static_cast<GLubyte>(std::move(v[2])), static_cast<GLubyte>(std::move(v[3]))));
 			}
 
-			inline void OpenGL::vertexAttribPointer(const int location, const std::size_t size, const DataType type, const bool normalized, const std::size_t stride, const std::size_t offset)
+			inline void OpenGL::vertexAttribPointer(const int location, const ece::size_t size, const DataType type, const bool normalized, const ece::size_t stride, const ece::offset_t offset)
 			{
 				checkErrors(glVertexAttribPointer(location, static_cast<GLint>(size), static_cast<GLenum>(type), normalized, static_cast<GLsizei>(stride), reinterpret_cast<GLvoid *>(offset)));
 			}
@@ -251,70 +251,70 @@ namespace ece
 				checkErrors(glDisablei(static_cast<GLenum>(cap), index));
 			}
 
-			inline void OpenGL::primitiveRestartIndex(std::size_t index)
+			inline void OpenGL::primitiveRestartIndex(ece::size_t index)
 			{
 				checkErrors(glPrimitiveRestartIndex(static_cast<GLuint>(index)));
 			}
 
-			inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const std::size_t count)
+			inline void OpenGL::drawArrays(const PrimitiveMode mode, const int first, const ece::size_t count)
 			{
 				checkErrors(glDrawArrays(static_cast<GLenum>(mode), first, static_cast<GLsizei>(count)));
 			}
 
-			inline void OpenGL::multiDrawArrays(PrimitiveMode mode, const std::vector<int> & first, const std::vector<std::size_t> & count, std::size_t drawcount)
+			inline void OpenGL::multiDrawArrays(PrimitiveMode mode, const std::vector<int> & first, const std::vector<ece::size_t> & count, ece::size_t drawcount)
 			{
 				checkErrors(glMultiDrawArrays(static_cast<GLenum>(mode), first.data(), reinterpret_cast<const GLsizei *>(count.data()), static_cast<GLsizei>(drawcount)));
 			}
 
-			inline void OpenGL::drawElements(const PrimitiveMode mode, const std::size_t count, const int offset)
+			inline void OpenGL::drawElements(const PrimitiveMode mode, const ece::size_t count, const int offset)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				auto byteOffset = offset * sizeof(unsigned int);
 				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), type, reinterpret_cast<GLvoid *>(byteOffset)));
 			}
 
-			inline void OpenGL::multiDrawElements(PrimitiveMode mode, const std::vector<std::size_t> & count, const std::vector<std::size_t *> & indices, std::size_t drawcount)
+			inline void OpenGL::multiDrawElements(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glMultiDrawElements(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), type, reinterpret_cast<const GLvoid * const *>(indices.data()), static_cast<GLsizei>(drawcount)));
 			}
 
-			inline void OpenGL::drawRangeElements(PrimitiveMode mode, std::size_t start, std::size_t end, std::size_t count, const std::size_t * indices)
+			inline void OpenGL::drawRangeElements(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, const ece::size_t * indices)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawRangeElements(static_cast<GLenum>(mode), start, end, count, type, static_cast<const GLvoid *>(indices)));
 			}
 
-			inline void OpenGL::drawArraysInstanced(const PrimitiveMode mode, const int first, const std::size_t count, const std::size_t primcount)
+			inline void OpenGL::drawArraysInstanced(const PrimitiveMode mode, const int first, const ece::size_t count, const ece::size_t primcount)
             {
                 checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, count, static_cast<GLsizei>(primcount)));
             }
 
-            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const std::size_t count, const int offset, const std::size_t primcount)
+            inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const ece::size_t count, ece::offset_t offset, const ece::size_t primcount)
             {
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(offset), static_cast<GLsizei>(primcount)));
             }
 
-            inline void OpenGL::drawElementsBaseVertex(PrimitiveMode mode, std::size_t count, std::vector<std::size_t> & indices, int basevertex)
+            inline void OpenGL::drawElementsBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawElementsBaseVertex(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(indices.data()), basevertex));
 			}
 
-			inline void OpenGL::drawRangeElementsBaseVertex(PrimitiveMode mode, std::size_t start, std::size_t end, std::size_t count, std::vector<std::size_t> & indices, int basevertex)
+			inline void OpenGL::drawRangeElementsBaseVertex(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawRangeElementsBaseVertex(static_cast<GLenum>(mode), start, end, count, type, reinterpret_cast<GLvoid *>(indices.data()), basevertex));
 			}
 
-			inline void OpenGL::drawElementsInstancedBaseVertex(PrimitiveMode mode, std::size_t count, std::vector<std::size_t> & indices, std::size_t primcount, int basevertex)
+			inline void OpenGL::drawElementsInstancedBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, ece::size_t primcount, int basevertex)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawElementsInstancedBaseVertex(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(indices.data()), static_cast<GLsizei>(primcount), basevertex));
 			}
 
-			inline void OpenGL::multiDrawElementsBaseVertex(PrimitiveMode mode, const std::vector<std::size_t> & count, const std::vector<std::size_t *> & indices, std::size_t drawcount, const std::vector<int> & basevertex)
+			inline void OpenGL::multiDrawElementsBaseVertex(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount, const std::vector<int> & basevertex)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glMultiDrawElementsBaseVertex(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), type, reinterpret_cast<const GLvoid * const *>(indices.data()), drawcount, basevertex.data()));
@@ -350,7 +350,7 @@ namespace ece
 				checkErrors(glBindBuffer(static_cast<GLenum>(type), handle));
 			}
 
-			inline void OpenGL::bindBufferRange(IndexedBufferTarget target, Handle index, Handle buffer, int offset, std::size_t size)
+			inline void OpenGL::bindBufferRange(IndexedBufferTarget target, Handle index, Handle buffer, int offset, ece::size_t size)
 			{
 				checkErrors(glBindBufferRange(static_cast<GLenum>(target), index, buffer, offset, size));
 			}
@@ -367,18 +367,18 @@ namespace ece
 			}
 
 			template <class E>
-			inline void OpenGL::bufferData(const BufferType type, const std::size_t size, const BufferUsage usage, const int /*offset*/)
+			inline void OpenGL::bufferData(const BufferType type, const ece::size_t size, const BufferUsage usage, const int /*offset*/)
 			{
 				checkErrors(glBufferData(static_cast<GLenum>(type), size * sizeof(E), nullptr, static_cast<GLenum>(usage)));
 			}
 
 			template <class C, typename enabled>
-			inline void OpenGL::bufferSubData(BufferType target, int offset, std::size_t size, const C & data)
+			inline void OpenGL::bufferSubData(BufferType target, int offset, ece::size_t size, const C & data)
 			{
 				checkErrors(glBufferSubData(static_cast<GLenum>(target), offset, size, reinterpret_cast<GLvoid *>(data.data())));
 			}
 
-			inline auto OpenGL::mapBufferRange(BufferType target, int offset, std::size_t length, MapBufferRangeAccessFlag access) -> void *
+			inline auto OpenGL::mapBufferRange(BufferType target, int offset, ece::size_t length, MapBufferRangeAccessFlag access) -> void *
 			{
 				return checkErrors(glMapBufferRange(static_cast<GLenum>(target), offset, length, static_cast<GLbitfield>(access)));
 			}
@@ -388,7 +388,7 @@ namespace ece
 				return checkErrors(glMapBuffer(static_cast<GLenum>(target), static_cast<GLbitfield>(access)));
 			}
 
-			inline void OpenGL::flushMappedBufferRange(BufferType target, int offset, std::size_t length)
+			inline void OpenGL::flushMappedBufferRange(BufferType target, int offset, ece::size_t length)
 			{
 				return checkErrors(glFlushMappedBufferRange(static_cast<GLenum>(target), offset, length));
 			}
@@ -398,7 +398,7 @@ namespace ece
 				return checkErrors(glUnmapBuffer(static_cast<GLenum>(target)));
 			}
 
-			inline void OpenGL::copyBufferSubData(BufferType readTarget, BufferType writeTarget, int readOffset, int writeOffset, std::size_t size)
+			inline void OpenGL::copyBufferSubData(BufferType readTarget, BufferType writeTarget, int readOffset, int writeOffset, ece::size_t size)
 			{
 				checkErrors(glCopyBufferSubData(static_cast<GLenum>(readTarget), static_cast<GLenum>(writeTarget), readOffset, writeOffset, size));
 			}
@@ -418,7 +418,7 @@ namespace ece
 				return std::move(handles);
 			}
 
-			inline void OpenGL::deleteVertexArrays(std::size_t n, const std::vector<Handle> & arrays)
+			inline void OpenGL::deleteVertexArrays(ece::size_t n, const std::vector<Handle> & arrays)
 			{
 				checkErrors(glDeleteVertexArrays(n, arrays.data()));
 			}
@@ -448,7 +448,7 @@ namespace ece
 			}
 
 			template <class T>
-			inline auto OpenGL::getBufferSubData(BufferType target, int offset, std::size_t size) -> std::vector<T>
+			inline auto OpenGL::getBufferSubData(BufferType target, int offset, ece::size_t size) -> std::vector<T>
 			{
 				auto data = std::vector<T>{};
 				checkErrors(glGetBufferSubData(static_cast<GLenum>(target), offset, size, reinterpret_cast<GLvoid *>(data.data())));
@@ -519,7 +519,7 @@ namespace ece
 				checkErrors(glEndQuery(static_cast<GLenum>(target)));
 			}
 
-			inline auto OpenGL::genQueries(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::genQueries(ece::size_t n) -> std::vector<Handle>
 			{
 				auto ids = std::vector<Handle>{};
 				checkErrors(glGenQueries(n, reinterpret_cast<GLuint *>(ids.data())));
@@ -528,7 +528,7 @@ namespace ece
 
 			inline void OpenGL::deleteQueries(const std::vector<Handle> & ids)
 			{
-				checkErrors(glDeleteQueries(ids.size(), ids.data()));
+				checkErrors(glDeleteQueries(static_cast<ece::size_t>(ids.size()), ids.data()));
 			}
 
 			inline auto OpenGL::isQuery(Handle id) -> bool
@@ -645,9 +645,9 @@ namespace ece
 
 			inline auto OpenGL::getActiveAttrib(Handle program, unsigned int index) -> ProgramAttribute
 			{
-				const auto bufSize = std::size_t{ 4096 };
+				const auto bufSize = ece::size_t{ 4096 };
 
-				auto length = std::size_t{ 0 };
+				auto length = ece::size_t{ 0 };
 				auto result = ProgramAttribute{};
 				result.name.resize(bufSize);
 
@@ -683,9 +683,9 @@ namespace ece
 
 			inline auto OpenGL::getActiveUniformBlockName(Handle program, unsigned int uniformBlockIndex) -> std::string
 			{
-				const auto bufSize = std::size_t{ 4096 };
+				const auto bufSize = ece::size_t{ 4096 };
 
-				auto length = std::size_t{ 0 };
+				auto length = ece::size_t{ 0 };
 				auto name = std::string(bufSize, '\0');
 				checkErrors(glGetActiveUniformBlockName(program, uniformBlockIndex, bufSize, reinterpret_cast<GLsizei *>(&length), name.data()));
 				name = name.substr(0, length);
@@ -700,7 +700,7 @@ namespace ece
 				return std::move(params);
 			}
 
-			inline auto OpenGL::getUniformIndices(Handle program, std::size_t uniformCount) -> UniformBlock
+			inline auto OpenGL::getUniformIndices(Handle program, ece::size_t uniformCount) -> UniformBlock
 			{
 				auto result = UniformBlock();
 				result.names.resize(uniformCount);
@@ -711,9 +711,9 @@ namespace ece
 
 			inline auto OpenGL::getActiveUniformName(Handle program, unsigned int uniformIndex) -> std::string
 			{
-				const auto bufSize = std::size_t{ 4096 };
+				const auto bufSize = ece::size_t{ 4096 };
 
-				auto length = std::size_t{ 0 };
+				auto length = ece::size_t{ 0 };
 				auto name = std::string(bufSize, '\0');
 				checkErrors(glGetActiveUniformName(program, uniformIndex, bufSize, reinterpret_cast<GLsizei *>(&length), name.data()));
 				name = name.substr(0, length);
@@ -728,13 +728,13 @@ namespace ece
 				auto type = GLenum{};
 				auto name = std::string(1024, '\0');
 				checkErrors(glGetActiveUniform(program, index, 1024, &length, &size, &type, name.data()));
-				return { name.substr(0, length), static_cast<UniformDataType>(type), static_cast<std::size_t>(size) };
+				return { name.substr(0, length), static_cast<UniformDataType>(type), static_cast<ece::size_t>(size) };
 			}
 
 			inline auto OpenGL::getActiveUniforms(Handle program, const std::vector<unsigned int> & uniformIndices, UniformDataType pname) -> std::vector<int>
 			{
 				auto params = std::vector<int>(uniformIndices.size(), 0);
-				checkErrors(glGetActiveUniformsiv(program, uniformIndices.size(), uniformIndices.data(), static_cast<GLenum>(pname), params.data()));
+				checkErrors(glGetActiveUniformsiv(program, static_cast<ece::size_t>(uniformIndices.size()), uniformIndices.data(), static_cast<GLenum>(pname), params.data()));
 				return std::move(params);
 			}
 
@@ -823,79 +823,79 @@ namespace ece
 			}
 
 			template <class T, unsigned int S>
-			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] std::size_t count, [[maybe_unused]] const std::array<T, S> & v)
+			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] ece::size_t count, [[maybe_unused]] const std::array<T, S> & v)
 			{
 				static_assert("No existing specialization for OpenGL::uniform.");
 			}
 
 			template<>
-			inline void OpenGL::uniform<float, 1>(int location, std::size_t count, const std::array<float, 1> & value)
+			inline void OpenGL::uniform<float, 1>(int location, ece::size_t count, const std::array<float, 1> & value)
 			{
 				checkErrors(glUniform1fv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<float, 2>(int location, std::size_t count, const std::array<float, 2> & value)
+			inline void OpenGL::uniform<float, 2>(int location, ece::size_t count, const std::array<float, 2> & value)
 			{
 				checkErrors(glUniform2fv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<float, 3>(int location, std::size_t count, const std::array<float, 3> & value)
+			inline void OpenGL::uniform<float, 3>(int location, ece::size_t count, const std::array<float, 3> & value)
 			{
 				checkErrors(glUniform3fv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<float, 4>(int location, std::size_t count, const std::array<float, 4> & value)
+			inline void OpenGL::uniform<float, 4>(int location, ece::size_t count, const std::array<float, 4> & value)
 			{
 				checkErrors(glUniform4fv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<int, 1>(int location, std::size_t count, const std::array<int, 1> & value)
+			inline void OpenGL::uniform<int, 1>(int location, ece::size_t count, const std::array<int, 1> & value)
 			{
 				checkErrors(glUniform1iv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<int, 2>(int location, std::size_t count, const std::array<int, 2> & value)
+			inline void OpenGL::uniform<int, 2>(int location, ece::size_t count, const std::array<int, 2> & value)
 			{
 				checkErrors(glUniform2iv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<int, 3>(int location, std::size_t count, const std::array<int, 3> & value)
+			inline void OpenGL::uniform<int, 3>(int location, ece::size_t count, const std::array<int, 3> & value)
 			{
 				checkErrors(glUniform3iv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<int, 4>(int location, std::size_t count, const std::array<int, 4> & value)
+			inline void OpenGL::uniform<int, 4>(int location, ece::size_t count, const std::array<int, 4> & value)
 			{
 				checkErrors(glUniform4iv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<unsigned int, 1>(int location, std::size_t count, const std::array<unsigned int, 1> & value)
+			inline void OpenGL::uniform<unsigned int, 1>(int location, ece::size_t count, const std::array<unsigned int, 1> & value)
 			{
 				checkErrors(glUniform1uiv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<unsigned int, 2>(int location, std::size_t count, const std::array<unsigned int, 2> & value)
+			inline void OpenGL::uniform<unsigned int, 2>(int location, ece::size_t count, const std::array<unsigned int, 2> & value)
 			{
 				checkErrors(glUniform2uiv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<unsigned int, 3>(int location, std::size_t count, const std::array<unsigned int, 3> & value)
+			inline void OpenGL::uniform<unsigned int, 3>(int location, ece::size_t count, const std::array<unsigned int, 3> & value)
 			{
 				checkErrors(glUniform3uiv(location, count, value.data()));
 			}
 
 			template<>
-			inline void OpenGL::uniform<unsigned int, 4>(int location, std::size_t count, const std::array<unsigned int, 4> & value)
+			inline void OpenGL::uniform<unsigned int, 4>(int location, ece::size_t count, const std::array<unsigned int, 4> & value)
 			{
 				checkErrors(glUniform4uiv(location, count, value.data()));
 			}
@@ -961,61 +961,61 @@ namespace ece
 			}
 
 			template <class T, unsigned int M, unsigned int N>
-			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] std::size_t count, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v)
+			inline void OpenGL::uniform([[maybe_unused]] const int location, [[maybe_unused]] ece::size_t count, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v)
 			{
 				static_assert("No existing specialization for OpenGL::uniform.");
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 2> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 2> & v)
 			{
 				checkErrors(glUniformMatrix2fv(location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 3> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 3> & v)
 			{
 				checkErrors(glUniformMatrix3fv(location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 4> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 4> & v)
 			{
 				checkErrors(glUniformMatrix4fv(location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 3> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 3> & v)
 			{
 				checkErrors(glUniformMatrix2x3fv(location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 2> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 2> & v)
 			{
 				checkErrors(glUniformMatrix3x2fv(location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 4> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 4> & v)
 			{
 				checkErrors(glUniformMatrix2x4fv(location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 2> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 2> & v)
 			{
 				checkErrors(glUniformMatrix4x2fv(location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 4> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 4> & v)
 			{
 				checkErrors(glUniformMatrix3x4fv(location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::uniform(const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 3> & v)
+			inline void OpenGL::uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 3> & v)
 			{
 				checkErrors(glUniformMatrix4x3fv(location, count, transpose, v.data()));
 			}
@@ -1025,7 +1025,7 @@ namespace ece
 				checkErrors(glUniformBlockBinding(program, uniformBlockIndex, uniformBlockBinding));
 			}
 
-			inline void OpenGL::transformFeedbackVaryings(Handle program, std::size_t count, const std::vector<std::string> & varyings, VaryingBufferMode bufferMode)
+			inline void OpenGL::transformFeedbackVaryings(Handle program, ece::size_t count, const std::vector<std::string> & varyings, VaryingBufferMode bufferMode)
 			{
 
 				auto varyingsPtr = std::vector<const char*>{};
@@ -1037,9 +1037,9 @@ namespace ece
 
 			inline auto OpenGL::getTransformFeedbackVarying(Handle program, unsigned int index) -> VaryingInfo
 			{
-				const auto bufSize = std::size_t{ 4096 };
+				const auto bufSize = ece::size_t{ 4096 };
 
-				auto length = std::size_t{ 0 };
+				auto length = ece::size_t{ 0 };
 				auto result = VaryingInfo{};
 				result.name.resize(bufSize);
 				checkErrors(glGetTransformFeedbackVarying(program, index, bufSize, reinterpret_cast<GLsizei *>(&length), reinterpret_cast<GLsizei *>(&result.size), &result.type, result.name.data()));
@@ -1114,9 +1114,9 @@ namespace ece
 
             inline auto OpenGL::getShaderSource(Handle shader) -> std::string
 			{
-				const auto bufSize = std::size_t{ 16384 };
+				const auto bufSize = ece::size_t{ 16384 };
 
-				auto length = std::size_t{ 0 };
+				auto length = ece::size_t{ 0 };
 				auto source = std::string(bufSize, '\0');
 				checkErrors(glGetShaderSource(shader, bufSize, reinterpret_cast<GLsizei *>(&length), source.data()));
 				source = source.substr(0, length);
@@ -1211,7 +1211,7 @@ namespace ece
                 auto size = 0;
                 auto infoLog = std::string(512, '\r');
                 checkErrors(glGetProgramInfoLog(static_cast<GLuint>(program), 512, &size, infoLog.data()));
-                return infoLog.substr(0, static_cast<std::size_t>(size));
+                return infoLog.substr(0, static_cast<ece::size_t>(size));
             }
 
 			inline auto OpenGL::getMultisample(Handle index) -> FloatVector2u
@@ -1285,98 +1285,98 @@ namespace ece
 				checkErrors(glActiveTexture(static_cast<GLenum>(TextureUnit::TEXTURE0) + texture));
 			}
 
-			inline void OpenGL::texImage3D(TargetTexture3D target, int level, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, PixelDataType type, const void * data)
+			inline void OpenGL::texImage3D(TargetTexture3D target, int level, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, PixelDataType type, const void * data)
 			{
 				checkErrors(glTexImage3D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLsizei>(depth), 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
 			}
 
-			inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const std::size_t width, const std::size_t height, const PixelFormat format, const PixelDataType type, const void * data)
+			inline void OpenGL::texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const ece::size_t width, const ece::size_t height, const PixelFormat format, const PixelDataType type, const void * data)
 			{
 				auto levelSec = (target == TextureTypeTarget::TEXTURE_RECTANGLE || target == TextureTypeTarget::PROXY_TEXTURE_RECTANGLE) ? 0 : level;
 				checkErrors(glTexImage2D(static_cast<GLenum>(target), levelSec, static_cast<unsigned int>(internalFormat), static_cast<GLsizei>(width), static_cast<GLsizei>(height), 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
 			}
 
-			inline void OpenGL::texImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, std::size_t width, PixelFormat format, PixelDataType type, const void * data)
+			inline void OpenGL::texImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, ece::size_t width, PixelFormat format, PixelDataType type, const void * data)
 			{
 				checkErrors(glTexImage1D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), static_cast<GLsizei>(width), 0, static_cast<GLenum>(format), static_cast<GLenum>(type), data));
 			}
 
-			inline void OpenGL::copyTexImage2D(TextureTypeTarget target, int level, PixelInternalFormat internalFormat, int x, int y, std::size_t width, std::size_t height)
+			inline void OpenGL::copyTexImage2D(TextureTypeTarget target, int level, PixelInternalFormat internalFormat, int x, int y, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glCopyTexImage2D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), x, y, width, height, 0));
 			}
 
-			inline void OpenGL::copyTexImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, int x, int y, std::size_t width)
+			inline void OpenGL::copyTexImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, int x, int y, ece::size_t width)
 			{
 				checkErrors(glCopyTexImage1D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), x, y, width, 0));
 			}
 
-			inline void OpenGL::texSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, std::size_t  width, std::size_t  height, std::size_t depth, PixelFormat format, PixelDataType type, const void * pixels)
+			inline void OpenGL::texSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, ece::size_t  width, ece::size_t  height, ece::size_t depth, PixelFormat format, PixelDataType type, const void * pixels)
 			{
 				checkErrors(glTexSubImage3D(static_cast<GLenum>(target), level, xoffset, yoffset, zoffset, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLsizei>(depth), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
 			}
 
-			inline void OpenGL::texSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, std::size_t width, std::size_t height, PixelFormat format, PixelDataType type, const void * pixels)
+			inline void OpenGL::texSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, ece::size_t width, ece::size_t height, PixelFormat format, PixelDataType type, const void * pixels)
 			{
 				checkErrors(glTexSubImage2D(static_cast<GLenum>(target), level, xoffset, yoffset, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
 			}
 
-			inline void OpenGL::texSubImage1D(TargetTexture1D target, int level, int xoffset, std::size_t width, PixelFormat format, PixelDataType type, const void * pixels)
+			inline void OpenGL::texSubImage1D(TargetTexture1D target, int level, int xoffset, ece::size_t width, PixelFormat format, PixelDataType type, const void * pixels)
 			{
 				checkErrors(glTexSubImage1D(static_cast<GLenum>(target), level, xoffset, static_cast<GLsizei>(width), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
 			}
 
-			inline void OpenGL::copyTexSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, int x, int y, std::size_t width, std::size_t height)
+			inline void OpenGL::copyTexSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, int x, int y, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glCopyTexSubImage3D(static_cast<GLenum>(target), level, xoffset, yoffset, zoffset, x, y, width, height));
 			}
 
-			inline void OpenGL::copyTexSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, int x, int y, std::size_t width, std::size_t height)
+			inline void OpenGL::copyTexSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, int x, int y, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glCopyTexSubImage2D(static_cast<GLenum>(target), level, xoffset, yoffset, x, y, width, height));
 			}
 
-			inline void OpenGL::copyTexSubImage1D(TargetTexture1D target, int level, int xoffset, int x, int y, std::size_t width)
+			inline void OpenGL::copyTexSubImage1D(TargetTexture1D target, int level, int xoffset, int x, int y, ece::size_t width)
 			{
 				checkErrors(glCopyTexSubImage1D(static_cast<GLenum>(target), level, xoffset, x, y, width));
 			}
 
-			inline void OpenGL::compressedTexImage3D(TargetTexture3D target, int level, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, std::size_t depth, std::size_t imageSize, const void * data)
+			inline void OpenGL::compressedTexImage3D(TargetTexture3D target, int level, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, ece::size_t depth, ece::size_t imageSize, const void * data)
 			{
 				checkErrors(glCompressedTexImage3D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), width, height, depth, 0, imageSize, data));
 			}
 
-			inline void OpenGL::compressedTexImage2D(TextureTypeTarget target, int level, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, std::size_t imageSize, const void * data)
+			inline void OpenGL::compressedTexImage2D(TextureTypeTarget target, int level, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, ece::size_t imageSize, const void * data)
 			{
 				checkErrors(glCompressedTexImage2D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), width, height, 0, imageSize, data));
 			}
 
-			inline void OpenGL::compressedTexImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, std::size_t width, std::size_t imageSize, const void * data)
+			inline void OpenGL::compressedTexImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t imageSize, const void * data)
 			{
 				checkErrors(glCompressedTexImage1D(static_cast<GLenum>(target), level, static_cast<unsigned int>(internalFormat), width, 0, imageSize, data));
 			}
 
-			inline void OpenGL::compressedTexSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, std::size_t imageSize, const void * data)
+			inline void OpenGL::compressedTexSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, ece::size_t imageSize, const void * data)
 			{
 				checkErrors(glCompressedTexSubImage3D(static_cast<GLenum>(target), level, xoffset, yoffset, zoffset, width, height, depth, static_cast<unsigned int>(format), imageSize, data));
 			}
 
-			inline void OpenGL::compressedTexSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, std::size_t width, std::size_t height, PixelFormat format, std::size_t imageSize, const void * data)
+			inline void OpenGL::compressedTexSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, ece::size_t width, ece::size_t height, PixelFormat format, ece::size_t imageSize, const void * data)
 			{
 				checkErrors(glCompressedTexSubImage2D(static_cast<GLenum>(target), level, xoffset, yoffset, width, height, static_cast<unsigned int>(format), imageSize, data));
 			}
 
-			inline void OpenGL::compressedTexSubImage1D(TargetTexture1D target, int level, int xoffset, std::size_t width, PixelFormat format, std::size_t imageSize, const void * data)
+			inline void OpenGL::compressedTexSubImage1D(TargetTexture1D target, int level, int xoffset, ece::size_t width, PixelFormat format, ece::size_t imageSize, const void * data)
 			{
 				checkErrors(glCompressedTexSubImage1D(static_cast<GLenum>(target), level, xoffset, width, static_cast<unsigned int>(format), imageSize, data));
 			}
 
-			inline void OpenGL::texImage3DMultisample(TargetTextureMultisample target, std::size_t samples, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, std::size_t depth, bool fixedSamplelLocations)
+			inline void OpenGL::texImage3DMultisample(TargetTextureMultisample target, ece::size_t samples, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, ece::size_t depth, bool fixedSamplelLocations)
 			{
 				checkErrors(glTexImage3DMultisample(static_cast<GLenum>(target), samples, static_cast<unsigned int>(internalFormat), width, height, depth, fixedSamplelLocations));
 			}
 
-			inline void OpenGL::texImage2DMultisample(TargetTextureMultisample target, std::size_t samples, PixelInternalFormat internalFormat, std::size_t width, std::size_t height, bool fixedSamplelLocations)
+			inline void OpenGL::texImage2DMultisample(TargetTextureMultisample target, ece::size_t samples, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, bool fixedSamplelLocations)
 			{
 				checkErrors(glTexImage2DMultisample(static_cast<GLenum>(target), samples, static_cast<unsigned int>(internalFormat), width, height, fixedSamplelLocations));
 			}
@@ -1438,7 +1438,7 @@ namespace ece
 
 			inline void OpenGL::deleteTextures(const std::vector<Handle> & textures)
 			{
-				checkErrors(glDeleteTextures(textures.size(), textures.data()));
+				checkErrors(glDeleteTextures(static_cast<ece::size_t>(textures.size()), textures.data()));
 			}
 
 			inline auto OpenGL::genTexture() -> Handle
@@ -1532,7 +1532,7 @@ namespace ece
 				checkErrors(glHint(static_cast<GLenum>(target), static_cast<GLenum>(mode)));
 			}
 
-			inline auto OpenGL::readPixels(int x, int y, std::size_t width, std::size_t height, PixelFormat format, DataType type) -> void *
+			inline auto OpenGL::readPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type) -> void *
 			{
 				auto pixels = reinterpret_cast<void *>(std::vector<float>(width * height).data()); // TODO: should be not working.
 				checkErrors(glReadPixels(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
@@ -1626,7 +1626,7 @@ namespace ece
 
 			inline void OpenGL::drawBuffers(const std::vector<ColorBuffer> & bufs)
 			{
-				checkErrors(glDrawBuffers(bufs.size(), reinterpret_cast<const GLenum *>(bufs.data())));
+				checkErrors(glDrawBuffers(static_cast<ece::size_t>(bufs.size()), reinterpret_cast<const GLenum *>(bufs.data())));
 			}
 
 			inline void OpenGL::colorMask(bool red, bool green, bool blue, bool alpha)
@@ -1704,7 +1704,7 @@ namespace ece
 				checkErrors(glDeleteFramebuffers(static_cast<GLsizei>(framebuffers.size()), reinterpret_cast<GLuint *>(framebuffers.data())));
 			}
 			
-			inline auto OpenGL::genFramebuffers(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::genFramebuffers(ece::size_t n) -> std::vector<Handle>
 			{
 				auto ids = std::vector<Handle>(n);
 				checkErrors(glGenFramebuffers(n, reinterpret_cast<GLuint *>(ids.data())));
@@ -1722,20 +1722,20 @@ namespace ece
 				checkErrors(glDeleteRenderbuffers(static_cast<GLsizei>(renderbuffers.size()), reinterpret_cast<GLuint *>(renderbuffers.data())));
 			}
 
-			inline auto OpenGL::genRenderbuffers(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::genRenderbuffers(ece::size_t n) -> std::vector<Handle>
 			{
 				auto ids = std::vector<Handle>(n);
 				checkErrors(glGenRenderbuffers(n, reinterpret_cast<GLuint *>(ids.data())));
 				return std::move(ids);
 			}
 
-			inline void OpenGL::renderbufferStorageMultisample(std::size_t samples, PixelFormat internalformat, std::size_t width, std::size_t height)
+			inline void OpenGL::renderbufferStorageMultisample(ece::size_t samples, PixelFormat internalformat, ece::size_t width, ece::size_t height)
 			{
 				const auto target = GL_RENDERBUFFER;
 				checkErrors(glRenderbufferStorageMultisample(target, static_cast<GLsizei>(samples), static_cast<GLenum>(internalformat), static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
 			}
 			
-			inline void OpenGL::renderbufferStorage(PixelFormat internalformat, std::size_t width, std::size_t height)
+			inline void OpenGL::renderbufferStorage(PixelFormat internalformat, ece::size_t width, ece::size_t height)
 			{
 				const auto target = GL_RENDERBUFFER;
 				checkErrors(glRenderbufferStorage(target, static_cast<GLenum>(internalformat), static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
@@ -1854,7 +1854,7 @@ namespace ece
 
 			static inline auto OpenGL::getBoolean(Parameter pname) -> std::vector<bool>
 			{
-				const auto maxSize = std::size_t{ 16 };
+				const auto maxSize = ece::size_t{ 16 };
 				auto data = std::vector<unsigned char>(maxSize);
 				checkErrors(glGetBooleanv(static_cast<GLenum>(pname), reinterpret_cast<GLboolean *>(data.data())));
 				return std::vector<bool>(data.begin(), data.end());
@@ -1862,7 +1862,7 @@ namespace ece
 
 			static inline auto OpenGL::getDouble(Parameter pname) -> std::vector<double>
 			{
-				const auto maxSize = std::size_t{ 16 };
+				const auto maxSize = ece::size_t{ 16 };
 				auto data = std::vector<double>(maxSize);
 				checkErrors(glGetDoublev(static_cast<GLenum>(pname), reinterpret_cast<GLdouble *>(data.data())));
 				return std::move(data);
@@ -1870,7 +1870,7 @@ namespace ece
 
 			static inline auto OpenGL::getFloat(Parameter pname) -> std::vector<float>
 			{
-				const auto maxSize = std::size_t{ 16 };
+				const auto maxSize = ece::size_t{ 16 };
 				auto data = std::vector<float>(maxSize);
 				checkErrors(glGetFloatv(static_cast<GLenum>(pname), reinterpret_cast<GLfloat *>(data.data())));
 				return std::move(data);
@@ -1878,7 +1878,7 @@ namespace ece
 
 			inline auto OpenGL::getInteger(Parameter pname) -> std::vector<int>
 			{
-				const auto maxSize = std::size_t{ 16 };
+				const auto maxSize = ece::size_t{ 16 };
 				auto data = std::vector<int>(maxSize);
 				checkErrors(glGetIntegerv(static_cast<GLenum>(pname), data.data()));
 				return std::move(data);
@@ -1886,7 +1886,7 @@ namespace ece
 
 			inline auto OpenGL::getInteger64(Parameter pname) -> std::vector<std::int64_t>
 			{
-				const auto maxSize = std::size_t{ 16 };
+				const auto maxSize = ece::size_t{ 16 };
 				auto data = std::vector<std::int64_t>(maxSize);
 				checkErrors(glGetInteger64v(static_cast<GLenum>(pname), data.data()));
 				return std::move(data);
@@ -1941,7 +1941,7 @@ namespace ece
 				checkErrors(glQueryCounter(id, target));
 			}
 
-			inline auto OpenGL::genSamplers(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::genSamplers(ece::size_t n) -> std::vector<Handle>
 			{
 				auto samplers = std::vector<Handle>{};
 				checkErrors(glGenSamplers(static_cast<GLsizei>(n), samplers.data()));
@@ -1980,7 +1980,7 @@ namespace ece
 
 			inline void OpenGL::deleteSamplers(const std::vector<Handle> & samplers)
 			{
-				checkErrors(glDeleteSamplers(samplers.size(), samplers.data()));
+				checkErrors(glDeleteSamplers(static_cast<ece::size_t>(samplers.size()), samplers.data()));
 			}
 			
 			inline auto OpenGL::isSampler(Handle id) -> bool
@@ -1996,7 +1996,7 @@ namespace ece
 
 			template <> inline auto OpenGL::getSamplerParameter<float>(Handle sampler, SamplerParameter pname) -> std::vector<float>
 			{
-				const auto maxSize = std::size_t{ 16 };
+				const auto maxSize = ece::size_t{ 16 };
 				auto params = std::vector<float>(maxSize);
 				checkErrors(glGetSamplerParameterfv(sampler, static_cast<GLenum>(pname), params.data()));
 				return std::move(params);
@@ -2004,7 +2004,7 @@ namespace ece
 
 			template <> inline auto OpenGL::getSamplerParameter<int>(Handle sampler, SamplerParameter pname) -> std::vector<int>
 			{
-				const auto maxSize = std::size_t{ 16 };
+				const auto maxSize = ece::size_t{ 16 };
 				auto params = std::vector<int>(maxSize);
 				checkErrors(glGetSamplerParameteriv(sampler, static_cast<GLenum>(pname), params.data()));
 				return std::move(params);
@@ -2012,7 +2012,7 @@ namespace ece
 
 			template <> inline auto OpenGL::getSamplerParameter<unsigned int>(Handle sampler, SamplerParameter pname) -> std::vector<unsigned int>
 			{
-				const auto maxSize = std::size_t{ 16 };
+				const auto maxSize = ece::size_t{ 16 };
 				auto params = std::vector<unsigned int>(maxSize);
 				checkErrors(glGetSamplerParameterIuiv(sampler, static_cast<GLenum>(pname), params.data()));
 				return std::move(params);
@@ -2028,7 +2028,7 @@ namespace ece
 				return checkErrors(glGetFragDataIndex(program, name.data()));
 			}
 
-			inline void OpenGL::vertexAttribDivisor(const int index, const std::size_t divisor)
+			inline void OpenGL::vertexAttribDivisor(const int index, const ece::size_t divisor)
 			{
 				checkErrors(glVertexAttribDivisor(static_cast<GLuint>(index), static_cast<GLuint>(divisor)));
 			}
@@ -2096,8 +2096,8 @@ namespace ece
 
 			inline auto OpenGL::getActiveSubroutineName(Handle program, ShaderType shadertype, Handle index) -> std::string
 			{
-				const auto bufsize = std::size_t{ 4096 };
-				auto length = std::size_t{ 0 };
+				const auto bufsize = ece::size_t{ 4096 };
+				auto length = ece::size_t{ 0 };
 				auto name = std::string(bufsize, '\0');
 				checkErrors(glGetActiveSubroutineName(program, static_cast<GLenum>(shadertype), index, static_cast<GLsizei>(bufsize), reinterpret_cast<GLsizei *>(&length), name.data()));
 				return std::move(name);
@@ -2105,8 +2105,8 @@ namespace ece
 
 			inline auto OpenGL::getActiveSubroutineUniformName(Handle program, ShaderType shadertype, Handle index) -> std::string
 			{
-				const auto bufsize = std::size_t{ 4096 };
-				auto length = std::size_t{ 0 };
+				const auto bufsize = ece::size_t{ 4096 };
+				auto length = ece::size_t{ 0 };
 				auto name = std::string(bufsize, '\0');
 				checkErrors(glGetActiveSubroutineUniformName(program, static_cast<GLenum>(shadertype), index, static_cast<GLsizei>(bufsize), reinterpret_cast<GLsizei *>(&length), name.data()));
 				return std::move(name);
@@ -2122,7 +2122,7 @@ namespace ece
 
 			inline void OpenGL::uniformSubroutines(ShaderType shadertype, const std::vector<unsigned int> & indices)
 			{
-				checkErrors(glUniformSubroutinesuiv(static_cast<GLenum>(shadertype), indices.size(), indices.data()));
+				checkErrors(glUniformSubroutinesuiv(static_cast<GLenum>(shadertype), static_cast<ece::size_t>(indices.size()), indices.data()));
 			}
 
 			inline auto OpenGL::getUniformSubroutine(ShaderType shadertype, int location) -> std::vector<unsigned int>
@@ -2155,7 +2155,7 @@ namespace ece
 				checkErrors(glDrawArraysIndirect(static_cast<GLenum>(mode), reinterpret_cast<const void *>(&indirect)));
 			}
 
-			inline auto OpenGL::genTransformFeedbacks(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::genTransformFeedbacks(ece::size_t n) -> std::vector<Handle>
 			{
 				auto ids = std::vector<Handle>(n);
 				checkErrors(glGenTransformFeedbacks(static_cast<GLsizei>(n), ids.data()));
@@ -2164,7 +2164,7 @@ namespace ece
 
 			inline void OpenGL::deleteTransformFeedbacks(const std::vector<Handle> & ids)
 			{
-				checkErrors(glDeleteTransformFeedbacks(ids.size(), ids.data()));
+				checkErrors(glDeleteTransformFeedbacks(static_cast<ece::size_t>(ids.size()), ids.data()));
 			}
 
 			inline auto OpenGL::isTransformFeedback(Handle id) -> bool
@@ -2227,7 +2227,7 @@ namespace ece
 				return std::move(data);
 			}
 
-			inline void OpenGL::shaderBinary(const std::vector<Handle> & shaders, BinaryFormat binaryFormat, const void * binary, std::size_t length)
+			inline void OpenGL::shaderBinary(const std::vector<Handle> & shaders, BinaryFormat binaryFormat, const void * binary, ece::size_t length)
 			{
 				checkErrors(glShaderBinary(static_cast<GLsizei>(shaders.size()), shaders.data(), static_cast<GLenum>(binaryFormat), binary, static_cast<GLsizei>(length)));
 			}
@@ -2243,7 +2243,7 @@ namespace ece
 				for (const auto & string : strings) {
 					stringsPtr.push_back(string.data());
 				}
-				return checkErrors(glCreateShaderProgramv(static_cast<GLenum>(type), strings.size(), reinterpret_cast<const GLchar **>(&stringsPtr)));
+				return checkErrors(glCreateShaderProgramv(static_cast<GLenum>(type), static_cast<ece::size_t>(strings.size()), reinterpret_cast<const GLchar **>(&stringsPtr)));
 			}
 
 			inline void OpenGL::programParameter(Handle program, ProgramHint pname, int value)
@@ -2251,7 +2251,7 @@ namespace ece
 				checkErrors(glProgramParameteri(program, static_cast<GLenum>(pname), value));
 			}
 
-			inline auto OpenGL::genProgramPipelines(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::genProgramPipelines(ece::size_t n) -> std::vector<Handle>
 			{
 				auto pipelines = std::vector<Handle>(n);
 				checkErrors(glGenProgramPipelines(n, pipelines.data()));
@@ -2260,7 +2260,7 @@ namespace ece
 
 			inline void OpenGL::deleteProgramPipelines(const std::vector<Handle> & pipelines)
 			{
-				checkErrors(glDeleteProgramPipelines(pipelines.size(), pipelines.data()));
+				checkErrors(glDeleteProgramPipelines(static_cast<ece::size_t>(pipelines.size()), pipelines.data()));
 			}
 
 			inline auto OpenGL::isProgramPipeline(Handle pipeline) -> bool
@@ -2285,7 +2285,7 @@ namespace ece
 
 			inline auto OpenGL::getProgramBinary(Handle program) -> ProgramBinary
 			{
-				const auto bufsize = std::size_t{ 8192 };
+				const auto bufsize = ece::size_t{ 8192 };
 				ProgramBinary result;
 				checkErrors(glGetProgramBinary(program, bufsize, reinterpret_cast<GLsizei *>(&result.length), reinterpret_cast<GLenum *>(&result.binaryFormat), result.binary));
 				return std::move(result);
@@ -2375,139 +2375,139 @@ namespace ece
 			}
 
 			template <class T, unsigned int S>
-			inline void OpenGL::programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] std::size_t count, [[maybe_unused]] const std::array<T, S> & v)
+			inline void OpenGL::programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] ece::size_t count, [[maybe_unused]] const std::array<T, S> & v)
 			{
 				static_assert("No existing specialization for OpenGL::programUniform.");
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 1>(Handle program, const int location, std::size_t count, const std::array<float, 1> & v)
+			inline void OpenGL::programUniform<float, 1>(Handle program, const int location, ece::size_t count, const std::array<float, 1> & v)
 			{
 				checkErrors(glProgramUniform1fv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 2>(Handle program, const int location, std::size_t count, const std::array<float, 2> & v)
+			inline void OpenGL::programUniform<float, 2>(Handle program, const int location, ece::size_t count, const std::array<float, 2> & v)
 			{
 				checkErrors(glProgramUniform2fv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 3>(Handle program, const int location, std::size_t count, const std::array<float, 3> & v)
+			inline void OpenGL::programUniform<float, 3>(Handle program, const int location, ece::size_t count, const std::array<float, 3> & v)
 			{
 				checkErrors(glProgramUniform3fv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 4>(Handle program, const int location, std::size_t count, const std::array<float, 4> & v)
+			inline void OpenGL::programUniform<float, 4>(Handle program, const int location, ece::size_t count, const std::array<float, 4> & v)
 			{
 				checkErrors(glProgramUniform4fv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<int, 1>(Handle program, const int location, std::size_t count, const std::array<int, 1> & v)
+			inline void OpenGL::programUniform<int, 1>(Handle program, const int location, ece::size_t count, const std::array<int, 1> & v)
 			{
 				checkErrors(glProgramUniform1iv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<int, 2>(Handle program, const int location, std::size_t count, const std::array<int, 2> & v)
+			inline void OpenGL::programUniform<int, 2>(Handle program, const int location, ece::size_t count, const std::array<int, 2> & v)
 			{
 				checkErrors(glProgramUniform2iv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<int, 3>(Handle program, const int location, std::size_t count, const std::array<int, 3> & v)
+			inline void OpenGL::programUniform<int, 3>(Handle program, const int location, ece::size_t count, const std::array<int, 3> & v)
 			{
 				checkErrors(glProgramUniform3iv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<int, 4>(Handle program, const int location, std::size_t count, const std::array<int, 4> & v)
+			inline void OpenGL::programUniform<int, 4>(Handle program, const int location, ece::size_t count, const std::array<int, 4> & v)
 			{
 				checkErrors(glProgramUniform4iv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<unsigned int, 1>(Handle program, const int location, std::size_t count, const std::array<unsigned int, 1> & v)
+			inline void OpenGL::programUniform<unsigned int, 1>(Handle program, const int location, ece::size_t count, const std::array<unsigned int, 1> & v)
 			{
 				checkErrors(glProgramUniform1uiv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<unsigned int, 2>(Handle program, const int location, std::size_t count, const std::array<unsigned int, 2> & v)
+			inline void OpenGL::programUniform<unsigned int, 2>(Handle program, const int location, ece::size_t count, const std::array<unsigned int, 2> & v)
 			{
 				checkErrors(glProgramUniform2uiv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<unsigned int, 3>(Handle program, const int location, std::size_t count, const std::array<unsigned int, 3> & v)
+			inline void OpenGL::programUniform<unsigned int, 3>(Handle program, const int location, ece::size_t count, const std::array<unsigned int, 3> & v)
 			{
 				checkErrors(glProgramUniform3uiv(program, location, count, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<unsigned int, 4>(Handle program, const int location, std::size_t count, const std::array<unsigned int, 4> & v)
+			inline void OpenGL::programUniform<unsigned int, 4>(Handle program, const int location, ece::size_t count, const std::array<unsigned int, 4> & v)
 			{
 				checkErrors(glProgramUniform4uiv(program, location, count, v.data()));
 			}
 
 			template <class T, unsigned int M, unsigned int N>
-			inline void OpenGL::programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] std::size_t count, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v)
+			inline void OpenGL::programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] ece::size_t count, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v)
 			{
 				static_assert("No existing specialization for OpenGL::programUniform.");
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 2, 2>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 2> & v)
+			inline void OpenGL::programUniform<float, 2, 2>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 2> & v)
 			{
 				checkErrors(glProgramUniformMatrix2fv(program, location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 3, 3>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 3> & v)
+			inline void OpenGL::programUniform<float, 3, 3>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 3> & v)
 			{
 				checkErrors(glProgramUniformMatrix3fv(program, location, count, transpose, v.data()));
 			}
 			
 			template <>
-			inline void OpenGL::programUniform<float, 4, 4>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 4> & v)
+			inline void OpenGL::programUniform<float, 4, 4>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 4> & v)
 			{
 				checkErrors(glProgramUniformMatrix4fv(program, location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 2, 3>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 3> & v)
+			inline void OpenGL::programUniform<float, 2, 3>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 3> & v)
 			{
 				checkErrors(glProgramUniformMatrix2x3fv(program, location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 3, 2>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 2> & v)
+			inline void OpenGL::programUniform<float, 3, 2>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 2> & v)
 			{
 				checkErrors(glProgramUniformMatrix3x2fv(program, location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 2, 4>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 2, 4> & v)
+			inline void OpenGL::programUniform<float, 2, 4>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 4> & v)
 			{
 				checkErrors(glProgramUniformMatrix2x4fv(program, location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 4, 2>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 2> & v)
+			inline void OpenGL::programUniform<float, 4, 2>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 2> & v)
 			{
 				checkErrors(glProgramUniformMatrix4x2fv(program, location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 3, 4>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 3, 4> & v)
+			inline void OpenGL::programUniform<float, 3, 4>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 4> & v)
 			{
 				checkErrors(glProgramUniformMatrix3x4fv(program, location, count, transpose, v.data()));
 			}
 
 			template <>
-			inline void OpenGL::programUniform<float, 4, 3>(Handle program, const int location, std::size_t count, const bool transpose, const Matrix<float, 4, 3> & v)
+			inline void OpenGL::programUniform<float, 4, 3>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 3> & v)
 			{
 				checkErrors(glProgramUniformMatrix4x3fv(program, location, count, transpose, v.data()));
 			}
@@ -2521,8 +2521,8 @@ namespace ece
 
 			inline auto OpenGL::getProgramPipelineInfoLog(Handle pipeline) -> std::string
 			{
-				const auto bufSize = std::size_t{ 4096 };
-				auto length = std::size_t{ 0 };
+				const auto bufSize = ece::size_t{ 4096 };
+				auto length = ece::size_t{ 0 };
 				auto infoLog = std::string(4096, '\0');
 				checkErrors(glGetProgramPipelineInfoLog(pipeline, bufSize, reinterpret_cast<GLsizei *>(&length), infoLog.data()));
 				infoLog.resize(length);
@@ -2543,7 +2543,7 @@ namespace ece
 
 			inline void OpenGL::depthRangeArray(Handle first, const std::vector<std::array<double, 2>> & v)
 			{
-				checkErrors(glDepthRangeArrayv(first, v.size(), v[0].data()));
+				checkErrors(glDepthRangeArrayv(first, static_cast<ece::size_t>(v.size()), v[0].data()));
 			}
 			
 			inline void OpenGL::depthRangeIndexed(Handle index, double nearVal, double farVal)
@@ -2553,7 +2553,7 @@ namespace ece
 
 			inline void OpenGL::viewportArray(Handle first, const std::vector<std::array<float, 4>> & v)
 			{
-				checkErrors(glViewportArrayv(first, v.size(), v[0].data()));
+				checkErrors(glViewportArrayv(first, static_cast<ece::size_t>(v.size()), v[0].data()));
 			}
 
 			inline void OpenGL::viewportIndexed(Handle index, float x, float y, float w, float h)
@@ -2568,10 +2568,10 @@ namespace ece
 			
 			inline void OpenGL::scissorArray(Handle first, const std::vector<std::array<int, 4>> & v)
 			{
-				checkErrors(glScissorArrayv(first, v.size(), v[0].data()));
+				checkErrors(glScissorArrayv(first, static_cast<ece::size_t>(v.size()), v[0].data()));
 			}
 			
-			inline void OpenGL::scissorIndexed(Handle index, int left, int bottom, std::size_t width, std::size_t height)
+			inline void OpenGL::scissorIndexed(Handle index, int left, int bottom, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glScissorIndexed(index, left, bottom, width, height));
 			}
@@ -2593,17 +2593,17 @@ namespace ece
 				checkErrors(glMemoryBarrier(static_cast<GLbitfield>(barriers)));
 			}
 
-			inline void OpenGL::texStorage1D(TargetTexture1D target, std::size_t levels, PixelInternalFormat internalformat, std::size_t width)
+			inline void OpenGL::texStorage1D(TargetTexture1D target, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width)
 			{
 				checkErrors(glTexStorage1D(static_cast<GLenum>(target), levels, static_cast<GLenum>(internalformat), width));
 			}
 
-			inline void OpenGL::texStorage2D(TargetTexture2D target, std::size_t levels, PixelInternalFormat internalformat, std::size_t width, std::size_t height)
+			inline void OpenGL::texStorage2D(TargetTexture2D target, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glTexStorage2D(static_cast<GLenum>(target), levels, static_cast<GLenum>(internalformat), width, height));
 			}
 
-			inline void OpenGL::texStorage3D(TargetTexture3D target, std::size_t levels, PixelInternalFormat internalformat, std::size_t width, std::size_t height, std::size_t depth)
+			inline void OpenGL::texStorage3D(TargetTexture3D target, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, ece::size_t depth)
 			{
 				checkErrors(glTexStorage3D(static_cast<GLenum>(target), levels, static_cast<GLenum>(internalformat), width, height, depth));
 			}
@@ -2613,36 +2613,36 @@ namespace ece
 				checkErrors(glBindImageTexture(unit, texture, level, layered, layer, static_cast<GLenum>(access), static_cast<GLenum>(format)));
 			}
 
-			inline void OpenGL::drawArraysInstancedBaseInstance(PrimitiveMode mode, int first, std::size_t count, std::size_t primcount, unsigned int baseinstance)
+			inline void OpenGL::drawArraysInstancedBaseInstance(PrimitiveMode mode, int first, ece::size_t count, ece::size_t primcount, unsigned int baseinstance)
 			{
 				checkErrors(glDrawArraysInstancedBaseInstance(static_cast<GLenum>(mode), first, count, primcount, baseinstance));
 			}
 			
-			inline void OpenGL::drawElementsInstancedBaseInstance(PrimitiveMode mode, std::size_t count, const std::vector<std::size_t> & indices, std::size_t primcount, unsigned int baseinstance)
+			inline void OpenGL::drawElementsInstancedBaseInstance(PrimitiveMode mode, ece::size_t count, const std::vector<ece::size_t> & indices, ece::size_t primcount, unsigned int baseinstance)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawElementsInstancedBaseInstance(static_cast<GLenum>(mode), count, type, reinterpret_cast<const GLvoid *>(indices.data()), primcount, baseinstance));
 			}
 			
-			inline void OpenGL::drawElementsInstancedBaseVertexBaseInstance(PrimitiveMode mode, std::size_t count, std::vector<std::size_t> & indices, std::size_t primcount, int basevertex, unsigned int baseinstance)
+			inline void OpenGL::drawElementsInstancedBaseVertexBaseInstance(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, ece::size_t primcount, int basevertex, unsigned int baseinstance)
 			{
 				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawElementsInstancedBaseVertexBaseInstance(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(indices.data()), primcount, basevertex, baseinstance));
 			}
 
-			inline void OpenGL::drawTransformFeedbackInstanced(PrimitiveMode mode, Handle id, std::size_t primcount)
+			inline void OpenGL::drawTransformFeedbackInstanced(PrimitiveMode mode, Handle id, ece::size_t primcount)
 			{
 				checkErrors(glDrawTransformFeedbackInstanced(static_cast<GLenum>(mode), id, primcount));
 			}
 			
-			inline void OpenGL::drawTransformFeedbackStreamInstanced(PrimitiveMode mode, Handle id, Handle stream, std::size_t primcount)
+			inline void OpenGL::drawTransformFeedbackStreamInstanced(PrimitiveMode mode, Handle id, Handle stream, ece::size_t primcount)
 			{
 				checkErrors(glDrawTransformFeedbackStreamInstanced(static_cast<GLenum>(mode), id, stream, primcount));
 			}
 			
 			inline auto OpenGL::getInternalformat(TextureTarget target, PixelInternalFormat internalformat, InternalFormatInformation pname) -> std::vector<int>
 			{
-				const auto bufsize = std::size_t{ 32 };
+				const auto bufsize = ece::size_t{ 32 };
 				
 				auto params = std::vector<int>{};
 				checkErrors(glGetInternalformativ(static_cast<GLenum>(target), static_cast<GLenum>(internalformat), static_cast<GLenum>(pname), bufsize, params.data()));
@@ -2650,7 +2650,7 @@ namespace ece
 			}
 
 			template <class T>
-			inline void OpenGL::clearBufferSubData(BufferType target, PixelInternalFormat internalformat, int offset, std::size_t size, PixelFormat format, DataType type, const std::vector<T> & data)
+			inline void OpenGL::clearBufferSubData(BufferType target, PixelInternalFormat internalformat, int offset, ece::size_t size, PixelFormat format, DataType type, const std::vector<T> & data)
 			{
 				checkErrors(glClearBufferSubData(static_cast<GLenum>(target), static_cast<GLenum>(internalformat), reinterpret_cast<GLintptr>(&offset), reinterpret_cast<GLsizeiptr>(&size), static_cast<GLenum>(format), static_cast<GLenum>(type), data.data()));
 			}
@@ -2661,7 +2661,7 @@ namespace ece
 				checkErrors(glClearBufferData(static_cast<GLenum>(target), static_cast<GLenum>(internalformat), static_cast<GLenum>(format), static_cast<GLenum>(type), data.data()));
 			}
 			
-			inline void OpenGL::invalidateBufferSubData(Handle buffer, int offset, std::size_t length)
+			inline void OpenGL::invalidateBufferSubData(Handle buffer, int offset, ece::size_t length)
 			{
 				checkErrors(glInvalidateBufferSubData(buffer, reinterpret_cast<GLintptr>(&offset), reinterpret_cast<GLsizeiptr>(&length)));
 			}
@@ -2685,8 +2685,8 @@ namespace ece
 
 			inline auto OpenGL::getProgramResourceName(Handle program, ProgramInterface programInterface, Handle index) -> std::string
 			{
-				const auto bufSize = std::size_t{ 4096 };
-				auto length = std::size_t{ 0 };
+				const auto bufSize = ece::size_t{ 4096 };
+				auto length = ece::size_t{ 0 };
 				auto name = std::string(bufSize, '\0');
 
 				checkErrors(glGetProgramResourceName(program, static_cast<GLenum>(programInterface), index, bufSize, reinterpret_cast<GLsizei *>(&length), name.data()));
@@ -2696,11 +2696,11 @@ namespace ece
 
 			inline auto OpenGL::getProgramResource(Handle program, ProgramInterface programInterface, unsigned int index, const std::vector<ProgramInterfaceProperty> & props) -> std::vector<int>
 			{
-				const auto bufSize = std::size_t{ 128 };
+				const auto bufSize = ece::size_t{ 128 };
 				auto length = std::size_t{ 0 };
 				auto params = std::vector<int>(bufSize);
 
-				checkErrors(glGetProgramResourceiv(program, static_cast<GLenum>(programInterface), index, props.size(), reinterpret_cast<const GLenum *>(props.data()), bufSize, reinterpret_cast<GLsizei *>(length), params.data()));
+				checkErrors(glGetProgramResourceiv(program, static_cast<GLenum>(programInterface), index, static_cast<ece::size_t>(props.size()), reinterpret_cast<const GLenum *>(props.data()), bufSize, reinterpret_cast<GLsizei *>(length), params.data()));
 				params.resize(length);
 				return std::move(params);
 			}
@@ -2727,7 +2727,7 @@ namespace ece
 				return std::move(params);
 			}
 
-			inline void OpenGL::texBufferRange(PixelInternalFormat internalFormat, Handle buffer, int offset, std::size_t size)
+			inline void OpenGL::texBufferRange(PixelInternalFormat internalFormat, Handle buffer, int offset, ece::size_t size)
 			{
 				const auto target = GL_TEXTURE_BUFFER;
 				checkErrors(glTexBufferRange(target, static_cast<GLenum>(internalFormat), buffer, reinterpret_cast<GLintptr>(&offset), reinterpret_cast<GLsizeiptr>(&size)));
@@ -2738,17 +2738,17 @@ namespace ece
 				checkErrors(glTextureView(texture, static_cast<GLenum>(target), static_cast<GLuint>(origtexture), static_cast<GLenum>(internalformat), minlevel, numlevels, minlayer, numlayers));
 			}
 
-			inline void OpenGL::texStorage2DMultisample(TargetTextureMultisample target, std::size_t samples, PixelInternalFormat internalformat, std::size_t width, std::size_t height, bool fixedsamplelocations)
+			inline void OpenGL::texStorage2DMultisample(TargetTextureMultisample target, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, bool fixedsamplelocations)
 			{
 				checkErrors(glTexStorage2DMultisample(static_cast<GLenum>(target), samples, static_cast<GLenum>(internalformat), width, height, fixedsamplelocations));
 			}
 
-			inline void OpenGL::texStorage3DMultisample(TargetTextureMultisample target, std::size_t samples, PixelInternalFormat internalformat, std::size_t width, std::size_t height, std::size_t depth, bool fixedsamplelocations)
+			inline void OpenGL::texStorage3DMultisample(TargetTextureMultisample target, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, ece::size_t depth, bool fixedsamplelocations)
 			{
 				checkErrors(glTexStorage3DMultisample(static_cast<GLenum>(target), samples, static_cast<GLenum>(internalformat), width, height, depth, fixedsamplelocations));
 			}
 			
-			inline void OpenGL::invalidateTexSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth)
+			inline void OpenGL::invalidateTexSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth)
 			{
 				checkErrors(glInvalidateTexSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth));
 			}
@@ -2800,22 +2800,22 @@ namespace ece
 				checkErrors(glVertexBindingDivisor(bindingindex, divisor));
 			}
 
-			inline void OpenGL::multiDrawArraysIndirect(PrimitiveMode mode, const std::vector<DrawArraysIndirectCommand> & indirect, std::size_t drawcount, std::size_t stride)
+			inline void OpenGL::multiDrawArraysIndirect(PrimitiveMode mode, const std::vector<DrawArraysIndirectCommand> & indirect, ece::size_t drawcount, ece::size_t stride)
 			{
 				checkErrors(glMultiDrawArraysIndirect(static_cast<GLenum>(mode), reinterpret_cast<const GLvoid *>(indirect.data()), drawcount, stride));
 			}
 
-			inline void OpenGL::multiDrawArraysIndirectCount(PrimitiveMode mode, const std::vector<DrawArraysIndirectCommand> & indirect, int drawcount, std::size_t maxdrawcount, std::size_t stride)
+			inline void OpenGL::multiDrawArraysIndirectCount(PrimitiveMode mode, const std::vector<DrawArraysIndirectCommand> & indirect, int drawcount, ece::size_t maxdrawcount, ece::size_t stride)
 			{
 				checkErrors(glMultiDrawArraysIndirectCount(static_cast<GLenum>(mode), reinterpret_cast<const GLvoid *>(indirect.data()), reinterpret_cast<GLintptr>(&drawcount), maxdrawcount, stride));
 			}
 
-			inline void OpenGL::multiDrawElementsIndirect(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, std::size_t drawcount, std::size_t stride)
+			inline void OpenGL::multiDrawElementsIndirect(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, ece::size_t drawcount, ece::size_t stride)
 			{
 				checkErrors(glMultiDrawElementsIndirect(static_cast<GLenum>(mode), static_cast<GLenum>(type), reinterpret_cast<const GLvoid *>(indirect.data()), drawcount, stride));
 			}
 
-			inline void OpenGL::multiDrawElementsIndirectCount(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, int drawcount, std::size_t maxdrawcount, std::size_t stride)
+			inline void OpenGL::multiDrawElementsIndirectCount(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, int drawcount, ece::size_t maxdrawcount, ece::size_t stride)
 			{
 				checkErrors(glMultiDrawElementsIndirectCount(static_cast<GLenum>(mode), static_cast<GLenum>(type), reinterpret_cast<const GLvoid *>(indirect.data()), reinterpret_cast<GLintptr>(&drawcount), maxdrawcount, stride));
 			}
@@ -2832,15 +2832,15 @@ namespace ece
 
 			inline void OpenGL::invalidateSubFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachmentChannel> & attachments, int x, int y, int width, int height)
 			{
-				checkErrors(glInvalidateSubFramebuffer(static_cast<GLenum>(target), attachments.size(), reinterpret_cast<const GLenum *>(attachments.data()), x, y, width, height));
+				checkErrors(glInvalidateSubFramebuffer(static_cast<GLenum>(target), static_cast<ece::size_t>(attachments.size()), reinterpret_cast<const GLenum *>(attachments.data()), x, y, width, height));
 			}
 
 			inline void OpenGL::invalidateFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachmentChannel> & attachments)
 			{
-				checkErrors(glInvalidateFramebuffer(static_cast<GLenum>(target), attachments.size(), reinterpret_cast<const GLenum *>(attachments.data())));
+				checkErrors(glInvalidateFramebuffer(static_cast<GLenum>(target), static_cast<ece::size_t>(attachments.size()), reinterpret_cast<const GLenum *>(attachments.data())));
 			}
 
-			inline void OpenGL::copyImageSubData(Handle srcName, TextureTarget srcTarget, int srcLevel, int srcX, int srcY, int srcZ, Handle dstName, TextureTarget dstTarget, int dstLevel, int dstX, int dstY, int dstZ, std::size_t srcWidth, std::size_t srcHeight, std::size_t srcDepth)
+			inline void OpenGL::copyImageSubData(Handle srcName, TextureTarget srcTarget, int srcLevel, int srcX, int srcY, int srcZ, Handle dstName, TextureTarget dstTarget, int dstLevel, int dstX, int dstY, int dstZ, ece::size_t srcWidth, ece::size_t srcHeight, ece::size_t srcDepth)
 			{
 				checkErrors(glCopyImageSubData(srcName, static_cast<GLenum>(srcTarget), srcLevel, srcX, srcY, srcZ, dstName, static_cast<GLenum>(dstTarget), dstLevel, dstX, dstY, dstZ, srcWidth, srcHeight, srcDepth));
 			}
@@ -2862,12 +2862,12 @@ namespace ece
 
 			inline void OpenGL::debugMessageInsert(SourceDebugMessage source, TypeDebugMessage type, Handle id, SeverityDebugMessage severity, const std::string & message)
 			{
-				checkErrors(glDebugMessageInsert(static_cast<GLenum>(source), static_cast<GLenum>(type), id, static_cast<GLenum>(severity), message.size(), message.data()));
+				checkErrors(glDebugMessageInsert(static_cast<GLenum>(source), static_cast<GLenum>(type), id, static_cast<GLenum>(severity), static_cast<ece::size_t>(message.size()), message.data()));
 			}
 			
 			inline void OpenGL::pushDebugGroup(SourceDebugMessage source, Handle id, const std::string & message)
 			{
-				checkErrors(glPushDebugGroup(static_cast<GLenum>(source), id, message.size(), message.data()));
+				checkErrors(glPushDebugGroup(static_cast<GLenum>(source), id, static_cast<ece::size_t>(message.size()), message.data()));
 			}
 			
 			inline void OpenGL::popDebugGroup()
@@ -2877,28 +2877,28 @@ namespace ece
 
 			inline void OpenGL::objectLabel(Identifier identifier, Handle name, const std::string & label)
 			{
-				checkErrors(glObjectLabel(static_cast<GLenum>(identifier), name, label.size(), label.data()));
+				checkErrors(glObjectLabel(static_cast<GLenum>(identifier), name, static_cast<ece::size_t>(label.size()), label.data()));
 			}
 
 			inline void OpenGL::objectPtrLabel(void * ptr, const std::string & label)
 			{
-				checkErrors(glObjectPtrLabel(ptr, label.size(), label.data()));
+				checkErrors(glObjectPtrLabel(ptr, static_cast<ece::size_t>(label.size()), label.data()));
 			}
 
-			inline auto OpenGL::getDebugMessageLog(std::size_t count) -> std::vector<DebugMessage>
+			inline auto OpenGL::getDebugMessageLog(ece::size_t count) -> std::vector<DebugMessage>
 			{
-				const auto bufSize = std::size_t{ 4096 };
+				const auto bufSize = ece::size_t{ 4096 };
 				auto sources = std::vector<SourceDebugMessage>(count);
 				auto types = std::vector<TypeDebugMessage>(count);
 				auto ids = std::vector<Handle>(count);
 				auto severities = std::vector<SeverityDebugMessage>(count);
-				auto lengths = std::vector<std::size_t>(count);
+				auto lengths = std::vector<ece::size_t>(count);
 				auto messageLog = std::vector<std::string>(count, std::string(bufSize, '\0'));
 
 				auto size = checkErrors(glGetDebugMessageLog(count, bufSize, reinterpret_cast<GLenum *>(sources.data()), reinterpret_cast<GLenum *>(types.data()), reinterpret_cast<GLuint *>(ids.data()), reinterpret_cast<GLenum *>(severities.data()), reinterpret_cast<GLsizei *>(lengths.data()), reinterpret_cast<GLchar *>(messageLog[0].data())));
 
 				auto messages = std::vector<DebugMessage>(size);
-				for (auto i = std::size_t{ 0 }; i < size; ++i) {
+				for (auto i = ece::size_t{ 0 }; i < size; ++i) {
 					messages[i].source = sources[i];
 					messages[i].type = types[i];
 					messages[i].id = ids[i];
@@ -2910,8 +2910,8 @@ namespace ece
 
 			inline auto OpenGL::getObjectLabel(Identifier identifier, Handle name) -> std::string
 			{
-				const auto bifSize = std::size_t{ 4096 };
-				auto length = std::size_t{ 0 };
+				const auto bifSize = ece::size_t{ 4096 };
+				auto length = ece::size_t{ 0 };
 				auto label = std::string(bifSize, '\0');
 				checkErrors(glGetObjectLabel(static_cast<GLenum>(identifier), name, bifSize, reinterpret_cast<GLsizei *>(&length), label.data()));
 				label.resize(length);
@@ -2920,8 +2920,8 @@ namespace ece
 
 			inline auto OpenGL::getObjectPtrLabel(void * ptr) -> std::string
 			{
-				const auto bifSize = std::size_t{ 4096 };
-				auto length = std::size_t{ 0 };
+				const auto bifSize = ece::size_t{ 4096 };
+				auto length = ece::size_t{ 0 };
 				auto label = std::string(bifSize, '\0');
 				checkErrors(glGetObjectPtrLabel(ptr, bifSize, reinterpret_cast<GLsizei *>(&length), label.data()));
 				label.resize(length);
@@ -2930,21 +2930,21 @@ namespace ece
 			
 			inline auto OpenGL::getInternalformat64(TextureTarget target, PixelInternalFormat internalformat, InternalFormatInformation pname) -> std::vector<std::int64_t>
 			{
-				const auto bufsize = std::size_t{ 32 };
+				const auto bufsize = ece::size_t{ 32 };
 
 				auto params = std::vector<std::int64_t>{};
 				checkErrors(glGetInternalformati64v(static_cast<GLenum>(target), static_cast<GLenum>(internalformat), static_cast<GLenum>(pname), bufsize, params.data()));
 				return std::move(params);
 			}
 
-			inline void OpenGL::bindBuffersRange(IndexedBufferTarget target, Handle first, std::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
+			inline void OpenGL::bindBuffersRange(IndexedBufferTarget target, Handle first, ece::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
 			{
 				checkErrors(glBindBuffersRange(static_cast<GLenum>(target), first, count, reinterpret_cast<const GLuint *>(buffers.data()), reinterpret_cast<const GLintptr *>(offsets.data()), reinterpret_cast<const GLintptr *>(sizes.data())));
 			}
 
 			inline void OpenGL::bindBuffersBase(IndexedBufferTarget target, Handle first, const std::vector<Handle> & buffers)
 			{
-				checkErrors(glBindBuffersBase(static_cast<GLenum>(target), first, buffers.size(), reinterpret_cast<const GLuint *>(buffers.data())));
+				checkErrors(glBindBuffersBase(static_cast<GLenum>(target), first, static_cast<ece::size_t>(buffers.size()), reinterpret_cast<const GLuint *>(buffers.data())));
 			}
 
 			template <class T>
@@ -2955,16 +2955,16 @@ namespace ece
 
 			inline void OpenGL::bindTextures(Handle first, const std::vector<Handle> & textures)
 			{
-				checkErrors(glBindTextures(first, textures.size(), reinterpret_cast<const GLuint *>(textures.data())));
+				checkErrors(glBindTextures(first, static_cast<ece::size_t>(textures.size()), reinterpret_cast<const GLuint *>(textures.data())));
 			}
 
 			inline void OpenGL::bindSamplers(Handle first, const std::vector<Handle> & samplers)
 			{
-				checkErrors(glBindSamplers(first, samplers.size(), reinterpret_cast<const GLuint *>(samplers.data())));
+				checkErrors(glBindSamplers(first, static_cast<ece::size_t>(samplers.size()), reinterpret_cast<const GLuint *>(samplers.data())));
 			}
 
 			template <class T>
-			inline void OpenGL::clearTexSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, DataType type, const std::vector<T> & data)
+			inline void OpenGL::clearTexSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, DataType type, const std::vector<T> & data)
 			{
 				checkErrors(glClearTexSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth, static_cast<GLenum>(format), static_cast<GLenum>(type), reinterpret_cast<const GLvoid *>(data.data())));
 			}
@@ -2977,10 +2977,10 @@ namespace ece
 
 			inline void OpenGL::bindImageTextures(Handle first, const std::vector<Handle> & textures)
 			{
-				checkErrors(glBindImageTextures(first, textures.size(), reinterpret_cast<const GLuint *>(textures.data())));
+				checkErrors(glBindImageTextures(first, static_cast<ece::size_t>(textures.size()), reinterpret_cast<const GLuint *>(textures.data())));
 			}
 
-			inline void OpenGL::bindVertexBuffers(Handle first, std::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
+			inline void OpenGL::bindVertexBuffers(Handle first, ece::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
 			{
 				checkErrors(glBindVertexBuffers(first, count, reinterpret_cast<const GLuint *>(buffers.data()), reinterpret_cast<const GLintptr *>(offsets.data()), reinterpret_cast<const GLsizei *>(sizes.data())));
 			}
@@ -2995,17 +2995,17 @@ namespace ece
 				checkErrors(glDisableVertexArrayAttrib(vaobj, index));
 			}
 
-			inline void OpenGL::namedBufferData(Handle buffer, std::size_t size, const void * data, BufferUsage usage)
+			inline void OpenGL::namedBufferData(Handle buffer, ece::size_t size, const void * data, BufferUsage usage)
 			{
 				checkErrors(glNamedBufferData(buffer, size, data, static_cast<GLenum>(usage)));
 			}
 
-			inline void OpenGL::namedBufferSubData(Handle buffer, int offset, std::size_t size, const void * data)
+			inline void OpenGL::namedBufferSubData(Handle buffer, int offset, ece::size_t size, const void * data)
 			{
 				checkErrors(glNamedBufferSubData(buffer, reinterpret_cast<GLintptr>(&offset), size, data));
 			}
 
-			inline auto OpenGL::mapNamedBufferRange(Handle buffer, int offset, std::size_t length, MapBufferRangeAccessFlag access) -> void *
+			inline auto OpenGL::mapNamedBufferRange(Handle buffer, int offset, ece::size_t length, MapBufferRangeAccessFlag access) -> void *
 			{
 				return checkErrors(glMapNamedBufferRange(buffer, reinterpret_cast<GLintptr>(&offset), length, static_cast<GLbitfield>(access)));
 			}
@@ -3015,7 +3015,7 @@ namespace ece
 				return checkErrors(glMapNamedBuffer(buffer, static_cast<GLbitfield>(access)));
 			}
 			
-			inline void OpenGL::flushMappedNamedBufferRange(Handle buffer, int offset, std::size_t length)
+			inline void OpenGL::flushMappedNamedBufferRange(Handle buffer, int offset, ece::size_t length)
 			{
 				checkErrors(glFlushMappedNamedBufferRange(buffer, reinterpret_cast<GLintptr>(&offset), length))
 			}
@@ -3025,7 +3025,7 @@ namespace ece
 				return checkErrors(glUnmapNamedBuffer(buffer));
 			}
 
-			inline void OpenGL::copyNamedBufferSubData(Handle readBuffer, Handle writeBuffer, int readOffset, int writeOffset, std::size_t size)
+			inline void OpenGL::copyNamedBufferSubData(Handle readBuffer, Handle writeBuffer, int readOffset, int writeOffset, ece::size_t size)
 			{
 				checkErrors(glCopyNamedBufferSubData(readBuffer, writeBuffer, reinterpret_cast<GLintptr>(&readOffset), reinterpret_cast<GLintptr>(&writeOffset), size));
 			}
@@ -3044,7 +3044,7 @@ namespace ece
 				return std::move(params);
 			}
 
-			inline auto OpenGL::getNamedBufferSubData(Handle buffer, int offset, std::size_t size) -> void *
+			inline auto OpenGL::getNamedBufferSubData(Handle buffer, int offset, ece::size_t size) -> void *
 			{
 				auto data = reinterpret_cast<void *>(0);
 				checkErrors(glGetNamedBufferSubData(buffer, reinterpret_cast<GLintptr>(&offset), size, data));
@@ -3061,80 +3061,80 @@ namespace ece
 			}
 			
 			template <class T>
-			inline auto OpenGL::getnUniform([[maybe_unused]] Handle program, [[maybe_unused]] int location, [[maybe_unused]] std::size_t bufSize) -> std::vector<T>
+			inline auto OpenGL::getnUniform([[maybe_unused]] Handle program, [[maybe_unused]] int location, [[maybe_unused]] ece::size_t bufSize) -> std::vector<T>
 			{
 				static_assert("No existing specialization for OpenGL::getnUniform.");
 			}
 
-			template <> inline auto OpenGL::getnUniform<float>(Handle program, int location, std::size_t bufSize) -> std::vector<float>
+			template <> inline auto OpenGL::getnUniform<float>(Handle program, int location, ece::size_t bufSize) -> std::vector<float>
 			{
 				auto params = std::vector<float>(bufSize);
 				checkErrors(glGetnUniformfv(program, location, bufSize, reinterpret_cast<GLfloat *>(params.data())));
 				return std::move(params);
 			}
 
-			template <> inline auto OpenGL::getnUniform<int>(Handle program, int location, std::size_t bufSize) -> std::vector<int>
+			template <> inline auto OpenGL::getnUniform<int>(Handle program, int location, ece::size_t bufSize) -> std::vector<int>
 			{
 				auto params = std::vector<int>(bufSize);
 				checkErrors(glGetnUniformiv(program, location, bufSize, reinterpret_cast<GLint *>(params.data())));
 				return std::move(params);
 			}
 
-			template <> inline auto OpenGL::getnUniform<unsigned int>(Handle program, int location, std::size_t bufSize) -> std::vector<unsigned int>
+			template <> inline auto OpenGL::getnUniform<unsigned int>(Handle program, int location, ece::size_t bufSize) -> std::vector<unsigned int>
 			{
 				auto params = std::vector<unsigned int>(bufSize);
 				checkErrors(glGetnUniformuiv(program, location, bufSize, reinterpret_cast<GLuint *>(params.data())));
 				return std::move(params);
 			}
 
-			template <> inline auto OpenGL::getnUniform<double>(Handle program, int location, std::size_t bufSize) -> std::vector<double>
+			template <> inline auto OpenGL::getnUniform<double>(Handle program, int location, ece::size_t bufSize) -> std::vector<double>
 			{
 				auto params = std::vector<double>(bufSize);
 				checkErrors(glGetnUniformdv(program, location, bufSize, reinterpret_cast<GLdouble *>(params.data())));
 				return std::move(params);
 			}
 
-			inline void OpenGL::textureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t  width, std::size_t  height, std::size_t depth, PixelFormat format, PixelDataType type, const void * pixels)
+			inline void OpenGL::textureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t  width, ece::size_t  height, ece::size_t depth, PixelFormat format, PixelDataType type, const void * pixels)
 			{
 				checkErrors(glTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, width, height, depth, static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
 			}
 
-			inline void OpenGL::textureSubImage2D(Handle texture, int level, int xoffset, int yoffset, std::size_t width, std::size_t height, PixelFormat format, PixelDataType type, const void *pixels)
+			inline void OpenGL::textureSubImage2D(Handle texture, int level, int xoffset, int yoffset, ece::size_t width, ece::size_t height, PixelFormat format, PixelDataType type, const void *pixels)
 			{
 				checkErrors(glTextureSubImage2D(texture, level, xoffset, yoffset, width, height, static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
 			}
 
-			inline void OpenGL::textureSubImage1D(Handle texture, int level, int xoffset, std::size_t width, PixelFormat format, PixelDataType type, const void *pixels)
+			inline void OpenGL::textureSubImage1D(Handle texture, int level, int xoffset, ece::size_t width, PixelFormat format, PixelDataType type, const void *pixels)
 			{
 				checkErrors(glTextureSubImage1D(texture, level, xoffset, width, static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
 			}
 			
-			inline void OpenGL::copyTextureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, int x, int y, std::size_t width, std::size_t height)
+			inline void OpenGL::copyTextureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, int x, int y, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glCopyTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, x, y, width, height));
 			}
 
-			inline void OpenGL::copyTextureSubImage2D(Handle texture, int level, int xoffset, int yoffset, int x, int y, std::size_t width, std::size_t height)
+			inline void OpenGL::copyTextureSubImage2D(Handle texture, int level, int xoffset, int yoffset, int x, int y, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glCopyTextureSubImage2D(texture, level, xoffset, yoffset, x, y, width, height));
 			}
 
-			inline void OpenGL::copyTextureSubImage1D(Handle texture, int level, int xoffset, int x, int y, std::size_t width)
+			inline void OpenGL::copyTextureSubImage1D(Handle texture, int level, int xoffset, int x, int y, ece::size_t width)
 			{
 				checkErrors(glCopyTextureSubImage1D(texture, level, xoffset, x, y, width));
 			}
 			
-			inline void OpenGL::compressedTextureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, std::size_t imageSize, const void * data)
+			inline void OpenGL::compressedTextureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, ece::size_t imageSize, const void * data)
 			{
 				checkErrors(glCompressedTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, width, height, depth, static_cast<GLenum>(format), imageSize, data));
 			}
 			
-			inline void OpenGL::compressedTextureSubImage2D(Handle texture, int level, int xoffset, int yoffset, std::size_t width, std::size_t height, PixelFormat format, std::size_t imageSize, const void *data)
+			inline void OpenGL::compressedTextureSubImage2D(Handle texture, int level, int xoffset, int yoffset, ece::size_t width, ece::size_t height, PixelFormat format, ece::size_t imageSize, const void *data)
 			{
 				checkErrors(glCompressedTextureSubImage2D(texture, level, xoffset, yoffset, width, height, static_cast<GLenum>(format), imageSize, data));
 			}
 
-			inline void OpenGL::compressedTextureSubImage1D(Handle texture, int level, int xoffset, std::size_t width, PixelFormat format, std::size_t imageSize, const void *data)
+			inline void OpenGL::compressedTextureSubImage1D(Handle texture, int level, int xoffset, ece::size_t width, PixelFormat format, ece::size_t imageSize, const void *data)
 			{
 				checkErrors(glCompressedTextureSubImage1D(texture, level, xoffset, width, static_cast<GLenum>(format), imageSize, data));
 			}
@@ -3226,35 +3226,35 @@ namespace ece
 				return std::move(params);
 			}
 			
-			inline auto OpenGL::getnTexImage(TextureTarget target, int level, PixelFormat format, DataType type, std::size_t bufSize) -> void *
+			inline auto OpenGL::getnTexImage(TextureTarget target, int level, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
 				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
 				checkErrors(glGetnTexImage(static_cast<GLenum>(target), level, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}
 			
-			inline auto OpenGL::getTextureImage(Handle texture, int level, PixelFormat format, DataType type, std::size_t bufSize) -> void *
+			inline auto OpenGL::getTextureImage(Handle texture, int level, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
 				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
 				checkErrors(glGetTextureImage(texture, level, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}
 			
-			inline auto OpenGL::getnCompressedTexImage(TextureTarget target, int level, std::size_t bufSize) -> void *
+			inline auto OpenGL::getnCompressedTexImage(TextureTarget target, int level, ece::size_t bufSize) -> void *
 			{
 				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
 				checkErrors(glGetnCompressedTexImage(static_cast<GLenum>(target), level, bufSize, pixels));
 				return std::move(pixels);
 			}
 			
-			inline auto OpenGL::getCompressedTextureImage(Handle texture, int level, std::size_t bufSize) -> void *
+			inline auto OpenGL::getCompressedTextureImage(Handle texture, int level, ece::size_t bufSize) -> void *
 			{
 				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
 				checkErrors(glGetCompressedTextureImage(texture, level, bufSize, pixels));
 				return std::move(pixels);
 			}
 			
-			inline auto OpenGL::readnPixels(int x, int y, std::size_t width, std::size_t height, PixelFormat format, DataType type, std::size_t bufSize) -> void *
+			inline auto OpenGL::readnPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
 				auto pixels = reinterpret_cast<void *>(std::vector<float>(bufSize).data()); // TODO: should be not working.
 				checkErrors(glReadnPixels(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
@@ -3278,7 +3278,7 @@ namespace ece
 
 			inline void OpenGL::namedFramebufferDrawBuffers(Handle framebuffer, const std::vector<ColorBuffer> & bufs)
 			{
-				checkErrors(glNamedFramebufferDrawBuffers(framebuffer, bufs.size(), reinterpret_cast<const GLenum *>(bufs.data())));
+				checkErrors(glNamedFramebufferDrawBuffers(framebuffer, static_cast<ece::size_t>(bufs.size()), reinterpret_cast<const GLenum *>(bufs.data())));
 			}
 			
 			inline void OpenGL::clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<int> & value)
@@ -3301,12 +3301,12 @@ namespace ece
 				checkErrors(glClearNamedFramebufferfi(framebuffer, static_cast<GLenum>(buffer), drawbuffer, depth, stencil));
 			}
 			
-			inline void OpenGL::namedRenderbufferStorageMultisample(Handle renderbuffer, std::size_t samples, PixelInternalFormat internalformat, std::size_t width, std::size_t height)
+			inline void OpenGL::namedRenderbufferStorageMultisample(Handle renderbuffer, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glNamedRenderbufferStorageMultisample(renderbuffer, samples, static_cast<GLenum>(internalformat), width, height));
 			}
 			
-			inline void OpenGL::namedRenderbufferStorage(Handle renderbuffer, PixelInternalFormat internalformat, std::size_t width, std::size_t height)
+			inline void OpenGL::namedRenderbufferStorage(Handle renderbuffer, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glNamedRenderbufferStorage(renderbuffer, static_cast<GLenum>(internalformat), width, height));
 			}
@@ -3353,7 +3353,7 @@ namespace ece
 				return std::move(static_cast<GraphicResetStatus>(result));
 			}
 			
-			inline auto OpenGL::createBuffers(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::createBuffers(ece::size_t n) -> std::vector<Handle>
 			{
 				auto buffers = std::vector<Handle>(n);
 				checkErrors(glCreateBuffers(n, reinterpret_cast<GLuint *>(buffers.data())));
@@ -3372,7 +3372,7 @@ namespace ece
 				checkErrors(glClearNamedBufferData(static_cast<GLenum>(buffer), static_cast<GLenum>(internalformat), static_cast<GLenum>(format), static_cast<GLenum>(type), reinterpret_cast<const void *>(data.data())));
 			}
 			
-			inline auto OpenGL::createProgramPipelines(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::createProgramPipelines(ece::size_t n) -> std::vector<Handle>
 			{
 				auto pipelines = std::vector<Handle>(n);
 				checkErrors(glCreateProgramPipelines(n, reinterpret_cast<GLuint *>(pipelines.data())));
@@ -3389,65 +3389,65 @@ namespace ece
 				checkErrors(glBindTextureUnit(unit, texture));
 			}
 
-			inline auto OpenGL::createTextures(TextureTarget target, std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::createTextures(TextureTarget target, ece::size_t n) -> std::vector<Handle>
 			{
 				auto textures = std::vector<Handle>(n);
 				checkErrors(glCreateTextures(static_cast<GLenum>(target), n, reinterpret_cast<GLuint *>(textures.data())));
 				return std::move(textures);
 			}
 
-			inline auto OpenGL::createSamplers(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::createSamplers(ece::size_t n) -> std::vector<Handle>
 			{
 				auto samplers = std::vector<Handle>(n);
 				checkErrors(glCreateSamplers(n, reinterpret_cast<GLuint *>(samplers.data())));
 				return std::move(samplers);
 			}
 			
-			inline void OpenGL::textureBufferRange(Handle texture, PixelInternalFormat internalFormat, Handle buffer, int offset, std::size_t size)
+			inline void OpenGL::textureBufferRange(Handle texture, PixelInternalFormat internalFormat, Handle buffer, int offset, ece::size_t size)
 			{
 				checkErrors(glTextureBufferRange(texture, static_cast<GLenum>(internalFormat), buffer, reinterpret_cast<GLintptr>(&offset), size));
 			}
 
-			inline auto OpenGL::getTextureSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, PixelFormat format, DataType type, std::size_t bufSize) -> void *
+			inline auto OpenGL::getTextureSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
 				auto pixels = reinterpret_cast<void *>(0);
 				checkErrors(glGetTextureSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}
 
-			inline auto OpenGL::getCompressedTextureSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, std::size_t width, std::size_t height, std::size_t depth, std::size_t bufSize) -> void *
+			inline auto OpenGL::getCompressedTextureSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, ece::size_t bufSize) -> void *
 			{
 				auto pixels = reinterpret_cast<void *>(0);
 				checkErrors(glGetCompressedTextureSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth, bufSize, pixels));
 				return std::move(pixels);
 			}
 			
-			inline void OpenGL::textureStorage1D(Handle texture, std::size_t levels, PixelInternalFormat internalformat, std::size_t width)
+			inline void OpenGL::textureStorage1D(Handle texture, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width)
 			{
 				checkErrors(glTextureStorage1D(texture, levels, static_cast<GLenum>(internalformat), width));
 			}
 			
-			inline void OpenGL::textureStorage2D(Handle texture, std::size_t levels, PixelInternalFormat internalformat, std::size_t width, std::size_t height)
+			inline void OpenGL::textureStorage2D(Handle texture, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height)
 			{
 				checkErrors(glTextureStorage2D(texture, levels, static_cast<GLenum>(internalformat), width, height));
 			}
 			
-			inline void OpenGL::textureStorage3D(Handle texture, std::size_t levels, PixelInternalFormat internalformat, std::size_t width, std::size_t height, std::size_t depth)
+			inline void OpenGL::textureStorage3D(Handle texture, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, ece::size_t depth)
 			{
 				checkErrors(glTextureStorage3D(texture, levels, static_cast<GLenum>(internalformat), width, height, depth));
 			}
 			
-			inline void OpenGL::textureStorage2DMultisample(Handle texture, std::size_t samples, PixelInternalFormat internalformat, std::size_t width, std::size_t height, bool fixedsamplelocations)
+			inline void OpenGL::textureStorage2DMultisample(Handle texture, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, bool fixedsamplelocations)
 			{
 				checkErrors(glTextureStorage2DMultisample(texture, samples, static_cast<GLenum>(internalformat), width, height, fixedsamplelocations));
 			}
 			
-			inline void OpenGL::textureStorage3DMultisample(Handle texture, std::size_t samples, PixelInternalFormat internalformat, std::size_t width, std::size_t height, std::size_t depth, bool fixedsamplelocations)
+			inline void OpenGL::textureStorage3DMultisample(Handle texture, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, ece::size_t depth, bool fixedsamplelocations)
 			{
 				checkErrors(glTextureStorage3DMultisample(texture, samples, static_cast<GLenum>(internalformat), width, height, depth, fixedsamplelocations));
 			}
 
-			inline auto OpenGL::createFramebuffers(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::createFramebuffers(ece::size_t n) -> std::vector<Handle>
 			{
 				auto ids = std::vector<Handle>(n);
 				checkErrors(glCreateFramebuffers(n, ids.data()));
@@ -3466,7 +3466,7 @@ namespace ece
 				return std::move(params);
 			}
 
-			inline auto OpenGL::createRenderbuffers(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::createRenderbuffers(ece::size_t n) -> std::vector<Handle>
 			{
 				auto renderbuffers = std::vector<Handle>(n);
 				checkErrors(glCreateRenderbuffers(n, renderbuffers.data()));
@@ -3478,7 +3478,7 @@ namespace ece
 				checkErrors(glTextureBarrier());
 			}
 
-			inline auto OpenGL::createVertexArrays(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::createVertexArrays(ece::size_t n) -> std::vector<Handle>
 			{
 				auto arrays = std::vector<Handle>(n);
 				checkErrors(glCreateVertexArrays(n, arrays.data()));
@@ -3505,12 +3505,12 @@ namespace ece
 				checkErrors(glVertexArrayAttribLFormat(vaobj, attribindex, size, static_cast<GLenum>(type), relativeoffset));
 			}
 
-			inline void OpenGL::vertexArrayVertexBuffer(Handle vaobj, Handle bindingindex, Handle buffer, int offset, std::size_t stride)
+			inline void OpenGL::vertexArrayVertexBuffer(Handle vaobj, Handle bindingindex, Handle buffer, int offset, ece::size_t stride)
 			{
 				checkErrors(glVertexArrayVertexBuffer(vaobj, bindingindex, buffer, reinterpret_cast<GLintptr>(&offset), stride));
 			}
 			
-			inline void OpenGL::vertexArrayVertexBuffers(Handle vaobj, Handle first, std::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
+			inline void OpenGL::vertexArrayVertexBuffers(Handle vaobj, Handle first, ece::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes)
 			{
 				checkErrors(glVertexArrayVertexBuffers(vaobj, first, count, reinterpret_cast<const GLuint *>(buffers.data()), reinterpret_cast<const GLintptr *>(offsets.data()), reinterpret_cast<const GLsizei *>(sizes.data())));
 			}
@@ -3548,14 +3548,14 @@ namespace ece
 				return std::move(param);
 			}
 			
-			inline auto OpenGL::createTransformFeedbacks(std::size_t n) -> std::vector<Handle>
+			inline auto OpenGL::createTransformFeedbacks(ece::size_t n) -> std::vector<Handle>
 			{
 				auto ids = std::vector<Handle>(n);
 				checkErrors(glCreateTransformFeedbacks(n, reinterpret_cast<GLuint *>(ids.data())));
 				return std::move(ids);
 			}
 			
-			inline void OpenGL::transformFeedbackBufferRange(Handle xfb, Handle index, Handle buffer, int offset, std::size_t size)
+			inline void OpenGL::transformFeedbackBufferRange(Handle xfb, Handle index, Handle buffer, int offset, ece::size_t size)
 			{
 				checkErrors(glTransformFeedbackBufferRange(xfb, index, buffer, offset, size));
 			}
@@ -3572,12 +3572,12 @@ namespace ece
 			
 			inline void OpenGL::invalidateNamedFramebufferSubData(Handle framebuffer, const std::vector<FramebufferAttachmentChannel> & attachments, int x, int y, int width, int height)
 			{
-				checkErrors(glInvalidateNamedFramebufferSubData(framebuffer, attachments.size(), reinterpret_cast<const GLenum *>(attachments.data()), x, y, width, height));
+				checkErrors(glInvalidateNamedFramebufferSubData(framebuffer, static_cast<ece::size_t>(attachments.size()), reinterpret_cast<const GLenum *>(attachments.data()), x, y, width, height));
 			}
 
 			inline void OpenGL::invalidateNamedFramebufferData(Handle framebuffer, const std::vector<FramebufferAttachmentChannel> & attachments)
 			{
-				checkErrors(glInvalidateNamedFramebufferData(framebuffer, attachments.size(), reinterpret_cast<const GLenum *>(attachments.data())));
+				checkErrors(glInvalidateNamedFramebufferData(framebuffer, static_cast<ece::size_t>(attachments.size()), reinterpret_cast<const GLenum *>(attachments.data())));
 			}
 
 			inline auto OpenGL::getTransformFeedback(Handle xfb, TransformFeedbackParameter pname) -> int
@@ -3603,7 +3603,7 @@ namespace ece
 
 			inline void OpenGL::specializeShader(Handle shader, const std::string & pEntryPoint, const std::vector<Handle> & pConstantIndex, const std::vector<Handle> & pConstantValue)
 			{
-				checkErrors(glSpecializeShader(shader, pEntryPoint.data(), pConstantIndex.size(), reinterpret_cast<const GLuint *>(pConstantIndex.data()), reinterpret_cast<const GLuint *>(pConstantValue.data())));
+				checkErrors(glSpecializeShader(shader, pEntryPoint.data(), static_cast<ece::size_t>(pConstantIndex.size()), reinterpret_cast<const GLuint *>(pConstantIndex.data()), reinterpret_cast<const GLuint *>(pConstantValue.data())));
 			}
 			
 			inline void OpenGL::polygonOffsetClamp(float factor, float units, float clamp)

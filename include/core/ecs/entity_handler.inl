@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace ecs
 		{
-			inline EntityHandler::EntityHandler(const std::size_t id, World & world) noexcept: _id(id), _world(world) {}
+			inline EntityHandler::EntityHandler(Handle id, World & world) noexcept: _id(id), _world(world) {}
 
 			inline auto EntityHandler::getId() const { return this->_id; }
 

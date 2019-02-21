@@ -143,7 +143,7 @@ namespace ece
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				inline virtual auto getWidth() const -> std::size_t override;
+				inline virtual auto getWidth() const -> ece::size_t override;
 
 				/**
 				* @fn std::size_t getHeight() const
@@ -151,7 +151,7 @@ namespace ece
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				inline virtual auto getHeight() const -> std::size_t override;
+				inline virtual auto getHeight() const -> ece::size_t override;
 
 				/**
 				 * @fn TextureTypeTarget getType() const
@@ -211,13 +211,13 @@ namespace ece
 				 * @property _width
 				 * @brief The width of the texture.
 				 */
-				std::size_t _width;
+				ece::size_t _width;
 
 				/**
 				 * @property _height
 				 * @brief The height of the texture.
 				 */
-				std::size_t _height;
+				ece::size_t _height;
 
 				/**
 				 * @property _type

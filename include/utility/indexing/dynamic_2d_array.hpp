@@ -41,6 +41,7 @@
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
@@ -68,7 +69,7 @@ namespace ece
         		 * @brief Build a two dimensional array of a specifc size.
         		 * @throw
         		 */
-        		Dynamic2DArray(const std::size_t width, const std::size_t height);
+        		Dynamic2DArray(const ece::size_t width, const ece::size_t height);
 
         		/**
         		 * @fn Dynamic2DArray(const Dynamic2DArray<E> & copy) noexcept
@@ -118,7 +119,7 @@ namespace ece
         		 * @brief Get a line of the container.
         		 * @throw
         		 */
-        		inline auto operator[](const std::size_t index);
+        		inline auto operator[](const ece::size_t index);
 
         		/**
         		 * @fn const E * operator[](const std::size_t index) const
@@ -127,7 +128,7 @@ namespace ece
         		 * @brief Get a line of the container.
         		 * @throw
         		 */
-        		inline auto operator[](const std::size_t index) const;
+        		inline auto operator[](const ece::size_t index) const;
 
         		/**
         		 * @fn E * data()
@@ -169,12 +170,12 @@ namespace ece
         		 * If it is smaller, some data are lose, if it is bigger, new data are initialized to the default value.
         		 * @throw
         		 */
-        		void resize(const std::size_t width, const std::size_t height);
+        		void resize(const ece::size_t width, const ece::size_t height);
 
         	protected:
         		E * _buffer;
-				std::size_t _width;
-				std::size_t _height;
+				ece::size_t _width;
+				ece::size_t _height;
         	};
         } // namespace indexing
     } // namespace utility
