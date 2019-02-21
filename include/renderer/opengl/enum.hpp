@@ -360,7 +360,7 @@ namespace ece
 
 			struct ProgramBinary
 			{
-				std::size_t length;
+				ece::size_t length;
 				BinaryFormat binaryFormat;
 				void * binary;
 			};

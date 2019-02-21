@@ -95,7 +95,7 @@ namespace ece
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "model"), true, this->_model);
 
 				this->_index.bind();
-				OpenGL::drawElements(this->_mode, this->_index.size() * 3, 0);
+				OpenGL::drawElements(this->_mode, static_cast<ece::size_t>(this->_index.size() * 3), 0);
 			}
 
 			void Sprite::setTexture(const Texture2D::Reference & texture)

@@ -39,10 +39,20 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
+#include "utility/pch.hpp"
+
 namespace ece
 {
 	using Handle = unsigned int;
 	static constexpr Handle NULL_HANDLE = 0;
+
+	using size_t = std::uint32_t;
+
+#	ifdef ECE_X64
+		using offset_t = std::uint64_t;
+#	else
+		using offset_t = std::uint32_t;
+#	endif
 }
 
 #endif // TYPES_HPP

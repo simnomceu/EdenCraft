@@ -128,7 +128,7 @@ namespace ece
 
 				RenderState _state;
 
-				std::size_t _numberOfInstances;
+				ece::size_t _numberOfInstances;
 			};
 		} // namespace renderable
 	} // namespace graphic

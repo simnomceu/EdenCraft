@@ -52,10 +52,10 @@ namespace ece
 			inline auto Component<T>::getID() const -> ComponentID { return this->_id; }
 
 			template<class T>
-			inline void Component<T>::setOwner(const std::size_t owner) { this->_owner = owner; }
+			inline void Component<T>::setOwner(const Handle owner) { this->_owner = owner; }
 
 			template<class T>
-			inline auto Component<T>::getOwner() const -> std::size_t { return this->_owner; }
+			inline auto Component<T>::getOwner() const -> Handle { return this->_owner; }
 
             template <class T>
 			inline auto Component<T>::isDirty() const -> bool { return this->_dirty; }

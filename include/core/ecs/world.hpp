@@ -47,6 +47,7 @@
 #include "core/ecs/base_component.hpp"
 #include "core/signal.hpp"
 #include "utility/time.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
@@ -72,7 +73,7 @@ namespace ece
 				 */
 				struct Entity
 				{
-					std::size_t id;
+					Handle id;
 					bool dirty;
 				};
 
@@ -139,10 +140,10 @@ namespace ece
 				auto createEntity(Prototype prototype) -> EntityHandler;
 
 				template <class ComponentType>
-				auto hasComponent(const unsigned int entityID);
+				auto hasComponent(Handle entityID);
 
 				template <class ComponentType>
-				auto & getComponent(const unsigned int entityID);
+				auto & getComponent(Handle entityID);
 
 				Signal<EntityHandler &> onEntityCreated;
 				Signal<BaseComponent &> onComponentCreated;
@@ -170,7 +171,7 @@ namespace ece
 				* @property _entityGenerator
 				* @brief To create a new entity.
 				*/
-				UniqueID<std::size_t> _entityGenerator;
+				UniqueID<Handle> _entityGenerator;
 
 				template <class ComponentType>
 				void addTank();

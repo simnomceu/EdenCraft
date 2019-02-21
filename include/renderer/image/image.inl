@@ -48,8 +48,8 @@ namespace ece
 			template<class E>
 			void Image<E>::flipHorizontally()
 			{
-				for (auto j = std::size_t{ 0 }; j < this->_height; ++j) {
-					for (auto i = std::size_t{ 0 }; i < this->_width / 2; ++i) {
+				for (auto j = ece::size_t{ 0 }; j < this->_height; ++j) {
+					for (auto i = ece::size_t{ 0 }; i < this->_width / 2; ++i) {
 						std::swap(this->_buffer[j][i], this->_buffer[j][this->_width - 1 - i]);
 					}
 				}
@@ -58,8 +58,8 @@ namespace ece
 			template<class E>
 			void Image<E>::flipVertically()
 			{
-				for (auto j = std::size_t{ 0 }; j < this->_height / 2; ++j) {
-					for (auto i = std::size_t{ 0 }; i < this->_width; ++i) {
+				for (auto j = ece::size_t{ 0 }; j < this->_height / 2; ++j) {
+					for (auto i = ece::size_t{ 0 }; i < this->_width; ++i) {
 						std::swap(this->_buffer[j][i], this->_buffer[this->_height - 1 - j][i]);
 					}
 				}
@@ -71,8 +71,8 @@ namespace ece
 				auto dirty = Dynamic2DArray<E>(this->_buffer);
 
 				this->_buffer.resize(dirty.getHeight(), dirty.getWidth());
-				for (auto j = std::size_t{ 0 }; j < dirty.getHeight(); ++j) {
-					for (auto i = std::size_t{ 0 }; i < dirty.getWidth(); ++i) {
+				for (auto j = ece::size_t{ 0 }; j < dirty.getHeight(); ++j) {
+					for (auto i = ece::size_t{ 0 }; i < dirty.getWidth(); ++i) {
 						this->_buffer[i][this->_width - 1 - j] = dirty[j][i];
 					}
 				}
@@ -84,8 +84,8 @@ namespace ece
 				auto dirty = Dynamic2DArray<E>(this->_buffer);
 
 				this->_buffer.resize(dirty.getHeight(), dirty.getWidth());
-				for (auto j = std::size_t{ 0 }; j < dirty.getHeight(); ++j) {
-					for (auto i = std::size_t{ 0 }; i < dirty.getWidth(); ++i) {
+				for (auto j = ece::size_t{ 0 }; j < dirty.getHeight(); ++j) {
+					for (auto i = ece::size_t{ 0 }; i < dirty.getWidth(); ++i) {
 						this->_buffer[this->height - 1 - i][j] = dirty[j][i];
 					}
 				}
@@ -94,8 +94,8 @@ namespace ece
 			template<class E>
 			void Image<E>::setAlphaColor(E color, std::function<auto (const E &, const E &) -> bool> op)
 			{
-				for (auto j = std::size_t{ 0 }; j < this->_height; ++j) {
-					for (auto i = std::size_t{ 0 }; i < this->_width; ++i) {
+				for (auto j = ece::size_t{ 0 }; j < this->_height; ++j) {
+					for (auto i = ece::size_t{ 0 }; i < this->_width; ++i) {
 						if (op((*this)[j][i], color)) {
 							(*this)[j][i] = color;
 						}
