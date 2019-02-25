@@ -44,6 +44,7 @@
 #include "renderer/pch.hpp"
 #include "utility/types.hpp"
 #include "utility/pattern.hpp"
+#include "renderer/image/image.hpp"
 
 namespace ece
 {
@@ -121,6 +122,8 @@ namespace ece
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) = 0;
 
+				virtual void loadFromImage(const TypeTarget type, const Image<RGBA32> & image) = 0;
+
 				/**
 				 * @fn const std::string & getFilename() const
 				 * @return The filename of the texture.
@@ -143,7 +146,7 @@ namespace ece
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				virtual auto getWidth() const -> std::size_t = 0;
+				virtual auto getWidth() const -> ece::size_t = 0;
 
 				/**
 				* @fn std::size_t getHeight() const
@@ -151,7 +154,7 @@ namespace ece
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				virtual auto getHeight() const -> std::size_t = 0;
+				virtual auto getHeight() const -> ece::size_t = 0;
 
 				/**
 				 * @fn TextureTypeTarget getType() const

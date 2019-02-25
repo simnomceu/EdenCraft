@@ -83,10 +83,10 @@ namespace ece
 				glXQueryVersion(this->_data->display, &glxMajor, &glxMinor);
 
 				if ((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
-					ServiceLoggerLocator::getService().logWarning("GLX 1.3 or greater is not available. Most recent version is GLX " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
+					WARNING << "GLX 1.3 or greater is not available. Most recent version is GLX " << glxMajor << "." << glxMinor << flush;
                 }
                 else {
-						ServiceLoggerLocator::getService().logInfo("GLX version: " + std::to_string(glxMajor) + "." + std::to_string(glxMinor));
+					INFO << "GLX version: " << glxMajor << "." << glxMinor << flush;
                 }
 
             	const auto visual_attribs = std::array{

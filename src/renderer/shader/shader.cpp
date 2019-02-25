@@ -69,7 +69,7 @@ namespace ece
 			{
 				OpenGL::linkProgram(this->_handle);
 
-				if (OpenGL::getProgramiv(this->_handle, ProgramParameter::LINK_STATUS)[0]) {
+				if (OpenGL::getProgram(this->_handle, ProgramParameter::LINK_STATUS)[0]) {
 					this->use();
 					this->_linkedSuccessfully = true;
 
@@ -79,7 +79,7 @@ namespace ece
 					}
 				} else {
                     auto infoLog = OpenGL::getProgramInfoLog(this->_handle);
-                    ServiceLoggerLocator::getService().logError(infoLog);
+					ERROR << infoLog << flush;
                 }
 			}
 
@@ -91,7 +91,7 @@ namespace ece
                     uniform.bind(handle);
                 }
                 catch (const std::runtime_error & e) {
-                    ServiceLoggerLocator::getService().logWarning(e.what());
+					WARNING << e.what() << flush;
                 }
             }
 
@@ -103,7 +103,7 @@ namespace ece
 					uniform->bind(handle);
 				}
 				catch (const std::runtime_error & e) {
-					ServiceLoggerLocator::getService().logWarning(e.what());
+					WARNING << e.what() << flush;
 				}
 			}
 
@@ -116,7 +116,7 @@ namespace ece
 			auto Shader::getUniforms() const
 			{
 				auto uniforms = std::vector<BaseUniform::Info>{};
-				auto count = OpenGL::getProgramiv(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
+				auto count = OpenGL::getProgram(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
 				for (auto i =  0; i < count; ++i) {
 					auto uniform = OpenGL::getActiveUniform(this->_handle, static_cast<Handle>(i));
 					uniforms.push_back(getUniformInfo(uniform));

@@ -65,7 +65,7 @@ namespace ece
 					default: break;
 					}
 
-					ServiceLoggerLocator::getService().logError("Error OpenGL: (" + std::to_string(static_cast<unsigned short int>(error)) + ") " + errorMessage + " in " + std::string(function) + " from " + std::string(file) + ":" + std::to_string(line) + ".");
+					ERROR << "Error OpenGL: (" << static_cast<unsigned short int>(error) << ") " << errorMessage << " in " << function << " from " << file << ":" << line << "." << flush;
 					error = OpenGL::getError();
 				}
 			}
@@ -105,10 +105,10 @@ namespace ece
 				case GL_DEBUG_SEVERITY_NOTIFICATION: debugMessage += "[Severity: notification]"; break;
 				}
 				if (severity == GL_DEBUG_SEVERITY_NOTIFICATION) {
-					ServiceLoggerLocator::getService().logWarning(debugMessage);
+					WARNING << debugMessage << flush;
 				}
 				else {
-					ServiceLoggerLocator::getService().logError(debugMessage);
+					ERROR << debugMessage << flush;
 				}
 			}
 		} // namespace opengl

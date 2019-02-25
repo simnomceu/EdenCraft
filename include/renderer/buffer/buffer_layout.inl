@@ -47,7 +47,7 @@ namespace ece
 			inline BufferLayout::BufferLayout(const BufferLayout::Strategy strategy) noexcept: _elements(), _instanceBlockSize(DEFAULT_INSTANCE_BLOCK_SIZE), _strategy(strategy) {}
 
             template <class T>
-            void BufferLayout::add(const std::size_t size, const bool normalized, const bool ignored, const bool instanced)
+            void BufferLayout::add(const ece::size_t size, const bool normalized, const bool ignored, const bool instanced)
             {
 				const auto index = this->_elements.size();
 				this->_elements.push_back({ dataType<T>(),
@@ -61,8 +61,8 @@ namespace ece
 			
 			inline auto BufferLayout::getStride() const
 			{
-				return std::accumulate(this->_elements.begin(), this->_elements.end(), std::size_t(0),
-					[](const std::size_t ac, const ElementLayout & element) -> std::size_t { return ac + (element.count * element.unitSize); });
+				return std::accumulate(this->_elements.begin(), this->_elements.end(), ece::size_t(0),
+					[](const ece::size_t ac, const ElementLayout & element) -> ece::size_t { return ac + (element.count * element.unitSize); });
 			}
 
             inline auto & BufferLayout::getElement(const std::size_t index) { return this->_elements[index]; }
@@ -71,7 +71,7 @@ namespace ece
 
             inline auto BufferLayout::size() const { return this->_elements.size(); }
 
-			inline void BufferLayout::setInstanceBlockSize(const std::size_t size) noexcept { this->_instanceBlockSize = size; }
+			inline void BufferLayout::setInstanceBlockSize(const ece::size_t size) noexcept { this->_instanceBlockSize = size; }
 
 			inline auto BufferLayout::getInstanceBlockSize() const noexcept { return this->_instanceBlockSize; }
 

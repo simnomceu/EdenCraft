@@ -93,7 +93,7 @@ namespace ece
 						shaderFile.close();
 					}
 					catch (const FileException & e) {
-						ServiceLoggerLocator::getService().logError(e.what());
+						ERROR << e.what() << flush;
 					}
 					this->_type = type;
 					this->_compilationRequired = true;
@@ -116,11 +116,11 @@ namespace ece
 				OpenGL::shaderSource(this->_handle, this->_source);
 				OpenGL::compileShader(this->_handle);
 
-				if (OpenGL::getShaderiv(this->_handle, ShaderParameter::COMPILE_STATUS)) {
+				if (OpenGL::getShader(this->_handle, ShaderParameter::COMPILE_STATUS)) {
     				this->_compilationRequired = false;
 				} else {
                     auto infoLog = OpenGL::getShaderInfoLog(this->_handle);
-                    ServiceLoggerLocator::getService().logError(infoLog);
+					ERROR << infoLog << flush;
                 }
 			}
 

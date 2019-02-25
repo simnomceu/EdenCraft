@@ -61,7 +61,7 @@ namespace ece
 													getDataType(elementLayout.type),
 													elementLayout.normalized,
 													layout.getStride(),
-													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout.offset : buffer.size() / layout.size());
+													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout.offset : static_cast<ece::size_t>(buffer.size() / layout.size()));
 						if (elementLayout.instanced) {
 							OpenGL::vertexAttribDivisor(location, layout.getInstanceBlockSize());
 						}

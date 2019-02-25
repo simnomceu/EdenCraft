@@ -66,13 +66,13 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Renderer
 * [x] Common interface for OpenGL context.
 * [x] OpenGL extensions loader with lazy-loading.
-+ [ ] OpenGL support from OpenGL 3.3 to OpenGL 4.6.
+* [x] OpenGL support from OpenGL 3.3 to OpenGL 4.6.
 * [x] WGL implementation for Win32.
 * [x] GLX implementation for X11.
 * [x] Basic 2D and 3D renderer.
 * [x] Basic shaders.
 * [x] Basic 2D textures.
-+ [ ] MSAA with OpenGL implementation.
+* [x] MSAA with OpenGL implementation.
 * [x] Phong ligthing model.
 * [x] Render state used for draw calls.
 * [x] Light emitter (spot, directional, point).

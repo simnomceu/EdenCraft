@@ -36,28 +36,28 @@
 
 */
 
-#include "renderer/rendering/render_target.hpp"
-#include "renderer/rendering/render_context.hpp"
+#ifndef PACKED_VERTEX_ATTRIB_TYPE_HPP
+#define PACKED_VERTEX_ATTRIB_TYPE_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
 
 namespace ece
 {
-	namespace renderer
-	{
-		namespace rendering
-		{
-			inline void Renderer::setCurrentTarget(const std::weak_ptr<RenderTarget> & target) { Renderer::_currentTarget = target; }
+    namespace renderer
+    {
+        namespace opengl
+        {
+            enum class PackedVertexAttribType : unsigned int
+            {
+                SIGNED = GL_INT_2_10_10_10_REV,
+                UNSIGNED = GL_UNSIGNED_INT_2_10_10_10_REV,
+                FLOATING = GL_UNSIGNED_INT_10F_11F_11F_REV
+            };
+        } // namespace opengl.hpp
+    }
+}
 
-			inline auto Renderer::getCurrentTarget() -> std::weak_ptr<RenderTarget> { return Renderer::_currentTarget; }
-
-			inline void Renderer::setCurrentContext(const std::weak_ptr<RenderContext> & context) { Renderer::_currentContext = context;  }
-
-			inline auto Renderer::getCurrentContext() -> std::weak_ptr<RenderContext> { return Renderer::_currentContext; }
-
-			inline void Renderer::setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture) { Renderer::_currentTextures[target] = texture; }
-
-			inline auto Renderer::getCurrentTexture(Texture::Target target) -> std::weak_ptr<Texture> { return Renderer::_currentTextures[target]; }
-
-			inline auto Renderer::isInitialized() noexcept { return !Renderer::_currentContext.expired(); }
-		} // namespace rendering
-	} // namespace renderer
-} // namespace ece
+#endif // PACKED_VERTEX_ATTRIB_TYPE_HPP

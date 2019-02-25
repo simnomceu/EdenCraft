@@ -41,6 +41,7 @@
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
@@ -118,18 +119,24 @@ namespace ece
 				 */
 				virtual auto getID() const -> ComponentID = 0;
 
-				virtual void setOwner(const std::size_t owner) = 0;
+				virtual void setOwner(const Handle owner) = 0;
 
 				/**
 				 * @fn unsigned int getOwner() const
 				 * @return The entity owner.
 				 */
-				virtual auto getOwner() const -> std::size_t = 0;
+				virtual auto getOwner() const -> Handle = 0;
 
 				virtual auto isDirty() const -> bool = 0;
+
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline bool is() const;
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline T & to();
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline const T & to() const;
 			};
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
+
+#include "core/ecs/base_component.inl"
 
 #endif // BASE_COMPONENT_HPP

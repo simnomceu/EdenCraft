@@ -111,7 +111,7 @@ namespace ece
         		 * @brief Log data with the tag ERROR.
         		 * @throw
         		 */
-        		inline virtual void logError(const std::string & data);
+        		inline void logError(const std::string & data);
 
         		/**
         		 * @fn void logWarning(const std::string & data)
@@ -119,7 +119,7 @@ namespace ece
         		 * @brief Log data with the tag WARNING.
         		 * @throw
         		 */
-        		inline virtual void logWarning(const std::string & data);
+        		inline void logWarning(const std::string & data);
 
         		/**
         		 * @fn void logInfo(const std::string & data)
@@ -127,7 +127,7 @@ namespace ece
         		 * @brief Log data with the tag INFO.
         		 * @throw
         		 */
-        		inline virtual void logInfo(const std::string & data);
+        		inline void logInfo(const std::string & data);
 
             protected:
                 void log(const std::string & tag, const std::string & data);

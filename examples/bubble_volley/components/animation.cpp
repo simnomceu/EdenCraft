@@ -38,98 +38,22 @@
 
 */
 
-#ifndef GAME_HPP
-#define GAME_HPP
+#include "components/animation.hpp"
 
-#include "core/signal.hpp"
-#include "graphic/renderable.hpp"
-#include "graphic/scene.hpp"
-
-/**
- * @class Game
- * @brief
- */
-class Game
+void Animation::push(ece::Texture2D::Reference texture)
 {
-public:
-	enum State
-	{
-		NONE,
-		SPLASHSCREEN,
-		PLAY
-	};
+    this->_textures.push_back(texture);
+}
 
-	/**
-	 * @fn constexpr Game() noexcept
-	 * @brief Default constructor.
-	 * @throw noexcept
-	 */
-	Game(ece::World & world) noexcept;
+void Animation::next()
+{
+    ++this->_current;
+    if (this->_current == this->_textures.end()) {
+        this->_current = this->_textures.begin();
+    }
+}
 
-	/**
-	 * @fn Game(const Game & copy) noexcept
-	 * @param[in] copy The Game to copy from.
-	 * @brief Default copy constructor.
-	 * @throw noexcept
-	 */
-	Game(const Game & copy) noexcept = default;
-
-	/**
-	 * @fn Game(Game && move) noexcept
-	 * @param[in] move The Game to move.
-	 * @brief Default move constructor.
-	 * @throw noexcept
-	 */
-	Game(Game && move) noexcept = default;
-
-	/**
-	 * @fn ~Game() noexcept
-	 * @brief Default destructor.
-	 * @throw noexcept
-	 */
-	~Game() noexcept = default;
-
-	/**
-	 * @fn Game & operator=(const Game & copy) noexcept
-	 * @param[in] copy The Game to copy from.
-	 * @return The Game copied.
-	 * @brief Default copy assignment operator.
-	 * @throw noexcept
-	 */
-	Game & operator=(const Game & copy) noexcept = default;
-
-	/**
-	 * @fn Game & operator=(Game && move) noexcept
-	 * @param[in] move The Game to move.
-	 * @return The Game moved.
-	 * @brief Default move assignment operator.
-	 * @throw noexcept
-	 */
-	Game & operator=(Game && move) noexcept = default;
-
-	void setState(const Game::State state);
-
-//	void draw();
-
-	ece::Signal<> onSplashScreenEntered;
-	ece::Signal<> onPlayEntered;
-
-private:
-	struct Score
-	{
-		ece::EntityHandler handle;
-		int value;
-	};
-
-	Game::State _current;
-	
-//	ece::Scene _scene;
-
-//	ece::ResourceHandler<ece::Sprite> _background;
-	ece::EntityHandler _background;
-
-	Score _scoreA;
-	Score _scoreB;
-};
-
-#endif // GAME_HPP
+ece::Texture2D::Reference Animation::getCurrent() const
+{
+    return *this->_current;
+}

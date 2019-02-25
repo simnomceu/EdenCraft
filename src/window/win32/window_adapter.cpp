@@ -67,7 +67,7 @@ namespace ece
 			{
 				auto codeError = DestroyWindow(this->_data->windowId);
 				if (codeError == 0) {
-					ServiceLoggerLocator::getService().logError("Erreur destruction HWND. (WGL) Code " + std::to_string(GetLastError()));
+					ERROR << "Erreur destruction HWND. (WGL) Code " << GetLastError() << flush;
 				}
 				this->_data->windowId = nullptr;
 			}
@@ -81,7 +81,7 @@ namespace ece
 			{
 				auto success = SetWindowTextA(this->_data->windowId, title.data());
 				if (!success) {
-					ServiceLoggerLocator::getService().logError("Erreur while renaming window. (WGL) Code " + std::to_string(GetLastError()));
+					ERROR << "Erreur while renaming window. (WGL) Code " << GetLastError() << flush;
 				}
 			}
 
@@ -90,7 +90,7 @@ namespace ece
 				auto title = LPSTR{ nullptr };
 				auto success = GetWindowTextA(this->_data->windowId, title, GetWindowTextLengthA(this->_data->windowId));
 				if (!success) {
-					ServiceLoggerLocator::getService().logError("Erreur while getting window name. (WGL) Code " + std::to_string(GetLastError()));
+					ERROR << "Erreur while getting window name. (WGL) Code " << GetLastError() << flush;
 				}
 				return { title };
 			}
@@ -99,7 +99,7 @@ namespace ece
 			{
 				auto success = SetWindowPos(this->_data->windowId, HWND_NOTOPMOST, position[0], position[1], 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 				if (!success) {
-					ServiceLoggerLocator::getService().logError("Erreur while moving window. (WGL) Code " + std::to_string(GetLastError()));
+					ERROR << "Erreur while moving window. (WGL) Code " << GetLastError() << flush;
 				}
 			}
 
@@ -108,7 +108,7 @@ namespace ece
 				auto bounds = RECT{};
 				auto success = GetWindowRect(this->_data->windowId, &bounds);
 				if (!success) {
-					ServiceLoggerLocator::getService().logError("Erreur while retrieving window bounds. (WGL) Code " + std::to_string(GetLastError()));
+					ERROR << "Erreur while retrieving window bounds. (WGL) Code " << GetLastError() << flush;
 				}
 
 				return { bounds.right - bounds.left, bounds.bottom - bounds.top };
@@ -119,7 +119,7 @@ namespace ece
 				auto bounds = RECT{};
 				auto success = GetWindowRect(this->_data->windowId, &bounds);
 				if (!success) {
-					ServiceLoggerLocator::getService().logError("Erreur while retrieving window bounds. (WGL) Code " + std::to_string(GetLastError()));
+					ERROR << "Erreur while retrieving window bounds. (WGL) Code " << GetLastError() << flush;
 				}
 				return { bounds.left, bounds.top };
 			}
@@ -128,7 +128,7 @@ namespace ece
 			{
 				auto success = ShowWindow(this->_data->windowId, SW_SHOWMINIMIZED);
 				if (!success) {
-					ServiceLoggerLocator::getService().logError("Erreur while minimizing window. (WGL) Code " + std::to_string(GetLastError()));
+					ERROR << "Erreur while minimizing window. (WGL) Code " << GetLastError() << flush;
 				}
 			}
 
@@ -136,7 +136,7 @@ namespace ece
 			{
 				auto success = ShowWindow(this->_data->windowId, SW_SHOWMAXIMIZED);
 				if (!success) {
-					ServiceLoggerLocator::getService().logError("Erreur while maximizing window. (WGL) Code " + std::to_string(GetLastError()));
+					ERROR << "Erreur while maximizing window. (WGL) Code " << GetLastError() << flush;
 				}
 			}
 
@@ -146,7 +146,7 @@ namespace ece
 				if (blocking) {
 					auto success = WaitMessage();
 					if (!success) {
-						ServiceLoggerLocator::getService().logError("Erreur while blocking messages queue window. (WGL) Code " + std::to_string(GetLastError()));
+						ERROR << "Erreur while blocking messages queue window. (WGL) Code " << GetLastError() << flush;
 					}
 				}
 				while (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE)) {
@@ -316,7 +316,7 @@ namespace ece
 
 					auto codeError = RegisterClassEx(&windowPattern);
 					if (codeError == 0) {
-						ServiceLoggerLocator::getService().logError("Erreur while registering WNDCLASSEX window pattern. (WGL) Code " + std::to_string(GetLastError()));
+						ERROR << "Erreur while registering WNDCLASSEX window pattern. (WGL) Code " << GetLastError() << flush;
 					}
 				}
 			}

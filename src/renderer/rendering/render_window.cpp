@@ -57,7 +57,6 @@ namespace ece
 				this->_contextSettings.bitsPerPixel = 32;
 				this->_contextSettings.depthBits = 24;
 				this->_contextSettings.stencilBits = 8;
-				this->setCurrent();
 			}
 
 			RenderWindow::~RenderWindow() noexcept
@@ -68,6 +67,7 @@ namespace ece
 			void RenderWindow::open()
 			{
 				if (!this->isOpened()) {
+					this->setCurrent();
 					this->_adapter->createWindow();
 					this->_isOpened = true;
 
@@ -80,7 +80,7 @@ namespace ece
 						throw;
 					}
 					catch (std::runtime_error & e) {
-						ServiceLoggerLocator::getService().logError(e.what());
+						ERROR << e.what() << flush;
 					}
 
 					this->onWindowOpened();

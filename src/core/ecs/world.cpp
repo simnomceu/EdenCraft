@@ -49,8 +49,8 @@ namespace ece
 		{
 			void World::update()
 			{
-				std::for_each(this->_systems.begin(), this->_systems.end(), [](auto & system) {
-					system.second->update();
+				std::for_each(this->_systems.begin(), this->_systems.end(), [this](auto & system) {
+					system.second->update(this->_chrono.getElapsedTime() / 1000.0f);
 				});
 
 				std::for_each(this->_tanks.begin(), this->_tanks.end(), [](auto & tank) {
@@ -58,6 +58,7 @@ namespace ece
 				});
 
 				this->_entities.erase(std::remove_if(this->_entities.begin(), this->_entities.end(), [](auto & lhs) { return lhs.dirty; }), this->_entities.end());
+				this->_chrono.reset();
 			}
 
 			auto World::createEntity() -> EntityHandler

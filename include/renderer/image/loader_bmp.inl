@@ -42,9 +42,9 @@ namespace ece
 	{
 		namespace image
 		{
-			inline auto LoaderBMP::getImage() -> Image<RGB24> & { return this->_image; }
+			inline auto LoaderBMP::getImage() -> Image<RGBA32> & { return this->_image; }
 
-			inline auto LoaderBMP::getImage() const -> const Image<RGB24> & { return this->_image; }
+			inline auto LoaderBMP::getImage() const -> const Image<RGBA32> & { return this->_image; }
 		} // namespace image
 	} // namespace renderer
 } // namespace ece

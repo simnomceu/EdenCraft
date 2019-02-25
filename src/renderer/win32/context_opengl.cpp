@@ -181,7 +181,7 @@ namespace ece
 			void ContextOpenGL::swapBuffers()
 			{
 				if (!SwapBuffers(this->_data->device)) {
-					ServiceLoggerLocator::getService().logError("Buffers not swapped !");
+					ERROR << "Buffers not swapped !" << flush;
 				}
 			}
 

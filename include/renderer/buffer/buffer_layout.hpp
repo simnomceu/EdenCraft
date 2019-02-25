@@ -61,9 +61,9 @@ namespace ece
                 struct ElementLayout
                 {
                     DataType type;
-                    std::size_t unitSize;
-                    std::size_t count;
-					std::size_t offset;
+                    ece::size_t unitSize;
+                    ece::size_t count;
+					ece::offset_t offset;
                     bool normalized;
 					bool ignored;
 					bool instanced;
@@ -123,7 +123,7 @@ namespace ece
                  */
                 BufferLayout & operator=(BufferLayout && move) noexcept = default;
 
-                template <class T> void add(const std::size_t size, const bool normalized, const bool ignored, const bool instanced);
+                template <class T> void add(const ece::size_t size, const bool normalized, const bool ignored, const bool instanced);
 
 				auto getStride() const;
 
@@ -131,7 +131,7 @@ namespace ece
                 inline const auto & getElement(const std::size_t index) const;
                 inline auto size() const;
 
-				inline void setInstanceBlockSize(const std::size_t size) noexcept;
+				inline void setInstanceBlockSize(const ece::size_t size) noexcept;
 				inline auto getInstanceBlockSize() const noexcept;
 
 				inline auto getStrategy() const noexcept;
@@ -139,7 +139,7 @@ namespace ece
             private:
                 std::vector<ElementLayout> _elements;
 
-				std::size_t _instanceBlockSize;
+				ece::size_t _instanceBlockSize;
 				
 				Strategy _strategy;
 

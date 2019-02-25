@@ -53,8 +53,8 @@ namespace ece
 		{
 			Texture2D::Texture2D()noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture())
 			{
-				this->setParameter<int>(Parameter::WRAP_S, GL_REPEAT);
-				this->setParameter<int>(Parameter::WRAP_T, GL_REPEAT);
+				this->setParameter<int>(Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
+				this->setParameter<int>(Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
 				this->setParameter<int>(Parameter::MIN_FILTER, GL_LINEAR);
 			}
 
@@ -96,26 +96,31 @@ namespace ece
 				if (this->_filename != filename) {
 					this->_filename = filename;
 
-					this->_data.clear();
-
 					auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename);
 
 					loader->loadFromFile(this->_filename);
 
-					auto & image = loader->getImage();
-					auto buffer = image.data();
-					for (auto i = std::size_t{ 0 }; i < image.getHeight() * image.getWidth(); ++i) {
-						this->_data.push_back(buffer[i].red); // red
-						this->_data.push_back(buffer[i].green); // green
-						this->_data.push_back(buffer[i].blue); // blue
-					}
-
-					this->_width = image.getWidth();
-					this->_height = image.getHeight();
-					this->_type = type;
-
-					OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
+					this->loadFromImage(type, loader->getImage());
 				}
+			}
+
+			void Texture2D::loadFromImage(const TypeTarget type, const Image<RGBA32> & image)
+			{
+				this->_data.clear();
+
+				auto buffer = image.data();
+				for (auto i = std::size_t{ 0 }; i < image.getHeight() * image.getWidth(); ++i) {
+					this->_data.push_back(buffer[i].red); // red
+					this->_data.push_back(buffer[i].green); // green
+					this->_data.push_back(buffer[i].blue); // blue
+					this->_data.push_back(buffer[i].alpha); // alpha
+				}
+
+				this->_width = image.getWidth();
+				this->_height = image.getHeight();
+				this->_type = type;
+
+				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGBA, this->_width, this->_height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
 			}
 
 			void Texture2D::bind(const Target target)

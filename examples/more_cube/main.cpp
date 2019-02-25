@@ -117,10 +117,10 @@ int main()
 		app.run();
 	}
 	catch (const std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
+		ece::ERROR << e.what() << ece::flush;
 	}
 	catch (const std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
+		ece::ERROR << e.what() << ece::flush;
 	}
 
 	return 0;

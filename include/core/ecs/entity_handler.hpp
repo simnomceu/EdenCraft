@@ -64,7 +64,7 @@ namespace ece
 				 */
 				constexpr EntityHandler() noexcept = delete;
 
-				inline EntityHandler(const std::size_t id, World & world) noexcept;
+				inline EntityHandler(Handle id, World & world) noexcept;
 
 				/**
 				 * @fn EntityHandler(const EntityHandler & copy) noexcept
@@ -119,7 +119,7 @@ namespace ece
 				auto & getComponent();
 
 			private:
-				std::size_t _id;
+				Handle _id;
 
 				World & _world;
 			};
