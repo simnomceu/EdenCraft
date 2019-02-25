@@ -67,17 +67,6 @@ namespace ece
 		{
 			namespace json
 			{
-				enum class TypeNodeJSON : unsigned short int
-				{
-					NULL_JSON = 0,
-					BOOLEAN_JSON = 1,
-					INTEGER_JSON = 2,
-					DOUBLE_JSON = 3,
-					STRING_JSON = 4,
-					OBJECT_JSON = 5,
-					ARRAY_JSON = 6
-				};
-
 				/**
 				 * @class NodeJSON
 				 * @extends std::enable_shared_from_this<NodeJSON>
@@ -87,6 +76,17 @@ namespace ece
 				class ECE_UTILITY_API NodeJSON : public std::enable_shared_from_this<NodeJSON>
 				{
 				public:
+					enum class Type : unsigned short int
+					{
+						NULL_JSON = 0,
+						BOOLEAN = 1,
+						INTEGER = 2,
+						DOUBLE = 3,
+						STRING = 4,
+						OBJECT = 5,
+						ARRAY = 6
+					};
+
 					/**
 					 * @fn NodeJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>())
 					 * @param[in] parent The parent node of this node.
@@ -172,7 +172,9 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					virtual auto getType() const noexcept -> TypeNodeJSON = 0;
+					virtual auto getType() const noexcept -> NodeJSON::Type = 0;
+
+					virtual auto to_string() const noexcept -> std::string = 0;
 
 				private:
 					/**

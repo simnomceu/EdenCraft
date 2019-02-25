@@ -99,6 +99,21 @@ namespace ece
 						this->_children.erase(it);
 					}
 				}
+
+				auto ArrayJSON::to_string() const noexcept -> std::string
+				{
+					auto string = std::string("[");
+					for (auto & e : this->_children) {
+						string += e->to_string();
+						string += ',';
+					}
+					if (string.back() == ',') {
+						string.pop_back();
+					}
+					string += ']';
+
+					return string;
+				}
 			} // namespace json
 		} // namespace formats
     } // namespace utility

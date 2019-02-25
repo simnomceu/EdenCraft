@@ -50,7 +50,7 @@ namespace ece
 
 				inline auto ObjectJSON::isAtomic() const noexcept -> bool { return false; }
 
-				inline auto ObjectJSON::getType() const noexcept -> TypeNodeJSON { return TypeNodeJSON::OBJECT_JSON; }
+				inline auto ObjectJSON::getType() const noexcept -> NodeJSON::Type { return NodeJSON::Type::OBJECT; }
 
 				inline auto ObjectJSON::begin() noexcept { return this->_children.begin(); }
 
