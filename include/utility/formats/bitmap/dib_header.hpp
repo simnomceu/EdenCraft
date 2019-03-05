@@ -36,11 +36,19 @@
 
 */
 
-#ifndef OS22X_BITMAP_HEADER_HPP
-#define OS22X_BITMAP_HEADER_HPP
+#ifndef DIB_HEADER_HPP
+#define DIB_HEADER_HPP
+
+#ifdef _MSC_VER
+#	undef PROFILE_EMBEDDED
+#endif
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
+#include "utility/formats/bitmap/dib_header_type.hpp"
+#include "utility/formats/bitmap/compression_method.hpp"
+#include "utility/formats/bitmap/color_format.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -50,31 +58,89 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct OS22XBitmapHeader
+				/**
+				 * @struct BMPDIB
+				 * @brief The internal data about the image, according to the file format specification.
+				 */
+				class ECE_UTILITY_API DIBHeader
 				{
-					std::uint32_t size;
-					std::uint32_t width;
-					std::uint32_t height;
-					std::uint16_t planes;
-					std::uint16_t bpp;
-					std::uint32_t compression;
-					std::uint32_t imageSize;
-					std::uint32_t xResolution;
-					std::uint32_t yResolution;
-					std::uint32_t numberOfColorsUsed;
-					std::uint32_t numberOfImportantColors; 
-					std::uint16_t resolutionUnit;
-					std::uint16_t reserved;
-					std::uint16_t recordingAlgorithm;
-					std::uint16_t halftoningAlgorithm;
-					std::uint32_t halftoningSize1;
-					std::uint32_t halftoningSize2;
-					std::uint32_t colorEncoding;
-					std::uint32_t identifier;
+				public:
+					DIBHeader() noexcept;
+
+					ECE_UTILITY_API friend std::istream & operator>>(std::istream & stream, DIBHeader & header);
+
+					ECE_UTILITY_API friend std::ostream & operator<<(std::ostream & stream, DIBHeader & header);
+
+					struct Halftoning
+					{
+						enum class Algorithm
+						{
+							NONE = 0,
+							ERROR_DIFFUSION = 1,
+							PANDA = 2,
+							SUPER_CIRCLE = 3
+						};
+
+						Algorithm algorithm;
+						std::size_t size1;
+						std::size_t size2;
+
+						// https://imageprocessing-sankarsrin.blogspot.com/2017/04/digital-half-toning-error-diffusion.html
+					};
+
+					struct ColorSpace
+					{
+						enum class Type
+						{
+							CALIBRATED_RGB = 0x00000000,
+							SRGB = 0x73524742,
+							WINDOWS_COLOR_SPACE = 0x57696E20,
+							POFILE_LINKED,
+							PROFILE_EMBEDDED
+						};
+
+						Type type;
+						ece::Vector3u<std::size_t> redEndpoint;
+						ece::Vector3u<std::size_t> greenEndpoint;
+						ece::Vector3u<std::size_t> blueEndpoint;
+					};
+
+					enum class IntentMapping : unsigned short int
+					{
+						NONE = 0,
+						BUSINESS = 1,
+						GRAPHICS = 2,
+						IMAGES = 4,
+						ABS_COLORIMETRIC = 8
+					};
+
+					struct Profile
+					{
+						std::size_t data;
+						std::size_t size;
+					};
+
+					DIBHeaderType type;
+					std::size_t width;
+					std::size_t height;
+					std::size_t planes;
+					std::size_t bpp;
+					CompressionMethod compression;
+					std::size_t imageSize;
+					std::size_t xResolution;
+					std::size_t yResolution;
+					std::size_t nbColorsUsed;
+					std::size_t nbImportantColors;
+					Halftoning halftoning;
+					std::variant<RGB<std::size_t>, RGBA<std::size_t>> mask;
+					ColorSpace colorSpace;
+					RGB<std::size_t> gamma;
+					IntentMapping intent;
+					Profile profile;
 				};
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
 
-#endif // OS22X_BITMAP_HEADER_HPP
+#endif // DIB_HEADER_HPP

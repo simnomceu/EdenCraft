@@ -58,7 +58,7 @@ namespace ece
 					std::uint16_t planes;
 					std::uint16_t bpp;
 					std::uint32_t compression;
-					std::uint32_t imagesize;
+					std::uint32_t imageSize;
 					std::uint32_t xResolution;
 					std::uint32_t yResolution;
 					std::uint32_t numberOfColorsUsed;

@@ -1,3 +1,4 @@
+#include "..\..\..\..\include\utility\formats\bitmap\bmp_header.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
@@ -36,11 +37,8 @@
 
 */
 
-#ifndef OS22X_BITMAP_HEADER_HPP
-#define OS22X_BITMAP_HEADER_HPP
-
-#include "utility/config.hpp"
 #include "utility/pch.hpp"
+#include "utility/formats/bitmap/bmp_header.hpp"
 
 namespace ece
 {
@@ -50,31 +48,31 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct OS22XBitmapHeader
+				const std::size_t BMPHeader::INTERNAL_SIZE = 14;
+
+				std::istream & operator>>(std::istream & stream, BMPHeader & header)
 				{
-					std::uint32_t size;
-					std::uint32_t width;
-					std::uint32_t height;
-					std::uint16_t planes;
-					std::uint16_t bpp;
-					std::uint32_t compression;
-					std::uint32_t imageSize;
-					std::uint32_t xResolution;
-					std::uint32_t yResolution;
-					std::uint32_t numberOfColorsUsed;
-					std::uint32_t numberOfImportantColors; 
-					std::uint16_t resolutionUnit;
-					std::uint16_t reserved;
-					std::uint16_t recordingAlgorithm;
-					std::uint16_t halftoningAlgorithm;
-					std::uint32_t halftoningSize1;
-					std::uint32_t halftoningSize2;
-					std::uint32_t colorEncoding;
-					std::uint32_t identifier;
-				};
+					auto magic = std::string(2, ' ');
+					stream.read(reinterpret_cast<char *>(magic.data()), sizeof(uint16_t));
+					header.signature = toBitmapSignature(magic);
+
+					stream.read(reinterpret_cast<char *>(&header.size), sizeof(uint32_t));
+					stream.read(reinterpret_cast<char *>(header.reserved.data()), sizeof(uint32_t));
+					stream.read(reinterpret_cast<char *>(&header.pixelsOffset), sizeof(uint32_t));
+
+					return stream;
+				}
+
+				std::ostream & operator<<(std::ostream & stream, BMPHeader & header)
+				{
+					stream.write(reinterpret_cast<char *>(to_string(header.signature).data()), sizeof(uint16_t));
+					stream.write(reinterpret_cast<char *>(&header.size), sizeof(uint32_t));
+					stream.write(reinterpret_cast<char *>(header.reserved.data()), sizeof(uint32_t));
+					stream.write(reinterpret_cast<char *>(&header.pixelsOffset), sizeof(uint32_t));
+
+					return stream;
+				}
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
-
-#endif // OS22X_BITMAP_HEADER_HPP

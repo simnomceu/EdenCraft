@@ -36,8 +36,8 @@
 
 */
 
-#ifndef OS22X_BITMAP_HEADER_HPP
-#define OS22X_BITMAP_HEADER_HPP
+#ifndef BITMAP_SIGNATURE_HPP
+#define BITMAP_SIGNATURE_HPP
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
@@ -50,31 +50,22 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct OS22XBitmapHeader
+				enum class BitmapSignature : std::uint64_t
 				{
-					std::uint32_t size;
-					std::uint32_t width;
-					std::uint32_t height;
-					std::uint16_t planes;
-					std::uint16_t bpp;
-					std::uint32_t compression;
-					std::uint32_t imageSize;
-					std::uint32_t xResolution;
-					std::uint32_t yResolution;
-					std::uint32_t numberOfColorsUsed;
-					std::uint32_t numberOfImportantColors; 
-					std::uint16_t resolutionUnit;
-					std::uint16_t reserved;
-					std::uint16_t recordingAlgorithm;
-					std::uint16_t halftoningAlgorithm;
-					std::uint32_t halftoningSize1;
-					std::uint32_t halftoningSize2;
-					std::uint32_t colorEncoding;
-					std::uint32_t identifier;
+					BM = 16190437735560679104U,
+					BA = 1745783061218244015,
+					CI = 13064276455657367327,
+					CP = 12845797466685711185,
+					IC = 6548012898287373641,
+					PT = 3432010254021000238
 				};
+
+				ECE_UTILITY_API BitmapSignature toBitmapSignature(std::string signature);
+
+				ECE_UTILITY_API std::string to_string(BitmapSignature signature);
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
 
-#endif // OS22X_BITMAP_HEADER_HPP
+#endif // BITMAP_SIGNATURE_HPP

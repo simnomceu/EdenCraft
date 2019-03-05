@@ -38,6 +38,8 @@
 
 #include "utility/pch.hpp"
 #include "utility/formats/bitmap/parser_bmp.hpp"
+#include "utility/formats/bitmap/bmp_header.hpp"
+#include "utility/formats/bitmap/dib_header.hpp"
 
 namespace ece
 {
@@ -50,45 +52,45 @@ namespace ece
 				void ParserBMP::load(std::istream & stream)
 				{
 					auto header = BMPHeader{};
-					auto DIB = BMPDIB{};
+					auto DIB = DIBHeader();
 					auto buffer = std::vector<std::byte>{};
 
-					// see http://tipsandtricks.runicsoft.com/Cpp/BitmapTutorial.html
+					// see http://paulbourke.net/dataformats/bitmaps/
+					// see http://www.kalytta.com/bitmap.h
 					// see http://www.di.unito.it/~marcog/SM/BMPformat-Wiki.pdf
 					// see https://upload.wikimedia.org/wikipedia/commons/c/c4/BMPfileFormat.png
 					// see https://en.wikipedia.org/wiki/BMP_file_format
+					// see https://forums.adobe.com/message/3272950#3272950
 
-					stream.read(reinterpret_cast<char *>(&header.magic[0]), sizeof(uint8_t));
-					stream.read(reinterpret_cast<char *>(&header.magic[1]), sizeof(uint8_t));
-					stream.read(reinterpret_cast<char *>(&header.size), sizeof(uint32_t));
-					stream.read(reinterpret_cast<char *>(&header.reserved), sizeof(uint32_t));
-					stream.read(reinterpret_cast<char *>(&header.pixelsOffset), sizeof(uint32_t));
-
-					stream.read(reinterpret_cast<char *>(&DIB), sizeof(BMPDIB));
+					stream >> header;
+					DIB.type = getType(header.pixelsOffset - BMPHeader::INTERNAL_SIZE);
+					stream >> DIB;
 
 					buffer.resize(header.size - header.pixelsOffset);
 					stream.seekg(header.pixelsOffset);
-					for (auto i = std::size_t{ 0 }; i < buffer.size(); ++i) { // TODO: should be done with one call to read a contiguous value of size sizeof(std::byte)*nbBytes
-						stream.read(reinterpret_cast<char *>(&buffer[i]), sizeof(std::byte));
-					}
+					stream.read(reinterpret_cast<char *>(buffer.data()), buffer.size());
 
-					auto padding = 0;
-					auto scanLineBytes = DIB.width * 3;
-					while ((scanLineBytes + padding) % 4 != 0) {
-						++padding;
-					}
-					int psw = scanLineBytes + padding; // TODO: all here is not efficient at all
+					int psw = ((DIB.width * 3) + 3) & ~3;
 
 					this->_pixels.resize(DIB.width, DIB.height);
-					long bufPos = 0;
-					for (auto y = ece::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
-						for (auto x = ece::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {
-							bufPos = (DIB.height - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
 
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = buffer[bufPos + 2]; // red
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = buffer[bufPos + 1]; // green
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = buffer[bufPos]; // blue
+					switch (DIB.compression)
+					{
+					case CompressionMethod::RGB:
+					{
+						long bufPos = 0;
+						for (auto y = ece::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
+							for (auto x = ece::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {
+								bufPos = (DIB.height - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+
+								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = buffer[bufPos + 2]; // red
+								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = buffer[bufPos + 1]; // green
+								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = buffer[bufPos]; // blue
+							}
 						}
+						break;
+					}
+					default: break;
 					}
 				}
 

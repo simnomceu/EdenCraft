@@ -36,8 +36,8 @@
 
 */
 
-#ifndef OS22X_BITMAP_HEADER_HPP
-#define OS22X_BITMAP_HEADER_HPP
+#ifndef BITMAP_COLOR_HPP
+#define BITMAP_COLOR_HPP
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
@@ -50,31 +50,57 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct OS22XBitmapHeader
+				template <class T>
+				struct ECE_UTILITY_API RGB
 				{
-					std::uint32_t size;
-					std::uint32_t width;
-					std::uint32_t height;
-					std::uint16_t planes;
-					std::uint16_t bpp;
-					std::uint32_t compression;
-					std::uint32_t imageSize;
-					std::uint32_t xResolution;
-					std::uint32_t yResolution;
-					std::uint32_t numberOfColorsUsed;
-					std::uint32_t numberOfImportantColors; 
-					std::uint16_t resolutionUnit;
-					std::uint16_t reserved;
-					std::uint16_t recordingAlgorithm;
-					std::uint16_t halftoningAlgorithm;
-					std::uint32_t halftoningSize1;
-					std::uint32_t halftoningSize2;
-					std::uint32_t colorEncoding;
-					std::uint32_t identifier;
+					T r;
+					T g;
+					T b;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, RGB<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const RGB<T> & color);
 				};
+
+				template <class T>
+				struct ECE_UTILITY_API RGBA : public RGB<T>
+				{
+					T a;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, RGBA<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const RGBA<T> & color);
+				};
+
+				template <class T>
+				struct ECE_UTILITY_API BGR
+				{
+					T b;
+					T g;
+					T r;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, BGR<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const BGR<T> & color);
+				};
+
+				template <class T>
+				struct ECE_UTILITY_API BGRA : public RGB<T>
+				{
+					T a;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, BGRA<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const BGRA<T> & color);
+				};
+
+				template <class T> RGBA<T> toRGBA(const BGRA<T> & color);
+				template <class T> BGRA<T> toBGRA(const RGBA<T> & color);
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
 
-#endif // OS22X_BITMAP_HEADER_HPP
+#include "utility/formats/bitmap/color_format.inl"
+
+#endif // BITMAP_COLOR_HPP

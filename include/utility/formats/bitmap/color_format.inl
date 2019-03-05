@@ -36,12 +36,6 @@
 
 */
 
-#ifndef OS22X_BITMAP_HEADER_HPP
-#define OS22X_BITMAP_HEADER_HPP
-
-#include "utility/config.hpp"
-#include "utility/pch.hpp"
-
 namespace ece
 {
 	namespace utility
@@ -50,31 +44,75 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct OS22XBitmapHeader
+				template <class T>
+				std::istream operator>>(std::istream & stream, RGB<T> & color)
 				{
-					std::uint32_t size;
-					std::uint32_t width;
-					std::uint32_t height;
-					std::uint16_t planes;
-					std::uint16_t bpp;
-					std::uint32_t compression;
-					std::uint32_t imageSize;
-					std::uint32_t xResolution;
-					std::uint32_t yResolution;
-					std::uint32_t numberOfColorsUsed;
-					std::uint32_t numberOfImportantColors; 
-					std::uint16_t resolutionUnit;
-					std::uint16_t reserved;
-					std::uint16_t recordingAlgorithm;
-					std::uint16_t halftoningAlgorithm;
-					std::uint32_t halftoningSize1;
-					std::uint32_t halftoningSize2;
-					std::uint32_t colorEncoding;
-					std::uint32_t identifier;
-				};
+					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 3);
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const RGB<T> & color)
+				{
+					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 3);
+					return stream;
+				}
+
+				template <class T>
+				std::istream operator>>(std::istream & stream, RGBA<T> & color)
+				{
+					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const RGBA<T> & color)
+				{
+					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+					return stream;
+				}
+
+				template <class T>
+				std::istream operator>>(std::istream & stream, BGR<T> & color)
+				{
+					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 3);
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const BGR<T> & color)
+				{
+					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 3);
+					return stream;
+				}
+
+				template <class T>
+				std::istream operator>>(std::istream & stream, BGRA<T> & color)
+				{
+					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const BGRA<T> & color)
+				{
+					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+					return stream;
+				}
+
+				template <class T>
+				RGBA<T> toRGBA(const BGRA<T> & color)
+				{
+					return { color.r, color.g, color.b, color.a };
+				}
+
+				template <class T>
+				BGRA<T> toBGRA(const RGBA<T> & color)
+				{
+					return { color.b, color.g, color.r, color.a };
+				}
+
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
-
-#endif // OS22X_BITMAP_HEADER_HPP

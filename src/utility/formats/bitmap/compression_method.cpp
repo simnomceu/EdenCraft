@@ -36,11 +36,8 @@
 
 */
 
-#ifndef OS22X_BITMAP_HEADER_HPP
-#define OS22X_BITMAP_HEADER_HPP
-
-#include "utility/config.hpp"
 #include "utility/pch.hpp"
+#include "utility/formats/bitmap/compression_method.hpp"
 
 namespace ece
 {
@@ -50,31 +47,23 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct OS22XBitmapHeader
+				std::string to_string(CompressionMethod method)
 				{
-					std::uint32_t size;
-					std::uint32_t width;
-					std::uint32_t height;
-					std::uint16_t planes;
-					std::uint16_t bpp;
-					std::uint32_t compression;
-					std::uint32_t imageSize;
-					std::uint32_t xResolution;
-					std::uint32_t yResolution;
-					std::uint32_t numberOfColorsUsed;
-					std::uint32_t numberOfImportantColors; 
-					std::uint16_t resolutionUnit;
-					std::uint16_t reserved;
-					std::uint16_t recordingAlgorithm;
-					std::uint16_t halftoningAlgorithm;
-					std::uint32_t halftoningSize1;
-					std::uint32_t halftoningSize2;
-					std::uint32_t colorEncoding;
-					std::uint32_t identifier;
-				};
+					switch (method) {
+					case CompressionMethod::RGB: return "RGB"; break;
+					case CompressionMethod::RLE8: return "RLE8";  break;
+					case CompressionMethod::RLE4: return "RLE4"; break;
+					case CompressionMethod::BITFIELDS: return "BITFIELDS"; break;
+					case CompressionMethod::JPEG: return "JPEG"; break;
+					case CompressionMethod::PNG: return "PNG"; break;
+					case CompressionMethod::ALPHABITFIELDS: return "ALPHABITFIELDS"; break;
+					case CompressionMethod::CMYK: return "CMYK"; break;
+					case CompressionMethod::CMYKRLE8: return "CMYKRLE8"; break;
+					case CompressionMethod::CMYKRLE4: return "CMYKRLE4"; break;
+					default: throw std::runtime_error("Unknown value for CompressionMethod enumeration."); break;
+					}
+				}
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
-
-#endif // OS22X_BITMAP_HEADER_HPP

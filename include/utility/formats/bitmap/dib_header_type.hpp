@@ -36,8 +36,8 @@
 
 */
 
-#ifndef OS22X_BITMAP_HEADER_HPP
-#define OS22X_BITMAP_HEADER_HPP
+#ifndef DIB_HEADER_TYPE_HPP
+#define DIB_HEADER_TYPE_HPP
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
@@ -50,31 +50,26 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct OS22XBitmapHeader
+				enum class DIBHeaderType
 				{
-					std::uint32_t size;
-					std::uint32_t width;
-					std::uint32_t height;
-					std::uint16_t planes;
-					std::uint16_t bpp;
-					std::uint32_t compression;
-					std::uint32_t imageSize;
-					std::uint32_t xResolution;
-					std::uint32_t yResolution;
-					std::uint32_t numberOfColorsUsed;
-					std::uint32_t numberOfImportantColors; 
-					std::uint16_t resolutionUnit;
-					std::uint16_t reserved;
-					std::uint16_t recordingAlgorithm;
-					std::uint16_t halftoningAlgorithm;
-					std::uint32_t halftoningSize1;
-					std::uint32_t halftoningSize2;
-					std::uint32_t colorEncoding;
-					std::uint32_t identifier;
+					BITMAPCOREHEADER,
+					OS21XBITMAPHEADER,
+					OS22XBITMAPHEADER,
+					BITMAPINFOHEADER,
+					BITMAPV2INFOHEADER,
+					BITMAPV3INFOHEADER,
+					BITMAPV4HEADER,
+					BITMAPV5HEADER
 				};
+
+				std::string to_string(DIBHeaderType type);
+
+				DIBHeaderType getType(std::size_t size);
+
+				std::size_t getSize(DIBHeaderType type);
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
 
-#endif // OS22X_BITMAP_HEADER_HPP
+#endif // DIB_HEADER_TYPE_HPP

@@ -36,11 +36,13 @@
 
 */
 
-#ifndef OS22X_BITMAP_HEADER_HPP
-#define OS22X_BITMAP_HEADER_HPP
+#ifndef BMP_HEADER_HPP
+#define BMP_HEADER_HPP
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
+#include "utility/formats/bitmap/bitmap_signature.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
@@ -50,31 +52,26 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct OS22XBitmapHeader
+				/**
+				 * @struct BMPHeader
+				 * @brief The header of a BMP file according to the file format specification.
+				 */
+				struct ECE_UTILITY_API BMPHeader
 				{
-					std::uint32_t size;
-					std::uint32_t width;
-					std::uint32_t height;
-					std::uint16_t planes;
-					std::uint16_t bpp;
-					std::uint32_t compression;
-					std::uint32_t imageSize;
-					std::uint32_t xResolution;
-					std::uint32_t yResolution;
-					std::uint32_t numberOfColorsUsed;
-					std::uint32_t numberOfImportantColors; 
-					std::uint16_t resolutionUnit;
-					std::uint16_t reserved;
-					std::uint16_t recordingAlgorithm;
-					std::uint16_t halftoningAlgorithm;
-					std::uint32_t halftoningSize1;
-					std::uint32_t halftoningSize2;
-					std::uint32_t colorEncoding;
-					std::uint32_t identifier;
+					BitmapSignature signature;
+					ece::size_t size;
+					std::array<std::uint32_t, 2> reserved;
+					ece::offset_t pixelsOffset;
+
+					ECE_UTILITY_API friend std::istream & operator>>(std::istream & stream, BMPHeader & header);
+
+					ECE_UTILITY_API friend std::ostream & operator<<(std::ostream & stream, BMPHeader & header);
+
+					static const std::size_t INTERNAL_SIZE;
 				};
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
 
-#endif // OS22X_BITMAP_HEADER_HPP
+#endif // BMP_HEADER_HPP
