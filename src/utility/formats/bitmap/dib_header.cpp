@@ -214,14 +214,205 @@ namespace ece
 						assert(proxyBitmapV5Header->reserved == 0);
 						break;
 					}
-					default: break;
+					default: throw std::runtime_error("This Bitmap DIB header is not recognized."); break;
 					}
 
 					return stream;
 				}
 
-				std::ostream & operator<<(std::ostream & stream, DIBHeader & /*header*/)
+				std::ostream & operator<<(std::ostream & stream, DIBHeader & header)
 				{
+					switch (header.type) {
+					case DIBHeaderType::BITMAPCOREHEADER:
+					{
+						auto proxyBitmapCoreHeader = BitmapCoreHeader{
+							sizeof(BitmapCoreHeader),
+							static_cast<std::int16_t>(header.width),
+							static_cast<std::int16_t>(header.height),
+							static_cast<std::uint16_t>(header.planes),
+							static_cast<std::uint16_t>(header.bpp)
+						};
+						stream.write(reinterpret_cast<char *>(&proxyBitmapCoreHeader), proxyBitmapCoreHeader.size);
+						break;
+					}
+					case DIBHeaderType::OS21XBITMAPHEADER:
+					{
+						auto proxyOS21XBitmapHeader = OS21XBitmapHeader{
+							sizeof(OS21XBitmapHeader),
+							static_cast<std::uint16_t>(header.width),
+							static_cast<std::uint16_t>(header.height),
+							static_cast<std::uint16_t>(header.planes),
+							static_cast<std::uint16_t>(header.bpp)
+						};
+						stream.write(reinterpret_cast<char *>(&proxyOS21XBitmapHeader), proxyOS21XBitmapHeader.size);
+						break;
+					}
+					case DIBHeaderType::OS22XBITMAPHEADER:
+					{
+						bool shortHeader = (header.compression == CompressionMethod::RGB) && (header.xResolution == 0) && (header.yResolution == 0) && (header.nbColorsUsed == 0) && (header.nbImportantColors == 0) && (header.halftoning.algorithm == DIBHeader::Halftoning::Algorithm::NONE);
+						auto proxyOS22XBitmapHeader = OS22XBitmapHeader{};
+						proxyOS22XBitmapHeader.size = shortHeader ? 16 : sizeof(OS22XBitmapHeader);
+						proxyOS22XBitmapHeader.width = static_cast<std::uint32_t>(header.width);
+						proxyOS22XBitmapHeader.height = static_cast<std::uint32_t>(header.height);
+						proxyOS22XBitmapHeader.planes = static_cast<std::uint16_t>(header.planes);
+						proxyOS22XBitmapHeader.bpp = static_cast<std::uint16_t>(header.bpp);
+
+						if (!shortHeader) {
+							proxyOS22XBitmapHeader.compression = static_cast<std::uint32_t>(header.compression);
+							proxyOS22XBitmapHeader.imageSize = static_cast<std::uint32_t>(header.imageSize);
+							proxyOS22XBitmapHeader.xResolution = static_cast<std::uint32_t>(header.xResolution);
+							proxyOS22XBitmapHeader.yResolution = static_cast<std::uint32_t>(header.yResolution);
+							proxyOS22XBitmapHeader.numberOfColorsUsed = static_cast<std::uint32_t>(header.nbColorsUsed);
+							proxyOS22XBitmapHeader.numberOfImportantColors = static_cast<std::uint32_t>(header.nbImportantColors);
+							proxyOS22XBitmapHeader.resolutionUnit = 1;
+							proxyOS22XBitmapHeader.recordingAlgorithm = 0;
+							proxyOS22XBitmapHeader.halftoningAlgorithm = static_cast<std::uint16_t>(header.halftoning.algorithm);
+							proxyOS22XBitmapHeader.halftoningSize1 = static_cast<std::uint32_t>(header.halftoning.size1);
+							proxyOS22XBitmapHeader.halftoningSize2 = static_cast<std::uint32_t>(header.halftoning.size2);
+							proxyOS22XBitmapHeader.colorEncoding = 0;
+							proxyOS22XBitmapHeader.identifier = 42; // Edencraft Engine identifier ?
+						}
+						stream.write(reinterpret_cast<char *>(&proxyOS22XBitmapHeader), proxyOS22XBitmapHeader.size);
+						break;
+					}
+					case DIBHeaderType::BITMAPINFOHEADER:
+					{
+						auto proxyBitmapInfoHeader = BitmapInfoHeader{
+							sizeof(BitmapInfoHeader),
+							static_cast<std::uint32_t>(header.width),
+							static_cast<std::uint32_t>(header.height),
+							static_cast<std::uint16_t>(header.planes),
+							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint32_t>(header.compression),
+							static_cast<std::uint32_t>(header.imageSize),
+							static_cast<std::uint32_t>(header.xResolution),
+							static_cast<std::uint32_t>(header.yResolution),
+							static_cast<std::uint32_t>(header.nbColorsUsed),
+							static_cast<std::uint32_t>(header.nbImportantColors)
+						};
+						stream.write(reinterpret_cast<char *>(&proxyBitmapInfoHeader), proxyBitmapInfoHeader.size);
+						break;
+					}
+					case DIBHeaderType::BITMAPV2INFOHEADER:
+					{
+						auto proxyBitmapV2InfoHeader = BitmapV2InfoHeader{
+							sizeof(BitmapV2InfoHeader),
+							static_cast<std::uint32_t>(header.width),
+							static_cast<std::uint32_t>(header.height),
+							static_cast<std::uint16_t>(header.planes),
+							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint32_t>(header.compression),
+							static_cast<std::uint32_t>(header.imageSize),
+							static_cast<std::uint32_t>(header.xResolution),
+							static_cast<std::uint32_t>(header.yResolution),
+							static_cast<std::uint32_t>(header.nbColorsUsed),
+							static_cast<std::uint32_t>(header.nbImportantColors),
+							static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).r),
+							static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).g),
+							static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).b)
+						};
+						stream.write(reinterpret_cast<char *>(&proxyBitmapV2InfoHeader), proxyBitmapV2InfoHeader.size);
+						break;
+					}
+					case DIBHeaderType::BITMAPV3INFOHEADER:
+					{
+						auto proxyBitmapV3InfoHeader = BitmapV3InfoHeader{
+							sizeof(BitmapV3InfoHeader),
+							static_cast<std::uint32_t>(header.width),
+							static_cast<std::uint32_t>(header.height),
+							static_cast<std::uint16_t>(header.planes),
+							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint32_t>(header.compression),
+							static_cast<std::uint32_t>(header.imageSize),
+							static_cast<std::uint32_t>(header.xResolution),
+							static_cast<std::uint32_t>(header.yResolution),
+							static_cast<std::uint32_t>(header.nbColorsUsed),
+							static_cast<std::uint32_t>(header.nbImportantColors),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a)
+						};
+						stream.write(reinterpret_cast<char *>(&proxyBitmapV3InfoHeader), proxyBitmapV3InfoHeader.size);
+						break;
+					}
+					case DIBHeaderType::BITMAPV4HEADER:
+					{
+						auto proxyBitmapV4Header = BitmapV4Header{
+							sizeof(BitmapV4Header),
+							static_cast<std::uint32_t>(header.width),
+							static_cast<std::uint32_t>(header.height),
+							static_cast<std::uint16_t>(header.planes),
+							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint32_t>(header.compression),
+							static_cast<std::uint32_t>(header.imageSize),
+							static_cast<std::uint32_t>(header.xResolution),
+							static_cast<std::uint32_t>(header.yResolution),
+							static_cast<std::uint32_t>(header.nbColorsUsed),
+							static_cast<std::uint32_t>(header.nbImportantColors),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a),
+							static_cast<std::uint32_t>(header.colorSpace.type),
+							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[0]),
+							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[1]),
+							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[2]),
+							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[0]),
+							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[1]),
+							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[2]),
+							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[0]),
+							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[1]),
+							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[2]),
+							static_cast<std::uint32_t>(header.gamma.r),
+							static_cast<std::uint32_t>(header.gamma.g),
+							static_cast<std::uint32_t>(header.gamma.b)
+						};
+						stream.write(reinterpret_cast<char *>(&proxyBitmapV4Header), proxyBitmapV4Header.size);
+						break;
+					}
+					case DIBHeaderType::BITMAPV5HEADER:
+					{
+						auto proxyBitmapV5Header = BitmapV5Header{
+							sizeof(BitmapV5Header),
+							static_cast<std::uint32_t>(header.width),
+							static_cast<std::uint32_t>(header.height),
+							static_cast<std::uint16_t>(header.planes),
+							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint32_t>(header.compression),
+							static_cast<std::uint32_t>(header.imageSize),
+							static_cast<std::uint32_t>(header.xResolution),
+							static_cast<std::uint32_t>(header.yResolution),
+							static_cast<std::uint32_t>(header.nbColorsUsed),
+							static_cast<std::uint32_t>(header.nbImportantColors),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b),
+							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a),
+							static_cast<std::uint32_t>(header.colorSpace.type),
+							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[0]),
+							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[1]),
+							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[2]),
+							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[0]),
+							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[1]),
+							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[2]),
+							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[0]),
+							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[1]),
+							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[2]),
+							static_cast<std::uint32_t>(header.gamma.r),
+							static_cast<std::uint32_t>(header.gamma.g),
+							static_cast<std::uint32_t>(header.gamma.b),
+							static_cast<std::uint32_t>(header.intent),
+							static_cast<std::uint32_t>(header.profile.data),
+							static_cast<std::uint32_t>(header.profile.size),
+							0
+						};
+						stream.write(reinterpret_cast<char *>(&proxyBitmapV5Header), proxyBitmapV5Header.size);
+						break;
+					}
+					default: throw std::runtime_error("This Bitmap DIB header is not recognized."); break;
+					}
+
 					return stream;
 				}
 			} // namespace bitmap

@@ -72,7 +72,7 @@ namespace ece
 
 					int psw = ((DIB.width * 3) + 3) & ~3;
 
-					this->_pixels.resize(DIB.width, DIB.height);
+					this->_pixels.resize(static_cast<ece::size_t>(DIB.width), static_cast<ece::size_t>(DIB.height));
 
 					switch (DIB.compression)
 					{
@@ -81,7 +81,7 @@ namespace ece
 						long bufPos = 0;
 						for (auto y = ece::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
 							for (auto x = ece::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {
-								bufPos = (DIB.height - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+								bufPos = (static_cast<long>(DIB.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
 
 								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = buffer[bufPos + 2]; // red
 								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = buffer[bufPos + 1]; // green
@@ -90,6 +90,15 @@ namespace ece
 						}
 						break;
 					}
+					case CompressionMethod::RLE8: break;
+					case CompressionMethod::RLE4: break;
+					case CompressionMethod::BITFIELDS: break;
+					case CompressionMethod::JPEG: break;
+					case CompressionMethod::PNG: break;
+					case CompressionMethod::ALPHABITFIELDS: break;
+					case CompressionMethod::CMYK: break;
+					case CompressionMethod::CMYKRLE8: break;
+					case CompressionMethod::CMYKRLE4: break;
 					default: break;
 					}
 				}
