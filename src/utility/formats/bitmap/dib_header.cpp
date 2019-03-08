@@ -142,7 +142,9 @@ namespace ece
 						header.yResolution = proxyBitmapV2InfoHeader->yResolution;
 						header.nbColorsUsed = proxyBitmapV2InfoHeader->numberOfColorsUsed;
 						header.nbImportantColors = proxyBitmapV2InfoHeader->numberOfImportantColors;
-						header.mask = RGB<std::size_t>{ proxyBitmapV2InfoHeader->redMask, proxyBitmapV2InfoHeader->greenMask, proxyBitmapV2InfoHeader->blueMask };
+						if (header.compression == CompressionMethod::BITFIELDS) {
+							header.mask = RGB<std::size_t>{ proxyBitmapV2InfoHeader->redMask, proxyBitmapV2InfoHeader->greenMask, proxyBitmapV2InfoHeader->blueMask };
+						}
 						break;
 					}
 					case DIBHeaderType::BITMAPV3INFOHEADER:
@@ -159,7 +161,9 @@ namespace ece
 						header.yResolution = proxyBitmapV3InfoHeader->yResolution;
 						header.nbColorsUsed = proxyBitmapV3InfoHeader->numberOfColorsUsed;
 						header.nbImportantColors = proxyBitmapV3InfoHeader->numberOfImportantColors;
-						header.mask = RGBA<std::size_t>{ proxyBitmapV3InfoHeader->redMask, proxyBitmapV3InfoHeader->greenMask, proxyBitmapV3InfoHeader->blueMask, proxyBitmapV3InfoHeader->alphaMask };
+						if (header.compression == CompressionMethod::BITFIELDS) {
+							header.mask = RGBA<std::size_t>{ proxyBitmapV3InfoHeader->redMask, proxyBitmapV3InfoHeader->greenMask, proxyBitmapV3InfoHeader->blueMask, proxyBitmapV3InfoHeader->alphaMask };
+						}
 						break;
 					}
 					case DIBHeaderType::BITMAPV4HEADER:
@@ -176,6 +180,9 @@ namespace ece
 						header.yResolution = proxyBitmapV4Header->yResolution;
 						header.nbColorsUsed = proxyBitmapV4Header->numberOfColorsUsed;
 						header.nbImportantColors = proxyBitmapV4Header->numberOfImportantColors;
+						if (header.compression == CompressionMethod::BITFIELDS) {
+							header.mask = RGBA<std::size_t>{ proxyBitmapV4Header->redMask, proxyBitmapV4Header->greenMask, proxyBitmapV4Header->blueMask, proxyBitmapV4Header->alphaMask };
+						}
 						header.colorSpace.type = static_cast<DIBHeader::ColorSpace::Type>(proxyBitmapV4Header->colorSpaceType);
 						if (header.colorSpace.type == DIBHeader::ColorSpace::Type::CALIBRATED_RGB) {
 							header.colorSpace.redEndpoint = { proxyBitmapV4Header->xRedEndpoint, proxyBitmapV4Header->yRedEndpoint, proxyBitmapV4Header->zRedEndpoint };
@@ -199,6 +206,9 @@ namespace ece
 						header.yResolution = proxyBitmapV5Header->yResolution;
 						header.nbColorsUsed = proxyBitmapV5Header->numberOfColorsUsed;
 						header.nbImportantColors = proxyBitmapV5Header->numberOfImportantColors;
+						if (header.compression == CompressionMethod::BITFIELDS || header.compression == CompressionMethod::ALPHABITFIELDS) {
+							header.mask = RGBA<std::size_t>{ proxyBitmapV5Header->redMask, proxyBitmapV5Header->greenMask, proxyBitmapV5Header->blueMask, proxyBitmapV5Header->alphaMask };
+						}
 						header.colorSpace.type = static_cast<DIBHeader::ColorSpace::Type>(proxyBitmapV5Header->colorSpaceType);
 						if (header.colorSpace.type == DIBHeader::ColorSpace::Type::CALIBRATED_RGB) {
 							header.colorSpace.redEndpoint = { proxyBitmapV5Header->xRedEndpoint, proxyBitmapV5Header->yRedEndpoint, proxyBitmapV5Header->zRedEndpoint };
@@ -307,9 +317,9 @@ namespace ece
 							static_cast<std::uint32_t>(header.yResolution),
 							static_cast<std::uint32_t>(header.nbColorsUsed),
 							static_cast<std::uint32_t>(header.nbImportantColors),
-							static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).r),
-							static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).g),
-							static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).b)
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).r) : 0,
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).g) : 0,
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGB<std::size_t>>(header.mask).b) : 0
 						};
 						stream.write(reinterpret_cast<char *>(&proxyBitmapV2InfoHeader), proxyBitmapV2InfoHeader.size);
 						break;
@@ -328,10 +338,10 @@ namespace ece
 							static_cast<std::uint32_t>(header.yResolution),
 							static_cast<std::uint32_t>(header.nbColorsUsed),
 							static_cast<std::uint32_t>(header.nbImportantColors),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a)
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r) : 0,
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g) : 0,
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b) : 0,
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a) : 0
 						};
 						stream.write(reinterpret_cast<char *>(&proxyBitmapV3InfoHeader), proxyBitmapV3InfoHeader.size);
 						break;
@@ -350,10 +360,10 @@ namespace ece
 							static_cast<std::uint32_t>(header.yResolution),
 							static_cast<std::uint32_t>(header.nbColorsUsed),
 							static_cast<std::uint32_t>(header.nbImportantColors),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a),
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r) : 0,
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g) : 0,
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b) : 0,
+							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a) : 0,
 							static_cast<std::uint32_t>(header.colorSpace.type),
 							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[0]),
 							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[1]),
@@ -385,10 +395,10 @@ namespace ece
 							static_cast<std::uint32_t>(header.yResolution),
 							static_cast<std::uint32_t>(header.nbColorsUsed),
 							static_cast<std::uint32_t>(header.nbImportantColors),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b),
-							static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a),
+							header.compression == CompressionMethod::BITFIELDS || header.compression == CompressionMethod::ALPHABITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r) : 0,
+							header.compression == CompressionMethod::BITFIELDS || header.compression == CompressionMethod::ALPHABITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g) : 0,
+							header.compression == CompressionMethod::BITFIELDS || header.compression == CompressionMethod::ALPHABITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b) : 0,
+							header.compression == CompressionMethod::BITFIELDS || header.compression == CompressionMethod::ALPHABITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a) : 0,
 							static_cast<std::uint32_t>(header.colorSpace.type),
 							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[0]),
 							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[1]),

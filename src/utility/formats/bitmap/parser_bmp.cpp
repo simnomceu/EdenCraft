@@ -40,6 +40,7 @@
 #include "utility/formats/bitmap/parser_bmp.hpp"
 #include "utility/formats/bitmap/bmp_header.hpp"
 #include "utility/formats/bitmap/dib_header.hpp"
+#include "utility/formats/bitmap/color_table.hpp"
 
 namespace ece
 {
@@ -66,18 +67,22 @@ namespace ece
 					DIB.type = getType(header.pixelsOffset - BMPHeader::INTERNAL_SIZE);
 					stream >> DIB;
 
+					// Color Table
+					auto colorTable = ColorTable(DIB);
+					stream >> colorTable;
+
 					buffer.resize(header.size - header.pixelsOffset);
 					stream.seekg(header.pixelsOffset);
 					stream.read(reinterpret_cast<char *>(buffer.data()), buffer.size());
-
-					int psw = ((DIB.width * 3) + 3) & ~3;
-
-					this->_pixels.resize(static_cast<ece::size_t>(DIB.width), static_cast<ece::size_t>(DIB.height));
 
 					switch (DIB.compression)
 					{
 					case CompressionMethod::RGB:
 					{
+						int psw = ((DIB.width * 3) + 3) & ~3;
+
+						this->_pixels.resize(static_cast<ece::size_t>(DIB.width), static_cast<ece::size_t>(DIB.height));
+
 						long bufPos = 0;
 						for (auto y = ece::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
 							for (auto x = ece::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {

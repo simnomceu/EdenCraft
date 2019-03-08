@@ -36,16 +36,12 @@
 
 */
 
-#ifndef BITMAP_COLOR_HPP
-#define BITMAP_COLOR_HPP
-
-#ifdef _MSC_VER
-#	undef RGB
-#	undef max
-#endif
+#ifndef COLOR_TABLE_HPP
+#define COLOR_TABLE_HPP
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
+#include "utility/formats/bitmap/dib_header.hpp"
 
 namespace ece
 {
@@ -55,68 +51,23 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				template <class T>
-				struct ECE_UTILITY_API RGB
+				class ColorTable
 				{
-					T r;
-					T g;
-					T b;
+				public:
+					ColorTable(DIBHeader & dib);
 
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, RGB<T> & color);
+					RGBA<uint8_t> operator[](const std::size_t index) const;
+					void set(const std::size_t index, RGBA<uint8_t> value);
 
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const RGB<T> & color);
+					friend std::istream & operator>>(std::istream & stream, ColorTable & colorTable);
+					friend std::ostream & operator<<(std::ostream & stream, ColorTable & colorTable);
+
+				private:
+					std::variant<std::vector<BGRA<uint8_t>>, std::vector<BGR<uint8_t>>> _colors;
 				};
-
-				template <class T>
-				struct ECE_UTILITY_API RGBA : public RGB<T>
-				{
-					T a;
-
-					operator RGB<T> &();
-					operator const RGB<T> &() const;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, RGBA<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const RGBA<T> & color);
-				};
-
-				template <class T>
-				struct ECE_UTILITY_API BGR
-				{
-					T b;
-					T g;
-					T r;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, BGR<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const BGR<T> & color);
-				};
-
-				template <class T>
-				struct ECE_UTILITY_API BGRA : public BGR<T>
-				{
-					T a;
-
-					operator BGR<T> &();
-					operator const BGR<T> &() const;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, BGRA<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const BGRA<T> & color);
-				};
-
-				template <class T> RGBA<T> toRGBA(const BGRA<T> & color);
-				template <class T> RGBA<T> toRGBA(const BGR<T> & color);
-				template <class T> RGBA<T> toRGBA(const RGB<T> & color);
-
-				template <class T> BGRA<T> toBGRA(const RGBA<T> & color);
-				template <class T> BGRA<T> toBGRA(const RGB<T> & color);
-				template <class T> BGRA<T> toBGRA(const BGR<T> & color);
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
 
-#include "utility/formats/bitmap/color_format.inl"
-
-#endif // BITMAP_COLOR_HPP
+#endif // COLOR_TABLE_HPP

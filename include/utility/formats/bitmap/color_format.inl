@@ -59,6 +59,18 @@ namespace ece
 				}
 
 				template <class T>
+				RGBA<T>::operator RGB<T> &()
+				{
+					return *this;
+				}
+
+				template <class T>
+				RGBA<T>::operator const RGB<T> &() const
+				{
+					return *this;
+				}
+
+				template <class T>
 				std::istream operator>>(std::istream & stream, RGBA<T> & color)
 				{
 					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
@@ -87,6 +99,18 @@ namespace ece
 				}
 
 				template <class T>
+				BGRA<T>::operator BGR<T> &()
+				{
+					return *this;
+				}
+
+				template <class T>
+				BGRA<T>::operator const BGR<T> &() const
+				{
+					return *this;
+				}
+
+				template <class T>
 				std::istream operator>>(std::istream & stream, BGRA<T> & color)
 				{
 					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
@@ -103,13 +127,37 @@ namespace ece
 				template <class T>
 				RGBA<T> toRGBA(const BGRA<T> & color)
 				{
-					return { color.r, color.g, color.b, color.a };
+					return RGBA<T>{ color.r, color.g, color.b, color.a };
+				}
+
+				template <class T>
+				RGBA<T> toRGBA(const BGR<T> & color)
+				{
+					return { color.b, color.g, color.r, std::numeric_limits<T>::max() };
+				}
+
+				template <class T>
+				RGBA<T> toRGBA(const RGB<T> & color)
+				{
+					return { color.r, color.g, color.b, std::numeric_limits<T>::max() };
 				}
 
 				template <class T>
 				BGRA<T> toBGRA(const RGBA<T> & color)
 				{
 					return { color.b, color.g, color.r, color.a };
+				}
+
+				template <class T>
+				BGRA<T> toBGRA(const RGB<T> & color)
+				{
+					return { color.b, color.g, color.r, std::numeric_limits<T>::max() };
+				}
+
+				template <class T>
+				BGRA<T> toBGRA(const BGR<T> & color)
+				{
+					return { color.b, color.g, color.r, std::numeric_limits<T>::max() };
 				}
 
 			} // namespace bitmap

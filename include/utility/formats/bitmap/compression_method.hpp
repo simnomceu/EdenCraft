@@ -65,9 +65,30 @@ namespace ece
 				};
 
 				ECE_UTILITY_API std::string to_string(CompressionMethod method);
+
+				template <class T> ECE_UTILITY_API std::vector<T> compress(std::vector<T>::iterator begin, std::vector<T>::iterator end, CompressionMethod method);
+				template <class T> ECE_UTILITY_API std::vector<T> uncompress(std::vector<T>::iterator begin, std::vector<T>::iterator end, CompressionMethod method);
+
+				template <class T> ECE_UTILITY_API std::vector<T> compressRLE(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> compressJPEG(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> compressPNG(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> compressAlphaBitfields(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> compressCMYK(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> compressCMYKRLE8(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> compressCMYKRLE4(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+
+				template <class T> ECE_UTILITY_API std::vector<T> decompressRLE(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> decompressJPEG(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> decompressPNG(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> decompressAlphaBitfields(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> decompressCMYK(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> decompressCMYKRLE8(std::vector<T>::iterator begin, std::vector<T>::iterator end);
+				template <class T> ECE_UTILITY_API std::vector<T> decompressCMYKRLE4(std::vector<T>::iterator begin, std::vector<T>::iterator end);
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
+
+#include "utility/formats/bitmap/compression_method.inl"
 
 #endif // COMPRESSION_METHOD_HPP
