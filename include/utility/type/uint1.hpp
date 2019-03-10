@@ -48,88 +48,131 @@ namespace ece
 	{
 		namespace type
 		{
+			class uint1
+			{
+			public:
+				uint1 & operator&=( const uint1 & rhs )
+				{
+					this->operator=(this->operator bool() & rhs.operator bool());
+					return *this;
+				}
+
+				uint1 & operator|=( const uint1 & rhs )
+				{
+					this->operator=(this->operator bool() & rhs.operator bool());
+					return *this;
+				}
+
+				uint1 & operator^=( const uint1 & rhs )
+				{
+					this->operator=(this->operator bool() ^ rhs.operator bool());
+					return *this;
+				}
+
+				uint1 operator~() const
+				{
+					this->operator=(~this->operator bool());
+					return *this;
+				}
+
+//				friend uint1 operator&(const uint1 & lhs, const uint1 & rhs);
+//				friend uint1 operator|(const uint1 & lhs, const uint1 & rhs);
+//				friend uint1 operator^(const uint1 & lhs, const uint1 & rhs);
+
+				virtual uint1 & operator=(bool v) = 0;
+				virtual operator bool() const = 0;
+
+				friend std::ostream & operator<<(std::ostream & stream, uint1 & bit)
+				{
+					stream << (bool)bit;
+					return stream;
+				}
+
+				friend std::istream & operator>>(std::istream & stream, uint1 & bit)
+				{
+					auto val = false;
+					stream >> val;
+					this->operator=(val);
+					return stream;
+				}
+			};
+
 			template <std::size_t I, typename enabled = std::enable_if_t<I < 8>>
-				class uint1_t
+			class uint1_t: public uint1
+			{
+			public:
+				uint1_t() : _a(0) {}
+
+				virtual uint1 & operator=(bool v) override
 				{
-				public:
-					uint1_t() : _a(0) {}
+					this->_a |= (char)(v << I);
+					return *this;
+				}
 
-					uint1_t<I, enabled> & operator=(bool v)
-					{
-						this->_a |= (char)(v << I);
-						return *this;
-					}
-
-					operator bool() const
-					{
-						return (bool)((this->_a & (1 << I)) >> I);
-					}
-
-					friend std::ostream & operator<<(std::ostream & stream, uint1_t & bit)
-					{
-						stream << (bool)bit;
-						return stream;
-					}
-
-				private:
-					unsigned char _a;
-				};
-
-				class Bitset;
-				template <std::size_t I, typename enabled = std::enable_if_t<I < 8>> uint1_t<I> & get(Bitset & bitset) { throw std::runtime_error("Hoho"); }
-				template <> uint1_t<0> & get(Bitset & bitset);
-				template <> uint1_t<1> & get(Bitset & bitset);
-				template <> uint1_t<2> & get(Bitset & bitset);
-				template <> uint1_t<3> & get(Bitset & bitset);
-				template <> uint1_t<4> & get(Bitset & bitset);
-				template <> uint1_t<5> & get(Bitset & bitset);
-				template <> uint1_t<6> & get(Bitset & bitset);
-				template <> uint1_t<7> & get(Bitset & bitset);
-
-				class Bitset
+				virtual operator bool() const override
 				{
-				public:
-					friend uint1_t<0> & get<>(Bitset & bitset);
-					friend uint1_t<1> & get<>(Bitset & bitset);
-					friend uint1_t<2> & get<>(Bitset & bitset);
-					friend uint1_t<3> & get<>(Bitset & bitset);
-					friend uint1_t<4> & get<>(Bitset & bitset);
-					friend uint1_t<5> & get<>(Bitset & bitset);
-					friend uint1_t<6> & get<>(Bitset & bitset);
-					friend uint1_t<7> & get<>(Bitset & bitset);
+					return (bool)((this->_a & (1 << I)) >> I);
+				}
 
-					Bitset() = default;
+			private:
+				unsigned char _a;
+			};
 
-					friend std::ostream & operator<<(std::ostream & stream, Bitset & bitset)
-					{
-						stream << bitset.bitset.a0 << bitset.bitset.a1 << bitset.bitset.a2 << bitset.bitset.a3 << bitset.bitset.a4 << bitset.bitset.a5 << bitset.bitset.a6 << bitset.bitset.a7;
-						return stream;
-					}
+			class Bitset;
+			template <std::size_t I, typename enabled = std::enable_if_t<I < 8>> uint1 & get(Bitset & bitset) { throw std::runtime_error("Hoho"); }
+			template <> uint1 & get<0>(Bitset & bitset);
+			template <> uint1 & get<1>(Bitset & bitset);
+			template <> uint1 & get<2>(Bitset & bitset);
+			template <> uint1 & get<3>(Bitset & bitset);
+			template <> uint1 & get<4>(Bitset & bitset);
+			template <> uint1 & get<5>(Bitset & bitset);
+			template <> uint1 & get<6>(Bitset & bitset);
+			template <> uint1 & get<7>(Bitset & bitset);
 
-				private:
-					union Internal
-					{
-						uint1_t<0> a0;
-						uint1_t<1> a1;
-						uint1_t<2> a2;
-						uint1_t<3> a3;
-						uint1_t<4> a4;
-						uint1_t<5> a5;
-						uint1_t<6> a6;
-						uint1_t<7> a7;
+			class Bitset
+			{
+			public:
+				friend uint1 & get<0>(Bitset & bitset);
+				friend uint1 & get<1>(Bitset & bitset);
+				friend uint1 & get<2>(Bitset & bitset);
+				friend uint1 & get<3>(Bitset & bitset);
+				friend uint1 & get<4>(Bitset & bitset);
+				friend uint1 & get<5>(Bitset & bitset);
+				friend uint1 & get<6>(Bitset & bitset);
+				friend uint1 & get<7>(Bitset & bitset);
 
-						Internal() { std::memset(this, 0, sizeof(*this)); }
-					};
-					Internal bitset;
+				Bitset() = default;
+
+				friend std::ostream & operator<<(std::ostream & stream, Bitset & bitset)
+				{
+					stream << bitset.bitset.a0 << bitset.bitset.a1 << bitset.bitset.a2 << bitset.bitset.a3 << bitset.bitset.a4 << bitset.bitset.a5 << bitset.bitset.a6 << bitset.bitset.a7;
+					return stream;
+				}
+
+			private:
+				union Internal
+				{
+					uint1_t<0> a0;
+					uint1_t<1> a1;
+					uint1_t<2> a2;
+					uint1_t<3> a3;
+					uint1_t<4> a4;
+					uint1_t<5> a5;
+					uint1_t<6> a6;
+					uint1_t<7> a7;
+
+					Internal() { std::memset(this, 0, sizeof(*this)); }
 				};
-				template <> uint1_t<0> & get(Bitset & bitset) { return bitset.bitset.a0; }
-				template <> uint1_t<1> & get(Bitset & bitset) { return bitset.bitset.a1; }
-				template <> uint1_t<2> & get(Bitset & bitset) { return bitset.bitset.a2; }
-				template <> uint1_t<3> & get(Bitset & bitset) { return bitset.bitset.a3; }
-				template <> uint1_t<4> & get(Bitset & bitset) { return bitset.bitset.a4; }
-				template <> uint1_t<5> & get(Bitset & bitset) { return bitset.bitset.a5; }
-				template <> uint1_t<6> & get(Bitset & bitset) { return bitset.bitset.a6; }
-				template <> uint1_t<7> & get(Bitset & bitset) { return bitset.bitset.a7; }
+				Internal bitset;
+			};
+			template <> uint1 & get<0>(Bitset & bitset) { return bitset.bitset.a0; }
+			template <> uint1 & get<1>(Bitset & bitset) { return bitset.bitset.a1; }
+			template <> uint1 & get<2>(Bitset & bitset) { return bitset.bitset.a2; }
+			template <> uint1 & get<3>(Bitset & bitset) { return bitset.bitset.a3; }
+			template <> uint1 & get<4>(Bitset & bitset) { return bitset.bitset.a4; }
+			template <> uint1 & get<5>(Bitset & bitset) { return bitset.bitset.a5; }
+			template <> uint1 & get<6>(Bitset & bitset) { return bitset.bitset.a6; }
+			template <> uint1 & get<7>(Bitset & bitset) { return bitset.bitset.a7; }
 
 		/*		int main()
 				{
@@ -147,13 +190,6 @@ namespace ece
 					std::cerr << test << std::endl;
 					get<6>(test) = true;
 					std::cerr << test << std::endl;
-
-					return 0;
-				}*/
-
-				/*int main()
-				{
-				   std::cerr << (0b10000000 >> 4) << std::endl;
 
 					return 0;
 				}*/
