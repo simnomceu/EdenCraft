@@ -36,25 +36,21 @@
 
 */
 
-#ifndef TYPES_HPP
-#define TYPES_HPP
-
-#include "utility/pch.hpp"
-
 namespace ece
 {
-	using Handle = unsigned int;
-	static constexpr Handle NULL_HANDLE = 0;
+	namespace utility
+	{
+		namespace type
+		{
+			template <class T, std::size_t I, typename enabled> bool get(const T & data)
+			{
+				return (bool)((data >> I) & 1u);
+			}
 
-	using size_t = std::uint32_t;
-
-#	ifdef ECE_X64
-		using offset_t = std::uint64_t;
-#	else
-		using offset_t = std::uint32_t;
-#	endif
-}
-
-#include "utility/type/bit_helper.hpp"
-
-#endif // TYPES_HPP
+			template <class T, std::size_t I, typename enabled> void set(T & data, bool value)
+			{
+				data = (data & ~(1u << I)) | (value << I);
+			}
+		} // namespace type
+	} // namespace utility
+} // namespace ece
