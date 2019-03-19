@@ -48,8 +48,14 @@ namespace ece
 	{
 		namespace type
 		{
-			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I < sizeof(T) * 8)>> bool get(const T & data);
-			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I < sizeof(T) * 8)>> void set(T & data, bool value);
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I < sizeof(T) * 8)>> bool get1(T & data);
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I < sizeof(T) * 8)>> void set1(T & data, bool value);
+
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 2 < sizeof(T) * 8)>> int get2(T & data);
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 2 < sizeof(T) * 8)>> void set2(T & data, int value);
+
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 4 < sizeof(T) * 8)>> int get4(T & data);
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 4 < sizeof(T) * 8)>> void set4(T & data, int value);
 		} // namespace type
 	} // namespace utility
 } // namespace ece

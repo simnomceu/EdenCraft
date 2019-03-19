@@ -42,14 +42,36 @@ namespace ece
 	{
 		namespace type
 		{
-			template <class T, std::size_t I, typename enabled> bool get(const T & data)
+			template <class T, std::size_t I, typename enabled> bool get1(T & data)
 			{
 				return (bool)((data >> I) & 1u);
 			}
 
-			template <class T, std::size_t I, typename enabled> void set(T & data, bool value)
+			template <class T, std::size_t I, typename enabled> void set1(T & data, bool value)
 			{
 				data = (data & ~(1u << I)) | (value << I);
+			}
+
+			template <class T, std::size_t I, typename enabled> int get2(T & data)
+			{
+				return ((data >> I * 2) & 0b11);
+			}
+
+			template <class T, std::size_t I, typename enabled> void set2(T & data, int value)
+			{
+				assert(value <= 0b11);
+				data = (data & ~(0b11 << I * 2)) | (value << I * 2);
+			}
+
+			template <class T, std::size_t I, typename enabled> int get4(T & data)
+			{
+				return ((data >> I * 4) & 0b1111);
+			}
+
+			template <class T, std::size_t I, typename enabled> void set4(T & data, int value)
+			{
+				assert(value <= 0b1111);
+				data = (data & ~(0b1111 << I * 4)) | (value << I * 4);
 			}
 		} // namespace type
 	} // namespace utility

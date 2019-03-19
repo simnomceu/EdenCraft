@@ -57,4 +57,9 @@ namespace ece
 
 #include "utility/type/bit_helper.hpp"
 
+namespace ece
+{
+	using namespace utility::type;
+}
+
 #endif // TYPES_HPP
