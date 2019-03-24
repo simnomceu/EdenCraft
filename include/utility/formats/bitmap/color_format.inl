@@ -160,6 +160,149 @@ namespace ece
 					return { color.b, color.g, color.r, std::numeric_limits<T>::max() };
 				}
 
+				template <class T>
+				std::istream operator>>(std::istream & stream, CMYK<T> & color)
+				{
+					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const CMYK<T> & color)
+				{
+					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+					return stream;
+				}
+
+				template <class T>
+				RGB<T> toRGB(const CMYK<T> & color)
+				{
+					const auto max = std::numeric_limits<T>::max();
+					RGB<T> result;
+					result.r = max - ((std::min(T(1), color.c * (T(1) - color.k) + color.k)) * max);
+					result.g = max - ((std::min(T(1), color.m * (T(1) - color.k) + color.k)) * max);
+					result.b = max - ((std::min(T(1), color.y * (T(1) - color.k) + color.k)) * max);
+					return std::move(result);
+				}
+
+				template <class T> RGBA<T> toRGBA(const CMYK<T> & color)
+				{
+					const auto max = std::numeric_limits<T>::max();
+					RGBA<T> result;
+					result.r = max - ((std::min(T(1), color.c * (T(1) - color.k) + color.k)) * max);
+					result.g = max - ((std::min(T(1), color.m * (T(1) - color.k) + color.k)) * max);
+					result.b = max - ((std::min(T(1), color.y * (T(1) - color.k) + color.k)) * max);
+					result.a = max ;
+					return std::move(result);
+				}
+				template <class T> BGR<T> toBGR(const CMYK<T> & color)
+				{
+					const auto max = std::numeric_limits<T>::max();
+					BGR<T> result;
+					result.r = max - ((std::min(T(1), color.c * (T(1) - color.k) + color.k)) * max);
+					result.g = max - ((std::min(T(1), color.m * (T(1) - color.k) + color.k)) * max);
+					result.b = max - ((std::min(T(1), color.y * (T(1) - color.k) + color.k)) * max);
+					return std::move(result);
+				}
+
+				template <class T> BGRA<T> toBGRA(const CMYK<T> & color)
+				{
+					const auto max = std::numeric_limits<T>::max();
+					BGRA<T> result;
+					result.r = max - ((std::min(T(1), color.c * (T(1) - color.k) + color.k)) * max);
+					result.g = max - ((std::min(T(1), color.m * (T(1) - color.k) + color.k)) * max);
+					result.b = max - ((std::min(T(1), color.y * (T(1) - color.k) + color.k)) * max);
+					result.a = max;
+					return std::move(result);
+				}
+
+				template <class T> CMYK<T> toCMYK(const RGB<T> & color)
+				{
+					const auto max = std::numeric_limits<T>::max();
+					auto r = color.r / max;
+					auto g = color.g / max;
+					auto b = color.b / max;
+					CMYK<T> result;
+					result.k = 1 - std::max(r, g, b);
+
+					if (result.k == 1) {
+						result.c = T(0);
+						result.m = T(0);
+						result.y = T(0);
+					}
+					else {
+						result.c = (T(1) - r - k) / (T(1) - k);
+						result.m = (T(1) - g - k) / (T(1) - k);
+						result.y = (T(1) - b - k) / (T(1) - k);
+					}
+					return std::move(result);
+				}
+
+				template <class T> CMYK<T> toCMYK(const RGBA<T> & color)
+				{
+					const auto max = std::numeric_limits<T>::max();
+					auto r = color.r / max;
+					auto g = color.g / max;
+					auto b = color.b / max;
+					CMYK<T> result;
+					result.k = 1 - std::max(r, g, b);
+
+					if (result.k == 1) {
+						result.c = T(0);
+						result.m = T(0);
+						result.y = T(0);
+					}
+					else {
+						result.c = (T(1) - r - k) / (T(1) - k);
+						result.m = (T(1) - g - k) / (T(1) - k);
+						result.y = (T(1) - b - k) / (T(1) - k);
+					}
+					return std::move(result);
+				}
+
+				template <class T> CMYK<T> toCMYK(const BGR<T> & color)
+				{
+					const auto max = std::numeric_limits<T>::max();
+					auto r = color.r / max;
+					auto g = color.g / max;
+					auto b = color.b / max;
+					CMYK<T> result;
+					result.k = 1 - std::max(r, g, b);
+
+					if (result.k == 1) {
+						result.c = T(0);
+						result.m = T(0);
+						result.y = T(0);
+					}
+					else {
+						result.c = (T(1) - r - k) / (T(1) - k);
+						result.m = (T(1) - g - k) / (T(1) - k);
+						result.y = (T(1) - b - k) / (T(1) - k);
+					}
+					return std::move(result);
+				}
+
+				template <class T> CMYK<T> toCMYK(const BGRA<T> & color)
+				{
+					const auto max = std::numeric_limits<T>::max();
+					auto r = color.r / max;
+					auto g = color.g / max;
+					auto b = color.b / max;
+					CMYK<T> result;
+					result.k = 1 - std::max(r, g, b);
+
+					if (result.k == 1) {
+						result.c = T(0);
+						result.m = T(0);
+						result.y = T(0);
+					}
+					else {
+						result.c = (T(1) - r - k) / (T(1) - k);
+						result.m = (T(1) - g - k) / (T(1) - k);
+						result.y = (T(1) - b - k) / (T(1) - k);
+					}
+					return std::move(result);
+				}
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

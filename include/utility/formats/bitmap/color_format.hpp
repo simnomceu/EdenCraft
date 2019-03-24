@@ -112,6 +112,29 @@ namespace ece
 				template <class T> BGRA<T> toBGRA(const RGBA<T> & color);
 				template <class T> BGRA<T> toBGRA(const RGB<T> & color);
 				template <class T> BGRA<T> toBGRA(const BGR<T> & color);
+
+				template <class T>
+				struct ECE_UTILITY_API CMYK
+				{
+					T c;
+					T m;
+					T y;
+					T k;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, CMYK<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const CMYK<T> & color);
+				};
+
+				template <class T> RGB<T> toRGB(const CMYK<T> & color);
+				template <class T> RGBA<T> toRGBA(const CMYK<T> & color);
+				template <class T> BGR<T> toBGR(const CMYK<T> & color);
+				template <class T> BGRA<T> toBGRA(const CMYK<T> & color);
+
+				template <class T> CMYK<T> toCMYK(const RGB<T> & color);
+				template <class T> CMYK<T> toCMYK(const RGBA<T> & color);
+				template <class T> CMYK<T> toCMYK(const BGR<T> & color);
+				template <class T> CMYK<T> toCMYK(const BGRA<T> & color);
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
