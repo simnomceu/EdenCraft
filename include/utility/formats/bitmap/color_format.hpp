@@ -135,6 +135,18 @@ namespace ece
 				template <class T> CMYK<T> toCMYK(const RGBA<T> & color);
 				template <class T> CMYK<T> toCMYK(const BGR<T> & color);
 				template <class T> CMYK<T> toCMYK(const BGRA<T> & color);
+
+				template <class T> std::string toHex(const RGB<T> & color);
+				template <class T> std::string toHex(const RGBA<T> & color);
+				template <class T> std::string toHex(const BGR<T> & color);
+				template <class T> std::string toHex(const BGRA<T> & color);
+				template <class T> std::string toHex(const CMYK<T> & color);
+
+				template <class T> RGB<T> toRGB(const std::string & color);
+				template <class T> RGBA<T> toRGBA(const std::string & color);
+				template <class T> BGR<T> toBGR(const std::string & color);
+				template <class T> BGRA<T> toBGRA(const std::string & color);
+				template <class T> CMYK<T> toCMYK(const std::string & color);
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

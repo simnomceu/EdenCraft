@@ -303,6 +303,137 @@ namespace ece
 					}
 					return std::move(result);
 				}
+
+				template <class T> std::string toHex(const RGB<T> & color)
+				{
+					auto stream = std::ostringstream();
+					stream << '#';
+					if (rgb.r <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.r;
+					if (rgb.g <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.g;
+					if (rgb.b <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.b;
+					return stream.str();
+				}
+
+				template <class T> std::string toHex(const RGBA<T> & color)
+				{
+					auto stream = std::ostringstream();
+					stream << '#';
+					if (rgb.r <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.r;
+					if (rgb.g <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.g;
+					if (rgb.b <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.b;
+					return stream.str();
+				}
+
+				template <class T> std::string toHex(const BGR<T> & color)
+				{
+					auto stream = std::ostringstream();
+					stream << '#';
+					if (rgb.r <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.r;
+					if (rgb.g <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.g;
+					if (rgb.b <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.b;
+					return stream.str();
+				}
+
+				template <class T> std::string toHex(const BGRA<T> & color)
+				{
+					auto stream = std::ostringstream();
+					stream << '#';
+					if (rgb.r <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.r;
+					if (rgb.g <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.g;
+					if (rgb.b <= 9) {
+						stream << '0';
+					}
+					stream << std::hex << rgb.b;
+					return stream.str();
+				}
+				template <class T> std::string toHex(const CMYK<T> & color)
+				{
+					return toHex<T>(toRGB<T>(color));
+				}
+
+				template <class T> RGB<T> toRGB(const std::string & color)
+				{
+					const auto ratio = std::numeric_limits<T>::max() / 255;
+					RGB<T> result;
+					std::sscanf(color.data(), "#%02x%02x%02x", &result.r, &result.g, &result.b);
+					result.r *= ratio;
+					result.g *= ratio;
+					result.b *= ratio;
+					return std::move(result);
+				}
+
+				template <class T> RGBA<T> toRGBA(const std::string & color)
+				{
+					const auto ratio = std::numeric_limits<T>::max() / 255;
+					RGB<T> result;
+					std::sscanf(color.data(), "#%02x%02x%02x", &result.r, &result.g, &result.b);
+					result.r *= ratio;
+					result.g *= ratio;
+					result.b *= ratio;
+					result.a = std::numeric_limits<T>::max();
+					return std::move(result);
+				}
+
+				template <class T> BGR<T> toBGR(const std::string & color)
+				{
+					const auto ratio = std::numeric_limits<T>::max() / 255;
+					RGB<T> result;
+					std::sscanf(color.data(), "#%02x%02x%02x", &result.r, &result.g, &result.b);
+					result.r *= ratio;
+					result.g *= ratio;
+					result.b *= ratio;
+					return std::move(result);
+				}
+
+				template <class T> BGRA<T> toBGRA(const std::string & color)
+				{
+					const auto ratio = std::numeric_limits<T>::max() / 255;
+					RGB<T> result;
+					std::sscanf(color.data(), "#%02x%02x%02x", &result.r, &result.g, &result.b);
+					result.r *= ratio;
+					result.g *= ratio;
+					result.b *= ratio;
+					result.a = std::numeric_limits<T>::max();
+					return std::move(result);
+				}
+
+				template <class T> CMYK<T> toCMYK(const std::string & color)
+				{
+					return toCMYK<T>(toRGB<T>(color));
+				}
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
