@@ -60,7 +60,7 @@ namespace ece
 			template <class T, std::size_t I, typename enabled> void set2(T & data, int value)
 			{
 				assert(value <= 0b11);
-				data = (data & ~(0b11 << I * 2)) | (value << I * 2);
+				data = static_cast<T>((data & ~(0b11 << I * 2)) | (value << I * 2));
 			}
 
 			template <class T, std::size_t I, typename enabled> int get4(T & data)
@@ -71,7 +71,7 @@ namespace ece
 			template <class T, std::size_t I, typename enabled> void set4(T & data, int value)
 			{
 				assert(value <= 0b1111);
-				data = (data & ~(0b1111 << I * 4)) | (value << I * 4);
+				data = static_cast<T>((data & ~(0b1111 << I * 4)) | (value << I * 4));
 			}
 		} // namespace type
 	} // namespace utility
