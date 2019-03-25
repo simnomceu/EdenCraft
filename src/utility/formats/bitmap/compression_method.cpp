@@ -38,6 +38,12 @@
 
 #include "utility/pch.hpp"
 #include "utility/formats/bitmap/compression_method.hpp"
+#include "utility/types.hpp"
+
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
 
 namespace ece
 {
@@ -62,6 +68,291 @@ namespace ece
 					case CompressionMethod::CMYKRLE4: return "CMYKRLE4"; break;
 					default: throw std::runtime_error("Unknown value for CompressionMethod enumeration."); break;
 					}
+				}
+				
+				std::vector<char> compress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width, CompressionMethod method)
+				{
+					switch (method)
+					{
+					case CompressionMethod::RGB: return { begin, end }; break;
+					case CompressionMethod::RLE8: return compressRLE8(begin, end, width); break;
+					case CompressionMethod::RLE4: return compressRLE4(begin, end, width); break; //should_be std::uint4_t
+					case CompressionMethod::BITFIELDS: return compressBitfields(begin, end, width); break;
+					case CompressionMethod::JPEG: return compressJPEG(begin, end, width); break;
+					case CompressionMethod::PNG: return compressPNG(begin, end, width); break;
+					case CompressionMethod::ALPHABITFIELDS: return compressAlphaBitfields(begin, end, width); break;
+					case CompressionMethod::CMYK: return compressCMYK(begin, end, width); break;
+					case CompressionMethod::CMYKRLE8: return compressCMYKRLE8(begin, end, width); break;
+					case CompressionMethod::CMYKRLE4: return compressCMYKRLE4(begin, end, width); break;
+					default: throw std::runtime_error("Undefined bitmap compression method."); break;
+					}
+				}
+
+				std::vector<char> uncompress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width, CompressionMethod method)
+				{
+					switch (method)
+					{
+					case CompressionMethod::RGB: return { begin, end }; break;
+					case CompressionMethod::RLE8: return decompressRLE8(begin, end, width); break;
+					case CompressionMethod::RLE4: return decompressRLE4(begin, end, width); break;
+					case CompressionMethod::BITFIELDS: return decompressBitfields(begin, end, width); break;
+					case CompressionMethod::JPEG: return decompressJPEG(begin, end, width); break;
+					case CompressionMethod::PNG: return decompressPNG(begin, end, width); break;
+					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(begin, end, width); break;
+					case CompressionMethod::CMYK: return decompressCMYK(begin, end, width); break;
+					case CompressionMethod::CMYKRLE8: return decompressCMYKRLE8(begin, end, width); break;
+					case CompressionMethod::CMYKRLE4: return decompressCMYKRLE4(begin, end, width); break;
+					default: throw std::runtime_error("Undefined bitmap uncompression method."); break;
+					}
+				}
+
+				std::vector<char> compressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width)
+				{
+					auto result = std::vector<char>();
+
+					auto it = begin;
+					auto xPos = 0;
+					auto count = 0;
+					while (it != end) {
+						count = 0;
+						while (*(it + count) == *(it + count + 1) && count < std::numeric_limits<char>::max()) {
+							++count;
+						}
+						count = std::min(count, static_cast<int>(width) - xPos);
+						if (count > 1) {
+							result.emplace_back(static_cast<char>(count));
+							result.emplace_back(*it);
+						}
+						else {
+							result.emplace_back(static_cast<char>(0));
+							result.emplace_back(*it);
+						}
+						it += count;
+						xPos += count;
+						if (xPos >= static_cast<int>(width)) {
+							result.emplace_back(static_cast<char>(0));
+							result.emplace_back(static_cast<char>(0));
+							xPos = 0;
+						}
+					}
+					result.emplace_back(static_cast<char>(0));
+					result.emplace_back(static_cast<char>(1));
+					return result;
+				}
+
+
+				std::vector<char> compressRLE4(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width)
+				{
+					auto result = std::vector<char>();
+
+					auto it = begin;
+					auto xPos = 0;
+					auto count = 0;
+					while (it != end) {
+						count = 2;
+						while (*it == *(it + count) && *(it + 1) == *(it + count + 1) && count < std::numeric_limits<char>::max()) {
+							count+=2;
+						}
+
+						const auto firstColor = *it;
+						const auto secondColor = *(it + 1);
+						char color = 0;
+						set4<char, 0>(color, firstColor);
+						set4<char, 1>(color, secondColor);
+
+						count = std::min(count, static_cast<int>(width) - xPos);
+						if (count > 1) {
+							result.emplace_back(static_cast<char>(count));
+							result.emplace_back(color);
+						}
+						else {
+							result.emplace_back(static_cast<char>(0));
+							result.emplace_back(color);
+						}
+						it += count;
+						xPos += count;
+						if (xPos >= static_cast<int>(width)) {
+							result.emplace_back(static_cast<char>(0));
+							result.emplace_back(static_cast<char>(0));
+							xPos = 0;
+						}
+					}
+					result.emplace_back(static_cast<char>(0));
+					result.emplace_back(static_cast<char>(1));
+					return result;
+				}
+
+
+				std::vector<char> compressBitfields(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+
+				std::vector<char> compressJPEG(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+
+				std::vector<char> compressPNG(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+
+				std::vector<char> compressAlphaBitfields(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+
+				std::vector<char> compressCMYK(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+
+				std::vector<char> compressCMYKRLE8(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+
+				std::vector<char> compressCMYKRLE4(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+				std::vector<char> decompressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width)
+				{
+					auto result = std::vector<char>();
+					auto it = begin;
+					int xPos = 0;
+					while (it != end) {
+						if (*it == 0) { // absolute mode
+							++it;
+							if (*it == 0) { // end of line
+								result.insert(result.end(), width - xPos, 0);
+								xPos = 0;
+							}
+							else if (*it == 1) { // end of bitmap
+								it = end;
+							}
+							else if (*it == 2) { // delta jump
+								++it;
+								const int x = *it;
+								++it;
+								const int y = *it;
+								it += (y * width) + x;
+								result.insert(result.end(), (y * width) + x, 0);
+								xPos += x;
+							}
+							else {
+								const int count = *it;
+								++it;
+								result.insert(result.end(), it, it + count);
+								it += count;
+								xPos += count;
+							}
+						}
+						else { // encoded mode
+							const int count = *it;
+							++it;
+							result.insert(result.end(), count, *it);
+							++it;
+							xPos += count;
+						}
+					}
+					return result;
+				}
+
+				std::vector<char> decompressRLE4(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width)
+				{
+					auto result = std::vector<char>();
+					auto it = begin;
+					int xPos = 0;
+					while (it != end) {
+						if (*it == 0) { // absolute mode
+							++it;
+							if (*it == 0) { // end of line
+								result.insert(result.end(), width - xPos, 0);
+								xPos = 0;
+							}
+							else if (*it == 1) { // end of bitmap
+								it = end;
+							}
+							else if (*it == 2) { // delta jump
+								++it;
+								const int x = *it;
+								++it;
+								const int y = *it;
+								it += (y * width) + x;
+								xPos += x;
+							}
+							else {
+								const int count = *it;
+								++it;
+								for (int i = 0; i < count; ++i) {
+									result.push_back(static_cast<char>(get4<char, 0>(*it)));
+									result.push_back(static_cast<char>(get4<char, 1>(*it)));
+									++it;
+								}
+								xPos += count;
+							}
+						}
+						else { // encoded mode
+							const int count = *it;
+							++it;
+							const int firstColor = get4<char, 0>(*it);
+							const int secondColor = get4<char, 1>(*it);
+							for (int i = 0; i < count; ++i) {
+								if (i % 2 == 0) {
+									result.push_back(static_cast<char>(firstColor));
+								}
+								else {
+									result.push_back(static_cast<char>(secondColor));
+								}
+							}
+							++it;
+						}
+					}
+					return result;
+				}
+
+				std::vector<char> decompressBitfields(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+				std::vector<char> decompressJPEG(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+				std::vector<char> decompressPNG(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+				std::vector<char> decompressAlphaBitfields(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+				std::vector<char> decompressCMYK(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+				std::vector<char> decompressCMYKRLE8(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
+				}
+
+				std::vector<char> decompressCMYKRLE4(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				{
+					return {};
 				}
 			} // namespace bitmap
 		} // namespace formats

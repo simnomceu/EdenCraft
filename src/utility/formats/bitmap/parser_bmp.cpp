@@ -54,7 +54,7 @@ namespace ece
 				{
 					auto header = BMPHeader{};
 					auto DIB = DIBHeader();
-					auto buffer = std::vector<std::byte>{};
+					auto buffer = std::vector<char>{};
 
 					// see http://paulbourke.net/dataformats/bitmaps/
 					// see http://www.kalytta.com/bitmap.h
@@ -75,36 +75,21 @@ namespace ece
 					stream.seekg(header.pixelsOffset);
 					stream.read(reinterpret_cast<char *>(buffer.data()), buffer.size());
 
-					switch (DIB.compression)
-					{
-					case CompressionMethod::RGB:
-					{
-						int psw = ((DIB.width * 3) + 3) & ~3;
+					auto uncompressBuffer = uncompress(buffer.begin(), buffer.end(), DIB.width, DIB.compression);
+					
+					int psw = ((DIB.width * 3) + 3) & ~3;
 
-						this->_pixels.resize(static_cast<ece::size_t>(DIB.width), static_cast<ece::size_t>(DIB.height));
+					this->_pixels.resize(static_cast<ece::size_t>(DIB.width), static_cast<ece::size_t>(DIB.height));
 
-						long bufPos = 0;
-						for (auto y = ece::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
-							for (auto x = ece::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {
-								bufPos = (static_cast<long>(DIB.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+					long bufPos = 0;
+					for (auto y = ece::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
+						for (auto x = ece::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {
+							bufPos = (static_cast<long>(DIB.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
 
-								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = buffer[bufPos + 2]; // red
-								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = buffer[bufPos + 1]; // green
-								this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = buffer[bufPos]; // blue
-							}
+							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = static_cast<std::byte>(uncompressBuffer[bufPos + 2]); // red
+							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = static_cast<std::byte>(uncompressBuffer[bufPos + 1]); // green
+							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = static_cast<std::byte>(uncompressBuffer[bufPos]); // blue
 						}
-						break;
-					}
-					case CompressionMethod::RLE8: break;
-					case CompressionMethod::RLE4: break;
-					case CompressionMethod::BITFIELDS: break;
-					case CompressionMethod::JPEG: break;
-					case CompressionMethod::PNG: break;
-					case CompressionMethod::ALPHABITFIELDS: break;
-					case CompressionMethod::CMYK: break;
-					case CompressionMethod::CMYKRLE8: break;
-					case CompressionMethod::CMYKRLE4: break;
-					default: break;
 					}
 				}
 
