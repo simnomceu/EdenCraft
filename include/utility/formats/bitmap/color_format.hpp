@@ -80,6 +80,10 @@ namespace ece
 					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const RGBA<T> & color);
 				};
 
+				template <class T> RGBA<T> toRGBA(const RGB<T> & color);
+
+				template <class T> RGB<T> toRGB(const RGBA<T> & color);
+
 				template <class T>
 				struct ECE_UTILITY_API BGR
 				{
@@ -91,6 +95,12 @@ namespace ece
 
 					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const BGR<T> & color);
 				};
+
+				template <class T> RGBA<T> toRGBA(const BGR<T> & color);
+				template <class T> RGB<T> toRGB(const BGR<T> & color);
+
+				template <class T> BGR<T> toBGR(const RGB<T> & color);
+				template <class T> BGR<T> toBGR(const RGBA<T> & color);
 
 				template <class T>
 				struct ECE_UTILITY_API BGRA : public BGR<T>
@@ -105,9 +115,9 @@ namespace ece
 					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const BGRA<T> & color);
 				};
 
+				template <class T> RGB<T> toRGB(const BGRA<T> & color);
 				template <class T> RGBA<T> toRGBA(const BGRA<T> & color);
-				template <class T> RGBA<T> toRGBA(const BGR<T> & color);
-				template <class T> RGBA<T> toRGBA(const RGB<T> & color);
+				template <class T> BGR<T> toBGR(const BGRA<T> & color);
 
 				template <class T> BGRA<T> toBGRA(const RGBA<T> & color);
 				template <class T> BGRA<T> toBGRA(const RGB<T> & color);
@@ -147,6 +157,120 @@ namespace ece
 				template <class T> BGR<T> toBGR(const std::string & color);
 				template <class T> BGRA<T> toBGRA(const std::string & color);
 				template <class T> CMYK<T> toCMYK(const std::string & color);
+
+				template <class T>
+				struct HSL
+				{
+					T hue;
+					T saturation;
+					T light;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, HSL<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const HSL<T> & color);
+				};
+				
+				template <class T> HSL<T> toHSL(const RGB<T> & color);
+				template <class T> HSL<T> toHSL(const RGBA<T> & color);
+				template <class T> HSL<T> toHSL(const BGR<T> & color);
+				template <class T> HSL<T> toHSL(const BGRA<T> & color);
+				template <class T> HSL<T> toHSL(const CMYK<T> & color);
+				template <class T> HSL<T> toHSL(const std::string & color);
+
+				template <class T> RGB<T> toRGB(const HSL<T> & color);
+				template <class T> RGBA<T> toRGBA(const HSL<T> & color);
+				template <class T> BGR<T> toBGR(const HSL<T> & color);
+				template <class T> BGRA<T> toBGRA(const HSL<T> & color);
+				template <class T> CMYK<T> toCMYK(const HSL<T> & color);
+				template <class T> std::string toHex(const HSL<T> & color);
+
+				template <class T>
+				struct HWB
+				{
+					T hue;
+					T white;
+					T black;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, HWB<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const HWB<T> & color);
+				};
+
+				template <class T> HWB<T> toHWB(const RGB<T> & color);
+				template <class T> HWB<T> toHWB(const RGBA<T> & color);
+				template <class T> HWB<T> toHWB(const BGR<T> & color);
+				template <class T> HWB<T> toHWB(const BGRA<T> & color);
+				template <class T> HWB<T> toHWB(const CMYK<T> & color);
+				template <class T> HWB<T> toHWB(const std::string & color);
+				template <class T> HWB<T> toHWB(const HSL<T> & color);
+
+				template <class T> RGB<T> toRGB(const HWB<T> & color);
+				template <class T> RGBA<T> toRGBA(const HWB<T> & color);
+				template <class T> BGR<T> toBGR(const HWB<T> & color);
+				template <class T> BGRA<T> toBGRA(const HWB<T> & color);
+				template <class T> CMYK<T> toCMYK(const HWB<T> & color);
+				template <class T> std::string toHex(const HWB<T> & color);
+				template <class T> HSL<T> toHSL(const HWB<T> & color);
+
+				template <class T>
+				struct NCol
+				{
+					std::string ncol;
+					T whiteness;
+					T blackness;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, NCol<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const NCol<T> & color);
+				};
+
+				template <class T> NCol<T> toNCol(const RGB<T> & color);
+				template <class T> NCol<T> toNCol(const RGBA<T> & color);
+				template <class T> NCol<T> toNCol(const BGR<T> & color);
+				template <class T> NCol<T> toNCol(const BGRA<T> & color);
+				template <class T> NCol<T> toNCol(const CMYK<T> & color);
+				template <class T> NCol<T> toNCol(const std::string & color);
+				template <class T> NCol<T> toNCol(const HSL<T> & color);
+				template <class T> NCol<T> toNCol(const HWB<T> & color);
+
+				template <class T> RGB<T> toRGB(const NCol<T> & color);
+				template <class T> RGBA<T> toRGBA(const NCol<T> & color);
+				template <class T> BGR<T> toBGR(const NCol<T> & color);
+				template <class T> BGRA<T> toBGRA(const NCol<T> & color);
+				template <class T> CMYK<T> toCMYK(const NCol<T> & color);
+				template <class T> std::string toHex(const NCol<T> & color);
+				template <class T> HSL<T> toHSL(const NCol<T> & color);
+				template <class T> HWB<T> toHWB(const NCol<T> & color);
+
+				template <class T>
+				struct NCola : public NCol<T>
+				{
+					T opacity;
+
+					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, NCola<T> & color);
+
+					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const NCola<T> & color);
+				};
+
+				template <class T> NCola<T> toNCola(const RGB<T> & color);
+				template <class T> NCola<T> toNCola(const RGBA<T> & color);
+				template <class T> NCola<T> toNCola(const BGR<T> & color);
+				template <class T> NCola<T> toNCola(const BGRA<T> & color);
+				template <class T> NCola<T> toNCola(const CMYK<T> & color);
+				template <class T> NCola<T> toNCola(const std::string & color);
+				template <class T> NCola<T> toNCola(const HSL<T> & color);
+				template <class T> NCola<T> toNCola(const HWB<T> & color);
+				template <class T> NCola<T> toNCola(const NCol<T> & color);
+
+				template <class T> RGB<T> toRGB(const NCola<T> & color);
+				template <class T> RGBA<T> toRGBA(const NCola<T> & color);
+				template <class T> BGR<T> toBGR(const NCola<T> & color);
+				template <class T> BGRA<T> toBGRA(const NCola<T> & color);
+				template <class T> CMYK<T> toCMYK(const NCola<T> & color);
+				template <class T> std::string toHex(const NCola<T> & color);
+				template <class T> HSL<T> toHSL(const NCola<T> & color);
+				template <class T> HWB<T> toHWB(const NCola<T> & color);
+				template <class T> NCol<T> toNCol(const NCola<T> & color);
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

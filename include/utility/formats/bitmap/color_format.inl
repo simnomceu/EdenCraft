@@ -36,6 +36,11 @@
 
 */
 
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
+
 namespace ece
 {
 	namespace utility
@@ -85,6 +90,18 @@ namespace ece
 				}
 
 				template <class T>
+				RGB<T> toRGB(const RGBA<T> & color)
+				{
+					return RGB<T>(color);
+				}
+
+				template <class T>
+				RGBA<T> toRGBA(const RGB<T> & color)
+				{
+					return { color.r, color.g, color.b, std::numeric_limits<T>::max() };
+				}
+
+				template <class T>
 				std::istream operator>>(std::istream & stream, BGR<T> & color)
 				{
 					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 3);
@@ -111,6 +128,29 @@ namespace ece
 				}
 
 				template <class T>
+				RGBA<T> toRGBA(const BGR<T> & color)
+				{
+					return { color.b, color.g, color.r, std::numeric_limits<T>::max() };
+				}
+
+				template <class T>
+				RGB<T> toRGB(const BGR<T> & color)
+				{
+					return { color.r, color.g, color.b };
+				}
+
+				template <class T>
+				BGR<T> toBGR(const RGB<T> & color)
+				{
+					return { color.r, color.g, color.b };
+				}
+
+				template <class T> BGR<T> toBGR(const RGBA<T> & color)
+				{
+					return { color.r, color.g, color.b };
+				}
+
+				template <class T>
 				std::istream operator>>(std::istream & stream, BGRA<T> & color)
 				{
 					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
@@ -125,21 +165,21 @@ namespace ece
 				}
 
 				template <class T>
+				RGB<T> toRGB(const BGRA<T> & color)
+				{
+					return { color.r, color.g, color.b };
+				}
+
+				template <class T>
 				RGBA<T> toRGBA(const BGRA<T> & color)
 				{
 					return RGBA<T>{ color.r, color.g, color.b, color.a };
 				}
 
 				template <class T>
-				RGBA<T> toRGBA(const BGR<T> & color)
+				BGR<T> toBGR(const BGRA<T> & color)
 				{
-					return { color.b, color.g, color.r, std::numeric_limits<T>::max() };
-				}
-
-				template <class T>
-				RGBA<T> toRGBA(const RGB<T> & color)
-				{
-					return { color.r, color.g, color.b, std::numeric_limits<T>::max() };
+					return BGR<T>(color);
 				}
 
 				template <class T>
@@ -433,6 +473,579 @@ namespace ece
 				template <class T> CMYK<T> toCMYK(const std::string & color)
 				{
 					return toCMYK<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				std::istream operator>>(std::istream & stream, HSL<T> & color)
+				{
+					stream >> color.hue >> color.saturation >> color.light;
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const HSL<T> & color)
+				{
+					stream << color.hue << color.saturation << color.light;
+					return stream;
+				}
+
+				template <class T>
+				HSL<T> toHSL(const RGB<T> & color)
+				{
+					HSL<T> result;
+
+					auto min = std::min(color.r, color.g, color.b) / std::numeric_limits<T>::max();
+					auto max = std::max(color.r, color.g, color.b) / std::numeric_limits<T>::max();
+					
+					if (color.r >= color.g && color.r >= color.b) {
+						result.hue = (rgb[1] - rgb[2]) / (max - min);
+					}
+					else if (color.g >= color.r && color.g >= color.b) {
+						result.hue = 2 + (rgb[2] - rgb[0]) / (max - min);
+					}
+					else if (color.b >= color.r && color.b >= color.g) {
+						result.hue = 4 + (rgb[0] - rgb[1]) / (max - min);
+					}
+
+					result.hue *= 60;
+					if (result.hue < 0) {
+						result.hue += 360;
+					}
+
+					result.light = (min + max) / 2;
+					if (min != max) {
+						if (result.light < 0.5) {
+							result.saturation = (max - min) / (max + min);
+						}
+						else {
+							result.saturation = (max - min) / (2 - max - min);
+						}
+					}
+					return std::move(result);
+				}
+
+				template <class T>
+				HSL<T> toHSL(const RGBA<T> & color)
+				{
+					return toHSL<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HSL<T> toHSL(const BGR<T> & color)
+				{
+					return toHSL<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HSL<T> toHSL(const BGRA<T> & color)
+				{
+					return toHSL<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HSL<T> toHSL(const CMYK<T> & color)
+				{
+					return toHSL<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HSL<T> toHSL(const std::string & color)
+				{
+					return toHSL<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				RGB<T> toRGB(const HSL<T> & color)
+				{
+					RGB<T> result;
+					
+					hue = hue / 60;
+					auto t1 = 0, t2 = 0;
+					if (light <= 0.5) {
+						t2 = color.light * (color.saturation + 1);
+					}
+					else {
+						t2 = color.light + color.saturation - (color.light * color.saturation);
+					}
+					t1 = color.light * 2 - t2;
+
+					auto hueToRGB = [](const auto t1, const auto t2, const auto hue) -> auto {
+						if (hue < 0) {
+							hue += 6;
+						}
+						else if (hue >= 6) {
+							hue -= 6;
+						}
+
+						if (hue < 1) {
+							return (t2 - t1) * hue + t1;
+						}
+						else if (hue < 3) {
+							return t2;
+						}
+						else if (hue < 4) {
+							return (t2 - t1) * (4 - hue) + t1;
+						}
+						else {
+							return t1;
+						}
+					};
+
+					result.r = hueToRgb(t1, t2, hue + 2) * std::numeric_limits<T>::max();
+					result.g = hueToRgb(t1, t2, hue) * std::numeric_limits<T>::max();
+					result.b = hueToRgb(t1, t2, hue - 2) * std::numeric_limits<T>::max();
+					return std::move(result);
+				}
+
+				template <class T>
+				RGBA<T> toRGBA(const HSL<T> & color)
+				{
+					return toRGBA<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				BGR<T> toBGR(const HSL<T> & color)
+				{
+					return toBGR<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				BGRA<T> toBGRA(const HSL<T> & color)
+				{
+					return toBGRA<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				CMYK<T> toCMYK(const HSL<T> & color)
+				{
+					return toCMYK<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				std::string toHex(const HSL<T> & color)
+				{
+					return toHex<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				std::istream operator>>(std::istream & stream, HWB<T> & color)
+				{
+					stream >> color.hue >> color.white >> color.black;
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const HWB<T> & color)
+				{
+					stream << color.hue << color.white << color.black;
+					retur stream;
+				}
+
+				template <class T>
+				HWB<T> toHWB(const RGB<T> & color)
+				{
+					HWB<T> result;
+					auto rgb = RGB<T>{ r / std::numeric_limits<T>::max(), g / std::numeric_limits<T>::max(), b / std::numeric_limits<T>::max() };
+
+					auto max = std::max(rgb.r, rgb.g, rgb.b);
+					auto min = std::min(rgb.r, rgb.g, rgb.b);
+					auto chroma = max - min;
+
+					if (rgb.r == max) {
+						result.hue = (((rgb.g - rgb.b) / chroma) % 6) * 360;
+					}
+					else if (rgb.g == max) {
+						result.hue = ((((rgb.b - rgb.r) / chroma) + 2) % 6) * 360;
+					}
+					else {
+						result.hue = ((((rgb.r - rgb.g) / chroma) + 4) % 6) * 360;
+					}
+					result.white = min;
+					result.black = 1 - max;
+					return std::move(result);
+				}
+
+				template <class T>
+				HWB<T> toHWB(const RGBA<T> & color)
+				{
+					return toHWB<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HWB<T> toHWB(const BGR<T> & color)
+				{
+					return toHWB<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HWB<T> toHWB(const BGRA<T> & color)
+				{
+					return toHWB<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HWB<T> toHWB(const CMYK<T> & color)
+				{
+					return toHWB<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HWB<T> toHWB(const std::string & color)
+				{
+					return toHWB<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HWB<T> toHWB(const HSL<T> & color)
+				{
+					return toHWB<T>(toRGB<T>(color));
+				}
+
+
+				template <class T>
+				RGB<T> toRGB(const HWB<T> & color)
+				{
+					auto result = toRGB(HSL<T>{ color.hue, T(1), T(0.5f) });
+					result.r /= std::numeric_limits::max();
+					result.g /= std::numeric_limits::max();
+					result.b /= std::numeric_limits::max();
+					auto total = color.white + color.black;
+					auto white = 0.0f, black = 0.0f;
+					if (tot > 1) {
+						white = white / total;
+						black = black / total;
+					}
+					result.r = (result.r * (1 - white - black) + white) * std::numeric_limits::max();
+					result.g = (result.g * (1 - white - black) + white) * std::numeric_limits::max();
+					result.b = (result.b * (1 - white - black) + white) * std::numeric_limits::max();
+					
+					return std::move(result);
+				}
+
+				template <class T>
+				RGBA<T> toRGBA(const HWB<T> & color)
+				{
+					return toRGBA<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				BGR<T> toBGR(const HWB<T> & color)
+				{
+					return toBGR<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				BGRA<T> toBGRA(const HWB<T> & color)
+				{
+					return toBGRA<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				CMYK<T> toCMYK(const HWB<T> & color)
+				{
+					return toCMYK<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				std::string toHex(const HWB<T> & color)
+				{
+					return toHex<T>(toRGB<T>(color));
+				}
+
+				template <class T>
+				HSL<T> toHSL(const HWB<T> & color)
+				{
+					return toHSL<T>(toRGB<T>(color));
+				}
+
+
+				template <class T>
+				std::istream operator>>(std::istream & stream, NCol<T> & color)
+				{
+					stream >> color.ncol >> color.whiteness >> color.blackness;
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const NCol<T> & color)
+				{
+					stream << color.ncol << color.whiteness << color.blackness;
+					return stream;
+				}
+
+				template <class T>
+				NCol<T> toNCol(const RGB<T> & color)
+				{
+					return toNCol<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				NCol<T> toNCol(const RGBA<T> & color)
+				{
+					return toNCol<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				NCol<T> toNCol(const BGR<T> & color)
+				{
+					return toNCol<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				NCol<T> toNCol(const BGRA<T> & color)
+				{
+					return toNCol<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				NCol<T> toNCol(const CMYK<T> & color)
+				{
+					return toNCol<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				NCol<T> toNCol(const std::string & color)
+				{
+					return toNCol<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				NCol<T> toNCol(const HSL<T> & color)
+				{
+					return toNCol<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				NCol<T> toNCol(const HWB<T> & color)
+				{
+					auto hueToNCol = [](const auto hue) -> std::string {
+						while (hue >= 360) {
+							hue %= 360;
+						}
+						if (hue < 60) {
+							return "R" + std::to_string(hue / 0.6);
+						}
+						else if (hue < 120) {
+							return "Y" + std::to_string((hue - 60) / 0.6);
+						}
+						else if (hue < 180) {
+							return "G" + std::to_string((hue - 120) / 0.6); }
+						else if (hue < 240) { 
+							return "C" + std::to_string((hue - 180) / 0.6); }
+						else if (hue < 300) { 
+							return "B" + std::to_string((hue - 240) / 0.6); }
+						else if (hue < 360) { 
+							return "M" + std::to_string((hue - 300) / 0.6); }
+					};
+
+					NCol<T> result;
+					result.ncol = hueToNCol(color.hue);
+					result.whiteness = color.white;
+					result.blackness = color.black;
+					return std::move(result);
+				}
+
+				template <class T>
+				RGB<T> toRGB(const NCol<T> & color)
+				{
+					return toRGB<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				RGBA<T> toRGBA(const NCol<T> & color)
+				{
+					return toRGBA<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				BGR<T> toBGR(const NCol<T> & color)
+				{
+					return toBGR<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				BGRA<T> toBGRA(const NCol<T> & color)
+				{
+					return toBGRA<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				CMYK<T> toCMYK(const NCol<T> & color)
+				{
+					return toCMYK<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				std::string toHex(const NCol<T> & color)
+				{
+					return toHex<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				HSL<T> toHSL(const NCol<T> & color)
+				{
+					return toHSL<T>(toHWB<T>(color));
+				}
+
+				template <class T>
+				HWB<T> toHWB(const NCol<T> & color)
+				{
+					auto ncolToHue = [](const std::string & ncol) -> auto {
+						auto cat = ncol[0];
+						auto value = std::stoi(ncol.substr(1));
+
+						if (cat == 'R') {
+							return value * 0.6;
+						}
+						else if (cat == 'Y') {
+							return (value * 0.6) + 60;
+						}
+						else if (cat == 'G') {
+							return (value * 0.6) + 120;
+						}
+						else if (cat == 'C') {
+							return (value * 0.6) + 180;
+						}
+						else if (cat == 'B') {
+							return (value * 0.6) + 240;
+						}
+						else if (cat == 'M') {
+							return (value * 0.6) + 300;
+						}
+					};
+
+					HWB<T> result;
+					result.hue = ncolToHue(color.ncol);
+					result.white = color.whiteness;
+					result.black = color.blackness;
+				}
+
+				template <class T>
+				std::istream operator>>(std::istream & stream, NCola<T> & color)
+				{
+					stream >> color.ncol >> color.whiteness >> color.blackness >> color.opacity;
+					return stream;
+				}
+
+				template <class T>
+				std::ostream operator<<(std::istream & stream, const NCola<T> & color)
+				{
+					stream << color.ncol << color.whiteness << color.blackness << color.opacity;
+					return stream;
+				}
+
+				template <class T>
+				NCola<T> toNCola(const RGB<T> & color)
+				{
+					return toNCola<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				NCola<T> toNCola(const RGBA<T> & color)
+				{
+					auto result = toNCol<T>(color);
+					return { result.hue, result.whiteness, result.blackness, color.a };
+				}
+
+				template <class T>
+				NCola<T> toNCola(const BGR<T> & color)
+				{
+					return toNCola<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				NCola<T> toNCola(const BGRA<T> & color)
+				{
+					auto result = toNCol<T>(color);
+					return { result.hue, result.whiteness, result.blackness, color.a };
+				}
+
+				template <class T>
+				NCola<T> toNCola(const CMYK<T> & color)
+				{
+					return toNCola<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				NCola<T> toNCola(const std::string & color)
+				{
+					return toNCola<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				NCola<T> toNCola(const HSL<T> & color)
+				{
+					return toNCola<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				NCola<T> toNCola(const HWB<T> & color)
+				{
+					return toNCola<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				NCola<T> toNCola(const NCol<T> & color)
+				{
+					return { color.ncol, color.whiteness, color.blackness, std::numeric_limits<T>::max() };
+				}
+
+				template <class T>
+				RGB<T> toRGB(const NCola<T> & color)
+				{
+					return toRGB<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				RGBA<T> toRGBA(const NCola<T> & color)
+				{
+					auto result = toRGBA<T>(toNCol<T>(color));
+					result.a = color.opacity;
+					return std::move(result);
+				}
+
+				template <class T>
+				BGR<T> toBGR(const NCola<T> & color)
+				{
+					return toRGB<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				BGRA<T> toBGRA(const NCola<T> & color)
+				{
+					auto result = toBGRA<T>(toNCol<T>(color));
+					result.a = color.opacity;
+					return std::move(result);
+				}
+
+				template <class T>
+				CMYK<T> toCMYK(const NCola<T> & color)
+				{
+					return toCMYK<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				std::string toHex(const NCola<T> & color)
+				{
+					return toHex<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				HSL<T>toHSL(const NCola<T> & color)
+				{
+					return toHSL<T>(toNCol<T>(color));
+				}
+
+				template <class T>
+				HWB<T> toHWB(const NCola<T> & color)
+				{
+					return toHWB(toNCol<T>(color));
+				}
+
+				template <class T>
+				NCol<T> toNCol(const NCola<T> & color)
+				{
+					return { color.ncol, color.whiteness, color.blackness };
 				}
 			} // namespace bitmap
 		} // namespace formats
