@@ -41,9 +41,10 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "graphic/model/movable.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/matrix4u.hpp"
+#include "graphic/config.hpp"
+#include "graphic/model.hpp"
+#include "utility/mathematics.hpp"
+#include "graphic/scene/projection.hpp"
 
 namespace ece
 {
@@ -51,15 +52,11 @@ namespace ece
 	{
 		namespace scene
 		{
-			using model::Movable;
-			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::FloatMatrix4u;
-
 			/**
 			 * @class Camera
 			 * @brief
 			 */
-			class Camera
+			class ECE_GRAPHIC_API Camera
 			{
 			public:
 				/**
@@ -159,13 +156,21 @@ namespace ece
 				inline void moveIn(const FloatVector3u & direction);
 
 				/**
-				 * @fn FloatMatrix4u getCamera() const
+				 * @fn FloatMatrix4u getView() const
 				 * @return The view matrix.
 				 * @brief Get the view matrix according to the camera.
 				 * @throw
 				 */
-				inline FloatMatrix4u getCamera() const;
+				inline auto getView() const -> FloatMatrix4u;
 
+                /**
+                 * @fn const FloatMatrix4u & getProjection() const
+                 * @return The projection matrix.
+                 * @brief Get the projection matrix.
+                 * @throw
+                 */
+                inline auto getProjection() const -> const Projection &;
+                inline auto getProjection() -> Projection &;
 			private:
 				/**
 				 * @fn void updatePosition(const FloatVector3u & position, const FloatVector3u & target)
@@ -193,6 +198,12 @@ namespace ece
 				 * @brief The vector that defines the up axis.
 				 */
 				FloatVector3u _upAxis;
+
+                /**
+                 * @property _projection
+                 * @brief The projection of the scene in a 2D plane by the camera.
+                 */
+                Projection _projection;
 			};
 		} // namespace scene
 	} // namespace graphic

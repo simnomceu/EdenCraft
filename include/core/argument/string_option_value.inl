@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace argument
 		{
-			inline bool StringOptionValue::isValid(const std::string & /*value*/) { return true; }
+			inline auto StringOptionValue::isValid([[maybe_unused]] const std::string & value) -> bool { return true; }
 		} // namespace argument
 	} // namespace core
 } // namespace ce

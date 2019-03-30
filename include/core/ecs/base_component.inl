@@ -42,13 +42,23 @@ namespace ece
 	{
 		namespace ecs
 		{
-			inline BaseComponent::BaseComponent(const ComponentID /*id*/) {}
+			template <class T, typename enabled>
+			inline bool BaseComponent::is() const
+			{
+				return (dynamic_cast<const T *>(this) != nullptr);
+			}
 
-			inline BaseComponent::~BaseComponent() {}
+			template <class T, typename enabled>
+			inline T & BaseComponent::to()
+			{
+				return dynamic_cast<T &>(*this);
+			}
 
-			inline BaseComponent::ComponentID BaseComponent::getID() const { return this->_id; }
-
-			inline unsigned int BaseComponent::getOwner() const { return this->_owner; }
+			template <class T, typename enabled>
+			inline const T & BaseComponent::to() const
+			{
+				return dynamic_cast<const T &>(*this);
+			}
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

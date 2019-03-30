@@ -44,9 +44,13 @@ namespace ece
         {
         	inline UpdatePerSecond::UpdatePerSecond(const int UPS) : _chrono(), _rate((UPS == 0) ? 0.0f : 1000.0f / UPS), _nbFrames(0), _average(0.0) { this->_chrono.start(); }
 
-        	inline int UpdatePerSecond::getLimit() const noexcept { return static_cast<int>(this->_rate * 1000); }
+        	inline auto UpdatePerSecond::getLimit() const noexcept { return static_cast<int>(this->_rate * 1000); }
 
-        	inline double UpdatePerSecond::getUPS() const noexcept { return 1000.0 / this->_average; }
+        	inline auto UpdatePerSecond::getUPS() const noexcept { return 1000.0 / this->_average; }
+
+			inline auto UpdatePerSecond::getAverage() const noexcept { return this->_average; }
+
+			inline auto UpdatePerSecond::getNumberOfFrames() const noexcept { return this->_nbFrames; }
         } // namespace time
     } // namespace utility
 } // namespace ece

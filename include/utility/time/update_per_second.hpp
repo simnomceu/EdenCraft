@@ -39,6 +39,7 @@
 #ifndef UPDATE_PER_SECOND_HPP
 #define UPDATE_PER_SECOND_HPP
 
+#include "utility/config.hpp"
 #include "utility/time/chrono.hpp"
 
 namespace ece
@@ -51,9 +52,11 @@ namespace ece
         	 * @class UpdatePerSecond
         	 * @brief UPS counter.
         	 */
-        	class UpdatePerSecond
+        	class ECE_UTILITY_API UpdatePerSecond
         	{
         	public:
+                using counter_type = long int;
+
         		UpdatePerSecond() = delete;
 
         		/**
@@ -111,7 +114,7 @@ namespace ece
         		 * @brief Indicates if the counter has reached the limit or not.
         		 * @throw
         		 */
-        		bool isReadyToUpdate();
+        		auto isReadyToUpdate() -> bool;
 
         		/**
         		 * @fn int getLimit() const noexcept
@@ -119,7 +122,7 @@ namespace ece
         		 * @brief Get the current limit set.
         		 * @throw noexcept.
         		 */
-        		inline int getLimit() const noexcept;
+        		inline auto getLimit() const noexcept;
 
         		/**
         		 * @fn double getUPS() const noexcept
@@ -127,7 +130,7 @@ namespace ece
         		 * @brief Get the current UPS.
         		 * @throw noexcept.
         		 */
-        		inline double getUPS() const noexcept;
+        		inline auto getUPS() const noexcept;
 
         		/**
         		 * @fn void setUPS(const int limit)
@@ -136,6 +139,10 @@ namespace ece
         		 * @throw
         		 */
         		void setUPS(const int limit);
+
+				inline auto getAverage() const noexcept;
+
+				inline auto getNumberOfFrames() const noexcept;
 
         	private:
         		/**
@@ -154,7 +161,7 @@ namespace ece
         		 * @property _nbFrames
         		 * @brief The number of frames since the counter started.
         		 */
-        		long int _nbFrames;
+        		counter_type _nbFrames;
 
         		/**
         		 * @property _average

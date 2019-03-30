@@ -35,11 +35,10 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/x11/xcb_impl.hpp"
 
-#include "utility/log/service_logger.hpp"
-
-#include <stdexcept>
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -47,18 +46,16 @@ namespace ece
 	{
 		namespace x11
 		{
-			using utility::log::ServiceLoggerLocator;
-
 			XCBImpl::XCBImpl() noexcept: _windowId(0), _connection(nullptr)
 			{
 			}
 
-			Window XCBImpl::getWindowHandle() const
+			auto XCBImpl::getWindowHandle() const -> ::Window
 			{
 				return 0;
 			}
 
-			Display * XCBImpl::getDevice() const
+			auto XCBImpl::getDevice() const -> Display *
 			{
 				return nullptr;
 			}
@@ -66,7 +63,7 @@ namespace ece
 			void XCBImpl::createWindow()
 			{
 				if (!this->_connection) {
-					int nbScreens = 0;
+					auto nbScreens = 0;
 					this->_connection = xcb_connect(nullptr, &nbScreens);
 					if (!this->_connection) {
 						throw std::runtime_error("No X server available for XCB implementation.");
@@ -95,7 +92,7 @@ namespace ece
 				this->_connection = nullptr;
 			}
 
-			bool XCBImpl::isWindowCreated() const
+			auto XCBImpl::isWindowCreated() const -> bool
 			{
 				return this->_windowId != 0;
 			}
@@ -106,42 +103,50 @@ namespace ece
 				xcb_flush(this->_connection);
 			}
 
-			std::string XCBImpl::getTitle() const
+			auto XCBImpl::getTitle() const -> std::string
 			{
 				auto cookie = xcb_get_property(this->_connection, 0, this->_windowId, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 0);
 				auto reply = xcb_get_property_reply(this->_connection, cookie, nullptr);
-				char * title = static_cast<char *>(xcb_get_property_value(reply));
-				return std::string(title);
+				auto title = static_cast<char *>(xcb_get_property_value(reply));
+				return { title };
 			}
 
 			void XCBImpl::setPosition(const IntVector2u & position)
 			{
-				const uint32_t pos[] = { static_cast<uint32_t>(position[0]), static_cast<uint32_t>(position[1]) };
-				xcb_configure_window(this->_connection, this->_windowId, XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y, pos);
+				const auto pos = std::array<uint32_t, 2>{ static_cast<uint32_t>(position[0]), static_cast<uint32_t>(position[1]) };
+				xcb_configure_window(this->_connection, this->_windowId, XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y, pos.data());
 				xcb_flush(this->_connection);
 			}
 
-			IntVector2u XCBImpl::getPosition() const
+			auto XCBImpl::getPosition() const -> IntVector2u
 			{
 				auto cookie = xcb_get_geometry(this->_connection, this->_windowId);
 				auto pos = xcb_get_geometry_reply(this->_connection, cookie, nullptr);
 
-				return IntVector2u{ pos->x, pos->y };
+				return { pos->x, pos->y };
+			}
+
+			auto XCBImpl::getSize() const -> IntVector2u
+			{
+				auto cookie = xcb_get_geometry(this->_connection, this->_windowId);
+				auto pos = xcb_get_geometry_reply(this->_connection, cookie, nullptr);
+
+				return { pos->width, pos->height };
 			}
 
 			void XCBImpl::minimize()
 			{
-				ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to minimize the window.");
+				WARNING << "The window implementation does not provide any method to minimize the window." << flush;
 			}
 
 			void XCBImpl::maximize()
 			{
-				ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to maximize the window.");
+				WARNING << "The window implementation does not provide any method to maximize the window." << flush;
 			}
 
-			std::vector<InputEvent> XCBImpl::processEvent(const bool blocking)
+			auto XCBImpl::processEvent(const bool blocking, [[maybe_unused]] const bool keyRepeat) -> std::vector<InputEvent>
 			{
-				xcb_generic_event_t * e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
+				auto e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
 
 				while (e) {
 					if ((e->response_type & ~0x80) == XCB_EXPOSE) {
@@ -154,7 +159,12 @@ namespace ece
 					free(e);
 					e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
 				}
-				return std::vector<InputEvent>();
+				return {};
+			}
+
+			auto XCBImpl::processMessage([[maybe_unused]] const WindowMessage & message, [[maybe_unused]] const bool keyRepeat) -> InputEvent
+			{
+				return {};
 			}
 		} // namespace x11
 	} // namespace window

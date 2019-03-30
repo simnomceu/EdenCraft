@@ -39,7 +39,8 @@
 #ifndef MATRIX3U_HPP
 #define MATRIX3U_HPP
 
-#include "utility/template_expression/matrix.hpp"
+#include "utility/config.hpp"
+#include "utility/template_expression.hpp"
 
 namespace ece
 {
@@ -65,8 +66,6 @@ namespace ece
         		inline Matrix<double, 3, 3> operator()(const Matrix<T, 3, 3> & matrix, bool & invertible) const;
         	};
         }
-
-        using namespace template_expression;
 
         namespace mathematics
         {

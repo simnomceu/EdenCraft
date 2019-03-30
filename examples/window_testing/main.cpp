@@ -37,8 +37,8 @@
 
 */
 
-#include "core/application/application.hpp"
-#include "window/common/window.hpp"
+#include "core/application.hpp"
+#include "window/common.hpp"
 
 #include <iostream>
 

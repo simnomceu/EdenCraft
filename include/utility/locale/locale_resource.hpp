@@ -39,8 +39,8 @@
 #ifndef LOCALE_RESOURCE_HPP
 #define LOCALE_RESOURCE_HPP
 
-#include <map>
-#include <string>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -54,7 +54,7 @@ namespace ece
         	 * @brief Expose the container as an access map.
         	 * @remark Check if the map could be replaced by an unordered_map.
         	 */
-        	class LocaleResource: protected std::map<std::string, std::string>
+        	class ECE_UTILITY_API LocaleResource: protected std::map<std::string, std::string>
         	{
         	public:
         		/**

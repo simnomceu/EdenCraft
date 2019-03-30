@@ -58,9 +58,9 @@ namespace ece
 				 * @property _impl
 				 * @brief Xlib implementation of the event.
 				 */
-				XEvent _impl;
+				XEvent impl;
 
-				inline WindowMessage(const XEvent & impl) : _impl(impl) {}
+				inline WindowMessage(const XEvent & impl) : impl(impl) {}
 			};
 		} // namespace common
 
@@ -130,7 +130,7 @@ namespace ece
 				 * @brief Get the window ID of the internal API.
 				 * @throw
 				 */
-				virtual Window getWindowHandle() const override;
+				virtual auto getWindowHandle() const -> ::Window override;
 
 				/**
 				 * Display * getDevice() const
@@ -138,7 +138,7 @@ namespace ece
 				 * @brief Get the device associated to the window.
 				 * @throw
 				 */
-				virtual Display * getDevice() const override;
+				virtual auto getDevice() const -> Display * override;
 
 				/**
 				 * @fn void createWindow()
@@ -164,7 +164,7 @@ namespace ece
 				 * @throw
 				 * @see bool X11API::isWindowCreated() const
 				 */
-				virtual bool isWindowCreated() const override;
+				virtual auto isWindowCreated() const -> bool override;
 
 				/**
 				 * @fn void setTitle(const std::string & title)
@@ -182,7 +182,7 @@ namespace ece
 				 * @throw
 				 * @see std::string X11API::getTitle() const
 				 */
-				virtual std::string getTitle() const override;
+				virtual auto getTitle() const -> std::string override;
 
 				/**
 				 * @fn void setPosition(const IntVector2u & position)
@@ -201,6 +201,15 @@ namespace ece
 				 * @see IntVector2u X11API::getPosition() const
 				 */
 				virtual IntVector2u getPosition() const override;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 * @see IntVector2u X11API::getSize() const
+				 */
+				virtual IntVector2u getSize() const override;
 
 				/**
 				 * @fn void minimize()
@@ -226,7 +235,7 @@ namespace ece
 				 * @throw
 				 * @see std::vector<InputEvent> X11API::processEvent(const bool blocking)
 				 */
-				virtual std::vector<InputEvent> processEvent(const bool blocking) override;
+				virtual std::vector<InputEvent> processEvent(const bool blocking, const bool keyRepeat) override;
 
 				/**
 				 * @fn void logInfos()
@@ -242,7 +251,7 @@ namespace ece
 				 * @brief Get the next window message available.
 				 * @throw
 				 */
-				WindowMessage getNextMessage();
+				auto getNextMessage() -> WindowMessage;
 
 				/**
 				 * @fn InputEvent processMessage(const WindowMessage & message)
@@ -251,14 +260,14 @@ namespace ece
 				 * @brief Process a window message.
 				 * @throw
 				 */
-				InputEvent processMessage(const WindowMessage & message);
+				auto processMessage(const WindowMessage & message, const bool keyRepeat) -> InputEvent;
 
 			private:
 				/**
 				 * @property _windowId
 				 * @brief The handle of the window.
 				 */
-				Window _windowId;
+				::Window _windowId;
 
 				/**
 				 * @property _connection

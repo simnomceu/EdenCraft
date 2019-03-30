@@ -39,7 +39,8 @@
 #ifndef ENUM_FLAGS_HPP
 #define ENUM_FLAGS_HPP
 
-#include <type_traits>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {

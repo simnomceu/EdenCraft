@@ -39,25 +39,26 @@
 #ifndef INTERPOLATION_HPP
 #define INTERPOLATION_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
     namespace utility
     {
         namespace mathematics
         {
-        	template <class T> class Quaternion;
-
         	/**
         	 * T lerp(const T a, const T b)
         	 * @tparam T Can be compute with any numerical type.
         	 * @param[in] a The beginning of the interpolation.
         	 * @param[in] b The end of the interpolation.
+             * @param[in] percent The percentage of progress between a and b.
         	 * @return The interpolation.
         	 * @brief Linear interpolation between a and b.
         	 * @throw
         	 */
         	template <class T>
-        	T lerp(const T a, const T b);
+			ECE_UTILITY_API auto lerp(const T a, const T b, float percent);
 
         	/**
         	 * Quaternion<T> slerp(const T t, const Quaternion<T> & a, const Quaternion<T> & b)
@@ -70,9 +71,14 @@ namespace ece
         	 * @throw.
         	 */
         	template <class T>
-        	Quaternion<T> slerp(const T t, const Quaternion<T> & a, const Quaternion<T> & b);
+			ECE_UTILITY_API auto slerp(const T a, const T b, float percent);
+
+            template <class T>
+            ECE_UTILITY_API auto nlerp(const T a, const T b, float percent);
         } // namespace mathematics
     } // namespace utility
 } // namespace ece
+
+#include "utility/mathematics/interpolation.inl"
 
 #endif // INTERPOLATION_HPP

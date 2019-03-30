@@ -39,6 +39,7 @@
 #ifndef FRAME_PER_SECOND_HPP
 #define FRAME_PER_SECOND_HPP
 
+#include "utility/config.hpp"
 #include "utility/time/update_per_second.hpp"
 
 namespace ece
@@ -52,7 +53,7 @@ namespace ece
         	 * @extends UpdatePerSecond
         	 * @brief FPS counter.
         	 */
-        	class FramePerSecond : private UpdatePerSecond
+        	class ECE_UTILITY_API FramePerSecond : private UpdatePerSecond
         	{
         	public:
         		/**
@@ -62,12 +63,11 @@ namespace ece
         		 */
         		enum FPSrate : int
         		{
+					FRAME_NO_LIMIT = 0,
         			FRAME_30 = 30,
         			FRAME_60 = 60,
         			FRAME_120 = 120
         		};
-
-        		FramePerSecond() = delete;
 
         		/**
         		 * @fn FramePerSecond(FPSrate rate = FRAME_60)
@@ -124,12 +124,14 @@ namespace ece
         		 * @brief Get the current FPS.
         		 * @throw noexcept
         		 */
-        		inline double getFPS() const noexcept;
+        		inline auto getFPS() const noexcept;
 
         		/**
         		 * @see UpdatePerSecond::isReadyToUpdate
         		 */
         		using UpdatePerSecond::isReadyToUpdate;
+				using UpdatePerSecond::getAverage;
+				using UpdatePerSecond::getNumberOfFrames;
         	};
         } // namespace time
     } // namespace utility

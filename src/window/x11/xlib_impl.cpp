@@ -35,9 +35,12 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/x11/xlib_impl.hpp"
 
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
+
+#include <X11/XKBlib.h>
 
 namespace ece
 {
@@ -45,18 +48,16 @@ namespace ece
 	{
 		namespace x11
 		{
-			using utility::log::ServiceLoggerLocator;
-
 			XlibImpl::XlibImpl() noexcept: _windowId(0), _connection(nullptr), _screen(0)
 			{
 			}
 
-			Window XlibImpl::getWindowHandle() const
+			auto XlibImpl::getWindowHandle() const -> ::Window
 			{
 				return this->_windowId;
 			}
 
-			Display * XlibImpl::getDevice() const
+			auto XlibImpl::getDevice() const -> Display *
 			{
 				return this->_connection;
 			}
@@ -65,13 +66,13 @@ namespace ece
 			{
 				this->_connection = XOpenDisplay(nullptr);
 				if (!this->_connection) {
-					ServiceLoggerLocator::getService().logError("No X server available.");
+					ERROR << "No X server available." << flush;
 				}
 				this->logInfos();
 
 				this->_screen = DefaultScreen(this->_connection);
 
-				XSetWindowAttributes attributes;
+				auto attributes = XSetWindowAttributes{};
 				attributes.colormap = XCreateColormap(this->_connection,
 					RootWindow(this->_connection, this->_screen),
 					DefaultVisual(this->_connection, this->_screen),
@@ -111,7 +112,7 @@ namespace ece
 				this->_connection = nullptr;
 			}
 
-			bool XlibImpl::isWindowCreated() const
+			auto XlibImpl::isWindowCreated() const -> bool
 			{
 				return this->_windowId != 0;
 			}
@@ -121,11 +122,11 @@ namespace ece
 				XStoreName(this->_connection, this->_windowId, title.data());
 			}
 
-			std::string XlibImpl::getTitle() const
+			auto XlibImpl::getTitle() const -> std::string
 			{
 				char * name;
 				XFetchName(this->_connection, this->_windowId, &name);
-				return std::string(name);
+				return { name };
 			}
 
 			void XlibImpl::setPosition(const IntVector2u & position)
@@ -133,23 +134,43 @@ namespace ece
 				XMoveWindow(this->_connection, this->_windowId, position[0], position[1]);
 			}
 
-			IntVector2u XlibImpl::getPosition() const
+			auto XlibImpl::getPosition() const -> IntVector2u
 			{
-				IntVector2u result;
-				Window dummy;
-				XTranslateCoordinates(this->_connection, XRootWindow(this->_connection, 0), this->_windowId, 0, 0, &result[0], &result[1], &dummy);
+				auto x = 0;
+				auto y = 0;
+				auto w = static_cast<unsigned int>(0);
+				auto h = static_cast<unsigned int>(0);
+				auto border = static_cast<unsigned int>(0);
+				auto depth = static_cast<unsigned int>(0);
+				auto dummy = ::Window{};
+				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
+		//        XTranslateCoordinates(this->_connection, XRootWindow(this->_connection, 0), this->_windowId, 0, 0, &result[0], &result[1], &dummy);
 
-				return result;
+				return { x, y };
+			}
+
+			auto XlibImpl::getSize() const -> IntVector2u
+			{
+				auto x = 0;
+				auto y = 0;
+				auto w = static_cast<unsigned int>(0);
+				auto h = static_cast<unsigned int>(0);
+				auto border = static_cast<unsigned int>(0);
+				auto depth = static_cast<unsigned int>(0);
+				auto dummy = ::Window{};
+				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
+
+				return { static_cast<int>(w), static_cast<int>(h) };
 			}
 
 			void XlibImpl::minimize()
 			{
-				ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to minimize the window.");
+				WARNING << "The window implementation does not provide any method to minimize the window." << flush;
 			}
 
 			void XlibImpl::maximize()
 			{
-				XEvent event;
+				auto event = XEvent{};
 				event.type = ClientMessage;
 				event.xclient.window = this->_windowId;
 				event.xclient.format = 32;
@@ -163,21 +184,21 @@ namespace ece
 				XSendEvent(this->_connection, XRootWindow(this->_connection, 0), false, SubstructureNotifyMask | SubstructureRedirectMask, &event);
 			}
 
-			std::vector<InputEvent> XlibImpl::processEvent(const bool blocking)
+			auto XlibImpl::processEvent(const bool blocking, const bool keyRepeat) -> std::vector<InputEvent>
 			{
-				std::vector<InputEvent> events;
+				auto events = std::vector<InputEvent>{};
 				XMapWindow(this->_connection, this->_windowId);
 				if (blocking) {
 					while (XPending(this->_connection)) { //while (XPending(this->_connection)) <= blocking || XEventsQueued() <= non blocking
 						auto message = this->getNextMessage();
-						events.push_back(std::move(this->processMessage(message)));
+						events.push_back(std::move(this->processMessage(message, keyRepeat)));
 					}
 				}
 				else {
-					int n = XEventsQueued(this->_connection, QueuedAlready);
-					for (int i = 0; i < n; ++i) {
+					auto n = XEventsQueued(this->_connection, QueuedAlready);
+					for (auto i = 0; i < n; ++i) {
 						auto message = this->getNextMessage();
-						events.push_back(std::move(this->processMessage(message)));
+						events.push_back(std::move(this->processMessage(message, keyRepeat)));
 					}
 				}
 				XFlush(this->_connection);
@@ -186,17 +207,17 @@ namespace ece
 
 			void XlibImpl::logInfos()
 			{
-				std::string owner(XServerVendor(this->_connection));
+				auto owner = std::string(XServerVendor(this->_connection));
 				auto version = std::to_string(XVendorRelease(this->_connection));
-				ServiceLoggerLocator::getService().logInfo("Xserver from: " + owner + " - version " + version + ".");
+				INFO << "Xserver from: " << owner << " - version " << version << "." << flush;
 				auto major = std::to_string(XProtocolVersion(this->_connection));
 				auto minor = std::to_string(XProtocolRevision(this->_connection));
-				ServiceLoggerLocator::getService().logInfo("Protocol X version " + major + "." + minor + " used.");
+				INFO << "Protocol X version " << major << "." << minor << " used." << flush;
 			}
 
-			WindowMessage XlibImpl::getNextMessage()
+			auto XlibImpl::getNextMessage() -> WindowMessage
 			{
-				XEvent e;
+				auto e = XEvent{};
 				//        XPeekEvent(this->_connection, &e);
 				//        if(e.xany.window == this->_windowId) {
 				XNextEvent(this->_connection, &e);
@@ -205,15 +226,27 @@ namespace ece
 				//        return std::move(WindowMessage{XEvent()});
 			}
 
-			InputEvent XlibImpl::processMessage(const WindowMessage & message)
+			auto XlibImpl::processMessage(const WindowMessage & message, const bool keyRepeat) -> InputEvent
 			{
-				InputEvent newEvent;
-				if (message._impl.xany.window == this->_windowId) {
-					switch (message._impl.type) {
+				auto newEvent = InputEvent{};
+				if (message.impl.xany.window == this->_windowId) {
+					switch (message.impl.type) {
 					case KeyPress: {
+						auto keySym = XkbKeycodeToKeysym(this->_connection, message.impl.xkey.keycode, 0, message.impl.xkey.state & ShiftMask ? 1 : 0);
+						auto keyCode = Keyboard::getKey(keySym);
+						if (keyRepeat || (!keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
+							newEvent.type = InputEvent::Type::KEY_PRESSED;
+							newEvent.key = keyCode;
+							Keyboard::pressKey(keyCode, true);
+						}
 						break;
 					}
 					case KeyRelease: {
+						auto keySym = XkbKeycodeToKeysym(this->_connection, message.impl.xkey.keycode, 0, message.impl.xkey.state & ShiftMask ? 1 : 0);
+						auto keyCode = Keyboard::getKey(keySym);
+						newEvent.type = InputEvent::Type::KEY_RELEASED;
+						newEvent.key = keyCode;
+						Keyboard::pressKey(keyCode, false);
 						break;
 					}
 					case ButtonPress: {
@@ -223,10 +256,12 @@ namespace ece
 						break;
 					}
 					case MotionNotify: {
-						newEvent._type = InputEvent::Type::ECE_MOUSE_MOVED;
-						newEvent._mousePosition[0] = message._impl.xmotion.x;
-						newEvent._mousePosition[1] = message._impl.xmotion.y;
-						Mouse::setPosition(this->getPosition() + newEvent._mousePosition);
+						if (0 != message.impl.xmotion.x || 0 != message.impl.xmotion.y) {
+							newEvent.type = InputEvent::Type::MOUSE_MOVED;
+							newEvent.mousePosition[0] = message.impl.xmotion.x;
+							newEvent.mousePosition[1] = message.impl.xmotion.y;
+							Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
+						}
 						break;
 					}
 					case EnterNotify: {
@@ -260,9 +295,11 @@ namespace ece
 						break;
 					}
 					case DestroyNotify: {
+//						std::cout << std::endl << std::endl << ">>>>>>>>>>>>>>>>>>>>>>>>>>> DESTROY <<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl;
 						break;
 					}
 					case UnmapNotify: {
+//						std::cout << std::endl << std::endl << ">>>>>>>>>>>>>>>>>>>>>>>>>>> UNMAP <<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl;
 						break;
 					}
 					case MapNotify: {

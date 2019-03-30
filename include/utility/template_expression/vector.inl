@@ -36,10 +36,6 @@
 
 */
 
-#include <type_traits>
-#include <algorithm>
-#include <numeric>
-
 #include "utility/template_expression/filter.hpp"
 
 namespace ece
@@ -79,6 +75,12 @@ namespace ece
         		}
         		return *this;
         	}
+
+			template <typename E, unsigned int Size, typename enabled>
+			inline std::array<E, Size> & Vector<E, Size, enabled>::data() noexcept { return this->_elements; }
+
+			template <typename E, unsigned int Size, typename enabled>
+			inline const std::array<E, Size> & Vector<E, Size, enabled>::data() const noexcept { return this->_elements; }
 
         	template <typename E, unsigned int Size, typename enabled>
         	inline E Vector<E, Size, enabled>::operator[](const unsigned int index) const { return this->_elements[index]; }
@@ -164,7 +166,7 @@ namespace ece
         	inline auto Vector<E, Size, enabled>::distanceFrom(const E2 & rhs) const { return ((*this) - rhs).magnitude(); }
 
         	template <typename E, unsigned int Size, typename enabled>
-        	LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>> Vector<E, Size, enabled>::normalize() const { return LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>>(*this, this->magnitude()); }
+			Vector<E, Size, enabled> Vector<E, Size, enabled>::normalize() const { return (*this) / Vector<E, Size, enabled>(this->magnitude()); }
 
         	template <typename E, unsigned int Size, typename enabled>
         	template <class E2, typename enabledBis>

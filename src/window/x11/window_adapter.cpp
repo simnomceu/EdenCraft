@@ -35,13 +35,12 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/window_adapter.hpp"
 #include "window/x11/data_window_adapter.hpp"
 #include "window/x11/xcb_impl.hpp"
 #include "window/x11/xlib_impl.hpp"
-#include "utility/log/service_logger.hpp"
-
-#include <iostream>
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -49,8 +48,6 @@ namespace ece
 	{
 		namespace common
 		{
-			using utility::log::ServiceLoggerLocator;
-			using utility::pattern::makePimpl;
 			using x11::XCBImpl;
 			using x11::XlibImpl;
 
@@ -59,60 +56,67 @@ namespace ece
 			void WindowAdapter::createWindow()
 			{
 				try {
-					this->_data->_api->createWindow();
+					this->_data->api->createWindow();
 				}
 				catch (std::runtime_error & e) {
-					ServiceLoggerLocator::getService().logInfo(std::string(e.what()) + " Xlib client will be used instead.");
+					INFO << e.what() << " Xlib client will be used instead." << flush;
 					this->_data = makePimpl<DataWindowAdapter>(std::make_shared<XlibImpl>());
-					this->_data->_api->createWindow();
+					this->_data->api->createWindow();
 				}
 			}
 
 			void WindowAdapter::deleteWindow()
 			{
-				this->_data->_api->deleteWindow();
+				this->_data->api->deleteWindow();
 			}
 
-			bool WindowAdapter::isWindowCreated() const
+			auto WindowAdapter::isWindowCreated() const -> bool
 			{
-				return this->_data->_api->isWindowCreated();
+				return this->_data->api->isWindowCreated();
 			}
 
 			void WindowAdapter::setTitle(const std::string & title)
 			{
-				this->_data->_api->setTitle(title);
+				this->_data->api->setTitle(title);
 			}
 
-			std::string WindowAdapter::getTitle() const
+			auto WindowAdapter::getTitle() const -> std::string
 			{
-				return this->_data->_api->getTitle();
+				return this->_data->api->getTitle();
 			}
 
 			void WindowAdapter::setPosition(const IntVector2u & position)
 			{
-				this->_data->_api->setPosition(position);
+				this->_data->api->setPosition(position);
 			}
 
-			IntVector2u WindowAdapter::getPosition() const
+			auto WindowAdapter::getSize() const -> IntVector2u
 			{
-				return this->_data->_api->getPosition();
+				return this->_data->api->getSize();
+			}
+
+			auto WindowAdapter::getPosition() const -> IntVector2u
+			{
+				return this->_data->api->getPosition();
 			}
 
 			void WindowAdapter::minimize()
 			{
-				this->_data->_api->minimize();
+				this->_data->api->minimize();
 			}
 
 			void WindowAdapter::maximize()
 			{
-				this->_data->_api->maximize();
+				this->_data->api->maximize();
 			}
 
 			void WindowAdapter::processEvent(const bool blocking)
 			{
-				auto events = std::move(this->_data->_api->processEvent(blocking));
+				auto events = std::move(this->_data->api->processEvent(blocking, this->_keyRepeat));
 				for (auto event : events) {
-					this->pushEvent(std::move(event));
+					if (event.type != InputEvent::Type::NONE) {
+						this->pushEvent(std::move(event));
+					}
 				}
 			}
 		} // namespace common

@@ -39,8 +39,8 @@
 #ifndef STRING_OPTION_VALUE_HPP
 #define STRING_OPTION_VALUE_HPP
 
-#include <string>
-
+#include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option_value.hpp"
 
 namespace ece
@@ -54,7 +54,7 @@ namespace ece
 			 * @extends OptionValue
 			 * @brief An option as a string argument.
 			 */
-			class StringOptionValue : public OptionValue
+			class ECE_CORE_API StringOptionValue : public OptionValue
 			{
 			public:
 				/**
@@ -114,7 +114,7 @@ namespace ece
 				 * @throw noexcept
 				 * @see bool OptionValue::isValid(const std::string & value)
 				 */
-				inline virtual bool isValid(const std::string & value) override;
+				inline virtual auto isValid(const std::string & value) -> bool override;
 			};
 		} // namespace argument
 	} // namespace core

@@ -39,7 +39,8 @@
 #ifndef MATRIX4U_HPP
 #define MATRIX4U_HPP
 
-#include "utility/template_expression/matrix.hpp"
+#include "utility/config.hpp"
+#include "utility/template_expression.hpp"
 
 namespace ece
 {
@@ -47,26 +48,24 @@ namespace ece
     {
         namespace template_expression
         {
-            	template <class T>
-            	struct Determinant<T, 4>
-            	{
-            		inline double operator()(const Matrix<T, 4, 4> & matrix) const;
-            	};
+            template <class T>
+            struct Determinant<T, 4>
+            {
+            	inline double operator()(const Matrix<T, 4, 4> & matrix) const;
+            };
 
-            	template <class T>
-            	struct Transpose<T, 4>
-            	{
-            		inline Matrix<T, 4, 4> operator()(const Matrix<T, 4, 4> & matrix) const;
-            	};
+            template <class T>
+            struct Transpose<T, 4>
+            {
+            	inline Matrix<T, 4, 4> operator()(const Matrix<T, 4, 4> & matrix) const;
+            };
 
-            	template <class T>
-            	struct Inverse<T, 4>
-            	{
-            		inline Matrix<double, 4, 4> operator()(const Matrix<T, 4, 4> & matrix, bool & invertible) const;
-            	};
+            template <class T>
+            struct Inverse<T, 4>
+            {
+            	inline Matrix<double, 4, 4> operator()(const Matrix<T, 4, 4> & matrix, bool & invertible) const;
+            };
         }
-
-        using namespace template_expression;
 
         namespace mathematics
         {

@@ -1,0 +1,183 @@
+/*
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
+
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+
+
+
+				This file is part of EdenCraft Engine - Renderer module.
+				Copyright(C) 2018 Pierre Casati (@IsilinBN)
+
+				This program is free software : you can redistribute it and/or modify
+				it under the terms of the GNU General Public License as published by
+				the Free Software Foundation, either version 3 of the License, or
+				(at your option) any later version.
+
+				This program is distributed in the hope that it will be useful,
+				but WITHOUT ANY WARRANTY; without even the implied warranty of
+				MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+				GNU General Public License for more details.
+
+				You should have received a copy of the GNU General Public License
+				along with this program.If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+#ifndef UNIFORM_DATA_TYPE_HPP
+#define UNIFORM_DATA_TYPE_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
+#include "renderer/shader/base_uniform.hpp"
+
+namespace ece
+{
+	namespace renderer
+	{
+		namespace opengl
+		{
+			using shader::BaseUniform;
+
+			enum class UniformDataType : unsigned short int
+			{
+				FLOAT = GL_FLOAT,
+				FLOAT_VEC2 = GL_FLOAT_VEC2,
+				FLOAT_VEC3 = GL_FLOAT_VEC3,
+				FLOAT_VEC4 = GL_FLOAT_VEC4,
+				DOUBLE = GL_DOUBLE,
+				DOUBLE_VEC2 = GL_DOUBLE_VEC2,
+				DOUBLE_VEC3 = GL_DOUBLE_VEC3,
+				DOUBLE_VEC4 = GL_DOUBLE_VEC4,
+				INT = GL_INT,
+				INT_VEC2 = GL_INT_VEC2,
+				INT_VEC3 = GL_INT_VEC3,
+				INT_VEC4 = GL_INT_VEC4,
+				UNSIGNED_INT = GL_UNSIGNED_INT,
+				UNSIGNED_INT_VEC2 = GL_UNSIGNED_INT_VEC2,
+				UNSIGNED_INT_VEC3 = GL_UNSIGNED_INT_VEC3,
+				UNSIGNED_INT_VEC4 = GL_UNSIGNED_INT_VEC4,
+				BOOL = GL_BOOL,
+				BOOL_VEC2 = GL_BOOL_VEC2,
+				BOOL_VEC3 = GL_BOOL_VEC3,
+				BOOL_VEC4 = GL_BOOL_VEC4,
+				FLOAT_MAT2 = GL_FLOAT_MAT2,
+				FLOAT_MAT3 = GL_FLOAT_MAT3,
+				FLOAT_MAT4 = GL_FLOAT_MAT4,
+				FLOAT_MAT2x3 = GL_FLOAT_MAT2x3,
+				FLOAT_MAT2x4 = GL_FLOAT_MAT2x4,
+				FLOAT_MAT3x2 = GL_FLOAT_MAT3x2,
+				FLOAT_MAT3x4 = GL_FLOAT_MAT3x4,
+				FLOAT_MAT4x2 = GL_FLOAT_MAT4x2,
+				FLOAT_MAT4x3 = GL_FLOAT_MAT4x3,
+				DOUBLE_MAT2 = GL_DOUBLE_MAT2,
+				DOUBLE_MAT3 = GL_DOUBLE_MAT3,
+				DOUBLE_MAT4 = GL_DOUBLE_MAT4,
+				DOUBLE_MAT2x3 = GL_DOUBLE_MAT2x3,
+				DOUBLE_MAT2x4 = GL_DOUBLE_MAT2x4,
+				DOUBLE_MAT3x2 = GL_DOUBLE_MAT3x2,
+				DOUBLE_MAT3x4 = GL_DOUBLE_MAT3x4,
+				DOUBLE_MAT4x2 = GL_DOUBLE_MAT4x2,
+				DOUBLE_MAT4x3 = GL_DOUBLE_MAT4x3,
+				SAMPLER_1D = GL_SAMPLER_1D,
+				SAMPLER_2D = GL_SAMPLER_2D,
+				SAMPLER_3D = GL_SAMPLER_3D,
+				SAMPLER_CUBE = GL_SAMPLER_CUBE,
+				SAMPLER_1D_SHADOW = GL_SAMPLER_1D_SHADOW,
+				SAMPLER_2D_SHADOW = GL_SAMPLER_2D_SHADOW,
+				SAMPLER_1D_ARRAY = GL_SAMPLER_1D_ARRAY,
+				SAMPLER_2D_ARRAY = GL_SAMPLER_2D_ARRAY,
+				SAMPLER_1D_ARRAY_SHADOW = GL_SAMPLER_1D_ARRAY_SHADOW,
+				SAMPLER_2D_ARRAY_SHADOW = GL_SAMPLER_2D_ARRAY_SHADOW,
+				SAMPLER_2D_MULTISAMPLE = GL_SAMPLER_2D_MULTISAMPLE,
+				SAMPLER_2D_MULTISAMPLE_ARRAY = GL_SAMPLER_2D_MULTISAMPLE_ARRAY,
+				SAMPLER_CUBE_SHADOW = GL_SAMPLER_CUBE_SHADOW,
+				SAMPLER_BUFFER = GL_SAMPLER_BUFFER,
+				SAMPLER_2D_RECT = GL_SAMPLER_2D_RECT,
+				SAMPLER_2D_RECT_SHADOW = GL_SAMPLER_2D_RECT_SHADOW,
+				INT_SAMPLER_1D = GL_INT_SAMPLER_1D,
+				INT_SAMPLER_2D = GL_INT_SAMPLER_2D,
+				INT_SAMPLER_3D = GL_INT_SAMPLER_3D,
+				INT_SAMPLER_CUBE = GL_INT_SAMPLER_CUBE,
+				INT_SAMPLER_1D_ARRAY = GL_INT_SAMPLER_1D_ARRAY,
+				INT_SAMPLER_2D_ARRAY = GL_INT_SAMPLER_2D_ARRAY,
+				INT_SAMPLER_2D_MULTISAMPLE = GL_INT_SAMPLER_2D_MULTISAMPLE,
+				INT_SAMPLER_2D_MULTISAMPLE_ARRAY = GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY,
+				INT_SAMPLER_BUFFER = GL_INT_SAMPLER_BUFFER,
+				INT_SAMPLER_2D_RECT = GL_INT_SAMPLER_2D_RECT,
+				UNSIGNED_INT_SAMPLER_1D = GL_UNSIGNED_INT_SAMPLER_1D,
+				UNSIGNED_INT_SAMPLER_2D = GL_UNSIGNED_INT_SAMPLER_2D,
+				UNSIGNED_INT_SAMPLER_3D = GL_UNSIGNED_INT_SAMPLER_3D,
+				UNSIGNED_INT_SAMPLER_CUBE = GL_UNSIGNED_INT_SAMPLER_CUBE,
+				UNSIGNED_INT_SAMPLER_1D_ARRAY = GL_UNSIGNED_INT_SAMPLER_1D_ARRAY,
+				UNSIGNED_INT_SAMPLER_2D_ARRAY = GL_UNSIGNED_INT_SAMPLER_2D_ARRAY,
+				UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE = GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE,
+				UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY = GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY,
+				UNSIGNED_INT_SAMPLER_BUFFER = GL_UNSIGNED_INT_SAMPLER_BUFFER,
+				UNSIGNED_INT_SAMPLER_2D_RECT = GL_UNSIGNED_INT_SAMPLER_2D_RECT,
+				IMAGE_1D = GL_IMAGE_1D,
+				IMAGE_2D = GL_IMAGE_2D,
+				IMAGE_3D = GL_IMAGE_3D,
+				IMAGE_2D_RECT = GL_IMAGE_2D_RECT,
+				IMAGE_CUBE = GL_IMAGE_CUBE,
+				IMAGE_BUFFER = GL_IMAGE_BUFFER,
+				IMAGE_1D_ARRAY = GL_IMAGE_1D_ARRAY,
+				IMAGE_2D_ARRAY = GL_IMAGE_2D_ARRAY,
+				IMAGE_2D_MULTISAMPLE = GL_IMAGE_2D_MULTISAMPLE,
+				IMAGE_2D_MULTISAMPLE_ARRAY = GL_IMAGE_2D_MULTISAMPLE_ARRAY,
+				INT_IMAGE_1D = GL_INT_IMAGE_1D,
+				INT_IMAGE_2D = GL_INT_IMAGE_2D,
+				INT_IMAGE_3D = GL_INT_IMAGE_3D,
+				INT_IMAGE_2D_RECT = GL_INT_IMAGE_2D_RECT,
+				INT_IMAGE_CUBE = GL_INT_IMAGE_CUBE,
+				INT_IMAGE_BUFFER = GL_INT_IMAGE_BUFFER,
+				INT_IMAGE_1D_ARRAY = GL_INT_IMAGE_1D_ARRAY,
+				INT_IMAGE_2D_ARRAY = GL_INT_IMAGE_2D_ARRAY,
+				INT_IMAGE_2D_MULTISAMPLE = GL_INT_IMAGE_2D_MULTISAMPLE,
+				INT_IMAGE_2D_MULTISAMPLE_ARRAY = GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY,
+				UNSIGNED_INT_IMAGE_1D = GL_UNSIGNED_INT_IMAGE_1D,
+				UNSIGNED_INT_IMAGE_2D = GL_UNSIGNED_INT_IMAGE_2D,
+				UNSIGNED_INT_IMAGE_3D = GL_UNSIGNED_INT_IMAGE_3D,
+				UNSIGNED_INT_IMAGE_2D_RECT = GL_UNSIGNED_INT_IMAGE_2D_RECT,
+				UNSIGNED_INT_IMAGE_CUBE = GL_UNSIGNED_INT_IMAGE_CUBE,
+				UNSIGNED_INT_IMAGE_BUFFER = GL_UNSIGNED_INT_IMAGE_BUFFER,
+				UNSIGNED_INT_IMAGE_1D_ARRAY = GL_UNSIGNED_INT_IMAGE_1D_ARRAY,
+				UNSIGNED_INT_IMAGE_2D_ARRAY = GL_UNSIGNED_INT_IMAGE_2D_ARRAY,
+				UNSIGNED_INT_IMAGE_2D_MULTISAMPLE = GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE,
+				UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY = GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY,
+				UNSIGNED_INT_ATOMIC_COUNTER = GL_UNSIGNED_INT_ATOMIC_COUNTER
+			};
+
+			struct UniformInfo
+			{
+				std::string name;
+				UniformDataType type;
+				std::size_t size;
+			};
+
+			ECE_RENDERER_API UniformDataType getUniformDataType(BaseUniform::DataType type);
+			ECE_RENDERER_API UniformInfo getUniformInfo(BaseUniform::Info type);
+
+			ECE_RENDERER_API BaseUniform::DataType getUniformDataType(UniformDataType type);
+			ECE_RENDERER_API BaseUniform::Info getUniformInfo(UniformInfo type);
+
+			ECE_RENDERER_API std::string to_string(UniformDataType type);
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
+
+#endif // UNIFORM_DATA_TYPE_HPP

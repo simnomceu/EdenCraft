@@ -38,9 +38,10 @@
 #ifndef WINDOW_SETTING_HPP
 #define WINDOW_SETTING_HPP
 
-#include <string>
-
-#include "utility/mathematics/vector2u.hpp"
+#include "window/config.hpp"
+#include "window/pch.hpp"
+#include "utility/mathematics.hpp"
+#include "utility/enumeration.hpp"
 
 namespace ece
 {
@@ -48,13 +49,36 @@ namespace ece
 	{
 		namespace common
 		{
-			using utility::mathematics::IntVector2u;
+			EnumFlagsT(unsigned short int, WindowState)
+			{
+				NO_OPTIONS = 0b0000,
+					VISIBLE = 0b0001,
+					FOCUSED = 0b0010,
+					ICONIFIED = 0b0100,
+					MAXIMIZED = 0b1000
+			};
 
+			EnumFlagsT(unsigned short int, WindowTag)
+			{
+				NO_OPTIONS_BIS = 0b000000,
+					FULLSCREEN = 0b000001,
+					TOOLBAR = 0b000010,
+					RESIZABLE = 0b000100,
+					INIT_VISIBLE = 0b001000,
+					INIT_FOCUSED = 0b010000,
+					INIT_MAXIMIZED = 0b100000
+			};
+
+			EnumFlagsT(unsigned short int, WindowUnknownTag)
+			{
+				AUTO_ICONIFY = 0b0,
+					FLOATING = 0b1
+			};
 			/**
 			 * @class WindowSetting
 			 * @brief Wrap the window settings that can be changed over the lifetime of the window.
 			 */
-			class WindowSetting
+			class ECE_WINDOW_API WindowSetting
 			{
 			public:
 				/**
@@ -109,25 +133,25 @@ namespace ece
 				 * @property _title
 				 * @brief The title to set to a window.
 				 */
-				std::string _title;
+				std::string title;
 
 				/**
 				 * @property _position
 				 * @brief The position to set to a window.
 				 */
-				IntVector2u _position;
+				IntVector2u position;
 
 				/**
 				 * @property _minimumSize
 				 * @brief The minimum size to set to a window.
 				 */
-				IntVector2u _minimumSize;
+				IntVector2u minimumSize;
 
 				/**
 				 * @property _maximumSize
 				 * @brief The maximum size to set to a window.
 				 */
-				IntVector2u _maximumSize;
+				IntVector2u maximumSize;
 			};
 		} // namespace common
 	} // namespace window

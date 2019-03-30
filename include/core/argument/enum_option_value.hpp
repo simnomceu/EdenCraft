@@ -39,9 +39,8 @@
 #ifndef ENUM_OPTION_VALUE_HPP
 #define ENUM_OPTION_VALUE_HPP
 
-#include <vector>
-#include <string>
-
+#include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option_value.hpp"
 
 namespace ece
@@ -55,7 +54,7 @@ namespace ece
 			 * @extends OptionValue
 			 * @brief An option as an enumeration argument.
 			 */
-			class EnumOptionValue : public OptionValue
+			class ECE_CORE_API EnumOptionValue : public OptionValue
 			{
 			public:
 				/**
@@ -115,7 +114,7 @@ namespace ece
 				 * @throw noexcept
 				 * @see bool OptionValue::isValid(const std::string & value)
 				 */
-				inline virtual bool isValid(const std::string & value) override;
+				inline virtual auto isValid(const std::string & value) -> bool override;
 
 				/**
 				 * @fn void addValue(const std::string & value)

@@ -39,7 +39,8 @@
 #ifndef CHRONO_HPP
 #define CHRONO_HPP
 
-#include <chrono>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -51,7 +52,7 @@ namespace ece
         	 * @class Chrono
         	 * @brief Define a chrono to measure durations.
         	 */
-        	class Chrono
+        	class ECE_UTILITY_API Chrono
         	{
         	public:
         		/**
@@ -70,7 +71,7 @@ namespace ece
         		Chrono(const Chrono & copy) noexcept = default;
 
         		/**
-        		 * @fn Chrono(Chrono && move)
+        		e * @fn Chrono(Chrono && move)
         		 * @param[in] move The chrono to move.
         		 * @brief Default move constructor.
         		 * @throw noexcept
@@ -115,7 +116,7 @@ namespace ece
         		 * @brief Reset the chrono and get the elapsed time.
         		 * @throw
         		 */
-        		int reset();
+        		auto reset() -> int;
 
         		/**
         		 * @fn int getElapsedTime() const
@@ -123,7 +124,7 @@ namespace ece
         		 * @brief Get the elapsed time. Chrono is not stopped or reset.
         		 * @throw
         		 */
-        		int getElapsedTime() const;
+        		auto getElapsedTime() const -> int;
 
         	private:
         		/**

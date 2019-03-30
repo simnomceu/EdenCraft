@@ -36,13 +36,13 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/opengl/extension_loader.hpp"
 
-#include "renderer/win32/wgl_loader.hpp"
-
 #include "renderer/win32/wgl_extension.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
+#include "renderer/opengl.hpp"
+#include "renderer/win32/data_context_opengl.hpp"
 
 #ifdef _MSC_VER
 #	undef min
@@ -55,32 +55,33 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using utility::log::ServiceLoggerLocator;
-
 			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
 			{
 				auto proc = wglGetProcAddress(name.data());
 				if (proc == nullptr) {
-					if (requiredVersion > ece::Version<2>{ 3, 2} && WGLLoader::getInstance().getLatestVersionAvailable() < requiredVersion) {
-						ServiceLoggerLocator::getService().logError(name + " is not available. You need at least a " + std::to_string(requiredVersion[0]) + "." + std::to_string(requiredVersion[1]) + " context.");
+					if (requiredVersion > ece::Version<2>{ 3, 3} && ContextOpenGL::getMaxVersionAvailable() < requiredVersion) {
+						ERROR << name << " is not available. You need at least a " << requiredVersion[0] << "." << requiredVersion[1] << " context." << flush;
 					}
 					else {
-						proc = WGLLoader::getInstance().getProcAddress(name);//GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
+						proc = DataContextOpenGL::getProcAddress(name); // GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
 						if (proc == nullptr) {
-							ServiceLoggerLocator::getService().logError(name + " cannot be loaded.");
+							ERROR << name << " cannot be loaded." << flush;
 						}
 					}
 				}
 				return static_cast<void *>(proc);
 			}
 
-			Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+			auto initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL) -> Version<2>
 			{
-				auto & loader = WGLLoader::getInstance();
-				loader.initDummyContext();
-				auto version = loader.getLatestVersionAvailable();
-				loader.terminateDummyContext();
-				return min(max(minVersionGL, version), maxVersionGL);
+				auto latestVersionAvailable = Version<2>{};
+				auto version = glGetString(GL_VERSION);
+				if (version) {
+					auto versionPtr = std::string(reinterpret_cast<const char *>(version));
+					latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
+					latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
+				}
+				return max(min(maxVersionGL, latestVersionAvailable), minVersionGL);
 			}
 		} // namespace opengl
 	} // namespace renderer

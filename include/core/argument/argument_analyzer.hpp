@@ -39,8 +39,8 @@
 #ifndef ARGUMENT_ANALYZER_HPP
 #define ARGUMENT_ANALYZER_HPP
 
-#include <vector>
-
+#include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option.hpp"
 
 namespace ece
@@ -53,7 +53,7 @@ namespace ece
 			 * @class ArgumentAnalyzer
 			 * @brief Parser to analyze and process the command line arguments passed.
 			 */
-			class ArgumentAnalyzer
+			class ECE_CORE_API ArgumentAnalyzer
 			{
 			public:
 				/**

@@ -39,7 +39,8 @@
 #ifndef ENUM_COUNT_HPP
 #define ENUM_COUNT_HPP
 
-#include <type_traits>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -53,16 +54,16 @@ namespace ece
         	 * @brief Trait class to define the count of an enumeration.
         	 */
         	template <typename T, typename = typename std::enable_if_t<std::is_enum_v<T>>>
-        	struct EnumCount
+        	struct ECE_UTILITY_API EnumCount
         	{
-        		static constexpr unsigned short int value = 0;
+				static constexpr auto value = std::size_t{ 0 };
         	};
 
         	/**
         	 * @brief An helper to access the count value of an enumeration.
         	 */
         	template <typename T>
-        	inline constexpr unsigned short int EnumCount_v = EnumCount<T>::value;
+        	inline constexpr auto EnumCount_v = EnumCount<T>::value;
         } // namespace enumeration
     } // namespace utility
 } // namespace ece

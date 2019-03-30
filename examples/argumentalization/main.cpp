@@ -37,11 +37,9 @@
 
 */
 
-#include "core/application/application.hpp"
-#include "utility/log/service_logger.hpp"
-#include "utility/log/logger.hpp"
-#include "core/argument/string_option_value.hpp"
-#include "core/argument/integer_option_value.hpp"
+#include "core/application.hpp"
+#include "utility/log.hpp"
+#include "core/argument.hpp"
 
 int main(int argc, char * argv[])
 {
@@ -70,7 +68,7 @@ int main(int argc, char * argv[])
 		app.run();
 	}
 	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError("Uncaught exception: " + std::string(e.what()));
+		ece::ERROR << "Uncaught exception: " << e.what() << ece::flush;
 	}
 
 	return EXIT_SUCCESS;

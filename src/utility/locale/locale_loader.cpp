@@ -36,25 +36,16 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/locale/locale_loader.hpp"
 
-#include "utility/file_system/parser_json.hpp"
-#include "utility/debug/exception.hpp"
-#include "utility/json/atomic_json.hpp"
-
-#include <utility>
-#include <iostream>
-#include <memory>
+#include "utility/formats/json.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
     namespace utility
     {
-        using debug::FileException;
-        using json::ObjectJSON;
-		using json::StringJSON;
-        using file_system::ParserJSON;
-
         namespace locale
         {
         	std::string LocaleLoader::_path = "";
@@ -66,37 +57,38 @@ namespace ece
 
         	LocaleLoader::LocaleLoader(const std::string & filename, const Localization & locale): _locale(locale), _resource(), _filename(filename)
         	{
-        		this->_locale = locale;
-        		std::string file = LocaleLoader::_path + this->_filename + "_"
-        							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
-        		this->generateResource(file);
+				this->changeLocale(locale);
         	}
 
         	void LocaleLoader::changeLocale(const Localization & locale)
         	{
         		this->_locale = locale;
-        		std::string file = LocaleLoader::_path + this->_filename + "_"
-        							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
+        		const auto file = LocaleLoader::_path + this->_filename + "_" + this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
         		this->generateResource(file);
         	}
 
-        	void LocaleLoader::generateResource(const std::string & file)
+        	void LocaleLoader::generateResource(const std::string & filename)
         	{
         		this->_resource.clear();
         		try {
-        			ParserJSON parser;
-        			parser.loadFromFile(file);
-        			std::shared_ptr<ObjectJSON> jsonObject = parser.getObject();
+					auto file = File{};
+					if (!file.open(filename, OpenMode::in)) {
+						throw std::runtime_error(filename + " has not been opened.");
+					}
 
-        			for (auto it = jsonObject->begin(); it != jsonObject->end(); ++it) {
-        				if (it->second->getType() == TypeNodeJSON::STRING_JSON) {
-        					auto element = std::static_pointer_cast<StringJSON>(it->second);
+					auto parser = ParserJSON{};
+        			parser.load(file.getStream());
+        			auto jsonObject = parser.getObject();
+
+        			for (auto [key, value] : *jsonObject) {
+        				if (value->getType() == TypeNodeJSON::STRING_JSON) {
+        					auto element = std::static_pointer_cast<StringJSON>(value);
         					this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
         				}
         			}
         		}
-        		catch (FileException & e) {
-        			std::cerr << e.what() << std::endl;
+        		catch (const FileException & e) {
+        			std::cerr << e.what() << '\n';
         		}
         	}
         } // namespace locale

@@ -39,7 +39,8 @@
 #ifndef OPTION_VALUE_HPP
 #define OPTION_VALUE_HPP
 
-#include <string>
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -51,7 +52,7 @@ namespace ece
 			 * @class OptionValue
 			 * @brief An option for a console argument.
 			 */
-			class OptionValue
+			class ECE_CORE_API OptionValue
 			{
 			public:
 				/**
@@ -110,7 +111,7 @@ namespace ece
 				 * @throw noexcept
 				 * @see bool OptionValue::isValid(const std::string & value)
 				 */
-				virtual bool isValid(const std::string & value) = 0;
+				virtual auto isValid(const std::string & value) -> bool = 0;
 			};
 		} // namespace argument
 	} // namespace core

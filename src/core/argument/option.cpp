@@ -36,10 +36,8 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/argument/option.hpp"
-
-#include <iostream>
 
 namespace ece
 {
@@ -47,7 +45,7 @@ namespace ece
 	{
 		namespace argument
 		{
-			bool Option::apply(const std::string & optionName, const std::string & optionValue)
+			auto Option::apply(const std::string & optionName, const std::string & optionValue) -> bool
 			{
 				if (this->_name != optionName.substr(1) || !this->_value->isValid(optionValue)) {
 					return false;

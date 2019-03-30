@@ -39,7 +39,7 @@
 #ifndef DATA_CONTEXT_OPENGL_HPP
 #define DATA_CONTEXT_OPENGL_HPP
 
-#include "renderer/opengl/context_opengl.hpp"
+#include "renderer/opengl.hpp"
 
 #include <Windows.h>
 
@@ -63,25 +63,40 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline DataContextOpenGL(HGLRC context, HDC device, HWND handle) : _context(context), _device(device), _windowHandle(handle) {}
+				inline DataContextOpenGL(HGLRC context, HDC device, HWND handle) : context(context), device(device), windowHandle(handle) {}
+
+				/**
+				 * @fn FARPROC getProcAddress(const std::string & name)
+				 * @param[in] name The name of the extension.
+				 * @return The OpenGL method loaded.
+				 * @brief Load an OpenGL extension from a Wndows platform.
+				 * @throw
+				 */
+				static auto getProcAddress(const std::string & name) -> FARPROC;
 
 				/**
 				 * @property _context
 				 * @brief The OpenGL context.
 				 */
-				HGLRC _context;
+				HGLRC context;
 
 				/**
 				 * @property _device
 				 * @brief The device used.
 				 */
-				HDC _device;
+				HDC device;
 
 				/**
 				 * @property _windowHandle
 				 * @brief The window concerned.
 				 */
-				HWND _windowHandle;
+				HWND windowHandle;
+
+				/**
+				 * @property _openglLib
+				 * @brief THe external library exposing OpenGL.
+				 */
+				static HMODULE openglLib;
 			};
 		} // namespace opengl
 	} // namespace renderer

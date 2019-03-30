@@ -38,10 +38,10 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/scene/scene.hpp"
 
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/model/object.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -49,19 +49,48 @@ namespace ece
 	{
 		namespace scene
 		{
-			using utility::mathematics::FloatVector3u;
-			using model::Object;
-
 			Scene::Scene() noexcept: _camera(), _objects()
 			{
 				// TODO : change the resolution ratio to be adapted to window size
-				this->_camera.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
+				this->_camera.value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
 			}
 
-			Object * Scene::addObject()
+			auto Scene::addObject() -> Object::Reference
 			{
-				this->_objects.push_back(new Object());
-				return static_cast<Object *>(this->_objects.back());
+				auto object = makeResource<Object>("");
+				this->_objects.push_back({ object, true, 0 });
+				return std::move(object);
+			}
+
+			auto Scene::getObjects() -> std::vector<Renderable::Reference>
+			{
+				auto list = std::vector<Renderable::Reference>{};
+				for (auto & object : this->_objects) {
+					list.emplace_back(object.value);
+				}
+				return std::move(list);
+			}
+
+			auto Scene::getLights() -> std::vector<Light::Reference>
+			{
+				return this->_lights;
+			}
+
+			void Scene::prepare()
+			{
+				for (auto & object : this->_objects) {
+					if (object.hasChanged) {
+						object.value->prepare();
+						object.hasChanged = false;
+					}
+				}
+			}
+
+			void Scene::sortObjects()
+			{
+				std::sort(this->_objects.begin(), this->_objects.end(), [](const auto & a, const auto & b) -> bool {
+					return a.level <= b.level;
+				});
 			}
 		} // namespace scene
 	} // namespace graphic

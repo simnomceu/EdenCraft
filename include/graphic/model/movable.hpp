@@ -41,7 +41,8 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
-#include "utility/mathematics/vector3u.hpp"
+#include "graphic/config.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -49,13 +50,11 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-
 			/**
 			 * @class Movable
 			 * @brief Define the ability to be moved.
 			 */
-			class Movable
+			class ECE_GRAPHIC_API Movable
 			{
 			public:
 				/**
@@ -107,7 +106,7 @@ namespace ece
 				 * @brief Get The position of the object.
 				 * @throw
 				 */
-				inline virtual const FloatVector3u & getPosition() const;
+				inline virtual auto getPosition() const -> const FloatVector3u &;
 
 			protected:
 

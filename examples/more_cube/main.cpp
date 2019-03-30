@@ -36,142 +36,114 @@
 
 */
 
-#include "core/application.hpp"
+#include "core/format.hpp"
 
-#include "renderer/common.hpp"
-#include "utility/log.hpp"
-#include "renderer/opengl.hpp"
-#include "window/common.hpp"
+#include "render_system.hpp"
+#include "cube.hpp"
 
-namespace ece
-{
-	using namespace renderer;
-}
+#include "renderer/buffer.hpp"
+#include "renderer/rendering.hpp"
+#include "renderer/image.hpp"
+
+std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
 
 int main()
 {
+	std::srand(static_cast<unsigned int>(time(nullptr)));
+
 	try {
-		ece::Application app;
+		ece::WindowedApplication app;
+		auto window = createMainWindow(app);
 
-		ece::RenderWindow window;
+		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
+		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
-		ece::WindowSetting settings;
-		settings._position = ece::IntVector2u{ 10, 10 };
-		settings._title = "WGL window testing";
+        auto & world = app.addWorld();
+        auto renderSystem = world.addSystem<RenderSystem>();
 
-		window.setContextMaximumVersion(ece::Version<2>{4, 0});
+		auto & scene = renderSystem->getScene();
+		auto & camera = scene.getCamera();
 
-		window.open();
-		window.getVideoMode().setSamples(0);
-		window.updateVideoMode();
-		window.setSettings(settings);
-		window.limitUPS(100);
+		Cube cube(world, 100);
 
-		ece::Renderer renderer;
-		//renderer.setPolygonMode(ece::PolygonMode::LINE);
-
-		/*const std::vector<float> points{ 0.0f, 0.5f,
-										 0.5f, -0.5f,
-										-0.5f, -0.5f };
-
-		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
-										  0.0f, 1.0f, 0.0f,
-										  0.0f, 0.0f, 1.0f };
-
-		const std::vector<unsigned int> index{ 0, 1, 2 };*/
-
-		const std::vector<float> points{ -0.5f, -0.5f,
-										 -0.5f,  0.5f,
-										  0.5f,  0.5f,
-										  0.5f, -0.5f
-		};
-
-		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
-										  0.0f, 1.0f, 0.0f,
-										  0.0f, 0.0f, 1.0f,
-										  0.0f, 1.0f, 1.0f
-		};
-
-		const std::vector<float> texPos{ 1.0f, 1.0f,
-											1.0f, 0.0f,
-											0.0f, 0.0f,
-											0.0f, 1.0f
-		};
-
-		const std::vector<unsigned int> index{ 0, 1, 2, 2, 3, 0 };
-
-		/*const std::vector<float> points{ -0.5f, -0.5f, 0.5,
-										-0.5f,  0.5f, 0.5,
-										0.5f,  0.5f, 0.5,
-										0.5f, -0.5f,  0.5,
-										0.0f, 0.0f, -0.5,
-										0.0f,  1.0f, -0.5,
-										1.0f,  1.0f, -0.5,
-										1.0f, 0.0f,  -0.5,
-		};
-
-		const std::vector<float> colours{ 1.0f, 0.0f, 0.0f,
-										  0.0f, 1.0f, 0.0f,
-										  0.0f, 0.0f, 1.0f,
-										  0.0f, 1.0f, 1.0f,
-										  1.0f, 0.0f, 0.0f,
-										  0.0f, 1.0f, 0.0f,
-										  0.0f, 0.0f, 1.0f,
-										  0.0f, 1.0f, 1.0f
-		};
-
-		const std::vector<unsigned int> index{ 0, 1, 2,
-											   2, 3, 0,
-											   2, 7, 3,
-											   2, 6, 3,
-											   4, 5, 6,
-											   6, 7, 4,
-											   4, 5, 0,
-											   5, 1, 0,
-											   1, 5, 6,
-											   6, 2, 1,
-											   0, 4, 7,
-											   7, 3, 0
-		};*/
-
-		ece::VAO vao;
-		vao.addAttribute(0, 2, false, 0, ece::BufferType::ARRAY_BUFFER, points, ece::BufferUsage::STATIC_DRAW);
-		vao.addAttribute(1, 3, false, 0, ece::BufferType::ARRAY_BUFFER, colours, ece::BufferUsage::STATIC_DRAW);
-		vao.addAttribute(2, 2, false, 0, ece::BufferType::ARRAY_BUFFER, texPos, ece::BufferUsage::STATIC_DRAW);
-		vao.addIndices(index, ece::BufferUsage::STATIC_DRAW);
-
-		ece::ShaderStage fsSource, vsSource;
-		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../../examples/more_cube/shader.frag");
-		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../../examples/more_cube/shader.vert");
-		ece::EnhancedShader program;
-		program.setStage(fsSource);
-		program.setStage(vsSource);
-		program.link();
-		renderer.setProgram(program);
-
-		ece::Texture2D texture;
-		texture.loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, "../../examples/more_cube/emma_watson.bmp");
-		texture.bind(ece::TextureTarget::TEXTURE_2D);
-		texture.update();
-
-		ece::OpenGL::uniform<int, 1>(glGetUniformLocation(program.getHandle(), "theTexture"), std::array<int, 1>{0});
-
-		ece::InputEvent event;
-		while (1) {
-			window.clear();
-
-			renderer.drawPrimitives(ece::PrimitiveMode::TRIANGLES, vao);
-			if (window.pollEvent(event)) {
+ 		auto & eventHandler = window.lock()->getEventHandler();
+		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
+			if (event.key >= ece::Keyboard::Key::A && event.key <= ece::Keyboard::Key::Z) {
+				std::cerr << static_cast<char>(static_cast<unsigned int>(event.key) + 34);
 			}
-			window.display();
-		}
+			else if (event.key == ece::Keyboard::Key::SPACEBAR) {
+				std::cerr << ' ';
+			}
+			else if (event.key == ece::Keyboard::Key::RETURN) {
+				std::cerr << '\n';
+			}
+			else if (event.key == ece::Keyboard::Key::ESCAPE) {
+				window.close();
+			}
+			else if (event.key == ece::Keyboard::Key::LEFT) {
+				camera.moveIn({ -1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event.key == ece::Keyboard::Key::RIGHT) {
+				camera.moveIn({ 1.0f, 0.0f, 0.0f });
+				scene.updateCamera();
+			}
+			else if (event.key == ece::Keyboard::Key::UP) {
+				camera.moveIn({ 0.0f, 0.0f, -1.0f });
+				scene.updateCamera();
+			}
+			else if (event.key == ece::Keyboard::Key::DOWN) {
+				camera.moveIn({ 0.0f, 0.0f, 1.0f });
+				scene.updateCamera();
+			}
+		});
+		window.lock()->onWindowClosed.connect([&app]() {
+			app.stop();
+		});
+
+		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
+
+		app.onPreUpdate.connect([&window, &fps]() {
+			if (fps.isReadyToUpdate()) {
+				window.lock()->setTitle("More cubes ... - Frame " +  std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
+			}
+		});
+
+		app.onPostUpdate.connect([&window, &cube]() {
+			window.lock()->display();
+			cube.update();
+		});
+
+		app.run();
 	}
-	catch (std::runtime_error & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
+	catch (const std::runtime_error & e) {
+		ece::ERROR << e.what() << ece::flush;
 	}
-	catch (std::exception & e) {
-		ece::ServiceLoggerLocator::getService().logError(e.what());
+	catch (const std::exception & e) {
+		ece::ERROR << e.what() << ece::flush;
 	}
 
 	return 0;
+}
+
+std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app)
+{
+	auto window = app.addWindow<ece::RenderWindow>();
+
+	auto settings = ece::WindowSetting{};
+	settings.position = ece::IntVector2u{ 10, 10 };
+	settings.title = "More cubes ...";
+
+	auto & contextSettings = window.lock()->getContextSettings();
+	contextSettings.maxVersion = { 4, 0 };
+
+	window.lock()->open();
+	contextSettings.antialiasingSamples = 0;
+	contextSettings.maxVersion = { 4, 6 };
+	window.lock()->updateContext();
+	window.lock()->setSettings(settings);
+	window.lock()->maximize();
+	window.lock()->limitUPS(100000);
+
+	return std::move(window);
 }

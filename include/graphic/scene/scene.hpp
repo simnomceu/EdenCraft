@@ -41,35 +41,23 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/scene/camera.hpp"
-#include "graphic/scene/projection.hpp"
-
-#include <vector>
+#include "graphic/renderable.hpp"
+#include "graphic/scene/light.hpp"
 
 namespace ece
 {
 	namespace graphic
 	{
-		namespace renderable
-		{
-			class Renderable;
-		}
-
-		namespace model
-		{
-			class Object;
-		}
-
 		namespace scene
 		{
-			using renderable::Renderable;
-			using model::Object;
-
 			/**
 			 * @class Scene
 			 * @brief
 			 */
-			class Scene
+			class ECE_GRAPHIC_API Scene
 			{
 			public:
 				/**
@@ -126,7 +114,11 @@ namespace ece
 				 * @brief Add a new empty object to the scene.
 				 * @throw
 				 */
-				Object * addObject();
+				auto addObject() -> Object::Reference;
+
+				inline void addObject(const Renderable::Reference & object, int level = DEFAULT_LEVEL);
+
+				inline void addLight(const Light::Reference & light);
 
 				/**
 				 * @fn Camera & getCamera()
@@ -134,28 +126,46 @@ namespace ece
 				 * @brief Get the camera of the scene.
 				 * @throw
 				 */
-				inline Camera & getCamera();
+				inline auto getCamera() -> Camera &;
 
-				/**
-				 * @fn std::vector<Renderable *> & getObjects()
-				 * @return The list of objects of the scene.
-				 * @brief Get the list of objects of the scene.
-				 * @throw
-				 */
-				inline std::vector<Renderable *> & getObjects();
+				inline void updateCamera();
+
+				auto getObjects() -> std::vector<Renderable::Reference>;
+				auto getLights() -> std::vector<Light::Reference>;
+
+				void prepare();
+
+				void sortObjects();
 
 			private:
+				struct CameraWrapper
+				{
+					Camera value;
+					bool hasChanged;
+				};
+
+				struct ObjectWrapper
+				{
+					Renderable::Reference value;
+					bool hasChanged;
+					int level;
+				};
+
 				/**
 				 * @property _camera
 				 * @rief The camera of the scene.
 				 */
-				Camera _camera;
+				CameraWrapper _camera;
 
 				/**
 				 * @property _objects
 				 * @brief The list of objects in the scene.
 				 */
-				std::vector<Renderable *> _objects;
+				std::vector<ObjectWrapper> _objects;
+
+				std::vector<Light::Reference> _lights;
+
+				static const int DEFAULT_LEVEL = 0;
 			};
 		} // namespace scene
 	} // namespace graphic

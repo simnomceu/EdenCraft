@@ -38,21 +38,24 @@
 #ifndef X11_API_HPP
 #define X11_API_HPP
 
-#include <string>
-#include <vector>
 #include <X11/Xlib.h>
 
-#include "utility/mathematics/vector2u.hpp"
-#include "window/window_event/input_event.hpp"
+#include "window/pch.hpp"
+#include "utility/mathematics.hpp"
+#include "window/event.hpp"
 
 namespace ece
 {
 	namespace window
 	{
+		namespace common
+		{
+			struct WindowMessage;
+		}
+
 		namespace x11
 		{
-			using utility::mathematics::IntVector2u;
-			using window::window_event::InputEvent;
+			using common::WindowMessage;
 
 			/**
 			 * @class X11API
@@ -115,7 +118,7 @@ namespace ece
 				 * @brief Get the window ID of the internal API.
 				 * @throw
 				 */
-				virtual ::Window getWindowHandle() const = 0;
+				virtual auto getWindowHandle() const -> ::Window = 0;
 
 				/**
 				 * Display * getDevice() const
@@ -123,7 +126,7 @@ namespace ece
 				 * @brief Get the device associated to the window.
 				 * @throw
 				 */
-				virtual Display * getDevice() const = 0;
+				virtual auto getDevice() const -> Display * = 0;
 
 				/**
 				 * @fn void createWindow()
@@ -146,7 +149,7 @@ namespace ece
 				 * @brief Check if the window is existing or not.
 				 * @throw
 				 */
-				virtual bool isWindowCreated() const = 0;
+				virtual auto isWindowCreated() const -> bool = 0;
 
 				/**
 				 * @fn void setTitle(const std::string & title)
@@ -162,7 +165,7 @@ namespace ece
 				 * @brief Get the window title.
 				 * @throw
 				 */
-				virtual std::string getTitle() const = 0;
+				virtual auto getTitle() const -> std::string = 0;
 
 				/**
 				 * @fn void setPosition(const IntVector2u & position)
@@ -178,7 +181,15 @@ namespace ece
 				 * @brief Get the position of the window.
 				 * @throw
 				 */
-				virtual IntVector2u getPosition() const = 0;
+				virtual auto getPosition() const -> IntVector2u = 0;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 */
+				virtual auto getSize() const -> IntVector2u = 0;
 
 				/**
 				 * @fn void minimize()
@@ -201,7 +212,7 @@ namespace ece
 				 * @brief Process a window event.
 				 * @throw
 				 */
-				virtual std::vector<InputEvent> processEvent(const bool blocking) = 0;
+				virtual auto processEvent(const bool blocking, const bool keyRepeat) -> std::vector<InputEvent> = 0;
 			};
 		} // namespace x11
 	} // namespace window

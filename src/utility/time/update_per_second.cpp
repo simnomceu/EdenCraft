@@ -36,6 +36,7 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/time/update_per_second.hpp"
 
 namespace ece
@@ -44,14 +45,14 @@ namespace ece
     {
         namespace time
         {
-        	bool UpdatePerSecond::isReadyToUpdate()
+        	auto UpdatePerSecond::isReadyToUpdate() -> bool
         	{
-        		float elapsedTime = (float)this->_chrono.getElapsedTime();
-        		bool isReady = elapsedTime >= this->_rate;
+        		auto elapsedTime = static_cast<float>(this->_chrono.getElapsedTime());
+        		auto isReady = (elapsedTime >= this->_rate || this->_rate == 0);
         		if (isReady) {
         			this->_chrono.reset();
         			this->_average = ((this->_average * this->_nbFrames) + elapsedTime) / (this->_nbFrames + 1);
-        			this->_nbFrames++;
+        			++this->_nbFrames;
         		}
         		return isReady;
         	}

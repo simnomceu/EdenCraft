@@ -39,6 +39,10 @@
 #ifndef BASE_COMPONENT_HPP
 #define BASE_COMPONENT_HPP
 
+#include "core/config.hpp"
+#include "core/pch.hpp"
+#include "utility/types.hpp"
+
 namespace ece
 {
 	namespace core
@@ -46,34 +50,66 @@ namespace ece
 		namespace ecs
 		{
 			/**
+			* @typedef ComponentID
+			* @brief The id to handle a component.
+			*/
+			using ComponentID = unsigned int;
+
+			/**
 			 * @class BaseComponent
 			 * @brief
 			 */
-			class BaseComponent
+			class ECE_CORE_API BaseComponent
 			{
 			public:
 				/**
-				 * @typedef ComponentID
-				 * @brief The id to handle a component.
-				 */
-				using ComponentID = unsigned int;
-
-				/**
-				 * @fn BaseComponent()
+				 * @fn constexpr BaseComponent() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				BaseComponent() noexcept = default;
+				constexpr BaseComponent() noexcept = default;
 
 				/**
-				 * @fn BaseComponent(const ComponentID id)
-				 * @param[in] id The id to use.
-				 * @brief Build a component with a specific id.
-				 * @throw
+				 * @fn BaseComponent(const BaseComponent & copy) noexcept
+				 * @param[in] copy The BaseComponent to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
 				 */
-				inline BaseComponent(const ComponentID id);
+				BaseComponent(const BaseComponent & copy) noexcept = default;
 
-				inline virtual ~BaseComponent() = 0;
+				/**
+				 * @fn BaseComponent(BaseComponent && move) noexcept
+				 * @param[in] move The BaseComponent to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				BaseComponent(BaseComponent && move) noexcept = default;
+
+				/**
+				 * @fn ~BaseComponent() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~BaseComponent() noexcept = default;
+
+				/**
+				 * @fn BaseComponent & operator=(const BaseComponent & copy) noexcept
+				 * @param[in] copy The BaseComponent to copy from.
+				 * @return The BaseComponent copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				BaseComponent & operator=(const BaseComponent & copy) noexcept = default;
+
+				/**
+				 * @fn BaseComponent & operator=(BaseComponent && move) noexcept
+				 * @param[in] move The BaseComponent to move.
+				 * @return The BaseComponent moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				BaseComponent & operator=(BaseComponent && move) noexcept = default;
+
 
 				/**
 				 * @fn ComponentID getID() const
@@ -81,26 +117,21 @@ namespace ece
 				 * @brief Get The component id.
 				 * @throw
 				 */
-				inline ComponentID getID() const;
+				virtual auto getID() const -> ComponentID = 0;
+
+				virtual void setOwner(const Handle owner) = 0;
 
 				/**
 				 * @fn unsigned int getOwner() const
 				 * @return The entity owner.
 				 */
-				inline unsigned int getOwner() const;
+				virtual auto getOwner() const -> Handle = 0;
 
-			private:
-				/**
-				 * @property _id
-				 * @brief The id to handle the component.
-				 */
-				ComponentID _id;
+				virtual auto isDirty() const -> bool = 0;
 
-				/**
-				 * @property _owner
-				 * @brief The entity which own the component.
-				 */
-				unsigned int _owner;
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline bool is() const;
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline T & to();
+				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline const T & to() const;
 			};
 		} // namespace ecs
 	} // namespace core

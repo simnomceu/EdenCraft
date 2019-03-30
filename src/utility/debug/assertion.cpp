@@ -36,6 +36,7 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/debug/assertion.hpp"
 
 namespace ece

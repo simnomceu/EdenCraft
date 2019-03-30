@@ -37,8 +37,8 @@
 */
 
 
-#ifndef SERVICE_HPP
-#define SERVICE_HPP
+#ifndef UTILITY_SERVICE_HPP
+#define UTILITY_SERVICE_HPP
 
 #include "utility/service/service_factory.hpp"
 #include "utility/service/service_locator.hpp"
@@ -48,4 +48,4 @@ namespace ece
 	using namespace utility::service;
 }
 
-#endif // SERVICE_HPP
+#endif // UTILITY_SERVICE_HPP

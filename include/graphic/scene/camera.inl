@@ -38,16 +38,13 @@
 
 */
 
-//#include "glm\gtc\matrix_transform.hpp"
-#include "utility/mathematics/transform.hpp"
-
 namespace ece
 {
 	namespace graphic
 	{
 		namespace scene
 		{
-			inline Camera::Camera() noexcept: _position(), _target(), _upAxis{ 0.0f, 1.0f, 0.0f } {}
+			inline Camera::Camera() noexcept: _position(), _target(), _upAxis(UP), _projection() {}
 
 			inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->_position, object.getPosition()); }
 
@@ -61,14 +58,11 @@ namespace ece
 
 			inline void Camera::moveIn(const FloatVector3u & direction) { this->updatePosition(this->_position + direction, this->_target); }
 
-			/*inline glm::mat4 Camera::getCamera() const
-			{
-				return glm::lookAt(glm::vec3(this->position[X], this->position[Y], this->position[Z]),
-									glm::vec3(this->target[X], this->target[Y], this->target[Z]),
-									glm::vec3(this->upAxis[X], this->upAxis[Y], this->upAxis[Z]));
-			}*/
+			inline auto Camera::getView() const -> FloatMatrix4u { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
 
-			inline FloatMatrix4u Camera::getCamera() const { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
+            inline auto Camera::getProjection() const -> const Projection & { return this->_projection; }
+
+            inline auto Camera::getProjection() -> Projection & { return this->_projection; }
 		} // namespace scene
 	} // namespace camera
 } // namespace ece

@@ -36,6 +36,7 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/time/chrono.hpp"
 
 namespace ece
@@ -44,19 +45,19 @@ namespace ece
     {
         namespace time
         {
-        	int Chrono::reset()
+        	auto Chrono::reset() -> int
         	{
         		auto end = std::chrono::system_clock::now();
         		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - this->_begin).count();
         		this->_begin = end;
-        		return (int)elapsedTime;
+        		return static_cast<int>(elapsedTime);
         	}
 
-        	int Chrono::getElapsedTime() const
+        	auto Chrono::getElapsedTime() const -> int
         	{
         		auto end = std::chrono::system_clock::now();
         		auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - this->_begin).count();
-        		return (int)elapsedTime;
+        		return static_cast<int>(elapsedTime);
         	}
         } // namespace time
     } // namespace utility

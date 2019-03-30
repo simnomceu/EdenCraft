@@ -39,7 +39,8 @@
 #ifndef BASE_MODULE_HPP
 #define BASE_MODULE_HPP
 
-#include <functional>
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -51,7 +52,7 @@ namespace ece
 			 * @class BaseModule
 			 * @brief Basic declaration for a module.
 			 */
-			class BaseModule
+			class ECE_CORE_API BaseModule
 			{
 			public:
 				/**

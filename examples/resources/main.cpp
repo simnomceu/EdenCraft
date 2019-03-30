@@ -36,13 +36,8 @@
 
 */
 
-#include <iostream>
-#include <cmath>
-#include <ctime>
-
-#include "utility/log/service_logger.hpp"
-#include "utility/log/logger.hpp"
-#include "core/resource/resource_manager.hpp"
+#include "utility/log.hpp"
+#include "core/resource.hpp"
 
 class IntResource : public ece::Resource
 {
@@ -87,6 +82,7 @@ int main()
 	auto resource1 = manager.getResource("random.int");
 
 	auto resourceUnbind = std::static_pointer_cast<IntResource>(resource1.lock());
+	ece::INFO << "Resource is: " << resourceUnbind->getValue() << flush;
 	ece::ServiceLoggerLocator::getService().logInfo("Resource is: " + std::to_string(resourceUnbind->getValue()));
 
 	manager.unloadResource("random.int");

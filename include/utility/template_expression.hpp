@@ -39,15 +39,16 @@
 #ifndef TEMPLATE_EXPRESSION_HPP
 #define TEMPLATE_EXPRESSION_HPP
 
+#include "utility/template_expression/const_slice.hpp"
 #include "utility/template_expression/filter.hpp"
 #include "utility/template_expression/functional.hpp"
 #include "utility/template_expression/linear_expression.hpp"
 #include "utility/template_expression/linear_operation.hpp"
 #include "utility/template_expression/linear_unary_operation.hpp"
 #include "utility/template_expression/literal.hpp"
+#include "utility/template_expression/matrix.hpp"
 #include "utility/template_expression/slice.hpp"
 #include "utility/template_expression/vector.hpp"
-#include "utility/template_expression/matrix.hpp"
 
 namespace ece
 {

@@ -39,10 +39,9 @@
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
-#include <string>
-#include <stdexcept>
-
-#include "utility/enum.hpp"
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
+#include "utility/enumeration.hpp"
 
 namespace ece
 {
@@ -57,7 +56,7 @@ namespace ece
         	 * @see http://en.cppreference.com/w/cpp/error/runtime_error
         	 * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
         	 */
-        	class Exception : public std::runtime_error
+        	class ECE_UTILITY_API Exception : public std::runtime_error
         	{
         	public:
         		/**
@@ -92,7 +91,7 @@ namespace ece
         		 *
         		 * Get the exception message with all the parameters binded.
         		 */
-        		inline virtual const char * what() const noexcept override;
+        		inline virtual auto what() const noexcept -> const char * override;
 
         	private:
         		/**
@@ -108,7 +107,7 @@ namespace ece
         	   	 * @brief The end step of the recursive mapping throw template binding.
         		 * @throw noexcept
         		 */
-        		inline std::string mapString(const std::string & content) noexcept;
+        		inline auto mapString(const std::string & content) noexcept;
 
         		/**
         		 * @fn std::string mapString(const std::string & content, V value, Args... args)
@@ -122,8 +121,14 @@ namespace ece
         		 * @throw noexcept
         		 */
         		template <class V, class... Args>
-        		std::string mapString(const std::string & content, V value, Args... args) noexcept;
+        		auto mapString(const std::string & content, V value, Args... args) noexcept;
         	};
+
+			enum FileCodeError : unsigned short int
+			{
+				BAD_PATH = 0,
+				PARSE_ERROR = 1
+			};
 
         	/**
         	 * @class FileException
@@ -131,7 +136,7 @@ namespace ece
         	 * @brief An exception used for error while handling files.
         	 * @see Exception
         	 */
-        	class FileException : public Exception
+        	class ECE_UTILITY_API FileException : public Exception
         	{
         	public:
         		/**
@@ -152,7 +157,7 @@ namespace ece
         	 * @brief An exception used to indicate an error of input.
         	 * @see Exception
         	 */
-        	class BadInputException : public Exception
+        	class ECE_UTILITY_API BadInputException : public Exception
         	{
         	public:
         		/**
@@ -171,7 +176,7 @@ namespace ece
         	 * @brief An exception used to indicate an error of initialization of a system or a service.
         	 * @see Exception
         	 */
-        	class InitializationException : public Exception
+        	class ECE_UTILITY_API InitializationException : public Exception
         	{
         	public:
         		/**
@@ -190,7 +195,7 @@ namespace ece
         	 * @brief An exception used to indicates a wrong access to the memory.
         	 * @see Exception
         	 */
-        	class MemoryAccessException : public Exception
+        	class ECE_UTILITY_API MemoryAccessException : public Exception
         	{
         	public:
         		/**
@@ -222,7 +227,7 @@ namespace ece
         	 * @brief An exception used to indicates an access to a location out of the range of the owner container.
         	 * @see Exception
         	 */
-        	class OutOfRangeException : public Exception
+        	class ECE_UTILITY_API OutOfRangeException : public Exception
         	{
         	public:
         		/**
@@ -253,7 +258,7 @@ namespace ece
         	 * @brief An exception used to indicates an error while handling a resource.
         	 * @see Exception
         	 */
-        	class ResourceException : public Exception
+        	class ECE_UTILITY_API ResourceException : public Exception
         	{
         	public:
         		/**
@@ -273,7 +278,7 @@ namespace ece
         	 * @brief An exception to indicate a division by zero which is not possible.
         	 * @see Exception
         	 */
-        	class DivideByZeroException : public Exception
+        	class ECE_UTILITY_API DivideByZeroException : public Exception
         	{
         	public:
         		/**

@@ -36,14 +36,12 @@
 
 */
 
-#include "utility/debug/exception.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
     namespace utility
     {
-        using debug::FileException;
-
         namespace file_system
         {
         	inline File::File() : _filename(), _stream() {}
@@ -60,26 +58,26 @@ namespace ece
 
         	inline File::~File() noexcept { this->_stream.close(); }
 
-        	inline bool File::isOpen() const { return this->_stream.is_open(); }
+        	inline auto File::isOpen() const { return this->_stream.is_open(); }
 
         	template <class T>
-        	File & File::operator>>(T & value)
+			auto & File::operator>>(T & value)
         	{
         		this->_stream >> value;
         		return *this;
         	}
 
         	template <class T>
-        	File & File::operator<<(T & value)
+			auto & File::operator<<(T & value)
         	{
         		this->_stream << value;
         		return *this;
         	}
 
         	template <class T>
-        	T File::read(const unsigned int size)
+			auto File::read(const unsigned int size)
         	{
-        		T data;
+				auto data = T{};
         		this->_stream.read(reinterpret_cast<char *>(&data), size);
         		return data;
         	}
@@ -90,19 +88,21 @@ namespace ece
         		this->_stream.write(reinterpret_cast<const char *>(value), size);
         	}
 
+			inline auto & File::getStream() { return this->_stream; }
+
         	template <class T>
-        	std::vector<T> File::parseToVector()
+			auto File::parseToVector()
         	{
-        		std::vector<T> content;
+				auto content = std::vector<T>{};
         		if (this->isOpen()) {
-        			T value;
+					auto value = T{};
         			try {
         				while (this->_stream.good()) {
         					this->_stream >> value;
         					content.push_back(value);
         				}
         			}
-        			catch (std::exception & /*e*/) {
+        			catch ([[maybe_unused]] std::exception & e) {
         				throw FileException(FileCodeError::PARSE_ERROR, this->_filename);
         			}
         		}

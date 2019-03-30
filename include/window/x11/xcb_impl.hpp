@@ -110,7 +110,7 @@ namespace ece
 				 * @brief Get the window ID of the internal API.
 				 * @throw
 				 */
-				virtual Window getWindowHandle() const override;
+				virtual auto getWindowHandle() const -> ::Window override;
 
 				/**
 				 * Display * getDevice() const
@@ -118,7 +118,7 @@ namespace ece
 				 * @brief Get the device associated to the window.
 				 * @throw
 				 */
-				virtual Display * getDevice() const override;
+				virtual auto getDevice() const -> Display * override;
 
 				/**
 				 * @fn void createWindow()
@@ -144,7 +144,7 @@ namespace ece
 				 * @throw
 				 * @see bool X11API::isWindowCreated() const
 				 */
-				virtual bool isWindowCreated() const override;
+				virtual auto isWindowCreated() const -> bool override;
 
 				/**
 				 * @fn void setTitle(const std::string & title)
@@ -162,7 +162,7 @@ namespace ece
 				 * @throw
 				 * @see std::string X11API::getTitle() const
 				 */
-				virtual std::string getTitle() const override;
+				virtual auto getTitle() const -> std::string override;
 
 				/**
 				 * @fn void setPosition(const IntVector2u & position)
@@ -180,7 +180,16 @@ namespace ece
 				 * @throw
 				 * @see IntVector2u X11API::getPosition() const
 				 */
-				virtual IntVector2u getPosition() const override;
+				virtual auto getPosition() const -> IntVector2u override;
+
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 * @see IntVector2u X11API::getSize() const
+				 */
+				virtual auto getSize() const -> IntVector2u override;
 
 				/**
 				 * @fn void minimize()
@@ -206,7 +215,17 @@ namespace ece
 				 * @throw
 				 * @see std::vector<InputEvent> X11API::processEvent(const bool blocking)
 				 */
-				virtual std::vector<InputEvent> processEvent(const bool blocking) override;
+				virtual auto processEvent(const bool blocking, [[maybe_unused]] const bool keyRepeat) -> std::vector<InputEvent> override;
+
+			protected:
+				/**
+				* @fn InputEvent processMessage(const WindowMessage & message)
+				* @param[in] message The window message to process.
+				* @return The window message standardized.
+				* @brief Process a window message.
+				* @throw
+				*/
+				auto processMessage([[maybe_unused]] const WindowMessage & message, [[maybe_unused]] const bool keyRepeat) -> InputEvent;
 
 			private:
 				/**

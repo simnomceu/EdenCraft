@@ -39,6 +39,8 @@
 #ifndef SLICE_HPP
 #define SLICE_HPP
 
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/vector.hpp"
 
 namespace ece
@@ -71,17 +73,6 @@ namespace ece
         		Slice(Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
 
         		/**
-        		 * @fn Slice(const Container * container, unsigned int beginning, unsigned int size, unsigned int shift)
-        		 * @param[in] container The container to slice.
-        		 * @param[in] beginning Where to begin to slice the container.
-        		 * @param[in] size The size of the slice.
-        		 * @param[in] shift The shift between each element of the slice in the container.
-        		 * @brief Build a slice of the container.
-        		 * @throw noexcept
-        		 */
-        		Slice(const Container * container, unsigned int beginning, unsigned int size, unsigned int shift) noexcept;
-
-        		/**
         		 * @fn Slice(const Slice & copy) noexcept
         		 * @param[in] copy The Slice to copy from.
         		 * @brief Default copy constructor.
@@ -102,7 +93,7 @@ namespace ece
         		 * @brief Default destructor.
         		 * @throw noexcept
         		 */
-        		~Slice() noexcept = default;
+				~Slice() noexcept = default;
 
         		/**
         		 * @fn Slice & operator=(const Slice & copy) noexcept
@@ -168,7 +159,7 @@ namespace ece
         		 * @brief Get he number of elements.
         		 * @throw noexcept
         		 */
-        		inline constexpr unsigned int size() const noexcept;
+        		inline constexpr auto size() const noexcept -> unsigned int;
 
         		/**
         		 * @fn auto begin() noexcept

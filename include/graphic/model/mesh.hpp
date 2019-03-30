@@ -41,12 +41,13 @@
 #ifndef MESH_HPP
 #define MESH_HPP
 
-#include <vector>
-#include <iostream>
-
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/box3d.hpp"
-#include "graphic/renderable/vertex.hpp"
+#include "graphic/config.hpp"
+#include "graphic/model/submesh.hpp"
+#include "graphic/material/material.hpp"
+#include "utility/mathematics.hpp"
+#include "core/resource.hpp"
+#include "renderer/buffer.hpp"
+#include "utility/hash.hpp"
 
 namespace ece
 {
@@ -54,33 +55,45 @@ namespace ece
 	{
 		namespace model
 		{
-			using utility::mathematics::FloatVector3u;
-			using utility::mathematics::Box3D;
-			using renderable::Vertex;
+			using material::Material;
 
 			/**
 			 * @class Mesh
-			 * @extends Vertex
-			 * @brief A mesh as defined in 3D modelling.
-			 * @remark It has to be refactored soon, as it is redudnant with Renderer.
+			 * @brief
 			 */
-			class Mesh : public Vertex
+			class ECE_GRAPHIC_API Mesh
 			{
 			public:
+				using Reference = ResourceHandler<Mesh>;
+
+				struct Vertex
+				{
+					FloatVector3u _position;
+					FloatVector3u _normal;
+					FloatVector2u _textureCoordinate;
+				};
+
+				struct SubmeshData
+				{
+					Submesh mesh;
+					Material::Reference material;
+					FloatMatrix4u model;
+				};
+
 				/**
 				 * @fn Mesh() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Mesh() noexcept = default;
+				Mesh() noexcept;
 
 				/**
-				 * @fn Mesh(const Mesh & copy)
+				 * @fn Mesh(const Mesh & copy) noexcept
 				 * @param[in] copy The Mesh to copy from.
 				 * @brief Default copy constructor.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Mesh(const Mesh & copy) = default;
+				Mesh(const Mesh & copy) noexcept = default;
 
 				/**
 				 * @fn Mesh(Mesh && move) noexcept
@@ -88,7 +101,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Mesh(Mesh && move) noexcept = default;
+				Mesh(Mesh && move) = default;
 
 				/**
 				 * @fn ~Mesh() noexcept
@@ -98,39 +111,40 @@ namespace ece
 				~Mesh() noexcept = default;
 
 				/**
-				 * @fn Mesh & operator=(const Mesh & copy)
+				 * @fn Mesh & operator=(const Mesh & copy) noexcept
 				 * @param[in] copy The Mesh to copy from.
 				 * @return The Mesh copied.
 				 * @brief Default copy assignment operator.
-				 * @throw
+				 * @throw noexcept
 				 */
-				Mesh & operator=(const Mesh & copy) = default;
+				Mesh & operator=(const Mesh & copy) noexcept = default;
 
 				/**
 				 * @fn Mesh & operator=(Mesh && move) noexcept
-				 * @param[in] move The Mesh to move from.
+				 * @param[in] move The Mesh to move.
 				 * @return The Mesh moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
 				Mesh & operator=(Mesh && move) noexcept = default;
 
-				/**
-				 * @fn bool loadFromFile(const std::string & filename)
-				 * @param[in] filename The name of the file to read.
-				 * @return True, if the mesh has been loaded successfully, else false.
-				 * @brief Load a mesh from a specific file.
-				 * @throw
-				 */
-				bool loadFromFile(const std::string & filename);
+				inline void reset();
 
 				/**
-				 * @fn unsigned int size() const
+				 * @fn std::size_t getNumberOfVertices() const
 				 * @return The number of vertices of the mesh.
 				 * @brief Get the number of vertices of the mesh.
 				 * @throw
 				 */
-				inline unsigned int size() const;
+				inline auto size() const -> std::size_t;
+
+				/**
+				 * @fn std::size_t getNumberOfFaces() const
+				 * @return The number of faces of the mesh.
+				 * @brief Get the number of faces of the mesh.
+				 * @throw
+				 */
+				inline auto getNumberOfFaces() const -> std::size_t;
 
 				/**
 				 * @fn Box3D getBouncingBox() const
@@ -138,52 +152,32 @@ namespace ece
 				 * @brief Get the bouncing box of the mesh.
 				 * @throw
 				 */
-				Box3D getBouncingBox() const;
+				auto getBouncingBox() const;
 
-				/**
-				 * @fn std::vector<FloatVector3u> getPositions() const
-				 * @return The list of vertices of the mesh.
-				 * @brief Get the list of vertices of the mesh.
-				 * @throw
-				 */
-				inline virtual std::vector<FloatVector3u> getPositions() const override;
+				inline auto getSubmeshes() -> std::vector<SubmeshData> &;
+				inline auto getSubmeshes() const -> const std::vector<SubmeshData> &;
 
-				/**
-				 * @fn std::vector<FloatVector3u> getColors() const
-				 * @return The list of vertex colors of the mesh.
-				 * @brief Get the list of vertex colors of the mesh.
-				 * @throw
-				 */
-				inline virtual std::vector<FloatVector3u> getColors() const override;
+				auto addVertex(const Mesh::Vertex & vertex) -> std::size_t;
+				auto addVertex(Mesh::Vertex && vertex) -> std::size_t;
+				void insertVertex(std::size_t position, const Mesh::Vertex & vertex);
+				void insertVertex(std::size_t position, Mesh::Vertex && vertex);
 
-				/**
-				 * @fn std::vector<FloatVector3u> getNormals() const
-				 * @return The list of vertex normals of the mesh.
-				 * @brief Get the list of vertex normals of the mesh.
-				 * @throw
-				 */
-				inline virtual std::vector<FloatVector3u> getNormals() const override;
+				inline auto getVertices() -> std::vector<Mesh::Vertex> &;
+				inline auto getVertices() const -> const std::vector<Mesh::Vertex> &;
 
-				/**
-				 * @fn std::vector<int> getIndices() const
-				 * @return The list of indices of the mesh.
-				 * @brief Get the list of indices of the mesh.
-				 * @throw
-				 */
-				inline virtual std::vector<int> getIndices() const override;
+				void update();
 
-			private:
+				inline auto getVertexBuffer() -> VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> &;
+				auto getLayout() const -> BufferLayout;
+
+			protected:
+				std::vector<SubmeshData> _submeshes;
+
 				/**
 				 * @property _vertices
 				 * @brief The list of vertices of the mesh.
 				 */
-				std::vector<FloatVector3u> _vertices;
-
-				/**
-				 * @property _colors
-				 * @brief The list of vertex colors of the mesh.
-				 */
-				std::vector<FloatVector3u> _colors;
+				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;
 			};
 		} // namespace model
 	} // namespace graphic

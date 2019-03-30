@@ -41,8 +41,9 @@
 #ifndef PROJECTION_HPP
 #define PROJECTION_HPP
 
-#include "window/common/ratio.hpp"
-#include "utility/mathematics/matrix4u.hpp"
+#include "graphic/config.hpp"
+#include "window/common.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -50,14 +51,11 @@ namespace ece
 	{
 		namespace scene
 		{
-			using utility::mathematics::FloatMatrix4u;
-			using window::common::Ratio;
-
 			/**
 			 * @class Projection
 			 * @brief
 			 */
-			class Projection
+			class ECE_GRAPHIC_API Projection
 			{
 			public:
 				/**
@@ -109,7 +107,7 @@ namespace ece
 				Projection & operator=(Projection && move) noexcept = default;
 
 				/**
-				 * @fn void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
+				 * @fn void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping)
 				 * @param[in] FOV The field of view of the camera.
 				 * @param[in] ratio The ratio of the screen.
 				 * @param[in] nearClipping The nearest plan of the scene to capture.
@@ -117,7 +115,17 @@ namespace ece
 				 * @brief Set the projection matrix.
 				 * @throw
 				 */
-				inline void setProjection(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
+				inline void setPerspective(const double FOV, const Ratio ratio, const double nearClipping, const double farClipping);
+
+				/**
+				 * @fn void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping)
+				 * @param[in] screen The screen rectangle to project the rendering.
+				 * @param[in] nearClipping Nearest distance of the frustum view.
+				 * @param[in] farClipping Furthest distance of the frustum view.
+				 * @brief Set the projection matrix.
+				 * @throw
+				 */
+				inline void setOrthographic(const Rectangle<float> & screen, const float nearClipping, const float farClipping);
 
 				/**
 				 * @fn const FloatMatrix4u & getProjection() const
@@ -125,7 +133,7 @@ namespace ece
 				 * @brief Get the projection matrix.
 				 * @throw
 				 */
-				inline const FloatMatrix4u & getProjection() const;
+				inline auto getMatrix() const -> const FloatMatrix4u &;
 
 			private:
 				/**

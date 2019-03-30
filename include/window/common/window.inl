@@ -41,39 +41,39 @@ namespace ece
 	{
 		namespace common
 		{
-			inline Window::Window(const Window & copy) noexcept:Emitter(copy), _adapter(static_cast<WindowAdapter*>(copy._adapter.get())), _ups(copy._ups) {}
-
-			inline Window::Window(Window && move) noexcept : Emitter(move), _adapter(std::move(_adapter)), _ups(std::move(move._ups)) {}
-
 			inline Window::~Window() noexcept {}
 
-			inline void Window::open(const WindowSetting & /*settings*/) {}
+			inline void Window::open([[maybe_unused]] const WindowSetting & settings) {}
+			
+			inline auto Window::isOpened() const { return this->_isOpened && this->_adapter->isWindowCreated(); }
 
-			inline bool Window::isOpened() const { return this->_adapter->isWindowCreated(); }
+			inline auto Window::getTitle() const { return std::move(this->_adapter.get()->getTitle()); }
+	
+			inline auto Window::getSize() const { return std::move(this->_adapter.get()->getSize()); }
 
-			inline std::string Window::getTitle() const { return std::move(this->_adapter.get()->getTitle()); }
+			inline void Window::setMinimumSize([[maybe_unused]] const IntVector2u & size) { this->onWindowResized(); }
 
-			inline void Window::setMinimumSize(const IntVector2u & /*size*/) { this->emit(WINDOW_RESIZED); }
+			inline void Window::setMaximumSize([[maybe_unused]] const IntVector2u & size) { this->onWindowResized(); }
 
-			inline void Window::setMaximumSize(const IntVector2u & /*size*/) { this->emit(WINDOW_RESIZED); }
+			inline void Window::setFullscreen([[maybe_unused]] const bool fullscreen) { this->onWindowResized(); }
 
-			inline void Window::setFullscreen(const bool /*fullscreen*/) { this->emit(WINDOW_RESIZED); }
+			inline void Window::enableDoubleClick([[maybe_unused]] const bool enabled) {}
 
-			inline void Window::enableDoubleClick(const bool /*enabled*/) {}
-
-			inline bool Window::isDoubleClickEnabled() const { return false; }
+			inline auto Window::isDoubleClickEnabled() const { return false; }
 
 			inline void Window::enableKeyRepeat(const bool enabled) { this->_adapter->enableKeyRepeat(enabled); }
 
-			inline bool Window::isKeyRepeatedEnabled() const { return false; }
+			inline auto Window::isKeyRepeatedEnabled() const { return false; }
 
 			inline void Window::limitUPS(const int limit) { this->_ups.setUPS(limit); }
 
-			inline std::weak_ptr<BaseWindowAdapter> Window::getAdapter() const { return this->_adapter; }
+			inline auto Window::getAdapter() const { return this->_adapter; }
 
-			inline VideoMode & Window::getVideoMode() { return this->_videoMode; }
+			inline auto & Window::getVideoMode() { return this->_videoMode; }
 
-			inline const VideoMode & Window::getVideoMode() const { return this->_videoMode; }
+			inline const auto & Window::getVideoMode() const { return this->_videoMode; }
+
+			inline auto & Window::getEventHandler() { return this->_eventHandler; }
 		} // namespace common
 	} // namespace window
 } // namespace ece

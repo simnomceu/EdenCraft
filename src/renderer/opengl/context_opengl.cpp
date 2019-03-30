@@ -36,11 +36,17 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/opengl/context_opengl.hpp"
 
-#include "renderer/opengl/opengl.hpp"
-#include "utility/log/service_logger.hpp"
+#include "renderer/opengl.hpp"
+#include "utility/log.hpp"
+#include "renderer/rendering.hpp"
+
+#ifdef _MSC_VER
+#	undef min
+#	undef max
+#endif
 
 namespace ece
 {
@@ -48,19 +54,71 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using utility::log::ServiceLoggerLocator;
+			Version<2> ContextOpenGL::_maxVersionAvailable{ 3, 3 };
 
-			Version<2> ContextOpenGL::getCurrentVersion() const
+			auto ContextOpenGL::DummyContext() -> std::shared_ptr<RenderContext>
 			{
-				// TODO To be completed
-				return Version<2>();
+				auto settings = ContextSettings{};
+				settings.oldContext = true;
+
+				auto dummy = std::make_shared<ContextOpenGL>();
+				dummy->create(settings);
+				return dummy;
+			}
+
+			auto ContextOpenGL::getCurrentVersion() const -> Version<2>
+			{
+				return this->_currentVersion;
 			}
 
 			void ContextOpenGL::logInfos() const
 			{
-				ServiceLoggerLocator::getService().logInfo("Renderer: " + OpenGL::getString(InfoGL::RENDERER));
-				ServiceLoggerLocator::getService().logInfo("OpenGL version supported " + OpenGL::getString(InfoGL::VERSION));
-				ServiceLoggerLocator::getService().logInfo("GLSL version supported " + OpenGL::getString(InfoGL::SHADING_LANGUAGE_VERSION));
+				INFO << "Renderer: " << OpenGL::getString(InfoGL::RENDERER) << flush;
+				INFO << "OpenGL version supported " << OpenGL::getString(InfoGL::VERSION) << flush;
+				INFO << "GLSL version supported " << OpenGL::getString(InfoGL::SHADING_LANGUAGE_VERSION) << flush;
+			}
+
+			void ContextOpenGL::setDebugContext()
+			{
+#			ifdef ECE_DEBUG
+				auto flags = OpenGL::getInteger(Parameter::CONTEXT_FLAGS)[0];
+				if (flags && static_cast<unsigned short int>(ContextFlag::CONTEXT_FLAG_DEBUG_BIT))
+				{
+					OpenGL::enable(Capability::DEBUG_OUTPUT);
+					OpenGL::enable(Capability::DEBUG_OUTPUT_SYNCHRONOUS);
+					OpenGL::debugMessageCallback(glDebugOutput, nullptr);
+					OpenGL::debugMessageControl(SourceDebugMessage::DONT_CARE, TypeDebugMessage::DONT_CARE, SeverityDebugMessage::DONT_CARE, {}, true);
+				}
+#			endif
+			}
+
+			void ContextOpenGL::create(const ContextSettings & settings)
+			{
+				if (settings.oldContext) {
+					this->createOldContext();
+				}
+				else {
+					if (!Renderer::isInitialized()) {
+						[[maybe_unused]] auto dummy = ContextOpenGL::DummyContext();
+						ContextOpenGL::_maxVersionAvailable = max(initLoader(settings.minVersion, settings.maxVersion), ContextOpenGL::_maxVersionAvailable);
+					}
+
+					this->createModernContext(settings);
+				}
+				this->_created = true;
+				this->setCurrent();
+
+				auto version = OpenGL::getString(InfoGL::VERSION);
+				if (!version.empty()) {
+					this->_currentVersion[0] = std::stoi(version.substr(0, 1));
+					this->_currentVersion[1] = std::stoi(version.substr(2, 1));
+				}
+
+				if (!settings.oldContext) {
+					this->logInfos();
+
+					this->setDebugContext();
+				}
 			}
 		} // namespace opengl
 	} // namespace renderer

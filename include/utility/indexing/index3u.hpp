@@ -39,6 +39,8 @@
 #ifndef INDEX3U_HPP
 #define INDEX3U_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
     namespace utility
@@ -50,7 +52,7 @@ namespace ece
         	 * @brief A 3D index key to access elements in a 3D container.
         	 * @remark This class need to be refactored to be usable in others classes like Matrix. Have to be compared with std::slice and others.
         	 */
-        	class Index3u
+        	class ECE_UTILITY_API Index3u
         	{
         	public:
         		/**
@@ -69,7 +71,7 @@ namespace ece
         		* @brief Build a 3d index key and set the position to (i, j, k).
         		* @throw noexcept
         		*/
-        		inline Index3u(const int i, const int j, const int k) noexcept;
+        		inline Index3u(const std::size_t i, const std::size_t j, const std::size_t k) noexcept;
 
         		/**
         		 * @fn Index3u(const Index3u & copy)
@@ -120,7 +122,7 @@ namespace ece
         		 * @brief Get the 1D position considering the max size of a slice.
         		 * @throw noexcept
         		 */
-        		inline int get(const int maxI, const int maxJ) noexcept;
+        		inline std::size_t get(const std::size_t maxI, const std::size_t maxJ) noexcept;
 
         		/**
         		 * @fn void set(const int maxI, const int maxJ, const int index)
@@ -130,25 +132,25 @@ namespace ece
         		 * @brief Convert a 1D position to a 3D position, considering the max size of a slice.
         		 * @throw A division_by_zero exception if the max length is equal to 0.
         		 */
-        		inline void set(const int maxI, const int maxJ, const int index);
+        		inline void set(const std::size_t maxI, const std::size_t maxJ, const std::size_t index);
 
         		/**
         		 * @property _i
         		 * @brief The i position (usually on X-axis) of the index in 3D.
         		 */
-        		unsigned int _i;
+        		std::size_t _i;
 
         		/**
         		 * @property _j
         		 * @brief The j position (usually on Y-axis) of the index in 3D.
         		 */
-        		unsigned int _j;
+				std::size_t _j;
 
         		/**
         		 * @property _k
         		 * @brief The k position (usually on Z-axis) of the index in 3D.
         		 */
-        		unsigned int _k;
+				std::size_t _k;
         	};
         } // namespace indexing
     } // namespace utility

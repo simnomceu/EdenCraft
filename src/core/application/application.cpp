@@ -36,15 +36,12 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/application/application.hpp"
 
-#include "utility/log/service_logger.hpp"
-#include "utility/log/logger.hpp"
-#include "core/event/event_service.hpp"
-#include "core/event/event_manager.hpp"
-#include "core/module/module_method.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/log.hpp"
+#include "core/resource.hpp"
+#include "core/format.hpp"
 
 namespace ece
 {
@@ -52,52 +49,50 @@ namespace ece
 	{
 		namespace application
 		{
-			using utility::log::ServiceLoggerLocator;
-			using utility::log::ServiceLoggerFactory;
-			using utility::log::Logger;
-			using core::event::EventServiceLocator;
-			using core::event::EventServiceFactory;
-			using core::event::EventManager;
-
-			Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
+			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
-				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
-
-				this->_lifecycle = std::make_shared<Lifecycle>();
+				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
+				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 			}
 
-			Application::Application(int argc, char * argv[]) : _running(false), _moduleManager(), _lifecycle(nullptr)
+			Application::Application(int argc, char * argv[]) : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), _running(false), _moduleManager()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
-				EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
-
-				this->_lifecycle = std::make_shared<Lifecycle>();
+				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
 
 				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
 				argumentAnalyzer.setParameters(argc, argv);
 			}
 
+			Application::~Application() noexcept
+			{
+			}
+
 			void Application::run()
 			{
 				// TODO : add balancer to reduce usage of processor.
-				this->_lifecycle->preInit();
+				this->onPreInit();
 				this->init();
-				this->_lifecycle->postInit();
+				this->onPostInit();
 
 				while (this->isRunning()) {
-					this->_lifecycle->preProcess();
+					this->onPreProcess();
 					this->processEvents();
-					this->_lifecycle->preUpdate();
+					this->onPreUpdate();
 					this->update();
-					this->_lifecycle->postUpdate();
-					this->render();
-					this->_lifecycle->postRender();
+					this->onPostUpdate();
 				}
 
-				this->_lifecycle->preTerminate();
+				this->onPreTerminate();
 				this->terminate();
-				this->_lifecycle->preTerminate();
+				this->onPostTerminate();
+			}
+
+			auto Application::addWorld() -> World &
+			{
+				this->_worlds.emplace_back();
+				return this->_worlds.back();
 			}
 
 			void Application::init()
@@ -105,23 +100,22 @@ namespace ece
 				try {
 					this->_moduleManager.initAll();
 				}
-				catch (std::runtime_error & e) {
-					ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
+				catch (const std::runtime_error & e) {
+					ERROR << "Invalid command argument: " << e.what() << flush;
 				}
 				this->_running = true;
 			}
 
 			void Application::update()
 			{
+				for (auto & world : this->_worlds) {
+					world.update();
+				}
+
 				this->_moduleManager.updateAll();
 			}
 
 			void Application::processEvents()
-			{
-				//EventServiceLocator::getService().clear();
-			}
-
-			void Application::render()
 			{
 			}
 

@@ -1,14 +1,13 @@
 # EdenCraft
 
-[![Github Releases](https://img.shields.io/github/release/Isilin/edencraft.svg)](https://github.com/simnomceu/EdenCraft/releases)
-[![Github (pre-releases](https://img.shields.io/github/release/simnomceu/edencraft/all.svg?label=nightly)](https://github.com/simnomceu/EdenCraft/releases)
-[![Build Status](https://travis-ci.org/Isilin/EdenCraft.svg?branch=master)](https://travis-ci.org/Isilin/EdenCraft)
-[![Build status](https://ci.appveyor.com/api/projects/status/h14mj302e5x0amy4/branch/master?svg=true)](https://ci.appveyor.com/project/Isilin/edencraft/branch/master)
-[![Coverage Status](https://coveralls.io/repos/github/Isilin/EdenCraft/badge.svg?branch=master)](https://coveralls.io/github/Isilin/EdenCraft?branch=master)
+[![GitLab Releases](https://img.shields.io/badge/dynamic/json.svg?label=release&url=https://framagit.org/api/v4/projects/24785/repository/tags&query=$[0].name&colorB=blue&logo=gitlab)](https://framagit.org/simnomce_u/EdenCraft/tags)
+[![Build Status](https://travis-ci.org/simnomceu/EdenCraft.svg?branch=master)](https://travis-ci.org/simnomceu/EdenCraft)
+[![Build status](https://ci.appveyor.com/api/projects/status/h14mj302e5x0amy4/branch/master?svg=true)](https://ci.appveyor.com/project/simnomceu/edencraft/branch/master)
+[![Coverage Status](https://coveralls.io/repos/github/simnomceu/EdenCraft/badge.svg?branch=master)](https://coveralls.io/github/Isilin/EdenCraft?branch=master)
 
 
 ## Introduction
-The Edencraft Engine is an Open Source, multiplatform framework for application and game development.
+The Edencraft Engine is a Free/Libre & Open Source (FLOSS), multiplatform framework for application and game development.
 
 It is build without any external dependencies, excepted the [Catch2 library](https://github.com/catchorg/Catch2) for automated test cases.
 
@@ -22,13 +21,13 @@ This project use [Premake5](https://premake.github.io/download.html) to generate
 Tutorials and documentation is not available yet. Work in progress.
 
 ## Contribution to EdenCraft Engine
-Bugs can be reported on the Framagit issue tracker here: [(https://img.shields.io/badge/Framagit-Open%20an%20issue-blue.svg)](https://framagit.org/simnomce_u/EdenCraft/issues)
+Bugs can be reported on the Framagit issue tracker [here](https://framagit.org/simnomce_u/EdenCraft/issues).
 
 Mirrors are available on [Github](https://github.com/simnomceu/EdenCraft) and [Bitbucket](https://bitbucket.org/simnomce_u/edencraft) for read access only (clone and fork). To contribute to the project, please use the [Framagit](https://framagit.org/simnomce_u/EdenCraft) account.
 
 ## Authors
 * IsilinBN
-* Alcyone - http://alcyone.toile-libre.org/
+* Alcyone
 
 ## Copyright and Licensing
 The EdenCraft Engine is delivered under the [GNU-GPLv3](https://www.gnu.org/licenses/gpl-3.0.fr.html).

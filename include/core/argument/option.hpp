@@ -39,10 +39,8 @@
 #ifndef OPTION_HPP
 #define OPTION_HPP
 
-#include <string>
-#include <memory>
-#include <functional>
-
+#include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option_value.hpp"
 
 namespace ece
@@ -55,7 +53,7 @@ namespace ece
 			 * @class Option
 			 * @brief A command line argument.
 			 */
-			class Option
+			class ECE_CORE_API Option
 			{
 			public:
 				Option() = delete;
@@ -119,7 +117,7 @@ namespace ece
 				 * @brief Try to apply the command linked to this option.
 				 * @throw
 				 */
-				bool apply(const std::string & optionName, const std::string & optionValue = "");
+				auto apply(const std::string & optionName, const std::string & optionValue = "") -> bool;
 
 			private:
 				/**

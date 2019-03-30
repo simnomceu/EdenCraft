@@ -39,8 +39,9 @@
 #ifndef CONTEXT_OPENGL_HPP
 #define CONTEXT_OPENGL_HPP
 
-#include "renderer/common/base_context.hpp"
-#include "utility/pattern/pimpl.hpp"
+#include "renderer/rendering.hpp"
+#include "utility/pattern.hpp"
+#include "utility/indexing.hpp"
 
 namespace ece
 {
@@ -48,22 +49,19 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using common::BaseContext;
-			using common::RenderWindow;
-			using utility::pattern::Pimpl;
-			using utility::indexing::Version;
-
 			struct DataContextOpenGL;
 
 			/**
 			 * @class ContextOpenGL
-			 * @extends std::enable_shared_from_this<BaseContextOpenGL>
-			 * @extends BaseContext
+			 * @extends std::enable_shared_from_this<ContextOpenGL>
+			 * @extends RenderContext
 			 * @brief An OpenGL context with an implementation depending of the platform.
 			 */
-			class ContextOpenGL : public BaseContext
+			class ContextOpenGL : public RenderContext
 			{
 			public:
+				static auto DummyContext() -> std::shared_ptr<RenderContext>;
+
 				/**
 				 * @fn ContextOpenGL() noexcept
 				 * @brief Default constructor.
@@ -117,24 +115,24 @@ namespace ece
 				 * @return The current version of the render context.
 				 * @brief Get the version used of the render context.
 				 * @throw
-				 * @see Version<2> BaseContext::getCurrentVersion() const
+				 * @see Version<2> RenderContext::getCurrentVersion() const
 				 */
-				virtual Version<2> getCurrentVersion() const override;
+				virtual auto getCurrentVersion() const -> Version<2> override;
 
 				/**
 				 * @fn void create(const RenderWindow & window)
 				 * @param[in] window The window to linked to.
 				 * @brief Create the OpenGL context for a window.
 				 * @throw
-				 * @see void BaseContext::create(const RenderWindow & window)
+				 * @see void RenderContext::create(const RenderWindow & window)
 				 */
-				virtual void create(const RenderWindow & window) override;
+				virtual void create(const ContextSettings & settings) override;
 
 				/**
 				 * @fn void terminate()
 				 * @brief Delete the render context.
 				 * @throw
-				 * @see void BaseContext::terminate()
+				 * @see void RenderContext::terminate()
 				 */
 				virtual void terminate() override;
 
@@ -142,7 +140,7 @@ namespace ece
 				 * @fn void swapBuffers()
 				 * @brief If multi buffering is enable, it swap between buffers to display the new frame.
 				 * @throw
-				 * @see void BaseContext::swapBuffers()
+				 * @see void RenderContext::swapBuffers()
 				 */
 				virtual void swapBuffers() override;
 
@@ -158,9 +156,26 @@ namespace ece
 				 * @fn void logInfos()
 				 * @brief Log the informations related to OpenGL and the device used.
 				 * @throw
-				 * @see void BaseContext::logInfos()
+				 * @see void RenderContext::logInfos()
 				 */
 				virtual void logInfos() const override;
+
+				inline static auto getMaxVersionAvailable() noexcept -> const Version<2> &;
+
+				inline static auto isOpenGL33Available() -> bool;
+				inline static auto isOpenGL40Available() -> bool;
+				inline static auto isOpenGL41Available() -> bool;
+				inline static auto isOpenGL42Available() -> bool;
+				inline static auto isOpenGL43Available() -> bool;
+				inline static auto isOpenGL44Available() -> bool;
+				inline static auto isOpenGL45Available() -> bool;
+				inline static auto isOpenGL46Available() -> bool;
+
+				void setDebugContext();
+
+			protected:
+				void createOldContext();
+				void createModernContext(const ContextSettings & settings);
 
 			private:
 				/**
@@ -168,6 +183,10 @@ namespace ece
 				 * @brief The platform implentation for the OpenGL context.
 				 */
 				Pimpl<DataContextOpenGL> _data;
+
+				Version<2> _currentVersion;
+
+				static Version<2> _maxVersionAvailable;
 			};
 		} // namespace opengl
 	} // namespace renderer
@@ -175,4 +194,4 @@ namespace ece
 
 #include "renderer/opengl/context_opengl.inl"
 
-#endif // !CONTEXT_OPENGL_HPP
+#endif // CONTEXT_OPENGL_HPP

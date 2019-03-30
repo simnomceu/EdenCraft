@@ -39,9 +39,10 @@
 #ifndef IMAGE_HPP
 #define IMAGE_HPP
 
-#include <vector>
-
-#include "utility/indexing/dynamic_2d_array.hpp"
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "utility/indexing.hpp"
+#include "renderer/image/color.hpp"
 
 namespace ece
 {
@@ -49,15 +50,13 @@ namespace ece
 	{
 		namespace image
 		{
-			using utility::indexing::Dynamic2DArray;
-
 			/**
 			 * @class Image
 			 * @tparam E The color format to use.
 			 * @brief
 			 */
 			template <class E>
-			class Image : public Dynamic2DArray<E>
+			class ECE_RENDERER_API Image : public Dynamic2DArray<E>
 			{
 			public:
 				/**
@@ -135,6 +134,8 @@ namespace ece
 				 * @throw
 				 */
 				void rotateOnLeft();
+
+				void setAlphaColor(E color, std::function<auto (const E &, const E &) -> bool> op = [](const E & pixel, const E & mask) { return pixel == mask; });
 			};
 		} // namespace image
 	} // namespace renderer

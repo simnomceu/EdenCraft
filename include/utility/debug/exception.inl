@@ -36,9 +36,6 @@
 
 */
 
-#include <sstream>
-#include <iostream>
-
 /**
  * @remark Another pattern should be used to implements the set of exceptions. Indeed, the scalability is not take into account.
  */
@@ -57,20 +54,20 @@ namespace ece
         		this->_message = this->mapString(message, args...);
         	}
 
-        	inline const char * Exception::what() const noexcept { return this->_message.data(); }
+        	inline auto Exception::what() const noexcept -> const char * { return this->_message.data(); }
 
-        	inline std::string Exception::mapString(const std::string & content) noexcept { return content; }
+        	inline auto Exception::mapString(const std::string & content) noexcept { return content; }
 
         	template <class V, class... Args>
-        	std::string Exception::mapString(const std::string & content, V value, Args... args) noexcept
+        	auto Exception::mapString(const std::string & content, V value, Args... args) noexcept
         	{
         		/* Look for the next '%' tag to bind. */
         		auto pos = content.find_first_of("%");
         		if (pos != std::string::npos) {
-        			std::string end;
+					auto end = std::string{};
         			try {
         				/* If there is one, replace it. */
-        				std::stringstream stream;
+						auto stream = std::stringstream{};
         				stream << value;
         				/* The new content with the recursive result of the others arguments to bind. */
         				end = stream.str() + this->mapString(content.substr(pos + 1), args...);

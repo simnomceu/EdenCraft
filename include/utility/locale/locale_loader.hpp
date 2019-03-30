@@ -40,9 +40,8 @@
 #ifndef LOCALE_LOADER_HPP
 #define LOCALE_LOADER_HPP
 
-#include <string>
-#include <utility>
-
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/locale/localization.hpp"
 #include "utility/locale/resource_container.hpp"
 
@@ -57,7 +56,7 @@ namespace ece
         	 * @brief Loader for JSON files of string literals, regarding the localization.
         	 * @remark This could be optimize, i guess.
         	 */
-        	class LocaleLoader
+        	class ECE_UTILITY_API LocaleLoader
         	{
         	public:
         		/**
@@ -126,7 +125,7 @@ namespace ece
         		 * @brief Get access to the locale resource loaded from the file.
         		 * @throw
         		 */
-        		inline LocaleResource & getResource();
+        		inline auto getResource() -> LocaleResource &;
 
         		/**
         		 * @fn void changeLocale(const Localization & locale)
@@ -167,7 +166,7 @@ namespace ece
         		 * @brief Generate the resource from a file.
         		 * @throw
         		 */
-        		void generateResource(const std::string & file);
+        		void generateResource(const std::string & filename);
         	};
         } // namespace locale
     } // namespace utility

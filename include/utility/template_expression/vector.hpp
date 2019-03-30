@@ -44,10 +44,8 @@
 #	undef max
 #endif
 
-#include <array>
-#include <type_traits>
-#include <cmath>
-
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/linear_expression.hpp"
 #include "utility/template_expression/linear_operation.hpp"
 #include "utility/template_expression/linear_unary_operation.hpp"
@@ -155,6 +153,9 @@ namespace ece
         		 * @throw noexcept
         		 */
         		Vector<E, Size, enabled> & operator=(const LinearExpression<Vector<E, Size, enabled>> & rhs) noexcept;
+
+				inline std::array<E, Size> & data() noexcept;
+				inline const std::array<E, Size> & data() const noexcept;
 
         		/**
         		* @fn E operator[](const unsigned int index) const
@@ -314,12 +315,12 @@ namespace ece
         		inline auto distanceFrom(const E2 & rhs) const;
 
                 /**
-                 * @fn LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>> normalize() const
+                 * @fn Vector<E, Size, enabled> normalize() const
                  * @return The linear operation of normalization.
                  * @brief Get the linear operation of normalization of the vector.
                  * @throw
                  */
-        		LinearOperation<Vector<E, Size, enabled>, Vector<E, Size, enabled>, std::divides<>> normalize() const;
+				Vector<E, Size, enabled> normalize() const;
 
                 /**
                  * @fn Vector<E, Size, enabled> cross(const E2 & rhs) const

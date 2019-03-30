@@ -40,7 +40,7 @@
 #define DATA_CONTEXT_OPENGL_HPP
 
 
-#include "renderer/common/base_context.hpp"
+#include "renderer/rendering.hpp"
 
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
@@ -51,7 +51,7 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace x11
+		namespace opengl
 		{
 			/**
 			 * @class DataContextOpenGL
@@ -64,27 +64,27 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline DataContextOpenGL() : _context() {}
+				inline DataContextOpenGL() : context() {}
 
 				/**
 				 * @property _context
 				 * @brief The OpenGL context.
 				 */
-				GLXContext _context;
+				GLXContext context;
 
 				/**
 				 * @property _display
 				 * @brief The device used.
 				 */
-				Display * _display;
+				Display * display;
 
 				/**
 				 * @property _windowHandle
 				 * @brief The window concerned.
 				 */
-				::Window _windowHandle;
+				::Window windowHandle;
 			};
-		} // namespace x11
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 

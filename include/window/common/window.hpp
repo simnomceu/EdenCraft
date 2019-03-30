@@ -38,15 +38,16 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-#include <string>
-#include <memory>
-
+#include "window/config.hpp"
+#include "window/pch.hpp"
 #include "window/common/window_adapter.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "core/event/emitter.hpp"
+#include "utility/mathematics.hpp"
 #include "window/common/video_mode.hpp"
 #include "window/common/window_setting.hpp"
-#include "utility/time/update_per_second.hpp"
+#include "utility/time.hpp"
+#include "core/signal.hpp"
+#include "window/event.hpp"
+#include "utility/pattern.hpp"
 
 namespace ece
 {
@@ -54,24 +55,7 @@ namespace ece
 	{
 		namespace common
 		{
-			using utility::mathematics::IntVector2u;
-			using utility::time::UpdatePerSecond;
-			using core::event::Emitter;
-			using core::event::Signal;
-
 			class InputEvent;
-
-			/**
-			 * @typedef WindowID
-			 * @brief The unique ID of a window, whatever the platform is.
-			 */
-			using WindowID = short int;
-
-			/**
-			 * @typedef MonitorID
-			 * @brief The unique ID of a monitor, whatever the platform is.
-			 */
-			using MonitorID = short int;
 
 			/**
 			 * @class Window
@@ -79,15 +63,9 @@ namespace ece
 			 * @brief A basic window as defined by the platform.
 			 * Only the mechanism related to a window are implemented with. By default other features like rendering are not available in this window.
 			 */
-			class Window : public Emitter
+			class ECE_WINDOW_API Window: public virtual_enable_shared_from_this<Window>
 			{
 			public:
-				static constexpr Signal::SignalID WINDOW_OPENED = 0;
-				static constexpr Signal::SignalID WINDOW_CLOSED = 1;
-				static constexpr Signal::SignalID WINDOW_RESIZED = 2;
-				static constexpr Signal::SignalID WINDOW_MOVED = 3;
-				static constexpr Signal::SignalID WINDOW_RENAMED = 4;
-
 				/**
 				 * @fn Window() noexcept
 				 * @brief Default constructor.
@@ -102,7 +80,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				inline Window(const Window & copy) noexcept;
+				inline Window(const Window & copy) = default;
 
 				/**
 				 * @fn Window(Window && move) noexcept
@@ -110,7 +88,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				inline Window(Window && move) noexcept;
+				inline Window(Window && move) = default;
 
 				/**
 				 * @fn ~Window() noexcept
@@ -126,7 +104,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Window & operator=(const Window & copy) noexcept;
+				Window & operator=(const Window & copy) = default;
 
 				/**
 				 * @fn Window & operator=(Window && move) noexcept
@@ -135,7 +113,7 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Window & operator=(Window && move) noexcept;
+				Window & operator=(Window && move) = default;
 
 				/**
 				 * @fn void open()
@@ -144,7 +122,7 @@ namespace ece
 				 * @throw
 				 * @see void open(const WindowSetting & settings)
 				 */
-				void open();
+				virtual void open();
 
 				/**
 				 * @fn void open(const WindowSetting & settings)
@@ -154,7 +132,7 @@ namespace ece
 				 * @throw
 				 * @see void open()
 				 */
-				inline void open(const WindowSetting & settings);
+				inline void open([[maybe_unused]] const WindowSetting & settings);
 
 				/**
 				 * @fn void close()
@@ -168,7 +146,7 @@ namespace ece
 				 * @fn bool isOpened() const
 				 * @return True if the window is opened, false else.
 				 */
-				inline bool isOpened() const;
+				inline auto isOpened() const;
 
 				/**
 				 * @fn WindowSetting getSettings() const
@@ -176,7 +154,7 @@ namespace ece
 				 * @brief Get the current window settings.
 				 * @throw
 				 */
-				WindowSetting getSettings() const;
+				auto getSettings() const;
 
 				/**
 				 * @fn void setSettings(const WindowSetting & settings)
@@ -192,7 +170,7 @@ namespace ece
 				 * @brief get The window title.
 				 * @throw
 				 */
-				inline std::string getTitle() const;
+				inline auto getTitle() const;
 
 				/**
 				 * @fn void setTitle(const std::string & title)
@@ -211,12 +189,20 @@ namespace ece
 				void setPosition(const IntVector2u & position);
 
 				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The current size of the window.
+				 * @brief Get the current size of the window.
+				 * @throw
+				 */
+				inline auto getSize() const;
+
+				/**
 				 * @fn void setMinimumSize(const IntVector2u & size)
 				 * @param[in] size The minimum size to set.
 				 * @brief Set the minimum size that the window could reach.
 				 * @throw
 				 */
-				inline void setMinimumSize(const IntVector2u & size);
+				inline void setMinimumSize([[maybe_unused]] const IntVector2u & size);
 
 				/**
 				 * @fn void setMaximumSize(const IntVector2u & size)
@@ -224,7 +210,7 @@ namespace ece
 				 * @brief Set the maximum size that the window could reach.
 				 * @throw
 				 */
-				inline void setMaximumSize(const IntVector2u & size);
+				inline void setMaximumSize([[maybe_unused]] const IntVector2u & size);
 
 				/**
 				 * @fn void maximize()
@@ -246,7 +232,7 @@ namespace ece
 				 * @brief Enable or disable the fullscreen mode.
 				 * @throw
 				 */
-				inline void setFullscreen(const bool fullscreen);
+				inline void setFullscreen([[maybe_unused]] const bool fullscreen);
 
 				/**
 				 * @fn void enableDoubleClick(const bool enabled)
@@ -254,7 +240,7 @@ namespace ece
 				 * @brief Enable or disable the double click mode.
 				 * @throw
 				 */
-				inline void enableDoubleClick(const bool enabled);
+				inline void enableDoubleClick([[maybe_unused]] const bool enabled);
 
 				/**
 				 * @fn bool isDoubleClickEnabled() const
@@ -262,7 +248,7 @@ namespace ece
 				 * @brief Check if double click mode is enabled or not.
 				 * @throw
 				 */
-				inline bool isDoubleClickEnabled() const;
+				inline auto isDoubleClickEnabled() const;
 
 				/**
 				 * @fn void enableKeyRepeat(const bool enabled)
@@ -278,7 +264,7 @@ namespace ece
 				 * @brief Check if key repeating mode is enabled or not.
 				 * @throw
 				 */
-				inline bool isKeyRepeatedEnabled() const;
+				inline auto isKeyRepeatedEnabled() const;
 
 				/**
 				 * @fn void limitUPS(const int limit)
@@ -296,7 +282,7 @@ namespace ece
 				 * This method is blocking the thread until an event is get.
 				 * @throw
 				 */
-				bool waitEvent(InputEvent & event);
+				[[deprecated]] auto waitEvent(InputEvent & event);
 
 				/**
 				 * @fn bool pollEvent(InputEvent & event)
@@ -306,7 +292,9 @@ namespace ece
 				 * This is not blocking the thread.
 				 * @throw
 				 */
-				bool pollEvent(InputEvent & event);
+				[[deprecated]] auto pollEvent(InputEvent & event);
+
+				void processEvents();
 
 				/**
 				 * @fn std::weak_ptr<BaseWindowAdapter> getAdapter() const
@@ -314,7 +302,7 @@ namespace ece
 				 * @brief Get the window adapter of this window.
 				 * @throw
 				 */
-				inline std::weak_ptr<BaseWindowAdapter> getAdapter() const;
+				inline auto getAdapter() const;
 
 				/**
 				 * @fn VideoMode & getVideoMode()
@@ -323,7 +311,7 @@ namespace ece
 				 * @throw
 				 * @see const VideoMode & getVideoMode() const
 				 */
-				inline VideoMode & getVideoMode();
+				inline auto & getVideoMode();
 
 				/**
 				 * @fn const VideoMode & getVideoMode() const
@@ -332,7 +320,7 @@ namespace ece
 				 * @throw
 				 * @see VideoMode & getVideoMode()
 				 */
-				inline const VideoMode & getVideoMode() const;
+				inline const auto & getVideoMode() const;
 
 				/**
 				 * @fn void updateVideoMode()
@@ -341,6 +329,16 @@ namespace ece
 				 */
 				virtual void updateVideoMode();
 
+				inline auto & getEventHandler();
+
+				Signal<> onWindowOpened;
+				Signal<> onWindowClosed;
+				Signal<> onWindowResized;
+				Signal<> onWindowMoved;
+				Signal<> onWindowRenamed;
+				Signal<> onWindowMinimized;
+				Signal<> onWindowMaximized;
+				Signal<> onWindowFocused;
 			protected:
 				/**
 				 * @property _adapter
@@ -359,6 +357,14 @@ namespace ece
 				 * @brief The statistics about updates per second of the window.
 				 */
 				UpdatePerSecond _ups;
+
+				/**
+				 * @property _isOpened
+				 * @brief A tag to indicate that the window is opened or not.
+				 */
+				bool _isOpened;
+
+				EventHandler _eventHandler;
 			};
 		} // namespace common
 	} // namespace core

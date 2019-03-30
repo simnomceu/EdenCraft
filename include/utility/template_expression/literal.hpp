@@ -39,6 +39,8 @@
 #ifndef LITERAL_HPP
 #define LITERAL_HPP
 
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/linear_expression.hpp"
 
 namespace ece
@@ -134,7 +136,7 @@ namespace ece
         		 * @brief Get the size of the resulting vector.
         		 * @throw
         		 */
-        		inline constexpr unsigned int size() const;
+        		inline constexpr auto size() const -> unsigned int;
 
         	private:
         		/**

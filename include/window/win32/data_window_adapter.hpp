@@ -38,17 +38,14 @@
 #ifndef DATA_WINDOW_ADAPTER_HPP
 #define DATA_WINDOW_ADAPTER_HPP
 
-#include <Windows.h>
+#include "window/event.hpp"
 
-#include "window/window_event/keyboard.hpp"
+#include <Windows.h>
 
 namespace ece
 {
 	namespace window
 	{
-		using window_event::Keyboard;
-		using window_event::Mouse;
-
 		namespace common
 		{
 			/**
@@ -63,13 +60,31 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				inline DataWindowAdapter(HWND windowId) : _windowId(windowId) {}
+				inline DataWindowAdapter(HWND windowId) : windowId(windowId) {}
+
+				/**
+				* @fn DataWindowAdapter(const DataWindowAdapter & copy) noexcept
+				* @param[in] copy The implementation to copy from.
+				* @brief Default copy constructor.
+				* @throw noexcept
+				*/
+				DataWindowAdapter(const DataWindowAdapter & copy) noexcept = default;
+
+				/**
+				* @fn DataWindowAdapter(DataWindowAdapter && move) noexcept
+				* @param[in] copy The implementation to move.
+				* @brief Default move constructor.
+				* @throw noexcept
+				*/
+				DataWindowAdapter(DataWindowAdapter && move) noexcept = default;
+
+				DataWindowAdapter & operator=(const DataWindowAdapter & copy) noexcept = default;
 
 				/**
 				 * @property _windowId
 				 * @brief The handle of the window.
 				 */
-				HWND _windowId;
+				HWND windowId;
 			};
 
 			/**
@@ -82,25 +97,25 @@ namespace ece
 				 * @property _windowId
 				 * @brief The window concerned by the message.
 				 */
-				HWND _windowId;
+				HWND windowId;
 
 				/**
 				 * @property _message
 				 * @brief The content of the message.
 				 */
-				UINT _message;
+				UINT message;
 
 				/**
 				 * @property _wParam
 				 * @brief Some parameters of the message.
 				 */
-				WPARAM _wParam;
+				WPARAM wParam;
 
 				/**
 				 * @property _lParam
 				 * @brief Some extra parameters of the message.
 				 */
-				LPARAM _lParam;
+				LPARAM lParam;
 			};
 		} // namespace common
 
@@ -110,7 +125,7 @@ namespace ece
 			 * @var className
 			 * @brief The name of the type of window to register to the win32 window system.
 			 */
-			static constexpr LPCWSTR className = L"ECE Window";
+			static constexpr auto className = LPCWSTR{ L"ECE Window" };
 
 			/**
 			 * @fn void registerPattern()
@@ -129,16 +144,7 @@ namespace ece
 			 * @brief A win32 callback to process a messae handle from the system.
 			 * @throw
 			 */
-			LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
-
-			/**
-			 * @fn Keyboard::Key interpretKey(WPARAM wParam)
-			 * @param[in] wParam The Win32 keycode to interpret.
-			 * @return The interpreted keycode.
-			 * @brief Interpret a Win32 keycode to a standard value.
-			 * @throw
-			 */
-			Keyboard::Key interpretKey(WPARAM wParam);
+			LRESULT CALLBACK processMessagesCallback(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
 		} // namespace win32
 	} // namespace window
 } // namespace ece

@@ -39,6 +39,8 @@
 #ifndef MODULE_HPP
 #define MODULE_HPP
 
+#include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/module/base_module.hpp"
 #include "core/module/module_method.hpp"
 
@@ -68,7 +70,7 @@ namespace ece
 				 * @brief Build a module, using its lifecycle methods.
 				 * @throw
 				 */
-				inline Module(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
+				inline Module(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD);
 
 				/**
 				 * @fn Module(const Module & copy) noexcept
@@ -117,7 +119,7 @@ namespace ece
 				 * @brief Get the object referenced.
 				 * @throw
 				 */
-				inline T & get();
+				inline auto & get();
 
 				/**
 				 * @fn void init()

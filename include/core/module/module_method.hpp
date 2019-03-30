@@ -39,7 +39,8 @@
 #ifndef MODULE_METHOD_HPP
 #define MODULE_METHOD_HPP
 
-#include <functional>
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -64,7 +65,7 @@ namespace ece
 			class ModuleMethod : protected ModuleMethodHandle<T>
 			{
 			public:
-				static const ModuleMethodHandle<T> VOID;
+				static const ModuleMethodHandle<T> VOID_METHOD;
 
 				ModuleMethod() = delete;
 

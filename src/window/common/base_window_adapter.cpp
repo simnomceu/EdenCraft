@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/base_window_adapter.hpp"
 
 namespace ece
@@ -52,12 +53,12 @@ namespace ece
 				this->_keyRepeat = enabled;
 			}
 
-			bool BaseWindowAdapter::hasEvents() const
+			auto BaseWindowAdapter::hasEvents() const -> bool
 			{
 				return !this->_eventQueue.empty();
 			}
 
-			InputEvent BaseWindowAdapter::popEvent()
+			auto BaseWindowAdapter::popEvent() -> InputEvent
 			{
 				if (!this->hasEvents()) {
 					throw std::exception();
@@ -72,7 +73,7 @@ namespace ece
 				this->_eventQueue.push(nextEvent);
 			}
 
-			InputEvent & BaseWindowAdapter::lastEvent()
+			auto & BaseWindowAdapter::lastEvent()
 			{
 				return this->_eventQueue.back();
 			}

@@ -36,18 +36,34 @@
 
 */
 
-
 namespace ece
 {
 	namespace core
 	{
 		namespace resource
 		{
-			inline ResourceHandler::ResourceHandler(const std::shared_ptr<Resource> & resource) : _resource(resource) {}
+			template <class Resource>
+			inline constexpr ResourceHandler<Resource>::ResourceHandler() noexcept: _resource() {}
 
-			inline std::weak_ptr<Resource> ResourceHandler::operator->() { return this->_resource; }
+			template <class Resource>
+			inline ResourceHandler<Resource>::ResourceHandler(const std::shared_ptr<Resource> & resource) : _resource(resource) {}
 
-			inline std::weak_ptr<Resource> ResourceHandler::operator*() { return this->_resource; }
+			template <class Resource>
+			inline auto ResourceHandler<Resource>::operator->() { return this->_resource.lock(); }
+
+			template <class Resource>
+			inline auto ResourceHandler<Resource>::operator*() { return this->_resource.lock(); }
+
+			template <class Resource>
+			inline auto ResourceHandler<Resource>::isDirty() const { return this->_resource.expired(); }
+
+			template <class Resource>
+			template <class Parent>
+			ResourceHandler<Resource>::operator ResourceHandler<Parent>() const
+			{
+				static_assert(std::is_base_of_v<Parent, Resource>, "This resource cannot be casted to this type.");
+				return ResourceHandler<Parent>(std::static_pointer_cast<Parent>(this->_resource.lock()));
+			}
 		} // namespace resource
 	} // namespace core
 } // namespace core

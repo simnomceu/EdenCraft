@@ -38,6 +38,7 @@
 #ifndef WINDOW_ADAPTER_HPP
 #define WINDOW_ADAPTER_HPP
 
+#include "window/config.hpp"
 #include "window/common/base_window_adapter.hpp"
 
 namespace ece
@@ -51,7 +52,7 @@ namespace ece
 			 * @extends BaseWindowAdapter
 			 * @brief Adapting window method to use the platform implementation.
 			 */
-			class WindowAdapter : public BaseWindowAdapter
+			class ECE_WINDOW_API WindowAdapter : public BaseWindowAdapter
 			{
 			public:
 				/**
@@ -75,7 +76,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				WindowAdapter(WindowAdapter && move) noexcept = default;
+				WindowAdapter(WindowAdapter && move) = default;
 
 				/**
 				 * @fn ~WindowAdapter() noexcept
@@ -126,7 +127,7 @@ namespace ece
 				 * @throw
 				 * @see bool BaseWindowAdapter::isWindowCreated() const
 				 */
-				virtual bool isWindowCreated() const override;
+				virtual auto isWindowCreated() const -> bool override;
 
 				/**
 				 * @fn void setTitle(const std::string & title)
@@ -144,7 +145,7 @@ namespace ece
 				 * @throw
 				 * @see std::string BaseWindowAdapter::getTitle() const
 				 */
-				virtual std::string getTitle() const override;
+				virtual auto getTitle() const -> std::string override;
 
 				/**
 				 * @fn void setPosition(const IntVector2u & position)
@@ -156,13 +157,21 @@ namespace ece
 				virtual void setPosition(const IntVector2u & position) override;
 
 				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 */
+				virtual auto getSize() const -> IntVector2u override;
+
+				/**
 				 * @fn IntVector2u getPosition() const
 				 * @return The window position.
 				 * @brief Get the position of the window.
 				 * @throw
 				 * @see IntVector2u BaseWindowAdapter::getPosition() const
 				 */
-				virtual IntVector2u getPosition() const override;
+				virtual auto getPosition() const -> IntVector2u override;
 
 				/**
 				 * @fn void minimize()
@@ -196,7 +205,7 @@ namespace ece
 				 * @throw
 				 * @see Pimpl<DataWindowAdapter> & BaseWindowAdapter::getImpl()
 				 */
-				virtual inline Pimpl<DataWindowAdapter> & getImpl() override;
+				virtual inline auto getImpl() -> Pimpl<DataWindowAdapter> & override;
 
 				/**
 				 * @fn void processMessage(const WindowMessage & message)
