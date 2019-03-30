@@ -56,7 +56,7 @@ namespace ece
 					std::uint32_t width;
 					std::uint32_t height;
 					std::uint16_t planes;
-					std::uint16_t bpp;
+					std::uint16_t bitCount;
 					std::uint32_t compression;
 					std::uint32_t imageSize;
 					std::uint32_t xResolution;

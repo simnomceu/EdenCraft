@@ -49,7 +49,7 @@ namespace ece
 			{
 				ColorTable::ColorTable(DIBHeader & dib) : _colors()
 				{
-					const auto colorTableSize = (dib.nbColorsUsed == 0 && dib.bpp < 16) ? static_cast<std::size_t>(std::pow(2, dib.bpp)) : dib.nbColorsUsed;
+					const auto colorTableSize = (dib.nbColorsUsed == 0 && dib.bitCount < 16) ? static_cast<std::size_t>(std::pow(2, dib.bitCount)) : dib.nbColorsUsed;
 					if (dib.type == DIBHeaderType::BITMAPCOREHEADER || dib.type == DIBHeaderType::OS21XBITMAPHEADER || dib.type == DIBHeaderType::OS22XBITMAPHEADER) {
 						this->_colors = std::vector<BGR<uint8_t>>(colorTableSize);
 					}

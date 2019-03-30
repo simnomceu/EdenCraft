@@ -56,7 +56,7 @@ namespace ece
 					std::int16_t width;
 					std::int16_t height;
 					std::uint16_t planes;
-					std::uint16_t bpp;
+					std::uint16_t bitCount;
 				};
 			} // namespace bitmap
 		} // namespace formats
