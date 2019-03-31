@@ -1,5 +1,5 @@
 #include "stdio.h"
-#include "winsock2.h"
+#include "network/protocol.hpp"
 
 #pragma comment(lib,"ws2_32.lib") //For winsock
 
@@ -15,88 +15,16 @@ void PrintTcpPacket(char*, int);
 void ConvertToHex(char*, unsigned int);
 void PrintData(char*, int);
 
-typedef struct ip_hdr
-{
-	unsigned char ip_header_len : 4; // 4-bit header length (in 32-bit words) normally=5 (Means 20 Bytes may be 24 also)
-	unsigned char ip_version : 4; // 4-bit IPv4 version
-	unsigned char ip_tos; // IP type of service
-	unsigned short ip_total_length; // Total length
-	unsigned short ip_id; // Unique identifier
-
-	unsigned char ip_frag_offset : 5; // Fragment offset field
-
-	unsigned char ip_more_fragment : 1;
-	unsigned char ip_dont_fragment : 1;
-	unsigned char ip_reserved_zero : 1;
-
-	unsigned char ip_frag_offset1; //fragment offset
-
-	unsigned char ip_ttl; // Time to live
-	unsigned char ip_protocol; // Protocol(TCP,UDP etc)
-	unsigned short ip_checksum; // IP checksum
-	unsigned int ip_srcaddr; // Source address
-	unsigned int ip_destaddr; // Source address
-} IPV4_HDR;
-
-typedef struct udp_hdr
-{
-	unsigned short source_port; // Source port no.
-	unsigned short dest_port; // Dest. port no.
-	unsigned short udp_length; // Udp packet length
-	unsigned short udp_checksum; // Udp checksum (optional)
-} UDP_HDR;
-
-// TCP header
-typedef struct tcp_header
-{
-	unsigned short source_port; // source port
-	unsigned short dest_port; // destination port
-	unsigned int sequence; // sequence number - 32 bits
-	unsigned int acknowledge; // acknowledgement number - 32 bits
-
-	unsigned char ns : 1; //Nonce Sum Flag Added in RFC 3540.
-	unsigned char reserved_part1 : 3; //according to rfc
-	unsigned char data_offset : 4; /*The number of 32-bit words in the TCP header.
-								   This indicates where the data begins.
-								   The length of the TCP header is always a multiple
-								   of 32 bits.*/
-
-	unsigned char fin : 1; //Finish Flag
-	unsigned char syn : 1; //Synchronise Flag
-	unsigned char rst : 1; //Reset Flag
-	unsigned char psh : 1; //Push Flag
-	unsigned char ack : 1; //Acknowledgement Flag
-	unsigned char urg : 1; //Urgent Flag
-
-	unsigned char ecn : 1; //ECN-Echo Flag
-	unsigned char cwr : 1; //Congestion Window Reduced Flag
-
-						   ////////////////////////////////
-
-	unsigned short window; // window
-	unsigned short checksum; // checksum
-	unsigned short urgent_pointer; // urgent pointer
-} TCP_HDR;
-
-typedef struct icmp_hdr
-{
-	BYTE type; // ICMP Error type
-	BYTE code; // Type sub code
-	USHORT checksum;
-	USHORT id;
-	USHORT seq;
-} ICMP_HDR;
-
 FILE *logfile;
 int tcp = 0, udp = 0, icmp = 0, others = 0, igmp = 0, total = 0, i, j;
 struct sockaddr_in source, dest;
 char hex[2];
 
 //Its free!
-IPV4_HDR *iphdr;
-TCP_HDR *tcpheader;
-UDP_HDR *udpheader;
-ICMP_HDR *icmpheader;
+ece::IPv4Header *iphdr;
+ece::TCPHeader *tcpheader;
+ece::UDPHeader *udpheader;
+ece::ICMPHeader *icmpheader;
 
 int main()
 {
@@ -225,10 +153,10 @@ void StartSniffing(SOCKET sniffer)
 
 void ProcessPacket(char* Buffer, int Size)
 {
-	iphdr = (IPV4_HDR *)Buffer;
+	iphdr = (ece::IPv4Header *)Buffer;
 	++total;
 
-	switch (iphdr->ip_protocol) //Check the Protocol and do accordingly...
+	switch (iphdr->protocol) //Check the Protocol and do accordingly...
 	{
 	case 1: //ICMP Protocol
 		++icmp;
@@ -260,44 +188,28 @@ void PrintIpHeader(char* Buffer)
 {
 	unsigned short iphdrlen;
 
-	iphdr = (IPV4_HDR *)Buffer;
-	iphdrlen = iphdr->ip_header_len * 4;
+	iphdr = (ece::IPv4Header *)Buffer;
+	iphdrlen = iphdr->internetHeaderLength * 4;
 
 	memset(&source, 0, sizeof(source));
-	source.sin_addr.s_addr = iphdr->ip_srcaddr;
+	source.sin_addr.s_addr = iphdr->source;
 
 	memset(&dest, 0, sizeof(dest));
-	dest.sin_addr.s_addr = iphdr->ip_destaddr;
-	/*
-	fprintf(logfile, "\n");
-	fprintf(logfile, "IP Header\n");
-	fprintf(logfile, " |-IP Version : %d\n", (unsigned int)iphdr->ip_version);
-	fprintf(logfile, " |-IP Header Length : %d DWORDS or %d Bytes\n", (unsigned int)iphdr->ip_header_len, ((unsigned int)(iphdr->ip_header_len)) * 4);
-	fprintf(logfile, " |-Type Of Service : %d\n", (unsigned int)iphdr->ip_tos);
-	fprintf(logfile, " |-IP Total Length : %d Bytes(Size of Packet)\n", ntohs(iphdr->ip_total_length));
-	fprintf(logfile, " |-Identification : %d\n", ntohs(iphdr->ip_id));
-	fprintf(logfile, " |-Reserved ZERO Field : %d\n", (unsigned int)iphdr->ip_reserved_zero);
-	fprintf(logfile, " |-Dont Fragment Field : %d\n", (unsigned int)iphdr->ip_dont_fragment);
-	fprintf(logfile, " |-More Fragment Field : %d\n", (unsigned int)iphdr->ip_more_fragment);
-	fprintf(logfile, " |-TTL : %d\n", (unsigned int)iphdr->ip_ttl);
-	fprintf(logfile, " |-Protocol : %d\n", (unsigned int)iphdr->ip_protocol);
-	fprintf(logfile, " |-Checksum : %d\n", ntohs(iphdr->ip_checksum));
-	fprintf(logfile, " |-Source IP : %s\n", inet_ntoa(source.sin_addr));
-	fprintf(logfile, " |-Destination IP : %s\n", inet_ntoa(dest.sin_addr));
-	*/
+	dest.sin_addr.s_addr = iphdr->destination;
+
 	printf("\n");
 	printf("IP Header\n");
-	printf(" |-IP Version : %d\n", (unsigned int)iphdr->ip_version);
-	printf(" |-IP Header Length : %d DWORDS or %d Bytes\n", (unsigned int)iphdr->ip_header_len, ((unsigned int)(iphdr->ip_header_len)) * 4);
-	printf(" |-Type Of Service : %d\n", (unsigned int)iphdr->ip_tos);
-	printf(" |-IP Total Length : %d Bytes(Size of Packet)\n", ntohs(iphdr->ip_total_length));
-	printf(" |-Identification : %d\n", ntohs(iphdr->ip_id));
-	printf(" |-Reserved ZERO Field : %d\n", (unsigned int)iphdr->ip_reserved_zero);
-	printf(" |-Dont Fragment Field : %d\n", (unsigned int)iphdr->ip_dont_fragment);
-	printf(" |-More Fragment Field : %d\n", (unsigned int)iphdr->ip_more_fragment);
-	printf(" |-TTL : %d\n", (unsigned int)iphdr->ip_ttl);
-	printf(" |-Protocol : %d\n", (unsigned int)iphdr->ip_protocol);
-	printf(" |-Checksum : %d\n", ntohs(iphdr->ip_checksum));
+	printf(" |-IP Version : %d\n", (unsigned int)iphdr->version);
+	printf(" |-IP Header Length : %d DWORDS or %d Bytes\n", (unsigned int)iphdr->internetHeaderLength, ((unsigned int)(iphdr->internetHeaderLength)) * 4);
+	printf(" |-Type Of Service : %d\n", (unsigned int)iphdr->dscp);
+	printf(" |-IP Total Length : %d Bytes(Size of Packet)\n", ntohs(iphdr->totalLength));
+	printf(" |-Identification : %d\n", ntohs(iphdr->identification));
+	printf(" |-Reserved ZERO Field : %d\n", (unsigned int)iphdr->reservedFlag);
+	printf(" |-Dont Fragment Field : %d\n", (unsigned int)iphdr->dfFlag);
+	printf(" |-More Fragment Field : %d\n", (unsigned int)iphdr->mfFlag);
+	printf(" |-TTL : %d\n", (unsigned int)iphdr->ttl);
+	printf(" |-Protocol : %d\n", (unsigned int)iphdr->protocol);
+	printf(" |-Checksum : %d\n", ntohs(iphdr->checksum));
 	printf(" |-Source IP : %s\n", inet_ntoa(source.sin_addr));
 	printf(" |-Destination IP : %s\n", inet_ntoa(dest.sin_addr));
 }
@@ -306,73 +218,35 @@ void PrintTcpPacket(char* Buffer, int Size)
 {
 	unsigned short iphdrlen;
 
-	iphdr = (IPV4_HDR *)Buffer;
-	iphdrlen = iphdr->ip_header_len * 4;
+	iphdr = (ece::IPv4Header *)Buffer;
+	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	tcpheader = (TCP_HDR*)(Buffer + iphdrlen);
-	/*
-	fprintf(logfile, "\n\n***********************TCP Packet*************************\n");
+	tcpheader = (ece::network::protocol::TCPHeader*)(Buffer + iphdrlen);
 
-	PrintIpHeader(Buffer);
-
-	fprintf(logfile, "\n");
-	fprintf(logfile, "TCP Header\n");
-	fprintf(logfile, " |-Source Port : %u\n", ntohs(tcpheader->source_port));
-	fprintf(logfile, " |-Destination Port : %u\n", ntohs(tcpheader->dest_port));
-	fprintf(logfile, " |-Sequence Number : %u\n", ntohl(tcpheader->sequence));
-	fprintf(logfile, " |-Acknowledge Number : %u\n", ntohl(tcpheader->acknowledge));
-	fprintf(logfile, " |-Header Length : %d DWORDS or %d BYTES\n"
-		, (unsigned int)tcpheader->data_offset, (unsigned int)tcpheader->data_offset * 4);
-	fprintf(logfile, " |-CWR Flag : %d\n", (unsigned int)tcpheader->cwr);
-	fprintf(logfile, " |-ECN Flag : %d\n", (unsigned int)tcpheader->ecn);
-	fprintf(logfile, " |-Urgent Flag : %d\n", (unsigned int)tcpheader->urg);
-	fprintf(logfile, " |-Acknowledgement Flag : %d\n", (unsigned int)tcpheader->ack);
-	fprintf(logfile, " |-Push Flag : %d\n", (unsigned int)tcpheader->psh);
-	fprintf(logfile, " |-Reset Flag : %d\n", (unsigned int)tcpheader->rst);
-	fprintf(logfile, " |-Synchronise Flag : %d\n", (unsigned int)tcpheader->syn);
-	fprintf(logfile, " |-Finish Flag : %d\n", (unsigned int)tcpheader->fin);
-	fprintf(logfile, " |-Window : %d\n", ntohs(tcpheader->window));
-	fprintf(logfile, " |-Checksum : %d\n", ntohs(tcpheader->checksum));
-	fprintf(logfile, " |-Urgent Pointer : %d\n", tcpheader->urgent_pointer);
-	fprintf(logfile, "\n");
-	fprintf(logfile, " DATA Dump ");
-	fprintf(logfile, "\n");
-
-	fprintf(logfile, "IP Header\n");
-	PrintData(Buffer, iphdrlen);
-
-	fprintf(logfile, "TCP Header\n");
-	PrintData(Buffer + iphdrlen, tcpheader->data_offset * 4);
-
-	fprintf(logfile, "Data Payload\n");
-	PrintData(Buffer + iphdrlen + tcpheader->data_offset * 4
-		, (Size - tcpheader->data_offset * 4 - iphdr->ip_header_len * 4));
-
-	fprintf(logfile, "\n###########################################################");
-	*/
 	printf("\n\n***********************TCP Packet*************************\n");
 
 	PrintIpHeader(Buffer);
 
 	printf("\n");
 	printf("TCP Header\n");
-	printf(" |-Source Port : %u\n", ntohs(tcpheader->source_port));
-	printf(" |-Destination Port : %u\n", ntohs(tcpheader->dest_port));
+	printf(" |-Source Port : %u\n", ntohs(tcpheader->source));
+	printf(" |-Destination Port : %u\n", ntohs(tcpheader->destination));
 	printf(" |-Sequence Number : %u\n", ntohl(tcpheader->sequence));
-	printf(" |-Acknowledge Number : %u\n", ntohl(tcpheader->acknowledge));
+	printf(" |-Acknowledge Number : %u\n", ntohl(tcpheader->acknowledgment));
 	printf(" |-Header Length : %d DWORDS or %d BYTES\n"
-		, (unsigned int)tcpheader->data_offset, (unsigned int)tcpheader->data_offset * 4);
-	printf(" |-CWR Flag : %d\n", (unsigned int)tcpheader->cwr);
-	printf(" |-ECN Flag : %d\n", (unsigned int)tcpheader->ecn);
-	printf(" |-Urgent Flag : %d\n", (unsigned int)tcpheader->urg);
-	printf(" |-Acknowledgement Flag : %d\n", (unsigned int)tcpheader->ack);
-	printf(" |-Push Flag : %d\n", (unsigned int)tcpheader->psh);
-	printf(" |-Reset Flag : %d\n", (unsigned int)tcpheader->rst);
-	printf(" |-Synchronise Flag : %d\n", (unsigned int)tcpheader->syn);
-	printf(" |-Finish Flag : %d\n", (unsigned int)tcpheader->fin);
-	printf(" |-Window : %d\n", ntohs(tcpheader->window));
+		, (unsigned int)tcpheader->dataOffset, (unsigned int)tcpheader->dataOffset * 4);
+	printf(" |-ECN-nonce Flag: %d\n", (unsigned int)tcpheader->ecnFlag);
+	printf(" |-CWR Flag : %d\n", (unsigned int)tcpheader->cwrFlag);
+	printf(" |-ECN Flag : %d\n", (unsigned int)tcpheader->ecnFlag);
+	printf(" |-Urgent Flag : %d\n", (unsigned int)tcpheader->urgFlag);
+	printf(" |-Acknowledgement Flag : %d\n", (unsigned int)tcpheader->ackFlag);
+	printf(" |-Push Flag : %d\n", (unsigned int)tcpheader->pshFlag);
+	printf(" |-Reset Flag : %d\n", (unsigned int)tcpheader->rstFlag);
+	printf(" |-Synchronise Flag : %d\n", (unsigned int)tcpheader->synFlag);
+	printf(" |-Finish Flag : %d\n", (unsigned int)tcpheader->finFlag);
+	printf(" |-Window : %d\n", ntohs(tcpheader->windowSize));
 	printf(" |-Checksum : %d\n", ntohs(tcpheader->checksum));
-	printf(" |-Urgent Pointer : %d\n", tcpheader->urgent_pointer);
+	printf(" |-Urgent Pointer : %d\n", tcpheader->urgentPointer);
 	printf("\n");
 	printf(" DATA Dump ");
 	printf("\n");
@@ -381,11 +255,11 @@ void PrintTcpPacket(char* Buffer, int Size)
 	PrintData(Buffer, iphdrlen);
 
 	printf("TCP Header\n");
-	PrintData(Buffer + iphdrlen, tcpheader->data_offset * 4);
+	PrintData(Buffer + iphdrlen, tcpheader->dataOffset * 4);
 
 	printf("Data Payload\n");
-	PrintData(Buffer + iphdrlen + tcpheader->data_offset * 4
-		, (Size - tcpheader->data_offset * 4 - iphdr->ip_header_len * 4));
+	PrintData(Buffer + iphdrlen + tcpheader->dataOffset * 4
+		, (Size - tcpheader->dataOffset * 4 - iphdr->internetHeaderLength * 4));
 
 	printf("\n###########################################################");
 }
@@ -394,45 +268,20 @@ void PrintUdpPacket(char *Buffer, int Size)
 {
 	unsigned short iphdrlen;
 
-	iphdr = (IPV4_HDR *)Buffer;
-	iphdrlen = iphdr->ip_header_len * 4;
+	iphdr = (ece::IPv4Header *)Buffer;
+	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	udpheader = (UDP_HDR *)(Buffer + iphdrlen);
-	/*
-	fprintf(logfile, "\n\n***********************UDP Packet*************************\n");
+	udpheader = reinterpret_cast<ece::UDPHeader *>(Buffer + iphdrlen);
 
-	PrintIpHeader(Buffer);
-
-	fprintf(logfile, "\nUDP Header\n");
-	fprintf(logfile, " |-Source Port : %d\n", ntohs(udpheader->source_port));
-	fprintf(logfile, " |-Destination Port : %d\n", ntohs(udpheader->dest_port));
-	fprintf(logfile, " |-UDP Length : %d\n", ntohs(udpheader->udp_length));
-	fprintf(logfile, " |-UDP Checksum : %d\n", ntohs(udpheader->udp_checksum));
-
-	fprintf(logfile, "\n");
-	fprintf(logfile, "IP Header\n");
-
-	PrintData(Buffer, iphdrlen);
-
-	fprintf(logfile, "UDP Header\n");
-
-	PrintData(Buffer + iphdrlen, sizeof(UDP_HDR));
-
-	fprintf(logfile, "Data Payload\n");
-
-	PrintData(Buffer + iphdrlen + sizeof(UDP_HDR), (Size - sizeof(UDP_HDR) - iphdr->ip_header_len * 4));
-
-	fprintf(logfile, "\n###########################################################");
-	*/
 	printf("\n\n***********************UDP Packet*************************\n");
 
 	PrintIpHeader(Buffer);
 
 	printf("\nUDP Header\n");
-	printf(" |-Source Port : %d\n", ntohs(udpheader->source_port));
-	printf(" |-Destination Port : %d\n", ntohs(udpheader->dest_port));
-	printf(" |-UDP Length : %d\n", ntohs(udpheader->udp_length));
-	printf(" |-UDP Checksum : %d\n", ntohs(udpheader->udp_checksum));
+	printf(" |-Source Port : %d\n", ntohs(udpheader->source));
+	printf(" |-Destination Port : %d\n", ntohs(udpheader->destination));
+	printf(" |-UDP Length : %d\n", ntohs(udpheader->length));
+	printf(" |-UDP Checksum : %d\n", ntohs(udpheader->checksum));
 
 	printf("\n");
 	printf("IP Header\n");
@@ -441,11 +290,11 @@ void PrintUdpPacket(char *Buffer, int Size)
 
 	printf("UDP Header\n");
 
-	PrintData(Buffer + iphdrlen, sizeof(UDP_HDR));
+	PrintData(Buffer + iphdrlen, sizeof(ece::UDPHeader));
 
 	printf("Data Payload\n");
 
-	PrintData(Buffer + iphdrlen + sizeof(UDP_HDR), (Size - sizeof(UDP_HDR) - iphdr->ip_header_len * 4));
+	PrintData(Buffer + iphdrlen + sizeof(ece::UDPHeader), (Size - sizeof(ece::UDPHeader) - iphdr->internetHeaderLength * 4));
 
 	printf("\n###########################################################");
 }
@@ -454,45 +303,10 @@ void PrintIcmpPacket(char* Buffer, int Size)
 {
 	unsigned short iphdrlen;
 
-	iphdr = (IPV4_HDR *)Buffer;
-	iphdrlen = iphdr->ip_header_len * 4;
+	iphdr = (ece::IPv4Header *)Buffer;
+	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	icmpheader = (ICMP_HDR*)(Buffer + iphdrlen);
-	/*
-	fprintf(logfile, "\n\n***********************ICMP Packet*************************\n");
-	PrintIpHeader(Buffer);
-
-	fprintf(logfile, "\n");
-
-	fprintf(logfile, "ICMP Header\n");
-	fprintf(logfile, " |-Type : %d", (unsigned int)(icmpheader->type));
-
-	if ((unsigned int)(icmpheader->type) == 11)
-	{
-		fprintf(logfile, " (TTL Expired)\n");
-	}
-	else if ((unsigned int)(icmpheader->type) == 0)
-	{
-		fprintf(logfile, " (ICMP Echo Reply)\n");
-	}
-
-	fprintf(logfile, " |-Code : %d\n", (unsigned int)(icmpheader->code));
-	fprintf(logfile, " |-Checksum : %d\n", ntohs(icmpheader->checksum));
-	fprintf(logfile, " |-ID : %d\n", ntohs(icmpheader->id));
-	fprintf(logfile, " |-Sequence : %d\n", ntohs(icmpheader->seq));
-	fprintf(logfile, "\n");
-
-	fprintf(logfile, "IP Header\n");
-	PrintData(Buffer, iphdrlen);
-
-	fprintf(logfile, "UDP Header\n");
-	PrintData(Buffer + iphdrlen, sizeof(ICMP_HDR));
-
-	fprintf(logfile, "Data Payload\n");
-	PrintData(Buffer + iphdrlen + sizeof(ICMP_HDR), (Size - sizeof(ICMP_HDR) - iphdr->ip_header_len * 4));
-
-	fprintf(logfile, "\n###########################################################");
-	*/
+	icmpheader = reinterpret_cast<ece::ICMPHeader *>(Buffer + iphdrlen);
 
 	printf("\n\n***********************ICMP Packet*************************\n");
 	PrintIpHeader(Buffer);
@@ -513,18 +327,18 @@ void PrintIcmpPacket(char* Buffer, int Size)
 
 	printf(" |-Code : %d\n", (unsigned int)(icmpheader->code));
 	printf(" |-Checksum : %d\n", ntohs(icmpheader->checksum));
-	printf(" |-ID : %d\n", ntohs(icmpheader->id));
-	printf(" |-Sequence : %d\n", ntohs(icmpheader->seq));
+	printf(" |-Identifier : %d\n", ntohs(*reinterpret_cast<std::uint16_t *>(&icmpheader->data)));
+	printf(" |-Sequence : %d\n", ntohs(*reinterpret_cast<std::uint16_t *>(&icmpheader->data + sizeof(std::uint16_t))));
 	printf("\n");
 
 	printf("IP Header\n");
 	PrintData(Buffer, iphdrlen);
 
 	printf("UDP Header\n");
-	PrintData(Buffer + iphdrlen, sizeof(ICMP_HDR));
+	PrintData(Buffer + iphdrlen, sizeof(ece::ICMPHeader));
 
 	printf("Data Payload\n");
-	PrintData(Buffer + iphdrlen + sizeof(ICMP_HDR), (Size - sizeof(ICMP_HDR) - iphdr->ip_header_len * 4));
+	PrintData(Buffer + iphdrlen + sizeof(ece::ICMPHeader), (Size - sizeof(ece::ICMPHeader) - iphdr->internetHeaderLength * 4));
 
 	printf("\n###########################################################");
 }
@@ -536,40 +350,6 @@ void PrintData(char* data, int Size)
 {
 	char a, line[17], c;
 	int k;
-	/*
-	//loop over each character and print
-	for (i = 0; i < Size; i++)
-	{
-		c = data[i];
-
-		//Print the hex value for every character , with a space. Important to make unsigned
-		fprintf(logfile, " %.2x", (unsigned char)c);
-
-		//Add the character to data line. Important to make unsigned
-		a = (c >= 32 && c <= 128) ? (unsigned char)c : '.';
-
-		line[i % 16] = a;
-
-		//if last character of a line , then print the line - 16 characters in 1 line
-		if ((i != 0 && (i + 1) % 16 == 0) || i == Size - 1)
-		{
-			line[i % 16 + 1] = '\0';
-
-			//print a big gap of 10 characters between hex and characters
-			fprintf(logfile, "          ");
-
-			//Print additional spaces for last lines which might be less than 16 characters in length
-			for (k = strlen(line); k < 16; k++)
-			{
-				fprintf(logfile, "   ");
-			}
-
-			fprintf(logfile, "%s \n", line);
-		}
-	}
-
-	fprintf(logfile, "\n");
-	*/
 
 	//loop over each character and print
 	for (i = 0; i < Size; i++)
