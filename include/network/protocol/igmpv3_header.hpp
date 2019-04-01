@@ -35,57 +35,54 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+#ifndef IGMPV3_HEADER_HPP
+#define IGMPV3_HEADER_HPP
 
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
+#include "network/config.hpp"
+#include "network/pch.hpp"
 
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+namespace ece
+{
+	namespace network
+	{
+		namespace protocol
+		{
+			struct IGMPv3Header
+			{
+				struct Query
+				{
+					std::uint16_t groupAddress;
+					std::uint8_t qrv : 4;
+					std::uint8_t s : 1;
+					std::uint8_t resv : 3;
+					std::uint8_t qqic;
+					std::uint16_t sourcesNumber;
+					std::vector<std::uint32_t> sourceAdresses;
+				};
 
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
+				struct GroupRecord
+				{
+					std::uint8_t type;
+					std::uint8_t auxDataLen;
+					std::uint16_t sourcesNumber;
+					std::uint32_t multicastAdress;
+					std::vector<std::uint32_t> sourceAdresses;
+				};
 
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
+				struct Report
+				{
+					std::uint16_t reserved;
+					std::uint16_t groupsNumber;
+					std::vector<GroupRecord> groupRecords;
+				};
 
-#ifdef __linux__
-#include <socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
+				std::uint8_t maxrespC;
+				std::uint8_t type;
+				std::uint16_t checksum;
+				std::variant<Query, Report> body;
+			};
+		} // namespace protocol
+	} // namespace network
+} // namespace ece
 
-#endif // NETWORK_PCH_HPP
+#endif // IGMPV3_HEADER_HPP

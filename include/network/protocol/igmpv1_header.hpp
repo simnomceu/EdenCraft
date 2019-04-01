@@ -35,57 +35,28 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+#ifndef IGMPV1_HEADER_HPP
+#define IGMPV1_HEADER_HPP
 
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
+#include "network/config.hpp"
+#include "network/pch.hpp"
 
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+namespace ece
+{
+	namespace network
+	{
+		namespace protocol
+		{
+			struct IGMPv1Header
+			{
+				std::uint8_t type : 4;
+				std::uint8_t version : 4;
+				std::uint8_t reserved;
+				std::uint16_t checksum;
+				std::uint32_t groupAddress;
+			};
+		} // namespace protocol
+	} // namespace network
+} // namespace ece
 
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
-
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
-
-#ifdef __linux__
-#include <socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
-
-#endif // NETWORK_PCH_HPP
+#endif // IGMPV1_HEADER_HPP

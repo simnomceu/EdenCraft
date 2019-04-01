@@ -39,7 +39,11 @@
 #define NETWORK_PROTOCOL_HPP
 
 #include "network/protocol/icmp_header.hpp"
+#include "network/protocol/igmpv1_header.hpp"
+#include "network/protocol/igmpv2_header.hpp"
+#include "network/protocol/igmpv3_header.hpp"
 #include "network/protocol/ipv4_header.hpp"
+#include "network/protocol/ipv6_header.hpp"
 #include "network/protocol/tcp_header.hpp"
 #include "network/protocol/udp_header.hpp"
 
