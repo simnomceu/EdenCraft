@@ -35,53 +35,37 @@
 
 */
 
-#ifndef IPV4_HEADER_HPP
-#define IPV4_HEADER_HPP
-
-#include "network/config.hpp"
-#include "network/pch.hpp"
-
 namespace ece
 {
 	namespace network
 	{
 		namespace protocol
 		{
-			struct IPv4Header
+			inline std::string TCPHeader::to_string() const
 			{
-				struct Option
-				{
-					std::uint8_t copied : 1;
-					std::uint8_t classOption : 2;
-					std::uint8_t number : 5;
-					std::uint8_t length;
-					std::vector<std::uint8_t> data;
-				};
+				std::stringstream stream;
 
-				std::uint8_t internetHeaderLength : 4;
-				std::uint8_t version : 4;
-				std::uint8_t ecn : 2;
-				std::uint8_t dscp : 6;
-				std::uint16_t totalLength;
-				std::uint16_t identification;
-				std::uint8_t fragmentOffset1 : 5;
-				std::uint8_t mfFlag : 1;
-				std::uint8_t dfFlag : 1;
-				std::uint8_t reservedFlag : 1;
-				std::uint8_t fragmentOffset2;
-				std::uint8_t ttl;
-				std::uint8_t protocol;
-				std::uint16_t checksum;
-				std::uint32_t source;
-				std::uint32_t destination;
-				//std::vector<Option> options;
+				stream << "\nTCP Header\n";
+				stream << " |-Source Port : " << ntohs(this->source) << "\n";
+				stream << " |-Destination Port : " << ntohs(this->destination) << "\n";
+				stream << " |-Sequence Number : " << ntohl(this->sequence) << "\n";
+				stream << " |-Acknowledge Number : " << ntohl(this->acknowledgment) << "\n";
+				stream << " |-Header Length : " << (unsigned int)this->dataOffset << " DWORDS or " << (unsigned int)this->dataOffset * 4 << " BYTES\n";
+				stream << " |-ECN-nonce Flag: " << (unsigned int)this->ecnFlag << "\n";
+				stream << " |-CWR Flag : " << (unsigned int)this->cwrFlag << "\n";
+				stream << " |-ECN Flag : " << (unsigned int)this->ecnFlag << "\n";
+				stream << " |-Urgent Flag : " << (unsigned int)this->urgFlag << "\n";
+				stream << " |-Acknowledgement Flag : " << (unsigned int)this->ackFlag << "\n";
+				stream << " |-Push Flag : " << (unsigned int)this->pshFlag << "\n";
+				stream << " |-Reset Flag : " << (unsigned int)this->rstFlag << "\n";
+				stream << " |-Synchronise Flag : " << (unsigned int)this->synFlag << "\n";
+				stream << " |-Finish Flag : " << (unsigned int)this->finFlag << "\n";
+				stream << " |-Window : " << ntohs(this->windowSize) << "\n";
+				stream << " |-Checksum : " << ntohs(this->checksum) << "\n";
+				stream << " |-Urgent Pointer : " << this->urgentPointer << "\n";
 
-				inline std::string to_string() const;
-			};
+				return stream.str();
+			}
 		} // namespace protocol
 	} // namespace network
 } // namespace ece
-
-#include "network/protocol/ipv4_header.inl"
-
-#endif // IPV4_HEADER_HPP

@@ -35,53 +35,25 @@
 
 */
 
-#ifndef IPV4_HEADER_HPP
-#define IPV4_HEADER_HPP
-
-#include "network/config.hpp"
-#include "network/pch.hpp"
-
 namespace ece
 {
 	namespace network
 	{
 		namespace protocol
 		{
-			struct IPv4Header
+			inline std::string UDPHeader::to_string() const
 			{
-				struct Option
-				{
-					std::uint8_t copied : 1;
-					std::uint8_t classOption : 2;
-					std::uint8_t number : 5;
-					std::uint8_t length;
-					std::vector<std::uint8_t> data;
-				};
+				std::stringstream stream;
 
-				std::uint8_t internetHeaderLength : 4;
-				std::uint8_t version : 4;
-				std::uint8_t ecn : 2;
-				std::uint8_t dscp : 6;
-				std::uint16_t totalLength;
-				std::uint16_t identification;
-				std::uint8_t fragmentOffset1 : 5;
-				std::uint8_t mfFlag : 1;
-				std::uint8_t dfFlag : 1;
-				std::uint8_t reservedFlag : 1;
-				std::uint8_t fragmentOffset2;
-				std::uint8_t ttl;
-				std::uint8_t protocol;
-				std::uint16_t checksum;
-				std::uint32_t source;
-				std::uint32_t destination;
-				//std::vector<Option> options;
+				stream << "\nUDP Header\n";
+				stream << " |-Source Port : " << ntohs(this->source) << "\n";
+				stream << " |-Destination Port : " << ntohs(this->destination) << "\n";
+				stream << " |-UDP Length : " << ntohs(this->length) << "\n";
+				stream << " |-UDP Checksum : " << ntohs(this->checksum) << "\n";
+				stream << "\nIP Header\n";
 
-				inline std::string to_string() const;
-			};
+				return stream.str();
+			}
 		} // namespace protocol
 	} // namespace network
 } // namespace ece
-
-#include "network/protocol/ipv4_header.inl"
-
-#endif // IPV4_HEADER_HPP

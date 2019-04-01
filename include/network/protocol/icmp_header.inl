@@ -35,53 +35,33 @@
 
 */
 
-#ifndef IPV4_HEADER_HPP
-#define IPV4_HEADER_HPP
-
-#include "network/config.hpp"
-#include "network/pch.hpp"
-
 namespace ece
 {
 	namespace network
 	{
 		namespace protocol
 		{
-			struct IPv4Header
+			inline std::string ICMPHeader::to_string()
 			{
-				struct Option
+				std::stringstream stream;
+
+				stream << "\nICMP Header\n";
+				stream << " |-Type : " << (unsigned int)(this->type);
+
+				if ((unsigned int)(this->type) == 11)
 				{
-					std::uint8_t copied : 1;
-					std::uint8_t classOption : 2;
-					std::uint8_t number : 5;
-					std::uint8_t length;
-					std::vector<std::uint8_t> data;
-				};
+					stream << " (TTL Expired)\n";
+				}
+				else if ((unsigned int)(this->type) == 0)
+				{
+					stream << " (ICMP Echo Reply)\n";
+				}
 
-				std::uint8_t internetHeaderLength : 4;
-				std::uint8_t version : 4;
-				std::uint8_t ecn : 2;
-				std::uint8_t dscp : 6;
-				std::uint16_t totalLength;
-				std::uint16_t identification;
-				std::uint8_t fragmentOffset1 : 5;
-				std::uint8_t mfFlag : 1;
-				std::uint8_t dfFlag : 1;
-				std::uint8_t reservedFlag : 1;
-				std::uint8_t fragmentOffset2;
-				std::uint8_t ttl;
-				std::uint8_t protocol;
-				std::uint16_t checksum;
-				std::uint32_t source;
-				std::uint32_t destination;
-				//std::vector<Option> options;
-
-				inline std::string to_string() const;
-			};
+				stream << " |-Code : " << (unsigned int)(this->code) << "\n";
+				stream << " |-Checksum : " << ntohs(this->checksum) << "\n";
+				stream << " |-Identifier : " << ntohs(*reinterpret_cast<std::uint16_t *>(&this->data)) << "\n";
+				stream << " |-Sequence : " << ntohs(*reinterpret_cast<std::uint16_t *>(&this->data + sizeof(std::uint16_t))) << "\n";
+			}
 		} // namespace protocol
 	} // namespace network
 } // namespace ece
-
-#include "network/protocol/ipv4_header.inl"
-
-#endif // IPV4_HEADER_HPP

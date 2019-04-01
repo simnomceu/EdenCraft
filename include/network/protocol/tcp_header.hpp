@@ -75,9 +75,13 @@ namespace ece
 				std::uint16_t checksum;
 				std::uint16_t urgentPointer;
 		//		std::vector<Option> options;
+
+				inline std::string to_string() const;
 			};
 		} // namespace protocol
 	} // namespace network
 } // namespace ece
+
+#include "network/protocol/tcp_header.inl"
 
 #endif // TCP_HEADER_HPP

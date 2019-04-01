@@ -53,9 +53,13 @@ namespace ece
 				std::uint8_t code;
 				std::uint16_t checksum;
 				std::uint32_t data;
+
+				inline std::string to_string();
 			};
 		} // namespace protocol
 	} // namespace network
 } // namespace ece
+
+#include "network/protocol/icmp_header.inl"
 
 #endif // ICMP_HEADER_HPP

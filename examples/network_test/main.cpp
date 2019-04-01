@@ -18,13 +18,6 @@ FILE *logfile;
 int i, j;
 struct sockaddr_in source, dest;
 
-//Its free!
-ece::IPv4Header *iphdr;
-ece::TCPHeader *tcpheader;
-ece::UDPHeader *udpheader;
-ece::ICMPHeader *icmpheader;
-ece::IGMPv1Header * igmpheader;
-
 int main()
 {
 	SOCKET sniffer;
@@ -139,7 +132,7 @@ void ProcessPacket(char* Buffer, int Size)
 {
 	static int tcp = 0, udp = 0, icmp = 0, others = 0, igmp = 0, total = 0;
 
-	iphdr = (ece::IPv4Header *)Buffer;
+	auto iphdr = reinterpret_cast<ece::IPv4Header *>(Buffer);
 	++total;
 
 	switch (iphdr->protocol) //Check the Protocol and do accordingly...
@@ -308,64 +301,25 @@ void ProcessPacket(char* Buffer, int Size)
 
 void PrintIpHeader(char* Buffer)
 {
-	unsigned short iphdrlen;
+	auto iphdr = (ece::IPv4Header *)Buffer;
 
-	iphdr = (ece::IPv4Header *)Buffer;
-	iphdrlen = iphdr->internetHeaderLength * 4;
-
-	memset(&source, 0, sizeof(source));
-	source.sin_addr.s_addr = iphdr->source;
-
-	memset(&dest, 0, sizeof(dest));
-	dest.sin_addr.s_addr = iphdr->destination;
-
-	std::cerr << "\nIP Header\n";
-	std::cerr << " |-IP Version : " << (unsigned int)iphdr->version << "\n";
-	std::cerr << " |-IP Header Length : " << (unsigned int)iphdr->internetHeaderLength << " DWORDS or " << ((unsigned int)(iphdr->internetHeaderLength)) * 4 << " Bytes\n";
-	std::cerr << " |-Type Of Service : " << (unsigned int)iphdr->dscp << "\n";
-	std::cerr << " |-IP Total Length : " << ntohs(iphdr->totalLength) << " Bytes(Size of Packet)\n";
-	std::cerr << " |-Identification : " << ntohs(iphdr->identification) << "\n";
-	std::cerr << " |-Reserved ZERO Field : " << (unsigned int)iphdr->reservedFlag << "\n";
-	std::cerr << " |-Dont Fragment Field : " << (unsigned int)iphdr->dfFlag << "\n";
-	std::cerr << " |-More Fragment Field : " << (unsigned int)iphdr->mfFlag << "\n";
-	std::cerr << " |-TTL : " << (unsigned int)iphdr->ttl << "\n";
-	std::cerr << " |-Protocol : " << (unsigned int)iphdr->protocol << "\n";
-	std::cerr << " |-Checksum : " << ntohs(iphdr->checksum) << "\n";
-	std::cerr << " |-Source IP : " << inet_ntoa(source.sin_addr) << "\n";
-	std::cerr << " |-Destination IP : " << inet_ntoa(dest.sin_addr) << "\n";
+	std::cerr << iphdr->to_string();
 }
 
 void PrintTcpPacket(char* Buffer, int Size)
 {
 	unsigned short iphdrlen;
 
-	iphdr = (ece::IPv4Header *)Buffer;
+	auto iphdr = (ece::IPv4Header *)Buffer;
 	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	tcpheader = (ece::network::protocol::TCPHeader*)(Buffer + iphdrlen);
+	auto tcpheader = (ece::network::protocol::TCPHeader*)(Buffer + iphdrlen);
 
 	std::cerr << "\n\n***********************TCP Packet*************************\n";
 
 	PrintIpHeader(Buffer);
 
-	std::cerr << "\nTCP Header\n";
-	std::cerr << " |-Source Port : " << ntohs(tcpheader->source) << "\n";
-	std::cerr << " |-Destination Port : " << ntohs(tcpheader->destination) << "\n";
-	std::cerr << " |-Sequence Number : " << ntohl(tcpheader->sequence) << "\n";
-	std::cerr << " |-Acknowledge Number : " << ntohl(tcpheader->acknowledgment) << "\n";
-	std::cerr << " |-Header Length : " << (unsigned int)tcpheader->dataOffset << " DWORDS or " << (unsigned int)tcpheader->dataOffset * 4 << " BYTES\n";
-	std::cerr << " |-ECN-nonce Flag: " << (unsigned int)tcpheader->ecnFlag << "\n";
-	std::cerr << " |-CWR Flag : " << (unsigned int)tcpheader->cwrFlag << "\n";
-	std::cerr << " |-ECN Flag : " << (unsigned int)tcpheader->ecnFlag << "\n";
-	std::cerr << " |-Urgent Flag : " << (unsigned int)tcpheader->urgFlag << "\n";
-	std::cerr << " |-Acknowledgement Flag : " << (unsigned int)tcpheader->ackFlag << "\n";
-	std::cerr << " |-Push Flag : " << (unsigned int)tcpheader->pshFlag << "\n";
-	std::cerr << " |-Reset Flag : " << (unsigned int)tcpheader->rstFlag << "\n";
-	std::cerr << " |-Synchronise Flag : " << (unsigned int)tcpheader->synFlag << "\n";
-	std::cerr << " |-Finish Flag : " << (unsigned int)tcpheader->finFlag << "\n";
-	std::cerr << " |-Window : " << ntohs(tcpheader->windowSize) << "\n";
-	std::cerr << " |-Checksum : " << ntohs(tcpheader->checksum)  << "\n";
-	std::cerr << " |-Urgent Pointer : " << tcpheader->urgentPointer << "\n";
+	std::cerr << tcpheader->to_string();
 	std::cerr << "\n DATA Dump\n";
 	std::cerr << "IP Header\n";
 	PrintData(Buffer, iphdrlen);
@@ -384,21 +338,16 @@ void PrintUdpPacket(char *Buffer, int Size)
 {
 	unsigned short iphdrlen;
 
-	iphdr = reinterpret_cast<ece::IPv4Header *>(Buffer);
+	auto iphdr = reinterpret_cast<ece::IPv4Header *>(Buffer);
 	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	udpheader = reinterpret_cast<ece::UDPHeader *>(Buffer + iphdrlen);
+	auto udpheader = reinterpret_cast<ece::UDPHeader *>(Buffer + iphdrlen);
 
 	std::cerr << "\n\n***********************UDP Packet*************************\n";
 
 	PrintIpHeader(Buffer);
 
-	std::cerr << "\nUDP Header\n";
-	std::cerr << " |-Source Port : " << ntohs(udpheader->source) << "\n";
-	std::cerr << " |-Destination Port : " << ntohs(udpheader->destination) << "\n";
-	std::cerr << " |-UDP Length : " << ntohs(udpheader->length) << "\n";
-	std::cerr << " |-UDP Checksum : " << ntohs(udpheader->checksum) << "\n";
-	std::cerr << "\nIP Header\n";
+	std::cerr << udpheader->to_string();
 
 	PrintData(Buffer, iphdrlen);
 
@@ -417,30 +366,15 @@ void PrintIcmpPacket(char* Buffer, int Size)
 {
 	unsigned short iphdrlen;
 
-	iphdr = (ece::IPv4Header *)Buffer;
+	auto iphdr = (ece::IPv4Header *)Buffer;
 	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	icmpheader = reinterpret_cast<ece::ICMPHeader *>(Buffer + iphdrlen);
+	auto icmpheader = reinterpret_cast<ece::ICMPHeader *>(Buffer + iphdrlen);
 
 	printf("\n\n***********************ICMP Packet*************************\n");
 	PrintIpHeader(Buffer);
 
-	std::cerr << "\nICMP Header\n";
-	std::cerr << " |-Type : " << (unsigned int)(icmpheader->type);
-
-	if ((unsigned int)(icmpheader->type) == 11)
-	{
-		std::cerr << " (TTL Expired)\n";
-	}
-	else if ((unsigned int)(icmpheader->type) == 0)
-	{
-		std::cerr << " (ICMP Echo Reply)\n";
-	}
-
-	std::cerr << " |-Code : " << (unsigned int)(icmpheader->code) << "\n";
-	std::cerr << " |-Checksum : " << ntohs(icmpheader->checksum) << "\n";
-	std::cerr << " |-Identifier : " << ntohs(*reinterpret_cast<std::uint16_t *>(&icmpheader->data)) << "\n";
-	std::cerr << " |-Sequence : " << ntohs(*reinterpret_cast<std::uint16_t *>(&icmpheader->data + sizeof(std::uint16_t))) << "\n";
+	std::cerr << icmpheader->to_string();
 	std::cerr << "\nIP Header\n";
 	PrintData(Buffer, iphdrlen);
 
@@ -457,10 +391,10 @@ void PrintIgmpPacket(char* Buffer, int Size)
 {
 	unsigned short iphdrlen;
 
-	iphdr = (ece::IPv4Header *)Buffer;
+	auto iphdr = (ece::IPv4Header *)Buffer;
 	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	igmpheader = reinterpret_cast<ece::IGMPv1Header *>(Buffer + iphdrlen);
+	auto igmpheader = reinterpret_cast<ece::IGMPv1Header *>(Buffer + iphdrlen);
 
 	printf("\n\n***********************IGMP Packet*************************\n");
 	PrintIpHeader(Buffer);

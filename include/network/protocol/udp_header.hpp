@@ -50,9 +50,13 @@ namespace ece
 				std::uint16_t destination;
 				std::uint16_t length;
 				std::uint16_t checksum;
+
+				inline std::string to_string() const;
 			};
 		} // namespace protocol
 	} // namespace network
 } // namespace ece
+
+#include "network/protocol/udp_header.inl"
 
 #endif // UDP_HEADER_HPP
