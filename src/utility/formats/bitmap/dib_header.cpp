@@ -55,7 +55,7 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				DIBHeader::DIBHeader() noexcept : type(DIBHeaderType::BITMAPINFOHEADER), width(0), height(0), planes(0), bpp(0), compression(CompressionMethod::RGB), imageSize(0),
+				DIBHeader::DIBHeader() noexcept : type(DIBHeaderType::BITMAPINFOHEADER), width(0), height(0), planes(0), bitCount(0), compression(CompressionMethod::RGB), imageSize(0),
 					xResolution(0), yResolution(0), halftoning{ Halftoning::Algorithm::NONE, 0, 0 }, mask(), colorSpace{ColorSpace::Type::CALIBRATED_RGB, {}, {}, {}}, gamma(), 
 					intent(IntentMapping::NONE), profile() {}
 
@@ -74,7 +74,7 @@ namespace ece
 						header.width = proxyBitmapCoreHeader->width;
 						header.height = proxyBitmapCoreHeader->height;
 						header.planes = proxyBitmapCoreHeader->planes;
-						header.bpp = proxyBitmapCoreHeader->bpp;
+						header.bitCount = proxyBitmapCoreHeader->bitCount;
 						break;
 					}
 					case DIBHeaderType::OS21XBITMAPHEADER:
@@ -84,7 +84,7 @@ namespace ece
 						header.width = proxyOS21XBitmapHeader->width;
 						header.height = proxyOS21XBitmapHeader->height;
 						header.planes = proxyOS21XBitmapHeader->planes;
-						header.bpp = proxyOS21XBitmapHeader->bpp;
+						header.bitCount = proxyOS21XBitmapHeader->bitCount;
 						break;
 					}
 					case DIBHeaderType::OS22XBITMAPHEADER:
@@ -94,7 +94,7 @@ namespace ece
 						header.width = proxyOS22XBitmapHeader->width;
 						header.height = proxyOS22XBitmapHeader->height;
 						header.planes = proxyOS22XBitmapHeader->planes;
-						header.bpp = proxyOS22XBitmapHeader->bpp;
+						header.bitCount = proxyOS22XBitmapHeader->bitCount;
 
 						if (proxyOS22XBitmapHeader->size == headerSize) {
 							header.compression = static_cast<CompressionMethod>(proxyOS22XBitmapHeader->compression);
@@ -119,7 +119,7 @@ namespace ece
 						header.width = proxyBitmapInfoHeader->width;
 						header.height = proxyBitmapInfoHeader->height;
 						header.planes = proxyBitmapInfoHeader->planes;
-						header.bpp = proxyBitmapInfoHeader->bpp;
+						header.bitCount = proxyBitmapInfoHeader->bitCount;
 						header.compression = static_cast<CompressionMethod>(proxyBitmapInfoHeader->compression);
 						header.imageSize = proxyBitmapInfoHeader->imageSize;
 						header.xResolution = proxyBitmapInfoHeader->xResolution;
@@ -135,7 +135,7 @@ namespace ece
 						header.width = proxyBitmapV2InfoHeader->width;
 						header.height = proxyBitmapV2InfoHeader->height;
 						header.planes = proxyBitmapV2InfoHeader->planes;
-						header.bpp = proxyBitmapV2InfoHeader->bpp;
+						header.bitCount = proxyBitmapV2InfoHeader->bitCount;
 						header.compression = static_cast<CompressionMethod>(proxyBitmapV2InfoHeader->compression);
 						header.imageSize = proxyBitmapV2InfoHeader->imageSize;
 						header.xResolution = proxyBitmapV2InfoHeader->xResolution;
@@ -154,7 +154,7 @@ namespace ece
 						header.width = proxyBitmapV3InfoHeader->width;
 						header.height = proxyBitmapV3InfoHeader->height;
 						header.planes = proxyBitmapV3InfoHeader->planes;
-						header.bpp = proxyBitmapV3InfoHeader->bpp;
+						header.bitCount = proxyBitmapV3InfoHeader->bitCount;
 						header.compression = static_cast<CompressionMethod>(proxyBitmapV3InfoHeader->compression);
 						header.imageSize = proxyBitmapV3InfoHeader->imageSize;
 						header.xResolution = proxyBitmapV3InfoHeader->xResolution;
@@ -173,7 +173,7 @@ namespace ece
 						header.width = proxyBitmapV4Header->width;
 						header.height = proxyBitmapV4Header->height;
 						header.planes = proxyBitmapV4Header->planes;
-						header.bpp = proxyBitmapV4Header->bpp;
+						header.bitCount = proxyBitmapV4Header->bitCount;
 						header.compression = static_cast<CompressionMethod>(proxyBitmapV4Header->compression);
 						header.imageSize = proxyBitmapV4Header->imageSize;
 						header.xResolution = proxyBitmapV4Header->xResolution;
@@ -199,7 +199,7 @@ namespace ece
 						header.width = proxyBitmapV5Header->width;
 						header.height = proxyBitmapV5Header->height;
 						header.planes = proxyBitmapV5Header->planes;
-						header.bpp = proxyBitmapV5Header->bpp;
+						header.bitCount = proxyBitmapV5Header->bitCount;
 						header.compression = static_cast<CompressionMethod>(proxyBitmapV5Header->compression);
 						header.imageSize = proxyBitmapV5Header->imageSize;
 						header.xResolution = proxyBitmapV5Header->xResolution;
@@ -240,7 +240,7 @@ namespace ece
 							static_cast<std::int16_t>(header.width),
 							static_cast<std::int16_t>(header.height),
 							static_cast<std::uint16_t>(header.planes),
-							static_cast<std::uint16_t>(header.bpp)
+							static_cast<std::uint16_t>(header.bitCount)
 						};
 						stream.write(reinterpret_cast<char *>(&proxyBitmapCoreHeader), proxyBitmapCoreHeader.size);
 						break;
@@ -252,7 +252,7 @@ namespace ece
 							static_cast<std::uint16_t>(header.width),
 							static_cast<std::uint16_t>(header.height),
 							static_cast<std::uint16_t>(header.planes),
-							static_cast<std::uint16_t>(header.bpp)
+							static_cast<std::uint16_t>(header.bitCount)
 						};
 						stream.write(reinterpret_cast<char *>(&proxyOS21XBitmapHeader), proxyOS21XBitmapHeader.size);
 						break;
@@ -265,7 +265,7 @@ namespace ece
 						proxyOS22XBitmapHeader.width = static_cast<std::uint32_t>(header.width);
 						proxyOS22XBitmapHeader.height = static_cast<std::uint32_t>(header.height);
 						proxyOS22XBitmapHeader.planes = static_cast<std::uint16_t>(header.planes);
-						proxyOS22XBitmapHeader.bpp = static_cast<std::uint16_t>(header.bpp);
+						proxyOS22XBitmapHeader.bitCount = static_cast<std::uint16_t>(header.bitCount);
 
 						if (!shortHeader) {
 							proxyOS22XBitmapHeader.compression = static_cast<std::uint32_t>(header.compression);
@@ -292,7 +292,7 @@ namespace ece
 							static_cast<std::uint32_t>(header.width),
 							static_cast<std::uint32_t>(header.height),
 							static_cast<std::uint16_t>(header.planes),
-							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint16_t>(header.bitCount),
 							static_cast<std::uint32_t>(header.compression),
 							static_cast<std::uint32_t>(header.imageSize),
 							static_cast<std::uint32_t>(header.xResolution),
@@ -310,7 +310,7 @@ namespace ece
 							static_cast<std::uint32_t>(header.width),
 							static_cast<std::uint32_t>(header.height),
 							static_cast<std::uint16_t>(header.planes),
-							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint16_t>(header.bitCount),
 							static_cast<std::uint32_t>(header.compression),
 							static_cast<std::uint32_t>(header.imageSize),
 							static_cast<std::uint32_t>(header.xResolution),
@@ -331,7 +331,7 @@ namespace ece
 							static_cast<std::uint32_t>(header.width),
 							static_cast<std::uint32_t>(header.height),
 							static_cast<std::uint16_t>(header.planes),
-							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint16_t>(header.bitCount),
 							static_cast<std::uint32_t>(header.compression),
 							static_cast<std::uint32_t>(header.imageSize),
 							static_cast<std::uint32_t>(header.xResolution),
@@ -353,7 +353,7 @@ namespace ece
 							static_cast<std::uint32_t>(header.width),
 							static_cast<std::uint32_t>(header.height),
 							static_cast<std::uint16_t>(header.planes),
-							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint16_t>(header.bitCount),
 							static_cast<std::uint32_t>(header.compression),
 							static_cast<std::uint32_t>(header.imageSize),
 							static_cast<std::uint32_t>(header.xResolution),
@@ -388,7 +388,7 @@ namespace ece
 							static_cast<std::uint32_t>(header.width),
 							static_cast<std::uint32_t>(header.height),
 							static_cast<std::uint16_t>(header.planes),
-							static_cast<std::uint16_t>(header.bpp),
+							static_cast<std::uint16_t>(header.bitCount),
 							static_cast<std::uint32_t>(header.compression),
 							static_cast<std::uint32_t>(header.imageSize),
 							static_cast<std::uint32_t>(header.xResolution),
@@ -424,6 +424,33 @@ namespace ece
 					}
 
 					return stream;
+				}
+
+				std::size_t DIBHeader::getBPP() const
+				{
+					return this->bitCount < 8 ? 1 : this->bitCount >> 3;
+				}
+
+
+				bool DIBHeader::isValid() const
+				{
+					if (this->height == 0 && this->width < 1) {
+						return false;
+					}
+					if (this->planes != 1) {
+						return false;
+					}
+					if (this->bitCount != 1 && this->bitCount != 4 && this->bitCount != 8 && this->bitCount != 16 && this->bitCount != 24 && this->bitCount != 32) {
+						return false;
+					}
+					if (this->compression == CompressionMethod::BITFIELDS && this->bitCount != 16 && this->bitCount != 32) {
+						return false;
+					}
+					if (this->imageSize == 0 && this->compression != CompressionMethod::RGB) {
+						return false;
+					}
+
+					return true;
 				}
 			} // namespace bitmap
 		} // namespace formats

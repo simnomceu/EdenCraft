@@ -71,6 +71,10 @@ namespace ece
 
 					ECE_UTILITY_API friend std::ostream & operator<<(std::ostream & stream, DIBHeader & header);
 
+					std::size_t getBPP() const;
+
+					bool isValid() const;
+
 					struct Halftoning
 					{
 						enum class Algorithm
@@ -124,7 +128,7 @@ namespace ece
 					std::size_t width;
 					std::size_t height;
 					std::size_t planes;
-					std::size_t bpp;
+					std::size_t bitCount;
 					CompressionMethod compression;
 					std::size_t imageSize;
 					std::size_t xResolution;
