@@ -35,57 +35,81 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+#ifndef IPV6_HEADER_HPP
+#define IPV6_HEADER_HPP
 
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
+#include "network/config.hpp"
+#include "network/pch.hpp"
 
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+namespace ece
+{
+	namespace network
+	{
+		namespace protocol
+		{
+			struct IPv6Header
+			{
+				std::uint8_t trafficClass1 : 4;
+				std::uint8_t version : 4;
+				std::uint8_t trafficClass2 : 4;
+				std::uint32_t flowLabel : 20;
+				std::uint16_t payloadLength;
+				std::uint8_t nextHeader;
+				std::uint8_t hopLimit;
+				std::array<std::uint16_t, 8> source;
+				std::array<std::uint16_t, 8> destination;
+				//std::vector<Option> options;
+			};
 
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
+			struct IPv6HopByHopOption
+			{
+				struct Option
+				{
+					std::uint8_t type;
+					std::uint8_t length;
+					std::vector<std::uint8_t> data;
+				};
 
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
+				std::uint8_t nextHeader;
+				std::uint8_t headerExtLength;
+				std::vector<Option> options;
+			};
 
-#ifdef __linux__
-#include <socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
+			struct IPV6DestinationOption
+			{
+				struct Option
+				{
+					std::uint8_t type;
+					std::uint8_t length;
+					std::vector<std::uint8_t> data;
+				};
 
-#endif // NETWORK_PCH_HPP
+				std::uint8_t nextHeader;
+				std::uint8_t headerExtLength;
+				std::vector<Option> options;
+			};
+
+			struct IPv6Routing
+			{
+				std::uint8_t nextHeader;
+				std::uint8_t headerExtLength;
+				std::uint8_t type;
+				std::uint8_t segmentsLeft;
+				std::vector<std::uint8_t> data;
+			};
+
+			struct IPv6Fragment
+			{
+				std::uint8_t nextHeader;
+				std::uint8_t reserverd;
+				std::uint8_t fragmentOffset1;
+				std::uint8_t mFlag : 1;
+				std::uint8_t res : 2;
+				std::uint8_t fragmentOffset2 : 5;
+				std::uint32_t identification;
+			};
+		} // namespace protocol
+	} // namespace network
+} // namespace ece
+
+#endif // IPV6_HEADER_HPP
