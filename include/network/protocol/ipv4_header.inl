@@ -35,11 +35,6 @@
 
 */
 
-#ifndef IPV4_HEADER_HPP
-#define IPV4_HEADER_HPP
-
-#include "network/config.hpp"
-#include "network/pch.hpp"
 
 namespace ece
 {
@@ -47,41 +42,34 @@ namespace ece
 	{
 		namespace protocol
 		{
-			struct IPv4Header
+			inline std::string IPv4Header::to_string() const
 			{
-				struct Option
-				{
-					std::uint8_t copied : 1;
-					std::uint8_t classOption : 2;
-					std::uint8_t number : 5;
-					std::uint8_t length;
-					std::vector<std::uint8_t> data;
-				};
+				std::stringstream stream;
 
-				std::uint8_t internetHeaderLength : 4;
-				std::uint8_t version : 4;
-				std::uint8_t ecn : 2;
-				std::uint8_t dscp : 6;
-				std::uint16_t totalLength;
-				std::uint16_t identification;
-				std::uint8_t fragmentOffset1 : 5;
-				std::uint8_t mfFlag : 1;
-				std::uint8_t dfFlag : 1;
-				std::uint8_t reservedFlag : 1;
-				std::uint8_t fragmentOffset2;
-				std::uint8_t ttl;
-				std::uint8_t protocol;
-				std::uint16_t checksum;
-				std::uint32_t source;
-				std::uint32_t destination;
-				//std::vector<Option> options;
+				struct sockaddr_in src, dest;
+				memset(&src, 0, sizeof(src));
+				src.sin_addr.s_addr = this->source;
 
-				inline std::string to_string() const;
-			};
+				memset(&dest, 0, sizeof(dest));
+				dest.sin_addr.s_addr = this->destination;
+
+				stream <<  "\nIP Header\n";
+				stream <<  " |-IP Version : " << (unsigned int)this->version << "\n";
+				stream <<  " |-IP Header Length : " << (unsigned int)this->internetHeaderLength << " DWORDS or " << ((unsigned int)(this->internetHeaderLength)) * 4 << " Bytes\n";
+				stream <<  " |-Type Of Service : " << (unsigned int)this->dscp << "\n";
+				stream <<  " |-IP Total Length : " << ntohs(this->totalLength) << " Bytes(Size of Packet)\n";
+				stream <<  " |-Identification : " << ntohs(this->identification) << "\n";
+				stream <<  " |-Reserved ZERO Field : " << (unsigned int)this->reservedFlag << "\n";
+				stream <<  " |-Dont Fragment Field : " << (unsigned int)this->dfFlag << "\n";
+				stream <<  " |-More Fragment Field : " << (unsigned int)this->mfFlag << "\n";
+				stream <<  " |-TTL : " << (unsigned int)this->ttl << "\n";
+				stream <<  " |-Protocol : " << (unsigned int)this->protocol << "\n";
+				stream <<  " |-Checksum : " << ntohs(this->checksum) << "\n";
+				stream <<  " |-Source IP : " << inet_ntoa(src.sin_addr) << "\n";
+				stream <<  " |-Destination IP : " << inet_ntoa(dest.sin_addr) << "\n";
+
+				return stream.str();
+			}
 		} // namespace protocol
 	} // namespace network
 } // namespace ece
-
-#include "network/protocol/ipv4_header.inl"
-
-#endif // IPV4_HEADER_HPP
