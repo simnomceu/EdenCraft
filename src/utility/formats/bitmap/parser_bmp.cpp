@@ -62,6 +62,7 @@ namespace ece
 					// see https://upload.wikimedia.org/wikipedia/commons/c/c4/BMPfileFormat.png
 					// see https://en.wikipedia.org/wiki/BMP_file_format
 					// see https://forums.adobe.com/message/3272950#3272950
+					// see Tests : http://entropymine.com/jason/bmpsuite/
 
 					stream >> header;
 					DIB.type = getType(header.pixelsOffset - BMPHeader::INTERNAL_SIZE);
