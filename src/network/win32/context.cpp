@@ -35,63 +35,41 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+#include "network/pch.hpp"
+#include "network/common/context.hpp"
+#include "network/win32/data_context.hpp"
+#include "utility/log.hpp"
 
-#include <sys/stat.h>
-#include <sys/types.h>
+#pragma comment(lib,"ws2_32.lib") //For winsock
+#define SIO_RCVALL _WSAIOW(IOC_VENDOR,1) //this removes the need of mstcpip.h
 
-#ifdef __linux__
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <cerrno>
-#include <netdb.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
+namespace ece
+{
+    namespace network
+    {
+        namespace common
+        {
+            Context::Context(): _data(makePimpl<DataContext>())
+            {
+                INFO << "Initialising Winsock" << ece::flush;
+                if (WSAStartup(MAKEWORD(2, 2), &this->_data.get()->wsa) != 0)
+                {
+                    ERROR << "WSAStartup() failed." << ece::flush;
+                }
+                else {
+                    INFO << "Winsock Initialised" << ece::flush;
+                }
+            }
 
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
+            Context::~Context()
+            {
+                WSACleanup();
+            }
 
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <cstring>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
-
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
-
-#endif // NETWORK_PCH_HPP
+            int Context::getLastError() const
+            {
+                return WSAGetLastError();
+            }
+        } // namespace common
+    } // namespace network
+} // namespace ece

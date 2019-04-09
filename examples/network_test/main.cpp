@@ -1,9 +1,8 @@
 #include "network/protocol.hpp"
-
-#pragma comment(lib,"ws2_32.lib") //For winsock
-
-#define SIO_RCVALL _WSAIOW(IOC_VENDOR,1) //this removes the need of mstcpip.h
-
+#include "network/common.hpp"
+#include "core/application.hpp"
+#include "utility/log.hpp"
+/*
 void StartSniffing(SOCKET Sock); //This will sniff here and there
 
 void ProcessPacket(char*, int); //This will decide how to digest
@@ -16,98 +15,65 @@ void PrintData(char*, int);
 
 FILE *logfile;
 int i, j;
-struct sockaddr_in source, dest;
+struct sockaddr_in source, dest; */
 
 int main()
 {
-	SOCKET sniffer;
-	struct in_addr addr = {};
-	int in;
+	try {
+		ece::Application app;
 
-	auto hostname = std::string(100, ' ');
-	struct hostent *local;
-	WSADATA wsa;
+		ece::Socket sniffer;
+	/*	struct in_addr addr = {};
+		int in;*/
 
-	//Initialise Winsock
-	std::cerr << "\nInitialising Winsock...";
-	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-	{
-		std::cerr << "WSAStartup() failed.\n";
-		return 1;
+		sniffer.open();
+		auto hostname = ece::getHostname();
+		ece::INFO << "Host name: " << hostname << ece::flush;
+
+		//Retrive the available IPs of the local host
+		[[maybe_unused]] auto host = ece::Host::getByName(hostname);
+		ece::INFO << "Available Network Interfaces : " << ece::flush;
+		auto interfaces = host.getAddresses();
+		auto i = 0;
+		for (auto & interface : interfaces)
+		{
+			ece::INFO << "Interface Number : " << i << " Address : " << inet_ntoa(interface.address) << ece::flush;
+			++i;
+		}
+
+		auto in = 0;
+		ece::INFO << "Enter the interface number you would like to sniff : " << ece::flush;
+		std::cin >> in;
+
+		sniffer.bind(interfaces[in]);
+/*
+		//Enable this socket with the power to sniff : SIO_RCVALL is the key Receive ALL ;)
+
+		j = 1;
+		std::cerr << "\nSetting socket to sniff...";
+		if (WSAIoctl(sniffer, SIO_RCVALL, &j, sizeof(j), 0, 0, (LPDWORD)&in, 0, 0) == SOCKET_ERROR)
+		{
+			std::cerr << "WSAIoctl() failed.\n";
+			return 1;
+		}
+		std::cerr << "Socket set.";
+
+		//Begin
+		std::cerr << "\nStarted Sniffing\n" << "Packet Capture Statistics...\n";
+		StartSniffing(sniffer); //Happy Sniffing
+		*/
+
+		sniffer.close();
 	}
-	std::cerr << "Initialised";
-
-	//Create a RAW Socket
-	std::cerr << "\nCreating RAW Socket...";
-	sniffer = socket(AF_INET, SOCK_RAW, IPPROTO_IP);
-	if (sniffer == INVALID_SOCKET)
-	{
-		std::cerr << "Failed to create raw socket.\n";
-		return 1;
+	catch (const std::runtime_error & e) {
+		ece::ERROR << e.what() << ece::flush;
 	}
-	std::cerr << "Created.";
-
-	//Retrive the local hostname
-	if (gethostname(hostname.data(), sizeof(char) * hostname.size()) == SOCKET_ERROR)
-	{
-		std::cerr << "Error : " << WSAGetLastError();
-		return 1;
+	catch (const std::exception & e) {
+		ece::ERROR << e.what() << ece::flush;
 	}
-	std::cerr << "\nHost name : " << hostname << "\n";
-
-	//Retrive the available IPs of the local host
-	local = gethostbyname(hostname.data());
-	std::cerr << "\nAvailable Network Interfaces : \n";
-	if (local == NULL)
-	{
-		std::cerr << "Error : " << WSAGetLastError() << ".\n";
-		return 1;
-	}
-
-	for (i = 0; local->h_addr_list[i] != 0; ++i)
-	{
-		memcpy(&addr, local->h_addr_list[i], sizeof(struct in_addr));
-		std::cerr << "Interface Number : " << i << " Address : " << inet_ntoa(addr) << "\n";
-	}
-
-	std::cerr << "Enter the interface number you would like to sniff : ";
-	std::cin >> in;
-
-	memset(&dest, 0, sizeof(dest));
-	memcpy(&dest.sin_addr.s_addr, local->h_addr_list[in], sizeof(dest.sin_addr.s_addr));
-	dest.sin_family = AF_INET;
-	dest.sin_port = 0;
-
-	std::cerr << "\nBinding socket to local system and port 0 ...";
-	if (bind(sniffer, (struct sockaddr *)&dest, sizeof(dest)) == SOCKET_ERROR)
-	{
-		std::cerr << "bind(" << inet_ntoa(addr) << ") failed.\n";
-		return 1;
-	}
-	std::cerr << "Binding successful";
-
-	//Enable this socket with the power to sniff : SIO_RCVALL is the key Receive ALL ;)
-
-	j = 1;
-	std::cerr << "\nSetting socket to sniff...";
-	if (WSAIoctl(sniffer, SIO_RCVALL, &j, sizeof(j), 0, 0, (LPDWORD)&in, 0, 0) == SOCKET_ERROR)
-	{
-		std::cerr << "WSAIoctl() failed.\n";
-		return 1;
-	}
-	std::cerr << "Socket set.";
-
-	//Begin
-	std::cerr << "\nStarted Sniffing\n" << "Packet Capture Statistics...\n";
-	StartSniffing(sniffer); //Happy Sniffing
-
-							//End
-	closesocket(sniffer);
-	WSACleanup();
-
 	return 0;
 }
-
+/*
 void StartSniffing(SOCKET sniffer)
 {
 	std::array<char, 65536> Buffer; //Its Big!
@@ -135,6 +101,7 @@ void ProcessPacket(char* Buffer, int Size)
 	auto iphdr = reinterpret_cast<ece::IPv4Header *>(Buffer);
 	++total;
 
+	// TODO: maybe a method can map the protocol to avoid the following big & ugly switch
 	switch (iphdr->protocol) //Check the Protocol and do accordingly...
 	{
 	case 0: break;// HOPOPT Protocol
@@ -414,24 +381,26 @@ void PrintIgmpPacket(char* Buffer, int Size)
 	std::cerr << "\n###########################################################";
 }
 
-/*
-Print the hex values of the data
-*/
+
+// Print the hex values of the data
 void PrintData(char* data, int Size)
 {
-	char a, line[17], c;
+	char a;
+	unsigned char c;
 	int k;
+
+	std::string line(17, ' ');
 
 	//loop over each character and print
 	for (i = 0; i < Size; i++)
 	{
-		c = data[i];
+		c = (unsigned char)data[i];
 
 		//Print the hex value for every character , with a space. Important to make unsigned
-		printf(" %.2x", (unsigned char)c);
+		printf(" %.2x", c);
 
 		//Add the character to data line. Important to make unsigned
-		a = (c >= 32 && c <= 128) ? (unsigned char)c : '.';
+		a = (c >= 32) ? c : '.';
 
 		line[i % 16] = a;
 
@@ -444,7 +413,7 @@ void PrintData(char* data, int Size)
 			std::cerr << "          ";
 
 			//Print additional spaces for last lines which might be less than 16 characters in length
-			for (k = strlen(line); k < 16; k++)
+			for (k = line.size(); k < 16; k++)
 			{
 				std::cerr << "   ";
 			}
@@ -455,3 +424,4 @@ void PrintData(char* data, int Size)
 
 	std::cerr << "\n";
 }
+*/

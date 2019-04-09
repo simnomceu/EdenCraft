@@ -35,63 +35,27 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+#include "network/pch.hpp"
+#include "network/common/system.hpp"
+#include "utility/log.hpp"
 
-#include <sys/stat.h>
-#include <sys/types.h>
-
-#ifdef __linux__
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <cerrno>
-#include <netdb.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
-
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
-
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <cstring>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
-
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
-
-#endif // NETWORK_PCH_HPP
+namespace ece
+{
+    namespace network
+    {
+        namespace common
+        {
+            std::string getHostname()
+            {
+                const auto HOST_NAME_MAX = 255;
+                auto hostname = std::array<char, HOST_NAME_MAX>();
+                if (gethostname(hostname.data(), sizeof(char) * HOST_NAME_MAX) == -1)
+            	{
+            		ERROR << "Error : " << -1/*WSAGetLastError()*/ << ece::flush;
+                    return {};
+            	}
+                return std::string(hostname.data());
+            }
+        } // namespace common
+    } // namespace network
+} // namespace ece

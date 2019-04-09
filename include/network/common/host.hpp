@@ -35,63 +35,49 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+#ifndef HOST_HPP
+#define HOST_HPP
 
-#include <sys/stat.h>
-#include <sys/types.h>
+#include "network/config.hpp"
+#include "network/pch.hpp"
+#include "network/common/ip_address.hpp"
 
-#ifdef __linux__
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <cerrno>
-#include <netdb.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
+namespace ece
+{
+    namespace network
+    {
+        namespace common
+        {
+            class ECE_NETWORK_API Host
+            {
+            public:
+                using InternalData = hostent;
 
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
+                inline Host(InternalData data);
 
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <cstring>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+                inline std::string getHostname() const;
+                inline std::vector<std::string> getAliases() const;
+                inline IPAddress::Type getAddressType() const;
+                inline std::size_t getAddressLength() const;
+                inline std::vector<IPAddress> getAddresses() const;
 
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
+                static Host getByName(const std::string & name);
 
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
+            private:
+                InternalData _data;
 
-#endif // NETWORK_PCH_HPP
+/*                typedef struct hostent {
+  char  *h_name;
+  char  **h_aliases;
+  short h_addrtype; -> AF_INET, AF_INET6
+  short h_length;
+  char  **h_addr_list; -> inet_ntoa(addr)
+} HOSTENT, *PHOSTENT, *LPHOSTENT;*/
+            };
+        } // namespace common
+    } // namespace network
+} // namespace ece
+
+#include "network/common/host.inl"
+
+#endif // HOST_HPP

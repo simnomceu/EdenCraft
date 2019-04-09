@@ -35,63 +35,54 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+#include "network/pch.hpp"
+#include "network/common/socket.hpp"
+#include "network/x11/data_socket.hpp"
+#include "utility/log.hpp"
 
-#include <sys/stat.h>
-#include <sys/types.h>
+namespace ece
+{
+    namespace network
+    {
+        namespace common
+        {
+            Socket::Socket(): _data(makePimpl<DataSocket>()) {}
 
-#ifdef __linux__
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <cerrno>
-#include <netdb.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
+            void Socket::open()
+            {
+                //Create a RAW Socket
+                INFO << "Creating RAW socket..." << ece::flush;
+                this->_data.get()->handle = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);
+                if (this->_data.get()->handle == -1)
+                {
+                	ERROR << "Failed to create raw socket." << ece::flush;
+                }
+                else {
+                    INFO << "RAW socket created." << ece::flush;
+                }
+            }
 
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
+            void Socket::close()
+            {
+                ::close(this->_data.get()->handle);
+                INFO << "Socket closed." << flush;
+            }
 
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <cstring>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+            void Socket::bind(IPAddress & address)
+            {
+                auto dest = sockaddr_in{};
+                dest.sin_addr.s_addr = *reinterpret_cast<in_addr_t *>(&address.address);
+                dest.sin_family = address.type;
+                dest.sin_port = 0;
 
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
-
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
-
-#endif // NETWORK_PCH_HPP
+        		INFO << "Binding socket to local system and port 0 ..." << flush;
+        		if (::bind(this->_data.get()->handle, reinterpret_cast<sockaddr *>(&dest), sizeof(dest)) == -1)
+        		{
+        			ERROR << "bind(" << inet_ntoa(address.address) << ") failed." << flush;
+        		} else {
+        		    INFO << "Binding successful" << flush;
+                }
+            }
+        } // namespace common
+    } // namespace network
+} // namespace ece
