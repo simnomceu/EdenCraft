@@ -51,13 +51,13 @@ namespace ece
         {
             Context::Context(): _data(makePimpl<DataContext>())
             {
-                INFO << "Initialising Winsock" << ece::flush;
+                std::cerr << "Initialising Winsock" << std::endl;
                 if (WSAStartup(MAKEWORD(2, 2), &this->_data.get()->wsa) != 0)
                 {
-                    ERROR << "WSAStartup() failed." << ece::flush;
+					std::cerr << "WSAStartup() failed." << std::endl;
                 }
                 else {
-                    INFO << "Winsock Initialised" << ece::flush;
+					std::cerr << "Winsock Initialised" << std::endl;
                 }
             }
 

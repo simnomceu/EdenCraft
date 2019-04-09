@@ -71,8 +71,8 @@ namespace ece
             void Socket::bind(IPAddress & address)
             {
                 auto dest = sockaddr_in{};
-                dest.sin_addr.s_addr = *reinterpret_cast<in_addr_t *>(&address.address);
-                dest.sin_family = address.type;
+                dest.sin_addr.s_addr = address.address.s_addr;
+                dest.sin_family = static_cast<unsigned short>(address.type);
                 dest.sin_port = 0;
 
         		INFO << "Binding socket to local system and port 0 ..." << flush;
@@ -82,7 +82,29 @@ namespace ece
         		} else {
         		    INFO << "Binding successful" << flush;
                 }
+
+				//Enable this socket with the power to sniff : SIO_RCVALL is the key Receive ALL ;)
+				int in;
+				int j = 1;
+				INFO << "Setting socket to sniff..." << flush;
+				if (WSAIoctl(this->_data.get()->handle, SIO_RCVALL, &j, sizeof(j), 0, 0, (LPDWORD)&in, 0, 0) == SOCKET_ERROR)
+				{
+					ERROR << "WSAIoctl() failed." << flush;
+				}
+				INFO << "Socket set." << flush;
+
+				// Not sure this part is required, and there is no equivalent for linux
             }
+
+			std::string Socket::receive()
+			{
+				std::string buffer(65536, ' ');
+				auto mangobyte = recvfrom(this->_data.get()->handle, buffer.data(), 65536, 0, 0, 0);
+				if (mangobyte > 0) {
+					return buffer.substr(0, mangobyte);
+				}
+				return {};
+			}
         } // namespace common
     } // namespace network
 } // namespace ece

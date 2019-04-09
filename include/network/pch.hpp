@@ -51,6 +51,7 @@
 #include <netdb.h>
 #else
 #include <Winsock2.h>
+#include <Mstcpip.h>
 #include <Windows.h>
 #endif
 
