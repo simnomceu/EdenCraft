@@ -35,63 +35,47 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+namespace ece
+{
+    namespace network
+    {
+        namespace common
+        {
+            inline Host::Host(Host::InternalData data): _data(std::move(data)) {}
 
-#include <sys/stat.h>
-#include <sys/types.h>
+            inline std::string Host::getHostname() const
+            {
+                return std::string(this->_data.h_name);
+            }
 
-#ifdef __linux__
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <cerrno>
-#include <netdb.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
+            inline std::vector<std::string> Host::getAliases() const
+            {
+                auto result = std::vector<std::string>{};
+                for (auto i = std::size_t{ 0 }; this->_data.h_aliases[i] != 0; ++i) {
+                    result.emplace_back(this->_data.h_aliases[i]);
+                }
+                return std::move(result);
+            }
 
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
+            inline IPAddress::Type Host::getAddressType() const
+            {
+                return static_cast<IPAddress::Type>(this->_data.h_addrtype);
+            }
 
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <cstring>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+            inline std::size_t Host::getAddressLength() const
+            {
+                return this->_data.h_length;
+            }
 
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
-
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
-
-#endif // NETWORK_PCH_HPP
+            inline std::vector<IPAddress> Host::getAddresses() const
+            {
+                const auto type = this->getAddressType();
+                auto result = std::vector<IPAddress>{};
+                for (auto i = std::size_t{ 0 }; this->_data.h_addr_list[i] != 0; ++i) {
+                    result.emplace_back(IPAddress{ type, *reinterpret_cast<in_addr *>(this->_data.h_addr_list[i]) });
+                }
+                return std::move(result);
+            }
+        } // namespace common
+    } // namespace network
+} // namespace ece

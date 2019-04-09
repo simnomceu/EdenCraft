@@ -35,7 +35,6 @@
 
 */
 
-
 namespace ece
 {
 	namespace network
@@ -47,10 +46,10 @@ namespace ece
 				std::stringstream stream;
 
 				struct sockaddr_in src, dest;
-				memset(&src, 0, sizeof(src));
+				std::memset(&src, 0, sizeof(src));
 				src.sin_addr.s_addr = this->source;
 
-				memset(&dest, 0, sizeof(dest));
+				std::memset(&dest, 0, sizeof(dest));
 				dest.sin_addr.s_addr = this->destination;
 
 				stream <<  "\nIP Header\n";

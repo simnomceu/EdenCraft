@@ -35,63 +35,21 @@
 
 */
 
-#ifndef NETWORK_PCH_HPP
-#define NETWORK_PCH_HPP
+#ifndef NETWORK_SYSTEM_HPP
+#define NETWORK_SYSTEM_HPP
 
-#include <sys/stat.h>
-#include <sys/types.h>
+#include "network/pch.hpp"
+#include "network/config.hpp"
 
-#ifdef __linux__
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <cerrno>
-#include <netdb.h>
-#else
-#include <Winsock2.h>
-#include <Windows.h>
-#endif
+namespace ece
+{
+    namespace network
+    {
+        namespace common
+        {
+            ECE_NETWORK_API std::string getHostname();
+        } // namespace common
+    } // namespace network
+} // namespace ece
 
-#include <memory>
-#include <algorithm>
-#include <iterator>
-#include <functional>
-#include <utility>
-#include <chrono>
-#include <ctime>
-#include <optional>
-#include <filesystem>
-
-#include <cctype>
-#include <cstddef>
-#include <cassert>
-#include <cstring>
-#include <stdexcept>
-#include <type_traits>
-#include <variant>
-#include <typeindex>
-#include <numeric>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-
-#include <iostream>
-#include <string>
-#include <string_view>
-#include <sstream>
-#include <fstream>
-
-#include <array>
-#include <valarray>
-#include <vector>
-#include <map>
-#include <unordered_map>
-#include <deque>
-#include <queue>
-#include <initializer_list>
-#include <bitset>
-#include <set>
-
-#endif // NETWORK_PCH_HPP
+#endif // NETWORK_SYSTEM_HPP

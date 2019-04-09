@@ -84,7 +84,7 @@ namespace ece
 			ECE_UTILITY_EXTERN static LogChannel INFO(LogChannel::Channel::INFO);
 			ECE_UTILITY_EXTERN static LogChannel WARNING(LogChannel::Channel::WARNING);
 			ECE_UTILITY_EXTERN static LogChannel ERROR(LogChannel::Channel::ERROR);
-			ECE_UTILITY_EXTERN static LogChannel::Flush flush;
+			ECE_UTILITY_EXTERN static LogChannel::Flush flush = LogChannel::Flush();
 		} // namespace log
 	} // namespace utility
 } // namespace ece

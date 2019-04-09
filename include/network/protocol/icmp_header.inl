@@ -61,6 +61,8 @@ namespace ece
 				stream << " |-Checksum : " << ntohs(this->checksum) << "\n";
 				stream << " |-Identifier : " << ntohs(*reinterpret_cast<std::uint16_t *>(&this->data)) << "\n";
 				stream << " |-Sequence : " << ntohs(*reinterpret_cast<std::uint16_t *>(&this->data + sizeof(std::uint16_t))) << "\n";
+
+				return stream.str();
 			}
 		} // namespace protocol
 	} // namespace network
