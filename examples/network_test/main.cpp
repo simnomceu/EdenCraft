@@ -2,19 +2,16 @@
 #include "network/common.hpp"
 #include "core/application.hpp"
 #include "utility/log.hpp"
+
+
+void ProcessPacket(std::string &); //This will decide how to digest
+void PrintIpHeader(std::string &);
+void PrintIcmpPacket(std::string &);
+void PrintIgmpPacket(std::string &);
+void PrintUdpPacket(std::string &);
+void PrintTcpPacket(std::string &);
+void PrintData(char *, int);
 /*
-void StartSniffing(SOCKET Sock); //This will sniff here and there
-
-void ProcessPacket(char*, int); //This will decide how to digest
-void PrintIpHeader(char*);
-void PrintIcmpPacket(char*, int);
-void PrintIgmpPacket(char*, int);
-void PrintUdpPacket(char*, int);
-void PrintTcpPacket(char*, int);
-void PrintData(char*, int);
-
-FILE *logfile;
-int i, j;
 struct sockaddr_in source, dest; */
 
 int main()
@@ -31,13 +28,13 @@ int main()
 		ece::INFO << "Host name: " << hostname << ece::flush;
 
 		//Retrive the available IPs of the local host
-		[[maybe_unused]] auto host = ece::Host::getByName(hostname);
+		auto host = ece::Host::getByName(hostname);
 		ece::INFO << "Available Network Interfaces : " << ece::flush;
 		auto interfaces = host.getAddresses();
 		auto i = 0;
-		for (auto & interface : interfaces)
+		for (auto & inter : interfaces)
 		{
-			ece::INFO << "Interface Number : " << i << " Address : " << inet_ntoa(interface.address) << ece::flush;
+			ece::INFO << "Interface Number : " << i << " Address : " << inet_ntoa(inter.address) << ece::flush;
 			++i;
 		}
 
@@ -46,22 +43,25 @@ int main()
 		std::cin >> in;
 
 		sniffer.bind(interfaces[in]);
-/*
-		//Enable this socket with the power to sniff : SIO_RCVALL is the key Receive ALL ;)
-
-		j = 1;
-		std::cerr << "\nSetting socket to sniff...";
-		if (WSAIoctl(sniffer, SIO_RCVALL, &j, sizeof(j), 0, 0, (LPDWORD)&in, 0, 0) == SOCKET_ERROR)
-		{
-			std::cerr << "WSAIoctl() failed.\n";
-			return 1;
-		}
-		std::cerr << "Socket set.";
 
 		//Begin
-		std::cerr << "\nStarted Sniffing\n" << "Packet Capture Statistics...\n";
-		StartSniffing(sniffer); //Happy Sniffing
-		*/
+		ece::INFO << "Started Sniffing" << ece::flush << "Packet Capture Statistics...";
+		auto mangobyte = 0;
+
+		do
+		{
+			auto buffer = sniffer.receive();
+			mangobyte = buffer.size();
+
+			if (mangobyte > 0)
+			{
+				ProcessPacket(buffer);
+			}
+			else
+			{
+				ece::ERROR << "recvfrom() failed." << ece::flush;
+			}
+		} while (mangobyte > 0);
 
 		sniffer.close();
 	}
@@ -73,32 +73,12 @@ int main()
 	}
 	return 0;
 }
-/*
-void StartSniffing(SOCKET sniffer)
-{
-	std::array<char, 65536> Buffer; //Its Big!
-	int mangobyte;
 
-	do
-	{
-		mangobyte = recvfrom(sniffer, Buffer.data(), 65536, 0, 0, 0); //Eat as much as u can
-
-		if (mangobyte > 0)
-		{
-			ProcessPacket(Buffer.data(), mangobyte);
-		}
-		else
-		{
-			std::cerr << "recvfrom() failed.\n";
-		}
-	} while (mangobyte > 0);
-}
-
-void ProcessPacket(char* Buffer, int Size)
+void ProcessPacket(std::string & Buffer)
 {
 	static int tcp = 0, udp = 0, icmp = 0, others = 0, igmp = 0, total = 0;
 
-	auto iphdr = reinterpret_cast<ece::IPv4Header *>(Buffer);
+	auto iphdr = reinterpret_cast<ece::IPv4Header *>(Buffer.data());
 	++total;
 
 	// TODO: maybe a method can map the protocol to avoid the following big & ugly switch
@@ -107,18 +87,18 @@ void ProcessPacket(char* Buffer, int Size)
 	case 0: break;// HOPOPT Protocol
 	case 1: //ICMP Protocol
 		++icmp;
-		PrintIcmpPacket(Buffer, Size);
+		PrintIcmpPacket(Buffer);
 		break;
 	case 2: //IGMP Protocol
 		++igmp;
-		PrintIgmpPacket(Buffer, Size);
+		PrintIgmpPacket(Buffer);
 		break;
 	case 3: break; // GGP Protocol
 	case 4: break; //IP-in-IP Protocol
 	case 5: break; // ST Protocol
 	case 6: //TCP Protocol
 		++tcp;
-		PrintTcpPacket(Buffer, Size);
+		PrintTcpPacket(Buffer);
 		break;
 	case 7: break; // CBT Protocol
 	case 8: break; // EGP Protocol
@@ -132,7 +112,7 @@ void ProcessPacket(char* Buffer, int Size)
 	case 16: break; // CHAOS Protocol
 	case 17: //UDP Protocol
 		++udp;
-		PrintUdpPacket(Buffer, Size);
+		PrintUdpPacket(Buffer);
 		break;
 	case 18: break; // MUX Protocol
 	case 19: break; // DCN-MEAS Protocol
@@ -266,21 +246,21 @@ void ProcessPacket(char* Buffer, int Size)
 	std::cerr << "TCP : " << tcp << " UDP : " << udp << " ICMP : " << icmp << " IGMP : " << igmp << " Others : " << others << " Total : " << total << "\r";
 }
 
-void PrintIpHeader(char* Buffer)
+void PrintIpHeader(std::string & Buffer)
 {
-	auto iphdr = (ece::IPv4Header *)Buffer;
+	auto iphdr = (ece::IPv4Header *)Buffer.data();
 
 	std::cerr << iphdr->to_string();
 }
 
-void PrintTcpPacket(char* Buffer, int Size)
+void PrintTcpPacket(std::string & Buffer)
 {
 	unsigned short iphdrlen;
 
-	auto iphdr = (ece::IPv4Header *)Buffer;
+	auto iphdr = (ece::IPv4Header *)Buffer.data();
 	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	auto tcpheader = (ece::network::protocol::TCPHeader*)(Buffer + iphdrlen);
+	auto tcpheader = (ece::network::protocol::TCPHeader*)(Buffer.data() + iphdrlen);
 
 	std::cerr << "\n\n***********************TCP Packet*************************\n";
 
@@ -289,26 +269,26 @@ void PrintTcpPacket(char* Buffer, int Size)
 	std::cerr << tcpheader->to_string();
 	std::cerr << "\n DATA Dump\n";
 	std::cerr << "IP Header\n";
-	PrintData(Buffer, iphdrlen);
+	PrintData(Buffer.data(), iphdrlen);
 
 	std::cerr << "TCP Header\n";
-	PrintData(Buffer + iphdrlen, tcpheader->dataOffset * 4);
+	PrintData(Buffer.data() + iphdrlen, tcpheader->dataOffset * 4);
 
 	std::cerr << "Data Payload\n";
-	PrintData(Buffer + iphdrlen + tcpheader->dataOffset * 4
-		, (Size - tcpheader->dataOffset * 4 - iphdr->internetHeaderLength * 4));
+	PrintData(Buffer.data() + iphdrlen + tcpheader->dataOffset * 4
+		, (Buffer.size() - tcpheader->dataOffset * 4 - iphdr->internetHeaderLength * 4));
 
 	std::cerr << "\n###########################################################";
 }
 
-void PrintUdpPacket(char *Buffer, int Size)
+void PrintUdpPacket(std::string & Buffer)
 {
 	unsigned short iphdrlen;
 
-	auto iphdr = reinterpret_cast<ece::IPv4Header *>(Buffer);
+	auto iphdr = reinterpret_cast<ece::IPv4Header *>(Buffer.data());
 	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	auto udpheader = reinterpret_cast<ece::UDPHeader *>(Buffer + iphdrlen);
+	auto udpheader = reinterpret_cast<ece::UDPHeader *>(Buffer.data() + iphdrlen);
 
 	std::cerr << "\n\n***********************UDP Packet*************************\n";
 
@@ -316,52 +296,52 @@ void PrintUdpPacket(char *Buffer, int Size)
 
 	std::cerr << udpheader->to_string();
 
-	PrintData(Buffer, iphdrlen);
+	PrintData(Buffer.data(), iphdrlen);
 
 	std::cerr << "UDP Header\n";
 
-	PrintData(Buffer + iphdrlen, sizeof(ece::UDPHeader));
+	PrintData(Buffer.data() + iphdrlen, sizeof(ece::UDPHeader));
 
 	std::cerr << "Data Payload\n";
 
-	PrintData(Buffer + iphdrlen + sizeof(ece::UDPHeader), (Size - sizeof(ece::UDPHeader) - iphdr->internetHeaderLength * 4));
+	PrintData(Buffer.data() + iphdrlen + sizeof(ece::UDPHeader), (Buffer.size() - sizeof(ece::UDPHeader) - iphdr->internetHeaderLength * 4));
 
 	std::cerr << "\n###########################################################";
 }
 
-void PrintIcmpPacket(char* Buffer, int Size)
+void PrintIcmpPacket(std::string & Buffer)
 {
 	unsigned short iphdrlen;
 
-	auto iphdr = (ece::IPv4Header *)Buffer;
+	auto iphdr = (ece::IPv4Header *)Buffer.data();
 	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	auto icmpheader = reinterpret_cast<ece::ICMPHeader *>(Buffer + iphdrlen);
+	auto icmpheader = reinterpret_cast<ece::ICMPHeader *>(Buffer.data() + iphdrlen);
 
 	printf("\n\n***********************ICMP Packet*************************\n");
 	PrintIpHeader(Buffer);
 
 	std::cerr << icmpheader->to_string();
 	std::cerr << "\nIP Header\n";
-	PrintData(Buffer, iphdrlen);
+	PrintData(Buffer.data(), iphdrlen);
 
 	std::cerr << "UDP Header\n";
-	PrintData(Buffer + iphdrlen, sizeof(ece::ICMPHeader));
+	PrintData(Buffer.data() + iphdrlen, sizeof(ece::ICMPHeader));
 
 	std::cerr << "Data Payload\n";
-	PrintData(Buffer + iphdrlen + sizeof(ece::ICMPHeader), (Size - sizeof(ece::ICMPHeader) - iphdr->internetHeaderLength * 4));
+	PrintData(Buffer.data() + iphdrlen + sizeof(ece::ICMPHeader), (Buffer.size() - sizeof(ece::ICMPHeader) - iphdr->internetHeaderLength * 4));
 
 	std::cerr << "\n###########################################################";
 }
 
-void PrintIgmpPacket(char* Buffer, int Size)
+void PrintIgmpPacket(std::string & Buffer)
 {
 	unsigned short iphdrlen;
 
-	auto iphdr = (ece::IPv4Header *)Buffer;
+	auto iphdr = (ece::IPv4Header *)Buffer.data();
 	iphdrlen = iphdr->internetHeaderLength * 4;
 
-	auto igmpheader = reinterpret_cast<ece::IGMPv1Header *>(Buffer + iphdrlen);
+	auto igmpheader = reinterpret_cast<ece::IGMPv1Header *>(Buffer.data() + iphdrlen);
 
 	printf("\n\n***********************IGMP Packet*************************\n");
 	PrintIpHeader(Buffer);
@@ -370,13 +350,13 @@ void PrintIgmpPacket(char* Buffer, int Size)
 	std::cerr << " |-Type : " << (unsigned int)(igmpheader->type);
 
 	std::cerr << "\nIP Header\n";
-	PrintData(Buffer, iphdrlen);
+	PrintData(Buffer.data(), iphdrlen);
 
 	std::cerr << "UDP Header\n";
-	PrintData(Buffer + iphdrlen, sizeof(ece::ICMPHeader));
+	PrintData(Buffer.data() + iphdrlen, sizeof(ece::ICMPHeader));
 
 	std::cerr << "Data Payload\n";
-	PrintData(Buffer + iphdrlen + sizeof(ece::ICMPHeader), (Size - sizeof(ece::ICMPHeader) - iphdr->internetHeaderLength * 4));
+	PrintData(Buffer.data() + iphdrlen + sizeof(ece::ICMPHeader), (Buffer.size() - sizeof(ece::ICMPHeader) - iphdr->internetHeaderLength * 4));
 
 	std::cerr << "\n###########################################################";
 }
@@ -392,7 +372,7 @@ void PrintData(char* data, int Size)
 	std::string line(17, ' ');
 
 	//loop over each character and print
-	for (i = 0; i < Size; i++)
+	for (int i = 0; i < Size; i++)
 	{
 		c = (unsigned char)data[i];
 
@@ -400,7 +380,7 @@ void PrintData(char* data, int Size)
 		printf(" %.2x", c);
 
 		//Add the character to data line. Important to make unsigned
-		a = (c >= 32) ? c : '.';
+		a = (c >= 32 && c <= 128) ? c : '.';
 
 		line[i % 16] = a;
 
@@ -424,4 +404,3 @@ void PrintData(char* data, int Size)
 
 	std::cerr << "\n";
 }
-*/

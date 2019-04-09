@@ -61,6 +61,8 @@ namespace ece
                 void close();
 
                 void bind(IPAddress & address);
+
+				std::string receive();
             private:
                 Pimpl<DataSocket> _data;
 
