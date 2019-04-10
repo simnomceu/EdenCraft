@@ -64,14 +64,16 @@ namespace ece
 					CMYKRLE4 = 13
 				};
 
+				class DIBHeader;
+
 				ECE_UTILITY_API std::string to_string(CompressionMethod method);
 
-				ECE_UTILITY_API std::vector<char> compress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width, CompressionMethod method);
-				ECE_UTILITY_API std::vector<char> uncompress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width, CompressionMethod method);
+				ECE_UTILITY_API std::vector<char> compress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header);
+				ECE_UTILITY_API std::vector<char> uncompress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header);
 
 				ECE_UTILITY_API std::vector<char> compressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
 				ECE_UTILITY_API std::vector<char> compressRLE4(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> compressBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
+				ECE_UTILITY_API std::vector<char> compressBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header);
 				ECE_UTILITY_API std::vector<char> compressJPEG(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width);
 				ECE_UTILITY_API std::vector<char> compressPNG(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width);
 				ECE_UTILITY_API std::vector<char> compressAlphaBitfields(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width);
@@ -81,7 +83,7 @@ namespace ece
 
 				ECE_UTILITY_API std::vector<char> decompressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
 				ECE_UTILITY_API std::vector<char> decompressRLE4(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> decompressBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
+				ECE_UTILITY_API std::vector<char> decompressBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header);
 				ECE_UTILITY_API std::vector<char> decompressJPEG(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width);
 				ECE_UTILITY_API std::vector<char> decompressPNG(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width);
 				ECE_UTILITY_API std::vector<char> decompressAlphaBitfields(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width);

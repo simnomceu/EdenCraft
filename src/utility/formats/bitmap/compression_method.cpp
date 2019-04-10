@@ -39,6 +39,7 @@
 #include "utility/pch.hpp"
 #include "utility/formats/bitmap/compression_method.hpp"
 #include "utility/types.hpp"
+#include "utility/formats/bitmap/dib_header.hpp"
 
 #ifdef _MSC_VER
 #	undef min
@@ -70,38 +71,38 @@ namespace ece
 					}
 				}
 				
-				std::vector<char> compress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width, CompressionMethod method)
+				std::vector<char> compress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header)
 				{
-					switch (method)
+					switch (header.compression)
 					{
 					case CompressionMethod::RGB: return { begin, end }; break;
-					case CompressionMethod::RLE8: return compressRLE8(begin, end, width); break;
-					case CompressionMethod::RLE4: return compressRLE4(begin, end, width); break; //should_be std::uint4_t
-					case CompressionMethod::BITFIELDS: return compressBitfields(begin, end, width); break;
-					case CompressionMethod::JPEG: return compressJPEG(begin, end, width); break;
-					case CompressionMethod::PNG: return compressPNG(begin, end, width); break;
-					case CompressionMethod::ALPHABITFIELDS: return compressAlphaBitfields(begin, end, width); break;
-					case CompressionMethod::CMYK: return compressCMYK(begin, end, width); break;
-					case CompressionMethod::CMYKRLE8: return compressCMYKRLE8(begin, end, width); break;
-					case CompressionMethod::CMYKRLE4: return compressCMYKRLE4(begin, end, width); break;
+					case CompressionMethod::RLE8: return compressRLE8(begin, end, header.width); break;
+					case CompressionMethod::RLE4: return compressRLE4(begin, end, header.width); break; //should_be std::uint4_t
+					case CompressionMethod::BITFIELDS: return compressBitfields(begin, end, header); break;
+					case CompressionMethod::JPEG: return compressJPEG(begin, end, header.width); break;
+					case CompressionMethod::PNG: return compressPNG(begin, end, header.width); break;
+					case CompressionMethod::ALPHABITFIELDS: return compressAlphaBitfields(begin, end, header.width); break;
+					case CompressionMethod::CMYK: return compressCMYK(begin, end, header.width); break;
+					case CompressionMethod::CMYKRLE8: return compressCMYKRLE8(begin, end, header.width); break;
+					case CompressionMethod::CMYKRLE4: return compressCMYKRLE4(begin, end, header.width); break;
 					default: throw std::runtime_error("Undefined bitmap compression method."); break;
 					}
 				}
 
-				std::vector<char> uncompress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width, CompressionMethod method)
+				std::vector<char> uncompress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header)
 				{
-					switch (method)
+					switch (header.compression)
 					{
 					case CompressionMethod::RGB: return { begin, end }; break;
-					case CompressionMethod::RLE8: return decompressRLE8(begin, end, width); break;
-					case CompressionMethod::RLE4: return decompressRLE4(begin, end, width); break;
-					case CompressionMethod::BITFIELDS: return decompressBitfields(begin, end, width); break;
-					case CompressionMethod::JPEG: return decompressJPEG(begin, end, width); break;
-					case CompressionMethod::PNG: return decompressPNG(begin, end, width); break;
-					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(begin, end, width); break;
-					case CompressionMethod::CMYK: return decompressCMYK(begin, end, width); break;
-					case CompressionMethod::CMYKRLE8: return decompressCMYKRLE8(begin, end, width); break;
-					case CompressionMethod::CMYKRLE4: return decompressCMYKRLE4(begin, end, width); break;
+					case CompressionMethod::RLE8: return decompressRLE8(begin, end, header.width); break;
+					case CompressionMethod::RLE4: return decompressRLE4(begin, end, header.width); break;
+					case CompressionMethod::BITFIELDS: return decompressBitfields(begin, end, header); break;
+					case CompressionMethod::JPEG: return decompressJPEG(begin, end, header.width); break;
+					case CompressionMethod::PNG: return decompressPNG(begin, end, header.width); break;
+					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(begin, end, header.width); break;
+					case CompressionMethod::CMYK: return decompressCMYK(begin, end, header.width); break;
+					case CompressionMethod::CMYKRLE8: return decompressCMYKRLE8(begin, end, header.width); break;
+					case CompressionMethod::CMYKRLE4: return decompressCMYKRLE4(begin, end, header.width); break;
 					default: throw std::runtime_error("Undefined bitmap uncompression method."); break;
 					}
 				}
@@ -183,7 +184,7 @@ namespace ece
 				}
 
 
-				std::vector<char> compressBitfields(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				std::vector<char> compressBitfields(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header)
 				{
 					return {};
 				}
@@ -320,9 +321,40 @@ namespace ece
 					return result;
 				}
 
-				std::vector<char> decompressBitfields(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				std::vector<char> decompressBitfields(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header)
 				{
-					return {};
+					auto mask = RGBA<std::size_t>{};
+					if (std::holds_alternative<RGB<std::size_t>>(header.mask)) {
+						mask = toRGBA(std::get<RGB<std::size_t>>(header.mask));
+						mask.a = 255;
+					}
+					else if (std::holds_alternative<RGBA<std::size_t>>(header.mask)) {
+						mask = std::get<RGBA<std::size_t>>(header.mask);
+					}
+					auto redBitcount = bitcount(mask.r);
+					auto greenBitcount = bitcount(mask.g);
+					auto blueBitcount = bitcount(mask.b);
+					auto alphaBitcount = std::size_t{ 0 };
+					if (std::holds_alternative<RGB<std::size_t>>(header.mask)) {
+						alphaBitcount = 0;
+					}
+					else if (std::holds_alternative<RGBA<std::size_t>>(header.mask)) {
+						alphaBitcount = bitcount(mask.a);
+					}
+
+					auto result = std::vector<char>();
+					auto it = begin;
+					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
+						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
+							result.push_back(convertBitCount(bitMask(*it, mask.r), redBitcount, 8));
+							result.push_back(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8));
+							result.push_back(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8));
+							result.push_back(convertBitCount(bitMask(*it, mask.a), alphaBitcount, 8));
+							++it;
+						}
+					}
+
+					return result;
 				}
 
 				std::vector<char> decompressJPEG(typename std::vector<char>::iterator /*begin*/, typename std::vector<char>::iterator /*end*/, std::size_t /*width*/)
