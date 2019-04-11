@@ -76,7 +76,7 @@ namespace ece
 					stream.seekg(header.pixelsOffset);
 					stream.read(reinterpret_cast<char *>(buffer.data()), buffer.size());
 
-					auto uncompressBuffer = uncompress(buffer.begin(), buffer.end(), DIB.width, DIB.compression);
+					auto uncompressBuffer = uncompress(buffer.begin(), buffer.end(), DIB);
 					
 					int psw = ((DIB.width * 3) + 3) & ~3;
 

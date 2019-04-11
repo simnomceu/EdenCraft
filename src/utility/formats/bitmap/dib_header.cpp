@@ -358,25 +358,25 @@ namespace ece
 							static_cast<std::uint32_t>(header.imageSize),
 							static_cast<std::uint32_t>(header.xResolution),
 							static_cast<std::uint32_t>(header.yResolution),
-							static_cast<std::uint32_t>(header.nbColorsUsed),
-							static_cast<std::uint32_t>(header.nbImportantColors),
-							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r) : 0,
-							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g) : 0,
-							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b) : 0,
-							header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a) : 0,
-							static_cast<std::uint32_t>(header.colorSpace.type),
-							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[0]),
-							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[1]),
-							static_cast<std::uint32_t>(header.colorSpace.redEndpoint[2]),
-							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[0]),
-							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[1]),
-							static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[2]),
-							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[0]),
-							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[1]),
-							static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[2]),
-							static_cast<std::uint32_t>(header.gamma.r),
-							static_cast<std::uint32_t>(header.gamma.g),
-							static_cast<std::uint32_t>(header.gamma.b)
+static_cast<std::uint32_t>(header.nbColorsUsed),
+static_cast<std::uint32_t>(header.nbImportantColors),
+header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).r) : 0,
+header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).g) : 0,
+header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).b) : 0,
+header.compression == CompressionMethod::BITFIELDS ? static_cast<std::uint32_t>(std::get<RGBA<std::size_t>>(header.mask).a) : 0,
+static_cast<std::uint32_t>(header.colorSpace.type),
+static_cast<std::uint32_t>(header.colorSpace.redEndpoint[0]),
+static_cast<std::uint32_t>(header.colorSpace.redEndpoint[1]),
+static_cast<std::uint32_t>(header.colorSpace.redEndpoint[2]),
+static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[0]),
+static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[1]),
+static_cast<std::uint32_t>(header.colorSpace.greenEndpoint[2]),
+static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[0]),
+static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[1]),
+static_cast<std::uint32_t>(header.colorSpace.blueEndpoint[2]),
+static_cast<std::uint32_t>(header.gamma.r),
+static_cast<std::uint32_t>(header.gamma.g),
+static_cast<std::uint32_t>(header.gamma.b)
 						};
 						stream.write(reinterpret_cast<char *>(&proxyBitmapV4Header), proxyBitmapV4Header.size);
 						break;
@@ -447,6 +447,24 @@ namespace ece
 						return false;
 					}
 					if (this->imageSize == 0 && this->compression != CompressionMethod::RGB) {
+						return false;
+					}
+					if (this->compression == CompressionMethod::RLE4 && this->bitCount != 4) {
+						return false;
+					}
+					if (this->compression == CompressionMethod::RLE8 && this->bitCount != 8) {
+						return false;
+					}
+					if (this->compression == CompressionMethod::JPEG && this->bitCount != 24) {
+						return false;
+					}
+					if ((this->bitCount == 16 || this->bitCount == 32) && this->compression != CompressionMethod::RGB) {
+						return false;
+					}
+					if (this->bitCount < 16 && this->nbColorsUsed != std::pow(2, this->bitCount) && this->nbColorsUsed != 0) {
+						return false;
+					}
+					if (this->bitCount >= 16 && this->nbColorsUsed != 0) {
 						return false;
 					}
 
