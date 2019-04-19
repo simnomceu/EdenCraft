@@ -81,7 +81,7 @@ namespace ece
 					case CompressionMethod::BITFIELDS: return compressBitfields(begin, end, header); break;
 					case CompressionMethod::JPEG: return compressJPEG(begin, end, header.width); break;
 					case CompressionMethod::PNG: return compressPNG(begin, end, header.width); break;
-					case CompressionMethod::ALPHABITFIELDS: return compressAlphaBitfields(begin, end, header.width); break;
+					case CompressionMethod::ALPHABITFIELDS: return compressAlphaBitfields(begin, end, header); break;
 					case CompressionMethod::CMYK: return { begin, end }; break;
 					case CompressionMethod::CMYKRLE8: return compressRLE8(begin, end, header.width); break;
 					case CompressionMethod::CMYKRLE4: return compressRLE4(begin, end, header.width); break;
@@ -99,7 +99,7 @@ namespace ece
 					case CompressionMethod::BITFIELDS: return decompressBitfields(begin, end, header); break;
 					case CompressionMethod::JPEG: return decompressJPEG(begin, end, header.width); break;
 					case CompressionMethod::PNG: return decompressPNG(begin, end, header.width); break;
-					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(begin, end, header.width); break;
+					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(begin, end, header); break;
 					case CompressionMethod::CMYK: return { begin, end }; break;
 					case CompressionMethod::CMYKRLE8: return decompressRLE8(begin, end, header.width); break;
 					case CompressionMethod::CMYKRLE4: return decompressRLE4(begin, end, header.width); break;
@@ -183,9 +183,25 @@ namespace ece
 					return result;
 				}
 
-				std::vector<char> compressBitfields(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, DIBHeader & /*header*/)
+				std::vector<char> compressBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header)
 				{
-					return {};
+					auto mask = std::get<RGB<std::size_t>>(header.mask);
+					auto redBitcount = bitcount(mask.r);
+					auto greenBitcount = bitcount(mask.g);
+					auto blueBitcount = bitcount(mask.b);
+
+					auto result = std::vector<char>();
+					auto it = begin;
+					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
+						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
+							result.push_back(convertBitCount(bitMask(*it, mask.r), 8, redBitcount));
+							result.push_back(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount));
+							result.push_back(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount));
+							++it;
+						}
+					}
+
+					return result;
 				}
 
 				std::vector<char> compressJPEG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
@@ -198,9 +214,27 @@ namespace ece
 					return {};
 				}
 
-				std::vector<char> compressAlphaBitfields(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, , DIBHeader & /*header*/)
+				std::vector<char> compressAlphaBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header)
 				{
-					return {};
+					auto mask = std::get<RGBA<std::size_t>>(header.mask);
+					auto redBitcount = bitcount(mask.r);
+					auto greenBitcount = bitcount(mask.g);
+					auto blueBitcount = bitcount(mask.b);
+					auto alphaBitcount = bitcount(mask.a);
+
+					auto result = std::vector<char>();
+					auto it = begin;
+					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
+						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
+							result.push_back(convertBitCount(bitMask(*it, mask.r), 8, redBitcount));
+							result.push_back(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount));
+							result.push_back(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount));
+							result.push_back(convertBitCount(bitMask(*it, mask.a), 8, alphaBitcount));
+							++it;
+						}
+					}
+
+					return result;
 				}
 
 				std::vector<char> decompressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width)
