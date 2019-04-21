@@ -83,6 +83,16 @@ namespace ece
         		    INFO << "Binding successful" << flush;
                 }
             }
+
+			std::string Socket::receive()
+			{
+				std::string buffer(65536, ' ');
+				auto mangobyte = recvfrom(this->_data.get()->handle, buffer.data(), 65536, 0, 0, 0);
+				if (mangobyte > 0) {
+					return buffer.substr(0, mangobyte);
+				}
+				return {};
+			}
         } // namespace common
     } // namespace network
 } // namespace ece
