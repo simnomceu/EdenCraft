@@ -50,20 +50,6 @@ namespace ece
 			namespace bitmap
 			{
 				template <class T>
-				std::istream operator>>(std::istream & stream, RGB<T> & color)
-				{
-					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 3);
-					return stream;
-				}
-
-				template <class T>
-				std::ostream operator<<(std::istream & stream, const RGB<T> & color)
-				{
-					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 3);
-					return stream;
-				}
-
-				template <class T>
 				RGBA<T>::operator RGB<T> &()
 				{
 					return *this;
@@ -76,20 +62,6 @@ namespace ece
 				}
 
 				template <class T>
-				std::istream operator>>(std::istream & stream, RGBA<T> & color)
-				{
-					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
-					return stream;
-				}
-
-				template <class T>
-				std::ostream operator<<(std::istream & stream, const RGBA<T> & color)
-				{
-					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
-					return stream;
-				}
-
-				template <class T>
 				RGB<T> toRGB(const RGBA<T> & color)
 				{
 					return RGB<T>(color);
@@ -99,20 +71,6 @@ namespace ece
 				RGBA<T> toRGBA(const RGB<T> & color)
 				{
 					return { color.r, color.g, color.b, std::numeric_limits<T>::max() };
-				}
-
-				template <class T>
-				std::istream operator>>(std::istream & stream, BGR<T> & color)
-				{
-					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 3);
-					return stream;
-				}
-
-				template <class T>
-				std::ostream operator<<(std::istream & stream, const BGR<T> & color)
-				{
-					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 3);
-					return stream;
 				}
 
 				template <class T>
@@ -151,20 +109,6 @@ namespace ece
 				}
 
 				template <class T>
-				std::istream operator>>(std::istream & stream, BGRA<T> & color)
-				{
-					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
-					return stream;
-				}
-
-				template <class T>
-				std::ostream operator<<(std::istream & stream, const BGRA<T> & color)
-				{
-					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
-					return stream;
-				}
-
-				template <class T>
 				RGB<T> toRGB(const BGRA<T> & color)
 				{
 					return { color.r, color.g, color.b };
@@ -198,20 +142,6 @@ namespace ece
 				BGRA<T> toBGRA(const BGR<T> & color)
 				{
 					return { color.b, color.g, color.r, std::numeric_limits<T>::max() };
-				}
-
-				template <class T>
-				std::istream operator>>(std::istream & stream, CMYK<T> & color)
-				{
-					stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
-					return stream;
-				}
-
-				template <class T>
-				std::ostream operator<<(std::istream & stream, const CMYK<T> & color)
-				{
-					stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
-					return stream;
 				}
 
 				template <class T>
@@ -271,9 +201,9 @@ namespace ece
 						result.y = T(0);
 					}
 					else {
-						result.c = (T(1) - r - k) / (T(1) - k);
-						result.m = (T(1) - g - k) / (T(1) - k);
-						result.y = (T(1) - b - k) / (T(1) - k);
+						result.c = (T(1) - r - result.k) / (T(1) - result.k);
+						result.m = (T(1) - g - result.k) / (T(1) - result.k);
+						result.y = (T(1) - b - result.k) / (T(1) - result.k);
 					}
 					return std::move(result);
 				}
@@ -293,9 +223,9 @@ namespace ece
 						result.y = T(0);
 					}
 					else {
-						result.c = (T(1) - r - k) / (T(1) - k);
-						result.m = (T(1) - g - k) / (T(1) - k);
-						result.y = (T(1) - b - k) / (T(1) - k);
+						result.c = (T(1) - r - result.k) / (T(1) - result.k);
+						result.m = (T(1) - g - result.k) / (T(1) - result.k);
+						result.y = (T(1) - b - result.k) / (T(1) - result.k);
 					}
 					return std::move(result);
 				}
@@ -315,9 +245,9 @@ namespace ece
 						result.y = T(0);
 					}
 					else {
-						result.c = (T(1) - r - k) / (T(1) - k);
-						result.m = (T(1) - g - k) / (T(1) - k);
-						result.y = (T(1) - b - k) / (T(1) - k);
+						result.c = (T(1) - r - result.k) / (T(1) - result.k);
+						result.m = (T(1) - g - result.k) / (T(1) - result.k);
+						result.y = (T(1) - b - result.k) / (T(1) - result.k);
 					}
 					return std::move(result);
 				}
@@ -337,9 +267,9 @@ namespace ece
 						result.y = T(0);
 					}
 					else {
-						result.c = (T(1) - r - k) / (T(1) - k);
-						result.m = (T(1) - g - k) / (T(1) - k);
-						result.y = (T(1) - b - k) / (T(1) - k);
+						result.c = (T(1) - r - result.k) / (T(1) - result.k);
+						result.m = (T(1) - g - result.k) / (T(1) - result.k);
+						result.y = (T(1) - b - result.k) / (T(1) - result.k);
 					}
 					return std::move(result);
 				}
@@ -348,18 +278,18 @@ namespace ece
 				{
 					auto stream = std::ostringstream();
 					stream << '#';
-					if (rgb.r <= 9) {
+					if (color.r <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.r;
-					if (rgb.g <= 9) {
+					stream << std::hex << color.r;
+					if (color.g <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.g;
-					if (rgb.b <= 9) {
+					stream << std::hex << color.g;
+					if (color.b <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.b;
+					stream << std::hex << color.b;
 					return stream.str();
 				}
 
@@ -367,18 +297,18 @@ namespace ece
 				{
 					auto stream = std::ostringstream();
 					stream << '#';
-					if (rgb.r <= 9) {
+					if (color.r <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.r;
-					if (rgb.g <= 9) {
+					stream << std::hex << color.r;
+					if (color.g <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.g;
-					if (rgb.b <= 9) {
+					stream << std::hex << color.g;
+					if (color.b <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.b;
+					stream << std::hex << color.b;
 					return stream.str();
 				}
 
@@ -386,18 +316,18 @@ namespace ece
 				{
 					auto stream = std::ostringstream();
 					stream << '#';
-					if (rgb.r <= 9) {
+					if (color.r <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.r;
-					if (rgb.g <= 9) {
+					stream << std::hex << color.r;
+					if (color.g <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.g;
-					if (rgb.b <= 9) {
+					stream << std::hex << color.g;
+					if (color.b <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.b;
+					stream << std::hex << color.b;
 					return stream.str();
 				}
 
@@ -405,18 +335,18 @@ namespace ece
 				{
 					auto stream = std::ostringstream();
 					stream << '#';
-					if (rgb.r <= 9) {
+					if (color.r <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.r;
-					if (rgb.g <= 9) {
+					stream << std::hex << color.r;
+					if (color.g <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.g;
-					if (rgb.b <= 9) {
+					stream << std::hex << color.g;
+					if (color.b <= 9) {
 						stream << '0';
 					}
-					stream << std::hex << rgb.b;
+					stream << std::hex << color.b;
 					return stream.str();
 				}
 				template <class T> std::string toHex(const CMYK<T> & color)
@@ -476,35 +406,21 @@ namespace ece
 				}
 
 				template <class T>
-				std::istream operator>>(std::istream & stream, HSL<T> & color)
-				{
-					stream >> color.hue >> color.saturation >> color.light;
-					return stream;
-				}
-
-				template <class T>
-				std::ostream operator<<(std::istream & stream, const HSL<T> & color)
-				{
-					stream << color.hue << color.saturation << color.light;
-					return stream;
-				}
-
-				template <class T>
 				HSL<T> toHSL(const RGB<T> & color)
 				{
 					HSL<T> result;
 
 					auto min = std::min(color.r, color.g, color.b) / std::numeric_limits<T>::max();
 					auto max = std::max(color.r, color.g, color.b) / std::numeric_limits<T>::max();
-					
+
 					if (color.r >= color.g && color.r >= color.b) {
-						result.hue = (rgb[1] - rgb[2]) / (max - min);
+						result.hue = (color.g - color.b) / (max - min);
 					}
 					else if (color.g >= color.r && color.g >= color.b) {
-						result.hue = 2 + (rgb[2] - rgb[0]) / (max - min);
+						result.hue = 2 + (color.b - color.r) / (max - min);
 					}
 					else if (color.b >= color.r && color.b >= color.g) {
-						result.hue = 4 + (rgb[0] - rgb[1]) / (max - min);
+						result.hue = 4 + (color.r - color.g) / (max - min);
 					}
 
 					result.hue *= 60;
@@ -558,10 +474,11 @@ namespace ece
 				RGB<T> toRGB(const HSL<T> & color)
 				{
 					RGB<T> result;
-					
-					hue = hue / 60;
-					auto t1 = 0, t2 = 0;
-					if (light <= 0.5) {
+
+					auto hue = color.hue / 60;
+					auto t1 = 0;
+					auto t2 = 0;
+					if (color.light <= 0.5) {
 						t2 = color.light * (color.saturation + 1);
 					}
 					else {
@@ -628,24 +545,10 @@ namespace ece
 				}
 
 				template <class T>
-				std::istream operator>>(std::istream & stream, HWB<T> & color)
-				{
-					stream >> color.hue >> color.white >> color.black;
-					return stream;
-				}
-
-				template <class T>
-				std::ostream operator<<(std::istream & stream, const HWB<T> & color)
-				{
-					stream << color.hue << color.white << color.black;
-					retur stream;
-				}
-
-				template <class T>
 				HWB<T> toHWB(const RGB<T> & color)
 				{
 					HWB<T> result;
-					auto rgb = RGB<T>{ r / std::numeric_limits<T>::max(), g / std::numeric_limits<T>::max(), b / std::numeric_limits<T>::max() };
+					auto rgb = RGB<T>{ color.r / std::numeric_limits<T>::max(), color.g / std::numeric_limits<T>::max(), color.b / std::numeric_limits<T>::max() };
 
 					auto max = std::max(rgb.r, rgb.g, rgb.b);
 					auto min = std::min(rgb.r, rgb.g, rgb.b);
@@ -706,19 +609,19 @@ namespace ece
 				RGB<T> toRGB(const HWB<T> & color)
 				{
 					auto result = toRGB(HSL<T>{ color.hue, T(1), T(0.5f) });
-					result.r /= std::numeric_limits::max();
-					result.g /= std::numeric_limits::max();
-					result.b /= std::numeric_limits::max();
+					result.r /= std::numeric_limits<T>::max();
+					result.g /= std::numeric_limits<T>::max();
+					result.b /= std::numeric_limits<T>::max();
 					auto total = color.white + color.black;
 					auto white = 0.0f, black = 0.0f;
-					if (tot > 1) {
+					if (total > 1) {
 						white = white / total;
 						black = black / total;
 					}
-					result.r = (result.r * (1 - white - black) + white) * std::numeric_limits::max();
-					result.g = (result.g * (1 - white - black) + white) * std::numeric_limits::max();
-					result.b = (result.b * (1 - white - black) + white) * std::numeric_limits::max();
-					
+					result.r = (result.r * (1 - white - black) + white) * std::numeric_limits<T>::max();
+					result.g = (result.g * (1 - white - black) + white) * std::numeric_limits<T>::max();
+					result.b = (result.b * (1 - white - black) + white) * std::numeric_limits<T>::max();
+
 					return std::move(result);
 				}
 
@@ -758,7 +661,6 @@ namespace ece
 					return toHSL<T>(toRGB<T>(color));
 				}
 
-
 				template <class T>
 				std::istream operator>>(std::istream & stream, NCol<T> & color)
 				{
@@ -767,7 +669,7 @@ namespace ece
 				}
 
 				template <class T>
-				std::ostream operator<<(std::istream & stream, const NCol<T> & color)
+				std::ostream operator<<(std::ostream & stream, const NCol<T> & color)
 				{
 					stream << color.ncol << color.whiteness << color.blackness;
 					return stream;
@@ -830,11 +732,11 @@ namespace ece
 						}
 						else if (hue < 180) {
 							return "G" + std::to_string((hue - 120) / 0.6); }
-						else if (hue < 240) { 
+						else if (hue < 240) {
 							return "C" + std::to_string((hue - 180) / 0.6); }
-						else if (hue < 300) { 
+						else if (hue < 300) {
 							return "B" + std::to_string((hue - 240) / 0.6); }
-						else if (hue < 360) { 
+						else if (hue < 360) {
 							return "M" + std::to_string((hue - 300) / 0.6); }
 					};
 
@@ -918,20 +820,6 @@ namespace ece
 					result.hue = ncolToHue(color.ncol);
 					result.white = color.whiteness;
 					result.black = color.blackness;
-				}
-
-				template <class T>
-				std::istream operator>>(std::istream & stream, NCola<T> & color)
-				{
-					stream >> color.ncol >> color.whiteness >> color.blackness >> color.opacity;
-					return stream;
-				}
-
-				template <class T>
-				std::ostream operator<<(std::istream & stream, const NCola<T> & color)
-				{
-					stream << color.ncol << color.whiteness << color.blackness << color.opacity;
-					return stream;
 				}
 
 				template <class T>
@@ -1051,3 +939,129 @@ namespace ece
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::RGB<T> & color)
+{
+	stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 3);
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::RGB<T> & color)
+{
+	stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 3);
+	return stream;
+}
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::RGBA<T> & color)
+{
+	stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::RGBA<T> & color)
+{
+	stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+	return stream;
+}
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::BGR<T> & color)
+{
+	stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 3);
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::BGR<T> & color)
+{
+	stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 3);
+	return stream;
+}
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::BGRA<T> & color)
+{
+	stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::BGRA<T> & color)
+{
+	stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+	return stream;
+}
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::CMYK<T> & color)
+{
+	stream.read(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::CMYK<T> & color)
+{
+	stream.write(reinterpret_cast<char *>(&color), sizeof(T) * 4);
+	return stream;
+}
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::HSL<T> & color)
+{
+	stream >> color.hue >> color.saturation >> color.light;
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::HSL<T> & color)
+{
+	stream << color.hue << color.saturation << color.light;
+	return stream;
+}
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::HWB<T> & color)
+{
+	stream >> color.hue >> color.white >> color.black;
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::HWB<T> & color)
+{
+	stream << color.hue << color.white << color.black;
+	return stream;
+}
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::NCol<T> & color)
+{
+	stream >> color.ncol >> color.whiteness >> color.blackness;
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::NCol<T> & color)
+{
+	stream << color.ncol << color.whiteness << color.blackness;
+	return stream;
+}
+
+template <class T>
+std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::NCola<T> & color)
+{
+	stream >> color.ncol >> color.whiteness >> color.blackness >> color.opacity;
+	return stream;
+}
+
+template <class T>
+std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::NCola<T> & color)
+{
+	stream << color.ncol << color.whiteness << color.blackness << color.opacity;
+	return stream;
+}

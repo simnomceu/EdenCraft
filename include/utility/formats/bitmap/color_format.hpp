@@ -61,10 +61,6 @@ namespace ece
 					T r;
 					T g;
 					T b;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, RGB<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const RGB<T> & color);
 				};
 
 				template <class T>
@@ -74,10 +70,6 @@ namespace ece
 
 					operator RGB<T> &();
 					operator const RGB<T> &() const;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, RGBA<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const RGBA<T> & color);
 				};
 
 				template <class T> RGBA<T> toRGBA(const RGB<T> & color);
@@ -90,10 +82,6 @@ namespace ece
 					T b;
 					T g;
 					T r;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, BGR<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const BGR<T> & color);
 				};
 
 				template <class T> RGBA<T> toRGBA(const BGR<T> & color);
@@ -109,10 +97,6 @@ namespace ece
 
 					operator BGR<T> &();
 					operator const BGR<T> &() const;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, BGRA<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const BGRA<T> & color);
 				};
 
 				template <class T> RGB<T> toRGB(const BGRA<T> & color);
@@ -130,10 +114,6 @@ namespace ece
 					T m;
 					T y;
 					T k;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, CMYK<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const CMYK<T> & color);
 				};
 
 				template <class T> RGB<T> toRGB(const CMYK<T> & color);
@@ -164,12 +144,8 @@ namespace ece
 					T hue;
 					T saturation;
 					T light;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, HSL<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const HSL<T> & color);
 				};
-				
+
 				template <class T> HSL<T> toHSL(const RGB<T> & color);
 				template <class T> HSL<T> toHSL(const RGBA<T> & color);
 				template <class T> HSL<T> toHSL(const BGR<T> & color);
@@ -190,10 +166,6 @@ namespace ece
 					T hue;
 					T white;
 					T black;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, HWB<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const HWB<T> & color);
 				};
 
 				template <class T> HWB<T> toHWB(const RGB<T> & color);
@@ -218,10 +190,6 @@ namespace ece
 					std::string ncol;
 					T whiteness;
 					T blackness;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, NCol<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const NCol<T> & color);
 				};
 
 				template <class T> NCol<T> toNCol(const RGB<T> & color);
@@ -246,10 +214,6 @@ namespace ece
 				struct NCola : public NCol<T>
 				{
 					T opacity;
-
-					ECE_UTILITY_API friend std::istream operator>>(std::istream & stream, NCola<T> & color);
-
-					ECE_UTILITY_API friend std::ostream operator<<(std::istream & stream, const NCola<T> & color);
 				};
 
 				template <class T> NCola<T> toNCola(const RGB<T> & color);
@@ -275,6 +239,25 @@ namespace ece
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
+
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::RGB<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::RGB<T> & color);
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::RGBA<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::RGBA<T> & color);
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::BGR<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::BGR<T> & color);
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::BGRA<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::BGRA<T> & color);
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::CMYK<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::CMYK<T> & color);
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::HSL<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::HSL<T> & color);
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::HWB<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::HWB<T> & color);
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::NCol<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::NCol<T> & color);
+template <class T> ECE_UTILITY_API std::istream operator>>(std::istream & stream, ece::utility::formats::bitmap::NCola<T> & color);
+template <class T> ECE_UTILITY_API std::ostream operator<<(std::ostream & stream, const ece::utility::formats::bitmap::NCola<T> & color);
 
 #include "utility/formats/bitmap/color_format.inl"
 

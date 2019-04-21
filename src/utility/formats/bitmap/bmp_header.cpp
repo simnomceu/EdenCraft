@@ -1,4 +1,3 @@
-#include "..\..\..\..\include\utility\formats\bitmap\bmp_header.hpp"
 /*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .

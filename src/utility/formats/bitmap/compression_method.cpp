@@ -70,7 +70,7 @@ namespace ece
 					default: throw std::runtime_error("Unknown value for CompressionMethod enumeration."); break;
 					}
 				}
-				
+
 				std::vector<char> compress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header)
 				{
 					switch (header.compression)
@@ -183,7 +183,7 @@ namespace ece
 					return result;
 				}
 
-				std::vector<char> compressBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<char> compressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
 					auto mask = std::get<RGB<std::size_t>>(header.mask);
 					auto redBitcount = bitcount(mask.r);
@@ -214,7 +214,7 @@ namespace ece
 					return {};
 				}
 
-				std::vector<char> compressAlphaBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<char> compressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
 					auto mask = std::get<RGBA<std::size_t>>(header.mask);
 					auto redBitcount = bitcount(mask.r);
@@ -333,7 +333,7 @@ namespace ece
 					return result;
 				}
 
-				std::vector<char> decompressBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<char> decompressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
 					auto mask = std::get<RGB<std::size_t>>(header.mask);
 					auto redBitcount = bitcount(mask.r);
@@ -364,7 +364,7 @@ namespace ece
 					return {};
 				}
 
-				std::vector<char> decompressAlphaBitfields(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<char> decompressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
 					auto mask = std::get<RGBA<std::size_t>>(header.mask);
 					auto redBitcount = bitcount(mask.r);
