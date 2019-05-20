@@ -36,7 +36,7 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
 SCENARIO("OpenGLUtil", "[Renderer][OpenGL]")
 {

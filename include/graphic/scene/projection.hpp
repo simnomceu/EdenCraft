@@ -42,6 +42,7 @@
 #define PROJECTION_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "window/common.hpp"
 #include "utility/mathematics.hpp"
 

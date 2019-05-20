@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/argument/option.hpp"
+#include "core/argument.hpp"
 
 SCENARIO("Option", "[Core][Argument]")
 {

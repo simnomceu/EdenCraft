@@ -42,6 +42,7 @@
 #define MAKE_LIGHT_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/scene/light.hpp"
 
 namespace ece

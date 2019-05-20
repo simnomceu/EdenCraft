@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/ecs/component.hpp"
+#include "core/ecs.hpp"
 
 SCENARIO("Component", "[Core][ECS]")
 {

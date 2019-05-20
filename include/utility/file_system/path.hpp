@@ -64,7 +64,7 @@ namespace ece
         		 * @brief Get the current location during runtime.
         		 * @throw
         		 */
-        		static auto currentPath();
+        		static auto currentPath() -> Path;
 
         		/**
         		 * @fn Path() noexcept
@@ -124,12 +124,12 @@ namespace ece
         		Path & operator=(Path && move) = default;
 
         		/**
-        		 * @fn int getDepth() const
+        		 * @fn std::size_t getDepth() const
         		 * @return The path depth
         		 * @brief Access the depth of the current path. It is equivalent to number of segment level in the path.
         		 * @throw
         		 */
-        		inline auto getDepth() const;
+        		inline auto getDepth() const ->std::size_t;
 
         		/**
         		 * @fn std::string getPathname() const
@@ -138,7 +138,7 @@ namespace ece
         		 * It returns the complete current path, whatever it is, folder or file. It doesn't mean the path is valid.
         		 * @throw
         		 */
-				auto getPathname() const;
+				auto getPathname() const -> std::string;
 
         		/**
         		 * @fn std::string getPath() const
@@ -147,7 +147,7 @@ namespace ece
         		 * If it defines a file, it returns the path to this file. It doesn't mean the path is valid.
         		 * @throw
         		 */
-				auto getPath() const;
+				auto getPath() const -> std::string;
 
         		/**
         		 * @fn std::string getFilename() const
@@ -155,7 +155,7 @@ namespace ece
         		 * @brief Access to the filename defined by the path, or nothing if it defines a folder. It doesn't mean the path is valid.
         		 * @throw
         		 */
-        		inline auto getFilename() const;
+        		inline auto getFilename() const -> std::string;
 
         		/**
         		 * @fn std::string & operator[](const int index)

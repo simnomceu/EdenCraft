@@ -49,9 +49,9 @@ namespace ece
         {
         	inline Path::Path() noexcept: _path() {}
 
-        	inline auto Path::getDepth() const { return this->isFile() ? this->_path.size() - 1 : this->_path.size(); }
+        	inline auto Path::getDepth() const -> std::size_t { return this->isFile() ? this->_path.size() - 1 : this->_path.size(); }
 
-        	inline auto Path::getFilename() const { return this->isFile() ? this->_path.back() : "" ; }
+        	inline auto Path::getFilename() const -> std::string { return this->isFile() ? this->_path.back() : "" ; }
 
         	inline auto & Path::operator[](const int index) { return this->_path[index]; }
 

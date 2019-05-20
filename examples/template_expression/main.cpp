@@ -34,7 +34,7 @@ int main()
 	ece::Matrix<int, 2, 3> rectMatrix = { 0, 1, 2, 3, 4, 5 };
 	std::cout << rectMatrix[0][0] << " | " << rectMatrix[0][1] << " | " << rectMatrix[0][2] << std::endl << "---------" << std::endl << rectMatrix[1][0] << " | " << rectMatrix[1][1] << " | " << rectMatrix[1][2] << std::endl;
 	ece::Matrix<float, 2, 2> matrixBis = { 2.1f, 4.5f, 7.2f, 5.7f };
-	matrix[matrix <= 0] += 5;
+//	matrix[matrix <= 0] += 5;
 	auto && resultMat = ece::abs(-(7 + matrix + 1 + ece::Matrix<int, 2, 2>{ 1, 1, 1, 1 }  + matrixBis - ece::Matrix<int, 2, 2>(1)));
 
 	std::cout << "resultMat: { ";
@@ -63,6 +63,17 @@ int main()
 		std::cout << matvec[i] << " ";
 	}
 	std::cout << "}" << std::endl;
+
+	// =============================
+
+	const auto pos = ece::Vector<float, 3>{ 4.0f, 5.0f, 6.0f } / 2.0f;
+	const auto center = ece::Vector<float, 3>{ 1.0f, 7.0f, 3.0f };
+	const auto ratio = 2.0f;
+	const auto newPos = ((pos - center) * ratio) + center;
+	std::cout << "New position: {" << newPos[0] << " " << newPos[1] << " " << newPos[2] << "}" << std::endl;
+	
+	const auto secondNewPos = (pos + center) * 3.0f;
+	std::cout << "Second New position: {" << secondNewPos[0] << " " << secondNewPos[1] << " " << secondNewPos[2] << "}" << std::endl;
 
 	return EXIT_SUCCESS;
 }
