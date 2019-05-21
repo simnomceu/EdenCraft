@@ -1,4 +1,5 @@
 #include "utility/template_expression.hpp"
+#include "utility/mathematics.hpp"
 
 #include <iostream>
 
@@ -74,6 +75,12 @@ int main()
 	
 	const auto secondNewPos = (pos + center) * 3.0f;
 	std::cout << "Second New position: {" << secondNewPos[0] << " " << secondNewPos[1] << " " << secondNewPos[2] << "}" << std::endl;
+
+	// =============================
+
+	const auto box = ece::Box3D<float>({2.0f, 5.0f, 3.0f}, {7.0, 18.0f, -11.0f});
+	auto centerBox = box.getCenter();
+	std::cerr << "Center: " << centerBox[0] << " " << centerBox[1] << " " << centerBox[2] << std::endl;
 
 	return EXIT_SUCCESS;
 }
