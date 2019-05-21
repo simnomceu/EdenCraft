@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/mathematics/box3d.hpp"
+#include "utility/mathematics.hpp"
 
 SCENARIO("Box3D", "[Utility][Mathematics]")
 {

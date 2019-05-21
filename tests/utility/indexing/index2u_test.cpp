@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/indexing/index2u.hpp"
+#include "utility/indexing.hpp"
 
 SCENARIO("Index2u", "[Utility][Indexing]")
 {

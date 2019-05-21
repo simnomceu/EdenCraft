@@ -122,7 +122,7 @@ namespace ece
         		 * @brief Get the center of the box as a 3D vertex.
         		 * @throw noexcept.
         		 */
-        		inline auto getCenter() const noexcept;
+        		inline auto getCenter() const noexcept -> Vector3u<E>;
 
         		/**
         		 * @property _a

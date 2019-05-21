@@ -36,11 +36,10 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/mathematics/matrix4u.hpp"
-#include "utility/mathematics/vector4u.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/mathematics.hpp"
+#include "utility/debug.hpp"
 
 SCENARIO("Matrix4u", "[Utility][Mathematics]")
 {

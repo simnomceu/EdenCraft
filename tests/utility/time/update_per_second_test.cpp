@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/time/update_per_second.hpp"
+#include "utility/time.hpp"
 
 SCENARIO("UpdatePerSecond", "[Utility][Time]")
 {

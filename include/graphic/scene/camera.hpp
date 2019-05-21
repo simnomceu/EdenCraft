@@ -42,6 +42,7 @@
 #define CAMERA_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/model.hpp"
 #include "utility/mathematics.hpp"
 #include "graphic/scene/projection.hpp"

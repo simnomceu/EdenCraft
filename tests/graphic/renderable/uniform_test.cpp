@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "graphic/renderable/uniform.hpp"
+#include "graphic/renderable.hpp"
 
 SCENARIO("Uniform", "[Graphic][Renderable]")
 {

@@ -45,7 +45,7 @@ namespace ece
     {
         namespace file_system
         {
-        	auto Path::currentPath()
+        	auto Path::currentPath() -> Path
         	{				
         		return Path(std::filesystem::current_path().string());
         	}
@@ -61,7 +61,7 @@ namespace ece
         		}
         	}
 
-			auto Path::getPathname() const
+			auto Path::getPathname() const -> std::string
         	{
 				auto res = std::stringstream{};
         		std::copy(this->_path.begin(), this->_path.end(), std::ostream_iterator<std::string>(res, "\\"));
@@ -69,7 +69,7 @@ namespace ece
         		return result.substr(0, result.size() - 1);
         	}
 
-			auto Path::getPath() const
+			auto Path::getPath() const -> std::string
 			{
 				auto res = std::stringstream{};
         		std::copy(this->_path.begin(), this->_path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
