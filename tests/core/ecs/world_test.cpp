@@ -1,6 +1,6 @@
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/ecs/world.hpp"
+#include "core/ecs.hpp"
 
 SCENARIO("World", "[Core][ECS]")
 {

@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/json/node_json.hpp"
+#include "utility/formats/json.hpp"
 
 SCENARIO("NodeJSON", "[Utility][JSON]")
 {
