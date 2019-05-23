@@ -61,15 +61,15 @@ namespace ece
 			 * @class WindowAdapter
 			 * @brief
 			 */
-			class WindowAdapter
+			class ECE_GUI_API WindowAdapter
 			{
 			public:
 				/**
-				 * @fn constexpr WindowAdapter() noexcept
+				 * @fn WindowAdapter() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr WindowAdapter() noexcept = default;
+				WindowAdapter() noexcept;
 
 				/**
 				 * @fn WindowAdapter(const WindowAdapter & copy) noexcept
@@ -112,11 +112,16 @@ namespace ece
 				 */
 				WindowAdapter & operator=(WindowAdapter && move) noexcept = default;
 
-				void init(Window & window);
+				void init(std::shared_ptr<Window> window);
 				void newFrame();
+				void shutdown();
+				void render();
 
 			private:
-				void * getWindowHandle(Window & window);
+				std::shared_ptr<Window> _window;
+				std::array<bool, 5> _mouseJustPressed;
+
+				void * getWindowHandle();
 			};
 		} // namespace imgui
 	} // namespace gui

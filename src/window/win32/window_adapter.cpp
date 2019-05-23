@@ -264,7 +264,7 @@ namespace ece
 						newEvent.type = InputEvent::Type::MOUSE_MOVED;
 						newEvent.mousePosition[0] = GET_X_LPARAM(message.lParam);
 						newEvent.mousePosition[1] = GET_Y_LPARAM(message.lParam);
-						Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
+						Mouse::setPosition(newEvent.mousePosition);
 						this->pushEvent(newEvent);
 						break;
 					}

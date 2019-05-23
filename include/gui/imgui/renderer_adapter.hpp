@@ -41,6 +41,8 @@
 #include "gui/pch.hpp"
 #include "gui/config.hpp"
 
+struct ImDrawData;
+
 namespace ece
 {
 	namespace gui
@@ -51,15 +53,15 @@ namespace ece
 			 * @class RendererAdapter
 			 * @brief
 			 */
-			class RendererAdapter
+			class ECE_GUI_API RendererAdapter
 			{
 			public:
 				/**
-				 * @fn constexpr RendererAdapter() noexcept
+				 * @fn RendererAdapter() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr RendererAdapter() noexcept = default;
+				RendererAdapter() noexcept = default;
 
 				/**
 				 * @fn RendererAdapter(const RendererAdapter & copy) noexcept
@@ -104,8 +106,30 @@ namespace ece
 
 				void init();
 				void newFrame();
+				void shutdown();
+				void render();
+
+				void renderDrawLists(ImDrawData* draw_data);
+				void setupRenderState(ImDrawData * draw_data, int fb_width, int fb_height, unsigned int vertex_array_object);
+				bool createFontsTexture();
+				void destroyFontsTexture();
+				bool checkShader(unsigned int handle, const char* desc);
+				bool checkProgram(unsigned int handle, const char* desc);
+				bool createDeviceObjects();
+				void destroyDeviceObjects();
 
 			private:
+				unsigned int _fontTexture;
+				unsigned int _shaderHandle;
+				unsigned int _vertHandle;
+				unsigned int _fragHandle;
+				int _attribLocationTex;
+				int _attribLocationProjMtx;
+				int _attribLocationVtxPos;
+				int _attribLocationVtxUV;
+				int _attribLocationVtxColor;
+				unsigned int _vboHandle;
+				unsigned int _elementsHandle;
 			};
 		} // namespace imgui
 	} // namespace gui

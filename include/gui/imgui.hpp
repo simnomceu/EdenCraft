@@ -35,53 +35,16 @@
 
 */
 
-#include "gui/pch.hpp"
-#include "gui/imgui/adapter.hpp"
+#ifndef GUI_IMGUI_HPP
+#define GUI_IMGUI_HPP
 
-#include "imgui.h"
-#include "window/common.hpp"
+#include "gui/imgui/adapter.hpp"
+#include "gui/imgui/renderer_adapter.hpp"
+#include "gui/imgui/window_adapter.hpp"
 
 namespace ece
 {
-	namespace gui
-	{
-		namespace imgui
-		{
-			void Adapter::init(std::shared_ptr<Window> window)
-			{
-				IMGUI_CHECKVERSION();
-				this->_context = ImGui::CreateContext();
+	using namespace gui::imgui;
+}
 
-				ImGui::StyleColorsDark();
-
-				this->_windowAdapter.init(window);
-				this->_rendererAdapter.init();
-			}
-
-			void Adapter::shutdown()
-			{
-				this->_rendererAdapter.shutdown();
-				this->_windowAdapter.shutdown();
-				ImGui::DestroyContext(this->_context);
-				this->_context = nullptr;
-			}
-
-			void Adapter::newFrame()
-			{
-				// OpenGL new frame
-				this->_rendererAdapter.newFrame();
-				// Window new frame
-				this->_windowAdapter.newFrame();
-
-				ImGui::NewFrame();
-			}
-
-			void Adapter::render()
-			{
-				ImGui::Render();
-				this->_windowAdapter.render();
-				this->_rendererAdapter.render();
-			}
-		} // namespace imgui
-	} // namespace gui
-} // namespace ece
+#endif // GUI_IMGUI_HPP

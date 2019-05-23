@@ -56,7 +56,7 @@ namespace ece
 			 * @class Adapter
 			 * @brief
 			 */
-			class Adapter
+			class ECE_GUI_API Adapter
 			{
 			public:
 				/**
@@ -107,9 +107,10 @@ namespace ece
 				 */
 				Adapter & operator=(Adapter && move) noexcept = default;
 
-				bool init(Window & window);
+				void init(std::shared_ptr<Window> window);
 				void shutdown();
 				void newFrame();
+				void render();
 
 			private:
 				ImGuiContext * _context;

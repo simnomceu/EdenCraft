@@ -40,6 +40,7 @@
 
 #include "imgui.h"
 #include "window/common.hpp"
+#include "renderer/opengl.hpp"
 
 namespace ece
 {
@@ -47,11 +48,17 @@ namespace ece
 	{
 		namespace imgui
 		{
-			void WindowAdapter::init(Window & window)
+			WindowAdapter::WindowAdapter() noexcept: _window(), _mouseJustPressed({false, false, false, false, false})
 			{
+			}
+
+			void WindowAdapter::init(std::shared_ptr<Window> window)
+			{
+				this->_window = window;
+
 				ImGuiIO & io = ImGui::GetIO();
 				io.BackendPlatformName = "imgui_impl_edencraft";
-				io.ImeWindowHandle = this->getWindowHandle(window);
+				io.ImeWindowHandle = this->getWindowHandle();
 
 				io.KeyMap[ImGuiKey_A] = static_cast<int>(ece::Keyboard::Key::A);
 				io.KeyMap[ImGuiKey_C] = static_cast<int>(ece::Keyboard::Key::C);
@@ -74,10 +81,60 @@ namespace ece
 				io.KeyMap[ImGuiKey_Space] = static_cast<int>(ece::Keyboard::Key::SPACEBAR);
 				io.KeyMap[ImGuiKey_Tab] = static_cast<int>(ece::Keyboard::Key::TAB);
 				io.KeyMap[ImGuiKey_UpArrow] = static_cast<int>(ece::Keyboard::Key::UP);
+
+				auto & eventHandler = this->_window->getEventHandler();
+				eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, [[maybe_unused]] ece::Window & /*window*/) {
+					ImGuiIO & io = ImGui::GetIO();
+
+					io.KeysDown[static_cast<int>(event.key)] = true;
+
+					io.KeyCtrl = io.KeysDown[static_cast<int>(Keyboard::Key::CTRL)];
+					io.KeyShift = io.KeysDown[static_cast<int>(Keyboard::Key::SHIFT)];
+					io.KeyAlt = io.KeysDown[static_cast<int>(Keyboard::Key::ALTGR)];
+					io.KeySuper = io.KeysDown[static_cast<int>(Keyboard::Key::LEFT_COMMAND)] || io.KeysDown[static_cast<int>(Keyboard::Key::RIGHT_COMMAND)];
+				});
+				eventHandler.onKeyReleased.connect([](const ece::InputEvent & event, [[maybe_unused]] ece::Window & /*window*/) {
+					ImGuiIO & io = ImGui::GetIO();
+
+					io.KeysDown[static_cast<int>(event.key)] = false;
+
+					io.KeyCtrl = io.KeysDown[static_cast<int>(Keyboard::Key::CTRL)];
+					io.KeyShift = io.KeysDown[static_cast<int>(Keyboard::Key::SHIFT)];
+					io.KeyAlt = io.KeysDown[static_cast<int>(Keyboard::Key::ALTGR)];
+					io.KeySuper = io.KeysDown[static_cast<int>(Keyboard::Key::LEFT_COMMAND)] || io.KeysDown[static_cast<int>(Keyboard::Key::RIGHT_COMMAND)];
+				});
+				eventHandler.onMouseButtonPressed.connect([this](const ece::InputEvent & event, [[maybe_unused]] ece::Window & /*window*/) {
+					this->_mouseJustPressed[static_cast<int>(event.mouseButton)] = true;
+				});
 			}
 
 			void WindowAdapter::newFrame()
 			{
+				auto size = this->_window->getSize();
+				
+				ImGuiIO & io = ImGui::GetIO();
+				io.DisplaySize = ImVec2(static_cast<float>(size[0]), static_cast<float>(size[1]));
+				io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+				io.DeltaTime = 1.0f / 60.0f;
+
+				auto i = 0;
+				for (i = 0; i < IM_ARRAYSIZE(io.MouseDown); ++i) {
+					io.MouseDown[i] = this->_mouseJustPressed[i] || ece::Mouse::isKeyPressed(static_cast<Mouse::Button>(i));
+					this->_mouseJustPressed[i] = false;
+				}
+
+				auto mousePos = ece::Mouse::getPosition();
+				io.MousePos = ImVec2(static_cast<float>(mousePos[0]), static_cast<float>(mousePos[1] + 38));
+			}
+
+			void WindowAdapter::shutdown()
+			{
+			}
+
+			void WindowAdapter::render()
+			{
+				auto size = this->_window->getSize();
+				glViewport(0, 0, size[0], size[1]);
 			}
 		} // namespace imgui
 	} // namespace gui

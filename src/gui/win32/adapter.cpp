@@ -47,9 +47,9 @@ namespace ece
 	{
 		namespace imgui
 		{
-			void * WindowAdapter::getWindowHandle(Window & window)
+			void * WindowAdapter::getWindowHandle()
 			{
-				return reinterpret_cast<void *>(window.getAdapter()->getImpl()->windowId);
+				return reinterpret_cast<void *>(this->_window->getAdapter()->getImpl()->windowId);
 			}
 		} // namespace imgui
 	} // namespace gui
