@@ -173,7 +173,7 @@ namespace ece
 
 								// Bind texture, Draw
 								glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
-								glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (void*)idx_buffer_offset);
+								glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, reinterpret_cast<void *>(idx_buffer_offset));
 							}
 						}
 						idx_buffer_offset += pcmd->ElemCount * sizeof(ImDrawIdx);
@@ -254,9 +254,9 @@ namespace ece
 				glEnableVertexAttribArray(this->_attribLocationVtxPos);
 				glEnableVertexAttribArray(this->_attribLocationVtxUV);
 				glEnableVertexAttribArray(this->_attribLocationVtxColor);
-				glVertexAttribPointer(this->_attribLocationVtxPos, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, pos));
-				glVertexAttribPointer(this->_attribLocationVtxUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, uv));
-				glVertexAttribPointer(this->_attribLocationVtxColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)IM_OFFSETOF(ImDrawVert, col));
+				glVertexAttribPointer(this->_attribLocationVtxPos, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)reinterpret_cast<long>(&(((ImDrawVert*)0)->pos)));
+				glVertexAttribPointer(this->_attribLocationVtxUV, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (GLvoid*)reinterpret_cast<long>(&(((ImDrawVert*)0)->uv)));
+				glVertexAttribPointer(this->_attribLocationVtxColor, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (GLvoid*)reinterpret_cast<long>(&(((ImDrawVert*)0)->col)));
 			}
 
 			bool RendererAdapter::createFontsTexture()
