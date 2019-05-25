@@ -226,9 +226,17 @@ namespace ece
 						break;
 					}
 					case ButtonPress: {
+						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+						auto keyCode = static_cast<Mouse::Button>(message.impl.xbutton.button);
+						newEvent.mouseButton = keyCode;
+						Mouse::pressKey(keyCode, true);
 						break;
 					}
 					case ButtonRelease: {
+						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+						auto keyCode = static_cast<Mouse::Button>(message.impl.xbutton.button);
+						newEvent.mouseButton = keyCode;
+						Mouse::pressKey(keyCode, false);
 						break;
 					}
 					case MotionNotify: {
