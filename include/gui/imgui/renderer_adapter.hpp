@@ -113,16 +113,11 @@ namespace ece
 				void setupRenderState(ImDrawData * draw_data, int fb_width, int fb_height, unsigned int vertex_array_object);
 				bool createFontsTexture();
 				void destroyFontsTexture();
-				bool checkShader(unsigned int handle, const char* desc);
-				bool checkProgram(unsigned int handle, const char* desc);
 				bool createDeviceObjects();
 				void destroyDeviceObjects();
 
 			private:
 				unsigned int _fontTexture;
-				unsigned int _shaderHandle;
-				unsigned int _vertHandle;
-				unsigned int _fragHandle;
 				int _attribLocationTex;
 				int _attribLocationProjMtx;
 				int _attribLocationVtxPos;
@@ -130,6 +125,8 @@ namespace ece
 				int _attribLocationVtxColor;
 				unsigned int _vboHandle;
 				unsigned int _elementsHandle;
+
+				std::shared_ptr<ece::EnhancedShader> _program;
 			};
 		} // namespace imgui
 	} // namespace gui

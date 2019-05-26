@@ -236,7 +236,7 @@ namespace ece
 					{ 0.0f,         0.0f,        -1.0f,   0.0f },
 					{ (R + L) / (L - R),  (T + B) / (B - T),  0.0f,   1.0f },
 				};
-				glUseProgram(this->_shaderHandle);
+				this->_program->use();
 				glUniform1i(this->_attribLocationTex, 0);
 				glUniformMatrix4fv(this->_attribLocationProjMtx, 1, GL_FALSE, &ortho_projection[0][0]);
 #ifdef GL_SAMPLER_BINDING
@@ -299,42 +299,6 @@ namespace ece
 				}
 			}
 
-			// If you get an error please report on github. You may try different GL context version or GLSL version. See GL<>GLSL version table at the top of this file.
-			bool RendererAdapter::checkShader(unsigned int handle, const char* desc)
-			{
-				GLint status = 0, log_length = 0;
-				glGetShaderiv(handle, GL_COMPILE_STATUS, &status);
-				glGetShaderiv(handle, GL_INFO_LOG_LENGTH, &log_length);
-				if ((GLboolean)status == GL_FALSE)
-					fprintf(stderr, "ERROR: createDeviceObjects: failed to compile %s!\n", desc);
-				if (log_length > 0)
-				{
-					ImVector<char> buf;
-					buf.resize((int)(log_length + 1));
-					glGetShaderInfoLog(handle, log_length, NULL, (GLchar*)buf.begin());
-					fprintf(stderr, "%s\n", buf.begin());
-				}
-				return (GLboolean)status == GL_TRUE;
-			}
-
-			// If you get an error please report on GitHub. You may try different GL context version or GLSL version.
-			bool RendererAdapter::checkProgram(unsigned int handle, const char* desc)
-			{
-				GLint status = 0, log_length = 0;
-				glGetProgramiv(handle, GL_LINK_STATUS, &status);
-				glGetProgramiv(handle, GL_INFO_LOG_LENGTH, &log_length);
-				if ((GLboolean)status == GL_FALSE)
-					fprintf(stderr, "ERROR: createDeviceObjects: failed to link %s! (with GLSL '#version 410')\n", desc);
-				if (log_length > 0)
-				{
-					ImVector<char> buf;
-					buf.resize((int)(log_length + 1));
-					glGetProgramInfoLog(handle, log_length, NULL, (GLchar*)buf.begin());
-					fprintf(stderr, "%s\n", buf.begin());
-				}
-				return (GLboolean)status == GL_TRUE;
-			}
-
 			bool RendererAdapter::createDeviceObjects()
 			{
 				// Backup GL state
@@ -346,56 +310,23 @@ namespace ece
 				glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
 #endif
 
-				const GLchar* vertex_shader =
-					"#version 410\n"
-					"layout (location = 0) in vec2 Position;\n"
-					"layout (location = 1) in vec2 UV;\n"
-					"layout (location = 2) in vec4 Color;\n"
-					"uniform mat4 ProjMtx;\n"
-					"out vec2 Frag_UV;\n"
-					"out vec4 Frag_Color;\n"
-					"void main()\n"
-					"{\n"
-					"    Frag_UV = UV;\n"
-					"    Frag_Color = Color;\n"
-					"    gl_Position = ProjMtx * vec4(Position.xy,0,1);\n"
-					"}\n";
+				{
+					ece::ShaderStage fsSource;
+					fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/imgui.frag");
+					ece::ShaderStage vsSource;
+					vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/imgui.vert");
 
-				const GLchar* fragment_shader =
-					"#version 410\n"
-					"in vec2 Frag_UV;\n"
-					"in vec4 Frag_Color;\n"
-					"uniform sampler2D Texture;\n"
-					"layout (location = 0) out vec4 Out_Color;\n"
-					"void main()\n"
-					"{\n"
-					"    Out_Color = Frag_Color * texture(Texture, Frag_UV.st);\n"
-					"}\n";
+					this->_program = std::make_shared<ece::EnhancedShader>();
+					this->_program->setStage(fsSource);
+					this->_program->setStage(vsSource);
+					this->_program->link();
+				}
 
-				// Create shaders
-				const GLchar* vertex_shader_with_version[1] = { vertex_shader };
-				this->_vertHandle = glCreateShader(GL_VERTEX_SHADER);
-				glShaderSource(this->_vertHandle, 1, vertex_shader_with_version, NULL);
-				glCompileShader(this->_vertHandle);
-				this->checkShader(this->_vertHandle, "vertex shader");
-
-				const GLchar* fragment_shader_with_version[1] = { fragment_shader };
-				this->_fragHandle = glCreateShader(GL_FRAGMENT_SHADER);
-				glShaderSource(this->_fragHandle, 1, fragment_shader_with_version, NULL);
-				glCompileShader(this->_fragHandle);
-				this->checkShader(this->_fragHandle, "fragment shader");
-
-				this->_shaderHandle = glCreateProgram();
-				glAttachShader(this->_shaderHandle, this->_vertHandle);
-				glAttachShader(this->_shaderHandle, this->_fragHandle);
-				glLinkProgram(this->_shaderHandle);
-				this->checkProgram(this->_shaderHandle, "shader program");
-
-				this->_attribLocationTex = glGetUniformLocation(this->_shaderHandle, "Texture");
-				this->_attribLocationProjMtx = glGetUniformLocation(this->_shaderHandle, "ProjMtx");
-				this->_attribLocationVtxPos = glGetAttribLocation(this->_shaderHandle, "Position");
-				this->_attribLocationVtxUV = glGetAttribLocation(this->_shaderHandle, "UV");
-				this->_attribLocationVtxColor = glGetAttribLocation(this->_shaderHandle, "Color");
+				this->_attribLocationTex = this->_program->getLocation("Texture");
+				this->_attribLocationProjMtx = this->_program->getLocation("ProjMtx");
+				this->_attribLocationVtxPos = 0;
+				this->_attribLocationVtxUV = 1;
+				this->_attribLocationVtxColor = 2;
 
 				// Create buffers
 				glGenBuffers(1, &this->_vboHandle);
@@ -419,16 +350,7 @@ namespace ece
 				if (this->_elementsHandle) glDeleteBuffers(1, &this->_elementsHandle);
 				this->_vboHandle = this->_elementsHandle = 0;
 
-				if (this->_shaderHandle && this->_vertHandle) glDetachShader(this->_shaderHandle, this->_vertHandle);
-				if (this->_vertHandle) glDeleteShader(this->_vertHandle);
-				this->_vertHandle = 0;
-
-				if (this->_shaderHandle && this->_fragHandle) glDetachShader(this->_shaderHandle, this->_fragHandle);
-				if (this->_fragHandle) glDeleteShader(this->_fragHandle);
-				this->_fragHandle = 0;
-
-				if (this->_shaderHandle) glDeleteProgram(this->_shaderHandle);
-				this->_shaderHandle = 0;
+				this->_program->terminate();
 
 				this->destroyFontsTexture();
 			}
