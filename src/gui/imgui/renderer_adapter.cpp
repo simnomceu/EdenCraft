@@ -47,6 +47,93 @@ namespace ece
 	{
 		namespace imgui
 		{
+			RendererState saveState()
+			{
+				auto state = RendererState{};
+
+				glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&state.last_active_texture);
+				glActiveTexture(GL_TEXTURE0);
+				glGetIntegerv(GL_CURRENT_PROGRAM, &state.last_program);
+				glGetIntegerv(GL_TEXTURE_BINDING_2D, &state.last_texture);
+#ifdef GL_SAMPLER_BINDING
+				glGetIntegerv(GL_SAMPLER_BINDING, &state.last_sampler);
+#endif
+				glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &state.last_array_buffer);
+#ifndef IMGUI_IMPL_OPENGL_ES2
+				glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &state.last_vertex_array_object);
+#endif
+#ifdef GL_POLYGON_MODE
+				glGetIntegerv(GL_POLYGON_MODE, state.last_polygon_mode);
+#endif
+				glGetIntegerv(GL_VIEWPORT, state.last_viewport);
+				glGetIntegerv(GL_SCISSOR_BOX, state.last_scissor_box);
+				glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&state.last_blend_src_rgb);
+				glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&state.last_blend_dst_rgb);
+				glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&state.last_blend_src_alpha);
+				glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&state.last_blend_dst_alpha);
+				glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&state.last_blend_equation_rgb);
+				glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&state.last_blend_equation_alpha);
+				state.last_enable_blend = glIsEnabled(GL_BLEND);
+				state.last_enable_cull_face = glIsEnabled(GL_CULL_FACE);
+				state.last_enable_depth_test = glIsEnabled(GL_DEPTH_TEST);
+				state.last_enable_scissor_test = glIsEnabled(GL_SCISSOR_TEST);
+				state.clip_origin_lower_left = true;
+#if defined(GL_CLIP_ORIGIN) && !defined(__APPLE__)
+				state.last_clip_origin = 0;
+				glGetIntegerv(GL_CLIP_ORIGIN, (GLint*)&state.last_clip_origin); // Support for GL 4.5's glClipControl(GL_UPPER_LEFT)
+				if (state.last_clip_origin == GL_UPPER_LEFT) {
+					state.clip_origin_lower_left = false;
+				}
+#endif
+
+				return std::move(state);
+			}
+
+			void restoreState(const RendererState & state)
+			{
+				glUseProgram(state.last_program);
+				glBindTexture(GL_TEXTURE_2D, state.last_texture);
+#ifdef GL_SAMPLER_BINDING
+				glBindSampler(0, state.last_sampler);
+#endif
+				glActiveTexture(state.last_active_texture);
+#ifndef IMGUI_IMPL_OPENGL_ES2
+				glBindVertexArray(state.last_vertex_array_object);
+#endif
+				glBindBuffer(GL_ARRAY_BUFFER, state.last_array_buffer);
+				glBlendEquationSeparate(state.last_blend_equation_rgb, state.last_blend_equation_alpha);
+				glBlendFuncSeparate(state.last_blend_src_rgb, state.last_blend_dst_rgb, state.last_blend_src_alpha, state.last_blend_dst_alpha);
+				if (state.last_enable_blend) {
+					glEnable(GL_BLEND);
+				}
+				else {
+					glDisable(GL_BLEND);
+				}
+				if (state.last_enable_cull_face) {
+					glEnable(GL_CULL_FACE);
+				}
+				else {
+					glDisable(GL_CULL_FACE);
+				}
+				if (state.last_enable_depth_test) {
+					glEnable(GL_DEPTH_TEST);
+				}
+				else {
+					glDisable(GL_DEPTH_TEST);
+				}
+				if (state.last_enable_scissor_test) {
+					glEnable(GL_SCISSOR_TEST);
+				}
+				else {
+					glDisable(GL_SCISSOR_TEST);
+				}
+#ifdef GL_POLYGON_MODE
+				glPolygonMode(GL_FRONT_AND_BACK, (GLenum)state.last_polygon_mode[0]);
+#endif
+				glViewport(state.last_viewport[0], state.last_viewport[1], (GLsizei)state.last_viewport[2], (GLsizei)state.last_viewport[3]);
+				glScissor(state.last_scissor_box[0], state.last_scissor_box[1], (GLsizei)state.last_scissor_box[2], (GLsizei)state.last_scissor_box[3]);
+			}
+
 			void RendererAdapter::init()
 			{
 				ImGuiIO & io = ImGui::GetIO();
@@ -71,9 +158,8 @@ namespace ece
 
 			void RendererAdapter::render()
 			{
-				ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-				glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-				glClear(GL_COLOR_BUFFER_BIT);
+				OpenGL::clearColor(0.45f, 0.55f, 0.60f, 1.00f);
+				OpenGL::clear(Bitfield::COLOR_BUFFER_BIT);
 				this->renderDrawLists(ImGui::GetDrawData());
 			}
 
@@ -86,38 +172,7 @@ namespace ece
 					return;
 
 				// Backup GL state
-				GLenum last_active_texture; glGetIntegerv(GL_ACTIVE_TEXTURE, (GLint*)&last_active_texture);
-				glActiveTexture(GL_TEXTURE0);
-				GLint last_program; glGetIntegerv(GL_CURRENT_PROGRAM, &last_program);
-				GLint last_texture; glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-#ifdef GL_SAMPLER_BINDING
-				GLint last_sampler; glGetIntegerv(GL_SAMPLER_BINDING, &last_sampler);
-#endif
-				GLint last_array_buffer; glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
-#ifndef IMGUI_IMPL_OPENGL_ES2
-				GLint last_vertex_array_object; glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array_object);
-#endif
-#ifdef GL_POLYGON_MODE
-				GLint last_polygon_mode[2]; glGetIntegerv(GL_POLYGON_MODE, last_polygon_mode);
-#endif
-				GLint last_viewport[4]; glGetIntegerv(GL_VIEWPORT, last_viewport);
-				GLint last_scissor_box[4]; glGetIntegerv(GL_SCISSOR_BOX, last_scissor_box);
-				GLenum last_blend_src_rgb; glGetIntegerv(GL_BLEND_SRC_RGB, (GLint*)&last_blend_src_rgb);
-				GLenum last_blend_dst_rgb; glGetIntegerv(GL_BLEND_DST_RGB, (GLint*)&last_blend_dst_rgb);
-				GLenum last_blend_src_alpha; glGetIntegerv(GL_BLEND_SRC_ALPHA, (GLint*)&last_blend_src_alpha);
-				GLenum last_blend_dst_alpha; glGetIntegerv(GL_BLEND_DST_ALPHA, (GLint*)&last_blend_dst_alpha);
-				GLenum last_blend_equation_rgb; glGetIntegerv(GL_BLEND_EQUATION_RGB, (GLint*)&last_blend_equation_rgb);
-				GLenum last_blend_equation_alpha; glGetIntegerv(GL_BLEND_EQUATION_ALPHA, (GLint*)&last_blend_equation_alpha);
-				GLboolean last_enable_blend = glIsEnabled(GL_BLEND);
-				GLboolean last_enable_cull_face = glIsEnabled(GL_CULL_FACE);
-				GLboolean last_enable_depth_test = glIsEnabled(GL_DEPTH_TEST);
-				GLboolean last_enable_scissor_test = glIsEnabled(GL_SCISSOR_TEST);
-				bool clip_origin_lower_left = true;
-#if defined(GL_CLIP_ORIGIN) && !defined(__APPLE__)
-				GLenum last_clip_origin = 0; glGetIntegerv(GL_CLIP_ORIGIN, (GLint*)&last_clip_origin); // Support for GL 4.5's glClipControl(GL_UPPER_LEFT)
-				if (last_clip_origin == GL_UPPER_LEFT)
-					clip_origin_lower_left = false;
-#endif
+				auto state = saveState();
 
 				// Setup desired GL state
 				// Recreate the VAO every time (this is to easily allow multiple GL contexts to be rendered to. VAO are not shared among GL contexts)
@@ -166,7 +221,7 @@ namespace ece
 							if (clip_rect.x < fb_width && clip_rect.y < fb_height && clip_rect.z >= 0.0f && clip_rect.w >= 0.0f)
 							{
 								// Apply scissor/clipping rectangle
-								if (clip_origin_lower_left)
+								if (state.clip_origin_lower_left)
 									glScissor((int)clip_rect.x, (int)(fb_height - clip_rect.w), (int)(clip_rect.z - clip_rect.x), (int)(clip_rect.w - clip_rect.y));
 								else
 									glScissor((int)clip_rect.x, (int)clip_rect.y, (int)clip_rect.z, (int)clip_rect.w); // Support for GL 4.5 rarely used glClipControl(GL_UPPER_LEFT)
@@ -186,27 +241,7 @@ namespace ece
 #endif
 
 				// Restore modified GL state
-				glUseProgram(last_program);
-				glBindTexture(GL_TEXTURE_2D, last_texture);
-#ifdef GL_SAMPLER_BINDING
-				glBindSampler(0, last_sampler);
-#endif
-				glActiveTexture(last_active_texture);
-#ifndef IMGUI_IMPL_OPENGL_ES2
-				glBindVertexArray(last_vertex_array_object);
-#endif
-				glBindBuffer(GL_ARRAY_BUFFER, last_array_buffer);
-				glBlendEquationSeparate(last_blend_equation_rgb, last_blend_equation_alpha);
-				glBlendFuncSeparate(last_blend_src_rgb, last_blend_dst_rgb, last_blend_src_alpha, last_blend_dst_alpha);
-				if (last_enable_blend) glEnable(GL_BLEND); else glDisable(GL_BLEND);
-				if (last_enable_cull_face) glEnable(GL_CULL_FACE); else glDisable(GL_CULL_FACE);
-				if (last_enable_depth_test) glEnable(GL_DEPTH_TEST); else glDisable(GL_DEPTH_TEST);
-				if (last_enable_scissor_test) glEnable(GL_SCISSOR_TEST); else glDisable(GL_SCISSOR_TEST);
-#ifdef GL_POLYGON_MODE
-				glPolygonMode(GL_FRONT_AND_BACK, (GLenum)last_polygon_mode[0]);
-#endif
-				glViewport(last_viewport[0], last_viewport[1], (GLsizei)last_viewport[2], (GLsizei)last_viewport[3]);
-				glScissor(last_scissor_box[0], last_scissor_box[1], (GLsizei)last_scissor_box[2], (GLsizei)last_scissor_box[3]);
+				restoreState(state);
 			}
 
 			void RendererAdapter::setupRenderState(ImDrawData * draw_data, int fb_width, int fb_height, unsigned int vertex_array_object)

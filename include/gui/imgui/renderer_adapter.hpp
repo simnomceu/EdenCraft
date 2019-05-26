@@ -40,6 +40,7 @@
 
 #include "gui/pch.hpp"
 #include "gui/config.hpp"
+#include "renderer/shader.hpp"
 
 struct ImDrawData;
 
@@ -49,6 +50,42 @@ namespace ece
 	{
 		namespace imgui
 		{
+			struct RendererState
+			{
+				GLenum last_active_texture;
+				GLint last_program;
+				GLint last_texture;
+#ifdef GL_SAMPLER_BINDING
+				GLint last_sampler;
+#endif
+				GLint last_array_buffer;
+#ifndef IMGUI_IMPL_OPENGL_ES2
+				GLint last_vertex_array_object;
+#endif
+#ifdef GL_POLYGON_MODE
+				GLint last_polygon_mode[2];
+#endif
+				GLint last_viewport[4];
+				GLint last_scissor_box[4];
+				GLenum last_blend_src_rgb;
+				GLenum last_blend_dst_rgb;
+				GLenum last_blend_src_alpha;
+				GLenum last_blend_dst_alpha;
+				GLenum last_blend_equation_rgb;
+				GLenum last_blend_equation_alpha;
+				GLboolean last_enable_blend;
+				GLboolean last_enable_cull_face;
+				GLboolean last_enable_depth_test;
+				GLboolean last_enable_scissor_test;
+				bool clip_origin_lower_left;
+#if defined(GL_CLIP_ORIGIN) && !defined(__APPLE__)
+				GLenum last_clip_origin;
+#endif
+			};
+
+			RendererState saveState();
+			void restoreState(const RendererState & state);
+
 			/**
 			 * @class RendererAdapter
 			 * @brief
