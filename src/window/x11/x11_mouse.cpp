@@ -48,6 +48,7 @@ namespace ece
 		{
 			auto Mouse::getButton(const unsigned int button) -> Mouse::Button
             {
+				std::cerr << button << std::endl;
 				Mouse::Button keycode = Mouse::Button::NONE;
                 switch (button)
                 {
@@ -57,6 +58,12 @@ namespace ece
                 case 3:
                     keycode = Mouse::Button::RIGHT;
                     break;
+				case 4:
+					keycode = Mouse::Button::WHEEL;
+					break;
+				case 5:
+					keycode = Mouse::Button::WHEEL;
+					break;
                 default: break;
                 }
                 return keycode;
@@ -75,6 +82,8 @@ namespace ece
                     keycode = 3;
                     break;
 				case Mouse::Button::WHEEL:
+					keycode = 5;
+					break;
 				case Mouse::Button::BUTTON0:
 				case Mouse::Button::BUTTON1:
 				case Mouse::Button::BUTTON2:
