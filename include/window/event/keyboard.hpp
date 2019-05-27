@@ -216,6 +216,7 @@ namespace ece
 				static void pressKey(const Key code, const bool state);
 
 				static auto getKey(const unsigned int keycode) -> Keyboard::Key;
+				static auto getKeyCode(const Key code) -> unsigned int;
 
 			private:
 				/**
@@ -241,7 +242,7 @@ namespace ece
         		 * @brief The number of supported keyboard keys.
         		 */
         		static constexpr auto value = static_cast<std::size_t>(Keyboard::Key::OEM_PERIOD) + 1;
-        	};    
+        	};
         } // namespace enumeration
     } // namespace utility
 } // namespace ece

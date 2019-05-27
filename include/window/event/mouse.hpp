@@ -108,6 +108,8 @@ namespace ece
 				 */
 				static void setPosition(const IntVector2u & position);
 
+				static auto getButton(const unsigned int button) -> Mouse::Button;
+				static auto getButtonCode(const Button button) -> unsigned int;
 			private:
 				/**
 				 * @property _states
