@@ -51,6 +51,21 @@ namespace ece
 				Mouse::Button keycode = Mouse::Button::NONE;
                 switch (button)
                 {
+				case MK_LBUTTON:
+					keycode = Mouse::Button::LEFT;
+					break;
+				case MK_MBUTTON:
+					keycode = Mouse::Button::WHEEL;
+					break;
+				case MK_RBUTTON:
+					keycode = Mouse::Button::RIGHT;
+					break;
+				case MK_XBUTTON1:
+					keycode = Mouse::Button::BUTTON0;
+					break;
+				case MK_XBUTTON2:
+					keycode = Mouse::Button::BUTTON1;
+					break;
                 default: break;
                 }
                 return keycode;
@@ -63,15 +78,25 @@ namespace ece
                 {
 				case Mouse::Button::NONE: break;
 				case Mouse::Button::LEFT:
+					keycode = MK_LBUTTON;
+					break;
 				case Mouse::Button::RIGHT:
+					keycode = MK_RBUTTON;
+					break;
 				case Mouse::Button::WHEEL:
+					keycode = MK_MBUTTON;
+					break;
 				case Mouse::Button::BUTTON0:
+					keycode = MK_XBUTTON1;
+					break;
 				case Mouse::Button::BUTTON1:
-				case Mouse::Button::BUTTON2:
-				case Mouse::Button::BUTTON3:
-				case Mouse::Button::BUTTON4:
-				case Mouse::Button::BUTTON5:
-				case Mouse::Button::BUTTON6:
+					keycode = MK_XBUTTON2;
+					break;
+				case Mouse::Button::BUTTON2: break;
+				case Mouse::Button::BUTTON3: break;
+				case Mouse::Button::BUTTON4: break;
+				case Mouse::Button::BUTTON5: break;
+				case Mouse::Button::BUTTON6: break;
                 default: break;
                 }
                 return keycode;
