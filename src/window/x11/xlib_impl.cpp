@@ -242,8 +242,8 @@ namespace ece
 					case MotionNotify: {
 						if (0 != message.impl.xmotion.x || 0 != message.impl.xmotion.y) {
 							newEvent.type = InputEvent::Type::MOUSE_MOVED;
-							newEvent.mousePosition[0] = message.impl.xmotion.x;
-							newEvent.mousePosition[1] = message.impl.xmotion.y;
+							newEvent.mousePosition[0] = message.impl.xmotion.x - 13;
+							newEvent.mousePosition[1] = message.impl.xmotion.y - 49;
 							Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
 						}
 						break;

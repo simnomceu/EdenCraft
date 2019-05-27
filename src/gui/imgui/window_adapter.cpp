@@ -111,7 +111,7 @@ namespace ece
 			void WindowAdapter::newFrame()
 			{
 				auto size = this->_window->getSize();
-				
+
 				ImGuiIO & io = ImGui::GetIO();
 				io.DisplaySize = ImVec2(static_cast<float>(size[0]), static_cast<float>(size[1]));
 				io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
@@ -124,7 +124,7 @@ namespace ece
 				}
 
 				auto mousePos = ece::Mouse::getPosition();
-				io.MousePos = ImVec2(static_cast<float>(mousePos[0]), static_cast<float>(mousePos[1] + 38));
+				io.MousePos = ImVec2(static_cast<float>(mousePos[0]), static_cast<float>(mousePos[1]));
 			}
 
 			void WindowAdapter::shutdown()
