@@ -106,6 +106,10 @@ namespace ece
 				eventHandler.onMouseButtonPressed.connect([this](const ece::InputEvent & event, [[maybe_unused]] ece::Window & /*window*/) {
 					this->_mouseJustPressed[static_cast<int>(event.mouseButton)] = true;
 				});
+				eventHandler.onMouseWheelScrolled.connect([this](const ece::InputEvent & event, [[maybe_unused]] ece::Window & /*window*/) {
+					ImGuiIO & io = ImGui::GetIO();
+					io.MouseWheel += event.mouseWheel;
+				});
 			}
 
 			void WindowAdapter::newFrame()
