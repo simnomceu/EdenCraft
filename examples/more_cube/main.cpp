@@ -59,12 +59,12 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
 
         auto & world = app.addWorld();
-        auto renderSystem = world.addSystem<RenderSystem>();
+        auto renderSystem = world.addSystem<RenderSystem>(window);
 
 		auto & scene = renderSystem->getScene();
 		auto & camera = scene.getCamera();
 
-		Cube cube(world, 100);
+		Cube cube(world, 50);
 
  		auto & eventHandler = window.lock()->getEventHandler();
 		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {

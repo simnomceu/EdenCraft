@@ -44,7 +44,7 @@
 #include "graphic_component.hpp"
 #include "graphic/renderable.hpp"
 
-RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
+RenderSystem::RenderSystem(ece::World & world, std::weak_ptr<ece::Window> window) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene(), _imgui()
 {
 	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
 		[[maybe_unused]] bool determined = false;
@@ -96,6 +96,8 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 	}
 
 	this->_process->setPipeline(std::move(pipeline));
+
+	this->_imgui.init(window.lock());
 }
 
 void RenderSystem::update(float /*elapsedTime*/)
@@ -124,6 +126,10 @@ void RenderSystem::update(float /*elapsedTime*/)
 
 	this->_process->clear(ece::BLACK);
 	this->_process->draw(staging);
+	bool show_demo_window = true;
+	this->_imgui.newFrame();
+	ImGui::ShowDemoWindow(&show_demo_window);
+	this->_imgui.render();
 }
 
 ece::Scene & RenderSystem::getScene()
