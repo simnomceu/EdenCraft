@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
 	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
@@ -485,6 +485,416 @@ namespace ece
 					break;
 				}
 				return key;
+			}
+
+			auto Keyboard::getKeyCode(const Key code) -> unsigned int
+			{
+				unsigned int keycode = 0;
+				switch (code) {
+					case Key::NONE: break;
+					case Key::BACKSPACE:
+						keycode = VK_BACK;
+						break;
+					case Key::TAB:
+						keycode = VK_TAB;
+						break;
+					case Key::RETURN:
+						keycode = VK_RETURN;
+						break;
+					case Key::SHIFT:
+						keycode = VK_SHIFT;
+						break;
+					case Key::CTRL:
+						keycode = VK_CONTROL;
+						break;
+					case Key::ALTGR:
+						keycode = VK_MENU;
+						break;
+					case Key::PAUSE:
+						keycode = VK_PAUSE;
+						break;
+					case Key::CAPS_LOCK:
+						keycode = VK_CAPITAL;
+						break;
+					case Key::ESCAPE:
+						keycode = VK_ESCAPE;
+						break;
+					case Key::SPACEBAR:
+						keycode = VK_SPACE;
+						break;
+					case Key::PAGE_UP:
+						keycode = VK_PRIOR;
+						break;
+					case Key::PAGE_DOWN:
+						keycode = VK_NEXT;
+						break;
+					case Key::END:
+						keycode = VK_END;
+						break;
+					case Key::HOME:
+						keycode = VK_HOME;
+						break;
+					case Key::LEFT:
+						keycode = VK_LEFT;
+						break;
+					case Key::UP:
+						keycode = VK_UP;
+						break;
+					case Key::RIGHT:
+						keycode = VK_RIGHT;
+						break;
+					case Key::DOWN:
+						keycode = VK_DOWN;
+						break;
+					case Key::PRINT_SCREEN:
+						keycode = VK_PRINT;
+						break;
+					case Key::INS:
+						keycode = VK_INSERT;
+						break;
+					case Key::DEL:
+						keycode = VK_DELETE;
+						break;
+					case Key::HELP:
+						keycode = VK_HELP;
+						break;
+					case Key::NUM_0:
+						keycode = '0';
+						break;
+					case Key::NUM_1:
+						keycode = '1';
+						break;
+					case Key::NUM_2:
+						keycode = '2';
+						break;
+					case Key::NUM_3:
+						keycode = '3';
+						break;
+					case Key::NUM_4:
+						keycode = '4';
+						break;
+					case Key::NUM_5:
+						keycode = '5';
+						break;
+					case Key::NUM_6:
+						keycode = '6';
+						break;
+					case Key::NUM_7:
+						keycode = '7';
+						break;
+					case Key::NUM_8:
+						keycode = '8';
+						break;
+					case Key::NUM_9:
+						keycode = '9';
+						break;
+					case Key::A:
+						keycode = 'A';
+						break;
+					case Key::B:
+						keycode = 'B';
+						break;
+					case Key::C:
+						keycode = 'C';
+						break;
+					case Key::D:
+						keycode = 'D';
+						break;
+					case Key::E:
+						keycode = 'E';
+						break;
+					case Key::F:
+						keycode = 'F';
+						break;
+					case Key::G:
+						keycode = 'G';
+						break;
+					case Key::H:
+						keycode = 'H';
+						break;
+					case Key::I:
+						keycode = 'I';
+						break;
+					case Key::J:
+						keycode = 'J';
+						break;
+					case Key::K:
+						keycode = 'K';
+						break;
+					case Key::L:
+						keycode = 'L';
+						break;
+					case Key::M:
+						keycode = 'M';
+						break;
+					case Key::N:
+						keycode = 'N';
+						break;
+					case Key::O:
+						keycode = 'O';
+						break;
+					case Key::P:
+						keycode = 'P';
+						break;
+					case Key::Q:
+						keycode = 'Q';
+						break;
+					case Key::R:
+						keycode = 'R';
+						break;
+					case Key::S:
+						keycode = 'S';
+						break;
+					case Key::T:
+						keycode = 'T';
+						break;
+					case Key::U:
+						keycode = 'U';
+						break;
+					case Key::V:
+						keycode = 'V';
+						break;
+					case Key::W:
+						keycode = 'W';
+						break;
+					case Key::X:
+						keycode = 'X';
+						break;
+					case Key::Y:
+						keycode = 'Y';
+						break;
+					case Key::Z:
+						keycode = 'Z';
+						break;
+					case Key::LEFT_COMMAND:
+						keycode = VK_LWIN;
+						break;
+					case Key::RIGHT_COMMAND:
+						keycode = VK_RWIN;
+						break;
+					case Key::APPLICATIONS:
+						keycode = VK_APPS;
+						break;
+					case Key::SLEEP:
+						keycode = VK_SLEEP;
+						break;
+					case Key::NUMPAD_0:
+						keycode = VK_NUMPAD0;
+						break;
+					case Key::NUMPAD_1:
+						keycode = VK_NUMPAD1;
+						break;
+					case Key::NUMPAD_2:
+						keycode = VK_NUMPAD2;
+						break;
+					case Key::NUMPAD_3:
+						keycode = VK_NUMPAD3;
+						break;
+					case Key::NUMPAD_4:
+						keycode = VK_NUMPAD4;
+						break;
+					case Key::NUMPAD_5:
+						keycode = VK_NUMPAD5;
+						break;
+					case Key::NUMPAD_6:
+						keycode = VK_NUMPAD6;
+						break;
+					case Key::NUMPAD_7:
+						keycode = VK_NUMPAD7;
+						break;
+					case Key::NUMPAD_8:
+						keycode = VK_NUMPAD8;
+						break;
+					case Key::NUMPAD_9:
+						keycode = VK_NUMPAD9;
+						break;
+					case Key::MULTIPLY:
+						keycode = VK_MULTIPLY;
+						break;
+					case Key::ADD:
+						keycode = VK_ADD;
+						break;
+					case Key::SUBSTRACT:
+						keycode = VK_SUBTRACT;
+						break;
+					case Key::NUMPAD_DEL:
+						keycode = VK_DECIMAL;
+						break;
+					case Key::DIVIDE:
+						keycode = VK_DIVIDE;
+						break;
+					case Key::F1:
+						keycode = VK_F1;
+						break;
+					case Key::F2:
+						keycode = VK_F2;
+						break;
+					case Key::F3:
+						keycode = VK_F3;
+						break;
+					case Key::F4:
+						keycode = VK_F4;
+						break;
+					case Key::F5:
+						keycode = VK_F5;
+						break;
+					case Key::F6:
+						keycode = VK_F6;
+						break;
+					case Key::F7:
+						keycode = VK_F7;
+						break;
+					case Key::F8:
+						keycode = VK_F8;
+						break;
+					case Key::F9:
+						keycode = VK_F9;
+						break;
+					case Key::F10:
+						keycode = VK_F10;
+						break;
+					case Key::F11:
+						keycode = VK_F11;
+						break;
+					case Key::F12:
+						keycode = VK_F12;
+						break;
+					case Key::F13:
+						keycode = VK_F13;
+						break;
+					case Key::F14:
+						keycode = VK_F14;
+						break;
+					case Key::F15:
+						keycode = VK_F15;
+						break;
+					case Key::F16:
+						keycode = VK_F16;
+						break;
+					case Key::F17:
+						keycode = VK_F17;
+						break;
+					case Key::F18:
+						keycode = VK_F18;
+						break;
+					case Key::F19:
+						keycode = VK_F19;
+						break;
+					case Key::F20:
+						keycode = VK_F20;
+						break;
+					case Key::F21:
+						keycode = VK_F21;
+						break;
+					case Key::F22:
+						keycode = VK_F22;
+						break;
+					case Key::F23:
+						keycode = VK_F23;
+						break;
+					case Key::F24:
+						keycode = VK_F24;
+						break;
+					case Key::NUMLOCK:
+						keycode = VK_NUMLOCK;
+						break;
+					case Key::BROWSER_BACK:
+						keycode = VK_BROWSER_BACK;
+						break;
+					case Key::BROWSER_FORWARD:
+						keycode = VK_BROWSER_FORWARD;
+						break;
+					case Key::BROWSER_REFRESH:
+						keycode = VK_BROWSER_REFRESH;
+						break;
+					case Key::BROWSER_STOP:
+						keycode = VK_BROWSER_STOP;
+						break;
+					case Key::BROWSER_SEARCH:
+						keycode = VK_BROWSER_SEARCH;
+						break;
+					case Key::BROWSER_FAVORITES:
+						keycode = VK_BROWSER_FAVORITES;
+						break;
+					case Key::BROWSER_HOME:
+						keycode = VK_BROWSER_HOME;
+						break;
+					case Key::VOLUME_MUTE:
+						keycode = VK_VOLUME_MUTE;
+						break;
+					case Key::VOLUME_DOWN:
+						keycode = VK_VOLUME_DOWN;
+						break;
+					case Key::VOLUME_UP:
+						keycode = VK_VOLUME_UP;
+						break;
+					case Key::MEDIA_NEXT:
+						keycode = VK_MEDIA_NEXT_TRACK;
+						break;
+					case Key::MEDIA_PREVIOUS:
+						keycode = VK_MEDIA_PREV_TRACK;
+						break;
+					case Key::MEDIA_STOP:
+						keycode = VK_MEDIA_STOP;
+						break;
+					case Key::MEDIA_PLAY:
+						keycode = VK_MEDIA_PLAY_PAUSE;
+						break;
+					case Key::LAUNCH_MAIL:
+						keycode = VK_LAUNCH_MAIL;
+						break;
+					case Key::SELECT_MEDIA:
+						keycode = VK_LAUNCH_MEDIA_SELECT;
+						break;
+					case Key::APP_1:
+						keycode = VK_LAUNCH_APP1;
+						break;
+					case Key::APP_2:
+						keycode = VK_LAUNCH_APP2;
+						break;
+					case Key::OEM_1:
+						keycode = VK_OEM_1;
+						break;
+					case Key::OEM_2:
+						keycode = VK_OEM_2;
+						break;
+					case Key::OEM_3:
+						keycode = VK_OEM_3;
+						break;
+					case Key::OEM_4:
+						keycode = VK_OEM_4;
+						break;
+					case Key::OEM_5:
+						keycode = VK_OEM_5;
+						break;
+					case Key::OEM_6:
+						keycode = VK_OEM_6;
+						break;
+					case Key::OEM_7:
+						keycode = VK_OEM_7;
+						break;
+					case Key::OEM_8:
+						keycode = VK_OEM_8;
+						break;
+					case Key::OEM_102:
+						keycode = VK_OEM_102;
+						break;
+					case Key::OEM_PLUS:
+						keycode = VK_OEM_PLUS;
+						break;
+					case Key::OEM_COMMA:
+						keycode = VK_OEM_COMMA;
+						break;
+					case Key::OEM_MINUS:
+						keycode = VK_OEM_MINUS;
+						break;
+					case Key::OEM_PERIOD:
+						keycode = VK_OEM_PERIOD;
+						break;
+				default:
+					break;
+				}
+				return keycode;
 			}
 		} // namespace event
 	} // namespace window

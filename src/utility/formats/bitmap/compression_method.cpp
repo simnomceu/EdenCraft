@@ -186,17 +186,17 @@ namespace ece
 				std::vector<char> compressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
 					auto mask = std::get<RGB<std::size_t>>(header.mask);
-					auto redBitcount = bitcount(mask.r);
-					auto greenBitcount = bitcount(mask.g);
-					auto blueBitcount = bitcount(mask.b);
+					auto redBitcount = bitcount(static_cast<unsigned int>(mask.r));
+					auto greenBitcount = bitcount(static_cast<unsigned int>(mask.g));
+					auto blueBitcount = bitcount(static_cast<unsigned int>(mask.b));
 
 					auto result = std::vector<char>();
 					auto it = begin;
 					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
-							result.push_back(convertBitCount(bitMask(*it, mask.r), 8, redBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.r)), 8, static_cast<unsigned int>(redBitcount))));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.g)), 8, static_cast<unsigned int>(greenBitcount))));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.b)), 8, static_cast<unsigned int>(blueBitcount))));
 							++it;
 						}
 					}
@@ -217,19 +217,19 @@ namespace ece
 				std::vector<char> compressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
 					auto mask = std::get<RGBA<std::size_t>>(header.mask);
-					auto redBitcount = bitcount(mask.r);
-					auto greenBitcount = bitcount(mask.g);
-					auto blueBitcount = bitcount(mask.b);
-					auto alphaBitcount = bitcount(mask.a);
+					auto redBitcount = bitcount(static_cast<unsigned int>(mask.r));
+					auto greenBitcount = bitcount(static_cast<unsigned int>(mask.g));
+					auto blueBitcount = bitcount(static_cast<unsigned int>(mask.b));
+					auto alphaBitcount = bitcount(static_cast<unsigned int>(mask.a));
 
 					auto result = std::vector<char>();
 					auto it = begin;
 					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
-							result.push_back(convertBitCount(bitMask(*it, mask.r), 8, redBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.a), 8, alphaBitcount));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.r)), 8, static_cast<unsigned int>(redBitcount))));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.g)), 8, static_cast<unsigned int>(greenBitcount))));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.b)), 8, static_cast<unsigned int>(blueBitcount))));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.a)), 8, static_cast<unsigned int>(alphaBitcount))));
 							++it;
 						}
 					}
@@ -336,17 +336,17 @@ namespace ece
 				std::vector<char> decompressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
 					auto mask = std::get<RGB<std::size_t>>(header.mask);
-					auto redBitcount = bitcount(mask.r);
-					auto greenBitcount = bitcount(mask.g);
-					auto blueBitcount = bitcount(mask.b);
+					auto redBitcount = bitcount(static_cast<unsigned int>(mask.r));
+					auto greenBitcount = bitcount(static_cast<unsigned int>(mask.g));
+					auto blueBitcount = bitcount(static_cast<unsigned int>(mask.b));
 
 					auto result = std::vector<char>();
 					auto it = begin;
 					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
-							result.push_back(convertBitCount(bitMask(*it, mask.r), redBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.r)), static_cast<unsigned int>(redBitcount), 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.g)), static_cast<unsigned int>(greenBitcount), 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.b)), static_cast<unsigned int>(blueBitcount), 8)));
 							++it;
 						}
 					}
@@ -367,19 +367,19 @@ namespace ece
 				std::vector<char> decompressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
 					auto mask = std::get<RGBA<std::size_t>>(header.mask);
-					auto redBitcount = bitcount(mask.r);
-					auto greenBitcount = bitcount(mask.g);
-					auto blueBitcount = bitcount(mask.b);
-					auto alphaBitcount = bitcount(mask.a);
+					auto redBitcount = bitcount(static_cast<unsigned int>(mask.r));
+					auto greenBitcount = bitcount(static_cast<unsigned int>(mask.g));
+					auto blueBitcount = bitcount(static_cast<unsigned int>(mask.b));
+					auto alphaBitcount = bitcount(static_cast<unsigned int>(mask.a));
 
 					auto result = std::vector<char>();
 					auto it = begin;
 					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
-							result.push_back(convertBitCount(bitMask(*it, mask.r), redBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.a), alphaBitcount, 8));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.r)), static_cast<unsigned int>(redBitcount), 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.g)), static_cast<unsigned int>(greenBitcount), 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.b)), static_cast<unsigned int>(blueBitcount), 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(static_cast<unsigned int>(*it), static_cast<unsigned int>(mask.a)), static_cast<unsigned int>(alphaBitcount), 8)));
 							++it;
 						}
 					}

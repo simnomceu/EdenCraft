@@ -164,6 +164,12 @@ namespace ece
 				 * @brief The keyboard key pressed.
 				 */
 				Keyboard::Key key;
+
+				/**
+				 * @property mouseWheel
+				 * @brief The rotation of the mouse wheel.
+				 */
+				float mouseWheel;
 			};
 		} // namespace event
 	} // namespace window

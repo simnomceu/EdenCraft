@@ -149,9 +149,9 @@ namespace ece
 						ERROR << "Erreur while blocking messages queue window. (WGL) Code " << GetLastError() << flush;
 					}
 				}
-				while (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE)) {
+				while (PeekMessageW(&message, nullptr, 0, 0, PM_REMOVE)) {
 					TranslateMessage(&message);
-					DispatchMessage(&message);
+					DispatchMessageW(&message);
 				}
 			}
 
@@ -263,8 +263,15 @@ namespace ece
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_MOVED;
 						newEvent.mousePosition[0] = GET_X_LPARAM(message.lParam);
-						newEvent.mousePosition[1] = GET_Y_LPARAM(message.lParam);
-						Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
+						newEvent.mousePosition[1] = GET_Y_LPARAM(message.lParam) + 38;
+						Mouse::setPosition(newEvent.mousePosition);
+						this->pushEvent(newEvent);
+						break;
+					}
+					case WM_MOUSEWHEEL: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_SCROLLED;
+						newEvent.mouseWheel = static_cast<float>(GET_WHEEL_DELTA_WPARAM(message.wParam) / WHEEL_DELTA);
 						this->pushEvent(newEvent);
 						break;
 					}
@@ -335,7 +342,7 @@ namespace ece
 				if (object) {
 					object->processMessage(WindowMessage{ windowId, message, wParam, lParam });
 				}
-				return DefWindowProc(windowId, message, wParam, lParam);
+				return DefWindowProcW(windowId, message, wParam, lParam);
 			}
 		} // namespace common
 	} // namespace window
