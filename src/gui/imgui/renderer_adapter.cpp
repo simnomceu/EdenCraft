@@ -139,7 +139,7 @@ namespace ece
 
 								// Bind texture, Draw
 								glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
-								glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, reinterpret_cast<void *>(idx_buffer_offset));
+								glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, reinterpret_cast<void *>((unsigned long long)idx_buffer_offset));
 							}
 						}
 						idx_buffer_offset += pcmd->ElemCount * sizeof(ImDrawIdx);
@@ -189,9 +189,9 @@ namespace ece
 				OpenGL::enableVertexAttribArray(this->_attribLocationVtxPos);
 				OpenGL::enableVertexAttribArray(this->_attribLocationVtxUV);
 				OpenGL::enableVertexAttribArray(this->_attribLocationVtxColor);
-				OpenGL::vertexAttribPointer(this->_attribLocationVtxPos, 2, DataType::FLOAT, false, sizeof(ImDrawVert), reinterpret_cast<long>(&(((ImDrawVert*)0)->pos)));
-				OpenGL::vertexAttribPointer(this->_attribLocationVtxUV, 2, DataType::FLOAT, false, sizeof(ImDrawVert), reinterpret_cast<long>(&(((ImDrawVert*)0)->uv)));
-				OpenGL::vertexAttribPointer(this->_attribLocationVtxColor, 4, DataType::UNSIGNED_BYTE, true, sizeof(ImDrawVert), reinterpret_cast<long>(&(((ImDrawVert*)0)->col)));
+				OpenGL::vertexAttribPointer(this->_attribLocationVtxPos, 2, DataType::FLOAT, false, sizeof(ImDrawVert), reinterpret_cast<unsigned long long>(&(((ImDrawVert*)0)->pos)));
+				OpenGL::vertexAttribPointer(this->_attribLocationVtxUV, 2, DataType::FLOAT, false, sizeof(ImDrawVert), reinterpret_cast<unsigned long long>(&(((ImDrawVert*)0)->uv)));
+				OpenGL::vertexAttribPointer(this->_attribLocationVtxColor, 4, DataType::UNSIGNED_BYTE, true, sizeof(ImDrawVert), reinterpret_cast<unsigned long long>(&(((ImDrawVert*)0)->col)));
 			}
 
 			bool RendererAdapter::createFontsTexture()
@@ -213,7 +213,7 @@ namespace ece
 				OpenGL::texImage2D(TextureTypeTarget::TEXTURE_2D, 0, PixelInternalFormat::RGBA, width, height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, pixels);
 
 				// Store our identifier
-				io.Fonts->TexID = reinterpret_cast<ImTextureID>(this->_fontTexture);
+				io.Fonts->TexID = reinterpret_cast<ImTextureID>((unsigned long long)this->_fontTexture);
 
 				return true;
 			}
