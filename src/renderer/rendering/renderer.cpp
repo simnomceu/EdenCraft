@@ -75,9 +75,7 @@ namespace ece
 				Renderer::_backup.samplerBinding = OpenGL::getInteger(Parameter::SAMPLER_BINDING)[0];
 #endif
 				Renderer::_backup.arrayBufferBinding = OpenGL::getInteger(Parameter::ARRAY_BUFFER_BINDING)[0];
-#ifndef IMGUI_IMPL_OPENGL_ES2
 				Renderer::_backup.vertexArrayBinding = OpenGL::getInteger(Parameter::VERTEX_ARRAY_BINDING)[0];
-#endif
 #ifdef GL_POLYGON_MODE
 				Renderer::_backup.polygonMode = static_cast<PolygonMode>(OpenGL::getInteger(Parameter::POLYGON_MODE)[0]);
 #endif

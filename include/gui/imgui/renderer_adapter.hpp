@@ -111,7 +111,7 @@ namespace ece
 				void render();
 
 				void renderDrawLists(ImDrawData* draw_data);
-				void setupRenderState(ImDrawData * draw_data, int fb_width, int fb_height, unsigned int vertex_array_object);
+				void setupRenderState(ImDrawData * draw_data, int fb_width, int fb_height, Handle vao);
 				bool createFontsTexture();
 				void destroyFontsTexture();
 				bool createDeviceObjects();
@@ -124,8 +124,8 @@ namespace ece
 				int _attribLocationVtxPos;
 				int _attribLocationVtxUV;
 				int _attribLocationVtxColor;
-				unsigned int _vboHandle;
-				unsigned int _elementsHandle;
+				unsigned int _vbo;
+				unsigned int _ibo;
 
 				std::shared_ptr<ece::EnhancedShader> _program;
 			};
