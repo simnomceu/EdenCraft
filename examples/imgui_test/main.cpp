@@ -39,6 +39,7 @@
 #include "renderer/rendering.hpp"
 #include "gui/imgui.hpp"
 #include "imgui.h"
+#include "renderer/opengl.hpp"
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
 
@@ -63,6 +64,8 @@ int main()
 			if (fps.isReadyToUpdate()) {
 				window.lock()->setTitle("IMGUI Test ... - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
 			}
+			ece::OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
+			ece::OpenGL::clear(ece::Bitfield::COLOR_BUFFER_BIT);
 			bool show_demo_window = true;
 			imgui.newFrame();
 			ImGui::ShowDemoWindow(&show_demo_window);
