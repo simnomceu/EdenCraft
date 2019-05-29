@@ -57,11 +57,12 @@ namespace ece
 
 			void RendererAdapter::newFrame()
 			{
-				if (!this->_fontTexture) {
+				if (!this->_initialized) {
 					Renderer::saveState();
 					this->createDeviceObjects();
-					this->createFontsTexture();
+					this->_font.load();
 					Renderer::restoreState();
+					this->_initialized = true;
 				}
 			}
 
@@ -194,40 +195,6 @@ namespace ece
 				OpenGL::vertexAttribPointer(this->_attribLocationVtxColor, 4, DataType::UNSIGNED_BYTE, true, sizeof(ImDrawVert), reinterpret_cast<unsigned long long>(&(((ImDrawVert*)0)->col)));
 			}
 
-			bool RendererAdapter::createFontsTexture()
-			{
-				// Build texture atlas
-				ImGuiIO& io = ImGui::GetIO();
-				unsigned char* pixels;
-				int width, height;
-				io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);   // Load as RGBA 32-bits (75% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
-
-				// Upload texture to graphics system
-				this->_fontTexture = OpenGL::genTexture();
-				OpenGL::bindTexture(TextureTarget::TEXTURE_2D, this->_fontTexture);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_MIN_FILTER, GL_LINEAR);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_MAG_FILTER, GL_LINEAR);
-#ifdef GL_UNPACK_ROW_LENGTH
-				OpenGL::pixelStore(PixelParameter::UNPACK_ROW_LENGTH, 0);
-#endif
-				OpenGL::texImage2D(TextureTypeTarget::TEXTURE_2D, 0, PixelInternalFormat::RGBA, width, height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, pixels);
-
-				// Store our identifier
-				io.Fonts->TexID = reinterpret_cast<ImTextureID>((unsigned long long)this->_fontTexture);
-
-				return true;
-			}
-
-			void RendererAdapter::destroyFontsTexture()
-			{
-				if (this->_fontTexture) {
-					ImGuiIO& io = ImGui::GetIO();
-					OpenGL::deleteTextures({ this->_fontTexture });
-					io.Fonts->TexID = 0;
-					this->_fontTexture = 0;
-				}
-			}
-
 			bool RendererAdapter::createDeviceObjects()
 			{
 				{
@@ -236,7 +203,7 @@ namespace ece
 					ece::ShaderStage vsSource;
 					vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/imgui.vert");
 
-					this->_program = std::make_shared<ece::EnhancedShader>();
+					this->_program = ece::makeResource<ece::EnhancedShader>("ImGuiShader");
 					this->_program->setStage(fsSource);
 					this->_program->setStage(vsSource);
 					this->_program->link();
@@ -263,7 +230,7 @@ namespace ece
 
 				this->_program->terminate();
 
-				this->destroyFontsTexture();
+				this->_font.terminate();
 			}
 		} // namespace imgui
 	} // namespace gui

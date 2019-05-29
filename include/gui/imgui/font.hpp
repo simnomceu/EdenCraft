@@ -35,16 +35,13 @@
 
 */
 
-#ifndef IMGUI_RENDERER_ADAPTER_HPP
-#define IMGUI_RENDERER_ADAPTER_HPP
+#ifndef IMGUI_FONT_HPP
+#define IMGUI_FONT_HPP
 
 #include "gui/pch.hpp"
 #include "gui/config.hpp"
-#include "renderer/shader.hpp"
 #include "core/resource.hpp"
-#include "gui/imgui/font.hpp"
-
-struct ImDrawData;
+#include "renderer/image.hpp"
 
 namespace ece
 {
@@ -53,86 +50,68 @@ namespace ece
 		namespace imgui
 		{
 			/**
-			 * @class RendererAdapter
+			 * @class Font
 			 * @brief
 			 */
-			class ECE_GUI_API RendererAdapter
+			class Font
 			{
 			public:
 				/**
-				 * @fn RendererAdapter() noexcept
+				 * @fn constexpr Font() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				RendererAdapter() noexcept = default;
+				constexpr Font() noexcept = default;
 
 				/**
-				 * @fn RendererAdapter(const RendererAdapter & copy) noexcept
-				 * @param[in] copy The RendererAdapter to copy from.
+				 * @fn Font(const Font & copy) noexcept
+				 * @param[in] copy The Font to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				RendererAdapter(const RendererAdapter & copy) noexcept = default;
+				Font(const Font & copy) noexcept = default;
 
 				/**
-				 * @fn RendererAdapter(RendererAdapter && move) noexcept
-				 * @param[in] move The RendererAdapter to move.
+				 * @fn Font(Font && move) noexcept
+				 * @param[in] move The Font to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				RendererAdapter(RendererAdapter && move) noexcept = default;
+				Font(Font && move) noexcept = default;
 
 				/**
-				 * @fn ~RendererAdapter() noexcept
+				 * @fn ~Font() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~RendererAdapter() noexcept = default;
+				~Font() noexcept = default;
 
 				/**
-				 * @fn RendererAdapter & operator=(const RendererAdapter & copy) noexcept
-				 * @param[in] copy The RendererAdapter to copy from.
-				 * @return The RendererAdapter copied.
+				 * @fn Font & operator=(const Font & copy) noexcept
+				 * @param[in] copy The Font to copy from.
+				 * @return The Font copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				RendererAdapter & operator=(const RendererAdapter & copy) noexcept = default;
+				Font & operator=(const Font & copy) noexcept = default;
 
 				/**
-				 * @fn RendererAdapter & operator=(RendererAdapter && move) noexcept
-				 * @param[in] move The RendererAdapter to move.
-				 * @return The RendererAdapter moved.
+				 * @fn Font & operator=(Font && move) noexcept
+				 * @param[in] move The Font to move.
+				 * @return The Font moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				RendererAdapter & operator=(RendererAdapter && move) noexcept = default;
+				Font & operator=(Font && move) noexcept = default;
 
-				void init();
-				void newFrame();
-				void shutdown();
-				void render();
-
-				void renderDrawLists(ImDrawData* draw_data);
-				void setupRenderState(ImDrawData * draw_data, int fb_width, int fb_height, Handle vao);
-				bool createDeviceObjects();
-				void destroyDeviceObjects();
+				void load();
+				void terminate();
 
 			private:
-				bool _initialized;
-
-				int _attribLocationTex;
-				int _attribLocationProjMtx;
-				int _attribLocationVtxPos;
-				int _attribLocationVtxUV;
-				int _attribLocationVtxColor;
-				unsigned int _vbo;
-				unsigned int _ibo;
-
-				ece::ResourceHandler<ece::EnhancedShader> _program;
-				Font _font;
+				ece::ResourceHandler<ece::Texture2D> _fontTexture;
 			};
 		} // namespace imgui
 	} // namespace gui
 } // namespace ece
 
-#endif // IMGUI_RENDERER_ADAPTER_HPP
+#endif // IMGUI_FONT_HPP

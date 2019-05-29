@@ -35,17 +35,46 @@
 
 */
 
-#ifndef GUI_IMGUI_HPP
-#define GUI_IMGUI_HPP
-
-#include "gui/imgui/adapter.hpp"
+#include "gui/pch.hpp"
 #include "gui/imgui/font.hpp"
-#include "gui/imgui/renderer_adapter.hpp"
-#include "gui/imgui/window_adapter.hpp"
+#include "imgui.h"
 
 namespace ece
 {
-	using namespace gui::imgui;
-}
+	namespace gui
+	{
+		namespace imgui
+		{
+			void Font::load()
+			{
+				// Build texture atlas
+				ImGuiIO& io = ImGui::GetIO();
+				int width, height;
+				auto fontImage = ece::Image<ece::RGBA32>();
+				auto imagePtr = reinterpret_cast<unsigned char *>(fontImage.data());
+				io.Fonts->GetTexDataAsRGBA32(&imagePtr, &width, &height); // Load as RGBA 32-bits (75% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
 
-#endif // GUI_IMGUI_HPP
+				this->_fontTexture = ece::makeResource<ece::Texture2D>("ImGuiFont");
+				this->_fontTexture->setParameter<int>(ece::Texture::Parameter::MIN_FILTER, GL_LINEAR);
+				this->_fontTexture->setParameter<int>(ece::Texture::Parameter::MAG_FILTER, GL_LINEAR);
+				OpenGL::texImage2D(TextureTypeTarget::TEXTURE_2D, 0, PixelInternalFormat::RGBA, width, height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, imagePtr);
+#ifdef GL_UNPACK_ROW_LENGTH
+				OpenGL::pixelStore(PixelParameter::UNPACK_ROW_LENGTH, 0);
+#endif
+
+				// Store our identifier
+				io.Fonts->TexID = reinterpret_cast<ImTextureID>((unsigned long long)this->_fontTexture->getHandle());
+			}
+
+			void Font::terminate()
+			{
+				if (!this->_fontTexture.isDirty()) {
+					this->_fontTexture->terminate();
+
+					ImGuiIO& io = ImGui::GetIO();
+					io.Fonts->TexID = 0;
+				}
+			}
+		} // namespace imgui
+	} // namespace gui
+} // namespace ece

@@ -47,6 +47,11 @@ namespace ece
 	{
 		namespace imgui
 		{
+			Adapter::~Adapter() noexcept
+			{
+				this->shutdown();
+			}
+
 			void Adapter::init(std::shared_ptr<Window> window)
 			{
 				IMGUI_CHECKVERSION();

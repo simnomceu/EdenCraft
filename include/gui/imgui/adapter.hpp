@@ -87,7 +87,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Adapter() noexcept = default;
+				~Adapter() noexcept;
 
 				/**
 				 * @fn Adapter & operator=(const Adapter & copy) noexcept
