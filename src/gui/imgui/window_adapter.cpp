@@ -83,6 +83,10 @@ namespace ece
 				io.KeyMap[ImGuiKey_UpArrow] = static_cast<int>(ece::Keyboard::Key::UP);
 
 				auto & eventHandler = this->_window->getEventHandler();
+				eventHandler.onCharWritten.connect([](const ece::InputEvent & event, [[maybe_unused]] ece::Window & /*window*/) {
+					ImGuiIO & io = ImGui::GetIO();
+					io.AddInputCharacter(event.character);
+				});
 				eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, [[maybe_unused]] ece::Window & /*window*/) {
 					ImGuiIO & io = ImGui::GetIO();
 
@@ -92,10 +96,6 @@ namespace ece
 					io.KeyShift = io.KeysDown[static_cast<int>(Keyboard::Key::SHIFT)];
 					io.KeyAlt = io.KeysDown[static_cast<int>(Keyboard::Key::ALTGR)];
 					io.KeySuper = io.KeysDown[static_cast<int>(Keyboard::Key::LEFT_COMMAND)] || io.KeysDown[static_cast<int>(Keyboard::Key::RIGHT_COMMAND)];
-
-					if (event.key >= Keyboard::Key::A && event.key <= Keyboard::Key::Z) {
-						io.AddInputCharacter(static_cast<unsigned int>(event.key) - static_cast<unsigned int>(Keyboard::Key::A) + (io.KeyShift ? 'A' : 'a'));
-					}
 				});
 				eventHandler.onKeyReleased.connect([](const ece::InputEvent & event, [[maybe_unused]] ece::Window & /*window*/) {
 					ImGuiIO & io = ImGui::GetIO();
