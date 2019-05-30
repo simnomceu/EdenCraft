@@ -101,49 +101,46 @@ namespace ece
 				ImVec2 clip_scale = draw_data->FramebufferScale; // (1,1) unless using retina display which are often (2,2)
 
 				// Render command lists
-				for (int n = 0; n < draw_data->CmdListsCount; n++) {
+				for (auto n = 0; n < draw_data->CmdListsCount; ++n) {
 					const ImDrawList* cmd_list = draw_data->CmdLists[n];
-					size_t idx_buffer_offset = 0;
+					std::size_t idx_buffer_offset = 0;
 
 					// Upload vertex/index buffers
 					glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
 					glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 
-					for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++) {
-						const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
-						if (pcmd->UserCallback) {
+					for (auto cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; ++cmd_i) {
+						auto & pcmd = cmd_list->CmdBuffer[cmd_i];
+						if (pcmd.UserCallback) {
 							// User callback, registered via ImDrawList::AddCallback()
 							// (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
-							if (pcmd->UserCallback == ImDrawCallback_ResetRenderState) {
+							if (pcmd.UserCallback == ImDrawCallback_ResetRenderState) {
 								this->setupRenderState(draw_data, fb_width, fb_height, vao);
 							}
 							else {
-								pcmd->UserCallback(cmd_list, pcmd);
+								pcmd.UserCallback(cmd_list, &pcmd);
 							}
 						}
 						else {
 							// Project scissor/clipping rectangles into framebuffer space
-							ImVec4 clip_rect;
-							clip_rect.x = (pcmd->ClipRect.x - clip_off.x) * clip_scale.x;
-							clip_rect.y = (pcmd->ClipRect.y - clip_off.y) * clip_scale.y;
-							clip_rect.z = (pcmd->ClipRect.z - clip_off.x) * clip_scale.x;
-							clip_rect.w = (pcmd->ClipRect.w - clip_off.y) * clip_scale.y;
+							auto clip = ece::Rectangle<unsigned int>{ static_cast<unsigned int>((pcmd.ClipRect.x - clip_off.x) * clip_scale.x), 
+																	  static_cast<unsigned int>((pcmd.ClipRect.y - clip_off.y) * clip_scale.y), 
+																	  static_cast<unsigned int>((pcmd.ClipRect.z - clip_off.x) * clip_scale.x),
+																	  static_cast<unsigned int>((pcmd.ClipRect.w - clip_off.y) * clip_scale.y) };
 
-							if (clip_rect.x < fb_width && clip_rect.y < fb_height && clip_rect.z >= 0.0f && clip_rect.w >= 0.0f) {
-								// Apply scissor/clipping rectangle
-								if (Renderer::getBackupState().clipOriginLowerLeft) {
-									glScissor((int)clip_rect.x, (int)(fb_height - clip_rect.w), (int)(clip_rect.z - clip_rect.x), (int)(clip_rect.w - clip_rect.y));
-								}
-								else {
-									glScissor((int)clip_rect.x, (int)clip_rect.y, (int)clip_rect.z, (int)clip_rect.w); // Support for GL 4.5 rarely used glClipControl(GL_UPPER_LEFT)
-								}
-
-								// Bind texture, Draw
-								glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
-								glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, reinterpret_cast<void *>((unsigned long long)idx_buffer_offset));
+							// Apply scissor/clipping rectangle
+							if (Renderer::getBackupState().clipOriginLowerLeft) {
+								OpenGL::scissor(clip.x, fb_height - clip.height, clip.width - clip.x, clip.height - clip.y);
 							}
+							else {
+								OpenGL::scissor(clip.x, clip.y, clip.width, clip.height); // Support for GL 4.5 rarely used glClipControl(GL_UPPER_LEFT)
+							}
+
+							// Bind texture, Draw
+							OpenGL::bindTexture(TextureTarget::TEXTURE_2D, reinterpret_cast<Handle>(pcmd.TextureId));
+							glDrawElements(GL_TRIANGLES, (GLsizei)pcmd.ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, reinterpret_cast<void *>((unsigned long long)idx_buffer_offset));
 						}
-						idx_buffer_offset += pcmd->ElemCount * sizeof(ImDrawIdx);
+						idx_buffer_offset += pcmd.ElemCount * sizeof(ImDrawIdx);
 					}
 				}
 
