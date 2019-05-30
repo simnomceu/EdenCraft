@@ -205,9 +205,10 @@ namespace ece
 					case 'g':
 					{
 						this->_currentObject->resetCurrentGroups();
-
+						line.get();
+						auto count = line.count(' ') + 1;
 						std::string group;
-						while (!line.eof()) {
+						for (unsigned int i = 0; i < count; ++i) {
 							line >> group;
 							this->_currentObject->addGroup(group);
 						}
