@@ -68,6 +68,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API DataType getDataType(buffer::DataType type);
+			ECE_RENDERER_API buffer::DataType getDataType(DataType type);
 
 			ECE_RENDERER_API std::string to_string(DataType type);
 

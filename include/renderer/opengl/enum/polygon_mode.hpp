@@ -61,6 +61,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API PolygonMode getPolygonMode(RenderState::PolygonMode mode);
+			ECE_RENDERER_API RenderState::PolygonMode getPolygonMode(PolygonMode mode);
 
 			ECE_RENDERER_API std::string to_string(PolygonMode mode);
 		} // namespace opengl

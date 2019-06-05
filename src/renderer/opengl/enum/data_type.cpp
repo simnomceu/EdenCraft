@@ -45,7 +45,6 @@ namespace ece
 	{
 		namespace opengl
 		{
-
 			DataType getDataType(buffer::DataType type)
 			{
 				switch (type) {
@@ -63,6 +62,26 @@ namespace ece
 				case buffer::DataType::UNSIGNED_INT_2_10_10_10_REV: return DataType::UNSIGNED_INT_2_10_10_10_REV; break;
 				case buffer::DataType::UNSIGNED_INT_10F_11F_11F_REV: return DataType::UNSIGNED_INT_10F_11F_11F_REV; break;
 				default: throw std::runtime_error("Unknown value for DataType enumeration."); break;
+				}
+			}
+
+			buffer::DataType getDataType(DataType type)
+			{
+				switch (type) {
+				case DataType::BYTE: return buffer::DataType::BYTE; break;
+				case DataType::UNSIGNED_BYTE: return buffer::DataType::UNSIGNED_BYTE; break;
+				case DataType::SHORT: return buffer::DataType::SHORT; break;
+				case DataType::UNSIGNED_SHORT: return buffer::DataType::UNSIGNED_SHORT; break;
+				case DataType::INT: return buffer::DataType::INT; break;
+				case DataType::UNSIGNED_INT: return buffer::DataType::UNSIGNED_INT; break;
+				case DataType::HALF_FLOAT: return buffer::DataType::HALF_FLOAT; break;
+				case DataType::FLOAT: return buffer::DataType::FLOAT; break;
+				case DataType::DOUBLE: return buffer::DataType::DOUBLE; break;
+				case DataType::FIXED: return buffer::DataType::FIXED; break;
+				case DataType::INT_2_10_10_10_REV: return buffer::DataType::INT_2_10_10_10_REV; break;
+				case DataType::UNSIGNED_INT_2_10_10_10_REV: return buffer::DataType::UNSIGNED_INT_2_10_10_10_REV; break;
+				case DataType::UNSIGNED_INT_10F_11F_11F_REV: return buffer::DataType::UNSIGNED_INT_10F_11F_11F_REV; break;
+				default: throw std::runtime_error("Unknown value for buffer::DataType enumeration."); break;
 				}
 			}
 

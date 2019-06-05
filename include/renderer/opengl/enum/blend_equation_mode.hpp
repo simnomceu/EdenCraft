@@ -63,6 +63,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API BlendEquationMode getBlendEquationMode(RenderState::BlendEquationMode mode);
+			ECE_RENDERER_API RenderState::BlendEquationMode getBlendEquationMode(BlendEquationMode mode);
 
 			ECE_RENDERER_API std::string to_string(BlendEquationMode mode);
 		} // namespace opengl

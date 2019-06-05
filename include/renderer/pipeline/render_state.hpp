@@ -118,6 +118,8 @@ namespace ece
 					FILL	= 0x2
 				};
 
+				static RenderState getCurrentstate();
+
 				/**
 				 * @fn RenderState() noexcept
 				 * @brief Default constructor.

@@ -70,6 +70,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API TextureTypeTarget getTextureTypeTarget(Texture::TypeTarget type);
+			ECE_RENDERER_API Texture::TypeTarget getTextureTypeTarget(TextureTypeTarget type);
 
 			ECE_RENDERER_API std::string to_string(TextureTypeTarget type);
 		} // namespace opengl

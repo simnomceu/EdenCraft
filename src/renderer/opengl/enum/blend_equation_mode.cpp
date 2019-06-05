@@ -57,6 +57,18 @@ namespace ece
 				}
 			}
 
+			RenderState::BlendEquationMode getBlendEquationMode(BlendEquationMode mode)
+			{
+				switch (mode) {
+				case BlendEquationMode::FUNC_ADD: return RenderState::BlendEquationMode::FUNC_ADD; break;
+				case BlendEquationMode::FUNC_SUBTRACT: return RenderState::BlendEquationMode::FUNC_SUBTRACT; break;
+				case BlendEquationMode::FUNC_REVERSE_SUBTRACT: return RenderState::BlendEquationMode::FUNC_REVERSE_SUBTRACT; break;
+				case BlendEquationMode::MIN: return RenderState::BlendEquationMode::MIN; break;
+				case BlendEquationMode::MAX: return RenderState::BlendEquationMode::MAX; break;
+				default: throw std::runtime_error("Unknown value for RenderState::BlendEquationMode enumeration."); break;
+				}
+			}
+
 			std::string to_string(BlendEquationMode mode)
 			{
 				switch (mode) {

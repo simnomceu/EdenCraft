@@ -66,6 +66,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API DepthFunctionCondition getDepthFunctionCondition(RenderState::DepthFunctionCondition condition);
+			ECE_RENDERER_API RenderState::DepthFunctionCondition getDepthFunctionCondition(DepthFunctionCondition condition);
 
 			ECE_RENDERER_API std::string to_string(DepthFunctionCondition condition);
 		} // namespace opengl

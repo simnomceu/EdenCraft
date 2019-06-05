@@ -70,7 +70,6 @@ namespace ece
 					Handle samplerBinding;
 					Handle arrayBufferBinding;
 					Handle vertexArrayBinding;
-					PolygonMode polygonMode;
 					std::array<int, 4> viewport;
 					std::array<int, 4> scissorBox;
 					BlendingFactor blendSrcRGB;
@@ -79,12 +78,9 @@ namespace ece
 					BlendingFactor blendDstAlpha;
 					BlendEquationMode blendEquationRGB;
 					BlendEquationMode blendEquationAlpha;
-					bool blend;
-					bool cullFace;
-					bool depthTest;
-					bool scissorTest;
 					bool clipOriginLowerLeft;
 					ClipControl clipOrigin;
+					RenderState renderState;
 				};
 
 				/**

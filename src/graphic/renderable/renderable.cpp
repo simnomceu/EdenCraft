@@ -54,8 +54,6 @@ namespace ece
 				this->_model.setIdentity();
 			}
 
-			Renderable::~Renderable() {}
-
 			void Renderable::applyTransformation(const FloatMatrix4u & transformation)
 			{
 				this->_model = transformation * this->_model;

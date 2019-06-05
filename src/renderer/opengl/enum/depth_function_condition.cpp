@@ -60,6 +60,21 @@ namespace ece
 				}
 			}
 
+			RenderState::DepthFunctionCondition getDepthFunctionCondition(DepthFunctionCondition condition)
+			{
+				switch (condition) {
+				case DepthFunctionCondition::NEVER: return RenderState::DepthFunctionCondition::NEVER; break;
+				case DepthFunctionCondition::LESS: return RenderState::DepthFunctionCondition::LESS; break;
+				case DepthFunctionCondition::EQUAL: return RenderState::DepthFunctionCondition::EQUAL; break;
+				case DepthFunctionCondition::LEQUAL: return RenderState::DepthFunctionCondition::LEQUAL; break;
+				case DepthFunctionCondition::GREATER: return RenderState::DepthFunctionCondition::GREATER; break;
+				case DepthFunctionCondition::NOTEQUAL: return RenderState::DepthFunctionCondition::NOTEQUAL; break;
+				case DepthFunctionCondition::GEQUAL: return RenderState::DepthFunctionCondition::GEQUAL; break;
+				case DepthFunctionCondition::ALWAYS: return RenderState::DepthFunctionCondition::ALWAYS; break;
+				default: throw std::runtime_error("Unknown value for RenderState::DepthFunctionCondition enumeration."); break;
+				}
+			}
+
 			std::string to_string(DepthFunctionCondition condition)
 			{
 				switch (condition) {

@@ -97,10 +97,10 @@ namespace ece
 					submesh.mesh.getIndexBuffer().bind();
 					if (submesh.mesh.getIndexBuffer().size() > 0) {
 						if (this->isInstancingEnabled()) {
-							OpenGL::drawElementsInstanced(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0, static_cast<ece::size_t>(this->_instances.size()));
+							OpenGL::drawElementsInstanced<unsigned int>(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0, static_cast<ece::size_t>(this->_instances.size()));
 						}
 						else {
-							OpenGL::drawElements(this->_mode, static_cast<ece::size_t>(this->_mesh->size()), 0);
+							OpenGL::drawElements<unsigned int>(this->_mode, static_cast<ece::size_t>(this->_mesh->size()), 0);
 						}
 					}
 					else {

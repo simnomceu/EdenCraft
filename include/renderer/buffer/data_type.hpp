@@ -67,6 +67,8 @@ namespace ece
 
 			template <class T> static inline constexpr auto dataType();
 
+			template <> inline auto dataType<char>();
+			template <> inline auto dataType<unsigned char>();
 			template<> inline auto dataType<short int>();
 			template<> inline auto dataType<unsigned short int>();
 			template<> inline auto dataType<int>();

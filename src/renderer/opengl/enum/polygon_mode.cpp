@@ -55,6 +55,16 @@ namespace ece
 				}
 			}
 
+			RenderState::PolygonMode getPolygonMode(PolygonMode mode)
+			{
+				switch (mode) {
+				case PolygonMode::POINT: return RenderState::PolygonMode::POINT; break;
+				case PolygonMode::LINE: return RenderState::PolygonMode::LINE; break;
+				case PolygonMode::FILL: return RenderState::PolygonMode::FILL; break;
+				default: throw std::runtime_error("Unknown value for RenderState::PolygonMode enumeration."); break;
+				}
+			}
+
 			std::string to_string(PolygonMode mode)
 			{
 				switch (mode) {

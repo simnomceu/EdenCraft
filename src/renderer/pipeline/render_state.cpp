@@ -49,6 +49,27 @@ namespace ece
 		{
 			RenderState RenderState::_currentState = RenderState();
 
+			RenderState RenderState::getCurrentstate()
+			{
+				auto state = RenderState();
+				state.faceCulling = OpenGL::isEnabled(Capability::CULL_FACE);
+				state.cullFaceMode = getCullFaceMode(static_cast<opengl::CullFaceMode>(OpenGL::getInteger(Parameter::CULL_FACE_MODE)[0]));
+				state.frontFaceMode = getFrontFaceMode(static_cast<opengl::FrontFaceMode>(OpenGL::getInteger(Parameter::FRONT_FACE)[0]));
+				state.depthTest = OpenGL::isEnabled(Capability::DEPTH_TEST);
+				state.depthFunction = getDepthFunctionCondition(static_cast<opengl::DepthFunctionCondition>(OpenGL::getInteger(Parameter::DEPTH_FUNC)[0]));
+				state.pointSize = OpenGL::getFloat(Parameter::PROGRAM_POINT_SIZE)[0];
+				state.lineWidth = OpenGL::getFloat(Parameter::LINE_WIDTH)[0];
+				state.smoothLine = OpenGL::isEnabled(Capability::LINE_SMOOTH);
+				state.blending = OpenGL::isEnabled(Capability::BLEND);
+				state.blendEquation = getBlendEquationMode(static_cast<opengl::BlendEquationMode>(OpenGL::getInteger(Parameter::BLEND_EQUATION_RGB)[0]));
+				state.sourceBlend = getBlendingFactor(static_cast<opengl::BlendingFactor>(OpenGL::getInteger(Parameter::BLEND_SRC_RGB)[0]));
+				state.destinationBlend = getBlendingFactor(static_cast<opengl::BlendingFactor>(OpenGL::getInteger(Parameter::BLEND_DST_RGB)[0]));
+				state.scissorTest = OpenGL::isEnabled(Capability::SCISSOR_TEST);
+				state.polygonMode = getPolygonMode(static_cast<opengl::PolygonMode>(OpenGL::getInteger(Parameter::POLYGON_MODE)[0]));
+			
+				return std::move(state);
+			}
+
 			RenderState::RenderState() noexcept :
 				faceCulling(true),
 				cullFaceMode(CullFaceMode::BACK),

@@ -60,6 +60,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API FrontFaceMode getFrontFaceMode(RenderState::FrontFaceMode mode);
+			ECE_RENDERER_API RenderState::FrontFaceMode getFrontFaceMode(FrontFaceMode mode);
 
 			ECE_RENDERER_API std::string to_string(FrontFaceMode mode);
 		} // namespace opengl
