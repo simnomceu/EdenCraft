@@ -36,13 +36,14 @@
 
 */
 
-#ifndef OPENGL_DATA_TYPE_HPP
-#define OPENGL_DATA_TYPE_HPP
+#ifndef BLEND_EQUATION_MODE_HPP
+#define BLEND_EQUATION_MODE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/buffer/data_type.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 namespace ece
 {
@@ -50,41 +51,22 @@ namespace ece
 	{
 		namespace opengl
 		{
-			enum class DataType : unsigned short int
+			using pipeline::RenderState;
+
+			enum class BlendEquationMode : unsigned short int
 			{
-				BYTE = GL_BYTE,
-				UNSIGNED_BYTE = GL_UNSIGNED_BYTE,
-				SHORT = GL_SHORT,
-				UNSIGNED_SHORT = GL_UNSIGNED_SHORT,
-				INT = GL_INT,
-				UNSIGNED_INT = GL_UNSIGNED_INT,
-				HALF_FLOAT = GL_HALF_FLOAT,
-				FLOAT = GL_FLOAT,
-				DOUBLE = GL_DOUBLE,
-				FIXED = GL_FIXED,
-				INT_2_10_10_10_REV = GL_INT_2_10_10_10_REV,
-				UNSIGNED_INT_2_10_10_10_REV = GL_UNSIGNED_INT_2_10_10_10_REV,
-				UNSIGNED_INT_10F_11F_11F_REV = GL_UNSIGNED_INT_10F_11F_11F_REV
+				FUNC_ADD = GL_FUNC_ADD,
+				FUNC_SUBTRACT = GL_FUNC_SUBTRACT,
+				FUNC_REVERSE_SUBTRACT = GL_FUNC_REVERSE_SUBTRACT,
+				MIN = GL_MIN,
+				MAX = GL_MAX
 			};
 
-			ECE_RENDERER_API DataType getDataType(buffer::DataType type);
+			ECE_RENDERER_API BlendEquationMode getBlendEquationMode(RenderState::BlendEquationMode mode);
 
-			ECE_RENDERER_API std::string to_string(DataType type);
-
-			template <typename T>
-			ECE_RENDERER_API inline constexpr DataType getType();
-			template <> ECE_RENDERER_API inline constexpr DataType getType<char>();
-			template <> ECE_RENDERER_API inline constexpr DataType getType<unsigned char>();
-			template <> ECE_RENDERER_API inline constexpr DataType getType<short>();
-			template <> ECE_RENDERER_API inline constexpr DataType getType<unsigned short>();
-			template <> ECE_RENDERER_API inline constexpr DataType getType<int>();
-			template <> ECE_RENDERER_API inline constexpr DataType getType<unsigned int>();
-			template <> ECE_RENDERER_API inline constexpr DataType getType<float>();
-			template <> ECE_RENDERER_API inline constexpr DataType getType<double>();
+			ECE_RENDERER_API std::string to_string(BlendEquationMode mode);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#include "renderer/opengl/enum/data_type.inl"
-
-#endif // OPENGL_DATA_TYPE_HPP
+#endif // BLEND_EQUATION_MODE_HPP

@@ -59,8 +59,11 @@ namespace ece
 				lineWidth(0.0f),
 				smoothLine(false),
 				blending(false),
+				blendEquation(BlendEquationMode::FUNC_ADD),
 				sourceBlend(BlendingFactor::SRC_ALPHA),
-				destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA)
+				destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA),
+				scissorTest(true),
+				polygonMode(PolygonMode::FILL)
 			{
 			}
 
@@ -75,8 +78,11 @@ namespace ece
 					&& this->lineWidth == rhs.lineWidth
 					&& this->smoothLine == rhs.smoothLine
 					&& this->blending == rhs.blending
+					&& this->blendEquation == rhs.blendEquation
 					&& this->sourceBlend == rhs.sourceBlend
-					&& this->destinationBlend == rhs.destinationBlend;
+					&& this->destinationBlend == rhs.destinationBlend
+					&& this->scissorTest == rhs.scissorTest
+					&& this->polygonMode == rhs.polygonMode;
 			}
 
 			void RenderState::apply(const bool forced)
@@ -124,11 +130,21 @@ namespace ece
 
 					if (RenderState::_currentState.blending) {
 						OpenGL::enable(Capability::BLEND);
+						OpenGL::blendEquation(getBlendEquationMode(RenderState::_currentState.blendEquation));
 						OpenGL::blendFunc(getBlendingFactor(RenderState::_currentState.sourceBlend), getBlendingFactor(RenderState::_currentState.destinationBlend));
 					}
 					else {
 						OpenGL::disable(Capability::BLEND);
 					}
+
+					if (RenderState::_currentState.scissorTest) {
+						OpenGL::enable(Capability::SCISSOR_TEST);
+					}
+					else {
+						OpenGL::disable(Capability::SCISSOR_TEST);
+					}
+
+					OpenGL::polygonMode(getPolygonMode(RenderState::_currentState.polygonMode));
 				}
 			}
 		} // namespace pipeline

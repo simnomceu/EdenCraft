@@ -102,6 +102,22 @@ namespace ece
 					ONE_MINUS_SRC1_ALPHA		= 0x18
 				};
 
+				enum class BlendEquationMode : unsigned short int
+				{
+					FUNC_ADD				= 0x0,
+					FUNC_SUBTRACT			= 0x1,
+					FUNC_REVERSE_SUBTRACT	= 0x2,
+					MIN						= 0x3,
+					MAX						= 0x4
+				};
+
+				enum class PolygonMode : unsigned short int
+				{
+					POINT	= 0x0,
+					LINE	= 0x1,
+					FILL	= 0x2
+				};
+
 				/**
 				 * @fn RenderState() noexcept
 				 * @brief Default constructor.
@@ -168,8 +184,13 @@ namespace ece
 				bool smoothLine;
 
 				bool blending;
+				BlendEquationMode blendEquation;
 				BlendingFactor sourceBlend;
 				BlendingFactor destinationBlend;
+
+				bool scissorTest;
+
+				PolygonMode polygonMode;
 
 			private:
 				static RenderState _currentState;
