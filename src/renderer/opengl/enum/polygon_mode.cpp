@@ -36,13 +36,8 @@
 
 */
 
-#ifndef OPENGL_TEXTURE_TARGET_HPP
-#define OPENGL_TEXTURE_TARGET_HPP
-
-#include "renderer/config.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/image/texture.hpp"
+#include "renderer/pch.hpp"
+#include "renderer/opengl/enum/polygon_mode.hpp"
 
 namespace ece
 {
@@ -50,29 +45,35 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using image::Texture;
-
-			enum class TextureTarget : unsigned short int
+			PolygonMode getPolygonMode(RenderState::PolygonMode mode)
 			{
-				TEXTURE_1D = GL_TEXTURE_1D,
-				TEXTURE_2D = GL_TEXTURE_2D,
-				TEXTURE_3D = GL_TEXTURE_3D,
-				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
-				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
-				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
-				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
-				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY,
-				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
-				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
-			};
+				switch (mode) {
+				case RenderState::PolygonMode::POINT: return PolygonMode::POINT; break;
+				case RenderState::PolygonMode::LINE: return PolygonMode::LINE; break;
+				case RenderState::PolygonMode::FILL: return PolygonMode::FILL; break;
+				default: throw std::runtime_error("Unknown value for PolygonMode enumeration."); break;
+				}
+			}
 
-			ECE_RENDERER_API TextureTarget getTextureTarget(Texture::Target type);
-			ECE_RENDERER_API Texture::Target getTextureTarget(TextureTarget type);
+			RenderState::PolygonMode getPolygonMode(PolygonMode mode)
+			{
+				switch (mode) {
+				case PolygonMode::POINT: return RenderState::PolygonMode::POINT; break;
+				case PolygonMode::LINE: return RenderState::PolygonMode::LINE; break;
+				case PolygonMode::FILL: return RenderState::PolygonMode::FILL; break;
+				default: throw std::runtime_error("Unknown value for RenderState::PolygonMode enumeration."); break;
+				}
+			}
 
-			ECE_RENDERER_API std::string to_string(TextureTarget type);
+			std::string to_string(PolygonMode mode)
+			{
+				switch (mode) {
+				case PolygonMode::POINT: return "GL_POINT"; break;
+				case PolygonMode::LINE: return "GL_LINE"; break;
+				case PolygonMode::FILL: return "GL_FILL"; break;
+				default: throw std::runtime_error("Unknown value for PolygonMode enumeration."); break;
+				}
+			}
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
-
-#endif // OPENGL_TEXTURE_TARGET_HPP

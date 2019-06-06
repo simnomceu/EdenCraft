@@ -36,43 +36,65 @@
 
 */
 
-#ifndef OPENGL_TEXTURE_TARGET_HPP
-#define OPENGL_TEXTURE_TARGET_HPP
-
-#include "renderer/config.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/image/texture.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
 		namespace opengl
 		{
-			using image::Texture;
-
-			enum class TextureTarget : unsigned short int
+			template <typename T>
+			inline constexpr DataType getType()
 			{
-				TEXTURE_1D = GL_TEXTURE_1D,
-				TEXTURE_2D = GL_TEXTURE_2D,
-				TEXTURE_3D = GL_TEXTURE_3D,
-				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
-				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
-				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
-				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
-				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY,
-				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
-				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
-			};
+				return DataType::INT;
+			}
 
-			ECE_RENDERER_API TextureTarget getTextureTarget(Texture::Target type);
-			ECE_RENDERER_API Texture::Target getTextureTarget(TextureTarget type);
+			template <>
+			inline constexpr DataType getType<char>()
+			{
+				return DataType::BYTE;
+			}
 
-			ECE_RENDERER_API std::string to_string(TextureTarget type);
+			template <>
+			inline constexpr DataType getType<unsigned char>()
+			{
+				return DataType::UNSIGNED_BYTE;
+			}
+
+			template <>
+			inline constexpr DataType getType<short>()
+			{
+				return DataType::SHORT;
+			}
+
+			template <>
+			inline constexpr DataType getType<unsigned short>()
+			{
+				return DataType::UNSIGNED_SHORT;
+			}
+
+			template <>
+			inline constexpr DataType getType<int>()
+			{
+				return DataType::INT;
+			}
+
+			template <>
+			inline constexpr DataType getType<unsigned int>()
+			{
+				return DataType::UNSIGNED_INT;
+			}
+
+			template <>
+			inline constexpr DataType getType<float>()
+			{
+				return DataType::FLOAT;
+			}
+
+			template <>
+			inline constexpr DataType getType<double>()
+			{
+				return DataType::DOUBLE;
+			}
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
-
-#endif // OPENGL_TEXTURE_TARGET_HPP

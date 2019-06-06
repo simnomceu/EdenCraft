@@ -65,6 +65,9 @@ namespace ece
 				case InputEvent::Type::KEY_RELEASED:
 					this->onKeyReleased(event, this->_owner);
 					break;
+				case InputEvent::Type::CHAR:
+					this->onCharWritten(event, this->_owner);
+					break;
 				case InputEvent::Type::NONE:
 					break;
 				default:

@@ -36,13 +36,14 @@
 
 */
 
-#ifndef OPENGL_TEXTURE_TARGET_HPP
-#define OPENGL_TEXTURE_TARGET_HPP
+#ifndef POLYGON_MODE_HPP
+#define POLYGON_MODE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/image/texture.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 namespace ece
 {
@@ -50,29 +51,21 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using image::Texture;
+			using pipeline::RenderState;
 
-			enum class TextureTarget : unsigned short int
+			enum class PolygonMode : unsigned short int
 			{
-				TEXTURE_1D = GL_TEXTURE_1D,
-				TEXTURE_2D = GL_TEXTURE_2D,
-				TEXTURE_3D = GL_TEXTURE_3D,
-				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
-				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
-				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
-				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
-				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY,
-				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
-				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+				POINT = GL_POINT,
+				LINE = GL_LINE,
+				FILL = GL_FILL
 			};
 
-			ECE_RENDERER_API TextureTarget getTextureTarget(Texture::Target type);
-			ECE_RENDERER_API Texture::Target getTextureTarget(TextureTarget type);
+			ECE_RENDERER_API PolygonMode getPolygonMode(RenderState::PolygonMode mode);
+			ECE_RENDERER_API RenderState::PolygonMode getPolygonMode(PolygonMode mode);
 
-			ECE_RENDERER_API std::string to_string(TextureTarget type);
+			ECE_RENDERER_API std::string to_string(PolygonMode mode);
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
 
-#endif // OPENGL_TEXTURE_TARGET_HPP
+#endif // POLYGON_MODE_HPP

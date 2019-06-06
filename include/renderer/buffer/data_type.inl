@@ -46,6 +46,12 @@ namespace ece
 			inline constexpr auto dataType() { throw std::runtime_error("This type cannot be passed."); }
 
 			template <>
+			inline auto dataType<char>() { return DataType::BYTE; }
+
+			template <>
+			inline auto dataType<unsigned char>() { return DataType::UNSIGNED_BYTE; }
+
+			template <>
 			inline auto dataType<short int>() { return DataType::SHORT; }
 
 			template <>

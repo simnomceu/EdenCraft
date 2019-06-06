@@ -39,7 +39,6 @@
 #include "gui/imgui/renderer_adapter.hpp"
 
 #include "imgui.h"
-#include "renderer/opengl.hpp"
 #include "utility/mathematics.hpp"
 
 namespace ece
@@ -48,20 +47,31 @@ namespace ece
 	{
 		namespace imgui
 		{
-
 			void RendererAdapter::init()
 			{
 				ImGuiIO & io = ImGui::GetIO();
 				io.BackendRendererName = "imgui_impl_edencraft";
+
+				this->_mode = PrimitiveMode::TRIANGLES;
+
+				this->_state.blending = true;
+				this->_state.blendEquation = RenderState::BlendEquationMode::FUNC_ADD;
+				this->_state.sourceBlend = RenderState::BlendingFactor::SRC_ALPHA;
+				this->_state.destinationBlend = RenderState::BlendingFactor::ONE_MINUS_SRC_ALPHA;
+				this->_state.faceCulling = false;
+				this->_state.depthTest = false;
+				this->_state.scissorTest = false;
+				this->_state.polygonMode = RenderState::PolygonMode::FILL;
 			}
 
 			void RendererAdapter::newFrame()
 			{
-				if (!this->_fontTexture) {
+				if (!this->_initialized) {
 					Renderer::saveState();
 					this->createDeviceObjects();
-					this->createFontsTexture();
+					this->_font.load();
 					Renderer::restoreState();
+					this->_initialized = true;
 				}
 			}
 
@@ -72,17 +82,15 @@ namespace ece
 
 			void RendererAdapter::render()
 			{
-			//	OpenGL::clearColor(0.45f, 0.55f, 0.60f, 1.00f);
-			//	OpenGL::clear(Bitfield::COLOR_BUFFER_BIT);
-				this->renderDrawLists(ImGui::GetDrawData());
+				this->renderDrawLists();
 			}
 
-			void RendererAdapter::renderDrawLists(ImDrawData* draw_data)
+			void RendererAdapter::renderDrawLists()
 			{
-				// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
-				int fb_width = (int)(draw_data->DisplaySize.x * draw_data->FramebufferScale.x);
-				int fb_height = (int)(draw_data->DisplaySize.y * draw_data->FramebufferScale.y);
-				if (fb_width <= 0 || fb_height <= 0) {
+				auto draw_data = ImGui::GetDrawData();
+
+				// Avoid rendering when minimized
+				if (draw_data->DisplaySize.x <= 0 || draw_data->DisplaySize.y <= 0) {
 					return;
 				}
 
@@ -92,140 +100,94 @@ namespace ece
 				// Setup desired GL state
 				// Recreate the VAO every time (this is to easily allow multiple GL contexts to be rendered to. VAO are not shared among GL contexts)
 				// The renderer would actually work without any VAO bound, but then our VertexAttrib calls would overwrite the default one currently bound.
-				auto vao = OpenGL::genVertexArrays();
-				this->setupRenderState(draw_data, fb_width, fb_height, vao);
+				this->setupRenderState(draw_data);
 
 				// Will project scissor/clipping rectangles into framebuffer space
 				ImVec2 clip_off = draw_data->DisplayPos;         // (0,0) unless using multi-viewports
-				ImVec2 clip_scale = draw_data->FramebufferScale; // (1,1) unless using retina display which are often (2,2)
 
 				// Render command lists
-				for (int n = 0; n < draw_data->CmdListsCount; n++) {
+				for (auto n = 0; n < draw_data->CmdListsCount; ++n) {
 					const ImDrawList* cmd_list = draw_data->CmdLists[n];
-					size_t idx_buffer_offset = 0;
+					std::size_t idx_buffer_offset = 0;
 
 					// Upload vertex/index buffers
 					glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
 					glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 
-					for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++) {
-						const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
-						if (pcmd->UserCallback) {
+					for (auto cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; ++cmd_i) {
+						auto & pcmd = cmd_list->CmdBuffer[cmd_i];
+						if (pcmd.UserCallback) {
 							// User callback, registered via ImDrawList::AddCallback()
 							// (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
-							if (pcmd->UserCallback == ImDrawCallback_ResetRenderState) {
-								this->setupRenderState(draw_data, fb_width, fb_height, vao);
+							if (pcmd.UserCallback == ImDrawCallback_ResetRenderState) {
+								this->setupRenderState(draw_data);
 							}
 							else {
-								pcmd->UserCallback(cmd_list, pcmd);
+								pcmd.UserCallback(cmd_list, &pcmd);
 							}
 						}
 						else {
 							// Project scissor/clipping rectangles into framebuffer space
-							ImVec4 clip_rect;
-							clip_rect.x = (pcmd->ClipRect.x - clip_off.x) * clip_scale.x;
-							clip_rect.y = (pcmd->ClipRect.y - clip_off.y) * clip_scale.y;
-							clip_rect.z = (pcmd->ClipRect.z - clip_off.x) * clip_scale.x;
-							clip_rect.w = (pcmd->ClipRect.w - clip_off.y) * clip_scale.y;
+							auto clip = ece::Rectangle<unsigned int>{ static_cast<unsigned int>(pcmd.ClipRect.x - clip_off.x), 
+																	  static_cast<unsigned int>(pcmd.ClipRect.y - clip_off.y), 
+																	  static_cast<unsigned int>(pcmd.ClipRect.z - clip_off.x),
+																	  static_cast<unsigned int>(pcmd.ClipRect.w - clip_off.y) };
 
-							if (clip_rect.x < fb_width && clip_rect.y < fb_height && clip_rect.z >= 0.0f && clip_rect.w >= 0.0f) {
-								// Apply scissor/clipping rectangle
-								if (Renderer::getBackupState().clipOriginLowerLeft) {
-									glScissor((int)clip_rect.x, (int)(fb_height - clip_rect.w), (int)(clip_rect.z - clip_rect.x), (int)(clip_rect.w - clip_rect.y));
-								}
-								else {
-									glScissor((int)clip_rect.x, (int)clip_rect.y, (int)clip_rect.z, (int)clip_rect.w); // Support for GL 4.5 rarely used glClipControl(GL_UPPER_LEFT)
-								}
+							// Apply scissor/clipping rectangle
+							if (Renderer::getBackupState().clipOriginLowerLeft) {
+								OpenGL::scissor(clip.x, static_cast<int>(draw_data->DisplaySize.y) - clip.height, clip.width - clip.x, clip.height - clip.y);
+							}
+							else {
+								OpenGL::scissor(clip.x, clip.y, clip.width, clip.height); // Support for GL 4.5 rarely used glClipControl(GL_UPPER_LEFT)
+							}
 
-								// Bind texture, Draw
-								glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t)pcmd->TextureId);
-								glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, reinterpret_cast<void *>((unsigned long long)idx_buffer_offset));
+							// Bind texture, Draw
+							OpenGL::bindTexture(TextureTarget::TEXTURE_2D, reinterpret_cast<Handle>(pcmd.TextureId));
+							if constexpr (sizeof(ImDrawIdx) == 2) {
+								OpenGL::drawElements<unsigned short>(this->_mode, pcmd.ElemCount, idx_buffer_offset);
+							}
+							else {
+								OpenGL::drawElements<unsigned int>(this->_mode, pcmd.ElemCount, idx_buffer_offset);
 							}
 						}
-						idx_buffer_offset += pcmd->ElemCount * sizeof(ImDrawIdx);
+						idx_buffer_offset += pcmd.ElemCount;
 					}
 				}
-
-				// Destroy the temporary VAO
-				OpenGL::deleteVertexArrays(1, { vao });
 
 				// Restore modified GL state
 				Renderer::restoreState();
 			}
 
-			void RendererAdapter::setupRenderState(ImDrawData * draw_data, int fb_width, int fb_height, Handle vao)
+			void RendererAdapter::setupRenderState(ImDrawData * draw_data)
 			{
 				// Setup render state: alpha-blending enabled, no face culling, no depth testing, scissor enabled, polygon fill
-				OpenGL::enable(Capability::BLEND);
-				OpenGL::blendEquation(BlendEquationMode::FUNC_ADD);
-				OpenGL::blendFunc(BlendingFactor::SRC_ALPHA, BlendingFactor::ONE_MINUS_SRC_ALPHA);
-				OpenGL::disable(Capability::CULL_FACE);
-				OpenGL::disable(Capability::DEPTH_TEST);
-				OpenGL::enable(Capability::SCISSOR_TEST);
-
-#ifdef GL_POLYGON_MODE
-				OpenGL::polygonMode(PolygonMode::FILL);
-#endif
+				this->_state.apply();
 
 				// Setup viewport, orthographic projection matrix
 				// Our visible imgui space lies from draw_data->DisplayPos (top left) to draw_data->DisplayPos+data_data->DisplaySize (bottom right). DisplayMin is typically (0,0) for single viewport apps.
-				OpenGL::viewport(0, 0, fb_width, fb_height);
+				OpenGL::viewport(0, 0, static_cast<int>(draw_data->DisplaySize.x), static_cast<int>(draw_data->DisplaySize.y));
 				float L = draw_data->DisplayPos.x;
 				float R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
 				float T = draw_data->DisplayPos.y;
 				float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
 				auto projection = orthographic({ L, B, R - L, T - B }, 1.0f, -1.0f); 
 				this->_program->use();
-				OpenGL::uniform<int, 1>(this->_attribLocationTex, { 0 });
-				OpenGL::uniform<float, 4, 4>(this->_attribLocationProjMtx, false, projection);
+				OpenGL::uniform<int, 1>(this->_program->getLocation("Texture"), { 0 });
+				OpenGL::uniform<float, 4, 4>(this->_program->getLocation("ProjMtx"), false, projection);
 #ifdef GL_SAMPLER_BINDING
 				OpenGL::bindSampler(0, 0); // We use combined texture/sampler state. Applications using GL 3.3 may set that otherwise.
 #endif
-				OpenGL::bindVertexArray(vao);
+				this->_vertexArray.bind();
 
 				// Bind vertex/index buffers and setup attributes for ImDrawVert
 				OpenGL::bindBuffer(BufferType::ARRAY_BUFFER, this->_vbo);
 				OpenGL::bindBuffer(BufferType::ELEMENT_ARRAY_BUFFER, this->_ibo);
-				OpenGL::enableVertexAttribArray(this->_attribLocationVtxPos);
-				OpenGL::enableVertexAttribArray(this->_attribLocationVtxUV);
-				OpenGL::enableVertexAttribArray(this->_attribLocationVtxColor);
-				OpenGL::vertexAttribPointer(this->_attribLocationVtxPos, 2, DataType::FLOAT, false, sizeof(ImDrawVert), reinterpret_cast<unsigned long long>(&(((ImDrawVert*)0)->pos)));
-				OpenGL::vertexAttribPointer(this->_attribLocationVtxUV, 2, DataType::FLOAT, false, sizeof(ImDrawVert), reinterpret_cast<unsigned long long>(&(((ImDrawVert*)0)->uv)));
-				OpenGL::vertexAttribPointer(this->_attribLocationVtxColor, 4, DataType::UNSIGNED_BYTE, true, sizeof(ImDrawVert), reinterpret_cast<unsigned long long>(&(((ImDrawVert*)0)->col)));
-			}
-
-			bool RendererAdapter::createFontsTexture()
-			{
-				// Build texture atlas
-				ImGuiIO& io = ImGui::GetIO();
-				unsigned char* pixels;
-				int width, height;
-				io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);   // Load as RGBA 32-bits (75% of the memory is wasted, but default font is so small) because it is more likely to be compatible with user's existing shaders. If your ImTextureId represent a higher-level concept than just a GL texture id, consider calling GetTexDataAsAlpha8() instead to save on GPU memory.
-
-				// Upload texture to graphics system
-				this->_fontTexture = OpenGL::genTexture();
-				OpenGL::bindTexture(TextureTarget::TEXTURE_2D, this->_fontTexture);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_MIN_FILTER, GL_LINEAR);
-				OpenGL::texParameter(TextureTarget::TEXTURE_2D, TextureParameter::TEXTURE_MAG_FILTER, GL_LINEAR);
-#ifdef GL_UNPACK_ROW_LENGTH
-				OpenGL::pixelStore(PixelParameter::UNPACK_ROW_LENGTH, 0);
-#endif
-				OpenGL::texImage2D(TextureTypeTarget::TEXTURE_2D, 0, PixelInternalFormat::RGBA, width, height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, pixels);
-
-				// Store our identifier
-				io.Fonts->TexID = reinterpret_cast<ImTextureID>((unsigned long long)this->_fontTexture);
-
-				return true;
-			}
-
-			void RendererAdapter::destroyFontsTexture()
-			{
-				if (this->_fontTexture) {
-					ImGuiIO& io = ImGui::GetIO();
-					OpenGL::deleteTextures({ this->_fontTexture });
-					io.Fonts->TexID = 0;
-					this->_fontTexture = 0;
-				}
+				OpenGL::enableVertexAttribArray(0);
+				OpenGL::enableVertexAttribArray(1);
+				OpenGL::enableVertexAttribArray(2);
+				OpenGL::vertexAttribPointer(0, 2, ece::renderer::opengl::DataType::FLOAT, false, sizeof(ImDrawVert), offsetof(ImDrawVert, pos));
+				OpenGL::vertexAttribPointer(1, 2, ece::renderer::opengl::DataType::FLOAT, false, sizeof(ImDrawVert), offsetof(ImDrawVert, uv));
+				OpenGL::vertexAttribPointer(2, 4, ece::renderer::opengl::DataType::UNSIGNED_BYTE, true, sizeof(ImDrawVert), offsetof(ImDrawVert, col));
 			}
 
 			bool RendererAdapter::createDeviceObjects()
@@ -236,17 +198,11 @@ namespace ece
 					ece::ShaderStage vsSource;
 					vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/imgui.vert");
 
-					this->_program = std::make_shared<ece::EnhancedShader>();
+					this->_program = ece::makeResource<ece::EnhancedShader>("ImGuiShader");
 					this->_program->setStage(fsSource);
 					this->_program->setStage(vsSource);
 					this->_program->link();
 				}
-
-				this->_attribLocationTex = this->_program->getLocation("Texture");
-				this->_attribLocationProjMtx = this->_program->getLocation("ProjMtx");
-				this->_attribLocationVtxPos = 0;
-				this->_attribLocationVtxUV = 1;
-				this->_attribLocationVtxColor = 2;
 
 				// Create buffers
 				this->_vbo = OpenGL::genBuffers();
@@ -257,13 +213,18 @@ namespace ece
 
 			void RendererAdapter::destroyDeviceObjects()
 			{
+				this->_vertexArray.terminate();
 				OpenGL::deleteBuffers({ this->_vbo, this->_ibo });
 				this->_vbo = 0;
 				this->_ibo = 0;
 
-				this->_program->terminate();
+				this->_font.terminate();
+			}
 
-				this->destroyFontsTexture();
+			void RendererAdapter::draw(std::shared_ptr<Shader> /*program*/)
+			{
+				this->renderDrawLists();
+
 			}
 		} // namespace imgui
 	} // namespace gui

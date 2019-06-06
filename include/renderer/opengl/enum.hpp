@@ -43,6 +43,7 @@
 #include "GL/glext.h"
 
 #include "utility/enumeration.hpp"
+#include "renderer/opengl/enum/blend_equation_mode.hpp"
 #include "renderer/opengl/enum/blending_factor.hpp"
 #include "renderer/opengl/enum/buffer_type.hpp"
 #include "renderer/opengl/enum/buffer_usage.hpp"
@@ -51,6 +52,7 @@
 #include "renderer/opengl/enum/depth_function_condition.hpp"
 #include "renderer/opengl/enum/front_face_mode.hpp"
 #include "renderer/opengl/enum/packed_vertex_attrib_type.hpp"
+#include "renderer/opengl/enum/polygon_mode.hpp"
 #include "renderer/opengl/enum/primitive_mode.hpp"
 #include "renderer/opengl/enum/shader_type.hpp"
 #include "renderer/opengl/enum/texture_parameter.hpp"
@@ -594,15 +596,6 @@ namespace ece
 				OR_INVERTED = GL_OR_INVERTED
 			};
 
-			enum class BlendEquationMode : unsigned short int
-			{
-				FUNC_ADD = GL_FUNC_ADD,
-				FUNC_SUBTRACT = GL_FUNC_SUBTRACT,
-				FUNC_REVERSE_SUBTRACT = GL_FUNC_REVERSE_SUBTRACT,
-				MIN = GL_MIN,
-				MAX = GL_MAX
-			};
-
 			enum class TestCondition : unsigned short int
 			{
 				KEEP = GL_KEEP,
@@ -1031,6 +1024,7 @@ namespace ece
 				READ_FRAMEBUFFER_BINDING = GL_READ_FRAMEBUFFER_BINDING,
 				ELEMENT_ARRAY_BUFFER_BINDING = GL_ELEMENT_ARRAY_BUFFER_BINDING,
 				FRAGMENT_SHADER_DERIVATIVE_HINT = GL_FRAGMENT_SHADER_DERIVATIVE_HINT,
+				FRONT_FACE = GL_FRONT_FACE,
 				IMPLEMENTATION_COLOR_READ_FORMAT = GL_IMPLEMENTATION_COLOR_READ_FORMAT,
 				IMPLEMENTATION_COLOR_READ_TYPE = GL_IMPLEMENTATION_COLOR_READ_TYPE,
 				LINE_SMOOTH = GL_LINE_SMOOTH,
@@ -1234,13 +1228,6 @@ namespace ece
 				OUT_OF_MEMORY = GL_OUT_OF_MEMORY,
 				STACK_UNDERFLOW = GL_STACK_UNDERFLOW,
 				STACK_OVERFLOW = GL_STACK_OVERFLOW
-			};
-
-			enum class PolygonMode : unsigned short int
-			{
-				POINT = GL_POINT,
-				LINE = GL_LINE,
-				FILL = GL_FILL
 			};
 
 			enum class MipmapTarget : unsigned short int

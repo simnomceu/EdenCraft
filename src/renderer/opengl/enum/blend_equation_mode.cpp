@@ -36,13 +36,8 @@
 
 */
 
-#ifndef OPENGL_TEXTURE_TARGET_HPP
-#define OPENGL_TEXTURE_TARGET_HPP
-
-#include "renderer/config.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/image/texture.hpp"
+#include "renderer/pch.hpp"
+#include "renderer/opengl/enum/blend_equation_mode.hpp"
 
 namespace ece
 {
@@ -50,29 +45,41 @@ namespace ece
 	{
 		namespace opengl
 		{
-			using image::Texture;
-
-			enum class TextureTarget : unsigned short int
+			BlendEquationMode getBlendEquationMode(RenderState::BlendEquationMode mode)
 			{
-				TEXTURE_1D = GL_TEXTURE_1D,
-				TEXTURE_2D = GL_TEXTURE_2D,
-				TEXTURE_3D = GL_TEXTURE_3D,
-				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
-				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
-				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
-				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
-				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY,
-				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
-				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
-			};
+				switch (mode) {
+				case RenderState::BlendEquationMode::FUNC_ADD: return BlendEquationMode::FUNC_ADD; break;
+				case RenderState::BlendEquationMode::FUNC_SUBTRACT: return BlendEquationMode::FUNC_SUBTRACT; break;
+				case RenderState::BlendEquationMode::FUNC_REVERSE_SUBTRACT: return BlendEquationMode::FUNC_REVERSE_SUBTRACT; break;
+				case RenderState::BlendEquationMode::MIN: return BlendEquationMode::MIN; break;
+				case RenderState::BlendEquationMode::MAX: return BlendEquationMode::MAX; break;
+				default: throw std::runtime_error("Unknown value for BlendEquationMode enumeration."); break;
+				}
+			}
 
-			ECE_RENDERER_API TextureTarget getTextureTarget(Texture::Target type);
-			ECE_RENDERER_API Texture::Target getTextureTarget(TextureTarget type);
+			RenderState::BlendEquationMode getBlendEquationMode(BlendEquationMode mode)
+			{
+				switch (mode) {
+				case BlendEquationMode::FUNC_ADD: return RenderState::BlendEquationMode::FUNC_ADD; break;
+				case BlendEquationMode::FUNC_SUBTRACT: return RenderState::BlendEquationMode::FUNC_SUBTRACT; break;
+				case BlendEquationMode::FUNC_REVERSE_SUBTRACT: return RenderState::BlendEquationMode::FUNC_REVERSE_SUBTRACT; break;
+				case BlendEquationMode::MIN: return RenderState::BlendEquationMode::MIN; break;
+				case BlendEquationMode::MAX: return RenderState::BlendEquationMode::MAX; break;
+				default: throw std::runtime_error("Unknown value for RenderState::BlendEquationMode enumeration."); break;
+				}
+			}
 
-			ECE_RENDERER_API std::string to_string(TextureTarget type);
+			std::string to_string(BlendEquationMode mode)
+			{
+				switch (mode) {
+				case BlendEquationMode::FUNC_ADD: return "GL_FUNC_ADD"; break;
+				case BlendEquationMode::FUNC_SUBTRACT: return "GL_FUNC_SUBTRACT"; break;
+				case BlendEquationMode::FUNC_REVERSE_SUBTRACT: return "GL_FUNC_REVERSE_SUBTRACT"; break;
+				case BlendEquationMode::MIN: return "GL_MIN"; break;
+				case BlendEquationMode::MAX: return "GL_MAX"; break;
+				default: throw std::runtime_error("Unknown value for BlendEquationMode enumeration."); break;
+				}
+			}
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
-
-#endif // OPENGL_TEXTURE_TARGET_HPP

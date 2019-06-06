@@ -76,9 +76,7 @@ namespace ece
 #endif
 				Renderer::_backup.arrayBufferBinding = OpenGL::getInteger(Parameter::ARRAY_BUFFER_BINDING)[0];
 				Renderer::_backup.vertexArrayBinding = OpenGL::getInteger(Parameter::VERTEX_ARRAY_BINDING)[0];
-#ifdef GL_POLYGON_MODE
-				Renderer::_backup.polygonMode = static_cast<PolygonMode>(OpenGL::getInteger(Parameter::POLYGON_MODE)[0]);
-#endif
+
 				auto viewport = OpenGL::getInteger(Parameter::VIEWPORT); std::copy(viewport.begin(), viewport.end(), Renderer::_backup.viewport.begin());
 				auto scissorBox = OpenGL::getInteger(Parameter::SCISSOR_BOX); std::copy(scissorBox.begin(), scissorBox.end(), Renderer::_backup.scissorBox.begin());
 				Renderer::_backup.blendSrcRGB = static_cast<BlendingFactor>(OpenGL::getInteger(Parameter::BLEND_SRC_RGB)[0]);
@@ -87,14 +85,6 @@ namespace ece
 				Renderer::_backup.blendDstAlpha = static_cast<BlendingFactor>(OpenGL::getInteger(Parameter::BLEND_DST_ALPHA)[0]);
 				Renderer::_backup.blendEquationRGB = static_cast<BlendEquationMode>(OpenGL::getInteger(Parameter::BLEND_EQUATION_RGB)[0]);
 				Renderer::_backup.blendEquationAlpha = static_cast<BlendEquationMode>(OpenGL::getInteger(Parameter::BLEND_EQUATION_ALPHA)[0]);
-			/*	Renderer::_backup.blend = OpenGL::isEnabled(Capability::BLEND);
-				Renderer::_backup.cullFace = OpenGL::isEnabled(Capability::CULL_FACE);
-				Renderer::_backup.depthTest = OpenGL::isEnabled(Capability::DEPTH_TEST);
-				Renderer::_backup.scissorTest = OpenGL::isEnabled(Capability::SCISSOR_TEST);*/
-				Renderer::_backup.blend = glIsEnabled(GL_BLEND);
-				Renderer::_backup.cullFace = glIsEnabled(GL_CULL_FACE);
-				Renderer::_backup.depthTest = glIsEnabled(GL_DEPTH_TEST);
-				Renderer::_backup.scissorTest = glIsEnabled(GL_SCISSOR_TEST);
 				Renderer::_backup.clipOriginLowerLeft = true;
 #if defined(GL_CLIP_ORIGIN) && !defined(__APPLE__)
 				Renderer::_backup.clipOrigin = static_cast<ClipControl>(OpenGL::getInteger(Parameter::CLIP_ORIGIN)[0]); // Support for GL 4.5's glClipControl(GL_UPPER_LEFT)
@@ -102,6 +92,7 @@ namespace ece
 					Renderer::_backup.clipOriginLowerLeft = false;
 				}
 #endif
+				Renderer::_backup.renderState = RenderState::getCurrentstate();
 			}
 
 			void Renderer::restoreState()
@@ -118,16 +109,11 @@ namespace ece
 				OpenGL::bindBuffer(BufferType::ARRAY_BUFFER, Renderer::_backup.arrayBufferBinding);
 				OpenGL::blendEquationSeparate(Renderer::_backup.blendEquationRGB, Renderer::_backup.blendEquationAlpha);
 				OpenGL::blendFuncSeparate(Renderer::_backup.blendSrcRGB, Renderer::_backup.blendDstRGB, Renderer::_backup.blendSrcAlpha, Renderer::_backup.blendDstAlpha);
-				Renderer::_backup.blend ? OpenGL::enable(Capability::BLEND) : OpenGL::disable(Capability::BLEND);
-				Renderer::_backup.cullFace ? OpenGL::enable(Capability::CULL_FACE) : OpenGL::disable(Capability::CULL_FACE);
-				Renderer::_backup.depthTest ? OpenGL::enable(Capability::DEPTH_TEST) : OpenGL::disable(Capability::DEPTH_TEST);
-				Renderer::_backup.scissorTest ? OpenGL::enable(Capability::SCISSOR_TEST) : OpenGL::disable(Capability::SCISSOR_TEST);
 
-#ifdef GL_POLYGON_MODE
-				OpenGL::polygonMode(Renderer::_backup.polygonMode);
-#endif
 				OpenGL::viewport(Renderer::_backup.viewport[0], Renderer::_backup.viewport[1], (GLsizei)Renderer::_backup.viewport[2], (GLsizei)Renderer::_backup.viewport[3]);
 				OpenGL::scissor(Renderer::_backup.scissorBox[0], Renderer::_backup.scissorBox[1], (GLsizei)Renderer::_backup.scissorBox[2], (GLsizei)Renderer::_backup.scissorBox[3]);
+			
+				Renderer::_backup.renderState.apply();
 			}
 
 			auto Renderer::getBackupState() -> Renderer::State { return Renderer::_backup; }

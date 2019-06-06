@@ -77,6 +77,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API BlendingFactor getBlendingFactor(RenderState::BlendingFactor type);
+			ECE_RENDERER_API RenderState::BlendingFactor getBlendingFactor(BlendingFactor type);
 
 			ECE_RENDERER_API std::string to_string(BlendingFactor type);
 		} // namespace opengl

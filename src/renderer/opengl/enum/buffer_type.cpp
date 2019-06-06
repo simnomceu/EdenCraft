@@ -66,6 +66,27 @@ namespace ece
 				}
 			}
 
+			BaseBuffer::Type getBufferType(BufferType type)
+			{
+				switch (type) {
+				case BufferType::ARRAY_BUFFER: return BaseBuffer::Type::ARRAY; break;
+				case BufferType::ATOMIC_COUNTER_BUFFER: return BaseBuffer::Type::ATOMIC_COUNTER; break;
+				case BufferType::COPY_READ_BUFFER: return BaseBuffer::Type::COPY_READ; break;
+				case BufferType::COPY_WRITE_BUFFER: return BaseBuffer::Type::COPY_WRITE; break;
+				case BufferType::DISPATCH_INDIRECT_BUFFER: return BaseBuffer::Type::DISPATCH_INDIRECT; break;
+				case BufferType::DRAW_INDIRECT_BUFFER: return BaseBuffer::Type::DRAW_INDIRECT; break;
+				case BufferType::ELEMENT_ARRAY_BUFFER: return BaseBuffer::Type::ELEMENT_ARRAY; break;
+				case BufferType::PIXEL_PACK_BUFFER: return BaseBuffer::Type::PIXEL_PACK; break;
+				case BufferType::PIXEL_UNPACK_BUFFER: return BaseBuffer::Type::PIXEL_UNPACK; break;
+				case BufferType::QUERY_BUFFER: return BaseBuffer::Type::QUERY; break;
+				case BufferType::SHADER_STORAGE_BUFFER: return BaseBuffer::Type::SHADER_STORAGE; break;
+				case BufferType::TEXTURE_BUFFER: return BaseBuffer::Type::TEXTURE; break;
+				case BufferType::TRANSFORM_FEEDBACK_BUFFER: return BaseBuffer::Type::TRANSFORM_FEEDBACK; break;
+				case BufferType::UNIFORM_BUFFER: return BaseBuffer::Type::UNIFORM; break;
+				default: throw std::runtime_error("Unknown value for BaseBuffer::Type enumeration."); break;
+				}
+			}
+
 			std::string to_string(BufferType type)
 			{
 				switch (type) {

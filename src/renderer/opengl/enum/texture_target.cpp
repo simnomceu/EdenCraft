@@ -63,6 +63,24 @@ namespace ece
 				}
 			}
 
+			Texture::Target getTextureTarget(TextureTarget type)
+			{
+				switch (type) {
+				case TextureTarget::TEXTURE_1D: return Texture::Target::TEXTURE_1D; break;
+				case TextureTarget::TEXTURE_2D: return Texture::Target::TEXTURE_2D; break;
+				case TextureTarget::TEXTURE_3D: return Texture::Target::TEXTURE_3D; break;
+				case TextureTarget::TEXTURE_1D_ARRAY: return Texture::Target::TEXTURE_1D_ARRAY; break;
+				case TextureTarget::TEXTURE_2D_ARRAY: return Texture::Target::TEXTURE_2D_ARRAY; break;
+				case TextureTarget::TEXTURE_RECTANGLE: return Texture::Target::RECTANGLE; break;
+				case TextureTarget::TEXTURE_CUBE_MAP: return Texture::Target::CUBE_MAP; break;
+				case TextureTarget::TEXTURE_CUBE_MAP_ARRAY: return Texture::Target::CUBE_MAP_ARRAY; break;
+				case TextureTarget::TEXTURE_BUFFER: return Texture::Target::BUFFER; break;
+				case TextureTarget::TEXTURE_2D_MULTISAMPLE: return Texture::Target::TEXTURE_2D_MULTISAMPLE; break;
+				case TextureTarget::TEXTURE_2D_MULTISAMPLE_ARRAY: return Texture::Target::TEXTURE_2D_MULTISAMPLE_ARRAY; break;
+				default: throw std::runtime_error("Unknown value for Texture::Target enumeration."); break;
+				}
+			}
+
 			std::string to_string(TextureTarget type)
 			{
 				switch (type) {

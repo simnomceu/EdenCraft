@@ -40,7 +40,8 @@
 
 #include "gui/pch.hpp"
 #include "gui/config.hpp"
-#include "renderer/shader.hpp"
+#include "gui/imgui/font.hpp"
+#include "graphic/renderable.hpp"
 
 struct ImDrawData;
 
@@ -54,7 +55,7 @@ namespace ece
 			 * @class RendererAdapter
 			 * @brief
 			 */
-			class ECE_GUI_API RendererAdapter
+			class ECE_GUI_API RendererAdapter: public Renderable
 			{
 			public:
 				/**
@@ -110,24 +111,24 @@ namespace ece
 				void shutdown();
 				void render();
 
-				void renderDrawLists(ImDrawData* draw_data);
-				void setupRenderState(ImDrawData * draw_data, int fb_width, int fb_height, Handle vao);
-				bool createFontsTexture();
-				void destroyFontsTexture();
+				void renderDrawLists();
+				void setupRenderState(ImDrawData * draw_data);
 				bool createDeviceObjects();
 				void destroyDeviceObjects();
 
+				virtual void draw(std::shared_ptr<Shader> program) override;
+
 			private:
-				unsigned int _fontTexture;
-				int _attribLocationTex;
-				int _attribLocationProjMtx;
-				int _attribLocationVtxPos;
-				int _attribLocationVtxUV;
-				int _attribLocationVtxColor;
+				bool _initialized;
+
 				unsigned int _vbo;
 				unsigned int _ibo;
 
-				std::shared_ptr<ece::EnhancedShader> _program;
+				ece::ResourceHandler<ece::EnhancedShader> _program;
+				Font _font;
+
+				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;
+				IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> _faces;
 			};
 		} // namespace imgui
 	} // namespace gui

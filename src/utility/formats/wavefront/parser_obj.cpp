@@ -172,6 +172,7 @@ namespace ece
 						}
 
 						if (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT) {
+							// BUG: if face is written before vertices, bad access will occur.
 							auto a = this->_currentObject->getVertices()[face[0]._v - 1];
 							auto b = this->_currentObject->getVertices()[face[1]._v - 1];
 							auto c = this->_currentObject->getVertices()[face[face.size() - 1]._v - 1];
@@ -205,9 +206,10 @@ namespace ece
 					case 'g':
 					{
 						this->_currentObject->resetCurrentGroups();
-
+						line.get();
+						auto count = line.count(' ') + 1;
 						std::string group;
-						while (!line.eof()) {
+						for (unsigned int i = 0; i < count; ++i) {
 							line >> group;
 							this->_currentObject->addGroup(group);
 						}

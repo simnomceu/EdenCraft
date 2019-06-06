@@ -275,6 +275,13 @@ namespace ece
 						this->pushEvent(newEvent);
 						break;
 					}
+					case WM_CHAR: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::CHAR;
+						newEvent.character = static_cast<unsigned char>(message.wParam);
+						this->pushEvent(newEvent);
+						break;
+					}
 					case WM_MOVE: {
 						break;
 					}

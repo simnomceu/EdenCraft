@@ -122,6 +122,7 @@ namespace ece
 				Signal<const InputEvent &, Window &> onMouseButtonReleased;
 				Signal<const InputEvent &, Window &> onMouseWheelScrolled;
 				Signal<const InputEvent &, Window &> onMouseMoved;
+				Signal<const InputEvent &, Window &> onCharWritten;
 
 			private:
 				Window & _owner;

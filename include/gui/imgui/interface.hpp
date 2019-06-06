@@ -35,16 +35,12 @@
 
 */
 
-#ifndef IMGUI_ADAPTER_HPP
-#define IMGUI_ADAPTER_HPP
+#ifndef IMGUI_INTERFACE_HPP
+#define IMGUI_INTERFACE_HPP
 
 #include "gui/pch.hpp"
 #include "gui/config.hpp"
-
-#include "gui/imgui/window_adapter.hpp"
-#include "gui/imgui/renderer_adapter.hpp"
-
-struct ImGuiContext;
+#include "graphic/renderable.hpp"
 
 namespace ece
 {
@@ -53,72 +49,73 @@ namespace ece
 		namespace imgui
 		{
 			/**
-			 * @class Adapter
+			 * @class Interface
 			 * @brief
 			 */
-			class ECE_GUI_API Adapter
+			class Interface: public Renderable
 			{
 			public:
 				/**
-				 * @fn Adapter() noexcept
+				 * @fn constexpr Interface() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Adapter() noexcept = default;
+				Interface() noexcept;
 
 				/**
-				 * @fn Adapter(const Adapter & copy) noexcept
-				 * @param[in] copy The Adapter to copy from.
+				 * @fn Interface(const Interface & copy) noexcept
+				 * @param[in] copy The Interface to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				Adapter(const Adapter & copy) noexcept = default;
+				Interface(const Interface & copy) noexcept = default;
 
 				/**
-				 * @fn Adapter(Adapter && move) noexcept
-				 * @param[in] move The Adapter to move.
+				 * @fn Interface(Interface && move) noexcept
+				 * @param[in] move The Interface to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				Adapter(Adapter && move) noexcept = default;
+				Interface(Interface && move) noexcept = default;
 
 				/**
-				 * @fn ~Adapter() noexcept
+				 * @fn ~Interface() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Adapter() noexcept;
+				~Interface() noexcept;
 
 				/**
-				 * @fn Adapter & operator=(const Adapter & copy) noexcept
-				 * @param[in] copy The Adapter to copy from.
-				 * @return The Adapter copied.
+				 * @fn Interface & operator=(const Interface & copy) noexcept
+				 * @param[in] copy The Interface to copy from.
+				 * @return The Interface copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				Adapter & operator=(const Adapter & copy) noexcept = default;
+				Interface & operator=(const Interface & copy) noexcept = default;
 
 				/**
-				 * @fn Adapter & operator=(Adapter && move) noexcept
-				 * @param[in] move The Adapter to move.
-				 * @return The Adapter moved.
+				 * @fn Interface & operator=(Interface && move) noexcept
+				 * @param[in] move The Interface to move.
+				 * @return The Interface moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				Adapter & operator=(Adapter && move) noexcept = default;
+				Interface & operator=(Interface && move) noexcept = default;
 
-				void init(std::shared_ptr<Window> window);
-				void shutdown();
-				void newFrame();
-				void render();
+				virtual void prepare() override;
+				virtual void draw(std::shared_ptr<Shader> program) override;
+				void update();
 
 			private:
-				ImGuiContext * _context;
-				WindowAdapter _windowAdapter;
-				RendererAdapter _rendererAdapter;
+//				VertexBuffer<SymetricStorage, std::vector<ImDrawVert>> _vbo;
+//				IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> _ibo;
+
+				IntVector2u _displaySize;
+				FloatMatrix4u _projection;
 			};
 		} // namespace imgui
 	} // namespace gui
 } // namespace ece
 
-#endif // IMGUI_ADAPTER_HPP
+#endif // IMGUI_INTERFACE_HPP

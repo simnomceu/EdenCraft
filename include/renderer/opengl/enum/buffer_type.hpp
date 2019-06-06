@@ -72,6 +72,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API BufferType getBufferType(BaseBuffer::Type type);
+			ECE_RENDERER_API BaseBuffer::Type getBufferType(BufferType type);
 
 			ECE_RENDERER_API std::string to_string(BufferType type);
 		} // namespace opengl

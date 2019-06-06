@@ -64,6 +64,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API ShaderType getShaderType(ShaderStage::Type type);
+			ECE_RENDERER_API ShaderStage::Type getShaderType(ShaderType type);
 
 			ECE_RENDERER_API std::string to_string(ShaderType type);
 		} // namespace opengl

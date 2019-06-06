@@ -35,17 +35,83 @@
 
 */
 
-#ifndef GUI_IMGUI_HPP
-#define GUI_IMGUI_HPP
+#ifndef IMGUI_FONT_HPP
+#define IMGUI_FONT_HPP
 
-#include "gui/imgui/adapter.hpp"
-#include "gui/imgui/font.hpp"
-#include "gui/imgui/renderer_adapter.hpp"
-#include "gui/imgui/window_adapter.hpp"
+#include "gui/pch.hpp"
+#include "gui/config.hpp"
+#include "core/resource.hpp"
+#include "renderer/image.hpp"
 
 namespace ece
 {
-	using namespace gui::imgui;
-}
+	namespace gui
+	{
+		namespace imgui
+		{
+			/**
+			 * @class Font
+			 * @brief
+			 */
+			class Font
+			{
+			public:
+				/**
+				 * @fn constexpr Font() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr Font() noexcept = default;
 
-#endif // GUI_IMGUI_HPP
+				/**
+				 * @fn Font(const Font & copy) noexcept
+				 * @param[in] copy The Font to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Font(const Font & copy) noexcept = default;
+
+				/**
+				 * @fn Font(Font && move) noexcept
+				 * @param[in] move The Font to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Font(Font && move) noexcept = default;
+
+				/**
+				 * @fn ~Font() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Font() noexcept = default;
+
+				/**
+				 * @fn Font & operator=(const Font & copy) noexcept
+				 * @param[in] copy The Font to copy from.
+				 * @return The Font copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Font & operator=(const Font & copy) noexcept = default;
+
+				/**
+				 * @fn Font & operator=(Font && move) noexcept
+				 * @param[in] move The Font to move.
+				 * @return The Font moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Font & operator=(Font && move) noexcept = default;
+
+				void load();
+				void terminate();
+
+			private:
+				ece::ResourceHandler<ece::Texture2D> _fontTexture;
+			};
+		} // namespace imgui
+	} // namespace gui
+} // namespace ece
+
+#endif // IMGUI_FONT_HPP

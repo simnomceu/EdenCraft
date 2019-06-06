@@ -55,6 +55,16 @@ namespace ece
 				}
 			}
 
+			RenderState::CullFaceMode getCullFaceMode(CullFaceMode mode)
+			{
+				switch (mode) {
+				case CullFaceMode::BACK: return RenderState::CullFaceMode::BACK; break;
+				case CullFaceMode::FRONT: return RenderState::CullFaceMode::FRONT; break;
+				case CullFaceMode::FRONT_AND_BACK: return RenderState::CullFaceMode::FRONT_AND_BACK; break;
+				default: throw std::runtime_error("Unknown value for RenderState::CullFaceMode enumeration."); break;
+				}
+			}
+
 			std::string to_string(CullFaceMode mode)
 			{
 				switch (mode) {

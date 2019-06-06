@@ -77,7 +77,7 @@ namespace ece
 
 				this->onPreTerminate();
 				this->terminate();
-				this->onPreTerminate();
+				this->onPostTerminate();
 			}
 
 			void WindowedApplication::processEvents()
