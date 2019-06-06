@@ -146,7 +146,7 @@ namespace ece
 			void WindowAdapter::render()
 			{
 				auto size = this->_window->getSize();
-				glViewport(0, 0, size[0], size[1]);
+				OpenGL::viewport(0, 0, size[0], size[1]);
 			}
 		} // namespace imgui
 	} // namespace gui

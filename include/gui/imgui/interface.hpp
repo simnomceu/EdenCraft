@@ -35,15 +35,12 @@
 
 */
 
-#ifndef IMGUI_RENDERER_ADAPTER_HPP
-#define IMGUI_RENDERER_ADAPTER_HPP
+#ifndef IMGUI_INTERFACE_HPP
+#define IMGUI_INTERFACE_HPP
 
 #include "gui/pch.hpp"
 #include "gui/config.hpp"
-#include "gui/imgui/font.hpp"
 #include "graphic/renderable.hpp"
-
-struct ImDrawData;
 
 namespace ece
 {
@@ -52,86 +49,73 @@ namespace ece
 		namespace imgui
 		{
 			/**
-			 * @class RendererAdapter
+			 * @class Interface
 			 * @brief
 			 */
-			class ECE_GUI_API RendererAdapter: public Renderable
+			class Interface: public Renderable
 			{
 			public:
 				/**
-				 * @fn RendererAdapter() noexcept
+				 * @fn constexpr Interface() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				RendererAdapter() noexcept = default;
+				Interface() noexcept;
 
 				/**
-				 * @fn RendererAdapter(const RendererAdapter & copy) noexcept
-				 * @param[in] copy The RendererAdapter to copy from.
+				 * @fn Interface(const Interface & copy) noexcept
+				 * @param[in] copy The Interface to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				RendererAdapter(const RendererAdapter & copy) noexcept = default;
+				Interface(const Interface & copy) noexcept = default;
 
 				/**
-				 * @fn RendererAdapter(RendererAdapter && move) noexcept
-				 * @param[in] move The RendererAdapter to move.
+				 * @fn Interface(Interface && move) noexcept
+				 * @param[in] move The Interface to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				RendererAdapter(RendererAdapter && move) noexcept = default;
+				Interface(Interface && move) noexcept = default;
 
 				/**
-				 * @fn ~RendererAdapter() noexcept
+				 * @fn ~Interface() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~RendererAdapter() noexcept = default;
+				~Interface() noexcept;
 
 				/**
-				 * @fn RendererAdapter & operator=(const RendererAdapter & copy) noexcept
-				 * @param[in] copy The RendererAdapter to copy from.
-				 * @return The RendererAdapter copied.
+				 * @fn Interface & operator=(const Interface & copy) noexcept
+				 * @param[in] copy The Interface to copy from.
+				 * @return The Interface copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				RendererAdapter & operator=(const RendererAdapter & copy) noexcept = default;
+				Interface & operator=(const Interface & copy) noexcept = default;
 
 				/**
-				 * @fn RendererAdapter & operator=(RendererAdapter && move) noexcept
-				 * @param[in] move The RendererAdapter to move.
-				 * @return The RendererAdapter moved.
+				 * @fn Interface & operator=(Interface && move) noexcept
+				 * @param[in] move The Interface to move.
+				 * @return The Interface moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				RendererAdapter & operator=(RendererAdapter && move) noexcept = default;
+				Interface & operator=(Interface && move) noexcept = default;
 
-				void init();
-				void newFrame();
-				void shutdown();
-				void render();
-
-				void renderDrawLists();
-				void setupRenderState(ImDrawData * draw_data);
-				bool createDeviceObjects();
-				void destroyDeviceObjects();
-
+				virtual void prepare() override;
 				virtual void draw(std::shared_ptr<Shader> program) override;
+				void update();
 
 			private:
-				bool _initialized;
+//				VertexBuffer<SymetricStorage, std::vector<ImDrawVert>> _vbo;
+//				IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> _ibo;
 
-				unsigned int _vbo;
-				unsigned int _ibo;
-
-				ece::ResourceHandler<ece::EnhancedShader> _program;
-				Font _font;
-
-				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;
-				IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> _faces;
+				IntVector2u _displaySize;
+				FloatMatrix4u _projection;
 			};
 		} // namespace imgui
 	} // namespace gui
 } // namespace ece
 
-#endif // IMGUI_RENDERER_ADAPTER_HPP
+#endif // IMGUI_INTERFACE_HPP
