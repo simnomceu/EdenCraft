@@ -62,6 +62,7 @@ namespace ece
 
             void Object::prepare()
             {
+				this->_vertexArray.reset();
 				this->_mesh->update();
 				this->_vertexArray.attach(this->_mesh->getVertexBuffer(), this->_mesh->getLayout());
 
@@ -100,7 +101,7 @@ namespace ece
 							OpenGL::drawElementsInstanced<unsigned int>(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0, static_cast<ece::size_t>(this->_instances.size()));
 						}
 						else {
-							OpenGL::drawElements<unsigned int>(this->_mode, static_cast<ece::size_t>(this->_mesh->size()), 0);
+							OpenGL::drawElements<unsigned int>(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0);
 						}
 					}
 					else {

@@ -164,10 +164,16 @@ namespace ece
 
 						auto faceSize = line.count(' ');
 						face.resize(faceSize);
+						auto textured = line.str().find("//") == std::string::npos;
 
 						for (unsigned int i = 0; i < faceSize; ++i) {
 							vertex = { 0, 0, 0 };
-							line.scan("%d/%d/%d", &vertex._v, &vertex._vt, &vertex._vn);
+							if (textured) {
+								line.scan("%d/%d/%d", &vertex._v, &vertex._vt, &vertex._vn);
+							}
+							else {
+								line.scan("%d//%d", &vertex._v, &vertex._vn);
+							}
 							face[i] = std::move(vertex);
 						}
 
