@@ -172,6 +172,8 @@ namespace ece
                  */
                 inline auto getProjection() const -> const Projection &;
                 inline auto getProjection() -> Projection &;
+
+				inline auto getPosition() const -> const FloatVector3u &;
 			private:
 				/**
 				 * @fn void updatePosition(const FloatVector3u & position, const FloatVector3u & target)

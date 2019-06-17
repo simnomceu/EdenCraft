@@ -63,6 +63,8 @@ namespace ece
             inline auto Camera::getProjection() const -> const Projection & { return this->_projection; }
 
             inline auto Camera::getProjection() -> Projection & { return this->_projection; }
+
+			inline auto Camera::getPosition() const -> const FloatVector3u & { return this->_position; }
 		} // namespace scene
 	} // namespace camera
 } // namespace ece
