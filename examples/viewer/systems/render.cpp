@@ -57,7 +57,7 @@ RenderSystem::RenderSystem(ece::World & world, std::weak_ptr<ece::Window> window
 	states.apply(true);
 
 	{
-		auto light = ece::makeSpotLight(0.7f, 0.6f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.14f, 0.07f, 10.0f, 15.0f);
+		auto light = ece::makeSpotLight(0.7f, 0.6f, 1.0f, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 3.0f }, { 0.0f, 0.0f, -1.0f }, 1.0f, 0.07f, 0.017f, 50.0f, 100.0f);
 		this->_scene.addLight(light);
 	}
 

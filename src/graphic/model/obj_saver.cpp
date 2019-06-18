@@ -52,7 +52,7 @@ namespace ece
 		{
 			void OBJSaver::saveToFile(const std::filesystem::path & filename)
 			{
-				auto file = std::ofstream(filename, std::ios::in);
+				auto file = std::ofstream(filename, std::ios::out | std::ios::trunc);
 				if (!file.is_open()) {
 					throw FileException(FileCodeError::BAD_PATH, filename);
 				}

@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
 
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
+		ece::ServiceFormatLocator::getService().registerSaver<ece::OBJSaver>("obj");
 
         auto & world = app.addWorld();
         auto renderSystem = world.addSystem<RenderSystem>(window);
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])
 		}));
 
  		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & window) {
+		eventHandler.onKeyPressed.connect([&camera, &scene, &model](const ece::InputEvent & event, ece::Window & window) {
 			if (event.key == ece::Keyboard::Key::ESCAPE) {
 				window.close();
 			}
@@ -89,6 +90,9 @@ int main(int argc, char *argv[])
 			else if (event.key == ece::Keyboard::Key::DOWN) {
 				camera.moveIn({ 0.0f, 0.0f, 1.0f });
 				scene.updateCamera();
+			}
+			else if (event.key == ece::Keyboard::Key::S && ece::Keyboard::isKeyPressed(ece::Keyboard::Key::CTRL)) {
+				model.save();
 			}
 		});
 		eventHandler.onMouseWheelScrolled.connect([&camera, &scene](const ece::InputEvent & event, ece::Window & /*window*/) {

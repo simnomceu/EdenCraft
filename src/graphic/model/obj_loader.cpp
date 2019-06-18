@@ -103,7 +103,7 @@ namespace ece
 
 					auto parserMaterial = ParserMTL();
 					parserMaterial.load(materialFile);
-					auto material = parserMaterial.getMaterials()[0];
+					auto material = parserMaterial.getMaterials()[n];
 
 					auto materialResource = makeResource<Material>(material.name);
 					auto materialVisitor = PhongMaterial();

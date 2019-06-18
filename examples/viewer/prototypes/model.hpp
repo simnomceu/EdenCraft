@@ -97,8 +97,11 @@ public:
 
 	void update();
 
+	void save();
+
 private:
 	ece::EntityHandler _handle;
+	std::string _path;
 };
 
 #endif // MODEL_HPP

@@ -41,13 +41,13 @@
 #include "graphic/model.hpp"
 #include "graphic/material.hpp"
 
-Model::Model(ece::World & world): _handle(world.createEntity())
+Model::Model(ece::World & world): _handle(world.createEntity()), _path("../../examples/more_cube/assets/cube.obj")
 {
 	auto renderable = ece::makeResource<ece::Object>("model");
 
 	{
-		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/assets/cube.obj");
-		loader->loadFromFile("../../examples/more_cube/assets/cube.obj");
+		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>(this->_path);
+		loader->loadFromFile(this->_path);
 		renderable->setMesh(loader->getMeshes()[0]);
 	}
 
@@ -58,11 +58,12 @@ Model::Model(ece::World & world): _handle(world.createEntity())
 
 void Model::loadFrom(const std::string & path)
 {
+	this->_path = path;
 	auto renderable = ece::getResource<ece::Object>("model");
 
 	{
-		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>(path);
-		loader->loadFromFile(path);
+		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>(this->_path);
+		loader->loadFromFile(this->_path);
 		renderable->setMesh(loader->getMeshes()[0]);
 	}
 
@@ -73,4 +74,17 @@ void Model::update()
 {
 	auto renderable = this->_handle.getComponent<GraphicComponent>().getRenderable();
 	renderable->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+}
+
+void Model::save()
+{
+	auto path = std::filesystem::path(this->_path);
+	auto filename = path.stem().string();
+	auto filepath = std::filesystem::current_path().string();
+	auto extension = path.extension().string();
+	auto newPath = filepath + "\\" + filename + "_ec" + extension;
+
+	auto saver = ece::ServiceFormatLocator::getService().getSaver<ece::OBJSaver>(this->_path);
+	saver->setMesh(ece::getResource<ece::Object>("model")->getMesh());
+	saver->saveToFile(newPath);
 }
