@@ -73,6 +73,11 @@ namespace ece
             if (!(EXPRESSION)) { \
                 throw AssertionException(#EXPRESSION, __FILE__, __LINE__, MESSAGE); \
             }
+
+#		define assert(EXPRESSION, MESSAGE) \
+			if (!(EXPRESSION)) { \
+				std::cerr << "Assertion `" << #EXPRESSION << "`` at " << __FILE__ << ":" << __LINE__ << " failed: \"" << MESSAGE << "\"\n"; \
+			}
         } // namespace debug
     } // namespace utility
 } // namespace ece
