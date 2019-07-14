@@ -36,6 +36,8 @@
 
 */
 
+#include "utility/debug.hpp"
+
 namespace ece
 {
 	namespace core
@@ -55,27 +57,27 @@ namespace ece
 			}
 
 			template <class T>
-			inline auto FormatManager::getLoader(const std::string & filename)
+			auto FormatManager::getLoader(const std::string & filename)
 			{
 				auto extension = filename.substr(filename.find_last_of('.') + 1);
 				if (extension.empty()) {
 					extension = filename;
 				}
 
-				assert(std::dynamic_pointer_cast<T>(this->_loaders[extension]));
+				assert(std::dynamic_pointer_cast<T>(this->_loaders[extension]), "There is no loader available for this format.");
 
 				return std::static_pointer_cast<T>(this->_loaders[extension]);
 			}
 
 			template <class T>
-			inline auto FormatManager::getSaver(const std::string & filename)
+			auto FormatManager::getSaver(const std::string & filename)
 			{
 				auto extension = filename.substr(filename.find_last_of('.') + 1);
 				if (extension.empty()) {
 					extension = filename;
 				}
 
-				assert(std::dynamic_pointer_cast<T>(this->_savers[extension]));
+				assert(std::dynamic_pointer_cast<T>(this->_savers[extension]), "There is no saver available for this format.");
 
 				return std::static_pointer_cast<T>(this->_savers[extension]);
 			}

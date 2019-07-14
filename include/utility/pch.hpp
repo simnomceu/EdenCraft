@@ -52,6 +52,7 @@
 #include <cctype>
 #include <cstddef>
 #include <cassert>
+#undef assert
 #include <stdexcept>
 #include <type_traits>
 #include <variant>

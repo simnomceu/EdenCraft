@@ -50,21 +50,18 @@ namespace ece
 		namespace type
 		{
 			template <class T>
-			struct Borned
+			struct ECE_UTILITY_API Borned
 			{
 				T value;
 				const T lowerBound;
 				const T upperBound;
 
-				Borned & operator=(T value)
-				{
-					assert(value >= lowerBound && value <= upperBound, "This value does not respect the boundaries.");
-					this->value = value;
-					return *this;
-				}
+				Borned<T> & operator=(T value);
 			};
 		} // namespace type
 	} // namespace utility
 } // namespace ece
+
+#include "utility/type/borned.inl"
 
 #endif // BORNED_HPP

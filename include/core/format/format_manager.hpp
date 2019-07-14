@@ -111,10 +111,10 @@ namespace ece
 				void registerSaver(const std::string & extension);
 
 				template <class T>
-				inline auto getLoader(const std::string & filename);
+				auto getLoader(const std::string & filename);
 
 				template <class T>
-				inline auto getSaver(const std::string & filename);
+				auto getSaver(const std::string & filename);
 
 				inline auto hasLoaderFor(const std::string & extension) const;
 				inline auto hasSaverFor(const std::string & extension) const;

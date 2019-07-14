@@ -194,9 +194,9 @@ namespace ece
 					auto it = begin;
 					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
-							result.push_back(convertBitCount(bitMask(*it, mask.r), 8, redBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), 8, redBitcount)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount)));
 							++it;
 						}
 					}
@@ -226,10 +226,10 @@ namespace ece
 					auto it = begin;
 					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
-							result.push_back(convertBitCount(bitMask(*it, mask.r), 8, redBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount));
-							result.push_back(convertBitCount(bitMask(*it, mask.a), 8, alphaBitcount));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), 8, redBitcount)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.a), 8, alphaBitcount)));
 							++it;
 						}
 					}
@@ -344,9 +344,9 @@ namespace ece
 					auto it = begin;
 					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
-							result.push_back(convertBitCount(bitMask(*it, mask.r), redBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));
 							++it;
 						}
 					}
@@ -376,10 +376,10 @@ namespace ece
 					auto it = begin;
 					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
-							result.push_back(convertBitCount(bitMask(*it, mask.r), redBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8));
-							result.push_back(convertBitCount(bitMask(*it, mask.a), alphaBitcount, 8));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));
+							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.a), alphaBitcount, 8)));
 							++it;
 						}
 					}

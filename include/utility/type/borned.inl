@@ -36,50 +36,19 @@
 
 */
 
-#ifndef ASSERTION_HPP
-#define ASSERTION_HPP
-
-#include "utility/config.hpp"
-#include "utility/pch.hpp"
-#include "utility/debug/exception.hpp"
-
 namespace ece
 {
-    namespace utility
-    {
-        namespace debug
-        {
-            /**
-             * @class AssertionException
-             * @extends Exception
-             * @brief An exception risen on assertion failure.
-             * @see Exception
-             */
-            class ECE_UTILITY_API AssertionException : public Exception
-            {
-        	public:
-                /**
-                 * @fn AssertionException(const std::string & expression, const std::string file, const int line, const std::string & message)
-                 * @param[in] expression The expression of the assertion that failed.
-                 * @param[in] file The source file of the assertion.
-                 * @param[in] line The line of the assertion in the file.
-                 * @param[in] message A description message of the failure.
-                 * @brief An exception used on assertion failure.
-                  @throw
-                 */
-                AssertionException(const std::string & expression, const std::string file, const int line, const std::string & message);
-        	};
-
-#		define make_assert(EXPRESSION, MESSAGE) \
-            if (!(EXPRESSION)) { \
-                throw AssertionException(#EXPRESSION, __FILE__, __LINE__, MESSAGE); \
-            }
-
-#		define assert(EXPRESSION, MESSAGE) \
-			if (!(EXPRESSION)) { \
-				std::cerr << "Assertion `" << #EXPRESSION << "`` at " << __FILE__ << ":" << __LINE__ << " failed: \"" << MESSAGE << "\"\n"; \
+	namespace utility
+	{
+		namespace type
+		{
+			template <class T>
+			Borned<T> & Borned<T>::operator=(T value)
+			{
+				assert(value >= lowerBound && value <= upperBound, "This value does not respect the boundaries.");
+				this->value = value;
+				return *this;
 			}
-        } // namespace debug
-    } // namespace utility
+		} // namespace type
+	} // namespace utility
 } // namespace ece
-#endif // ASSERTION_HPP

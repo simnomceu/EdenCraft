@@ -46,6 +46,7 @@
 #include "utility/formats/bitmap/bitmap_v3_info_header.hpp"
 #include "utility/formats/bitmap/bitmap_v4_header.hpp"
 #include "utility/formats/bitmap/bitmap_v5_header.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
@@ -70,7 +71,7 @@ namespace ece
 					case DIBHeaderType::BITMAPCOREHEADER:
 					{
 						auto proxyBitmapCoreHeader = reinterpret_cast<BitmapCoreHeader *>(proxy.data());
-						assert(headerSize == proxyBitmapCoreHeader->size);
+						assert(headerSize == proxyBitmapCoreHeader->size, "The size of the header is not correct.");
 						header.width = proxyBitmapCoreHeader->width;
 						header.height = proxyBitmapCoreHeader->height;
 						header.planes = proxyBitmapCoreHeader->planes;
@@ -80,7 +81,7 @@ namespace ece
 					case DIBHeaderType::OS21XBITMAPHEADER:
 					{
 						auto proxyOS21XBitmapHeader = reinterpret_cast<OS21XBitmapHeader *>(proxy.data());
-						assert(headerSize == proxyOS21XBitmapHeader->size);
+						assert(headerSize == proxyOS21XBitmapHeader->size, "The size of the header is not correct.");
 						header.width = proxyOS21XBitmapHeader->width;
 						header.height = proxyOS21XBitmapHeader->height;
 						header.planes = proxyOS21XBitmapHeader->planes;
@@ -90,7 +91,7 @@ namespace ece
 					case DIBHeaderType::OS22XBITMAPHEADER:
 					{
 						auto proxyOS22XBitmapHeader = reinterpret_cast<OS22XBitmapHeader *>(proxy.data());
-						assert(headerSize == proxyOS22XBitmapHeader->size || proxyOS22XBitmapHeader->size == 16);
+						assert(headerSize == proxyOS22XBitmapHeader->size || proxyOS22XBitmapHeader->size == 16, "The size of the header is not correct.");
 						header.width = proxyOS22XBitmapHeader->width;
 						header.height = proxyOS22XBitmapHeader->height;
 						header.planes = proxyOS22XBitmapHeader->planes;
@@ -103,11 +104,11 @@ namespace ece
 							header.yResolution = proxyOS22XBitmapHeader->yResolution * proxyOS22XBitmapHeader->resolutionUnit;
 							header.nbColorsUsed = proxyOS22XBitmapHeader->numberOfColorsUsed;
 							header.nbImportantColors = proxyOS22XBitmapHeader->numberOfImportantColors;
-							assert(proxyOS22XBitmapHeader->recordingAlgorithm == 0);
+							assert(proxyOS22XBitmapHeader->recordingAlgorithm == 0, "Bad value for the recording algorithm.");
 							header.halftoning.algorithm = static_cast<DIBHeader::Halftoning::Algorithm>(proxyOS22XBitmapHeader->halftoningAlgorithm);
 							header.halftoning.size1 = proxyOS22XBitmapHeader->halftoningSize1;
 							header.halftoning.size2 = proxyOS22XBitmapHeader->halftoningSize2;
-							assert(proxyOS22XBitmapHeader->colorEncoding == 0);
+							assert(proxyOS22XBitmapHeader->colorEncoding == 0, "Bad value for the color encoding.");
 							// proxyOS22XBitmapHeader->identifier
 						}
 						break;
@@ -115,7 +116,7 @@ namespace ece
 					case DIBHeaderType::BITMAPINFOHEADER:
 					{
 						auto proxyBitmapInfoHeader = reinterpret_cast<BitmapInfoHeader *>(proxy.data());
-						assert(headerSize == proxyBitmapInfoHeader->size);
+						assert(headerSize == proxyBitmapInfoHeader->size, "The size of the header is not correct.");
 						header.width = proxyBitmapInfoHeader->width;
 						header.height = proxyBitmapInfoHeader->height;
 						header.planes = proxyBitmapInfoHeader->planes;
@@ -131,7 +132,7 @@ namespace ece
 					case DIBHeaderType::BITMAPV2INFOHEADER:
 					{
 						auto proxyBitmapV2InfoHeader = reinterpret_cast<BitmapV2InfoHeader *>(proxy.data());
-						assert(headerSize == proxyBitmapV2InfoHeader->size);
+						assert(headerSize == proxyBitmapV2InfoHeader->size, "The size of the header is not correct.");
 						header.width = proxyBitmapV2InfoHeader->width;
 						header.height = proxyBitmapV2InfoHeader->height;
 						header.planes = proxyBitmapV2InfoHeader->planes;
@@ -150,7 +151,7 @@ namespace ece
 					case DIBHeaderType::BITMAPV3INFOHEADER:
 					{
 						auto proxyBitmapV3InfoHeader = reinterpret_cast<BitmapV3InfoHeader *>(proxy.data());
-						assert(headerSize == proxyBitmapV3InfoHeader->size);
+						assert(headerSize == proxyBitmapV3InfoHeader->size, "The size of the header is not correct.");
 						header.width = proxyBitmapV3InfoHeader->width;
 						header.height = proxyBitmapV3InfoHeader->height;
 						header.planes = proxyBitmapV3InfoHeader->planes;
@@ -169,7 +170,7 @@ namespace ece
 					case DIBHeaderType::BITMAPV4HEADER:
 					{
 						auto proxyBitmapV4Header = reinterpret_cast<BitmapV4Header *>(proxy.data());
-						assert(headerSize == proxyBitmapV4Header->size);
+						assert(headerSize == proxyBitmapV4Header->size, "The size of the header is not correct.");
 						header.width = proxyBitmapV4Header->width;
 						header.height = proxyBitmapV4Header->height;
 						header.planes = proxyBitmapV4Header->planes;
@@ -195,7 +196,7 @@ namespace ece
 					case DIBHeaderType::BITMAPV5HEADER:
 					{
 						auto proxyBitmapV5Header = reinterpret_cast<BitmapV5Header *>(proxy.data());
-						assert(headerSize == proxyBitmapV5Header->size);
+						assert(headerSize == proxyBitmapV5Header->size, "The size of the header is not correct.");
 						header.width = proxyBitmapV5Header->width;
 						header.height = proxyBitmapV5Header->height;
 						header.planes = proxyBitmapV5Header->planes;
@@ -221,7 +222,7 @@ namespace ece
 							header.profile.data = proxyBitmapV5Header->profileData;
 							header.profile.size = proxyBitmapV5Header->profileSize;
 						}
-						assert(proxyBitmapV5Header->reserved == 0);
+						assert(proxyBitmapV5Header->reserved == 0, "The value of the reserved bits is incorrect.");
 						break;
 					}
 					default: throw std::runtime_error("This Bitmap DIB header is not recognized."); break;
