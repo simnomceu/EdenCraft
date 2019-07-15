@@ -43,10 +43,81 @@ namespace ece
 		namespace type
 		{
 			template <class T>
-			Borned<T> & Borned<T>::operator=(T value)
+			inline Borned<T>::Borned(T value, T lower, T upper) : value(value), lowerBound(lower), upperBound(upper)
 			{
-				assert(value >= lowerBound && value <= upperBound, "This value does not respect the boundaries.");
-				this->value = value;
+			}
+
+			template <class T>
+			inline Borned<T>::Borned(const Borned<T> & copy) : value(copy.value), lowerBound(copy.lowerBound), upperBound(copy.upperBound)
+			{
+			}
+
+			template <class T>
+			inline Borned<T>::Borned(Borned<T> && move) : value(std::move(move.value)), lowerBound(std::move(move.lowerBound)), upperBound(std::move(move.upperBound))
+			{
+			}
+
+			template <class T>
+			inline Borned<T> & Borned<T>::operator=(const Borned<T> & copy)
+			{
+				this->value = copy.value;
+				return *this;
+			}
+
+			template <class T>
+			inline Borned<T> & Borned<T>::operator=(Borned<T> && move)
+			{
+				this->value = std::move(move.value);
+				return *this;
+			}
+
+			template <class T>
+			inline Borned<T> & Borned<T>::operator=(T v)
+			{
+				assert(v >= lowerBound && v <= upperBound, "This value does not respect the boundaries.");
+				this->value = v;
+				return *this;
+			}
+
+			template <class T>
+			inline Borned<T>::operator T &()
+			{
+				return this->value;
+			}
+
+			template <class T>
+			inline Borned<T>::operator const T &() const
+			{
+				return this->value;
+			}
+
+			inline Percentage::Percentage(const Percentage & copy) : Borned<float>(copy)
+			{
+			}
+
+			inline Percentage::Percentage(Percentage && move) : Borned<float>(move)
+			{
+			}
+
+			inline Percentage::Percentage() : Borned<float>{ 0.0f, 0.0f, 1.0f }
+			{
+			}
+
+			inline Percentage & Percentage::operator=(const Percentage & copy)
+			{
+				this->value = copy.value;
+				return *this;
+			}
+
+			inline Percentage & Percentage::operator=(Percentage && move)
+			{
+				this->value = std::move(move.value);
+				return *this;
+			}
+
+			inline Percentage & Percentage::operator=(float v)
+			{
+				Borned<float>::operator=(v);
 				return *this;
 			}
 		} // namespace type

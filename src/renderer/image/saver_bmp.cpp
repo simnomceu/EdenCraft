@@ -79,9 +79,9 @@ namespace ece
 				auto buffer = image.data();
 
 				for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
-					buffer[i][0] = this->_image.data()[i].red;
-					buffer[i][1] = this->_image.data()[i].green;
-					buffer[i][2] = this->_image.data()[i].blue;
+					buffer[i][0] = this->_image.data()[i].r;
+					buffer[i][1] = this->_image.data()[i].g;
+					buffer[i][2] = this->_image.data()[i].b;
 				}
 
 				parser.save(stream);

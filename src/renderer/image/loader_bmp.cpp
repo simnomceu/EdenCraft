@@ -80,10 +80,10 @@ namespace ece
 
 				this->_image.resize(image.getWidth(), image.getHeight());
 				for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
-					this->_image.data()[i].red = buffer[i][0];
-					this->_image.data()[i].green = buffer[i][1];
-					this->_image.data()[i].blue = buffer[i][2];
-					this->_image.data()[i].alpha = std::byte{ 255 };
+					this->_image.data()[i].r = buffer[i][0];
+					this->_image.data()[i].g = buffer[i][1];
+					this->_image.data()[i].b = buffer[i][2];
+					this->_image.data()[i].a = 255;
 				}
 			}
 		} // namespace image

@@ -56,7 +56,27 @@ namespace ece
 				const T lowerBound;
 				const T upperBound;
 
-				Borned<T> & operator=(T value);
+				inline Borned(T value, T lower, T upper);
+				inline Borned(const Borned<T> & copy);
+				inline Borned(Borned<T> && move);
+
+				inline Borned<T> & operator=(const Borned<T> & copy);
+				inline Borned<T> & operator=(Borned<T> && move);
+				inline Borned<T> & operator=(T v);
+
+				inline operator T &();
+				inline operator const T &() const;
+			};
+
+			struct ECE_UTILITY_API Percentage : public Borned<float>
+			{
+				inline Percentage(const Percentage & copy);
+				inline Percentage(Percentage && move);
+				inline Percentage();
+
+				inline Percentage & operator=(const Percentage & copy);
+				inline Percentage & operator=(Percentage && move);
+				inline Percentage & operator=(float v);
 			};
 		} // namespace type
 	} // namespace utility

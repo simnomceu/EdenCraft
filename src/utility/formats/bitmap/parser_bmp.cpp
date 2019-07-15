@@ -87,9 +87,9 @@ namespace ece
 						for (auto x = ece::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {
 							bufPos = (static_cast<long>(DIB.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
 
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = static_cast<std::byte>(uncompressBuffer[bufPos + 2]); // red
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = static_cast<std::byte>(uncompressBuffer[bufPos + 1]); // green
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = static_cast<std::byte>(uncompressBuffer[bufPos]); // blue
+							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = static_cast<std::uint8_t>(uncompressBuffer[bufPos + 2]); // red
+							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = static_cast<std::uint8_t>(uncompressBuffer[bufPos + 1]); // green
+							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = static_cast<std::uint8_t>(uncompressBuffer[bufPos]); // blue
 						}
 					}
 				}

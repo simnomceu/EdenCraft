@@ -42,7 +42,7 @@
 #include "renderer/config.hpp"
 #include "utility/file_system.hpp"
 #include "renderer/image/image.hpp"
-#include "renderer/image/pixel_format.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {

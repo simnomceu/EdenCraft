@@ -138,7 +138,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				virtual auto getData() const -> const std::vector<std::byte> & = 0;
+				virtual auto getData() const -> const std::vector<std::uint8_t> & = 0;
 
 				/**
 				 * @fn std::size_t getWidth() const

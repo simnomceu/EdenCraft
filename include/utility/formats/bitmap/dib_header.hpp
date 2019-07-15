@@ -47,7 +47,7 @@
 #include "utility/pch.hpp"
 #include "utility/formats/bitmap/dib_header_type.hpp"
 #include "utility/formats/bitmap/compression_method.hpp"
-#include "utility/formats/bitmap/color_format.hpp"
+#include "utility/types.hpp"
 #include "utility/mathematics.hpp"
 
 namespace ece
@@ -136,9 +136,9 @@ namespace ece
 					std::size_t nbColorsUsed;
 					std::size_t nbImportantColors;
 					Halftoning halftoning;
-					std::variant<RGB<std::size_t>, RGBA<std::size_t>> mask;
+					std::variant<RGB24, RGBA32> mask;
 					ColorSpace colorSpace;
-					RGB<std::size_t> gamma;
+					RGB24 gamma;
 					IntentMapping intent;
 					Profile profile;
 				};

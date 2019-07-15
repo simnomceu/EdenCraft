@@ -185,7 +185,7 @@ namespace ece
 
 				std::vector<char> compressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
-					auto mask = std::get<RGB<std::size_t>>(header.mask);
+					auto mask = std::get<RGB24>(header.mask);
 					auto redBitcount = bitcount(mask.r);
 					auto greenBitcount = bitcount(mask.g);
 					auto blueBitcount = bitcount(mask.b);
@@ -216,7 +216,7 @@ namespace ece
 
 				std::vector<char> compressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
-					auto mask = std::get<RGBA<std::size_t>>(header.mask);
+					auto mask = std::get<RGBA32>(header.mask);
 					auto redBitcount = bitcount(mask.r);
 					auto greenBitcount = bitcount(mask.g);
 					auto blueBitcount = bitcount(mask.b);
@@ -335,7 +335,7 @@ namespace ece
 
 				std::vector<char> decompressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
-					auto mask = std::get<RGB<std::size_t>>(header.mask);
+					auto mask = std::get<RGB24>(header.mask);
 					auto redBitcount = bitcount(mask.r);
 					auto greenBitcount = bitcount(mask.g);
 					auto blueBitcount = bitcount(mask.b);
@@ -366,7 +366,7 @@ namespace ece
 
 				std::vector<char> decompressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
 				{
-					auto mask = std::get<RGBA<std::size_t>>(header.mask);
+					auto mask = std::get<RGBA32>(header.mask);
 					auto redBitcount = bitcount(mask.r);
 					auto greenBitcount = bitcount(mask.g);
 					auto blueBitcount = bitcount(mask.b);

@@ -110,10 +110,10 @@ namespace ece
 
 				auto buffer = image.data();
 				for (auto i = std::size_t{ 0 }; i < image.getHeight() * image.getWidth(); ++i) {
-					this->_data.push_back(buffer[i].red); // red
-					this->_data.push_back(buffer[i].green); // green
-					this->_data.push_back(buffer[i].blue); // blue
-					this->_data.push_back(buffer[i].alpha); // alpha
+					this->_data.push_back(buffer[i].r); // red
+					this->_data.push_back(buffer[i].g); // green
+					this->_data.push_back(buffer[i].b); // blue
+					this->_data.push_back(buffer[i].a); // alpha
 				}
 
 				this->_width = image.getWidth();
