@@ -1010,9 +1010,6 @@ namespace ece
 				}
 
 				result.hue *= 60;
-				if (result.hue < 0) {
-					result.hue += 360;
-				}
 
 				result.light = (min + max) / 2;
 				if (min != max) {
