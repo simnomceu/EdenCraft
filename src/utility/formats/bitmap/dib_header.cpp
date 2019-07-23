@@ -47,6 +47,7 @@
 #include "utility/formats/bitmap/bitmap_v4_header.hpp"
 #include "utility/formats/bitmap/bitmap_v5_header.hpp"
 #include "utility/debug.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -78,6 +79,27 @@ namespace ece
 						header.bitCount = proxyBitmapCoreHeader->bitCount;
 						break;
 					}
+					case DIBHeaderType::BITMAPINFOHEADER:
+					{
+						auto proxyBitmapInfoHeader = reinterpret_cast<BitmapInfoHeader *>(proxy.data());
+						assert(headerSize == proxyBitmapInfoHeader->size, "The size of the header is not correct.");
+						header.width = proxyBitmapInfoHeader->width;
+						header.height = proxyBitmapInfoHeader->height;
+						header.planes = proxyBitmapInfoHeader->planes;
+						header.bitCount = proxyBitmapInfoHeader->bitCount;
+						header.compression = static_cast<CompressionMethod>(proxyBitmapInfoHeader->compression);
+						if ((header.compression == CompressionMethod::BITFIELDS && header.bitCount == 1) || (header.compression == CompressionMethod::JPEG && header.bitCount == 24)) {
+							header.type = DIBHeaderType::OS22XBITMAPHEADER;
+						}
+						else {
+							header.imageSize = proxyBitmapInfoHeader->imageSize;
+							header.xResolution = proxyBitmapInfoHeader->xResolution;
+							header.yResolution = proxyBitmapInfoHeader->yResolution;
+							header.nbColorsUsed = proxyBitmapInfoHeader->numberOfColorsUsed;
+							header.nbImportantColors = proxyBitmapInfoHeader->numberOfImportantColors;
+							break;
+						}
+					}
 					case DIBHeaderType::OS21XBITMAPHEADER:
 					{
 						auto proxyOS21XBitmapHeader = reinterpret_cast<OS21XBitmapHeader *>(proxy.data());
@@ -91,7 +113,7 @@ namespace ece
 					case DIBHeaderType::OS22XBITMAPHEADER:
 					{
 						auto proxyOS22XBitmapHeader = reinterpret_cast<OS22XBitmapHeader *>(proxy.data());
-						assert(headerSize == proxyOS22XBitmapHeader->size || proxyOS22XBitmapHeader->size == 16, "The size of the header is not correct.");
+						assert(headerSize == proxyOS22XBitmapHeader->size || (proxyOS22XBitmapHeader->size >= 16 && proxyOS22XBitmapHeader->size <= 64), "The size of the header is not correct.");
 						header.width = proxyOS22XBitmapHeader->width;
 						header.height = proxyOS22XBitmapHeader->height;
 						header.planes = proxyOS22XBitmapHeader->planes;
@@ -111,22 +133,6 @@ namespace ece
 							assert(proxyOS22XBitmapHeader->colorEncoding == 0, "Bad value for the color encoding.");
 							// proxyOS22XBitmapHeader->identifier
 						}
-						break;
-					}
-					case DIBHeaderType::BITMAPINFOHEADER:
-					{
-						auto proxyBitmapInfoHeader = reinterpret_cast<BitmapInfoHeader *>(proxy.data());
-						assert(headerSize == proxyBitmapInfoHeader->size, "The size of the header is not correct.");
-						header.width = proxyBitmapInfoHeader->width;
-						header.height = proxyBitmapInfoHeader->height;
-						header.planes = proxyBitmapInfoHeader->planes;
-						header.bitCount = proxyBitmapInfoHeader->bitCount;
-						header.compression = static_cast<CompressionMethod>(proxyBitmapInfoHeader->compression);
-						header.imageSize = proxyBitmapInfoHeader->imageSize;
-						header.xResolution = proxyBitmapInfoHeader->xResolution;
-						header.yResolution = proxyBitmapInfoHeader->yResolution;
-						header.nbColorsUsed = proxyBitmapInfoHeader->numberOfColorsUsed;
-						header.nbImportantColors = proxyBitmapInfoHeader->numberOfImportantColors;
 						break;
 					}
 					case DIBHeaderType::BITMAPV2INFOHEADER:
@@ -237,6 +243,11 @@ namespace ece
 						break;
 					}
 					default: throw std::runtime_error("This Bitmap DIB header is not recognized."); break;
+					}
+
+					const auto bpp = header.getBPP();
+					if (bpp != 1 && bpp != 4 && bpp != 8 && bpp != 16 && bpp != 24 && bpp != 32) {
+						WARNING << "Unusual number of Bits Per Pixel: " << bpp << " while trying to parse a " << to_string(header.type) << " Bitmap DIB Header" << flush;
 					}
 
 					return stream;

@@ -65,11 +65,14 @@ namespace ece
 
 				DIBHeaderType getType(std::size_t size)
 				{
+					// TODO: see here http://fileformats.archiveteam.org/wiki/BMP for additional info on DIB Header Size
 					switch (size) {
 					case 12: return DIBHeaderType::BITMAPCOREHEADER; break;
-					case 64: return DIBHeaderType::OS22XBITMAPHEADER; break;
 					case 16: return DIBHeaderType::OS22XBITMAPHEADER; break;
-					case 40: return DIBHeaderType::BITMAPINFOHEADER; break;
+					case 24: return DIBHeaderType::OS22XBITMAPHEADER; break;
+					case 48: return DIBHeaderType::OS22XBITMAPHEADER; break;
+					case 64: return DIBHeaderType::OS22XBITMAPHEADER; break;
+					case 40: return DIBHeaderType::BITMAPINFOHEADER; break; // could also be OS22XBITMAPHEADER (see the todo above)
 					case 52: return DIBHeaderType::BITMAPV2INFOHEADER; break;
 					case 56: return DIBHeaderType::BITMAPV3INFOHEADER; break;
 					case 108: return DIBHeaderType::BITMAPV4HEADER; break;

@@ -67,6 +67,9 @@ namespace ece
 					stream >> header;
 					DIB.type = getType(header.pixelsOffset - BMPHeader::INTERNAL_SIZE);
 					stream >> DIB;
+					if (DIB.getBPP() > header.size - header.pixelsOffset) {
+						throw std::runtime_error("The number of Bits Per Pixel in this bitmap is absurdly large (" + std::to_string(DIB.getBPP()) + ") and exceed the size of the pixels array (" + std::to_string(header.size - header.pixelsOffset) + ").");
+					}
 
 					// Color Table
 					auto colorTable = ColorTable(DIB);
