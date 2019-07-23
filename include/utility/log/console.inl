@@ -36,38 +36,25 @@
 
 */
 
-#include "utility/pch.hpp"
-#include "utility/log/logger.hpp"
-
-#include "utility/log/service_logger.hpp"
-
-#ifdef __linux__
-	#define localtime_s(time, result) localtime_r(result, time)
-#endif
-
 namespace ece
 {
-    namespace utility
-    {
-        namespace log
-        {
-            using namespace std::string_literals;
+	namespace utility
+	{
+		namespace log
+		{
+			template <ConsoleColor Text, ConsoleColor Background, typename T>
+			std::string colorize(const T & value)
+			{
+				auto stream = std::stringstream();
+				stream << "\033[1;" << static_cast<unsigned int>(Background) + 40 << ";" << static_cast<unsigned int>(Text) + 30 << "m" << value << "\033[0m";
+				return stream.str();
+			}
 
-            void Logger::log(const std::string & tag, const std::string & data)
-            {
-        		auto result = std::time(nullptr);
-        		auto today = tm{};
-        		localtime_s(&today, &result);
-
-        		auto day = (today.tm_mday < 10 ? "0"s : ""s) + std::to_string(today.tm_mday);
-        		auto month = (today.tm_mon + 1 < 10 ? "0"s : ""s) + std::to_string(today.tm_mon + 1);
-        		auto year = std::to_string(today.tm_year + 1900);
-        		auto hour = (today.tm_hour < 10 ? "0"s : ""s) + std::to_string(today.tm_hour);
-        		auto min = (today.tm_min < 10 ? "0"s : ""s) + std::to_string(today.tm_min);
-        		auto sec = (today.tm_sec < 10 ? "0"s : ""s) + std::to_string(today.tm_sec);
-
-        		this->_target << "[" << day << "/" << month << "/" << year << " " << hour << ":" << min << ":" << sec << "][" << tag << "]" << data << std::endl;
-            }
-        } // namespace log
-    } // namespace utility
+			template <ConsoleColor Text, typename T>
+			std::string colorize(const T & value)
+			{
+				return colorize<Text, ConsoleColor::BLACK, T>(value);
+			}
+		} // namespace log
+	} // namespace utility
 } // namespace ece

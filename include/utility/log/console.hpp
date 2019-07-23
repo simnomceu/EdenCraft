@@ -36,17 +36,47 @@
 
 */
 
-#ifndef UTILITY_LOG_HPP
-#define UTILITY_LOG_HPP
+#ifndef CONSOLE_HPP
+#define CONSOLE_HPP
 
-#include "utility/log/console.hpp"
-#include "utility/log/log_channel.hpp"
-#include "utility/log/logger.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/pch.hpp"
+#include "utility/config.hpp"
 
 namespace ece
 {
-	using namespace utility::log;
-}
+	namespace utility
+	{
+		namespace log
+		{
+			enum class ConsoleColor: unsigned int
+			{
+				BLACK = 0,
+				RED = 1,
+				GREEN = 2,
+				YELLOW = 3,
+				BLUE = 4,
+				MAGENTA = 5,
+				CYAN = 6,
+				WHITE = 7,
+				BRIGHT_BLACK = 60,
+				BRIGHT_RED = 61,
+				BRIGHT_GREEN = 62,
+				BRIGHT_YELLOW = 63,
+				BRIGHT_BLUE = 64,
+				BRIGHT_MAGENTA = 65,
+				BRIGHT_CYAN = 66,
+				BRIGHT_WHITE = 67,
+			};
 
-#endif // UTILITY_LOG_HPP
+			template <ConsoleColor Text, ConsoleColor Background, typename T>
+			std::string colorize(const T & value);
+
+			template <ConsoleColor Text, typename T>
+			std::string colorize(const T & value);
+		} // namespace log
+	} // namespace utility
+} // namespace ece
+
+#include "utility/log/console.inl"
+
+#endif // CONSOLE_HPP

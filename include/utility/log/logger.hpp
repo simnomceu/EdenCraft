@@ -41,6 +41,7 @@
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
+#include "utility/log/console.hpp"
 
 namespace ece
 {
@@ -130,6 +131,7 @@ namespace ece
         		inline void logInfo(const std::string & data);
 
             protected:
+				template <ConsoleColor Color>
                 void log(const std::string & tag, const std::string & data);
 
                 /**
