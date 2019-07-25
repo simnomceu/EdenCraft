@@ -99,6 +99,7 @@ namespace ece
 							header.nbImportantColors = proxyBitmapInfoHeader->numberOfImportantColors;
 							break;
 						}
+						[[fallthrough]];
 					}
 					case DIBHeaderType::OS21XBITMAPHEADER:
 					{

@@ -36,6 +36,10 @@
 
 */
 
+#ifdef __linux__
+	#define localtime_s(time, result) localtime_r(result, time)
+#endif
+
 namespace ece
 {
     namespace utility
