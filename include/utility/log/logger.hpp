@@ -130,6 +130,14 @@ namespace ece
         		 */
         		inline void logInfo(const std::string & data);
 
+        		/**
+        		 * @fn void logSystem(const std::string & data)
+        		 * @param[in] data The data to log.
+        		 * @brief Log data with the tag INFO.
+        		 * @throw
+        		 */
+        		inline void logSystem(const std::string & data);
+
             protected:
 				template <ConsoleColor Color>
                 void log(const std::string & tag, const std::string & data);

@@ -42,6 +42,7 @@
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
 #include "utility/debug/exception.hpp"
+#include "utility/log.hpp"
 
 namespace ece
 {
@@ -77,8 +78,21 @@ namespace ece
 
 #		define assert(EXPRESSION, MESSAGE) \
 			if (!(EXPRESSION)) { \
-				std::cerr << "Assertion `" << #EXPRESSION << "`` at " << __FILE__ << ":" << __LINE__ << " failed: \"" << MESSAGE << "\"\n"; \
+				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " failed: \"" << MESSAGE << "\"" << ece::flush; \
+				abort(); \
 			}
+
+#		define assertExceptionThrown(EXPRESSION, EXCEPTION) \
+			try { \
+				EXPRESSION; \
+				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " doesn't throw any" << #EXCEPTION << ece::flush; \
+				abort(); \
+			} \
+			catch (const EXCEPTION & e) { \
+				ece::ERROR << e.what() << ece::flush; \
+			}
+
+#		define assertAnyExceptionThrown(EXPRESSION) assertExceptionThrown(EXPRESSION, std::runtime_error)
         } // namespace debug
     } // namespace utility
 } // namespace ece

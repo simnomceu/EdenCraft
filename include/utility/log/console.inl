@@ -45,15 +45,31 @@ namespace ece
 			template <ConsoleColor Text, ConsoleColor Background, typename T>
 			std::string colorize(const T & value)
 			{
+				if constexpr (Text == ConsoleColor::DEFAULT && Background == ConsoleColor::DEFAULT) {
+					return value;
+				}
 				auto stream = std::stringstream();
-				stream << "\033[1;" << static_cast<unsigned int>(Background) + 40 << ";" << static_cast<unsigned int>(Text) + 30 << "m" << value << "\033[0m";
+				stream << "\033[1;";
+				if constexpr (Background != ConsoleColor::DEFAULT) {
+					stream << static_cast<unsigned int>(Background) + 40 << ";";
+				}
+				if constexpr (Text == ConsoleColor::DEFAULT) {
+					stream << static_cast<unsigned int>(ConsoleColor::BLACK) + 30 << "m" << value << "\033[0m";
+				} else {
+					stream << static_cast<unsigned int>(Text) + 30 << "m" << value << "\033[0m";
+				}
 				return stream.str();
 			}
 
 			template <ConsoleColor Text, typename T>
 			std::string colorize(const T & value)
 			{
-				return colorize<Text, ConsoleColor::BLACK, T>(value);
+				if constexpr (Text == ConsoleColor::DEFAULT) {
+					return value;
+				}
+				else {
+					return colorize<Text, ConsoleColor::DEFAULT, T>(value);
+				}
 			}
 		} // namespace log
 	} // namespace utility

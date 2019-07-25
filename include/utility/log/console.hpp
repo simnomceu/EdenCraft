@@ -48,8 +48,9 @@ namespace ece
 	{
 		namespace log
 		{
-			enum class ConsoleColor: unsigned int
+			enum class ConsoleColor: int
 			{
+				DEFAULT = -1,
 				BLACK = 0,
 				RED = 1,
 				GREEN = 2,

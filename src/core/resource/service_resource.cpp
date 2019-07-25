@@ -55,7 +55,7 @@ namespace ece
 			auto ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::getService() -> core::resource::ResourceManager &
 			{
 				if (ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service.get() == nullptr) {
-					throw MemoryAccessException("A service.");
+					throw std::runtime_error("Bad access to a service from ServiceResourceLocator. The pointer has expired.");
 				}
 				return *ServiceLocator<core::resource::ResourceManager, core::resource::ResourceManager>::_service;
 			}

@@ -55,6 +55,8 @@ namespace ece
 
         inline void Logger::logInfo(const std::string & data) { this->log<ConsoleColor::GREEN>("INFO", data); }
 
+        inline void Logger::logSystem(const std::string & data) { this->log<ConsoleColor::MAGENTA>("SYSTEM", data); }
+
 		using namespace std::string_literals;
 
 		template <ConsoleColor Color>
