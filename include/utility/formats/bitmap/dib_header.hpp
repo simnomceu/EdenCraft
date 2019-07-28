@@ -71,8 +71,6 @@ namespace ece
 
 					ECE_UTILITY_API friend std::ostream & operator<<(std::ostream & stream, DIBHeader & header);
 
-					std::size_t getBPP() const;
-
 					bool isValid() const;
 
 					struct Halftoning
@@ -124,6 +122,7 @@ namespace ece
 						std::size_t size;
 					};
 
+					std::size_t size;
 					DIBHeaderType type;
 					std::size_t width;
 					std::size_t height;

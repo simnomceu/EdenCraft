@@ -77,7 +77,7 @@ namespace ece
 					case 56: return DIBHeaderType::BITMAPV3INFOHEADER; break;
 					case 108: return DIBHeaderType::BITMAPV4HEADER; break;
 					case 124: return DIBHeaderType::BITMAPV5HEADER; break;
-					default: throw std::runtime_error("Unknown size for DIBHeaderType enumeration."); break;
+					default: throw std::runtime_error("Unknown type for DIBHeader size."); break;
 					}
 				}
 

@@ -246,11 +246,6 @@ namespace ece
 					default: throw std::runtime_error("This Bitmap DIB header is not recognized."); break;
 					}
 
-					const auto bpp = header.getBPP();
-					if (bpp != 1 && bpp != 4 && bpp != 8 && bpp != 16 && bpp != 24 && bpp != 32) {
-						WARNING << "Unusual number of Bits Per Pixel: " << bpp << " while trying to parse a " << to_string(header.type) << " Bitmap DIB Header" << flush;
-					}
-
 					return stream;
 				}
 
@@ -450,12 +445,6 @@ namespace ece
 					return stream;
 				}
 
-				std::size_t DIBHeader::getBPP() const
-				{
-					return this->bitCount < 8 ? 1 : this->bitCount >> 3;
-				}
-
-
 				bool DIBHeader::isValid() const
 				{
 					if (this->height == 0 && this->width < 1) {
@@ -464,7 +453,11 @@ namespace ece
 					if (this->planes != 1) {
 						return false;
 					}
-					if (this->bitCount != 1 && this->bitCount != 4 && this->bitCount != 8 && this->bitCount != 16 && this->bitCount != 24 && this->bitCount != 32) {
+					if (this->bitCount != 1 && this->bitCount != 4 && this->bitCount != 8 && this->bitCount != 16 && this->bitCount != 24 && this->bitCount != 32 && this->bitCount != 64) {
+						WARNING << "Unusual number of Bits Per Pixel: " << this->bitCount << " while trying to parse a " << to_string(this->type) << " Bitmap DIB Header" << flush;
+						if (this->bitCount > header.size - header.pixelsOffset) {
+							throw std::runtime_error("The number of Bits Per Pixel in this bitmap is absurdly large (" + std::to_string(DIB.bitCount) + ") and exceed the size of the pixels array (" + std::to_string(header.size - header.pixelsOffset) + ").");
+						}
 						return false;
 					}
 					if (this->compression == CompressionMethod::BITFIELDS && this->bitCount != 16 && this->bitCount != 32) {
@@ -486,9 +479,16 @@ namespace ece
 						return false;
 					}
 					if (this->bitCount < 16 && this->nbColorsUsed != std::pow(2, this->bitCount) && this->nbColorsUsed != 0) {
+						throw std::runtime_error("The number of color used is incorrect (" + std::to_string(this->nbColorsUsed) + "), as the number of bit per pixel is " + std::to_string(this->bitCount) + ".");
 						return false;
 					}
 					if (this->bitCount >= 16 && this->nbColorsUsed != 0) {
+						throw std::runtime_error("The color palet cannot be used, as the number of bit per pixel is " + std::to_string(this->bitCount) + ".");
+						return false;
+					}
+					if (this->nbColorsUsed > this->width * this->height) {
+						WARNING << "Unusual number of colors used: " << this->nbColorsUsed << " while trying to parse a " << to_string(this->type) << " Bitmap DIB Header" << flush;
+					//	if ()
 						return false;
 					}
 

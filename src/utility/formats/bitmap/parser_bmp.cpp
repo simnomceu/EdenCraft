@@ -65,10 +65,16 @@ namespace ece
 					// see Tests : http://entropymine.com/jason/bmpsuite/
 
 					stream >> header;
+					DIB.size = header.pixelsOffset - BMPHeader::INTERNAL_SIZE;
 					DIB.type = getType(header.pixelsOffset - BMPHeader::INTERNAL_SIZE);
 					stream >> DIB;
-					if (DIB.getBPP() > header.size - header.pixelsOffset) {
-						throw std::runtime_error("The number of Bits Per Pixel in this bitmap is absurdly large (" + std::to_string(DIB.getBPP()) + ") and exceed the size of the pixels array (" + std::to_string(header.size - header.pixelsOffset) + ").");
+					if (!DIB.isValid()) {
+						SYSTEM << "Error in DIB" << flush;
+					}
+
+					auto reservedColorTableSize = header.pixelsOffset - BMPHeader::INTERNAL_SIZE - DIB.size;
+					if (reservedColorTableSize < DIB.nbColorsUsed) {
+						throw std::runtime_error("The number of color used in this bitmap is absurdly large (" + std::to_string(DIB.nbColorsUsed) + ") and exceed the reserved size in the file (" + std::to_string(reservedColorTableSize) + ").");
 					}
 
 					// Color Table
