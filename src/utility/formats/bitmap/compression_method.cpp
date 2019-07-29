@@ -192,8 +192,8 @@ namespace ece
 
 					auto result = std::vector<char>();
 					auto it = begin;
-					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
-						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
+					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
+						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), 8, redBitcount)));
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount)));
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount)));
@@ -224,8 +224,8 @@ namespace ece
 
 					auto result = std::vector<char>();
 					auto it = begin;
-					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
-						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
+					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
+						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), 8, redBitcount)));
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount)));
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount)));
@@ -263,6 +263,9 @@ namespace ece
 							}
 							else {
 								const int count = *it;
+								if (count < 0) {
+									throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
+								}
 								++it;
 								result.insert(result.end(), it, it + count);
 								it += count;
@@ -271,6 +274,9 @@ namespace ece
 						}
 						else { // encoded mode
 							const int count = *it;
+							if (count < 0) {
+								throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
+							}
 							++it;
 							result.insert(result.end(), count, *it);
 							++it;
@@ -305,6 +311,9 @@ namespace ece
 							}
 							else {
 								const int count = *it;
+								if (count < 0) {
+									throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
+								}
 								++it;
 								for (int i = 0; i < count; ++i) {
 									result.push_back(static_cast<char>(get4<char, 0>(*it)));
@@ -316,6 +325,9 @@ namespace ece
 						}
 						else { // encoded mode
 							const int count = *it;
+							if (count < 0) {
+								throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
+							}
 							++it;
 							const int firstColor = get4<char, 0>(*it);
 							const int secondColor = get4<char, 1>(*it);
@@ -342,8 +354,8 @@ namespace ece
 
 					auto result = std::vector<char>();
 					auto it = begin;
-					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
-						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
+					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
+						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));
@@ -374,8 +386,8 @@ namespace ece
 
 					auto result = std::vector<char>();
 					auto it = begin;
-					for (auto i = std::size_t{ 0 }; i < header.height; ++i) {
-						for (auto j = std::size_t{ 0 }; j < header.width; ++j) {
+					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
+						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
 							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));

@@ -85,7 +85,7 @@ namespace ece
 #		define assertExceptionThrown(EXPRESSION, EXCEPTION) \
 			try { \
 				EXPRESSION; \
-				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " doesn't throw any" << #EXCEPTION << ece::flush; \
+				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " doesn't throw any " << #EXCEPTION << ece::flush; \
 				abort(); \
 			} \
 			catch (const EXCEPTION & e) { \

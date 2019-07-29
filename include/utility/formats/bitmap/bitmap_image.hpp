@@ -36,6 +36,16 @@
 
 */
 
+#ifndef BITMAP_IMAGE_HPP
+#define BITMAP_IMAGE_HPP
+
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
+#include "utility/formats/bitmap/bmp_header.hpp"
+#include "utility/formats/bitmap/dib_header.hpp"
+#include "utility/formats/bitmap/color_table.hpp"
+#include "utility/indexing.hpp"
+
 namespace ece
 {
 	namespace utility
@@ -44,12 +54,18 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				inline ParserBMP::ParserBMP() noexcept : Parser(), _bitmap{ {}, {}, nullptr, Dynamic2DArray<std::array<std::uint8_t, 3>>(0, 0) } {}
+				struct BitmapImage
+				{
+					BMPHeader header;
+					DIBHeader dib;
+					std::shared_ptr<ColorTable> colors;
+					Dynamic2DArray<std::array<std::uint8_t, 3>> pixels;
 
-				inline auto & ParserBMP::getPixels() noexcept { return this->_bitmap.pixels; }
-
-				inline auto ParserBMP::getPixels() const noexcept { return this->_bitmap.pixels; }
+					bool isValid() const;
+				};
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
 } // namespace ece
+
+#endif // BITMAP_IMAGE_HPP

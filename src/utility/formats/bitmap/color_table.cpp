@@ -62,11 +62,11 @@ namespace ece
 				{
 					if (std::holds_alternative<std::vector<BGR24>>(this->_colors)) {
 						auto & proxyTable = std::get<std::vector<BGR24>>(this->_colors);
-						return toRGBA32(proxyTable[index]);
+						return toRGBA32(proxyTable.at(index));
 					}
 					else {
 						auto & proxyTable = std::get<std::vector<BGRA32>>(this->_colors);
-						return toRGBA32(proxyTable[index]);
+						return toRGBA32(proxyTable.at(index));
 					}
 				}
 

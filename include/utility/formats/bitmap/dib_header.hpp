@@ -71,8 +71,6 @@ namespace ece
 
 					ECE_UTILITY_API friend std::ostream & operator<<(std::ostream & stream, DIBHeader & header);
 
-					bool isValid() const;
-
 					struct Halftoning
 					{
 						enum class Algorithm
@@ -124,15 +122,15 @@ namespace ece
 
 					std::size_t size;
 					DIBHeaderType type;
-					std::size_t width;
-					std::size_t height;
+					std::int32_t width;
+					std::int32_t height;
 					std::size_t planes;
 					std::size_t bitCount;
 					CompressionMethod compression;
 					std::size_t imageSize;
-					std::size_t xResolution;
-					std::size_t yResolution;
-					std::size_t nbColorsUsed;
+					std::int32_t xResolution;
+					std::int32_t yResolution;
+					std::int32_t nbColorsUsed;
 					std::size_t nbImportantColors;
 					Halftoning halftoning;
 					std::variant<RGB24, RGBA32> mask;

@@ -42,8 +42,8 @@
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
 #include "utility/file_system.hpp"
-#include "utility/indexing.hpp"
 #include "utility/types.hpp"
+#include "utility/formats/bitmap/bitmap_image.hpp"
 
 namespace ece
 {
@@ -126,7 +126,7 @@ namespace ece
 					 * @throw
 					 * @see void Parser::save(std::ostream & stream)
 					 */
-					virtual void save(std::ostream & stream) override;
+					virtual void save([[maybe_unused]] std::ostream & stream) override;
 
 
 					/**
@@ -146,7 +146,7 @@ namespace ece
 					inline auto getPixels() const noexcept;
 
 				private:
-					Dynamic2DArray<std::array<std::uint8_t, 3>> _pixels;
+					BitmapImage _bitmap;
 				};
 			} // namespace bitmap
 		} // namespace formats

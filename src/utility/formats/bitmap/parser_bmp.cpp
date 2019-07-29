@@ -52,8 +52,6 @@ namespace ece
 			{
 				void ParserBMP::load(std::istream & stream)
 				{
-					auto header = BMPHeader{};
-					auto DIB = DIBHeader();
 					auto buffer = std::vector<char>{};
 
 					// see http://paulbourke.net/dataformats/bitmaps/
@@ -64,41 +62,52 @@ namespace ece
 					// see https://forums.adobe.com/message/3272950#3272950
 					// see Tests : http://entropymine.com/jason/bmpsuite/
 
-					stream >> header;
-					DIB.size = header.pixelsOffset - BMPHeader::INTERNAL_SIZE;
-					DIB.type = getType(header.pixelsOffset - BMPHeader::INTERNAL_SIZE);
-					stream >> DIB;
-					if (!DIB.isValid()) {
-						SYSTEM << "Error in DIB" << flush;
-					}
-
-					auto reservedColorTableSize = header.pixelsOffset - BMPHeader::INTERNAL_SIZE - DIB.size;
-					if (reservedColorTableSize < DIB.nbColorsUsed) {
-						throw std::runtime_error("The number of color used in this bitmap is absurdly large (" + std::to_string(DIB.nbColorsUsed) + ") and exceed the reserved size in the file (" + std::to_string(reservedColorTableSize) + ").");
+					stream >> this->_bitmap.header;
+					this->_bitmap.dib.size = this->_bitmap.header.pixelsOffset - BMPHeader::INTERNAL_SIZE;
+					stream >> this->_bitmap.dib;
+					if (!this->_bitmap.isValid()) {
+						SYSTEM << "Unknown error in DIB" << flush;
 					}
 
 					// Color Table
-					auto colorTable = ColorTable(DIB);
-					stream >> colorTable;
+					this->_bitmap.colors = std::make_shared<ColorTable>(this->_bitmap.dib);
+					stream >> *this->_bitmap.colors;
 
-					buffer.resize(header.size - header.pixelsOffset);
-					stream.seekg(header.pixelsOffset);
+					buffer.resize(this->_bitmap.header.size - this->_bitmap.header.pixelsOffset);
+					stream.seekg(this->_bitmap.header.pixelsOffset);
 					stream.read(reinterpret_cast<char *>(buffer.data()), buffer.size());
 
-					auto uncompressBuffer = uncompress(buffer.begin(), buffer.end(), DIB);
+					auto uncompressBuffer = uncompress(buffer.begin(), buffer.end(), this->_bitmap.dib);
 					
-					int psw = ((DIB.width * 3) + 3) & ~3;
+					int psw = ((this->_bitmap.dib.width * 3) + 3) & ~3;
 
-					this->_pixels.resize(static_cast<ece::size_t>(DIB.width), static_cast<ece::size_t>(DIB.height));
+					this->_bitmap.pixels.resize(static_cast<ece::size_t>(this->_bitmap.dib.width), static_cast<ece::size_t>(this->_bitmap.dib.height));
 
-					long bufPos = 0;
-					for (auto y = ece::size_t{ 0 }; y < this->_pixels.getHeight(); ++y) {
-						for (auto x = ece::size_t{ 0 }; x < 3 * this->_pixels.getWidth(); x += 3) {
-							bufPos = (static_cast<long>(DIB.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+					if (this->_bitmap.dib.nbColorsUsed == 0) {
+						long bufPos = 0;
+						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
+							for (auto x = ece::size_t{ 0 }; x < 3 * this->_bitmap.pixels.getWidth(); x += 3) {
+								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
 
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = static_cast<std::uint8_t>(uncompressBuffer[bufPos + 2]); // red
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = static_cast<std::uint8_t>(uncompressBuffer[bufPos + 1]); // green
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = static_cast<std::uint8_t>(uncompressBuffer[bufPos]); // blue
+								this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][0] = static_cast<std::uint8_t>(uncompressBuffer[bufPos + 2]); // red
+								this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][1] = static_cast<std::uint8_t>(uncompressBuffer[bufPos + 1]); // green
+								this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][2] = static_cast<std::uint8_t>(uncompressBuffer[bufPos]); // blue
+							}
+						}
+					}
+					else {
+						long bufPos = 0;
+						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
+							for (auto x = ece::size_t{ 0 }; x < 3 * this->_bitmap.pixels.getWidth(); x += 3) {
+								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * this->_bitmap.dib.width + static_cast<long>(x);
+								if (static_cast<std::int32_t>(uncompressBuffer[bufPos]) >= this->_bitmap.dib.nbColorsUsed || static_cast<std::int32_t>(uncompressBuffer[bufPos]) < 0) {
+									throw std::runtime_error("Trying to access the " + std::to_string(static_cast<std::size_t>(uncompressBuffer[bufPos])) + "th color while the size of the color table is " + std::to_string(this->_bitmap.dib.nbColorsUsed) + ".");
+								}
+								auto color = (*this->_bitmap.colors)[static_cast<std::size_t>(uncompressBuffer[bufPos])];
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x / 3][0] = color.r; // red
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x / 3][1] = color.g; // green
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x / 3][2] = color.b; // blue
+							}
 						}
 					}
 				}
