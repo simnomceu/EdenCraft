@@ -65,6 +65,9 @@ namespace ece
 				{
 					auto proxy = std::vector<char>(header.size);
 					stream.read(proxy.data(), header.size);
+					if (stream.fail() && stream.eof() && !stream.bad()) {
+						throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+					}
 					header.size = reinterpret_cast<uint32_t *>(proxy.data())[0];
 					header.type = getType(header.size);
 

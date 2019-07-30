@@ -91,18 +91,54 @@ namespace ece
 
 				std::vector<char> uncompress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header)
 				{
+					auto tmp = std::vector<char>();
+					if (header.compression == CompressionMethod::RGB || header.compression == CompressionMethod::CMYK) {
+						if (header.bitCount == 1) {
+							for (auto it = begin; it != end; ++it) {
+								tmp.push_back(get1<char, 7>(*it));
+								tmp.push_back(get1<char, 6>(*it));
+								tmp.push_back(get1<char, 5>(*it));
+								tmp.push_back(get1<char, 4>(*it));
+								tmp.push_back(get1<char, 3>(*it));
+								tmp.push_back(get1<char, 2>(*it));
+								tmp.push_back(get1<char, 1>(*it));
+								tmp.push_back(get1<char, 0>(*it));
+							}
+						}
+						else if (header.bitCount == 2) {
+							for (auto it = begin; it != end; ++it) {
+								tmp.push_back(static_cast<char>(get2<char, 3>(*it)));
+								tmp.push_back(static_cast<char>(get2<char, 2>(*it)));
+								tmp.push_back(static_cast<char>(get2<char, 1>(*it)));
+								tmp.push_back(static_cast<char>(get2<char, 0>(*it)));
+							}
+						}
+						else if (header.bitCount == 4) {
+							for (auto it = begin; it != end; ++it) {
+								tmp.push_back(static_cast<char>(get4<char, 1>(*it)));
+								tmp.push_back(static_cast<char>(get4<char, 0>(*it)));
+							}
+						}
+						else {
+							tmp.assign(begin, end);
+						}
+					}
+					else {
+						tmp.assign(begin, end);
+					}
+
 					switch (header.compression)
 					{
-					case CompressionMethod::RGB: return { begin, end }; break;
-					case CompressionMethod::RLE8: return decompressRLE8(begin, end, header.width); break;
-					case CompressionMethod::RLE4: return decompressRLE4(begin, end, header.width); break;
-					case CompressionMethod::BITFIELDS: return decompressBitfields(begin, end, header); break;
-					case CompressionMethod::JPEG: return decompressJPEG(begin, end, header.width); break;
-					case CompressionMethod::PNG: return decompressPNG(begin, end, header.width); break;
-					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(begin, end, header); break;
-					case CompressionMethod::CMYK: return { begin, end }; break;
-					case CompressionMethod::CMYKRLE8: return decompressRLE8(begin, end, header.width); break;
-					case CompressionMethod::CMYKRLE4: return decompressRLE4(begin, end, header.width); break;
+					case CompressionMethod::RGB: return { tmp.begin(), tmp.end() }; break;
+					case CompressionMethod::RLE8: return decompressRLE8(tmp.begin(), tmp.end(), header.width); break;
+					case CompressionMethod::RLE4: return decompressRLE4(tmp.begin(), tmp.end(), header.width); break;
+					case CompressionMethod::BITFIELDS: return decompressBitfields(tmp.begin(), tmp.end(), header); break;
+					case CompressionMethod::JPEG: return decompressJPEG(tmp.begin(), tmp.end(), header.width); break;
+					case CompressionMethod::PNG: return decompressPNG(tmp.begin(), tmp.end(), header.width); break;
+					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(tmp.begin(), tmp.end(), header); break;
+					case CompressionMethod::CMYK: return { tmp.begin(), tmp.end() }; break;
+					case CompressionMethod::CMYKRLE8: return decompressRLE8(tmp.begin(), tmp.end(), header.width); break;
+					case CompressionMethod::CMYKRLE4: return decompressRLE4(tmp.begin(), tmp.end(), header.width); break;
 					default: throw std::runtime_error("Undefined bitmap uncompression method."); break;
 					}
 				}
@@ -206,12 +242,12 @@ namespace ece
 
 				std::vector<char> compressJPEG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
 				{
-					return {};
+					throw std::runtime_error("Huffman 1D encoding has not been implemented yet.");
 				}
 
 				std::vector<char> compressPNG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
 				{
-					return {};
+					throw std::runtime_error("PNG encoding has not been implemented yet.");
 				}
 
 				std::vector<char> compressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
@@ -243,42 +279,48 @@ namespace ece
 					auto it = begin;
 					int xPos = 0;
 					while (it != end) {
-						if (*it == 0) { // absolute mode
+						if (static_cast<unsigned char>(*it) == 0) { // absolute mode
 							++it;
-							if (*it == 0) { // end of line
+							if (static_cast<unsigned char>(*it) == 0) { // end of line
+								if (width - xPos > result.max_size() - result.size()) {
+									throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
+								}
 								result.insert(result.end(), width - xPos, 0);
 								xPos = 0;
 							}
-							else if (*it == 1) { // end of bitmap
+							else if (static_cast<unsigned char>(*it) == 1) { // end of bitmap
 								it = end;
 							}
-							else if (*it == 2) { // delta jump
+							else if (static_cast<unsigned char>(*it) == 2) { // delta jump
 								++it;
-								const int x = *it;
+								const int x = static_cast<unsigned char>(*it);
 								++it;
-								const int y = *it;
+								const int y = static_cast<unsigned char>(*it);
 								it += (y * width) + x;
+								if ((y * width) + x > result.max_size() - result.size()) {
+									throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
+								}
 								result.insert(result.end(), (y * width) + x, 0);
 								xPos += x;
 							}
 							else {
-								const int count = *it;
-								if (count < 0) {
+								const int count = static_cast<unsigned char>(static_cast<unsigned char>(*it));
+								++it;
+								if (static_cast<std::size_t>(count) > result.max_size() - result.size()) {
 									throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
 								}
-								++it;
 								result.insert(result.end(), it, it + count);
 								it += count;
 								xPos += count;
 							}
 						}
 						else { // encoded mode
-							const int count = *it;
-							if (count < 0) {
+							const int count = static_cast<unsigned char>(static_cast<unsigned char>(*it));
+							++it;
+							if (static_cast<std::size_t>(count) > result.max_size() - result.size()) {
 								throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
 							}
-							++it;
-							result.insert(result.end(), count, *it);
+							result.insert(result.end(), count, static_cast<unsigned char>(*it));
 							++it;
 							xPos += count;
 						}
@@ -292,45 +334,50 @@ namespace ece
 					auto it = begin;
 					int xPos = 0;
 					while (it != end) {
-						if (*it == 0) { // absolute mode
+						if (static_cast<unsigned char>(*it) == 0) { // absolute mode
 							++it;
-							if (*it == 0) { // end of line
+							if (static_cast<unsigned char>(*it) == 0) { // end of line
+								if (width - xPos > result.max_size() - result.size()) {
+									throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
+								}
 								result.insert(result.end(), width - xPos, 0);
 								xPos = 0;
 							}
-							else if (*it == 1) { // end of bitmap
+							else if (static_cast<unsigned char>(*it) == 1) { // end of bitmap
 								it = end;
 							}
-							else if (*it == 2) { // delta jump
+							else if (static_cast<unsigned char>(*it) == 2) { // delta jump
 								++it;
-								const int x = *it;
+								const int x = static_cast<unsigned char>(*it);
 								++it;
-								const int y = *it;
+								const int y = static_cast<unsigned char>(*it);
 								it += (y * width) + x;
 								xPos += x;
 							}
 							else {
-								const int count = *it;
-								if (count < 0) {
+								const int count = static_cast<unsigned char>(*it);
+								++it;
+								if (static_cast<std::size_t>(count) * 2 > result.max_size() - result.size()) {
 									throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
 								}
-								++it;
 								for (int i = 0; i < count; ++i) {
-									result.push_back(static_cast<char>(get4<char, 0>(*it)));
-									result.push_back(static_cast<char>(get4<char, 1>(*it)));
+									unsigned char tmp = static_cast<unsigned char>(*it);
+									result.push_back(static_cast<char>(get4<unsigned char, 0>(tmp)));
+									result.push_back(static_cast<char>(get4<unsigned char, 1>(tmp)));
 									++it;
 								}
 								xPos += count;
 							}
 						}
 						else { // encoded mode
-							const int count = *it;
-							if (count < 0) {
+							const int count = static_cast<unsigned char>(*it);
+							++it;
+							unsigned char tmp = static_cast<unsigned char>(*it);
+							const int firstColor = get4<unsigned char, 0>(tmp);
+							const int secondColor = get4<unsigned char, 1>(tmp);
+							if (static_cast<std::size_t>(count) * 2 > result.max_size() - result.size()) {
 								throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
 							}
-							++it;
-							const int firstColor = get4<char, 0>(*it);
-							const int secondColor = get4<char, 1>(*it);
 							for (int i = 0; i < count; ++i) {
 								if (i % 2 == 0) {
 									result.push_back(static_cast<char>(firstColor));
@@ -368,12 +415,12 @@ namespace ece
 
 				std::vector<char> decompressJPEG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
 				{
-					return {};
+					throw std::runtime_error("Huffman 1D decoding has not been implemented yet.");
 				}
 
 				std::vector<char> decompressPNG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
 				{
-					return {};
+					throw std::runtime_error("PNG decoding has not been implemented yet.");
 				}
 
 				std::vector<char> decompressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)

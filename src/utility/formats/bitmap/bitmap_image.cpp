@@ -64,12 +64,19 @@ namespace ece
 					if (this->dib.planes != 1) {
 						throw std::runtime_error("Invalid number of planes(" + std::to_string(this->dib.planes) + "), Bitmap files contain only one color plane.");
 					}
-					if (this->dib.bitCount != 1 && this->dib.bitCount != 4 && this->dib.bitCount != 8 && this->dib.bitCount != 16 && this->dib.bitCount != 24 && this->dib.bitCount != 32 && this->dib.bitCount != 64) {
+					if (this->dib.bitCount != 1 && this->dib.bitCount != 2 && this->dib.bitCount != 4 && this->dib.bitCount != 8 && this->dib.bitCount != 16 && this->dib.bitCount != 24 && this->dib.bitCount != 32 && this->dib.bitCount != 64) {
 						WARNING << "Unusual number of Bits Per Pixel: " << this->dib.bitCount << " while trying to parse a " << to_string(this->dib.type) << " Bitmap DIB Header" << flush;
+						if (this->dib.bitCount == 0) {
+							throw std::runtime_error("It is not possible to evaluate a 0bpp bitmap image.");
+						}
+
 						if (this->dib.bitCount > this->header.size - this->header.pixelsOffset) {
 							throw std::runtime_error("The number of Bits Per Pixel in this bitmap is absurdly large (" + std::to_string(this->dib.bitCount) + ") and exceeds the size of the pixels array (" + std::to_string(this->header.size - header.pixelsOffset) + ").");
 						}
 						return false;
+					}
+					if (this->dib.bitCount == 2 && this->dib.type != DIBHeaderType::BITMAPINFOHEADER) {
+						throw std::runtime_error("A 2bpp bitmap image  can only be used in a Pocket PC Bitmap image, using a " + to_string(DIBHeaderType::BITMAPINFOHEADER) + " dIB header. Here, " + to_string(this->dib.type) + " is used.");
 					}
 					if (this->dib.imageSize > this->header.size) {
 						throw std::runtime_error("The size of the pixel data is absurdly large (" + std::to_string(this->dib.imageSize) + ") and exceeds the size of the bitmap (" + std::to_string(this->header.size) + ").");
@@ -98,8 +105,8 @@ namespace ece
 					if (this->dib.compression == CompressionMethod::JPEG && this->dib.bitCount != 24) {
 						return false;
 					}
-					if ((this->dib.bitCount == 16 || this->dib.bitCount == 32) && this->dib.compression != CompressionMethod::RGB) {
-						return false;
+					if ((this->dib.bitCount == 16 || this->dib.bitCount == 32) && (this->dib.compression != CompressionMethod::RGB && this->dib.compression != CompressionMethod::CMYK)) {
+						throw std::runtime_error("A " + std::to_string(this->dib.bitCount) + "bpp image should not use a compression method (" + to_string(this->dib.compression) + ").");
 					}
 
 					auto maxColors = static_cast<std::int32_t>(std::pow(2, this->dib.bitCount));

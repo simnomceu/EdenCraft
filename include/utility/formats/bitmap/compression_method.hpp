@@ -55,8 +55,8 @@ namespace ece
 					RGB = 0,
 					RLE8 = 1,
 					RLE4 = 2,
-					BITFIELDS = 3,
-					JPEG = 4,
+					BITFIELDS = 3, // Huffman 1D
+					JPEG = 4, // RLE24
 					PNG = 5,
 					ALPHABITFIELDS = 6,
 					CMYK = 11,
@@ -84,6 +84,8 @@ namespace ece
 				ECE_UTILITY_API std::vector<char> decompressJPEG(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
 				ECE_UTILITY_API std::vector<char> decompressPNG(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
 				ECE_UTILITY_API std::vector<char> decompressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header);
+
+				// TODO: Implementing Huffman 1D/PNG encoding/decoding algorithm.
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility
