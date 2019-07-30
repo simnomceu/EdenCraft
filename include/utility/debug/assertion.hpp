@@ -85,7 +85,7 @@ namespace ece
 #		define assertExceptionThrown(EXPRESSION, EXCEPTION) \
 			try { \
 				EXPRESSION; \
-				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " doesn't throw any " << #EXCEPTION << ece::flush; \
+				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " doesn't throw any " << #EXCEPTION << "." << ece::flush; \
 				abort(); \
 			} \
 			catch (const EXCEPTION & e) { \
@@ -93,6 +93,16 @@ namespace ece
 			}
 
 #		define assertAnyExceptionThrown(EXPRESSION) assertExceptionThrown(EXPRESSION, std::runtime_error)
+
+#		define assertNoExceptionThrown(EXPRESSION) \
+			try { \
+				EXPRESSION; \
+			} \
+			catch (const std::runtime_error & e) { \
+				ece::ERROR << e.what() << ece::flush; \
+				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " throw an exception." << ece::flush; \
+				abort(); \
+			}
         } // namespace debug
     } // namespace utility
 } // namespace ece
