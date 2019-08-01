@@ -54,7 +54,7 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				struct BitmapImage
+				struct ECE_UTILITY_API BitmapImage
 				{
 					BMPHeader header;
 					DIBHeader dib;
@@ -63,6 +63,11 @@ namespace ece
 
 					bool isValid() const;
 				};
+				static constexpr float INCH_IN_CM = 2.54f;
+				static constexpr float DPI_MAX = 1200.0f;
+
+				template <class T>
+				ECE_UTILITY_API inline float PPMToDPI(T ppm) { return ppm * INCH_IN_CM / 100.0f; }
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

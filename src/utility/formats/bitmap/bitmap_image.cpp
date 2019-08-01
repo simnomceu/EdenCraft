@@ -81,14 +81,14 @@ namespace ece
 					if (this->dib.imageSize > this->header.size) {
 						throw std::runtime_error("The size of the pixel data is absurdly large (" + std::to_string(this->dib.imageSize) + ") and exceeds the size of the bitmap (" + std::to_string(this->header.size) + ").");
 					}
-					if (this->dib.xResolution > this->dib.yResolution * 2.0f || this->dib.yResolution > this->dib.xResolution * 2.0f) {
-						WARNING << "The density of the image is not uniform (" << this->dib.xResolution << "x" << this->dib.yResolution << ")." << flush;
-						if (this->dib.xResolution > this->dib.width) {
-							throw std::runtime_error("The X density of the image is absurdly large (" + std::to_string(this->dib.xResolution) + ") and exceeds the width of the image (" + std::to_string(this->dib.width) + ").");
-						}
-						if (this->dib.yResolution > this->dib.height) {
-							throw std::runtime_error("The Y density of the image is absurdly large (" + std::to_string(this->dib.yResolution) + ") and exceeds the height of the image (" + std::to_string(this->dib.height) + ").");
-						}
+					if (this->dib.xResolution != this->dib.yResolution) {
+						WARNING << "The resolution of the image is not uniform (" << PPMToDPI(this->dib.xResolution) << "x" << PPMToDPI(this->dib.yResolution) << "dpi)." << flush;
+					}
+					if (PPMToDPI(this->dib.xResolution) > DPI_MAX) {
+						throw std::runtime_error("The X resolution of the image is absurdly large (" + std::to_string(PPMToDPI(this->dib.xResolution)) + "dpi) and exceeds the maximal resolution allowed (" + std::to_string(DPI_MAX) + "dpi).");
+					}
+					if (PPMToDPI(this->dib.yResolution) > DPI_MAX) {
+						throw std::runtime_error("The Y resolution of the image is absurdly large (" + std::to_string(PPMToDPI(this->dib.yResolution)) + "dpi) and exceeds the maximal resolution allowed (" + std::to_string(DPI_MAX) + "dpi).");
 					}
 					if (this->dib.compression == CompressionMethod::BITFIELDS && this->dib.bitCount != 16 && this->dib.bitCount != 32) {
 						return false;

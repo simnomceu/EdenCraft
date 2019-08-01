@@ -44,6 +44,7 @@
 #include "core/format.hpp"
 #include "utility/debug.hpp"
 #include "utility/formats.hpp"
+#include "utility/algorithm.hpp"
 
 void Assets::loadTexture(const std::string & name, const std::string & path)
 {
@@ -60,6 +61,29 @@ void Assets::loadTexture(const std::string & name, const std::string & path)
 
 void Assets::loadAssets()
 {
+	auto compressed8 = std::vector<std::uint8_t>{ 0x03, 0x04, 0x05, 0x06, 0x00, 0x03, 0x45, 0x56, 0x67, 0x02, 0x78, 0x00, 0x02, 0x05, 0x01, 0x02, 0x78, 0x00, 0x00, 0x09, 0x1E, 0x00, 0x01 };
+	auto result8 = ece::uncompressRLE8(compressed8, 30, 5);
+	for (auto j = std::size_t{ 0 }; j < 5; ++j) {
+		for (auto i = std::size_t{ 0 }; i < 30; ++i) {
+			if (result8[j * 30 + i] < 10) {
+				ece::SYSTEM << 0;
+			}
+			ece::SYSTEM << std::hex << (int)result8[j * 30 + i] << ' ';
+		}
+		ece::SYSTEM << ece::flush;
+	}
+	ece::SYSTEM << ece::flush << ece::flush;
+
+	auto compressed4 = std::vector<std::uint8_t>{ 0x03, 0x04, 0x05, 0x06, 0x00, 0x06, 0x45, 0x56, 0x67/*, 0x00*/, 0x04, 0x78, 0x00, 0x02, 0x05, 0x01, 0x04, 0x78, 0x00, 0x00, 0x09, 0x1E, 0x00, 0x01 };
+	auto result4 = ece::uncompressRLE4(compressed4, 30, 5);
+	for (auto j = std::size_t{ 0 }; j < 5; ++j) {
+		for (auto i = std::size_t{ 0 }; i < 30; ++i) {
+			ece::SYSTEM << std::hex << (int)result4[j * 30 + i] << ' ';
+		}
+		ece::SYSTEM << ece::flush;
+	}
+	ece::SYSTEM << ece::flush << ece::flush;
+
 	assertAnyExceptionThrown(Assets::loadTexture("b-badbitcount", "../../examples/bmp_loader/assets/b/badbitcount.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("b-badbitssize", "../../examples/bmp_loader/assets/b/badbitssize.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("b-baddens1", "../../examples/bmp_loader/assets/b/baddens1.bmp"));
@@ -85,8 +109,8 @@ void Assets::loadAssets()
 	assertNoExceptionThrown(Assets::loadTexture("q-pal1p1", "../../examples/bmp_loader/assets/q/pal1p1.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("q-pal2", "../../examples/bmp_loader/assets/q/pal2.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("q-pal2color", "../../examples/bmp_loader/assets/q/pal2color.bmp"));
-	assertAnyExceptionThrown(Assets::loadTexture("q-pal4rlecut", "../../examples/bmp_loader/assets/q/pal4rlecut.bmp"));
-	assertAnyExceptionThrown(Assets::loadTexture("q-pal4rletrns", "../../examples/bmp_loader/assets/q/pal4rletrns.bmp"));
+	assertNoExceptionThrown(Assets::loadTexture("q-pal4rlecut", "../../examples/bmp_loader/assets/q/pal4rlecut.bmp"));
+	assertNoExceptionThrown(Assets::loadTexture("q-pal4rletrns", "../../examples/bmp_loader/assets/q/pal4rletrns.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("q-pal8offs", "../../examples/bmp_loader/assets/q/pal8offs.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("q-pal8os2-hs", "../../examples/bmp_loader/assets/q/pal8os2-hs.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("q-pal8os2sp", "../../examples/bmp_loader/assets/q/pal8os2sp.bmp"));
@@ -129,18 +153,18 @@ void Assets::loadAssets()
 	assertNoExceptionThrown(Assets::loadTexture("g-pal4gs", "../../examples/bmp_loader/assets/g/pal4gs.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("g-pal4rle", "../../examples/bmp_loader/assets/g/pal4rle.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("g-pal8", "../../examples/bmp_loader/assets/g/pal8.bmp"));
-//	assertNoExceptionThrown(Assets::loadTexture("g-pal8-0", "../../examples/bmp_loader/assets/g/pal8-0.bmp"));
+	assertNoExceptionThrown(Assets::loadTexture("g-pal8-0", "../../examples/bmp_loader/assets/g/pal8-0.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("g-pal8gs", "../../examples/bmp_loader/assets/g/pal8gs.bmp"));
-//	assertNoExceptionThrown(Assets::loadTexture("g-pal8nonsquare", "../../examples/bmp_loader/assets/g/pal8nonsquare.bmp"));
-//	assertNoExceptionThrown(Assets::loadTexture("g-pal8os2", "../../examples/bmp_loader/assets/g/pal8os2.bmp"));
-//	assertNoExceptionThrown(Assets::loadTexture("g-pal8rle", "../../examples/bmp_loader/assets/g/pal8rle.bmp"));
+	assertNoExceptionThrown(Assets::loadTexture("g-pal8nonsquare", "../../examples/bmp_loader/assets/g/pal8nonsquare.bmp"));
+	assertNoExceptionThrown(Assets::loadTexture("g-pal8os2", "../../examples/bmp_loader/assets/g/pal8os2.bmp"));
+	assertNoExceptionThrown(Assets::loadTexture("g-pal8rle", "../../examples/bmp_loader/assets/g/pal8rle.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("g-pal8topdown", "../../examples/bmp_loader/assets/g/pal8topdown.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("g-pal8v4", "../../examples/bmp_loader/assets/g/pal8v4.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("g-pal8v5", "../../examples/bmp_loader/assets/g/pal8v5.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("g-pal8w124", "../../examples/bmp_loader/assets/g/pal8w124.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("g-pal8w125", "../../examples/bmp_loader/assets/g/pal8w125.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("g-pal8w126", "../../examples/bmp_loader/assets/g/pal8w126.bmp"));
-//	assertNoExceptionThrown(Assets::loadTexture("g-rgb16", "../../examples/bmp_loader/assets/g/rgb16.bmp"));
+	assertNoExceptionThrown(Assets::loadTexture("g-rgb16", "../../examples/bmp_loader/assets/g/rgb16.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("g-rgb16-565", "../../examples/bmp_loader/assets/g/rgb16-565.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("g-rgb16-565pal", "../../examples/bmp_loader/assets/g/rgb16-565pal.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("g-rgb16bfdef", "../../examples/bmp_loader/assets/g/rgb16bfdef.bmp"));
