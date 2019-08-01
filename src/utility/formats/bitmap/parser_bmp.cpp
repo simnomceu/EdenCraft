@@ -110,7 +110,7 @@ namespace ece
 						long bufPos = 0;
 						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
 							for (auto x = ece::size_t{ 0 }; x < this->_bitmap.pixels.getWidth(); ++x) {
-								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * this->_bitmap.dib.width + static_cast<long>(x);
 								if (static_cast<std::size_t>(bufPos) > uncompressBuffer.size()) {
 									throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
 								}

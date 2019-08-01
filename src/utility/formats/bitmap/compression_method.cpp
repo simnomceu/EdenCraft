@@ -40,6 +40,7 @@
 #include "utility/formats/bitmap/compression_method.hpp"
 #include "utility/types.hpp"
 #include "utility/formats/bitmap/dib_header.hpp"
+#include "utility/algorithm.hpp"
 
 #ifdef _MSC_VER
 #	undef min
@@ -114,9 +115,14 @@ namespace ece
 							}
 						}
 						else if (header.bitCount == 4) {
-							for (auto it = begin; it != end; ++it) {
-								tmp.push_back(static_cast<char>(get4<char, 1>(*it)));
-								tmp.push_back(static_cast<char>(get4<char, 0>(*it)));
+							if (header.compression == CompressionMethod::RGB || header.compression == CompressionMethod::CMYK) {
+								for (auto it = begin; it != end; ++it) {
+									tmp.push_back(static_cast<char>(get4<char, 1>(*it)));
+									tmp.push_back(static_cast<char>(get4<char, 0>(*it)));
+								}
+							}
+							else {
+								tmp.assign(begin, end);
 							}
 						}
 						else {
@@ -125,6 +131,12 @@ namespace ece
 					}
 					else {
 						tmp.assign(begin, end);
+					}
+
+					if (header.compression == CompressionMethod::RGB || header.compression == CompressionMethod::CMYK) {
+						if (tmp.size() > static_cast<std::size_t>(header.width * header.height)) {
+							tmp.resize(header.width * header.height);
+						}
 					}
 
 					switch (header.compression)
@@ -275,138 +287,30 @@ namespace ece
 
 				std::vector<char> decompressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width, std::size_t height)
 				{
-					auto result = std::vector<char>(width * height, 0);
-					auto offset = std::size_t{ 0 };
-					auto eof = width;
-
-					auto it = begin;
-					while (it != end) {
-						if (offset >= result.size() || eof >= result.size()) {
-							throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
-						}
-
-						if (static_cast<unsigned char>(*it) == 0) { // absolute mode
-							++it;
-							auto second = static_cast<unsigned char>(*it);
-							++it;
-							if (second == 0) { // end of line
-								offset = eof;
-								eof += width;
-							}
-							else if (second == 1) { // end of bitmap
-								it = end;
-							}
-							else if (second == 2) { // delta jump
-								const int x = static_cast<unsigned char>(*it);
-								++it;
-								const int y = static_cast<unsigned char>(*it);
-								++it;
-								offset += (y * width) + x;
-								if (offset >= result.size()) {
-									throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
-								}
-								eof += (y * width);
-							}
-							else {
-								const int count = static_cast<unsigned char>(*it);
-								if (static_cast<std::size_t>(count) >= result.size() - offset) {
-									throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
-								}
-								++it;
-								for (auto i = 0; i < count; ++i) {
-									result[offset] = static_cast<unsigned char>(*it);
-									++it;
-									++offset;
-								}
-								if (count % 2 == 1) {
-									++it;
-								}
-							}
-						}
-						else { // encoded mode
-							++it;
-							const int count = static_cast<unsigned char>(*it);
-							if (static_cast<std::size_t>(count) >= result.size() - offset) {
-								throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
-							}
-							++it;
-							for (auto i = 0; i < count; ++i) {
-								result[offset] = static_cast<unsigned char>(*it);
-								++it;
-								++offset;
-							}
-						}
+					std::vector<std::uint8_t> compressed;
+					for (auto e = begin; e != end; ++e) {
+						compressed.push_back(static_cast<unsigned char>(*e));
 					}
-					return result;
+					auto uncompressed = uncompressRLE8(compressed, width, height);
+					std::vector<char> result;
+					for (auto e : uncompressed) {
+						result.push_back(static_cast<char>(e));
+					}
+					return std::move(result);
 				}
 
 				std::vector<char> decompressRLE4(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width, std::size_t height)
 				{
-					auto result = std::vector<char>(width * height, 0);
-					auto offset = std::size_t{ 0 };
-					auto eof = width;
-
-					auto it = begin;
-					while (it != end) {
-						if (offset >= result.size() || eof >= result.size()) {
-							throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
-						}
-
-						if (static_cast<unsigned char>(*it) == 0) { // absolute mode
-							++it;
-							auto second = static_cast<unsigned char>(*it);
-							++it;
-							if (second == 0) { // end of line
-								offset = eof;
-								eof += width;
-							}
-							else if (second == 1) { // end of bitmap
-								it = end;
-							}
-							else if (second == 2) { // delta jump
-								const int x = static_cast<unsigned char>(*it);
-								++it;
-								const int y = static_cast<unsigned char>(*it);
-								++it;
-								offset += (y * width) + x;
-								if (offset >= result.size()) {
-									throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
-								}
-								eof += (y * width);
-							}
-							else {
-								const int count = static_cast<unsigned char>(*it);
-								if (static_cast<std::size_t>(count) >= result.size() - offset) {
-									throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
-								}
-								for (int i = 0; i < count; ++i) {
-									if (i % 2 == 0) {
-										++it;
-									}
-									unsigned char tmp = static_cast<unsigned char>(*it);
-									result[offset] = i % 2 == 0 ? static_cast<char>(get4<unsigned char, 1>(tmp)) : static_cast<char>(get4<unsigned char, 0>(tmp));
-									++offset;
-								}
-								if (count % 4 == 1 || count % 4 == 2) {
-									++it;
-								}
-							}
-						}
-						else { // encoded mode
-							++it;
-							const int count = static_cast<unsigned char>(*it);
-							if (static_cast<std::size_t>(count) >= result.size() - offset) {
-								throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
-							}
-							++it;
-							for (int i = 0; i < count; ++i) {
-								unsigned char tmp = static_cast<unsigned char>(*it);
-								result[offset] = i % 2 == 0 ? static_cast<char>(get4<unsigned char, 1>(tmp)) : static_cast<char>(get4<unsigned char, 0>(tmp));
-								++offset;
-							}
-						}
+					std::vector<std::uint8_t> compressed;
+					for (auto e = begin; e != end; ++e) {
+						compressed.push_back(static_cast<unsigned char>(*e));
 					}
-					return result;
+					auto uncompressed = uncompressRLE4(compressed, width, height);
+					std::vector<char> result;
+					for (auto e : uncompressed) {
+						result.push_back(static_cast<char>(e));
+					}
+					return std::move(result);
 				}
 
 				std::vector<char> decompressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)

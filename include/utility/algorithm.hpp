@@ -36,67 +36,14 @@
 
 */
 
-#include "utility/debug.hpp"
+#ifndef ALGORITHM_HPP
+#define ALGORITHM_HPP
+
+#include "utility/algorithm/rle.hpp"
 
 namespace ece
 {
-	namespace utility
-	{
-		namespace type
-		{
-			template <class T, std::size_t I, typename enabled> bool get1(T & data)
-			{
-				return (bool)((data >> I) & 1u);
-			}
+	using namespace utility::algorithm;
+}
 
-			template <class T, std::size_t I, typename enabled> void set1(T & data, bool value)
-			{
-				data = (data & ~(1u << I)) | (value << I);
-			}
-
-			template <class T, std::size_t I, typename enabled> std::uint8_t get2(T & data)
-			{
-				return ((data >> I * 2) & 0b11);
-			}
-
-			template <class T, std::size_t I, typename enabled> void set2(T & data, std::uint8_t value)
-			{
-				assert(value <= 0b11, "The bit value is too big for its memory storage.");
-				data = static_cast<T>((data & ~(0b11 << I * 2)) | (value << I * 2));
-			}
-
-			template <class T, std::size_t I, typename enabled> std::uint8_t get4(T & data)
-			{
-				return ((data >> I * 4) & 0b1111);
-			}
-
-			template <class T, std::size_t I, typename enabled> void set4(T & data, std::uint8_t value)
-			{
-				assert(value <= 0b1111, "The bit value is too big for its memory storage.");
-				data = static_cast<T>((data & ~(0b1111 << I * 4)) | (value << I * 4));
-			}
-
-			inline std::size_t bitcount(unsigned int value) { return std::bitset<32>(value).count(); }
-
-			inline std::size_t bitPosition(unsigned int value) { return bitcount((value & (~value + 1)) - 1); }
-
-			inline unsigned int bitMask(unsigned int color, unsigned int mask) { return (color & mask) >> bitPosition(mask); }
-
-			inline unsigned int mask(unsigned int bitcount) { return (bitcount == 32) ? 0xFFFFFFFF : (1 << bitcount) - 1; }
-
-			inline unsigned int convertBitCount(unsigned int value, unsigned int origin, unsigned int target)
-			{
-				if (target < origin) {
-					return (value >> (origin - target));
-				}
-				else {
-					auto result = (value << (target - origin));
-					if (result > 0) {
-						result |= mask(target - origin);
-					}
-					return result;
-				}
-			}
-		} // namespace type
-	} // namespace utility
-} // namespace ece
+#endif // ALGORITHM_HPP

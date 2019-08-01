@@ -51,11 +51,11 @@ namespace ece
 			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I < sizeof(T) * 8)>> bool get1(T & data);
 			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I < sizeof(T) * 8)>> void set1(T & data, bool value);
 
-			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 2 < sizeof(T) * 8)>> int get2(T & data);
-			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 2 < sizeof(T) * 8)>> void set2(T & data, int value);
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 2 < sizeof(T) * 8)>> std::uint8_t get2(T & data);
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 2 < sizeof(T) * 8)>> void set2(T & data, std::uint8_t value);
 
-			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 4 < sizeof(T) * 8)>> int get4(T & data);
-			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 4 < sizeof(T) * 8)>> void set4(T & data, int value);
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 4 < sizeof(T) * 8)>> std::uint8_t get4(T & data);
+			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 4 < sizeof(T) * 8)>> void set4(T & data, std::uint8_t value);
 
 			inline std::size_t bitcount(unsigned int value);
 			inline std::size_t bitPosition(unsigned int value);
