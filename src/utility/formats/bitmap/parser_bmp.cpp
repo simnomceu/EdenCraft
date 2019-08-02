@@ -52,7 +52,7 @@ namespace ece
 			{
 				void ParserBMP::load(std::istream & stream)
 				{
-					auto buffer = std::vector<char>{};
+					auto buffer = std::vector<std::uint8_t>{};
 
 					// see http://paulbourke.net/dataformats/bitmaps/
 					// see http://www.kalytta.com/bitmap.h
@@ -85,16 +85,16 @@ namespace ece
 						throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
 					}
 
-					auto uncompressBuffer = uncompress(buffer.begin(), buffer.end(), this->_bitmap.dib);
+					auto uncompressBuffer = uncompress(buffer, this->_bitmap.dib);
 					
-					int psw = ((this->_bitmap.dib.width * 3) + 3) & ~3;
+					int psw = ((this->_bitmap.dib.width * 3) + 3) & ~3; // To be sure it is aligned on 4 bytes.
 
 					this->_bitmap.pixels.resize(static_cast<ece::size_t>(this->_bitmap.dib.width), static_cast<ece::size_t>(this->_bitmap.dib.height));
 
 					if (this->_bitmap.dib.nbColorsUsed == 0) {
 						long bufPos = 0;
 						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
-							for (auto x = ece::size_t{ 0 }; x < 3 * this->_bitmap.pixels.getWidth(); x += 3) {
+							for (auto x = ece::size_t{ 0 }; x < 3 * this->_bitmap.pixels.getWidth(); x+=3) {
 								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
 								if (static_cast<std::size_t>(bufPos) > uncompressBuffer.size()) {
 									throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
@@ -110,7 +110,7 @@ namespace ece
 						long bufPos = 0;
 						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
 							for (auto x = ece::size_t{ 0 }; x < this->_bitmap.pixels.getWidth(); ++x) {
-								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * this->_bitmap.dib.width + static_cast<long>(x);
+								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
 								if (static_cast<std::size_t>(bufPos) > uncompressBuffer.size()) {
 									throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
 								}
@@ -119,9 +119,9 @@ namespace ece
 									throw std::runtime_error("Trying to access the " + std::to_string(colorPos) + "th color while the size of the color table is " + std::to_string(this->_bitmap.dib.nbColorsUsed) + ".");
 								}
 								auto color = (*this->_bitmap.colors)[colorPos];
-								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x / 3][0] = color.r; // red
-								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x / 3][1] = color.g; // green
-								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x / 3][2] = color.b; // blue
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x][0] = color.r; // red
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x][1] = color.g; // green
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x][2] = color.b; // blue
 							}
 						}
 					}

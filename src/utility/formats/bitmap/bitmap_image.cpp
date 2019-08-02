@@ -105,7 +105,8 @@ namespace ece
 					if (this->dib.compression == CompressionMethod::JPEG && this->dib.bitCount != 24) {
 						return false;
 					}
-					if ((this->dib.bitCount == 16 || this->dib.bitCount == 32) && (this->dib.compression != CompressionMethod::RGB && this->dib.compression != CompressionMethod::CMYK)) {
+					if ((this->dib.bitCount == 16 || this->dib.bitCount == 32) && (this->dib.compression != CompressionMethod::RGB && this->dib.compression != CompressionMethod::CMYK 
+																				&& this->dib.compression != CompressionMethod::BITFIELDS && this->dib.compression != CompressionMethod::ALPHABITFIELDS)) {
 						throw std::runtime_error("A " + std::to_string(this->dib.bitCount) + "bpp image should not use a compression method (" + to_string(this->dib.compression) + ").");
 					}
 

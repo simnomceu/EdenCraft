@@ -76,21 +76,21 @@ namespace ece
 				data = static_cast<T>((data & ~(0b1111 << I * 4)) | (value << I * 4));
 			}
 
-			inline std::size_t bitcount(unsigned int value) { return std::bitset<32>(value).count(); }
+			inline std::size_t bitcount(std::uint8_t value) { return std::bitset<32>(value).count(); }
 
-			inline std::size_t bitPosition(unsigned int value) { return bitcount((value & (~value + 1)) - 1); }
+			inline std::size_t bitPosition(std::uint8_t value) { return bitcount((value & (~value + 1)) - 1); }
 
-			inline unsigned int bitMask(unsigned int color, unsigned int mask) { return (color & mask) >> bitPosition(mask); }
+			inline unsigned int bitMask(unsigned int color, std::uint8_t mask) { return (color & mask) >> bitPosition(mask); }
 
-			inline unsigned int mask(unsigned int bitcount) { return (bitcount == 32) ? 0xFFFFFFFF : (1 << bitcount) - 1; }
+			inline unsigned int mask(std::size_t bitcount) { return (bitcount == 32) ? 0xFFFFFFFF : (1 << bitcount) - 1; }
 
-			inline unsigned int convertBitCount(unsigned int value, unsigned int origin, unsigned int target)
+			inline unsigned int convertBitCount(unsigned int value, std::size_t origin, std::size_t target)
 			{
 				if (target < origin) {
 					return (value >> (origin - target));
 				}
 				else {
-					auto result = (value << (target - origin));
+					auto result = static_cast<std::uint8_t>(value << (target - origin));
 					if (result > 0) {
 						result |= mask(target - origin);
 					}

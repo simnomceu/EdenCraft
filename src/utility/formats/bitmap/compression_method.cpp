@@ -72,132 +72,132 @@ namespace ece
 					}
 				}
 
-				std::vector<char> compress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<std::uint8_t> compress(std::vector<std::uint8_t> uncompressed, DIBHeader & header)
 				{
 					switch (header.compression)
 					{
-					case CompressionMethod::RGB: return { begin, end }; break;
-					case CompressionMethod::RLE8: return compressRLE8(begin, end, header.width); break;
-					case CompressionMethod::RLE4: return compressRLE4(begin, end, header.width); break; //should_be std::uint4_t
-					case CompressionMethod::BITFIELDS: return compressBitfields(begin, end, header); break;
-					case CompressionMethod::JPEG: return compressJPEG(begin, end, header.width); break;
-					case CompressionMethod::PNG: return compressPNG(begin, end, header.width); break;
-					case CompressionMethod::ALPHABITFIELDS: return compressAlphaBitfields(begin, end, header); break;
-					case CompressionMethod::CMYK: return { begin, end }; break;
-					case CompressionMethod::CMYKRLE8: return compressRLE8(begin, end, header.width); break;
-					case CompressionMethod::CMYKRLE4: return compressRLE4(begin, end, header.width); break;
+					case CompressionMethod::RGB: return uncompressed; break;
+					case CompressionMethod::RLE8: return compressRLE8(uncompressed, header.width); break;
+					case CompressionMethod::RLE4: return compressRLE4(uncompressed, header.width); break; //should_be std::uint4_t
+					case CompressionMethod::BITFIELDS: return compressBitfields(uncompressed, header); break;
+					case CompressionMethod::JPEG: return compressJPEG(uncompressed, header.width); break;
+					case CompressionMethod::PNG: return compressPNG(uncompressed, header.width); break;
+					case CompressionMethod::ALPHABITFIELDS: return compressAlphaBitfields(uncompressed, header); break;
+					case CompressionMethod::CMYK: return { uncompressed }; break;
+					case CompressionMethod::CMYKRLE8: return compressRLE8(uncompressed, header.width); break;
+					case CompressionMethod::CMYKRLE4: return compressRLE4(uncompressed, header.width); break;
 					default: throw std::runtime_error("Undefined bitmap compression method."); break;
 					}
 				}
 
-				std::vector<char> uncompress(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<std::uint8_t> uncompress(std::vector<std::uint8_t> compressed, DIBHeader & header)
 				{
-					auto tmp = std::vector<char>();
+					auto tmp = std::vector<std::uint8_t>();
 					if (header.compression == CompressionMethod::RGB || header.compression == CompressionMethod::CMYK) {
 						if (header.bitCount == 1) {
-							for (auto it = begin; it != end; ++it) {
-								tmp.push_back(get1<char, 7>(*it));
-								tmp.push_back(get1<char, 6>(*it));
-								tmp.push_back(get1<char, 5>(*it));
-								tmp.push_back(get1<char, 4>(*it));
-								tmp.push_back(get1<char, 3>(*it));
-								tmp.push_back(get1<char, 2>(*it));
-								tmp.push_back(get1<char, 1>(*it));
-								tmp.push_back(get1<char, 0>(*it));
+							for (auto & e : compressed) {
+								tmp.push_back(get1<std::uint8_t, 7>(e));
+								tmp.push_back(get1<std::uint8_t, 6>(e));
+								tmp.push_back(get1<std::uint8_t, 5>(e));
+								tmp.push_back(get1<std::uint8_t, 4>(e));
+								tmp.push_back(get1<std::uint8_t, 3>(e));
+								tmp.push_back(get1<std::uint8_t, 2>(e));
+								tmp.push_back(get1<std::uint8_t, 1>(e));
+								tmp.push_back(get1<std::uint8_t, 0>(e));
 							}
 						}
 						else if (header.bitCount == 2) {
-							for (auto it = begin; it != end; ++it) {
-								tmp.push_back(static_cast<char>(get2<char, 3>(*it)));
-								tmp.push_back(static_cast<char>(get2<char, 2>(*it)));
-								tmp.push_back(static_cast<char>(get2<char, 1>(*it)));
-								tmp.push_back(static_cast<char>(get2<char, 0>(*it)));
+							for (auto & e : compressed) {
+								tmp.push_back(get2<std::uint8_t, 3>(e));
+								tmp.push_back(get2<std::uint8_t, 2>(e));
+								tmp.push_back(get2<std::uint8_t, 1>(e));
+								tmp.push_back(get2<std::uint8_t, 0>(e));
 							}
 						}
 						else if (header.bitCount == 4) {
 							if (header.compression == CompressionMethod::RGB || header.compression == CompressionMethod::CMYK) {
-								for (auto it = begin; it != end; ++it) {
-									tmp.push_back(static_cast<char>(get4<char, 1>(*it)));
-									tmp.push_back(static_cast<char>(get4<char, 0>(*it)));
+								for (auto & e : compressed) {
+									tmp.push_back(get4<std::uint8_t, 1>(e));
+									tmp.push_back(get4<std::uint8_t, 0>(e));
 								}
 							}
 							else {
-								tmp.assign(begin, end);
+								tmp = compressed;
 							}
 						}
 						else {
-							tmp.assign(begin, end);
+							tmp = compressed;
 						}
 					}
 					else {
-						tmp.assign(begin, end);
+						tmp = compressed;
 					}
 
 					if (header.compression == CompressionMethod::RGB || header.compression == CompressionMethod::CMYK) {
-						if (tmp.size() > static_cast<std::size_t>(header.width * header.height)) {
+						if (tmp.size() > header.imageSize) {
 							tmp.resize(header.width * header.height);
 						}
 					}
 
 					switch (header.compression)
 					{
-					case CompressionMethod::RGB: return { tmp.begin(), tmp.end() }; break;
-					case CompressionMethod::RLE8: return decompressRLE8(tmp.begin(), tmp.end(), header.width, header.height); break;
-					case CompressionMethod::RLE4: return decompressRLE4(tmp.begin(), tmp.end(), header.width, header.height); break;
-					case CompressionMethod::BITFIELDS: return decompressBitfields(tmp.begin(), tmp.end(), header); break;
-					case CompressionMethod::JPEG: return decompressJPEG(tmp.begin(), tmp.end(), header.width); break;
-					case CompressionMethod::PNG: return decompressPNG(tmp.begin(), tmp.end(), header.width); break;
-					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(tmp.begin(), tmp.end(), header); break;
-					case CompressionMethod::CMYK: return { tmp.begin(), tmp.end() }; break;
-					case CompressionMethod::CMYKRLE8: return decompressRLE8(tmp.begin(), tmp.end(), header.width, header.height); break;
-					case CompressionMethod::CMYKRLE4: return decompressRLE4(tmp.begin(), tmp.end(), header.width, header.height); break;
+					case CompressionMethod::RGB: return tmp; break;
+					case CompressionMethod::RLE8: return uncompressRLE8(tmp, header.width, header.height); break;
+					case CompressionMethod::RLE4: return uncompressRLE4(tmp, header.width, header.height); break;
+					case CompressionMethod::BITFIELDS: return decompressBitfields(tmp, header); break;
+					case CompressionMethod::JPEG: return decompressJPEG(tmp, header.width); break;
+					case CompressionMethod::PNG: return decompressPNG(tmp, header.width); break;
+					case CompressionMethod::ALPHABITFIELDS: return decompressAlphaBitfields(tmp, header); break;
+					case CompressionMethod::CMYK: return tmp; break;
+					case CompressionMethod::CMYKRLE8: return uncompressRLE8(tmp, header.width, header.height); break;
+					case CompressionMethod::CMYKRLE4: return uncompressRLE4(tmp, header.width, header.height); break;
 					default: throw std::runtime_error("Undefined bitmap uncompression method."); break;
 					}
 				}
 
-				std::vector<char> compressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width)
+				std::vector<std::uint8_t> compressRLE8(std::vector<std::uint8_t> uncompressed, std::size_t width)
 				{
-					auto result = std::vector<char>();
+					auto result = std::vector<std::uint8_t>();
 
-					auto it = begin;
+					auto it = uncompressed.begin();
 					auto xPos = 0;
 					auto count = 0;
-					while (it != end) {
+					while (it != uncompressed.end()) {
 						count = 0;
 						while (*(it + count) == *(it + count + 1) && count < std::numeric_limits<char>::max()) {
 							++count;
 						}
 						count = std::min(count, static_cast<int>(width) - xPos);
 						if (count > 1) {
-							result.emplace_back(static_cast<char>(count));
+							result.emplace_back(static_cast<std::uint8_t>(count));
 							result.emplace_back(*it);
 						}
 						else {
-							result.emplace_back(static_cast<char>(0));
+							result.emplace_back(static_cast<std::uint8_t>(0));
 							result.emplace_back(*it);
 						}
 						it += count;
 						xPos += count;
 						if (xPos >= static_cast<int>(width)) {
-							result.emplace_back(static_cast<char>(0));
-							result.emplace_back(static_cast<char>(0));
+							result.emplace_back(static_cast<std::uint8_t>(0));
+							result.emplace_back(static_cast<std::uint8_t>(0));
 							xPos = 0;
 						}
 					}
-					result.emplace_back(static_cast<char>(0));
-					result.emplace_back(static_cast<char>(1));
+					result.emplace_back(static_cast<std::uint8_t>(0));
+					result.emplace_back(static_cast<std::uint8_t>(1));
 					return result;
 				}
 
 
-				std::vector<char> compressRLE4(typename std::vector<char>::iterator begin, typename std::vector<char>::iterator end, std::size_t width)
+				std::vector<std::uint8_t> compressRLE4(std::vector<std::uint8_t> uncompressed, std::size_t width)
 				{
-					auto result = std::vector<char>();
+					auto result = std::vector<std::uint8_t>();
 
-					auto it = begin;
+					auto it = uncompressed.begin();
 					auto xPos = 0;
 					auto count = 0;
-					while (it != end) {
+					while (it != uncompressed.end()) {
 						count = 2;
 						while (*it == *(it + count) && *(it + 1) == *(it + count + 1) && count < std::numeric_limits<char>::max()) {
 							count+=2;
@@ -211,40 +211,40 @@ namespace ece
 
 						count = std::min(count, static_cast<int>(width) - xPos);
 						if (count > 1) {
-							result.emplace_back(static_cast<char>(count));
+							result.emplace_back(static_cast<std::uint8_t>(count));
 							result.emplace_back(color);
 						}
 						else {
-							result.emplace_back(static_cast<char>(0));
+							result.emplace_back(static_cast<std::uint8_t>(0));
 							result.emplace_back(color);
 						}
 						it += count;
 						xPos += count;
 						if (xPos >= static_cast<int>(width)) {
-							result.emplace_back(static_cast<char>(0));
-							result.emplace_back(static_cast<char>(0));
+							result.emplace_back(static_cast<std::uint8_t>(0));
+							result.emplace_back(static_cast<std::uint8_t>(0));
 							xPos = 0;
 						}
 					}
-					result.emplace_back(static_cast<char>(0));
-					result.emplace_back(static_cast<char>(1));
+					result.emplace_back(static_cast<std::uint8_t>(0));
+					result.emplace_back(static_cast<std::uint8_t>(1));
 					return result;
 				}
 
-				std::vector<char> compressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<std::uint8_t> compressBitfields(std::vector<std::uint8_t> uncompressed, DIBHeader & header)
 				{
 					auto mask = std::get<RGB24>(header.mask);
 					auto redBitcount = bitcount(mask.r);
 					auto greenBitcount = bitcount(mask.g);
 					auto blueBitcount = bitcount(mask.b);
 
-					auto result = std::vector<char>();
-					auto it = begin;
+					auto result = std::vector<std::uint8_t>();
+					auto it = uncompressed.begin();
 					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), 8, redBitcount)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.r), 8, redBitcount)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount)));
 							++it;
 						}
 					}
@@ -252,17 +252,17 @@ namespace ece
 					return result;
 				}
 
-				std::vector<char> compressJPEG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				std::vector<std::uint8_t> compressJPEG(std::vector<std::uint8_t> /*uncompressed*/, std::size_t /*width*/)
 				{
 					throw std::runtime_error("Huffman 1D encoding has not been implemented yet.");
 				}
 
-				std::vector<char> compressPNG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				std::vector<std::uint8_t> compressPNG(std::vector<std::uint8_t> /*uncompressed*/, std::size_t /*width*/)
 				{
 					throw std::runtime_error("PNG encoding has not been implemented yet.");
 				}
 
-				std::vector<char> compressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<std::uint8_t> compressAlphaBitfields(std::vector<std::uint8_t> uncompressed, DIBHeader & header)
 				{
 					auto mask = std::get<RGBA32>(header.mask);
 					auto redBitcount = bitcount(mask.r);
@@ -270,14 +270,14 @@ namespace ece
 					auto blueBitcount = bitcount(mask.b);
 					auto alphaBitcount = bitcount(mask.a);
 
-					auto result = std::vector<char>();
-					auto it = begin;
+					auto result = std::vector<std::uint8_t>();
+					auto it = uncompressed.begin();
 					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), 8, redBitcount)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.a), 8, alphaBitcount)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.r), 8, redBitcount)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.g), 8, greenBitcount)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.b), 8, blueBitcount)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.a), 8, alphaBitcount)));
 							++it;
 						}
 					}
@@ -285,48 +285,20 @@ namespace ece
 					return result;
 				}
 
-				std::vector<char> decompressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width, std::size_t height)
-				{
-					std::vector<std::uint8_t> compressed;
-					for (auto e = begin; e != end; ++e) {
-						compressed.push_back(static_cast<unsigned char>(*e));
-					}
-					auto uncompressed = uncompressRLE8(compressed, width, height);
-					std::vector<char> result;
-					for (auto e : uncompressed) {
-						result.push_back(static_cast<char>(e));
-					}
-					return std::move(result);
-				}
-
-				std::vector<char> decompressRLE4(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width, std::size_t height)
-				{
-					std::vector<std::uint8_t> compressed;
-					for (auto e = begin; e != end; ++e) {
-						compressed.push_back(static_cast<unsigned char>(*e));
-					}
-					auto uncompressed = uncompressRLE4(compressed, width, height);
-					std::vector<char> result;
-					for (auto e : uncompressed) {
-						result.push_back(static_cast<char>(e));
-					}
-					return std::move(result);
-				}
-
-				std::vector<char> decompressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<std::uint8_t> decompressBitfields(std::vector<std::uint8_t> compressed, DIBHeader & header)
 				{
 					auto mask = std::get<RGB24>(header.mask);
 					auto redBitcount = bitcount(mask.r);
 					auto greenBitcount = bitcount(mask.g);
 					auto blueBitcount = bitcount(mask.b);
 
-					auto result = std::vector<char>();
-					auto it = begin;
+					auto result = std::vector<std::uint8_t>();
+					auto it = compressed.begin();
 					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));
 							++it;
 						}
 					}
@@ -334,17 +306,17 @@ namespace ece
 					return result;
 				}
 
-				std::vector<char> decompressJPEG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				std::vector<std::uint8_t> decompressJPEG(std::vector<std::uint8_t> compressed, std::size_t /*width*/)
 				{
 					throw std::runtime_error("Huffman 1D decoding has not been implemented yet.");
 				}
 
-				std::vector<char> decompressPNG(std::vector<char>::iterator /*begin*/, std::vector<char>::iterator /*end*/, std::size_t /*width*/)
+				std::vector<std::uint8_t> decompressPNG(std::vector<std::uint8_t> compressed, std::size_t /*width*/)
 				{
 					throw std::runtime_error("PNG decoding has not been implemented yet.");
 				}
 
-				std::vector<char> decompressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header)
+				std::vector<std::uint8_t> decompressAlphaBitfields(std::vector<std::uint8_t> compressed, DIBHeader & header)
 				{
 					auto mask = std::get<RGBA32>(header.mask);
 					auto redBitcount = bitcount(mask.r);
@@ -352,14 +324,14 @@ namespace ece
 					auto blueBitcount = bitcount(mask.b);
 					auto alphaBitcount = bitcount(mask.a);
 
-					auto result = std::vector<char>();
-					auto it = begin;
+					auto result = std::vector<std::uint8_t>();
+					auto it = compressed.begin();
 					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));
-							result.push_back(static_cast<char>(convertBitCount(bitMask(*it, mask.a), alphaBitcount, 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.a), alphaBitcount, 8)));
 							++it;
 						}
 					}

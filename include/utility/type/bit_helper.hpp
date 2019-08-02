@@ -57,11 +57,11 @@ namespace ece
 			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 4 < sizeof(T) * 8)>> std::uint8_t get4(T & data);
 			template <class T, std::size_t I, typename enabled = std::enable_if_t<(I * 4 < sizeof(T) * 8)>> void set4(T & data, std::uint8_t value);
 
-			inline std::size_t bitcount(unsigned int value);
-			inline std::size_t bitPosition(unsigned int value);
-			inline unsigned int bitMask(unsigned int color, unsigned int mask);
-			unsigned int mask(unsigned int bitcount);
-			inline unsigned int convertBitCount(unsigned int value, unsigned int origin, unsigned int target);
+			inline std::size_t bitcount(std::uint8_t value);
+			inline std::size_t bitPosition(std::uint8_t value);
+			inline unsigned int bitMask(unsigned int color, std::uint8_t mask);
+			unsigned int mask(std::size_t bitcount);
+			inline unsigned int convertBitCount(unsigned int value, std::size_t origin, std::size_t target);
 		} // namespace type
 	} // namespace utility
 } // namespace ece
