@@ -49,15 +49,22 @@ namespace ece
 			{
 				bool BitmapImage::isValid() const
 				{
-					if (this->header.size > this->header.pixelsOffset + this->dib.imageSize) {
+					if (this->dib.imageSize != 0 && this->header.size > this->header.pixelsOffset + this->dib.imageSize) {
 						throw std::runtime_error("The given size of the bitmap is absurdly large(" + std::to_string(this->header.size) + ") and exceeds the size of the file (" + std::to_string(this->header.pixelsOffset + this->dib.imageSize) + ").");
 					}
+					else {
+						int psw = ((this->dib.width * (this->dib.bitCount / 8)) + 3) & ~3; // To be sure it is aligned on 4 bytes.
+						if (this->dib.imageSize == 0 && this->header.size > this->header.pixelsOffset + psw * this->dib.height) {
+							throw std::runtime_error("The given size of the bitmap is absurdly large(" + std::to_string(this->header.size) + ") and exceeds the size of the file (" + std::to_string(this->header.pixelsOffset + psw * this->dib.height) + ").");
+						}
+					}
+
 					if (this->dib.width < 0 || this->dib.height < 0) {
 						throw std::runtime_error("The bitmap image has an invalid size: " + std::to_string(this->dib.width) + "x" + std::to_string(this->dib.height) + ".");
 					}
-					if (static_cast<long long int>(this->dib.width) * static_cast<long long int>(this->dib.height) > this->dib.imageSize * 32) {
+					/*if (static_cast<long long int>(this->dib.width) * static_cast<long long int>(this->dib.height) > this->dib.imageSize * 32) {
 						throw std::runtime_error("The bitmap image has an absurdly large size: " + std::to_string(this->dib.width) + "x" + std::to_string(this->dib.height) + ".");
-					}
+					}*/
 					if (this->dib.height == 0 && this->dib.width < 1) {
 						return false;
 					}
@@ -105,8 +112,8 @@ namespace ece
 					if (this->dib.compression == CompressionMethod::JPEG && this->dib.bitCount != 24) {
 						return false;
 					}
-					if ((this->dib.bitCount == 16 || this->dib.bitCount == 32) && (this->dib.compression != CompressionMethod::RGB && this->dib.compression != CompressionMethod::CMYK 
-																				&& this->dib.compression != CompressionMethod::BITFIELDS && this->dib.compression != CompressionMethod::ALPHABITFIELDS)) {
+					if ((this->dib.bitCount == 16 || this->dib.bitCount == 32) && (this->dib.compression != CompressionMethod::RGB && this->dib.compression != CompressionMethod::CMYK
+						&& this->dib.compression != CompressionMethod::BITFIELDS && this->dib.compression != CompressionMethod::ALPHABITFIELDS)) {
 						throw std::runtime_error("A " + std::to_string(this->dib.bitCount) + "bpp image should not use a compression method (" + to_string(this->dib.compression) + ").");
 					}
 
@@ -125,6 +132,22 @@ namespace ece
 							throw std::runtime_error("The number of color used in this bitmap is absurdly large (" + std::to_string(this->dib.nbColorsUsed) + ") and exceeds the reserved size in the file (" + std::to_string(reservedColorTableSize) + ").");
 						}
 						return false;
+					}
+					if (std::holds_alternative<RGB24>(this->dib.mask) && this->dib.compression == CompressionMethod::ALPHABITFIELDS) {
+						throw std::runtime_error("Compression algorithm is Alpha Bitfield, but the mask is using a RGB24 pixel format.");
+					}
+
+					if (this->dib.compression == CompressionMethod::BITFIELDS) {
+						auto mask = std::holds_alternative<RGB24>(this->dib.mask) ? std::get<RGB24>(this->dib.mask) : std::get<RGBA32>(this->dib.mask);
+						if (mask.r == 0 || mask.g == 0 || mask.b == 0) {
+							throw std::runtime_error("The bit mask used for Bitfield compression is invalid: (" + std::to_string(mask.r) + ", " + std::to_string(mask.g) + ", " + std::to_string(mask.b) + ").");
+						}
+					}
+					else if (this->dib.compression == CompressionMethod::ALPHABITFIELDS) {
+						auto mask = std::get<RGBA32>(this->dib.mask);
+							if (mask.r == 0 || mask.g == 0 || mask.b == 0 || mask.a) {
+								throw std::runtime_error("The bit mask used for Alpha Bitfield compression is invalid: (" + std::to_string(mask.r) + ", " + std::to_string(mask.g) + ", " + std::to_string(mask.b) + ", " + std::to_string(mask.a) + ").");
+							}
 					}
 
 					return true;

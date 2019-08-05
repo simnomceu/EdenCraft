@@ -133,11 +133,11 @@ namespace ece
 						tmp = compressed;
 					}
 
-					if (header.compression == CompressionMethod::RGB || header.compression == CompressionMethod::CMYK) {
+				/*	if (header.compression == CompressionMethod::RGB || header.compression == CompressionMethod::CMYK) {
 						if (tmp.size() > header.imageSize) {
 							tmp.resize(header.width * header.height);
 						}
-					}
+					}*/
 
 					switch (header.compression)
 					{
@@ -287,7 +287,13 @@ namespace ece
 
 				std::vector<std::uint8_t> decompressBitfields(std::vector<std::uint8_t> compressed, DIBHeader & header)
 				{
-					auto mask = std::get<RGB24>(header.mask);
+					auto mask = RGB24{};
+					if (std::holds_alternative<RGB24>(header.mask)) {
+						mask = std::get<RGB24>(header.mask);
+					}
+					else {
+						mask = std::get<RGBA32>(header.mask);
+					}
 					auto redBitcount = bitcount(mask.r);
 					auto greenBitcount = bitcount(mask.g);
 					auto blueBitcount = bitcount(mask.b);

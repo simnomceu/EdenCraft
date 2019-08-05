@@ -57,8 +57,8 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				DIBHeader::DIBHeader() noexcept : type(DIBHeaderType::BITMAPINFOHEADER), width(0), height(0), planes(0), bitCount(0), compression(CompressionMethod::RGB), imageSize(0),
-					xResolution(0), yResolution(0), halftoning{ Halftoning::Algorithm::NONE, 0, 0 }, mask(), colorSpace{ColorSpace::Type::CALIBRATED_RGB, {}, {}, {}}, gamma(), 
+				DIBHeader::DIBHeader() noexcept : size(0), type(DIBHeaderType::BITMAPINFOHEADER), width(0), height(0), planes(0), bitCount(0), compression(CompressionMethod::RGB), imageSize(0),
+					xResolution(0), yResolution(0), nbColorsUsed(0), nbImportantColors(0), halftoning{ Halftoning::Algorithm::NONE, 0, 0 }, mask(), colorSpace{ColorSpace::Type::CALIBRATED_RGB, {}, {}, {}}, gamma(),
 					intent(IntentMapping::NONE), profile() {}
 
 				std::istream & operator>>(std::istream & stream, DIBHeader & header)

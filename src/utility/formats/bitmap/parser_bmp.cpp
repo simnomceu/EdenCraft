@@ -87,7 +87,7 @@ namespace ece
 
 					auto uncompressBuffer = uncompress(buffer, this->_bitmap.dib);
 					
-					int psw = ((this->_bitmap.dib.width * 3) + 3) & ~3; // To be sure it is aligned on 4 bytes.
+					int psw = ((this->_bitmap.dib.width * (this->_bitmap.dib.bitCount / 8)) + 3) & ~3; // To be sure it is aligned on 4 bytes.
 
 					this->_bitmap.pixels.resize(static_cast<ece::size_t>(this->_bitmap.dib.width), static_cast<ece::size_t>(this->_bitmap.dib.height));
 
