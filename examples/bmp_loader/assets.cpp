@@ -109,8 +109,8 @@ void Assets::loadAssets()
 	assertNoExceptionThrown(Assets::loadTexture("q-pal1p1", "../../examples/bmp_loader/assets/q/pal1p1.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("q-pal2", "../../examples/bmp_loader/assets/q/pal2.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("q-pal2color", "../../examples/bmp_loader/assets/q/pal2color.bmp"));
-//	assertNoExceptionThrown(Assets::loadTexture("q-pal4rlecut", "../../examples/bmp_loader/assets/q/pal4rlecut.bmp"));
-//	assertNoExceptionThrown(Assets::loadTexture("q-pal4rletrns", "../../examples/bmp_loader/assets/q/pal4rletrns.bmp"));
+ 	assertNoExceptionThrown(Assets::loadTexture("q-pal4rlecut", "../../examples/bmp_loader/assets/q/pal4rlecut.bmp"));
+	assertNoExceptionThrown(Assets::loadTexture("q-pal4rletrns", "../../examples/bmp_loader/assets/q/pal4rletrns.bmp"));
 	assertNoExceptionThrown(Assets::loadTexture("q-pal8offs", "../../examples/bmp_loader/assets/q/pal8offs.bmp"));
 //	assertNoExceptionThrown(Assets::loadTexture("q-pal8os2-hs", "../../examples/bmp_loader/assets/q/pal8os2-hs.bmp")); // Weird bitmap.header.size value of 26 ...
 	assertNoExceptionThrown(Assets::loadTexture("q-pal8os2sp", "../../examples/bmp_loader/assets/q/pal8os2sp.bmp"));

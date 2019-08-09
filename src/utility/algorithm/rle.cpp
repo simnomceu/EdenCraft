@@ -99,6 +99,10 @@ namespace ece
 								result[shift] = i % 2 == 0 ? get4<std::uint8_t, 1>(val) : get4<std::uint8_t, 0>(val);
 								++shift;
 							}
+							auto align = code1 % 4;
+							if (align == 1 || align == 2) {
+								consume(it);
+							}
 						}
 					}
 					else {
