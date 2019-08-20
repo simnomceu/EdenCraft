@@ -50,13 +50,17 @@ namespace ece
 				bool BitmapImage::isValid() const
 				{
 					if (this->dib.imageSize != 0 && this->header.size > this->header.pixelsOffset + this->dib.imageSize) {
-						throw std::runtime_error("The given size of the bitmap is absurdly large(" + std::to_string(this->header.size) + ") and exceeds the size of the file (" + std::to_string(this->header.pixelsOffset + this->dib.imageSize) + ").");
+						throw std::runtime_error("The given size of the bitmap is absurdly large (" + std::to_string(this->header.size) + ") and exceeds the size of the file (" + std::to_string(this->header.pixelsOffset + this->dib.imageSize) + ").");
 					}
 					else {
 						int psw = ((this->dib.width * (this->dib.bitCount / 8)) + 3) & ~3; // To be sure it is aligned on 4 bytes.
 						if (this->dib.imageSize == 0 && this->header.size > this->header.pixelsOffset + psw * this->dib.height) {
-							throw std::runtime_error("The given size of the bitmap is absurdly large(" + std::to_string(this->header.size) + ") and exceeds the size of the file (" + std::to_string(this->header.pixelsOffset + psw * this->dib.height) + ").");
+							throw std::runtime_error("The given size of the bitmap is absurdly large (" + std::to_string(this->header.size) + ") and exceeds the size of the file (" + std::to_string(this->header.pixelsOffset + psw * this->dib.height) + ").");
 						}
+					}
+
+					if (this->header.size < this->header.pixelsOffset) {
+						throw std::runtime_error("The given size of the bitmap is wrong (" + std::to_string(this->header.size) + ") and is maybe defined as the aggregate size of the header and the dib, instead of the file size.");
 					}
 
 					if (this->dib.width < 0 || this->dib.height < 0) {
