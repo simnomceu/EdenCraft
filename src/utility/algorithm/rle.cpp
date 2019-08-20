@@ -63,8 +63,8 @@ namespace ece
 
 				auto shift = std::size_t{ 0 };
 				auto eol = width;
-				auto it = compressed.begin();
-				while (it != compressed.end() && shift < result.size()) {
+				auto it = compressed.cbegin();
+				while (it != compressed.cend()) {
 					auto code1 = consume(it);
 
 					if (code1 == 0) {
@@ -75,7 +75,8 @@ namespace ece
 							eol += width;
 						}
 						else if (code2 == 1) { // EoF
-							it = compressed.end();
+							it = compressed.cend();
+							shift = eol;
 						}
 						else if (code2 == 2) { // Delta Jump
 							auto x = consume(it);
@@ -85,10 +86,10 @@ namespace ece
 							eol += y * width;
 						}
 						else { // absolute mode
-							if (shift >= result.size() || code2 >= result.size() - shift) {
+							if (shift >= result.size() || shift - 1 + code2 >= result.size()) {
 								throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
 							}
-							if ((shift % width) + code2 >= width) {
+							if ((shift % width) + code2 > width) {
 								eol += (((shift % width) + code2) / width) * width;
 							}
 							auto val = std::uint8_t{ 0 };
@@ -99,20 +100,22 @@ namespace ece
 								result[shift] = i % 2 == 0 ? get4<std::uint8_t, 1>(val) : get4<std::uint8_t, 0>(val);
 								++shift;
 							}
-							auto align = code1 % 4;
+							auto align = code2 % 4;
 							if (align == 1 || align == 2) {
 								consume(it);
 							}
 						}
 					}
 					else {
-						if (shift >= result.size() || code1 >= result.size() - shift) {
+						if (shift >= result.size() || shift - 1 + code1 >= result.size()) {
 							throw std::runtime_error("Error in RLE4 decompression, buffer overrun attempt has been detected.");
 						}
-						if ((shift % width) + code1 >= width) {
+						if ((shift % width) + code1 > width) {
 							eol += (((shift % width) + code1) / width) * width;
 						}
 						auto val = consume(it);
+						if (code1 < 10) {
+						}
 						for (auto i = 0; i < code1; ++i) {
 							result[shift] = i % 2 == 0 ? get4<std::uint8_t, 1>(val) : get4<std::uint8_t, 0>(val);
 							++shift;
@@ -156,8 +159,8 @@ namespace ece
 				
 				auto shift = std::size_t{ 0 };
 				auto eol = width;
-				auto it = compressed.begin();
-				while (it != compressed.end() && shift < result.size()) {
+				auto it = compressed.cbegin();
+				while (it != compressed.cend()) {
 					auto code1 = consume(it);
 
 					if (code1 == 0) {
@@ -178,7 +181,7 @@ namespace ece
 							eol += y * width;
 						}
 						else { // absolute mode
-							if (shift >= result.size() || code2 >= result.size() - shift) {
+							if (shift >= result.size() || shift - 1 + code2 >= result.size()) {
 								throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
 							}
 							if ((shift % width) + code2 >= width) {
@@ -191,10 +194,10 @@ namespace ece
 						}
 					}
 					else {
-						if (shift >= result.size() || code1 >= result.size() - shift) {
+						if (shift >= result.size() || shift - 1 + code1 >= result.size()) {
 							throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
 						}
-						if ((shift % width) + code1 >= width) {
+						if ((shift % width) + code1 > width) {
 							eol += (((shift % width) + code1) / width) * width;
 						}
 						auto val = consume(it);
