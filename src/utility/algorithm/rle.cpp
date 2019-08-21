@@ -172,6 +172,7 @@ namespace ece
 						}
 						else if (code2 == 1) { // EoF
 							it = compressed.end();
+							shift = eol;
 						}
 						else if (code2 == 2) { // Delta Jump
 							auto x = consume(it);
@@ -184,12 +185,15 @@ namespace ece
 							if (shift >= result.size() || shift - 1 + code2 >= result.size()) {
 								throw std::runtime_error("Error in RLE8 decompression, buffer overrun attempt has been detected.");
 							}
-							if ((shift % width) + code2 >= width) {
+							if ((shift % width) + code2 > width) {
 								eol += (((shift % width) + code2) / width) * width;
 							}
 							for (int i = 0; i < code2; ++i) {
 								result[shift] = consume(it);
 								++shift;
+							}
+							if ((code2 & 1) == 1) {
+								consume(it);
 							}
 						}
 					}
