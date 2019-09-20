@@ -47,6 +47,12 @@
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
 
+RegisterMatchExtensionToFormat("bmp", ece::BitmapImage)
+RegisterMatchExtensionToFormat("obj", ece::ObjectOBJ)
+
+RegisterMatchFormatToParser(ece::BitmapImage, ece::LoaderBMP)
+RegisterMatchFormatToParser(ece::ObjectOBJ, ece::OBJLoader)
+
 int main()
 {
 	std::srand(static_cast<unsigned int>(time(nullptr)));

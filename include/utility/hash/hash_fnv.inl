@@ -36,15 +36,21 @@
 
 */
 
-#ifndef HASH_HPP
-#define HASH_HPP
-
-#include "utility/hash/hash_fnv.hpp"
-#include "utility/hash/helper.hpp"
-
 namespace ece
 {
-	using namespace utility::hash;
-}
+	namespace utility
+	{
+		namespace hash
+		{
+			inline constexpr auto hash32_fnv1a(const char * const str, const std::uint32_t value) noexcept ->  std::uint32_t
+			{
+				return (str[0] == '\0') ? value : hash32_fnv1a(&str[1], (value ^ uint32_t(str[0])) * prime32);
+			}
 
-#endif // HASH_HPP
+			inline constexpr auto hash64_fnv1a(const char * const str, const std::uint64_t value) noexcept -> std::uint64_t
+			{
+				return (str[0] == '\0') ? value : hash64_fnv1a(&str[1], (value ^ uint64_t(str[0])) * prime64);
+			}
+		} // namespace hash
+	} // namespace utility
+} // namespace ece

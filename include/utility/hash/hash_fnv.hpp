@@ -36,15 +36,29 @@
 
 */
 
-#ifndef HASH_HPP
-#define HASH_HPP
+#ifndef HASH_FNV_HPP
+#define HASH_FNV_HPP
 
-#include "utility/hash/hash_fnv.hpp"
-#include "utility/hash/helper.hpp"
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
-	using namespace utility::hash;
-}
+	namespace utility
+	{
+		namespace hash
+		{
+			ECE_UTILITY_EXTERN constexpr std::uint32_t value32 = 0x811c9dc5;
+			ECE_UTILITY_EXTERN constexpr std::uint32_t prime32 = 0x1000193;
+			ECE_UTILITY_EXTERN constexpr std::uint64_t value64 = 0xcbf29ce484222325;
+			ECE_UTILITY_EXTERN constexpr std::uint64_t prime64 = 0x100000001b3;
 
-#endif // HASH_HPP
+			ECE_UTILITY_API inline constexpr auto hash32_fnv1a(const char * const str, const std::uint32_t value = value32) noexcept -> std::uint32_t;
+			ECE_UTILITY_API inline constexpr auto hash64_fnv1a(const char * const str, const std::uint64_t value = value64) noexcept -> std::uint64_t;
+		} // namespace hash
+	} // namespace utility
+} // namespace ece
+
+#include "utility/hash/hash_fnv.inl"
+
+#endif // HASH_FNV_HPP

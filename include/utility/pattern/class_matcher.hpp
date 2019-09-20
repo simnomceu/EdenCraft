@@ -36,15 +36,59 @@
 
 */
 
-#ifndef HASH_HPP
-#define HASH_HPP
+#ifndef CLASS_MATCHER_HPP
+#define CLASS_MATCHER_HPP
 
-#include "utility/hash/hash_fnv.hpp"
-#include "utility/hash/helper.hpp"
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
+#include "utility/hash.hpp"
 
 namespace ece
 {
-	using namespace utility::hash;
-}
+	namespace utility
+	{
+		namespace pattern
+		{
+			template <class A>
+			struct ECE_UTILITY_API match_class_to_class
+			{
+			public:
+				using type = void;
+			};
 
-#endif // HASH_HPP
+			template <class A>
+			using match_class_to_class_t = typename match_class_to_class<A>::type;
+
+#			define RegisterMatchClassToClass(A, B) \
+				template <> \
+				struct ECE_UTILITY_API ece::utility::pattern::match_class_to_class<A> \
+				{ \
+				public: \
+				    using type = B; \
+				};
+
+			template <std::uint64_t UUID>
+			struct ECE_UTILITY_API match_string_to_class
+			{
+			public:
+				using type = void;
+			};
+
+			template <std::uint64_t UUID>
+			using match_string_to_class_t = typename match_string_to_class<UUID>::type;
+
+#			define RegisterMatchStringToClass(A, B) \
+				__pragma(warning(push)) \
+				__pragma(warning(disable: 4307)) \
+				template <> \
+				struct ECE_UTILITY_API ece::utility::pattern::match_string_to_class<ece::hash64_fnv1a(A)> \
+				{ \
+				public: \
+				    using type = B; \
+				}; \
+				__pragma(warning(pop))
+		} // namespace pattern
+	} // namespace utility
+} // namespace ece
+
+#endif // CLASS_MATCHER_HPP

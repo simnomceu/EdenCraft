@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooo     ooo     .    o8o  oooo   o8o      .
-															`888'     `8'   .o8    `"'  `888   `"'    .o8
-															 888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo
-															 888       8    888   `888   888  `888    888    `88.  .8'
-															 888       8    888    888   888   888    888     `88..8'
-															 `88.    .8'    888 .  888   888   888    888 .    `888'
-															   `YbodP'      "888" o888o o888o o888o   "888"     .8'
-																											.o..P'
-																											`Y8P'
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
 
-				This file is part of EdenCraft Engine - Utility module.
+
+
+				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,15 +36,27 @@
 
 */
 
-#ifndef HASH_HPP
-#define HASH_HPP
+#ifndef FORMAT_LOCATOR_HPP
+#define FORMAT_LOCATOR_HPP
 
-#include "utility/hash/hash_fnv.hpp"
-#include "utility/hash/helper.hpp"
+#include "core/config.hpp"
+#include "utility/pattern.hpp"
 
 namespace ece
 {
-	using namespace utility::hash;
-}
+	namespace core
+	{
+		namespace format
+		{
+			template <std::uint32_t UUID> using format_locator = match_string_to_class<UUID>;
+			template <std::uint32_t UUID> using format_locator_t = match_string_to_class_t<UUID>;
+#			define RegisterMatchExtensionToFormat(Extension, Format) RegisterMatchStringToClass(Extension, Format)
 
-#endif // HASH_HPP
+			template <class InternalFormat> using parser_locator = match_class_to_class<InternalFormat>;
+			template <class InternalFormat> using parser_locator_t = match_class_to_class_t<InternalFormat>;
+#			define RegisterMatchFormatToParser(InternalFormat, Parser) RegisterMatchClassToClass(InternalFormat, Parser)
+		} // namespace format
+	} // namespace core
+} // namespace ece
+
+#endif // FORMAT_LOCATOR_HPP

@@ -40,6 +40,7 @@
 #define FORMAT_HPP
 
 #include "core/format/format_manager.hpp"
+#include "core/format/parser_locator.hpp"
 #include "core/format/service_format.hpp"
 
 namespace ece
