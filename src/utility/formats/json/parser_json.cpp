@@ -67,8 +67,9 @@ namespace ece
 						const auto key = content[0];
 						switch (key) {
 						case '{':
-							if (currentKey.empty()) {
-								currentNode.reset(new ObjectJSON());
+							if (!currentNode) {
+								this->_contentJSON.reset(new ObjectJSON());
+								currentNode = this->_contentJSON;
 							}
 							else {
 								if (currentNode->getType() == NodeJSON::Type::OBJECT) {
@@ -93,6 +94,7 @@ namespace ece
 							else if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 								currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addArray();
 							}
+							content = content.substr(1);
 							break;
 						case ']':
 							currentNode = currentNode->getParent();
@@ -173,7 +175,6 @@ namespace ece
 							break;
 						}
 					}
-					this->_contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
 				}
 
 				void ParserJSON::save(std::ostream & stream)
