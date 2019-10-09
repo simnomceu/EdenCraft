@@ -131,7 +131,7 @@ namespace ece
 								streamVal >> value;
 								if (value == std::floor(value)) {
 									auto integer = static_cast<int>(value);
-									content = content.substr(std::to_string(integer).size());
+									content = content.substr(std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addInteger(integer);
 									}
@@ -140,7 +140,7 @@ namespace ece
 									}
 								}
 								else {
-									content = content.substr(std::to_string(value).size());
+									content = content.substr(std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addDouble(value);
 									}
