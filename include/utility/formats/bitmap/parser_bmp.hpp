@@ -126,7 +126,7 @@ namespace ece
 					 * @throw
 					 * @see void Parser::save(std::ostream & stream)
 					 */
-					virtual void save([[maybe_unused]] std::ostream & stream) override;
+					virtual void save(std::ostream & stream) override;
 
 
 					/**

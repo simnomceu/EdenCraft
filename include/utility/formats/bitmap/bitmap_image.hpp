@@ -68,6 +68,9 @@ namespace ece
 
 				template <class T>
 				ECE_UTILITY_API inline float PPMToDPI(T ppm) { return ppm * INCH_IN_CM / 100.0f; }
+
+				template <class T>
+				ECE_UTILITY_API inline float DPIToPPM(T dpi) { return dpi / (INCH_IN_CM / 100.0f); }
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

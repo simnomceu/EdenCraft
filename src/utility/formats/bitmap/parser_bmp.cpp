@@ -127,9 +127,50 @@ namespace ece
 					}
 				}
 
-				void ParserBMP::save([[maybe_unused]] std::ostream & stream)
+				void ParserBMP::save(std::ostream & stream)
 				{
-					/* NOT IMPLEMENTED YET*/
+					this->_bitmap.header.signature = BitmapSignature::BM;
+					this->_bitmap.header.pixelsOffset = BMPHeader::INTERNAL_SIZE + getSize(DIBHeaderType::BITMAPV3INFOHEADER);
+					this->_bitmap.header.size = this->_bitmap.header.pixelsOffset + (32 * this->_bitmap.pixels.getHeight() * this->_bitmap.pixels.getWidth());
+					
+					this->_bitmap.dib.size = getSize(DIBHeaderType::BITMAPV3INFOHEADER);
+					this->_bitmap.dib.width = this->_bitmap.pixels.getWidth();
+					this->_bitmap.dib.height = this->_bitmap.pixels.getHeight();
+					this->_bitmap.dib.planes = 1;
+					this->_bitmap.dib.bitCount = 32;
+					this->_bitmap.dib.compression = CompressionMethod::RGB;
+					this->_bitmap.dib.imageSize = 0;
+					this->_bitmap.dib.xResolution = static_cast<int>(DPIToPPM(DPI_MAX));
+					this->_bitmap.dib.yResolution = static_cast<int>(DPIToPPM(DPI_MAX));
+					this->_bitmap.dib.nbColorsUsed = 0;
+					this->_bitmap.dib.nbImportantColors = 0;
+					this->_bitmap.dib.mask = RGBA32{ 8, 8, 8, 8 };
+
+					if (!this->_bitmap.isValid()) {
+						SYSTEM << "Unknown error in DIB" << flush;
+					}
+
+					stream << this->_bitmap.header;
+					stream << this->_bitmap.dib;
+
+					auto buffer = std::vector<std::uint8_t>{};
+					buffer.resize(this->_bitmap.pixels.getHeight() * this->_bitmap.pixels.getWidth());
+					
+					int psw = ((this->_bitmap.dib.width * (this->_bitmap.dib.bitCount / 8)) + 3) & ~3; // To be sure it is aligned on 4 bytes.
+					if (this->_bitmap.dib.nbColorsUsed == 0) {
+						long bufPos = 0;
+						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
+							for (auto x = ece::size_t{ 0 }; x < 3 * this->_bitmap.pixels.getWidth(); x += 3) {
+								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+								buffer[bufPos + 2] = static_cast<std::uint8_t>(static_cast<unsigned char>(this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][0])); // red
+								buffer[bufPos + 1] = static_cast<std::uint8_t>(static_cast<unsigned char>(this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][1])); // green
+								buffer[bufPos] = static_cast<std::uint8_t>(static_cast<unsigned char>(this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][2])); // blue
+							}
+						}
+					}
+					auto compressed = compress(buffer, this->_bitmap.dib);
+
+					stream.write(reinterpret_cast<char *>(compressed.data()), compressed.size());
 				}
 			} // namespace bitmap
 		} // namespace formats
