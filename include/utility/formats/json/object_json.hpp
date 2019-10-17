@@ -257,6 +257,8 @@ namespace ece
 					 */
 					inline auto operator[](const std::string & key);
 
+					inline auto hasChild(const std::string & key) -> bool;
+
 					/**
 					 * @fn void clear()
 					 * @brief Erase all the children nodes of the current node.
