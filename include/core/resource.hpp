@@ -42,7 +42,9 @@
 #include "core/resource/make_resource.hpp"
 #include "core/resource/resource_container.hpp"
 #include "core/resource/resource_handler.hpp"
+#include "core/resource/resource_loader.hpp"
 #include "core/resource/resource_manager.hpp"
+#include "core/resource/resource_ref.hpp"
 #include "core/resource/service_resource.hpp"
 
 namespace ece

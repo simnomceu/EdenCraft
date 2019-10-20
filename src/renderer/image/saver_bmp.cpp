@@ -50,41 +50,23 @@ namespace ece
 		{
 			using utility::formats::bitmap::ParserBMP;
 
-			void SaverBMP::saveToFile(const std::filesystem::path & filename)
+			void SaverBMP::save(StreamInfoOut info)
 			{
-				auto file = std::ofstream(filename, std::ios::binary | std::ios::out);
-				if (!file.is_open()) {
-					throw FileException(FileCodeError::BAD_PATH, filename);
-				}
+				auto resourceImage = *info.resource.to<Image<RGBA32>>();
 
-				this->saveToStream(file);
-			}
-
-			void SaverBMP::saveToString(std::string & content)
-			{
-				auto stream = std::ostringstream(content);
-				if (!stream) {
-					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
-				}
-
-				this->saveToStream(stream);
-			}
-
-			void SaverBMP::saveToStream(std::ostream & stream)
-			{
 				auto parser = ParserBMP{};
 
 				auto & image = parser.getPixels();
-				image.resize(this->_image.getWidth(), this->_image.getHeight());
+				image.resize(resourceImage->getWidth(), resourceImage->getHeight());
 				auto buffer = image.data();
 
 				for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
-					buffer[i][0] = this->_image.data()[i].r;
-					buffer[i][1] = this->_image.data()[i].g;
-					buffer[i][2] = this->_image.data()[i].b;
+					buffer[i][0] = resourceImage->data()[i].r;
+					buffer[i][1] = resourceImage->data()[i].g;
+					buffer[i][2] = resourceImage->data()[i].b;
 				}
 
-				parser.save(stream);
+				parser.save(info.stream);
 			}
 		} // namespace image
 	} // namespace renderer

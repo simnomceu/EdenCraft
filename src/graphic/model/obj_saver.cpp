@@ -50,38 +50,14 @@ namespace ece
 	{
 		namespace model
 		{
-			void OBJSaver::saveToFile(const std::filesystem::path & filename)
-			{
-				auto file = std::ofstream(filename, std::ios::in);
-				if (!file.is_open()) {
-					throw FileException(FileCodeError::BAD_PATH, filename);
-				}
-
-				auto parser = ParserOBJ();
-				this->save(filename, parser);
-				parser.save(file);
-			}
-
-			void OBJSaver::saveToString(std::string & content)
-			{
-				auto stream = std::ostringstream(content);
-				if (!stream) {
-					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
-				}
-
-				auto parser = ParserOBJ();
-				this->save("", parser);
-				parser.save(stream);
-			}
-
-			void OBJSaver::saveToStream(std::ostream & stream)
+			void OBJSaver::save(StreamInfoOut info)
 			{
 				auto parser = ParserOBJ();
-				this->save("", parser);
-				parser.save(stream);
+				this->save(info.identifier, parser, std::move(info.resource));
+				parser.save(info.stream);
 			}
 
-			void OBJSaver::save([[maybe_unused]] const std::filesystem::path & filename, ParserOBJ & parser)
+			void OBJSaver::save([[maybe_unused]] const std::filesystem::path & filename, ParserOBJ & parser, ResourceRef resource)
 			{
 				auto & objects = parser.getObjects();
 				auto & materials = parser.getMaterials();

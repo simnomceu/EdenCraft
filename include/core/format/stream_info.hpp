@@ -8,19 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                  oooo         o8o
-															 d8P'  `Y8b                                 `888         `"'
-															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
-															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
-															888     ooooo  888      .oP"888   888   888  888   888   888  888
-															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
-															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
-																							  888
-																							 o888o
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
 
 
 
-				This file is part of EdenCraft Engine - Graphic module.
+				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -38,13 +36,37 @@
 
 */
 
+#ifndef STREAM_INFO
+#define STREAM_INFO
+
+#include "core/config.hpp"
+#include "core/pch.hpp"
+#include "core/resource/resource_ref.hpp"
+
 namespace ece
 {
-	namespace graphic
+	namespace core
 	{
-		namespace model
+		namespace format
 		{
-			inline void OBJSaver::setMesh(Mesh::Reference && mesh) { this->_mesh = std::move(mesh); }
-		} // namespace model
-	} // namespace graphic
+			using resource::ResourceRef;
+
+			struct StreamInfoIn
+			{
+				std::istream & stream;
+				std::string identifier;
+				std::string filename;
+			};
+
+			struct StreamInfoOut
+			{
+				std::ostream & stream;
+				std::string identifier;
+				std::string filename;
+				ResourceRef resource;
+			};
+		} // namespace format
+	} // namespace core
 } // namespace ece
+
+#endif // STREAM_INFO

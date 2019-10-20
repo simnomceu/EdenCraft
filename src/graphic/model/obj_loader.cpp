@@ -52,38 +52,13 @@ namespace ece
 		{
 			using material::PhongMaterial;
 
-			void OBJLoader::loadFromFile(const std::filesystem::path & filename)
-			{
-				auto file = std::ifstream(filename, std::ios::out);
-				if (!file.is_open()) {
-					throw FileException(FileCodeError::BAD_PATH, filename);
-				}
-
-				auto parser = ParserOBJ();
-				parser.load(file);
-
-				this->load(filename, parser);
-			}
-
-			void OBJLoader::loadFromString(const std::string & content)
-			{
-				auto stream = std::istringstream(content);
-				if (!stream) {
-					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
-				}
-
-				auto parser = ParserOBJ();
-				parser.load(stream);
-
-				this->load("", parser);
-			}
-
-			void OBJLoader::loadFromStream(std::istream & stream)
+			ResourceRef OBJLoader::load(StreamInfoIn info)
 			{
 				auto parser = ParserOBJ();
-				parser.load(stream);
+				parser.load(info.stream);
 
-				this->load("", parser);
+				this->load(info.filename, parser);
+				return this->_meshes[0];
 			}
 
 			void OBJLoader::load(const std::filesystem::path & filename, ParserOBJ & parser)

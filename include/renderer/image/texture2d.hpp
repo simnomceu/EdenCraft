@@ -118,7 +118,7 @@ namespace ece
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) override;
 
-				virtual void loadFromImage(const TypeTarget type, const Image<RGBA32> & image) override;
+				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) override;
 
 				/**
 				 * @fn const std::string & getFilename() const

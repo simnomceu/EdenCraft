@@ -43,6 +43,7 @@
 #include "utility/file_system.hpp"
 #include "renderer/image/image.hpp"
 #include "utility/types.hpp"
+#include "core/format.hpp"
 
 namespace ece
 {
@@ -111,34 +112,12 @@ namespace ece
 				 * @brief Formate and save data into a file.
 				 * @throw
 				 */
-				virtual void saveToFile(const std::filesystem::path & filename) override;
+				virtual void save(StreamInfoOut info) override;
 
-				/**
-				 * @fn void saveToString(std::string & content)
-				 * @param[out] content The string buffer to save into.
-				 * @brief Formate and save data into a string buffer.
-				 * @throw
-				 */
-				virtual void saveToString(std::string & content) override;
-
-				/**
-				 * @fn void saveToStream(const std::ostream & stream)
-				 * @param[inout] stream The stream to save through.
-				 * @brief Formate and save data through a stream.
-				 * @throw
-				 */
-				virtual void saveToStream(std::ostream & stream) override;
-
-				inline void setImage(const Image<RGB24> & image);
-				inline void setImage(Image<RGB24> && image);
-
-			private:
-				Image<RGB24> _image;
+				virtual auto isBinary() const noexcept -> bool override { return true; }
 			};
 		} // namespace image
 	} // namespace renderer
 } // namespace ece
-
-#include "renderer/image/saver_bmp.inl"
 
 #endif // SAVER_BMP_HPP

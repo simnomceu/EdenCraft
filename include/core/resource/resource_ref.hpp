@@ -36,98 +36,92 @@
 
 */
 
-#ifndef FORMAT_MANAGER_HPP
-#define FORMAT_MANAGER_HPP
+#ifndef RESOURCE_REF_HPP
+#define RESOURCE_REF_HPP
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
-#include "core/format/saver.hpp"
-#include "core/format/loader.hpp"
 
 namespace ece
 {
 	namespace core
 	{
-		namespace format
+		namespace resource
 		{
 			/**
-			 * @class FormatManager
+			 * @class ResourceRef
 			 * @brief
 			 */
-			class ECE_CORE_API FormatManager
+			class ECE_CORE_API ResourceRef
 			{
 			public:
-				/**
-				 * @fn FormatManager()
-				 * @brief Default constructor.
-				 * @throw
-				 */
-				FormatManager() = default;
+				inline ResourceRef(const std::string & identifier, std::size_t typeId) noexcept;
+
+				ResourceRef() noexcept = delete;
 
 				/**
-				 * @fn FormatManager(const FormatManager & copy) noexcept
-				 * @param[in] copy The FormatManager to copy from.
+				 * @fn ResourceRef(const ResourceRef & copy) noexcept
+				 * @param[in] copy The ResourceRef to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				FormatManager(const FormatManager & copy) noexcept = default;
+				inline ResourceRef(const ResourceRef & copy) noexcept;
 
 				/**
-				 * @fn FormatManager(FormatManager && move) noexcept
-				 * @param[in] move The FormatManager to move.
+				 * @fn ResourceRef(ResourceRef && move) noexcept
+				 * @param[in] move The ResourceRef to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				FormatManager(FormatManager && move) noexcept = default;
+				inline ResourceRef(ResourceRef && move) noexcept;
 
 				/**
-				 * @fn ~FormatManager() noexcept
+				 * @fn ~ResourceRef() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~FormatManager() noexcept = default;
+				inline virtual ~ResourceRef() noexcept;
 
 				/**
-				 * @fn FormatManager & operator=(const FormatManager & copy) noexcept
-				 * @param[in] copy The FormatManager to copy from.
-				 * @return The FormatManager copied.
+				 * @fn ResourceRef & operator=(const ResourceRef & copy) noexcept
+				 * @param[in] copy The ResourceRef to copy from.
+				 * @return The ResourceRef copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				FormatManager & operator=(const FormatManager & copy) noexcept = default;
+				inline ResourceRef & operator=(const ResourceRef & copy) noexcept;
 
 				/**
-				 * @fn FormatManager & operator=(FormatManager && move) noexcept
-				 * @param[in] move The FormatManager to move.
-				 * @return The FormatManager moved.
+				 * @fn ResourceRef & operator=(ResourceRef && move) noexcept
+				 * @param[in] move The ResourceRef to move.
+				 * @return The ResourceRef moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				FormatManager & operator=(FormatManager && move) noexcept = default;
+				inline ResourceRef & operator=(ResourceRef && move) noexcept;
 
-				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<Loader, T>>>
-				void registerLoader(const std::string & extension);
+				template <class T>
+				auto is() const -> bool;
 
-				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<Saver, T>>>
-				void registerSaver(const std::string & extension);
+				/*template <class T>
+				auto & to();
 
-				inline void unregisterLoader(const std::string & extension);
-				inline void unregisterSaver(const std::string & extension);
+				template <class T>
+				const auto & to() const;*/
 
-				inline auto getLoader(const std::string & extension);
-				inline auto getSaver(const std::string & extension);
+				template <class T>
+				auto to() const;
 
-				inline auto hasLoaderFor(const std::string & extension) const -> bool;
-				inline auto hasSaverFor(const std::string & extension) const -> bool;
+				inline auto getIdentifier() const noexcept -> const std::string &; 
 
-			private:
-				std::unordered_map<std::string, std::shared_ptr<Loader>> _loaders;
-				std::unordered_map<std::string, std::shared_ptr<Saver>> _savers;
+			protected:
+				std::string _identifier;
+				std::size_t _typeId;
 			};
-		} // namespace format
+		} // namespace resource
 	} // namespace core
 } // namespace ece
 
-#include "core/format/format_manager.inl"
+#include "core/resource/resource_ref.inl"
 
-#endif // FORMAT_MANAGER_HPP
+#endif // RESOURCE_REF_HPP

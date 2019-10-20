@@ -122,7 +122,7 @@ namespace ece
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) = 0;
 
-				virtual void loadFromImage(const TypeTarget type, const Image<RGBA32> & image) = 0;
+				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) = 0;
 
 				/**
 				 * @fn const std::string & getFilename() const

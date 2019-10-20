@@ -42,9 +42,9 @@
 #define OBJ_LOADER_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/loader_object.hpp"
 #include "graphic/model/mesh.hpp"
 #include "utility/formats.hpp"
+#include "core/format.hpp"
 
 namespace ece
 {
@@ -56,7 +56,7 @@ namespace ece
 			 * @class OBJLoader
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API OBJLoader: public LoaderObject
+			class ECE_GRAPHIC_API OBJLoader: public Loader
 			{
 			public:
 				/**
@@ -113,25 +113,7 @@ namespace ece
 				* @brief Load and parse data from a file.
 				* @throw
 				*/
-				virtual void loadFromFile(const std::filesystem::path & filename) override;
-
-				/**
-				* @fn void loadFromString(const std::string & content)
-				* @param[in] content The string content to load data from.
-				* @brief Load and parse data from a string.
-				* @throw
-				*/
-				virtual void loadFromString(const std::string & content) override;
-
-				/**
-				 * @fn void loadFromStream(std::istream & stream)
-				 * @param[inout] stream The stream to load through.
-				 * @brief Load and parse data through a stream.
-				 * @throw
-				 */
-				virtual void loadFromStream(std::istream & stream) override;
-
-				inline virtual auto getMeshes() const -> const std::vector<Mesh::Reference> & override;
+				virtual ResourceRef load(StreamInfoIn info) override;
 
 			protected:
 				void load(const std::filesystem::path & filename, ParserOBJ & parser);
@@ -143,7 +125,5 @@ namespace ece
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
-
-#include "graphic/model/obj_loader.inl"
 
 #endif // OBJ_LOADER_HPP

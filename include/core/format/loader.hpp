@@ -8,17 +8,17 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooo     ooo     .    o8o  oooo   o8o      .
-															`888'     `8'   .o8    `"'  `888   `"'    .o8
-															 888       8  .o888oo oooo   888  oooo  .o888oo oooo    ooo
-															 888       8    888   `888   888  `888    888    `88.  .8'
-															 888       8    888    888   888   888    888     `88..8'
-															 `88.    .8'    888 .  888   888   888    888 .    `888'
-															   `YbodP'      "888" o888o o888o o888o   "888"     .8'
-																											.o..P'
-																											`Y8P'
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
 
-				This file is part of EdenCraft Engine - Utility module.
+
+
+				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -39,20 +39,24 @@
 #ifndef LOADER_HPP
 #define LOADER_HPP
 
-#include "utility/config.hpp"
-#include "utility/pch.hpp"
+#include "core/config.hpp"
+#include "core/pch.hpp"
+#include "core/resource/resource_ref.hpp"
+#include "core/format/stream_info.hpp"
 
 namespace ece
 {
-	namespace utility
+	namespace core
 	{
-		namespace file_system
+		namespace format
 		{
+			using resource::ResourceRef;
+
 			/**
 			 * @class Loader
 			 * @brief
 			 */
-			class ECE_UTILITY_API Loader
+			class ECE_CORE_API Loader
 			{
 			public:
 				/**
@@ -83,7 +87,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Loader() noexcept = default;
+				virtual ~Loader() noexcept = default;
 
 				/**
 				 * @fn Loader & operator=(const Loader & copy) noexcept
@@ -109,26 +113,12 @@ namespace ece
         		 * @brief Load and parse data from a file.
         		 * @throw
         		 */
-        		virtual void loadFromFile(const std::filesystem::path & filename) = 0;
+        		virtual ResourceRef load(StreamInfoIn info) = 0;
 
-        		/**
-        		 * @fn void loadFromString(const std::string & content)
-        		 * @param[in] content The string content to load data from.
-        		 * @brief Load and parse data from a string.
-        		 * @throw
-        		 */
-        		virtual void loadFromString(const std::string & content) = 0;
-
-				/**
-				 * @fn void loadFromStream(std::istream & stream)
-				 * @param[inout] stream The stream to load through.
-				 * @brief Load and parse data through a stream.
-				 * @throw
-				 */
-				virtual void loadFromStream(std::istream & stream) = 0;
+				virtual auto isBinary() const noexcept -> bool { return false; }
 			};
-		} // namespace file_system
-	} // namespace utility
+		} // namespace format
+	} // namespace core
 } // namespace ece
 
 #endif // LOADER_HPP

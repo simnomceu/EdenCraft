@@ -45,6 +45,7 @@
 #include "utility/file_system.hpp"
 #include "graphic/model/mesh.hpp"
 #include "utility/formats.hpp"
+#include "core/format.hpp"
 
 namespace ece
 {
@@ -108,41 +109,18 @@ namespace ece
 				OBJSaver & operator=(OBJSaver && move) noexcept = default;
 
 				/**
-				 * @fn void saveToFile(const std::filesystem::path & filename)
-				 * @param[out] filename The name of the file to save into.
-				 * @brief Formate and save data into a file.
-				 * @throw
-				 */
-				virtual void saveToFile(const std::filesystem::path & filename) override;
-
-				/**
-				 * @fn void saveToString(std::string & content)
-				 * @param[out] content The string buffer to save into.
-				 * @brief Formate and save data into a string buffer.
-				 * @throw
-				 */
-				virtual void saveToString(std::string & content) override;
-
-				/**
 				 * @fn void saveToStream(const std::ostream & stream)
 				 * @param[inout] stream The stream to save through.
 				 * @brief Formate and save data through a stream.
 				 * @throw
 				 */
-				virtual void saveToStream(std::ostream & stream) override;
-
-				inline void setMesh(Mesh::Reference && mesh);
+				virtual void save(StreamInfoOut info) override;
 
 			protected:
-				void save([[maybe_unused]] const std::filesystem::path & filename, ParserOBJ & parser);
-
-			private:
-				Mesh::Reference _mesh;
+				void save([[maybe_unused]] const std::filesystem::path & filename, ParserOBJ & parser, ResourceRef resource);
 			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
-
-#include "graphic/model/obj_saver.inl"
 
 #endif // OBJ_SAVER_HPP

@@ -41,7 +41,6 @@
 #ifndef GRAPHIC_MODEL_HPP
 #define GRAPHIC_MODEL_HPP
 
-#include "graphic/model/loader_object.hpp"
 #include "graphic/model/mesh.hpp"
 #include "graphic/model/movable.hpp"
 #include "graphic/model/obj_loader.hpp"
