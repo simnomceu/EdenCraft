@@ -42,6 +42,7 @@
 #define OBJ_LOADER_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/model/mesh.hpp"
 #include "utility/formats.hpp"
 #include "core/format.hpp"
@@ -56,7 +57,7 @@ namespace ece
 			 * @class OBJLoader
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API OBJLoader: public Loader
+			class ECE_GRAPHIC_API OBJLoader: public Loader, public Saver
 			{
 			public:
 				/**
@@ -115,12 +116,13 @@ namespace ece
 				*/
 				virtual ResourceRef load(StreamInfoIn info) override;
 
-			protected:
-				void load(const std::filesystem::path & filename, ParserOBJ & parser);
-				void clear();
-
-			private:
-				std::vector<Mesh::Reference> _meshes;
+				/**
+				 * @fn void saveToStream(const std::ostream & stream)
+				 * @param[inout] stream The stream to save through.
+				 * @brief Formate and save data through a stream.
+				 * @throw
+				 */
+				virtual void save(StreamInfoOut info) override;
 			};
 		} // namespace model
 	} // namespace graphic

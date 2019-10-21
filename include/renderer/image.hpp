@@ -42,7 +42,6 @@
 #include "renderer/image/color.hpp"
 #include "renderer/image/image.hpp"
 #include "renderer/image/loader_bmp.hpp"
-#include "renderer/image/saver_bmp.hpp"
 #include "renderer/image/texture2d.hpp"
 
 namespace ece

@@ -38,13 +38,11 @@
 
 */
 
-#ifndef OBJ_SAVER_HPP
-#define OBJ_SAVER_HPP
+#ifndef MTL_LOADER_HPP
+#define MTL_LOADER_HPP
 
 #include "graphic/config.hpp"
-#include "utility/file_system.hpp"
-#include "graphic/model/mesh.hpp"
-#include "utility/formats.hpp"
+#include "graphic/pch.hpp"
 #include "core/format.hpp"
 
 namespace ece
@@ -54,70 +52,66 @@ namespace ece
 		namespace model
 		{
 			/**
-			 * @class OBJSaver
+			 * @class MTLLoader
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API OBJSaver: public Saver
+			class ECE_GRAPHIC_API MTLLoader: public Loader, public Saver
 			{
 			public:
 				/**
-				 * @fn constexpr OBJSaver() noexcept
+				 * @fn constexpr MTLLoader() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr OBJSaver() noexcept = default;
+				constexpr MTLLoader() noexcept = default;
 
 				/**
-				 * @fn OBJSaver(const OBJSaver & copy) noexcept
-				 * @param[in] copy The OBJSaver to copy from.
+				 * @fn MTLLoader(const MTLLoader & copy) noexcept
+				 * @param[in] copy The MTLLoader to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				OBJSaver(const OBJSaver & copy) noexcept = default;
+				MTLLoader(const MTLLoader & copy) noexcept = default;
 
 				/**
-				 * @fn OBJSaver(OBJSaver && move) noexcept
-				 * @param[in] move The OBJSaver to move.
+				 * @fn MTLLoader(MTLLoader && move) noexcept
+				 * @param[in] move The MTLLoader to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				OBJSaver(OBJSaver && move) noexcept = default;
+				MTLLoader(MTLLoader && move) noexcept = default;
 
 				/**
-				 * @fn ~OBJSaver() noexcept
+				 * @fn ~MTLLoader() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~OBJSaver() noexcept = default;
+				~MTLLoader() noexcept = default;
 
 				/**
-				 * @fn OBJSaver & operator=(const OBJSaver & copy) noexcept
-				 * @param[in] copy The OBJSaver to copy from.
-				 * @return The OBJSaver copied.
+				 * @fn MTLLoader & operator=(const MTLLoader & copy) noexcept
+				 * @param[in] copy The MTLLoader to copy from.
+				 * @return The MTLLoader copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				OBJSaver & operator=(const OBJSaver & copy) noexcept = default;
+				MTLLoader & operator=(const MTLLoader & copy) noexcept = default;
 
 				/**
-				 * @fn OBJSaver & operator=(OBJSaver && move) noexcept
-				 * @param[in] move The OBJSaver to move.
-				 * @return The OBJSaver moved.
+				 * @fn MTLLoader & operator=(MTLLoader && move) noexcept
+				 * @param[in] move The MTLLoader to move.
+				 * @return The MTLLoader moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				OBJSaver & operator=(OBJSaver && move) noexcept = default;
+				MTLLoader & operator=(MTLLoader && move) noexcept = default;
 
-				/**
-				 * @fn void saveToStream(const std::ostream & stream)
-				 * @param[inout] stream The stream to save through.
-				 * @brief Formate and save data through a stream.
-				 * @throw
-				 */
+				virtual ResourceRef load(StreamInfoIn info) override;
+
 				virtual void save(StreamInfoOut info) override;
 			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
 
-#endif // OBJ_SAVER_HPP
+#endif // MTL_LOADER_HPP

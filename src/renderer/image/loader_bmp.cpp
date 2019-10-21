@@ -70,6 +70,25 @@ namespace ece
 
 				return makeResource<Image<RGBA32>>(info.identifier, resourceImage);
 			}
+
+			void LoaderBMP::save(StreamInfoOut info)
+			{
+				auto resourceImage = *info.resource.to<Image<RGBA32>>();
+
+				auto parser = ParserBMP{};
+
+				auto & image = parser.getPixels();
+				image.resize(resourceImage->getWidth(), resourceImage->getHeight());
+				auto buffer = image.data();
+
+				for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
+					buffer[i][0] = resourceImage->data()[i].r;
+					buffer[i][1] = resourceImage->data()[i].g;
+					buffer[i][2] = resourceImage->data()[i].b;
+				}
+
+				parser.save(info.stream);
+			}
 		} // namespace image
 	} // namespace renderer
 } // namespace ece

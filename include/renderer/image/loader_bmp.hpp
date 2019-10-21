@@ -53,7 +53,7 @@ namespace ece
 			 * @class LoaderBMP
 			 * @brief
 			 */
-			class ECE_RENDERER_API LoaderBMP: public Loader
+			class ECE_RENDERER_API LoaderBMP: public Loader, public Saver
 			{
 			public:
 				/**
@@ -111,6 +111,14 @@ namespace ece
 				 * @throw
 				 */
 				virtual ResourceRef load(StreamInfoIn info) override;
+
+				/**
+				 * @fn void saveToFile(const std::filesystem::path & filename)
+				 * @param[out] filename The name of the file to save into.
+				 * @brief Formate and save data into a file.
+				 * @throw
+				 */
+				virtual void save(StreamInfoOut info) override;
 
 				virtual auto isBinary() const noexcept -> bool override { return true; }
 			};
