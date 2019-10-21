@@ -115,9 +115,6 @@ namespace ece
 				 * @throw
 				 */
 				virtual void save(StreamInfoOut info) override;
-
-			protected:
-				void save([[maybe_unused]] const std::filesystem::path & filename, ParserOBJ & parser, ResourceRef resource);
 			};
 		} // namespace model
 	} // namespace graphic

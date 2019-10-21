@@ -120,6 +120,10 @@ namespace ece
 
 				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) override;
 
+				virtual void saveToFile(const std::filesystem::path & filename) override;
+
+				virtual void saveToImage(Image<RGBA32>::Reference image) override;
+
 				/**
 				 * @fn const std::string & getFilename() const
 				 * @return The filename of the texture.

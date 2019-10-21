@@ -124,6 +124,10 @@ namespace ece
 
 				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) = 0;
 
+				virtual void saveToFile(const std::filesystem::path & filename) = 0;
+
+				virtual void saveToImage(Image<RGBA32>::Reference image) = 0;
+
 				/**
 				 * @fn const std::string & getFilename() const
 				 * @return The filename of the texture.

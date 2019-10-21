@@ -43,6 +43,7 @@
 
 #include "utility/file_system.hpp"
 #include "utility/formats/wavefront.hpp"
+#include "graphic/material/phong_material.hpp"
 
 namespace ece
 {
@@ -50,22 +51,83 @@ namespace ece
 	{
 		namespace model
 		{
+			using material::PhongMaterial;
+
 			void OBJSaver::save(StreamInfoOut info)
 			{
 				auto parser = ParserOBJ();
-				this->save(info.identifier, parser, std::move(info.resource));
-				parser.save(info.stream);
-			}
+				auto parserMaterial = ParserMTL();
 
-			void OBJSaver::save([[maybe_unused]] const std::filesystem::path & filename, ParserOBJ & parser, ResourceRef resource)
-			{
+				auto meshResource = info.resource.to<Mesh>();
+				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
+
 				auto & objects = parser.getObjects();
 				auto & materials = parser.getMaterials();
 
 				objects.clear();
 				materials.clear();
 
-				/* NOT IMPLEMENTED YET*/
+				auto & object = objects.emplace_back(info.identifier);
+				object.setFaceFormat(ObjectOBJ::FaceFormat{ 3, ObjectOBJ::Clockwise::CCW });
+
+				for (auto & vertex : meshResource->getVertices()) {
+					object.addVertex({ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f });
+					object.addVertexNormal({ vertex._normal[0], vertex._normal[1], vertex._normal[2] });
+					object.addVertexTexture({ vertex._textureCoordinate[0], vertex._textureCoordinate[1] });
+
+					// TODO :: not optimal as there is dopples. Be careful with face adding at the end.
+				}
+
+				auto & submeshes = meshResource->getSubmeshes();
+				int i = 0;
+				for (auto & submesh : submeshes) {
+					object.resetCurrentGroups();
+					auto groupName = info.identifier + std::to_string(i);
+					object.addGroup(groupName);
+
+					object.setMaterial(submesh.material.getIdentifier());
+					{
+						parserMaterial.getMaterials().clear();
+						auto materialFilename = relativePath + submesh.material.getIdentifier() + ".mtl";
+
+						materials.push_back(submesh.material.getIdentifier());
+						auto & material = parserMaterial.getMaterials()[0];
+
+						auto materialVisitor = PhongMaterial();
+						materialVisitor.setMaterial(*submesh.material);
+						
+						material.name = submesh.material.getIdentifier();
+
+						material.ambient.value = materialVisitor.getAmbient();
+						material.diffuse.value = materialVisitor.getDiffuse();
+						material.specular.value = materialVisitor.getSpecular();
+						material.specularExponent = materialVisitor.getShininess();
+
+						if (!materialVisitor.getDiffuseMap().isDirty()) {
+							materialVisitor.getDiffuseMap()->saveToFile(relativePath + submesh.material.getIdentifier() + "_diffuse.bmp");
+						}
+
+						if (!materialVisitor.getSpecularMap().isDirty()) {
+							materialVisitor.getSpecularMap()->saveToFile(relativePath + submesh.material.getIdentifier() + "_specular.bmp");
+						}
+
+						auto materialFile = std::ofstream(materialFilename, std::ios::in);
+						if (!materialFile.is_open()) {
+							throw FileException(FileCodeError::BAD_PATH, materialFilename);
+						}
+						parserMaterial.save(materialFile);
+					}
+
+					for (auto & face : submesh.mesh.getFaces()) {
+						object.addFace({ { static_cast<int>(face[0]), static_cast<int>(face[0]), static_cast<int>(face[0]) }, 
+										 { static_cast<int>(face[1]), static_cast<int>(face[1]), static_cast<int>(face[1]) },
+										 { static_cast<int>(face[2]), static_cast<int>(face[2]), static_cast<int>(face[2]) } });
+					}
+
+					++i;
+				}
+
+				parser.save(info.stream);
 			}
 		} // namespace model
 	} // namespace graphic

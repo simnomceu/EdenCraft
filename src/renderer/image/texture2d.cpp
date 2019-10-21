@@ -120,6 +120,26 @@ namespace ece
 				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGBA, this->_width, this->_height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
 			}
 
+			void Texture2D::saveToFile(const std::filesystem::path & filename)
+			{
+				auto resource = makeResource<Image<RGBA32>>(filename.stem().generic_string());
+				this->saveToImage(resource);
+
+				ResourceLoader().saveToFile(filename, resource);
+			}
+
+			void Texture2D::saveToImage(Image<RGBA32>::Reference image)
+			{
+				image->resize(this->_width, this->_height);
+				auto buffer = image->data();
+				for (auto i = std::size_t{ 0 }; i < image->getHeight() * image->getWidth(); ++i) {
+					buffer[i].r = this->_data[i * 4 + 0];
+					buffer[i].g = this->_data[i * 4 + 1];
+					buffer[i].b = this->_data[i * 4 + 2];
+					buffer[i].a = this->_data[i * 4 + 3];
+				}
+			}
+
 			void Texture2D::bind(const Target target)
 			{
 				if (!this->isCurrent(target)) {
