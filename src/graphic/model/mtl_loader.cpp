@@ -60,7 +60,7 @@ namespace ece
 
 				auto materialResource = makeResource<Material>(material.name);
 				auto materialVisitor = PhongMaterial();
-				materialVisitor.setMaterial(*materialResource);
+				materialVisitor.setMaterial(materialResource);
 				materialVisitor.initialize();
 
 				materialVisitor.setAmbient(std::get<FloatVector3u>(material.ambient.value));
@@ -101,7 +101,7 @@ namespace ece
 				auto & material = parserMaterial.getMaterials()[0];
 
 				auto materialVisitor = PhongMaterial();
-				materialVisitor.setMaterial(*materialResource);
+				materialVisitor.setMaterial(materialResource);
 
 				material.name = materialResource.getIdentifier();
 
