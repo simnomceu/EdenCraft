@@ -312,12 +312,12 @@ namespace ece
 					return result;
 				}
 
-				std::vector<std::uint8_t> decompressJPEG(std::vector<std::uint8_t> compressed, std::size_t /*width*/)
+				std::vector<std::uint8_t> decompressJPEG([[maybe_unused]] std::vector<std::uint8_t> compressed, std::size_t /*width*/)
 				{
 					throw std::runtime_error("Huffman 1D decoding has not been implemented yet.");
 				}
 
-				std::vector<std::uint8_t> decompressPNG(std::vector<std::uint8_t> compressed, std::size_t /*width*/)
+				std::vector<std::uint8_t> decompressPNG([[maybe_unused]] std::vector<std::uint8_t> compressed, std::size_t /*width*/)
 				{
 					throw std::runtime_error("PNG decoding has not been implemented yet.");
 				}

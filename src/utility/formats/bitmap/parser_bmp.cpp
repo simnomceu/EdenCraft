@@ -87,7 +87,7 @@ namespace ece
 
 					auto uncompressBuffer = uncompress(buffer, this->_bitmap.dib);
 					
-					int psw = ((this->_bitmap.dib.width * (this->_bitmap.dib.bitCount / 8)) + 3) & ~3; // To be sure it is aligned on 4 bytes.
+					int psw = ((this->_bitmap.dib.width * this->_bitmap.dib.bitCount / 8) + 3) & ~3; // To be sure it is aligned on 4 bytes.
 
 					this->_bitmap.pixels.resize(static_cast<ece::size_t>(this->_bitmap.dib.width), static_cast<ece::size_t>(this->_bitmap.dib.height));
 
@@ -110,12 +110,12 @@ namespace ece
 						long bufPos = 0;
 						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
 							for (auto x = ece::size_t{ 0 }; x < this->_bitmap.pixels.getWidth(); ++x) {
-								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * this->_bitmap.dib.width + static_cast<long>(x);
 								if (static_cast<std::size_t>(bufPos) > uncompressBuffer.size()) {
 									throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
 								}
 								auto colorPos = static_cast<std::size_t>(static_cast<unsigned char>(uncompressBuffer[bufPos]));
-								if (static_cast<std::int32_t>(colorPos) >= this->_bitmap.dib.nbColorsUsed || colorPos < 0) {
+								if (static_cast<std::int32_t>(colorPos) >= this->_bitmap.dib.nbColorsUsed) {
 									throw std::runtime_error("Trying to access the " + std::to_string(colorPos) + "th color while the size of the color table is " + std::to_string(this->_bitmap.dib.nbColorsUsed) + ".");
 								}
 								auto color = (*this->_bitmap.colors)[colorPos];

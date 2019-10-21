@@ -67,6 +67,12 @@ namespace ece
 				    using type = B; \
 				};
 
+			template <class A>
+			struct ECE_UTILITY_API is_class_matching : public std::bool_constant<!std::is_same_v<match_class_to_class_t<A>, void>> {};
+
+			template <class A>
+			inline ECE_UTILITY_API constexpr auto is_class_matching_v = is_class_matching<A>::value;
+
 			template <std::uint64_t UUID>
 			struct ECE_UTILITY_API match_string_to_class
 			{
@@ -81,12 +87,18 @@ namespace ece
 				__pragma(warning(push)) \
 				__pragma(warning(disable: 4307)) \
 				template <> \
-				struct ECE_UTILITY_API ece::utility::pattern::match_string_to_class<ece::hash64_fnv1a(A)> \
+				struct ECE_UTILITY_API ece::utility::pattern::match_string_to_class<hash64_fnv1a(A)> \
 				{ \
 				public: \
 				    using type = B; \
 				}; \
 				__pragma(warning(pop))
+
+			template <std::uint64_t UUID>
+			struct ECE_UTILITY_API is_string_to_class_matching : public std::bool_constant<!std::is_same_v<match_string_to_class_t<UUID>, void>> {};
+
+			template <std::uint64_t UUID>
+			inline ECE_UTILITY_API constexpr auto is_string_to_class_matching_v = is_string_to_class_matching<UUID>::value;
 		} // namespace pattern
 	} // namespace utility
 } // namespace ece

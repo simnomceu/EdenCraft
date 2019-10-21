@@ -53,8 +53,21 @@ namespace ece
 			ECE_UTILITY_EXTERN constexpr std::uint64_t value64 = 0xcbf29ce484222325;
 			ECE_UTILITY_EXTERN constexpr std::uint64_t prime64 = 0x100000001b3;
 
-			ECE_UTILITY_API inline constexpr auto hash32_fnv1a(const char * const str, const std::uint32_t value = value32) noexcept -> std::uint32_t;
-			ECE_UTILITY_API inline constexpr auto hash64_fnv1a(const char * const str, const std::uint64_t value = value64) noexcept -> std::uint64_t;
+			ECE_UTILITY_API inline constexpr auto _hash32_fnv1a(const char * const str, const std::uint32_t value = value32) noexcept -> std::uint32_t;
+			ECE_UTILITY_API inline constexpr auto _hash64_fnv1a(const char * const str, const std::uint64_t value = value64) noexcept -> std::uint64_t;
+
+#			define hash32_fnv1a(A) \
+				__pragma(warning(push)) \
+				__pragma(warning(disable: 4307)) \
+				ece::_hash32_fnv1a(A) \
+				__pragma(warning(pop))
+
+#			define hash64_fnv1a(A) \
+				__pragma(warning(push)) \
+				__pragma(warning(disable: 4307)) \
+				ece::_hash64_fnv1a(A) \
+				__pragma(warning(pop))
+
 		} // namespace hash
 	} // namespace utility
 } // namespace ece

@@ -128,11 +128,11 @@ namespace ece
 
 			std::vector<std::uint8_t> compressRLE8(const std::vector<std::uint8_t> & uncompressed, std::size_t /*width*/, std::size_t /*height*/)
 			{
-				auto consume = [](std::vector<std::uint8_t>::const_iterator & it) -> std::uint8_t {
+				/*auto consume = [](std::vector<std::uint8_t>::const_iterator & it) -> std::uint8_t {
 					auto result = *it;
 					++it;
 					return std::move(result);
-				};
+				};*/
 
 				auto result = std::vector<std::uint8_t>();
 

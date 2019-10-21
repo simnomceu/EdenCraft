@@ -42,14 +42,14 @@ namespace ece
 	{
 		namespace hash
 		{
-			inline constexpr auto hash32_fnv1a(const char * const str, const std::uint32_t value) noexcept ->  std::uint32_t
+			inline constexpr auto _hash32_fnv1a(const char * const str, const std::uint32_t value) noexcept ->  std::uint32_t
 			{
-				return (str[0] == '\0') ? value : hash32_fnv1a(&str[1], (value ^ uint32_t(str[0])) * prime32);
+				return (str[0] == '\0') ? value : _hash32_fnv1a(&str[1], (value ^ uint32_t(str[0])) * prime32);
 			}
 
-			inline constexpr auto hash64_fnv1a(const char * const str, const std::uint64_t value) noexcept -> std::uint64_t
+			inline constexpr auto _hash64_fnv1a(const char * const str, const std::uint64_t value) noexcept -> std::uint64_t
 			{
-				return (str[0] == '\0') ? value : hash64_fnv1a(&str[1], (value ^ uint64_t(str[0])) * prime64);
+				return (str[0] == '\0') ? value : _hash64_fnv1a(&str[1], (value ^ uint64_t(str[0])) * prime64);
 			}
 		} // namespace hash
 	} // namespace utility
