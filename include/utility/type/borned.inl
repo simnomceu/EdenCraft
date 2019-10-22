@@ -74,7 +74,7 @@ namespace ece
 			template <class T>
 			inline Borned<T> & Borned<T>::operator=(T v)
 			{
-				assert(v >= lowerBound && v <= upperBound, "This value does not respect the boundaries.");
+				ece_assert(v >= lowerBound && v <= upperBound, "This value does not respect the boundaries.");
 				this->value = v;
 				return *this;
 			}

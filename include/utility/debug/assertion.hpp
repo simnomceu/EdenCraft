@@ -76,7 +76,7 @@ namespace ece
                 throw AssertionException(#EXPRESSION, __FILE__, __LINE__, MESSAGE); \
             }
 
-#		define assert(EXPRESSION, MESSAGE) \
+#		define ece_assert(EXPRESSION, MESSAGE) \
 			if (!(EXPRESSION)) { \
 				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " failed: \"" << MESSAGE << "\"" << ece::flush; \
 				abort(); \

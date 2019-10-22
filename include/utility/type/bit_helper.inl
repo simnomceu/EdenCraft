@@ -61,7 +61,7 @@ namespace ece
 
 			template <class T, std::size_t I, typename enabled> void set2(T & data, std::uint8_t value)
 			{
-				assert(value <= 0b11, "The bit value is too big for its memory storage.");
+				ece_assert(value <= 0b11, "The bit value is too big for its memory storage.");
 				data = static_cast<T>((data & ~(0b11 << I * 2)) | (value << I * 2));
 			}
 
@@ -72,7 +72,7 @@ namespace ece
 
 			template <class T, std::size_t I, typename enabled> void set4(T & data, std::uint8_t value)
 			{
-				assert(value <= 0b1111, "The bit value is too big for its memory storage.");
+				ece_assert(value <= 0b1111, "The bit value is too big for its memory storage.");
 				data = static_cast<T>((data & ~(0b1111 << I * 4)) | (value << I * 4));
 			}
 
