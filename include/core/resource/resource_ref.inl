@@ -80,21 +80,21 @@ namespace ece
 		/*	template <class T>
 			auto & ResourceRef::to()
 			{
-				assert(typeid(T).hash_code() == this->_typeId, "The ResourceRef does not reference this type of resource.");
+				ece_assert(typeid(T).hash_code() == this->_typeId, "The ResourceRef does not reference this type of resource.");
 				return dynamic_cast<ResourceHandler<T> &>(*this);
 			}
 
 			template <class T>
 			const auto & ResourceRef::to() const
 			{
-				assert(typeid(T).hash_code() == this->_typeId, "The ResourceRef does not reference this type of resource.");
+				ece_assert(typeid(T).hash_code() == this->_typeId, "The ResourceRef does not reference this type of resource.");
 				return dynamic_cast<const ResourceHandler<T> &>(*this);
 			}*/
 
 			template <class T>
 			auto ResourceRef::to() const
 			{
-				assert(typeid(T).hash_code() == this->_typeId, "The ResourceRef does not reference this type of resource.");
+				ece_assert(typeid(T).hash_code() == this->_typeId, "The ResourceRef does not reference this type of resource.");
 				return ServiceResourceLocator::getService().getResource<T>(this->_identifier);
 			}
 

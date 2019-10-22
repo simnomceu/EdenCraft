@@ -253,7 +253,7 @@ namespace ece
 							header.profile.data = proxyBitmapV5Header->profileData;
 							header.profile.size = proxyBitmapV5Header->profileSize;
 						}
-						assert(proxyBitmapV5Header->reserved == 0, "The value of the reserved bits is incorrect.");
+						ece_assert(proxyBitmapV5Header->reserved == 0, "The value of the reserved bits is incorrect.");
 						break;
 					}
 					default: throw std::runtime_error("This Bitmap DIB header is not recognized."); break;
