@@ -52,62 +52,62 @@ namespace ece
 		{
 			auto PhongMaterial::isValid() -> bool
 			{
-				return this->_material.lock()->hasProperty("diffuseMapEnabled")
-					&& this->_material.lock()->hasProperty("specularMapEnabled")
-					&& this->_material.lock()->hasProperty("ambient")
-					&& this->_material.lock()->hasProperty("diffuse")
-					&& this->_material.lock()->hasProperty("specular")
-					&& this->_material.lock()->hasProperty("diffuseMap")
-					&& this->_material.lock()->hasProperty("specularMap")
-					&& this->_material.lock()->hasProperty("shininess");
+				return this->_material->hasProperty("diffuseMapEnabled")
+					&& this->_material->hasProperty("specularMapEnabled")
+					&& this->_material->hasProperty("ambient")
+					&& this->_material->hasProperty("diffuse")
+					&& this->_material->hasProperty("specular")
+					&& this->_material->hasProperty("diffuseMap")
+					&& this->_material->hasProperty("specularMap")
+					&& this->_material->hasProperty("shininess");
 			}
 
 			void PhongMaterial::initialize()
 			{
-				this->_material.lock()->addProperty("diffuseMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
+				this->_material->addProperty("diffuseMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
 					property->active(0);
 					property->bind(Texture::Target::TEXTURE_2D);
 					return 0;
 				}));
 
-				this->_material.lock()->addProperty("specularMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
+				this->_material->addProperty("specularMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
 					property->active(1);
 					property->bind(Texture::Target::TEXTURE_2D);
 					return 1;
 				}));
 
-				this->_material.lock()->addProperty("diffuseMapEnabled", makeComputedProperty<bool>([material = this->_material]() {
-					auto diffuseMap = std::dynamic_pointer_cast<DiffuseMap>(material.lock()->getProperty("diffuseMap"))->get();
+				this->_material->addProperty("diffuseMapEnabled", makeComputedProperty<bool>([material = *this->_material]() {
+					auto diffuseMap = std::dynamic_pointer_cast<DiffuseMap>(material->getProperty("diffuseMap"))->get();
 					return !diffuseMap.isDirty();
 				}));
 
-				this->_material.lock()->addProperty("specularMapEnabled", makeComputedProperty<bool>([material = this->_material]() {
-					auto specularMap = std::dynamic_pointer_cast<SpecularMap>(material.lock()->getProperty("specularMap"))->get();
+				this->_material->addProperty("specularMapEnabled", makeComputedProperty<bool>([material = *this->_material]() {
+					auto specularMap = std::dynamic_pointer_cast<SpecularMap>(material->getProperty("specularMap"))->get();
 					return !specularMap.isDirty();
 				}));
 
-				this->_material.lock()->addProperty("ambient", makeProperty<FloatVector3u, std::array<float, 3>>(FloatVector3u{}, [](auto property) {
+				this->_material->addProperty("ambient", makeProperty<FloatVector3u, std::array<float, 3>>(FloatVector3u{}, [](auto property) {
 					return property.data();
 				}));
-				this->_material.lock()->addProperty("diffuse", makeProperty<FloatVector3u, std::array<float, 3>>(FloatVector3u{}, [](auto property) {
+				this->_material->addProperty("diffuse", makeProperty<FloatVector3u, std::array<float, 3>>(FloatVector3u{}, [](auto property) {
 					return property.data();
 				}));
-				this->_material.lock()->addProperty("specular", makeProperty<FloatVector3u, std::array<float, 3>>(FloatVector3u{}, [](auto property) {
+				this->_material->addProperty("specular", makeProperty<FloatVector3u, std::array<float, 3>>(FloatVector3u{}, [](auto property) {
 					return property.data();
 				}));
-				this->_material.lock()->addProperty("shininess", makeProperty<float>(0.0f));
+				this->_material->addProperty("shininess", makeProperty<float>(0.0f));
 			}
 
 			void PhongMaterial::clear()
 			{
-				this->_material.lock()->removeProperty("diffuseMapEnabled");
-				this->_material.lock()->removeProperty("specularMapEnabled");
-				this->_material.lock()->removeProperty("ambient");
-				this->_material.lock()->removeProperty("diffuse");
-				this->_material.lock()->removeProperty("specular");
-				this->_material.lock()->removeProperty("diffuseMap");
-				this->_material.lock()->removeProperty("specularMap");
-				this->_material.lock()->removeProperty("shininess");
+				this->_material->removeProperty("diffuseMapEnabled");
+				this->_material->removeProperty("specularMapEnabled");
+				this->_material->removeProperty("ambient");
+				this->_material->removeProperty("diffuse");
+				this->_material->removeProperty("specular");
+				this->_material->removeProperty("diffuseMap");
+				this->_material->removeProperty("specularMap");
+				this->_material->removeProperty("shininess");
 			}
 		} // namespace material
 	} // namespace graphic

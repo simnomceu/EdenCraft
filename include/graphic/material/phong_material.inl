@@ -44,59 +44,59 @@ namespace ece
 	{
 		namespace material
 		{
-			inline void PhongMaterial::setMaterial(const std::weak_ptr<Material> & material) { this->_material = material; }
+			inline void PhongMaterial::setMaterial(const Material::Reference & material) { this->_material = material; }
 
-			inline auto PhongMaterial::getMaterial() -> std::weak_ptr<Material> { return this->_material; }
+			inline auto PhongMaterial::getMaterial() -> const Material::Reference & { return this->_material; }
 
 			inline void PhongMaterial::setAmbient(const FloatVector3u & ambient)
 			{
-				this->_material.lock()->getProperty("ambient")->enable(true);
-				*std::dynamic_pointer_cast<Ambient>(this->_material.lock()->getProperty("ambient")) = ambient;
-				this->_material.lock()->getProperty("diffuseMap")->enable(false);
+				this->_material->getProperty("ambient")->enable(true);
+				*std::dynamic_pointer_cast<Ambient>(this->_material->getProperty("ambient")) = ambient;
+				this->_material->getProperty("diffuseMap")->enable(false);
 			}
 			
 			inline void PhongMaterial::setDiffuse(const FloatVector3u & diffuse)
 			{
-				this->_material.lock()->getProperty("diffuse")->enable(true);
-				*std::dynamic_pointer_cast<Diffuse>(this->_material.lock()->getProperty("diffuse")) = diffuse;
-				this->_material.lock()->getProperty("diffuseMap")->enable(false);
+				this->_material->getProperty("diffuse")->enable(true);
+				*std::dynamic_pointer_cast<Diffuse>(this->_material->getProperty("diffuse")) = diffuse;
+				this->_material->getProperty("diffuseMap")->enable(false);
 			}
 			
 			inline void PhongMaterial::setSpecular(const FloatVector3u & specular)
 			{
-				this->_material.lock()->getProperty("specular")->enable(true);
-				*std::dynamic_pointer_cast<Specular>(this->_material.lock()->getProperty("specular")) = specular;
-				this->_material.lock()->getProperty("specularMap")->enable(false);
+				this->_material->getProperty("specular")->enable(true);
+				*std::dynamic_pointer_cast<Specular>(this->_material->getProperty("specular")) = specular;
+				this->_material->getProperty("specularMap")->enable(false);
 			}
 			
-			inline void PhongMaterial::setShininess(const float shininess) { *std::dynamic_pointer_cast<Shininess>(this->_material.lock()->getProperty("shininess")) = shininess; }
+			inline void PhongMaterial::setShininess(const float shininess) { *std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess")) = shininess; }
 
 			inline void PhongMaterial::setDiffuseMap(const Texture2D::Reference & texture)
 			{
-				this->_material.lock()->getProperty("diffuseMap")->enable(true);
-				*std::dynamic_pointer_cast<DiffuseMap>(this->_material.lock()->getProperty("diffuseMap")) = texture;
-				this->_material.lock()->getProperty("ambient")->enable(false);
-				this->_material.lock()->getProperty("diffuse")->enable(false);
+				this->_material->getProperty("diffuseMap")->enable(true);
+				*std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap")) = texture;
+				this->_material->getProperty("ambient")->enable(false);
+				this->_material->getProperty("diffuse")->enable(false);
 			}
 
 			inline void PhongMaterial::setSpecularMap(const Texture2D::Reference & texture)
 			{
-				this->_material.lock()->getProperty("specularMap")->enable(true);
-				*std::dynamic_pointer_cast<SpecularMap>(this->_material.lock()->getProperty("specularMap")) = texture;
-				this->_material.lock()->getProperty("specular")->enable(false);
+				this->_material->getProperty("specularMap")->enable(true);
+				*std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap")) = texture;
+				this->_material->getProperty("specular")->enable(false);
 			}
 
-			inline const auto & PhongMaterial::getAmbient() const { return std::dynamic_pointer_cast<Ambient>(this->_material.lock()->getProperty("ambient"))->get(); }
+			inline const auto & PhongMaterial::getAmbient() { return std::dynamic_pointer_cast<Ambient>(this->_material->getProperty("ambient"))->get(); }
 			
-			inline const auto & PhongMaterial::getDiffuse() const { return std::dynamic_pointer_cast<Diffuse>(this->_material.lock()->getProperty("diffuse"))->get(); }
+			inline const auto & PhongMaterial::getDiffuse() { return std::dynamic_pointer_cast<Diffuse>(this->_material->getProperty("diffuse"))->get(); }
 			
-			inline const auto & PhongMaterial::getSpecular() const { return std::dynamic_pointer_cast<Specular>(this->_material.lock()->getProperty("specular"))->get(); }
+			inline const auto & PhongMaterial::getSpecular() { return std::dynamic_pointer_cast<Specular>(this->_material->getProperty("specular"))->get(); }
 			
-			inline auto PhongMaterial::getShininess() const { return std::dynamic_pointer_cast<Shininess>(this->_material.lock()->getProperty("shininess"))->get(); }
+			inline auto PhongMaterial::getShininess() { return std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess"))->get(); }
 
-			inline auto PhongMaterial::getDiffuseMap() const { return std::dynamic_pointer_cast<DiffuseMap>(this->_material.lock()->getProperty("diffuseMap"))->get(); }
+			inline auto PhongMaterial::getDiffuseMap() { return std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap"))->get(); }
 			
-			inline auto PhongMaterial::getSpecularMap() const { return std::dynamic_pointer_cast<SpecularMap>(this->_material.lock()->getProperty("specularMap"))->get(); }
+			inline auto PhongMaterial::getSpecularMap() { return std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap"))->get(); }
 		} // namespace material
 	} // namespace graphic
 } // namespace ece

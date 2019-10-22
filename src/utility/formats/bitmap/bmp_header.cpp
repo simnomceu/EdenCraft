@@ -53,11 +53,23 @@ namespace ece
 				{
 					auto magic = std::string(2, ' ');
 					stream.read(reinterpret_cast<char *>(magic.data()), sizeof(uint16_t));
+					if (stream.fail() && stream.eof() && !stream.bad()) {
+						throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+					}
 					header.signature = toBitmapSignature(magic);
 
 					stream.read(reinterpret_cast<char *>(&header.size), sizeof(uint32_t));
+					if (stream.fail() && stream.eof() && !stream.bad()) {
+						throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+					}
 					stream.read(reinterpret_cast<char *>(header.reserved.data()), sizeof(uint32_t));
+					if (stream.fail() && stream.eof() && !stream.bad()) {
+						throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+					}
 					stream.read(reinterpret_cast<char *>(&header.pixelsOffset), sizeof(uint32_t));
+					if (stream.fail() && stream.eof() && !stream.bad()) {
+						throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+					}
 
 					return stream;
 				}

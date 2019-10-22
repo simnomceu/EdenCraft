@@ -79,10 +79,10 @@ namespace ece
 					OpenGL::enable(Capability::SCISSOR_TEST);
 				}
 
-				OpenGL::clearColor(static_cast<float>(color.red) / 255.0f,
-					static_cast<float>(color.green) / 255.0f,
-					static_cast<float>(color.blue) / 255.0f,
-					static_cast<float>(color.alpha) / 100.0f);
+				OpenGL::clearColor(static_cast<float>(color.r) / 255.0f,
+					static_cast<float>(color.g) / 255.0f,
+					static_cast<float>(color.b) / 255.0f,
+					static_cast<float>(color.a) / 100.0f);
 				OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
 			}
 

@@ -41,7 +41,8 @@
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
-#include "utility/file_system.hpp"
+#include "core/format/saver.hpp"
+#include "core/format/loader.hpp"
 
 namespace ece
 {
@@ -110,14 +111,14 @@ namespace ece
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<Saver, T>>>
 				void registerSaver(const std::string & extension);
 
-				template <class T>
-				inline auto getLoader(const std::string & filename);
+				inline void unregisterLoader(const std::string & extension);
+				inline void unregisterSaver(const std::string & extension);
 
-				template <class T>
-				inline auto getSaver(const std::string & filename);
+				inline auto getLoader(const std::string & extension);
+				inline auto getSaver(const std::string & extension);
 
-				inline auto hasLoaderFor(const std::string & extension) const;
-				inline auto hasSaverFor(const std::string & extension) const;
+				inline auto hasLoaderFor(const std::string & extension) const -> bool;
+				inline auto hasSaverFor(const std::string & extension) const -> bool;
 
 			private:
 				std::unordered_map<std::string, std::shared_ptr<Loader>> _loaders;

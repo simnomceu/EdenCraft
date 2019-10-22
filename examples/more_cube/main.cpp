@@ -57,6 +57,7 @@ int main()
 
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
+		ece::ServiceFormatLocator::getService().registerLoader<ece::MTLLoader>("mtl");
 
         auto & world = app.addWorld();
         auto renderSystem = world.addSystem<RenderSystem>(window);

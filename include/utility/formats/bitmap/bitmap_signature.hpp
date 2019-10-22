@@ -52,12 +52,12 @@ namespace ece
 			{
 				enum class BitmapSignature : std::uint64_t
 				{
-					BM = 16190437735560679104U,
-					BA = 1745783061218244015U,
-					CI = 13064276455657367327U,
-					CP = 12845797466685711185U,
-					IC = 6548012898287373641U,
-					PT = 3432010254021000238U
+					BM = 0U, // Bitmap
+					BA = 1U, // Bitmap Array
+					CI = 2U, // Color Icon
+					CP = 3U, // Color Pointer
+					IC = 4U, // Icon
+					PT = 5U // Pointer
 				};
 
 				ECE_UTILITY_API BitmapSignature toBitmapSignature(std::string signature);

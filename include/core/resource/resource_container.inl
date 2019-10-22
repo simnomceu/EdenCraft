@@ -83,7 +83,7 @@ namespace ece
 			auto ResourceContainer<Resource>::getResource(const std::string & key)
 			{
 				this->_resources[key].lastAccess = std::chrono::system_clock::now();
-				return ResourceHandler(this->_resources[key].content);
+				return ResourceHandler<Resource>(key, this->_resources[key].content);
 			}
 
 		} // namespace resource

@@ -56,6 +56,8 @@ namespace ece
 }
 
 #include "utility/type/bit_helper.hpp"
+#include "utility/type/borned.hpp"
+#include "utility/type/pixel_format.hpp"
 
 namespace ece
 {

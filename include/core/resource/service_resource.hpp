@@ -65,7 +65,7 @@ namespace ece
 				static auto build()
 				{
 					if (!std::is_base_of<core::resource::ResourceManager, Derived>()) {
-						throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
+						throw std::runtime_error("This class cannot be instantiate as the service wished. Check again.");
 					}
 					return std::shared_ptr<core::resource::ResourceManager>(new Derived());
 				}

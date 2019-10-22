@@ -82,13 +82,18 @@ namespace ece
 
         			for (auto [key, value] : *jsonObject) {
         				if (value->getType() == NodeJSON::Type::STRING) {
-        					auto element = std::static_pointer_cast<StringJSON>(value);
-        					this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
+        					auto element = NodeJSON::convertTo<StringJSON>(value);
+							if (element) {
+								this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
+							}
+							else {
+								ece::ERROR << "Error while loading '" << key << "' string from locale file " << filename << ece::flush;
+							}
         				}
         			}
         		}
         		catch (const FileException & e) {
-        			std::cerr << e.what() << '\n';
+					ece::ERROR << e.what() << ece::flush;
         		}
         	}
         } // namespace locale

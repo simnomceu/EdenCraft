@@ -42,8 +42,8 @@
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
 #include "utility/file_system.hpp"
-#include "utility/indexing.hpp"
-#include "utility/formats/bitmap/color_format.hpp"
+#include "utility/types.hpp"
+#include "utility/formats/bitmap/bitmap_image.hpp"
 
 namespace ece
 {
@@ -146,7 +146,7 @@ namespace ece
 					inline auto getPixels() const noexcept;
 
 				private:
-					Dynamic2DArray<std::array<std::byte, 3>> _pixels;
+					BitmapImage _bitmap;
 				};
 			} // namespace bitmap
 		} // namespace formats

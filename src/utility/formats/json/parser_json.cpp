@@ -67,8 +67,9 @@ namespace ece
 						const auto key = content[0];
 						switch (key) {
 						case '{':
-							if (currentKey.empty()) {
-								currentNode.reset(new ObjectJSON());
+							if (!currentNode) {
+								this->_contentJSON.reset(new ObjectJSON());
+								currentNode = this->_contentJSON;
 							}
 							else {
 								if (currentNode->getType() == NodeJSON::Type::OBJECT) {
@@ -93,6 +94,7 @@ namespace ece
 							else if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 								currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addArray();
 							}
+							content = content.substr(1);
 							break;
 						case ']':
 							currentNode = currentNode->getParent();
@@ -127,9 +129,11 @@ namespace ece
 								auto streamVal = std::istringstream{ content };
 								auto value = 0.0;
 								streamVal >> value;
-								if (value == std::floor(value)) {
+
+								auto stringVal = content.substr(0, std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
+								if (stringVal.find('.') == std::string::npos) {
 									auto integer = static_cast<int>(value);
-									content = content.substr(std::to_string(integer).size());
+									content = content.substr(std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addInteger(integer);
 									}
@@ -138,7 +142,7 @@ namespace ece
 									}
 								}
 								else {
-									content = content.substr(std::to_string(value).size());
+									content = content.substr(std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addDouble(value);
 									}
@@ -173,7 +177,6 @@ namespace ece
 							break;
 						}
 					}
-					this->_contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
 				}
 
 				void ParserJSON::save(std::ostream & stream)

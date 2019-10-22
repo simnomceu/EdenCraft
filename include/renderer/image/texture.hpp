@@ -122,7 +122,11 @@ namespace ece
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) = 0;
 
-				virtual void loadFromImage(const TypeTarget type, const Image<RGBA32> & image) = 0;
+				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) = 0;
+
+				virtual void saveToFile(const std::filesystem::path & filename) = 0;
+
+				virtual void saveToImage(Image<RGBA32>::Reference image) = 0;
 
 				/**
 				 * @fn const std::string & getFilename() const
@@ -138,7 +142,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				virtual auto getData() const -> const std::vector<std::byte> & = 0;
+				virtual auto getData() const -> const std::vector<std::uint8_t> & = 0;
 
 				/**
 				 * @fn std::size_t getWidth() const

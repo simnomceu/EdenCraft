@@ -55,8 +55,8 @@ namespace ece
 					RGB = 0,
 					RLE8 = 1,
 					RLE4 = 2,
-					BITFIELDS = 3,
-					JPEG = 4,
+					BITFIELDS = 3, // Huffman 1D
+					JPEG = 4, // RLE24
 					PNG = 5,
 					ALPHABITFIELDS = 6,
 					CMYK = 11,
@@ -68,22 +68,22 @@ namespace ece
 
 				ECE_UTILITY_API std::string to_string(CompressionMethod method);
 
-				ECE_UTILITY_API std::vector<char> compress(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header);
-				ECE_UTILITY_API std::vector<char> uncompress(std::vector<char>::iterator begin, std::vector<char>::iterator end, DIBHeader & header);
+				ECE_UTILITY_API std::vector<std::uint8_t> compress(std::vector<std::uint8_t> uncompressed, DIBHeader & header);
+				ECE_UTILITY_API std::vector<std::uint8_t> uncompress(std::vector<std::uint8_t> compressed, DIBHeader & header);
 
-				ECE_UTILITY_API std::vector<char> compressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> compressRLE4(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> compressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header);
-				ECE_UTILITY_API std::vector<char> compressJPEG(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> compressPNG(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> compressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header);
+				ECE_UTILITY_API std::vector<std::uint8_t> compressRLE8(std::vector<std::uint8_t> uncompressed, std::size_t width);
+				ECE_UTILITY_API std::vector<std::uint8_t> compressRLE4(std::vector<std::uint8_t> uncompressed, std::size_t width);
+				ECE_UTILITY_API std::vector<std::uint8_t> compressBitfields(std::vector<std::uint8_t> uncompressed, DIBHeader & header);
+				ECE_UTILITY_API std::vector<std::uint8_t> compressJPEG(std::vector<std::uint8_t> uncompressed, std::size_t width);
+				ECE_UTILITY_API std::vector<std::uint8_t> compressPNG(std::vector<std::uint8_t> uncompressed, std::size_t width);
+				ECE_UTILITY_API std::vector<std::uint8_t> compressAlphaBitfields(std::vector<std::uint8_t> uncompressed, DIBHeader & header);
 
-				ECE_UTILITY_API std::vector<char> decompressRLE8(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> decompressRLE4(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> decompressBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header);
-				ECE_UTILITY_API std::vector<char> decompressJPEG(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> decompressPNG(std::vector<char>::iterator begin, std::vector<char>::iterator end, std::size_t width);
-				ECE_UTILITY_API std::vector<char> decompressAlphaBitfields(std::vector<char>::iterator begin, [[maybe_unused]] std::vector<char>::iterator end, DIBHeader & header);
+				ECE_UTILITY_API std::vector<std::uint8_t> decompressBitfields(std::vector<std::uint8_t> compressed, DIBHeader & header);
+				ECE_UTILITY_API std::vector<std::uint8_t> decompressJPEG(std::vector<std::uint8_t> compressed, std::size_t width);
+				ECE_UTILITY_API std::vector<std::uint8_t> decompressPNG(std::vector<std::uint8_t> compressed, std::size_t width);
+				ECE_UTILITY_API std::vector<std::uint8_t> decompressAlphaBitfields(std::vector<std::uint8_t> compressed, DIBHeader & header);
+
+				// TODO: Implementing Huffman 1D/PNG encoding/decoding algorithm.
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

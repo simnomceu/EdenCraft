@@ -51,46 +51,54 @@ namespace ece
 				{
 					const auto colorTableSize = (dib.nbColorsUsed == 0 && dib.bitCount < 16) ? static_cast<std::size_t>(std::pow(2, dib.bitCount)) : dib.nbColorsUsed;
 					if (dib.type == DIBHeaderType::BITMAPCOREHEADER || dib.type == DIBHeaderType::OS21XBITMAPHEADER || dib.type == DIBHeaderType::OS22XBITMAPHEADER) {
-						this->_colors = std::vector<BGR<uint8_t>>(colorTableSize);
+						this->_colors = std::vector<BGR24>(colorTableSize);
 					}
 					else {
-						this->_colors = std::vector<BGRA<uint8_t>>(colorTableSize);
+						this->_colors = std::vector<BGRA32>(colorTableSize);
 					}
 				}
 
-				RGBA<uint8_t> ColorTable::operator[](const std::size_t index) const
+				RGBA32 ColorTable::operator[](const std::size_t index) const
 				{
-					if (std::holds_alternative<std::vector<BGR<uint8_t>>>(this->_colors)) {
-						auto & proxyTable = std::get<std::vector<BGR<uint8_t>>>(this->_colors);
-						return toRGBA<uint8_t>(proxyTable[index]);
+					if (std::holds_alternative<std::vector<BGR24>>(this->_colors)) {
+						auto & proxyTable = std::get<std::vector<BGR24>>(this->_colors);
+						return toRGBA32(proxyTable.at(index));
 					}
 					else {
-						auto & proxyTable = std::get<std::vector<BGRA<uint8_t>>>(this->_colors);
-						return toRGBA<uint8_t>(proxyTable[index]);
+						auto & proxyTable = std::get<std::vector<BGRA32>>(this->_colors);
+						return toRGBA32(proxyTable.at(index));
 					}
 				}
 
-				void ColorTable::set(const std::size_t index, RGBA<uint8_t> value)
+				void ColorTable::set(const std::size_t index, RGBA32 value)
 				{
-					if (std::holds_alternative<std::vector<BGR<uint8_t>>>(this->_colors)) {
-						auto & proxyTable = std::get<std::vector<BGR<uint8_t>>>(this->_colors);
-						proxyTable[index] = toBGRA<uint8_t>(value);
+					if (std::holds_alternative<std::vector<BGR24>>(this->_colors)) {
+						auto & proxyTable = std::get<std::vector<BGR24>>(this->_colors);
+						proxyTable[index] = toBGRA32(value);
 					}
 					else {
-						auto & proxyTable = std::get<std::vector<BGRA<uint8_t>>>(this->_colors);
-						proxyTable[index] = toBGRA(value);
+						auto & proxyTable = std::get<std::vector<BGRA32>>(this->_colors);
+						proxyTable[index] = toBGRA32(value);
 					}
 				}
 
 				std::istream & operator>>(std::istream & stream, ColorTable & colorTable)
 				{
-					if (std::holds_alternative<std::vector<BGR<uint8_t>>>(colorTable._colors)) {
-						auto & proxyTable = std::get<std::vector<BGR<uint8_t>>>(colorTable._colors);
-						stream.read(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * sizeof(BGR<uint8_t>));
+					if (std::holds_alternative<std::vector<BGR24>>(colorTable._colors)) {
+						auto & proxyTable = std::get<std::vector<BGR24>>(colorTable._colors);
+						stream.read(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * sizeof(BGR24));
+
+						if (stream.fail() && stream.eof() && !stream.bad()) {
+							throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+						}
 					}
 					else {
-						auto & proxyTable = std::get<std::vector<BGRA<uint8_t>>>(colorTable._colors);
-						stream.read(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * sizeof(BGRA<uint8_t>));
+						auto & proxyTable = std::get<std::vector<BGRA32>>(colorTable._colors);
+						stream.read(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * sizeof(BGRA32));
+
+						if (stream.fail() && stream.eof() && !stream.bad()) {
+							throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+						}
 					}
 
 					return stream;
@@ -98,13 +106,13 @@ namespace ece
 
 				std::ostream & operator<<(std::ostream & stream, ColorTable & colorTable)
 				{
-					if (std::holds_alternative<std::vector<BGR<uint8_t>>>(colorTable._colors)) {
-						auto & proxyTable = std::get<std::vector<BGR<uint8_t>>>(colorTable._colors);
-						stream.write(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * sizeof(BGR<uint8_t>));
+					if (std::holds_alternative<std::vector<BGR24>>(colorTable._colors)) {
+						auto & proxyTable = std::get<std::vector<BGR24>>(colorTable._colors);
+						stream.write(reinterpret_cast<const char *>(proxyTable.data()), proxyTable.size() * sizeof(BGR24));
 					}
 					else {
-						auto & proxyTable = std::get<std::vector<BGRA<uint8_t>>>(colorTable._colors);
-						stream.write(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * sizeof(BGRA<uint8_t>));
+						auto & proxyTable = std::get<std::vector<BGRA32>>(colorTable._colors);
+						stream.write(reinterpret_cast<const char *>(proxyTable.data()), proxyTable.size() * sizeof(BGRA32));
 					}
 
 					return stream;
