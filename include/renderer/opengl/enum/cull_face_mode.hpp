@@ -61,6 +61,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API CullFaceMode getCullFaceMode(RenderState::CullFaceMode mode);
+			ECE_RENDERER_API RenderState::CullFaceMode getCullFaceMode(CullFaceMode mode);
 
 			ECE_RENDERER_API std::string to_string(CullFaceMode mode);
 		} // namespace opengl

@@ -58,6 +58,19 @@ namespace ece
 				}
 			}
 
+			ShaderStage::Type getShaderType(ShaderType type)
+			{
+				switch (type) {
+				case ShaderType::COMPUTE_SHADER: return ShaderStage::Type::COMPUTE; break;
+				case ShaderType::FRAGMENT_SHADER: return ShaderStage::Type::FRAGMENT; break;
+				case ShaderType::GEOMETRY_SHADER: return ShaderStage::Type::GEOMETRY; break;
+				case ShaderType::VERTEX_SHADER: return ShaderStage::Type::VERTEX; break;
+				case ShaderType::TESS_EVALUATION_SHADER: return ShaderStage::Type::TESS_EVALUATION; break;
+				case ShaderType::TESS_CONTROL_SHADER: return ShaderStage::Type::TESS_CONTROL; break;
+				default: throw std::runtime_error("Unknown value for ShaderStage::Type enumeration."); break;
+				}
+			}
+
 			std::string to_string(ShaderType type)
 			{
 				switch (type) {

@@ -84,6 +84,7 @@ namespace ece
 			};
 
 			ECE_RENDERER_API TextureParameter getTextureParameter(Texture::Parameter type);
+			ECE_RENDERER_API Texture::Parameter getTextureParameter(TextureParameter type);
 
 			ECE_RENDERER_API std::string to_string(TextureParameter type);
 		} // namespace opengl

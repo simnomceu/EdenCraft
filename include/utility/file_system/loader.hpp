@@ -104,12 +104,12 @@ namespace ece
 				Loader & operator=(Loader && move) noexcept = default;
 
         		/**
-        		 * @fn void loadFromFile(const std::string & filename)
+        		 * @fn void loadFromFile(const std::filesystem::path & filename)
         		 * @param[in] filename The name of the file to load data from.
         		 * @brief Load and parse data from a file.
         		 * @throw
         		 */
-        		virtual void loadFromFile(const std::string & filename) = 0;
+        		virtual void loadFromFile(const std::filesystem::path & filename) = 0;
 
         		/**
         		 * @fn void loadFromString(const std::string & content)

@@ -108,12 +108,12 @@ namespace ece
 				OBJLoader & operator=(OBJLoader && move) noexcept = default;
 
 				/**
-				* @fn void loadFromFile(const std::string & filename)
+				* @fn void loadFromFile(const std::filesystem::path & filename)
 				* @param[in] filename The name of the file to load data from.
 				* @brief Load and parse data from a file.
 				* @throw
 				*/
-				virtual void loadFromFile(const std::string & filename) override;
+				virtual void loadFromFile(const std::filesystem::path & filename) override;
 
 				/**
 				* @fn void loadFromString(const std::string & content)
@@ -134,7 +134,7 @@ namespace ece
 				inline virtual auto getMeshes() const -> const std::vector<Mesh::Reference> & override;
 
 			protected:
-				void load(const std::string & filename, ParserOBJ & parser);
+				void load(const std::filesystem::path & filename, ParserOBJ & parser);
 				void clear();
 
 			private:

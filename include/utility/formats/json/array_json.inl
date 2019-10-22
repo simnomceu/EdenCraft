@@ -48,7 +48,7 @@ namespace ece
 
 				inline auto ArrayJSON::isAtomic() const noexcept -> bool { return false; }
 
-				inline auto ArrayJSON::getType() const noexcept -> TypeNodeJSON { return TypeNodeJSON::ARRAY_JSON; }
+				inline auto ArrayJSON::getType() const noexcept -> NodeJSON::Type { return NodeJSON::Type::ARRAY; }
 
 				inline auto ArrayJSON::begin() noexcept { return this->_children.begin(); }
 

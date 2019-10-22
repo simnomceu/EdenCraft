@@ -71,6 +71,32 @@ namespace ece
 				}
 			}
 
+			RenderState::BlendingFactor getBlendingFactor(BlendingFactor type)
+			{
+				switch (type) {
+				case BlendingFactor::ZERO: return RenderState::BlendingFactor::ZERO; break;
+				case BlendingFactor::ONE: return RenderState::BlendingFactor::ONE; break;
+				case BlendingFactor::SRC_COLOR: return RenderState::BlendingFactor::SRC_COLOR; break;
+				case BlendingFactor::ONE_MINUS_SRC_COLOR: return RenderState::BlendingFactor::ONE_MINUS_SRC_COLOR; break;
+				case BlendingFactor::DST_COLOR: return RenderState::BlendingFactor::DST_COLOR; break;
+				case BlendingFactor::ONE_MINUS_DST_COLOR: return RenderState::BlendingFactor::ONE_MINUS_DST_COLOR; break;
+				case BlendingFactor::SRC_ALPHA: return RenderState::BlendingFactor::SRC_ALPHA; break;
+				case BlendingFactor::ONE_MINUS_SRC_ALPHA: return RenderState::BlendingFactor::ONE_MINUS_SRC_ALPHA; break;
+				case BlendingFactor::DST_ALPHA: return RenderState::BlendingFactor::DST_ALPHA; break;
+				case BlendingFactor::ONE_MINUS_DST_ALPHA: return RenderState::BlendingFactor::ONE_MINUS_DST_ALPHA; break;
+				case BlendingFactor::CONSTANT_COLOR: return RenderState::BlendingFactor::CONSTANT_COLOR; break;
+				case BlendingFactor::ONE_MINUS_CONSTANT_COLOR: return RenderState::BlendingFactor::ONE_MINUS_CONSTANT_COLOR; break;
+				case BlendingFactor::CONSTANT_ALPHA: return RenderState::BlendingFactor::CONSTANT_ALPHA; break;
+				case BlendingFactor::ONE_MINUS_CONSTANT_ALPHA: return RenderState::BlendingFactor::ONE_MINUS_CONSTANT_ALPHA; break;
+				case BlendingFactor::SRC_ALPHA_SATURATE: return RenderState::BlendingFactor::SRC_ALPHA_SATURATE; break;
+				case BlendingFactor::SRC1_COLOR: return RenderState::BlendingFactor::SRC1_COLOR; break;
+				case BlendingFactor::ONE_MINUS_SRC1_COLOR: return RenderState::BlendingFactor::ONE_MINUS_SRC1_COLOR; break;
+				case BlendingFactor::SRC1_ALPHA: return RenderState::BlendingFactor::SRC1_ALPHA; break;
+				case BlendingFactor::ONE_MINUS_SRC1_ALPHA: return RenderState::BlendingFactor::ONE_MINUS_SRC1_ALPHA; break;
+				default: throw std::runtime_error("Unknown value for RenderState::BlendingFactor enumeration."); break;
+				}
+			}
+
 			std::string to_string(BlendingFactor type)
 			{
 				switch (type) {

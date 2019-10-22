@@ -65,6 +65,26 @@ namespace ece
 				}
 			}
 
+			Texture::TypeTarget getTextureTypeTarget(TextureTypeTarget type)
+			{
+				switch (type) {
+				case TextureTypeTarget::TEXTURE_2D: return Texture::TypeTarget::TEXTURE_2D; break;
+				case TextureTypeTarget::PROXY_TEXTURE_2D: return Texture::TypeTarget::PROXY_2D; break;
+				case TextureTypeTarget::TEXTURE_1D_ARRAY: return Texture::TypeTarget::TEXTURE_1D_ARRAY; break;
+				case TextureTypeTarget::PROXY_TEXTURE_1D_ARRAY: return Texture::TypeTarget::PROXY_1D_ARRAY; break;
+				case TextureTypeTarget::TEXTURE_RECTANGLE: return Texture::TypeTarget::RECTANGLE; break;
+				case TextureTypeTarget::PROXY_TEXTURE_RECTANGLE: return Texture::TypeTarget::PROXY_RECTANGLE; break;
+				case TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_X: return Texture::TypeTarget::CUBE_MAP_POSITIVE_X; break;
+				case TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_X: return Texture::TypeTarget::CUBE_MAP_NEGATIVE_X; break;
+				case TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_Y: return Texture::TypeTarget::CUBE_MAP_POSITIVE_Y; break;
+				case TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_Y: return Texture::TypeTarget::CUBE_MAP_NEGATIVE_Y; break;
+				case TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_Z: return Texture::TypeTarget::CUBE_MAP_POSITIVE_Z; break;
+				case TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_Z: return Texture::TypeTarget::CUBE_MAP_NEGATIVE_Z; break;
+				case TextureTypeTarget::PROXY_TEXTURE_CUBE_MAP: return Texture::TypeTarget::PROXY_CUBE_MAP; break;
+				default: throw std::runtime_error("Unknown value for Texture::TypeTarget enumeration."); break;
+				}
+			}
+
 			std::string to_string(TextureTypeTarget type)
 			{
 				switch (type) {

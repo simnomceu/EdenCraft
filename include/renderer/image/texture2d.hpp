@@ -66,7 +66,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Texture2D() noexcept;
+				Texture2D(bool defaultClamping = true) noexcept;
 
 				/**
 				 * @fn Texture2D(const Texture2D & copy)

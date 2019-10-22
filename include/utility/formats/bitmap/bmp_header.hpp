@@ -36,32 +36,42 @@
 
 */
 
-#ifndef __unix__
-	#define S_ISREG(m) (((m) & S_IFMT) == S_IFREG)
-	#define S_ISDIR(m) (((m) & S_IFMT) == S_IFDIR)
-#endif
+#ifndef BMP_HEADER_HPP
+#define BMP_HEADER_HPP
+
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
+#include "utility/formats/bitmap/bitmap_signature.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
-    namespace utility
-    {
-        namespace file_system
-        {
-        	inline Path::Path() noexcept: _path() {}
+	namespace utility
+	{
+		namespace formats
+		{
+			namespace bitmap
+			{
+				/**
+				 * @struct BMPHeader
+				 * @brief The header of a BMP file according to the file format specification.
+				 */
+				struct ECE_UTILITY_API BMPHeader
+				{
+					BitmapSignature signature;
+					ece::size_t size;
+					std::array<std::uint32_t, 2> reserved;
+					ece::offset_t pixelsOffset;
 
-        	inline auto Path::getDepth() const -> std::size_t { return this->isFile() ? this->_path.size() - 1 : this->_path.size(); }
+					ECE_UTILITY_API friend std::istream & operator>>(std::istream & stream, BMPHeader & header);
 
-        	inline auto Path::getFilename() const -> std::string { return this->isFile() ? this->_path.back() : "" ; }
+					ECE_UTILITY_API friend std::ostream & operator<<(std::ostream & stream, BMPHeader & header);
 
-        	inline auto & Path::operator[](const int index) { return this->_path[index]; }
-
-        	inline auto Path::operator[](const int index) const { return this->_path[index]; }
-
-        	inline auto Path::exists() const { return this->isFile() || this->isFolder(); }
-
-        	inline auto Path::isFile() const -> bool { return false; }
-
-        	inline auto Path::isFolder() const -> bool { return false; }
-        } // namespace file_system
-    } // namespace utility
+					static const std::size_t INTERNAL_SIZE;
+				};
+			} // namespace bitmap
+		} // namespace formats
+	} // namespace utility
 } // namespace ece
+
+#endif // BMP_HEADER_HPP

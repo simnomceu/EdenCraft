@@ -71,10 +71,10 @@ namespace ece
 								currentNode.reset(new ObjectJSON());
 							}
 							else {
-								if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
+								if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 									currentNode = std::static_pointer_cast<ObjectJSON>(currentNode)->addObject(currentKey);
 								}
-								else if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
+								else if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 									currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addObject();
 								}
 							}
@@ -87,10 +87,10 @@ namespace ece
 							content = content.substr(1);
 							break;
 						case '[':
-							if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
+							if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 								currentNode = std::static_pointer_cast<ObjectJSON>(currentNode)->addArray(currentKey);
 							}
-							else if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
+							else if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 								currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addArray();
 							}
 							break;
@@ -106,10 +106,10 @@ namespace ece
 								content = content.substr(content.find_first_of(':') + 1);
 							}
 							else {
-								if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
+								if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 									std::static_pointer_cast<ObjectJSON>(currentNode)->addString(currentKey, content.substr(0, content.find_first_of('"')));
 								}
-								else if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
+								else if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 									std::static_pointer_cast<ArrayJSON>(currentNode)->addString(content.substr(0, content.find_first_of('"')));
 								}
 								content = content.substr(content.find_first_of('"') + 1);
@@ -130,19 +130,19 @@ namespace ece
 								if (value == std::floor(value)) {
 									auto integer = static_cast<int>(value);
 									content = content.substr(std::to_string(integer).size());
-									if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
+									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addInteger(integer);
 									}
-									else if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
+									else if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 										std::static_pointer_cast<ObjectJSON>(currentNode)->addInteger(currentKey, integer);
 									}
 								}
 								else {
 									content = content.substr(std::to_string(value).size());
-									if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
+									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addDouble(value);
 									}
-									else if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
+									else if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 										std::static_pointer_cast<ObjectJSON>(currentNode)->addDouble(currentKey, value);
 									}
 								}
@@ -150,18 +150,18 @@ namespace ece
 							else if (key >= 'a' && key <= 'z') {
 								if (key == 't' || key == 'f') {
 									auto value = (key == 't');
-									if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
+									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addBoolean(value);
 									}
-									else if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
+									else if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 										std::static_pointer_cast<ObjectJSON>(currentNode)->addBoolean(currentKey, value);
 									}
 								}
 								else if (key == 'n') {
-									if (currentNode->getType() == TypeNodeJSON::ARRAY_JSON) {
+									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 										std::static_pointer_cast<ArrayJSON>(currentNode)->addNull();
 									}
-									else if (currentNode->getType() == TypeNodeJSON::OBJECT_JSON) {
+									else if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 										std::static_pointer_cast<ObjectJSON>(currentNode)->addNull(currentKey);
 									}
 								}
@@ -176,9 +176,11 @@ namespace ece
 					this->_contentJSON = std::static_pointer_cast<ObjectJSON>(currentNode);
 				}
 
-				void ParserJSON::save([[maybe_unused]] std::ostream & stream)
+				void ParserJSON::save(std::ostream & stream)
 				{
-					/* NOT IMPLEMENTED YET*/
+					auto content = this->_contentJSON->to_string();
+
+					stream << content;
 				}
 			} // namespace json
 		}// namespace formats

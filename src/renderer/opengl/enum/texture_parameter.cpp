@@ -69,6 +69,30 @@ namespace ece
 				}
 			}
 
+			Texture::Parameter getTextureParameter(TextureParameter type)
+			{
+				switch (type) {
+				case TextureParameter::DEPTH_STENCIL_TEXTURE_MODE: return Texture::Parameter::DEPTH_STENCIL_MODE; break;
+				case TextureParameter::TEXTURE_BASE_LEVEL: return Texture::Parameter::BASE_LEVEL; break;
+				case TextureParameter::TEXTURE_COMPARE_FUNC: return Texture::Parameter::COMPARE_FUNC; break;
+				case TextureParameter::TEXTURE_COMPARE_MODE: return Texture::Parameter::COMPARE_MODE; break;
+				case TextureParameter::TEXTURE_LOD_BIAS: return Texture::Parameter::LOD_BIAS; break;
+				case TextureParameter::TEXTURE_MIN_FILTER: return Texture::Parameter::MIN_FILTER; break;
+				case TextureParameter::TEXTURE_MAG_FILTER: return Texture::Parameter::MAG_FILTER; break;
+				case TextureParameter::TEXTURE_MIN_LOD: return Texture::Parameter::MIN_LOD; break;
+				case TextureParameter::TEXTURE_MAX_LOD: return Texture::Parameter::MAX_LOD; break;
+				case TextureParameter::TEXTURE_MAX_LEVEL: return Texture::Parameter::MAX_LEVEL; break;
+				case TextureParameter::TEXTURE_SWIZZLE_R: return Texture::Parameter::SWIZZLE_R; break;
+				case TextureParameter::TEXTURE_SWIZZLE_G: return Texture::Parameter::SWIZZLE_G; break;
+				case TextureParameter::TEXTURE_SWIZZLE_B: return Texture::Parameter::SWIZZLE_B; break;
+				case TextureParameter::TEXTURE_SWIZZLE_A: return Texture::Parameter::SWIZZLE_A; break;
+				case TextureParameter::TEXTURE_WRAP_S: return Texture::Parameter::WRAP_S; break;
+				case TextureParameter::TEXTURE_WRAP_T: return Texture::Parameter::WRAP_T; break;
+				case TextureParameter::TEXTURE_WRAP_R: return Texture::Parameter::WRAP_R; break;
+				default: throw std::runtime_error("Unknown value for Texture::Parameter enumeration."); break;
+				}
+			}
+
 			std::string to_string(TextureParameter type)
 			{
 				switch (type) {

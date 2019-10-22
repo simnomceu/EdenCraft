@@ -81,7 +81,7 @@ namespace ece
         			auto jsonObject = parser.getObject();
 
         			for (auto [key, value] : *jsonObject) {
-        				if (value->getType() == TypeNodeJSON::STRING_JSON) {
+        				if (value->getType() == NodeJSON::Type::STRING) {
         					auto element = std::static_pointer_cast<StringJSON>(value);
         					this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
         				}

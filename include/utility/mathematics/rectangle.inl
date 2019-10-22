@@ -75,6 +75,44 @@ namespace ece
 
 				return std::move(intersection);
 			}
+
+			template <typename T>
+			template <typename E>
+			auto Rectangle<T>::operator*(E rhs) const noexcept->Rectangle<decltype(T{} *E{})>
+			{
+				return { this->x * rhs, this->y * rhs, this->width * rhs, this->height * rhs };
+			}
+
+			template <typename T>
+			template <typename E>
+			auto Rectangle<T>::operator/(E rhs) const->Rectangle<decltype(T{} *E{ 1 }) >
+			{
+				if (rhs == E{ 0 }) {
+					throw ece::DivideByZeroException("Rectangle");
+				}
+				return { this->x / rhs, this->y / rhs, this->width / rhs, this->height / rhs };
+			}
+
+			template <typename T>
+			template <typename E>
+			Rectangle<T> Rectangle<T>::operator*=(E rhs) noexcept
+			{
+				this->x *= rhs;
+				this->y *= rhs;
+				this->width *= rhs;
+				this->height *= rhs;
+				return *this;
+			}
+
+			template <typename T>
+			template <typename E> Rectangle<T> Rectangle<T>::operator/=(E rhs)
+			{
+				this->x /= rhs;
+				this->y /= rhs;
+				this->width /= rhs;
+				this->height /= rhs;
+				return *this;
+			}
         } // namespace mathematics
     } // namespace utility
 } // namespace ece

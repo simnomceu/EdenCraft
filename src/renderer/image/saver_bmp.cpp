@@ -50,7 +50,7 @@ namespace ece
 		{
 			using utility::formats::bitmap::ParserBMP;
 
-			void SaverBMP::saveToFile(const std::string & filename)
+			void SaverBMP::saveToFile(const std::filesystem::path & filename)
 			{
 				auto file = std::ofstream(filename, std::ios::binary | std::ios::out);
 				if (!file.is_open()) {

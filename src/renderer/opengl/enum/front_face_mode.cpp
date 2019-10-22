@@ -54,6 +54,15 @@ namespace ece
 				}
 			}
 
+			RenderState::FrontFaceMode getFrontFaceMode(FrontFaceMode mode)
+			{
+				switch (mode) {
+				case FrontFaceMode::CW: return RenderState::FrontFaceMode::CLOCKWISE; break;
+				case FrontFaceMode::CCW: return RenderState::FrontFaceMode::COUNTERCLOCKWISE; break;
+				default: throw std::runtime_error("Unknown value for RenderState::FrontFaceMode enumeration."); break;
+				}
+			}
+
 			std::string to_string(FrontFaceMode mode)
 			{
 				switch (mode) {

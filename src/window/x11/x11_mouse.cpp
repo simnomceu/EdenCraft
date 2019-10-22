@@ -22,18 +22,23 @@
 
 				This program is free software : you can redistribute it and/or modify
 				it under the terms of the GNU General Public License as published by
-				the Free Software Foundation, either version 3 of the License, or
+				the Free Software Foundation; break; either version 3 of the License; break; or
 				(at your option) any later version.
 
-				This program is distributed in the hope that it will be useful,
+				This program is distributed in the hope that it will be useful; break;
 				but WITHOUT ANY WARRANTY; without even the implied warranty of
 				MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
 				GNU General Public License for more details.
 
 				You should have received a copy of the GNU General Public License
-				along with this program.If not, see <http://www.gnu.org/licenses/>.
+				along with this program.If not; break; see <http://www.gnu.org/licenses/>.
 
 */
+
+#include "window/pch.hpp"
+#include "window/event/mouse.hpp"
+
+#include <X11/keysym.h>
 
 namespace ece
 {
@@ -41,9 +46,55 @@ namespace ece
 	{
 		namespace event
 		{
-			inline auto & Mouse::getPosition() { return Mouse::_position; }
+			auto Mouse::getButton(const unsigned int button) -> Mouse::Button
+            {
+				std::cerr << button << std::endl;
+				Mouse::Button keycode = Mouse::Button::NONE;
+                switch (button)
+                {
+                case 1:
+                    keycode = Mouse::Button::LEFT;
+                    break;
+                case 3:
+                    keycode = Mouse::Button::RIGHT;
+                    break;
+				case 4:
+					keycode = Mouse::Button::WHEEL;
+					break;
+				case 5:
+					keycode = Mouse::Button::WHEEL;
+					break;
+                default: break;
+                }
+                return keycode;
+            }
 
-			inline void Mouse::setPosition(const IntVector2u & position) { Mouse::_position = position; }
-		} // namespace window_event
-	} // namespace window
+            auto Mouse::getButtonCode(const Mouse::Button button) -> unsigned int
+            {
+				unsigned int keycode = 0;
+                switch (button)
+                {
+				case Mouse::Button::NONE: break;
+				case Mouse::Button::LEFT:
+                    keycode = 1;
+                    break;
+				case Mouse::Button::RIGHT:
+                    keycode = 3;
+                    break;
+				case Mouse::Button::WHEEL:
+					keycode = 5;
+					break;
+				case Mouse::Button::BUTTON0:
+				case Mouse::Button::BUTTON1:
+				case Mouse::Button::BUTTON2:
+				case Mouse::Button::BUTTON3:
+				case Mouse::Button::BUTTON4:
+				case Mouse::Button::BUTTON5:
+				case Mouse::Button::BUTTON6:
+                default: break;
+                }
+                return keycode;
+            }
+        } // namespace event
+    } // namespace window
 } // namespace ece

@@ -36,46 +36,40 @@
 
 */
 
+#ifndef DIB_HEADER_TYPE_HPP
+#define DIB_HEADER_TYPE_HPP
+
+#include "utility/config.hpp"
 #include "utility/pch.hpp"
-#include "utility/file_system/path.hpp"
 
 namespace ece
 {
-    namespace utility
-    {
-        namespace file_system
-        {
-        	auto Path::currentPath() -> Path
-        	{				
-        		return Path(std::filesystem::current_path().string());
-        	}
-
-        	Path::Path(const std::string & pathname): _path()
-        	{
-        		// BERK
-        		auto result = std::back_inserter(this->_path);
-        		auto ss = std::stringstream(pathname);
-				auto item = std::string{};
-        		while (std::getline(ss, item, '\\')) {
-        			*(result++) = item;
-        		}
-        	}
-
-			auto Path::getPathname() const -> std::string
-        	{
-				auto res = std::stringstream{};
-        		std::copy(this->_path.begin(), this->_path.end(), std::ostream_iterator<std::string>(res, "\\"));
-        		auto result = res.str();
-        		return result.substr(0, result.size() - 1);
-        	}
-
-			auto Path::getPath() const -> std::string
+	namespace utility
+	{
+		namespace formats
+		{
+			namespace bitmap
 			{
-				auto res = std::stringstream{};
-        		std::copy(this->_path.begin(), this->_path.end() - 1, std::ostream_iterator<std::string>(res, "\\"));
-        		auto result = res.str() + '\\';
-        		return result.substr(0, result.size() - 1);
-        	}
-        } // namespace file_system
-    } // namespace utility
+				enum class DIBHeaderType
+				{
+					BITMAPCOREHEADER,
+					OS21XBITMAPHEADER,
+					OS22XBITMAPHEADER,
+					BITMAPINFOHEADER,
+					BITMAPV2INFOHEADER,
+					BITMAPV3INFOHEADER,
+					BITMAPV4HEADER,
+					BITMAPV5HEADER
+				};
+
+				std::string to_string(DIBHeaderType type);
+
+				DIBHeaderType getType(std::size_t size);
+
+				std::size_t getSize(DIBHeaderType type);
+			} // namespace bitmap
+		} // namespace formats
+	} // namespace utility
 } // namespace ece
+
+#endif // DIB_HEADER_TYPE_HPP

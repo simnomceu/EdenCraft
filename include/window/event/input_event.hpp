@@ -74,6 +74,7 @@ namespace ece
 					MOUSE_SCROLLED = 3,
 					KEY_PRESSED = 4,
 					KEY_RELEASED = 5,
+					CHAR = 6
 				};
 
 				/**
@@ -164,6 +165,18 @@ namespace ece
 				 * @brief The keyboard key pressed.
 				 */
 				Keyboard::Key key;
+
+				/**
+				 * @property mouseWheel
+				 * @brief The rotation of the mouse wheel.
+				 */
+				float mouseWheel;
+
+				/**
+				 * @property character
+				 * brief The character written.
+				 */
+				unsigned char character;
 			};
 		} // namespace event
 	} // namespace window

@@ -68,10 +68,24 @@ namespace ece
 			};
 
 			ECE_RENDERER_API DataType getDataType(buffer::DataType type);
+			ECE_RENDERER_API buffer::DataType getDataType(DataType type);
 
 			ECE_RENDERER_API std::string to_string(DataType type);
+
+			template <typename T>
+			ECE_RENDERER_API inline constexpr DataType getType();
+			template <> ECE_RENDERER_API inline constexpr DataType getType<char>();
+			template <> ECE_RENDERER_API inline constexpr DataType getType<unsigned char>();
+			template <> ECE_RENDERER_API inline constexpr DataType getType<short>();
+			template <> ECE_RENDERER_API inline constexpr DataType getType<unsigned short>();
+			template <> ECE_RENDERER_API inline constexpr DataType getType<int>();
+			template <> ECE_RENDERER_API inline constexpr DataType getType<unsigned int>();
+			template <> ECE_RENDERER_API inline constexpr DataType getType<float>();
+			template <> ECE_RENDERER_API inline constexpr DataType getType<double>();
 		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/opengl/enum/data_type.inl"
 
 #endif // OPENGL_DATA_TYPE_HPP

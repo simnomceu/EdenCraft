@@ -51,10 +51,12 @@ namespace ece
 	{
 		namespace image
 		{
-			Texture2D::Texture2D()noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture())
+			Texture2D::Texture2D(bool defaultClamping) noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture())
 			{
-				this->setParameter<int>(Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
-				this->setParameter<int>(Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
+				if (defaultClamping) {
+					this->setParameter<int>(Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
+					this->setParameter<int>(Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
+				}
 				this->setParameter<int>(Parameter::MIN_FILTER, GL_LINEAR);
 			}
 
