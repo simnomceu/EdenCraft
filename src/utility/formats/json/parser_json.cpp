@@ -129,7 +129,9 @@ namespace ece
 								auto streamVal = std::istringstream{ content };
 								auto value = 0.0;
 								streamVal >> value;
-								if (value == std::floor(value)) {
+
+								auto stringVal = content.substr(0, std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
+								if (stringVal.find('.') == std::string::npos) {
 									auto integer = static_cast<int>(value);
 									content = content.substr(std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
