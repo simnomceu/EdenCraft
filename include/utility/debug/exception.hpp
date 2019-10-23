@@ -148,7 +148,19 @@ namespace ece
         		 * @throw std::bad_alloc May throw std:bad_alloc
         		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
         		 */
-        		FileException(const FileCodeError codeError, const std::string & filename);
+        		FileException(const FileCodeError codeError, const std::filesystem::path & filename);
+
+				/**
+				 * @fn FileException(const FileCodeError codeError, const std::string & filename)
+				 * @param[in] codeError The type of error which has been raised.
+				 * @param[in] filename the filename where the error raised form.
+				 * @param[in] details Details provided by the system about the file error.
+				 * @brief A constructor to build a FileException.
+				 * @see FileCodeError
+				 * @throw std::bad_alloc May throw std:bad_alloc
+				 * @see std::runtime_error::runtime_error(const std::string & what_arg)
+				 */
+				FileException(const FileCodeError codeError, const std::filesystem::path & filename, const std::string & details);
         	};
 
         	/**

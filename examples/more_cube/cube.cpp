@@ -39,18 +39,16 @@
 #include "cube.hpp"
 
 #include "graphic_component.hpp"
-#include "core/format.hpp"
+#include "core/resource.hpp"
 
 Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.createEntity())
 {
 	auto renderable = ece::makeResource<ece::Object>("cube");
 
 	{
-	//	auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/assets/cube.obj").lock();
-	//	loader->loadFromFile("../../examples/more_cube/assets/cube.obj");
-		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../../eROMA/coding_resource/hylas_bas_relief.obj");
-		loader->loadFromFile("../../examples/more_cube/assets/cube.obj");
-		renderable->setMesh(loader->getMeshes()[0]);
+		auto loader = ece::ResourceLoader();
+		auto mesh = loader.loadFromFile("../../examples/more_cube/assets/cube.obj").to<ece::Mesh>();
+		renderable->setMesh(mesh);
 	}
 
 	for (std::size_t i = 0; i < chunkSize; ++i) {

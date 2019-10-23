@@ -43,10 +43,10 @@ namespace ece
 		namespace resource
 		{
 			template <class Resource>
-			inline constexpr ResourceHandler<Resource>::ResourceHandler() noexcept: _resource() {}
+			inline ResourceHandler<Resource>::ResourceHandler() noexcept: ResourceRef("", typeid(Resource).hash_code()), _resource() {}
 
 			template <class Resource>
-			inline ResourceHandler<Resource>::ResourceHandler(const std::shared_ptr<Resource> & resource) : _resource(resource) {}
+			inline ResourceHandler<Resource>::ResourceHandler(const std::string & identifier, const std::shared_ptr<Resource> & resource) : ResourceRef(identifier, typeid(Resource).hash_code()), _resource(resource) {}
 
 			template <class Resource>
 			inline auto ResourceHandler<Resource>::operator->() { return this->_resource.lock(); }
@@ -55,14 +55,20 @@ namespace ece
 			inline auto ResourceHandler<Resource>::operator*() { return this->_resource.lock(); }
 
 			template <class Resource>
-			inline auto ResourceHandler<Resource>::isDirty() const { return this->_resource.expired(); }
+			inline auto ResourceHandler<Resource>::isDirty() const -> bool { return this->_resource.expired(); }
 
 			template <class Resource>
 			template <class Parent>
-			ResourceHandler<Resource>::operator ResourceHandler<Parent>() const
+			inline ResourceHandler<Resource>::operator ResourceHandler<Parent>() const
 			{
 				static_assert(std::is_base_of_v<Parent, Resource>, "This resource cannot be casted to this type.");
-				return ResourceHandler<Parent>(std::static_pointer_cast<Parent>(this->_resource.lock()));
+				return ResourceHandler<Parent>(this->_identifier, std::static_pointer_cast<Parent>(this->_resource.lock()));
+			}
+
+			template <class Resource>
+			inline ResourceHandler<Resource>::operator ResourceRef() const
+			{
+				return ResourceRef(*this);
 			}
 		} // namespace resource
 	} // namespace core

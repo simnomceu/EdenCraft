@@ -43,7 +43,7 @@
 #include "utility/file_system.hpp"
 #include "core/format.hpp"
 #include "utility/debug.hpp"
-#include "renderer/image/loader_image.hpp"
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -96,31 +96,48 @@ namespace ece
 				if (this->_filename != filename) {
 					this->_filename = filename;
 
-					auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename);
-
-					loader->loadFromFile(this->_filename);
-
-					this->loadFromImage(type, loader->getImage());
+					auto image = ResourceLoader().loadFromFile(filename).to<Image<RGBA32>>();
+					this->loadFromImage(type, image);
 				}
 			}
 
-			void Texture2D::loadFromImage(const TypeTarget type, const Image<RGBA32> & image)
+			void Texture2D::loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image)
 			{
 				this->_data.clear();
 
-				auto buffer = image.data();
-				for (auto i = std::size_t{ 0 }; i < image.getHeight() * image.getWidth(); ++i) {
-					this->_data.push_back(buffer[i].red); // red
-					this->_data.push_back(buffer[i].green); // green
-					this->_data.push_back(buffer[i].blue); // blue
-					this->_data.push_back(buffer[i].alpha); // alpha
+				auto buffer = image->data();
+				for (auto i = std::size_t{ 0 }; i < image->getHeight() * image->getWidth(); ++i) {
+					this->_data.push_back(buffer[i].r); // red
+					this->_data.push_back(buffer[i].g); // green
+					this->_data.push_back(buffer[i].b); // blue
+					this->_data.push_back(buffer[i].a); // alpha
 				}
 
-				this->_width = image.getWidth();
-				this->_height = image.getHeight();
+				this->_width = image->getWidth();
+				this->_height = image->getHeight();
 				this->_type = type;
 
 				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGBA, this->_width, this->_height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
+			}
+
+			void Texture2D::saveToFile(const std::filesystem::path & filename)
+			{
+				auto resource = makeResource<Image<RGBA32>>(filename.stem().generic_string());
+				this->saveToImage(resource);
+
+				ResourceLoader().saveToFile(filename, resource);
+			}
+
+			void Texture2D::saveToImage(Image<RGBA32>::Reference image)
+			{
+				image->resize(this->_width, this->_height);
+				auto buffer = image->data();
+				for (auto i = std::size_t{ 0 }; i < image->getHeight() * image->getWidth(); ++i) {
+					buffer[i].r = this->_data[i * 4 + 0];
+					buffer[i].g = this->_data[i * 4 + 1];
+					buffer[i].b = this->_data[i * 4 + 2];
+					buffer[i].a = this->_data[i * 4 + 3];
+				}
 			}
 
 			void Texture2D::bind(const Target target)

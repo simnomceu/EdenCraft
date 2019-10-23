@@ -83,7 +83,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BaseResourceContainer() noexcept = default;
+				virtual ~BaseResourceContainer() noexcept = default;
 
 				/**
 				 * @fn BaseResourceContainer & operator=(const BaseResourceContainer & copy) noexcept

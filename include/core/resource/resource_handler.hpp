@@ -42,6 +42,7 @@
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
+#include "core/resource/resource_ref.hpp"
 
 namespace ece
 {
@@ -55,10 +56,10 @@ namespace ece
 			 * @remark How useful is it ?
 			 */
 			template <class Resource>
-			class ECE_CORE_API ResourceHandler
+			class ECE_CORE_API ResourceHandler : public ResourceRef
 			{
 			public:
-				inline constexpr ResourceHandler() noexcept;
+				inline ResourceHandler() noexcept;
 
 				/**
 				 * @fn ResourceHandler(const std::shared_ptr<Resource> & resource)
@@ -66,7 +67,7 @@ namespace ece
 				 * @brief Build a handler for a specific resource.
 				 * @throw
 				 */
-				inline ResourceHandler(const std::shared_ptr<Resource> & resource);
+				inline ResourceHandler(const std::string & identifier, const std::shared_ptr<Resource> & resource);
 
 				/**
 				 * @fn ResourceHandler(const ResourceHandler & copy) noexcept
@@ -123,9 +124,12 @@ namespace ece
 				 */
 				inline auto operator*();
 
-				inline auto isDirty() const;
+				inline auto isDirty() const -> bool;
 
-				template <class Parent> operator ResourceHandler<Parent>() const;
+				template <class Parent>
+				inline operator ResourceHandler<Parent>() const;
+
+				inline operator ResourceRef() const;
 
 			private:
 				std::weak_ptr<Resource> _resource;

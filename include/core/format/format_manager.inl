@@ -36,6 +36,8 @@
 
 */
 
+#include "utility/debug.hpp"
+
 namespace ece
 {
 	namespace core
@@ -54,38 +56,40 @@ namespace ece
 				this->_savers[extension] = std::make_shared<T>();
 			}
 
-			template <class T>
-			inline auto FormatManager::getLoader(const std::string & filename)
+			inline void FormatManager::unregisterLoader(const std::string & extension)
 			{
-				auto extension = filename.substr(filename.find_last_of('.') + 1);
-				if (extension.empty()) {
-					extension = filename;
+				if (this->hasLoaderFor(extension)) {
+					this->_loaders.erase(extension);
 				}
-
-				assert(std::dynamic_pointer_cast<T>(this->_loaders[extension]));
-
-				return std::static_pointer_cast<T>(this->_loaders[extension]);
 			}
 
-			template <class T>
-			inline auto FormatManager::getSaver(const std::string & filename)
+			inline void FormatManager::unregisterSaver(const std::string & extension)
 			{
-				auto extension = filename.substr(filename.find_last_of('.') + 1);
-				if (extension.empty()) {
-					extension = filename;
+				if (this->hasSaverFor(extension)) {
+					this->_savers.erase(extension);
 				}
-
-				assert(std::dynamic_pointer_cast<T>(this->_savers[extension]));
-
-				return std::static_pointer_cast<T>(this->_savers[extension]);
 			}
 
-			inline auto FormatManager::hasLoaderFor(const std::string & extension) const
+			inline auto FormatManager::getLoader(const std::string & extension)
+			{
+				ece_assert(this->hasLoaderFor(extension), "There is no loader available for this format.");
+
+				return this->_loaders[extension];
+			}
+
+			inline auto FormatManager::getSaver(const std::string & extension)
+			{
+				ece_assert(this->hasSaverFor(extension), "There is no saver available for this format.");
+
+				return this->_savers[extension];
+			}
+
+			inline auto FormatManager::hasLoaderFor(const std::string & extension) const -> bool
 			{
 				return this->_loaders.find(extension) != this->_loaders.end();
 			}
 
-			inline auto FormatManager::hasSaverFor(const std::string & extension) const
+			inline auto FormatManager::hasSaverFor(const std::string & extension) const -> bool
 			{
 				return this->_savers.find(extension) != this->_savers.end();
 			}

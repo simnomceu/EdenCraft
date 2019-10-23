@@ -58,7 +58,7 @@ namespace ece
 
 			inline auto Texture2D::getFilename() const -> const std::string & { return this->_filename; }
 
-			inline auto Texture2D::getData() const -> const std::vector<std::byte> & { return this->_data; }
+			inline auto Texture2D::getData() const -> const std::vector<std::uint8_t> & { return this->_data; }
 
 			inline auto Texture2D::getWidth() const -> ece::size_t { return this->_width; }
 

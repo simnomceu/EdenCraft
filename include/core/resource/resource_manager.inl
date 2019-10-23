@@ -76,11 +76,11 @@ namespace ece
 			}
 
 			template <class Resource>
-			auto ResourceManager::getResource(const std::string & identifier)
+			auto ResourceManager::getResource(const std::string & identifier) -> ResourceHandler<Resource>
 			{
 				auto container = this->_containers.find(std::type_index(typeid(Resource)));
 				if (container == this->_containers.end()) {
-					return ResourceHandler<Resource>(std::shared_ptr<Resource>());
+					return ResourceHandler<Resource>();
 				}
 				return std::static_pointer_cast<ResourceContainer<Resource>>(container->second)->getResource(identifier);
 			}

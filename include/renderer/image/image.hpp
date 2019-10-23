@@ -43,6 +43,7 @@
 #include "renderer/pch.hpp"
 #include "utility/indexing.hpp"
 #include "renderer/image/color.hpp"
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -59,6 +60,8 @@ namespace ece
 			class ECE_RENDERER_API Image : public Dynamic2DArray<E>
 			{
 			public:
+				using Reference = ResourceHandler<Image<E>>;
+
 				/**
 				 * @fn constexpr Image() noexcept
 				 * @brief Default constructor.

@@ -53,7 +53,6 @@
 
 #include <cctype>
 #include <cstddef>
-#include <cassert>
 #include <stdexcept>
 #include <type_traits>
 #include <variant>

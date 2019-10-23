@@ -228,7 +228,7 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					inline virtual auto getType() const noexcept -> TypeNodeJSON override;
+					inline virtual auto getType() const noexcept -> NodeJSON::Type override;
 
 					/**
 					 * @fn IteratorObjectJSON begin()
@@ -257,6 +257,8 @@ namespace ece
 					 */
 					inline auto operator[](const std::string & key);
 
+					inline auto hasChild(const std::string & key) -> bool;
+
 					/**
 					 * @fn void clear()
 					 * @brief Erase all the children nodes of the current node.
@@ -271,6 +273,8 @@ namespace ece
 					 * @throw noexcept
 					 */
 					inline auto size() const noexcept;
+
+					virtual auto to_string() const noexcept -> std::string override;
 
 				private:
 					/**

@@ -41,11 +41,10 @@
 #ifndef GRAPHIC_MODEL_HPP
 #define GRAPHIC_MODEL_HPP
 
-#include "graphic/model/loader_object.hpp"
 #include "graphic/model/mesh.hpp"
 #include "graphic/model/movable.hpp"
+#include "graphic/model/mtl_loader.hpp"
 #include "graphic/model/obj_loader.hpp"
-#include "graphic/model/obj_saver.hpp"
 #include "graphic/model/primitives.hpp"
 #include "graphic/model/submesh.hpp"
 
