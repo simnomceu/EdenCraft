@@ -118,6 +118,11 @@ namespace ece
 				 * @throw
 				 */
 				auto apply(const std::string & optionName, const std::string & optionValue = "") -> bool;
+				
+				inline void setOptional(bool optional) noexcept;
+				inline bool isOptional() const noexcept;
+
+				inline const std::string & getName() const noexcept;
 
 			private:
 				/**
@@ -137,6 +142,8 @@ namespace ece
 				 * @brief The command linked to the command line option.
 				 */
 				std::function<void(const std::string &)> _command;
+
+				bool _optional;
 			};
 		} // namespace argument
 	} // namespace core
