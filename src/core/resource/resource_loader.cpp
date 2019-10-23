@@ -90,6 +90,9 @@ namespace ece
 				if (saver->isBinary()) {
 					openmode = openmode | ece::OpenMode::binary;
 				}
+				if (std::filesystem::exists(filename)) {
+					openmode = openmode | ece::OpenMode::trunc;
+				}
 
 				auto file = ece::File{};
 				if (!file.open(filename, openmode)) {
