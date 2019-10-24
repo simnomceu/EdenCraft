@@ -44,7 +44,7 @@ namespace ece
 		{
 			template<class T>
 			inline Module<T>::Module(const ModuleMethodHandle<T> & init, const ModuleMethodHandle<T> & update, const ModuleMethodHandle<T> & terminate) :
-				BaseModule(), _module(), _initHandle(init), _updateHandle(update), _terminateHandle(terminate) {}
+				BaseModule(typeid(T).hash_code()), _module(), _initHandle(init), _updateHandle(update), _terminateHandle(terminate) {}
 
 			template<class T> inline auto & Module<T>::get() { return this->_module; }
 
