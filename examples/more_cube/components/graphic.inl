@@ -36,76 +36,8 @@
 
 */
 
-#ifndef GRAPHIC_COMPONENT_HPP
-#define GRAPHIC_COMPONENT_HPP
+inline Graphic::Graphic(const ece::Renderable::Reference & renderable): _renderable(renderable) {}
 
-#include "core/ecs.hpp"
-#include "core/resource.hpp"
-#include "graphic/renderable.hpp"
+inline void Graphic::setRenderable(const ece::Renderable::Reference & renderable) { this->_renderable = renderable; }
 
-/**
- * @class GraphicComponent
- * @brief
- */
-class GraphicComponent: public ece::Component<GraphicComponent>
-{
-public:
-	/**
-	 * @fn constexpr GraphicComponent()
-	 * @brief Default constructor.
-	 * @throw
-	 */
-	inline GraphicComponent(const ece::Renderable::Reference & renderable);
-
-	/**
-	 * @fn GraphicComponent(const GraphicComponent & copy) noexcept
-	 * @param[in] copy The GraphicComponent to copy from.
-	 * @brief Default copy constructor.
-	 * @throw noexcept
-	 */
-	GraphicComponent(const GraphicComponent & copy) noexcept = default;
-
-	/**
-	 * @fn GraphicComponent(GraphicComponent && move) noexcept
-	 * @param[in] move The GraphicComponent to move.
-	 * @brief Default move constructor.
-	 * @throw noexcept
-	 */
-	GraphicComponent(GraphicComponent && move) noexcept = default;
-
-	/**
-	 * @fn ~GraphicComponent() noexcept
-	 * @brief Default destructor.
-	 * @throw noexcept
-	 */
-	~GraphicComponent() noexcept = default;
-
-	/**
-	 * @fn GraphicComponent & operator=(const GraphicComponent & copy) noexcept
-	 * @param[in] copy The GraphicComponent to copy from.
-	 * @return The GraphicComponent copied.
-	 * @brief Default copy assignment operator.
-	 * @throw noexcept
-	 */
-	GraphicComponent & operator=(const GraphicComponent & copy) noexcept = default;
-
-	/**
-	 * @fn GraphicComponent & operator=(GraphicComponent && move) noexcept
-	 * @param[in] move The GraphicComponent to move.
-	 * @return The GraphicComponent moved.
-	 * @brief Default move assignment operator.
-	 * @throw noexcept
-	 */
-	GraphicComponent & operator=(GraphicComponent && move) noexcept = default;
-
-	inline void setRenderable(const ece::Renderable::Reference & renderable);
-
-	inline const ece::Renderable::Reference & getRenderable() const;
-
-private:
-	ece::ResourceHandler<ece::Renderable> _renderable;
-};
-
-#include "graphic_component.inl"
-
-#endif // GRAPHIC_COMPONENT_HPP
+inline const ece::Renderable::Reference & Graphic::getRenderable() const { return this->_renderable; }

@@ -36,23 +36,21 @@
 
 */
 
-#include "render_system.hpp"
+#include "render.hpp"
 
 #include "renderer/pipeline.hpp"
 #include "renderer/opengl.hpp"
 #include "renderer/shader.hpp"
-#include "graphic_component.hpp"
+#include "components/graphic.hpp"
 #include "graphic/renderable.hpp"
 
-RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
+Render::Render(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
 {
 	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
-		[[maybe_unused]] bool determined = false;
-		try {
-			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
+		if (component.is<Graphic>()) {
+			auto & graphicComponent = component.to<Graphic>();
 			this->_scene.addObject(graphicComponent.getRenderable());
-			determined = true;
-		} catch (std::bad_cast &) {/* Not a Graphic Component */}
+		}
 	});
 
 	ece::RenderState states;
@@ -98,7 +96,7 @@ RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _p
 	this->_process->setPipeline(std::move(pipeline));
 }
 
-void RenderSystem::update(float /*elapsedTime*/)
+void Render::update(float /*elapsedTime*/)
 {
 	auto objects = this->_scene.getObjects();
 	for (auto object : objects) {
@@ -126,7 +124,7 @@ void RenderSystem::update(float /*elapsedTime*/)
 	this->_process->draw(staging);
 }
 
-ece::Scene & RenderSystem::getScene()
+ece::Scene & Render::getScene()
 {
 	return this->_scene;
 }

@@ -36,75 +36,76 @@
 
 */
 
-#ifndef RENDER_SYSTEM_HPP
-#define RENDER_SYSTEM_HPP
+#ifndef GRAPHIC_HPP
+#define GRAPHIC_HPP
 
 #include "core/ecs.hpp"
-#include "renderer/pipeline.hpp"
-#include "graphic/scene.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
 
 /**
- * @class RenderSystem
+ * @class Graphic
  * @brief
  */
-class RenderSystem: public ece::System
+class Graphic: public ece::Component<Graphic>
 {
 public:
 	/**
-	 * @fn constexpr RenderSystem(World & world) noexcept
+	 * @fn constexpr Graphic()
 	 * @brief Default constructor.
-	 * @throw noexcept
+	 * @throw
 	 */
-	RenderSystem(ece::World & world) noexcept;
+	inline Graphic(const ece::Renderable::Reference & renderable);
 
 	/**
-	 * @fn RenderSystem(const RenderSystem & copy) noexcept
-	 * @param[in] copy The RenderSystem to copy from.
+	 * @fn Graphic(const Graphic & copy) noexcept
+	 * @param[in] copy The Graphic to copy from.
 	 * @brief Default copy constructor.
 	 * @throw noexcept
 	 */
-	RenderSystem(const RenderSystem & copy) noexcept = default;
+	Graphic(const Graphic & copy) noexcept = default;
 
 	/**
-	 * @fn RenderSystem(RenderSystem && move) noexcept
-	 * @param[in] move The RenderSystem to move.
+	 * @fn Graphic(Graphic && move) noexcept
+	 * @param[in] move The Graphic to move.
 	 * @brief Default move constructor.
 	 * @throw noexcept
 	 */
-	RenderSystem(RenderSystem && move) noexcept = default;
+	Graphic(Graphic && move) noexcept = default;
 
 	/**
-	 * @fn ~RenderSystem() noexcept
+	 * @fn ~Graphic() noexcept
 	 * @brief Default destructor.
 	 * @throw noexcept
 	 */
-	~RenderSystem() noexcept = default;
+	~Graphic() noexcept = default;
 
 	/**
-	 * @fn RenderSystem & operator=(const RenderSystem & copy) noexcept
-	 * @param[in] copy The RenderSystem to copy from.
-	 * @return The RenderSystem copied.
+	 * @fn Graphic & operator=(const Graphic & copy) noexcept
+	 * @param[in] copy The Graphic to copy from.
+	 * @return The Graphic copied.
 	 * @brief Default copy assignment operator.
 	 * @throw noexcept
 	 */
-	RenderSystem & operator=(const RenderSystem & copy) noexcept = default;
+	Graphic & operator=(const Graphic & copy) noexcept = default;
 
 	/**
-	 * @fn RenderSystem & operator=(RenderSystem && move) noexcept
-	 * @param[in] move The RenderSystem to move.
-	 * @return The RenderSystem moved.
+	 * @fn Graphic & operator=(Graphic && move) noexcept
+	 * @param[in] move The Graphic to move.
+	 * @return The Graphic moved.
 	 * @brief Default move assignment operator.
 	 * @throw noexcept
 	 */
-	RenderSystem & operator=(RenderSystem && move) noexcept = default;
+	Graphic & operator=(Graphic && move) noexcept = default;
 
-	virtual void update(float elapsedTime) override;
+	inline void setRenderable(const ece::Renderable::Reference & renderable);
 
-	ece::Scene & getScene();
+	inline const ece::Renderable::Reference & getRenderable() const;
 
 private:
-	std::unique_ptr<ece::RenderProcess> _process;
-	ece::Scene _scene;
+	ece::ResourceHandler<ece::Renderable> _renderable;
 };
 
-#endif // RENDER_SYSTEM_HPP
+#include "graphic.inl"
+
+#endif // GRAPHIC_HPP

@@ -38,7 +38,7 @@
 
 #include "cube.hpp"
 
-#include "graphic_component.hpp"
+#include "components/graphic.hpp"
 #include "core/resource.hpp"
 
 Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.createEntity())
@@ -61,11 +61,11 @@ Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.creat
 
 	renderable->prepare();
 
-	this->_handle.addComponent<GraphicComponent>(renderable);
+	this->_handle.addComponent<Graphic>(renderable);
 }
 
 void Cube::update()
 {
-	auto renderable = this->_handle.getComponent<GraphicComponent>().getRenderable();
+	auto renderable = this->_handle.getComponent<Graphic>().getRenderable();
 	renderable->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 }
