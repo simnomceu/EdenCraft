@@ -49,10 +49,10 @@ namespace ece
 			inline ResourceHandler<Resource>::ResourceHandler(const std::string & identifier, const std::shared_ptr<Resource> & resource) : ResourceRef(identifier, typeid(Resource).hash_code()), _resource(resource) {}
 
 			template <class Resource>
-			inline auto ResourceHandler<Resource>::operator->() { return this->_resource.lock(); }
+			inline auto ResourceHandler<Resource>::operator->() -> std::shared_ptr<Resource> { return this->_resource.lock(); }
 
 			template <class Resource>
-			inline auto ResourceHandler<Resource>::operator*() { return this->_resource.lock(); }
+			inline auto ResourceHandler<Resource>::operator*() -> std::shared_ptr<Resource> { return this->_resource.lock(); }
 
 			template <class Resource>
 			inline auto ResourceHandler<Resource>::isDirty() const -> bool { return this->_resource.expired(); }

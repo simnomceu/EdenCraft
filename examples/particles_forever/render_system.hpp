@@ -36,81 +36,75 @@
 
 */
 
-#include "render_system.hpp"
-#include "firework.hpp"
+#ifndef RENDER_SYSTEM_HPP
+#define RENDER_SYSTEM_HPP
 
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
+#include "core/ecs.hpp"
+#include "renderer/pipeline.hpp"
+#include "graphic/scene.hpp"
 
-int main()
+/**
+ * @class RenderSystem
+ * @brief
+ */
+class RenderSystem: public ece::System
 {
-	std::srand(static_cast<unsigned int>(time(nullptr)));
+public:
+	/**
+	 * @fn constexpr RenderSystem(World & world) noexcept
+	 * @brief Default constructor.
+	 * @throw noexcept
+	 */
+	RenderSystem(ece::World & world) noexcept;
 
-	try {
-		ece::WindowedApplication app;
+	/**
+	 * @fn RenderSystem(const RenderSystem & copy) noexcept
+	 * @param[in] copy The RenderSystem to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	RenderSystem(const RenderSystem & copy) noexcept = default;
 
-		auto window = createMainWindow(app);
+	/**
+	 * @fn RenderSystem(RenderSystem && move) noexcept
+	 * @param[in] move The RenderSystem to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	RenderSystem(RenderSystem && move) noexcept = default;
 
-		auto & world = app.addWorld();
-		auto renderSystem = world.addSystem<RenderSystem>();
+	/**
+	 * @fn ~RenderSystem() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~RenderSystem() noexcept = default;
 
-		auto firework = Firework(world);
+	/**
+	 * @fn RenderSystem & operator=(const RenderSystem & copy) noexcept
+	 * @param[in] copy The RenderSystem to copy from.
+	 * @return The RenderSystem copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	RenderSystem & operator=(const RenderSystem & copy) noexcept = default;
 
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event.key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
+	/**
+	 * @fn RenderSystem & operator=(RenderSystem && move) noexcept
+	 * @param[in] move The RenderSystem to move.
+	 * @return The RenderSystem moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	RenderSystem & operator=(RenderSystem && move) noexcept = default;
 
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
+	virtual void update(float elapsedTime) override;
 
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
+	ece::Scene & getScene();
 
-		app.onPreUpdate.connect([&window, &fps]() {
-			if (fps.isReadyToUpdate()) {
-				window.lock()->setTitle("Particles Forever - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
-			}
-		});
+private:
+	std::unique_ptr<ece::RenderProcess> _process;
+	ece::Scene _scene;
+};
 
-		app.onPostUpdate.connect([&window, &fps, &firework]() {
-			window.lock()->display();
-			if (fps.isReadyToUpdate()) {
-				firework.update(1000.0f / static_cast<float>(fps.getFPS()));
-			}
-		});
-
-		app.run();
-	}
-	catch (std::runtime_error & e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-	catch (std::exception & e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-
-	return EXIT_SUCCESS;
-}
-
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app)
-{
-	auto window = app.addWindow<ece::RenderWindow>();
-
-	auto settings = ece::WindowSetting{};
-	settings.position = ece::IntVector2u{ 10, 10 };
-	settings.title = "Particles Forever";
-
-	auto & contextSettings = window.lock()->getContextSettings();
-	contextSettings.maxVersion = { 4, 0 };
-
-	window.lock()->open();
-	contextSettings.antialiasingSamples = 0;
-	contextSettings.maxVersion = { 4, 6 };
-	window.lock()->updateContext();
-	window.lock()->setSettings(settings);
-	window.lock()->maximize();
-	window.lock()->limitUPS(100000);
-
-	return std::move(window);
-}
+#endif // RENDER_SYSTEM_HPP

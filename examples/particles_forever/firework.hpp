@@ -36,81 +36,75 @@
 
 */
 
-#include "render_system.hpp"
-#include "firework.hpp"
+#ifndef FIREFWORK_HPP
+#define FIREFWORK_HPP
 
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
+#include "core/ecs.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
 
-int main()
+/**
+ * @class Firework
+ * @brief
+ */
+class Firework
 {
-	std::srand(static_cast<unsigned int>(time(nullptr)));
+public:
+	/**
+	 * @fn constexpr Firework() noexcept
+	 * @brief Default constructor.
+	 * @throw noexcept
+	 */
+	constexpr Firework() noexcept = delete;
 
-	try {
-		ece::WindowedApplication app;
+	Firework(ece::World & world);
 
-		auto window = createMainWindow(app);
+	/**
+	 * @fn Firework(const Firework & copy) noexcept
+	 * @param[in] copy The Firework to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	Firework(const Firework & copy) noexcept = default;
 
-		auto & world = app.addWorld();
-		auto renderSystem = world.addSystem<RenderSystem>();
+	/**
+	 * @fn Firework(Firework && move) noexcept
+	 * @param[in] move The Firework to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	Firework(Firework && move) noexcept = default;
 
-		auto firework = Firework(world);
+	/**
+	 * @fn ~Firework() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~Firework() noexcept = default;
 
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event.key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
+	/**
+	 * @fn Firework & operator=(const Firework & copy) noexcept
+	 * @param[in] copy The Firework to copy from.
+	 * @return The Firework copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	Firework & operator=(const Firework & copy) noexcept = default;
 
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
+	/**
+	 * @fn Firework & operator=(Firework && move) noexcept
+	 * @param[in] move The Firework to move.
+	 * @return The Firework moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	Firework & operator=(Firework && move) noexcept = default;
 
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
+	void update(float elapsed);
 
-		app.onPreUpdate.connect([&window, &fps]() {
-			if (fps.isReadyToUpdate()) {
-				window.lock()->setTitle("Particles Forever - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
-			}
-		});
+private:
+	ece::EntityHandler _handle;
+	ece::ResourceHandler<ece::ParticlesEmitter> _emitter;
+};
 
-		app.onPostUpdate.connect([&window, &fps, &firework]() {
-			window.lock()->display();
-			if (fps.isReadyToUpdate()) {
-				firework.update(1000.0f / static_cast<float>(fps.getFPS()));
-			}
-		});
-
-		app.run();
-	}
-	catch (std::runtime_error & e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-	catch (std::exception & e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-
-	return EXIT_SUCCESS;
-}
-
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app)
-{
-	auto window = app.addWindow<ece::RenderWindow>();
-
-	auto settings = ece::WindowSetting{};
-	settings.position = ece::IntVector2u{ 10, 10 };
-	settings.title = "Particles Forever";
-
-	auto & contextSettings = window.lock()->getContextSettings();
-	contextSettings.maxVersion = { 4, 0 };
-
-	window.lock()->open();
-	contextSettings.antialiasingSamples = 0;
-	contextSettings.maxVersion = { 4, 6 };
-	window.lock()->updateContext();
-	window.lock()->setSettings(settings);
-	window.lock()->maximize();
-	window.lock()->limitUPS(100000);
-
-	return std::move(window);
-}
+#endif // FIREFWORK_HPP

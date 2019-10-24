@@ -115,14 +115,14 @@ namespace ece
 				 * @return The resource handled.
 				 * @brief Get The resource handled.
 				 */
-				inline auto operator->();
+				inline auto operator->() -> std::shared_ptr<Resource>;
 
 				/**
 				 * @fn std::weak_ptr<Resource> operator*()
 				 * @return The resource handled.
 				 * @brief Get The resource handled.
 				 */
-				inline auto operator*();
+				inline auto operator*() -> std::shared_ptr<Resource>;
 
 				inline auto isDirty() const -> bool;
 

@@ -37,80 +37,80 @@
 */
 
 #include "render_system.hpp"
-#include "firework.hpp"
 
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
+#include "renderer/pipeline.hpp"
+#include "renderer/opengl.hpp"
+#include "renderer/shader.hpp"
+#include "graphic_component.hpp"
+#include "graphic/renderable.hpp"
 
-int main()
+RenderSystem::RenderSystem(ece::World & world) noexcept : ece::System(world), _process(std::make_unique<ece::ForwardRendering>()), _scene()
 {
-	std::srand(static_cast<unsigned int>(time(nullptr)));
+	world.onComponentCreated.connect([this](ece::BaseComponent & component) {
+		[[maybe_unused]] bool determined = false;
+		try {
+			auto & graphicComponent = dynamic_cast<GraphicComponent &>(component);
+			this->_scene.addObject(graphicComponent.getRenderable());
+			determined = true;
+		} catch (std::bad_cast &) {/* Not a Graphic Component */}
+	});
 
-	try {
-		ece::WindowedApplication app;
+	ece::RenderState states;
+	states.depthTest = true;
+	states.depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
+	states.apply(true);
 
-		auto window = createMainWindow(app);
-
-		auto & world = app.addWorld();
-		auto renderSystem = world.addSystem<RenderSystem>();
-
-		auto firework = Firework(world);
-
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event.key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
-
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
-
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
-
-		app.onPreUpdate.connect([&window, &fps]() {
-			if (fps.isReadyToUpdate()) {
-				window.lock()->setTitle("Particles Forever - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
-			}
-		});
-
-		app.onPostUpdate.connect([&window, &fps, &firework]() {
-			window.lock()->display();
-			if (fps.isReadyToUpdate()) {
-				firework.update(1000.0f / static_cast<float>(fps.getFPS()));
-			}
-		});
-
-		app.run();
+	{
+		auto & camera = this->_scene.getCamera();
+		camera.getProjection().setPerspective(45, /*window.getSize()[0] / window.getSize()[1]*/1920.0f / 1080.0f, 0.1, 100.0);
+		camera.moveTo(ece::FloatVector3u{ 0.0f, 0.0f, 10.0f });
+		camera.lookAt(ece::FloatVector3u{ 0.0f, 0.0f, 0.0f });
 	}
-	catch (std::runtime_error & e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-	catch (std::exception & e) {
-		ece::ERROR << e.what() << ece::flush;
+	this->_scene.updateCamera();
+
+
+	ece::RenderPipeline pipeline;
+
+	{
+		ece::ShaderStage fsSource;
+		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../examples/particles_forever/particles.frag");
+		ece::ShaderStage vsSource;
+		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../examples/particles_forever/particles.vert");
+
+		auto program = std::make_shared<ece::EnhancedShader>();
+		program->setStage(fsSource);
+		program->setStage(vsSource);
+		program->link();
+		pipeline.setProgram(program);
 	}
 
-	return EXIT_SUCCESS;
+	{
+		ece::Viewport viewport;
+		viewport.area = { 0.0f, 0.0f, 1920.0f, 1080.0f };
+		pipeline.setViewport(std::move(viewport));
+	}
+
+	this->_process->setPipeline(std::move(pipeline));
 }
 
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app)
+void RenderSystem::update(float /*elapsedTime*/)
 {
-	auto window = app.addWindow<ece::RenderWindow>();
+	auto objects = this->_scene.getObjects();
+	for (auto object : objects) {
+		this->_process->pushObject(*object);
+	}
+	auto & pipeline = this->_process->getPipeline();
+	auto program = pipeline.getProgram();
 
-	auto settings = ece::WindowSetting{};
-	settings.position = ece::IntVector2u{ 10, 10 };
-	settings.title = "Particles Forever";
+	ece::Staging staging;
+	staging._view = this->_scene.getCamera().getView();
+	staging._projection = this->_scene.getCamera().getProjection().getMatrix();
 
-	auto & contextSettings = window.lock()->getContextSettings();
-	contextSettings.maxVersion = { 4, 0 };
+	this->_process->clear(ece::BLACK);
+	this->_process->draw(staging);
+}
 
-	window.lock()->open();
-	contextSettings.antialiasingSamples = 0;
-	contextSettings.maxVersion = { 4, 6 };
-	window.lock()->updateContext();
-	window.lock()->setSettings(settings);
-	window.lock()->maximize();
-	window.lock()->limitUPS(100000);
-
-	return std::move(window);
+ece::Scene & RenderSystem::getScene()
+{
+	return this->_scene;
 }

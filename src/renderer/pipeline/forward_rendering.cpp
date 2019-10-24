@@ -94,11 +94,11 @@ namespace ece
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "view"), false, staging._view);
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "projection"), false, staging._projection);
 
-				std::for_each(this->_objects.begin(), this->_objects.end(), [this, staging](auto & object) {
+				std::for_each(this->_objects.begin(), this->_objects.end(), [this, &staging](auto & object) {
 					this->drawObject(object, staging);
 				});
 
-				std::for_each(this->_sprites.begin(), this->_sprites.end(), [this, staging](auto & sprite) {
+				std::for_each(this->_sprites.begin(), this->_sprites.end(), [this, &staging](auto & sprite) {
 					this->drawSprite(sprite, staging);
 				});
 
