@@ -79,6 +79,7 @@ namespace ece
 									currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addObject();
 								}
 							}
+							currentKey = "";
 							content = content.substr(1);
 							break;
 						case '}':
