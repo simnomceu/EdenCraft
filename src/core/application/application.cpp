@@ -60,6 +60,7 @@ namespace ece
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
+				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 
 				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
 				argumentAnalyzer.setParameters(argc, argv);
