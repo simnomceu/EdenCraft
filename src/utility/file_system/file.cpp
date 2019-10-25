@@ -82,7 +82,7 @@ namespace ece
         	auto File::open(const std::filesystem::path & filename, const OpenMode & mode) -> bool
         	{
         		this->_stream.close();
-        		if (!std::filesystem::is_regular_file(filename)) {
+        		if (!std::filesystem::is_regular_file(filename) && ((mode & OpenMode::out) != OpenMode::out)) {
         			throw FileException(BAD_PATH, filename);
         		}
         		this->_filename = filename;

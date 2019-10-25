@@ -36,81 +36,76 @@
 
 */
 
-#include "render_system.hpp"
-#include "firework.hpp"
+#ifndef GRAPHIC_COMPONENT_HPP
+#define GRAPHIC_COMPONENT_HPP
 
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
+#include "core/ecs.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
 
-int main()
+/**
+ * @class GraphicComponent
+ * @brief
+ */
+class GraphicComponent: public ece::Component<GraphicComponent>
 {
-	std::srand(static_cast<unsigned int>(time(nullptr)));
+public:
+	/**
+	 * @fn constexpr GraphicComponent()
+	 * @brief Default constructor.
+	 * @throw
+	 */
+	inline GraphicComponent(const ece::Renderable::Reference & renderable);
 
-	try {
-		ece::WindowedApplication app;
+	/**
+	 * @fn GraphicComponent(const GraphicComponent & copy) noexcept
+	 * @param[in] copy The GraphicComponent to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	GraphicComponent(const GraphicComponent & copy) noexcept = default;
 
-		auto window = createMainWindow(app);
+	/**
+	 * @fn GraphicComponent(GraphicComponent && move) noexcept
+	 * @param[in] move The GraphicComponent to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	GraphicComponent(GraphicComponent && move) noexcept = default;
 
-		auto & world = app.addWorld();
-		auto renderSystem = world.addSystem<RenderSystem>();
+	/**
+	 * @fn ~GraphicComponent() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~GraphicComponent() noexcept = default;
 
-		auto firework = Firework(world);
+	/**
+	 * @fn GraphicComponent & operator=(const GraphicComponent & copy) noexcept
+	 * @param[in] copy The GraphicComponent to copy from.
+	 * @return The GraphicComponent copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	GraphicComponent & operator=(const GraphicComponent & copy) noexcept = default;
 
-		auto & eventHandler = window.lock()->getEventHandler();
-		eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
-			if (event.key == ece::Keyboard::Key::ESCAPE) {
-				window.close();
-			}
-		});
+	/**
+	 * @fn GraphicComponent & operator=(GraphicComponent && move) noexcept
+	 * @param[in] move The GraphicComponent to move.
+	 * @return The GraphicComponent moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	GraphicComponent & operator=(GraphicComponent && move) noexcept = default;
 
-		window.lock()->onWindowClosed.connect([&app]() {
-			app.stop();
-		});
+	inline void setRenderable(const ece::Renderable::Reference & renderable);
 
-		ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
+	inline const ece::Renderable::Reference & getRenderable() const;
 
-		app.onPreUpdate.connect([&window, &fps]() {
-			if (fps.isReadyToUpdate()) {
-				window.lock()->setTitle("Particles Forever - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
-			}
-		});
+private:
+	ece::ResourceHandler<ece::Renderable> _renderable;
+};
 
-		app.onPostUpdate.connect([&window, &fps, &firework]() {
-			window.lock()->display();
-			if (fps.isReadyToUpdate()) {
-				firework.update(1000.0f / static_cast<float>(fps.getFPS()));
-			}
-		});
+#include "graphic_component.inl"
 
-		app.run();
-	}
-	catch (std::runtime_error & e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-	catch (std::exception & e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-
-	return EXIT_SUCCESS;
-}
-
-std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app)
-{
-	auto window = app.addWindow<ece::RenderWindow>();
-
-	auto settings = ece::WindowSetting{};
-	settings.position = ece::IntVector2u{ 10, 10 };
-	settings.title = "Particles Forever";
-
-	auto & contextSettings = window.lock()->getContextSettings();
-	contextSettings.maxVersion = { 4, 0 };
-
-	window.lock()->open();
-	contextSettings.antialiasingSamples = 0;
-	contextSettings.maxVersion = { 4, 6 };
-	window.lock()->updateContext();
-	window.lock()->setSettings(settings);
-	window.lock()->maximize();
-	window.lock()->limitUPS(100000);
-
-	return std::move(window);
-}
+#endif // GRAPHIC_COMPONENT_HPP

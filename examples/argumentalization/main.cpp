@@ -65,6 +65,9 @@ int main(int argc, char * argv[])
 			}
 		));
 
+		app.onPostUpdate.connect([&app]() {
+			app.stop();
+		});
 		app.run();
 	}
 	catch (std::exception & e) {

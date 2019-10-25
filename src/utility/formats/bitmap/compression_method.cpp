@@ -76,14 +76,14 @@ namespace ece
 				{
 					switch (header.compression)
 					{
-					case CompressionMethod::RGB: return uncompressed; break;
+					case CompressionMethod::RGB: return std::move(uncompressed); break;
 					case CompressionMethod::RLE8: return compressRLE8(uncompressed, header.width); break;
 					case CompressionMethod::RLE4: return compressRLE4(uncompressed, header.width); break; //should_be std::uint4_t
 					case CompressionMethod::BITFIELDS: return compressBitfields(uncompressed, header); break;
 					case CompressionMethod::JPEG: return compressJPEG(uncompressed, header.width); break;
 					case CompressionMethod::PNG: return compressPNG(uncompressed, header.width); break;
 					case CompressionMethod::ALPHABITFIELDS: return compressAlphaBitfields(uncompressed, header); break;
-					case CompressionMethod::CMYK: return { uncompressed }; break;
+					case CompressionMethod::CMYK: return std::move(uncompressed); break;
 					case CompressionMethod::CMYKRLE8: return compressRLE8(uncompressed, header.width); break;
 					case CompressionMethod::CMYKRLE4: return compressRLE4(uncompressed, header.width); break;
 					default: throw std::runtime_error("Undefined bitmap compression method."); break;

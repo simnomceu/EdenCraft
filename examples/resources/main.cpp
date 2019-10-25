@@ -82,7 +82,7 @@ int main()
 	auto resource1 = manager.getResource("random.int");
 
 	auto resourceUnbind = std::static_pointer_cast<IntResource>(resource1.lock());
-	ece::INFO << "Resource is: " << resourceUnbind->getValue() << flush;
+	ece::INFO << "Resource is: " << resourceUnbind->getValue() << ece::flush;
 	ece::ServiceLoggerLocator::getService().logInfo("Resource is: " + std::to_string(resourceUnbind->getValue()));
 
 	manager.unloadResource("random.int");

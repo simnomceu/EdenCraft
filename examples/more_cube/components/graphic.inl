@@ -36,79 +36,8 @@
 
 */
 
-#ifndef RENDER_SYSTEM_HPP
-#define RENDER_SYSTEM_HPP
+inline Graphic::Graphic(const ece::Renderable::Reference & renderable): _renderable(renderable) {}
 
-#include "core/ecs.hpp"
-#include "renderer/pipeline.hpp"
-#include "graphic/scene.hpp"
-#include "gui/imgui.hpp"
-#include "imgui.h"
-#include "window/common.hpp"
+inline void Graphic::setRenderable(const ece::Renderable::Reference & renderable) { this->_renderable = renderable; }
 
-/**
- * @class RenderSystem
- * @brief
- */
-class RenderSystem: public ece::System
-{
-public:
-	/**
-	 * @fn constexpr RenderSystem(World & world) noexcept
-	 * @brief Default constructor.
-	 * @throw noexcept
-	 */
-	RenderSystem(ece::World & world, std::weak_ptr<ece::Window> window) noexcept;
-
-	/**
-	 * @fn RenderSystem(const RenderSystem & copy) noexcept
-	 * @param[in] copy The RenderSystem to copy from.
-	 * @brief Default copy constructor.
-	 * @throw noexcept
-	 */
-	RenderSystem(const RenderSystem & copy) noexcept = default;
-
-	/**
-	 * @fn RenderSystem(RenderSystem && move) noexcept
-	 * @param[in] move The RenderSystem to move.
-	 * @brief Default move constructor.
-	 * @throw noexcept
-	 */
-	RenderSystem(RenderSystem && move) noexcept = default;
-
-	/**
-	 * @fn ~RenderSystem() noexcept
-	 * @brief Default destructor.
-	 * @throw noexcept
-	 */
-	~RenderSystem() noexcept = default;
-
-	/**
-	 * @fn RenderSystem & operator=(const RenderSystem & copy) noexcept
-	 * @param[in] copy The RenderSystem to copy from.
-	 * @return The RenderSystem copied.
-	 * @brief Default copy assignment operator.
-	 * @throw noexcept
-	 */
-	RenderSystem & operator=(const RenderSystem & copy) noexcept = default;
-
-	/**
-	 * @fn RenderSystem & operator=(RenderSystem && move) noexcept
-	 * @param[in] move The RenderSystem to move.
-	 * @return The RenderSystem moved.
-	 * @brief Default move assignment operator.
-	 * @throw noexcept
-	 */
-	RenderSystem & operator=(RenderSystem && move) noexcept = default;
-
-	virtual void update(float elapsedTime) override;
-
-	ece::Scene & getScene();
-
-private:
-	std::unique_ptr<ece::RenderProcess> _process;
-	ece::Scene _scene;
-	ece::Adapter _imgui;
-};
-
-#endif // RENDER_SYSTEM_HPP
+inline const ece::Renderable::Reference & Graphic::getRenderable() const { return this->_renderable; }

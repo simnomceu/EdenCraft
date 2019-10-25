@@ -36,8 +36,76 @@
 
 */
 
-inline GraphicComponent::GraphicComponent(const ece::Renderable::Reference & renderable): _renderable(renderable) {}
+#ifndef GRAPHIC_HPP
+#define GRAPHIC_HPP
 
-inline void GraphicComponent::setRenderable(const ece::Renderable::Reference & renderable) { this->_renderable = renderable; }
+#include "core/ecs.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
 
-inline const ece::Renderable::Reference & GraphicComponent::getRenderable() const { return this->_renderable; }
+/**
+ * @class Graphic
+ * @brief
+ */
+class Graphic: public ece::Component<Graphic>
+{
+public:
+	/**
+	 * @fn constexpr Graphic()
+	 * @brief Default constructor.
+	 * @throw
+	 */
+	inline Graphic(const ece::Renderable::Reference & renderable);
+
+	/**
+	 * @fn Graphic(const Graphic & copy) noexcept
+	 * @param[in] copy The Graphic to copy from.
+	 * @brief Default copy constructor.
+	 * @throw noexcept
+	 */
+	Graphic(const Graphic & copy) noexcept = default;
+
+	/**
+	 * @fn Graphic(Graphic && move) noexcept
+	 * @param[in] move The Graphic to move.
+	 * @brief Default move constructor.
+	 * @throw noexcept
+	 */
+	Graphic(Graphic && move) noexcept = default;
+
+	/**
+	 * @fn ~Graphic() noexcept
+	 * @brief Default destructor.
+	 * @throw noexcept
+	 */
+	~Graphic() noexcept = default;
+
+	/**
+	 * @fn Graphic & operator=(const Graphic & copy) noexcept
+	 * @param[in] copy The Graphic to copy from.
+	 * @return The Graphic copied.
+	 * @brief Default copy assignment operator.
+	 * @throw noexcept
+	 */
+	Graphic & operator=(const Graphic & copy) noexcept = default;
+
+	/**
+	 * @fn Graphic & operator=(Graphic && move) noexcept
+	 * @param[in] move The Graphic to move.
+	 * @return The Graphic moved.
+	 * @brief Default move assignment operator.
+	 * @throw noexcept
+	 */
+	Graphic & operator=(Graphic && move) noexcept = default;
+
+	inline void setRenderable(const ece::Renderable::Reference & renderable);
+
+	inline const ece::Renderable::Reference & getRenderable() const;
+
+private:
+	ece::ResourceHandler<ece::Renderable> _renderable;
+};
+
+#include "graphic.inl"
+
+#endif // GRAPHIC_HPP

@@ -36,19 +36,39 @@
 
 */
 
-#ifndef FORMAT_HPP
-#define FORMAT_HPP
-
-#include "core/format/format_manager.hpp"
+#include "core/pch.hpp"
 #include "core/format/json_loader.hpp"
-#include "core/format/loader.hpp"
-#include "core/format/parser_locator.hpp"
-#include "core/format/saver.hpp"
-#include "core/format/service_format.hpp"
+#include "utility/formats/json.hpp"
+#include "core/resource/make_resource.hpp"
+
 
 namespace ece
 {
-    using namespace core::format;
-} // namespace ece
+	namespace core
+	{
+		namespace format
+		{
+			using utility::formats::json::ParserJSON;
+			using utility::formats::json::ObjectJSON;
+			using core::resource::makeResource;
 
-#endif // FORMAT_HPP
+			ResourceRef JSONLoader::load(StreamInfoIn info)
+			{
+				auto parser = ParserJSON();
+				parser.load(info.stream);
+				auto jsonObject = parser.getObject();
+
+				return makeResource<ObjectJSON>(info.identifier, *jsonObject);
+			}
+
+			void JSONLoader::save(StreamInfoOut info)
+			{
+				auto parser = ParserJSON();
+
+				auto jsonObject = info.resource.to<ObjectJSON>();
+				parser.setObject(*jsonObject);
+				parser.save(info.stream);
+			}
+		}
+	}
+}
