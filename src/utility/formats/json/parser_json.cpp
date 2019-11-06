@@ -122,7 +122,9 @@ namespace ece
 							content = content.substr(1);
 							break;
 						case ',':
-							currentKey = "";
+							if (currentNode->getType() != NodeJSON::Type::ARRAY) {
+								currentKey = "";
+							}
 							content = content.substr(1);
 							break;
 						default:
