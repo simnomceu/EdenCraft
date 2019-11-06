@@ -64,7 +64,7 @@ namespace ece
 					throw std::runtime_error(filename.generic_string() + " has not been opened.");
 				}
 
-				return loader->load({ file.getStream(), filename.stem().generic_string(), filename.generic_string() });
+				return loader->load({ file.getStream(), filename.generic_string(), filename.generic_string() });
 			}
 
 			ResourceRef ResourceLoader::loadFromString(const std::string & identifier, const std::string & extension, const std::string & content)
