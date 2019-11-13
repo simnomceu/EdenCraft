@@ -69,7 +69,7 @@ namespace ece
 			class ECE_GRAPHIC_API Light
 			{
 			public:
-				using Reference = ResourceHandler<Light>;
+				using Reference = Resource<Light>;
 
 				struct CutOff
 				{

@@ -52,9 +52,9 @@ namespace ece
 		{
 			using material::PhongMaterial;
 
-			ResourceRef OBJLoader::load(StreamInfoIn info)
+			ResourceHandler OBJLoader::load(StreamInfoIn info)
 			{
-				std::vector<Mesh::Reference> meshes;
+				std::vector<ResourceHandler> meshes;
 
 				auto parser = ParserOBJ();
 				parser.load(info.stream);
@@ -73,8 +73,9 @@ namespace ece
 				for (auto n = std::size_t{ 0 }; n < parser.getObjects().size(); ++n) {
 					auto & object = parser.getObjects()[n];
 					meshes[n] = makeResource<Mesh>(object.getName());
+					auto mesh = meshes[n].get<Mesh>();
 
-					auto & submeshes = meshes[n]->getSubmeshes();
+					auto & submeshes = mesh->getSubmeshes();
 					submeshes.resize(object.getGroups().size());
 
 					auto g = 0;
@@ -104,7 +105,7 @@ namespace ece
 									}
 
 									auto index = object.getVertexIndice(fElement);
-									meshes[n]->insertVertex(index, std::move(vertex));
+									mesh->insertVertex(index, std::move(vertex));
 
 								//	auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
@@ -140,7 +141,7 @@ namespace ece
 										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
 									}
 									auto index = object.getVertexIndice(fElement);
-									meshes[n]->insertVertex(index, std::move(vertex));
+									mesh->insertVertex(index, std::move(vertex));
 								//	auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
@@ -158,7 +159,7 @@ namespace ece
 						++g;
 					}
 
-					for (auto & vertex : meshes[n]->getVertices()) {
+					for (auto & vertex : mesh->getVertices()) {
 						vertex._normal = vertex._normal.normalize();
 					}
 				}
@@ -170,7 +171,7 @@ namespace ece
 			{
 				auto parser = ParserOBJ();
 
-				auto meshResource = info.resource.to<Mesh>();
+				auto meshResource = info.resource.get<Mesh>();
 				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
 
 				auto & objects = parser.getObjects();
@@ -197,11 +198,11 @@ namespace ece
 					auto groupName = info.identifier + std::to_string(i);
 					object.addGroup(groupName);
 
-					object.setMaterial(submesh.material.getIdentifier());
+					object.setMaterial(submesh.material.path);
 					{
-						auto materialFilename = relativePath + submesh.material.getIdentifier() + ".mtl";
+						auto materialFilename = relativePath + submesh.material.path + ".mtl";
 						ResourceLoader().saveToFile(materialFilename, submesh.material);
-						materials.push_back(submesh.material.getIdentifier());
+						materials.push_back(submesh.material.path);
 					}
 
 					for (auto & face : submesh.mesh.getFaces()) {

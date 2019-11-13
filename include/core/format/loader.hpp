@@ -41,7 +41,6 @@
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
-#include "core/resource/resource_ref.hpp"
 #include "core/format/stream_info.hpp"
 
 namespace ece
@@ -50,8 +49,6 @@ namespace ece
 	{
 		namespace format
 		{
-			using resource::ResourceRef;
-
 			/**
 			 * @class Loader
 			 * @brief
@@ -113,7 +110,7 @@ namespace ece
         		 * @brief Load and parse data from a file.
         		 * @throw
         		 */
-        		virtual ResourceRef load(StreamInfoIn info) = 0;
+        		virtual ResourceHandler load(StreamInfoIn info) = 0;
 
 				virtual auto isBinary() const noexcept -> bool { return false; }
 			};

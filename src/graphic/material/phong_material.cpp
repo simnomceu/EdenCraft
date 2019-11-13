@@ -76,14 +76,14 @@ namespace ece
 					return 1;
 				}));
 
-				this->_material->addProperty("diffuseMapEnabled", makeComputedProperty<bool>([material = *this->_material]() {
+				this->_material->addProperty("diffuseMapEnabled", makeComputedProperty<bool>([material = this->_material]() {
 					auto diffuseMap = std::dynamic_pointer_cast<DiffuseMap>(material->getProperty("diffuseMap"))->get();
-					return !diffuseMap.isDirty();
+					return diffuseMap;
 				}));
 
-				this->_material->addProperty("specularMapEnabled", makeComputedProperty<bool>([material = *this->_material]() {
+				this->_material->addProperty("specularMapEnabled", makeComputedProperty<bool>([material = this->_material]() {
 					auto specularMap = std::dynamic_pointer_cast<SpecularMap>(material->getProperty("specularMap"))->get();
-					return !specularMap.isDirty();
+					return specularMap;
 				}));
 
 				this->_material->addProperty("ambient", makeProperty<FloatVector3u, std::array<float, 3>>(FloatVector3u{}, [](auto property) {

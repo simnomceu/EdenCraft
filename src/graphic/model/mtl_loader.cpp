@@ -50,7 +50,7 @@ namespace ece
 	{
 		namespace model
 		{
-			ResourceRef MTLLoader::load(StreamInfoIn info)
+			ResourceHandler MTLLoader::load(StreamInfoIn info)
 			{
 				auto parserMaterial = ParserMTL();
 				parserMaterial.load(info.stream);
@@ -70,6 +70,7 @@ namespace ece
 
 				if (!material.mapDiffuse.empty()) {
 					auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
+
 					if (diffuseMap->getData().empty()) {
 						diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
 					}
@@ -80,6 +81,7 @@ namespace ece
 
 				if (!material.mapSpecular.empty()) {
 					auto specularMap = makeResource<Texture2D>(material.mapSpecular);
+
 					if (specularMap->getData().empty()) {
 						specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
 					}
@@ -94,7 +96,7 @@ namespace ece
 			void MTLLoader::save(StreamInfoOut info)
 			{
 				auto parserMaterial = ParserMTL();
-				auto materialResource = info.resource.to<Material>();
+				auto materialResource = info.resource.get<Material>();
 
 				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
 
@@ -103,19 +105,19 @@ namespace ece
 				auto materialVisitor = PhongMaterial();
 				materialVisitor.setMaterial(materialResource);
 
-				material.name = materialResource.getIdentifier();
+				material.name = info.resource.getPath();
 
 				material.ambient.value = materialVisitor.getAmbient();
 				material.diffuse.value = materialVisitor.getDiffuse();
 				material.specular.value = materialVisitor.getSpecular();
 				material.specularExponent = materialVisitor.getShininess();
 
-				if (!materialVisitor.getDiffuseMap().isDirty()) {
-					materialVisitor.getDiffuseMap()->saveToFile(relativePath + materialResource.getIdentifier() + "_diffuse.bmp");
+				if (materialVisitor.getDiffuseMap()) {
+					materialVisitor.getDiffuseMap()->saveToFile(relativePath + info.resource.getPath() + "_diffuse.bmp");
 				}
 
-				if (!materialVisitor.getSpecularMap().isDirty()) {
-					materialVisitor.getSpecularMap()->saveToFile(relativePath + materialResource.getIdentifier() + "_specular.bmp");
+				if (materialVisitor.getSpecularMap()) {
+					materialVisitor.getSpecularMap()->saveToFile(relativePath + info.resource.getPath() + "_specular.bmp");
 				}
 
 				parserMaterial.save(info.stream);

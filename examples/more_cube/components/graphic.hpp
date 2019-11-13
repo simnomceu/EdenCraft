@@ -103,7 +103,7 @@ public:
 	inline const ece::Renderable::Reference & getRenderable() const;
 
 private:
-	ece::ResourceHandler<ece::Renderable> _renderable;
+	ece::Renderable::Reference _renderable;
 };
 
 #include "graphic.inl"

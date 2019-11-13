@@ -53,13 +53,13 @@ namespace ece
 			template <class T>
 			void ModuleManager::remove()
 			{
-				this->_modules.erase(std::remove_if(this->_modules.begin(), this->_modules.end(), [](auto & e) { return e->is<T>(); }), this->_modules.end());
+				this->_modules.erase(std::remove_if(this->_modules.begin(), this->_modules.end(), [](std::shared_ptr<BaseModule> & e) { return e->is<T>(); }), this->_modules.end());
 			}
 
 			template <class T>
 			auto & ModuleManager::get()
 			{
-				auto it = std::find_if(this->_modules.begin(), this->_modules.end(), [](auto & e) { return e->is<T>(); });
+				auto it = std::find_if(this->_modules.begin(), this->_modules.end(), [](std::shared_ptr<BaseModule> & e) { return e->is<T>(); });
 				if (it == this->_modules.end()) {
 					throw std::runtime_error("This module does not exist.");
 				}

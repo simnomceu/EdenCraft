@@ -72,14 +72,14 @@ namespace ece
 
 			inline auto FormatManager::getLoader(const std::string & extension)
 			{
-				ece_assert(this->hasLoaderFor(extension), "There is no loader available for this format.");
+				ece_assert(this->hasLoaderFor(extension), "There is no loader available for this format (" + extension + ").");
 
 				return this->_loaders[extension];
 			}
 
 			inline auto FormatManager::getSaver(const std::string & extension)
 			{
-				ece_assert(this->hasSaverFor(extension), "There is no saver available for this format.");
+				ece_assert(this->hasSaverFor(extension), "There is no saver available for this format (" + extension + ").");
 
 				return this->_savers[extension];
 			}

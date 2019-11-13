@@ -57,9 +57,9 @@ namespace ece
 
 			auto Scene::addObject() -> Object::Reference
 			{
-				auto object = makeResource<Object>("");
+				auto object = makeResource<Object>(std::to_string(std::chrono::system_clock::now().time_since_epoch().count()));
 				this->_objects.push_back({ object, true, 0 });
-				return std::move(object);
+				return object;
 			}
 
 			auto Scene::getObjects() -> std::vector<Renderable::Reference>

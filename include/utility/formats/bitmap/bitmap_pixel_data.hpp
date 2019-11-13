@@ -135,12 +135,12 @@ namespace ece
 
 					std::vector<std::uint8_t>::iterator::difference_type operator-(const iterator<T> & rhs) const;
 
-					using std::vector<std::uint8_t>::iterator::operator<;
+				/*	using std::vector<std::uint8_t>::iterator::operator<;
 					using std::vector<std::uint8_t>::iterator::operator>;
 					using std::vector<std::uint8_t>::iterator::operator<=;
 					using std::vector<std::uint8_t>::iterator::operator>=;
 					using std::vector<std::uint8_t>::iterator::operator==;
-					using std::vector<std::uint8_t>::iterator::operator!=;
+					using std::vector<std::uint8_t>::iterator::operator!=;*/
 
 					T & operator[](std::vector<std::uint8_t>::size_type index) const;
 					T & operator*() const;
@@ -166,13 +166,13 @@ namespace ece
 					const_iterator<T> & operator-=(int value);
 
 					std::vector<std::uint8_t>::const_iterator::difference_type operator-(const const_iterator<T> & rhs) const;
-
+/*
 					using std::vector<std::uint8_t>::const_iterator::operator<;
 					using std::vector<std::uint8_t>::const_iterator::operator>;
 					using std::vector<std::uint8_t>::const_iterator::operator<=;
 					using std::vector<std::uint8_t>::const_iterator::operator>=;
 					using std::vector<std::uint8_t>::const_iterator::operator==;
-					using std::vector<std::uint8_t>::const_iterator::operator!=;
+					using std::vector<std::uint8_t>::const_iterator::operator!=;*/
 
 					T & operator[](std::vector<std::uint8_t>::size_type index) const;
 					T & operator*() const;

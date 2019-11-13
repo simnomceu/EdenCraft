@@ -36,8 +36,8 @@
 
 */
 
-#ifndef RESOURCE_REF_HPP
-#define RESOURCE_REF_HPP
+#ifndef RESOURCE_HPP
+#define RESOURCE_HPP
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
@@ -48,80 +48,24 @@ namespace ece
 	{
 		namespace resource
 		{
-			/**
-			 * @class ResourceRef
-			 * @brief
-			 */
-			class ECE_CORE_API ResourceRef
+			template <class T>
+			struct ECE_CORE_API Resource
 			{
-			public:
-				inline ResourceRef(const std::string & identifier, std::size_t typeId) noexcept;
+				ece::size_t id;
+				std::string path;
+				std::weak_ptr<T> content;
 
-				ResourceRef() noexcept = delete;
+				inline auto operator->() const noexcept -> T * { return this->content.lock().operator->(); }
+				inline auto operator*()  const noexcept -> T & { return this->content.lock().operator*(); }
+				
+				template <class Parent, typename enabled = typename std::enable_if_t<std::is_base_of_v<Parent, T>>> inline operator Resource<Parent>() const {
+					return Resource<Parent>{ this->id, this->path, std::static_pointer_cast<Parent>(this->content.lock()) };
+				}
 
-				/**
-				 * @fn ResourceRef(const ResourceRef & copy) noexcept
-				 * @param[in] copy The ResourceRef to copy from.
-				 * @brief Default copy constructor.
-				 * @throw noexcept
-				 */
-				inline ResourceRef(const ResourceRef & copy) noexcept;
-
-				/**
-				 * @fn ResourceRef(ResourceRef && move) noexcept
-				 * @param[in] move The ResourceRef to move.
-				 * @brief Default move constructor.
-				 * @throw noexcept
-				 */
-				inline ResourceRef(ResourceRef && move) noexcept;
-
-				/**
-				 * @fn ~ResourceRef() noexcept
-				 * @brief Default destructor.
-				 * @throw noexcept
-				 */
-				inline virtual ~ResourceRef() noexcept;
-
-				/**
-				 * @fn ResourceRef & operator=(const ResourceRef & copy) noexcept
-				 * @param[in] copy The ResourceRef to copy from.
-				 * @return The ResourceRef copied.
-				 * @brief Default copy assignment operator.
-				 * @throw noexcept
-				 */
-				inline ResourceRef & operator=(const ResourceRef & copy) noexcept;
-
-				/**
-				 * @fn ResourceRef & operator=(ResourceRef && move) noexcept
-				 * @param[in] move The ResourceRef to move.
-				 * @return The ResourceRef moved.
-				 * @brief Default move assignment operator.
-				 * @throw noexcept
-				 */
-				inline ResourceRef & operator=(ResourceRef && move) noexcept;
-
-				template <class T>
-				auto is() const -> bool;
-
-				/*template <class T>
-				auto & to();
-
-				template <class T>
-				const auto & to() const;*/
-
-				template <class T>
-				auto to() const;
-
-				inline auto getIdentifier() const noexcept -> const std::string &; 
-
-			protected:
-				std::string _identifier;
-				std::size_t _typeId;
+				inline operator bool() const { return !this->content.expired(); }
 			};
 		} // namespace resource
 	} // namespace core
 } // namespace ece
 
-#include "core/resource/resource_ref.inl"
-
-#endif // RESOURCE_REF_HPP
+#endif // RESOURCE_HPP

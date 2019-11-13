@@ -59,7 +59,7 @@ namespace ece
 			class ECE_RENDERER_API Texture2D: public Texture
 			{
 			public:
-				using Reference = ResourceHandler<Texture2D>;
+				using Reference = Resource<Texture2D>;
 
 				/**
 				 * @fn Texture2D() noexcept

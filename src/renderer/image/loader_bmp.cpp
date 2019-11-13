@@ -51,7 +51,7 @@ namespace ece
 		{
 			using utility::formats::bitmap::ParserBMP;
 
-			ResourceRef LoaderBMP::load(StreamInfoIn info)
+			ResourceHandler LoaderBMP::load(StreamInfoIn info)
 			{
 				auto parser = ParserBMP{};
 				parser.load(info.stream);
@@ -73,7 +73,7 @@ namespace ece
 
 			void LoaderBMP::save(StreamInfoOut info)
 			{
-				auto resourceImage = *info.resource.to<Image<RGBA32>>();
+				auto resourceImage = info.resource.get<Image<RGBA32>>();
 
 				auto parser = ParserBMP{};
 

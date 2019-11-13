@@ -114,7 +114,7 @@ namespace ece
 				* @brief Load and parse data from a file.
 				* @throw
 				*/
-				virtual ResourceRef load(StreamInfoIn info) override;
+				virtual ResourceHandler load(StreamInfoIn info) override;
 
 				/**
 				 * @fn void saveToStream(const std::ostream & stream)

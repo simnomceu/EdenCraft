@@ -49,7 +49,7 @@ namespace ece
 		{
 			using format::ServiceFormatLocator;
 
-			ResourceRef ResourceLoader::loadFromFile(const std::filesystem::path & filename)
+			ResourceHandler ResourceLoader::loadFromFile(const std::filesystem::path & filename)
 			{
 				auto extension = filename.extension().generic_string().substr(1);
 				auto loader = ServiceFormatLocator::getService().getLoader(extension);
@@ -67,7 +67,7 @@ namespace ece
 				return loader->load({ file.getStream(), filename.generic_string(), filename.generic_string() });
 			}
 
-			ResourceRef ResourceLoader::loadFromString(const std::string & identifier, const std::string & extension, const std::string & content)
+			ResourceHandler ResourceLoader::loadFromString(const std::string & identifier, const std::string & extension, const std::string & content)
 			{
 				auto stream = std::istringstream(content);
 
@@ -75,13 +75,13 @@ namespace ece
 				return loader->load({ stream, identifier, "" });
 			}
 
-			ResourceRef ResourceLoader::loadFromStream(const std::string & identifier, const std::string & extension, std::istream & stream)
+			ResourceHandler ResourceLoader::loadFromStream(const std::string & identifier, const std::string & extension, std::istream & stream)
 			{
 				auto loader = ServiceFormatLocator::getService().getLoader(extension);
 				return loader->load({ stream, identifier, "" });
 			}
 
-			void ResourceLoader::saveToFile(const std::filesystem::path & filename, ResourceRef resource)
+			void ResourceLoader::saveToFile(const std::filesystem::path & filename, ResourceHandler resource)
 			{
 				auto extension = filename.extension().generic_string().substr(1);
 				auto saver = ServiceFormatLocator::getService().getSaver(extension);
@@ -102,18 +102,18 @@ namespace ece
 				saver->save({ file.getStream(), filename.stem().generic_string(), filename.generic_string(), std::move(resource) });
 			}
 
-			void ResourceLoader::saveToString(std::string & content, ResourceRef resource, const std::string & extension)
+			void ResourceLoader::saveToString(std::string & content, ResourceHandler resource, const std::string & extension)
 			{
 				auto stream = std::ostringstream(content);
 
 				auto saver = ServiceFormatLocator::getService().getSaver(extension);
-				saver->save({ stream, resource.getIdentifier(), "", std::move(resource) });
+				saver->save({ stream, resource.getPath(), "", std::move(resource) });
 			}
 
-			void ResourceLoader::saveToStream(std::ostream & stream, ResourceRef resource, const std::string & extension)
+			void ResourceLoader::saveToStream(std::ostream & stream, ResourceHandler resource, const std::string & extension)
 			{
 				auto saver = ServiceFormatLocator::getService().getSaver(extension);
-				saver->save({ stream, resource.getIdentifier(), "", std::move(resource) });
+				saver->save({ stream, resource.getPath(), "", std::move(resource) });
 			}
 		} // namespace resource
 	} // namespace core

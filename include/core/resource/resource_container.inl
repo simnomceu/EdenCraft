@@ -1,22 +1,22 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                
-															 d8P'  `Y8b                               
-															888           .ooooo.  oooo d8b  .ooooo.  
-															888          d88' `88b `888""8P d88' `88b 
-															888          888   888  888     888ooo888 
-															`88b    ooo  888   888  888     888    .o 
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
-                                          
-                                          
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+
+
 
 				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -36,56 +36,74 @@
 
 */
 
-#include "core/resource/resource_handler.hpp"
-
 namespace ece
 {
 	namespace core
 	{
 		namespace resource
 		{
-			template <class Resource>
-			void ResourceContainer<Resource>::add(const std::string & identifier, const std::shared_ptr<Resource> & resource)
+			template <class T>
+			void ResourceContainer<T>::add(const std::string & path, const std::shared_ptr<T> & resource)
 			{
-				auto created = std::chrono::system_clock::now();
-				this->_resources[identifier] = { resource, created, created, false };
+				auto loaded = std::find_if(this->_resources.begin(), this->_resources.end(), [path](const auto & el) -> bool { return el.second.path == path; });
+				if (loaded == this->_resources.end()) {
+					auto wrapper = ResourceWrapper{ this->_ids.next(), path, resource, std::chrono::system_clock::now(), std::chrono::system_clock::now(), false };
+					this->_resources.emplace(std::make_pair(wrapper.id, wrapper));
+				}
 			}
-
-			template <class Resource>
-			void ResourceContainer<Resource>::add(const std::vector<std::pair<std::string, std::shared_ptr<Resource>>> & resources)
+			
+			template <class T>
+			void ResourceContainer<T>::add(const std::vector<std::pair<std::string, std::shared_ptr<T>>> & resources)
 			{
-				for (auto resource : resources) {
-					this->add(resource.first, resource.second);
+				for (auto [path, resource] : resources) {
+					this->add(path, resource);
 				}
 			}
 
-			template <class ResourceType>
-			void ResourceContainer<ResourceType>::remove(const std::string & key)
+			template <class T>
+			void ResourceContainer<T>::remove(ece::size_t id)
 			{
-				this->_resources.erase(key);
+				this->_resources.erase(id);
+				this->_ids.restack(id);
 			}
 
-			template <class ResourceType>
-			void ResourceContainer<ResourceType>::remove(const std::vector<std::string> & keys)
+			template <class T>
+			void ResourceContainer<T>::remove(const std::vector<ece::size_t> & ids)
 			{
-				for (auto & key : keys) {
-					this->_resources.erase(key);
+				for (auto id : ids) {
+					this->remove(id);
 				}
 			}
 
-			template <class ResourceType>
-			inline void ResourceContainer<ResourceType>::clear()
+			template <class T>
+			void ResourceContainer<T>::clear()
 			{
 				this->_resources.clear();
+				this->_ids = ece::UniqueID<ece::size_t>();
 			}
 
-			template <class Resource>
-			auto ResourceContainer<Resource>::getResource(const std::string & key)
+			template <class T>
+			auto ResourceContainer<T>::getResource(ece::size_t id) -> std::weak_ptr<T>
 			{
-				this->_resources[key].lastAccess = std::chrono::system_clock::now();
-				return ResourceHandler<Resource>(key, this->_resources[key].content);
+				if (!this->isResourceLoaded(id)) {
+					throw std::runtime_error("There is no resource " + std::to_string(id) + " of type " + std::to_string(typeid(T).hash_code()) + ".");
+				}
+				this->_resources[id].lastAccess = std::chrono::system_clock::now();
+				return this->_resources[id].content;
 			}
 
+			template <class T>
+			auto ResourceContainer<T>::isResourceLoaded(ece::size_t id) const -> bool
+			{
+				return this->_resources.find(id) != this->_resources.end();
+			}
+
+			template <class T>
+			auto ResourceContainer<T>::getResourceId(const std::string & path) -> ece::size_t
+			{
+				auto it = std::find_if(this->_resources.begin(), this->_resources.end(), [path](const auto & el) { return el.second.path == path; });
+				return (it != this->_resources.end()) ? it->second.id : 0;
+			}
 		} // namespace resource
 	} // namespace core
 } // namespace ece

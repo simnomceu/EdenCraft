@@ -96,7 +96,7 @@ namespace ece
 				if (this->_filename != filename) {
 					this->_filename = filename;
 
-					auto image = ResourceLoader().loadFromFile(filename).to<Image<RGBA32>>();
+					auto image = ResourceLoader().loadFromFile(filename).get<Image<RGBA32>>();
 					this->loadFromImage(type, image);
 				}
 			}
