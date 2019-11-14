@@ -41,7 +41,7 @@
 
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
-#include "utility/formats/wavefront/object_obj.hpp"
+#include "utility/formats/wavefront/scene_obj.hpp"
 #include "utility/string.hpp"
 
 namespace ece
@@ -87,19 +87,13 @@ namespace ece
 					 */
 					void save(std::ostream & stream);
 
-					inline auto & getObjects();
-					inline auto getObjects() const;
-
-					inline auto & getMaterials();
-					inline auto getMaterials() const;
+					inline SceneOBJ & getScene();
 
 				private:
-					std::vector<ObjectOBJ> _objects;
+					SceneOBJ _scene;
 					std::vector<ObjectOBJ>::iterator _currentObject;
-					std::vector<std::string> _materials;
 
 					void processLine(StringStream & line);
-					auto addObject(const std::string & name) -> std::vector<ObjectOBJ>::iterator;
 				};
 			} // namespace wavefront
 		} // namespace formats

@@ -59,19 +59,21 @@ namespace ece
 				auto parser = ParserOBJ();
 				parser.load(info.stream);
 
+				auto & scene = parser.getScene();
+
 				auto fn = info.filename;
 				meshes.clear();
-				meshes.resize(parser.getObjects().size());
+				meshes.resize(scene.getObjects().size());
 
 				auto relativePath = fn.substr(0, fn.find_last_of('/') + 1);
 
-				for (auto n = std::size_t{ 0 }; n < parser.getMaterials().size(); ++n) {
-					auto materialFilename = relativePath + parser.getMaterials()[n];
+				for (auto n = std::size_t{ 0 }; n < scene.getMaterials().size(); ++n) {
+					auto materialFilename = relativePath + scene.getMaterials()[n];
 					ResourceLoader().loadFromFile(materialFilename);
 				}
 
-				for (auto n = std::size_t{ 0 }; n < parser.getObjects().size(); ++n) {
-					auto & object = parser.getObjects()[n];
+				for (auto n = std::size_t{ 0 }; n < scene.getObjects().size(); ++n) {
+					auto & object = scene.getObjects()[n];
 					meshes[n] = makeResource<Mesh>(object.getName());
 					auto mesh = meshes[n].get<Mesh>();
 
@@ -92,16 +94,16 @@ namespace ece
 									auto vertex = Mesh::Vertex();
 
 									if (fElement._v > 0) {
-										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
-										vertex._position[1] = object.getVertices()[fElement._v - 1][1];
-										vertex._position[2] = object.getVertices()[fElement._v - 1][2];
+										vertex._position[0] = scene.getVertices()[fElement._v - 1][0];
+										vertex._position[1] = scene.getVertices()[fElement._v - 1][1];
+										vertex._position[2] = scene.getVertices()[fElement._v - 1][2];
 									}
 
 									if (fElement._vn > 0) {
-										vertex._normal = object.getVerticesNormal()[fElement._vn - 1];
+										vertex._normal = scene.getVerticesNormal()[fElement._vn - 1];
 									}
 									if (fElement._vt > 0) {
-										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
+										vertex._textureCoordinate = scene.getVerticesTexture()[fElement._vt - 1];
 									}
 
 									auto index = object.getVertexIndice(fElement);
@@ -129,16 +131,16 @@ namespace ece
 									auto vertex = Mesh::Vertex{};
 
 									if (fElement._v > 0) {
-										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
-										vertex._position[1] = object.getVertices()[fElement._v - 1][1];
-										vertex._position[2] = object.getVertices()[fElement._v - 1][2];
+										vertex._position[0] = scene.getVertices()[fElement._v - 1][0];
+										vertex._position[1] = scene.getVertices()[fElement._v - 1][1];
+										vertex._position[2] = scene.getVertices()[fElement._v - 1][2];
 									}
 
 									if (fElement._vn > 0) {
-										vertex._normal = object.getVerticesNormal()[fElement._vn - 1];
+										vertex._normal = scene.getVerticesNormal()[fElement._vn - 1];
 									}
 									if (fElement._vt > 0) {
-										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
+										vertex._textureCoordinate = scene.getVerticesTexture()[fElement._vt - 1];
 									}
 									auto index = object.getVertexIndice(fElement);
 									mesh->insertVertex(index, std::move(vertex));
@@ -170,12 +172,13 @@ namespace ece
 			void OBJLoader::save(StreamInfoOut info)
 			{
 				auto parser = ParserOBJ();
+				auto & scene = parser.getScene();
 
 				auto meshResource = info.resource.get<Mesh>();
 				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
 
-				auto & objects = parser.getObjects();
-				auto & materials = parser.getMaterials();
+				auto & objects = scene.getObjects();
+				auto & materials = scene.getMaterials();
 
 				objects.clear();
 				materials.clear();
@@ -184,9 +187,9 @@ namespace ece
 				object.setFaceFormat(ObjectOBJ::FaceFormat{ 3, ObjectOBJ::Clockwise::CCW });
 
 				for (auto & vertex : meshResource->getVertices()) {
-					object.addVertex({ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f });
-					object.addVertexNormal({ vertex._normal[0], vertex._normal[1], vertex._normal[2] });
-					object.addVertexTexture({ vertex._textureCoordinate[0], vertex._textureCoordinate[1] });
+					scene.addVertex({ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f });
+					scene.addVertexNormal({ vertex._normal[0], vertex._normal[1], vertex._normal[2] });
+					scene.addVertexTexture({ vertex._textureCoordinate[0], vertex._textureCoordinate[1] });
 
 					// TODO :: not optimal as there is dopples. Be careful with face adding at the end.
 				}

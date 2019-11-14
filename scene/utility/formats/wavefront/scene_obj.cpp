@@ -36,18 +36,23 @@
 
 */
 
+#include "utility/pch.hpp"
+#include "utility/formats/wavefront/scene_obj.hpp"
+
 namespace ece
 {
-    namespace utility
-    {
+	namespace utility
+	{
 		namespace formats
 		{
 			namespace wavefront
 			{
-				inline ParserOBJ::ParserOBJ() : _scene(), _currentObject(this->_scene.getObjects().end()) {}
-
-				inline SceneOBJ & ParserOBJ::getScene() { return this->_scene; }
+				auto SceneOBJ::addObject(const std::string & name) -> std::vector<ObjectOBJ>::iterator
+				{
+					this->_objects.emplace_back(name);
+					return this->_objects.end() - 1;
+				}
 			} // namespace wavefront
 		} // namespace formats
-    } // namespace utility
+	} // namespace utility
 } // namespace ece
