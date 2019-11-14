@@ -168,7 +168,6 @@ namespace ece
 						for (unsigned int i = 0; i < faceSize; ++i) {
 							vertex = { 0, 0, 0 };
 							line.scan("%d/%d/%d", &vertex._v, &vertex._vt, &vertex._vn);
-							// BUG: this doesn't work,as vertices (v, vn ,vt) can be shared between objects or not.
 							face[i] = std::move(vertex);
 						}
 
@@ -199,6 +198,7 @@ namespace ece
 					break;
 					case 'o':
 					{
+						line.get();
 						std::string name = line.substr();
 						this->_currentObject = this->_scene.addObject(name);
 					}
@@ -208,6 +208,7 @@ namespace ece
 						this->_currentObject->resetCurrentGroups();
 
 						std::string group;
+						line.get();
 						while (!line.eof()) {
 							line >> group;
 							this->_currentObject->addGroup(group);
