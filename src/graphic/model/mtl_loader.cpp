@@ -54,43 +54,48 @@ namespace ece
 			{
 				auto parserMaterial = ParserMTL();
 				parserMaterial.load(info.stream);
-				auto material = parserMaterial.getMaterials()[0];
+				auto & materials = parserMaterial.getMaterials();
 
 				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
 
-				auto materialResource = makeResource<Material>(material.name);
-				auto materialVisitor = PhongMaterial();
-				materialVisitor.setMaterial(materialResource);
-				materialVisitor.initialize();
+				auto resources = std::vector<ResourceHandler>();
+				for (auto material : materials) {
+					auto materialResource = makeResource<Material>(material.name);
+					auto materialVisitor = PhongMaterial();
+					materialVisitor.setMaterial(materialResource);
+					materialVisitor.initialize();
 
-				materialVisitor.setAmbient(std::get<FloatVector3u>(material.ambient.value));
-				materialVisitor.setDiffuse(std::get<FloatVector3u>(material.diffuse.value));
-				materialVisitor.setSpecular(std::get<FloatVector3u>(material.specular.value));
-				materialVisitor.setShininess(material.specularExponent);
+					materialVisitor.setAmbient(std::get<FloatVector3u>(material.ambient.value));
+					materialVisitor.setDiffuse(std::get<FloatVector3u>(material.diffuse.value));
+					materialVisitor.setSpecular(std::get<FloatVector3u>(material.specular.value));
+					materialVisitor.setShininess(material.specularExponent);
 
-				if (!material.mapDiffuse.empty()) {
-					auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
+					if (!material.mapDiffuse.empty()) {
+						auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
 
-					if (diffuseMap->getData().empty()) {
-						diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
+						if (diffuseMap->getData().empty()) {
+							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
+						}
+						diffuseMap->bind(Texture::Target::TEXTURE_2D);
+						diffuseMap->generateMipmap();
+						materialVisitor.setDiffuseMap(diffuseMap);
 					}
-					diffuseMap->bind(Texture::Target::TEXTURE_2D);
-					diffuseMap->generateMipmap();
-					materialVisitor.setDiffuseMap(diffuseMap);
+
+					if (!material.mapSpecular.empty()) {
+						auto specularMap = makeResource<Texture2D>(material.mapSpecular);
+
+						if (specularMap->getData().empty()) {
+							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
+						}
+						specularMap->bind(Texture::Target::TEXTURE_2D);
+						specularMap->generateMipmap();
+						materialVisitor.setSpecularMap(specularMap);
+					}
+
+					resources.push_back(materialResource);
 				}
 
-				if (!material.mapSpecular.empty()) {
-					auto specularMap = makeResource<Texture2D>(material.mapSpecular);
-
-					if (specularMap->getData().empty()) {
-						specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
-					}
-					specularMap->bind(Texture::Target::TEXTURE_2D);
-					specularMap->generateMipmap();
-					materialVisitor.setSpecularMap(specularMap);
-				}
-
-				return materialResource;
+				return resources[0];
 			}
 
 			void MTLLoader::save(StreamInfoOut info)
