@@ -102,7 +102,8 @@ namespace ece
 			auto ResourceContainer<T>::getResourceId(const std::string & path) -> ece::size_t
 			{
 				auto it = std::find_if(this->_resources.begin(), this->_resources.end(), [path](const auto & el) { return el.second.path == path; });
-				return (it != this->_resources.end()) ? it->second.id : 0;
+				return (it != this->_resources.end()) ? it->second.id : std::numeric_limits<ece::size_t>::max();
+				// TODO: returning std::numeric_limits<ece::size_t>::max() is working, unless the number of resources reaches this value.
 			}
 		} // namespace resource
 	} // namespace core
