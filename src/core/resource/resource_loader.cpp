@@ -49,7 +49,7 @@ namespace ece
 		{
 			using format::ServiceFormatLocator;
 
-			ResourceHandler ResourceLoader::loadFromFile(const std::filesystem::path & filename)
+			std::vector<ResourceHandler> ResourceLoader::loadFromFile(const std::filesystem::path & filename)
 			{
 				auto extension = filename.extension().generic_string().substr(1);
 				auto loader = ServiceFormatLocator::getService().getLoader(extension);
@@ -67,7 +67,7 @@ namespace ece
 				return loader->load({ file.getStream(), filename.generic_string(), filename.generic_string() });
 			}
 
-			ResourceHandler ResourceLoader::loadFromString(const std::string & identifier, const std::string & extension, const std::string & content)
+			std::vector<ResourceHandler> ResourceLoader::loadFromString(const std::string & identifier, const std::string & extension, const std::string & content)
 			{
 				auto stream = std::istringstream(content);
 
@@ -75,13 +75,13 @@ namespace ece
 				return loader->load({ stream, identifier, "" });
 			}
 
-			ResourceHandler ResourceLoader::loadFromStream(const std::string & identifier, const std::string & extension, std::istream & stream)
+			std::vector<ResourceHandler> ResourceLoader::loadFromStream(const std::string & identifier, const std::string & extension, std::istream & stream)
 			{
 				auto loader = ServiceFormatLocator::getService().getLoader(extension);
 				return loader->load({ stream, identifier, "" });
 			}
 
-			void ResourceLoader::saveToFile(const std::filesystem::path & filename, ResourceHandler resource)
+			void ResourceLoader::saveToFile(const std::filesystem::path & filename, const std::vector<ResourceHandler> & resources)
 			{
 				auto extension = filename.extension().generic_string().substr(1);
 				auto saver = ServiceFormatLocator::getService().getSaver(extension);
@@ -99,21 +99,21 @@ namespace ece
 					throw std::runtime_error(filename.generic_string() + " has not been opened.");
 				}
 
-				saver->save({ file.getStream(), filename.stem().generic_string(), filename.generic_string(), std::move(resource) });
+				saver->save({ file.getStream(), filename.stem().generic_string(), filename.generic_string(), std::move(resources) });
 			}
 
-			void ResourceLoader::saveToString(std::string & content, ResourceHandler resource, const std::string & extension)
+			void ResourceLoader::saveToString(std::string & content, const std::vector<ResourceHandler> & resources, const std::string & extension)
 			{
 				auto stream = std::ostringstream(content);
 
 				auto saver = ServiceFormatLocator::getService().getSaver(extension);
-				saver->save({ stream, resource.getPath(), "", std::move(resource) });
+				saver->save({ stream, resources[0].getPath(), "", std::move(resources) });
 			}
 
-			void ResourceLoader::saveToStream(std::ostream & stream, ResourceHandler resource, const std::string & extension)
+			void ResourceLoader::saveToStream(std::ostream & stream, const std::vector<ResourceHandler> & resources, const std::string & extension)
 			{
 				auto saver = ServiceFormatLocator::getService().getSaver(extension);
-				saver->save({ stream, resource.getPath(), "", std::move(resource) });
+				saver->save({ stream, resources[0].getPath(), "", std::move(resources) });
 			}
 		} // namespace resource
 	} // namespace core

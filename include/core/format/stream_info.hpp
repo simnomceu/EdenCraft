@@ -63,7 +63,7 @@ namespace ece
 				std::ostream & stream;
 				std::string identifier;
 				std::string filename;
-				ResourceHandler resource;
+				std::vector<ResourceHandler> resources;
 			};
 		} // namespace format
 	} // namespace core

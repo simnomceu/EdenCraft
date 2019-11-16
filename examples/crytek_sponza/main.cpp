@@ -66,11 +66,11 @@ int main()
 		auto & scene = renderSystem->getScene();
 		auto & camera = scene.getCamera();
 
-		{
+		auto meshes = ece::ResourceLoader().loadFromFile("../../examples/crytek_sponza/assets/sponza.obj");
+		for (auto & mesh : meshes) {
 			auto sponza = world.createEntity();
-			auto model = ece::makeResource<ece::Object>("sponza_model");
-			auto mesh = ece::ResourceLoader().loadFromFile("../../examples/crytek_sponza/assets/sponza.obj").get<ece::Mesh>();
-			model->setMesh(mesh);
+			auto model = ece::makeResource<ece::Object>(mesh.getPath() + "_model");
+			model->setMesh(mesh.get<ece::Mesh>());
 			model->prepare();
 			sponza.addComponent<Graphic>(model);
 		}

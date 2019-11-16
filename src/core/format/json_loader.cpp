@@ -51,22 +51,24 @@ namespace ece
 			using utility::formats::json::ParserJSON;
 			using utility::formats::json::ObjectJSON;
 
-			ResourceHandler JSONLoader::load(StreamInfoIn info)
+			std::vector<ResourceHandler> JSONLoader::load(StreamInfoIn info)
 			{
 				auto parser = ParserJSON();
 				parser.load(info.stream);
 				auto jsonObject = parser.getObject();
 
-				return resource::makeResource<ObjectJSON>(info.identifier, *jsonObject);
+				return { resource::makeResource<ObjectJSON>(info.identifier, *jsonObject) };
 			}
 
 			void JSONLoader::save(StreamInfoOut info)
 			{
 				auto parser = ParserJSON();
 
-				auto jsonObject = info.resource.get<ObjectJSON>();
-				parser.setObject(jsonObject.content.lock());
-				parser.save(info.stream);
+				for (auto resource : info.resources) {
+					auto jsonObject = resource.get<ObjectJSON>();
+					parser.setObject(jsonObject.content.lock());
+					parser.save(info.stream);
+				}
 			}
 		}
 	}

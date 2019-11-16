@@ -52,7 +52,7 @@ namespace ece
 		{
 			using material::PhongMaterial;
 
-			ResourceHandler OBJLoader::load(StreamInfoIn info)
+			std::vector<ResourceHandler> OBJLoader::load(StreamInfoIn info)
 			{
 				std::vector<ResourceHandler> meshes;
 
@@ -166,7 +166,7 @@ namespace ece
 					}
 				}
 
-				return meshes[0];
+				return meshes;
 			}
 
 			void OBJLoader::save(StreamInfoOut info)
@@ -174,50 +174,52 @@ namespace ece
 				auto parser = ParserOBJ();
 				auto & scene = parser.getScene();
 
-				auto meshResource = info.resource.get<Mesh>();
-				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
+				for (auto & resource : info.resources) {
+					auto meshResource = resource.get<Mesh>();
+					auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
 
-				auto & objects = scene.getObjects();
-				auto & materials = scene.getMaterials();
+					auto & objects = scene.getObjects();
+					auto & materials = scene.getMaterials();
 
-				objects.clear();
-				materials.clear();
+					objects.clear();
+					materials.clear();
 
-				auto & object = objects.emplace_back(info.identifier);
-				object.setFaceFormat(ObjectOBJ::FaceFormat{ 3, ObjectOBJ::Clockwise::CCW });
+					auto & object = objects.emplace_back(info.identifier);
+					object.setFaceFormat(ObjectOBJ::FaceFormat{ 3, ObjectOBJ::Clockwise::CCW });
 
-				for (auto & vertex : meshResource->getVertices()) {
-					scene.addVertex({ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f });
-					scene.addVertexNormal({ vertex._normal[0], vertex._normal[1], vertex._normal[2] });
-					scene.addVertexTexture({ vertex._textureCoordinate[0], vertex._textureCoordinate[1] });
+					for (auto & vertex : meshResource->getVertices()) {
+						scene.addVertex({ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f });
+						scene.addVertexNormal({ vertex._normal[0], vertex._normal[1], vertex._normal[2] });
+						scene.addVertexTexture({ vertex._textureCoordinate[0], vertex._textureCoordinate[1] });
 
-					// TODO :: not optimal as there is dopples. Be careful with face adding at the end.
-				}
-
-				auto & submeshes = meshResource->getSubmeshes();
-				int i = 0;
-				for (auto & submesh : submeshes) {
-					object.resetCurrentGroups();
-					auto groupName = info.identifier + std::to_string(i);
-					object.addGroup(groupName);
-
-					object.setMaterial(submesh.material.path);
-					{
-						auto materialFilename = relativePath + submesh.material.path + ".mtl";
-						ResourceLoader().saveToFile(materialFilename, submesh.material);
-						materials.push_back(submesh.material.path);
+						// TODO :: not optimal as there is dopples. Be careful with face adding at the end.
 					}
 
-					for (auto & face : submesh.mesh.getFaces()) {
-						object.addFace({ { static_cast<int>(face[0]), static_cast<int>(face[0]), static_cast<int>(face[0]) },
-										 { static_cast<int>(face[1]), static_cast<int>(face[1]), static_cast<int>(face[1]) },
-										 { static_cast<int>(face[2]), static_cast<int>(face[2]), static_cast<int>(face[2]) } });
+					auto & submeshes = meshResource->getSubmeshes();
+					int i = 0;
+					for (auto & submesh : submeshes) {
+						object.resetCurrentGroups();
+						auto groupName = info.identifier + std::to_string(i);
+						object.addGroup(groupName);
+
+						object.setMaterial(submesh.material.path);
+						{
+							auto materialFilename = relativePath + submesh.material.path + ".mtl";
+							ResourceLoader().saveToFile(materialFilename, { submesh.material });
+							materials.push_back(submesh.material.path);
+						}
+
+						for (auto & face : submesh.mesh.getFaces()) {
+							object.addFace({ { static_cast<int>(face[0]), static_cast<int>(face[0]), static_cast<int>(face[0]) },
+											 { static_cast<int>(face[1]), static_cast<int>(face[1]), static_cast<int>(face[1]) },
+											 { static_cast<int>(face[2]), static_cast<int>(face[2]), static_cast<int>(face[2]) } });
+						}
+
+						++i;
 					}
 
-					++i;
+					parser.save(info.stream);
 				}
-
-				parser.save(info.stream);
 			}
 		} // namespace model
 	} // namespace graphic

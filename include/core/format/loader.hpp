@@ -110,7 +110,7 @@ namespace ece
         		 * @brief Load and parse data from a file.
         		 * @throw
         		 */
-        		virtual ResourceHandler load(StreamInfoIn info) = 0;
+        		virtual std::vector<ResourceHandler> load(StreamInfoIn info) = 0;
 
 				virtual auto isBinary() const noexcept -> bool { return false; }
 			};

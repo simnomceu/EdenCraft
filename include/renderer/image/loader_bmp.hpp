@@ -110,7 +110,7 @@ namespace ece
 				 * @brief Load and parse data from a file.
 				 * @throw
 				 */
-				virtual ResourceHandler load(StreamInfoIn info) override;
+				virtual std::vector<ResourceHandler> load(StreamInfoIn info) override;
 
 				/**
 				 * @fn void saveToFile(const std::filesystem::path & filename)

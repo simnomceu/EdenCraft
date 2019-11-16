@@ -96,7 +96,7 @@ namespace ece
 				if (this->_filename != filename) {
 					this->_filename = filename;
 
-					auto image = ResourceLoader().loadFromFile(filename).get<Image<RGBA32>>();
+					auto image = ResourceLoader().loadFromFile(filename)[0].get<Image<RGBA32>>();
 					this->loadFromImage(type, image);
 				}
 			}
@@ -125,7 +125,7 @@ namespace ece
 				auto resource = makeResource<Image<RGBA32>>(filename.stem().generic_string());
 				this->saveToImage(resource);
 
-				ResourceLoader().saveToFile(filename, resource);
+				ResourceLoader().saveToFile(filename, { resource });
 			}
 
 			void Texture2D::saveToImage(Image<RGBA32>::Reference image)

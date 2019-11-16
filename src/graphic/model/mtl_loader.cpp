@@ -50,7 +50,7 @@ namespace ece
 	{
 		namespace model
 		{
-			ResourceHandler MTLLoader::load(StreamInfoIn info)
+			std::vector<ResourceHandler> MTLLoader::load(StreamInfoIn info)
 			{
 				auto parserMaterial = ParserMTL();
 				parserMaterial.load(info.stream);
@@ -95,13 +95,14 @@ namespace ece
 					resources.push_back(materialResource);
 				}
 
-				return resources[0];
+				return resources;
 			}
 
 			void MTLLoader::save(StreamInfoOut info)
 			{
 				auto parserMaterial = ParserMTL();
-				auto materialResource = info.resource.get<Material>();
+				for (auto & resource : info.resources) {
+				auto materialResource = resource.get<Material>();
 
 				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
 
@@ -110,7 +111,7 @@ namespace ece
 				auto materialVisitor = PhongMaterial();
 				materialVisitor.setMaterial(materialResource);
 
-				material.name = info.resource.getPath();
+				material.name = resource.getPath();
 
 				material.ambient.value = materialVisitor.getAmbient();
 				material.diffuse.value = materialVisitor.getDiffuse();
@@ -118,14 +119,15 @@ namespace ece
 				material.specularExponent = materialVisitor.getShininess();
 
 				if (materialVisitor.getDiffuseMap()) {
-					materialVisitor.getDiffuseMap()->saveToFile(relativePath + info.resource.getPath() + "_diffuse.bmp");
+					materialVisitor.getDiffuseMap()->saveToFile(relativePath + resource.getPath() + "_diffuse.bmp");
 				}
 
 				if (materialVisitor.getSpecularMap()) {
-					materialVisitor.getSpecularMap()->saveToFile(relativePath + info.resource.getPath() + "_specular.bmp");
+					materialVisitor.getSpecularMap()->saveToFile(relativePath + resource.getPath() + "_specular.bmp");
 				}
 
 				parserMaterial.save(info.stream);
+			}
 			}
 		}
 	}
