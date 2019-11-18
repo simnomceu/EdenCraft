@@ -82,7 +82,7 @@ namespace ece
 					this->_type = move._type;
 					this->_handle = move._handle;
 
-					move._data.clear();
+					move._data.content.reset();
 					move._handle = NULL_HANDLE;
 				}
 
@@ -103,21 +103,14 @@ namespace ece
 
 			void Texture2D::loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image)
 			{
-				this->_data.clear();
-
-				auto buffer = image->data();
-				for (auto i = std::size_t{ 0 }; i < image->getHeight() * image->getWidth(); ++i) {
-					this->_data.push_back(buffer[i].r); // red
-					this->_data.push_back(buffer[i].g); // green
-					this->_data.push_back(buffer[i].b); // blue
-					this->_data.push_back(buffer[i].a); // alpha
-				}
+				this->_data = image;
 
 				this->_width = image->getWidth();
 				this->_height = image->getHeight();
 				this->_type = type;
 
-				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGBA, this->_width, this->_height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
+				auto buffer = reinterpret_cast<std::uint8_t*>(this->_data->data());
+				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGBA, this->_width, this->_height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, &buffer[0]);
 			}
 
 			void Texture2D::saveToFile(const std::filesystem::path & filename)
@@ -130,13 +123,12 @@ namespace ece
 
 			void Texture2D::saveToImage(Image<RGBA32>::Reference image)
 			{
+				auto bufferIn = this->_data->data();
+
 				image->resize(this->_width, this->_height);
 				auto buffer = image->data();
 				for (auto i = std::size_t{ 0 }; i < image->getHeight() * image->getWidth(); ++i) {
-					buffer[i].r = this->_data[i * 4 + 0];
-					buffer[i].g = this->_data[i * 4 + 1];
-					buffer[i].b = this->_data[i * 4 + 2];
-					buffer[i].a = this->_data[i * 4 + 3];
+					buffer[i] = bufferIn[i];
 				}
 			}
 

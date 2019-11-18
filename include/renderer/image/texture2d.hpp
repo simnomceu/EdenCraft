@@ -138,7 +138,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				inline virtual auto getData() const -> const std::vector<std::uint8_t> & override;
+				inline virtual auto getData() const -> std::uint8_t * override;
 
 				/**
 				 * @fn std::size_t getWidth() const
@@ -205,7 +205,7 @@ namespace ece
 				 * @property _data
 				 * @brief The pixels of the texture.
 				 */
-				std::vector<std::uint8_t> _data;
+				Image<RGBA32>::Reference _data;
 
 				/**
 				 * @property _width
