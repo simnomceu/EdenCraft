@@ -43,6 +43,9 @@ namespace ece
 		namespace resource
 		{
 			template <class T>
+			inline constexpr ResourceContainer<T>::ResourceContainer(): _resources(), _ids(1) {}
+
+			template <class T>
 			void ResourceContainer<T>::add(const std::string & path, const std::shared_ptr<T> & resource)
 			{
 				auto loaded = std::find_if(this->_resources.begin(), this->_resources.end(), [path](const auto & el) -> bool { return el.second.path == path; });

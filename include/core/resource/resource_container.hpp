@@ -63,7 +63,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				constexpr ResourceContainer() = default;
+				inline constexpr ResourceContainer();
 
 				/**
 				 * @fn ResourceContainer(const ResourceContainer & copy) noexcept

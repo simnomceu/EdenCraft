@@ -58,27 +58,24 @@ namespace ece
 			auto Scene::addObject() -> Object::Reference
 			{
 				auto object = makeResource<Object>(std::to_string(std::chrono::system_clock::now().time_since_epoch().count()));
-				this->_objects.push_back({ object, true, 0 });
+				this->_objects.push_back(object, true, 0);
 				return object;
 			}
 
 			auto Scene::getObjects() -> std::vector<Renderable::Reference>
 			{
-				auto list = std::vector<Renderable::Reference>{};
-				for (auto & object : this->_objects) {
-					list.emplace_back(object.value);
-				}
-				return std::move(list);
+				return this->_objects.getRenderables();
 			}
 
-			auto Scene::getLights() -> std::vector<Light::Reference>
+			auto Scene::getLights() -> std::vector<Light::Reference> &
 			{
 				return this->_lights;
 			}
 
 			void Scene::prepare()
 			{
-				for (auto & object : this->_objects) {
+				for (auto i = std::size_t{ 0 }; i < this->_objects.size(); ++i) {
+					ObjectWrapper object = this->_objects[i];
 					if (object.hasChanged) {
 						object.value->prepare();
 						object.hasChanged = false;

@@ -67,6 +67,7 @@ int main()
 		auto & camera = scene.getCamera();
 
 		auto meshes = ece::ResourceLoader().loadFromFile("../../examples/crytek_sponza/assets/sponza.obj");
+	//	auto & mesh = meshes[0];
 		for (auto & mesh : meshes) {
 			auto sponza = world.createEntity();
 			auto model = ece::makeResource<ece::Object>(mesh.getPath() + "_model");

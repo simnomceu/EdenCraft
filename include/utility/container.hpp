@@ -44,6 +44,7 @@
 #include "utility/container/container_type.hpp"
 #include "utility/container/contiguous_container.hpp"
 #include "utility/container/is_container.hpp"
+#include "utility/container/soa.hpp"
 
 namespace ece
 {

@@ -131,7 +131,7 @@ namespace ece
 				inline void updateCamera();
 
 				auto getObjects() -> std::vector<Renderable::Reference>;
-				auto getLights() -> std::vector<Light::Reference>;
+				auto getLights() -> std::vector<Light::Reference> &;
 
 				void prepare();
 
@@ -149,6 +149,30 @@ namespace ece
 					Renderable::Reference value;
 					bool hasChanged;
 					int level;
+
+					ObjectWrapper(const std::tuple< Renderable::Reference, bool, int> & rhs) : value(std::get<0>(rhs)), hasChanged(std::get<1>(rhs)), level(std::get<2>(rhs)) {}
+					ObjectWrapper(std::tuple< Renderable::Reference, bool, int> && rhs) : value(std::get<0>(rhs)), hasChanged(std::get<1>(rhs)), level(std::get<2>(rhs)) {}
+
+					ObjectWrapper & operator=(const std::tuple< Renderable::Reference, bool, int> & rhs)
+					{
+						this->value = std::get<0>(rhs);
+						this->hasChanged = std::get<1>(rhs);
+						this->level = std::get<2>(rhs);
+					}
+					ObjectWrapper & operator=(std::tuple< Renderable::Reference, bool, int> && rhs)
+					{
+						this->value = std::get<0>(rhs);
+						this->hasChanged = std::get<1>(rhs);
+						this->level = std::get<2>(rhs);
+					}
+				};
+
+				class ObjectPack : public SoA<Renderable::Reference, bool, int>
+				{
+				public:
+					std::vector<Renderable::Reference> & getRenderables() { return this->getAll(); }
+					std::vector<bool> & hasChanged() { return this->SoA<bool, int>::getAll(); }
+					std::vector<int> & getLevels() { return this->SoA<int>::getAll(); }
 				};
 
 				/**
@@ -161,7 +185,7 @@ namespace ece
 				 * @property _objects
 				 * @brief The list of objects in the scene.
 				 */
-				std::vector<ObjectWrapper> _objects;
+				ObjectPack _objects;
 
 				std::vector<Light::Reference> _lights;
 

@@ -104,7 +104,7 @@ void Render::update(float /*elapsedTime*/)
 	}
 	auto & pipeline = this->_process->getPipeline();
 	auto program = pipeline.getProgram();
-	auto lights = this->_scene.getLights();
+	auto & lights = this->_scene.getLights();
 	program->bind(std::make_shared<ece::Uniform<int>>("numberOfLights", static_cast<int>(lights.size())), "numberOfLights");
 
 	int lightId = 0;
