@@ -171,7 +171,7 @@ namespace ece
 				{
 				public:
 					std::vector<Renderable::Reference> & getRenderables() { return this->getAll(); }
-					std::vector<bool> & hasChanged() { return this->SoA<bool, int>::getAll(); }
+					BooleanVector & hasChanged() { return this->SoA<bool, int>::getAll(); }
 					std::vector<int> & getLevels() { return this->SoA<int>::getAll(); }
 				};
 

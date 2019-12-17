@@ -55,6 +55,9 @@ namespace ece
 			class SoA<First, Args...> : public SoA<Args...>
 			{
 			public:
+				using type = First;
+				using container = std::conditional_t<std::is_same_v<First, bool>, BooleanVector, std::vector<First>>;
+
 				using value_type = typename std::vector<First>::value_type;
 				using allocator_type = typename std::vector<First>::allocator_type;
 				using size_type = typename std::vector<First>::size_type;
@@ -174,17 +177,19 @@ namespace ece
 					SoA<Args...>::swap(other);
 				}
 
-				std::vector<First> & getAll() { return this->_value; }
+				typename SoA::container & getAll() { return this->_value; }
 
 			protected:
-				using type = First;
-				std::vector<First> _value;
+				container _value;
 			};
 
 			template <class E>
 			class SoA<E>
 			{
 			public:
+				using type = E;
+				using container = std::conditional_t<std::is_same_v<E, bool>, BooleanVector, std::vector<E>>;
+
 				using value_type = typename std::vector<E>::value_type;
 				using allocator_type = typename std::vector<E>::allocator_type;
 				using size_type = typename std::vector<E>::size_type;
@@ -260,11 +265,10 @@ namespace ece
 				void resize(size_type count, const value_type & value) { this->_value.resize(count, value); }
 				void swap(SoA<E> & other) { this->_value.swap(other.getAll()); }
 
-				std::vector<E> & getAll() { return this->_value; }
+				typename SoA::container & getAll() { return this->_value; }
 
 			protected:
-				using type = E;
-				std::vector<E> _value;
+				container _value;
 			};
 		} // namespace container
 	} // namespace utility
