@@ -85,9 +85,9 @@ namespace ece
 
 			void Scene::sortObjects()
 			{
-				std::sort(this->_objects.begin(), this->_objects.end(), [](auto & a, auto & b) -> bool {
+			/*	std::sort(this->_objects.begin(), this->_objects.end(), [](auto & a, auto & b) -> bool {
 					return ObjectWrapper(a).level <= ObjectWrapper(b).level;
-				});
+				});*/
 			}
 		} // namespace scene
 	} // namespace graphic

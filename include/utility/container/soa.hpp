@@ -58,20 +58,20 @@ namespace ece
 				using type = First;
 				using container = std::conditional_t<std::is_same_v<First, bool>, BooleanVector, std::vector<First>>;
 
-				using value_type = First;
-				using allocator_type = typename std::vector<First>::allocator_type;
-				using size_type = typename std::vector<First>::size_type;
-				using difference_type = typename std::vector<First>::difference_type;
-				using reference = typename std::vector<First>::reference;
-				using const_reference = typename std::vector<First>::const_reference;
-				using pointer = typename std::vector<First>::pointer;
-				using const_pointer = typename std::vector<First>::const_pointer;
-				using iterator = typename std::vector<First>::iterator;
-				using const_iterator = typename std::vector<First>::const_iterator;
-				using reverse_iterator = typename std::vector<First>::reverse_iterator;
-				using const_reverse_iterator = typename std::vector<First>::const_reverse_iterator;
+				using value_type = std::tuple<First, Args...>;
+				using allocator_type = std::tuple<typename std::vector<First>::allocator_type, typename std::vector<Args>::allocator_type ...>;
+				using size_type = typename SoA<Args...>::size_type;
+				using difference_type = typename SoA<Args...>::difference_type;
+				using reference = std::tuple<First &, Args & ...>;
+				using const_reference = std::tuple<const First &, const Args & ...>;
+				using pointer = std::tuple<typename std::vector<First>::pointer, typename std::vector<Args>::pointer ...>;
+				using const_pointer = std::tuple<typename std::vector<First>::const_pointer, typename std::vector<Args>::const_pointer ...>;
+				using iterator = std::tuple<typename std::vector<First>::iterator, typename std::vector<Args>::iterator ...>;
+				using const_iterator = std::tuple<typename std::vector<First>::const_iterator, typename std::vector<Args>::const_iterator ...>;
+				using reverse_iterator = std::tuple<typename std::vector<First>::reverse_iterator, typename std::vector<Args>::reverse_iterator ...>;
+				using const_reverse_iterator = std::tuple<typename std::vector<First>::const_reverse_iterator, typename std::vector<Args>::const_reverse_iterator ...>;
 
-				SoA() noexcept(noexcept(SoA<First, Args...>::allocator_type());
+				SoA() noexcept;
 				explicit SoA(const allocator_type & alloc) noexcept;
 				SoA(size_type count, const First & first, Args &&... args);
 				explicit SoA(size_type count, const allocator_type & alloc = allocator_type());
@@ -80,49 +80,49 @@ namespace ece
 				SoA(const SoA<First, Args...> & other, const allocator_type & alloc);
 				SoA(SoA<First, Args...> && other) noexcept;
 				SoA(SoA<First, Args...> && other, const allocator_type & alloc);
-				SoA(std::initializer_list<std::tuple<First, Args...>> init, const allocator_type & alloc = allocator_type());
+				SoA(std::tuple<std::initializer_list<First>, std::initializer_list<Args>...> init, const allocator_type & alloc = allocator_type());
 				
 				~SoA() noexcept;
 
 				SoA<First, Args...> & operator=(const SoA<First, Args...> & rhs);
-				SoA<First, Args...> & operator=(SoA<First, Args...> && rhs) noexcept(std::allocator_traits<allocator_type>::propagate_on_container_move_assignment::value || std::allocator_traits<allocator_type>::is_always_equal::value);
-				SoA<First, Args...> & operator=(std::initializer_list<std::tuple<First, Args...>> ilist);
+				SoA<First, Args...> & operator=(SoA<First, Args...> && rhs) noexcept;
+				SoA<First, Args...> & operator=(std::tuple<std::initializer_list<First>, std::initializer_list<Args>...> ilist);
 
 				void assign(size_type count, const First & first, Args &&... args);
-				template <class InputIt, class... InputArgs> void assign(std::tuple<InputIt, InputArgs...> first, InputIt last);
-				void assign(std::initializer_list<std::tuple<First, Args...>> ilist);
+				template <class InputIt> void assign(InputIt first, InputIt last);
+				void assign(std::tuple<std::initializer_list<First>, std::initializer_list<Args>...> ilist);
 				auto get_allocator() const;
 
-				auto at(size_type index) -> std::tuple<First &, Args & ...>;
-				auto at(size_type index) const -> std::tuple<const First, const Args & ...>;
+				auto at(size_type index) -> reference;
+				auto at(size_type index) const -> const_reference;
 				
-				auto operator[](size_type index) -> std::tuple < First &, Args & ...);
-				auto operator[](size_type index) const -> std::tuple<const First &, const Args & ...> { return std::tuple_cat(std::tie(this->_internal[index]), SoA<Args...>::operator[](index)); }
+				auto operator[](size_type index) -> reference;
+				auto operator[](size_type index) const -> const_reference;
 
-				auto front();
-				auto front() const;
+				auto front() -> reference;
+				auto front() const -> const_reference;
 				
-				auto back();
-				auto back() const;
+				auto back() -> reference;
+				auto back() const -> const_reference;
 				
-				auto data() noexcept;
-				auto data() const noexcept;
+				auto data() noexcept -> pointer;
+				auto data() const noexcept -> const_pointer;
 
-				auto begin() noexcept;
-				auto begin() const noexcept;
-				auto cbegin() const noexcept;
+				auto begin() noexcept -> iterator;
+				auto begin() const noexcept -> const_iterator;
+				auto cbegin() const noexcept -> const_iterator;
 
-				auto end() noexcept;
-				auto end() const noexcept;
-				auto cend() const noexcept;
+				auto end() noexcept -> iterator;
+				auto end() const noexcept -> const_iterator;
+				auto cend() const noexcept -> const_iterator;
 
-				auto rbegin() noexcept;
-				auto rbegin() const noexcept;
-				auto crbegin() const noexcept;
+				auto rbegin() noexcept -> reverse_iterator;
+				auto rbegin() const noexcept -> const_reverse_iterator;
+				auto crbegin() const noexcept -> const_reverse_iterator;
 
-				auto rend() noexcept;
-				auto rend() const noexcept;
-				auto crend() const noexcept;
+				auto rend() noexcept -> reverse_iterator;
+				auto rend() const noexcept -> const_reverse_iterator;
+				auto crend() const noexcept -> const_reverse_iterator;
 
 				bool empty() const noexcept;
 				size_type size() const noexcept;
@@ -132,55 +132,45 @@ namespace ece
 				void shrink_to_fit();
 
 				void clear() noexcept;
-//				iterator insert(const_iterator pos, const T& value);
-//				iterator insert(const_iterator pos, T&& value);
-//				iterator insert(const_iterator pos, size_type count, const T& value);
-//				template <class InputIt> iterator insert(const_iterator pos, InputIt first, InputIt last);
-//				iterator insert(const_iterator pos, std::initializer_list<T> ilist);
-//				template <class... Args> iterator emplace(const_iterator pos, Args&&... args);
-//				iterator erase(const_iterator pos);
-//				iterator erase(const_iterator first, const_iterator last);
-				void push_back(const First & first, Args &&... args)
-				{
-					this->_internal.push_back(first);
-					SoA<Args...>::push_back(std::forward<Args>(args)...);
-				}
-				void push_back(First && first, Args &&... args)
-				{
-					this->_internal.push_back(std::move(first));
-					SoA<Args...>::push_back(std::forward<Args>(args)...);
-				}
-				void emplace_back(First && first, Args &&... args)
-				{
-					this->_internal.emplace_back(std::move(first));
-					SoA<Args...>::emplace_back(std::forward<Args>(args)...);
-				}
-				void pop_back()
-				{
-					this->_internal.pop_back();
-					SoA<Args...>::pop_back();
-				}
-				void resize(size_type count)
-				{
-					this->_internal.resize(count);
-					SoA<Args...>::resize(count);
-				}
-				void resize(size_type count, const First & first, Args &&... args)
-				{
-					this->_internal.resize(count, first);
-					SoA<Args...>::resize(count, args...);
-				}
-				void swap(SoA<First, Args...> & other)
-				{
-					this->_internal.swap(other.getAll());
-					SoA<Args...>::swap(other);
-				}
+				iterator insert(const_iterator pos, const First & first, Args && ... args);
+				iterator insert(const_iterator pos, First && first, Args && ... args);
+				iterator insert(const_iterator pos, size_type count, const First & first, Args && ... args);
+				template <class InputIt> iterator insert(const_iterator pos, InputIt first, InputIt last);
+				iterator insert(const_iterator pos, std::tuple<std::initializer_list<First>, std::initializer_list<Args>...> ilist);
+				iterator emplace(const_iterator pos, First && first, Args&&... args);
+				iterator erase(const_iterator pos);
+				iterator erase(const_iterator first, const_iterator last);
+				void push_back(const First & first, Args &&... args);
+				void push_back(First && first, Args &&... args);
+				void emplace_back(First && first, Args &&... args);
+				void pop_back();
+				void resize(size_type count);
+				void resize(size_type count, const First & first, Args &&... args);
+				void swap(SoA<First, Args...> & other);
 
-				typename SoA::container & getAll() { return this->_internal; }
+				friend bool operator==(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+				friend bool operator!=(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+				friend bool operator<(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+				friend bool operator<=(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+				friend bool operator>(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+				friend bool operator>=(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+
+				friend void swap(SoA<First, Args...> & lhs, SoA<First, Args...> & rhs) noexcept(noexcept(lhs.swap(rhs)));
+
+				typename SoA::container & getAll();
 
 			protected:
 				container _internal;
 			};
+
+			template <class First, class... Args> bool operator==(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+			template <class First, class... Args> bool operator!=(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+			template <class First, class... Args> bool operator<(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+			template <class First, class... Args> bool operator<=(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+			template <class First, class... Args> bool operator>(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+			template <class First, class... Args> bool operator>=(const SoA<First, Args...> & lhs, const SoA<First, Args...> & rhs);
+
+			template <class First, class... Args> void swap(SoA<First, Args...> & lhs, SoA<First, Args...> & rhs) noexcept(noexcept(lhs.swap(rhs)));
 
 			template <class E>
 			class SoA<E>
@@ -202,73 +192,106 @@ namespace ece
 				using reverse_iterator = typename std::vector<E>::reverse_iterator;
 				using const_reverse_iterator = typename std::vector<E>::const_reverse_iterator;
 
-				SoA() noexcept = default;
-				SoA(const SoA<E> & rhs) noexcept = default;
-				SoA(SoA<E> && rhs) noexcept = default;
+				SoA() noexcept;
+				explicit SoA(const allocator_type & alloc) noexcept;
+				SoA(size_type count, const E & first);
+				explicit SoA(size_type count, const allocator_type & alloc = allocator_type());
+				template <class InputIt> inline SoA(InputIt first, InputIt last, const allocator_type & alloc = allocator_type());
+				SoA(const SoA<E> & other);
+				SoA(const SoA<E> & other, const allocator_type & alloc);
+				SoA(SoA<E> && other) noexcept;
+				SoA(SoA<E> && other, const allocator_type & alloc);
+				SoA(std::initializer_list<E> init, const allocator_type & alloc = allocator_type());
 
-				~SoA() noexcept = default;
+				~SoA() noexcept;
 
-				SoA<E> & operator=(const SoA<E> & rhs) noexcept = default;
-				SoA<E> & operator=(SoA<E> && rhs) noexcept = default;
+				SoA<E> & operator=(const SoA<E> & rhs);
+				SoA<E> & operator=(SoA<E> && rhs) noexcept;
+				SoA<E> & operator=(std::initializer_list<E> ilist);
 
-				void assign(size_type count, const E & first) { this->_internal.assign(count, first); }
+				void assign(size_type count, const E & first);
+				template <class InputIt> void assign(InputIt first, InputIt last);
+				void assign(std::initializer_list<E> ilist);
+				auto get_allocator() const;
 
-//				template<class InputIt> void assign(InputIt first, InputIt last);
-//				void assign(std::initializer_list<std::tuple<First, Args...>> ilist);
+				auto at(size_type index) -> reference;
+				auto at(size_type index) const -> const_reference;
 
-				auto get_allocator() const { return std::make_tuple(this->_internal.get_allocator()); }
+				auto operator[](size_type index) -> reference;
+				auto operator[](size_type index) const -> const_reference;
 
-				auto at(size_type index) { return std::tie(this->_internal.at(index)); }
-				auto operator[](size_type index) { return std::tie(this->_internal[index]); }
-				auto front() { return std::tie(this->_internal.front()); }
-				auto front() const { return std::make_tuple(this->_internal.front()); }
-				auto back() { return std::tie(this->_internal.back()); }
-				auto back() const { return std::make_tuple(this->_internal.back()); }
-				auto data() noexcept { return std::tie(this->_internal.data()); }
-				auto data() const noexcept { return std::make_tuple(this->_internal.data()); }
+				auto front() -> reference;
+				auto front() const -> const_reference;
 
-				auto begin() noexcept { return std::make_tuple(this->_internal.begin()); }
-				auto begin() const noexcept { return std::make_tuple(this->_internal.begin()); }
-				auto cbegin() const noexcept { return std::make_tuple(this->_internal.cbegin()); }
-				auto end() noexcept { return std::make_tuple(this->_internal.end()); }
-				auto end() const noexcept { return std::make_tuple(this->_internal.end()); }
-				auto cend() const noexcept { return std::make_tuple(this->_internal.cend()); }
-				auto rbegin() noexcept { return std::make_tuple(this->_internal.rbegin()); }
-				auto rbegin() const noexcept { return std::make_tuple(this->_internal.rbegin()); }
-				auto crbegin() const noexcept { return std::make_tuple(this->_internal.crbegin()); }
-				auto rend() noexcept { return std::make_tuple(this->_internal.rend()); }
-				auto rend() const noexcept { return std::make_tuple(this->_internal.rend()); }
-				auto crend() const noexcept { return std::make_tuple(this->_internal.crend()); }
+				auto back() -> reference;
+				auto back() const -> const_reference;
 
-				bool empty() const noexcept { return this->_internal.empty(); }
-				size_type size() const noexcept { return this->_internal.size(); }
-				size_type max_size() const noexcept { return this->_internal.max_size(); }
-				void reserve(size_type new_cap) { this->_internal.reserve(new_cap); }
-				size_type capacity() const noexcept { return this->_internal.capacity(); }
-				void shrink_to_fit() { this->_internal.shrink_to_fit(); }
+				auto data() noexcept -> pointer;
+				auto data() const noexcept -> const_pointer;
 
-				void clear() noexcept { this->_internal.clear(); }
-//				iterator insert(const_iterator pos, const T& value);
-//				iterator insert(const_iterator pos, T&& value);
-//				iterator insert(const_iterator pos, size_type count, const T& value);
-//				template <class InputIt> iterator insert(const_iterator pos, InputIt first, InputIt last);
-//				iterator insert(const_iterator pos, std::initializer_list<T> ilist);
-//				template <class... Args> iterator emplace(const_iterator pos, Args&&... args);
-//				iterator erase(const_iterator pos);
-//				iterator erase(const_iterator first, const_iterator last);
-				void push_back(const value_type & first) { this->_internal.push_back(first); }
-				void push_back(value_type && first) { this->_internal.push_back(std::move(first)); }
-				void emplace_back(value_type && first) { this->_internal.emplace_back(std::move(first)); }
-				void pop_back() { this->_internal.pop_back(); }
-				void resize(size_type count) { this->_internal.resize(count); }
-				void resize(size_type count, const value_type & value) { this->_internal.resize(count, value); }
-				void swap(SoA<E> & other) { this->_internal.swap(other.getAll()); }
+				auto begin() noexcept -> iterator;
+				auto begin() const noexcept->const_iterator;
+				auto cbegin() const noexcept->const_iterator;
 
-				typename SoA::container & getAll() { return this->_internal; }
+				auto end() noexcept -> iterator;
+				auto end() const noexcept -> const_iterator;
+				auto cend() const noexcept -> const_iterator;
+
+				auto rbegin() noexcept -> reverse_iterator;
+				auto rbegin() const noexcept -> const_reverse_iterator;
+				auto crbegin() const noexcept -> const_reverse_iterator;
+
+				auto rend() noexcept -> reverse_iterator;
+				auto rend() const noexcept -> const_reverse_iterator;
+				auto crend() const noexcept -> const_reverse_iterator;
+
+				bool empty() const noexcept;
+				size_type size() const noexcept;
+				size_type max_size() const noexcept;
+				void reserve(size_type new_cap);
+				size_type capacity() const noexcept;
+				void shrink_to_fit();
+
+				void clear() noexcept;
+				iterator insert(const_iterator pos, const E & first);
+				iterator insert(const_iterator pos, E && first);
+				iterator insert(const_iterator pos, size_type count, const E & first);
+				template <class InputIt> iterator insert(const_iterator pos, InputIt first, InputIt last);
+				iterator insert(const_iterator pos, std::initializer_list<E> ilist);
+				iterator emplace(const_iterator pos, E && first);
+				iterator erase(const_iterator pos);
+				iterator erase(const_iterator first, const_iterator last);
+				void push_back(const E & first);
+				void push_back(E && first);
+				void emplace_back(E && first);
+				void pop_back();
+				void resize(size_type count);
+				void resize(size_type count, const E & first);
+				void swap(SoA<E> & other);
+
+				friend bool operator==(const SoA<E> & lhs, const SoA<E> & rhs);
+				friend bool operator!=(const SoA<E> & lhs, const SoA<E> & rhs);
+				friend bool operator<(const SoA<E> & lhs, const SoA<E> & rhs);
+				friend bool operator<=(const SoA<E> & lhs, const SoA<E> & rhs);
+				friend bool operator>(const SoA<E> & lhs, const SoA<E> & rhs);
+				friend bool operator>=(const SoA<E> & lhs, const SoA<E> & rhs);
+
+				friend void swap(SoA<E> & lhs, SoA<E> & rhs) noexcept(noexcept(lhs.swap(rhs)));
+
+				typename SoA::container & getAll();
 
 			protected:
 				container _internal;
 			};
+
+			template <class E> bool operator==(const SoA<E> & lhs, const SoA<E> & rhs);
+			template <class E> bool operator!=(const SoA<E> & lhs, const SoA<E> & rhs);
+			template <class E> bool operator<(const SoA<E> & lhs, const SoA<E> & rhs);
+			template <class E> bool operator<=(const SoA<E> & lhs, const SoA<E> & rhs);
+			template <class E> bool operator>(const SoA<E> & lhs, const SoA<E> & rhs);
+			template <class E> bool operator>=(const SoA<E> & lhs, const SoA<E> & rhs);
+
+			template <class E> void swap(SoA<E> & lhs, SoA<E> & rhs) noexcept(noexcept(lhs.swap(rhs)));
 		} // namespace container
 	} // namespace utility
 } // namespace ece

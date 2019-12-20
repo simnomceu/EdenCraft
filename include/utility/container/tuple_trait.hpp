@@ -36,21 +36,31 @@
 
 */
 
-#ifndef CONTAINER_HPP
-#define CONTAINER_HPP
+#ifndef TUPLE_TRAIT_HPP
+#define TUPLE_TRAIT_HPP
 
-#include "utility/container/boolean_vector.hpp"
-#include "utility/container/container_data_type.hpp"
-#include "utility/container/container_method.hpp"
-#include "utility/container/container_type.hpp"
-#include "utility/container/contiguous_container.hpp"
-#include "utility/container/is_container.hpp"
-#include "utility/container/soa.hpp"
-#include "utility/container/tuple_trait.hpp"
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
-	using namespace utility::container;
+	namespace utility
+	{
+		namespace container
+		{
+			template <typename Tuple, size_t... Indices>
+			inline constexpr auto unshift_with_indices(const Tuple& tuple, std::index_sequence<Indices...> index_type)
+			{
+				return std::make_tuple(std::get<Indices + 1>(tuple)...);
+			}
+
+			template <typename T, typename... Ts>
+			inline constexpr auto unshift(const std::tuple<T, Ts...> & tuple) -> std::tuple<Ts...>
+			{
+				return unshift_tuple_with_indices(tuple, std::index_sequence_for<Ts...>());
+			}
+		}
+	}
 }
 
-#endif // CONTAINER_HPP
+#endif // TUPLE_TRAIT_HPP
