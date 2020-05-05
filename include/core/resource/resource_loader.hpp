@@ -41,7 +41,7 @@
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
-#include "core/resource/resource_ref.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -110,7 +110,7 @@ namespace ece
 				 * @brief Load and parse data from a file.
 				 * @throw
 				 */
-				ResourceRef loadFromFile(const std::filesystem::path & filename);
+				std::vector<ResourceHandler> loadFromFile(const std::filesystem::path & filename);
 
 				/**
 				 * @fn void loadFromString(const std::string & content)
@@ -118,7 +118,7 @@ namespace ece
 				 * @brief Load and parse data from a string.
 				 * @throw
 				 */
-				ResourceRef loadFromString(const std::string & identifier, const std::string & extension, const std::string & content);
+				std::vector<ResourceHandler> loadFromString(const std::string & identifier, const std::string & extension, const std::string & content);
 
 				/**
 				 * @fn void loadFromStream(std::istream & stream)
@@ -126,7 +126,7 @@ namespace ece
 				 * @brief Load and parse data through a stream.
 				 * @throw
 				 */
-				ResourceRef loadFromStream(const std::string & identifier, const std::string & extension, std::istream & stream);
+				std::vector<ResourceHandler> loadFromStream(const std::string & identifier, const std::string & extension, std::istream & stream);
 
 				/**
 				 * @fn void saveToFile(const std::filesystem::path & filename)
@@ -134,7 +134,7 @@ namespace ece
 				 * @brief Formate and save data into a file.
 				 * @throw
 				 */
-				void saveToFile(const std::filesystem::path & filename, ResourceRef resource);
+				void saveToFile(const std::filesystem::path & filename, const std::vector<ResourceHandler> & resources);
 
 				/**
 				 * @fn void saveToString(std::string & content)
@@ -142,7 +142,7 @@ namespace ece
 				 * @brief Formate and save data into a string buffer.
 				 * @throw
 				 */
-				void saveToString(std::string & content, ResourceRef resource, const std::string & extension);
+				void saveToString(std::string & content, const std::vector<ResourceHandler> & resources, const std::string & extension);
 
 				/**
 				 * @fn void saveToStream(const std::ostream & stream)
@@ -150,7 +150,7 @@ namespace ece
 				 * @brief Formate and save data through a stream.
 				 * @throw
 				 */
-				void saveToStream(std::ostream & stream, ResourceRef resource, const std::string & extension);
+				void saveToStream(std::ostream & stream, const std::vector<ResourceHandler> & resources, const std::string & extension);
 			};
 		} // namespace resource
 	} // namespace core

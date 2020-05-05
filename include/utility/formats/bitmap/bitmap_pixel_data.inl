@@ -52,7 +52,7 @@ namespace ece
 				BitmapPixelData::BitmapPixelData(std::vector<std::uint8_t>::size_type count, const T & value): std::vector<std::uint8_t>(count * sizeof(T), 0)
 				{
 					for (auto i = std::size_t{ 0 }; i < count; ++i) {
-						this->operator[](i) = value;
+						this->operator[]<T>(i) = value;
 					}
 				}
 
@@ -66,7 +66,7 @@ namespace ece
 				{
 					auto i = std::size_t{ 0 };
 					for (auto it = first; i != last; ++it) {
-						this->operator[](i) = *it;
+						this->operator[]<T>(i) = *it;
 						++i;
 					}
 				}
@@ -83,7 +83,7 @@ namespace ece
 				BitmapPixelData::BitmapPixelData(std::initializer_list<T> init) : std::vector<std::uint8_t>(init.size() * sizeof(T), 0)
 				{
 					for (auto i = std::size_t{ 0 }; i < init.size(); ++i) {
-						this->operator[](i) = init.begin() + i;
+						this->operator[]<T>(i) = init.begin() + i;
 					}
 				}
 
@@ -118,7 +118,7 @@ namespace ece
 				{
 					std::vector<std::uint8_t>::assign(count * sizeof(T), 0);
 					for (auto i = std::size_t{ 0 }; i < count; ++i) {
-						this->operator[](i) = value;
+						this->operator[]<T>(i) = value;
 					}
 				}
 
@@ -127,8 +127,8 @@ namespace ece
 				{
 					std::vector<std::uint8_t>::assign((last - first) * sizeof(T), 0);
 					auto i = std::size_t{ 0 };
-					for (auto it = first; i != last; ++it) {
-						this->operator[](i) = *it;
+					for (auto it = first; it != last; ++it) {
+						this->operator[]<T>(i) = *it;
 						++i;
 					}
 				}
@@ -140,7 +140,6 @@ namespace ece
 					for (auto it : ilist) {
 						this->push_back(*it);
 					}
-					return *this;
 				}
 
 				template <class T>
@@ -170,25 +169,25 @@ namespace ece
 				template <class T>
 				T & BitmapPixelData::front()
 				{
-					return this->operator[](0);
+					return this->operator[]<T>(0);
 				}
 
 				template <class T>
 				const T & BitmapPixelData::front() const
 				{
-					return this->operator[](0);
+					return this->operator[]<T>(0);
 				}
 
 				template <class T>
 				T & BitmapPixelData::back()
 				{
-					return this->operator[](this->size() - 1);
+					return this->operator[]<T>(this->size<T>() - 1);
 				}
 
 				template <class T>
 				const T & BitmapPixelData::back() const
 				{
-					return this->operator[](this->size() - 1);
+					return this->operator[]<T>(this->size<T>() - 1);
 				}
 
 				template <class T>
@@ -206,37 +205,37 @@ namespace ece
 				template <class T>
 				BitmapPixelData::iterator<T> BitmapPixelData::begin() noexcept
 				{
-					return BitmapPixelData::iterator<T>(&this->front(), this->data());
+					return BitmapPixelData::iterator<T>(&this->front<T>(), this->data<T>());
 				}
 
 				template <class T>
 				BitmapPixelData::const_iterator<T> BitmapPixelData::begin() const noexcept
 				{
-					return BitmapPixelData::const_iterator<T>(&this->front(), this->data());
+					return BitmapPixelData::const_iterator<T>(&this->front<T>(), this->data<T>());
 				}
 
 				template <class T>
 				BitmapPixelData::const_iterator<T> BitmapPixelData::cbegin() const noexcept
 				{
-					return BitmapPixelData::const_iterator<T>(&this->front(), this->data());
+					return BitmapPixelData::const_iterator<T>(&this->front<T>(), this->data<T>());
 				}
 
 				template <class T>
 				BitmapPixelData::iterator<T> BitmapPixelData::end() noexcept
 				{
-					return this->begin() + this->size();
+					return this->begin<T>() + this->size<T>();
 				}
 
 				template <class T>
 				BitmapPixelData::const_iterator<T> BitmapPixelData::end() const noexcept
 				{
-					return this->begin() + this->size();
+					return this->begin<T>() + this->size<T>();
 				}
 
 				template <class T>
 				BitmapPixelData::const_iterator<T> BitmapPixelData::cend() const noexcept
 				{
-					return this->cbegin() + this->size();
+					return this->cbegin<T>() + this->size<T>();
 				}
 
 				template <class T>
@@ -266,44 +265,44 @@ namespace ece
 				template <class T>
 				BitmapPixelData::iterator<T> BitmapPixelData::insert(BitmapPixelData::const_iterator<T> pos, const T & value)
 				{
-					auto shift = pos - this->begin();
-					std::vector<std::uint8_t>::insert(this->begin() + shift * sizeof(T), sizeof(T), 0);
-					this->operator[](shift) = value;
-					return this->begin() + shift;
+					auto shift = pos - this->begin<T>();
+					std::vector<std::uint8_t>::insert(this->begin<T>() + shift * sizeof(T), sizeof(T), 0);
+					this->operator[]<T>(shift) = value;
+					return this->begin<T>() + shift;
 				}
 
 				template <class T>
 				BitmapPixelData::iterator<T> BitmapPixelData::insert(BitmapPixelData::const_iterator<T> pos, T && value)
 				{
-					auto shift = pos - this->begin();
-					std::vector<std::uint8_t>::insert(this->begin() + shift * sizeof(T), sizeof(T), 0);
-					this->operator[](shift) = std::move(value);
-					return this->begin() + shift;
+					auto shift = pos - this->begin<T>();
+					std::vector<std::uint8_t>::insert(this->begin<T>() + shift * sizeof(T), sizeof(T), 0);
+					this->operator[]<T>(shift) = std::move(value);
+					return this->begin<T>() + shift;
 				}
 
 				template <class T>
 				BitmapPixelData::iterator<T> BitmapPixelData::insert(BitmapPixelData::const_iterator<T> pos, std::vector<std::uint8_t>::size_type count, const T & value)
 				{
-					auto shift = pos - this->begin();
-					std::vector<std::uint8_t>::insert(this->begin() + shift * sizeof(T), sizeof(T) * count, 0);
+					auto shift = pos - this->begin<T>();
+					std::vector<std::uint8_t>::insert(this->begin<T>() + shift * sizeof(T), sizeof(T) * count, 0);
 					for (auto i = std::size_t{ 0 }; i < count; ++i) {
-						this->operator[](shift + i) = value;
+						this->operator[]<T>(shift + i) = value;
 					}
-					return this->begin() + shift;
+					return this->begin<T>() + shift;
 				}
 
 				template <class T, class InputIt>
 				BitmapPixelData::iterator<T> BitmapPixelData::insert(BitmapPixelData::const_iterator<T> pos, InputIt first, InputIt last)
 				{
 					auto count = last - first;
-					auto shift = pos - this->begin();
-					std::vector<std::uint8_t>::insert(this->begin() + shift * sizeof(T), sizeof(T) * count, 0);
+					auto shift = pos - this->begin<T>();
+					std::vector<std::uint8_t>::insert(this->begin<T>() + shift * sizeof(T), sizeof(T) * count, 0);
 					auto i = std::size_t{ 0 };
 					for (auto it = first; it != last; ++it) {
-						this->operator[](shift + i) = *it;
+						this->operator[]<T>(shift + i) = *it;
 						++i;
 					}
-					return this->begin() + shift;
+					return this->begin<T>() + shift;
 				}
 
 				template <class T>
@@ -315,10 +314,10 @@ namespace ece
 				template<class T, class... Args>
 				BitmapPixelData::iterator<T> BitmapPixelData::emplace(BitmapPixelData::const_iterator<T> pos, Args && ... args)
 				{
-					auto shift = pos - this->begin();
-					std::vector<std::uint8_t>::insert(this->begin() + shift * sizeof(T), sizeof(T), 0);
-					this->operator[](shift) = T(args...);
-					return this->begin() + shift;
+					auto shift = pos - this->begin<T>();
+					std::vector<std::uint8_t>::insert(this->begin<T>() + shift * sizeof(T), sizeof(T), 0);
+					this->operator[]<T>(shift) = T(args...);
+					return this->begin<T>() + shift;
 				}
 
 				template <class T>
@@ -331,7 +330,7 @@ namespace ece
 				BitmapPixelData::iterator<T> BitmapPixelData::erase(BitmapPixelData::const_iterator<T> first, BitmapPixelData::const_iterator<T> last)
 				{
 					auto count = last - first;
-					return std::vector<std::uint8_t>::erase(pos, pos + count * sizeof(T));
+					return std::vector<std::uint8_t>::erase(first, first + count * sizeof(T));
 					
 				}
 
@@ -341,7 +340,7 @@ namespace ece
 					for (auto i = std::size_t{ 0 }; i < sizeof(T); ++i) {
 						std::vector<std::uint8_t>::push_back(0);
 					}
-					this->operator[](this->size() - 1) = value;
+					this->operator[]<T>(this->size<T>() - 1) = value;
 				}
 
 				template <class T>
@@ -350,7 +349,7 @@ namespace ece
 					for (auto i = std::size_t{ 0 }; i < sizeof(T); ++i) {
 						std::vector<std::uint8_t>::push_back(0);
 					}
-					this->operator[](this->size() - 1) = std::move(value);
+					this->operator[]<T>(this->size<T>() - 1) = std::move(value);
 				}
 
 				template <class T, class... Args>
@@ -359,7 +358,7 @@ namespace ece
 					for (auto i = std::size_t{ 0 }; i < sizeof(T); ++i) {
 						std::vector<std::uint8_t>::push_back(0);
 					}
-					this->operator[](this->size() - 1) = T(args...);
+					this->operator[]<T>(this->size<T>() - 1) = T(args...);
 				}
 				
 				template <class T>
@@ -380,8 +379,8 @@ namespace ece
 				void BitmapPixelData::resize(std::vector<std::uint8_t>::size_type count, const T & value)
 				{
 					std::vector<std::uint8_t>::resize(count * sizeof(T));
-					for (auto i = this->size() - 1; i >= this->size() - count; --i) {
-						this->operator[](i) = value;
+					for (auto i = this->size<T>() - 1; i >= this->size<T>() - count; --i) {
+						this->operator[]<T>(i) = value;
 					}
 				}
 

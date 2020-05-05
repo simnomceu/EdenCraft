@@ -100,7 +100,7 @@ void Render::update(float /*elapsedTime*/)
 {
 	auto objects = this->_scene.getObjects();
 	for (auto object : objects) {
-		this->_process->pushObject(*object);
+		this->_process->pushObject(object.content.lock());
 	}
 	auto & pipeline = this->_process->getPipeline();
 	auto program = pipeline.getProgram();

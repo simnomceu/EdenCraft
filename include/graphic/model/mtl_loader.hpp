@@ -106,7 +106,7 @@ namespace ece
 				 */
 				MTLLoader & operator=(MTLLoader && move) noexcept = default;
 
-				virtual ResourceRef load(StreamInfoIn info) override;
+				virtual std::vector<ResourceHandler> load(StreamInfoIn info) override;
 
 				virtual void save(StreamInfoOut info) override;
 			};

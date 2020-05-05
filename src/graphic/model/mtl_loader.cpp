@@ -50,51 +50,59 @@ namespace ece
 	{
 		namespace model
 		{
-			ResourceRef MTLLoader::load(StreamInfoIn info)
+			std::vector<ResourceHandler> MTLLoader::load(StreamInfoIn info)
 			{
 				auto parserMaterial = ParserMTL();
 				parserMaterial.load(info.stream);
-				auto material = parserMaterial.getMaterials()[0];
+				auto & materials = parserMaterial.getMaterials();
 
 				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
 
-				auto materialResource = makeResource<Material>(material.name);
-				auto materialVisitor = PhongMaterial();
-				materialVisitor.setMaterial(materialResource);
-				materialVisitor.initialize();
+				auto resources = std::vector<ResourceHandler>();
+				for (auto material : materials) {
+					auto materialResource = makeResource<Material>(material.name);
+					auto materialVisitor = PhongMaterial();
+					materialVisitor.setMaterial(materialResource);
+					materialVisitor.initialize();
 
-				materialVisitor.setAmbient(std::get<FloatVector3u>(material.ambient.value));
-				materialVisitor.setDiffuse(std::get<FloatVector3u>(material.diffuse.value));
-				materialVisitor.setSpecular(std::get<FloatVector3u>(material.specular.value));
-				materialVisitor.setShininess(material.specularExponent);
+					materialVisitor.setAmbient(std::get<FloatVector3u>(material.ambient.value));
+					materialVisitor.setDiffuse(std::get<FloatVector3u>(material.diffuse.value));
+					materialVisitor.setSpecular(std::get<FloatVector3u>(material.specular.value));
+					materialVisitor.setShininess(material.specularExponent);
 
-				if (!material.mapDiffuse.empty()) {
-					auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
-					if (diffuseMap->getData().empty()) {
-						diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
+					if (!material.mapDiffuse.empty()) {
+						auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
+
+						if (!diffuseMap->getData()) {
+							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
+						}
+						diffuseMap->bind(Texture::Target::TEXTURE_2D);
+						diffuseMap->generateMipmap();
+						materialVisitor.setDiffuseMap(diffuseMap);
 					}
-					diffuseMap->bind(Texture::Target::TEXTURE_2D);
-					diffuseMap->generateMipmap();
-					materialVisitor.setDiffuseMap(diffuseMap);
+
+					if (!material.mapSpecular.empty()) {
+						auto specularMap = makeResource<Texture2D>(material.mapSpecular);
+
+						if (!specularMap->getData()) {
+							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
+						}
+						specularMap->bind(Texture::Target::TEXTURE_2D);
+						specularMap->generateMipmap();
+						materialVisitor.setSpecularMap(specularMap);
+					}
+
+					resources.push_back(materialResource);
 				}
 
-				if (!material.mapSpecular.empty()) {
-					auto specularMap = makeResource<Texture2D>(material.mapSpecular);
-					if (specularMap->getData().empty()) {
-						specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
-					}
-					specularMap->bind(Texture::Target::TEXTURE_2D);
-					specularMap->generateMipmap();
-					materialVisitor.setSpecularMap(specularMap);
-				}
-
-				return materialResource;
+				return resources;
 			}
 
 			void MTLLoader::save(StreamInfoOut info)
 			{
 				auto parserMaterial = ParserMTL();
-				auto materialResource = info.resource.to<Material>();
+				for (auto & resource : info.resources) {
+				auto materialResource = resource.get<Material>();
 
 				auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
 
@@ -103,22 +111,23 @@ namespace ece
 				auto materialVisitor = PhongMaterial();
 				materialVisitor.setMaterial(materialResource);
 
-				material.name = materialResource.getIdentifier();
+				material.name = resource.getPath();
 
 				material.ambient.value = materialVisitor.getAmbient();
 				material.diffuse.value = materialVisitor.getDiffuse();
 				material.specular.value = materialVisitor.getSpecular();
 				material.specularExponent = materialVisitor.getShininess();
 
-				if (!materialVisitor.getDiffuseMap().isDirty()) {
-					materialVisitor.getDiffuseMap()->saveToFile(relativePath + materialResource.getIdentifier() + "_diffuse.bmp");
+				if (materialVisitor.getDiffuseMap()) {
+					materialVisitor.getDiffuseMap()->saveToFile(relativePath + resource.getPath() + "_diffuse.bmp");
 				}
 
-				if (!materialVisitor.getSpecularMap().isDirty()) {
-					materialVisitor.getSpecularMap()->saveToFile(relativePath + materialResource.getIdentifier() + "_specular.bmp");
+				if (materialVisitor.getSpecularMap()) {
+					materialVisitor.getSpecularMap()->saveToFile(relativePath + resource.getPath() + "_specular.bmp");
 				}
 
 				parserMaterial.save(info.stream);
+			}
 			}
 		}
 	}

@@ -44,7 +44,7 @@
 #include "utility/locale/locale_loader.hpp"
 #include "utility/locale/locale_resource.hpp"
 #include "utility/locale/localization.hpp"
-#include "utility/locale/resource_container.hpp"
+#include "utility/locale/locale_container.hpp"
 
 namespace ece
 {

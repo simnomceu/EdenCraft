@@ -60,7 +60,7 @@ namespace ece
 			class ECE_RENDERER_API Image : public Dynamic2DArray<E>
 			{
 			public:
-				using Reference = ResourceHandler<Image<E>>;
+				using Reference = Resource<Image<E>>;
 
 				/**
 				 * @fn constexpr Image() noexcept

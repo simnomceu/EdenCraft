@@ -69,7 +69,10 @@ namespace ece
 				this->_material->getProperty("specularMap")->enable(false);
 			}
 			
-			inline void PhongMaterial::setShininess(const float shininess) { *std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess")) = shininess; }
+			inline void PhongMaterial::setShininess(const float shininess)
+			{
+				*std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess")) = shininess;
+			}
 
 			inline void PhongMaterial::setDiffuseMap(const Texture2D::Reference & texture)
 			{
@@ -86,17 +89,35 @@ namespace ece
 				this->_material->getProperty("specular")->enable(false);
 			}
 
-			inline const auto & PhongMaterial::getAmbient() { return std::dynamic_pointer_cast<Ambient>(this->_material->getProperty("ambient"))->get(); }
+			inline const auto & PhongMaterial::getAmbient()
+			{
+				return std::dynamic_pointer_cast<Ambient>(this->_material->getProperty("ambient"))->get();
+			}
 			
-			inline const auto & PhongMaterial::getDiffuse() { return std::dynamic_pointer_cast<Diffuse>(this->_material->getProperty("diffuse"))->get(); }
+			inline const auto & PhongMaterial::getDiffuse()
+			{
+				return std::dynamic_pointer_cast<Diffuse>(this->_material->getProperty("diffuse"))->get();
+			}
 			
-			inline const auto & PhongMaterial::getSpecular() { return std::dynamic_pointer_cast<Specular>(this->_material->getProperty("specular"))->get(); }
+			inline const auto & PhongMaterial::getSpecular()
+			{
+				return std::dynamic_pointer_cast<Specular>(this->_material->getProperty("specular"))->get();
+			}
 			
-			inline auto PhongMaterial::getShininess() { return std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess"))->get(); }
+			inline auto PhongMaterial::getShininess()
+			{
+				return std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess"))->get();
+			}
 
-			inline auto PhongMaterial::getDiffuseMap() { return std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap"))->get(); }
+			inline auto PhongMaterial::getDiffuseMap()
+			{
+				return std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap"))->get();
+			}
 			
-			inline auto PhongMaterial::getSpecularMap() { return std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap"))->get(); }
+			inline auto PhongMaterial::getSpecularMap()
+			{
+				return std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap"))->get();
+			}
 		} // namespace material
 	} // namespace graphic
 } // namespace ece

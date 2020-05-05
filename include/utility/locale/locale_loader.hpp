@@ -43,7 +43,7 @@
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
 #include "utility/locale/localization.hpp"
-#include "utility/locale/resource_container.hpp"
+#include "utility/locale/locale_container.hpp"
 
 namespace ece
 {
@@ -152,7 +152,7 @@ namespace ece
         		 * @property _resource
         		 * @brief The resource loaded from the file.
         		 */
-        		ResourceContainer _resource;
+        		LocaleContainer _resource;
 
         		/**
         		 * @property _filename

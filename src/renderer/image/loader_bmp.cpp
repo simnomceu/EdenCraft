@@ -51,7 +51,7 @@ namespace ece
 		{
 			using utility::formats::bitmap::ParserBMP;
 
-			ResourceRef LoaderBMP::load(StreamInfoIn info)
+			std::vector<ResourceHandler> LoaderBMP::load(StreamInfoIn info)
 			{
 				auto parser = ParserBMP{};
 				parser.load(info.stream);
@@ -68,26 +68,28 @@ namespace ece
 					resourceImage.data()[i].a = 255;
 				}
 
-				return makeResource<Image<RGBA32>>(info.identifier, resourceImage);
+				return { makeResource<Image<RGBA32>>(info.identifier, resourceImage) };
 			}
 
 			void LoaderBMP::save(StreamInfoOut info)
 			{
-				auto resourceImage = *info.resource.to<Image<RGBA32>>();
+				for (auto & resource : info.resources) {
+					auto resourceImage = resource.get<Image<RGBA32>>();
 
-				auto parser = ParserBMP{};
+					auto parser = ParserBMP{};
 
-				auto & image = parser.getPixels();
-				image.resize(resourceImage->getWidth(), resourceImage->getHeight());
-				auto buffer = image.data();
+					auto & image = parser.getPixels();
+					image.resize(resourceImage->getWidth(), resourceImage->getHeight());
+					auto buffer = image.data();
 
-				for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
-					buffer[i][0] = resourceImage->data()[i].r;
-					buffer[i][1] = resourceImage->data()[i].g;
-					buffer[i][2] = resourceImage->data()[i].b;
+					for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
+						buffer[i][0] = resourceImage->data()[i].r;
+						buffer[i][1] = resourceImage->data()[i].g;
+						buffer[i][2] = resourceImage->data()[i].b;
+					}
+
+					parser.save(info.stream);
 				}
-
-				parser.save(info.stream);
 			}
 		} // namespace image
 	} // namespace renderer

@@ -1,22 +1,22 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                
-															 d8P'  `Y8b                               
-															888           .ooooo.  oooo d8b  .ooooo.  
-															888          d88' `88b `888""8P d88' `88b 
-															888          888   888  888     888ooo888 
-															`88b    ooo  888   888  888     888    .o 
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
-                                          
-                                          
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+
+
 
 				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -42,6 +42,7 @@
 #include "core/config.hpp"
 #include "core/pch.hpp"
 #include "core/resource/base_resource_container.hpp"
+#include "utility/indexing.hpp"
 
 namespace ece
 {
@@ -49,15 +50,12 @@ namespace ece
 	{
 		namespace resource
 		{
-			template <class Resource>
-			class ResourceHandler;
-
 			/**
 			 * @class ResourceContainer
 			 * @brief
 			 */
-			template <class Resource>
-			class ECE_CORE_API ResourceContainer: public BaseResourceContainer
+			template <class T>
+			class ECE_CORE_API ResourceContainer : public BaseResourceContainer
 			{
 			public:
 				/**
@@ -65,7 +63,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				constexpr ResourceContainer()= default;
+				inline constexpr ResourceContainer();
 
 				/**
 				 * @fn ResourceContainer(const ResourceContainer & copy) noexcept
@@ -108,20 +106,26 @@ namespace ece
 				 */
 				ResourceContainer & operator=(ResourceContainer && move) noexcept = default;
 
-				void add(const std::string & identifier, const std::shared_ptr<Resource> & resource);
-				void add(const std::vector<std::pair<std::string, std::shared_ptr<Resource>>> & resources);
+				void add(const std::string & path, const std::shared_ptr<T> & resource);
+				void add(const std::vector<std::pair<std::string, std::shared_ptr<T>>> & resources);
 
-				virtual void remove(const std::string & key) override;
-				virtual void remove(const std::vector<std::string> & keys) override;
+				virtual void remove(ece::size_t id) override;
+				virtual void remove(const std::vector<ece::size_t> & ids) override;
 
-				inline virtual void clear() override;
+				virtual void clear() override;
 
-				auto getResource(const std::string & key);
+				auto getResource(ece::size_t id) -> std::weak_ptr<T>;
+
+				auto isResourceLoaded(ece::size_t id) const -> bool override;
+
+				virtual auto getResourceId(const std::string & path) -> ece::size_t override;
 
 			private:
 				struct ResourceWrapper
 				{
-					std::shared_ptr<Resource> content;
+					ece::size_t id;
+					std::string path;
+					std::shared_ptr<T> content;
 
 					std::chrono::time_point<std::chrono::system_clock> created;
 					std::chrono::time_point<std::chrono::system_clock> lastAccess;
@@ -129,7 +133,8 @@ namespace ece
 					bool dirty;
 				};
 
-				std::unordered_map<std::string, ResourceWrapper> _resources;
+				std::unordered_map<ece::size_t, ResourceWrapper> _resources;
+				ece::UniqueID<ece::size_t> _ids;
 			};
 		} // namespace resource
 	} // namespace core

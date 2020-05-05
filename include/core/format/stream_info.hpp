@@ -41,7 +41,7 @@
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
-#include "core/resource/resource_ref.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -49,7 +49,7 @@ namespace ece
 	{
 		namespace format
 		{
-			using resource::ResourceRef;
+			using resource::ResourceHandler;
 
 			struct StreamInfoIn
 			{
@@ -63,7 +63,7 @@ namespace ece
 				std::ostream & stream;
 				std::string identifier;
 				std::string filename;
-				ResourceRef resource;
+				std::vector<ResourceHandler> resources;
 			};
 		} // namespace format
 	} // namespace core
