@@ -1,62 +1,62 @@
-#include "libpng/pch.hpp"
-#include "libpng/config.hpp"
+#include "libjpeg/pch.hpp"
+#include "libjpeg/config.hpp"
 
 namespace ece
 {
-	namespace libpng
+	namespace libjpeg
 	{
 		namespace loader
 		{
-			class ECE_LIBPNG_API LoaderPNG : public Loader, public Saver
+			class ECE_LIBJPEG_API LoaderJPEG : public Loader, public Saver
 			{
 			public:
 				/**
-				 * @fn LoaderPNG() noexcept
+				 * @fn LoaderJPEG() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				LoaderPNG() noexcept = default;
+				LoaderJPEG() noexcept = default;
 
 				/**
-				 * @fn LoaderPNG(const LoaderPNG & copy) noexcept
-				 * @param[in] copy The LoaderPNG to copy from.
+				 * @fn LoaderJPEG(const LoaderJPEG & copy) noexcept
+				 * @param[in] copy The LoaderJPEG to copy from.
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				LoaderPNG(const LoaderPNG & copy) noexcept = default;
+				LoaderJPEG(const LoaderJPEG & copy) noexcept = default;
 
 				/**
-				 * @fn LoaderPNG(LoaderPNG && move) noexcept
-				 * @param[in] move The LoaderPNG to move.
+				 * @fn LoaderJPEG(LoaderJPEG && move) noexcept
+				 * @param[in] move The LoaderJPEG to move.
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				LoaderPNG(LoaderPNG && move) noexcept = default;
+				LoaderJPEG(LoaderJPEG && move) noexcept = default;
 
 				/**
-				 * @fn ~LoaderPNG() noexcept
+				 * @fn ~LoaderJPEG() noexcept
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~LoaderPNG() noexcept = default;
+				~LoaderJPEG() noexcept = default;
 
 				/**
-				 * @fn LoaderPNG & operator=(const LoaderPNG & copy) noexcept
-				 * @param[in] copy The LoaderPNG to copy from.
-				 * @return The LoaderPNG copied.
+				 * @fn LoaderJPEG & operator=(const LoaderJPEG & copy) noexcept
+				 * @param[in] copy The LoaderJPEG to copy from.
+				 * @return The LoaderJPEG copied.
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				LoaderPNG & operator=(const LoaderPNG & copy) noexcept = default;
+				LoaderJPEG & operator=(const LoaderJPEG & copy) noexcept = default;
 
 				/**
-				 * @fn LoaderPNG & operator=(LoaderPNG && move) noexcept
-				 * @param[in] move The LoaderPNG to move.
-				 * @return The LoaderPNG moved.
+				 * @fn LoaderJPEG & operator=(LoaderJPEG && move) noexcept
+				 * @param[in] move The LoaderJPEG to move.
+				 * @return The LoaderJPEG moved.
 				 * @brief Default move assignment operator.
 				 * @throw noexcept
 				 */
-				LoaderPNG & operator=(LoaderPNG && move) noexcept = default;
+				LoaderJPEG & operator=(LoaderJPEG && move) noexcept = default;
 
 				/**
 				 * @fn void loadFromFile(const std::filesystem::path & filename)
@@ -77,5 +77,5 @@ namespace ece
 				virtual auto isBinary() const noexcept -> bool override { return true; }
 			};
 		} // namespace loader
-	} // namespace libpng
+	} // namespace libjpeg
 } // namespace ece
