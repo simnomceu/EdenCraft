@@ -183,8 +183,8 @@ namespace ece
 				using allocator_type = typename std::vector<E>::allocator_type;
 				using size_type = typename std::vector<E>::size_type;
 				using difference_type = typename std::vector<E>::difference_type;
-				using reference = typename std::vector<E>::reference;
-				using const_reference = typename std::vector<E>::const_reference;
+				using reference = typename std::tuple<E &>;
+				using const_reference = typename std::tuple<const E &>;
 				using pointer = typename std::vector<E>::pointer;
 				using const_pointer = typename std::vector<E>::const_pointer;
 				using iterator = typename std::vector<E>::iterator;

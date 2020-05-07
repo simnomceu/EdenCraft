@@ -98,6 +98,7 @@ namespace ece
 					this->_internal[0] = static_cast<char>(elem);
 					i++;
 				}
+				return *this;
 			}
 
 			inline void BooleanVector::assign(BooleanVector::size_type count, const bool & value)
@@ -134,7 +135,7 @@ namespace ece
 
 			inline BooleanVector::const_reference BooleanVector::at(BooleanVector::size_type pos) const
 			{
-				return static_cast<BooleanVector::const_reference>(this->_internal.at(pos));
+				return reinterpret_cast<BooleanVector::const_reference>(this->_internal.at(pos));
 			}
 
 			inline BooleanVector::reference BooleanVector::operator[](BooleanVector::size_type pos)
@@ -144,7 +145,7 @@ namespace ece
 
 			inline BooleanVector::const_reference BooleanVector::operator[](BooleanVector::size_type pos) const
 			{
-				return static_cast<BooleanVector::const_reference>(this->_internal[pos]);
+				return reinterpret_cast<BooleanVector::const_reference>(this->_internal[pos]);
 			}
 
 			inline BooleanVector::reference BooleanVector::front()
@@ -154,7 +155,7 @@ namespace ece
 
 			inline BooleanVector::const_reference BooleanVector::front() const
 			{
-				return static_cast<BooleanVector::const_reference>(this->_internal.front());
+				return reinterpret_cast<BooleanVector::const_reference>(this->_internal.front());
 			}
 
 			inline BooleanVector::reference BooleanVector::back()
@@ -164,7 +165,7 @@ namespace ece
 
 			inline BooleanVector::const_reference BooleanVector::back() const
 			{
-				return static_cast<BooleanVector::const_reference>(this->_internal.back());
+				return reinterpret_cast<BooleanVector::const_reference>(this->_internal.back());
 			}
 
 			inline bool* BooleanVector::data() noexcept
@@ -274,22 +275,22 @@ namespace ece
 
 			inline BooleanVector::iterator BooleanVector::insert(BooleanVector::const_iterator pos, const bool & value)
 			{
-				this->_internal.insert(pos, static_cast<char>(value));
+				return this->_internal.insert(pos, static_cast<char>(value));
 			}
 
 			inline BooleanVector::iterator BooleanVector::insert(BooleanVector::const_iterator pos, bool && value)
 			{
-				this->_internal.insert(pos, static_cast<char>(std::move(value)));
+				return this->_internal.insert(pos, static_cast<char>(std::move(value)));
 			}
 
 			inline BooleanVector::iterator BooleanVector::insert(BooleanVector::const_iterator pos, BooleanVector::size_type count, const bool & value)
 			{
-				this->_internal.insert(pos, count, static_cast<char>(value));
+				return this->_internal.insert(pos, count, static_cast<char>(value));
 			}
 
 			template <class InputIt> inline BooleanVector::iterator BooleanVector::insert(BooleanVector::const_iterator pos, InputIt first, InputIt last)
 			{
-				this->_internal.insert(pos, first, last);
+				return this->_internal.insert(pos, first, last);
 			}
 
 			inline BooleanVector::iterator BooleanVector::insert(BooleanVector::const_iterator pos, std::initializer_list<bool> ilist)
@@ -382,7 +383,7 @@ namespace ece
 				return lhs._internal >= rhs._internal;
 			}
 
-			inline void swap(BooleanVector & lhs, BooleanVector & rhs) noexcept(noexcept(lhs.swap(rhs)))
+			inline void swap(BooleanVector & lhs, BooleanVector & rhs) noexcept
 			{
 				std::swap(lhs._internal, rhs._internal);
 			}
