@@ -58,7 +58,6 @@ void Physic::update(float elapsedTime)
 	const auto limit = 1.0f / 200.0f;
 	this->_lastUpdate += elapsedTime;
 	if (this->_lastUpdate >= limit) {
-
 		auto forces = std::unordered_map<std::size_t, std::vector<ece::FloatVector2u>>{};
 		for (auto & motion : *this->_world.getTank<Motion>()) {
 			auto owner = motion.getOwner();
@@ -71,7 +70,7 @@ void Physic::update(float elapsedTime)
 
 				auto vertical = ((control.current & Action::JUMP) == Action::JUMP) || ((control.current & Action::SNEAK) == Action::SNEAK);
 				auto horizontal = ((control.current & Action::TO_LEFT) == Action::TO_LEFT) || ((control.current & Action::TO_RIGHT) == Action::TO_RIGHT);
-				auto factor = (vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f;
+				auto factor = ((vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f) * 2000.0f;
 
 				if ((control.current & Action::JUMP) == Action::JUMP) {
 					forces[owner].push_back({ 0.0f, motion.weight * 20.0f * factor * Physic::gravity });
@@ -130,6 +129,7 @@ void Physic::update(float elapsedTime)
 			if (motion.velocity[0] > -0.1f && motion.velocity[0] < 0.1f) {
 				motion.velocity[0] = 0.0f;
 			}
+
 		}
 
 		this->_lastUpdate = 0.0f;

@@ -63,14 +63,16 @@ public:
 	IntLoader & operator=(const IntLoader &) noexcept = default;
 	IntLoader & operator=(IntLoader &&) noexcept = default;
 
-	virtual ece::ResourceHandler load(ece::StreamInfoIn info) override
+	virtual std::vector<ece::ResourceHandler> load(ece::StreamInfoIn info) override
 	{
-		return ece::makeResource<Integer>(info.identifier);
+		return { ece::makeResource<Integer>(info.identifier) };
 	}
 
 	virtual void save(ece::StreamInfoOut info) override
 	{
-		info.resource.get<Integer>().content.reset();
+		for (auto & resource : info.resources) {
+			resource.get<Integer>().content.reset();
+		}
 	}
 };
 
@@ -90,7 +92,7 @@ int main()
 		ece::INFO << "Resource is: " << resource1->getValue() << ece::flush;
 
 		auto backup = std::string();
-		ece::ResourceLoader().saveToString(backup, resource1, "int");
+		ece::ResourceLoader().saveToString(backup, { resource1 }, "int");
 		ece::ServiceResourceLocator::getService().clear();
 
 		auto resource2 = ece::getResource<Integer>("random");

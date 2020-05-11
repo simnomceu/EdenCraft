@@ -104,7 +104,7 @@ public:
 
 private:
 	ece::EntityHandler _handle;
-	ece::ResourceHandler<ece::ParticlesEmitter> _emitter;
+	ece::Resource<ece::ParticlesEmitter> _emitter;
 };
 
 #endif // FIREFWORK_HPP

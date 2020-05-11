@@ -39,7 +39,7 @@
 #include "firework.hpp"
 #include "graphic_component.hpp"
 
-Firework::Firework(ece::World & world) : _handle(world.createEntity()), _emitter(ece::makeResource<ece::ParticlesEmitter>("ParticlesEmitter", 500))
+Firework::Firework(ece::World & world) : _handle(world.createEntity()), _emitter(ece::makeResource<ece::ParticlesEmitter>("ParticlesEmitter", 50))
 {
 	this->_emitter->prepare();
 

@@ -54,7 +54,7 @@ void Assets::loadTexture(const std::string & name, const std::string & path, con
 {
 	auto texture = ece::makeResource<ece::Texture2D>(name);
 
-	auto image = ece::ResourceLoader().loadFromFile(path).to<ece::Image<ece::RGBA32>>();
+	auto image = ece::ResourceLoader().loadFromFile(path)[0].get<ece::Image<ece::RGBA32>>();
 	image->setAlphaColor(alpha, [](const ece::RGBA32 & pixel, const ece::RGBA32 & mask) { return pixel.r == mask.r && pixel.g == mask.g && pixel.b == mask.b; });
 
 	texture->bind(ece::Texture::Target::TEXTURE_2D);
