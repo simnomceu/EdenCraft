@@ -69,7 +69,7 @@ namespace ece
         		return *this;
         	}
 
-        	File & File::operator=(File && move)
+        	File & File::operator=(File && move) noexcept
         	{
 				if (this != &move) {
 					this->_filename = std::move(move._filename);

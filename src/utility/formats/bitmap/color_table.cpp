@@ -86,7 +86,7 @@ namespace ece
 				{
 					if (std::holds_alternative<std::vector<BGR24>>(colorTable._colors)) {
 						auto & proxyTable = std::get<std::vector<BGR24>>(colorTable._colors);
-						stream.read(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * sizeof(BGR24));
+						stream.read(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * static_cast<std::uint64_t>(sizeof(BGR24)));
 
 						if (stream.fail() && stream.eof() && !stream.bad()) {
 							throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
@@ -94,7 +94,7 @@ namespace ece
 					}
 					else {
 						auto & proxyTable = std::get<std::vector<BGRA32>>(colorTable._colors);
-						stream.read(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * sizeof(BGRA32));
+						stream.read(reinterpret_cast<char *>(proxyTable.data()), proxyTable.size() * static_cast<std::uint64_t>(sizeof(BGRA32)));
 
 						if (stream.fail() && stream.eof() && !stream.bad()) {
 							throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
@@ -108,11 +108,11 @@ namespace ece
 				{
 					if (std::holds_alternative<std::vector<BGR24>>(colorTable._colors)) {
 						auto & proxyTable = std::get<std::vector<BGR24>>(colorTable._colors);
-						stream.write(reinterpret_cast<const char *>(proxyTable.data()), proxyTable.size() * sizeof(BGR24));
+						stream.write(reinterpret_cast<const char *>(proxyTable.data()), proxyTable.size() * static_cast<std::uint64_t>(sizeof(BGR24)));
 					}
 					else {
 						auto & proxyTable = std::get<std::vector<BGRA32>>(colorTable._colors);
-						stream.write(reinterpret_cast<const char *>(proxyTable.data()), proxyTable.size() * sizeof(BGRA32));
+						stream.write(reinterpret_cast<const char *>(proxyTable.data()), proxyTable.size() * static_cast<std::uint64_t>(sizeof(BGRA32)));
 					}
 
 					return stream;

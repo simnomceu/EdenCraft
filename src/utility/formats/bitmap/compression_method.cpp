@@ -292,19 +292,17 @@ namespace ece
 						mask = std::get<RGB24>(header.mask);
 					}
 					else {
-						mask = std::get<RGBA32>(header.mask);
+						auto tmp = std::get<RGBA32>(header.mask);
+						mask = { tmp.r, tmp.g, tmp.b };
 					}
-					auto redBitcount = bitcount(mask.r);
-					auto greenBitcount = bitcount(mask.g);
-					auto blueBitcount = bitcount(mask.b);
 
 					auto result = std::vector<std::uint8_t>();
 					auto it = compressed.begin();
 					for (auto i = std::int32_t{ 0 }; i < header.height; ++i) {
 						for (auto j = std::int32_t{ 0 }; j < header.width; ++j) {
-							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.r), redBitcount, 8)));
-							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.g), greenBitcount, 8)));
-							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.b), blueBitcount, 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.r), bitcount(mask.r), 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.g), bitcount(mask.g), 8)));
+							result.push_back(static_cast<std::uint8_t>(convertBitCount(bitMask(*it, mask.b), bitcount(mask.b), 8)));
 							++it;
 						}
 					}

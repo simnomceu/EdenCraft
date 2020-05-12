@@ -82,7 +82,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw
 				 */
-				Option(Option && move) = default;
+				Option(Option && move) noexcept = default;
 
 				/**
 				 * @fn ~Option() noexcept
@@ -107,7 +107,7 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw
 				 */
-				Option & operator=(Option && move) = default;
+				Option & operator=(Option && move) noexcept = default;
 
 				/**
 				 * @fn bool apply(const std::string & optionName, const std::string & optionValue)

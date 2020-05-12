@@ -50,11 +50,11 @@ namespace ece
 			{
 				void ParserOBJ::load(std::istream & stream)
 				{
-					char line[std::numeric_limits<short>::max()];
+					auto line = std::vector<char>(std::numeric_limits<short>::max());
 					StringStream lineStream("");
 					do {
-						stream.getline(line, std::numeric_limits<short>::max());
-						lineStream.str(line);
+						stream.getline(line.data(), std::numeric_limits<short>::max());
+						lineStream.str(line.data());
 						if (lineStream.str().size() >= 2) {
 							this->processLine(lineStream);
 						}
@@ -208,7 +208,7 @@ namespace ece
 						this->_currentObject->resetCurrentGroups();
 
 						std::string group;
-						line.get();
+						(void) line.get();
 						while (!line.eof()) {
 							line >> group;
 							this->_currentObject->addGroup(group);
@@ -218,7 +218,7 @@ namespace ece
 					break;
 					case 'm': // mtllib
 					{
-						line.get(5);
+						(void) line.get(5);
 						std::string materialFile;
 						line >> materialFile;
 						this->_scene.getMaterials().push_back(materialFile);
@@ -226,7 +226,7 @@ namespace ece
 					break;
 					case 'u': // usemtl
 					{
-						line.get(5);
+						(void) line.get(5);
 						std::string material;
 						line >> material;
 						this->_currentObject->setMaterial(material);

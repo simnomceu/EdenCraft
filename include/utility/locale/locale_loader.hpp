@@ -92,7 +92,7 @@ namespace ece
         		 * @brief Default move constructor.
         		 * @throw
         		 */
-        		LocaleLoader(LocaleLoader && move) = default;
+        		LocaleLoader(LocaleLoader && move) noexcept = default;
 
         		/**
         		 * @fn ~LocaleLoader()

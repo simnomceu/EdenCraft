@@ -109,7 +109,7 @@ namespace ece
 					if (this->_currentGroups.empty()) {
 						this->addGroup("default");
 					}
-					std::for_each(this->_currentGroups.begin(), this->_currentGroups.end(), [this, material](auto group) {
+					(void) std::for_each(this->_currentGroups.begin(), this->_currentGroups.end(), [this, material](auto group) {
 						this->_groups[group].material = material;
 					});
 				}

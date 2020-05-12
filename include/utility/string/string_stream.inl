@@ -136,7 +136,10 @@ namespace ece
 #pragma warning( push )
 #pragma warning( disable: 4996 )
 #endif
-				std::sscanf(&this->_data[this->_cursor], search.data(), args..., &count);
+				auto check = std::sscanf(&this->_data[this->_cursor], search.data(), args..., &count);
+				if (check != count) {
+					throw std::runtime_error("Error while trying to scan with StringStream");
+				}
 #ifdef _MSC_VER
 #pragma warning( pop )
 #endif

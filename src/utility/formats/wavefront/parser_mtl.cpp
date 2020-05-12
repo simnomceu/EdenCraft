@@ -49,11 +49,11 @@ namespace ece
 			{
 				void ParserMTL::load(std::istream & stream)
 				{
-					char line[std::numeric_limits<short>::max()];
+					auto line = std::vector<char>(std::numeric_limits<short>::max());
 					StringStream lineStream("");
 					do {
-						stream.getline(line, std::numeric_limits<short>::max(), '\n');
-						lineStream.str(line);
+						stream.getline(line.data(), std::numeric_limits<short>::max(), '\n');
+						lineStream.str(line.data());
 						this->processLine(lineStream);
 					} while (stream.good());
 				}
