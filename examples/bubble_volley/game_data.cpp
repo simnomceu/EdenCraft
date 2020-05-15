@@ -46,7 +46,7 @@
 #include "components/collision.hpp"
 
 GameData::GameData(ece::World & world) noexcept :
-	onSplashScreenEntered(), onPlayEntered(), _current(NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 },
+	onSplashScreenEntered(), onPlayEntered(), _current(State::NONE), _background(world.createEntity()), _scoreA{ world.createEntity(), 0 }, _scoreB{ world.createEntity(), 0 },
 	_playerA(world.createEntity()), _playerB(world.createEntity())
 {
 	{
@@ -70,7 +70,7 @@ GameData::GameData(ece::World & world) noexcept :
 		auto & bottomCollision = bottomWall.addComponent<Collision>();
 		bottomCollision.bounds = { 240.0f, -1.0f, 1440.0f, 1.0f };
 	}
-	this->setState(PLAY);
+	this->setState(State::PLAY);
 }
 
 void GameData::setState(const GameData::State state)
@@ -78,7 +78,7 @@ void GameData::setState(const GameData::State state)
 	this->_current = state;
 	switch (state)
 	{
-	case SPLASHSCREEN:
+	case State::SPLASHSCREEN:
 	{
 		{
 			auto sprite = ece::getResource<ece::Sprite>("background");
@@ -87,7 +87,7 @@ void GameData::setState(const GameData::State state)
 		this->onSplashScreenEntered();
 		break;
 	}
-	case PLAY:
+	case State::PLAY:
 	{
 		// Background entity
 		{
@@ -158,7 +158,7 @@ void GameData::setState(const GameData::State state)
 		this->onPlayEntered();
 		break;
 	}
-	case NONE:
+	case State::NONE:
 		break;
 	default:
 		break;

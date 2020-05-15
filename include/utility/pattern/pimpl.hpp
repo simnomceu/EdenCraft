@@ -72,7 +72,7 @@ namespace ece
         		 */
         		Pimpl() noexcept;
 
-				constexpr Pimpl(EmptyPimpl) noexcept {}
+				constexpr Pimpl(EmptyPimpl) noexcept: _impl(nullptr) {}
 
         		/**
         		 * @fn Pimpl(const Pimpl & copy)

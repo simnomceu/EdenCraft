@@ -87,8 +87,9 @@ namespace ece
 
 			auto WindowAdapter::getTitle() const -> std::string
 			{
-				auto title = LPSTR{ nullptr };
-				auto success = GetWindowTextA(this->_data->windowId, title, GetWindowTextLengthA(this->_data->windowId));
+				auto length = GetWindowTextLengthA(this->_data->windowId);
+				auto title = new char[length];
+				auto success = GetWindowTextA(this->_data->windowId, title, length);
 				if (!success) {
 					ERROR << "Erreur while getting window name. (WGL) Code " << GetLastError() << flush;
 				}

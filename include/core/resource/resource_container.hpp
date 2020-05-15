@@ -131,6 +131,10 @@ namespace ece
 					std::chrono::time_point<std::chrono::system_clock> lastAccess;
 
 					bool dirty;
+
+					ResourceWrapper() : id(), path(), content(), created(std::chrono::system_clock::now()), lastAccess(std::chrono::system_clock::now()), dirty(false) {}
+					ResourceWrapper(ece::size_t idIn, std::string pathIn, std::shared_ptr<T> contentIn, std::chrono::time_point<std::chrono::system_clock> createdIn, std::chrono::time_point<std::chrono::system_clock> lastAccessIn, bool dirtyIn):
+						id(idIn), path(pathIn), content(contentIn), created(createdIn), lastAccess(lastAccessIn), dirty(dirtyIn) {}
 				};
 
 				std::unordered_map<ece::size_t, ResourceWrapper> _resources;

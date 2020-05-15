@@ -71,28 +71,28 @@ namespace ece
         	template <std::size_t level>
         	bool Version<level>::operator<(const Version<level> & rhs) const noexcept
         	{
-        		auto instantResult = (*this)[0] < rhs[0];
-        		auto result = (*this)[0] <= rhs[0];
-				auto i = std::size_t{ 1 };
-        		while (i < this->size() && result && !instantResult) {
-        			instantResult = instantResult || ((*this)[i] < rhs[i]);
-        			result = result && ((*this)[i] <= rhs[i]);
+        		auto instantResult = true;
+        		auto result = true;
+				auto i = std::size_t{ 0 };
+        		do {
+        			instantResult = this->operator[](i) <= rhs[i];
+        			result = (*this)[i] <= rhs[i];
         			++i;
-        		}
+                } while (i < this->size() && result && !instantResult);
         		return instantResult && i <= this->size();
         	}
 
         	template <std::size_t level>
         	bool Version<level>::operator<=(const Version<level> & rhs) const noexcept
         	{
-        		auto instantResult = (*this)[0] < rhs[0];
-        		auto result = (*this)[0] <= rhs[0];
-				auto i = std::size_t{ 1 };
-        		while (i < this->size() && result && !instantResult) {
-        			instantResult = instantResult || ((*this)[i] < rhs[i]);
-        			result = result && ((*this)[i] <= rhs[i]);
+        		auto instantResult = true;
+        		auto result = true;
+				auto i = std::size_t{ 0 };
+        		do {
+        			instantResult = (*this)[i] < rhs[i];
+        			result = (*this)[i] <= rhs[i];
         			++i;
-        		}
+                } while (i < this->size() && result && !instantResult);
         		return (result || instantResult) && i <= this->size();
         	}
 

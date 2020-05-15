@@ -74,7 +74,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw
 				 */
-				ResourceManager(ResourceManager && move) = default;
+				ResourceManager(ResourceManager && move) noexcept = default;
 
 				/**
 				 * @fn ~ResourceManager() noexcept
