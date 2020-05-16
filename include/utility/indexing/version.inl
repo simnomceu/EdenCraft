@@ -71,14 +71,14 @@ namespace ece
         	template <std::size_t level>
         	bool Version<level>::operator<(const Version<level> & rhs) const noexcept
         	{
-        		auto instantResult = true;
+        		auto instantResult = false;
         		auto result = true;
 				auto i = std::size_t{ 0 };
-        		do {
-        			instantResult = this->operator[](i) <= rhs[i];
+                while (i < this->size() && i < rhs.size() && result && !instantResult) {
+        			instantResult = ((*this)[i] < rhs[i]);
         			result = (*this)[i] <= rhs[i];
         			++i;
-                } while (i < this->size() && result && !instantResult);
+                }
         		return instantResult && i <= this->size();
         	}
 
@@ -88,11 +88,11 @@ namespace ece
         		auto instantResult = true;
         		auto result = true;
 				auto i = std::size_t{ 0 };
-        		do {
+                while (i < this->size() && i < rhs.size() && result && !instantResult) {
         			instantResult = (*this)[i] < rhs[i];
         			result = (*this)[i] <= rhs[i];
         			++i;
-                } while (i < this->size() && result && !instantResult);
+                }
         		return (result || instantResult) && i <= this->size();
         	}
 

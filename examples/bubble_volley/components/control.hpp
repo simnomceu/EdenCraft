@@ -57,6 +57,8 @@ struct Control: public ece::Component<Control>
 {
 	std::unordered_map<ece::Keyboard::Key, Action> binding;
 	Action current;
+
+	Control(): binding(), current() {}
 };
 
 #endif // CONTROL_HPP
