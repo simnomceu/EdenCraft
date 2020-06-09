@@ -47,11 +47,11 @@ namespace ece
         {
         	auto UpdatePerSecond::isReadyToUpdate() -> bool
         	{
-        		auto elapsedTime = static_cast<float>(this->_chrono.getElapsedTime());
+        		auto elapsedTime = static_cast<double>(this->_chrono.getElapsedTime());
         		auto isReady = (elapsedTime >= this->_rate || this->_rate == 0);
         		if (isReady) {
         			this->_chrono.reset();
-        			this->_average = ((this->_average * this->_nbFrames) + elapsedTime) / (this->_nbFrames + 1);
+        			this->_average = ((this->_average * this->_nbFrames) + elapsedTime) / (static_cast<long long>(this->_nbFrames) + 1);
         			++this->_nbFrames;
         		}
         		return isReady;

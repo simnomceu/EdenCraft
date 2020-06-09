@@ -47,6 +47,11 @@ namespace ece
 				this->_chrono.start();
 			}
 
+			inline World::World(const World& copy) noexcept : onEntityCreated(copy.onEntityCreated), onComponentCreated(copy.onComponentCreated), _systems(copy._systems), _tanks(copy._tanks), 
+															_entities(copy._entities), _entityGenerator(copy._entityGenerator), _chrono(copy._chrono)
+			{
+			}
+
 			inline World::~World() noexcept {}
 
 			template <class ComponentType>

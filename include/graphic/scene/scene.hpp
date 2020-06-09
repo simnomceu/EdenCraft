@@ -142,6 +142,9 @@ namespace ece
 				{
 					Camera value;
 					bool hasChanged;
+
+					CameraWrapper(): value(), hasChanged() {}
+					CameraWrapper(Camera valueIn, bool hasChangedIn): value(valueIn), hasChanged(hasChangedIn) {}
 				};
 
 				struct ObjectWrapper

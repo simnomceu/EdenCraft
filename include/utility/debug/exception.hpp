@@ -124,7 +124,7 @@ namespace ece
         		auto mapString(const std::string & content, V value, Args... args) noexcept;
         	};
 
-			enum FileCodeError : unsigned short int
+			enum class FileCodeError : unsigned short int
 			{
 				BAD_PATH = 0,
 				PARSE_ERROR = 1

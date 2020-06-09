@@ -69,7 +69,7 @@ namespace ece
         		return *this;
         	}
 
-        	File & File::operator=(File && move)
+        	File & File::operator=(File && move) noexcept
         	{
 				if (this != &move) {
 					this->_filename = std::move(move._filename);
@@ -83,7 +83,7 @@ namespace ece
         	{
         		this->_stream.close();
         		if (!std::filesystem::is_regular_file(filename) && ((mode & OpenMode::out) != OpenMode::out)) {
-        			throw FileException(BAD_PATH, filename);
+        			throw FileException(FileCodeError::BAD_PATH, filename);
         		}
         		this->_filename = filename;
         		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
@@ -123,7 +123,7 @@ namespace ece
         				}
         			}
         			catch (std::exception & e) {
-        				throw FileException(PARSE_ERROR, this->_filename, e.what());
+        				throw FileException(FileCodeError::PARSE_ERROR, this->_filename, e.what());
         			}
         		}
         		return content;

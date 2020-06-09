@@ -55,6 +55,9 @@ namespace ece
 				std::string path;
 				std::weak_ptr<T> content;
 
+				Resource(): id(), path(), content() {}
+				Resource(ece::size_t idIn, std::string pathIn, std::weak_ptr<T> contentIn): id(idIn), path(pathIn), content(contentIn) {}
+
 				inline auto operator->() const noexcept -> T * { return this->content.lock().operator->(); }
 				inline auto operator*()  const noexcept -> T & { return this->content.lock().operator*(); }
 				

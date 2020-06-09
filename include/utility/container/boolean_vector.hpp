@@ -148,7 +148,7 @@ namespace ece
 				friend inline bool operator>(const BooleanVector & lhs, const BooleanVector & rhs);
 				friend inline bool operator>=(const BooleanVector & lhs, const BooleanVector & rhs);
 
-				friend void swap(BooleanVector & lhs, BooleanVector & rhs) noexcept(noexcept(lhs.swap(rhs)));
+				friend void swap(BooleanVector & lhs, BooleanVector & rhs) noexcept;
 			private:
 				std::vector<char> _internal;
 			};
@@ -160,7 +160,7 @@ namespace ece
 			inline bool operator>(const BooleanVector & lhs, const BooleanVector & rhs);
 			inline bool operator>=(const BooleanVector & lhs, const BooleanVector & rhs);
 
-			void swap(BooleanVector & lhs, BooleanVector & rhs) noexcept(noexcept(lhs.swap(rhs)));
+			void swap(BooleanVector & lhs, BooleanVector & rhs) noexcept;
 		} // namespace container
 	} // namespace utility
 } // namespace ece

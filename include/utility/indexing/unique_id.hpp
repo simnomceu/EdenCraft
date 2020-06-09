@@ -89,7 +89,7 @@ namespace ece
         		 * @brief Default move constructor.
         		 * @throw bad_alloc
         		 */
-        		UniqueID(UniqueID && move) = default;
+        		UniqueID(UniqueID && move) noexcept = default;
 
         		/**
         		 * @fn ~UniqueID()

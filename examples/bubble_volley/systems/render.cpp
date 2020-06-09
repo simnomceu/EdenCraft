@@ -96,7 +96,7 @@ void Render::update(float elapsedTime)
 {
     const auto limit = 1.0f / 200.f;
     this->_lastUpdate += elapsedTime;
-    if (this->_lastUpdate >= limit) {
+    if (true /*this->_lastUpdate >= limit*/) {
         for (auto & graphic : *this->_world.getTank<Graphic>()) {
             auto entity = graphic.getOwner();
             if (this->_world.hasComponent<Motion>(entity)) {
@@ -112,7 +112,7 @@ void Render::update(float elapsedTime)
     	this->_scene.sortObjects();
     	auto objects = this->_scene.getObjects();
     	for (auto object : objects) {
-    		this->_process->pushSprite(*object);
+    		this->_process->pushSprite(object.content.lock());
     	}
 
     	ece::Staging staging;

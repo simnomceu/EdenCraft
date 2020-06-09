@@ -99,7 +99,7 @@ namespace ece
 					throw std::runtime_error(filename.generic_string() + " has not been opened.");
 				}
 
-				saver->save({ file.getStream(), filename.stem().generic_string(), filename.generic_string(), std::move(resources) });
+				saver->save({ file.getStream(), filename.stem().generic_string(), filename.generic_string(), resources });
 			}
 
 			void ResourceLoader::saveToString(std::string & content, const std::vector<ResourceHandler> & resources, const std::string & extension)
@@ -107,13 +107,13 @@ namespace ece
 				auto stream = std::ostringstream(content);
 
 				auto saver = ServiceFormatLocator::getService().getSaver(extension);
-				saver->save({ stream, resources[0].getPath(), "", std::move(resources) });
+				saver->save({ stream, resources[0].getPath(), "", resources });
 			}
 
 			void ResourceLoader::saveToStream(std::ostream & stream, const std::vector<ResourceHandler> & resources, const std::string & extension)
 			{
 				auto saver = ServiceFormatLocator::getService().getSaver(extension);
-				saver->save({ stream, resources[0].getPath(), "", std::move(resources) });
+				saver->save({ stream, resources[0].getPath(), "", resources });
 			}
 		} // namespace resource
 	} // namespace core

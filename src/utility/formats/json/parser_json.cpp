@@ -74,9 +74,15 @@ namespace ece
 							else {
 								if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 									currentNode = std::static_pointer_cast<ObjectJSON>(currentNode)->addObject(currentKey);
+									if (!currentNode) {
+										throw std::runtime_error("Error while adding a child node to a JSON Node.");
+									}
 								}
 								else if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 									currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addObject();
+									if (!currentNode) {
+										throw std::runtime_error("Error while adding a child node to a JSON Node.");
+									}
 								}
 							}
 							currentKey = "";
@@ -91,9 +97,15 @@ namespace ece
 						case '[':
 							if (currentNode->getType() == NodeJSON::Type::OBJECT) {
 								currentNode = std::static_pointer_cast<ObjectJSON>(currentNode)->addArray(currentKey);
+								if (!currentNode) {
+									throw std::runtime_error("Error while adding a child node to a JSON Node.");
+								}
 							}
 							else if (currentNode->getType() == NodeJSON::Type::ARRAY) {
 								currentNode = std::static_pointer_cast<ArrayJSON>(currentNode)->addArray();
+								if (!currentNode) {
+									throw std::runtime_error("Error while adding a child node to a JSON Node.");
+								}
 							}
 							content = content.substr(1);
 							break;
@@ -110,10 +122,14 @@ namespace ece
 							}
 							else {
 								if (currentNode->getType() == NodeJSON::Type::OBJECT) {
-									std::static_pointer_cast<ObjectJSON>(currentNode)->addString(currentKey, content.substr(0, content.find_first_of('"')));
+									if (!std::static_pointer_cast<ObjectJSON>(currentNode)->addString(currentKey, content.substr(0, content.find_first_of('"')))) {
+										throw std::runtime_error("Error while adding a child node to a JSON Node.");
+									}
 								}
 								else if (currentNode->getType() == NodeJSON::Type::ARRAY) {
-									std::static_pointer_cast<ArrayJSON>(currentNode)->addString(content.substr(0, content.find_first_of('"')));
+									if (!std::static_pointer_cast<ArrayJSON>(currentNode)->addString(content.substr(0, content.find_first_of('"')))) {
+										throw std::runtime_error("Error while adding a child node to a JSON Node.");
+									}
 								}
 								content = content.substr(content.find_first_of('"') + 1);
 							}
@@ -138,19 +154,27 @@ namespace ece
 									auto integer = static_cast<int>(value);
 									content = content.substr(std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
-										std::static_pointer_cast<ArrayJSON>(currentNode)->addInteger(integer);
+										if (!std::static_pointer_cast<ArrayJSON>(currentNode)->addInteger(integer)) {
+											throw std::runtime_error("Error while adding a child node to a JSON Node.");
+										}
 									}
 									else if (currentNode->getType() == NodeJSON::Type::OBJECT) {
-										std::static_pointer_cast<ObjectJSON>(currentNode)->addInteger(currentKey, integer);
+										if (!std::static_pointer_cast<ObjectJSON>(currentNode)->addInteger(currentKey, integer)) {
+											throw std::runtime_error("Error while adding a child node to a JSON Node.");
+										}
 									}
 								}
 								else {
 									content = content.substr(std::min({ content.find_first_of(','), content.find_first_of(']'), content.find_first_of('}') }));
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
-										std::static_pointer_cast<ArrayJSON>(currentNode)->addDouble(value);
+										if (!std::static_pointer_cast<ArrayJSON>(currentNode)->addDouble(value)) {
+											throw std::runtime_error("Error while adding a child node to a JSON Node.");
+										}
 									}
 									else if (currentNode->getType() == NodeJSON::Type::OBJECT) {
-										std::static_pointer_cast<ObjectJSON>(currentNode)->addDouble(currentKey, value);
+										if (!std::static_pointer_cast<ObjectJSON>(currentNode)->addDouble(currentKey, value)) {
+											throw std::runtime_error("Error while adding a child node to a JSON Node.");
+										}
 									}
 								}
 							}
@@ -158,18 +182,26 @@ namespace ece
 								if (key == 't' || key == 'f') {
 									auto value = (key == 't');
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
-										std::static_pointer_cast<ArrayJSON>(currentNode)->addBoolean(value);
+										if (!std::static_pointer_cast<ArrayJSON>(currentNode)->addBoolean(value)) {
+											throw std::runtime_error("Error while adding a child node to a JSON Node.");
+										}
 									}
 									else if (currentNode->getType() == NodeJSON::Type::OBJECT) {
-										std::static_pointer_cast<ObjectJSON>(currentNode)->addBoolean(currentKey, value);
+										if (!std::static_pointer_cast<ObjectJSON>(currentNode)->addBoolean(currentKey, value)) {
+											throw std::runtime_error("Error while adding a child node to a JSON Node.");
+										}
 									}
 								}
 								else if (key == 'n') {
 									if (currentNode->getType() == NodeJSON::Type::ARRAY) {
-										std::static_pointer_cast<ArrayJSON>(currentNode)->addNull();
+										if (!std::static_pointer_cast<ArrayJSON>(currentNode)->addNull()) {
+											throw std::runtime_error("Error while adding a child node to a JSON Node.");
+										}
 									}
 									else if (currentNode->getType() == NodeJSON::Type::OBJECT) {
-										std::static_pointer_cast<ObjectJSON>(currentNode)->addNull(currentKey);
+										if (!std::static_pointer_cast<ObjectJSON>(currentNode)->addNull(currentKey)) {
+											throw std::runtime_error("Error while adding a child node to a JSON Node.");
+										}
 									}
 								}
 								content = content.substr(4);

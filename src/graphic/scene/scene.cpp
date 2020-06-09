@@ -85,9 +85,24 @@ namespace ece
 
 			void Scene::sortObjects()
 			{
-			/*	std::sort(this->_objects.begin(), this->_objects.end(), [](auto & a, auto & b) -> bool {
-					return ObjectWrapper(a).level <= ObjectWrapper(b).level;
-				});*/
+				auto unsorted = true;
+				for (auto i = std::size_t{ 0 }; i < this->_objects.size() && unsorted; ++i) {
+					unsorted = false;
+					for (auto j = std::size_t{ 1 }; j < this->_objects.size() - i; ++j) {
+						if (ObjectWrapper{ this->_objects[i] }.level <= ObjectWrapper{ this->_objects[j] }.level) {
+							auto & values = this->_objects.getRenderables();
+							std::swap(values[i], values[j]);
+
+							auto & changes = this->_objects.hasChanged();
+							std::swap(changes[i], changes[j]);
+
+							auto & levels = this->_objects.getLevels();
+							std::swap(levels[i], levels[j]);
+
+							unsorted = true;
+						}
+					}
+				}
 			}
 		} // namespace scene
 	} // namespace graphic

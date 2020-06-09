@@ -61,7 +61,7 @@ namespace ece
 
 			auto perspective(const float FOV, const float ratio, const float nearClipping, const float farClipping) -> FloatMatrix4u
 			{
-				const auto tanFOV = static_cast<float>(std::tan(FOV * 0.5f * PI / 180.0f));
+				const auto tanFOV = static_cast<float>(std::tan(static_cast<double>(FOV) * 0.5 * PI / 180.0));
 				const auto rangeClipping = nearClipping - farClipping;
 
 				return FloatMatrix4u{ 1.0f / (tanFOV * ratio), 0.0f, 0.0f, 0.0f,

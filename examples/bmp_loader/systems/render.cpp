@@ -98,7 +98,7 @@ void Render::update(float elapsedTime)
     	this->_scene.sortObjects();
     	auto objects = this->_scene.getObjects();
     	for (auto object : objects) {
-    		this->_process->pushSprite(*object);
+    		this->_process->pushSprite(object.content.lock());
     	}
 
     	ece::Staging staging;

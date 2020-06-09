@@ -53,10 +53,10 @@ namespace ece
         	FileException::FileException(const FileCodeError codeError, const std::filesystem::path & filename) : Exception()
         	{
         		switch (codeError) {
-        		case BAD_PATH:
+        		case FileCodeError::BAD_PATH:
         			this->setMessage("Code %. This file doesn't exist: %.", (int)codeError, filename.string());
         			break;
-        		case PARSE_ERROR:
+        		case FileCodeError::PARSE_ERROR:
         			this->setMessage("Code %. Error while trying to parse %. Check the content format.", (int)codeError, filename.string());
         			break;
         		default:
@@ -68,10 +68,10 @@ namespace ece
 			FileException::FileException(const FileCodeError codeError, const std::filesystem::path & filename, const std::string & details) : Exception()
 			{
 				switch (codeError) {
-				case BAD_PATH:
+				case FileCodeError::BAD_PATH:
 					this->setMessage("Code %. This file doesn't exist: %. (%)", (int)codeError, filename.string(), details);
 					break;
-				case PARSE_ERROR:
+				case FileCodeError::PARSE_ERROR:
 					this->setMessage("Code %. Error while trying to parse %. Check the content format. (%)", (int)codeError, filename.string(), details);
 					break;
 				default:

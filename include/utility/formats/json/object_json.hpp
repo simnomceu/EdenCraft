@@ -93,7 +93,7 @@ namespace ece
 					 * @brief Default move constructor.
 					 * @throw
 					 */
-					ObjectJSON(ObjectJSON && move) = default;
+					ObjectJSON(ObjectJSON && move) noexcept = default;
 
 					/**
 					 * @fn ~ObjectJSON()

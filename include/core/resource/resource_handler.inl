@@ -44,6 +44,8 @@ namespace ece
 	{
 		namespace resource
 		{
+			inline ResourceHandler::ResourceHandler() noexcept : _id(), _typeId(), _path() {}
+
 			template <class T>
 			inline ResourceHandler::ResourceHandler(const Resource<T> & resource) noexcept : _id(resource.id), _typeId(typeid(T).hash_code()), _path(resource.path) {}
 

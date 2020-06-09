@@ -53,7 +53,7 @@ namespace ece
 			}
 
 			template <class T>
-			inline Borned<T>::Borned(Borned<T> && move) : value(std::move(move.value)), lowerBound(std::move(move.lowerBound)), upperBound(std::move(move.upperBound))
+			inline Borned<T>::Borned(Borned<T> && move) noexcept : value(std::move(move.value)), lowerBound(std::move(move.lowerBound)), upperBound(std::move(move.upperBound))
 			{
 			}
 
@@ -95,7 +95,7 @@ namespace ece
 			{
 			}
 
-			inline Percentage::Percentage(Percentage && move) : Borned<float>(move)
+			inline Percentage::Percentage(Percentage && move) noexcept : Borned<float>(move)
 			{
 			}
 
@@ -109,7 +109,7 @@ namespace ece
 				return *this;
 			}
 
-			inline Percentage & Percentage::operator=(Percentage && move)
+			inline Percentage & Percentage::operator=(Percentage && move) noexcept
 			{
 				this->value = std::move(move.value);
 				return *this;

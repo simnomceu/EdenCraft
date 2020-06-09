@@ -62,7 +62,7 @@ namespace ece
 				template <class T> inline ResourceHandler(const Resource<T> & resource) noexcept;
 				inline ResourceHandler(ece::size_t id, std::size_t typeId, const std::string & path) noexcept;
 
-				ResourceHandler() noexcept = default;
+				inline ResourceHandler() noexcept;
 
 				/**
 				 * @fn ResourceHandler(const ResourceHandler & copy) noexcept

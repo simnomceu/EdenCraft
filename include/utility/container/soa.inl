@@ -626,7 +626,7 @@ namespace ece
 			template <class E>
 			auto SoA<E>::operator[](SoA<E>::size_type index) -> reference
 			{
-				return std::make_tuple(this->_internal[index]);
+				return std::tie(this->_internal[index]);
 			}
 
 			template <class E>

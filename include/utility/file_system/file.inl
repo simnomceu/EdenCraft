@@ -51,7 +51,7 @@ namespace ece
         		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
         	}
 
-        	inline File::File(File && move): _filename(std::move(move._filename)), _stream(std::move(move._stream))
+        	inline File::File(File && move) noexcept : _filename(std::move(move._filename)), _stream(std::move(move._stream))
         	{
         		move.close();
         	}
