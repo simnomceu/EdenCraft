@@ -55,7 +55,7 @@ namespace ece
 			auto ServiceLocator<log::Logger, log::Logger>::getService() -> log::Logger &
 			{
 				if (ServiceLocator<log::Logger, log::Logger>::_service.get() == nullptr) {
-					throw MemoryAccessException("A service.");
+					throw std::runtime_error("Bad access to a service from ServiceLoggerLocator. The pointer has expired.");
 				}
 				return *ServiceLocator<log::Logger, log::Logger>::_service;
 			}

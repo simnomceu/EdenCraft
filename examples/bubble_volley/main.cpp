@@ -65,7 +65,7 @@ int main()
 		world.addSystem<Physic>();
 		world.addSystem<Render>();
 
-		app.onPostInit.connect([&window, &gameSystem]() {
+		app.onPostInit.connect([&gameSystem]() {
 			Assets::loadAssets();
 
 			gameSystem->initGame();
@@ -121,7 +121,7 @@ std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app
 	window.lock()->updateContext();
 	window.lock()->setSettings(settings);
 	window.lock()->maximize();
-	window.lock()->limitUPS(100000);
+	window.lock()->limitUPS(60);
 
 	return std::move(window);
 }

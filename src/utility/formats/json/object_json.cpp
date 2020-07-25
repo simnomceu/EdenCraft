@@ -90,6 +90,22 @@ namespace ece
 					this->_children[key] = std::make_shared<ArrayJSON>(this->shared_from_this());
 					return this->_children[key];
 				}
+
+				auto ObjectJSON::to_string() const noexcept -> std::string
+				{
+					auto string = std::string("{");
+					for (auto & [key, value] : this->_children) {
+						string += '"' + key + '"' + ':';
+						string += value->to_string();
+						string += ',';
+					}
+					if (string.back() == ',') {
+						string.pop_back();
+					}
+					string += '}';
+
+					return string;
+				}
 			} // namespace json
 		} // namespace formats
     } // namespace utility

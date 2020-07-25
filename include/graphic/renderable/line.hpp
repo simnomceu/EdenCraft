@@ -59,7 +59,7 @@ namespace ece
 			class ECE_GRAPHIC_API Line : public Renderable
 			{
 			public:
-				using LineReference = ResourceHandler<Line>;
+				using Reference = Resource<Line>;
 
 				/**
 				 * @fn constexpr Line() noexcept

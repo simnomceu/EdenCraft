@@ -42,7 +42,8 @@
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
 #include "utility/file_system.hpp"
-#include "utility/indexing.hpp"
+#include "utility/types.hpp"
+#include "utility/formats/bitmap/bitmap_image.hpp"
 
 namespace ece
 {
@@ -145,38 +146,7 @@ namespace ece
 					inline auto getPixels() const noexcept;
 
 				private:
-					/**
-					 * @struct BMPHeader
-					 * @brief The header of a BMP file according to the file format specification.
-					 */
-					struct BMPHeader
-					{
-						std::array<uint8_t, 2> magic;
-						uint32_t size;
-						uint32_t reserved;
-						uint32_t pixelsOffset;
-					};
-
-					/**
-					 * @struct BMPDIB
-					 * @brief The internal data about the image, according to the file format specification.
-					 */
-					struct BMPDIB
-					{
-						uint32_t size;
-						uint32_t width;
-						uint32_t height;
-						uint16_t planes;
-						uint16_t bpp;
-						uint32_t compression;
-						uint32_t imageSize;
-						uint32_t xPixelPerMeter;
-						uint32_t yPixelPerMeter;
-						uint32_t nbColors;
-						uint32_t nbMajorColors;
-					};
-
-					Dynamic2DArray<std::array<std::byte, 3>> _pixels;
+					BitmapImage _bitmap;
 				};
 			} // namespace bitmap
 		} // namespace formats

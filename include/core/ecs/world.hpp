@@ -90,7 +90,7 @@ namespace ece
 				 * @brief Default copy constructor.
 				 * @throw noexcept
 				 */
-				World(const World & copy) noexcept = delete;
+				inline World(const World & copy) noexcept;
 
 				/**
 				 * @fn World(World && move) noexcept
@@ -98,7 +98,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				World(World && move) = default;
+				World(World && move) noexcept = default;
 
 				/**
 				 * @fn ~World() noexcept
@@ -114,7 +114,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				World & operator=(const World & copy) noexcept = delete;
+				World & operator=(const World & copy) noexcept = default;
 
 				/**
 				 * @fn World & operator=(World && move) noexcept

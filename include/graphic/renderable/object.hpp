@@ -61,7 +61,7 @@ namespace ece
 			class ECE_GRAPHIC_API Object: public Renderable
 			{
 			public:
-				using Reference = ResourceHandler<Object>;
+				using Reference = Resource<Object>;
 
 				/**
 				 * @fn Object() noexcept

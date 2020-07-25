@@ -52,6 +52,8 @@ struct Motion: public ece::Component<Motion>
 
     float angle;
     float angularVelocity;
+
+	Motion(): position(), velocity(), weight(), angle(), angularVelocity() {}
 };
 
 #endif // MOTION_HPP

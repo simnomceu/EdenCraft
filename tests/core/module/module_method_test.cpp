@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/module/module_method.hpp"
+#include "core/module.hpp"
 
 SCENARIO("ModuleMethod", "[Core][Module]")
 {

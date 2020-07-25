@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/locale/resource_container.hpp"
+#include "utility/locale.hpp"
 
 SCENARIO("ResourceContainer", "[Utility][Locale]")
 {

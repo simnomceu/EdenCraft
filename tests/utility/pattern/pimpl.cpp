@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/pattern/pimpl.hpp"
+#include "utility/pattern.hpp"
 
 SCENARIO("Pimpl", "[Utility][Mathematics]")
 {

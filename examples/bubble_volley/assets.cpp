@@ -41,7 +41,7 @@
 #include "assets.hpp"
 
 #include "core/resource.hpp"
-#include "core/format.hpp"
+#include "renderer/image.hpp"
 
 void Assets::loadTexture(const std::string & name, const std::string & path)
 {
@@ -54,11 +54,8 @@ void Assets::loadTexture(const std::string & name, const std::string & path, con
 {
 	auto texture = ece::makeResource<ece::Texture2D>(name);
 
-	auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderImage>(path);
-	loader->loadFromFile(path);
-
-	auto & image = loader->getImage();
-	image.setAlphaColor(alpha, [](const ece::RGBA32 & pixel, const ece::RGBA32 & mask) { return pixel.red == mask.red && pixel.green == mask.green && pixel.blue == mask.blue; });
+	auto image = ece::ResourceLoader().loadFromFile(path)[0].get<ece::Image<ece::RGBA32>>();
+	image->setAlphaColor(alpha, [](const ece::RGBA32 & pixel, const ece::RGBA32 & mask) { return pixel.r == mask.r && pixel.g == mask.g && pixel.b == mask.b; });
 
 	texture->bind(ece::Texture::Target::TEXTURE_2D);
 	texture->loadFromImage(ece::Texture::TypeTarget::TEXTURE_2D, image);

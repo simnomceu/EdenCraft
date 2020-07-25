@@ -39,6 +39,7 @@
 #ifndef SERVICE_LOGGER_HPP
 #define SERVICE_LOGGER_HPP
 
+#include "utility/pch.hpp"
 #include "utility/config.hpp"
 #include "utility/service.hpp"
 #include "utility/log/logger.hpp"
@@ -65,7 +66,7 @@ namespace ece
 				static auto build() -> std::shared_ptr<log::Logger>
 				{
 					if constexpr (!std::is_base_of<log::Logger, Derived>()) {
-						throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
+						throw std::runtime_error("This class cannot be instantiate as the service wished. Check again.");
 					}
 					return std::make_shared<Derived>();
 				}
@@ -108,7 +109,7 @@ namespace ece
 				*/
 				static std::shared_ptr<log::Logger> _service;
 			};
-		}
+		} // namespace service
 
         namespace log
         {
@@ -131,4 +132,4 @@ namespace ece
     } // namespace utility
 } // namespace ece
 
-#endif
+#endif // SERVICE_LOGGER_HPP

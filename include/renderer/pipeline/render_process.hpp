@@ -88,7 +88,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~RenderProcess() noexcept = default;
+				virtual ~RenderProcess() noexcept = 0;
 
 				/**
 				 * @fn RenderProcess & operator=(const RenderProcess & copy) noexcept

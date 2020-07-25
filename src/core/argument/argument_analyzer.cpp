@@ -67,6 +67,13 @@ namespace ece
 
 			void ArgumentAnalyzer::analyze()
 			{
+				auto mandatories = std::unordered_map<std::string, bool>();
+				for (auto option : this->_options) {
+					if (!option.isOptional()) {
+						mandatories.emplace(std::make_pair(option.getName(), false));
+					}
+				}
+
 				for (auto & [first, second] : this->_parameters) {
 					auto analyzed = false;
 					auto option = this->_options.begin();
@@ -77,6 +84,19 @@ namespace ece
 					if (option == this->_options.end() && !analyzed) {
 						throw std::runtime_error("Unknown argument: " + first);
 					}
+
+					--option;
+					if (analyzed && !option->isOptional()) {
+						mandatories[option->getName()] = true;
+					}
+				}
+
+				auto checked = true;
+				for (auto[name, state] : mandatories) {
+					checked &= state;
+				}
+				if (!checked) {
+					throw std::runtime_error("Not all arguments have been provided.");
 				}
 			}
 		} // namespace argument

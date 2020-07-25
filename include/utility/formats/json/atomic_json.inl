@@ -52,19 +52,19 @@ namespace ece
 				inline auto AtomicJSON<T>::isAtomic() const noexcept -> bool { return true; }
 
 				template<class T>
-				inline auto AtomicJSON<T>::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::NULL_JSON; }
+				inline auto AtomicJSON<T>::getType() const noexcept -> NodeJSON::Type { return NodeJSON::Type::NULL_JSON; }
 
 				template<>
-				inline auto BooleanJSON::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::BOOLEAN_JSON; }
+				inline auto BooleanJSON::getType() const noexcept ->NodeJSON::Type { return NodeJSON::Type::BOOLEAN; }
 
 				template<>
-				inline auto IntegerJSON::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::INTEGER_JSON; }
+				inline auto IntegerJSON::getType() const noexcept ->NodeJSON::Type { return NodeJSON::Type::INTEGER; }
 
 				template<>
-				inline auto DoubleJSON::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::DOUBLE_JSON; }
+				inline auto DoubleJSON::getType() const noexcept ->NodeJSON::Type { return NodeJSON::Type::DOUBLE; }
 
 				template<>
-				inline auto StringJSON::getType() const noexcept ->TypeNodeJSON { return TypeNodeJSON::STRING_JSON; }
+				inline auto StringJSON::getType() const noexcept -> NodeJSON::Type { return NodeJSON::Type::STRING; }
 
 				template<class T>
 				inline auto AtomicJSON<T>::getValue() const { return this->_value; }
@@ -74,6 +74,21 @@ namespace ece
 
 				template<class T>
 				inline auto AtomicJSON<T>::getKey() const { return this->_key; }
+
+				template <class T>
+				inline auto AtomicJSON<T>::to_string() const noexcept -> std::string { return ""; }
+
+				template <>
+				inline auto BooleanJSON::to_string() const noexcept -> std::string { return (this->_value) ? "true" : "false"; }
+
+				template <>
+				inline auto IntegerJSON::to_string() const noexcept -> std::string { return std::to_string(this->_value); }
+
+				template <>
+				inline auto DoubleJSON::to_string() const noexcept -> std::string { return std::to_string(this->_value); }
+
+				template <>
+				inline auto StringJSON::to_string() const noexcept -> std::string { return "\"" + this->_value + "\""; }
 			} // namespace json
 		} // namespace formats
     } // namespace utility

@@ -36,16 +36,17 @@
 
 */
 
-#ifndef LOG_HPP
-#define LOG_HPP
+#ifndef UTILITY_LOG_HPP
+#define UTILITY_LOG_HPP
 
+#include "utility/log/console.hpp"
+#include "utility/log/log_channel.hpp"
 #include "utility/log/logger.hpp"
 #include "utility/log/service_logger.hpp"
-#include "utility/log/log_channel.hpp"
 
 namespace ece
 {
 	using namespace utility::log;
 }
 
-#endif // LOG_HPP
+#endif // UTILITY_LOG_HPP

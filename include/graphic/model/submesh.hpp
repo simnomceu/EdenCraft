@@ -61,7 +61,7 @@ namespace ece
 			class ECE_GRAPHIC_API Submesh
 			{
 			public:
-				using Reference = ResourceHandler<Submesh>;
+				using Reference = Resource<Submesh>;
 
 				using Face = std::array<unsigned int, 3>;
 

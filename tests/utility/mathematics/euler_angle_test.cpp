@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/mathematics/euler_angle.hpp"
+#include "utility/mathematics.hpp"
 
 SCENARIO("EulerAngle", "[Utility][Mathematics]")
 {

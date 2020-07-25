@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/argument/string_option_value.hpp"
+#include "core/argument.hpp"
 
 SCENARIO("StringOptionValue", "[Core][Argument]")
 {

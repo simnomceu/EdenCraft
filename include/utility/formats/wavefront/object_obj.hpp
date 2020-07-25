@@ -146,34 +146,6 @@ namespace ece
 
 					inline auto getName() const;
 
-					inline void addVertex(const FloatVector4u & v);
-					inline void addVertex(FloatVector4u && v);
-
-					inline auto getNumberOfVertices() const;
-					inline auto & getVertices();
-					inline auto getVertices() const;
-
-					inline void addVertexTexture(const FloatVector2u & vt);
-					inline void addVertexTexture(FloatVector2u && vt);
-
-					inline auto getNumberOfVerticesTexture() const;
-					inline auto & getVerticesTexture();
-					inline auto getVerticesTexture() const;
-
-					inline void addVertexNormal(const FloatVector3u & vn);
-					inline void addVertexNormal(FloatVector3u && vn);
-
-					inline auto getNumberOfVerticesNormal() const;
-					inline auto & getVerticesNormal();
-					inline auto getVerticesNormal() const;
-
-					inline void addVertexSpaceParameter(const FloatVector3u & vp);
-					inline void addVertexSpaceParameter(FloatVector3u && vp);
-
-					inline auto getNumberOfVerticesSpaceParameter() const;
-					inline auto & getVerticesSpaceParameter();
-					inline auto getVerticesSpaceParameter() const;
-
 					inline void setFaceFormat(const FaceFormat & format);
 					inline void setFaceFormat(FaceFormat && format);
 
@@ -199,11 +171,6 @@ namespace ece
 
 				private:
 					std::string _o; // object name
-
-					std::vector<FloatVector4u> _v; // geometric vertices
-					std::vector<FloatVector2u> _vt; // texture vertices
-					std::vector<FloatVector3u> _vn; // vertex normals
-					std::vector<FloatVector3u> _vp; // parameter space vertices
 
 					struct VertexCompare
 					{
