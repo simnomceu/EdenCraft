@@ -145,6 +145,8 @@ namespace ece
 				template <class ComponentType>
 				auto & getComponent(Handle entityID);
 
+				void destroy(Handle entityID);
+
 				Signal<EntityHandler &> onEntityCreated;
 				Signal<BaseComponent &> onComponentCreated;
 

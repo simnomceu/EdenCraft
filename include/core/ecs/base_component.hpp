@@ -129,6 +129,8 @@ namespace ece
 
 				virtual auto isDirty() const -> bool = 0;
 
+				virtual void setDirty(bool dirty) = 0;
+
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline bool is() const;
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline T & to();
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline const T & to() const;

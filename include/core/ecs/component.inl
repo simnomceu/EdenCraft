@@ -59,6 +59,9 @@ namespace ece
 
             template <class T>
 			inline auto Component<T>::isDirty() const -> bool { return this->_dirty; }
+
+			template <class T>
+			inline void Component<T>::setDirty(bool dirty) { this->_dirty = dirty; }
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

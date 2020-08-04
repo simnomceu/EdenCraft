@@ -91,6 +91,8 @@ namespace ece
 
 				inline virtual auto isDirty() const -> bool override;
 
+				inline virtual void setDirty(bool dirty) override;
+
 			protected:
 				/**
 				 * @property _id

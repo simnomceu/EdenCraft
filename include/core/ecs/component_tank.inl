@@ -51,8 +51,19 @@ namespace ece
 			template <class ComponentType>
 			void ComponentTank<ComponentType>::update()
 			{
-				this->_components.erase(std::remove_if(this->_components.begin(), this->_components.end(), [](auto & lhs) { return lhs.isDirty(); }), this->_components.end());
+				std::vector<ComponentType>::erase(std::remove_if(std::vector<ComponentType>::begin(), std::vector<ComponentType>::end(), [](auto& lhs) { return lhs.isDirty(); }), std::vector<ComponentType>::end());
 			}
+
+			template <class ComponentType>
+			void ComponentTank<ComponentType>::destroy(Handle entityID)
+			{
+				for (auto & component : *this) {
+					if (component.getOwner() == entityID) {
+						component.setDirty(true);
+					}
+				}
+			}
+
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
