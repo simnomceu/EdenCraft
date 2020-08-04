@@ -60,7 +60,7 @@ namespace ece
 			}
 
 			template <class ComponentType>
-			auto EntityHandler::HasComponent() const
+			auto EntityHandler::hasComponent() const
 			{
 				return this->_world.hasComponent<ComponentType>(this->_id);
 			}

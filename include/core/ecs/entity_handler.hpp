@@ -113,7 +113,7 @@ namespace ece
 				auto & addComponent(Args&&... args);
 
 				template <class ComponentType>
-				auto HasComponent() const;
+				auto hasComponent() const;
 
 				template <class ComponentType>
 				auto & getComponent();
