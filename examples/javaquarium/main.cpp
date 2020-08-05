@@ -41,6 +41,8 @@
 #include "core/application.hpp"
 #include "systems/aquarium.hpp"
 #include "systems/food_chain.hpp"
+#include "systems/health.hpp"
+#include "systems/reproduction.hpp"
 #include "components/fish.hpp"
 
 int main()
@@ -51,15 +53,17 @@ int main()
 		auto app = ece::Application();
 
 		auto & world = app.addWorld();
-		world.addSystem<FoodChain>();
 		auto aquarium = world.addSystem<Aquarium>();
+		world.addSystem<Health>();
+		world.addSystem<FoodChain>();
+		world.addSystem<Reproduction>();
 
 		app.onPostInit.connect([&aquarium]() {
-			aquarium->init(100, 500);
+			aquarium->init(10, 2);
 		});
 
 		app.onPostUpdate.connect([&aquarium, &app, &world]() {
-			if (aquarium->getTurn() >= 10 || world.getTank<Fish>()->size() == 0) {
+			if (aquarium->getTurn() >= 20 || world.getTank<Fish>()->size() == 0) {
 				app.stop();
 			}
 		});

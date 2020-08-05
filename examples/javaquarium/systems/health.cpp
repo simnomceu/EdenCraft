@@ -38,59 +38,44 @@
 
 */
 
-#include "systems/aquarium.hpp"
+#include "systems/health.hpp"
+#include "components/living.hpp"
 #include "components/alga.hpp"
 #include "components/fish.hpp"
-#include "components/diet.hpp"
-#include "components/living.hpp"
-#include "components/sexuality.hpp"
-#include "incubator.hpp"
 
 
-Aquarium::Aquarium(ece::World& world) noexcept : System(world), _turn(0)
+Health::Health(ece::World& world) noexcept : System(world)
 {
 }
 
-void Aquarium::update([[maybe_unused]] float elapsedTime)
+void Health::update([[maybe_unused]] float elapsedTime)
 {
-	++this->_turn;
+	for (auto & living : *this->_world.getTank<Living>()) {
+		if (!living.isDirty()) {
+			++living.age;
+			if (living.age >= 20) {
+				ece::WARNING << "ID #" << living.getOwner() << " has died of old age." << ece::flush;
+				this->_world.destroy(living.getOwner());
+			}
+			else if (living.life <= 0) {
+				this->_world.destroy(living.getOwner());
+			}
+			else {
+				auto handler = ece::EntityHandler(living.getOwner(), this->_world);
 
-	ece::INFO << "##### Turn " << this->_turn << " #####" << ece::flush;
-	ece::INFO << "Number of algas : " << this->_world.getTank<Alga>()->size() << ece::flush;
-	ece::INFO << "Number of fishes : " << this->_world.getTank<Fish>()->size() << ece::flush;
-	for (auto & fish : *this->_world.getTank<Fish>()) {
-		auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
+				if (handler.hasComponent<Alga>()) {
+					++living.life;
+				}
+				else if (handler.hasComponent<Fish>()) {
+					--living.life;
+				}
 
-		if (!fish.isDirty()) {
-			ece::INFO << "    ID #" << fish.getOwner() << ": " << fish.name << " the " << fish.specie << " (" << (fish.gender == Gender::MALE ? "M" : "F") << ") ["
-				<< fishId.getComponent<Living>().life << " PV]" << ece::flush;
+				if (living.life <= 0) {
+					ece::WARNING << "ID #" << living.getOwner() << " doesn't find any food and starves to death." << ece::flush;
+					this->_world.destroy(living.getOwner());
+				}
+			}
 		}
 	}
 	std::cin.get();
-}
-
-void Aquarium::init(int numberOfFishes, int numberOfAlgas)
-{
-	for (auto i = 0; i < numberOfFishes; ++i) {
-		auto specie = std::rand() % 6;
-		switch (specie) {
-		case 0: create(this->_world, "grouper"); break;
-		case 1: create(this->_world, "tuna"); break;
-		case 2: create(this->_world, "clownfish"); break;
-		case 3: create(this->_world, "sole"); break;
-		case 4: create(this->_world, "bass"); break;
-		case 5: create(this->_world, "carp"); break;
-		default: break;
-		}
-	}
-
-	for (auto i = 0; i < numberOfAlgas; ++i) {
-		create(this->_world, "alga");
-	}
-}
-
-
-int Aquarium::getTurn() const
-{
-	return this->_turn;
 }

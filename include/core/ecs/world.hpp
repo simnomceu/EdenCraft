@@ -155,7 +155,7 @@ namespace ece
 				* @property _systems
 				* @brief The list of system running in the world.
 				*/
-				std::unordered_map<std::type_index, std::shared_ptr<System>> _systems;
+				std::map<std::type_index, std::shared_ptr<System>> _systems;
 
 				/**
 				* @property _components

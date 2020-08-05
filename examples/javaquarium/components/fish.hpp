@@ -51,12 +51,11 @@ enum class Gender
 
 struct Fish : public ece::Component<Fish>
 {
-	inline Fish(std::string nameIn, Gender genderIn, std::string specieIn) noexcept: name(nameIn), gender(genderIn), specie(specieIn), alive(true) {}
+	inline Fish(std::string nameIn, Gender genderIn, std::string specieIn) noexcept: name(nameIn), gender(genderIn), specie(specieIn) {}
 
 	std::string name;
 	Gender gender;
 	std::string specie;
-	bool alive;
 };
 
 #endif // FISH_HPP

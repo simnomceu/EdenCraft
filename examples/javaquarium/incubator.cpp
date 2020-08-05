@@ -40,52 +40,111 @@
 
 #include "incubator.hpp"
 #include "components/fish.hpp"
+#include "components/alga.hpp"
 #include "components/diet.hpp"
+#include "components/living.hpp"
+#include "components/sexuality.hpp"
+#include "naming.hpp"
+
+auto create(ece::World& world, std::string type) -> ece::EntityHandler
+{
+	if (type == "grouper") {
+		return world.createEntity(createGrouper);
+	}
+	else if (type == "tuna") {
+		return world.createEntity(createTuna);
+	}
+	else if (type == "clowfish") {
+		return world.createEntity(createClownFish);
+	}
+	else if (type == "sole") {
+		return world.createEntity(createSole);
+	}
+	else if (type == "bass") {
+		return world.createEntity(createBass);
+	}
+	else if (type == "carp") {
+		return world.createEntity(createCarp);
+	}
+	else if (type == "alga") {
+		return world.createEntity(createAlga);
+	}
+	return ece::EntityHandler(ece::NULL_HANDLE, world);
+}
+
+auto createAlga(ece::World& world)->ece::EntityHandler
+{
+	auto alga = world.createEntity();
+	alga.addComponent<Alga>();
+	alga.addComponent<Living>(std::rand() % 20);
+	alga.addComponent<Sexuality>(SexualityType::PARTHENOGENESIS);
+	return alga;
+}
 
 auto createGrouper(ece::World& world) -> ece::EntityHandler
 {
 	auto fish = world.createEntity();
-	fish.addComponent<Fish>(std::string("Fish") + std::to_string(fish.getId()), static_cast<Gender>(std::rand() % 2), "grouper");
+	auto age = std::rand() % 20;
+	auto gender = static_cast<Gender>(age / 10);
+	fish.addComponent<Fish>(getName(gender), gender, "grouper");
 	fish.addComponent<Diet>(DietType::CARNIVOROUS);
+	fish.addComponent<Living>(age);
+	fish.addComponent<Sexuality>(SexualityType::SWINGER);
 	return fish;
 }
 
 auto createTuna(ece::World& world) -> ece::EntityHandler
 {
 	auto fish = world.createEntity();
-	fish.addComponent<Fish>(std::string("Fish") + std::to_string(fish.getId()), static_cast<Gender>(std::rand() % 2), "tuna");
+	auto gender = static_cast<Gender>(std::rand() % 2);
+	fish.addComponent<Fish>(getName(gender), gender, "tuna");
 	fish.addComponent<Diet>(DietType::CARNIVOROUS);
+	fish.addComponent<Living>(std::rand() % 20);
+	fish.addComponent<Sexuality>(SexualityType::MONOSEXUAL);
 	return fish;
 }
 
 auto createClownFish(ece::World& world) -> ece::EntityHandler
 {
 	auto fish = world.createEntity();
-	fish.addComponent<Fish>(std::string("Fish") + std::to_string(fish.getId()), static_cast<Gender>(std::rand() % 2), "clown fish");
+	auto gender = static_cast<Gender>(std::rand() % 2);
+	fish.addComponent<Fish>(getName(gender), gender, "clownfish");
 	fish.addComponent<Diet>(DietType::CARNIVOROUS);
+	fish.addComponent<Living>(std::rand() % 20);
+	fish.addComponent<Sexuality>(SexualityType::OPPORTUNIST);
 	return fish;
 }
 
 auto createSole(ece::World& world) -> ece::EntityHandler
 {
 	auto fish = world.createEntity();
-	fish.addComponent<Fish>(std::string("Fish") + std::to_string(fish.getId()), static_cast<Gender>(std::rand() % 2), "sole");
+	auto gender = static_cast<Gender>(std::rand() % 2);
+	fish.addComponent<Fish>(getName(gender), gender, "sole");
 	fish.addComponent<Diet>(DietType::HERBIVOROUS);
+	fish.addComponent<Living>(std::rand() % 20);
+	fish.addComponent<Sexuality>(SexualityType::OPPORTUNIST);
 	return fish;
 }
 
 auto createBass(ece::World& world) -> ece::EntityHandler
 {
 	auto fish = world.createEntity();
-	fish.addComponent<Fish>(std::string("Fish") + std::to_string(fish.getId()), static_cast<Gender>(std::rand() % 2), "bass");
+	auto age = std::rand() % 20;
+	auto gender = static_cast<Gender>(age / 10);
+	fish.addComponent<Fish>(getName(gender), gender, "bass");
 	fish.addComponent<Diet>(DietType::HERBIVOROUS);
+	fish.addComponent<Living>(age);
+	fish.addComponent<Sexuality>(SexualityType::SWINGER);
 	return fish;
 }
 
 auto createCarp(ece::World& world) -> ece::EntityHandler
 {
 	auto fish = world.createEntity();
-	fish.addComponent<Fish>(std::string("Fish") + std::to_string(fish.getId()), static_cast<Gender>(std::rand() % 2), "carp");
+	auto gender = static_cast<Gender>(std::rand() % 2);
+	fish.addComponent<Fish>(getName(gender), gender, "carp");
 	fish.addComponent<Diet>(DietType::HERBIVOROUS);
+	fish.addComponent<Living>(std::rand() % 20);
+	fish.addComponent<Sexuality>(SexualityType::MONOSEXUAL);
 	return fish;
 }

@@ -42,6 +42,8 @@
 #include "components/diet.hpp"
 #include "components/alga.hpp"
 #include "components/fish.hpp"
+#include "components/living.hpp"
+#include "components/sexuality.hpp"
 
 FoodChain::FoodChain(ece::World& world) noexcept : System(world)
 {
@@ -49,51 +51,62 @@ FoodChain::FoodChain(ece::World& world) noexcept : System(world)
 
 void FoodChain::update([[maybe_unused]] float elapsedTime)
 {
-	ece::INFO << "##### Lunch Time #####\n";
+	ece::INFO << "##### Lunch Time #####" << ece::flush;
 
-	auto nbAlgas = this->_world.getTank<Alga>()->size();
+	const auto nbAlgas = this->_world.getTank<Alga>()->size();
 	const auto nbFishes = this->_world.getTank<Fish>()->size();
 
 	for (auto & fish : *this->_world.getTank<Diet>()) {
-		if (this->_world.getComponent<Fish>(fish.getOwner()).alive) {
+		auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
+		auto & fishLiving = fishId.getComponent<Living>();
+		auto & fishSexuality = fishId.getComponent<Sexuality>();
+		auto & fishFish = fishId.getComponent<Fish>();
+		if (!fish.isDirty() && fishLiving.isAlive() && fishLiving.life <= 5) {
 			if (fish.type == DietType::HERBIVOROUS) {
 				if (nbAlgas > 0) {
-					auto id = std::rand() % nbAlgas;
-					this->_world.getTank<Alga>()->erase(this->_world.getTank<Alga>()->begin() + id);
-					--nbAlgas;
-					ece::INFO << this->_world.getComponent<Fish>(fish.getOwner()).name << " eats an alga.\n";
-				}
-				else {
-					this->_world.getComponent<Fish>(fish.getOwner()).alive = false;
-					ece::INFO << this->_world.getComponent<Fish>(fish.getOwner()).name << " doesn't find any alga and starves to death.\n";
+					bool feed = false;
+					do {
+						auto targetId = ece::EntityHandler(this->_world.getTank<Alga>()->at(std::rand() % nbAlgas).getOwner(), this->_world);
+						auto & targetLiving = targetId.getComponent<Living>();
+						feed = targetLiving.isAlive();
+						if (feed) {
+							fishLiving.life += 3;
+							fishSexuality.ready = false;
+							ece::INFO << fishFish.name << " the " << fishFish.specie << " (+3 PV) eats an alga (-2 PV)." << ece::flush;
+
+							targetLiving.life -= 2;
+							if (!targetLiving.isAlive()) {
+								ece::WARNING << "Alga ID #" << targetId.getId() << " was too weak and died." << ece::flush;
+								this->_world.destroy(targetId.getId());
+							}
+						}
+					} while (!feed);
 				}
 			}
 			else if (fish.type == DietType::CARNIVOROUS) {
 				if (nbFishes > 1) {
 					bool feed = false;
 					do {
-						auto id = std::rand() % nbFishes;
-						feed = this->_world.getTank<Fish>()->at(id).alive && this->_world.getTank<Fish>()->at(id).getOwner() != fish.getOwner();
+						auto targetId = ece::EntityHandler(this->_world.getTank<Fish>()->at(std::rand() % nbFishes).getOwner(), this->_world);
+						auto & targetLiving = targetId.getComponent<Living>();
+						auto & targetFish = targetId.getComponent<Fish>();
+						feed = targetLiving.isAlive() && targetLiving.getOwner() != fish.getOwner() && targetFish.specie != fishFish.specie;
 						if (feed) {
-							this->_world.getTank<Fish>()->at(id).alive = false;
-							ece::INFO << this->_world.getComponent<Fish>(fish.getOwner()).name << " eats " << this->_world.getTank<Fish>()->at(id).name << ".\n";
+							fishLiving.life += 5;
+							fishSexuality.ready = false;
+							ece::INFO << fishFish.name << " the " << fishFish.specie << " (+5 PV) eats " << targetFish.name << " the " << targetFish.specie << " (-4 PV)." << ece::flush;
+
+							targetLiving.life -= 4;
+							if (!targetLiving.isAlive()) {
+								ece::WARNING << targetFish.name << " the " << targetFish.specie << " was too weak and died." << ece::flush;
+								this->_world.destroy(targetId.getId());
+							}
 						}
 					} while (!feed);
-				}
-				else if (nbFishes == 1) {
-					this->_world.getComponent<Fish>(fish.getOwner()).alive = false;
-					ece::INFO << this->_world.getComponent<Fish>(fish.getOwner()).name << " doesn't find any prey and starves to death.\n";
 				}
 			}
 		}
 	}
 
-	for (auto & fish : *this->_world.getTank<Fish>()) {
-		if (!fish.alive) {
-			this->_world.destroy(fish.getOwner());
-		}
-	}
-
-	ece::INFO << ece::flush;
 	std::cin.get();
 }

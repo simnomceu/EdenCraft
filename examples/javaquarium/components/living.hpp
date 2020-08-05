@@ -38,59 +38,18 @@
 
 */
 
-#include "systems/aquarium.hpp"
-#include "components/alga.hpp"
-#include "components/fish.hpp"
-#include "components/diet.hpp"
-#include "components/living.hpp"
-#include "components/sexuality.hpp"
-#include "incubator.hpp"
+#ifndef LIVING_HPP
+#define LIVING_HPP
 
+#include "core/ecs.hpp"
 
-Aquarium::Aquarium(ece::World& world) noexcept : System(world), _turn(0)
+struct Living : public ece::Component<Living>
 {
-}
+	inline Living(int ageIn) noexcept : life(10), age(ageIn) {}
+	inline auto isAlive() noexcept -> bool { return !(this->life <= 0 || this->age >= 20); }
 
-void Aquarium::update([[maybe_unused]] float elapsedTime)
-{
-	++this->_turn;
+	unsigned int life;
+	int age;
+};
 
-	ece::INFO << "##### Turn " << this->_turn << " #####" << ece::flush;
-	ece::INFO << "Number of algas : " << this->_world.getTank<Alga>()->size() << ece::flush;
-	ece::INFO << "Number of fishes : " << this->_world.getTank<Fish>()->size() << ece::flush;
-	for (auto & fish : *this->_world.getTank<Fish>()) {
-		auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
-
-		if (!fish.isDirty()) {
-			ece::INFO << "    ID #" << fish.getOwner() << ": " << fish.name << " the " << fish.specie << " (" << (fish.gender == Gender::MALE ? "M" : "F") << ") ["
-				<< fishId.getComponent<Living>().life << " PV]" << ece::flush;
-		}
-	}
-	std::cin.get();
-}
-
-void Aquarium::init(int numberOfFishes, int numberOfAlgas)
-{
-	for (auto i = 0; i < numberOfFishes; ++i) {
-		auto specie = std::rand() % 6;
-		switch (specie) {
-		case 0: create(this->_world, "grouper"); break;
-		case 1: create(this->_world, "tuna"); break;
-		case 2: create(this->_world, "clownfish"); break;
-		case 3: create(this->_world, "sole"); break;
-		case 4: create(this->_world, "bass"); break;
-		case 5: create(this->_world, "carp"); break;
-		default: break;
-		}
-	}
-
-	for (auto i = 0; i < numberOfAlgas; ++i) {
-		create(this->_world, "alga");
-	}
-}
-
-
-int Aquarium::getTurn() const
-{
-	return this->_turn;
-}
+#endif // LIVING_HPP

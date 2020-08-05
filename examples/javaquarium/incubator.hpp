@@ -43,6 +43,9 @@
 
 #include "core/ecs.hpp"
 
+auto create(ece::World& world, std::string type) -> ece::EntityHandler;
+
+auto createAlga(ece::World& world) -> ece::EntityHandler;
 auto createGrouper(ece::World & world) -> ece::EntityHandler;
 auto createTuna(ece::World & world) -> ece::EntityHandler;
 auto createClownFish(ece::World & world) -> ece::EntityHandler;
