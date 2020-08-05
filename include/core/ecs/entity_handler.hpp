@@ -107,6 +107,8 @@ namespace ece
 				 */
 				EntityHandler & operator=(EntityHandler && move) noexcept = default;
 
+				friend auto operator==(const EntityHandler& lhs, const EntityHandler& rhs) -> bool;
+
 				inline auto getId() const;
 
 				template <class ComponentType, class ... Args>
@@ -123,6 +125,9 @@ namespace ece
 
 				World & _world;
 			};
+
+			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool;
+			inline auto operator!=(const EntityHandler & lhs, const EntityHandler & rhs) -> bool;
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

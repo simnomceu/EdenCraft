@@ -70,6 +70,16 @@ namespace ece
 			{
 				return this->_world.getComponent<ComponentType>(this->_id);
 			}
+
+			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
+			{
+				return lhs.getId() == rhs.getId();
+			}
+
+			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
+			{
+				return lhs.getId() != rhs.getId();
+			}
 		} // namespace ecs
 	} // namespace core
 } // namespace ece
