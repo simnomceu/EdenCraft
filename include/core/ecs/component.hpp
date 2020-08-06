@@ -64,14 +64,20 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				Component();
+				constexpr Component() noexcept;
+
+				Component(const Component<T>& rhs) noexcept = default;
+				Component(Component<T> && rhs) noexcept = default;
 
 				/**
 				 * @fn ~Component()
 				 * @brief Default destructor.
 				 * @throw
 				 */
-				~Component();
+				~Component() noexcept;
+
+				Component& operator=(const Component<T>& rhs) noexcept = default;
+				Component& operator=(Component<T> && rhs) noexcept = default;
 
 				inline virtual void setOwner(const Handle owner) override;
 
