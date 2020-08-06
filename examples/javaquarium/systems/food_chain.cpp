@@ -53,10 +53,10 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 {
 	ece::INFO << "##### Lunch Time #####" << ece::flush;
 
-	const auto nbAlgas = this->_world.getTank<Alga>().size();
-	const auto nbFishes = this->_world.getTank<Fish>().size();
+	const auto nbAlgas = this->_world.getComponents<Alga>().size();
+	const auto nbFishes = this->_world.getComponents<Fish>().size();
 
-	for (auto & fish : this->_world.getTank<Diet>()) {
+	this->_world.getComponents<Diet>().forEach([this, nbAlgas, nbFishes](auto& fish) {
 		if (!fish.isDirty()) {
 			auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
 			auto [fishLiving, fishSexuality, fishFish] = fishId.getComponents<Living, Sexuality, Fish>();
@@ -65,7 +65,7 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 					if (nbAlgas > 0) {
 						bool feed = false;
 						do {
-							auto targetId = ece::EntityHandler(this->_world.getTank<Alga>().at(std::rand() % nbAlgas).getOwner(), this->_world);
+							auto targetId = ece::EntityHandler(this->_world.getComponents<Alga>().at(std::rand() % nbAlgas).getOwner(), this->_world);
 							auto& targetLiving = targetId.getComponent<Living>();
 							feed = targetLiving.isAlive();
 							if (feed) {
@@ -86,7 +86,7 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 					if (nbFishes > 1) {
 						bool feed = false;
 						do {
-							auto targetId = ece::EntityHandler(this->_world.getTank<Fish>().at(std::rand() % nbFishes).getOwner(), this->_world);
+							auto targetId = ece::EntityHandler(this->_world.getComponents<Fish>().at(std::rand() % nbFishes).getOwner(), this->_world);
 							auto [targetLiving, targetFish] = targetId.getComponents<Living, Fish>();
 							feed = targetLiving.isAlive() && targetId != fishId && targetFish.specie != fishFish.specie;
 							if (feed) {
@@ -105,7 +105,7 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 				}
 			}
 		}
-	}
+	});
 
 	std::cin.get();
 }

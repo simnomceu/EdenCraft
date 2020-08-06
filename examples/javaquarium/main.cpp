@@ -63,7 +63,7 @@ int main()
 		});
 
 		app.onPostUpdate.connect([&aquarium, &app, &world]() {
-			if (aquarium->getTurn() >= 20 || world.getTank<Fish>().size() == 0) {
+			if (aquarium->getTurn() >= 20 || world.getComponents<Fish>().size() == 0) {
 				app.stop();
 			}
 		});

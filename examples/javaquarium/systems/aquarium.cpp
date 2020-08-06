@@ -43,7 +43,6 @@
 #include "components/fish.hpp"
 #include "components/diet.hpp"
 #include "components/living.hpp"
-#include "components/sexuality.hpp"
 #include "incubator.hpp"
 
 
@@ -56,9 +55,9 @@ void Aquarium::update([[maybe_unused]] float elapsedTime)
 	++this->_turn;
 
 	ece::INFO << "##### Turn " << this->_turn << " #####" << ece::flush;
-	ece::INFO << "Number of algas : " << this->_world.getTank<Alga>().size() << ece::flush;
-	ece::INFO << "Number of fishes : " << this->_world.getTank<Fish>().size() << ece::flush;
-	for (auto & fish : this->_world.getTank<Fish>()) {
+	ece::INFO << "Number of algas : " << this->_world.getComponents<Alga>().size() << ece::flush;
+	ece::INFO << "Number of fishes : " << this->_world.getComponents<Fish>().size() << ece::flush;
+	this->_world.getComponents<Fish>().forEach([this](auto& fish) {
 		if (!fish.isDirty()) {
 			auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
 
@@ -67,7 +66,7 @@ void Aquarium::update([[maybe_unused]] float elapsedTime)
 					<< fishId.getComponent<Living>().life << " PV]" << ece::flush;
 			}
 		}
-	}
+	});
 	std::cin.get();
 }
 

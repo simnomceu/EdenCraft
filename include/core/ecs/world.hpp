@@ -45,6 +45,7 @@
 #include "utility/indexing.hpp"
 #include "core/ecs/base_component_tank.hpp"
 #include "core/ecs/base_component.hpp"
+#include "core/ecs/tank_view.hpp"
 #include "core/signal.hpp"
 #include "utility/time.hpp"
 #include "utility/types.hpp"
@@ -128,7 +129,7 @@ namespace ece
 				void update();
 
 				template <class ComponentType>
-				auto & getTank();
+				auto getComponents();
 
 				template <class SystemType, class... Args>
 				auto addSystem(Args&&... args);
@@ -150,6 +151,9 @@ namespace ece
 
 				template <class... ComponentTypes>
 				auto getComponents(Handle entityID) -> std::tuple<ComponentTypes & ...>;
+
+				template <class ComponentType, class ... Args>
+				auto & addComponent(Handle entityID, Args&&... args);
 
 				void destroy(Handle entityID);
 
@@ -183,6 +187,9 @@ namespace ece
 
 				template <class ComponentType>
 				void addTank();
+
+				template <class ComponentType>
+				auto & getTank();
 
 				Chrono _chrono;
 			};

@@ -36,7 +36,11 @@
 
 */
 
-#include "core/ecs/world.hpp"
+#ifndef TANK_VIEW_HPP
+#define TANK_VIEW_HPP
+
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -44,49 +48,39 @@ namespace ece
 	{
 		namespace ecs
 		{
-			inline EntityHandler::EntityHandler(Handle id, World & world) noexcept: _id(id), _world(world) {}
-
-			inline auto EntityHandler::getId() const { return this->_id; }
-
-			template <class ComponentType, class ... Args>
-			auto & EntityHandler::addComponent(Args&&... args)
-			{
-				return this->_world.addComponent<ComponentType, Args...>(this->_id, std::forward<Args>(args)...);
-			}
+			template <class ComponentType> class ComponentTank;
 
 			template <class ComponentType>
-			auto EntityHandler::hasComponent() const
+			class ECE_CORE_API TankView
 			{
-				return this->_world.hasComponent<ComponentType>(this->_id);
-			}
+			public:
+				TankView(ComponentTank<ComponentType> & owner) noexcept;
 
-			template <class... ComponentTypes>
-			auto EntityHandler::hasComponents() const
-			{
-				return this->_world.hasComponents<ComponentTypes...>(this->_id);
-			}
+				void forEach(const std::function<void(ComponentType&)> & routine);
+				void forEach(std::function<void(ComponentType&)> && routine);
+				template <class T> void forEach(T & object, void (T::* routine)(ComponentType &));
+				template <class T> void forEach(std::weak_ptr<T> & object, void (T::* routine)(ComponentType &));
+				template <class T> void forEach(const T & object, void (T::* routine)(ComponentType &) const);
+				template <class T> void forEach(const std::weak_ptr<T> & object, void (T::* routine)(ComponentType &) const);
 
-			template <class ComponentType>
-			auto & EntityHandler::getComponent()
-			{
-				return this->_world.getComponent<ComponentType>(this->_id);
-			}
+				void forAll(const std::function<void(ComponentType&)>& routine);
+				void forAll(std::function<void(ComponentType&)>&& routine);
+				template <class T> void forAll(T& object, void (T::* routine)(ComponentType&));
+				template <class T> void forAll(std::weak_ptr<T>& object, void (T::* routine)(ComponentType&));
+				template <class T> void forAll(const T& object, void (T::* routine)(ComponentType&) const);
+				template <class T> void forAll(const std::weak_ptr<T>& object, void (T::* routine)(ComponentType&) const);
 
-			template <class... ComponentTypes>
-			auto EntityHandler::getComponents()
-			{
-				return this->_world.getComponents<ComponentTypes...>(this->_id);
-			}
+				auto size() const -> std::size_t;
+				ComponentType& at(const std::size_t index);
+				const ComponentType & at(const std::size_t index) const;
 
-			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
-			{
-				return lhs.getId() == rhs.getId();
-			}
+			private:
+				ComponentTank<ComponentType> & _owner;
+			};
+		}
+	}
+}
 
-			inline auto operator!=(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
-			{
-				return lhs.getId() != rhs.getId();
-			}
-		} // namespace ecs
-	} // namespace core
-} // namespace ece
+#include "core/ecs/tank_view.inl"
+
+#endif // TANK_VIEW_HPP

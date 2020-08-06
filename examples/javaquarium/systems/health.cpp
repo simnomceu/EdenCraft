@@ -50,7 +50,7 @@ Health::Health(ece::World& world) noexcept : ece::System(world)
 
 void Health::update([[maybe_unused]] float elapsedTime)
 {
-	for (auto & living : this->_world.getTank<Living>()) {
+	this->_world.getComponents<Living>().forEach([this](auto& living) {
 		if (!living.isDirty()) {
 			++living.age;
 			if (living.age >= 20) {
@@ -77,6 +77,6 @@ void Health::update([[maybe_unused]] float elapsedTime)
 				}
 			}
 		}
-	}
+	});
 	std::cin.get();
 }

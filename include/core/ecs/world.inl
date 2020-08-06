@@ -55,12 +55,9 @@ namespace ece
 			inline World::~World() noexcept {}
 
 			template <class ComponentType>
-			auto & World::getTank()
+			auto World::getComponents()
 			{
-				if (this->_tanks.find(std::type_index(typeid(ComponentType))) == this->_tanks.end()) {
-					this->addTank<ComponentType>();
-				}
-				return *std::static_pointer_cast<ComponentTank<ComponentType>>(this->_tanks[std::type_index(typeid(ComponentType))]);
+				return TankView<ComponentType>(this->getTank<ComponentType>());
 			}
 
 			template <class SystemType, class... Args>
@@ -113,6 +110,26 @@ namespace ece
 			auto World::getComponents(Handle entityID) -> std::tuple<ComponentTypes& ...>
 			{
 				return std::forward_as_tuple(this->getComponent<ComponentTypes>(entityID)...);
+			}
+
+			template <class ComponentType, class ... Args>
+			auto & World::addComponent(Handle entityID, Args&&... args)
+			{
+				auto component = ComponentType(args...);
+				component.setOwner(entityID);
+				auto & tank = this->getTank<ComponentType>();
+				tank.push_back(std::move(component));
+				this->onComponentCreated(tank.back());
+				return tank.back();
+			}
+
+			template <class ComponentType>
+			auto & World::getTank()
+			{
+				if (this->_tanks.find(std::type_index(typeid(ComponentType))) == this->_tanks.end()) {
+					this->addTank<ComponentType>();
+				}
+				return *std::static_pointer_cast<ComponentTank<ComponentType>>(this->_tanks[std::type_index(typeid(ComponentType))]);
 			}
 		} // namespace ecs
 	} // namespace core

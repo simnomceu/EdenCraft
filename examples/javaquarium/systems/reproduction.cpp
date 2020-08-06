@@ -50,7 +50,7 @@ Reproduction::Reproduction(ece::World& world) noexcept: ece::System(world)
 
 void Reproduction::update([[maybe_unused]] float elapsedTime)
 {
-	for (auto & sexuality : this->_world.getTank<Sexuality>()) {
+	this->_world.getComponents<Sexuality>().forEach([this](auto& sexuality) {
 		if (!sexuality.isDirty()) {
 			auto fishId = ece::EntityHandler(sexuality.getOwner(), this->_world);
 			auto& fishLiving = fishId.getComponent<Living>();
@@ -59,7 +59,7 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 				switch (sexuality.type) {
 				case SexualityType::MONOSEXUAL: {
 					auto& fish = fishId.getComponent<Fish>();
-					auto partnerId = ece::EntityHandler(this->_world.getTank<Fish>().at(rand() % this->_world.getTank<Fish>().size()).getOwner(), this->_world);
+					auto partnerId = ece::EntityHandler(this->_world.getComponents<Fish>().at(rand() % this->_world.getComponents<Fish>().size()).getOwner(), this->_world);
 					auto [partner, partnerLiving] = partnerId.getComponents<Fish, Living>();
 					if (partner.gender != fish.gender && partner.specie == fish.specie && partnerLiving.life >= 5 && partnerId != fishId) {
 						auto babyId = create(this->_world, fish.specie);
@@ -76,7 +76,7 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 							fish.gender = Gender::FEMALE;
 						}
 
-						auto partnerId = ece::EntityHandler(this->_world.getTank<Fish>().at(rand() % this->_world.getTank<Fish>().size()).getOwner(), this->_world);
+						auto partnerId = ece::EntityHandler(this->_world.getComponents<Fish>().at(rand() % this->_world.getComponents<Fish>().size()).getOwner(), this->_world);
 						auto& partner = partnerId.getComponent<Fish>();
 						if (partner.gender != fish.gender && partner.specie == fish.specie && partnerId != fishId) {
 							auto babyId = create(this->_world, fish.specie);
@@ -89,8 +89,8 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 				} break;
 				case SexualityType::OPPORTUNIST: {
 					auto& fish = fishId.getComponent<Fish>();
-					auto partnerId = ece::EntityHandler(this->_world.getTank<Fish>().at(rand() % this->_world.getTank<Fish>().size()).getOwner(), this->_world);
-					auto & partner = partnerId.getComponent<Fish>();
+					auto partnerId = ece::EntityHandler(this->_world.getComponents<Fish>().at(rand() % this->_world.getComponents<Fish>().size()).getOwner(), this->_world);
+					auto& partner = partnerId.getComponent<Fish>();
 					if (partner.specie == fish.specie && fishLiving.life >= 5 && partnerId != fishId) {
 						if (partner.gender == fish.gender) {
 							fish.gender = (fish.gender == Gender::MALE ? Gender::FEMALE : Gender::MALE);
@@ -117,6 +117,6 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 			}
 			sexuality.ready = true;
 		}
-	}
+	});
 	std::cin.get();
 }
