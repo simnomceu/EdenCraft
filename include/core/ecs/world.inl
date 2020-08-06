@@ -90,6 +90,11 @@ namespace ece
 				auto tank = this->getTank<ComponentType>();
 				auto it = std::find_if(tank->begin(), tank->end(), [entityID](auto & element) {return element.getOwner() == entityID; });
 				return it != tank->end();
+
+			template <class... ComponentTypes>
+			auto World::hasComponents(Handle entityID)
+			{
+				return (this->hasComponent<ComponentTypes>(entityID) && ...);
 			}
 
 			template <class ComponentType>
@@ -101,6 +106,12 @@ namespace ece
 					throw std::runtime_error("This entity does not have a component of this type");
 				}
 				return *it;
+			}
+
+			template <class... ComponentTypes>
+			auto World::getComponents(Handle entityID) -> std::tuple<ComponentTypes& ...>
+			{
+				return std::forward_as_tuple(this->getComponent<ComponentTypes>(entityID)...);
 			}
 		} // namespace ecs
 	} // namespace core

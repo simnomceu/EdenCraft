@@ -65,10 +65,22 @@ namespace ece
 				return this->_world.hasComponent<ComponentType>(this->_id);
 			}
 
+			template <class... ComponentTypes>
+			auto EntityHandler::hasComponents() const
+			{
+				return this->_world.hasComponents<ComponentTypes...>(this->_id);
+			}
+
 			template <class ComponentType>
 			auto & EntityHandler::getComponent()
 			{
 				return this->_world.getComponent<ComponentType>(this->_id);
+			}
+
+			template <class... ComponentTypes>
+			auto EntityHandler::getComponents()
+			{
+				return this->_world.getComponents<ComponentTypes...>(this->_id);
 			}
 
 			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
@@ -76,7 +88,7 @@ namespace ece
 				return lhs.getId() == rhs.getId();
 			}
 
-			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
+			inline auto operator!=(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
 			{
 				return lhs.getId() != rhs.getId();
 			}

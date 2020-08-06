@@ -142,8 +142,14 @@ namespace ece
 				template <class ComponentType>
 				auto hasComponent(Handle entityID);
 
+				template <class... ComponentTypes>
+				auto hasComponents(Handle EntityID);
+
 				template <class ComponentType>
 				auto & getComponent(Handle entityID);
+
+				template <class... ComponentTypes>
+				auto getComponents(Handle entityID) -> std::tuple<ComponentTypes & ...>;
 
 				void destroy(Handle entityID);
 

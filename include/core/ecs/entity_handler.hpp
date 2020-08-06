@@ -107,8 +107,6 @@ namespace ece
 				 */
 				EntityHandler & operator=(EntityHandler && move) noexcept = default;
 
-				friend auto operator==(const EntityHandler& lhs, const EntityHandler& rhs) -> bool;
-
 				inline auto getId() const;
 
 				template <class ComponentType, class ... Args>
@@ -117,8 +115,14 @@ namespace ece
 				template <class ComponentType>
 				auto hasComponent() const;
 
+				template <class... ComponentTypes>
+				auto hasComponents() const;
+
 				template <class ComponentType>
 				auto & getComponent();
+
+				template <class... ComponentTypes>
+				auto getComponents();
 
 			private:
 				Handle _id;
