@@ -110,15 +110,6 @@ namespace ece
 				 */
 				BaseComponent & operator=(BaseComponent && move) noexcept = default;
 
-
-				/**
-				 * @fn ComponentID getID() const
-				 * @return The id to handle the component.
-				 * @brief Get The component id.
-				 * @throw
-				 */
-				virtual auto getID() const -> ComponentID = 0;
-
 				virtual void setOwner(const Handle owner) = 0;
 
 				/**

@@ -73,14 +73,6 @@ namespace ece
 				 */
 				~Component();
 
-				/**
-				 * @fn ComponentID getID() const
-				 * @return The id to handle the component.
-				 * @brief Get The component id.
-				 * @throw
-				 */
-				inline virtual auto getID() const -> ComponentID override;
-
 				inline virtual void setOwner(const Handle owner) override;
 
 				/**
@@ -94,12 +86,6 @@ namespace ece
 				inline virtual void setDirty(bool dirty) override;
 
 			protected:
-				/**
-				 * @property _id
-				 * @brief The id to handle the component.
-				 */
-				ComponentID _id;
-
 				/**
 				 * @property _owner
 				 * @brief The entity which own the component.

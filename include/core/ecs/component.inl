@@ -43,13 +43,10 @@ namespace ece
 		namespace ecs
 		{
 			template<class T>
-			Component<T>::Component() : BaseComponent(), _id(), _owner(), _dirty() {}
+			Component<T>::Component() : BaseComponent(), _owner(NULL_HANDLE), _dirty(false) {}
 
 			template<class T>
 			Component<T>::~Component() {}
-
-			template<class T>
-			inline auto Component<T>::getID() const -> ComponentID { return this->_id; }
 
 			template<class T>
 			inline void Component<T>::setOwner(const Handle owner) { this->_owner = owner; }
