@@ -110,13 +110,15 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 		auto babyId = create(this->_world, specie);
 		babyId.getComponent<Sexuality>().ready = false;
 		auto& baby = babyId.getComponent<Fish>();
+		babyId.getComponent<Living>().age = 0;
 		ece::INFO << parent1.name << " the " << parent1.specie << " and " << parent2.name << " the " << parent2.specie << " bring a baby into this aquarium : "
 			<< baby.name << " the " << baby.specie << "." << ece::flush;
 	}
-	for (auto& [parent, age] : babyAlgas) {
+	for (auto& [parent, life] : babyAlgas) {
 		auto baby = create(this->_world, parent.hasComponent<Fish>() ? parent.getComponent<Fish>().specie : "alga");
 		baby.getComponent<Sexuality>().ready = false;
-		baby.getComponent<Living>().life = age;
+		baby.getComponent<Living>().life = life;
+		baby.getComponent<Living>().age = 0;
 		ece::INFO << "Alga ID #" << parent.getId() << " bring a baby alga into this aquarium : Alga ID #" << baby.getId() << "." << ece::flush;
 	}
 	std::cin.get();

@@ -47,6 +47,8 @@ class Aquarium : public ece::System
 {
 public:
 	Aquarium(ece::World& world) noexcept;
+	
+	~Aquarium();
 
 	virtual void update([[maybe_unused]] float elapsedTime) override;
 

@@ -52,7 +52,12 @@ namespace ece
 			{
 			}
 
-			inline World::~World() noexcept {}
+			inline World::~World() noexcept
+			{
+				this->_systems.clear();
+				this->_tanks.clear();
+				this->_entities.clear();
+			}
 
 			template <class ComponentType>
 			auto World::getComponents()

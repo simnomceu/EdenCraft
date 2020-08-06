@@ -53,10 +53,10 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 {
 	ece::INFO << "##### Lunch Time #####" << ece::flush;
 
-	const auto nbAlgas = this->_world.getComponents<Alga>().size();
+	auto nbAlgas = this->_world.getComponents<Alga>().size();
 	const auto nbFishes = this->_world.getComponents<Fish>().size();
 
-	this->_world.getComponents<Diet>().forEach([this, nbAlgas, nbFishes](auto& fish) {
+	this->_world.getComponents<Diet>().forEach([this, &nbAlgas, &nbFishes](auto& fish) {
 		if (!fish.isDirty()) {
 			auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
 			auto [fishLiving, fishSexuality, fishFish] = fishId.getComponents<Living, Sexuality, Fish>();
@@ -77,6 +77,7 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 								if (!targetLiving.isAlive()) {
 									ece::WARNING << "Alga ID #" << targetId.getId() << " was too weak and died." << ece::flush;
 									this->_world.destroy(targetId.getId());
+									--nbAlgas;
 								}
 							}
 						} while (!feed);

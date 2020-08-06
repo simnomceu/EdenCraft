@@ -50,6 +50,13 @@ Aquarium::Aquarium(ece::World& world) noexcept : ece::System(world), _turn(0)
 {
 }
 
+Aquarium::~Aquarium()
+{
+	ece::INFO << "##### END #####" << ece::flush;
+	ece::INFO << "Number of algas : " << this->_world.getComponents<Alga>().size() << ece::flush;
+	ece::INFO << "Number of fishes : " << this->_world.getComponents<Fish>().size() << ece::flush;
+}
+
 void Aquarium::update([[maybe_unused]] float elapsedTime)
 {
 	++this->_turn;
