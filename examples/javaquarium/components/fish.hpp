@@ -51,7 +51,7 @@ enum class Gender
 
 struct Fish : public ece::Component<Fish>
 {
-	inline Fish(std::string nameIn, Gender genderIn, std::string specieIn) noexcept: name(nameIn), gender(genderIn), specie(specieIn) {}
+	inline Fish(std::string nameIn, Gender genderIn, std::string specieIn) noexcept: ece::Component<Fish>(), name(nameIn), gender(genderIn), specie(specieIn) {}
 
 	std::string name;
 	Gender gender;

@@ -44,13 +44,13 @@
 #include "components/fish.hpp"
 
 
-Health::Health(ece::World& world) noexcept : System(world)
+Health::Health(ece::World& world) noexcept : ece::System(world)
 {
 }
 
 void Health::update([[maybe_unused]] float elapsedTime)
 {
-	for (auto & living : *this->_world.getTank<Living>()) {
+	for (auto & living : this->_world.getTank<Living>()) {
 		if (!living.isDirty()) {
 			++living.age;
 			if (living.age >= 20) {
@@ -58,6 +58,7 @@ void Health::update([[maybe_unused]] float elapsedTime)
 				this->_world.destroy(living.getOwner());
 			}
 			else if (living.life <= 0) {
+				ece::WARNING << "ID #" << living.getOwner() << " has died of an unknown reason." << ece::flush;
 				this->_world.destroy(living.getOwner());
 			}
 			else {

@@ -45,7 +45,7 @@
 #include "components/living.hpp"
 #include "components/sexuality.hpp"
 
-FoodChain::FoodChain(ece::World& world) noexcept : System(world)
+FoodChain::FoodChain(ece::World& world) noexcept : ece::System(world)
 {
 }
 
@@ -53,56 +53,55 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 {
 	ece::INFO << "##### Lunch Time #####" << ece::flush;
 
-	const auto nbAlgas = this->_world.getTank<Alga>()->size();
-	const auto nbFishes = this->_world.getTank<Fish>()->size();
+	const auto nbAlgas = this->_world.getTank<Alga>().size();
+	const auto nbFishes = this->_world.getTank<Fish>().size();
 
-	for (auto & fish : *this->_world.getTank<Diet>()) {
-		auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
-		auto & fishLiving = fishId.getComponent<Living>();
-		auto & fishSexuality = fishId.getComponent<Sexuality>();
-		auto & fishFish = fishId.getComponent<Fish>();
-		if (!fish.isDirty() && fishLiving.isAlive() && fishLiving.life <= 5) {
-			if (fish.type == DietType::HERBIVOROUS) {
-				if (nbAlgas > 0) {
-					bool feed = false;
-					do {
-						auto targetId = ece::EntityHandler(this->_world.getTank<Alga>()->at(std::rand() % nbAlgas).getOwner(), this->_world);
-						auto & targetLiving = targetId.getComponent<Living>();
-						feed = targetLiving.isAlive();
-						if (feed) {
-							fishLiving.life += 3;
-							fishSexuality.ready = false;
-							ece::INFO << fishFish.name << " the " << fishFish.specie << " (+3 PV) eats an alga (-2 PV)." << ece::flush;
+	for (auto & fish : this->_world.getTank<Diet>()) {
+		if (!fish.isDirty()) {
+			auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
+			auto [fishLiving, fishSexuality, fishFish] = fishId.getComponents<Living, Sexuality, Fish>();
+			if (!fish.isDirty() && fishLiving.isAlive() && fishLiving.life <= 5) {
+				if (fish.type == DietType::HERBIVOROUS) {
+					if (nbAlgas > 0) {
+						bool feed = false;
+						do {
+							auto targetId = ece::EntityHandler(this->_world.getTank<Alga>().at(std::rand() % nbAlgas).getOwner(), this->_world);
+							auto& targetLiving = targetId.getComponent<Living>();
+							feed = targetLiving.isAlive();
+							if (feed) {
+								fishLiving.life += 3;
+								fishSexuality.ready = false;
+								ece::INFO << fishFish.name << " the " << fishFish.specie << " (+3 PV) eats an alga (-2 PV)." << ece::flush;
 
-							targetLiving.life -= 2;
-							if (!targetLiving.isAlive()) {
-								ece::WARNING << "Alga ID #" << targetId.getId() << " was too weak and died." << ece::flush;
-								this->_world.destroy(targetId.getId());
+								targetLiving.life -= 2;
+								if (!targetLiving.isAlive()) {
+									ece::WARNING << "Alga ID #" << targetId.getId() << " was too weak and died." << ece::flush;
+									this->_world.destroy(targetId.getId());
+								}
 							}
-						}
-					} while (!feed);
+						} while (!feed);
+					}
 				}
-			}
-			else if (fish.type == DietType::CARNIVOROUS) {
-				if (nbFishes > 1) {
-					bool feed = false;
-					do {
-						auto targetId = ece::EntityHandler(this->_world.getTank<Fish>()->at(std::rand() % nbFishes).getOwner(), this->_world);
-						auto & targetLiving = targetId.getComponent<Living>();
-						auto & targetFish = targetId.getComponent<Fish>();
-						feed = targetLiving.isAlive() && targetLiving.getOwner() != fish.getOwner() && targetFish.specie != fishFish.specie;
-						if (feed) {
-							fishLiving.life += 5;
-							fishSexuality.ready = false;
-							ece::INFO << fishFish.name << " the " << fishFish.specie << " (+5 PV) eats " << targetFish.name << " the " << targetFish.specie << " (-4 PV)." << ece::flush;
+				else if (fish.type == DietType::CARNIVOROUS) {
+					if (nbFishes > 1) {
+						bool feed = false;
+						do {
+							auto targetId = ece::EntityHandler(this->_world.getTank<Fish>().at(std::rand() % nbFishes).getOwner(), this->_world);
+							auto [targetLiving, targetFish] = targetId.getComponents<Living, Fish>();
+							feed = targetLiving.isAlive() && targetId != fishId && targetFish.specie != fishFish.specie;
+							if (feed) {
+								fishLiving.life += 5;
+								fishSexuality.ready = false;
+								ece::INFO << fishFish.name << " the " << fishFish.specie << " (+5 PV) eats " << targetFish.name << " the " << targetFish.specie << " (-4 PV)." << ece::flush;
 
-							targetLiving.life -= 4;
-							if (!targetLiving.isAlive()) {
-								ece::WARNING << targetFish.name << " the " << targetFish.specie << " was too weak and died." << ece::flush;
-								this->_world.destroy(targetId.getId());
+								targetLiving.life -= 4;
+								if (!targetLiving.isAlive()) {
+									ece::WARNING << targetFish.name << " the " << targetFish.specie << " was too weak and died." << ece::flush;
+									this->_world.destroy(targetId.getId());
+								}
 							}
-						}
-					} while (!feed);
+						} while (!feed);
+					}
 				}
 			}
 		}

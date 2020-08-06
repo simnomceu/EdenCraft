@@ -44,76 +44,72 @@
 #include "components/fish.hpp"
 #include "incubator.hpp"
 
-Reproduction::Reproduction(ece::World& world) noexcept: System(world)
+Reproduction::Reproduction(ece::World& world) noexcept: ece::System(world)
 {
 }
 
 void Reproduction::update([[maybe_unused]] float elapsedTime)
 {
-	for (auto& sexuality : *this->_world.getTank<Sexuality>()) {
-		auto fishId = ece::EntityHandler(sexuality.getOwner(), this->_world);
-		auto & fish = fishId.getComponent<Fish>();
-
+	for (auto & sexuality : this->_world.getTank<Sexuality>()) {
 		if (!sexuality.isDirty()) {
-			if (sexuality.ready) {
+			auto fishId = ece::EntityHandler(sexuality.getOwner(), this->_world);
+			auto& fishLiving = fishId.getComponent<Living>();
+
+			if (sexuality.ready && fishLiving.life >= 5) {
 				switch (sexuality.type) {
 				case SexualityType::MONOSEXUAL: {
-					auto partnerId = ece::EntityHandler(this->_world.getTank<Fish>()->at(rand() % this->_world.getTank<Fish>()->size()).getOwner(), this->_world);
-					auto & partner = partnerId.getComponent<Fish>();
-					auto & partnerLiving = partnerId.getComponent<Living>();
-					if (partner.gender != fish.gender && partner.specie == fish.specie && partnerLiving.life >= 5 && partnerId.getId() != fishId.getId()) {
-						auto baby = create(this->_world, this->_world.getComponent<Fish>(id).specie);
-						baby.getComponent<Sexuality>().ready = false;
-						ece::INFO << this->_world.getComponent<Fish>(id).name << " the " << this->_world.getComponent<Fish>(id).specie << " and "
-							<< this->_world.getComponent<Fish>(partner).name << " the " << this->_world.getComponent<Fish>(partner).specie
-							<< " bring a baby into this aquarium : " << baby.getComponent<Fish>().name << " the "
-							<< baby.getComponent<Fish>().specie << "." << ece::flush;
+					auto& fish = fishId.getComponent<Fish>();
+					auto partnerId = ece::EntityHandler(this->_world.getTank<Fish>().at(rand() % this->_world.getTank<Fish>().size()).getOwner(), this->_world);
+					auto [partner, partnerLiving] = partnerId.getComponents<Fish, Living>();
+					if (partner.gender != fish.gender && partner.specie == fish.specie && partnerLiving.life >= 5 && partnerId != fishId) {
+						auto babyId = create(this->_world, fish.specie);
+						babyId.getComponent<Sexuality>().ready = false;
+						auto& baby = babyId.getComponent<Fish>();
+						ece::INFO << fish.name << " the " << fish.specie << " and " << partner.name << " the " << partner.specie << " bring a baby into this aquarium : "
+							<< baby.name << " the " << baby.specie << "." << ece::flush;
 					}
-				}
-											  break;
+				} break;
 				case SexualityType::SWINGER: {
-					if (this->_world.getComponent<Living>(id).life >= 5) {
-						if (this->_world.getComponent<Living>(id).life >= 10 && this->_world.getComponent<Fish>(id).gender == Gender::MALE) {
-							this->_world.getComponent<Fish>(id).gender = Gender::FEMALE;
+					auto& fish = fishId.getComponent<Fish>();
+					if (fishLiving.life >= 5) {
+						if (fishLiving.life >= 10 && fish.gender == Gender::MALE) {
+							fish.gender = Gender::FEMALE;
 						}
 
-						auto partner = this->_world.getTank<Fish>()->at(rand() % this->_world.getTank<Fish>()->size()).getOwner();
-						if (this->_world.getComponent<Fish>(partner).gender != this->_world.getComponent<Fish>(id).gender
-							&& this->_world.getComponent<Fish>(partner).specie == this->_world.getComponent<Fish>(id).specie && partner != id) {
-							auto baby = create(this->_world, this->_world.getComponent<Fish>(id).specie);
-							baby.getComponent<Sexuality>().ready = false;
-							ece::INFO << this->_world.getComponent<Fish>(id).name << " the " << this->_world.getComponent<Fish>(id).specie << " and "
-								<< this->_world.getComponent<Fish>(partner).name << " the " << this->_world.getComponent<Fish>(partner).specie
-								<< " bring a baby into this aquarium : " << baby.getComponent<Fish>().name << " the "
-								<< baby.getComponent<Fish>().specie << "." << ece::flush;
+						auto partnerId = ece::EntityHandler(this->_world.getTank<Fish>().at(rand() % this->_world.getTank<Fish>().size()).getOwner(), this->_world);
+						auto& partner = partnerId.getComponent<Fish>();
+						if (partner.gender != fish.gender && partner.specie == fish.specie && partnerId != fishId) {
+							auto babyId = create(this->_world, fish.specie);
+							babyId.getComponent<Sexuality>().ready = false;
+							auto& baby = babyId.getComponent<Fish>();
+							ece::INFO << fish.name << " the " << fish.specie << " and " << partner.name << " the " << partner.specie << " bring a baby into this aquarium : "
+								<< baby.name << " the " << baby.specie << "." << ece::flush;
 						}
 					}
-				}
-										   break;
+				} break;
 				case SexualityType::OPPORTUNIST: {
-					auto partner = this->_world.getTank<Fish>()->at(rand() % this->_world.getTank<Fish>()->size()).getOwner();
-					if (this->_world.getComponent<Fish>(partner).specie == this->_world.getComponent<Fish>(id).specie
-						&& this->_world.getComponent<Living>(id).life >= 5 && partner != id) {
-						if (this->_world.getComponent<Fish>(partner).gender == this->_world.getComponent<Fish>(id).gender) {
-							this->_world.getComponent<Fish>(id).gender = (this->_world.getComponent<Fish>(id).gender == Gender::MALE ? Gender::FEMALE : Gender::MALE);
+					auto& fish = fishId.getComponent<Fish>();
+					auto partnerId = ece::EntityHandler(this->_world.getTank<Fish>().at(rand() % this->_world.getTank<Fish>().size()).getOwner(), this->_world);
+					auto & partner = partnerId.getComponent<Fish>();
+					if (partner.specie == fish.specie && fishLiving.life >= 5 && partnerId != fishId) {
+						if (partner.gender == fish.gender) {
+							fish.gender = (fish.gender == Gender::MALE ? Gender::FEMALE : Gender::MALE);
 						}
-						auto baby = create(this->_world, this->_world.getComponent<Fish>(id).specie);
-						baby.getComponent<Sexuality>().ready = false;
-						ece::INFO << this->_world.getComponent<Fish>(id).name << " the " << this->_world.getComponent<Fish>(id).specie << " and "
-							<< this->_world.getComponent<Fish>(partner).name << " the " << this->_world.getComponent<Fish>(partner).specie
-							<< " bring a baby into this aquarium : " << baby.getComponent<Fish>().name << " the "
-							<< baby.getComponent<Fish>().specie << "." << ece::flush;
+						auto babyId = create(this->_world, fish.specie);
+						babyId.getComponent<Sexuality>().ready = false;
+						auto& baby = babyId.getComponent<Fish>();
+						ece::INFO << fish.name << " the " << fish.specie << " and " << partner.name << " the " << partner.specie << " bring a baby into this aquarium : "
+							<< baby.name << " the " << baby.specie << "." << ece::flush;
 					}
-				}
-											   break;
+				} break;
 				case SexualityType::PARTHENOGENESIS:
-					if (this->_world.getComponent<Living>(id).life >= 10) {
-						auto newLife = this->_world.getComponent<Living>(id).life / 2;
-						this->_world.getComponent<Living>(id).life = newLife;
-						auto baby = create(this->_world, this->_world.hasComponent<Fish>(id) ? this->_world.getComponent<Fish>(id).specie : "alga");
+					if (fishLiving.life >= 10) {
+						auto newLife = fishLiving.life / 2;
+						fishLiving.life = newLife;
+						auto baby = create(this->_world, fishId.hasComponent<Fish>() ? fishId.getComponent<Fish>().specie : "alga");
 						baby.getComponent<Sexuality>().ready = false;
 						baby.getComponent<Living>().life = newLife;
-						ece::INFO << "Alga ID #" << id << " bring a baby alga into this aquarium : Alga ID #" << baby.getId() << "." << ece::flush;
+						ece::INFO << "Alga ID #" << fishId.getId() << " bring a baby alga into this aquarium : Alga ID #" << baby.getId() << "." << ece::flush;
 					}
 					break;
 				default: break;

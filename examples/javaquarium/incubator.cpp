@@ -54,7 +54,7 @@ auto create(ece::World& world, std::string type) -> ece::EntityHandler
 	else if (type == "tuna") {
 		return world.createEntity(createTuna);
 	}
-	else if (type == "clowfish") {
+	else if (type == "clownfish") {
 		return world.createEntity(createClownFish);
 	}
 	else if (type == "sole") {

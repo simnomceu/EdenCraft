@@ -51,7 +51,7 @@ enum class DietType
 
 struct Diet : public ece::Component<Diet>
 {
-	inline Diet(DietType typeIn) noexcept : type(typeIn) {}
+	inline Diet(DietType typeIn) noexcept : ece::Component<Diet>(), type(typeIn) {}
 
 	DietType type;
 };

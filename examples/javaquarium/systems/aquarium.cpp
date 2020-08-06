@@ -47,7 +47,7 @@
 #include "incubator.hpp"
 
 
-Aquarium::Aquarium(ece::World& world) noexcept : System(world), _turn(0)
+Aquarium::Aquarium(ece::World& world) noexcept : ece::System(world), _turn(0)
 {
 }
 
@@ -56,14 +56,16 @@ void Aquarium::update([[maybe_unused]] float elapsedTime)
 	++this->_turn;
 
 	ece::INFO << "##### Turn " << this->_turn << " #####" << ece::flush;
-	ece::INFO << "Number of algas : " << this->_world.getTank<Alga>()->size() << ece::flush;
-	ece::INFO << "Number of fishes : " << this->_world.getTank<Fish>()->size() << ece::flush;
-	for (auto & fish : *this->_world.getTank<Fish>()) {
-		auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
-
+	ece::INFO << "Number of algas : " << this->_world.getTank<Alga>().size() << ece::flush;
+	ece::INFO << "Number of fishes : " << this->_world.getTank<Fish>().size() << ece::flush;
+	for (auto & fish : this->_world.getTank<Fish>()) {
 		if (!fish.isDirty()) {
-			ece::INFO << "    ID #" << fish.getOwner() << ": " << fish.name << " the " << fish.specie << " (" << (fish.gender == Gender::MALE ? "M" : "F") << ") ["
-				<< fishId.getComponent<Living>().life << " PV]" << ece::flush;
+			auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
+
+			if (!fish.isDirty()) {
+				ece::INFO << "    ID #" << fish.getOwner() << ": " << fish.name << " the " << fish.specie << " (" << (fish.gender == Gender::MALE ? "M" : "F") << ") ["
+					<< fishId.getComponent<Living>().life << " PV]" << ece::flush;
+			}
 		}
 	}
 	std::cin.get();

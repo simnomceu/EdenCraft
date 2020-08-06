@@ -53,7 +53,7 @@ enum class SexualityType
 
 struct Sexuality : public ece::Component<Sexuality>
 {
-	inline Sexuality(SexualityType typeIn) noexcept : type(typeIn), ready(true) {}
+	inline Sexuality(SexualityType typeIn) noexcept : ece::Component<Sexuality>(), type(typeIn), ready(true) {}
 
 	SexualityType type;
 	bool ready;

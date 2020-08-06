@@ -45,7 +45,7 @@
 
 struct Living : public ece::Component<Living>
 {
-	inline Living(int ageIn) noexcept : life(10), age(ageIn) {}
+	inline Living(int ageIn) noexcept : ece::Component<Living>(), life(10), age(ageIn) {}
 	inline auto isAlive() noexcept -> bool { return !(this->life <= 0 || this->age >= 20); }
 
 	unsigned int life;
