@@ -77,7 +77,7 @@ namespace ece
 
 			void World::destroy(Handle entityID)
 			{
-				std::find_if(this->_entities.begin(), this->_entities.end(), [&entityID](const auto& entity) -> bool { return entity.id == entityID; })->dirty = true;
+				std::find_if(this->_entities.begin(), this->_entities.end(), [entityID](const auto& entity) -> bool { return entity.id == entityID; })->dirty = true;
 				for (auto & tank : this->_tanks) {
 					tank.second->destroy(entityID);
 				}

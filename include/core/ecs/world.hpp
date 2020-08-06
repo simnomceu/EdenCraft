@@ -128,7 +128,7 @@ namespace ece
 				void update();
 
 				template <class ComponentType>
-				auto getTank();
+				auto & getTank();
 
 				template <class SystemType, class... Args>
 				auto addSystem(Args&&... args);

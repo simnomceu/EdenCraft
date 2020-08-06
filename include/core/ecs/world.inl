@@ -55,12 +55,12 @@ namespace ece
 			inline World::~World() noexcept {}
 
 			template <class ComponentType>
-			auto World::getTank()
+			auto & World::getTank()
 			{
 				if (this->_tanks.find(std::type_index(typeid(ComponentType))) == this->_tanks.end()) {
-					this->_tanks[std::type_index(typeid(ComponentType))] = std::make_shared<ComponentTank<ComponentType>>();
+					this->addTank<ComponentType>();
 				}
-				return std::static_pointer_cast<ComponentTank<ComponentType>>(this->_tanks[std::type_index(typeid(ComponentType))]);
+				return *std::static_pointer_cast<ComponentTank<ComponentType>>(this->_tanks[std::type_index(typeid(ComponentType))]);
 			}
 
 			template <class SystemType, class... Args>
@@ -87,9 +87,10 @@ namespace ece
 			template <class ComponentType>
 			auto World::hasComponent(Handle entityID)
 			{
-				auto tank = this->getTank<ComponentType>();
-				auto it = std::find_if(tank->begin(), tank->end(), [entityID](auto & element) {return element.getOwner() == entityID; });
-				return it != tank->end();
+				auto & tank = this->getTank<ComponentType>();
+				auto it = std::find_if(tank.begin(), tank.end(), [entityID](auto & element) {return element.getOwner() == entityID; });
+				return it != tank.end();
+			}
 
 			template <class... ComponentTypes>
 			auto World::hasComponents(Handle entityID)
@@ -100,9 +101,9 @@ namespace ece
 			template <class ComponentType>
 			auto & World::getComponent(Handle entityID)
 			{
-				auto tank = this->getTank<ComponentType>();
-				auto it = std::find_if(tank->begin(), tank->end(), [entityID](auto & element) {return element.getOwner() == entityID; });
-				if (it == tank->end()) {
+				auto & tank = this->getTank<ComponentType>();
+				auto it = std::find_if(tank.begin(), tank.end(), [entityID](auto & element) {return element.getOwner() == entityID; });
+				if (it == tank.end()) {
 					throw std::runtime_error("This entity does not have a component of this type");
 				}
 				return *it;

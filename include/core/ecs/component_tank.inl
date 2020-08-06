@@ -57,10 +57,9 @@ namespace ece
 			template <class ComponentType>
 			void ComponentTank<ComponentType>::destroy(Handle entityID)
 			{
-				for (auto & component : *this) {
-					if (component.getOwner() == entityID) {
-						component.setDirty(true);
-					}
+				auto result = std::find_if(this->begin(), this->end(), [&entityID](const auto& component) -> bool { return component.getOwner() == entityID; });
+				if (result != this->end()) {
+					result->setDirty(true);
 				}
 			}
 

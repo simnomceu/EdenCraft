@@ -53,10 +53,10 @@ namespace ece
 			{
 				auto component = ComponentType(args...);
 				component.setOwner(this->_id);
-				auto tank = this->_world.getTank<ComponentType>();
-				tank->push_back(std::move(component));
-				this->_world.onComponentCreated(tank->back());
-				return tank->back();
+				auto & tank = this->_world.getTank<ComponentType>();
+				tank.push_back(std::move(component));
+				this->_world.onComponentCreated(tank.back());
+				return tank.back();
 			}
 
 			template <class ComponentType>
