@@ -49,6 +49,8 @@ namespace ece
 	{
 		namespace ecs
 		{
+			template <class ComponentType> class ComponentTank;
+
 			/**
 			 * @class Component
 			 * @extends BaseComponent
@@ -58,6 +60,9 @@ namespace ece
 			template<class T>
 			class ECE_CORE_API Component: public BaseComponent
 			{
+				friend class World;
+				friend class ComponentTank<T>;
+
 			public:
 				/**
 				 * @fn Component()
@@ -66,7 +71,7 @@ namespace ece
 				 */
 				constexpr Component() noexcept;
 
-				Component(const Component<T>& rhs) noexcept = default;
+				Component(const Component<T>& rhs) noexcept = delete;
 				Component(Component<T> && rhs) noexcept = default;
 
 				/**
@@ -79,17 +84,11 @@ namespace ece
 				Component& operator=(const Component<T>& rhs) noexcept = default;
 				Component& operator=(Component<T> && rhs) noexcept = default;
 
-				inline virtual void setOwner(const Handle owner) override;
-
 				/**
 				 * @fn unsigned int getOwner() const
 				 * @return The entity owner.
 				 */
 				inline virtual auto getOwner() const ->Handle override;
-
-				inline virtual auto isDirty() const -> bool override;
-
-				inline virtual void setDirty(bool dirty) override;
 
 			protected:
 				/**
@@ -99,6 +98,13 @@ namespace ece
 				Handle _owner;
 
 				bool _dirty;
+
+			private:
+				inline virtual void setOwner(const Handle owner) override;
+
+				inline virtual auto isDirty() const -> bool override;
+
+				inline virtual void setDirty(bool dirty) override;
 			};
 		} // namespace ecs
 	} // namespace core

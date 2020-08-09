@@ -71,7 +71,7 @@ namespace ece
 				template <class T> void forAll(const std::weak_ptr<T>& object, void (T::* routine)(ComponentType&) const);
 
 				auto size() const -> std::size_t;
-				ComponentType& at(const std::size_t index);
+				ComponentType & at(const std::size_t index);
 				const ComponentType & at(const std::size_t index) const;
 
 			private:

@@ -80,7 +80,7 @@ namespace ece
 				}
 
 				this->_cursor += count + 1;
-				return std::move(value);
+				return value;
 			}
 
 			inline char StringStream::peek()

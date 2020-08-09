@@ -57,10 +57,10 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 	const auto nbFishes = this->_world.getComponents<Fish>().size();
 
 	this->_world.getComponents<Diet>().forEach([this, &nbAlgas, &nbFishes](auto& fish) {
-		if (!fish.isDirty()) {
+		if (fish) {
 			auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
 			auto [fishLiving, fishSexuality, fishFish] = fishId.getComponents<Living, Sexuality, Fish>();
-			if (!fish.isDirty() && fishLiving.isAlive() && fishLiving.life <= 5) {
+			if (fish && fishLiving.isAlive() && fishLiving.life <= 5) {
 				if (fish.type == DietType::HERBIVOROUS) {
 					if (nbAlgas > 0) {
 						bool feed = false;
@@ -75,12 +75,15 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 
 								targetLiving.life -= 2;
 								if (!targetLiving.isAlive()) {
-									ece::WARNING << "Alga ID #" << targetId.getId() << " was too weak and died." << ece::flush;
-									this->_world.destroy(targetId.getId());
+									ece::WARNING << "Alga ID #" << targetLiving.getOwner() << " was too weak and died." << ece::flush;
+									targetId.destroy();
 									--nbAlgas;
 								}
 							}
-						} while (!feed);
+							else {
+								--nbAlgas;
+							}
+						} while (!feed && nbAlgas > 0);
 					}
 				}
 				else if (fish.type == DietType::CARNIVOROUS) {
@@ -89,7 +92,7 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 						do {
 							auto targetId = ece::EntityHandler(this->_world.getComponents<Fish>().at(std::rand() % nbFishes).getOwner(), this->_world);
 							auto [targetLiving, targetFish] = targetId.getComponents<Living, Fish>();
-							feed = targetLiving.isAlive() && targetId != fishId && targetFish.specie != fishFish.specie;
+							feed = targetLiving.isAlive() && targetId != fishId;/*&& targetFish.specie != fishFish.specie;*/
 							if (feed) {
 								fishLiving.life += 5;
 								fishSexuality.ready = false;
@@ -98,7 +101,7 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 								targetLiving.life -= 4;
 								if (!targetLiving.isAlive()) {
 									ece::WARNING << targetFish.name << " the " << targetFish.specie << " was too weak and died." << ece::flush;
-									this->_world.destroy(targetId.getId());
+									targetId.destroy();
 								}
 							}
 						} while (!feed);
@@ -107,6 +110,4 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 			}
 		}
 	});
-
-	std::cin.get();
 }

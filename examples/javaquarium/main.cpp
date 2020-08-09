@@ -53,17 +53,17 @@ int main()
 		auto app = ece::Application();
 
 		auto & world = app.addWorld();
-		auto aquarium = world.addSystem<Aquarium>();
+		auto & aquarium = world.addSystem<Aquarium>();
 		world.addSystem<Health>();
 		world.addSystem<FoodChain>();
 		world.addSystem<Reproduction>();
 
 		app.onPostInit.connect([&aquarium]() {
-			aquarium->init(10, 2);
+			aquarium.init(10, 2);
 		});
 
 		app.onPostUpdate.connect([&aquarium, &app, &world]() {
-			if (aquarium->getTurn() >= 20 || world.getComponents<Fish>().size() == 0) {
+			if (aquarium.getTurn() >= 20 || world.getComponents<Fish>().size() == 0) {
 				app.stop();
 			}
 		});

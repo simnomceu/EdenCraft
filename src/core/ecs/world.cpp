@@ -38,7 +38,6 @@
 
 #include "core/pch.hpp"
 #include "core/ecs/world.hpp"
-
 #include "core/ecs/entity_handler.hpp"
 
 namespace ece
@@ -67,7 +66,7 @@ namespace ece
 				auto handler = EntityHandler(entity.id, *this);
 				this->_entities.push_back(std::move(entity));
 				this->onEntityCreated(handler);
-				return std::move(handler);
+				return handler;
 			}
 
 			auto World::createEntity(World::Prototype prototype) -> EntityHandler

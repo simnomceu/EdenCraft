@@ -65,16 +65,15 @@ void Aquarium::update([[maybe_unused]] float elapsedTime)
 	ece::INFO << "Number of algas : " << this->_world.getComponents<Alga>().size() << ece::flush;
 	ece::INFO << "Number of fishes : " << this->_world.getComponents<Fish>().size() << ece::flush;
 	this->_world.getComponents<Fish>().forEach([this](auto& fish) {
-		if (!fish.isDirty()) {
+		if (fish) {
 			auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
 
-			if (!fish.isDirty()) {
+			if (fish) {
 				ece::INFO << "    ID #" << fish.getOwner() << ": " << fish.name << " the " << fish.specie << " (" << (fish.gender == Gender::MALE ? "M" : "F") << ") ["
 					<< fishId.getComponent<Living>().life << " PV]" << ece::flush;
 			}
 		}
 	});
-	std::cin.get();
 }
 
 void Aquarium::init(int numberOfFishes, int numberOfAlgas)

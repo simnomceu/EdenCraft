@@ -50,10 +50,10 @@ Reproduction::Reproduction(ece::World& world) noexcept: ece::System(world)
 
 void Reproduction::update([[maybe_unused]] float elapsedTime)
 {
-	auto babyFishes = std::vector<std::tuple<Fish, Fish, std::string>>();
+	auto babyFishes = std::vector<std::tuple<std::string, std::string, std::string>>();
 	auto babyAlgas = std::vector<std::tuple<ece::EntityHandler, unsigned int>>();
 	this->_world.getComponents<Sexuality>().forEach([this, &babyFishes, &babyAlgas](auto& sexuality) {
-		if (!sexuality.isDirty()) {
+		if (sexuality) {
 			auto fishId = ece::EntityHandler(sexuality.getOwner(), this->_world);
 			auto& fishLiving = fishId.getComponent<Living>();
 
@@ -64,7 +64,7 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 					auto partnerId = ece::EntityHandler(this->_world.getComponents<Fish>().at(rand() % this->_world.getComponents<Fish>().size()).getOwner(), this->_world);
 					auto [partner, partnerLiving] = partnerId.getComponents<Fish, Living>();
 					if (partner.gender != fish.gender && partner.specie == fish.specie && partnerLiving.life >= 5 && partnerId != fishId) {
-						babyFishes.push_back({ fish, partner, fish.specie });
+						babyFishes.push_back({ fish.name + " the " + fish.specie, partner.name + " the " + partner.specie, fish.specie });
 					}
 				} break;
 				case SexualityType::SWINGER: {
@@ -77,7 +77,7 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 						auto partnerId = ece::EntityHandler(this->_world.getComponents<Fish>().at(rand() % this->_world.getComponents<Fish>().size()).getOwner(), this->_world);
 						auto& partner = partnerId.getComponent<Fish>();
 						if (partner.gender != fish.gender && partner.specie == fish.specie && partnerId != fishId) {
-							babyFishes.push_back({ fish, partner, fish.specie });
+							babyFishes.push_back({ fish.name + " the " + fish.specie, partner.name + " the " + partner.specie, fish.specie });
 						}
 					}
 				} break;
@@ -89,7 +89,7 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 						if (partner.gender == fish.gender) {
 							fish.gender = (fish.gender == Gender::MALE ? Gender::FEMALE : Gender::MALE);
 						}
-						babyFishes.push_back({ fish, partner, fish.specie });
+						babyFishes.push_back({ fish.name + " the " + fish.specie, partner.name + " the " + partner.specie, fish.specie });
 					}
 				} break;
 				case SexualityType::PARTHENOGENESIS: {
@@ -111,15 +111,22 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 		babyId.getComponent<Sexuality>().ready = false;
 		auto& baby = babyId.getComponent<Fish>();
 		babyId.getComponent<Living>().age = 0;
-		ece::INFO << parent1.name << " the " << parent1.specie << " and " << parent2.name << " the " << parent2.specie << " bring a baby into this aquarium : "
-			<< baby.name << " the " << baby.specie << "." << ece::flush;
+		ece::INFO << parent1
+			<< " and " 
+			<< parent2
+			<< " bring a baby into this aquarium : "
+			<< baby.name 
+			<< " the " 
+			<< baby.specie 
+			<< "." 
+			<< ece::flush;
 	}
 	for (auto& [parent, life] : babyAlgas) {
 		auto baby = create(this->_world, parent.hasComponent<Fish>() ? parent.getComponent<Fish>().specie : "alga");
-		baby.getComponent<Sexuality>().ready = false;
-		baby.getComponent<Living>().life = life;
-		baby.getComponent<Living>().age = 0;
-		ece::INFO << "Alga ID #" << parent.getId() << " bring a baby alga into this aquarium : Alga ID #" << baby.getId() << "." << ece::flush;
+		auto [babySexuality, babyLiving] = baby.getComponents<Sexuality, Living>();
+		babySexuality.ready = false;
+		babyLiving.life = life;
+		babyLiving.age = 0;
+		ece::INFO << "Alga ID #" << parent.getComponent<Living>().getOwner() << " bring a baby alga into this aquarium : Alga ID #" << babyLiving.getOwner() << "." << ece::flush;
 	}
-	std::cin.get();
 }

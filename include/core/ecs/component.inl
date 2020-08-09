@@ -49,10 +49,10 @@ namespace ece
 			Component<T>::~Component() noexcept {}
 
 			template<class T>
-			inline void Component<T>::setOwner(const Handle owner) { this->_owner = owner; }
+			inline auto Component<T>::getOwner() const -> Handle { return this->_owner; }
 
 			template<class T>
-			inline auto Component<T>::getOwner() const -> Handle { return this->_owner; }
+			inline void Component<T>::setOwner(const Handle owner) { this->_owner = owner; }
 
             template <class T>
 			inline auto Component<T>::isDirty() const -> bool { return this->_dirty; }

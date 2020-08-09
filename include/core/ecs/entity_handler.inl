@@ -46,8 +46,6 @@ namespace ece
 		{
 			inline EntityHandler::EntityHandler(Handle id, World & world) noexcept: _id(id), _world(world) {}
 
-			inline auto EntityHandler::getId() const { return this->_id; }
-
 			template <class ComponentType, class ... Args>
 			auto & EntityHandler::addComponent(Args&&... args)
 			{
@@ -78,14 +76,31 @@ namespace ece
 				return this->_world.getComponents<ComponentTypes...>(this->_id);
 			}
 
+			template <class ComponentType>
+			void EntityHandler::removeComponent()
+			{
+				this->_world.removeComponent<ComponentType>(this->_id);
+			}
+
+			template <class... ComponentTypes>
+			void EntityHandler::removeComponents()
+			{
+				this->_world.removeComponents<ComponentTypes...>(this->_id);
+			}
+			
+			inline void EntityHandler::destroy()
+			{
+				this->_world.destroy(this->_id);
+			}
+
 			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
 			{
-				return lhs.getId() == rhs.getId();
+				return lhs._id == rhs._id;
 			}
 
 			inline auto operator!=(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
 			{
-				return lhs.getId() != rhs.getId();
+				return lhs._id != rhs._id;
 			}
 		} // namespace ecs
 	} // namespace core

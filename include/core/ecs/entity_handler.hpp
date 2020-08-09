@@ -57,11 +57,6 @@ namespace ece
 			class ECE_CORE_API EntityHandler
 			{
 			public:
-				/**
-				 * @fn constexpr EntityHandler() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
 				constexpr EntityHandler() noexcept = delete;
 
 				inline EntityHandler(Handle id, World & world) noexcept;
@@ -107,22 +102,21 @@ namespace ece
 				 */
 				EntityHandler & operator=(EntityHandler && move) noexcept = default;
 
-				inline auto getId() const;
-
 				template <class ComponentType, class ... Args>
 				auto & addComponent(Args&&... args);
 
-				template <class ComponentType>
-				auto hasComponent() const;
+				template <class ComponentType> auto hasComponent() const;
+				template <class... ComponentTypes> auto hasComponents() const;
 
-				template <class... ComponentTypes>
-				auto hasComponents() const;
+				template <class ComponentType> auto & getComponent();
+				template <class... ComponentTypes> auto getComponents();
 
-				template <class ComponentType>
-				auto & getComponent();
+				template <class ComponentType> void removeComponent();
+				template <class... ComponentTypes> void removeComponents();
+				inline void destroy();
 
-				template <class... ComponentTypes>
-				auto getComponents();
+				friend auto operator==(const EntityHandler& lhs, const EntityHandler& rhs) -> bool;
+				friend auto operator!=(const EntityHandler& lhs, const EntityHandler& rhs) -> bool;
 
 			private:
 				Handle _id;

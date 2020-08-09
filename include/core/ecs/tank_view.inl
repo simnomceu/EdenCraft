@@ -53,7 +53,7 @@ namespace ece
 			void TankView<ComponentType>::forEach(const std::function<void(ComponentType&)>& routine)
 			{
 				for (auto& component : this->_owner) {
-					if (!component.isDirty()) {
+					if (component) {
 						routine(component);
 					}
 				}
@@ -63,7 +63,7 @@ namespace ece
 			void TankView<ComponentType>::forEach(std::function<void(ComponentType&)>&& routine)
 			{
 				for (auto& component : this->_owner) {
-					if (!component.isDirty()) {
+					if (component) {
 						routine(component);
 					}
 				}
@@ -74,7 +74,7 @@ namespace ece
 			void TankView<ComponentType>::forEach(T& object, void (T::* routine)(ComponentType&))
 			{
 				for (auto& component : this->_owner) {
-					if (!component.isDirty()) {
+					if (component) {
 						routine(component);
 					}
 				}
@@ -85,7 +85,7 @@ namespace ece
 			void TankView<ComponentType>::forEach(std::weak_ptr<T>& object, void (T::* routine)(ComponentType&))
 			{
 				for (auto& component : this->_owner) {
-					if (!component.isDirty()) {
+					if (component) {
 						(object.lock()->*routine)(component);
 					}
 				}
@@ -96,7 +96,7 @@ namespace ece
 			void TankView<ComponentType>::forEach(const T& object, void (T::* routine)(ComponentType&) const)
 			{
 				for (auto& component : this->_owner) {
-					if (!component.isDirty()) {
+					if (component) {
 						(object.*routine)(component);
 					}
 				}
@@ -107,7 +107,7 @@ namespace ece
 			void TankView<ComponentType>::forEach(const std::weak_ptr<T>& object, void (T::* routine)(ComponentType&) const)
 			{
 				for (auto& component : this->_owner) {
-					if (!component.isDirty()) {
+					if (component) {
 						(object.lock()->*routine)(component);
 					}
 				}
@@ -169,7 +169,7 @@ namespace ece
 			auto TankView<ComponentType>::size() const -> std::size_t
 			{
 				return std::accumulate(this->_owner.begin(), this->_owner.end(), std::size_t{ 0 }, [](std::size_t result, const ComponentType & rhs) -> std::size_t {
-					return result + (rhs.isDirty() ? 0 : 1);
+					return result + (!rhs ? 0 : 1);
 				});
 			}
 
