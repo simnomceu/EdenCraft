@@ -18,7 +18,7 @@
 															`Y888P                                        888.
 																										  8P'
 																										  "
-														
+
 
 				This file is part of EdenCraft Engine - MoreCube sample.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -38,50 +38,65 @@
 
 */
 
-#include "core/application.hpp"
-#include "systems/aquarium.hpp"
-#include "systems/food_chain.hpp"
-#include "systems/health.hpp"
-#include "systems/reproduction.hpp"
 #include "systems/back_up.hpp"
+#include "components/alga.hpp"
+#include "components/diet.hpp"
 #include "components/fish.hpp"
-#include "core/format.hpp"
+#include "components/living.hpp"
+#include "components/sexuality.hpp"
+#include "utility/formats.hpp"
+#include "core/resource.hpp"
 
-int main()
+BackUp::BackUp(ece::World& world) noexcept : ece::System(world)
 {
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+}
 
-	try {
-		auto app = ece::Application();
+BackUp::~BackUp()
+{
+}
 
-		ece::ServiceFormatLocator().getService().registerLoader<ece::JSONLoader>("json");
-		ece::ServiceFormatLocator().getService().registerSaver<ece::JSONLoader>("json");
+void BackUp::update([[maybe_unused]] float elapsedTime)
+{
+	auto object = ece::makeResource<ece::ObjectJSON>("backup");
+	object->clear();
+	object->addInteger("numberOfEntities", this->_world.getNumberofEntities());
+	auto entities = object->addArray("entities");
+	auto entitiesNode = ece::NodeJSON::convertTo<ece::ArrayJSON>(entities);
 
-		auto & world = app.addWorld();
-		auto & aquarium = world.addSystem<Aquarium>();
-		world.addSystem<Health>();
-		world.addSystem<FoodChain>();
-		world.addSystem<Reproduction>();
-		world.addSystem<BackUp>();
+	this->_world.forEachEntity([&entitiesNode](ece::EntityHandler entity) {
+		auto entityNodePtr = entitiesNode->addObject();
+		auto entityNode = ece::NodeJSON::convertTo<ece::ObjectJSON>(entityNodePtr);
 
-		app.onPostInit.connect([&aquarium]() {
-			aquarium.init(10, 2);
-		});
-
-		app.onPostUpdate.connect([&aquarium, &app, &world]() {
-			if (aquarium.getTurn() >= 20 || world.getComponents<Fish>().size() == 0) {
-				app.stop();
-			}
-		});
-
-		app.run();
-	}
-	catch (std::runtime_error& e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-	catch (std::exception& e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-
-	return EXIT_SUCCESS;
+		if (entity.hasComponent<Alga>()) {
+			entityNode->addObject("alga");
+		}
+		if (entity.hasComponent<Diet>()) {
+			auto & diet = entity.getComponent<Diet>();
+			auto dietNodePtr = entityNode->addObject("diet");
+			auto dietNode = ece::NodeJSON::convertTo<ece::ObjectJSON>(dietNodePtr);
+			dietNode->addString("type", (diet.type == DietType::CARNIVOROUS ? "carnivorous" : "herbivorous"));
+		}
+		if (entity.hasComponent<Fish>()) {
+			auto& fish = entity.getComponent<Fish>();
+			auto fishNodePtr = entityNode->addObject("fish");
+			auto fishNode = ece::NodeJSON::convertTo<ece::ObjectJSON>(fishNodePtr);
+			fishNode->addString("name", fish.name);
+			fishNode->addString("gender", (fish.gender == Gender::MALE ? "male" : "female"));
+			fishNode->addString("specie", fish.specie);
+		}
+		if (entity.hasComponent<Living>()) {
+			auto& living = entity.getComponent<Living>();
+			auto livingNodePtr = entityNode->addObject("living");
+			auto livingNode = ece::NodeJSON::convertTo<ece::ObjectJSON>(livingNodePtr);
+			livingNode->addInteger("life", living.life);
+			livingNode->addInteger("age", living.age);
+		}
+		if (entity.hasComponent<Sexuality>()) {
+			auto& sexuality = entity.getComponent<Sexuality>();
+			auto sexualityNodePtr = entityNode->addObject("sexuality");
+			auto sexualityNode = ece::NodeJSON::convertTo<ece::ObjectJSON>(sexualityNodePtr);
+			sexualityNode->addInteger("type", static_cast<int>(sexuality.type));
+		}
+	});
+	ece::ResourceLoader().saveToFile("../../examples/javaquarium/resources/backup.json", { object });
 }

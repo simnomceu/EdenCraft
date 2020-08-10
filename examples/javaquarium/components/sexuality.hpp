@@ -45,10 +45,10 @@
 
 enum class SexualityType
 {
-	MONOSEXUAL,
-	SWINGER,
-	OPPORTUNIST,
-	PARTHENOGENESIS
+	MONOSEXUAL = 0,
+	SWINGER = 1,
+	OPPORTUNIST = 2,
+	PARTHENOGENESIS = 3
 };
 
 struct Sexuality : public ece::Component<Sexuality>

@@ -74,6 +74,24 @@ namespace ece
 				return prototype(*this);
 			}
 
+			void World::forEachEntity(const std::function<void(EntityHandler)>& routine)
+			{
+				for (auto & entity : this->_entities) {
+					if (!entity.dirty) {
+						routine(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			void World::forEachEntity(std::function<void(EntityHandler)>&& routine)
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						routine(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
 			void World::destroy(Handle entityID)
 			{
 				std::find_if(this->_entities.begin(), this->_entities.end(), [entityID](const auto& entity) -> bool { return entity.id == entityID; })->dirty = true;

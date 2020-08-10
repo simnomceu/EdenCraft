@@ -127,6 +127,15 @@ namespace ece
 				auto createEntity() -> EntityHandler;
 				auto createEntity(Prototype prototype) -> EntityHandler;
 
+				void forEachEntity(const std::function<void(EntityHandler)>& routine);
+				void forEachEntity(std::function<void(EntityHandler)>&& routine);
+				template <class T> void forEachEntity(T& object, void (T::* routine)(EntityHandler));
+				template <class T> void forEachEntity(std::weak_ptr<T>& object, void (T::* routine)(EntityHandler));
+				template <class T> void forEachEntity(const T& object, void (T::* routine)(EntityHandler) const);
+				template <class T> void forEachEntity(const std::weak_ptr<T>& object, void (T::* routine)(EntityHandler) const);
+
+				inline auto getNumberofEntities() const -> std::size_t;
+
 				template <class ComponentType> auto hasComponent(Handle entityID) -> bool;
 				template <class... ComponentTypes> auto hasComponents(Handle EntityID) -> bool;
 

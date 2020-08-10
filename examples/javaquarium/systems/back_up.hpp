@@ -18,7 +18,7 @@
 															`Y888P                                        888.
 																										  8P'
 																										  "
-														
+
 
 				This file is part of EdenCraft Engine - MoreCube sample.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -38,50 +38,19 @@
 
 */
 
-#include "core/application.hpp"
-#include "systems/aquarium.hpp"
-#include "systems/food_chain.hpp"
-#include "systems/health.hpp"
-#include "systems/reproduction.hpp"
-#include "systems/back_up.hpp"
-#include "components/fish.hpp"
-#include "core/format.hpp"
+#ifndef BACK_UP_HPP
+#define BACK_UP_HPP
 
-int main()
+#include "core/ecs.hpp"
+
+class BackUp : public ece::System
 {
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+public:
+	BackUp(ece::World& world) noexcept;
 
-	try {
-		auto app = ece::Application();
+	~BackUp();
 
-		ece::ServiceFormatLocator().getService().registerLoader<ece::JSONLoader>("json");
-		ece::ServiceFormatLocator().getService().registerSaver<ece::JSONLoader>("json");
+	virtual void update([[maybe_unused]] float elapsedTime) override;
+};
 
-		auto & world = app.addWorld();
-		auto & aquarium = world.addSystem<Aquarium>();
-		world.addSystem<Health>();
-		world.addSystem<FoodChain>();
-		world.addSystem<Reproduction>();
-		world.addSystem<BackUp>();
-
-		app.onPostInit.connect([&aquarium]() {
-			aquarium.init(10, 2);
-		});
-
-		app.onPostUpdate.connect([&aquarium, &app, &world]() {
-			if (aquarium.getTurn() >= 20 || world.getComponents<Fish>().size() == 0) {
-				app.stop();
-			}
-		});
-
-		app.run();
-	}
-	catch (std::runtime_error& e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-	catch (std::exception& e) {
-		ece::ERROR << e.what() << ece::flush;
-	}
-
-	return EXIT_SUCCESS;
-}
+#endif // BACK_UP_HPP

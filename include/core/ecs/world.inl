@@ -75,6 +75,53 @@ namespace ece
 				return this->_systems.find(std::type_index(typeid(SystemType))) != this->_systems.end();
 			}
 
+			template <class T>
+			void World::forEachEntity(T& object, void (T::* routine)(EntityHandler))
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						routine(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			template <class T>
+			void World::forEachEntity(std::weak_ptr<T>& object, void (T::* routine)(EntityHandler))
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						(object.lock()->*routine)(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			template <class T>
+			void World::forEachEntity(const T& object, void (T::* routine)(EntityHandler) const)
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						(object.*routine)(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			template <class T>
+			void World::forEachEntity(const std::weak_ptr<T>& object, void (T::* routine)(EntityHandler) const)
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						(object.lock()->*routine)(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			inline auto World::getNumberofEntities() const -> std::size_t
+			{
+				return std::accumulate(this->_entities.begin(), this->_entities.end(), std::size_t{ 0 }, [](std::size_t result, const Entity & rhs) -> std::size_t {
+					return result + (rhs.dirty ? 0 : 1);
+				});
+			}
+
 			template <class ComponentType>
 			void World::addTank()
 			{
