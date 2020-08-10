@@ -51,7 +51,7 @@ int main()
 		auto window = createMainWindow(app);
 
 		auto & world = app.addWorld();
-		auto renderSystem = world.addSystem<RenderSystem>();
+		world.addSystem<RenderSystem>();
 
 		auto firework = Firework(world);
 

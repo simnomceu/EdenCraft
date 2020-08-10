@@ -68,7 +68,7 @@ int main()
 		app.onPostInit.connect([&gameSystem]() {
 			Assets::loadAssets();
 
-			gameSystem->initGame();
+			gameSystem.initGame();
 		});
 
 		auto & eventHandler = window.lock()->getEventHandler();

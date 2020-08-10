@@ -60,9 +60,9 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::MTLLoader>("mtl");
 
         auto & world = app.addWorld();
-        auto renderSystem = world.addSystem<Render>();
+        auto & renderSystem = world.addSystem<Render>();
 
-		auto & scene = renderSystem->getScene();
+		auto & scene = renderSystem.getScene();
 		auto & camera = scene.getCamera();
 
 		Cube cube(world, 100);
