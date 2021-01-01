@@ -59,7 +59,7 @@ void BackUp::update([[maybe_unused]] float elapsedTime)
 {
 	auto object = ece::makeResource<ece::ObjectJSON>("backup");
 	object->clear();
-	object->addInteger("numberOfEntities", this->_world.getNumberofEntities());
+	object->addInteger("numberOfEntities", static_cast<int>(this->_world.getNumberofEntities()));
 	auto entities = object->addArray("entities");
 	auto entitiesNode = ece::NodeJSON::convertTo<ece::ArrayJSON>(entities);
 

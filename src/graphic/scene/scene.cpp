@@ -99,11 +99,6 @@ namespace ece
 						}
 					}
 				}
-
-				for (auto i = std::size_t{ 0 }; i < this->_objects.size(); ++i) {
-					std::cerr << this->_objects.getAll()[i].id << this->_objects.getLevels()[i] << " ";
-				}
-				std::cerr << "\n";
 			}
 		} // namespace scene
 	} // namespace graphic
