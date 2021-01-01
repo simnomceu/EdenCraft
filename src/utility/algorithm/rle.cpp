@@ -123,7 +123,7 @@ namespace ece
 					}
 				}
 
-				return std::move(result);
+				return result;
 			}
 
 			std::vector<std::uint8_t> compressRLE8(const std::vector<std::uint8_t> & uncompressed, std::size_t /*width*/, std::size_t /*height*/)
@@ -144,7 +144,7 @@ namespace ece
 					
 				}
 
-				return std::move(result);
+				return result;
 			}
 
 			std::vector<std::uint8_t> uncompressRLE8(const std::vector<std::uint8_t> & compressed, std::size_t width, std::size_t height)
@@ -212,7 +212,7 @@ namespace ece
 					}
 				}
 
-				return std::move(result);
+				return result;
 			}
 		} // algorithm
 	} // namespace 

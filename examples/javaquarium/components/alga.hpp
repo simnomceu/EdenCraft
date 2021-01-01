@@ -8,17 +8,19 @@
 	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
 	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.
-															 d8P'  `Y8b
-															888           .ooooo.  oooo d8b  .ooooo.
-															888          d88' `88b `888""8P d88' `88b
-															888          888   888  888     888ooo888
-															`88b    ooo  888   888  888     888    .o
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+															   oooo                                                                            o8o
+															   `888                                                                            `"'
+																888  .oooo.   oooo    ooo  .oooo.    .ooooo oo oooo  oooo   .oooo.   oooo d8b oooo  oooo  oooo  ooo. .oo.  .oo.
+																888 `P  )88b   `88.  .8'  `P  )88b  d88' `888  `888  `888  `P  )88b  `888""8P `888  `888  `888  `888P"Y88bP"Y88b
+																888  .oP"888    `88..8'    .oP"888  888   888   888   888   .oP"888   888      888   888   888   888   888   888
+																888 d8(  888     `888'    d8(  888  888   888   888   888  d8(  888   888      888   888   888   888   888   888
+															.o. 88P `Y888""8o     `8'     `Y888""8o `V8bod888   `V88V"V8P' `Y888""8o d888b    o888o  `V88V"V8P' o888o o888o o888o
+															`Y888P                                        888.
+																										  8P'
+																										  "
 
 
-
-				This file is part of EdenCraft Engine - Core module.
+				This file is part of EdenCraft Engine - MoreCube sample.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
 				This program is free software : you can redistribute it and/or modify
@@ -36,29 +38,13 @@
 
 */
 
-namespace ece
+#ifndef ALGA_HPP
+#define ALGA_HPP
+
+#include "core/ecs.hpp"
+
+struct Alga : public ece::Component<Alga>
 {
-	namespace core
-	{
-		namespace ecs
-		{
-			template<class T>
-			constexpr Component<T>::Component() noexcept : BaseComponent(), _owner(NULL_HANDLE), _dirty(false) {}
+};
 
-			template<class T>
-			Component<T>::~Component() noexcept {}
-
-			template<class T>
-			inline auto Component<T>::getOwner() const -> Handle { return this->_owner; }
-
-			template<class T>
-			inline void Component<T>::setOwner(const Handle owner) { this->_owner = owner; }
-
-            template <class T>
-			inline auto Component<T>::isDirty() const -> bool { return this->_dirty; }
-
-			template <class T>
-			inline void Component<T>::setDirty(bool dirty) { this->_dirty = dirty; }
-		} // namespace ecs
-	} // namespace core
-} // namespace ece
+#endif // ALGA_HPP
