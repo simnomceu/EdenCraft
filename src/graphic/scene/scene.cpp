@@ -85,24 +85,25 @@ namespace ece
 
 			void Scene::sortObjects()
 			{
-				auto unsorted = true;
-				for (auto i = std::size_t{ 0 }; i < this->_objects.size() && unsorted; ++i) {
-					unsorted = false;
-					for (auto j = std::size_t{ 1 }; j < this->_objects.size() - i; ++j) {
-						if (ObjectWrapper{ this->_objects[i] }.level <= ObjectWrapper{ this->_objects[j] }.level) {
+				for (auto i = std::size_t{ 0 }; i < this->_objects.size()-1; ++i) {
+					for (auto j = std::size_t{ 0 }; j < this->_objects.size() - i - 1; ++j) {
+						if (ObjectWrapper{ this->_objects[j+1] }.level > ObjectWrapper{ this->_objects[j] }.level) {
 							auto & values = this->_objects.getRenderables();
-							std::swap(values[i], values[j]);
+							std::swap(values[j], values[j+1]);
 
 							auto & changes = this->_objects.hasChanged();
-							std::swap(changes[i], changes[j]);
+							std::swap(changes[j], changes[j+1]);
 
 							auto & levels = this->_objects.getLevels();
-							std::swap(levels[i], levels[j]);
-
-							unsorted = true;
+							std::swap(levels[j], levels[j+1]);
 						}
 					}
 				}
+
+				for (auto i = std::size_t{ 0 }; i < this->_objects.size(); ++i) {
+					std::cerr << this->_objects.getAll()[i].id << this->_objects.getLevels()[i] << " ";
+				}
+				std::cerr << "\n";
 			}
 		} // namespace scene
 	} // namespace graphic
