@@ -41,77 +41,84 @@
 #ifndef MOVABLE_HPP
 #define MOVABLE_HPP
 
-#include "utility/mathematics/vector3u.hpp"
+#include "graphic/config.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
-	/**
-	 * @class Movable
-	 * @brief Define the ability to be moved.
-	 */
-	class Movable
+	namespace graphic
 	{
-	public:
-		/**
-		 * @fn Movable() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline Movable() noexcept;
+		namespace model
+		{
+			/**
+			 * @class Movable
+			 * @brief Define the ability to be moved.
+			 */
+			class ECE_GRAPHIC_API Movable
+			{
+			public:
+				/**
+				 * @fn Movable() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline Movable() noexcept;
 
-		/**
-		 * @fn Movable(const Movable & copy)
-		 * @param[in] copy The Movable to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Movable(const Movable & copy) = default;
+				/**
+				 * @fn Movable(const Movable & copy)
+				 * @param[in] copy The Movable to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Movable(const Movable & copy) = default;
 
-		/**
-		 * @fn Movable(Movable && move) noexcept
-		 * @param[in] move The Movable to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Movable(Movable && move) noexcept = default;
+				/**
+				 * @fn Movable(Movable && move) noexcept
+				 * @param[in] move The Movable to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Movable(Movable && move) noexcept = default;
 
-		virtual ~Movable() noexcept = 0;
+				virtual ~Movable() noexcept = 0;
 
-		/**
-		 * @fn Movable & operator=(const Movable & copy)
-		 * @param[in] copy The Movable to copy from.
-		 * @return The Movable copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Movable & operator=(const Movable & copy) = default;
+				/**
+				 * @fn Movable & operator=(const Movable & copy)
+				 * @param[in] copy The Movable to copy from.
+				 * @return The Movable copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Movable & operator=(const Movable & copy) = default;
 
-		/**
-		 * @fn Movable & operator=(Movable && move) noexcept
-		 * @param[in] move The Movable to move from.
-		 * @return The Movable moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Movable & operator=(Movable && move) noexcept = default;
+				/**
+				 * @fn Movable & operator=(Movable && move) noexcept
+				 * @param[in] move The Movable to move from.
+				 * @return The Movable moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Movable & operator=(Movable && move) noexcept = default;
 
-		/**
-		 * @fn virtual const FloatVector3u & getPosition() const
-		 * @return The current position.
-		 * @brief Get The position of the object.
-		 * @throw
-		 */
-		inline virtual const FloatVector3u & getPosition() const;
+				/**
+				 * @fn virtual const FloatVector3u & getPosition() const
+				 * @return The current position.
+				 * @brief Get The position of the object.
+				 * @throw
+				 */
+				inline virtual auto getPosition() const -> const FloatVector3u &;
 
-	protected:
+			protected:
 
-		/**
-		 * @property _position
-		 * @brief The position of the object.
-		 */
-		FloatVector3u _position;
-	};
-}
+				/**
+				 * @property _position
+				 * @brief The position of the object.
+				 */
+				FloatVector3u _position;
+			};
+		} // namespace model
+	} // namespace graphic
+} // namespace ece
 
 #include "graphic/model/movable.inl"
 

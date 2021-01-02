@@ -35,276 +35,331 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/x11/xlib_impl.hpp"
 
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
+
+#include <X11/XKBlib.h>
 
 namespace ece
 {
-    XlibImpl::XlibImpl() noexcept: _windowId(0), _connection(nullptr), _screen(0)
-    {
-    }
+	namespace window
+	{
+		namespace x11
+		{
+			XlibImpl::XlibImpl() noexcept: _windowId(0), _connection(nullptr), _screen(0)
+			{
+			}
 
-	void XlibImpl::createWindow()
-    {
-		this->_connection = XOpenDisplay(nullptr);
-		if(!this->_connection) {
-			ServiceLoggerLocator::getService().logError("No X server available.");
-		}
-        this->logInfos();
+			auto XlibImpl::getWindowHandle() const -> ::Window
+			{
+				return this->_windowId;
+			}
 
-		this->_screen = DefaultScreen(this->_connection);
+			auto XlibImpl::getDevice() const -> Display *
+			{
+				return this->_connection;
+			}
 
-        XSetWindowAttributes attributes;
-        attributes.colormap = XCreateColormap(this->_connection,
-                                           RootWindow(this->_connection, this->_screen),
-                                           DefaultVisual(this->_connection, this->_screen),
-                                           AllocNone);
-        attributes.border_pixel = 0;
-        attributes.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask
-                                | ButtonReleaseMask | EnterWindowMask | LeaveWindowMask
-                                | PointerMotionMask /*| PointerMotionHintMask <= PointerMotionHintMask specifies that the server should
-send only one MotionNotify event when the pointer moves, until a key or button state changes, the pointer leaves
-the window, or the client calls XQueryPointer() or XGetMotionEvents().*/
-                                | Button1MotionMask | Button2MotionMask | Button3MotionMask
-                                | Button4MotionMask | Button5MotionMask | ButtonMotionMask
-                                | KeymapStateMask | ExposureMask | VisibilityChangeMask
-                                | StructureNotifyMask | ResizeRedirectMask
-                                | SubstructureNotifyMask | SubstructureRedirectMask
-                                | FocusChangeMask | PropertyChangeMask | ColormapChangeMask
-                                | OwnerGrabButtonMask;
+			void XlibImpl::createWindow()
+			{
+				this->_connection = XOpenDisplay(nullptr);
+				if (!this->_connection) {
+					ERROR << "No X server available." << flush;
+				}
+				this->logInfos();
 
-		this->_windowId = XCreateWindow(this->_connection,
-									     RootWindow(this->_connection, this->_screen),
-										 0, 0, 320, 320,
-										 0,
-                                         DefaultDepth(this->_connection, this->_screen),
-                                         InputOutput,
-                                         DefaultVisual(this->_connection, this->_screen),
-										 CWBorderPixel | CWColormap | CWEventMask,
-                                         &attributes);
-		XMapWindow(this->_connection, this->_windowId);
-    }
+				this->_screen = DefaultScreen(this->_connection);
 
-	void XlibImpl::deleteWindow()
-    {
-		XDestroyWindow(this->_connection, this->_windowId);
-		XCloseDisplay(this->_connection);
+				auto attributes = XSetWindowAttributes{};
+				attributes.colormap = XCreateColormap(this->_connection,
+					RootWindow(this->_connection, this->_screen),
+					DefaultVisual(this->_connection, this->_screen),
+					AllocNone);
+				attributes.border_pixel = 0;
+				attributes.event_mask = KeyPressMask | KeyReleaseMask | ButtonPressMask
+					| ButtonReleaseMask | EnterWindowMask | LeaveWindowMask
+					| PointerMotionMask /*| PointerMotionHintMask <= PointerMotionHintMask specifies that the server should
+					send only one MotionNotify event when the pointer moves, until a key or button state changes, the pointer leaves
+					the window, or the client calls XQueryPointer() or XGetMotionEvents().*/
+					| Button1MotionMask | Button2MotionMask | Button3MotionMask
+					| Button4MotionMask | Button5MotionMask | ButtonMotionMask
+					| KeymapStateMask | ExposureMask | VisibilityChangeMask
+					| StructureNotifyMask | ResizeRedirectMask
+					| SubstructureNotifyMask | SubstructureRedirectMask
+					| FocusChangeMask | PropertyChangeMask | ColormapChangeMask
+					| OwnerGrabButtonMask;
 
-        this->_windowId = 0;
-        this->_connection = nullptr;
-    }
+				this->_windowId = XCreateWindow(this->_connection,
+					RootWindow(this->_connection, this->_screen),
+					0, 0, 320, 320,
+					0,
+					DefaultDepth(this->_connection, this->_screen),
+					InputOutput,
+					DefaultVisual(this->_connection, this->_screen),
+					CWBorderPixel | CWColormap | CWEventMask,
+					&attributes);
+				XMapWindow(this->_connection, this->_windowId);
+			}
 
-	bool XlibImpl::isWindowCreated() const
-    {
-        return this->_windowId != 0;
-    }
+			void XlibImpl::deleteWindow()
+			{
+				XDestroyWindow(this->_connection, this->_windowId);
+				XCloseDisplay(this->_connection);
 
-	void XlibImpl::setTitle(const std::string & title)
-    {
-        XStoreName(this->_connection, this->_windowId, title.data());
-    }
+				this->_windowId = 0;
+				this->_connection = nullptr;
+			}
 
-	std::string XlibImpl::getTitle() const
-    {
-        char * name;
-        XFetchName(this->_connection, this->_windowId, &name);
-        return std::string(name);
-    }
+			auto XlibImpl::isWindowCreated() const -> bool
+			{
+				return this->_windowId != 0;
+			}
 
-	void XlibImpl::setPosition(const IntVector2u & position)
-    {
-        XMoveWindow(this->_connection, this->_windowId, position[0], position[1]);
-    }
+			void XlibImpl::setTitle(const std::string & title)
+			{
+				XStoreName(this->_connection, this->_windowId, title.data());
+			}
 
-	IntVector2u XlibImpl::getPosition() const
-    {
-        IntVector2u result;
-        Window dummy;
-        XTranslateCoordinates(this->_connection, XRootWindow(this->_connection, 0), this->_windowId, 0, 0, &result[0], &result[1], &dummy);
+			auto XlibImpl::getTitle() const -> std::string
+			{
+				char * name;
+				XFetchName(this->_connection, this->_windowId, &name);
+				return { name };
+			}
 
-        return result;
-    }
+			void XlibImpl::setPosition(const IntVector2u & position)
+			{
+				XMoveWindow(this->_connection, this->_windowId, position[0], position[1]);
+			}
 
-	void XlibImpl::minimize()
-    {
-        ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to minimize the window.");
-    }
+			auto XlibImpl::getPosition() const -> IntVector2u
+			{
+				auto x = 0;
+				auto y = 0;
+				auto w = static_cast<unsigned int>(0);
+				auto h = static_cast<unsigned int>(0);
+				auto border = static_cast<unsigned int>(0);
+				auto depth = static_cast<unsigned int>(0);
+				auto dummy = ::Window{};
+				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
+		//        XTranslateCoordinates(this->_connection, XRootWindow(this->_connection, 0), this->_windowId, 0, 0, &result[0], &result[1], &dummy);
 
-	void XlibImpl::maximize()
-    {
-        XEvent event;
-        event.type = ClientMessage;
-        event.xclient.window = this->_windowId;
-        event.xclient.format = 32;
-        event.xclient.message_type = XInternAtom(this->_connection, "_NET_WM_STATE", false);
-        event.xclient.data.l[0] = XInternAtom(this->_connection, "_NET_WM_STATE_ADD", false);
-        event.xclient.data.l[1] = XInternAtom(this->_connection, "_NET_WM_STATE_MAXIMIZED_VERT", false);
-        event.xclient.data.l[2] = XInternAtom(this->_connection, "_NET_WM_STATE_MAXIMIZED_HORZ", false);
-        event.xclient.data.l[3] = 1;
-        event.xclient.data.l[4] = 0;
+				return { x, y };
+			}
 
-        XSendEvent(this->_connection, XRootWindow(this->_connection, 0), false, SubstructureNotifyMask | SubstructureRedirectMask, &event);
-    }
+			auto XlibImpl::getSize() const -> IntVector2u
+			{
+				auto x = 0;
+				auto y = 0;
+				auto w = static_cast<unsigned int>(0);
+				auto h = static_cast<unsigned int>(0);
+				auto border = static_cast<unsigned int>(0);
+				auto depth = static_cast<unsigned int>(0);
+				auto dummy = ::Window{};
+				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
 
-	std::vector<InputEvent> XlibImpl::processEvent(const bool blocking)
-    {
-        std::vector<InputEvent> events;
-        XMapWindow(this->_connection, this->_windowId);
-        if (blocking) {
-    		while (XPending(this->_connection)) { //while (XPending(this->_connection)) <= blocking || XEventsQueued() <= non blocking
-            	auto message = this->getNextMessage();
-                events.push_back(std::move(this->processMessage(message)));
-    	   	}
-        }
-        else {
-            int n = XEventsQueued(this->_connection, QueuedAlready);
-            for(int i = 0; i < n; ++i) {
-                auto message = this->getNextMessage();
-                events.push_back(std::move(this->processMessage(message)));
-            }
-        }
-        XFlush(this->_connection);
-        return std::move(events);
-    }
+				return { static_cast<int>(w), static_cast<int>(h) };
+			}
 
-    void XlibImpl::logInfos()
-    {
-        std::string owner(XServerVendor(this->_connection));
-        auto version = std::to_string(XVendorRelease(this->_connection));
-        ServiceLoggerLocator::getService().logInfo("Xserver from: " + owner + " - version " + version + ".");
-        auto major = std::to_string(XProtocolVersion(this->_connection));
-        auto minor = std::to_string(XProtocolRevision(this->_connection));
-        ServiceLoggerLocator::getService().logInfo("Protocol X version " + major + "." + minor + " used.");
-    }
+			void XlibImpl::minimize()
+			{
+				WARNING << "The window implementation does not provide any method to minimize the window." << flush;
+			}
 
-    WindowMessage XlibImpl::getNextMessage()
-    {
-        XEvent e;
-//        XPeekEvent(this->_connection, &e);
-//        if(e.xany.window == this->_windowId) {
-            XNextEvent(this->_connection, &e);
-            return std::move(WindowMessage{e});
-//        }
-//        return std::move(WindowMessage{XEvent()});
-    }
+			void XlibImpl::maximize()
+			{
+				auto event = XEvent{};
+				event.type = ClientMessage;
+				event.xclient.window = this->_windowId;
+				event.xclient.format = 32;
+				event.xclient.message_type = XInternAtom(this->_connection, "_NET_WM_STATE", false);
+				event.xclient.data.l[0] = XInternAtom(this->_connection, "_NET_WM_STATE_ADD", false);
+				event.xclient.data.l[1] = XInternAtom(this->_connection, "_NET_WM_STATE_MAXIMIZED_VERT", false);
+				event.xclient.data.l[2] = XInternAtom(this->_connection, "_NET_WM_STATE_MAXIMIZED_HORZ", false);
+				event.xclient.data.l[3] = 1;
+				event.xclient.data.l[4] = 0;
 
-    InputEvent XlibImpl::processMessage(const WindowMessage & message)
-    {
-        InputEvent newEvent;
-        if(message._impl.xany.window == this->_windowId) {
-            switch(message._impl.type) {
-            case KeyPress: {
-                break;
-            }
-            case KeyRelease: {
-                break;
-            }
-            case ButtonPress: {
-                break;
-            }
-            case ButtonRelease: {
-                break;
-            }
-            case MotionNotify: {
-                newEvent._type = InputEvent::Type::ECE_MOUSE_MOVED;
-				newEvent._mousePosition[0] = message._impl.xmotion.x;
-				newEvent._mousePosition[1] = message._impl.xmotion.y;
-				Mouse::setPosition(this->getPosition() + newEvent._mousePosition);
-                break;
-            }
-            case EnterNotify: {
-                break;
-            }
-            case LeaveNotify: {
-                break;
-            }
-            case FocusIn: {
-                break;
-            }
-            case FocusOut: {
-                break;
-            }
-            case KeymapNotify: {
-                break;
-            }
-            case Expose: {
-                break;
-            }
-            case GraphicsExpose: {
-                break;
-            }
-            case NoExpose: {
-                break;
-            }
-            case VisibilityNotify: {
-                break;
-            }
-            case CreateNotify: {
-                break;
-            }
-            case DestroyNotify: {
-                break;
-            }
-            case UnmapNotify: {
-                break;
-            }
-            case MapNotify: {
-                break;
-            }
-            case MapRequest: {
-                break;
-            }
-            case ReparentNotify: {
-                break;
-            }
-            case ConfigureNotify: {
-                break;
-            }
-            case ConfigureRequest: {
-                break;
-            }
-            case GravityNotify: {
-                break;
-            }
-            case ResizeRequest: {
-                break;
-            }
-            case CirculateNotify: {
-                break;
-            }
-            case CirculateRequest: {
-                break;
-            }
-            case PropertyNotify: {
-                break;
-            }
-            case SelectionClear: {
-                break;
-            }
-            case SelectionRequest: {
-                break;
-            }
-            case SelectionNotify: {
-                break;
-            }
-            case ColormapNotify: {
-                break;
-            }
-            case ClientMessage: {
-                break;
-            }
-            case MappingNotify: {
-                break;
-            }
-            case GenericEvent: {
-                break;
-            }
-            default: {
-                break;
-            }
-            }
-        }
-        return std::move(newEvent);
-    }
-}
+				XSendEvent(this->_connection, XRootWindow(this->_connection, 0), false, SubstructureNotifyMask | SubstructureRedirectMask, &event);
+			}
+
+			auto XlibImpl::processEvent(const bool blocking, const bool keyRepeat) -> std::vector<InputEvent>
+			{
+				auto events = std::vector<InputEvent>{};
+				XMapWindow(this->_connection, this->_windowId);
+				if (blocking) {
+					while (XPending(this->_connection)) { //while (XPending(this->_connection)) <= blocking || XEventsQueued() <= non blocking
+						auto message = this->getNextMessage();
+						events.push_back(std::move(this->processMessage(message, keyRepeat)));
+					}
+				}
+				else {
+					auto n = XEventsQueued(this->_connection, QueuedAlready);
+					for (auto i = 0; i < n; ++i) {
+						auto message = this->getNextMessage();
+						events.push_back(std::move(this->processMessage(message, keyRepeat)));
+					}
+				}
+				XFlush(this->_connection);
+				return std::move(events);
+			}
+
+			void XlibImpl::logInfos()
+			{
+				auto owner = std::string(XServerVendor(this->_connection));
+				auto version = std::to_string(XVendorRelease(this->_connection));
+				INFO << "Xserver from: " << owner << " - version " << version << "." << flush;
+				auto major = std::to_string(XProtocolVersion(this->_connection));
+				auto minor = std::to_string(XProtocolRevision(this->_connection));
+				INFO << "Protocol X version " << major << "." << minor << " used." << flush;
+			}
+
+			auto XlibImpl::getNextMessage() -> WindowMessage
+			{
+				auto e = XEvent{};
+				//        XPeekEvent(this->_connection, &e);
+				//        if(e.xany.window == this->_windowId) {
+				XNextEvent(this->_connection, &e);
+				return std::move(WindowMessage{ e });
+				//        }
+				//        return std::move(WindowMessage{XEvent()});
+			}
+
+			auto XlibImpl::processMessage(const WindowMessage & message, const bool keyRepeat) -> InputEvent
+			{
+				auto newEvent = InputEvent{};
+				if (message.impl.xany.window == this->_windowId) {
+					switch (message.impl.type) {
+					case KeyPress: {
+						auto keySym = XkbKeycodeToKeysym(this->_connection, message.impl.xkey.keycode, 0, message.impl.xkey.state & ShiftMask ? 1 : 0);
+						auto keyCode = Keyboard::getKey(keySym);
+						if (keyRepeat || (!keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
+							newEvent.type = InputEvent::Type::KEY_PRESSED;
+							newEvent.key = keyCode;
+							Keyboard::pressKey(keyCode, true);
+						}
+						break;
+					}
+					case KeyRelease: {
+						auto keySym = XkbKeycodeToKeysym(this->_connection, message.impl.xkey.keycode, 0, message.impl.xkey.state & ShiftMask ? 1 : 0);
+						auto keyCode = Keyboard::getKey(keySym);
+						newEvent.type = InputEvent::Type::KEY_RELEASED;
+						newEvent.key = keyCode;
+						Keyboard::pressKey(keyCode, false);
+						break;
+					}
+					case ButtonPress: {
+						break;
+					}
+					case ButtonRelease: {
+						break;
+					}
+					case MotionNotify: {
+						if (0 != message.impl.xmotion.x || 0 != message.impl.xmotion.y) {
+							newEvent.type = InputEvent::Type::MOUSE_MOVED;
+							newEvent.mousePosition[0] = message.impl.xmotion.x;
+							newEvent.mousePosition[1] = message.impl.xmotion.y;
+							Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
+						}
+						break;
+					}
+					case EnterNotify: {
+						break;
+					}
+					case LeaveNotify: {
+						break;
+					}
+					case FocusIn: {
+						break;
+					}
+					case FocusOut: {
+						break;
+					}
+					case KeymapNotify: {
+						break;
+					}
+					case Expose: {
+						break;
+					}
+					case GraphicsExpose: {
+						break;
+					}
+					case NoExpose: {
+						break;
+					}
+					case VisibilityNotify: {
+						break;
+					}
+					case CreateNotify: {
+						break;
+					}
+					case DestroyNotify: {
+//						std::cout << std::endl << std::endl << ">>>>>>>>>>>>>>>>>>>>>>>>>>> DESTROY <<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl;
+						break;
+					}
+					case UnmapNotify: {
+//						std::cout << std::endl << std::endl << ">>>>>>>>>>>>>>>>>>>>>>>>>>> UNMAP <<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl;
+						break;
+					}
+					case MapNotify: {
+						break;
+					}
+					case MapRequest: {
+						break;
+					}
+					case ReparentNotify: {
+						break;
+					}
+					case ConfigureNotify: {
+						break;
+					}
+					case ConfigureRequest: {
+						break;
+					}
+					case GravityNotify: {
+						break;
+					}
+					case ResizeRequest: {
+						break;
+					}
+					case CirculateNotify: {
+						break;
+					}
+					case CirculateRequest: {
+						break;
+					}
+					case PropertyNotify: {
+						break;
+					}
+					case SelectionClear: {
+						break;
+					}
+					case SelectionRequest: {
+						break;
+					}
+					case SelectionNotify: {
+						break;
+					}
+					case ColormapNotify: {
+						break;
+					}
+					case ClientMessage: {
+						break;
+					}
+					case MappingNotify: {
+						break;
+					}
+					case GenericEvent: {
+						break;
+					}
+					default: {
+						break;
+					}
+					}
+				}
+				return std::move(newEvent);
+			}
+		} // namespace x11
+	} // namespace window
+} // namespace ece

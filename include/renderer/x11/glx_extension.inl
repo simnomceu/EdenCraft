@@ -35,3 +35,23 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 
 */
+
+#include "renderer/opengl/extension_loader.hpp"
+#include "renderer/opengl/opengl_exception.hpp"
+
+namespace ece
+{
+	using renderer::opengl::OpenGLExtensionException;
+}
+
+inline auto glXCreateContextAttribs(Display *dpy, GLXFBConfig config, GLXContext share_context, Bool direct, const int *attrib_list) -> GLXContext
+{
+    static auto proxy = ece::renderer::opengl::loadOpenGLProc<PFNGLXCREATECONTEXTATTRIBSARBPROC>("glXCreateContextAttribsARB", ece::Version<2>{ 3, 3 });
+    if (!proxy) {
+		throw ece::OpenGLExtensionException("glXCreateContextAttribsARB");
+	}
+	if (dpy == nullptr) { // dummy call
+		return 0;
+	}
+	return proxy(dpy, config, share_context, direct, attrib_list);
+}

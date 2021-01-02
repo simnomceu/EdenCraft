@@ -36,22 +36,170 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/opengl/context_opengl.hpp"
 #include "renderer/x11/data_context_opengl.hpp"
 
-#include "renderer/opengl/opengl.hpp"
 #include "renderer/x11/glx_extension.hpp"
-#include "renderer/common/render_window.hpp"
-#include "window/common/window_adapter.hpp"
 #include "window/x11/data_window_adapter.hpp"
 
 namespace ece
 {
-	void ContextOpenGL::create(const RenderWindow & /*window*/)
+	namespace renderer
 	{
-	}
+		namespace opengl
+		{
+			ContextOpenGL::ContextOpenGL() noexcept: RenderContext(), _data(makePimpl<DataContextOpenGL>()), _currentVersion()
+			{
+			}
 
-	void ContextOpenGL::swapBuffers()
-	{
-	}
-}
+			ContextOpenGL::~ContextOpenGL() noexcept
+			{
+				if (this->_data->context) {
+					if (this->isCurrent()) {
+						glXMakeCurrent(this->_data->display, 0, 0);
+					}
+					glXDestroyContext(this->_data->display, this->_data->context);
+
+					// ERROR: crash with RootWindow (for dummy context)
+					/*if (this->_data->_windowHandle) {
+						XUnmapWindow(this->_data->_display, this->_data->_windowHandle);
+						XDestroyWindow(this->_data->_display, this->_data->_windowHandle);
+						XCloseDisplay(this->_data->_display);
+						this->_data->_windowHandle = 0;
+						this->_data->_display = nullptr;
+					}*/
+				}
+			}
+
+			void ContextOpenGL::createOldContext()
+			{
+				this->_data->display = XOpenDisplay(nullptr);
+
+				auto nbFBConfig = 0;
+
+				auto glxMajor = 0;
+				auto glxMinor = 0;
+				glXQueryVersion(this->_data->display, &glxMajor, &glxMinor);
+
+				if ((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
+					WARNING << "GLX 1.3 or greater is not available. Most recent version is GLX " << glxMajor << "." << glxMinor << flush;
+                }
+                else {
+					INFO << "GLX version: " << glxMajor << "." << glxMinor << flush;
+                }
+
+            	const auto visual_attribs = std::array{
+					GLX_RENDER_TYPE, GLX_RGBA_BIT,
+					GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+					GLX_DEPTH_SIZE, 24,
+					GLX_STENCIL_SIZE, 8,
+						static_cast<int>(None)
+				};
+				auto FBConfig = glXChooseFBConfig(this->_data->display, DefaultScreen(this->_data->display), visual_attribs.data(), &nbFBConfig);
+
+				if (!FBConfig) {
+					throw std::runtime_error("No frame buffer configuration choosen for OpenGL dummy context.");
+				}
+				//XVisualInfo * visualInfo = glXGetVisualFromFBConfig(this->_dummy.display, FBConfig[0]);
+
+				this->_data->windowHandle = RootWindow(this->_data->display, DefaultScreen(this->_data->display));
+				XMapWindow(this->_data->display, this->_data->windowHandle);
+
+				this->_data->context = glXCreateNewContext(this->_data->display, FBConfig[0], GLX_RGBA_TYPE, nullptr, true);
+
+				glXMakeCurrent(this->_data->display, this->_data->windowHandle, this->_data->context);
+				glXCreateContextAttribs(nullptr, 0, nullptr, false, nullptr); //dummy call
+
+				XFree(FBConfig);
+			}
+
+			void ContextOpenGL::createModernContext(const ContextSettings & settings)
+			{
+				this->_data->windowHandle = settings.window.lock()->getAdapter()->getImpl()->api->getWindowHandle();
+				this->_data->display = settings.window.lock()->getAdapter()->getImpl()->api->getDevice();
+
+				auto nbFramebufferConfigs = 0;
+				GLXFBConfig * framebufferConfig = nullptr;
+
+				auto glxMajor = 0;
+				auto glxMinor = 0;
+				glXQueryVersion(this->_data->display, &glxMajor, &glxMinor);
+				if ((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
+					const auto visualAttribs = std::array{
+						GLX_X_RENDERABLE, GL_TRUE,
+						GLX_RENDER_TYPE, GLX_RGBA_BIT,
+						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+						GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+						GLX_DOUBLEBUFFER, settings.doubleBuffering ? GL_TRUE : GL_FALSE,
+						GLX_RED_SIZE, 8,
+						GLX_GREEN_SIZE, 8,
+						GLX_BLUE_SIZE, 8,
+						GLX_DEPTH_SIZE, 24,
+						GLX_STENCIL_SIZE, 8,
+						static_cast<int>(None)
+					};
+					framebufferConfig = glXChooseFBConfig(this->_data->display, DefaultScreen(this->_data->display), visualAttribs.data(), &nbFramebufferConfigs);
+				}
+				else {
+					const auto visualAttribs = std::array{
+						GLX_X_RENDERABLE, GL_TRUE,
+						GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+						GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+						GLX_RENDER_TYPE, GLX_RGBA_BIT,
+						GLX_DOUBLEBUFFER, settings.doubleBuffering ? GL_TRUE : GL_FALSE,
+						GLX_BUFFER_SIZE, static_cast<int>(settings.bitsPerPixel),
+						GLX_ALPHA_SIZE, settings.bitsPerPixel == 32 ? 8 : 0,
+						GLX_DEPTH_SIZE, static_cast<int>(settings.depthBits),
+						GLX_STENCIL_SIZE, static_cast<int>(settings.stencilBits),
+						GLX_SAMPLE_BUFFERS, settings.antialiasingSamples > 1 ? GL_TRUE : GL_FALSE, // Enable MSAA or not
+						GLX_SAMPLES, static_cast<int>(settings.antialiasingSamples), // Number of samples,
+						static_cast<int>(None)
+					};
+					framebufferConfig = glXChooseFBConfig(this->_data->display, DefaultScreen(this->_data->display), visualAttribs.data(), &nbFramebufferConfigs);
+				}
+
+				if (!framebufferConfig) {
+					throw std::runtime_error("There is no video mode available for this device.");
+				}
+
+				auto glxExts = std::string(glXQueryExtensionsString(this->_data->display, DefaultScreen(this->_data->display)));
+				if (glxExts.find("GLX_ARB_create_context") == std::string::npos) {
+					this->_data->context = glXCreateNewContext(this->_data->display, framebufferConfig[0], GLX_RGBA_TYPE, nullptr, true);
+				}
+				else {
+					auto latestVersion = ContextOpenGL::_maxVersionAvailable;
+					const auto glVersion = std::array{
+						GLX_CONTEXT_MAJOR_VERSION_ARB, static_cast<int>(latestVersion[0]),
+						GLX_CONTEXT_MINOR_VERSION_ARB, static_cast<int>(latestVersion[1]),
+						GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
+						static_cast<int>(None)
+					};
+					this->_data->context = glXCreateContextAttribs(this->_data->display, framebufferConfig[0], nullptr, true, glVersion.data());
+				}
+
+				if (this->_data->context == nullptr) {
+					throw std::runtime_error("The context cannot be created.");
+				}
+			}
+
+			void ContextOpenGL::terminate()
+			{
+				this->_created = false;
+			}
+
+			void ContextOpenGL::swapBuffers()
+			{
+				glXSwapBuffers(this->_data->display, this->_data->windowHandle);
+			}
+
+			void ContextOpenGL::setCurrent()
+			{
+				RenderContext::setCurrent();
+				if (!glXMakeCurrent(this->_data->display, this->_data->windowHandle, this->_data->context)) {
+					throw std::runtime_error("The context cannot be used.");
+				}
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

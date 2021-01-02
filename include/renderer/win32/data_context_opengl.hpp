@@ -39,46 +39,67 @@
 #ifndef DATA_CONTEXT_OPENGL_HPP
 #define DATA_CONTEXT_OPENGL_HPP
 
-#include "renderer/opengl/base_context_opengl.hpp"
+#include "renderer/opengl.hpp"
 
 #include <Windows.h>
 
 namespace ece
 {
-	/**
-	 * @class DataContextOpenGL
-	 * @brief Windows implementation of the OpenL context.
-	 */
-	struct DataContextOpenGL
+	namespace renderer
 	{
-		/**
-		 * DataContextOpenGL(HGLRC context, HDC device, HWND handle)
-		 * @param[in] context The OpenGL context.
-		 * @param[in] device The device used.
-		 * @param[in] handle The window concerned.
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline DataContextOpenGL(HGLRC context, HDC device, HWND handle): _context(context), _device(device), _windowHandle(handle) {}
+		namespace opengl
+		{
+			/**
+			 * @class DataContextOpenGL
+			 * @brief Windows implementation of the OpenL context.
+			 */
+			struct DataContextOpenGL
+			{
+				/**
+				 * DataContextOpenGL(HGLRC context, HDC device, HWND handle)
+				 * @param[in] context The OpenGL context.
+				 * @param[in] device The device used.
+				 * @param[in] handle The window concerned.
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline DataContextOpenGL(HGLRC context, HDC device, HWND handle) : context(context), device(device), windowHandle(handle) {}
 
-		/**
-		 * @property _context
-		 * @brief The OpenGL context.
-		 */
-		HGLRC _context;
+				/**
+				 * @fn FARPROC getProcAddress(const std::string & name)
+				 * @param[in] name The name of the extension.
+				 * @return The OpenGL method loaded.
+				 * @brief Load an OpenGL extension from a Wndows platform.
+				 * @throw
+				 */
+				static auto getProcAddress(const std::string & name) -> FARPROC;
 
-		/**
-		 * @property _device
-		 * @brief The device used.
-		 */
-		HDC _device;
+				/**
+				 * @property _context
+				 * @brief The OpenGL context.
+				 */
+				HGLRC context;
 
-		/**
-		 * @property _windowHandle
-		 * @brief The window concerned.
-		 */
-		HWND _windowHandle;
-	};
-}
+				/**
+				 * @property _device
+				 * @brief The device used.
+				 */
+				HDC device;
+
+				/**
+				 * @property _windowHandle
+				 * @brief The window concerned.
+				 */
+				HWND windowHandle;
+
+				/**
+				 * @property _openglLib
+				 * @brief THe external library exposing OpenGL.
+				 */
+				static HMODULE openglLib;
+			};
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
 
 #endif // DATA_CONTEXT_OPENGL_HPP

@@ -38,31 +38,31 @@
 
 */
 
-//#include "glm\gtc\matrix_transform.hpp"
-#include "utility/mathematics/transform.hpp"
-
 namespace ece
 {
-	inline Camera::Camera() noexcept: _position(), _target(), _upAxis{ 0.0f, 1.0f, 0.0f } {}
-
-	inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->_position, object.getPosition()); }
-
-	inline void Camera::lookAt(const FloatVector3u & target) { this->updatePosition(this->_position, target); }
-
-	inline void Camera::lookUpTo(const FloatVector3u & direction) { this->updatePosition(this->_position, this->_target + direction); }
-
-	inline void Camera::moveTo(const Movable & object) { this->updatePosition(object.getPosition(), this->_target); }
-
-	inline void Camera::moveTo(const FloatVector3u & position) { this->updatePosition(position, this->_target); }
-
-	inline void Camera::moveIn(const FloatVector3u & direction) { this->updatePosition(this->_position + direction, this->_target); }
-
-	/*inline glm::mat4 Camera::getCamera() const
+	namespace graphic
 	{
-		return glm::lookAt(glm::vec3(this->position[X], this->position[Y], this->position[Z]),
-							glm::vec3(this->target[X], this->target[Y], this->target[Z]),
-							glm::vec3(this->upAxis[X], this->upAxis[Y], this->upAxis[Z]));
-	}*/
+		namespace scene
+		{
+			inline Camera::Camera() noexcept: _position(), _target(), _upAxis(UP), _projection() {}
 
-	inline FloatMatrix4u Camera::getCamera() const { return ece::lookAt(this->_position, this->_target, this->_upAxis); }
-}
+			inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->_position, object.getPosition()); }
+
+			inline void Camera::lookAt(const FloatVector3u & target) { this->updatePosition(this->_position, target); }
+
+			inline void Camera::lookUpTo(const FloatVector3u & direction) { this->updatePosition(this->_position, this->_target + direction); }
+
+			inline void Camera::moveTo(const Movable & object) { this->updatePosition(object.getPosition(), this->_target); }
+
+			inline void Camera::moveTo(const FloatVector3u & position) { this->updatePosition(position, this->_target); }
+
+			inline void Camera::moveIn(const FloatVector3u & direction) { this->updatePosition(this->_position + direction, this->_target); }
+
+			inline auto Camera::getView() const -> FloatMatrix4u { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
+
+            inline auto Camera::getProjection() const -> const Projection & { return this->_projection; }
+
+            inline auto Camera::getProjection() -> Projection & { return this->_projection; }
+		} // namespace scene
+	} // namespace camera
+} // namespace ece

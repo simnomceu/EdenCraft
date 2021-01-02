@@ -36,86 +36,94 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/application/application.hpp"
 
-#include "utility/log/service_logger.hpp"
-#include "utility/log/logger.hpp"
-#include "core/event/event_service.hpp"
-#include "core/event/event_manager.hpp"
-#include "core/module/module_method.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/log.hpp"
+#include "core/resource.hpp"
+#include "core/format.hpp"
 
 namespace ece
 {
-	Application::Application() : _running(false), _moduleManager(), _lifecycle(nullptr)
+	namespace core
 	{
-		ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
-		EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
+		namespace application
+		{
+			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager(), _worlds()
+			{
+				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
+				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
+				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
+			}
 
-		this->_lifecycle = std::make_shared<Lifecycle>();
-	}
+			Application::Application(int argc, char * argv[]) : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), _running(false), _moduleManager(), _worlds()
+			{
+				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
+				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
+				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 
-	Application::Application(int argc, char * argv[]) : _running(false), _moduleManager(), _lifecycle(nullptr)
-	{
-		ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
-		EventServiceLocator::provide(EventServiceFactory::build<EventManager>());
+				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
+				argumentAnalyzer.setParameters(argc, argv);
+			}
 
-		this->_lifecycle = std::make_shared<Lifecycle>();
+			Application::~Application() noexcept
+			{
+			}
 
-		auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
-		argumentAnalyzer.setParameters(argc, argv);
-	}
+			void Application::run()
+			{
+				// TODO : add balancer to reduce usage of processor.
+				this->onPreInit();
+				this->init();
+				this->onPostInit();
 
-	void Application::run()
-	{
-		// TODO : add balancer to reduce usage of processor.
-		this->_lifecycle->preInit();
-		this->init();
-		this->_lifecycle->postInit();
+				while (this->isRunning()) {
+					this->onPreProcess();
+					this->processEvents();
+					this->onPreUpdate();
+					this->update();
+					this->onPostUpdate();
+				}
 
-		while (this->isRunning()) {
-			this->_lifecycle->preProcess();
-			this->processEvents();
-			this->_lifecycle->preUpdate();
-			this->update();
-			this->_lifecycle->postUpdate();
-			this->render();
-			this->_lifecycle->postRender();
-		}
+				this->onPreTerminate();
+				this->terminate();
+				this->onPostTerminate();
+			}
 
-		this->_lifecycle->preTerminate();
-		this->terminate();
-		this->_lifecycle->preTerminate();
-	}
+			auto Application::addWorld() -> World &
+			{
+				this->_worlds.emplace_back();
+				return this->_worlds.back();
+			}
 
-	void Application::init()
-	{
-		try {
-			this->_moduleManager.initAll();
-		}
-		catch (std::runtime_error & e) {
-			ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
-		}
-		this->_running = true;
-	}
+			void Application::init()
+			{
+				try {
+					this->_moduleManager.initAll();
+				}
+				catch (const std::runtime_error & e) {
+					ERROR << "Invalid command argument: " << e.what() << flush;
+				}
+				this->_running = true;
+			}
 
-	void Application::update()
-	{
-		this->_moduleManager.updateAll();
-	}
+			void Application::update()
+			{
+				for (auto & world : this->_worlds) {
+					world.update();
+				}
 
-	void Application::processEvents()
-	{
-		//EventServiceLocator::getService().clear();
-	}
+				this->_moduleManager.updateAll();
+			}
 
-	void Application::render()
-	{
-	}
+			void Application::processEvents()
+			{
+			}
 
-	void Application::terminate()
-	{
-		this->_moduleManager.terminateAll();
-	}
-}
+			void Application::terminate()
+			{
+				this->_moduleManager.terminateAll();
+			}
+		} // namespace application
+	} // namespace core
+} // namespace ece

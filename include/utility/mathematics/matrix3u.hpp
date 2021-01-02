@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -39,55 +39,65 @@
 #ifndef MATRIX3U_HPP
 #define MATRIX3U_HPP
 
-#include "utility/mathematics/matrix.hpp"
+#include "utility/config.hpp"
+#include "utility/template_expression.hpp"
 
 namespace ece
 {
-	template <class T>
-	struct determinant<T, 3>
-	{
-		inline double operator()(const Matrix<T, 3, 3> & matrix) const;
-	};
+    namespace utility
+    {
+        namespace template_expression
+        {
+        	template <class T>
+        	struct Determinant<T, 3>
+        	{
+        		inline double operator()(const Matrix<T, 3, 3> & matrix) const;
+        	};
 
-	template <class T>
-	struct transpose<T, 3>
-	{
-		inline Matrix<T, 3, 3> operator()(const Matrix<T, 3, 3> & matrix) const;
-	};
+        	template <class T>
+        	struct Transpose<T, 3>
+        	{
+        		inline Matrix<T, 3, 3> operator()(const Matrix<T, 3, 3> & matrix) const;
+        	};
 
-	template <class T>
-	struct inverse<T, 3>
-	{
-		inline Matrix<double, 3, 3> operator()(const Matrix<T, 3, 3> & matrix, bool & invertible) const;
-	};
+        	template <class T>
+        	struct Inverse<T, 3>
+        	{
+        		inline Matrix<double, 3, 3> operator()(const Matrix<T, 3, 3> & matrix, bool & invertible) const;
+        	};
+        }
 
-	/**
-	 * @typedef Matrix3u
-	 * @brief 3x3 Square matrix
-	 */
-	template <class T>
-	using Matrix3u = Matrix<T, 3, 3>;
+        namespace mathematics
+        {
+        	/**
+        	 * @typedef Matrix3u
+        	 * @brief 3x3 Square matrix
+        	 */
+        	template <class T>
+        	using Matrix3u = Matrix<T, 3, 3>;
 
-	/**
-	 * @typedef IntMatrix3u
-	 */
-	using IntMatrix3u = Matrix3u<int>;
+        	/**
+        	 * @typedef IntMatrix3u
+        	 */
+        	using IntMatrix3u = Matrix3u<int>;
 
-	/**
-	* @typedef UintMatrix3u
-	*/
-	using UintMatrix3u = Matrix3u<unsigned int>;
+        	/**
+        	* @typedef UintMatrix3u
+        	*/
+        	using UintMatrix3u = Matrix3u<unsigned int>;
 
-	/**
-	* @typedef FloatMatrix3u
-	*/
-	using FloatMatrix3u = Matrix3u<float>;
+        	/**
+        	* @typedef FloatMatrix3u
+        	*/
+        	using FloatMatrix3u = Matrix3u<float>;
 
-	/**
-	* @typedef DoubleMatrix3u
-	*/
-	using DoubleMatrix3u = Matrix3u<double>;
-}
+        	/**
+        	* @typedef DoubleMatrix3u
+        	*/
+        	using DoubleMatrix3u = Matrix3u<double>;
+        } // namespace mathematics
+    } // namespace utility
+} // namespace ece
 
 #include "utility/mathematics/matrix3u.inl"
 

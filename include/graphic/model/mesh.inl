@@ -40,13 +40,25 @@
 
 namespace ece
 {
-	inline unsigned int Mesh::size() const { return this->_vertices.size(); }
+	namespace graphic
+	{
+		namespace model
+		{
+			inline void Mesh::reset() { return this->_submeshes.clear(); }
 
-	inline std::vector<FloatVector3u> Mesh::getPositions() const { return this->_vertices; }
+			inline auto Mesh::size() const -> std::size_t { return std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), std::size_t{ 0 }, [](std::size_t result, auto rhs) { return result + rhs.mesh.size(); }); }
 
-	inline std::vector<FloatVector3u> Mesh::getColors() const { return this->_colors; }
+			inline auto Mesh::getNumberOfFaces() const -> std::size_t { return std::accumulate(this->_submeshes.begin(), this->_submeshes.end(), std::size_t{ 0 }, [](std::size_t result, auto rhs) { return result + rhs.mesh.getNumberOfFaces(); }); }
 
-	inline std::vector<FloatVector3u> Mesh::getNormals() const { return std::vector<FloatVector3u>(); }
+			inline auto Mesh::getSubmeshes() -> std::vector<Mesh::SubmeshData> & { return this->_submeshes; }
 
-	inline std::vector<int> Mesh::getIndices() const { return std::vector<int>(); }
-}
+			inline auto Mesh::getSubmeshes() const -> const std::vector<Mesh::SubmeshData> & { return this->_submeshes; }
+
+			inline auto Mesh::getVertices() -> std::vector<Mesh::Vertex> & { return this->_vertices.data(); }
+
+			inline auto Mesh::getVertices() const -> const std::vector<Mesh::Vertex> & { return this->_vertices.data(); }
+
+			inline auto Mesh::getVertexBuffer() -> VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> & { return this->_vertices; }
+		} // namespace model
+	} // namespace graphic
+} // namespace ece

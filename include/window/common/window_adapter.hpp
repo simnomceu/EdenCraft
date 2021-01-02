@@ -38,178 +38,193 @@
 #ifndef WINDOW_ADAPTER_HPP
 #define WINDOW_ADAPTER_HPP
 
+#include "window/config.hpp"
 #include "window/common/base_window_adapter.hpp"
 
 namespace ece
 {
-	/**
-	 * @class WindowAdapter
-	 * @extends BaseWindowAdapter
-	 * @brief Adapting window method to use the platform implementation.
-	 */
-	class WindowAdapter: public BaseWindowAdapter
+	namespace window
 	{
-	public:
-		/**
-		 * @fn WindowAdapter() noexcept
-		 * @brief Default constructor. The platform specific implementation is built with.
-		 * @throw noexcept
-		 */
-		WindowAdapter() noexcept;
+		namespace common
+		{
+			/**
+			 * @class WindowAdapter
+			 * @extends BaseWindowAdapter
+			 * @brief Adapting window method to use the platform implementation.
+			 */
+			class ECE_WINDOW_API WindowAdapter : public BaseWindowAdapter
+			{
+			public:
+				/**
+				 * @fn WindowAdapter() noexcept
+				 * @brief Default constructor. The platform specific implementation is built with.
+				 * @throw noexcept
+				 */
+				WindowAdapter() noexcept;
 
-		/**
-		 * @fn WindowAdapter(const WindowAdapter & copy)
-		 * @param[in] copy The adapter to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		WindowAdapter(const WindowAdapter & copy) = default;
-		
-		/**
-		 * @fn WindowAdapter(WindowAdapter && move) noexcept
-		 * @param[in] move The adapter to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		WindowAdapter(WindowAdapter && move) noexcept = default;
+				/**
+				 * @fn WindowAdapter(const WindowAdapter & copy)
+				 * @param[in] copy The adapter to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				WindowAdapter(const WindowAdapter & copy) = default;
 
-		/**
-		 * @fn ~WindowAdapter() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~WindowAdapter() noexcept = default;
+				/**
+				 * @fn WindowAdapter(WindowAdapter && move) noexcept
+				 * @param[in] move The adapter to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				WindowAdapter(WindowAdapter && move) noexcept = default;
 
-		/**
-		 * @fn WindowAdapter & operator=(const WindowAdapter & copy)
-		 * @param[in] copy The adapter to copy from.
-		 * @return The adapter copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		WindowAdapter & operator=(const WindowAdapter & copy) = default;
+				/**
+				 * @fn ~WindowAdapter() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~WindowAdapter() noexcept = default;
 
-		/**
-		 * @fn WindowAdapter & operator=(WindowAdapter && move) noexcept
-		 * @param[in] move The adapter to move.
-		 * @return The adapter moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		WindowAdapter & operator=(WindowAdapter && move) noexcept = default;
+				/**
+				 * @fn WindowAdapter & operator=(const WindowAdapter & copy)
+				 * @param[in] copy The adapter to copy from.
+				 * @return The adapter copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				WindowAdapter & operator=(const WindowAdapter & copy) = default;
 
-		/**
-		 * @fn void createWindow()
-		 * @brief Generate a window.
-		 * @throw
-		 * @see void BaseWindowAdapter::createWindow()
-		 */
-		virtual void createWindow() override;
+				/**
+				 * @fn WindowAdapter & operator=(WindowAdapter && move) noexcept
+				 * @param[in] move The adapter to move.
+				 * @return The adapter moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				WindowAdapter & operator=(WindowAdapter && move) noexcept = default;
 
-		/**
-		 * @fn void deleteWindow()
-		 * @brief Delete a window.
-		 * If that window does not exist, the behaviour is unknown.
-		 * @throw
-		 * @see void BaseWindowAdapter::deleteWindow()
-		 */
-		virtual void deleteWindow() override;
+				/**
+				 * @fn void createWindow()
+				 * @brief Generate a window.
+				 * @throw
+				 * @see void BaseWindowAdapter::createWindow()
+				 */
+				virtual void createWindow() override;
 
-		/**
-		 * @fn bool isWindowCreated() const
-		 * @return True if window exist, false else.
-		 * @brief Check if the window is existing or not.
-		 * @throw
-		 * @see bool BaseWindowAdapter::isWindowCreated() const
-		 */
-		virtual bool isWindowCreated() const override;
+				/**
+				 * @fn void deleteWindow()
+				 * @brief Delete a window.
+				 * If that window does not exist, the behaviour is unknown.
+				 * @throw
+				 * @see void BaseWindowAdapter::deleteWindow()
+				 */
+				virtual void deleteWindow() override;
 
-		/**
-		 * @fn void setTitle(const std::string & title)
-		 * @param[in] title The title to set.
-		 * @brief Set the window title.
-		 * @throw
-		 * @see void BaseWindowAdapter::setTitle(const std::string & title)
-		 */
-		virtual void setTitle(const std::string & title) override;
+				/**
+				 * @fn bool isWindowCreated() const
+				 * @return True if window exist, false else.
+				 * @brief Check if the window is existing or not.
+				 * @throw
+				 * @see bool BaseWindowAdapter::isWindowCreated() const
+				 */
+				virtual auto isWindowCreated() const -> bool override;
 
-		/**
-		 * @fn std::string getTitle() const
-		 * @return The title of the window.
-		 * @brief Get the window title.
-		 * @throw
-		 * @see std::string BaseWindowAdapter::getTitle() const
-		 */
-		virtual std::string getTitle() const override;
+				/**
+				 * @fn void setTitle(const std::string & title)
+				 * @param[in] title The title to set.
+				 * @brief Set the window title.
+				 * @throw
+				 * @see void BaseWindowAdapter::setTitle(const std::string & title)
+				 */
+				virtual void setTitle(const std::string & title) override;
 
-		/**
-		 * @fn void setPosition(const IntVector2u & position)
-		 * @param[in] position The position to set the window to.
-		 * @brief Set the window to the position.
-		 * throw
-		 * @see void BaseWindowAdapter::setPosition(const IntVector2u & position)
-		 */
-		virtual void setPosition(const IntVector2u & position) override;
-		 
-		/**
-		 * @fn IntVector2u getPosition() const
-		 * @return The window position.
-		 * @brief Get the position of the window.
-		 * @throw
-		 * @see IntVector2u BaseWindowAdapter::getPosition() const
-		 */
-		virtual IntVector2u getPosition() const override;
+				/**
+				 * @fn std::string getTitle() const
+				 * @return The title of the window.
+				 * @brief Get the window title.
+				 * @throw
+				 * @see std::string BaseWindowAdapter::getTitle() const
+				 */
+				virtual auto getTitle() const -> std::string override;
 
-		/**
-		 * @fn void minimize()
-		 * @brief Set the window to its minimum size.
-		 * @throw
-		 * @see void BaseWindowAdapter::minimize()
-		 */
-		virtual void minimize() override;
+				/**
+				 * @fn void setPosition(const IntVector2u & position)
+				 * @param[in] position The position to set the window to.
+				 * @brief Set the window to the position.
+				 * throw
+				 * @see void BaseWindowAdapter::setPosition(const IntVector2u & position)
+				 */
+				virtual void setPosition(const IntVector2u & position) override;
 
-		/**
-		 * @fn void maximize()
-		 * @brief Set the window to its maximum size.
-		 * @throw
-		 * @see void BaseWindowAdapter::maximize()
-		 */
-		virtual void maximize() override;
+				/**
+				 * @fn IntVector2u getSize() const
+				 * @return The window size.
+				 * @brief Get the size of the window.
+				 * @throw
+				 */
+				virtual auto getSize() const -> IntVector2u override;
 
-		/**
-		 * @fn void processEvent(const bool blocking)
-		 * @param[in] blocking Block the thread until an event has been processed.
-		 * @brief Process a window event.
-		 * @throw
-		 * @see void BaseWindowAdapter::processEvent(const bool blocking)
-		 */
-		virtual void processEvent(const bool blocking) override;
+				/**
+				 * @fn IntVector2u getPosition() const
+				 * @return The window position.
+				 * @brief Get the position of the window.
+				 * @throw
+				 * @see IntVector2u BaseWindowAdapter::getPosition() const
+				 */
+				virtual auto getPosition() const -> IntVector2u override;
 
-		/**
-		 * @fn Pimpl<DataWindowAdapter> & getImpl()
-		 * @return The platform implementation of the window.
-		 * @brief Get the platform implementation of the window.
-		 * @throw
-		 * @see Pimpl<DataWindowAdapter> & BaseWindowAdapter::getImpl()
-		 */
-		virtual inline Pimpl<DataWindowAdapter> & getImpl() override;
+				/**
+				 * @fn void minimize()
+				 * @brief Set the window to its minimum size.
+				 * @throw
+				 * @see void BaseWindowAdapter::minimize()
+				 */
+				virtual void minimize() override;
 
-		/**
-		 * @fn void processMessage(const WindowMessage & message)
-		 * @param[in] message The message to process.
-		 * @brief Process a message regarding a window event.
-		 * @throw
-		 */
-		void processMessage(const WindowMessage & message);
+				/**
+				 * @fn void maximize()
+				 * @brief Set the window to its maximum size.
+				 * @throw
+				 * @see void BaseWindowAdapter::maximize()
+				 */
+				virtual void maximize() override;
 
-	private:
-		/**
-		 * @property _data
-		 * @brief The platform implementation of the window.
-		 */
-		Pimpl<DataWindowAdapter> _data;
-	};
-}
+				/**
+				 * @fn void processEvent(const bool blocking)
+				 * @param[in] blocking Block the thread until an event has been processed.
+				 * @brief Process a window event.
+				 * @throw
+				 * @see void BaseWindowAdapter::processEvent(const bool blocking)
+				 */
+				virtual void processEvent(const bool blocking) override;
+
+				/**
+				 * @fn Pimpl<DataWindowAdapter> & getImpl()
+				 * @return The platform implementation of the window.
+				 * @brief Get the platform implementation of the window.
+				 * @throw
+				 * @see Pimpl<DataWindowAdapter> & BaseWindowAdapter::getImpl()
+				 */
+				virtual inline auto getImpl() -> Pimpl<DataWindowAdapter> & override;
+
+				/**
+				 * @fn void processMessage(const WindowMessage & message)
+				 * @param[in] message The message to process.
+				 * @brief Process a message regarding a window event.
+				 * @throw
+				 */
+				void processMessage(const WindowMessage & message);
+
+			private:
+				/**
+				 * @property _data
+				 * @brief The platform implementation of the window.
+				 */
+				Pimpl<DataWindowAdapter> _data;
+			};
+		} // namespace common
+	} // namespace window
+} // namespace ece
 
 #include "window/common/window_adapter.inl"
 

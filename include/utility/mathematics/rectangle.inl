@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -38,21 +38,43 @@
 
 namespace ece
 {
-	template<typename T>
-	inline constexpr Rectangle<T>::Rectangle() noexcept : _x(0), _y(0), _w(0), _h(0) {}
+    namespace utility
+    {
+        namespace mathematics
+        {
+        	template<typename T>
+        	inline constexpr Rectangle<T>::Rectangle() noexcept : x(0), y(0), width(0), height(0) {}
 
-	template<typename T>
-	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : _x(x), _y(y), _w(w), _h(h) {}
+        	template<typename T>
+        	inline Rectangle<T>::Rectangle(const T x, const T y, const T w, const T h) noexcept : x(x), y(y), width(w), height(h) {}
 
-	template<typename T>
-	inline T Rectangle<T>::getX() const noexcept { return this->_x; }
+			template <typename T>
+			inline auto Rectangle<T>::operator==(const Rectangle<T> & rhs) const noexcept { return this->x == rhs.x && this->y == rhs.y && this->width == rhs.width && this->height == rhs.height; }
 
-	template<typename T>
-	inline T Rectangle<T>::getY() const noexcept { return this->_y; }
+			template <typename T>
+			inline auto Rectangle<T>::operator!=(const Rectangle<T> & rhs) const noexcept { return !this->operator==(rhs); }
 
-	template<typename T>
-	inline T Rectangle<T>::getWidth() const noexcept { return this->_w; }
+			template <typename T>
+			auto Rectangle<T>::contains(const Vector2u<T> & point) const noexcept
+			{
+				return point[0] >= this->x
+					&& point[0] <= this->x + this->width
+					&& point[1] >= this->y
+					&& point[1] >= this->y + this->height;
+			}
 
-	template<typename T>
-	inline T Rectangle<T>::getHeight() const noexcept { return this->_h; }
-}
+			template <typename T>
+			auto Rectangle<T>::intersects(const Rectangle<T> & rhs) const noexcept
+			{
+				auto intersection = Rectangle<T>{};
+
+				intersection.x = std::max(this->x, rhs.x);
+				intersection.y = std::max(this->y, rhs.y);
+				intersection.width = std::min(this->x + this->width, rhs.x + rhs.width) - intersection.x;
+				intersection.height = std::min(this->y + this->height, rhs.y + rhs.height) - intersection.y;
+
+				return std::move(intersection);
+			}
+        } // namespace mathematics
+    } // namespace utility
+} // namespace ece

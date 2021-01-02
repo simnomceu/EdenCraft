@@ -38,11 +38,32 @@
 
 namespace ece
 {
-	inline BaseComponent::BaseComponent(const ComponentID /*id*/) {}
+	namespace core
+	{
+		namespace ecs
+		{
+			template <class T, typename enabled>
+			inline bool BaseComponent::is() const
+			{
+				return (dynamic_cast<const T *>(this) != nullptr);
+			}
 
-	inline BaseComponent::~BaseComponent() {}
+			template <class T, typename enabled>
+			inline T & BaseComponent::to()
+			{
+				return dynamic_cast<T &>(*this);
+			}
 
-	inline BaseComponent::ComponentID BaseComponent::getID() const { return this->_id; }
+			template <class T, typename enabled>
+			inline const T & BaseComponent::to() const
+			{
+				return dynamic_cast<const T &>(*this);
+			}
 
-	inline unsigned int BaseComponent::getOwner() const { return this->_owner; }
-}
+			inline BaseComponent::operator bool() const
+			{
+				return !this->isDirty();
+			}
+		} // namespace ecs
+	} // namespace core
+} // namespace ece

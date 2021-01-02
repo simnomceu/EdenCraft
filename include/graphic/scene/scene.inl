@@ -40,7 +40,17 @@
 
 namespace ece
 {
-	inline Camera & Scene::getCamera() { return this->_camera; }
+	namespace graphic
+	{
+		namespace scene
+		{
+			inline void Scene::addObject(const Renderable::Reference & object, int level) { this->_objects.push_back(object, true, std::move(level)); }
 
-	inline std::vector<Renderable *> & Scene::getObjects() { return this->_objects; }
-}
+			inline void Scene::addLight(const Light::Reference & light) { this->_lights.push_back(light); }
+
+			inline Camera & Scene::getCamera() { return this->_camera.value; }
+
+			inline void Scene::updateCamera() { this->_camera.hasChanged = true; }
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece

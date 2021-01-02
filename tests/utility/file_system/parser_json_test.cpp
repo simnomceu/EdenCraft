@@ -36,16 +36,16 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/file_system/parser_json.hpp"
-#include "utility/debug/exception.hpp"
+#include "utility/formats.hpp"
+#include "utility/debug.hpp"
 
 SCENARIO("ParserJSON", "[Utility][File]")
 {
 	WHEN("Initializing the parser with no file")
 	{
-		ece::ParserJSON parser;
+		auto parser = ece::ParserJSON{};
 
 		THEN("Accessing the JSON object")
 		{
@@ -55,7 +55,13 @@ SCENARIO("ParserJSON", "[Utility][File]")
 		}
 		AND_THEN("Open a document")
 		{
-			REQUIRE_NOTHROW(parser.loadFromFile("../tests/resource/parse.json"));
+			auto filename = std::string("../tests/resource/parse.json");
+			auto file = ece::File{};
+			if (!file.open(filename, ece::OpenMode::in)) {
+				throw std::runtime_error(filename + " has not been opened.");
+			}
+
+			REQUIRE_NOTHROW(parser.load(file.getStream()));
 			REQUIRE(parser.getObject().get());
 		}
 	}
@@ -66,7 +72,12 @@ SCENARIO("ParserJSON", "[Utility][File]")
 	AND_WHEN("Initializing with an existing valid file")
 	{
 		ece::ParserJSON parser;
-		parser.loadFromFile("../tests/resource/parse.json");
+		auto filename = std::string("../tests/resource/parse.json");
+		auto file = ece::File{};
+		if (!file.open(filename, ece::OpenMode::in)) {
+			throw std::runtime_error(filename + " has not been opened.");
+		}
+		parser.load(file.getStream());
 
 		THEN("Accessing the JSON object")
 		{

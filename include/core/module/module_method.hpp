@@ -39,86 +39,93 @@
 #ifndef MODULE_METHOD_HPP
 #define MODULE_METHOD_HPP
 
-#include <functional>
+#include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
-	/**
-	 * @typedef ModuleMethodHandle
-	 * @tparam T The object defined as a module.
-	 * @brief The base signature of the module hooks.
-	 */
-	template <class T> using ModuleMethodHandle = std::function<void(T &)>;
-
-	/**
-	 * @fn ModuleMethod
-	 * @extends ModuleMethodHandle<T>
-	 * @tparam T The object defined as a module.
-	 * @brief Extended handle for module hooks.
-	 */
-	template <class T>
-	class ModuleMethod: protected ModuleMethodHandle<T>
+	namespace core
 	{
-	public:
-		static const ModuleMethodHandle<T> VOID;
+		namespace module
+		{
+			/**
+			 * @typedef ModuleMethodHandle
+			 * @tparam T The object defined as a module.
+			 * @brief The base signature of the module hooks.
+			 */
+			template <class T> using ModuleMethodHandle = std::function<void(T &)>;
 
-		ModuleMethod() = delete;
+			/**
+			 * @fn ModuleMethod
+			 * @extends ModuleMethodHandle<T>
+			 * @tparam T The object defined as a module.
+			 * @brief Extended handle for module hooks.
+			 */
+			template <class T>
+			class ModuleMethod : protected ModuleMethodHandle<T>
+			{
+			public:
+				static const ModuleMethodHandle<T> VOID_METHOD;
 
-		/**
-		 * @fn ModuleMethod(const ModuleMethodHandle<T> & copy)
-		 * @param[in] copy The standart function object to cast.
-		 * @brief Default cast constructor from a standart function object.
-		 * @throw
-		 */
-		inline ModuleMethod(const ModuleMethodHandle<T> & copy);
+				ModuleMethod() = delete;
 
-		/**
-		 * @fn ModuleMethod(const ModuleMethod & copy) noexcept 
-		 * @param[in] copy The method to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		ModuleMethod(const ModuleMethod & copy) noexcept = default;
+				/**
+				 * @fn ModuleMethod(const ModuleMethodHandle<T> & copy)
+				 * @param[in] copy The standart function object to cast.
+				 * @brief Default cast constructor from a standart function object.
+				 * @throw
+				 */
+				inline ModuleMethod(const ModuleMethodHandle<T> & copy);
 
-		/**
-		 * @fn ModuleMethod(ModuleMethod && move) noexcept 
-		 * @param[in] move The method to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		ModuleMethod(ModuleMethod && move) noexcept = default;
+				/**
+				 * @fn ModuleMethod(const ModuleMethod & copy) noexcept
+				 * @param[in] copy The method to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				ModuleMethod(const ModuleMethod & copy) noexcept = default;
 
-		/**
-		 * @fn ~ModuleMethod() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~ModuleMethod() noexcept = default;
+				/**
+				 * @fn ModuleMethod(ModuleMethod && move) noexcept
+				 * @param[in] move The method to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ModuleMethod(ModuleMethod && move) noexcept = default;
 
-		/**
-		 * @fn ModuleMethod & operator=(const ModuleMethod & copy) noexcept
-		 * @param[in] copy The method to copy from.
-		 * @return The method copied.
-		 * @brief Default assignment operator.
-		 * @throw noexcept
-		 */
-		ModuleMethod & operator=(const ModuleMethod & copy) noexcept = default;
+				/**
+				 * @fn ~ModuleMethod() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~ModuleMethod() noexcept = default;
 
-		/**
-		 * @fn ModuleMethod & operator=(ModuleMethod && move) noexcept
-		 * @param[in] move The method to move.
-		 * @return The method moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		ModuleMethod & operator=(ModuleMethod && move) noexcept = default;
+				/**
+				 * @fn ModuleMethod & operator=(const ModuleMethod & copy) noexcept
+				 * @param[in] copy The method to copy from.
+				 * @return The method copied.
+				 * @brief Default assignment operator.
+				 * @throw noexcept
+				 */
+				ModuleMethod & operator=(const ModuleMethod & copy) noexcept = default;
 
-		/**
-		 * @see http://en.cppreference.com/w/cpp/utility/functional/function/operator%28%29.html
-		 */
-		using ModuleMethodHandle<T>::operator();
-	};
-}
+				/**
+				 * @fn ModuleMethod & operator=(ModuleMethod && move) noexcept
+				 * @param[in] move The method to move.
+				 * @return The method moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ModuleMethod & operator=(ModuleMethod && move) noexcept = default;
+
+				/**
+				 * @see http://en.cppreference.com/w/cpp/utility/functional/function/operator%28%29.html
+				 */
+				using ModuleMethodHandle<T>::operator();
+			};
+		} // namespace module
+	} // namespace core
+} // namespace ece
 
 #include "core/module/module_method.inl"
 

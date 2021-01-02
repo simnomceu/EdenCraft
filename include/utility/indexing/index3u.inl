@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -38,16 +38,22 @@
 
 namespace ece
 {
-	inline constexpr Index3u::Index3u() noexcept : _i(0), _j(0), _k(0) {}
+    namespace utility
+    {
+        namespace indexing
+        {
+        	inline constexpr Index3u::Index3u() noexcept : _i(0), _j(0), _k(0) {}
 
-	inline Index3u::Index3u(const int i, const int j, const int k) noexcept : _i(i), _j(j), _k(k) {}
+        	inline Index3u::Index3u(const std::size_t i, const std::size_t j, const std::size_t k) noexcept : _i(i), _j(j), _k(k) {}
 
-	inline int Index3u::get(const int maxI, const int maxJ) noexcept { return this->_k * maxI * maxJ + this->_j * maxI + this->_i; }
+        	inline std::size_t Index3u::get(const std::size_t maxI, const std::size_t maxJ) noexcept { return this->_k * maxI * maxJ + this->_j * maxI + this->_i; }
 
-	inline void Index3u::set(const int maxI, const int maxJ, const int index)
-	{
-		this->_k = index / (maxI * maxJ);
-		this->_j = (index - this->_k * (maxI * maxJ)) / maxI;
-		this->_i = index - (this->_j * maxI) - (this->_k * maxI * maxJ);
-	}
-}
+        	inline void Index3u::set(const std::size_t maxI, const std::size_t maxJ, const std::size_t index)
+        	{
+        		this->_k = index / (maxI * maxJ);
+        		this->_j = (index - this->_k * (maxI * maxJ)) / maxI;
+        		this->_i = index - (this->_j * maxI) - (this->_k * maxI * maxJ);
+        	}
+        } // namespace indexing
+    } // namespace utility
+} // namespace ece

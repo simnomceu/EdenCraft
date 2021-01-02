@@ -36,20 +36,24 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/argument/option.hpp"
-
-#include <iostream>
 
 namespace ece
 {
-	bool Option::apply(const std::string & optionName, const std::string & optionValue)
+	namespace core
 	{
-		if (this->_name != optionName.substr(1) || !this->_value->isValid(optionValue)) {
-			return false;
-		}
+		namespace argument
+		{
+			auto Option::apply(const std::string & optionName, const std::string & optionValue) -> bool
+			{
+				if (this->_name != optionName.substr(1) || !this->_value->isValid(optionValue)) {
+					return false;
+				}
 
-		this->_command(optionValue);
-		return true;
-	}
-}
+				this->_command(optionValue);
+				return true;
+			}
+		} // namespace core
+	} // namespace core
+} // namespace ece

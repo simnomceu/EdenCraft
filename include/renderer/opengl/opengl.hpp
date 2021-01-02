@@ -39,773 +39,647 @@
 #ifndef OPENGL_HPP
 #define OPENGL_HPP
 
-#include <memory>
-#include <vector>
-#include <bitset>
-#include <array>
-
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
-#include "utility/mathematics/matrix2u.hpp"
-#include "utility/mathematics/matrix3u.hpp"
-#include "utility/mathematics/matrix4u.hpp"
-#include "utility/mathematics/vector2u.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/vector4u.hpp"
-#include "renderer/enum.hpp"
-#include "utility/indexing/version.hpp"
+#include "utility/mathematics.hpp"
+#include "renderer/opengl/enum.hpp"
+#include "utility/indexing.hpp"
+#include "utility/container.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
-	using Handle = unsigned short int;
-
-	class BaseContextOpenGL;
-
-	/**
-	 * @class OpenGL
-	 * @brief Interface for all OpenGL extensions.
-	 */
-	class OpenGL
+	namespace renderer
 	{
-	public:
-		/**
-		 * @fn ~OpenGL() noexcept ~OpenGL() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~OpenGL() noexcept = default;
+		namespace rendering
+		{
+			class RenderContext;
+		}
 
-		/**
-		 * @fn void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-		 * @param[in] minVersionGL The mandatory minimum version of OpenGL.
-		 * @param[in] maxVersionGL The mandatory maximum version of OpenGL.
-		 * @brief Initialize the driver to load OpenL calls.
-		 * @throw
-		 */
-		static void init(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
+		namespace opengl
+		{
+			using rendering::RenderContext;
 
-		/**
-		 * @fn Version<2> & getLatestVersion()
-		 * @return The lastest version available of OpenGL.
-		 * @brief Get the most recent version available of OpenGL.
-		 * @throw
-		 */
-		static inline Version<2> & getLatestVersion();
+			namespace OpenGL
+			{
+				// OpenGL headers
 
-		/**
-		 * @fn void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext)
-		 * @param[in] currentContext The OpenGL context to use.
-		 * @brief Define a context as the one to currently use.
-		 */
-		static inline void setCurrentContext(const std::shared_ptr<BaseContextOpenGL> & currentContext);
+				static inline auto getError() -> ErrorGL;
 
-		static inline void bindBuffer(const BufferType type, const Handle handle);
-		template<class T> static inline void bufferData(const BufferType type, const std::vector<T> & data, const BufferUsage usage);
-		static inline void genVertexArrays(Handle & handle);
-		static inline void genVertexArrays(const int count, std::vector<Handle> & handles);
-		static inline void bindVertexArray(const Handle handle);
-		template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset);
-		template<class T> static inline void vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<T> & data);
+				template <class T> static inline void vertexAttrib(Handle index, T v);
+				template <class T> static inline void vertexAttrib(Handle index, Vector2u<T> v);
+				template <class T> static inline void vertexAttrib(Handle index, Vector3u<T> v);
+				template <class T> static inline void vertexAttrib(Handle index, Vector4u<T> v);
+				template <ece::size_t Size, typename enabled = std::enable_if_t<(Size > 0 && Size <= 4)>> static inline void vertexAttribP(Handle index, PackedVertexAttribType type, bool normalized, unsigned int value);
 
-		// NEW DEFINITION
+				template<> inline void vertexAttrib(Handle index, float v);
+				template<> inline void vertexAttrib(Handle index, short v);
+				template<> inline void vertexAttrib(Handle index, double v);
+				template<> inline void vertexAttrib(Handle index, int v);
+				template<> inline void vertexAttrib(Handle index, unsigned int v);
+				template<> inline void vertexAttrib(Handle index, Vector2u<float> v);
+				template<> inline void vertexAttrib(Handle index, Vector2u<short> v);
+				template<> inline void vertexAttrib(Handle index, Vector2u<double> v);
+				template<> inline void vertexAttrib(Handle index, Vector2u<int> v);
+				template<> inline void vertexAttrib(Handle index, Vector2u<unsigned int> v);
+				template<> inline void vertexAttrib(Handle index, Vector3u<float> v);
+				template<> inline void vertexAttrib(Handle index, Vector3u<short> v);
+				template<> inline void vertexAttrib(Handle index, Vector3u<double> v);
+				template<> inline void vertexAttrib(Handle index, Vector3u<int> v);
+				template<> inline void vertexAttrib(Handle index, Vector3u<unsigned int> v);
+				template<> inline void vertexAttrib(Handle index, Vector4u<float> v);
+				template<> inline void vertexAttrib(Handle index, Vector4u<short> v);
+				template<> inline void vertexAttrib(Handle index, Vector4u<double> v);
+				template<> inline void vertexAttrib(Handle index, Vector4u<int> v);
+				template<> inline void vertexAttrib(Handle index, Vector4u<unsigned int> v);
+				template<> inline void vertexAttrib(Handle index, std::array<std::byte, 4> v);
 
-		static inline ErrorGL getError();
-//		static inline void vertexAttrib1f(unsigned int index, float v0);
-//		static inline void vertexAttrib1s(unsigned int index, short v0);
-//		static inline void vertexAttrib1d(unsigned int index, double v0);
-//		static inline void vertexAttribI1i(unsigned int index, int v0);
-//		static inline void vertexAttribI1ui(unsigned int index, unsigned int v0);
-//		static inline void vertexAttrib2f(unsigned int index, float v0, float v1);
-//		static inline void vertexAttrib2s(unsigned int index, short v0, short v1);
-//		static inline void vertexAttrib2d(unsigned int index, double v0, double v1);
-//		static inline void vertexAttribI2i(unsigned int index, int v0, int v1);
-//		static inline void vertexAttribI2ui(unsigned int index, unsigned int v0, unsigned int v1);
-//		static inline void vertexAttrib3f(unsigned int index, float v0, float v1, float v2);
-//		static inline void vertexAttrib3s(unsigned int index, short v0, short v1, short v2);
-//		static inline void vertexAttrib3d(unsigned int index, double v0, double v1, double v2);
-//		static inline void vertexAttribI3i(unsigned int index, int v0, int v1, int v2);
-//		static inline void vertexAttribI3ui(unsigned int index, unsigned int v0, unsigned int v1, unsigned int v2);
-//		static inline void vertexAttrib4f(unsigned int index, float v0, float v1, float v2, float v3);
-//		static inline void vertexAttrib4s(unsigned int index, short v0, short v1, short v2, short v3);
-//		static inline void vertexAttrib4d(unsigned int index, double v0, double v1, double v2, double v3);
-//		static inline void vertexAttrib4Nub(unsigned int index, GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3);
-//		static inline void vertexAttribI4i(unsigned int index, int v0, int v1, int v2, int v3);
-//		static inline void vertexAttribI4ui(unsigned int index, unsigned int v0, unsigned int v1, unsigned int v2, unsigned int v3);
-//		static inline void vertexAttrib1fv(unsigned int index, const float *v);
-//		static inline void vertexAttrib1sv(unsigned int index, const short *v);
-//		static inline void vertexAttrib1dv(unsigned int index, const double *v);
-//		static inline void vertexAttribI1iv(unsigned int index, const int *v);
-//		static inline void vertexAttribI1uiv(unsigned int index, const unsigned int *v);
-//		static inline void vertexAttrib2fv(unsigned int index, const float *v);
-//		static inline void vertexAttrib2sv(unsigned int index, const short *v);
-//		static inline void vertexAttrib2dv(unsigned int index, const double *v);
-//		static inline void vertexAttribI2iv(unsigned int index, const int *v);
-//		static inline void vertexAttribI2uiv(unsigned int index, const unsigned int *v);
-//		static inline void vertexAttrib3fv(unsigned int index, const float *v);
-//		static inline void vertexAttrib3sv(unsigned int index, const short *v);
-//		static inline void vertexAttrib3dv(unsigned int index, const double *v);
-//		static inline void vertexAttribI3iv(unsigned int index, const int *v);
-//		static inline void vertexAttribI3uiv(unsigned int index, const unsigned int *v);
-//		static inline void vertexAttrib4fv(unsigned int index, const float *v);
-//		static inline void vertexAttrib4sv(unsigned int index, const short *v);
-//		static inline void vertexAttrib4dv(unsigned int index, const double *v);
-//		static inline void vertexAttrib4iv(unsigned int index, const int *v);
-//		static inline void vertexAttrib4bv(unsigned int index, const GLbyte *v);
-//		static inline void vertexAttrib4ubv(unsigned int index, const GLubyte *v);
-//		static inline void vertexAttrib4usv(unsigned int index, const unsigned short *v);
-//		static inline void vertexAttrib4uiv(unsigned int index, const unsigned int *v);
-//		static inline void vertexAttrib4Nbv(unsigned int index, const GLbyte *v);
-//		static inline void vertexAttrib4Nsv(unsigned int index, const short *v);
-//		static inline void vertexAttrib4Niv(unsigned int index, const int *v);
-//		static inline void vertexAttrib4Nubv(unsigned int index, const GLubyte *v);
-//		static inline void vertexAttrib4Nusv(unsigned int index, const unsigned short *v);
-//		static inline void vertexAttrib4Nuiv(unsigned int index, const unsigned int *v);
-//		static inline void vertexAttribI4bv(unsigned int index, const GLbyte *v);
-//		static inline void vertexAttribI4ubv(unsigned int index, const GLubyte *v);
-//		static inline void vertexAttribI4sv(unsigned int index, const short *v);
-//		static inline void vertexAttribI4usv(unsigned int index, const unsigned short * v);
-//		static inline void vertexAttribI4iv(unsigned int index, const int * v);
-//		static inline void vertexAttribI4uiv(unsigned int index, const unsigned int * v);
-//		static inline void vertexAttribP1ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
-//		static inline void vertexAttribP2ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
-//		static inline void vertexAttribP3ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
-//		static inline void vertexAttribP4ui(unsigned int index, GLenum type, bool normalized, unsigned int value);
-//		static inline void vertexAttribPointer(unsigned int index, int size, GLenum type, bool normalized, GLsizei stride, const void * pointer);
-//		static inline void vertexAttribIPointer(unsigned int index, int size, GLenum type, GLsizei stride, const void * pointer);
-		static inline void enableVertexAttribArray(const int location);
-		static inline void disableVertexAttribArray(const int location);
-		static inline void enable(const Capability cap);
-		static inline void disable(const Capability cap);
-		static inline void enableIndexed(const Capability cap, const unsigned short int index);
-		static inline void disableIndexed(const Capability cap, const unsigned short int index);
-//		static inline void primitiveRestartIndex(unsigned int index);
-		static inline void drawArrays(const PrimitiveMode mode, const int first, const unsigned int count);
-//		static inline void multiDrawArrays(GLenum mode, const int * first, const GLsizei * count, GLsizei drawcount);
-		static inline void drawElements(const PrimitiveMode mode, const unsigned int count, const DataType type, const int offset);
-//		static inline void multiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount);
-//		static inline void drawRangeElements(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, const void * indices);
-//		static inline void drawArraysInstanced(GLenum mode, int first, GLsizei count, GLsizei primcount);
-//		static inline void drawElementsInstanced(GLenum mode, GLsizei count, GLenum type, const void * indices, GLsizei primcount);
-//		static inline void drawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, int basevertex);
-//		static inline void drawRangeElementsBaseVertex(GLenum mode, unsigned int start, unsigned int end, GLsizei count, GLenum type, void * indices, int basevertex);
-//		static inline void drawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, void * indices, GLsizei primcount, int basevertex);
-//		static inline void multiDrawElementsBaseVertex(GLenum mode, const GLsizei * count, GLenum type, const void * const * indices, GLsizei drawcount, const int * basevertex);
-		static inline Handle genBuffers();
-		static inline std::vector<Handle> genBuffers(const int count);
-//		static inline void deleteBuffers(GLsizei n, const unsigned int * buffers);
-//		static inline void bindBuffer(GLenum target, unsigned int buffer);
-//		static inline void bindBufferRange(GLenum target, unsigned int index, unsigned int buffer, GLintptr offset, GLsizeiptr size);
-//		static inline void bindBufferBase(GLenum target, unsigned int index, unsigned int buffer);
-//		static inline void bufferData(GLenum target, GLsizeiptr size, const void * data, GLenum usage);
-//		static inline void bufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const void * data);
-//		static inline void * mapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
-//		static inline void * mapBuffer(GLenum target, GLenum access);
-//		static inline void flushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length);
-//		static inline bool unmapBuffer(GLenum target);
-//		static inline void copyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-//		static inline void genVertexArrays(GLsizei n, unsigned int *arrays);
-//		static inline void deleteVertexArrays(GLsizei n, const unsigned int *arrays);
-//		static inline void bindVertexArray(unsigned int array);
-//		static inline bool isBuffer(unsigned int buffer);
-//		static inline void getBufferParameteriv(GLenum target, GLenum value, int * data);
-//		static inline void getBufferParameteri64v(GLenum target, GLenum value, GLint64 * data);
-//		static inline void getBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, void * data);
-//		static inline void getBufferPointerv(GLenum target, GLenum pname, void ** params);
-//		static inline bool isVertexArray(unsigned int array);
-//		static inline void depthRange(double nearVal, double farVal);
-//		static inline void viewport(int x, int y, GLsizei width, GLsizei height);
-//		static inline void clampColor(GLenum target, GLenum clamp);
-//		static inline void provokingVertex(GLenum provokeMode);
-//		static inline void beginConditionalRender(unsigned int id, GLenum mode);
-//		static inline void endConditionalRender();
-//		static inline void beginTransformFeedback(GLenum primitiveMode);
-//		static inline void endTransformFeedback();
-//		static inline void beginQuery(GLenum target, unsigned int id);
-//		static inline void endQuery(GLenum target);
-//		static inline void genQueries(GLsizei n, unsigned int * ids);
-//		static inline void deleteQueries(GLsizei n, const unsigned int * ids);
-//		static inline bool isQuery(unsigned int id);
-//		static inline void getQueryiv(GLenum target, GLenum pname, int * params);
-//		static inline void getQueryObjectiv(unsigned int id, GLenum pname, int * params);
-//		static inline void getQueryObjectuiv(unsigned int id, GLenum pname, unsigned int * params);
-//		static inline void getQueryObjecti64v(unsigned int id, GLenum pname, GLint64 * params);
-//		static inline void getQueryObjectui64v(unsigned int id, GLenum pname, GLuint64 * params);
-		static inline Handle createShader(const ShaderType type);
-		static inline void shaderSource(const Handle handle, const std::string & source);
-		static inline void shaderSource(const Handle handle, const std::vector<std::string> & source);
-		static inline void compileShader(const Handle handle);
-		static inline void deleteShader(const Handle handle);
-		static inline Handle createProgram();
-		static inline void attachShader(const Handle program, const Handle shader);
-//		static inline void detachShader(unsigned int program, unsigned int shader);
-		static inline void linkProgram(const Handle handle);
-		static inline void useProgram(const Handle handle);
-//		static inline void deleteProgram(unsigned int program);
-//		static inline void getActiveAttrib(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, int *size, GLenum *type, char *name);
-//		static inline int getAttribLocation(unsigned int program, const char *name);
-//		static inline void bindAttribLocation(unsigned int program, unsigned int index, const char *name);
-		static inline Handle getUniformLocation(const Handle handle, const std::string & name);
-//		static inline unsigned int getUniformBlockIndex(unsigned int program, const char *uniformBlockName);
-//		static inline void getActiveUniformBlockName(unsigned int program, unsigned int uniformBlockIndex, GLsizei bufSize, GLsizei *length, char *uniformBlockName);
-//		static inline void getActiveUniformBlockiv(unsigned int program, unsigned int uniformBlockIndex, GLenum pname, int *params);
-//		static inline void getUniformIndices(unsigned int program, GLsizei uniformCount, const char **uniformNames, unsigned int *uniformIndices);
-//		static inline void getActiveUniformName(unsigned int program, unsigned int uniformIndex, GLsizei bufSize, GLsizei *length, char *uniformName);
-//		static inline void getActiveUniform(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, int *size, GLenum *type, char *name);
-//		static inline void getActiveUniformsiv(unsigned int program, GLsizei uniformCount, const unsigned int *uniformIndices, GLenum pname, int *params);
-		template <class T, unsigned int S> static inline void uniform(const int location, const std::array<T, S> & v);
-//		static inline void uniform1fv(int location, GLsizei count, const float *value);
-//		static inline void uniform2fv(int location, GLsizei count, const float *value);
-//		static inline void uniform3fv(int location, GLsizei count, const float *value);
-//		static inline void uniform4fv(int location, GLsizei count, const float *value);
-//		static inline void uniform1iv(int location, GLsizei count, const int *value);
-//		static inline void uniform2iv(int location, GLsizei count, const int *value);
-//		static inline void uniform3iv(int location, GLsizei count, const int *value);
-//		static inline void uniform4iv(int location, GLsizei count, const int *value);
-//		static inline void uniform1uiv(int location, GLsizei count, const unsigned int *value);
-//		static inline void uniform2uiv(int location, GLsizei count, const unsigned int *value);
-//		static inline void uniform3uiv(int location, GLsizei count, const unsigned int *value);
-//		static inline void uniform4uiv(int location, GLsizei count, const unsigned int *value);
-//		static inline void uniformMatrix2fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformMatrix3fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformMatrix4fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformMatrix2x3fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformMatrix3x2fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformMatrix2x4fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformMatrix4x2fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformMatrix3x4fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformMatrix4x3fv(int location, GLsizei count, bool transpose, const float *value);
-//		static inline void uniformBlockBinding(unsigned int program, unsigned int uniformBlockIndex, unsigned int uniformBlockBinding);
-//		static inline void transformFeedbackVaryings(unsigned int program, GLsizei count, const char **varyings, GLenum bufferMode);
-//		static inline void getTransformFeedbackVarying(unsigned int program, unsigned int index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, char *name);
-//		static inline void validateProgram(unsigned int program);
-//		static inline void getProgramiv(unsigned int program, GLenum pname, int *params);
-//		static inline void bindFragDataLocation(unsigned int program, unsigned int colorNumber, const char * name);
-//		static inline int getFragDataLocation(unsigned int program, const char * name);
-//		static inline bool isShader(unsigned int shader);
-//		static inline void getShaderiv(unsigned int shader, GLenum pname, int *params);
-//		static inline void getAttachedShaders(unsigned int program, GLsizei maxCount, GLsizei *count, unsigned int *shaders);
-//		static inline void getShaderInfoLog(unsigned int shader, GLsizei maxLength, GLsizei *length, char *infoLog);
-//		static inline void getShaderSource(unsigned int shader, GLsizei bufSize, GLsizei *length, char *source);
-//		static inline void getVertexAttribdv(unsigned int index, GLenum pname, double *params);
-//		static inline void getVertexAttribfv(unsigned int index, GLenum pname, float *params);
-//		static inline void getVertexAttribiv(unsigned int index, GLenum pname, int *params);
-//		static inline void getVertexAttribIiv(unsigned int index, GLenum pname, int *params);
-//		static inline void getVertexAttribIuiv(unsigned int index, GLenum pname, unsigned int *params);
-//		static inline void getVertexAttribPointerv(unsigned int index, GLenum pname, void ** pointer);
-//		static inline void getUniformfv(unsigned int program, int location, float *params);
-//		static inline void getUniformiv(unsigned int program, int location, int *params);
-//		static inline void getUniformuiv(unsigned int program, int location, unsigned int *params);
-//		static inline bool isProgram(unsigned int program);
-//		static inline void getProgramInfoLog(unsigned int program, GLsizei maxLength, GLsizei *length, char *infoLog);
-//		static inline void getMultisamplefv(GLenum pname, unsigned int index, float *val);
-//		static inline void pointSize(float size);
-//		static inline void pointParameterf(GLenum pname, float param);
-//		static inline void pointParameteri(GLenum pname, int param);
-//		static inline void pointParameterfv(GLenum pname, const float * params);
-//		static inline void pointParameteriv(GLenum pname, const int * params);
-//		static inline void lineWidth(float width);
-		static inline void frontFace(const FrontFaceMode mode);
-		static inline void cullFace(const CullFaceMode mode);
-		static inline void polygonMode(const PolygonMode mode);
-//		static inline void polygonOffset(float factor, float units);
-//		static inline void pixelStoref(GLenum pname, float param);
-//		static inline void pixelStorei(GLenum pname, int param);
-//		static inline void activeTexture(GLenum texture);
-//		static inline void texImage3D(GLenum target, int level, int internalFormat, GLsizei width, GLsizei height, GLsizei depth, int border, GLenum format, GLenum type, const void * data);
-		static inline void texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const unsigned int width, const unsigned int height, const PixelFormat format, const PixelDataType type, const void * data);
-//		static inline void texImage1D(GLenum target, int level, int internalFormat, GLsizei width, int border, GLenum format, GLenum type, const void * data);
-//		static inline void copyTexImage2D(GLenum target, int level, GLenum internalformat, int x, int y, GLsizei width, GLsizei height, int border);
-//		static inline void copyTexImage1D(GLenum target, int level, GLenum internalformat, int x, int y, GLsizei width, int border);
-//		static inline void texSubImage3D(GLenum target, int level, int xoffset, int yoffset, int zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void * pixels);
-//		static inline void texSubImage2D(GLenum target, int level, int xoffset, int yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void * pixels);
-//		static inline void texSubImage1D(GLenum target, int level, int xoffset, GLsizei width, GLenum format, GLenum type, const void * pixels);
-//		static inline void copyTexSubImage3D(GLenum target, int level, int xoffset, int yoffset, int zoffset, int x, int y, GLsizei width, GLsizei height);
-//		static inline void copyTexSubImage2D(GLenum target, int level, int xoffset, int yoffset, int x, int y, GLsizei width, GLsizei height);
-//		static inline void copyTexSubImage1D(GLenum target, int level, int xoffset, int x, int y, GLsizei width);
-//		static inline void compressedTexImage3D(GLenum target, int level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, int border, GLsizei imageSize, const void * data);
-//		static inline void compressedTexImage2D(GLenum target, int level, GLenum internalformat, GLsizei width, GLsizei height, int border, GLsizei imageSize, const void * data);
-//		static inline void compressedTexImage1D(GLenum target, int level, GLenum internalformat, GLsizei width, int border, GLsizei imageSize, const void * data);
-//		static inline void compressedTexSubImage3D(GLenum target, int level, int xoffset, int yoffset, int zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const void * data);
-//		static inline void compressedTexSubImage2D(GLenum target, int level, int xoffset, int yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void * data);
-//		static inline void compressedTexSubImage1D(GLenum target, int level, int xoffset, GLsizei width, GLenum format, GLsizei imageSize, const void * data);
-//		static inline void texImage3DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, bool fixedsamplelocations);
-//		static inline void texImage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, bool fixedsamplelocations);
-//		static inline void texBuffer(GLenum target, GLenum internalFormat, unsigned int buffer);
-		template <class T> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const T param);
-//		static inline void texParameterf(GLenum target, GLenum pname, float param);
-//		static inline void texParameteri(GLenum target, GLenum pname, int param);
-//		static inline void texParameterfv(GLenum target, GLenum pname, const float * params);
-//		static inline void texParameteriv(GLenum target, GLenum pname, const int * params);
-//		static inline void texParameterIiv(GLenum target, GLenum pname, const int * params);
-//		static inline void texParameterIuiv(GLenum target, GLenum pname, const unsigned int * params);
-		static inline void generateMipmap(const MipmapTarget target);
-		static inline void bindTexture(const TextureTarget target, const Handle texture);
-//		static inline void deleteTextures(GLsizei n, const unsigned int * textures);
-		static inline Handle genTexture();
-		static inline std::vector<Handle> genTextures(const unsigned int n);
-//		static inline void getTexParameterfv(GLenum target, GLenum pname, float * params);
-//		static inline void getTexParameteriv(GLenum target, GLenum pname, int * params);
-//		static inline void getTexParameterIiv(GLenum target, GLenum pname, int * params);
-//		static inline void getTexParameterIuiv(GLenum target, GLenum pname, unsigned int * params);
-//		static inline void getTexLevelParameterfv(GLenum target, int level, GLenum pname, float * params);
-//		static inline void getTexLevelParameteriv(GLenum target, int level, GLenum pname, int * params);
-//		static inline void getTexImage(GLenum target, int level, GLenum format, GLenum type, void * pixels);
-//		static inline void getCompressedTexImage(GLenum target, int level, void * pixels);
-//		static inline bool isTexture(unsigned int texture);
-//		static inline void hint(GLenum target, GLenum mode);
-//		static inline void readPixels(int x, int y, GLsizei width, GLsizei height, GLenum format, GLenum type, void * data);
-//		static inline void readBuffer(GLenum mode);
-//		static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, GLbitfield mask, GLenum filter);
-//		static inline void scissor(int x, int y, GLsizei width, GLsizei height);
-//		static inline void sampleCoverage(float value, bool invert);
-//		static inline void sampleMaski(unsigned int maskNumber, GLbitfield mask);
-//		static inline void stencilFunc(GLenum func, int ref, unsigned int mask);
-//		static inline void stencilFuncSeparate(GLenum face, GLenum func, int ref, unsigned int mask);
-//		static inline void stencilOp(GLenum sfail, GLenum dpfail, GLenum dppass);
-//		static inline void stencilOpSeparate(GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
-		static inline void depthFunc(const DepthFunctionCondition condition);
-//		static inline void blendEquation(GLenum mode);
-//		static inline void blendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
-//		static inline void blendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
-//		static inline void blendFunc(GLenum sfactor, GLenum dfactor);
-//		static inline void blendColor(float red, float green, float blue, float alpha);
-//		static inline void logicOp(GLenum opcode);
-//		static inline void drawBuffer(GLenum buf);
-//		static inline void drawBuffers(GLsizei n, const GLenum *bufs);
-//		static inline void colorMask(bool red, bool green, bool blue, bool alpha);
-//		static inline void colorMaski(unsigned int buf, bool red, bool green, bool blue, bool alpha);
-//		static inline void depthMask(bool flag);
-//		static inline void stencilMask(unsigned int mask);
-//		static inline void stencilMaskSeparate(GLenum face, unsigned int mask);
-		static inline void clear(const Bitfield mask);
-		static inline void clearColor(const float r, const float g, const float b, const float a);
-//		static inline void clearDepth(double depth);
-//		static inline void clearStencil(int s);
-//		static inline void clearBufferiv(GLenum buffer, int drawbuffer, const int * value);
-//		static inline void clearBufferuiv(GLenum buffer, int drawbuffer, const unsigned int * value);
-//		static inline void clearBufferfv(GLenum buffer, int drawbuffer, const float * value);
-//		static inline void clearBufferfi(GLenum buffer, int drawbuffer, float depth, int stencil);
-//		static inline void bindFramebuffer(GLenum target, unsigned int framebuffer);
-//		static inline void deleteFramebuffers(GLsizei n, unsigned int *framebuffers);
-//		static inline void genFramebuffers(GLsizei n, unsigned int *ids);
-//		static inline void bindRenderbuffer(GLenum target, unsigned int renderbuffer);
-//		static inline void deleteRenderbuffers(GLsizei n, unsigned int *renderbuffers);
-//		static inline void genRenderbuffers(GLsizei n, unsigned int *renderbuffers);
-//		static inline void renderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
-//		static inline void renderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-//		static inline void framebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, unsigned int renderbuffer);
-//		static inline void framebufferTexture(GLenum target, GLenum attachment, unsigned int texture, int level);
-//		static inline void framebufferTexture1D(GLenum target, GLenum attachment, GLenum textarget, unsigned int texture, int level);
-//		static inline void framebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, unsigned int texture, int level);
-//		static inline void framebufferTexture3D(GLenum target, GLenum attachment, GLenum textarget, unsigned int texture, int level, int layer);
-//		static inline void framebufferTextureLayer(GLenum target, GLenum attachment, unsigned int texture, int level, int layer);
-//		static inline GLenum checkFramebufferStatus(GLenum target);
-//		static inline bool isFramebuffer(unsigned int framebuffer);
-//		static inline void getFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, int *params);
-//		static inline bool isRenderbuffer(unsigned int renderbuffer);
-//		static inline void getRenderbufferParameteriv(GLenum target, GLenum pname, int *params);
-//		static inline void flush();
-//		static inline void finish();
-//		static inline GLsync fenceSync(GLenum condition, GLbitfield flags);
-//		static inline void deleteSync(GLsync sync);
-//		static inline GLenum clientWaitSync(GLsync sync, GLbitfield flags, GLuint64 timeout);
-//		static inline void waitSync(GLsync sync, GLbitfield flags, GLuint64 timeout);
-//		static inline void getSynciv(GLsync sync, GLenum pname, GLsizei bufSize, GLsizei *length, int *values);
-//		static inline bool isSync(GLsync sync);
-//		static inline void getBooleanv(GLenum pname, bool * data);
-//		static inline void getDoublev(GLenum pname, double * data);
-//		static inline void getFloatv(GLenum pname, float * data);
-		static inline std::vector<int> getInteger(const Parameter parameter);
-//		static inline void getInteger64v(GLenum pname, GLint64 * data);
-//		static inline void getBooleani_v(GLenum target, unsigned int index, bool * data);
-//		static inline void getIntegeri_v(GLenum target, unsigned int index, int * data);
-//		static inline void getInteger64i_v(GLenum target, unsigned int index, GLint64 * data);
-//		static inline bool isEnabled(GLenum cap);
-//		static inline bool isEnabledi(GLenum cap, unsigned int index);
-		static inline std::string getString(const InfoGL parameter);
-//		static inline const GLubyte *getStringi(GLenum name, unsigned int index);
-//		static inline void queryCounter(unsigned int id, GLenum target);
-//		static inline void genSamplers(GLsizei n, unsigned int *samplers);
-//		static inline void bindSampler(unsigned int unit, unsigned int sampler);
-//		static inline void samplerParameterf(unsigned int sampler, GLenum pname, float param);
-//		static inline void samplerParameteri(unsigned int sampler, GLenum pname, int param);
-//		static inline void samplerParameterfv(unsigned int sampler, GLenum pname, const float * params);
-//		static inline void samplerParameteriv(unsigned int sampler, GLenum pname, const int * params);
-//		static inline void samplerParameterIiv(unsigned int sampler, GLenum pname, const int *params);
-//		static inline void samplerParameterIuiv(unsigned int sampler, GLenum pname, const unsigned int *params);
-//		static inline void deleteSamplers(GLsizei n, const unsigned int * samplers);
-//		static inline bool isSampler(unsigned int id);
-//		static inline void getSamplerParameterfv(unsigned int sampler, GLenum pname, float * params);
-//		static inline void getSamplerParameteriv(unsigned int sampler, GLenum pname, int * params);
-//		static inline void getSamplerParameterIiv(unsigned int sampler, GLenum pname, int * params);
-//		static inline void getSamplerParameterIuiv(unsigned int sampler, GLenum pname, unsigned int * params);
-//		static inline void bindFragDataLocationIndexed(unsigned int program, unsigned int colorNumber, unsigned int index, const char *name);
-//		static inline int getFragDataIndex(unsigned int program, const char * name);
-//
-//		static inline void vertexAttribDivisor(unsigned int index, unsigned int divisor);
-//
-//		static inline void getUniformdv(unsigned int program, int location, double *params);
-//		static inline void blendEquationi(unsigned int buf, GLenum mode);
-//		static inline void blendEquationSeparatei(unsigned int buf, GLenum modeRGB, GLenum modeAlpha);
-//		static inline void blendFuncSeparatei(unsigned int buf, GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
-//		static inline void blendFunci(unsigned int buf, GLenum sfactor, GLenum dfactor);
-//		static inline void drawElementsIndirect(GLenum mode, GLenum type, const void *indirect);
-//		static inline void beginQueryIndexed(GLenum target, unsigned int index, unsigned int id);
-//		static inline void endQueryIndexed(GLenum target, unsigned int index);
-//		static inline void getQueryIndexediv(GLenum target, unsigned int index, GLenum pname, int * params);
-//		static inline int getSubroutineUniformLocation(unsigned int program, GLenum shadertype, const char *name);
-//		static inline unsigned int getSubroutineIndex(unsigned int program, GLenum shadertype, const char *name);
-//		static inline void getActiveSubroutineName(unsigned int program, GLenum shadertype, unsigned int index, GLsizei bufsize, GLsizei *length, char *name);
-//		static inline void getActiveSubroutineUniformName(unsigned int program, GLenum shadertype, unsigned int index, GLsizei bufsize, GLsizei *length, char *name);
-//		static inline void getActiveSubroutineUniformiv(unsigned int program, GLenum shadertype, unsigned int index, GLenum pname, int *values);
-//		static inline void uniformSubroutinesuiv(GLenum shadertype, GLsizei count, const unsigned int *indices);
-//		static inline void getUniformSubroutineuiv(GLenum shadertype, int location, unsigned int *values);
-//		static inline void getProgramStageiv(unsigned int program, GLenum shadertype, GLenum pname, int *values);
-//		static inline void patchParameteri(GLenum pname, int value);
-//		static inline  void patchParameterfv(GLenum pname, const float *values);
-//		static inline  void drawArraysIndirect(GLenum mode, const void *indirect);
-//		static inline  void genTransformFeedbacks(GLsizei n, unsigned int *ids);
-//		static inline  void deleteTransformFeedbacks(GLsizei n, const unsigned int *ids);
-//		static inline  bool isTransformFeedback(unsigned int id);
-//		static inline  void bindTransformFeedback(GLenum target, unsigned int id);
-//		static inline  void pauseTransformFeedback();
-//		static inline  void resumeTransformFeedback();
-//		static inline  void drawTransformFeedback(GLenum mode, unsigned int id);
-//		static inline  void drawTransformFeedbackStream(GLenum mode, unsigned int id, unsigned int stream);
-//		static inline  void minSampleShading(float value);
-//
-//		static inline void vertexAttribL1d(unsigned int index, double v0);
-//		static inline void vertexAttribL2d(unsigned int index, double v0, double v1);
-//		static inline void vertexAttribL3d(unsigned int index, double v0, double v1, double v2);
-//		static inline void vertexAttribL4d(unsigned int index, double v0, double v1, double v2, double v3);
-//		static inline void vertexAttribL1dv(unsigned int index, const double * v);
-//		static inline void vertexAttribL2dv(unsigned int index, const double * v);
-//		static inline void vertexAttribL3dv(unsigned int index, const double * v);
-//		static inline void vertexAttribL4dv(unsigned int index, const double * v);
-//		static inline void vertexAttribLPointer(unsigned int index, int size, GLenum type, GLsizei stride, const void * pointer);
-//		static inline void depthRangef(float nearVal, float farVal);
-//		static inline void getVertexAttribLdv(unsigned int index, GLenum pname, double *params);
-//		static inline void clearDepthf(float depth);
-//		static inline void getFloati_v(GLenum target, unsigned int index, float * data);
-//		static inline void getDoublei_v(GLenum target, unsigned int index, double * data);
-//		static inline void shaderBinary(GLsizei count, const unsigned int *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
-//		static inline void releaseShaderCompiler();
-//		static inline unsigned int createShaderProgramv(GLenum type, GLsizei count, const char **strings);
-//		static inline void programParameteri(unsigned int program, GLenum pname, int value);
-//		static inline void genProgramPipelines(GLsizei n, unsigned int *pipelines);
-//		static inline void deleteProgramPipelines(GLsizei n, const unsigned int *pipelines);
-//		static inline bool isProgramPipeline(unsigned int pipeline);
-//		static inline void bindProgramPipeline(unsigned int pipeline);
-//		static inline void useProgramStages(unsigned int pipeline, GLbitfield stages, unsigned int program);
-//		static inline void activeShaderProgram(unsigned int pipeline, unsigned int program);
-//		static inline void getProgramBinary(unsigned int program, GLsizei bufsize, GLsizei *length, GLenum *binaryFormat, void *binary);
-//		static inline void programBinary(unsigned int program, GLenum binaryFormat, const void *binary, GLsizei length);
-//		static inline void programUniform1f(unsigned int program, int location, float v0);
-//		static inline void programUniform2f(unsigned int program, int location, float v0, float v1);
-//		static inline void programUniform3f(unsigned int program, int location, float v0, float v1, float v2);
-//		static inline void programUniform4f(unsigned int program, int location, float v0, float v1, float v2, float v3);
-//		static inline void programUniform1i(unsigned int program, int location, int v0);
-//		static inline void programUniform2i(unsigned int program, int location, int v0, int v1);
-//		static inline void programUniform3i(unsigned int program, int location, int v0, int v1, int v2);
-//		static inline void programUniform4i(unsigned int program, int location, int v0, int v1, int v2, int v3);
-//		static inline void programUniform1ui(unsigned int program, int location, unsigned int v0);
-//		static inline void programUniform2ui(unsigned int program, int location, int v0, unsigned int v1);
-//		static inline void programUniform3ui(unsigned int program, int location, int v0, int v1, unsigned int v2);
-//		static inline void programUniform4ui(unsigned int program, int location, int v0, int v1, int v2, unsigned int v3);
-//		static inline void programUniform1fv(unsigned int program, int location, GLsizei count, const float *value);
-//		static inline void programUniform2fv(unsigned int program, int location, GLsizei count, const float *value);
-//		static inline void programUniform3fv(unsigned int program, int location, GLsizei count, const float *value);
-//		static inline void programUniform4fv(unsigned int program, int location, GLsizei count, const float *value);
-//		static inline void programUniform1iv(unsigned int program, int location, GLsizei count, const int *value);
-//		static inline void programUniform2iv(unsigned int program, int location, GLsizei count, const int *value);
-//		static inline void programUniform3iv(unsigned int program, int location, GLsizei count, const int *value);
-//		static inline void programUniform4iv(unsigned int program, int location, GLsizei count, const int *value);
-//		static inline void programUniform1uiv(unsigned int program, int location, GLsizei count, const unsigned int *value);
-//		static inline void programUniform2uiv(unsigned int program, int location, GLsizei count, const unsigned int *value);
-//		static inline void programUniform3uiv(unsigned int program, int location, GLsizei count, const unsigned int *value);
-//		static inline void programUniform4uiv(unsigned int program, int location, GLsizei count, const unsigned int *value);
-//		static inline void programUniformMatrix2fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void programUniformMatrix3fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void programUniformMatrix4fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void programUniformMatrix2x3fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void programUniformMatrix3x2fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void programUniformMatrix2x4fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void programUniformMatrix4x2fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void programUniformMatrix3x4fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void programUniformMatrix4x3fv(unsigned int program, int location, GLsizei count, bool transpose, const float *value);
-//		static inline void getProgramPipelineiv(unsigned int pipeline, GLenum pname, int *params);
-//		static inline void getProgramPipelineInfoLog(unsigned int pipeline, GLsizei bufSize, GLsizei *length, char *infoLog);
-//		static inline void getShaderPrecisionFormat(GLenum shaderType, GLenum precisionType, int *range, int *precision);
-//		static inline void validateProgramPipeline(unsigned int pipeline);
-//		static inline void depthRangeArrayv(unsigned int first, GLsizei count, const double *v);
-//		static inline void depthRangeIndexed(unsigned int index, double nearVal, double farVal);
-//		static inline void viewportArrayv(unsigned int first, GLsizei count, const float *v);
-//		static inline void viewportIndexedf(unsigned int index, float x, float y, float w, float h);
-//		static inline void viewportIndexedfv(unsigned int index, const float *v);
-//		static inline void scissorArrayv(unsigned int first, GLsizei count, const int *v);
-//		static inline void scissorIndexed(unsigned int index, int left, int bottom, GLsizei width, GLsizei height);
-//		static inline void scissorIndexedv(unsigned int index, const int *v);
-//
-//		static inline void getActiveAtomicCounterBufferiv(unsigned int program, unsigned int bufferIndex, GLenum pname, int *params);
-//		static inline void memoryBarrier(GLbitfield barriers);
-//		static inline void texStorage1D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width);
-//		static inline void texStorage2D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
-//		static inline void texStorage3D(GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
-//		static inline void bindImageTexture(unsigned int unit, unsigned int texture, int level, bool layered, int layer, GLenum access, GLenum format);
-//		static inline void drawArraysInstancedBaseInstance(GLenum mode, int first, GLsizei count, GLsizei primcount, unsigned int baseinstance);
-//		static inline void drawElementsInstancedBaseInstance(GLenum mode, GLsizei count, GLenum type, const void * indices, GLsizei primcount, unsigned int baseinstance);
-//		static inline void drawElementsInstancedBaseVertexBaseInstance(GLenum mode, GLsizei count, GLenum type, void *indices, GLsizei primcount, int basevertex, unsigned int baseinstance);
-//		static inline void drawTransformFeedbackInstanced(GLenum mode, unsigned int id, GLsizei primcount);
-//		static inline void drawTransformFeedbackStreamInstanced(GLenum mode, unsigned int id, unsigned int stream, GLsizei primcount);
-//		static inline void getInternalformativ(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, int *params);
-//
-//		static inline void clearBufferSubData(GLenum target, GLenum internalformat, GLintptr offset, GLsizeiptr size, GLenum format, GLenum type, const void * data);
-//		static inline void clearBufferData(GLenum target, GLenum internalformat, GLenum format, GLenum type, const void * data);
-//		static inline void invalidateBufferSubData(unsigned int buffer, GLintptr offset, GLsizeiptr length);
-//		static inline void invalidateBufferData(unsigned int buffer);
-//		static inline void getProgramInterfaceiv(unsigned int program, GLenum programInterface, GLenum pname, int * params);
-//		static inline unsigned int getProgramResourceIndex(unsigned int program, GLenum programInterface, const char * name);
-//		static inline void getProgramResourceName(unsigned int program, GLenum programInterface, unsigned int index, GLsizei bufSize, GLsizei * length, char * name);
-//		static inline void getProgramResourceiv(unsigned int program, GLenum programInterface, unsigned int index, GLsizei propCount, const GLenum * props, GLsizei bufSize, GLsizei * length, int * params);
-//		static inline int getProgramResourceLocation(unsigned int program, GLenum programInterface, const char * name);
-//		static inline int getProgramResourceLocationIndex(unsigned int program, GLenum programInterface, const char * name);
-//		static inline void shaderStorageBlockBinding(unsigned int program, unsigned int storageBlockIndex, unsigned int storageBlockBinding);
-//		static inline void getPointerv(GLenum pname, void ** params);
-//		static inline void texBufferRange(GLenum target, GLenum internalFormat, unsigned int buffer, GLintptr offset, GLsizeiptr size);
-//		static inline void textureView(unsigned int texture, GLenum target, unsigned int origtexture, GLenum internalformat, unsigned int minlevel, unsigned int numlevels, unsigned int minlayer, unsigned int numlayers);
-//		static inline void texStorage2DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, bool fixedsamplelocations);
-//		static inline void texStorage3DMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, bool fixedsamplelocations);
-//		static inline void invalidateTexSubImage(unsigned int texture, int level, int xoffset, int yoffset, int zoffset, GLsizei width, GLsizei height, GLsizei depth);
-//		static inline void invalidateTexImage(unsigned int texture, int level);
-//		static inline void framebufferParameteri(GLenum target, GLenum pname, int param);
-//		static inline void getFramebufferParameteriv(GLenum target, GLenum pname, int *params);
-//		static inline void vertexAttribFormat(unsigned int attribindex, int size, GLenum type, bool normalized, unsigned int relativeoffset);
-//		static inline void vertexAttribIFormat(unsigned int attribindex, int size, GLenum type, unsigned int relativeoffset);
-//		static inline void vertexAttribLFormat(unsigned int attribindex, int size, GLenum type, unsigned int relativeoffset);
-//		static inline void bindVertexBuffer(unsigned int bindingindex, unsigned int buffer, GLintptr offset, GLintptr stride);
-//		static inline void vertexAttribBinding(unsigned int attribindex, unsigned int bindingindex);
-//		static inline void vertexBindingDivisor(unsigned int bindingindex, unsigned int divisor);
-//		static inline void multiDrawArraysIndirect(GLenum mode, const void *indirect, GLsizei drawcount, GLsizei stride);
-//		static inline void multiDrawArraysIndirectCount(GLenum mode, const void *indirect, GLintptr drawcount, GLintptr maxdrawcount, GLsizei stride);
-//		static inline void multiDrawElementsIndirect(GLenum mode, GLenum type, const void *indirect, GLsizei drawcount, GLsizei stride);
-//		static inline void multiDrawElementsIndirectCount(GLenum mode, GLenum type, const void *indirect, GLintptr drawcount, GLsizei maxdrawcount, GLsizei stride);
-//		static inline void dispatchCompute(unsigned int num_groups_x, unsigned int num_groups_y, unsigned int num_groups_z);
-//		static inline void dispatchComputeIndirect(GLintptr indirect);
-//		static inline void invalidateSubFramebuffer(GLenum target, GLsizei numAttachments, const GLenum * attachments, int x, int y, int width, int height);
-//		static inline void invalidateFramebuffer(GLenum target, GLsizei numAttachments, const GLenum * attachments);
-//		static inline void copyImageSubData(unsigned int srcName, GLenum srcTarget, int srcLevel, int srcX, int srcY, int srcZ, unsigned int dstName, GLenum dstTarget, int dstLevel, int dstX, int dstY, int dstZ, GLsizei srcWidth, GLsizei srcHeight, GLsizei srcDepth);
-//		static inline void debugMessageCallback(GLDEBUGPROC callback, const void * userParam);
-//		static inline void debugMessageControl(GLenum source, GLenum type, GLenum severity, GLsizei count, const unsigned int *ids, bool enabled);
-//		static inline void debugMessageInsert(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message);
-//		static inline void pushDebugGroup(GLenum source, unsigned int id, GLsizei length, const char * message);
-//		static inline void popDebugGroup();
-//		static inline void objectLabel(GLenum identifier, unsigned int name, GLsizei length, const char * label);
-//		static inline void objectPtrLabel(void * ptr, GLsizei length, const char * label);
-//		static inline unsigned int getDebugMessageLog(unsigned int count, GLsizei bufSize, GLenum *sources, GLenum *types, unsigned int *ids, GLenum *severities, GLsizei *lengths, char *messageLog);
-//		static inline void getObjectLabel(GLenum identifier, unsigned int name, GLsizei bifSize, GLsizei * length, char * label);
-//		static inline void getObjectPtrLabel(void * ptr, GLsizei bifSize, GLsizei * length, char * label);
-//		static inline void getInternalformati64v(GLenum target, GLenum internalformat, GLenum pname, GLsizei bufSize, GLint64 *params);
-//
-//		static inline void bindBuffersRange(GLenum target, unsigned int first, GLsizei count, const unsigned int *buffers, const GLintptr *offsets, const GLintptr *sizes);
-//		static inline void bindBuffersBase(GLenum target, unsigned int first, GLsizei count, const unsigned int *buffers);
-//		static inline void bufferStorage(GLenum target, GLsizeiptr size, const void * data, GLbitfield flags);
-//		static inline void bindTextures(unsigned int first, GLsizei count, const unsigned int *textures);
-//		static inline void bindSamplers(unsigned int first, GLsizei count, const unsigned int *samplers);
-//		static inline void clearTexSubImage(unsigned int texture, int level, int xoffset, int yoffset, int zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void * data);
-//		static inline void clearTexImage(unsigned int texture, int level, GLenum format, GLenum type, const void * data);
-//		static inline void bindImageTextures(unsigned int first, GLsizei count, const unsigned int *textures);
-//		static inline void bindVertexBuffers(unsigned int first, GLsizei count, const unsigned int *buffers, const GLintptr *offsets, const GLsizei *strides);
-//
-//		static inline void enableVertexArrayAttrib(unsigned int vaobj, unsigned int index);
-//		static inline void disableVertexArrayAttrib(unsigned int vaobj, unsigned int index);
-//		static inline void namedBufferData(unsigned int buffer, GLsizei size, const void *data, GLenum usage);
-//		static inline void namedBufferSubData(unsigned int buffer, GLintptr offset, GLsizei size, const void *data);
-//		static inline void * mapNamedBufferRange(unsigned int buffer, GLintptr offset, GLsizei length, GLbitfield access);
-//		static inline void * mapNamedBuffer(unsigned int buffer, GLenum access);
-//		static inline void flushMappedNamedBufferRange(unsigned int buffer, GLintptr offset, GLsizei length);
-//		static inline bool unmapNamedBuffer(unsigned int buffer);
-//		static inline void copyNamedBufferSubData(unsigned int readBuffer, unsigned int writeBuffer, GLintptr readOffset, GLintptr writeOffset, GLsizei size);
-//		static inline void getNamedBufferParameteriv(unsigned int buffer, GLenum pname, int * params);
-//		static inline void getNamedBufferParameteri64v(unsigned int buffer, GLenum pname, GLint64 * params);
-//		static inline void getNamedBufferSubData(unsigned int buffer, GLintptr offset, GLsizei size, void *data);
-//		static inline void getNamedBufferPointerv(unsigned int buffer, GLenum pname, void ** params);
-//		static inline void getnUniformfv(unsigned int program, int location, GLsizei bufSize, float *params);
-//		static inline void getnUniformiv(unsigned int program, int location, GLsizei bufSize, int *params);
-//		static inline void getnUniformuiv(unsigned int program, int location, GLsizei bufSize, unsigned int *params);
-//		static inline void getnUniformdv(unsigned int program, int location, GLsizei bufSize, double *params);
-//		static inline void textureSubImage3D(unsigned int texture, int level, int xoffset, int yoffset, int zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void *pixels);
-//		static inline void textureSubImage2D(unsigned int texture, int level, int xoffset, int yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels);
-//		static inline void textureSubImage1D(unsigned int texture, int level, int xoffset, GLsizei width, GLenum format, GLenum type, const void *pixels);
-//		static inline void copyTextureSubImage3D(unsigned int texture, int level, int xoffset, int yoffset, int zoffset, int x, int y, GLsizei width, GLsizei height);
-//		static inline void copyTextureSubImage2D(unsigned int texture, int level, int xoffset, int yoffset, int x, int y, GLsizei width, GLsizei height);
-//		static inline void copyTextureSubImage1D(unsigned int texture, int level, int xoffset, int x, int y, GLsizei width);
-//		static inline void compressedTextureSubImage3D(unsigned int texture, int level, int xoffset, int yoffset, int zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const void *data);
-//		static inline void compressedTextureSubImage2D(unsigned int texture, int level, int xoffset, int yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void *data);
-//		static inline void compressedTextureSubImage1D(unsigned int texture, int level, int xoffset, GLsizei width, GLenum format, GLsizei imageSize, const void *data);
-//		static inline void textureBuffer(unsigned int texture, GLenum internalformat, unsigned int buffer);
-//		static inline void textureParameterf(unsigned int texture, GLenum pname, float param);
-//		static inline void textureParameteri(unsigned int texture, GLenum pname, int param);
-//		static inline void textureParameterfv(unsigned int texture, GLenum pname, const float *param);
-//		static inline void textureParameteriv(unsigned int texture, GLenum pname, const int *param);
-//		static inline void textureParameterIiv(unsigned int texture, GLenum pname, const int *params);
-//		static inline void textureParameterIuiv(unsigned int texture, GLenum pname, const unsigned int *params);
-//		static inline void generateTextureMipmap(unsigned int texture);
-//		static inline void getTextureParameterfv(unsigned int texture, GLenum pname, float *params);
-//		static inline void getTextureParameteriv(unsigned int texture, GLenum pname, int *params);
-//		static inline void getTextureParameterIiv(unsigned int texture, GLenum pname, int *params);
-//		static inline void getTextureParameterIuiv(unsigned int texture, GLenum pname, unsigned int *params);
-//		static inline void getTextureLevelParameterfv(unsigned int texture, int level, GLenum pname, float *params);
-//		static inline void getTextureLevelParameteriv(unsigned int texture, int level, GLenum pname, int *params);
-//		static inline void getnTexImage(GLenum target, int level, GLenum format, GLenum type, GLsizei bufSize, void *pixels);
-//		static inline void getTextureImage(unsigned int texture, int level, GLenum format, GLenum type, GLsizei bufSize, void *pixels);
-//		static inline void getnCompressedTexImage(GLenum target, int level, GLsizei bufSize, void *pixels);
-//		static inline void getCompressedTextureImage(unsigned int texture, int level, GLsizei bufSize, void *pixels);
-//		static inline void readnPixels(int x, int y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLsizei bufSize, void *data);
-//		static inline void namedFramebufferReadBuffer(unsigned int framebuffer, GLenum mode);
-//		static inline void blitNamedFramebuffer(unsigned int readFramebuffer, unsigned int drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, GLbitfield mask, GLenum filter);
-//		static inline void namedFramebufferDrawBuffer(unsigned int framebuffer, GLenum buf);
-//		static inline void namedFramebufferDrawBuffers(unsigned int framebuffer, GLsizei n, const GLenum *bufs);
-//		static inline void clearNamedFramebufferiv(unsigned int framebuffer, GLenum buffer, int drawbuffer, const int *value);
-//		static inline void clearNamedFramebufferuiv(unsigned int framebuffer, GLenum buffer, int drawbuffer, const unsigned int *value);
-//		static inline void clearNamedFramebufferfv(unsigned int framebuffer, GLenum buffer, int drawbuffer, const float *value);
-//		static inline void clearNamedFramebufferfi(unsigned int framebuffer, GLenum buffer, int drawbuffer, float depth, int stencil);
-//		static inline void namedRenderbufferStorageMultisample(unsigned int renderbuffer, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
-//		static inline void namedRenderbufferStorage(unsigned int renderbuffer, GLenum internalformat, GLsizei width, GLsizei height);
-//		static inline void namedFramebufferRenderbuffer(unsigned int framebuffer, GLenum attachment, GLenum renderbuffertarget, unsigned int renderbuffer);
-//		static inline void namedFramebufferTexture(unsigned int framebuffer, GLenum attachment, unsigned int texture, int level);
-//		static inline void namedFramebufferTextureLayer(unsigned int framebuffer, GLenum attachment, unsigned int texture, int level, int layer);
-//		static inline GLenum checkNamedFramebufferStatus(unsigned int framebuffer, GLenum target);
-//		static inline void getNamedFramebufferAttachmentParameteriv(unsigned int framebuffer, GLenum attachment, GLenum pname, int *params);
-//		static inline void getNamedRenderbufferParameteriv(unsigned int renderbuffer, GLenum pname, int *params);
-//		static inline GLenum getGraphicsResetStatus();
-//		static inline void createBuffers(GLsizei n, unsigned int *buffers);
-//		static inline void namedBufferStorage(unsigned int buffer, GLsizei size, const void * data, GLbitfield flags);
-//		static inline void clearNamedBufferData(unsigned int buffer, GLenum internalformat, GLenum format, GLenum type, const void *data);
-//		static inline void createProgramPipelines(GLsizei n, unsigned int *pipelines);
-//		static inline void memoryBarrierByRegion(GLbitfield barriers);
-//		static inline void bindTextureUnit(unsigned int unit, unsigned int texture);
-//		static inline void createTextures(GLenum target, GLsizei n, unsigned int *textures);
-//		static inline void createSamplers(GLsizei n, unsigned int *samplers);
-//		static inline void textureBufferRange(unsigned int texture, GLenum internalformat, unsigned int buffer, GLintptr offset, GLsizei size);
-//		static inline void getTextureSubImage(unsigned int texture, int level, int xoffset, int yoffset, int zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, GLsizei bufSize, void *pixels);
-//		static inline void getCompressedTextureSubImage(unsigned int texture, int level, int xoffset, int yoffset, int zoffset, GLsizei width, GLsizei height, GLsizei depth, GLsizei bufSize, void *pixels);
-//		static inline void textureStorage1D(unsigned int texture, GLsizei levels, GLenum internalformat, GLsizei width);
-//		static inline void textureStorage2D(unsigned int texture, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
-//		static inline void textureStorage3D(unsigned int texture, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
-//		static inline void textureStorage2DMultisample(unsigned int texture, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, bool fixedsamplelocations);
-//		static inline void textureStorage3DMultisample(unsigned int texture, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, bool fixedsamplelocations);
-//		static inline void createFramebuffers(GLsizei n, unsigned int *ids);
-//		static inline void namedFramebufferParameteri(unsigned int framebuffer, GLenum pname, int param);
-//		static inline void getNamedFramebufferParameteriv(unsigned int framebuffer, GLenum pname, int *param);
-//		static inline void createRenderbuffers(GLsizei n, unsigned int *renderbuffers);
-//		static inline void textureBarrier();
-//		static inline void createVertexArrays(GLsizei n, unsigned int *arrays);
-//		static inline void vertexArrayElementBuffer(unsigned int vaobj, unsigned int buffer);
-//		static inline void vertexArrayAttribFormat(unsigned int vaobj, unsigned int attribindex, int size, GLenum type, bool normalized, unsigned int relativeoffset);
-//		static inline void vertexArrayAttribIFormat(unsigned int vaobj, unsigned int attribindex, int size, GLenum type, unsigned int relativeoffset);
-//		static inline void vertexArrayAttribLFormat(unsigned int vaobj, unsigned int attribindex, int size, GLenum type, unsigned int relativeoffset);
-//		static inline void vertexArrayVertexBuffer(unsigned int vaobj, unsigned int bindingindex, unsigned int buffer, GLintptr offset, GLsizei stride);
-//		static inline void vertexArrayVertexBuffers(unsigned int vaobj, unsigned int first, GLsizei count, const unsigned int *buffers, const GLintptr *offsets, const GLsizei *strides);
-//		static inline void vertexArrayAttribBinding(unsigned int vaobj, unsigned int attribindex, unsigned int bindingindex);
-//		static inline void vertexArrayBindingDivisor(unsigned int vaobj, unsigned int bindingindex, unsigned int divisor);
-//		static inline void getVertexArrayiv(unsigned int vaobj, GLenum pname, int *param);
-//		static inline void getVertexArrayIndexed64iv(unsigned int vaobj, unsigned int index, GLenum pname, GLint64 *param);
-//		static inline void getVertexArrayIndexediv(unsigned int vaobj, unsigned int index, GLenum pname, int *param);
-//		static inline void createTransformFeedbacks(GLsizei n, unsigned int *ids);
-//		static inline void transformFeedbackBufferRange(unsigned int xfb, unsigned int index, unsigned int buffer, GLintptr offset, GLsizei size);
-//		static inline void transformFeedbackBufferBase(unsigned int xfb, unsigned int index, unsigned int buffer);
-//		static inline void clipControl(GLenum origin, GLenum depth);
-//		static inline void invalidateNamedFramebufferSubData(unsigned int framebuffer, GLsizei numAttachments, const GLenum *attachments, int x, int y, GLsizei width, GLsizei height);
-//		static inline void invalidateNamedFramebufferData(unsigned int framebuffer, GLsizei numAttachments, const GLenum *attachments);
-//		static inline void getTransformFeedbackiv(unsigned int xfb, GLenum pname, int *param);
-//		static inline void getTransformFeedbacki_v(unsigned int xfb, GLenum pname, unsigned int index, int *param);
-//		static inline void getTransformFeedbacki64_v(unsigned int xfb, GLenum pname, unsigned int index, GLint64 *param);
-//
-//		static inline void specializeShader(unsigned int shader, const char *pEntryPoint​, unsigned int numSpecializationConstants​, const unsigned int *pConstantIndex​, const unsigned int *pConstantValue​);
-//		static inline void polygonOffsetClamp(float factor, float units, float clamp);
+				static inline void vertexAttribPointer(const int location, const ece::size_t size, const DataType type, const bool normalized, const ece::size_t stride, const ece::offset_t offset = 0);
+				static inline void enableVertexAttribArray(const int location);
+				static inline void disableVertexAttribArray(const int location);
+				static inline void enable(const Capability cap);
+				static inline void disable(const Capability cap);
+				static inline void enableIndexed(const Capability cap, const unsigned short int index);
+				static inline void disableIndexed(const Capability cap, const unsigned short int index);
+				static inline void primitiveRestartIndex(ece::size_t index);
+				static inline void drawArrays(const PrimitiveMode mode, const int first, const ece::size_t count);
+				static inline void multiDrawArrays(PrimitiveMode mode, const std::vector<int> & first, const std::vector<ece::size_t> & count, ece::size_t drawcount);
+				static inline void drawElements(const PrimitiveMode mode, const ece::size_t count, const int offset);
+				static inline void multiDrawElements(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount);
+				static inline void drawRangeElements(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, const ece::size_t * indices);
+				static inline void drawArraysInstanced(const PrimitiveMode mode, const int first, const ece::size_t count, const ece::size_t primcount);
+				static inline void drawElementsInstanced(const PrimitiveMode mode, const ece::size_t count, ece::offset_t offset, const ece::size_t primcount);
+				static inline void drawElementsBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex);
+				static inline void drawRangeElementsBaseVertex(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex);
+				static inline void drawElementsInstancedBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, ece::size_t primcount, int basevertex);
+				static inline void multiDrawElementsBaseVertex(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount, const std::vector<int> & basevertex);
+				static inline auto genBuffers() -> Handle;
+				static inline auto genBuffers(const int count) -> std::vector<Handle>;
+				static inline void deleteBuffer(const Handle buffer);
+				static inline void deleteBuffers(const std::vector<Handle> & buffers);
+				static inline void bindBuffer(const BufferType type, const Handle handle);
+				static inline void bindBufferRange(IndexedBufferTarget target, Handle index, Handle buffer, int offset, ece::size_t size);
+				static inline void bindBufferBase(IndexedBufferTarget target, Handle index, Handle buffer);
+				template<class C, typename enabled = std::enable_if_t<contiguous_container_v<C> && is_container_v<C>>>
+				static inline void bufferData(const BufferType type, const C & data, const BufferUsage usage, const int offset = 0);
+				template <class E>
+				static inline void bufferData(const BufferType type, const ece::size_t size, const BufferUsage usage, int offset = 0);
+				template<class C, typename enabled = std::enable_if_t<contiguous_container_v<C> && is_container_v<C>>>
+				static inline void bufferSubData(BufferType target, int offset, ece::size_t size, const C & data);
+				static inline auto mapBufferRange(BufferType target, int offset, ece::size_t length, MapBufferRangeAccessFlag access) -> void *;
+				static inline auto mapBuffer(BufferType target, MapBufferAccessFlag access) -> void *;
+				static inline void flushMappedBufferRange(BufferType target, int offset, ece::size_t length);
+				static inline auto unmapBuffer(BufferType target) -> bool;
+				static inline void copyBufferSubData(BufferType readTarget, BufferType writeTarget, int readOffset, int writeOffset, ece::size_t size);
+				static inline auto genVertexArrays() -> Handle;
+				static inline auto genVertexArrays(const int count) -> std::vector<Handle>;
+				static inline void deleteVertexArrays(ece::size_t n, const std::vector<Handle> & arrays);
+				static inline void bindVertexArray(const Handle handle);
+				static inline auto isBuffer(Handle buffer) -> bool;
+				static inline auto getBufferParameteriv(BufferType target, BufferParameter value) -> int;
+				static inline auto getBufferParameteri64v(BufferType target, BufferParameter value) -> int64_t;
+				template <class T> static inline auto getBufferSubData(BufferType target, int offset, ece::size_t size) -> std::vector<T>;
+				template <class T> static inline auto getBufferPointer(BufferType target) -> T *;
+				static inline auto isVertexArray(Handle array) -> bool;
+				static inline void depthRange(double nearVal, double farVal);
+				static inline void viewport(const int x, const int y, const unsigned int width, const unsigned int height);
+				static inline void clampColor(bool clamp);
+				static inline void provokingVertex(ProvokeMode provokeMode);
+				static inline void beginConditionalRender(Handle id, ConditionalRenderQueryMode mode);
+				static inline void endConditionalRender();
+				static inline void beginTransformFeedback(PrimitiveMode primitiveMode);
+				static inline void endTransformFeedback();
+				static inline void beginQuery(QueryObjectType target, Handle id);
+				static inline void endQuery(QueryObjectType target);
+				static inline auto genQueries(ece::size_t n) -> std::vector<Handle>;
+				static inline void deleteQueries(const std::vector<Handle> & ids);
+				static inline auto isQuery(Handle id) -> bool;
+				static inline auto getQuery(QueryObjectType target, QueryObjectTypeParameter pname) -> std::vector<int>;
+				template <typename T> static inline auto getQueryObject([[maybe_unused]] Handle id, [[maybe_unused]] QueryObjectTypeName pname) -> T;
+				template<> inline auto getQueryObject(Handle id, QueryObjectTypeName pname) -> int;
+				template<> inline auto getQueryObject(Handle id, QueryObjectTypeName pname) -> unsigned int;
+				template<> inline auto getQueryObject(Handle id, QueryObjectTypeName pname) -> int64_t;
+				template<> inline auto getQueryObject(Handle id, QueryObjectTypeName pname) -> uint64_t;
+				static inline auto createShader(const ShaderType type) -> Handle;
+				static inline void shaderSource(const Handle handle, const std::string & source);
+				static inline void shaderSource(const Handle handle, const std::vector<std::string> & source);
+				static inline void compileShader(const Handle handle);
+				static inline void deleteShader(const Handle handle);
+				static inline auto createProgram() -> Handle;
+				static inline void attachShader(const Handle program, const Handle shader);
+				static inline void detachShader(const Handle program, const Handle shader);
+				static inline void linkProgram(const Handle handle);
+				static inline void useProgram(const Handle handle);
+				static inline void deleteProgram(Handle program);
+				static inline auto getActiveAttrib(Handle program, unsigned int index) -> ProgramAttribute;
+				static inline auto getAttribLocation(Handle program, const std::string & name) -> int;
+				static inline void bindAttribLocation(Handle program, unsigned int index, const std::string & name);
+				static inline auto getUniformLocation(const Handle handle, const std::string & name) -> Handle;
+				static inline auto getUniformBlockIndex(Handle program, const std::string & uniformBlockName) -> unsigned int;
+				static inline auto getActiveUniformBlockName(Handle program, unsigned int uniformBlockIndex) -> std::string;
+				static inline auto getActiveUniformBlock(Handle program, unsigned int uniformBlockIndex, UniformBlockParameter pname) -> int;
+				static inline auto getUniformIndices(Handle program, ece::size_t uniformCount) -> UniformBlock;
+				static inline auto getActiveUniformName(Handle program, unsigned int uniformIndex) -> std::string;
+				static inline auto getActiveUniform(const Handle program, const Handle index) -> UniformInfo;
+				static inline auto getActiveUniforms(Handle program, const std::vector<unsigned int> & uniformIndices, UniformDataType pname) -> std::vector<int>;
+				template <class T, unsigned int S> static inline void uniform([[maybe_unused]] const int location, [[maybe_unused]] const std::array<T, S> & v);
+				template<> inline void uniform<bool, 1>(const int location, const std::array<bool, 1> & v);
+				template<> inline void uniform<float, 1>(const int location, const std::array<float, 1> & v);
+				template<> inline void uniform<float, 2>(const int location, const std::array<float, 2> & v);
+				template<> inline void uniform<float, 3>(const int location, const std::array<float, 3> & v);
+				template<> inline void uniform<float, 4>(const int location, const std::array<float, 4> & v);
+				template<> inline void uniform<int, 1>(const int location, const std::array<int, 1> & v);
+				template<> inline void uniform<int, 2>(const int location, const std::array<int, 2> & v);
+				template<> inline void uniform<int, 3>(const int location, const std::array<int, 3> & v);
+				template<> inline void uniform<int, 4>(const int location, const std::array<int, 4> & v);
+				template<> inline void uniform<unsigned int, 1>(const int location, const std::array<unsigned int, 1> & v);
+				template<> inline void uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
+				template<> inline void uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
+				template<> inline void uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
+				template <class T, unsigned int S> static inline void uniform([[maybe_unused]] const int location, [[maybe_unused]] ece::size_t count, [[maybe_unused]] const std::array<T, S> & v);
+				template<> inline void uniform<float, 1>(int location, ece::size_t count, const std::array<float, 1> & value);
+				template<> inline void uniform<float, 2>(int location, ece::size_t count, const std::array<float, 2> & value);
+				template<> inline void uniform<float, 3>(int location, ece::size_t count, const std::array<float, 3> & value);
+				template<> inline void uniform<float, 4>(int location, ece::size_t count, const std::array<float, 4> & value);
+				template<> inline void uniform<int, 1>(int location, ece::size_t count, const std::array<int, 1> & value);
+				template<> inline void uniform<int, 2>(int location, ece::size_t count, const std::array<int, 2> & value);
+				template<> inline void uniform<int, 3>(int location, ece::size_t count, const std::array<int, 3> & value);
+				template<> inline void uniform<int, 4>(int location, ece::size_t count, const std::array<int, 4> & value);
+				template<> inline void uniform<unsigned int, 1>(int location, ece::size_t count, const std::array<unsigned int, 1> & value);
+				template<> inline void uniform<unsigned int, 2>(int location, ece::size_t count, const std::array<unsigned int, 2> & value);
+				template<> inline void uniform<unsigned int, 3>(int location, ece::size_t count, const std::array<unsigned int, 3> & value);
+				template<> inline void uniform<unsigned int, 4>(int location, ece::size_t count, const std::array<unsigned int, 4> & value);
+				template <class T, unsigned int M, unsigned int N> static inline void uniform([[maybe_unused]] const int location, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 2> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 3> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 4> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 3> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 2> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 2, 4> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 2> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 3, 4> & v);
+				template<> inline void uniform(const int location, const bool transpose, const Matrix<float, 4, 3> & v);
+				template <class T, unsigned int M, unsigned int N> static inline void uniform([[maybe_unused]] const int location, [[maybe_unused]] ece::size_t count, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 2> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 3> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 4> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 3> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 2> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 4> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 2> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 4> & v);
+				template<> inline void uniform(const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 3> & v);
+				static inline void uniformBlockBinding(Handle program, unsigned int uniformBlockIndex, unsigned int uniformBlockBinding);
+				static inline void transformFeedbackVaryings(Handle program, ece::size_t count, const std::vector<std::string> & varyings, VaryingBufferMode bufferMode);
+				static inline auto getTransformFeedbackVarying(Handle program, unsigned int index) -> VaryingInfo;
+				static inline void validateProgram(Handle program);
+				static inline auto getProgram(const Handle program, const ProgramParameter pname) -> std::vector<int>;
+				static inline void bindFragDataLocation(Handle program, unsigned int colorNumber, const std::string & name);
+				static inline auto getFragDataLocation(Handle program, const std::string & name) -> int;
+				static inline auto isShader(Handle shader) -> bool;
+				static inline auto getShader(const Handle shader, const ShaderParameter pname) -> int;
+				static inline auto getAttachedShaders(const Handle program) -> std::vector<Handle>;
+				static inline auto getShaderInfoLog(const Handle shader) -> std::string;
+				static inline auto getShaderSource(Handle shader) -> std::string;
 
-	private:
-		/**
-		 * @fn OpenGL() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		OpenGL() noexcept = default;
+				template <class T> static inline auto getVertexAttrib([[maybe_unused]] Handle index, [[maybe_unused]] VertexAttribParameter pname) -> T;
+				template<> inline auto getVertexAttrib<double>(Handle index, VertexAttribParameter pname) -> double;
+				template<> inline auto getVertexAttrib<float>(Handle index, VertexAttribParameter pname) -> float;
+				template<> inline auto getVertexAttrib<int>(Handle index, VertexAttribParameter pname) -> int;
+				template<> inline auto getVertexAttrib<unsigned int>(Handle index, VertexAttribParameter pname) -> unsigned int;
+				static inline auto getVertexAttribPointer(Handle index) -> void *;
+				template <typename T> static inline auto getUniform([[maybe_unused]] Handle program, [[maybe_unused]] int location) -> T;
+				template<> inline auto getUniform(Handle program, int location) -> float;
+				template<> inline auto getUniform(Handle program, int location) -> int;
+				template<> inline auto getUniform(Handle program, int location) -> unsigned int;
+				static inline auto isProgram(Handle program) -> bool;
+				static inline auto getProgramInfoLog(const Handle program) -> std::string;
+				static inline auto getMultisample(Handle index) -> FloatVector2u;
+				static inline void pointSize(const float size);
+				static inline void pointParameter(PointParameter pname, float param);
+				static inline void pointParameter(PointParameter pname, int param);
+				static inline void pointParameter(PointParameter pname, float & params);
+				static inline void pointParameter(PointParameter pname, int & params);
+				static inline void lineWidth(const float width);
+				static inline void frontFace(const FrontFaceMode mode);
+				static inline void cullFace(const CullFaceMode mode);
+				static inline void polygonMode(const PolygonMode mode);
+				static inline void polygonOffset(float factor, float units);
+				static inline void pixelStore(PixelParameter pname, float param);
+				static inline void pixelStore(PixelParameter pname, int param);
+				static inline void activeTexture(const unsigned int texture);
+				static inline void texImage3D(TargetTexture3D target, int level, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, PixelDataType type, const void * data);
+				static inline void texImage2D(const TextureTypeTarget target, const unsigned int level, const PixelInternalFormat internalFormat, const ece::size_t width, const ece::size_t height, const PixelFormat format, const PixelDataType type, const void * data);
+				static inline void texImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, ece::size_t width, PixelFormat format, PixelDataType type, const void * data);
+				static inline void copyTexImage2D(TextureTypeTarget target, int level, PixelInternalFormat internalFormat, int x, int y, ece::size_t width, ece::size_t height);
+				static inline void copyTexImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, int x, int y, ece::size_t width);
+				static inline void texSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, ece::size_t  width, ece::size_t  height, ece::size_t depth, PixelFormat format, PixelDataType type, const void * pixels);
+				static inline void texSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, ece::size_t width, ece::size_t height, PixelFormat format, PixelDataType type, const void * pixels);
+				static inline void texSubImage1D(TargetTexture1D target, int level, int xoffset, ece::size_t width, PixelFormat format, PixelDataType type, const void * pixels);
+				static inline void copyTexSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, int x, int y, ece::size_t width, ece::size_t height);
+				static inline void copyTexSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, int x, int y, ece::size_t width, ece::size_t height);
+				static inline void copyTexSubImage1D(TargetTexture1D target, int level, int xoffset, int x, int y, ece::size_t width);
+				static inline void compressedTexImage3D(TargetTexture3D target, int level, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, ece::size_t depth, ece::size_t imageSize, const void * data);
+				static inline void compressedTexImage2D(TextureTypeTarget target, int level, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, ece::size_t imageSize, const void * data);
+				static inline void compressedTexImage1D(TargetTexture1D target, int level, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t imageSize, const void * data);
+				static inline void compressedTexSubImage3D(TargetTexture3D target, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, ece::size_t imageSize, const void * data);
+				static inline void compressedTexSubImage2D(TextureTypeTarget target, int level, int xoffset, int yoffset, ece::size_t width, ece::size_t height, PixelFormat format, ece::size_t imageSize, const void * data);
+				static inline void compressedTexSubImage1D(TargetTexture1D target, int level, int xoffset, ece::size_t width, PixelFormat format, ece::size_t imageSize, const void * data);
+				static inline void texImage3DMultisample(TargetTextureMultisample target, ece::size_t samples, PixelInternalFormat internalFormat, ece::size_t width, ece::size_t height, ece::size_t depth, bool fixedSamplelLocations);
+				static inline void texImage2DMultisample(TargetTextureMultisample target, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, bool fixedsamplelocations);
+				static inline void texBuffer(PixelInternalFormat internalFormat, Handle buffer);
+				template <class T> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const T param);
+				template<> inline void texParameter(const TextureTarget target, const TextureParameter pname, const float param);
+				template<> inline void texParameter(const TextureTarget target, const TextureParameter pname, const int param);
+				template <class T> static inline void texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<T> & param);
+				template <> inline void texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<float> & param);
+				template <> inline void texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<int> & param);
+				template <> inline void texParameter(const TextureTarget target, const TextureParameter pname, const std::vector<unsigned int> & param);
+				static inline void generateMipmap(const MipmapTarget target);
+				static inline void bindTexture(const TextureTarget target, const Handle texture);
+				static inline void deleteTextures(const std::vector<Handle> & textures);
+				static inline auto genTexture() -> Handle;
+				static inline auto genTextures(const unsigned int n) -> std::vector<Handle>;
+				template <class T> static inline auto getTexParameter(TextureTarget target, TextureParameter pname) -> std::vector<T>;
+				template <> inline auto getTexParameter<float>(TextureTarget target, TextureParameter pname) -> std::vector<float>;
+				template <> inline auto getTexParameter<int>(TextureTarget target, TextureParameter pname) -> std::vector<int>;
+				template <> inline auto getTexParameter<unsigned int>(TextureTarget target, TextureParameter pname) -> std::vector<unsigned int>;
+				template <class T> static inline auto getTexLevelParameter(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<T>;
+				template <> inline auto getTexLevelParameter<float>(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<float>;
+				template <> inline auto getTexLevelParameter<int>(TextureTarget target, int level, TextureLevelParameter pname) -> std::vector<int>;
+				static inline auto getTexImage(TextureTarget target, int level, PixelFormat format, DataType type) -> void *;
+				static inline auto getCompressedTexImage(TextureTarget target, int level) -> void *;
+				static inline auto isTexture(Handle texture) -> bool;
+				static inline void hint(Hint target, HintMode mode);
+				static inline auto readPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type) -> void *;
+				static inline void readBuffer(ColorBuffer mode);
+				static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter);
+				static inline void scissor(const int x, const int y, const unsigned int width, const unsigned int height);
+				static inline void sampleCoverage(float value, bool invert);
+				static inline void sampleMask(unsigned int maskNumber, std::bitset<32> mask);
+				static inline void stencilFunc(DepthFunctionCondition func, int ref, unsigned int mask);
+				static inline void stencilFuncSeparate(CullFaceMode face, DepthFunctionCondition func, int ref, unsigned int mask);
+				static inline void stencilOp(TestCondition sfail, TestCondition dpfail, TestCondition dppass);
+				static inline void stencilOpSeparate(CullFaceMode face, TestCondition sfail, TestCondition dpfail, TestCondition dppass);
+				static inline void depthFunc(const DepthFunctionCondition condition);
+				static inline void blendEquation(BlendEquationMode mode);
+				static inline void blendEquationSeparate(BlendEquationMode modeRGB, BlendEquationMode modeAlpha);
+				static inline void blendFuncSeparate(BlendingFactor srcRGB, BlendingFactor dstRGB, BlendingFactor srcAlpha, BlendingFactor dstAlpha);
+				static inline void blendFunc(const BlendingFactor sfactor, const BlendingFactor dfactor);
+				static inline void blendColor(float red, float green, float blue, float alpha);
+				static inline void logicOp(LogicalOperation opcode);
+				static inline void drawBuffer(ColorBuffer buf);
+				static inline void drawBuffers(const std::vector<ColorBuffer> & bufs);
+				static inline void colorMask(bool red, bool green, bool blue, bool alpha);
+				static inline void colorMask(unsigned int buf, bool red, bool green, bool blue, bool alpha);
+				static inline void depthMask(bool flag);
+				static inline void stencilMask(unsigned int mask);
+				static inline void stencilMaskSeparate(CullFaceMode face, unsigned int mask);
+				static inline void clear(const Bitfield mask);
+				static inline void clearColor(const float r, const float g, const float b, const float a);
+				static inline void clearDepth(double depth);
+				static inline void clearStencil(int s);
+				static inline void clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<int> & value);
+				static inline void clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<unsigned int> & value);
+				static inline void clearBuffer(BufferKind buffer, Handle drawbuffer, const std::vector<float> & value);
+				static inline void clearBuffer(GLenum buffer, int drawbuffer, float depth, int stencil);
+				static inline void bindFramebuffer(FramebufferTarget target, Handle framebuffer);
+				static inline void deleteFramebuffers(std::vector<Handle> & framebuffers);
+				static inline auto genFramebuffers(ece::size_t n) -> std::vector<Handle>;
+				static inline void bindRenderbuffer(Handle renderbuffer);
+				static inline void deleteRenderbuffers(std::vector<Handle> & renderbuffers);
+				static inline auto genRenderbuffers(ece::size_t n) -> std::vector<Handle>;
+				static inline void renderbufferStorageMultisample(ece::size_t samples, PixelFormat internalformat, ece::size_t width, ece::size_t height);
+				static inline void renderbufferStorage(PixelFormat internalformat, ece::size_t width, ece::size_t height);
+				static inline void framebufferRenderbuffer(FramebufferTarget target, FramebufferAttachment attachment, unsigned int renderbuffer);
+				static inline void framebufferTexture(FramebufferTarget target, FramebufferAttachment attachment, Handle texture, int level);
+				static inline void framebufferTexture1D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level);
+				static inline void framebufferTexture2D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level);
+				static inline void framebufferTexture3D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level, int layer);
+				static inline void framebufferTextureLayer(FramebufferTarget target, FramebufferAttachment attachment, Handle texture, int level, int layer);
+				static inline auto checkFramebufferStatus(FramebufferTarget target) -> FramebufferStatus;
+				static inline auto isFramebuffer(Handle framebuffer) -> bool;
+				static inline auto getFramebufferAttachmentParameter(FramebufferTarget target, FramebufferAttachment attachment, FramebufferAttachmentParameter pname) -> int;
+				static inline auto isRenderbuffer(Handle renderbuffer) -> bool;
+				static inline auto getRenderbufferParameter(RenderbufferParameter pname) -> int;
+				static inline void flush();
+				static inline void finish();
+				static inline auto fenceSync() -> Sync;
+				static inline void deleteSync(Sync sync);
+				static inline auto clientWaitSync(Sync sync, const std::bitset<8> & flags, std::uint64_t timeout) -> SyncStatus;
+				static inline void waitSync(Sync sync, const std::bitset<8> & flags);
+				static inline auto getSync(Sync sync, SyncParameter pname) -> int;
+				static inline auto isSync(Sync sync) -> bool;
+				static inline auto getBoolean(Parameter pname) -> std::vector<bool>;
+				static inline auto getDouble(Parameter pname) -> std::vector<double>;
+				static inline auto getFloat(Parameter pname) -> std::vector<float>;
+				static inline auto getInteger(Parameter pname) -> std::vector<int>;
+				static inline auto getInteger64(Parameter pname) -> std::vector<std::int64_t>;
+				static inline auto getBoolean(Parameter target, unsigned int index) -> bool;
+				static inline auto getInteger(Parameter target, unsigned int index) -> int;
+				static inline auto getInteger64(Parameter target, unsigned int index) -> std::int64_t;
+				static inline auto isEnabled(Capability cap) -> bool;
+				static inline auto isEnabled(Capability cap, unsigned int index) -> bool;
+				static inline auto getString(InfoGL parameter) -> std::string;
+				static inline auto getString(InfoGL name, unsigned int index) -> std::string;
+				static inline void queryCounter(Handle id);
+				static inline auto genSamplers(ece::size_t n) -> std::vector<Handle>;
+				static inline void bindSampler(Handle unit, Handle sampler);
+				static inline void samplerParameter(Handle sampler, SamplerParameter pname, float param);
+				static inline void samplerParameter(Handle sampler, SamplerParameter pname, int param);
+				static inline void samplerParameter(Handle sampler, SamplerParameter pname, const std::vector<float> & params);
+				static inline void samplerParameter(Handle sampler, SamplerParameter pname, const std::vector<int> & params);
+				static inline void samplerParameter(Handle sampler, SamplerParameter pname, const std::vector<unsigned int> & params);
+				static inline void deleteSamplers(const std::vector<Handle> & samplers);
+				static inline auto isSampler(Handle id) -> bool;
+				template <class T> static inline auto getSamplerParameter(Handle sampler, SamplerParameter pname) -> std::vector<T>;
+				template <> inline auto getSamplerParameter<float>(Handle sampler, SamplerParameter pname) -> std::vector<float>;
+				template <> inline auto getSamplerParameter<int>(Handle sampler, SamplerParameter pname) -> std::vector<int>;
+				template <> inline auto getSamplerParameter<unsigned int>(Handle sampler, SamplerParameter pname) -> std::vector<unsigned int>;
+				static inline void bindFragDataLocationIndexed(Handle program, Handle colorNumber, Handle index, const std::string & name);
+				static inline auto getFragDataIndex(Handle program, const std::string & name) -> int;
+				static inline void vertexAttribDivisor(const int index, const ece::size_t divisor);
 
-		/**
-		 * @fn OpenGL(const OpenGL & copy) noexcept
-		 * @param[in] copy The OpenGL instance to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		OpenGL(const OpenGL & copy) noexcept = default;
+				template<> inline auto getUniform(Handle program, int location) -> double;
+				static inline void blendEquation(Handle buf, BlendEquationMode mode);
+				static inline void blendEquationSeparate(Handle buf, BlendEquationMode modeRGB, BlendEquationMode modeAlpha);
+				static inline void blendFuncSeparate(Handle buf, BlendingFactor srcRGB, BlendingFactor dstRGB, BlendingFactor srcAlpha, BlendingFactor dstAlpha);
+				static inline void blendFunc(Handle buf, const BlendingFactor sfactor, const BlendingFactor dfactor);
+				static inline void drawElementsIndirect(PrimitiveMode mode, DrawElementsIndirectCommand & indirect);
+				static inline void beginQueryIndexed(QueryObjectType target, Handle index, Handle id);
+				static inline void endQueryIndexed(QueryObjectType target, Handle index);
+				static inline auto getQueryIndexed(QueryObjectType target, Handle index, QueryObjectTargetParameter pname) -> int;
+				static inline auto getSubroutineUniformLocation(Handle program, ShaderType shadertype, const std::string & name) -> int;
+				static inline auto getSubroutineIndex(Handle program, ShaderType shadertype, const std::string & name) -> Handle;
+				static inline auto getActiveSubroutineName(Handle program, ShaderType shadertype, Handle index) -> std::string;
+				static inline auto getActiveSubroutineUniformName(Handle program, ShaderType shadertype, Handle index) -> std::string;
+				static inline auto getActiveSubroutineUniform(Handle program, ShaderType shadertype, Handle index, ShaderSubroutineUniformParameter pname) -> std::vector<int>;
+				static inline void uniformSubroutines(ShaderType shadertype, const std::vector<unsigned int> & indices);
+				static inline auto getUniformSubroutine(ShaderType shadertype, int location) -> std::vector<unsigned int>;
+				static inline auto getProgramStage(Handle program, ShaderType shadertype, ShaderSubroutineParameter pname) -> int;
+				static inline void patchParameter(PatchParameter pname, int value);
+				static inline void patchParameter(PatchParameter pname, const std::vector<float> & values);
+				static inline void drawArraysIndirect(PrimitiveMode mode, DrawArraysIndirectCommand & indirect);
+				static inline auto genTransformFeedbacks(ece::size_t n) -> std::vector<Handle>;
+				static inline void deleteTransformFeedbacks(const std::vector<Handle> & ids);
+				static inline auto isTransformFeedback(Handle id) -> bool;
+				static inline void bindTransformFeedback(Handle id);
+				static inline void pauseTransformFeedback();
+				static inline void resumeTransformFeedback();
+				static inline void drawTransformFeedback(PrimitiveMode mode, Handle id);
+				static inline void drawTransformFeedbackStream(PrimitiveMode mode, Handle id, Handle stream);
+				static inline void minSampleShading(float value);
 
-		/**
-		 * @fn OpenGL(OpenGL && move) noexcept
-		 * @param[in] move The OpenGL instance to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		OpenGL(OpenGL && move) noexcept = default;
+				static inline void depthRange(float nearVal, float farVal);
+				static inline void clearDepth(float depth);
+				static inline auto getFloat(Parameter target, unsigned int index) -> float;
+				static inline auto getDouble(Parameter target, unsigned int index) -> double;
+				static inline void shaderBinary(const std::vector<Handle> & shaders, BinaryFormat binaryFormat, const void * binary, ece::size_t length);
+				static inline void releaseShaderCompiler();
+				static inline auto createShaderProgram(ShaderType type, std::vector<std::string> & strings) -> Handle;
+				static inline void programParameter(Handle program, ProgramHint pname, int value);
+				static inline auto genProgramPipelines(ece::size_t n) -> std::vector<Handle>;
+				static inline void deleteProgramPipelines(const std::vector<Handle> & pipelines);
+				static inline auto isProgramPipeline(Handle pipeline) -> bool;
+				static inline void bindProgramPipeline(Handle pipeline);
+				static inline void useProgramStages(Handle pipeline, ProgramStageBitfield stages, Handle program);
+				static inline void activeShaderProgram(Handle pipeline, Handle program);
+				static inline auto getProgramBinary(Handle program) -> ProgramBinary;
+				static inline void programBinary(Handle program, ProgramBinary & binary);
+				template <class T, unsigned int S> static inline void programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] const std::array<T, S> & v);
+				template <> inline void programUniform<float, 1>(Handle program, const int location, const std::array<float, 1> & v);
+				template <> inline void programUniform<float, 2>(Handle program, const int location, const std::array<float, 2> & v);
+				template <> inline void programUniform<float, 3>(Handle program, const int location, const std::array<float, 3> & v);
+				template <> inline void programUniform<float, 4>(Handle program, const int location, const std::array<float, 4> & v);
+				template <> inline void programUniform<int, 1>(Handle program, const int location, const std::array<int, 1> & v);
+				template <> inline void programUniform<int, 2>(Handle program, const int location, const std::array<int, 2> & v);
+				template <> inline void programUniform<int, 3>(Handle program, const int location, const std::array<int, 3> & v);
+				template <> inline void programUniform<int, 4>(Handle program, const int location, const std::array<int, 4> & v);
+				template <> inline void programUniform<unsigned int, 1>(Handle program, const int location, const std::array<unsigned int, 1> & v);
+				template <> inline void programUniform<unsigned int, 2>(Handle program, const int location, const std::array<unsigned int, 2> & v);
+				template <> inline void programUniform<unsigned int, 3>(Handle program, const int location, const std::array<unsigned int, 3> & v);
+				template <> inline void programUniform<unsigned int, 4>(Handle program, const int location, const std::array<unsigned int, 4> & v);
+				template <class T, unsigned int S> static inline void programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] ece::size_t count, [[maybe_unused]] const std::array<T, S> & v);
+				template <> inline void programUniform<float, 1>(Handle program, const int location, ece::size_t count, const std::array<float, 1> & v);
+				template <> inline void programUniform<float, 2>(Handle program, const int location, ece::size_t count, const std::array<float, 2> & v);
+				template <> inline void programUniform<float, 3>(Handle program, const int location, ece::size_t count, const std::array<float, 3> & v);
+				template <> inline void programUniform<float, 4>(Handle program, const int location, ece::size_t count, const std::array<float, 4> & v);
+				template <> inline void programUniform<int, 1>(Handle program, const int location, ece::size_t count, const std::array<int, 1> & v);
+				template <> inline void programUniform<int, 2>(Handle program, const int location, ece::size_t count, const std::array<int, 2> & v);
+				template <> inline void programUniform<int, 3>(Handle program, const int location, ece::size_t count, const std::array<int, 3> & v);
+				template <> inline void programUniform<int, 4>(Handle program, const int location, ece::size_t count, const std::array<int, 4> & v);
+				template <> inline void programUniform<unsigned int, 1>(Handle program, const int location, ece::size_t count, const std::array<unsigned int, 1> & v);
+				template <> inline void programUniform<unsigned int, 2>(Handle program, const int location, ece::size_t count, const std::array<unsigned int, 2> & v);
+				template <> inline void programUniform<unsigned int, 3>(Handle program, const int location, ece::size_t count, const std::array<unsigned int, 3> & v);
+				template <> inline void programUniform<unsigned int, 4>(Handle program, const int location, ece::size_t count, const std::array<unsigned int, 4> & v);
+				template <class T, unsigned int M, unsigned int N> static inline void programUniform([[maybe_unused]] Handle program, [[maybe_unused]] const int location, [[maybe_unused]] ece::size_t count, [[maybe_unused]] const bool transpose, [[maybe_unused]] const Matrix<T, M, N> & v);
+				template <> inline void programUniform<float, 2, 2>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 2> & v);
+				template <> inline void programUniform<float, 3, 3>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 3> & v);
+				template <> inline void programUniform<float, 4, 4>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 4> & v);
+				template <> inline void programUniform<float, 2, 3>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 3> & v);
+				template <> inline void programUniform<float, 3, 2>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 2> & v);
+				template <> inline void programUniform<float, 2, 4>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 2, 4> & v);
+				template <> inline void programUniform<float, 4, 2>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 2> & v);
+				template <> inline void programUniform<float, 3, 4>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 3, 4> & v);
+				template <> inline void programUniform<float, 4, 3>(Handle program, const int location, ece::size_t count, const bool transpose, const Matrix<float, 4, 3> & v);
+				static inline auto getProgramPipeline(Handle pipeline, ProgramPipelineProperty pname) -> int;
+				static inline auto getProgramPipelineInfoLog(Handle pipeline) -> std::string;
+				static inline auto getShaderPrecisionFormat(ShaderType shaderType, ShaderPrecisionType precisionType) -> ShaderPrecisionFormat;
+				static inline void validateProgramPipeline(Handle pipeline);
+				static inline void depthRangeArray(Handle first, const std::vector<std::array<double, 2>> & v);
+				static inline void depthRangeIndexed(Handle index, double nearVal, double farVal);
+				static inline void viewportArray(Handle first, const std::vector<std::array<float, 4>> & v);
+				static inline void viewportIndexed(Handle index, float x, float y, float w, float h);
+				static inline void viewportIndexed(Handle index, const std::array<float, 4> & v);
+				static inline void scissorArray(Handle first, const std::vector<std::array<int, 4>> & v);
+				static inline void scissorIndexed(Handle index, int left, int bottom, ece::size_t width, ece::size_t height);
+				static inline void scissorIndexed(Handle index, const std::array<int, 4> & v);
 
-		/**
-		 * @fn OpenGL & operator=(const OpenGL & copy) noexcept
-		 * @param[in] copy The OpenGL instance to copy from.
-		 * @return The OpenGL instance copied.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		OpenGL & operator=(const OpenGL & copy) noexcept = default;
+				static inline auto getActiveAtomicCounterBuffer(Handle program, Handle bufferIndex, AtomicCounterBufferParameter pname) -> std::vector<int>;
+				static inline void memoryBarrier(Barrier barriers);
+				static inline void texStorage1D(TargetTexture1D target, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width);
+				static inline void texStorage2D(TargetTexture2D target, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height);
+				static inline void texStorage3D(TargetTexture3D target, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, ece::size_t depth);
+				static inline void bindImageTexture(Handle unit, Handle texture, int level, bool layered, int layer, MapBufferAccessFlag access, PixelInternalFormat format);
+				static inline void drawArraysInstancedBaseInstance(PrimitiveMode mode, int first, ece::size_t count, ece::size_t primcount, unsigned int baseinstance);
+				static inline void drawElementsInstancedBaseInstance(PrimitiveMode mode, ece::size_t count, const std::vector<ece::size_t> & indices, ece::size_t primcount, unsigned int baseinstance);
+				static inline void drawElementsInstancedBaseVertexBaseInstance(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, ece::size_t primcount, int basevertex, unsigned int baseinstance);
+				static inline void drawTransformFeedbackInstanced(PrimitiveMode mode, Handle id, ece::size_t primcount);
+				static inline void drawTransformFeedbackStreamInstanced(PrimitiveMode mode, Handle id, Handle stream, ece::size_t primcount);
+				static inline auto getInternalformat(TextureTarget target, PixelInternalFormat internalformat, InternalFormatInformation pname) -> std::vector<int>;
 
-		/**
-		 * @fn OpenGL & operator=(OpenGL && move) noexcept
-		 * @param[in] move The OpenGL instance to move.
-		 * @return The OpenGL instance moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		OpenGL & operator=(OpenGL && move) noexcept = default;
+				template <class T> static inline void clearBufferSubData(BufferType target, PixelInternalFormat internalformat, int offset, ece::size_t size, PixelFormat format, DataType type, const std::vector<T> & data);
+				template <class T> static inline void clearBufferData(BufferType target, PixelInternalFormat internalformat, PixelFormat format, DataType type, const std::vector<T> & data);
+				static inline void invalidateBufferSubData(Handle buffer, int offset, ece::size_t length);
+				static inline void invalidateBufferData(Handle buffer);
+				static inline auto getProgramInterface(Handle program, ProgramInterface programInterface, ProgramInterfaceProperty pname) -> int;
+				static inline auto getProgramResourceIndex(Handle program, ProgramInterface programInterface, const std::string & name) -> Handle;
+				static inline auto getProgramResourceName(Handle program, ProgramInterface programInterface, Handle index) -> std::string;
+				static inline auto getProgramResource(Handle program, ProgramInterface programInterface, unsigned int index, const std::vector<ProgramInterfaceProperty> & props) -> std::vector<int>;
+				static inline auto getProgramResourceLocation(Handle program, ProgramInterface programInterface, const std::string & name) -> int;
+				static inline auto getProgramResourceLocationIndex(Handle program, ProgramInterface programInterface, const std::string & name) -> int;
+				static inline void shaderStorageBlockBinding(Handle program, unsigned int storageBlockIndex, unsigned int storageBlockBinding);
+				static inline auto getPointer(Pointer pname) -> void *;
+				static inline void texBufferRange(PixelInternalFormat internalFormat, Handle buffer, int offset, ece::size_t size);
+				static inline void textureView(Handle texture, TextureTarget target, TextureTarget origtexture, PixelInternalFormat internalformat, unsigned int minlevel, unsigned int numlevels, unsigned int minlayer, unsigned int numlayers);
+				static inline void texStorage2DMultisample(TargetTextureMultisample target, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, bool fixedsamplelocations);
+				static inline void texStorage3DMultisample(TargetTextureMultisample target, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, ece::size_t depth, bool fixedsamplelocations);
+				static inline void invalidateTexSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth);
+				static inline void invalidateTexImage(Handle texture, int level);
+				static inline void framebufferParameter(FramebufferTarget target, FramebufferParameter pname, int param);
+				static inline auto getFramebufferParameter(FramebufferTarget target, FramebufferParameter pname) -> int;
+				static inline void vertexAttribFormat(Handle attribindex, int size, DataType type, bool normalized, unsigned int relativeoffset);
+				static inline void vertexAttribIFormat(Handle attribindex, int size, DataType type, unsigned int relativeoffset);
+				static inline void vertexAttribLFormat(Handle attribindex, int size, DataType type, unsigned int relativeoffset);
+				static inline void bindVertexBuffer(Handle bindingindex, Handle buffer, int offset, int stride);
+				static inline void vertexAttribBinding(unsigned int attribindex, unsigned int bindingindex);
+				static inline void vertexBindingDivisor(unsigned int bindingindex, unsigned int divisor);
+				static inline void multiDrawArraysIndirect(PrimitiveMode mode, const std::vector<DrawArraysIndirectCommand> & indirect, ece::size_t drawcount, ece::size_t stride);
+				static inline void multiDrawArraysIndirectCount(PrimitiveMode mode, const std::vector<DrawArraysIndirectCommand> & indirect, int drawcount, ece::size_t maxdrawcount, ece::size_t stride);
+				static inline void multiDrawElementsIndirect(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, ece::size_t drawcount, ece::size_t stride);
+				static inline void multiDrawElementsIndirectCount(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, int drawcount, ece::size_t maxdrawcount, ece::size_t stride);
+				static inline void dispatchCompute(unsigned int num_groups_x, unsigned int num_groups_y, unsigned int num_groups_z);
+				static inline void dispatchComputeIndirect(int indirect);
+				static inline void invalidateSubFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachment> & attachments, int x, int y, int width, int height);
+				static inline void invalidateFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachment> & attachments);
+				static inline void copyImageSubData(Handle srcName, TextureTarget srcTarget, int srcLevel, int srcX, int srcY, int srcZ, Handle dstName, TextureTarget dstTarget, int dstLevel, int dstX, int dstY, int dstZ, ece::size_t srcWidth, ece::size_t srcHeight, ece::size_t srcDepth);
+				static inline void debugMessageCallback(GLDEBUGPROC callback, const void * userParam);
+				static inline void debugMessageControl(const SourceDebugMessage source, const TypeDebugMessage type, const SeverityDebugMessage severity, const std::vector<unsigned int> & ids, bool enabled);
+				static inline void debugMessageInsert(SourceDebugMessage source, TypeDebugMessage type, Handle id, SeverityDebugMessage severity, const std::string & message);
+				static inline void pushDebugGroup(SourceDebugMessage source, Handle id, const std::string & message);
+				static inline void popDebugGroup();
+				static inline void objectLabel(Identifier identifier, Handle name, const std::string & label);
+				static inline void objectPtrLabel(void * ptr, const std::string & label);
+				static inline auto getDebugMessageLog(ece::size_t count) -> std::vector<DebugMessage>;
+				static inline auto getObjectLabel(Identifier identifier, Handle name) -> std::string;
+				static inline auto getObjectPtrLabel(void * ptr) -> std::string;
+				static inline auto getInternalformat64(TextureTarget target, PixelInternalFormat internalformat, InternalFormatInformation pname) -> std::vector<std::int64_t>;
 
-		/**
-		 * @property _latestVersion
-		 * @brief The latest version available of OpenGL.
-		 */
-		static Version<2> _latestVersion;
+				static inline void bindBuffersRange(IndexedBufferTarget target, Handle first, ece::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes);
+				static inline void bindBuffersBase(IndexedBufferTarget target, Handle first, const std::vector<Handle> & buffers);
+				template <class T> static inline void bufferStorage(BufferType target, const std::vector<T> & data, BufferDataUsage flags);
+				static inline void bindTextures(Handle first, const std::vector<Handle> & textures);
+				static inline void bindSamplers(Handle first, const std::vector<Handle> & samplers);
+				template <class T> static inline void clearTexSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, DataType type, const std::vector<T> & data);
+				template <class T> static inline void clearTexImage(Handle texture, int level, PixelFormat format, DataType type, const std::vector<T> & data);
+				static inline void bindImageTextures(Handle first, const std::vector<Handle> & textures);
+				static inline void bindVertexBuffers(Handle first, ece::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes);
 
-		/**
-		 * @property _currentContext
-		 * @brief The current OpenGL context used.
-		 */
-		static std::shared_ptr<BaseContextOpenGL> _currentContext;
-	};
+				static inline void enableVertexArrayAttrib(Handle vaobj, unsigned int index);
+				static inline void disableVertexArrayAttrib(Handle vaobj, unsigned int index);
+				static inline void namedBufferData(Handle buffer, ece::size_t size, const void * data, BufferUsage usage);
+				static inline void namedBufferSubData(Handle buffer, int offset, ece::size_t size, const void * data);
+				static inline auto mapNamedBufferRange(Handle buffer, int offset, ece::size_t length, MapBufferRangeAccessFlag access) -> void *;
+				static inline auto mapNamedBuffer(Handle buffer, MapBufferRangeAccessFlag access) -> void *;
+				static inline void flushMappedNamedBufferRange(Handle buffer, int offset, ece::size_t length);
+				static inline auto unmapNamedBuffer(Handle buffer) -> bool;
+				static inline void copyNamedBufferSubData(Handle readBuffer, Handle writeBuffer, int readOffset, int writeOffset, ece::size_t size);
+				static inline auto getNamedBufferParameter(Handle buffer, BufferParameter pname) -> int;
+				static inline auto getNamedBufferParameter64(Handle buffer, BufferParameter pname) -> std::int64_t;
+				static inline auto getNamedBufferSubData(Handle buffer, int offset, ece::size_t size) -> void *;
+				static inline auto getNamedBufferPointer(Handle buffer) -> void *;
+				template <class T> static inline auto getnUniform([[maybe_unused]] Handle program, [[maybe_unused]] int location, [[maybe_unused]] ece::size_t bufSize) -> std::vector<T>;
+				template <> inline auto getnUniform<float>(Handle program, int location, ece::size_t bufSize) -> std::vector<float>;
+				template <> inline auto getnUniform<int>(Handle program, int location, ece::size_t bufSize) -> std::vector<int>;
+				template <> inline auto getnUniform<unsigned int>(Handle program, int location, ece::size_t bufSize) -> std::vector<unsigned int>;
+				template <> inline auto getnUniform<double>(Handle program, int location, ece::size_t bufSize) -> std::vector<double>;
+				static inline void textureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t  width, ece::size_t  height, ece::size_t depth, PixelFormat format, PixelDataType type, const void * pixels);
+				static inline void textureSubImage2D(Handle texture, int level, int xoffset, int yoffset, ece::size_t width, ece::size_t height, PixelFormat format, PixelDataType type, const void *pixels);
+				static inline void textureSubImage1D(Handle texture, int level, int xoffset, ece::size_t width, PixelFormat format, PixelDataType type, const void *pixels);
+				static inline void copyTextureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, int x, int y, ece::size_t width, ece::size_t height);
+				static inline void copyTextureSubImage2D(Handle texture, int level, int xoffset, int yoffset, int x, int y, ece::size_t width, ece::size_t height);
+				static inline void copyTextureSubImage1D(Handle texture, int level, int xoffset, int x, int y, ece::size_t width);
+				static inline void compressedTextureSubImage3D(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, ece::size_t imageSize, const void * data);
+				static inline void compressedTextureSubImage2D(Handle texture, int level, int xoffset, int yoffset, ece::size_t width, ece::size_t height, PixelFormat format, ece::size_t imageSize, const void *data);
+				static inline void compressedTextureSubImage1D(Handle texture, int level, int xoffset, ece::size_t width, PixelFormat format, ece::size_t imageSize, const void *data);
+				static inline void textureBuffer(Handle texture, PixelInternalFormat internalformat, Handle buffer);
+				static inline void textureParameter(TextureTarget texture, TextureParameter pname, float param);
+				static inline void textureParameter(TextureTarget texture, TextureParameter pname, int param);
+				static inline void textureParameter(TextureTarget texture, TextureParameter pname, const std::vector<float> & param);
+				static inline void textureParameter(TextureTarget texture, TextureParameter pname, const std::vector<int> & param);
+				static inline void textureParameter(TextureTarget texture, TextureParameter pname, const std::vector<unsigned int> & param);
+				
+				static inline void generateTextureMipmap(Handle texture);
 
+				template <class T> static inline auto getTextureParameter(Handle texture, TextureParameter pname) -> std::vector<T>;
+				template <> inline auto getTextureParameter<float>(Handle texture, TextureParameter pname) -> std::vector<float>;
+				template <> inline auto getTextureParameter<int>(Handle texture, TextureParameter pname) -> std::vector<int>;
+				template <> inline auto getTextureParameter<unsigned int>(Handle texture, TextureParameter pname) -> std::vector<unsigned int>;
+				template <class T> static inline auto getTextureLevelParameter(Handle texture, int level, TextureLevelParameter pname) -> std::vector<T>;
+				template <> inline auto getTextureLevelParameter<float>(Handle texture, int level, TextureLevelParameter pname) -> std::vector<float>;
+				template <> inline auto getTextureLevelParameter<int>(Handle texture, int level, TextureLevelParameter pname) -> std::vector<int>;
+				static inline auto getnTexImage(TextureTarget target, int level, PixelFormat format, DataType type, ece::size_t bufSize) -> void *;
+				static inline auto getTextureImage(Handle texture, int level, PixelFormat format, DataType type, ece::size_t bufSize) -> void *;
+				static inline auto getnCompressedTexImage(TextureTarget target, int level, ece::size_t bufSize) -> void *;
+				static inline auto getCompressedTextureImage(Handle texture, int level, ece::size_t bufSize) -> void *;
+				static inline auto readnPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type, ece::size_t bufSize) -> void *;
+				static inline void namedFramebufferReadBuffer(Handle framebuffer, ColorBuffer mode);
+				static inline void blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter);
+				static inline void namedFramebufferDrawBuffer(Handle framebuffer, ColorBuffer buf);
+				static inline void namedFramebufferDrawBuffers(Handle framebuffer, const std::vector<ColorBuffer> & bufs);
+				static inline void clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<int> & value);
+				static inline void clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<unsigned int> & value);
+				static inline void clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<float>value);
+				static inline void clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, float depth, int stencil);
+				static inline void namedRenderbufferStorageMultisample(Handle renderbuffer, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height);
+				static inline void namedRenderbufferStorage(Handle renderbuffer, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height);
+				static inline void namedFramebufferRenderbuffer(Handle framebuffer, FramebufferAttachment attachment, unsigned int renderbuffer);
+				static inline void namedFramebufferTexture(Handle framebuffer, FramebufferAttachment attachment, Handle texture, int level);
+				static inline void namedFramebufferTextureLayer(Handle framebuffer, FramebufferAttachment attachment, Handle texture, int level, int layer);
+				static inline auto checkNamedFramebufferStatus(Handle framebuffer, FramebufferTarget target) -> FramebufferStatus;
+				static inline auto getNamedFramebufferAttachmentParameter(Handle framebuffer, FramebufferAttachment attachment, FramebufferAttachmentParameter pname) -> int;
+				static inline auto getNamedRenderbufferParameter(Handle renderbuffer, RenderbufferParameter pname) -> int;
+				static inline auto getGraphicsResetStatus() -> GraphicResetStatus;
+				static inline auto createBuffers(ece::size_t n) -> std::vector<Handle>;
+				template <class T> static inline void namedBufferStorage(Handle buffer, const std::vector<T> & data, BufferDataUsage flags);
+				template <class T> static inline void clearNamedBufferData(BufferType buffer, PixelInternalFormat internalformat, PixelFormat format, DataType type, const std::vector<T> & data);
+				static inline auto createProgramPipelines(ece::size_t n) -> std::vector<Handle>;
+				static inline void memoryBarrierByRegion(BarrierByRegion barriers);
+				static inline void bindTextureUnit(Handle unit, Handle texture);
+				static inline auto createTextures(TextureTarget target, ece::size_t n) -> std::vector<Handle>;
+				static inline auto createSamplers(ece::size_t n) -> std::vector<Handle>;
+				static inline void textureBufferRange(Handle texture, PixelInternalFormat internalFormat, Handle buffer, int offset, ece::size_t size);
+				static inline auto getTextureSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, PixelFormat format, DataType type, ece::size_t bufSize) -> void *;
+				static inline auto getCompressedTextureSubImage(Handle texture, int level, int xoffset, int yoffset, int zoffset, ece::size_t width, ece::size_t height, ece::size_t depth, ece::size_t bufSize) -> void *;
+				static inline void textureStorage1D(Handle texture, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width);
+				static inline void textureStorage2D(Handle texture, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height);
+				static inline void textureStorage3D(Handle texture, ece::size_t levels, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, ece::size_t depth);
+				static inline void textureStorage2DMultisample(Handle texture, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, bool fixedsamplelocations);
+				static inline void textureStorage3DMultisample(Handle texture, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height, ece::size_t depth, bool fixedsamplelocations);
+				static inline auto createFramebuffers(ece::size_t n) -> std::vector<Handle>;
+				static inline void namedFramebufferParameteri(Handle framebuffer, FramebufferParameter pname, int param);
+				static inline auto getNamedFramebufferParameter(Handle framebuffer, FramebufferParameter pname) -> int;
+				static inline auto createRenderbuffers(ece::size_t n) -> std::vector<Handle>;
+				static inline void textureBarrier();
+				static inline auto createVertexArrays(ece::size_t n) -> std::vector<Handle>;
+				static inline void vertexArrayElementBuffer(Handle vaobj, Handle buffer);
+				static inline void vertexArrayAttribFormat(Handle vaobj, Handle attribindex, int size, DataType type, bool normalized, unsigned int relativeoffset);
+				static inline void vertexArrayAttribIFormat(Handle vaobj, Handle attribindex, int size, DataType type, unsigned int relativeoffset);
+				static inline void vertexArrayAttribLFormat(Handle vaobj, Handle attribindex, int size, DataType type, unsigned int relativeoffset);
+				static inline void vertexArrayVertexBuffer(Handle vaobj, Handle bindingindex, Handle buffer, int offset, ece::size_t stride);
+				static inline void vertexArrayVertexBuffers(Handle vaobj, Handle first, ece::size_t count, const std::vector<Handle> & buffers, const std::vector<int> & offsets, const std::vector<int> & sizes);
+				static inline void vertexArrayAttribBinding(Handle vaobj, unsigned int attribindex, unsigned int bindingindex);
+				static inline void vertexArrayBindingDivisor(Handle vaobj, unsigned int bindingindex, unsigned int divisor);
+				static inline auto getVertexArray(Handle vaobj) -> int;
+				static inline auto getVertexArrayIndexed64(Handle vaobj, Handle index, VertexAttribParameter pname) -> std::int64_t;
+				static inline auto getVertexArrayIndexed(Handle vaobj, Handle index, VertexAttribParameter pname) -> int;
+				static inline auto createTransformFeedbacks(ece::size_t n) -> std::vector<Handle>;
+				static inline void transformFeedbackBufferRange(Handle xfb, Handle index, Handle buffer, int offset, ece::size_t size);
+				static inline void transformFeedbackBufferBase(Handle xfb, Handle index, Handle buffer);
+				static inline void clipControl(ClipControl origin, ClipControlDepthMode depth);
+				static inline void invalidateNamedFramebufferSubData(Handle framebuffer, const std::vector<FramebufferAttachment> & attachments, int x, int y, int width, int height);
+				static inline void invalidateNamedFramebufferData(Handle framebuffer, const std::vector<FramebufferAttachment> & attachments);
+				static inline auto getTransformFeedback(Handle xfb, TransformFeedbackParameter pname) -> int;
+				static inline auto getTransformFeedback(Handle xfb, TransformFeedbackParameter pname, Handle index) -> int;
+				static inline auto getTransformFeedback64(Handle xfb, TransformFeedbackParameter pname, Handle index) -> std::int64_t;
 
-	template<> inline void OpenGL::vertexAttribPointer<short int>(const int location, const int size, const bool normalized, const int offset);
-	template<> inline void OpenGL::vertexAttribPointer<unsigned short int>(const int location, const int size, const bool normalized, const int offset);
-	template<> inline void OpenGL::vertexAttribPointer<int>(const int location, const int size, const bool normalized, const int offset);
-	template<> inline void OpenGL::vertexAttribPointer<unsigned int>(const int location, const int size, const bool normalized, const int offset);
-	template<> inline void OpenGL::vertexAttribPointer<float>(const int location, const int size, const bool normalized, const int offset);
-	template<> inline void OpenGL::vertexAttribPointer<double>(const int location, const int size, const bool normalized, const int offset);
-	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<short int> & data);
-	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned short int> & data);
-	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<int> & data);
-	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<unsigned int> & data);
-	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<float> & data);
-	template<> inline void OpenGL::vertexAttribPointer(const int location, const int size, const bool normalized, const int offset, std::vector<double> & data);
-	template<> inline void OpenGL::uniform<float, 1>(const int location, const std::array<float, 1> & v);
-	template<> inline void OpenGL::uniform<float, 2>(const int location, const std::array<float, 2> & v);
-	template<> inline void OpenGL::uniform<float, 3>(const int location, const std::array<float, 3> & v);
-	template<> inline void OpenGL::uniform<float, 4>(const int location, const std::array<float, 4> & v);
-	template<> inline void OpenGL::uniform<int, 1>(const int location, const std::array<int, 1> & v);
-	template<> inline void OpenGL::uniform<int, 2>(const int location, const std::array<int, 2> & v);
-	template<> inline void OpenGL::uniform<int, 3>(const int location, const std::array<int, 3> & v);
-	template<> inline void OpenGL::uniform<int, 4>(const int location, const std::array<int, 4> & v);
-	template<> inline void OpenGL::uniform<unsigned int, 1>(const int location, const std::array<unsigned int, 1> & v);
-	template<> inline void OpenGL::uniform<unsigned int, 2>(const int location, const std::array<unsigned int, 2> & v);
-	template<> inline void OpenGL::uniform<unsigned int, 3>(const int location, const std::array<unsigned int, 3> & v);
-	template<> inline void OpenGL::uniform<unsigned int, 4>(const int location, const std::array<unsigned int, 4> & v);
-	template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const float param);
-	template<> inline void OpenGL::texParameter(const TextureTarget target, const TextureParameter pname, const int param);
-}
+				static inline void specializeShader(Handle shader, const std::string & pEntryPoint, const std::vector<Handle> & pConstantIndex, const std::vector<Handle> & pConstantValue);
+				static inline void polygonOffsetClamp(float factor, float units, float clamp);
+			} //namespace OpengL
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/opengl/opengl.inl"
 

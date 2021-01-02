@@ -39,244 +39,202 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
-#include <memory>
-#include <vector>
-
-#include "core/argument/argument_analyzer.hpp"
-#include "core/module/module_manager.hpp"
-#include "core/event/emitter.hpp"
-#include "core/application/lifecycle.hpp"
+#include "core/config.hpp"
+#include "core/pch.hpp"
+#include "core/argument.hpp"
+#include "core/module.hpp"
+#include "core/signal.hpp"
+#include "core/ecs.hpp"
 
 namespace ece
 {
-	/**
-	 * @class Application
-	 * @brief A general application to handle core concepts.
-	 */
-	class Application
+	namespace core
 	{
-	public:
-		/**
-		 * @fn Application()
-		 * @brief Default application.
-		 * @throw
-		 */
-		Application();
+		namespace application
+		{
+			/**
+			 * @class Application
+			 * @brief A general application to handle core concepts.
+			 */
+			class ECE_CORE_API Application
+			{
+			public:
+				/**
+				 * @fn Application()
+				 * @brief Default application.
+				 * @throw
+				 */
+				Application();
 
-		/**
-		 * @fn Application(int argc, char * argv[])
-		 * @param[in] argc The number of arguments passed to the program.
-		 * @param[in] argv The list of arguments passed.
-		 * @brief Build an application with an external communication of arguments throw the command-line.
-		 * @throw
-		 */
-		Application(int argc, char * argv[]);
+				/**
+				 * @fn Application(int argc, char * argv[])
+				 * @param[in] argc The number of arguments passed to the program.
+				 * @param[in] argv The list of arguments passed.
+				 * @brief Build an application with an external communication of arguments throw the command-line.
+				 * @throw
+				 */
+				Application(int argc, char * argv[]);
 
-		Application(const Application & copy) = delete;
-		Application(Application && move) = delete;
+				Application(const Application & copy) = delete;
+				Application(Application && move) = delete;
 
-		/**
-		 * @fn ~Application()
-		 * @brief Default destructor.
-		 * @throw
-		 */
-		inline ~Application();
+				/**
+				 * @fn ~Application()
+				 * @brief Default destructor.
+				 * @throw
+				 */
+				~Application() noexcept;
 
-		Application & operator=(const Application & copy) = delete;
-		Application & operator=(Application && move) = delete;
+				Application & operator=(const Application & copy) = delete;
+				Application & operator=(Application && move) = delete;
 
-		/**
-		 * @fn void run()
-		 * @brief Start the application.
-		 * @throw
-		 */
-		void run();
+				/**
+				 * @fn void run()
+				 * @brief Start the application.
+				 * @throw
+				 */
+				virtual void run();
 
-		/**
-		 * @fn void stop()
-		 * @brief Stop the application.
-		 * @throw
-		 */
-		inline void stop();
+				/**
+				 * @fn void stop()
+				 * @brief Stop the application.
+				 * @throw
+				 */
+				inline void stop();
 
-		/**
-		 * @fn ArgumentAnalyzer & getArgumentAnalyzer()
-		 * @return The argument analyzer of the application.
-		 */
-		inline ArgumentAnalyzer & getArgumentAnalyzer();
+				/**
+				 * @fn ArgumentAnalyzer & getArgumentAnalyzer()
+				 * @return The argument analyzer of the application.
+				 */
+				inline auto getArgumentAnalyzer() -> ArgumentAnalyzer &;
 
-		/**
-		 * @fn T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID)
-		 * @tparam T The type of module.
-		 * @param[in] init The hook to init the module.
-		 * @param[in] update The hook to update the module.
-		 * @param[in] terminate The hook to terminate the module.
-		 * @brief Add a module to the application.
-		 * @throw
-		 */
-		template <class T> inline T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID);
+				/**
+				 * @fn T & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD)
+				 * @tparam T The type of module.
+				 * @param[in] init The hook to init the module.
+				 * @param[in] update The hook to update the module.
+				 * @param[in] terminate The hook to terminate the module.
+				 * @brief Add a module to the application.
+				 * @throw
+				 */
+				template <class T>
+				inline auto & addModule(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD);
 
-		/**
-		 * @fn void removeModule()
-		 * @tparam T The type of module.
-		 * @brief Remove the module.
-		 * @throw
-		 */
-		template <class T> inline void removeModule();
+				/**
+				 * @fn void removeModule()
+				 * @tparam T The type of module.
+				 * @brief Remove the module.
+				 * @throw
+				 */
+				template <class T>
+				inline void removeModule();
 
-		/**
-		 * @fn T & getModule()
-		 * @tparam T The type of module.
-		 * @brief Get a module.
-		 * @throw
-		 */
-		template <class T> inline T & getModule();
+				/**
+				 * @fn T & getModule()
+				 * @tparam T The type of module.
+				 * @brief Get a module.
+				 * @throw
+				 */
+				template <class T>
+				inline auto getModule() -> T &;
 
-		/**
-		 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on pre-init event.
-		 * @throw
-		 * @see void Lifecycle::onPreInit(const Listener & listener, const unsigned int slot)
-		 */
-		inline void onPreInit(const Listener & listener, const unsigned int slot);
+				auto addWorld() -> World &;
 
-		/**
-		 * @fn void onPostInit(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on post-init event.
-		 * @throw
-		 * @see void Lifecycle::onPostInit(const Listener & listener, const unsigned int slot)
-		 */
-		inline void onPostInit(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPreInit(const Listener & listener, const unsigned int slot)
+				 * @brief Register a callback on pre-init event.
+				 */
+				Signal<> onPreInit;
 
-		/**
-		 * @fn void onPreProcess(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on pre-process event.
-		 * @throw
-		 * @see void Lifecycle::onPreProcess(const Listener & listener, const unsigned int slot)
-		 */
-		inline void onPreProcess(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPostInit(const Listener & listener, const unsigned int slot)
+				 * @brief Register a callback on post-init event.
+				 */
+				Signal<> onPostInit;
 
-		/**
-		 * @fn void onPreUpdate(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on pre-update event.
-		 * @throw
-		 * @see void Lifecycle::onPreUpdate(const Listener & listener, const unsigned int slot)
-		 */
-		inline void onPreUpdate(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPreProcess(const Listener & listener, const unsigned int slot)
+				 * @brief Register a callback on pre-process event.
+				 */
+				Signal<> onPreProcess;
 
-		/**
-		 * @fn void onPostUpdate(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on post-update event.
-		 * @throw
-		 * @see void Lifecycle::onPostUpdate(const Listener & listener, const unsigned int slot)
-		 */
-		inline void onPostUpdate(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPreUpdate(const Listener & listener, const unsigned int slot)
+				 * @brief Register a callback on pre-update event.
+				 */
+				Signal<> onPreUpdate;
 
-		/**
-		 * @fn void onPostRender(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on post-render event.
-		 * @throw
-		 * @see void Lifecycle::onPostRender(const Listener & listener, const unsigned int slot)
-		 */
-		inline void onPostRender(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPostUpdate(const Listener & listener, const unsigned int slot)
+				 * @brief Register a callback on post-update event.
+				 */
+				Signal<> onPostUpdate;
 
-		/**
-		 * @fn void onPreTerminate(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on pre-terminate event.
-		 * @throw
-		 * @see void Lifecycle::onPreTerminate(const Listener & listener, const unsigned int slot)
-		 */
-		inline void onPreTerminate(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPreTerminate(const Listener & listener, const unsigned int slot)
+				 * @brief Register a callback on pre-terminate event.
+				 */
+				Signal<> onPreTerminate;
 
-		/**
-		 * @fn void onPostTerminate(const Listener & listener, const unsigned int slot)
-		 * @param[in] listener The callback owner.
-		 * @param[in] slot The callback to call.
-		 * @brief Register a callback on post-terminate event.
-		 * @throw
-		 * @see void Lifecycle::onPostTerminate(const Listener & listener, const unsigned int slot)
-		 */
-		inline void onPostTerminate(const Listener & listener, const unsigned int slot);
+				/**
+				 * @fn void onPostTerminate(const Listener & listener, const unsigned int slot)
+				 * @brief Register a callback on post-terminate event.
+				 */
+				Signal<> onPostTerminate;
 
-	protected:
-		/**
-		 * @fn bool isRunning() const
-		 * @return True if the application is running, false else.
-		 * @brief Check if the application is running or not.
-		 * @throw
-		 */
-		inline bool isRunning() const;
+			protected:
+				/**
+				 * @fn bool isRunning() const
+				 * @return True if the application is running, false else.
+				 * @brief Check if the application is running or not.
+				 * @throw
+				 */
+				inline auto isRunning() const;
 
-		/**
-		 * @property _running
-		 * @brief Tag to indication that the application is running or not.
-		 */
-		bool _running;
+				/**
+				 * @property _running
+				 * @brief Tag to indication that the application is running or not.
+				 */
+				bool _running;
 
-		/**
-		 * @property _moduleManager
-		 * @brief To manage the modules of the application.
-		 */
-		ModuleManager _moduleManager;
+				/**
+				 * @property _moduleManager
+				 * @brief To manage the modules of the application.
+				 */
+				ModuleManager _moduleManager;
 
-	private:
-		/**
-		 * @fn void init()
-		 * @brief Initialize the application.
-		 * @throw
-		 */
-		void init();
+				std::vector<World> _worlds;
+				/**
+				 * @fn void init()
+				 * @brief Initialize the application.
+				 * @throw
+				 */
+				virtual void init();
 
-		/**
-		 * void update()
-		 * @brief Update the logic of the application.
-		 * @throw
-		 */
-		void update();
+				/**
+				 * void update()
+				 * @brief Update the logic of the application.
+				 * @throw
+				 */
+				virtual void update();
 
-		/**
-		 * void processEvents()
-		 * @brief Process all the events.
-		 * @throw
-		 */
-		void processEvents();
+				/**
+				 * void processEvents()
+				 * @brief Process all the events.
+				 * @throw
+				 */
+				virtual void processEvents();
 
-		/**
-		 * @fn void render()
-		 * @brief Render the new frame.
-		 * @throw
-		 * @remark It should not be in the core.
-		 */
-		void render();
-
-		/**
-		 * @fn void terminate()
-		 * @brief Terminate the application.
-		 * @throw
-		 */
-		void terminate();
-
-		/**
-		 * @property _lifecycle
-		 * @brief The lifecycle of the application.
-		 */
-		std::shared_ptr<Lifecycle> _lifecycle;
-	};
-}
+				/**
+				 * @fn void terminate()
+				 * @brief Terminate the application.
+				 * @throw
+				 */
+				virtual void terminate();
+			};
+		} // namespace application
+	} // namespace core
+} // namespace ece
 
 #include "core/application/application.inl"
 

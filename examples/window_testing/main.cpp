@@ -37,48 +37,69 @@
 
 */
 
-#include "core/application/application.hpp"
-#include "window/common/window.hpp"
+#include "core/application.hpp"
+#include "window/common.hpp"
 
 #include <iostream>
 
+std::weak_ptr<ece::Window> createMainWindow(ece::WindowedApplication & app);
+
 int main()
 {
-	ece::Application app;
+	try {
+		ece::WindowedApplication app;
 
-	std::array<ece::Window, 2> windows;
+		std::array<std::weak_ptr<ece::Window>, 2> windows;
+
+		for (auto & window : windows) {
+			window = createMainWindow(app);
+
+			auto & eventHandler = window.lock()->getEventHandler();
+			eventHandler.onKeyPressed.connect([](const ece::InputEvent & event, ece::Window & window) {
+				if (event.key == ece::Keyboard::Key::ESCAPE) {
+					window.close();
+				}
+			});
+			window.lock()->onWindowClosed.connect([&app]() {
+				app.stop();
+			});
+
+			ece::FramePerSecond fps(ece::FramePerSecond::FPSrate::FRAME_NO_LIMIT);
+
+			app.onPreUpdate.connect([&window, &fps]() {
+				if (fps.isReadyToUpdate()) {
+					window.lock()->setTitle("WFL window testing " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
+				}
+			});
+		}
+
+		app.run();
+	}
+	catch (std::runtime_error & e) {
+		ece::ERROR << e.what() << ece::flush;
+	}
+	catch (std::exception & e) {
+		ece::ERROR << e.what() << ece::flush;
+	}
+
+	return EXIT_SUCCESS;
+}
+
+
+std::weak_ptr<ece::Window> createMainWindow(ece::WindowedApplication & app)
+{
+	static int count = 0;
+
+	auto window = app.addWindow<ece::Window>();
 
 	ece::WindowSetting settings;
-	settings._position = ece::IntVector2u{ 200, 200 };
-	int count = 0;
-	for (auto & window : windows) {
-		settings._title = "WFL window testing" + std::to_string(count);
-		settings._position += ece::IntVector2u{ 10, 10 };
-		++count;
-		window.open();
-		window.setSettings(settings);
-		window.limitUPS(100);
-//		window.enableKeyRepeat(false);
-	}
+	settings.title = "WFL window testing" + std::to_string(count);
+	settings.position += ece::IntVector2u{ 10, 10 } * count;
+	++count;
+	window.lock()->open();
+	window.lock()->setSettings(settings);
+//	window.lock()->maximize();
+	window.lock()->limitUPS(60);
 
-	ece::InputEvent event;
-	while (1) {
-		for (auto & window : windows) {
-			while (window.pollEvent(event)) {
-				if (event._doubleTap != ece::InputEvent::DoubleTap::ECE_TAP_NONE) {
-					std::cout << "double click !";
-				}
-				if (event._type == ece::InputEvent::Type::ECE_KEY_PRESSED && event._key >= ece::Keyboard::Key::A && event._key <= ece::Keyboard::Key::Z) {
-					std::cout << char(static_cast<int>(event._key) + 34);
-				}
-				if (event._type == ece::InputEvent::Type::ECE_MOUSE_MOVED) {
-					std::cout << event._mousePosition[0] << "|" << event._mousePosition[1] << "  ";
-					std::cout << ece::Mouse::getPosition()[0] << "|" << ece::Mouse::getPosition()[1] << std::endl;
-				}
-			}
-		}
-	}
-//	app.run();
-
-	return 0;
+	return std::move(window);
 }

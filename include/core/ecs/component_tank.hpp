@@ -1,22 +1,22 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                
-															 d8P'  `Y8b                               
-															888           .ooooo.  oooo d8b  .ooooo.  
-															888          d88' `88b `888""8P d88' `88b 
-															888          888   888  888     888ooo888 
-															`88b    ooo  888   888  888     888    .o 
-															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P' 
-                                          
-                                          
+															  .oooooo.
+															 d8P'  `Y8b
+															888           .ooooo.  oooo d8b  .ooooo.
+															888          d88' `88b `888""8P d88' `88b
+															888          888   888  888     888ooo888
+															`88b    ooo  888   888  888     888    .o
+															 `Y8bood8P'  `Y8bod8P' d888b    `Y8bod8P'
+
+
 
 				This file is part of EdenCraft Engine - Core module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
@@ -39,43 +39,101 @@
 #ifndef COMPONENT_TANK_HPP
 #define COMPONENT_TANK_HPP
 
-#include "core/ecs/base_component.hpp"
-#include "utility/indexing/unique_id.hpp"
-
-#include <memory>
-#include <vector>
+#include "core/config.hpp"
+#include "core/pch.hpp"
+#include "core/ecs/base_component_tank.hpp"
+#include "core/ecs/component.hpp"
+#include "utility/indexing.hpp"
 
 namespace ece
 {
-	/**
-	 * @class ComponentTank
-	 * @brief Manage a list of components.
-	 */
-	class ComponentTank
+	namespace core
 	{
-	public:
-		/**
-		 * @fn ComponentTank()
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline ComponentTank();
+		namespace ecs
+		{
+			/**
+			 * @class ComponentTank
+			 * @brief
+			 */
+			template <class ComponentType>
+			class ECE_CORE_API ComponentTank: public BaseComponentTank, protected std::vector<ComponentType>
+			{
+			public:
+				using TankIterator = typename std::vector<ComponentType>::iterator;
+				using TankConstIterator = typename std::vector<ComponentType>::const_iterator;
 
-		/**
-		 * @fn ~ComponentTank
-		 * @brief Default destructor.
-		 * @throw
-		 */
-		inline ~ComponentTank();
+				/**
+				 * @fn constexpr ComponentTank() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				constexpr ComponentTank() noexcept = default;
 
-	private:
-		/**
-		 * @property _nextComponent
-		 * @brief To generate the next component.
-		 */
-		UniqueID _nextComponent;
-	};
-}
+				/**
+				 * @fn ComponentTank(const ComponentTank & copy) noexcept
+				 * @param[in] copy The ComponentTank to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				ComponentTank(const ComponentTank & copy) noexcept = default;
+
+				/**
+				 * @fn ComponentTank(ComponentTank && move) noexcept
+				 * @param[in] move The ComponentTank to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				ComponentTank(ComponentTank && move) noexcept = default;
+
+				/**
+				 * @fn ~ComponentTank() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~ComponentTank() noexcept = default;
+
+				/**
+				 * @fn ComponentTank & operator=(const ComponentTank & copy) noexcept
+				 * @param[in] copy The ComponentTank to copy from.
+				 * @return The ComponentTank copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				ComponentTank & operator=(const ComponentTank & copy) noexcept = default;
+
+				/**
+				 * @fn ComponentTank & operator=(ComponentTank && move) noexcept
+				 * @param[in] move The ComponentTank to move.
+				 * @return The ComponentTank moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				ComponentTank & operator=(ComponentTank && move) noexcept = default;
+
+				inline virtual auto size() const noexcept -> std::size_t override;
+
+				inline virtual auto empty() const noexcept -> bool override;
+
+				using std::vector<ComponentType>::at;
+				using std::vector<ComponentType>::operator[];
+				using std::vector<ComponentType>::front;
+				using std::vector<ComponentType>::back;
+				using std::vector<ComponentType>::begin;
+				using std::vector<ComponentType>::end;
+				using std::vector<ComponentType>::empty;
+				using std::vector<ComponentType>::size;
+				using std::vector<ComponentType>::clear;
+				using std::vector<ComponentType>::erase;
+				using std::vector<ComponentType>::push_back;
+				using std::vector<ComponentType>::emplace_back;
+
+				virtual void update() override;
+
+				virtual void destroy(Handle entityID) override;
+			};
+		} // namespace ecs
+	} // namespace core
+} // namespace ece
 
 #include "core/ecs/component_tank.inl"
 

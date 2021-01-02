@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "window/window_event/mouse.hpp"
+#include "window/event.hpp"
 
 SCENARIO("Mouse", "[Window][Event]")
 {

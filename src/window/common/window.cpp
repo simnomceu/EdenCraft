@@ -35,179 +35,134 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/common/window.hpp"
 
-#include "window/window_event/input_event.hpp"
-
-#include <iostream>
+#include "window/event.hpp"
 
 namespace ece
 {
-	Window::Window() noexcept:Emitter(), _adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0)
+	namespace window
 	{
-		this->addSignal(WINDOW_OPENED);
-		this->addSignal(WINDOW_CLOSED);
-		this->addSignal(WINDOW_RESIZED);
-		this->addSignal(WINDOW_MOVED);
-		this->addSignal(WINDOW_RENAMED);
-	}
-
-	Window & Window::operator=(const Window & copy) noexcept
-	{
-		Emitter::operator=(copy);
-		this->_adapter.reset(copy._adapter.get());
-		this->_ups = copy._ups;
-
-		return *this;
-	}
-
-	Window & Window::operator=(Window && move) noexcept
-	{
-		Emitter::operator=(move);
-		this->_adapter = std::move(move._adapter);
-		this->_ups = std::move(move._ups);
-
-		return *this;
-	}
-
-	void Window::open()
-	{
-//		ece::WindowServiceLocator::getService().provideVideoMode(videoMode);
-		if (!this->isOpened()) {
-			this->_adapter->createWindow();
-
-//			WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
-//			WindowServiceLocator::getService().registerEventHandler(this->windowId);
-			this->emit(WINDOW_OPENED);
-		}
-	}
-
-	void Window::close()
-	{
-		if (this->isOpened()) {
-			this->_adapter->deleteWindow();
-			this->emit(WINDOW_CLOSED);
-		}
-	}
-
-	WindowSetting Window::getSettings() const
-	{
-		WindowSetting settings;
-		settings._title = this->getTitle();
-
-		return settings;
-	}
-
-	void Window::setSettings(const WindowSetting & settings)
-	{
-//		this->setBounds(settings.getBounds());
-		this->setTitle(settings._title);
-		this->setPosition(settings._position);
-//		this->setState(settings.getState());
-	}
-
-	void Window::setTitle(const std::string & title)
-	{
-		this->_adapter.get()->setTitle(title);
-		this->emit(WINDOW_RENAMED);
-	}
-
-	void Window::setPosition(const IntVector2u & position)
-	{
-		auto oldPosition = this->_adapter.get()->getPosition();
-		if (oldPosition != position) { // TODO : overload operator!= for vertex classes
-			this->_adapter.get()->setPosition(position);
-			this->emit(WINDOW_MOVED);
-		}
-	}
-
-	void Window::maximize()
-	{
-		if (this->isOpened()) {
-			this->_adapter.get()->maximize();
-			this->emit(WINDOW_RESIZED);
-		}
-	}
-
-	void Window::minimize()
-	{
-		if (this->isOpened()) {
-			this->_adapter.get()->minimize();
-			this->emit(WINDOW_RESIZED);
-		}
-	}
-
-	bool Window::waitEvent(InputEvent & event)
-	{
-		if (this->isOpened()) {
-			while (!this->_adapter.get()->hasEvents()) {
-				this->_adapter.get()->processEvent(true);
+		namespace common
+		{
+			Window::Window() noexcept: virtual_enable_shared_from_this<Window>(), onWindowOpened(), onWindowClosed(), onWindowResized(), onWindowMoved(), onWindowRenamed(), onWindowMinimized(), onWindowMaximized(), onWindowFocused(),
+				_adapter(std::make_shared<WindowAdapter>()), _videoMode(), _ups(0), _isOpened(false), _eventHandler(*this)
+			{
 			}
-			event = this->_adapter.get()->popEvent();
-			return true;
-		}
-		return false;
-	}
 
-	bool Window::pollEvent(InputEvent & event)
-	{
-		if (this->isOpened()) {
-			if (this->_ups.getLimit() == 0 || (this->_ups.getLimit() > 0 && this->_ups.isReadyToUpdate())) {
-				this->_adapter.get()->processEvent(false);
-				if (this->_adapter.get()->hasEvents()) {
+			void Window::open()
+			{
+				//		ece::WindowServiceLocator::getService().provideVideoMode(videoMode);
+				if (!this->isOpened()) {
+					this->_adapter->createWindow();
+					this->_isOpened = true;
+					//			WindowServiceLocator::getService().setBounds(this->windowId, this->settings.getBounds());
+					//			WindowServiceLocator::getService().registerEventHandler(this->windowId);
+					this->onWindowOpened();
+				}
+			}
+
+			void Window::close()
+			{
+				if (this->isOpened()) {
+					this->onWindowClosed();
+					this->_adapter->deleteWindow();
+					this->_isOpened = false;
+				}
+			}
+
+			auto Window::getSettings() const
+			{
+				auto settings = WindowSetting{};
+				settings.title = this->getTitle();
+
+				return settings;
+			}
+
+			void Window::setSettings(const WindowSetting & settings)
+			{
+				//		this->setBounds(settings.getBounds());
+				this->setTitle(settings.title);
+				this->setPosition(settings.position);
+				//		this->setState(settings.getState());
+			}
+
+			void Window::setTitle(const std::string & title)
+			{
+				this->_adapter.get()->setTitle(title);
+				this->onWindowRenamed();
+			}
+
+			void Window::setPosition(const IntVector2u & position)
+			{
+				auto oldPosition = this->_adapter.get()->getPosition();
+				if (oldPosition != position) {
+					this->_adapter.get()->setPosition(position);
+					this->onWindowMoved();
+				}
+			}
+
+			void Window::maximize()
+			{
+				if (this->isOpened()) {
+					this->_adapter.get()->maximize();
+					this->onWindowMaximized();
+				}
+			}
+
+			void Window::minimize()
+			{
+				if (this->isOpened()) {
+					this->_adapter.get()->minimize();
+					this->onWindowMinimized();
+				}
+			}
+
+			auto Window::waitEvent(InputEvent & event)
+			{
+				if (this->isOpened()) {
+					while (!this->_adapter.get()->hasEvents()) {
+						this->_adapter.get()->processEvent(true);
+					}
 					event = this->_adapter.get()->popEvent();
 					return true;
 				}
 				return false;
 			}
-			return false;
-		}
-		return false;
-	}
 
-	void Window::updateVideoMode()
-	{
-		if (this->_videoMode.hasChanged()) {
-			this->_videoMode.applyChanges();
-		}
-	}
+			auto Window::pollEvent(InputEvent & event)
+			{
+				if (this->isOpened()) {
+					if (this->_ups.getLimit() == 0 || (this->_ups.getLimit() > 0 && this->_ups.isReadyToUpdate())) {
+						this->_adapter.get()->processEvent(false);
+						if (this->_adapter.get()->hasEvents()) {
+							event = this->_adapter.get()->popEvent();
+							return true;
+						}
+						return false;
+					}
+					return false;
+				}
+				return false;
+			}
 
-	/*void BaseWindow::setState(const ece::WindowState state)
-	{
+			void Window::processEvents()
+			{
+				if (this->isOpened() && (this->_ups.getLimit() == 0 || (this->_ups.getLimit() > 0 && this->_ups.isReadyToUpdate()))) {
+					this->_adapter.get()->processEvent(false);
+					if (this->_adapter.get()->hasEvents()) {
+						this->_eventHandler.process(this->_adapter.get()->popEvent());
+					}
+				}
+			}
 
-		if (this->isFullscreenActivated()) {
-			this->monitorToFill = glfwGetPrimaryMonitor();
-		}
-
-		if (this->isResizable()) {
-			glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-		}
-		else {
-			glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-		}
-
-		if (this->isToolbarActivated()) {
-			glfwWindowHint(GLFW_DECORATED, GL_TRUE);
-		}
-		else {
-			glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-		}
-	}
-
-	void BaseWindow::attachToMonitor(const int monitorIdIn)
-	{
-		if (monitorId < GLAdapter::getNumberOfMonitors()) {
-			this->monitorId = monitorIdIn;
-		}
-
-		if (this->isFullscreenActivated()) {
-			this->monitorToFill = GLAdapter::getMonitor(this->monitorId);
-		}
-
-		if (this->isOpened() && this->isFullscreenActivated()) {
-			this->close();
-			this->open();
-		}
-	}
-	*/
-}
+			void Window::updateVideoMode()
+			{
+				if (this->_videoMode.hasChanged()) {
+					this->_videoMode.applyChanges();
+				}
+			}
+		} // namespace common
+	} // namespace window
+} // namespace ece

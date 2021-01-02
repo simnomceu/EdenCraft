@@ -38,22 +38,68 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/scene/scene.hpp"
 
-#include "utility/mathematics/vector3u.hpp"
-#include "graphic/model/object.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
-	Scene::Scene() noexcept: _camera(), _objects()
+	namespace graphic
 	{
-		// TODO : change the resolution ratio to be adapted to window size
-		this->_camera.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
-	}
+		namespace scene
+		{
+			Scene::Scene() noexcept: _camera(), _objects()
+			{
+				// TODO : change the resolution ratio to be adapted to window size
+				this->_camera.value.moveTo(FloatVector3u{ 1.0f, 2.0f, 2.0f });
+			}
 
-	Object * Scene::addObject()
-	{
-		this->_objects.push_back(new Object());
-		return static_cast<Object *>(this->_objects.back());
-	}
-}
+			auto Scene::addObject() -> Object::Reference
+			{
+				auto object = makeResource<Object>(std::to_string(std::chrono::system_clock::now().time_since_epoch().count()));
+				this->_objects.push_back(object, true, 0);
+				return object;
+			}
+
+			auto Scene::getObjects() -> std::vector<Renderable::Reference>
+			{
+				return this->_objects.getRenderables();
+			}
+
+			auto Scene::getLights() -> std::vector<Light::Reference> &
+			{
+				return this->_lights;
+			}
+
+			void Scene::prepare()
+			{
+				for (auto i = std::size_t{ 0 }; i < this->_objects.size(); ++i) {
+					ObjectWrapper object = this->_objects[i];
+					if (object.hasChanged) {
+						object.value->prepare();
+						object.hasChanged = false;
+					}
+				}
+			}
+
+			void Scene::sortObjects()
+			{
+				for (auto i = std::size_t{ 0 }; i < this->_objects.size()-1; ++i) {
+					for (auto j = std::size_t{ 0 }; j < this->_objects.size() - i - 1; ++j) {
+						if (ObjectWrapper{ this->_objects[j+1] }.level > ObjectWrapper{ this->_objects[j] }.level) {
+							auto & values = this->_objects.getRenderables();
+							std::swap(values[j], values[j+1]);
+
+							auto & changes = this->_objects.hasChanged();
+							std::swap(changes[j], changes[j+1]);
+
+							auto & levels = this->_objects.getLevels();
+							std::swap(levels[j], levels[j+1]);
+						}
+					}
+				}
+			}
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece

@@ -38,15 +38,27 @@
 
 namespace ece
 {
-	template<class T>
-	Component<T>::Component() : BaseComponent(), _value() {}
+	namespace core
+	{
+		namespace ecs
+		{
+			template<class T>
+			constexpr Component<T>::Component() noexcept : BaseComponent(), _owner(NULL_HANDLE), _dirty(false) {}
 
-	template<class T>
-	Component<T>::~Component() {}
+			template<class T>
+			Component<T>::~Component() noexcept {}
 
-	template<class T>
-	const T & Component<T>::get() { return this->_value; }
+			template<class T>
+			inline auto Component<T>::getOwner() const -> Handle { return this->_owner; }
 
-	template<class T>
-	void Component<T>::set(const T & value) { this->_value = value; }
-}
+			template<class T>
+			inline void Component<T>::setOwner(const Handle owner) { this->_owner = owner; }
+
+            template <class T>
+			inline auto Component<T>::isDirty() const -> bool { return this->_dirty; }
+
+			template <class T>
+			inline void Component<T>::setDirty(bool dirty) { this->_dirty = dirty; }
+		} // namespace ecs
+	} // namespace core
+} // namespace ece

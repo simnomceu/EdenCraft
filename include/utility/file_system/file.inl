@@ -36,75 +36,85 @@
 
 */
 
-#include "utility/debug/exception.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
-	inline File::File() : _filename(), _stream() {}
+    namespace utility
+    {
+        namespace file_system
+        {
+        	inline File::File() : _filename(), _stream() {}
 
-	inline File::File(const std::string & filename, const OpenMode & mode): _filename(filename), _stream()
-	{
-		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
-	}
+        	inline File::File(const std::filesystem::path & filename, const OpenMode & mode): _filename(filename), _stream()
+        	{
+        		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
+        	}
 
-	inline File::File(File && move): _filename(std::move(move._filename)), _stream(std::move(move._stream))
-	{
-		move.close();
-	}
+        	inline File::File(File && move) noexcept : _filename(std::move(move._filename)), _stream(std::move(move._stream))
+        	{
+        		move.close();
+        	}
 
-	inline File::~File() noexcept { this->_stream.close(); }
+        	inline File::~File() noexcept { this->_stream.close(); }
 
-	inline bool File::isOpen() const { return this->_stream.is_open(); }
+        	inline auto File::isOpen() const { return this->_stream.is_open(); }
 
-	template <class T>
-	File & File::operator>>(T & value)
-	{
-		this->_stream >> value;
-		return *this;
-	}
+        	template <class T>
+			auto & File::operator>>(T & value)
+        	{
+        		this->_stream >> value;
+        		return *this;
+        	}
 
-	template <class T>
-	File & File::operator<<(T & value)
-	{
-		this->_stream << value;
-		return *this;
-	}
+        	template <class T>
+			auto & File::operator<<(T & value)
+        	{
+        		this->_stream << value;
+        		return *this;
+        	}
 
-	template <class T>
-	T File::read(const unsigned int size)
-	{
-		T data;
-		this->_stream.read(reinterpret_cast<char *>(&data), size);
-		return data;
-	}
+        	template <class T>
+			auto File::read(const unsigned int size)
+        	{
+				auto data = T{};
+        		this->_stream.read(reinterpret_cast<char *>(&data), size);
+        		return data;
+        	}
 
-	template <class T>
-	void File::write(const T & value, const unsigned int size)
-	{
-		this->_stream.write(reinterpret_cast<const char *>(value), size);
-	}
+        	template <class T>
+        	void File::write(const T & value, const unsigned int size)
+        	{
+        		this->_stream.write(reinterpret_cast<const char *>(value), size);
+        	}
 
-	template <class T>
-	std::vector<T> File::parseToVector()
-	{
-		std::vector<T> content;
-		if (this->isOpen()) {
-			T value;
-			try {
-				while (this->_stream.good()) {
-					this->_stream >> value;
-					content.push_back(value);
-				}
-			}
-			catch (std::exception & /*e*/) {
-				throw FileException(FileCodeError::PARSE_ERROR, this->_filename);
-			}
-		}
-		return content;
-	}
+			inline auto & File::getStream() { return this->_stream; }
 
-	inline void File::moveCursorTo(const unsigned int position)
-	{
-		this->_stream.seekg(position);
-	}
-}
+        	template <class T>
+			auto File::parseToVector()
+        	{
+				auto content = std::vector<T>{};
+        		if (this->isOpen()) {
+					auto value = T{};
+        			try {
+        				while (this->_stream.good()) {
+        					this->_stream >> value;
+        					content.push_back(value);
+        				}
+        			}
+        			catch (std::exception & e) {
+        				throw FileException(FileCodeError::PARSE_ERROR, this->_filename, e.what());
+        			}
+        		}
+        		return content;
+        	}
+
+        	inline void File::moveCursorTo(const unsigned int position)
+        	{
+        		this->_stream.seekg(position);
+        	}
+
+			inline const std::filesystem::path & File::getFilename() const { return this->_filename; }
+        } // namespace file_system
+    } // namespace utility
+} // namespace ece

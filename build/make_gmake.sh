@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./premake5 gmake
+./premake5_linux gmake2

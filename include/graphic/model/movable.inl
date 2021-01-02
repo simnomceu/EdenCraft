@@ -40,9 +40,15 @@
 
 namespace ece
 {
-	inline Movable::Movable() noexcept : _position{} {}
+	namespace graphic
+	{
+		namespace model
+		{
+			inline Movable::Movable() noexcept : _position{} {}
 
-	inline Movable::~Movable() {}
+			inline Movable::~Movable() {}
 
-	inline const FloatVector3u & Movable::getPosition() const { return this->_position; }
-}
+			inline auto Movable::getPosition() const -> const FloatVector3u & { return this->_position; }
+		} // namespace model
+	} // namespace graphic
+} // namespace ece

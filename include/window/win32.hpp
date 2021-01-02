@@ -40,4 +40,9 @@
 
 #include "window/win32/data_window_adapter.hpp"
 
+namespace ece
+{
+	using namespace window::win32;
+}
+
 #endif // WINDOW_WIN32_HPP

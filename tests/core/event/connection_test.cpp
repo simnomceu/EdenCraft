@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/event/connection.hpp"
+#include "core/signal.hpp"
 
 SCENARIO("Connection", "[Core][Event]")
 {

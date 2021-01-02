@@ -41,109 +41,162 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
+#include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/scene/camera.hpp"
-#include "graphic/scene/projection.hpp"
-
-#include <vector>
+#include "graphic/renderable.hpp"
+#include "graphic/scene/light.hpp"
 
 namespace ece
 {
-	class Renderable;
-	class Object;
-
-	/**
-	 * @class Scene
-	 * @brief
-	 */
-	class Scene
+	namespace graphic
 	{
-	public:
-		/**
-		 * @fn Scene() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		Scene() noexcept;
+		namespace scene
+		{
+			/**
+			 * @class Scene
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API Scene
+			{
+			public:
+				/**
+				 * @fn Scene() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				Scene() noexcept;
 
-		/**
-		 * @fn Scene(const Scene & copy)
-		 * @param[in] copy The Scene to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Scene(const Scene & copy) = default;
+				/**
+				 * @fn Scene(const Scene & copy)
+				 * @param[in] copy The Scene to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Scene(const Scene & copy) = default;
 
-		/**
-		 * @fn Scene(Scene && move) noexcept
-		 * @param[in] move The Scene to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Scene(Scene && move) noexcept = default;
+				/**
+				 * @fn Scene(Scene && move) noexcept
+				 * @param[in] move The Scene to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Scene(Scene && move) noexcept = default;
 
-		/**
-		 * @fn ~Scene() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Scene() noexcept = default;
+				/**
+				 * @fn ~Scene() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Scene() noexcept = default;
 
-		/**
-		 * @fn Scene & operator=(const Scene & copy)
-		 * @param[in] copy The Scene to copy from.
-		 * @return The Scene copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Scene & operator=(const Scene & copy) = default;
+				/**
+				 * @fn Scene & operator=(const Scene & copy)
+				 * @param[in] copy The Scene to copy from.
+				 * @return The Scene copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Scene & operator=(const Scene & copy) = default;
 
-		/**
-		 * @fn Scene & operator=(Scene && move) noexcept
-		 * @param[in] move The Scene to move from.
-		 * @return The Scene moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Scene & operator=(Scene && move) noexcept = default;
+				/**
+				 * @fn Scene & operator=(Scene && move) noexcept
+				 * @param[in] move The Scene to move from.
+				 * @return The Scene moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Scene & operator=(Scene && move) noexcept = default;
 
-		/**
-		 * @fn Object * addObject()
-		 * @return The new object created.
-		 * @brief Add a new empty object to the scene.
-		 * @throw
-		 */
-		Object * addObject();
+				/**
+				 * @fn Object * addObject()
+				 * @return The new object created.
+				 * @brief Add a new empty object to the scene.
+				 * @throw
+				 */
+				auto addObject() -> Object::Reference;
 
-		/**
-		 * @fn Camera & getCamera()
-		 * @return The camera of the scene.
-		 * @brief Get the camera of the scene.
-		 * @throw
-		 */
-		inline Camera & getCamera();
+				inline void addObject(const Renderable::Reference & object, int level = DEFAULT_LEVEL);
 
-		/**
-		 * @fn std::vector<Renderable *> & getObjects()
-		 * @return The list of objects of the scene.
-		 * @brief Get the list of objects of the scene.
-		 * @throw
-		 */
-		inline std::vector<Renderable *> & getObjects();
+				inline void addLight(const Light::Reference & light);
 
-	private:
-		/**
-		 * @property _camera
-		 * @rief The camera of the scene.
-		 */
-		Camera _camera;
+				/**
+				 * @fn Camera & getCamera()
+				 * @return The camera of the scene.
+				 * @brief Get the camera of the scene.
+				 * @throw
+				 */
+				inline auto getCamera() -> Camera &;
 
-		/**
-		 * @property _objects
-		 * @brief The list of objects in the scene.
-		 */
-		std::vector<Renderable *> _objects;
-	};
-}
+				inline void updateCamera();
+
+				auto getObjects() -> std::vector<Renderable::Reference>;
+				auto getLights() -> std::vector<Light::Reference> &;
+
+				void prepare();
+
+				void sortObjects();
+
+			private:
+				struct CameraWrapper
+				{
+					Camera value;
+					bool hasChanged;
+
+					CameraWrapper(): value(), hasChanged() {}
+					CameraWrapper(Camera valueIn, bool hasChangedIn): value(valueIn), hasChanged(hasChangedIn) {}
+				};
+
+				struct ObjectWrapper
+				{
+					Renderable::Reference value;
+					bool hasChanged;
+					int level;
+
+					ObjectWrapper(const std::tuple< Renderable::Reference, bool, int> & rhs) : value(std::get<0>(rhs)), hasChanged(std::get<1>(rhs)), level(std::get<2>(rhs)) {}
+					ObjectWrapper(std::tuple< Renderable::Reference, bool, int> && rhs) : value(std::get<0>(rhs)), hasChanged(std::get<1>(rhs)), level(std::get<2>(rhs)) {}
+
+					ObjectWrapper & operator=(const std::tuple< Renderable::Reference, bool, int> & rhs)
+					{
+						this->value = std::get<0>(rhs);
+						this->hasChanged = std::get<1>(rhs);
+						this->level = std::get<2>(rhs);
+					}
+					ObjectWrapper & operator=(std::tuple< Renderable::Reference, bool, int> && rhs)
+					{
+						this->value = std::get<0>(rhs);
+						this->hasChanged = std::get<1>(rhs);
+						this->level = std::get<2>(rhs);
+					}
+				};
+
+				class ObjectPack : public SoA<Renderable::Reference, bool, int>
+				{
+				public:
+					std::vector<Renderable::Reference> & getRenderables() { return this->getAll(); }
+					BooleanVector & hasChanged() { return this->SoA<bool, int>::getAll(); }
+					std::vector<int> & getLevels() { return this->SoA<int>::getAll(); }
+				};
+
+				/**
+				 * @property _camera
+				 * @rief The camera of the scene.
+				 */
+				CameraWrapper _camera;
+
+				/**
+				 * @property _objects
+				 * @brief The list of objects in the scene.
+				 */
+				ObjectPack _objects;
+
+				std::vector<Light::Reference> _lights;
+
+				static const int DEFAULT_LEVEL = 0;
+			};
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece
 
 #include "graphic/scene/scene.inl"
 

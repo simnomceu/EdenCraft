@@ -1,3 +1,12 @@
 [submodule "extlibs/Catch2"]
 	path = extlibs/Catch2
 	url = https://github.com/catchorg/Catch2.git
+[submodule "extlibs/OpenGL-Registry"]
+	path = extlibs/OpenGL-Registry
+	url = https://github.com/KhronosGroup/OpenGL-Registry
+[submodule "build/modules/enhanced_premake"]
+	path = build/modules/enhanced_premake
+	url = https://framagit.org/simnomce_u/enhanced_premake.git
+[submodule "examples/crytek_sponza/assets/original"]
+	path = examples/crytek_sponza/assets/original
+	url = https://github.com/jimmiebergmann/Sponza.git

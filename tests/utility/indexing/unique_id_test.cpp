@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/indexing/unique_id.hpp"
+#include "utility/indexing.hpp"
 
 SCENARIO("UniqueID", "[Utility][Indexing]")
 {

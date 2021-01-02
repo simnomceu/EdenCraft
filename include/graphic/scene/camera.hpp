@@ -41,152 +41,174 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "graphic/model/movable.hpp"
-#include "utility/mathematics/vector3u.hpp"
-#include "utility/mathematics/matrix4u.hpp"
+#include "graphic/config.hpp"
+#include "graphic/pch.hpp"
+#include "graphic/model.hpp"
+#include "utility/mathematics.hpp"
+#include "graphic/scene/projection.hpp"
 
 namespace ece
 {
-	/**
-	 * @class Camera
-	 * @brief
-	 */
-	class Camera
+	namespace graphic
 	{
-	public:
-		/**
-		 * @fn Camera() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		inline Camera() noexcept;
+		namespace scene
+		{
+			/**
+			 * @class Camera
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API Camera
+			{
+			public:
+				/**
+				 * @fn Camera() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				inline Camera() noexcept;
 
-		/**
-		 * @fn Camera(const Camera & copy)
-		 * @param[in] copy The Camera to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		Camera(const Camera & copy) = default;
+				/**
+				 * @fn Camera(const Camera & copy)
+				 * @param[in] copy The Camera to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				Camera(const Camera & copy) = default;
 
-		/**
-		 * @fn Camera(Camera && move) noexcept
-		 * @param[in] move The Camera to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Camera(Camera && move) noexcept = default;
+				/**
+				 * @fn Camera(Camera && move) noexcept
+				 * @param[in] move The Camera to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Camera(Camera && move) noexcept = default;
 
-		/**
-		 * @fn ~Camera() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Camera() noexcept = default;
+				/**
+				 * @fn ~Camera() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~Camera() noexcept = default;
 
-		/**
-		 * @fn Camera & operator=(const Camera & copy)
-		 * @param[in] copy The Camera to copy from.
-		 * @return The Camera copied.
-		 * @brief Default copy assignment operator.
-		 * @throw
-		 */
-		Camera & operator=(const Camera & copy) = default;
+				/**
+				 * @fn Camera & operator=(const Camera & copy)
+				 * @param[in] copy The Camera to copy from.
+				 * @return The Camera copied.
+				 * @brief Default copy assignment operator.
+				 * @throw
+				 */
+				Camera & operator=(const Camera & copy) = default;
 
-		/**
-		 * @fn Camera & operator=(Camera && move) noexcept
-		 * @param[in] move The Camera to move from.
-		 * @return The Camera moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Camera & operator=(Camera && move) noexcept = default;
+				/**
+				 * @fn Camera & operator=(Camera && move) noexcept
+				 * @param[in] move The Camera to move from.
+				 * @return The Camera moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Camera & operator=(Camera && move) noexcept = default;
 
-		/**
-		 * @fn void lookAt(const Movable & object)
-		 * @param[in] object The object target to look at.
-		 * @brief Look at the center of a specific object.
-		 * @throw
-		 */
-		inline void lookAt(const Movable & object);
+				/**
+				 * @fn void lookAt(const Movable & object)
+				 * @param[in] object The object target to look at.
+				 * @brief Look at the center of a specific object.
+				 * @throw
+				 */
+				inline void lookAt(const Movable & object);
 
-		/**
-		 * @fn void lookAt(const FloatVector3u & target)
-		 * @param[in] target The point in space to look at.
-		 * @brief Look at a specific location in space.
-		 * @throw
-		 */
-		inline void lookAt(const FloatVector3u & target);
+				/**
+				 * @fn void lookAt(const FloatVector3u & target)
+				 * @param[in] target The point in space to look at.
+				 * @brief Look at a specific location in space.
+				 * @throw
+				 */
+				inline void lookAt(const FloatVector3u & target);
 
-		/**
-		 * @fn void lookUpTo(const FloatVector3u & direction)
-		 * @param[in] direction The direction to look up to.
-		 * @brief Look up to a specific direction.
-		 * @throw
-		 */
-		inline void lookUpTo(const FloatVector3u & direction);
+				/**
+				 * @fn void lookUpTo(const FloatVector3u & direction)
+				 * @param[in] direction The direction to look up to.
+				 * @brief Look up to a specific direction.
+				 * @throw
+				 */
+				inline void lookUpTo(const FloatVector3u & direction);
 
-		/**
-		 * @fn void moveTo(const Movable & object)
-		 * @param[in] object The object to move to.
-		 * @brief Move the camera to the specific object location.
-		 * @throw
-		 */
-		inline void moveTo(const Movable & object);
+				/**
+				 * @fn void moveTo(const Movable & object)
+				 * @param[in] object The object to move to.
+				 * @brief Move the camera to the specific object location.
+				 * @throw
+				 */
+				inline void moveTo(const Movable & object);
 
-		/**
-		 * @fn void moveTo(const FloatVector3u & position)
-		 * @param[in] position The position in space to move to.
-		 * @brief Move to a specific location in space.
-		 * @throw
-		 */
-		inline void moveTo(const FloatVector3u & position);
+				/**
+				 * @fn void moveTo(const FloatVector3u & position)
+				 * @param[in] position The position in space to move to.
+				 * @brief Move to a specific location in space.
+				 * @throw
+				 */
+				inline void moveTo(const FloatVector3u & position);
 
-		/**
-		 * @fn void moveIn(const FloatVector3u & direction)
-		 * @param[in] direction The direction to move in.
-		 * @brief Move in a direction.
-		 * @throw
-		 */
-		inline void moveIn(const FloatVector3u & direction);
+				/**
+				 * @fn void moveIn(const FloatVector3u & direction)
+				 * @param[in] direction The direction to move in.
+				 * @brief Move in a direction.
+				 * @throw
+				 */
+				inline void moveIn(const FloatVector3u & direction);
 
-		/**
-		 * @fn FloatMatrix4u getCamera() const
-		 * @return The view matrix.
-		 * @brief Get the view matrix according to the camera.
-		 * @throw
-		 */
-		inline FloatMatrix4u getCamera() const;
+				/**
+				 * @fn FloatMatrix4u getView() const
+				 * @return The view matrix.
+				 * @brief Get the view matrix according to the camera.
+				 * @throw
+				 */
+				inline auto getView() const -> FloatMatrix4u;
 
-	private:
-		/**
-		 * @fn void updatePosition(const FloatVector3u & position, const FloatVector3u & target)
-		 * @param[in] position The position to set.
-		 * @param[in] target The target to look at.
-		 * @brief Update the view matrix.
-		 * @throw
-		 */
-		void updatePosition(const FloatVector3u & position, const FloatVector3u & target);
+                /**
+                 * @fn const FloatMatrix4u & getProjection() const
+                 * @return The projection matrix.
+                 * @brief Get the projection matrix.
+                 * @throw
+                 */
+                inline auto getProjection() const -> const Projection &;
+                inline auto getProjection() -> Projection &;
+			private:
+				/**
+				 * @fn void updatePosition(const FloatVector3u & position, const FloatVector3u & target)
+				 * @param[in] position The position to set.
+				 * @param[in] target The target to look at.
+				 * @brief Update the view matrix.
+				 * @throw
+				 */
+				void updatePosition(const FloatVector3u & position, const FloatVector3u & target);
 
-		/**
-		 * @property _position
-		 * @brief The position of the camera.
-		 */
-		FloatVector3u _position;
+				/**
+				 * @property _position
+				 * @brief The position of the camera.
+				 */
+				FloatVector3u _position;
 
-		/**
-		 * @property _target
-		 * @brief The target to look at.
-		 */
-		FloatVector3u _target;
+				/**
+				 * @property _target
+				 * @brief The target to look at.
+				 */
+				FloatVector3u _target;
 
-		/**
-		 * @property _upAxis
-		 * @brief The vector that defines the up axis.
-		 */
-		FloatVector3u _upAxis;
-	};
-}
+				/**
+				 * @property _upAxis
+				 * @brief The vector that defines the up axis.
+				 */
+				FloatVector3u _upAxis;
+
+                /**
+                 * @property _projection
+                 * @brief The projection of the scene in a 2D plane by the camera.
+                 */
+                Projection _projection;
+			};
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece
 
 #include "graphic/scene/camera.inl"
 

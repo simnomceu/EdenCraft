@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -39,114 +39,122 @@
 #ifndef INDEX3U_HPP
 #define INDEX3U_HPP
 
+#include "utility/config.hpp"
+
 namespace ece
 {
-	/**
-	 * @class Index3u
-	 * @brief A 3D index key to access elements in a 3D container.
-	 * @remark This class need to be refactored to be usable in others classes like Matrix. Have to be compared with std::slice and others.
-	 */
-	class Index3u
-	{
-	public:
-		/**
-		 * @fn Index3u()
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 * It initializes the index to (0, 0, 0).
-		 */
-		inline constexpr Index3u() noexcept;
+    namespace utility
+    {
+        namespace indexing
+        {
+        	/**
+        	 * @class Index3u
+        	 * @brief A 3D index key to access elements in a 3D container.
+        	 * @remark This class need to be refactored to be usable in others classes like Matrix. Have to be compared with std::slice and others.
+        	 */
+        	class ECE_UTILITY_API Index3u
+        	{
+        	public:
+        		/**
+        		 * @fn Index3u()
+        		 * @brief Default constructor.
+        		 * @throw noexcept
+        		 * It initializes the index to (0, 0, 0).
+        		 */
+        		inline constexpr Index3u() noexcept;
 
-		/**
-		* @fn Index3u(const int i, const int j, const int k)
-		* @param[in] i The i position of the index.
-		* @param[in] j The j position of the index.
-		* @param[in] k The k position of the index.
-		* @brief Build a 3d index key and set the position to (i, j, k).
-		* @throw noexcept
-		*/
-		inline Index3u(const int i, const int j, const int k) noexcept;
-		
-		/**
-		 * @fn Index3u(const Index3u & copy)
-		 * @param[in] copy The index to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Index3u(const Index3u & copy) noexcept = default;
-		
-		/**
-		 * @fn Index3u(Index3u && move)
-		 * @param[in] move The index to move from.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Index3u(Index3u && move) noexcept = default;
-		
-		/**
-		 * @fn ~Index3u()
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Index3u() noexcept = default;
-		
-		/**
-		 * @fn Index3u & operator=(const Index3u & copy)
-		 * @param[in] copy The index to copy from.
-		 * @return The 3D index copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Index3u & operator=(const Index3u & copy) noexcept  = default;
-		
-		/**
-		 * @fn Index3u & operator=(Index3u && move)
-		 * @param[in] move The index to move from.
-		 * @return The 3D index moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Index3u & operator=(Index3u && move) noexcept = default;
-		
-		/**
-		 * @fn int get(const int maxI, const int maxJ)
-		 * @param[in] maxI Max length of an i-axis row.
-		 * @param[in] maxJ Max length of a j-axis row.
-		 * @return The 1D position
-		 * @brief Get the 1D position considering the max size of a slice.
-		 * @throw noexcept
-		 */
-		inline int get(const int maxI, const int maxJ) noexcept;
-		
-		/**
-		 * @fn void set(const int maxI, const int maxJ, const int index)
-		 * @param[in] maxI Max length of an i-axis row
-		 * @param[in] maxI Max length of a j-axis row
-		 * @param[in] index 1D index to set.
-		 * @brief Convert a 1D position to a 3D position, considering the max size of a slice.
-		 * @throw A division_by_zero exception if the max length is equal to 0.
-		 */
-		inline void set(const int maxI, const int maxJ, const int index);
+        		/**
+        		* @fn Index3u(const int i, const int j, const int k)
+        		* @param[in] i The i position of the index.
+        		* @param[in] j The j position of the index.
+        		* @param[in] k The k position of the index.
+        		* @brief Build a 3d index key and set the position to (i, j, k).
+        		* @throw noexcept
+        		*/
+        		inline Index3u(const std::size_t i, const std::size_t j, const std::size_t k) noexcept;
 
-		/**
-		 * @property _i
-		 * @brief The i position (usually on X-axis) of the index in 3D.
-		 */
-		unsigned int _i;
-		
-		/**
-		 * @property _j
-		 * @brief The j position (usually on Y-axis) of the index in 3D.
-		 */
-		unsigned int _j;
-		
-		/**
-		 * @property _k
-		 * @brief The k position (usually on Z-axis) of the index in 3D.
-		 */
-		unsigned int _k;
-	};
-}
+        		/**
+        		 * @fn Index3u(const Index3u & copy)
+        		 * @param[in] copy The index to copy from.
+        		 * @brief Default copy constructor.
+        		 * @throw noexcept
+        		 */
+        		Index3u(const Index3u & copy) noexcept = default;
+
+        		/**
+        		 * @fn Index3u(Index3u && move)
+        		 * @param[in] move The index to move from.
+        		 * @brief Default move constructor.
+        		 * @throw noexcept
+        		 */
+        		Index3u(Index3u && move) noexcept = default;
+
+        		/**
+        		 * @fn ~Index3u()
+        		 * @brief Default destructor.
+        		 * @throw noexcept
+        		 */
+        		~Index3u() noexcept = default;
+
+        		/**
+        		 * @fn Index3u & operator=(const Index3u & copy)
+        		 * @param[in] copy The index to copy from.
+        		 * @return The 3D index copied.
+        		 * @brief Default copy assignment operator.
+        		 * @throw noexcept
+        		 */
+        		Index3u & operator=(const Index3u & copy) noexcept  = default;
+
+        		/**
+        		 * @fn Index3u & operator=(Index3u && move)
+        		 * @param[in] move The index to move from.
+        		 * @return The 3D index moved.
+        		 * @brief Default move assignment operator.
+        		 * @throw noexcept
+        		 */
+        		Index3u & operator=(Index3u && move) noexcept = default;
+
+        		/**
+        		 * @fn int get(const int maxI, const int maxJ)
+        		 * @param[in] maxI Max length of an i-axis row.
+        		 * @param[in] maxJ Max length of a j-axis row.
+        		 * @return The 1D position
+        		 * @brief Get the 1D position considering the max size of a slice.
+        		 * @throw noexcept
+        		 */
+        		inline std::size_t get(const std::size_t maxI, const std::size_t maxJ) noexcept;
+
+        		/**
+        		 * @fn void set(const int maxI, const int maxJ, const int index)
+        		 * @param[in] maxI Max length of an i-axis row
+        		 * @param[in] maxI Max length of a j-axis row
+        		 * @param[in] index 1D index to set.
+        		 * @brief Convert a 1D position to a 3D position, considering the max size of a slice.
+        		 * @throw A division_by_zero exception if the max length is equal to 0.
+        		 */
+        		inline void set(const std::size_t maxI, const std::size_t maxJ, const std::size_t index);
+
+        		/**
+        		 * @property _i
+        		 * @brief The i position (usually on X-axis) of the index in 3D.
+        		 */
+        		std::size_t _i;
+
+        		/**
+        		 * @property _j
+        		 * @brief The j position (usually on Y-axis) of the index in 3D.
+        		 */
+				std::size_t _j;
+
+        		/**
+        		 * @property _k
+        		 * @brief The k position (usually on Z-axis) of the index in 3D.
+        		 */
+				std::size_t _k;
+        	};
+        } // namespace indexing
+    } // namespace utility
+} // namespace ece
 
 #include "utility/indexing/index3u.inl"
 

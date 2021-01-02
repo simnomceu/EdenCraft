@@ -38,98 +38,116 @@
 #ifndef DATA_WINDOW_ADAPTER_HPP
 #define DATA_WINDOW_ADAPTER_HPP
 
-#include <Windows.h>
+#include "window/event.hpp"
 
-#include "window/window_event/keyboard.hpp"
+#include <Windows.h>
 
 namespace ece
 {
-	/**
-	 * @struct DataWindowAdapter
-	 * @brief Win32 implementaion of the window adapter.
-	 */
-	struct DataWindowAdapter
+	namespace window
 	{
-		/**
-		 * @fn DataWindowAdapter(HWND windowId)
-		 * @param[in] windowId The handle of the window.
-		 * @brief Default constructor.
-		 * @throw
-		 */
-		inline DataWindowAdapter(HWND windowId) : _windowId(windowId) {}
+		namespace common
+		{
+			/**
+			 * @struct DataWindowAdapter
+			 * @brief Win32 implementaion of the window adapter.
+			 */
+			struct DataWindowAdapter
+			{
+				/**
+				 * @fn DataWindowAdapter(HWND windowId)
+				 * @param[in] windowId The handle of the window.
+				 * @brief Default constructor.
+				 * @throw
+				 */
+				inline DataWindowAdapter(HWND windowId) : windowId(windowId) {}
 
-		/**
-		 * @property _windowId
-		 * @brief The handle of the window.
-		 */
-		HWND _windowId;
-	};
+				/**
+				* @fn DataWindowAdapter(const DataWindowAdapter & copy) noexcept
+				* @param[in] copy The implementation to copy from.
+				* @brief Default copy constructor.
+				* @throw noexcept
+				*/
+				DataWindowAdapter(const DataWindowAdapter & copy) noexcept = default;
 
-	/**
-	 * @struct WindowMessage
-	 * @brief Win32 implementation for a window message/notification, including input messages.
-	 */
-	struct WindowMessage
-	{
-		/**
-		 * @property _windowId
-		 * @brief The window concerned by the message.
-		 */
-		HWND _windowId;
+				/**
+				* @fn DataWindowAdapter(DataWindowAdapter && move) noexcept
+				* @param[in] copy The implementation to move.
+				* @brief Default move constructor.
+				* @throw noexcept
+				*/
+				DataWindowAdapter(DataWindowAdapter && move) noexcept = default;
 
-		/**
-		 * @property _message
-		 * @brief The content of the message.
-		 */
-		UINT _message;
+				DataWindowAdapter & operator=(const DataWindowAdapter & copy) noexcept = default;
 
-		/**
-		 * @property _wParam
-		 * @brief Some parameters of the message.
-		 */
-		WPARAM _wParam;
+				/**
+				 * @property _windowId
+				 * @brief The handle of the window.
+				 */
+				HWND windowId;
+			};
 
-		/**
-		 * @property _lParam
-		 * @brief Some extra parameters of the message.
-		 */
-		LPARAM _lParam;
-	};
+			/**
+			 * @struct WindowMessage
+			 * @brief Win32 implementation for a window message/notification, including input messages.
+			 */
+			struct WindowMessage
+			{
+				/**
+				 * @property _windowId
+				 * @brief The window concerned by the message.
+				 */
+				HWND windowId;
 
-	/**
-	 * @var className
-	 * @brief The name of the type of window to register to the win32 window system.
-	 */
-	static constexpr LPCWSTR className = L"ECE Window";
+				/**
+				 * @property _message
+				 * @brief The content of the message.
+				 */
+				UINT message;
 
-	/**
-	 * @fn void registerPattern()
-	 * @brief Register a type of window to the win32 window system.
-	 * @throw
-	 */
-	void registerPattern();
+				/**
+				 * @property _wParam
+				 * @brief Some parameters of the message.
+				 */
+				WPARAM wParam;
 
-	/**
-	 * @fn LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam)
-	 * @param[in] windowId The window concerned by the message.
-	 * @param[in] message The content of the message.
-	 * @param[in] wParam Some parameters of the message.
-	 * @param[in] lParam Some extra parameters of the message.
-	 * @return If it has failed or not.
-	 * @brief A win32 callback to process a messae handle from the system.
-	 * @throw
-	 */
-	LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
+				/**
+				 * @property _lParam
+				 * @brief Some extra parameters of the message.
+				 */
+				LPARAM lParam;
+			};
+		} // namespace common
 
-	/**
-	 * @fn Keyboard::Key interpretKey(WPARAM wParam)
-	 * @param[in] wParam The Win32 keycode to interpret.
-	 * @return The interpreted keycode.
-	 * @brief Interpret a Win32 keycode to a standard value.
-	 * @throw
-	 */
-	Keyboard::Key interpretKey(WPARAM wParam);
-}
+		namespace win32
+		{
+			/**
+			 * @var className
+			 * @brief The name of the type of window to register to the win32 window system.
+			 */
+			static constexpr auto className = LPCWSTR{ L"ECE Window" };
+
+			/**
+			 * @fn void registerPattern()
+			 * @brief Register a type of window to the win32 window system.
+			 * @throw
+			 */
+			void registerPattern();
+
+			/**
+			 * @fn LRESULT CALLBACK processMessages(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam)
+			 * @param[in] windowId The window concerned by the message.
+			 * @param[in] message The content of the message.
+			 * @param[in] wParam Some parameters of the message.
+			 * @param[in] lParam Some extra parameters of the message.
+			 * @return If it has failed or not.
+			 * @brief A win32 callback to process a messae handle from the system.
+			 * @throw
+			 */
+			LRESULT CALLBACK processMessagesCallback(HWND windowId, UINT message, WPARAM wParam, LPARAM lParam);
+		} // namespace win32
+	} // namespace window
+} // namespace ece
 
 #endif // DATA_WINDOW_ADAPTER_HPP
 

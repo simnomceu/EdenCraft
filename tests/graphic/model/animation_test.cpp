@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "graphic/model/animation.hpp"
+#include "graphic/model.hpp"
 
 SCENARIO("Animation", "[Graphic][Model]")
 {

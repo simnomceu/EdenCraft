@@ -35,109 +35,137 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/x11/xcb_impl.hpp"
 
-#include "utility/log/service_logger.hpp"
-
-#include <stdexcept>
+#include "utility/log.hpp"
 
 namespace ece
 {
-    XCBImpl::XCBImpl() noexcept: _windowId(0), _connection(nullptr)
-    {
-    }
-
-	void XCBImpl::createWindow()
-    {
-		if (!this->_connection) {
-			int nbScreens = 0;
-			this->_connection = xcb_connect(nullptr, &nbScreens);
-			if (!this->_connection) {
-                throw std::runtime_error("No X server available for XCB implementation.");
+	namespace window
+	{
+		namespace x11
+		{
+			XCBImpl::XCBImpl() noexcept: _windowId(0), _connection(nullptr)
+			{
 			}
-		}
-		if (!this->_connection) {
-			xcb_screen_t * screen = xcb_setup_roots_iterator(xcb_get_setup(this->_connection)).data;
 
-			this->_windowId = xcb_generate_id(this->_connection);
-			xcb_create_window(this->_connection, XCB_COPY_FROM_PARENT, this->_windowId, screen->root, 0, 0, 320, 320, 10, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, nullptr);
-			xcb_map_window(this->_connection, this->_windowId);
+			auto XCBImpl::getWindowHandle() const -> ::Window
+			{
+				return 0;
+			}
 
-			xcb_flush(this->_connection);
-		}
-        else {
-            throw std::runtime_error("No X server available for XCB implementation.");
-		}
-    }
+			auto XCBImpl::getDevice() const -> Display *
+			{
+				return nullptr;
+			}
 
-	void XCBImpl::deleteWindow()
-    {
-        xcb_destroy_window(this->_connection, this->_windowId);
-        xcb_disconnect(this->_connection);
+			void XCBImpl::createWindow()
+			{
+				if (!this->_connection) {
+					auto nbScreens = 0;
+					this->_connection = xcb_connect(nullptr, &nbScreens);
+					if (!this->_connection) {
+						throw std::runtime_error("No X server available for XCB implementation.");
+					}
+				}
+				if (!this->_connection) {
+					xcb_screen_t * screen = xcb_setup_roots_iterator(xcb_get_setup(this->_connection)).data;
 
-        this->_windowId = 0;
-        this->_connection = nullptr;
-    }
+					this->_windowId = xcb_generate_id(this->_connection);
+					xcb_create_window(this->_connection, XCB_COPY_FROM_PARENT, this->_windowId, screen->root, 0, 0, 320, 320, 10, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, nullptr);
+					xcb_map_window(this->_connection, this->_windowId);
 
-	bool XCBImpl::isWindowCreated() const
-    {
-        return this->_windowId != 0;
-    }
+					xcb_flush(this->_connection);
+				}
+				else {
+					throw std::runtime_error("No X server available for XCB implementation.");
+				}
+			}
 
-	void XCBImpl::setTitle(const std::string & title)
-    {
-        xcb_change_property(this->_connection, XCB_PROP_MODE_REPLACE, this->_windowId, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 8, title.size(), title.data());
-        xcb_flush(this->_connection);
-    }
+			void XCBImpl::deleteWindow()
+			{
+				xcb_destroy_window(this->_connection, this->_windowId);
+				xcb_disconnect(this->_connection);
 
-	std::string XCBImpl::getTitle() const
-    {
-        auto cookie = xcb_get_property(this->_connection, 0, this->_windowId, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 0);
-        auto reply = xcb_get_property_reply(this->_connection, cookie, nullptr);
-        char * title = static_cast<char *>(xcb_get_property_value(reply));
-        return std::string(title);
-    }
+				this->_windowId = 0;
+				this->_connection = nullptr;
+			}
 
-	void XCBImpl::setPosition(const IntVector2u & position)
-    {
-        const uint32_t pos[] = { static_cast<uint32_t>(position[0]), static_cast<uint32_t>(position[1]) };
-        xcb_configure_window(this->_connection, this->_windowId, XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y, pos);
-        xcb_flush(this->_connection);
-    }
+			auto XCBImpl::isWindowCreated() const -> bool
+			{
+				return this->_windowId != 0;
+			}
 
-	IntVector2u XCBImpl::getPosition() const
-    {
-        auto cookie = xcb_get_geometry(this->_connection, this->_windowId);
-        auto pos = xcb_get_geometry_reply(this->_connection, cookie, nullptr);
+			void XCBImpl::setTitle(const std::string & title)
+			{
+				xcb_change_property(this->_connection, XCB_PROP_MODE_REPLACE, this->_windowId, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 8, title.size(), title.data());
+				xcb_flush(this->_connection);
+			}
 
-        return IntVector2u{pos->x, pos->y};
-    }
+			auto XCBImpl::getTitle() const -> std::string
+			{
+				auto cookie = xcb_get_property(this->_connection, 0, this->_windowId, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 0);
+				auto reply = xcb_get_property_reply(this->_connection, cookie, nullptr);
+				auto title = static_cast<char *>(xcb_get_property_value(reply));
+				return { title };
+			}
 
-	void XCBImpl::minimize()
-    {
-        ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to minimize the window.");
-    }
+			void XCBImpl::setPosition(const IntVector2u & position)
+			{
+				const auto pos = std::array<uint32_t, 2>{ static_cast<uint32_t>(position[0]), static_cast<uint32_t>(position[1]) };
+				xcb_configure_window(this->_connection, this->_windowId, XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y, pos.data());
+				xcb_flush(this->_connection);
+			}
 
-	void XCBImpl::maximize()
-    {
-        ServiceLoggerLocator::getService().logWarning("The window implementation does not provide any method to maximize the window.");
-    }
+			auto XCBImpl::getPosition() const -> IntVector2u
+			{
+				auto cookie = xcb_get_geometry(this->_connection, this->_windowId);
+				auto pos = xcb_get_geometry_reply(this->_connection, cookie, nullptr);
 
-	std::vector<InputEvent> XCBImpl::processEvent(const bool blocking)
-    {
-        xcb_generic_event_t * e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
+				return { pos->x, pos->y };
+			}
 
-        while (e) {
-            if ((e->response_type & ~0x80) == XCB_EXPOSE) {
+			auto XCBImpl::getSize() const -> IntVector2u
+			{
+				auto cookie = xcb_get_geometry(this->_connection, this->_windowId);
+				auto pos = xcb_get_geometry_reply(this->_connection, cookie, nullptr);
 
-            }
-            if ((e->response_type & ~0x80) == XCB_BUTTON_PRESS) {
-                break;
-            }
+				return { pos->width, pos->height };
+			}
 
-            free(e);
-            e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
-        }
-        return std::vector<InputEvent>();
-    }
-}
+			void XCBImpl::minimize()
+			{
+				WARNING << "The window implementation does not provide any method to minimize the window." << flush;
+			}
+
+			void XCBImpl::maximize()
+			{
+				WARNING << "The window implementation does not provide any method to maximize the window." << flush;
+			}
+
+			auto XCBImpl::processEvent(const bool blocking, [[maybe_unused]] const bool keyRepeat) -> std::vector<InputEvent>
+			{
+				auto e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
+
+				while (e) {
+					if ((e->response_type & ~0x80) == XCB_EXPOSE) {
+
+					}
+					if ((e->response_type & ~0x80) == XCB_BUTTON_PRESS) {
+						break;
+					}
+
+					free(e);
+					e = (blocking ? xcb_wait_for_event(this->_connection) : xcb_poll_for_event(this->_connection));
+				}
+				return {};
+			}
+
+			auto XCBImpl::processMessage([[maybe_unused]] const WindowMessage & message, [[maybe_unused]] const bool keyRepeat) -> InputEvent
+			{
+				return {};
+			}
+		} // namespace x11
+	} // namespace window
+} // namespace ece

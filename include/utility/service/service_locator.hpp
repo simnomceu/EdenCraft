@@ -1,12 +1,12 @@
 /*
-	
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
 															ooooo     ooo     .    o8o  oooo   o8o      .
 															`888'     `8'   .o8    `"'  `888   `"'    .o8
@@ -39,56 +39,61 @@
 #ifndef SERVICE_LOCATOR_HPP
 #define SERVICE_LOCATOR_HPP
 
-#include <memory>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
-	/**
-	 * @class ServiceLocator
-	 * @tparam Base The base class of the service to locate
-	 * @tparam Null A default implementation for the service.
-	 * @brief Encapsulate a unique instance of a service category.
-	 */
-	template <class Base, class Null>
-	class ServiceLocator
-	{
-		static_assert(std::is_base_of<Base, Null>::value, "ServiceLocator cannot be instantiate with this template parameters.");
+    namespace utility
+    {
+        namespace service
+        {
+        	/**
+        	 * @class ServiceLocator
+        	 * @tparam Base The base class of the service to locate
+        	 * @tparam Null A default implementation for the service.
+        	 * @brief Encapsulate a unique instance of a service category.
+        	 */
+        	template <class Base, class Null>
+        	class ServiceLocator
+        	{
+        		static_assert(std::is_base_of<Base, Null>::value, "ServiceLocator cannot be instantiate with this template parameters.");
 
-	public:
-		/**
-		 * @fn void provide(const std::shared_ptr<Base> & service)
-		 * @param[in] service The service which has to be provided by the locator.
-		 * @brief Set the service provided by the locator.
-		 * @throw
-		 */
-		static inline void provide(const std::shared_ptr<Base> & service);
+        	public:
+        		/**
+        		 * @fn void provide(const std::shared_ptr<Base> & service)
+        		 * @param[in] service The service which has to be provided by the locator.
+        		 * @brief Set the service provided by the locator.
+        		 * @throw
+        		 */
+        		static inline void provide(const std::shared_ptr<Base> & service);
 
-		/**
-		 * @fn Base & getService()
-		 * @return The service currently started.
-		 * @brief Consume the service provided.
-		 * @throw
-		 * @remark Should be rename as consume() ?
-		 */
-		static Base & getService();
+        		/**
+        		 * @fn Base & getService()
+        		 * @return The service currently started.
+        		 * @brief Consume the service provided.
+        		 * @throw
+        		 * @remark Should be rename as consume() ?
+        		 */
+        		static auto getService() -> Base &;
 
-		//static std::weak_ptr<Base> getServicePtr();
-		
-		/**
-		 * @fn void stop()
-		 * @brief Stop the current service. The locator still exists but provide an empty service (which do nothing).
-		 * @throw
-		 */
-		static inline void stop();
+        		/**
+        		 * @fn void stop()
+        		 * @brief Stop the current service. The locator still exists but provide an empty service (which do nothing).
+        		 * @throw
+        		 */
+        		static inline void stop();
 
-	protected:
-		/**
-		 * @property _service
-		 * @brief The service to expose.
-		 */
-		static std::shared_ptr<Base> _service;
-	};
-}
+        	protected:
+        		/**
+        		 * @property _service
+        		 * @brief The service to expose.
+        		 */
+        		static std::shared_ptr<Base> _service;
+        	};
+        } // namespace service
+    } // namespace utility
+} // namespace ece
 
 #include "utility/service/service_locator.inl"
 

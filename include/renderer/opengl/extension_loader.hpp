@@ -1,23 +1,23 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
-                                                                       
-                                          
-                                     
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+
+
+
 				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -40,42 +40,48 @@
 #ifndef EXTENSION_LOADER_HPP
 #define EXTENSION_LOADER_HPP
 
-#include <string>
-
-#include "utility/indexing/version.hpp"
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "utility/indexing.hpp"
 
 namespace ece
 {
-	/**
-	 * @fn void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
-	 * @param[in] name The name of the extension.
-	 * @param[in] requiredVersion The required version of the extension.
-	 * @brief Load the OpenGL extension according to the version available.
-	 * @throw
-	 */
-	void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
-	
-	/**
-	 * @fn T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
-	 * tparam The type of method of the extension.
-	 * @param[in] name The name of the extension.
-	 * @param[in] requiredVersion The required version of the extension.
-	 * @brief Load the OpenGL extension according to the version available.
-	 * @throw
-	 */
-	template <class T>
-	inline T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
+	namespace renderer
+	{
+		namespace opengl
+		{
+			/**
+			 * @fn void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
+			 * @param[in] name The name of the extension.
+			 * @param[in] requiredVersion The required version of the extension.
+			 * @brief Load the OpenGL extension according to the version available.
+			 * @throw
+			 */
+			ECE_RENDERER_API void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
 
-	/**
-	 * @fn Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-	 * @param[in] minVersionGL The minimum required version of OpenGL.
-	 * @param[in] maxVersionGL The maximum required version of OpenGL.
-	 * @return The version targeted to initialize OpenGL.
-	 * @brief Initialize the OpenGL extensions loader.
-	 * @throw
-	 */
-	Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL);
-}
+			/**
+			 * @fn T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
+			 * tparam The type of method of the extension.
+			 * @param[in] name The name of the extension.
+			 * @param[in] requiredVersion The required version of the extension.
+			 * @brief Load the OpenGL extension according to the version available.
+			 * @throw
+			 */
+			template <class T>
+			inline auto loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion);
+
+			/**
+			 * @fn Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+			 * @param[in] minVersionGL The minimum required version of OpenGL.
+			 * @param[in] maxVersionGL The maximum required version of OpenGL.
+			 * @return The version targeted to initialize OpenGL.
+			 * @brief Initialize the OpenGL extensions loader.
+			 * @throw
+			 */
+			auto initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL) -> Version<2>;
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece
 
 #include "renderer/opengl/extension_loader.inl"
 

@@ -41,85 +41,99 @@
 #ifndef RENDERABLE_HPP
 #define RENDERABLE_HPP
 
-#include <vector>
-
-#include "graphic/renderable/vertex.hpp"
-#include "graphic/renderable/base_uniform.hpp"
-#include "graphic/renderable/shader_source.hpp"
+#include "graphic/config.hpp"
+#include "core/resource.hpp"
+#include "renderer/pipeline.hpp"
+#include "renderer/buffer.hpp"
 
 namespace ece
 {
-	/**
-	 * @class Renderable
-	 * @brief To define an object that can be rendered.
-	 */
-	class Renderable
+	namespace graphic
 	{
-	public:
-		/**
-		 * @fn constexpr Renderable() noexcept
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		constexpr Renderable() noexcept = default;
+		namespace renderable
+		{
+			/**
+			 * @class Renderable
+			 * @brief
+			 */
+			class ECE_GRAPHIC_API Renderable: public Drawable
+			{
+			public:
+				using Reference = Resource<Renderable>;
 
-		/**
-		 * @fn Renderable(const Renderable & copy) noexcept
-		 * @param[in] copy The Renderable to copy from.
-		 * @brief Default copy constructor.
-		 * @throw noexcept
-		 */
-		Renderable(const Renderable & copy) noexcept = default;
+				/**
+				 * @fn Renderable() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				Renderable() noexcept;
 
-		/**
-		 * @fn Renderable(Renderable && move) noexcept
-		 * @param[in] move The Renderable to move.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		Renderable(Renderable && move) noexcept = default;
+				/**
+				 * @fn Renderable(const Renderable & copy) noexcept
+				 * @param[in] copy The Renderable to copy from.
+				 * @brief Default copy constructor.
+				 * @throw noexcept
+				 */
+				Renderable(const Renderable & copy) = default;
 
-		/**
-		 * @fn ~Renderable() noexcept
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~Renderable() noexcept = default;
+				/**
+				 * @fn Renderable(Renderable && move) noexcept
+				 * @param[in] move The Renderable to move.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				Renderable(Renderable && move) noexcept = default;
 
-		/**
-		 * @fn Renderable & operator=(const Renderable & copy) noexcept
-		 * @param[in] copy The Renderable to copy from.
-		 * @return The Renderable copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		Renderable & operator=(const Renderable & copy) noexcept = default;
+				/**
+				 * @fn ~Renderable() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				virtual ~Renderable() noexcept = 0;
 
-		/**
-		 * @fn Renderable & operator=(Renderable && move) noexcept
-		 * @param[in] move The Renderable to move from.
-		 * @return The Renderable moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		Renderable & operator=(Renderable && move) noexcept = default;
+				/**
+				 * @fn Renderable & operator=(const Renderable & copy) noexcept
+				 * @param[in] The Renderable to copy from.
+				 * @return The Renderable copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				Renderable & operator=(const Renderable & copy) = default;
 
-		/**
-		 * @fn Vertex * getVertices() const
-		 * @return The vertices.
-		 * @brief Get the vertices of an object.
-		 * @throw
-		 */
-		virtual Vertex * getVertices() const = 0;
+				/**
+				 * @fn Renderable & operator=(Renderable && move) noexcept
+				 * @param[in] The Renderable to move.
+				 * @return The Renderable moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				Renderable & operator=(Renderable && move) noexcept = default;
 
-		/**
-		 * @fn std::vector<BaseUniform *> getUniforms() const
-		 * @return The list of uniforms.
-		 * @brief Get the list of uniforms of the object.
-		 * @throw
-		 */
-		virtual std::vector<BaseUniform *> getUniforms() const = 0;
-	};
-}
+				inline virtual auto getModel() const -> const FloatMatrix4u & override;
+
+				void applyTransformation(const FloatMatrix4u & transformation);
+
+                auto isInstancingEnabled() const -> bool;
+
+				inline virtual auto getState() -> RenderState & override;
+
+				inline virtual void prepare();
+
+			protected:
+				VertexArray _vertexArray;
+
+				PrimitiveMode _mode;
+
+				FloatMatrix4u _model;
+
+				RenderState _state;
+
+				ece::size_t _numberOfInstances;
+			};
+		} // namespace renderable
+	} // namespace graphic
+} // namespace ece
+
+#include "graphic/renderable/renderable.inl"
 
 #endif // RENDERABLE_HPP

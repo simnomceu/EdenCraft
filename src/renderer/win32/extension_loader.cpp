@@ -1,23 +1,23 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															ooooooooo.                               .o8                                        
-															`888   `Y88.                            "888                                        
-															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b 
-															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P 
-															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888     
-															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888     
-															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b   
-                                                                       
-                                          
-                                     
+															ooooooooo.                               .o8
+															`888   `Y88.                            "888
+															 888   .d88'  .ooooo.  ooo. .oo.    .oooo888   .ooooo.  oooo d8b  .ooooo.  oooo d8b
+															 888ooo88P'  d88' `88b `888P"Y88b  d88' `888  d88' `88b `888""8P d88' `88b `888""8P
+															 888`88b.    888ooo888  888   888  888   888  888ooo888  888     888ooo888  888
+															 888  `88b.  888    .o  888   888  888   888  888    .o  888     888    .o  888
+															o888o  o888o `Y8bod8P' o888o o888o `Y8bod88P" `Y8bod8P' d888b    `Y8bod8P' d888b
+
+
+
 				This file is part of EdenCraft Engine - Renderer module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -36,13 +36,13 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/opengl/extension_loader.hpp"
 
-#include "renderer/win32/wgl_loader.hpp"
-
 #include "renderer/win32/wgl_extension.hpp"
-#include "utility/log/service_logger.hpp"
+#include "utility/log.hpp"
+#include "renderer/opengl.hpp"
+#include "renderer/win32/data_context_opengl.hpp"
 
 #ifdef _MSC_VER
 #	undef min
@@ -51,29 +51,38 @@
 
 namespace ece
 {
-	void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
+	namespace renderer
 	{
-		auto proc = wglGetProcAddress(name.data());
-		if (proc == nullptr) {
-			if (requiredVersion > ece::Version<2>{ 3, 2} && WGLLoader::getInstance().getLatestVersionAvailable() < requiredVersion) {
-				ServiceLoggerLocator::getService().logError(name + " is not available. You need at least a " + std::to_string(requiredVersion[0]) + "." + std::to_string(requiredVersion[1]) + " context.");
-			}
-			else {
-				proc = WGLLoader::getInstance().getProcAddress(name);//GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
+		namespace opengl
+		{
+			void * loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
+			{
+				auto proc = wglGetProcAddress(name.data());
 				if (proc == nullptr) {
-					ServiceLoggerLocator::getService().logError(name + " cannot be loaded.");
+					if (requiredVersion > ece::Version<2>{ 3, 3} && ContextOpenGL::getMaxVersionAvailable() < requiredVersion) {
+						ERROR << name << " is not available. You need at least a " << requiredVersion[0] << "." << requiredVersion[1] << " context." << flush;
+					}
+					else {
+						proc = DataContextOpenGL::getProcAddress(name); // GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
+						if (proc == nullptr) {
+							ERROR << name << " cannot be loaded." << flush;
+						}
+					}
 				}
+				return static_cast<void *>(proc);
 			}
-		}
-		return static_cast<void *>(proc);
-	}
 
-	Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
-	{
-		auto & loader = WGLLoader::getInstance();
-		loader.initDummyContext();
-		auto version = loader.getLatestVersionAvailable();
-		loader.terminateDummyContext();
-		return min(max(minVersionGL, version), maxVersionGL);
-	}
-}
+			auto initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL) -> Version<2>
+			{
+				auto latestVersionAvailable = Version<2>{};
+				auto version = glGetString(GL_VERSION);
+				if (version) {
+					auto versionPtr = std::string(reinterpret_cast<const char *>(version));
+					latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
+					latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
+				}
+				return max(min(maxVersionGL, latestVersionAvailable), minVersionGL);
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

@@ -39,9 +39,15 @@
 
 namespace ece
 {
-	template <class T>
-	inline T loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
+	namespace renderer
 	{
-		return reinterpret_cast<T>(loadOpenGLProc(name, requiredVersion));
-	}
-}
+		namespace opengl
+		{
+			template <class T>
+			inline auto loadOpenGLProc(const std::string & name, const Version<2> & requiredVersion)
+			{
+				return reinterpret_cast<T>(loadOpenGLProc(name, requiredVersion));
+			}
+		} // namespace opengl
+	} // namespace renderer
+} // namespace ece

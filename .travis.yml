@@ -6,6 +6,7 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - llvm-toolchain-trusty-5.0
     packages:
       - build-essential
       - libx11-dev
@@ -13,6 +14,7 @@ addons:
       - g++-7
       - libgl1-mesa-dev
       - mesa-utils
+      - clang-5.0
 
 sudo:
   required
@@ -20,22 +22,37 @@ sudo:
 notifications:
   email: false
 
-compiler: g++
+compiler:
+  - g++
+#  - clang
+
+os:
+  - linux
+  - osx
 
 env:
-  - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+  global:
+    - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - PLATFORM="x64"
+  matrix:
+    #  - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+    - CONFIG="debugstatic"
+    - CONFIG="releasestatic"
+    - CONFIG="debugshared"
+    - CONFIG="releaseshared"
+#    - PLATFORM="x86"
 
 before_install:
+  - if [ $TRAVIS_OS_NAME = osx ]; then brew install gcc --HEAD; fi
   - git submodule -q update --init --recursive
   - eval "${MATRIX_EVAL}"
-  - chmod +x build/premake5
+  - chmod +x build/premake5_${TRAVIS_OS_NAME}
 
 install:
 
 script:
-  - cd build && ./premake5 gmake
-  - make config=debug_unix64 && cd ..
-  - g++ --version
+  - cd build && ./premake5_${TRAVIS_OS_NAME} gmake2
+  - cd gmake2 && make -j4 config=${CONFIG}_${PLATFORM} more_cube && cd ../..
 
 after_script:
   - cd build && ./clear_build.sh && cd ..

@@ -1,25 +1,25 @@
 /*
 
-	oooooooooooo       .o8                          .oooooo.                       .o88o.     .   
-	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8   
-	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo 
-	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888   
-	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888   
-	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 . 
-	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888" 
+	oooooooooooo       .o8                          .oooooo.                       .o88o.     .
+	`888'     `8      "888                         d8P'  `Y8b                      888 `"   .o8
+	 888          .oooo888   .ooooo.  ooo. .oo.   888          oooo d8b  .oooo.   o888oo  .o888oo
+	 888oooo8    d88' `888  d88' `88b `888P"Y88b  888          `888""8P `P  )88b   888      888
+	 888    "    888   888  888ooo888  888   888  888           888      .oP"888   888      888
+	 888       o 888   888  888    .o  888   888  `88b    ooo   888     d8(  888   888      888 .
+	o888ooooood8 `Y8bod88P" `Y8bod8P' o888o o888o  `Y8bood8P'  d888b    `Y888""8o o888o     "888"
 
-															  .oooooo.                                  oooo         o8o            
-															 d8P'  `Y8b                                 `888         `"'            
-															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.  
-															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8 
-															888     ooooo  888      .oP"888   888   888  888   888   888  888       
-															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8 
-															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P' 
-																							  888                                   
-																							 o888o                                  
-                                                                       
-                                          
-                                     
+															  .oooooo.                                  oooo         o8o
+															 d8P'  `Y8b                                 `888         `"'
+															888           oooo d8b  .oooo.   oo.ooooo.   888 .oo.   oooo   .ooooo.
+															888           `888""8P `P  )88b   888' `88b  888P"Y88b  `888  d88' `"Y8
+															888     ooooo  888      .oP"888   888   888  888   888   888  888
+															`88.    .88'   888     d8(  888   888   888  888   888   888  888   .o8
+															 `Y8bood8P'   d888b    `Y888""8o  888bod8P' o888o o888o o888o `Y8bod8P'
+																							  888
+																							 o888o
+
+
+
 				This file is part of EdenCraft Engine - Graphic module.
 				Copyright(C) 2018 Pierre Casati (@IsilinBN)
 
@@ -38,32 +38,40 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/scene/camera.hpp"
 
-#include "utility/debug/exception.hpp"
+#include "utility/debug.hpp"
 
 namespace ece
 {
-	void Camera::updatePosition(const FloatVector3u & position, const FloatVector3u & target)
+	namespace graphic
 	{
-		this->_position = position;
-		this->_target = target;
+		namespace scene
+		{
 
-		auto direction = target - position;
-		direction.normalize();
-		if (direction == this->_upAxis) {
-			if (direction == UP) {
-				this->_upAxis = RIGHT;
+			void Camera::updatePosition(const FloatVector3u & position, const FloatVector3u & target)
+			{
+				this->_position = position;
+				this->_target = target;
+
+				auto direction = FloatVector3u{ target - position };
+				direction = direction.normalize();
+				if (direction == this->_upAxis) {
+					if (direction == UP) {
+						this->_upAxis = RIGHT;
+					}
+					else if (direction == RIGHT) {
+						this->_upAxis = FRONT;
+					}
+					else if (direction == FRONT) {
+						this->_upAxis = UP;
+					}
+					else {
+						throw BadInputException("Computation of the up axis is wrong !");
+					}
+				}
 			}
-			else if (direction == RIGHT) {
-				this->_upAxis = FRONT;
-			}
-			else if (direction == FRONT) {
-				this->_upAxis = UP;
-			}
-			else {
-				throw BadInputException("Computation of the up axis is wrong !");
-			}
-		}
-	}
-}
+		} // namespace scene
+	} // namespace graphic
+} // namespace ece

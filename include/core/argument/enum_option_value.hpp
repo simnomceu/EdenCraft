@@ -39,96 +39,101 @@
 #ifndef ENUM_OPTION_VALUE_HPP
 #define ENUM_OPTION_VALUE_HPP
 
-#include <vector>
-#include <string>
-
+#include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/argument/option_value.hpp"
 
 namespace ece
 {
-	/**
-	 * @class IntegerOptionValue
-	 * @extends OptionValue
-	 * @brief An option as an enumeration argument.
-	 */
-	class EnumOptionValue : public OptionValue
+	namespace core
 	{
-	public:
-		/**
-		 * @fn EnumOptionValue() noexcept 
-		 * @brief Default constructor.
-		 * @throw noexcept
-		 */
-		EnumOptionValue() noexcept = default;
+		namespace argument
+		{
+			/**
+			 * @class IntegerOptionValue
+			 * @extends OptionValue
+			 * @brief An option as an enumeration argument.
+			 */
+			class ECE_CORE_API EnumOptionValue : public OptionValue
+			{
+			public:
+				/**
+				 * @fn EnumOptionValue() noexcept
+				 * @brief Default constructor.
+				 * @throw noexcept
+				 */
+				EnumOptionValue() noexcept = default;
 
-		/**
-		 * @fn EnumOptionValue(const EnumOptionValue & copy) 
-		 * @param[in] copy The option to copy from.
-		 * @brief Default copy constructor.
-		 * @throw
-		 */
-		EnumOptionValue(const EnumOptionValue & copy) = default;
+				/**
+				 * @fn EnumOptionValue(const EnumOptionValue & copy)
+				 * @param[in] copy The option to copy from.
+				 * @brief Default copy constructor.
+				 * @throw
+				 */
+				EnumOptionValue(const EnumOptionValue & copy) = default;
 
-		/**
-		 * @fn EnumOptionValue(EnumOptionValue && move) noexcept 
-		 * @param[in] move The option to move from.
-		 * @brief Default move constructor.
-		 * @throw noexcept
-		 */
-		EnumOptionValue(EnumOptionValue && move) noexcept = default;
+				/**
+				 * @fn EnumOptionValue(EnumOptionValue && move) noexcept
+				 * @param[in] move The option to move from.
+				 * @brief Default move constructor.
+				 * @throw noexcept
+				 */
+				EnumOptionValue(EnumOptionValue && move) noexcept = default;
 
-		/**
-		 * @fn ~EnumOptionValue() noexcept 
-		 * @brief Default destructor.
-		 * @throw noexcept
-		 */
-		~EnumOptionValue() noexcept = default;
+				/**
+				 * @fn ~EnumOptionValue() noexcept
+				 * @brief Default destructor.
+				 * @throw noexcept
+				 */
+				~EnumOptionValue() noexcept = default;
 
-		/**
-		 * @fn EnumOptionValue & operator=(const EnumOptionValue & copy) noexcept
-		 * @param[in] copy The option to copy from.
-		 * @return The option copied.
-		 * @brief Default copy assignment operator.
-		 * @throw noexcept
-		 */
-		EnumOptionValue & operator=(const EnumOptionValue & copy) noexcept = default;
-		
-		/**
-		 * @fn EnumOptionValue & operator=(EnumOptionValue && move) noexcept 
-		 * @param[in] move The option to move.
-		 * @return The option moved.
-		 * @brief Default move assignment operator.
-		 * @throw noexcept
-		 */
-		EnumOptionValue & operator=(EnumOptionValue && move) noexcept = default;
+				/**
+				 * @fn EnumOptionValue & operator=(const EnumOptionValue & copy) noexcept
+				 * @param[in] copy The option to copy from.
+				 * @return The option copied.
+				 * @brief Default copy assignment operator.
+				 * @throw noexcept
+				 */
+				EnumOptionValue & operator=(const EnumOptionValue & copy) noexcept = default;
 
-		/**
-		 * @fn bool isValid(const std::string & value)
-		 * @param[in] value The value to check.
-		 * @return True if the value is valid, false else.
-		 * @brief Check if the value of the argument is valid.
-		 * It should always be valid for a value in the enumeration field.
-		 * @throw noexcept
-		 * @see bool OptionValue::isValid(const std::string & value)
-		 */
-		inline virtual bool isValid(const std::string & value) override;
+				/**
+				 * @fn EnumOptionValue & operator=(EnumOptionValue && move) noexcept
+				 * @param[in] move The option to move.
+				 * @return The option moved.
+				 * @brief Default move assignment operator.
+				 * @throw noexcept
+				 */
+				EnumOptionValue & operator=(EnumOptionValue && move) noexcept = default;
 
-		/**
-		 * @fn void addValue(const std::string & value)
-		 * @param[in] value The value to add.
-		 * @brief Add a value to the enumeration field to set it available.
-		 * @throw
-		 */
-		inline void addValue(const std::string & value);
+				/**
+				 * @fn bool isValid(const std::string & value)
+				 * @param[in] value The value to check.
+				 * @return True if the value is valid, false else.
+				 * @brief Check if the value of the argument is valid.
+				 * It should always be valid for a value in the enumeration field.
+				 * @throw noexcept
+				 * @see bool OptionValue::isValid(const std::string & value)
+				 */
+				inline virtual auto isValid(const std::string & value) -> bool override;
 
-	private:
-		/**
-		 * @property _values
-		 * @brief The list of values in the enumeration field.
-		 */
-		std::vector<std::string> _values;
-	};
-}
+				/**
+				 * @fn void addValue(const std::string & value)
+				 * @param[in] value The value to add.
+				 * @brief Add a value to the enumeration field to set it available.
+				 * @throw
+				 */
+				inline void addValue(const std::string & value);
+
+			private:
+				/**
+				 * @property _values
+				 * @brief The list of values in the enumeration field.
+				 */
+				std::vector<std::string> _values;
+			};
+		} // namespace argument
+	} // namespace core
+} // namespace ece
 
 #include "core/argument/enum_option_value.inl"
 

@@ -17,7 +17,7 @@ install:
     - cmd: cd build && make_vs16.bat && cd ..
 
 build:
-    project: build/EdenCraft.sln
+    project: build/vs2017/EdenCraft.sln
     parallel: true
     verbosity: minimal
 
