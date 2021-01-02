@@ -40,7 +40,8 @@
 #define LOADER_BMP_HPP
 
 #include "renderer/config.hpp"
-#include "renderer/image/loader_image.hpp"
+#include "core/format.hpp"
+#include "renderer/image.hpp"
 
 namespace ece
 {
@@ -52,7 +53,7 @@ namespace ece
 			 * @class LoaderBMP
 			 * @brief
 			 */
-			class ECE_RENDERER_API LoaderBMP: public LoaderImage
+			class ECE_RENDERER_API LoaderBMP: public Loader, public Saver
 			{
 			public:
 				/**
@@ -109,34 +110,20 @@ namespace ece
 				 * @brief Load and parse data from a file.
 				 * @throw
 				 */
-				virtual void loadFromFile(const std::filesystem::path & filename) override;
+				virtual std::vector<ResourceHandler> load(StreamInfoIn info) override;
 
 				/**
-				 * @fn void loadFromString(const std::string & content)
-				 * @param[in] content The string content to load data from.
-				 * @brief Load and parse data from a string.
+				 * @fn void saveToFile(const std::filesystem::path & filename)
+				 * @param[out] filename The name of the file to save into.
+				 * @brief Formate and save data into a file.
 				 * @throw
 				 */
-				virtual void loadFromString(const std::string & content) override;
+				virtual void save(StreamInfoOut info) override;
 
-				/**
-				 * @fn void loadFromStream(std::istream & stream)
-				 * @param[inout] stream The stream to load through.
-				 * @brief Load and parse data through a stream.
-				 * @throw
-				 */
-				virtual void loadFromStream(std::istream & stream) override;
-
-				inline virtual auto getImage() -> Image<RGBA32> & override;
-				inline virtual auto getImage() const -> const Image<RGBA32> & override;
-
-			private:
-				Image<RGBA32> _image;
+				virtual auto isBinary() const noexcept -> bool override { return true; }
 			};
 		} // namespace image
 	} // namespace renderer
 } // namespace ece
-
-#include "renderer/image/loader_bmp.inl"
 
 #endif // LOADER_BMP_HPP

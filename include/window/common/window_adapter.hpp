@@ -76,7 +76,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				WindowAdapter(WindowAdapter && move) = default;
+				WindowAdapter(WindowAdapter && move) noexcept = default;
 
 				/**
 				 * @fn ~WindowAdapter() noexcept

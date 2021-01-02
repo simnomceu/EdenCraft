@@ -69,7 +69,7 @@ namespace ece
 			class ECE_GRAPHIC_API Material
 			{
 			public:
-				using Reference = ResourceHandler<Material>;
+				using Reference = Resource<Material>;
 				class Visitor;
 
 				/**

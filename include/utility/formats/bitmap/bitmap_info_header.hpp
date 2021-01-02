@@ -64,6 +64,11 @@ namespace ece
 					std::uint32_t numberOfColorsUsed;
 					std::uint32_t numberOfImportantColors;
 				};
+
+				struct BitmapInfo : public BitmapInfoHeader
+				{
+					std::array<std::uint32_t, 4> colors;
+				};
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

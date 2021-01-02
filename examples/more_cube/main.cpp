@@ -38,7 +38,7 @@
 
 #include "core/format.hpp"
 
-#include "render_system.hpp"
+#include "systems/render.hpp"
 #include "cube.hpp"
 
 #include "renderer/buffer.hpp"
@@ -57,11 +57,12 @@ int main()
 
 		ece::ServiceFormatLocator::getService().registerLoader<ece::LoaderBMP>("bmp");
 		ece::ServiceFormatLocator::getService().registerLoader<ece::OBJLoader>("obj");
+		ece::ServiceFormatLocator::getService().registerLoader<ece::MTLLoader>("mtl");
 
         auto & world = app.addWorld();
-        auto renderSystem = world.addSystem<RenderSystem>(window);
+        auto & renderSystem = world.addSystem<Render>();
 
-		auto & scene = renderSystem->getScene();
+		auto & scene = renderSystem.getScene();
 		auto & camera = scene.getCamera();
 
 		Cube cube(world, 50);

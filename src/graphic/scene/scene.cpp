@@ -57,28 +57,25 @@ namespace ece
 
 			auto Scene::addObject() -> Object::Reference
 			{
-				auto object = makeResource<Object>("");
-				this->_objects.push_back({ object, true, 0 });
-				return std::move(object);
+				auto object = makeResource<Object>(std::to_string(std::chrono::system_clock::now().time_since_epoch().count()));
+				this->_objects.push_back(object, true, 0);
+				return object;
 			}
 
 			auto Scene::getObjects() -> std::vector<Renderable::Reference>
 			{
-				auto list = std::vector<Renderable::Reference>{};
-				for (auto & object : this->_objects) {
-					list.emplace_back(object.value);
-				}
-				return std::move(list);
+				return this->_objects.getRenderables();
 			}
 
-			auto Scene::getLights() -> std::vector<Light::Reference>
+			auto Scene::getLights() -> std::vector<Light::Reference> &
 			{
 				return this->_lights;
 			}
 
 			void Scene::prepare()
 			{
-				for (auto & object : this->_objects) {
+				for (auto i = std::size_t{ 0 }; i < this->_objects.size(); ++i) {
+					ObjectWrapper object = this->_objects[i];
 					if (object.hasChanged) {
 						object.value->prepare();
 						object.hasChanged = false;
@@ -88,9 +85,20 @@ namespace ece
 
 			void Scene::sortObjects()
 			{
-				std::sort(this->_objects.begin(), this->_objects.end(), [](const auto & a, const auto & b) -> bool {
-					return a.level <= b.level;
-				});
+				for (auto i = std::size_t{ 0 }; i < this->_objects.size()-1; ++i) {
+					for (auto j = std::size_t{ 0 }; j < this->_objects.size() - i - 1; ++j) {
+						if (ObjectWrapper{ this->_objects[j+1] }.level > ObjectWrapper{ this->_objects[j] }.level) {
+							auto & values = this->_objects.getRenderables();
+							std::swap(values[j], values[j+1]);
+
+							auto & changes = this->_objects.hasChanged();
+							std::swap(changes[j], changes[j+1]);
+
+							auto & levels = this->_objects.getLevels();
+							std::swap(levels[j], levels[j+1]);
+						}
+					}
+				}
 			}
 		} // namespace scene
 	} // namespace graphic

@@ -96,23 +96,23 @@ void Render::update(float elapsedTime)
 {
     const auto limit = 1.0f / 200.f;
     this->_lastUpdate += elapsedTime;
-    if (this->_lastUpdate >= limit) {
-        for (auto & graphic : *this->_world.getTank<Graphic>()) {
-            auto entity = graphic.getOwner();
-            if (this->_world.hasComponent<Motion>(entity)) {
-                auto motion = this->_world.getComponent<Motion>(entity);
-                graphic.sprite->moveTo(motion.position);
-            }
-            if (this->_world.hasComponent<Animation>(entity)) {
-                auto animation = this->_world.getComponent<Animation>(entity);
-                graphic.sprite->setTexture(animation.getCurrent());
-            }
-        }
+    if (true /*this->_lastUpdate >= limit*/) {
+		this->_world.getComponents<Graphic>().forEach([this](auto& graphic) {
+			auto entity = graphic.getOwner();
+			if (this->_world.hasComponent<Motion>(entity)) {
+				auto& motion = this->_world.getComponent<Motion>(entity);
+				graphic.sprite->moveTo(motion.position);
+			}
+			if (this->_world.hasComponent<Animation>(entity)) {
+				auto& animation = this->_world.getComponent<Animation>(entity);
+				graphic.sprite->setTexture(animation.getCurrent());
+			}
+		});
 
     	this->_scene.sortObjects();
     	auto objects = this->_scene.getObjects();
     	for (auto object : objects) {
-    		this->_process->pushSprite(*object);
+    		this->_process->pushSprite(object.content.lock());
     	}
 
     	ece::Staging staging;

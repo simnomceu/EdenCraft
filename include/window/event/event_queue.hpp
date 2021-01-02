@@ -81,7 +81,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw
 				 */
-				EventQueue(EventQueue && move) = default;
+				EventQueue(EventQueue && move) noexcept = default;
 
 				/**
 				 * @fn ~EventQueue() noexcept

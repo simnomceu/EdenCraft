@@ -38,7 +38,6 @@
 
 #include "core/pch.hpp"
 #include "core/ecs/world.hpp"
-
 #include "core/ecs/entity_handler.hpp"
 
 namespace ece
@@ -49,13 +48,13 @@ namespace ece
 		{
 			void World::update()
 			{
-				std::for_each(this->_systems.begin(), this->_systems.end(), [this](auto & system) {
+				for (auto & system : this->_systems) {
 					system.second->update(this->_chrono.getElapsedTime() / 1000.0f);
-				});
+				}
 
-				std::for_each(this->_tanks.begin(), this->_tanks.end(), [](auto & tank) {
+				for (auto & tank : this->_tanks) {
 					tank.second->update();
-				});
+				}
 
 				this->_entities.erase(std::remove_if(this->_entities.begin(), this->_entities.end(), [](auto & lhs) { return lhs.dirty; }), this->_entities.end());
 				this->_chrono.reset();
@@ -67,12 +66,38 @@ namespace ece
 				auto handler = EntityHandler(entity.id, *this);
 				this->_entities.push_back(std::move(entity));
 				this->onEntityCreated(handler);
-				return std::move(handler);
+				return handler;
 			}
 
 			auto World::createEntity(World::Prototype prototype) -> EntityHandler
 			{
 				return prototype(*this);
+			}
+
+			void World::forEachEntity(const std::function<void(EntityHandler)>& routine)
+			{
+				for (auto & entity : this->_entities) {
+					if (!entity.dirty) {
+						routine(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			void World::forEachEntity(std::function<void(EntityHandler)>&& routine)
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						routine(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			void World::destroy(Handle entityID)
+			{
+				std::find_if(this->_entities.begin(), this->_entities.end(), [entityID](const auto& entity) -> bool { return entity.id == entityID; })->dirty = true;
+				for (auto & tank : this->_tanks) {
+					tank.second->destroy(entityID);
+				}
 			}
 		} // namespace ecs
 	} // namespace core

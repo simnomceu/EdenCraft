@@ -61,7 +61,7 @@ namespace ece
         		 * @brief The FPS rate limit.
         		 * @remark Is it useful ?
         		 */
-        		enum FPSrate : int
+        		enum class FPSrate : int
         		{
 					FRAME_NO_LIMIT = 0,
         			FRAME_30 = 30,
@@ -75,7 +75,7 @@ namespace ece
         		 * @brief Default constructor.
         		 * @throw
         		 */
-        		inline FramePerSecond(FPSrate rate = FRAME_60);
+        		inline FramePerSecond(FPSrate rate = FPSrate::FRAME_60);
 
         		/**
         		 * @FramePerSecond(const FramePerSecond & copy) noexcept

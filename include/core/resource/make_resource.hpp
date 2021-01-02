@@ -41,6 +41,7 @@
 
 #include "core/config.hpp"
 #include "core/pch.hpp"
+#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -48,13 +49,11 @@ namespace ece
 	{
 		namespace resource
 		{
-			template <class Resource> class ResourceHandler;
-
 			template <class Type, class... Args>
-			auto makeResource(const std::string & identifier, Args&&... args);
+			ECE_CORE_API auto makeResource(const std::string & identifier, Args&&... args) -> Resource<Type>;
 
 			template <class Type>
-			auto getResource(const std::string & identifier);
+			ECE_CORE_API auto getResource(const std::string & identifier) -> Resource<Type>;
 		} // namespace resource
 	} // namespace core
 } // namespace ece

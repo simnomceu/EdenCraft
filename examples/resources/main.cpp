@@ -36,13 +36,14 @@
 
 */
 
-#include "utility/log.hpp"
 #include "core/resource.hpp"
+#include "core/format.hpp"
+#include "core/application.hpp"
 
-class IntResource : public ece::Resource
+class Integer
 {
 public:
-	IntResource() : Resource(), value(rand()%10) {}
+	Integer() : value(rand() % 10) {}
 
 	int getValue() const { return this->value; }
 
@@ -50,45 +51,59 @@ private:
 	int value;
 };
 
-class IntLoader : public ece::ResourceLoader
+class IntLoader : public ece::Loader, public ece::Saver
 {
 public:
-	virtual ece::ResourceHandler load(const std::string & /*identifier*/) const override
+	constexpr IntLoader() noexcept = default;
+	IntLoader(const IntLoader &) noexcept = default;
+	IntLoader(IntLoader &&) noexcept = default;
+
+	~IntLoader() noexcept = default;
+
+	IntLoader & operator=(const IntLoader &) noexcept = default;
+	IntLoader & operator=(IntLoader &&) noexcept = default;
+
+	virtual std::vector<ece::ResourceHandler> load(ece::StreamInfoIn info) override
 	{
-		return ece::ResourceHandler(std::make_shared<IntResource>());
+		return { ece::makeResource<Integer>(info.identifier) };
+	}
+
+	virtual void save(ece::StreamInfoOut info) override
+	{
+		for (auto & resource : info.resources) {
+			resource.get<Integer>().content.reset();
+		}
 	}
 };
 
-class IntUnloader : public ece::ResourceUnloader
-{
-public:
-	virtual void unload(ece::ResourceHandler & handler) const override
-	{
-		(*handler).reset();
-	}
-};
 
 int main()
 {
-	ece::ServiceLoggerLocator::provide(ece::ServiceLoggerFactory::build<ece::Logger>());
-	srand(static_cast<unsigned int>(time(nullptr)));
+	try {
+		auto app = ece::Application();
+		srand(static_cast<unsigned int>(time(nullptr)));
+	
+		ece::ServiceFormatLocator().getService().registerLoader<IntLoader>("int");
+		ece::ServiceFormatLocator().getService().registerSaver<IntLoader>("int");
 
-	ece::ResourceManager manager;
+		ece::ResourceLoader().loadFromString("random", "int", "");
+		auto resource1 = ece::getResource<Integer>("random");
 
-	manager.registerLoader("int", std::make_shared<IntLoader>());
-	manager.registerUnloader("int", std::make_shared<IntUnloader>());
+		ece::INFO << "Resource is: " << resource1->getValue() << ece::flush;
 
-	manager.loadResource("random.int");
-	auto resource1 = manager.getResource("random.int");
+		auto backup = std::string();
+		ece::ResourceLoader().saveToString(backup, { resource1 }, "int");
+		ece::ServiceResourceLocator::getService().clear();
 
-	auto resourceUnbind = std::static_pointer_cast<IntResource>(resource1.lock());
-	ece::INFO << "Resource is: " << resourceUnbind->getValue() << flush;
-	ece::ServiceLoggerLocator::getService().logInfo("Resource is: " + std::to_string(resourceUnbind->getValue()));
-
-	manager.unloadResource("random.int");
-	manager.clear();
-
-	manager.loadResource("random.int");
+		auto resource2 = ece::getResource<Integer>("random");
+		ece::INFO << "Resource is: " << resource2->getValue() << ece::flush;
+	}
+	catch (const std::runtime_error & e) {
+		ece::ERROR << e.what() << ece::flush;
+	}
+	catch (const std::exception & e) {
+		ece::ERROR << e.what() << ece::flush;
+	}
 
 	return EXIT_SUCCESS;
 }

@@ -42,20 +42,20 @@
 
 auto main() -> int
 {
-	ece::LocaleLoader::setPath("../examples/internationalization/");
+	ece::LocaleLoader::setPath("../../examples/internationalization/");
 
 	ece::LocaleLoader loader("test");
 	auto & resource = loader.getResource();
-	std::cout << "########## Default Locale en_US ##########" << std::endl;
-	std::cout << resource["helloworld"] << std::endl;
-	std::cout << resource["example"] << std::endl;
+	std::cout << "########## Default Locale en_US ##########" << "\n";
+	std::cout << resource["helloworld"] << "\n";
+	std::cout << resource["example"] << "\n";
 
-	std::cout << std::endl;
+	std::cout << "\n";
 
 	loader.changeLocale(ece::Localization(ece::FRENCH, ece::FRANCE));
-	std::cout << "########## Locale fr_FR ##########" << std::endl;
-	std::cout << resource["helloworld"] << std::endl;
-	std::cout << resource["example"] << std::endl;
+	std::cout << "########## Locale fr_FR ##########" << "\n";
+	std::cout << resource["helloworld"] << "\n";
+	std::cout << resource["example"] << "\n";
 
 	return EXIT_SUCCESS;
 }

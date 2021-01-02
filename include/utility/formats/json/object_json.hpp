@@ -93,7 +93,7 @@ namespace ece
 					 * @brief Default move constructor.
 					 * @throw
 					 */
-					ObjectJSON(ObjectJSON && move) = default;
+					ObjectJSON(ObjectJSON && move) noexcept = default;
 
 					/**
 					 * @fn ~ObjectJSON()
@@ -256,6 +256,8 @@ namespace ece
 					 * @throw out_of_range
 					 */
 					inline auto operator[](const std::string & key);
+
+					inline auto hasChild(const std::string & key) -> bool;
 
 					/**
 					 * @fn void clear()

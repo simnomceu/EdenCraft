@@ -85,25 +85,37 @@ namespace ece
 
             void Shader::bind(BaseUniform & uniform, const std::string & location)
             {
-			    // TODO: need to be sure that the program as been linked successfully.
-                try {
-                    auto handle = this->getLocation(location);
-                    uniform.bind(handle);
-                }
-                catch (const std::runtime_error & e) {
-					WARNING << e.what() << flush;
-                }
+				if (this->isLinked()) {
+					auto handle = NULL_HANDLE;
+					try {
+						handle = this->_cachedLocations.at(location);
+					}
+					catch (const std::out_of_range & /*e*/) {
+						handle = OpenGL::getUniformLocation(this->_handle, location);
+						this->_cachedLocations[location] = handle;
+					}
+					catch (const std::runtime_error & e) {
+						WARNING << e.what() << flush;
+					}
+					uniform.bind(handle);
+				}
             }
 
 			void Shader::bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location)
 			{
-				// TODO: need to be sure that the program as been linked successfully.
-				try {
-					auto handle = this->getLocation(location);
+				if (this->isLinked()) {
+					auto handle = NULL_HANDLE;
+					try {
+						handle = this->_cachedLocations.at(location);
+					}
+					catch (const std::out_of_range & /*e*/) {
+						handle = OpenGL::getUniformLocation(this->_handle, location);
+						this->_cachedLocations[location] = handle;
+					}
+					catch (const std::runtime_error & e) {
+						WARNING << e.what() << flush;
+					}
 					uniform->bind(handle);
-				}
-				catch (const std::runtime_error & e) {
-					WARNING << e.what() << flush;
 				}
 			}
 

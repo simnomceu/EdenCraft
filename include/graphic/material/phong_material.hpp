@@ -63,8 +63,6 @@ namespace ece
 			class ECE_GRAPHIC_API PhongMaterial: public Material::Visitor
 			{
 			public:
-				using Reference = ResourceHandler<PhongMaterial>;
-
 				/**
 				 * @fn constexpr PhongMaterial()
 				 * @brief Default constructor.
@@ -113,8 +111,8 @@ namespace ece
 				 */
 				PhongMaterial & operator=(PhongMaterial && move) noexcept = default;
 
-				inline virtual void setMaterial(const std::weak_ptr<Material> & material) override;
-				inline virtual auto getMaterial() -> std::weak_ptr<Material> override;
+				inline virtual void setMaterial(const Material::Reference & material) override;
+				inline virtual auto getMaterial() -> const Material::Reference & override;
 
 				virtual auto isValid() -> bool override;
 				virtual void initialize() override;
@@ -127,15 +125,15 @@ namespace ece
 				inline void setDiffuseMap(const Texture2D::Reference & texture);
 				inline void setSpecularMap(const Texture2D::Reference & texture);
 
-				inline const auto & getAmbient() const;
-				inline const auto & getDiffuse() const;
-				inline const auto & getSpecular() const;
-				inline auto getShininess() const;
-				inline auto getDiffuseMap() const;
-				inline auto getSpecularMap() const;
+				inline const auto & getAmbient();
+				inline const auto & getDiffuse();
+				inline const auto & getSpecular();
+				inline auto getShininess();
+				inline auto getDiffuseMap();
+				inline auto getSpecularMap();
 
 			private:
-				std::weak_ptr<Material> _material;
+				Material::Reference _material;
 
 				using DiffuseMap = Property<Texture2D::Reference, int>;
 				using SpecularMap = Property<Texture2D::Reference, int>;

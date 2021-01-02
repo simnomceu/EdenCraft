@@ -49,6 +49,8 @@ namespace ece
 	{
 		namespace ecs
 		{
+			template <class ComponentType> class ComponentTank;
+
 			/**
 			 * @class Component
 			 * @extends BaseComponent
@@ -58,30 +60,29 @@ namespace ece
 			template<class T>
 			class ECE_CORE_API Component: public BaseComponent
 			{
+				friend class World;
+				friend class ComponentTank<T>;
+
 			public:
 				/**
 				 * @fn Component()
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				Component();
+				constexpr Component() noexcept;
+
+				Component(const Component<T>& rhs) noexcept = delete;
+				Component(Component<T> && rhs) noexcept = default;
 
 				/**
 				 * @fn ~Component()
 				 * @brief Default destructor.
 				 * @throw
 				 */
-				~Component();
+				~Component() noexcept;
 
-				/**
-				 * @fn ComponentID getID() const
-				 * @return The id to handle the component.
-				 * @brief Get The component id.
-				 * @throw
-				 */
-				inline virtual auto getID() const -> ComponentID override;
-
-				inline virtual void setOwner(const Handle owner) override;
+				Component& operator=(const Component<T>& rhs) noexcept = default;
+				Component& operator=(Component<T> && rhs) noexcept = default;
 
 				/**
 				 * @fn unsigned int getOwner() const
@@ -89,15 +90,7 @@ namespace ece
 				 */
 				inline virtual auto getOwner() const ->Handle override;
 
-				inline virtual auto isDirty() const -> bool override;
-
 			protected:
-				/**
-				 * @property _id
-				 * @brief The id to handle the component.
-				 */
-				ComponentID _id;
-
 				/**
 				 * @property _owner
 				 * @brief The entity which own the component.
@@ -105,6 +98,13 @@ namespace ece
 				Handle _owner;
 
 				bool _dirty;
+
+			private:
+				inline virtual void setOwner(const Handle owner) override;
+
+				inline virtual auto isDirty() const -> bool override;
+
+				inline virtual void setDirty(bool dirty) override;
 			};
 		} // namespace ecs
 	} // namespace core

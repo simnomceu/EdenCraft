@@ -39,11 +39,14 @@
 #ifndef CONTAINER_HPP
 #define CONTAINER_HPP
 
+#include "utility/container/boolean_vector.hpp"
 #include "utility/container/container_data_type.hpp"
 #include "utility/container/container_method.hpp"
 #include "utility/container/container_type.hpp"
 #include "utility/container/contiguous_container.hpp"
 #include "utility/container/is_container.hpp"
+#include "utility/container/soa.hpp"
+#include "utility/container/tuple_trait.hpp"
 
 namespace ece
 {

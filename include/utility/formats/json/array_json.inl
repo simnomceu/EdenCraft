@@ -54,7 +54,7 @@ namespace ece
 
 				inline auto ArrayJSON::end() noexcept { return this->_children.end(); }
 
-				inline auto ArrayJSON::operator[](const int key) { return this->_children[key]; }
+				inline auto ArrayJSON::operator[](const int key) { return this->_children.at(key); }
 
 				inline void ArrayJSON::clear() noexcept { this->_children.clear(); }
 

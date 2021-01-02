@@ -89,7 +89,7 @@ namespace ece
 			{
 				this->_vertexArray.bind();
 				for (auto & submesh : this->_mesh->getSubmeshes()) {
-					if (*submesh.material) {
+					if (submesh.material) {
 						auto uniforms = submesh.material->getProperties();
 						for (auto uniform : uniforms) {
 							program->bind(uniform, "material." + uniform->getName());
@@ -98,7 +98,7 @@ namespace ece
 					submesh.mesh.getIndexBuffer().bind();
 					if (submesh.mesh.getIndexBuffer().size() > 0) {
 						if (this->isInstancingEnabled()) {
-							OpenGL::drawElementsInstanced<unsigned int>(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0, static_cast<ece::size_t>(this->_instances.size()));
+							OpenGL::drawElementsInstanced(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0, static_cast<ece::size_t>(this->_instances.size()));
 						}
 						else {
 							OpenGL::drawElements<unsigned int>(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0);

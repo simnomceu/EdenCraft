@@ -59,7 +59,7 @@ namespace ece
 			class ECE_GRAPHIC_API Point : public Renderable
 			{
 			public:
-				using PointReference = ResourceHandler<Point>;
+				using Reference = Resource<Point>;
 
 				/**
 				 * @fn constexpr Point() noexcept

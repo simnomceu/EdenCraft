@@ -44,15 +44,9 @@ namespace ece
 		{
 			namespace wavefront
 			{
-				inline ParserOBJ::ParserOBJ() : _objects(), _currentObject(this->_objects.end()) {}
+				inline ParserOBJ::ParserOBJ() : _scene(), _currentObject(this->_scene.getObjects().end()) {}
 
-				inline auto & ParserOBJ::getObjects() { return this->_objects; }
-
-				inline auto ParserOBJ::getObjects() const { return this->_objects; }
-
-				inline auto & ParserOBJ::getMaterials() { return this->_materials; }
-
-				inline auto ParserOBJ::getMaterials() const { return this->_materials; }
+				inline SceneOBJ & ParserOBJ::getScene() { return this->_scene; }
 			} // namespace wavefront
 		} // namespace formats
     } // namespace utility

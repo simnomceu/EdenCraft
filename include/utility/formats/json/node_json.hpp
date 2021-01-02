@@ -152,6 +152,9 @@ namespace ece
 					 */
 					inline auto hasParent() const noexcept;
 
+					template <class T, typename enabled = typename std::enable_if_t<std::is_base_of_v<NodeJSON, T>>>
+					static inline auto convertTo(std::shared_ptr<NodeJSON> & node);
+
 					/**
 					 * @pure
 					 * @fn bool isAtomic() const
