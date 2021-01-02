@@ -60,17 +60,7 @@ namespace ece
 				result.r = color.r / 255.0f;
 				result.g = color.g / 255.0f;
 				result.b = color.b / 255.0f;
-				return std::move(result);
-			}
-
-			RGBA32::operator RGB24 &()
-			{
-				return *this;
-			}
-
-			RGBA32::operator const RGB24 &() const
-			{
-				return *this;
+				return result;
 			}
 
 			RGB24 toRGB24(const RGBA32 & color)
@@ -84,7 +74,7 @@ namespace ece
 				result.r = color.r / 255.0f;
 				result.g = color.g / 255.0f;
 				result.b = color.b / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGBA32 toRGBA32(const RGB24 & color)
@@ -95,16 +85,6 @@ namespace ece
 			RGBA32 toRGBA32(const RGBf & color)
 			{
 				return { static_cast<std::uint8_t>(color.r * 255), static_cast<std::uint8_t>(color.g * 255), static_cast<std::uint8_t>(color.b * 255), 255 };
-			}
-
-			RGBAf::operator RGBf &()
-			{
-				return *this;
-			}
-
-			RGBAf::operator const RGBf &() const
-			{
-				return *this;
 			}
 
 			RGB24 toRGB24(const RGBAf & color)
@@ -129,7 +109,7 @@ namespace ece
 				result.g = color.g / 255.0f;
 				result.b = color.b / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGBAf toRGBAf(const RGBf & color)
@@ -139,7 +119,7 @@ namespace ece
 				result.g = color.g;
 				result.b = color.b;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGBAf toRGBAf(const RGBA32 & color)
@@ -149,7 +129,7 @@ namespace ece
 				result.g = color.g / 255.0f;
 				result.b = color.b / 255.0f;
 				result.a = color.a / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGB24 toRGB24(const BGR24 & color)
@@ -163,7 +143,7 @@ namespace ece
 				result.r = color.r / 255.0f;
 				result.g = color.g / 255.0f;
 				result.b = color.b / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGBA32 toRGBA32(const BGR24 & color)
@@ -178,7 +158,7 @@ namespace ece
 				result.g = color.g / 255.0f;
 				result.b = color.b / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGR24 toBGR24(const RGB24 & color)
@@ -223,7 +203,7 @@ namespace ece
 				result.g = color.g;
 				result.b = color.b;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGR24 toBGR24(const BGRf & color)
@@ -237,7 +217,7 @@ namespace ece
 				result.b = color.b / 255.0f;
 				result.g = color.g / 255.0f;
 				result.r = color.r / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRf toBGRf(const RGBf & color)
@@ -251,7 +231,7 @@ namespace ece
 				result.b = color.b / 255.0f;
 				result.g = color.g / 255.0f;
 				result.r = color.r / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRf toBGRf(const RGBAf & color)
@@ -265,17 +245,7 @@ namespace ece
 				result.b = color.b / 255.0f;
 				result.g = color.g / 255.0f;
 				result.r = color.r / 255.0f;
-				return std::move(result);
-			}
-
-			BGRA32::operator BGR24 &()
-			{
-				return *this;
-			}
-
-			BGRA32::operator const BGR24 &() const
-			{
-				return *this;
+				return result;
 			}
 
 			RGB24 toRGB24(const BGRA32 & color)
@@ -289,7 +259,7 @@ namespace ece
 				result.r = color.r / 255.0f;
 				result.g = color.g / 255.0f;
 				result.b = color.b / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGBA32 toRGBA32(const BGRA32 & color)
@@ -304,7 +274,7 @@ namespace ece
 				result.g = color.g / 255.0f;
 				result.b = color.b / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGR24 toBGR24(const BGRA32 & color)
@@ -318,7 +288,7 @@ namespace ece
 				result.b = color.b / 255.0f;
 				result.g = color.g / 255.0f;
 				result.r = color.r / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRA32 toBGRA32(const RGB24 & color)
@@ -349,16 +319,6 @@ namespace ece
 			BGRA32 toBGRA32(const BGRf & color)
 			{
 				return { static_cast<std::uint8_t>(color.b * 255), static_cast<std::uint8_t>(color.g * 255), static_cast<std::uint8_t>(color.r * 255), 255 };
-			}
-
-			BGRAf::operator BGRf &()
-			{
-				return *this;
-			}
-
-			BGRAf::operator const BGRf &() const
-			{
-				return *this;
 			}
 
 			RGB24 toRGB24(const BGRAf & color)
@@ -403,7 +363,7 @@ namespace ece
 				result.g = color.g / 255.0f;
 				result.r = color.r / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRAf toBGRAf(const RGBf & color)
@@ -413,7 +373,7 @@ namespace ece
 				result.g = color.g;
 				result.r = color.r;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRAf toBGRAf(const RGBA32 & color)
@@ -423,7 +383,7 @@ namespace ece
 				result.g = color.g / 255.0f;
 				result.r = color.r / 255.0f;
 				result.a = color.a / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRAf toBGRAf(const RGBAf & color)
@@ -433,7 +393,7 @@ namespace ece
 				result.g = color.g;
 				result.r = color.r;
 				result.a = color.a;
-				return std::move(result);
+				return result;
 			}
 
 			BGRAf toBGRAf(const BGR24 & color)
@@ -443,7 +403,7 @@ namespace ece
 				result.g = color.g / 255.0f;
 				result.r = color.r / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRAf toBGRAf(const BGRf & color)
@@ -453,7 +413,7 @@ namespace ece
 				result.g = color.g;
 				result.r = color.r;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRAf toBGRAf(const BGRA32 & color)
@@ -463,7 +423,7 @@ namespace ece
 				result.g = color.g / 255.0f;
 				result.r = color.r / 255.0f;
 				result.a = color.a / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGB24 toRGB24(const CMYK & color)
@@ -472,7 +432,7 @@ namespace ece
 				result.r = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.c * (1.0f - color.k) + color.k)) * 255);
 				result.g = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.m * (1.0f - color.k) + color.k)) * 255);
 				result.b = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.y * (1.0f - color.k) + color.k)) * 255);
-				return std::move(result);
+				return result;
 			}
 
 			RGBf toRGBf(const CMYK & color)
@@ -481,7 +441,7 @@ namespace ece
 				result.r = (255.0f - ((std::min(1.0f, color.c * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
 				result.g = (255.0f - ((std::min(1.0f, color.m * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
 				result.b = (255.0f - ((std::min(1.0f, color.y * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGBA32 toRGBA32(const CMYK & color)
@@ -491,7 +451,7 @@ namespace ece
 				result.g = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.m * (1.0f - color.k) + color.k)) * 255);
 				result.b = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.y * (1.0f - color.k) + color.k)) * 255);
 				result.a = 255;
-				return std::move(result);
+				return result;
 			}
 
 			RGBAf toRGBAf(const CMYK & color)
@@ -501,7 +461,7 @@ namespace ece
 				result.g = (255.0f - ((std::min(1.0f, color.m * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
 				result.b = (255.0f - ((std::min(1.0f, color.y * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGR24 toBGR24(const CMYK & color)
@@ -510,7 +470,7 @@ namespace ece
 				result.r = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.c * (1.0f - color.k) + color.k)) * 255);
 				result.g = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.m * (1.0f - color.k) + color.k)) * 255);
 				result.b = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.y * (1.0f - color.k) + color.k)) * 255);
-				return std::move(result);
+				return result;
 			}
 
 			BGRf toBGRf(const CMYK & color)
@@ -519,7 +479,7 @@ namespace ece
 				result.r = (255.0f - ((std::min(1.0f, color.c * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
 				result.g = (255.0f - ((std::min(1.0f, color.m * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
 				result.b = (255.0f - ((std::min(1.0f, color.y * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRA32 toBGRA32(const CMYK & color)
@@ -529,7 +489,7 @@ namespace ece
 				result.g = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.m * (1.0f - color.k) + color.k)) * 255);
 				result.b = 255 - static_cast<std::uint8_t>((std::min(1.0f, color.y * (1.0f - color.k) + color.k)) * 255);
 				result.a = 255;
-				return std::move(result);
+				return result;
 			}
 
 			BGRAf toBGRAf(const CMYK & color)
@@ -539,7 +499,7 @@ namespace ece
 				result.g = (255.0f - ((std::min(1.0f, color.m * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
 				result.b = (255.0f - ((std::min(1.0f, color.y * (1.0f - color.k) + color.k)) * 255.0f)) / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const RGB24 & color)
@@ -554,7 +514,7 @@ namespace ece
 				result.m = result.k == 1.0f ? 0.0f : (1.0f - g - result.k) / (1.0f - result.k);
 				result.y = result.k == 1.0f ? 0.0f : (1.0f - b - result.k) / (1.0f - result.k);
 
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const RGBf & color)
@@ -566,7 +526,7 @@ namespace ece
 				result.m = result.k == 1.0f ? 0.0f : (1.0f - color.g - result.k) / (1.0f - result.k);
 				result.y = result.k == 1.0f ? 0.0f : (1.0f - color.b - result.k) / (1.0f - result.k);
 
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const RGBA32 & color)
@@ -581,7 +541,7 @@ namespace ece
 				result.m = result.k == 1.0f ? 0.0f : (1.0f - g - result.k) / (1.0f - result.k);
 				result.y = result.k == 1.0f ? 0.0f : (1.0f - b - result.k) / (1.0f - result.k);
 
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const RGBAf & color)
@@ -593,7 +553,7 @@ namespace ece
 				result.m = result.k == 1.0f ? 0.0f : (1.0f - color.g - result.k) / (1.0f - result.k);
 				result.y = result.k == 1.0f ? 0.0f : (1.0f - color.b - result.k) / (1.0f - result.k);
 
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const BGR24 & color)
@@ -608,7 +568,7 @@ namespace ece
 				result.m = result.k == 1.0f ? 0.0f : (1.0f - g - result.k) / (1.0f - result.k);
 				result.y = result.k == 1.0f ? 0.0f : (1.0f - b - result.k) / (1.0f - result.k);
 
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const BGRf & color)
@@ -620,7 +580,7 @@ namespace ece
 				result.m = result.k == 1.0f ? 0.0f : (1.0f - color.g - result.k) / (1.0f - result.k);
 				result.y = result.k == 1.0f ? 0.0f : (1.0f - color.b - result.k) / (1.0f - result.k);
 
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const BGRA32 & color)
@@ -635,7 +595,7 @@ namespace ece
 				result.m = result.k == 1.0f ? 0.0f : (1.0f - g - result.k) / (1.0f - result.k);
 				result.y = result.k == 1.0f ? 0.0f : (1.0f - b - result.k) / (1.0f - result.k);
 
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const BGRAf & color)
@@ -647,7 +607,7 @@ namespace ece
 				result.m = result.k == 1.0f ? 0.0f : (1.0f - color.g - result.k) / (1.0f - result.k);
 				result.y = result.k == 1.0f ? 0.0f : (1.0f - color.b - result.k) / (1.0f - result.k);
 
-				return std::move(result);
+				return result;
 			}
 
 			RGB24 toRGB24(const std::string & color)
@@ -658,7 +618,7 @@ namespace ece
 				result.r = static_cast<std::uint8_t>(r);
 				result.g = static_cast<std::uint8_t>(g);
 				result.b = static_cast<std::uint8_t>(b);
-				return std::move(result);
+				return result;
 			}
 
 			RGBf toRGBf(const std::string & color)
@@ -669,7 +629,7 @@ namespace ece
 				result.r = r / 255.0f;
 				result.g = g / 255.0f;
 				result.b = b / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGBA32 toRGBA32(const std::string & color)
@@ -681,7 +641,7 @@ namespace ece
 				result.g = static_cast<std::uint8_t>(g);
 				result.b = static_cast<std::uint8_t>(b);
 				result.a = 255;
-				return std::move(result);
+				return result;
 			}
 
 			RGBAf toRGBAf(const std::string & color)
@@ -693,7 +653,7 @@ namespace ece
 				result.g = g / 255.0f;
 				result.b = b / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGR24 toBGR24(const std::string & color)
@@ -704,7 +664,7 @@ namespace ece
 				result.r = static_cast<std::uint8_t>(r);
 				result.g = static_cast<std::uint8_t>(g);
 				result.b = static_cast<std::uint8_t>(b);
-				return std::move(result);
+				return result;
 			}
 
 			BGRf toBGRf(const std::string & color)
@@ -715,7 +675,7 @@ namespace ece
 				result.r = r / 255.0f;
 				result.g = g / 255.0f;
 				result.b = b / 255.0f;
-				return std::move(result);
+				return result;
 			}
 
 			BGRA32 toBGRA32(const std::string & color)
@@ -727,7 +687,7 @@ namespace ece
 				result.g = static_cast<std::uint8_t>(g);
 				result.b = static_cast<std::uint8_t>(b);
 				result.a = 255;
-				return std::move(result);
+				return result;
 			}
 
 			BGRAf toBGRAf(const std::string & color)
@@ -739,7 +699,7 @@ namespace ece
 				result.g = g / 255.0f;
 				result.b = b / 255.0f;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			CMYK toCMYK(const std::string & color)
@@ -944,7 +904,7 @@ namespace ece
 				result.r = static_cast<std::uint8_t>(hueToRGB24(t1, t2, hue + 2) * 255);
 				result.g = static_cast<std::uint8_t>(hueToRGB24(t1, t2, hue) * 255);
 				result.b = static_cast<std::uint8_t>(hueToRGB24(t1, t2, hue - 2) * 255);
-				return std::move(result);
+				return result;
 			}
 
 			RGBf toRGBf(const HSL & color)
@@ -1020,7 +980,7 @@ namespace ece
 						result.saturation = (max - min) / (2 - max - min);
 					}
 				}
-				return std::move(result);
+				return result;
 			}
 
 			HSL toHSL(const RGBf & color)
@@ -1066,16 +1026,6 @@ namespace ece
 			HSL toHSL(const std::string & color)
 			{
 				return toHSL(toRGB24(color));
-			}
-
-			HSLA::operator HSL &()
-			{
-				return *this;
-			}
-
-			HSLA::operator const HSL &() const
-			{
-				return *this;
 			}
 
 			RGB24 toRGB24(const HSLA & color)
@@ -1190,7 +1140,7 @@ namespace ece
 				result.saturation = color.saturation;
 				result.light = color.light;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGB24 toRGB24(const HSB & color)
@@ -1310,7 +1260,7 @@ namespace ece
 
 				result.brightness = max;
 
-				return std::move(result);
+				return result;
 			}
 
 			HSB toHSB(const RGBf & color)
@@ -1366,16 +1316,6 @@ namespace ece
 			HSB toHSB(const HSLA & color)
 			{
 				return toHSB(toRGB24(color));
-			}
-
-			HSBA::operator HSB &()
-			{
-				return *this;
-			}
-
-			HSBA::operator const HSB &() const
-			{
-				return *this;
 			}
 
 			RGB24 toRGB24(const HSBA & color)
@@ -1510,7 +1450,7 @@ namespace ece
 				result.saturation = color.saturation;
 				result.brightness = color.brightness;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGB24 toRGB24(const HWB & color)
@@ -1618,7 +1558,7 @@ namespace ece
 				}
 				result.white = min;
 				result.black = 1.0f - max;
-				return std::move(result);
+				return result;
 			}
 
 			HWB toHWB(const RGBf & color)
@@ -1684,16 +1624,6 @@ namespace ece
 			HWB toHWB(const HSBA & color)
 			{
 				return toHWB(toRGB24(color));
-			}
-
-			HWBA::operator HWB &()
-			{
-				return *this;
-			}
-
-			HWBA::operator const HWB &() const
-			{
-				return *this;
 			}
 
 			RGB24 toRGB24(const HWBA & color)
@@ -1848,7 +1778,7 @@ namespace ece
 				result.white = color.white;
 				result.black = color.black;
 				result.a = 1.0f;
-				return std::move(result);
+				return result;
 			}
 
 			RGB24 toRGB24(const NCol & color)
@@ -2061,22 +1991,12 @@ namespace ece
 				result.ncol = hueToNCol(color.hue);
 				result.whiteness = color.white;
 				result.blackness = color.black;
-				return std::move(result);
+				return result;
 			}
 
 			NCol toNCol(const HWBA & color)
 			{
 				return toNCol(toHWB(color));
-			}
-
-			NCola::operator NCol &()
-			{
-				return *this;
-			}
-
-			NCola::operator const NCol &() const
-			{
-				return *this;
 			}
 
 			RGB24 toRGB24(const NCola & color)
@@ -2093,7 +2013,7 @@ namespace ece
 			{
 				auto result = toRGBA32(toNCol(color));
 				result.a = static_cast<std::uint8_t>(color.opacity * 255);
-				return std::move(result);
+				return result;
 			}
 
 			RGBAf toRGBAf(const NCola & color)
@@ -2253,7 +2173,7 @@ namespace ece
 				result.whiteness = color.whiteness;
 				result.blackness = color.blackness;
 				result.opacity = 1.0f;
-				return std::move(result);
+				return result;
 			}
 		} // namespace type
 	} // namespace utility

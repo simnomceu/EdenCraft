@@ -51,7 +51,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Core
  * [x] General application management.
  * [x] CLI parser.
- * [x] Basic Entity-Component-System pattern.
+ * [x] Entity-Component-System pattern.
  * [x] Signal/Slot mechanism (Qt-like).
  * [x] Basic resources manager without any strategy (like, unloading the resource proportionally to the elapsed time since the last use).
 ##### Window
@@ -88,6 +88,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ##### Core
 + [ ] Allowing strategy for the resource manager.
 + [ ] Caping memory allocated throw resource manager.
++ [ ] MVC design integrating the ECS.
 ##### Window
 + [ ] Wayland implementation.
 + [ ] Mir implementation.
@@ -138,6 +139,8 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 ### alpha-0.4.0 (aka. Optimisation update)
 ##### Utility
 ##### Core
+- [ ] Threads
+- [ ] Reflection on all the Core module at least, to allow serialization and nodalization.
 ##### Window
 ##### Renderer
 ##### Graphic
@@ -156,6 +159,7 @@ For an alpha version, all code needs to be commented obviously. However, it is n
 + [ ] Packets serialization.
 + [ ] IRC implementation.
 + [ ] XMPP implementation.
++ [ ] Sockets
 
 ### alpha-0.6.0 (aka. Physic update)
 ##### Utility

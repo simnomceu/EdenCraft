@@ -77,9 +77,6 @@ namespace ece
 			struct ECE_UTILITY_API RGBA32 : public RGB24
 			{
 				std::uint8_t a;
-
-				operator RGB24 &();
-				operator const RGB24 &() const;
 			};
 
 			RGB24 toRGB24(const RGBA32 & color);
@@ -91,9 +88,6 @@ namespace ece
 			struct ECE_UTILITY_API RGBAf : public RGBf
 			{
 				Percentage a;
-				
-				operator RGBf &();
-				operator const RGBf &() const;
 			};
 
 			RGB24 toRGB24(const RGBAf & color);
@@ -143,9 +137,6 @@ namespace ece
 			struct ECE_UTILITY_API BGRA32 : public BGR24
 			{
 				std::uint8_t a;
-
-				operator BGR24 &();
-				operator const BGR24 &() const;
 			};
 
 			RGB24 toRGB24(const BGRA32 & color);
@@ -165,9 +156,6 @@ namespace ece
 			struct ECE_UTILITY_API BGRAf : public BGRf
 			{
 				Percentage a;
-
-				operator BGRf &();
-				operator const BGRf &() const;
 			};
 
 			RGB24 toRGB24(const BGRAf & color);
@@ -266,9 +254,6 @@ namespace ece
 			struct HSLA: public HSL
 			{
 				Percentage a;
-	
-				operator HSL &();
-				operator const HSL &() const;
 			};
 
 			RGB24 toRGB24(const HSLA & color);
@@ -333,9 +318,6 @@ namespace ece
 			struct HSBA : public HSB // aka HSVA (Hue, Saturation, Value, Alpha transparency)
 			{
 				Percentage a;
-
-				operator HSB &();
-				operator const HSB &() const;
 			};
 
 			RGB24 toRGB24(const HSBA & color);
@@ -408,9 +390,6 @@ namespace ece
 			struct HWBA: public HWB
 			{
 				Percentage a;
-
-				operator HWB &();
-				operator const HWB &() const;
 			};
 
 			RGB24 toRGB24(const HWBA & color);
@@ -489,9 +468,6 @@ namespace ece
 			struct NCola : public NCol
 			{
 				Percentage opacity;
-
-				operator NCol &();
-				operator const NCol &() const;
 			};
 
 			RGB24 toRGB24(const NCola & color);

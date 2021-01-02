@@ -131,7 +131,7 @@ namespace ece
 				{
 					this->_bitmap.header.signature = BitmapSignature::BM;
 					this->_bitmap.header.pixelsOffset = BMPHeader::INTERNAL_SIZE + getSize(DIBHeaderType::BITMAPV3INFOHEADER);
-					this->_bitmap.header.size = this->_bitmap.header.pixelsOffset + (3 * this->_bitmap.pixels.getHeight() * this->_bitmap.pixels.getWidth());
+					this->_bitmap.header.size = static_cast<ece::size_t>(this->_bitmap.header.pixelsOffset) + (3 * this->_bitmap.pixels.getHeight() * this->_bitmap.pixels.getWidth());
 					
 					this->_bitmap.dib.size = getSize(DIBHeaderType::BITMAPV3INFOHEADER);
 					this->_bitmap.dib.width = this->_bitmap.pixels.getWidth();

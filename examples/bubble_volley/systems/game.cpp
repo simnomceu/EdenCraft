@@ -64,14 +64,14 @@ void Game::update(float elapsedTime)
 	const auto limit = 1.0f / 200.0f;
 	this->_lastUpdate += elapsedTime;
 	if (this->_lastUpdate >= limit) {
-		for (auto & control : *this->_world.getTank<Control>()) {
+		this->_world.getComponents<Control>().forEach([](auto& control) {
 			control.current = Action::NONE;
 			for (auto [key, value] : control.binding) {
 				if (ece::Keyboard::isKeyPressed(key)) {
 					control.current = control.current | value;
 				}
 			}
-		}
+		});
 
 		this->_lastUpdate = 0.0f;
 	}

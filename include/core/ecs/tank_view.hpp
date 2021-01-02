@@ -36,9 +36,11 @@
 
 */
 
+#ifndef TANK_VIEW_HPP
+#define TANK_VIEW_HPP
+
+#include "core/config.hpp"
 #include "core/pch.hpp"
-#include "core/ecs/world.hpp"
-#include "core/ecs/entity_handler.hpp"
 
 namespace ece
 {
@@ -46,59 +48,39 @@ namespace ece
 	{
 		namespace ecs
 		{
-			void World::update()
+			template <class ComponentType> class ComponentTank;
+
+			template <class ComponentType>
+			class ECE_CORE_API TankView
 			{
-				for (auto & system : this->_systems) {
-					system.second->update(this->_chrono.getElapsedTime() / 1000.0f);
-				}
+			public:
+				TankView(ComponentTank<ComponentType> & owner) noexcept;
 
-				for (auto & tank : this->_tanks) {
-					tank.second->update();
-				}
+				void forEach(const std::function<void(ComponentType&)> & routine);
+				void forEach(std::function<void(ComponentType&)> && routine);
+				template <class T> void forEach(T & object, void (T::* routine)(ComponentType &));
+				template <class T> void forEach(std::weak_ptr<T> & object, void (T::* routine)(ComponentType &));
+				template <class T> void forEach(const T & object, void (T::* routine)(ComponentType &) const);
+				template <class T> void forEach(const std::weak_ptr<T> & object, void (T::* routine)(ComponentType &) const);
 
-				this->_entities.erase(std::remove_if(this->_entities.begin(), this->_entities.end(), [](auto & lhs) { return lhs.dirty; }), this->_entities.end());
-				this->_chrono.reset();
-			}
+				void forAll(const std::function<void(ComponentType&)>& routine);
+				void forAll(std::function<void(ComponentType&)>&& routine);
+				template <class T> void forAll(T& object, void (T::* routine)(ComponentType&));
+				template <class T> void forAll(std::weak_ptr<T>& object, void (T::* routine)(ComponentType&));
+				template <class T> void forAll(const T& object, void (T::* routine)(ComponentType&) const);
+				template <class T> void forAll(const std::weak_ptr<T>& object, void (T::* routine)(ComponentType&) const);
 
-			auto World::createEntity() -> EntityHandler
-			{
-				auto entity = World::Entity{ this->_entityGenerator.next(), false };
-				auto handler = EntityHandler(entity.id, *this);
-				this->_entities.push_back(std::move(entity));
-				this->onEntityCreated(handler);
-				return handler;
-			}
+				auto size() const -> std::size_t;
+				ComponentType & at(const std::size_t index);
+				const ComponentType & at(const std::size_t index) const;
 
-			auto World::createEntity(World::Prototype prototype) -> EntityHandler
-			{
-				return prototype(*this);
-			}
+			private:
+				ComponentTank<ComponentType> & _owner;
+			};
+		}
+	}
+}
 
-			void World::forEachEntity(const std::function<void(EntityHandler)>& routine)
-			{
-				for (auto & entity : this->_entities) {
-					if (!entity.dirty) {
-						routine(EntityHandler(entity.id, *this));
-					}
-				}
-			}
+#include "core/ecs/tank_view.inl"
 
-			void World::forEachEntity(std::function<void(EntityHandler)>&& routine)
-			{
-				for (auto& entity : this->_entities) {
-					if (!entity.dirty) {
-						routine(EntityHandler(entity.id, *this));
-					}
-				}
-			}
-
-			void World::destroy(Handle entityID)
-			{
-				std::find_if(this->_entities.begin(), this->_entities.end(), [entityID](const auto& entity) -> bool { return entity.id == entityID; })->dirty = true;
-				for (auto & tank : this->_tanks) {
-					tank.second->destroy(entityID);
-				}
-			}
-		} // namespace ecs
-	} // namespace core
-} // namespace ece
+#endif // TANK_VIEW_HPP
