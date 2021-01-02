@@ -666,7 +666,7 @@ inline Decoder::Decoder(const unsigned char* data, size_t size, void *(*allocFun
         38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63 };
     memcpy(ZZ, temp, sizeof(ZZ));
     memset(&ctx, 0, sizeof(Context));
-    _Decode(data, size);
+    _Decode(data, static_cast<int>(size));
 }
 
 inline Decoder::DecodeResult Decoder::GetResult() const { return ctx.error; }
