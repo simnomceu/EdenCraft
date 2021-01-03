@@ -93,8 +93,9 @@ namespace ece
 					 * @remark Decoupling JSONObject from this class, shall remove this method.
 					 * @throw
 					 */
-					inline std::shared_ptr<ObjectJSON> getObject() const;
+					inline auto getObject() const;
 
+					inline void setObject(std::shared_ptr<ObjectJSON> content);
 				protected:
 					/**
 					 * @property _pathname

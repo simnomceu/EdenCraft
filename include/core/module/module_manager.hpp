@@ -40,10 +40,8 @@
 #define MODULE_MANAGER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/module/module.hpp"
-
-#include <vector>
-#include <memory>
 
 namespace ece
 {
@@ -116,7 +114,8 @@ namespace ece
 				 * @brief Build and register an object as a module.
 				 * @throw
 				 */
-				template <class T> T & add(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD);
+				template <class T>
+				auto & add(const ModuleMethodHandle<T> & init = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & update = ModuleMethod<T>::VOID_METHOD, const ModuleMethodHandle<T> & terminate = ModuleMethod<T>::VOID_METHOD);
 
 				/**
 				 * @fn void remove()
@@ -124,7 +123,8 @@ namespace ece
 				 * @brief Remove a module from the application.
 				 * @throw
 				 */
-				template <class T> void remove();
+				template <class T>
+				void remove();
 
 				/**
 				 * @fn T & get()
@@ -133,7 +133,8 @@ namespace ece
 				 * @brief Get a module.
 				 * @throw
 				 */
-				template <class T> T & get();
+				template <class T>
+				auto & get();
 
 				/**
 				 * @fn void initAll()

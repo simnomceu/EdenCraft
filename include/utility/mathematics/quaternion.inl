@@ -36,8 +36,6 @@
 
 */
 
-#include <cmath>
-
 namespace ece
 {
     namespace utility

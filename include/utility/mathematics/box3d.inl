@@ -42,9 +42,11 @@ namespace ece
     {
         namespace mathematics
         {
-        	inline Box3D::Box3D(const FloatVector3u & a, const FloatVector3u & b): a(a), b(b) {}
+            template <class E>
+        	inline Box3D<E>::Box3D(Vector3u<E> a, Vector3u<E> b): a(std::move(a)), b(std::move(b)) {}
 
-        	inline FloatVector3u Box3D::getCenter() const noexcept { return (this->a + this->b ) / 2.0f; }
+            template <class E>
+        	inline auto Box3D<E>::getCenter() const noexcept -> Vector3u<E> { return (this->a + this->b ) / E{ 2 }; }
         } // namespace mathematics
     } // namespace utility
 } // namespace ece

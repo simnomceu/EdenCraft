@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/point.hpp"
 
 #include "renderer/opengl.hpp"
@@ -53,7 +54,7 @@ namespace ece
 			{
 				this->_mode = PrimitiveMode::POINTS;
 
-				renderer::buffer::BufferLayout layout;
+				auto layout = renderer::buffer::BufferLayout{};
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -73,7 +74,7 @@ namespace ece
 			{
 				this->_mode = PrimitiveMode::POINTS;
 
-				renderer::buffer::BufferLayout layout;
+				auto layout = renderer::buffer::BufferLayout{};
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 
@@ -89,15 +90,15 @@ namespace ece
 				this->_vertexArray.attach(this->_vertices, layout);
 			}
 
-			void Point::draw(std::shared_ptr<Shader> /*program*/)
+			void Point::draw([[maybe_unused]] std::shared_ptr<Shader> program)
 			{
 				this->_vertexArray.bind();
 				this->_state.apply();
 				if (this->isInstancingEnabled()) {
-					OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices.size() * 3, this->_numberOfInstances);
+					OpenGL::drawArraysInstanced(this->_mode, 0, static_cast<ece::size_t>(this->_vertices.size() * 3), this->_numberOfInstances);
 				}
 				else {
-					OpenGL::drawArrays(this->_mode, 0, this->_vertices.size() * 3);
+					OpenGL::drawArrays(this->_mode, 0, static_cast<ece::size_t>(this->_vertices.size() * 3));
 				}
 			}
 		} // namespace renderable

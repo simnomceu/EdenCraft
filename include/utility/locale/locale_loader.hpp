@@ -41,11 +41,9 @@
 #define LOCALE_LOADER_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/locale/localization.hpp"
-#include "utility/locale/resource_container.hpp"
-
-#include <string>
-#include <utility>
+#include "utility/locale/locale_container.hpp"
 
 namespace ece
 {
@@ -94,7 +92,7 @@ namespace ece
         		 * @brief Default move constructor.
         		 * @throw
         		 */
-        		LocaleLoader(LocaleLoader && move) = default;
+        		LocaleLoader(LocaleLoader && move) noexcept = default;
 
         		/**
         		 * @fn ~LocaleLoader()
@@ -127,7 +125,7 @@ namespace ece
         		 * @brief Get access to the locale resource loaded from the file.
         		 * @throw
         		 */
-        		inline LocaleResource & getResource();
+        		inline auto getResource() -> LocaleResource &;
 
         		/**
         		 * @fn void changeLocale(const Localization & locale)
@@ -154,7 +152,7 @@ namespace ece
         		 * @property _resource
         		 * @brief The resource loaded from the file.
         		 */
-        		ResourceContainer _resource;
+        		LocaleContainer _resource;
 
         		/**
         		 * @property _filename

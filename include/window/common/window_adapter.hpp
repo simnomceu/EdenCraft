@@ -76,7 +76,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw noexcept
 				 */
-				WindowAdapter(WindowAdapter && move) = default;
+				WindowAdapter(WindowAdapter && move) noexcept = default;
 
 				/**
 				 * @fn ~WindowAdapter() noexcept
@@ -127,7 +127,7 @@ namespace ece
 				 * @throw
 				 * @see bool BaseWindowAdapter::isWindowCreated() const
 				 */
-				virtual bool isWindowCreated() const override;
+				virtual auto isWindowCreated() const -> bool override;
 
 				/**
 				 * @fn void setTitle(const std::string & title)
@@ -145,7 +145,7 @@ namespace ece
 				 * @throw
 				 * @see std::string BaseWindowAdapter::getTitle() const
 				 */
-				virtual std::string getTitle() const override;
+				virtual auto getTitle() const -> std::string override;
 
 				/**
 				 * @fn void setPosition(const IntVector2u & position)
@@ -162,7 +162,7 @@ namespace ece
 				 * @brief Get the size of the window.
 				 * @throw
 				 */
-				virtual IntVector2u getSize() const override;
+				virtual auto getSize() const -> IntVector2u override;
 
 				/**
 				 * @fn IntVector2u getPosition() const
@@ -171,7 +171,7 @@ namespace ece
 				 * @throw
 				 * @see IntVector2u BaseWindowAdapter::getPosition() const
 				 */
-				virtual IntVector2u getPosition() const override;
+				virtual auto getPosition() const -> IntVector2u override;
 
 				/**
 				 * @fn void minimize()
@@ -205,7 +205,7 @@ namespace ece
 				 * @throw
 				 * @see Pimpl<DataWindowAdapter> & BaseWindowAdapter::getImpl()
 				 */
-				virtual inline Pimpl<DataWindowAdapter> & getImpl() override;
+				virtual inline auto getImpl() -> Pimpl<DataWindowAdapter> & override;
 
 				/**
 				 * @fn void processMessage(const WindowMessage & message)

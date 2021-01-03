@@ -44,10 +44,10 @@ namespace ece
 	{
 		namespace renderable
 		{
-			inline const FloatVector3u & Line::getBegin() const noexcept { return this->_begin; }
-			inline const FloatVector3u & Line::getEnd() const noexcept { return this->_end; }
-			inline const FloatVector3u & Line::getColor() const noexcept { return this->_color; }
-			inline float Line::getWidth() const noexcept { return this->_width; }
+			inline auto Line::getBegin() const noexcept -> const FloatVector3u & { return this->_begin; }
+			inline auto Line::getEnd() const noexcept -> const FloatVector3u & { return this->_end; }
+			inline auto Line::getColor() const noexcept -> const FloatVector3u & { return this->_color; }
+			inline auto Line::getWidth() const noexcept -> float { return this->_width; }
 
 			inline void Line::setBegin(const FloatVector3u & begin) noexcept { this->_begin = begin; }
 			inline void Line::setEnd(const FloatVector3u & end) noexcept { this->_end = end; }

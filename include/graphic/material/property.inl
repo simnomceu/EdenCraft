@@ -55,7 +55,7 @@ namespace ece
 			}
 
 			template <class T, class U>
-			std::shared_ptr<BaseUniform> Property<T, U>::getUniform(std::string name)
+			auto Property<T, U>::getUniform(std::string name) -> std::shared_ptr<BaseUniform>
 			{
 				if constexpr (is_container_v<U>) {
 					return std::make_shared<Uniform<std::tuple_element_t<0, U>, std::tuple_size_v<U>>>(name, this->_computedValue(this->_value));
@@ -66,24 +66,24 @@ namespace ece
 			}
 
 			template <class T, class U>
-			Property<T, U> & Property<T, U>::operator=(const T & value)
+			auto & Property<T, U>::operator=(const T & value)
 			{
 				this->_value = value;
 				return *this;
 			}
 
 			template <class T, class U>
-			Property<T, U> & Property<T, U>::operator=(T && value)
+			auto & Property<T, U>::operator=(T && value)
 			{
 				this->_value = value;
 				return *this;
 			}
 
 			template <class T, class U>
-			inline T & Property<T, U>::get() { return this->_value; }
+			inline auto & Property<T, U>::get() { return this->_value; }
 
 			template <class T, class U>
-			inline const T & Property<T, U>::get() const { return this->_value; }
+			inline const auto & Property<T, U>::get() const { return this->_value; }
 		} // namespace material
 	} // namespace graphic
 } // namespace model

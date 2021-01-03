@@ -42,11 +42,10 @@
 #define SUBMESH_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
 #include "renderer/buffer.hpp"
-
-#include <vector>
 
 namespace ece
 {
@@ -62,7 +61,7 @@ namespace ece
 			class ECE_GRAPHIC_API Submesh
 			{
 			public:
-				using Reference = ResourceHandler<Submesh>;
+				using Reference = Resource<Submesh>;
 
 				using Face = std::array<unsigned int, 3>;
 
@@ -120,7 +119,7 @@ namespace ece
 				 * @brief Get the number of vertices of the mesh.
 				 * @throw
 				 */
-				inline std::size_t size() const;
+				inline auto size() const -> std::size_t;
 
 				/**
 				 * @fn std::size_t getNumberOfFaces() const
@@ -128,7 +127,7 @@ namespace ece
 				 * @brief Get the number of faces of the mesh.
 				 * @throw
 				 */
-				inline std::size_t getNumberOfFaces() const;
+				inline auto getNumberOfFaces() const -> std::size_t;
 
 				/**
 				 * @fn Box3D getBouncingBox() const
@@ -141,10 +140,10 @@ namespace ece
 				inline void addFace(const Submesh::Face & face);
 				inline void addFace(Submesh::Face && face);
 
-				inline std::vector<Submesh::Face> & getFaces();
-				inline const std::vector<Submesh::Face> & getFaces() const;
+				inline auto getFaces() -> std::vector<Submesh::Face> &;
+				inline auto getFaces() const -> const std::vector<Submesh::Face> &;
 
-				inline IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> & getIndexBuffer();
+				inline auto getIndexBuffer() -> IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> &;
 
 				void update();
 			private:

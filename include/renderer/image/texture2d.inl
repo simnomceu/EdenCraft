@@ -46,29 +46,27 @@ namespace ece
 		{
 			using namespace opengl;
 
-			inline Texture2D::Texture2D()noexcept : _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture()) {}
-
 			inline Texture2D::Texture2D(const Texture2D & copy) : _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), _type(copy._type),
 				_handle(copy._handle) {}
 
 			inline Texture2D::Texture2D(Texture2D && move) noexcept : _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), _height(move._height), _type(move._type),
 				_handle(move._handle)
 			{
-				move._data.clear();
-				move._handle = 0;
+				move._data.content.reset();
+				move._handle = NULL_HANDLE;
 			}
 
-			inline const std::string & Texture2D::getFilename() const { return this->_filename; }
+			inline auto Texture2D::getFilename() const -> const std::string & { return this->_filename; }
 
-			inline const std::vector<std::byte> & Texture2D::getData() const { return this->_data; }
+			inline auto Texture2D::getData() const -> std::uint8_t * { return this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr; }
 
-			inline std::size_t Texture2D::getWidth() const { return this->_width; }
+			inline auto Texture2D::getWidth() const -> ece::size_t { return this->_width; }
 
-			inline std::size_t Texture2D::getHeight() const { return this->_height; }
+			inline auto Texture2D::getHeight() const -> ece::size_t { return this->_height; }
 
-			inline Texture2D::TypeTarget Texture2D::getType() const { return this->_type; }
+			inline auto Texture2D::getType() const -> Texture::TypeTarget { return this->_type; }
 
-			inline Handle Texture2D::getHandle() const { return this->_handle; }
+			inline auto Texture2D::getHandle() const -> Handle { return this->_handle; }
 
 			inline void Texture2D::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
 

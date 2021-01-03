@@ -41,11 +41,10 @@
 #define TEXTURE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "utility/types.hpp"
-
-#include <string>
-#include <vector>
-#include <cstddef>
+#include "utility/pattern.hpp"
+#include "renderer/image/image.hpp"
 
 namespace ece
 {
@@ -58,7 +57,7 @@ namespace ece
 			 * @brief OpenGL 2D texture.
 			 * @remark Split the image and the texture implementations. A texture can use an image but it is not an image.
 			 */
-			class ECE_RENDERER_API Texture
+			class ECE_RENDERER_API Texture : public virtual_enable_shared_from_this<Texture>
 			{
 			public:
 				enum class TypeTarget : unsigned short int
@@ -123,13 +122,19 @@ namespace ece
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) = 0;
 
+				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) = 0;
+
+				virtual void saveToFile(const std::filesystem::path & filename) = 0;
+
+				virtual void saveToImage(Image<RGBA32>::Reference image) = 0;
+
 				/**
 				 * @fn const std::string & getFilename() const
 				 * @return The filename of the texture.
 				 * @brief Get he filename which is the source of the texture.
 				 * @throw
 				 */
-				virtual const std::string & getFilename() const = 0;
+				virtual auto getFilename() const -> const std::string & = 0;
 
 				/**
 				 * @fn const std::vector<std::byte> & getData() const
@@ -137,7 +142,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				virtual const std::vector<std::byte> & getData() const = 0;
+				virtual auto getData() const -> std::uint8_t * = 0;
 
 				/**
 				 * @fn std::size_t getWidth() const
@@ -145,7 +150,7 @@ namespace ece
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				virtual std::size_t getWidth() const = 0;
+				virtual auto getWidth() const -> ece::size_t = 0;
 
 				/**
 				* @fn std::size_t getHeight() const
@@ -153,7 +158,7 @@ namespace ece
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				virtual std::size_t getHeight() const = 0;
+				virtual auto getHeight() const -> ece::size_t = 0;
 
 				/**
 				 * @fn TextureTypeTarget getType() const
@@ -161,7 +166,7 @@ namespace ece
 				 * @brief Get the type of texture.
 				 * @throw
 				 */
-				virtual TypeTarget getType() const = 0;
+				virtual auto getType() const -> TypeTarget = 0;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -169,7 +174,7 @@ namespace ece
 				 * @brief Get the id of the texture.
 				 * @throw
 				 */
-				virtual Handle getHandle() const = 0;
+				virtual auto getHandle() const -> Handle = 0;
 
 				/**
 				 * @fn void bind(const TextureTarget target)
@@ -179,14 +184,7 @@ namespace ece
 				 */
 				virtual void bind(const Target target) = 0;
 
-				virtual void active(const unsigned int channel) = 0;
-
-				/**
-				 * @fn void update()
-				 * @brief Update the texture settings.
-				 * @throw
-				 */
-				virtual void update() = 0;
+				virtual void active(const unsigned int channel) = 0; 
 
 				/**
 				 * @fn void terminate()
@@ -194,6 +192,10 @@ namespace ece
 				 * @throw
 				 */
 				virtual void terminate() = 0;
+
+			protected:
+				void setCurrent(Target target);
+				auto isCurrent(Target target) const noexcept -> bool;
 			};
 		} // namespace image
 	} // namespace renderer

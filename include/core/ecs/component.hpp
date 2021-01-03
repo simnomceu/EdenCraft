@@ -40,6 +40,7 @@
 #define COMPONENT_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/ecs/base_component.hpp"
 
 namespace ece
@@ -48,6 +49,8 @@ namespace ece
 	{
 		namespace ecs
 		{
+			template <class ComponentType> class ComponentTank;
+
 			/**
 			 * @class Component
 			 * @extends BaseComponent
@@ -57,53 +60,51 @@ namespace ece
 			template<class T>
 			class ECE_CORE_API Component: public BaseComponent
 			{
+				friend class World;
+				friend class ComponentTank<T>;
+
 			public:
 				/**
 				 * @fn Component()
 				 * @brief Default constructor.
 				 * @throw
 				 */
-				Component();
+				constexpr Component() noexcept;
+
+				Component(const Component<T>& rhs) noexcept = delete;
+				Component(Component<T> && rhs) noexcept = default;
 
 				/**
 				 * @fn ~Component()
 				 * @brief Default destructor.
 				 * @throw
 				 */
-				~Component();
+				~Component() noexcept;
 
-				/**
-				 * @fn ComponentID getID() const
-				 * @return The id to handle the component.
-				 * @brief Get The component id.
-				 * @throw
-				 */
-				inline virtual ComponentID getID() const override;
-
-				inline virtual void setOwner(const unsigned int owner) override;
+				Component& operator=(const Component<T>& rhs) noexcept = default;
+				Component& operator=(Component<T> && rhs) noexcept = default;
 
 				/**
 				 * @fn unsigned int getOwner() const
 				 * @return The entity owner.
 				 */
-				inline virtual unsigned int getOwner() const override;
-
-				inline virtual bool isDirty() const override;
+				inline virtual auto getOwner() const ->Handle override;
 
 			protected:
-				/**
-				 * @property _id
-				 * @brief The id to handle the component.
-				 */
-				ComponentID _id;
-
 				/**
 				 * @property _owner
 				 * @brief The entity which own the component.
 				 */
-				unsigned int _owner;
+				Handle _owner;
 
 				bool _dirty;
+
+			private:
+				inline virtual void setOwner(const Handle owner) override;
+
+				inline virtual auto isDirty() const -> bool override;
+
+				inline virtual void setDirty(bool dirty) override;
 			};
 		} // namespace ecs
 	} // namespace core

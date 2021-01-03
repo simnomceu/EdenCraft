@@ -41,19 +41,15 @@ namespace ece
 	{
 		namespace common
 		{
-			inline constexpr VideoMode::VideoMode() noexcept:
-				_refreshRate(),
-				_changed(false)
-			{
-			}
+			inline constexpr VideoMode::VideoMode() noexcept: _refreshRate(), _changed(false) {}
 
 			inline VideoMode::~VideoMode() noexcept {}
 
 			inline bool VideoMode::operator!=(const VideoMode & rightOperand) const { return !operator==(rightOperand); }
 
-			inline unsigned short int VideoMode::getRefreshRate() const noexcept { return this->_refreshRate; }
+			inline auto VideoMode::getRefreshRate() const noexcept { return this->_refreshRate; }
 
-			inline bool VideoMode::hasChanged() const noexcept { return this->_changed; }
+			inline auto VideoMode::hasChanged() const noexcept { return this->_changed; }
 
 			inline void VideoMode::applyChanges() noexcept { this->_changed = false; }
 		} // namespace common

@@ -39,11 +39,9 @@
 */
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/renderable/renderable.hpp"
 #include "utility/mathematics.hpp"
-
-#include <chrono>
-#include <vector>
 
 namespace ece
 {
@@ -58,6 +56,8 @@ namespace ece
 			class ECE_GRAPHIC_API ParticlesEmitter: public Renderable
 			{
 			public:
+				using Reference = Resource<ParticlesEmitter>;
+
 				struct Particle
 				{
 					float _life;
@@ -71,7 +71,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				ParticlesEmitter(const std::size_t size) noexcept;
+				ParticlesEmitter(const ece::size_t size) noexcept;
 
 				/**
 				 * @fn ParticlesEmitter(const ParticlesEmitter & copy)
@@ -116,10 +116,10 @@ namespace ece
 
 				void update(const float elapsedTime);
 
-				virtual void draw(std::shared_ptr<Shader> program) override;
+				virtual void draw([[maybe_unused]] std::shared_ptr<Shader> program) override;
 			private:
 				VertexBuffer<SymetricStorage, std::vector<Particle>> _particles;
-				std::size_t _size;
+				ece::size_t _size;
 
 				VertexBuffer<SymetricStorage, std::vector<float>> _vertices;
 			};

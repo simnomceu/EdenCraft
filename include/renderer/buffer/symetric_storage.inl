@@ -46,17 +46,14 @@ namespace ece
 		namespace buffer
 		{
 			template<class T, typename enabled>
-			inline typename SymetricStorage<T, enabled>::data_type & SymetricStorage<T, enabled>::data() noexcept { return this->_data; }
+			inline auto & SymetricStorage<T, enabled>::data() noexcept { return this->_data; }
 
 			template<class T, typename enabled>
-			inline const typename SymetricStorage<T, enabled>::data_type & SymetricStorage<T, enabled>::data() const noexcept { return this->_data; }
+			inline const auto & SymetricStorage<T, enabled>::data() const noexcept { return this->_data; }
 
 			template<class T, typename enabled>
-			typename SymetricStorage<T, enabled>::data_type SymetricStorage<T, enabled>::read(const BaseBuffer::DataDescriptor & /*descriptor*/, BaseBuffer::Type /*type*/, BaseBuffer::Frequency /*frequency*/) const
+			auto SymetricStorage<T, enabled>::read([[maybe_unused]] const BaseBuffer::DataDescriptor & descriptor, [[maybe_unused]] BaseBuffer::Type type, [[maybe_unused]] BaseBuffer::Frequency frequency) const -> typename SymetricStorage<T, enabled>::data_type
 			{
-				/*T data;
-				this->_buffer.lock()->bind();
-				OpenGL::bufferData(this->_buffer.lock()->getType(), data, BUFFER_USAGE[this->_buffer.lock()->getUsage()][Method::READ], this->_buffer.lock()->getDescriptor().offset);*/
 				return this->_data;
 			}
 

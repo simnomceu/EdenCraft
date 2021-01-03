@@ -46,7 +46,7 @@ namespace ece
 		{
 			using namespace opengl;
 
-			inline VertexArray::VertexArray() noexcept: _handle(NullHandle), _nextAttributeLocation(FIRST_LOCATION) { this->_handle = OpenGL::genVertexArrays(); }
+			inline VertexArray::VertexArray() noexcept: _handle(NULL_HANDLE), _nextAttributeLocation(FIRST_LOCATION) { this->_handle = OpenGL::genVertexArrays(); }
 
 			inline void VertexArray::bind() const { OpenGL::bindVertexArray(this->_handle); }
 

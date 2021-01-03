@@ -54,7 +54,7 @@ namespace ece
 			}
 
 			template <class T>
-			std::shared_ptr<BaseUniform> ComputedProperty<T>::getUniform(std::string name)
+			auto ComputedProperty<T>::getUniform(std::string name) -> std::shared_ptr<BaseUniform>
 			{
 				return std::make_shared<Uniform<T>>(name, this->_computedValue());
 			}

@@ -42,11 +42,10 @@
 #define SCENE_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/scene/camera.hpp"
 #include "graphic/renderable.hpp"
 #include "graphic/scene/light.hpp"
-
-#include <vector>
 
 namespace ece
 {
@@ -115,9 +114,9 @@ namespace ece
 				 * @brief Add a new empty object to the scene.
 				 * @throw
 				 */
-				Object::Reference addObject();
+				auto addObject() -> Object::Reference;
 
-				inline void addObject(const Renderable::Reference & object);
+				inline void addObject(const Renderable::Reference & object, int level = DEFAULT_LEVEL);
 
 				inline void addLight(const Light::Reference & light);
 
@@ -127,26 +126,56 @@ namespace ece
 				 * @brief Get the camera of the scene.
 				 * @throw
 				 */
-				inline Camera & getCamera();
+				inline auto getCamera() -> Camera &;
 
 				inline void updateCamera();
 
-				std::vector<Renderable::Reference> getObjects();
-				std::vector<Light::Reference> getLights();
+				auto getObjects() -> std::vector<Renderable::Reference>;
+				auto getLights() -> std::vector<Light::Reference> &;
 
 				void prepare();
+
+				void sortObjects();
 
 			private:
 				struct CameraWrapper
 				{
-					Camera _value;
-					bool _hasChanged;
+					Camera value;
+					bool hasChanged;
+
+					CameraWrapper(): value(), hasChanged() {}
+					CameraWrapper(Camera valueIn, bool hasChangedIn): value(valueIn), hasChanged(hasChangedIn) {}
 				};
 
 				struct ObjectWrapper
 				{
-					Renderable::Reference _value;
-					bool _hasChanged;
+					Renderable::Reference value;
+					bool hasChanged;
+					int level;
+
+					ObjectWrapper(const std::tuple< Renderable::Reference, bool, int> & rhs) : value(std::get<0>(rhs)), hasChanged(std::get<1>(rhs)), level(std::get<2>(rhs)) {}
+					ObjectWrapper(std::tuple< Renderable::Reference, bool, int> && rhs) : value(std::get<0>(rhs)), hasChanged(std::get<1>(rhs)), level(std::get<2>(rhs)) {}
+
+					ObjectWrapper & operator=(const std::tuple< Renderable::Reference, bool, int> & rhs)
+					{
+						this->value = std::get<0>(rhs);
+						this->hasChanged = std::get<1>(rhs);
+						this->level = std::get<2>(rhs);
+					}
+					ObjectWrapper & operator=(std::tuple< Renderable::Reference, bool, int> && rhs)
+					{
+						this->value = std::get<0>(rhs);
+						this->hasChanged = std::get<1>(rhs);
+						this->level = std::get<2>(rhs);
+					}
+				};
+
+				class ObjectPack : public SoA<Renderable::Reference, bool, int>
+				{
+				public:
+					std::vector<Renderable::Reference> & getRenderables() { return this->getAll(); }
+					BooleanVector & hasChanged() { return this->SoA<bool, int>::getAll(); }
+					std::vector<int> & getLevels() { return this->SoA<int>::getAll(); }
 				};
 
 				/**
@@ -159,9 +188,11 @@ namespace ece
 				 * @property _objects
 				 * @brief The list of objects in the scene.
 				 */
-				std::vector<ObjectWrapper> _objects;
+				ObjectPack _objects;
 
 				std::vector<Light::Reference> _lights;
+
+				static const int DEFAULT_LEVEL = 0;
 			};
 		} // namespace scene
 	} // namespace graphic

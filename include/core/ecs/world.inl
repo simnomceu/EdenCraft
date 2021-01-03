@@ -36,65 +36,165 @@
 
 */
 
-#include <utility>
-#include <memory>
-
 namespace ece
 {
 	namespace core
 	{
 		namespace ecs
 		{
-			inline World::World() noexcept : onEntityCreated(), onComponentCreated(), _systems(), _tanks(), _entities(), _entityGenerator() {}
+			inline World::World() noexcept : onEntityCreated(), onComponentCreated(), _systems(), _tanks(), _entities(), _entityGenerator(), _chrono()
+			{
+				this->_chrono.start();
+			}
 
-			inline World::~World() noexcept {}
+			inline World::~World() noexcept
+			{
+				this->_systems.clear();
+				this->_tanks.clear();
+				this->_entities.clear();
+			}
 
 			template <class ComponentType>
-			std::weak_ptr<ComponentTank<ComponentType>> World::getTank()
+			auto World::getComponents() -> TankView<ComponentType>
 			{
-				if (this->_tanks.find(std::type_index(typeid(ComponentType))) == this->_tanks.end()) {
-					this->_tanks[std::type_index(typeid(ComponentType))] = std::make_shared<ComponentTank<ComponentType>>();
-				}
-				return std::static_pointer_cast<ComponentTank<ComponentType>>(this->_tanks[std::type_index(typeid(ComponentType))]);
+				return TankView<ComponentType>(this->getTank<ComponentType>());
 			}
 
 			template <class SystemType, class... Args>
-			std::weak_ptr<SystemType> World::addSystem(Args&&... args)
+			auto World::addSystem(Args&&... args) -> SystemType&
 			{
 				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
 				this->_systems.emplace(std::type_index(typeid(SystemType)), std::make_shared<SystemType>(*this, std::forward<Args>(args)...));
-                return std::static_pointer_cast<SystemType>(this->_systems[std::type_index(typeid(SystemType))]);
+                return *std::static_pointer_cast<SystemType>(this->_systems[std::type_index(typeid(SystemType))]);
 			}
 
-			template <class SystemType> bool World::hasSystem() const
+			template <class SystemType>
+			auto World::hasSystem() const -> bool
 			{
 				static_assert(std::is_base_of_v<System, SystemType>, "You are trying to register as a system something which is not.");
 				return this->_systems.find(std::type_index(typeid(SystemType))) != this->_systems.end();
 			}
 
+			template <class T>
+			void World::forEachEntity(T& object, void (T::* routine)(EntityHandler))
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						routine(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			template <class T>
+			void World::forEachEntity(std::weak_ptr<T>& object, void (T::* routine)(EntityHandler))
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						(object.lock()->*routine)(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			template <class T>
+			void World::forEachEntity(const T& object, void (T::* routine)(EntityHandler) const)
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						(object.*routine)(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			template <class T>
+			void World::forEachEntity(const std::weak_ptr<T>& object, void (T::* routine)(EntityHandler) const)
+			{
+				for (auto& entity : this->_entities) {
+					if (!entity.dirty) {
+						(object.lock()->*routine)(EntityHandler(entity.id, *this));
+					}
+				}
+			}
+
+			inline auto World::getNumberofEntities() const -> std::size_t
+			{
+				return std::accumulate(this->_entities.begin(), this->_entities.end(), std::size_t{ 0 }, [](std::size_t result, const Entity & rhs) -> std::size_t {
+					return result + (rhs.dirty ? 0 : 1);
+				});
+			}
+
 			template <class ComponentType>
 			void World::addTank()
 			{
+				static_assert(std::is_base_of_v<Component<ComponentType>, ComponentType>, "You are trying to get something which is not a component.");
 				this->_tanks.emplace(std::type_index(typeid(ComponentType)), std::make_shared<ComponentTank<ComponentType>>());
 			}
 
 			template <class ComponentType>
-			bool World::hasComponent(const unsigned int entityID) const
+			auto World::hasComponent(Handle entityID) -> bool
 			{
-				auto tank = this->getTank<ComponentType>().lock();
-				auto it = std::find_if(tank->begin(), tank->end(), [entityID](auto & element) {return element.getOwner() == entityID; });
-				return it != tank->end();
+				static_assert(std::is_base_of_v<Component<ComponentType>, ComponentType>, "You are trying to get something which is not a component.");
+				auto & tank = this->getTank<ComponentType>();
+				auto it = std::find_if(tank.begin(), tank.end(), [entityID](auto & element) {return element.getOwner() == entityID; });
+				return it != tank.end();
+			}
+
+			template <class... ComponentTypes>
+			auto World::hasComponents(Handle entityID) -> bool
+			{
+				return (this->hasComponent<ComponentTypes>(entityID) && ...);
 			}
 
 			template <class ComponentType>
-			ComponentType & World::getComponent(const unsigned int entityID)
+			auto World::getComponent(Handle entityID) -> ComponentType &
 			{
-				auto tank = this->getTank<ComponentType>().lock();
-				auto it = std::find_if(tank->begin(), tank->end(), [entityID](auto & element) {return element.getOwner() == entityID; });
-				if (it == tank->end()) {
+				static_assert(std::is_base_of_v<Component<ComponentType>, ComponentType>, "You are trying to get something which is not a component.");
+				auto & tank = this->getTank<ComponentType>();
+				auto it = std::find_if(tank.begin(), tank.end(), [entityID](auto & element) {return element.getOwner() == entityID; });
+				if (it == tank.end()) {
 					throw std::runtime_error("This entity does not have a component of this type");
 				}
 				return *it;
+			}
+
+			template <class... ComponentTypes>
+			auto World::getComponents(Handle entityID) -> std::tuple<ComponentTypes& ...>
+			{
+				return std::forward_as_tuple(this->getComponent<ComponentTypes>(entityID)...);
+			}
+
+			template <class ComponentType, class ... Args>
+			auto World::addComponent(Handle entityID, Args&&... args) -> ComponentType &
+			{
+				static_assert(std::is_base_of_v<Component<ComponentType>, ComponentType>, "You are trying to get something which is not a component.");
+				auto & tank = this->getTank<ComponentType>();
+				auto & component = tank.emplace_back(std::forward<Args>(args)...);
+				component.Component<ComponentType>::setOwner(entityID);
+				this->onComponentCreated(tank.back());
+				return tank.back();
+			}
+
+			template <class ComponentType>
+			void World::removeComponent(Handle entityID)
+			{
+				if (this->hasComponent<ComponentType>(entityID)) {
+					this->getTank<ComponentType>().destroy(entityID);
+				}
+			}
+
+			template <class... ComponentTypes>
+			void World::removeComponents(Handle entityID)
+			{
+				(this->removeComponent<ComponentTypes>(entityID), ...);
+			}
+
+			template <class ComponentType>
+			auto World::getTank() -> ComponentTank<ComponentType> &
+			{
+				static_assert(std::is_base_of_v<Component<ComponentType>, ComponentType>, "You are trying to get something which is not a component.");
+				if (this->_tanks.find(std::type_index(typeid(ComponentType))) == this->_tanks.end()) {
+					this->addTank<ComponentType>();
+				}
+				return *std::static_pointer_cast<ComponentTank<ComponentType>>(this->_tanks[std::type_index(typeid(ComponentType))]);
 			}
 		} // namespace ecs
 	} // namespace core

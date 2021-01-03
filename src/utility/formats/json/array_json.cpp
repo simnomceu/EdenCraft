@@ -36,11 +36,10 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/json/array_json.hpp"
 
 #include "utility/formats/json/object_json.hpp"
-
-#include <algorithm>
 
 namespace ece
 {
@@ -50,43 +49,43 @@ namespace ece
 		{
 			namespace json
 			{
-				std::shared_ptr<NodeJSON> ArrayJSON::addNull()
+				auto ArrayJSON::addNull() -> std::shared_ptr<NodeJSON>
 				{
 					this->_children.push_back(std::make_shared<NullJSON>(std::to_string(this->_children.size()), nullptr, this->shared_from_this()));
 					return this->_children.back();
 				}
 
-				std::shared_ptr<NodeJSON> ArrayJSON::addBoolean(const bool value)
+				auto ArrayJSON::addBoolean(const bool value) -> std::shared_ptr<NodeJSON>
 				{
 					this->_children.push_back(std::make_shared<BooleanJSON>(std::to_string(this->_children.size()), value, this->shared_from_this()));
 					return this->_children.back();
 				}
 
-				std::shared_ptr<NodeJSON> ArrayJSON::addInteger(const int value)
+				auto ArrayJSON::addInteger(const int value) -> std::shared_ptr<NodeJSON>
 				{
 					this->_children.push_back(std::make_shared<IntegerJSON>(std::to_string(this->_children.size()), value, this->shared_from_this()));
 					return this->_children.back();
 				}
 
-				std::shared_ptr<NodeJSON> ArrayJSON::addDouble(const double value)
+				auto ArrayJSON::addDouble(const double value) -> std::shared_ptr<NodeJSON>
 				{
 					this->_children.push_back(std::make_shared<DoubleJSON>(std::to_string(this->_children.size()), value, this->shared_from_this()));
 					return this->_children.back();
 				}
 
-				std::shared_ptr<NodeJSON> ArrayJSON::addString(const std::string & value)
+				auto ArrayJSON::addString(const std::string & value) -> std::shared_ptr<NodeJSON>
 				{
 					this->_children.push_back(std::make_shared<StringJSON>(std::to_string(this->_children.size()), value, this->shared_from_this()));
 					return this->_children.back();
 				}
 
-				std::shared_ptr<NodeJSON> ArrayJSON::addObject()
+				auto ArrayJSON::addObject() -> std::shared_ptr<NodeJSON>
 				{
 					this->_children.push_back(std::make_shared<ObjectJSON>(this->shared_from_this()));
 					return this->_children.back();
 				}
 
-				std::shared_ptr<NodeJSON> ArrayJSON::addArray()
+				auto ArrayJSON::addArray() -> std::shared_ptr<NodeJSON>
 				{
 					this->_children.push_back(std::make_shared<ArrayJSON>(this->shared_from_this()));
 					return this->_children.back();
@@ -99,6 +98,21 @@ namespace ece
 					if (it != this->end()) {
 						this->_children.erase(it);
 					}
+				}
+
+				auto ArrayJSON::to_string() const noexcept -> std::string
+				{
+					auto string = std::string("[");
+					for (auto & e : this->_children) {
+						string += e->to_string();
+						string += ',';
+					}
+					if (string.back() == ',') {
+						string.pop_back();
+					}
+					string += ']';
+
+					return string;
 				}
 			} // namespace json
 		} // namespace formats

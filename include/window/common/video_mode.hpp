@@ -134,7 +134,7 @@ namespace ece
 				 * @brief Get the current rate of refreshing frames.
 				 * @throw noexcept
 				 */
-				inline unsigned short int getRefreshRate() const noexcept;
+				inline auto getRefreshRate() const noexcept;
 
 				/**
 				 * @fn bool hasChanged() const noexcept
@@ -142,7 +142,7 @@ namespace ece
 				 * @brief Check if the video mode has changed or not since the last time it has been used.
 				 * @throw noexcept
 				 */
-				inline bool hasChanged() const noexcept;
+				inline auto hasChanged() const noexcept;
 
 				/**
 				 * @fn void applyChanges() noexcept

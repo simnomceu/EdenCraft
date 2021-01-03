@@ -40,8 +40,7 @@
 #define CONNECTION_HPP
 
 #include "core/config.hpp"
-
-#include <memory>
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -103,7 +102,7 @@ namespace ece
 				 */
 				Connection & operator=(Connection && move) noexcept = default;
 
-				bool isConnected() const noexcept;
+				auto isConnected() const noexcept;
 
 				void disconnect();
 

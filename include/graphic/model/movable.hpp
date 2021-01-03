@@ -106,7 +106,7 @@ namespace ece
 				 * @brief Get The position of the object.
 				 * @throw
 				 */
-				inline virtual const FloatVector3u & getPosition() const;
+				inline virtual auto getPosition() const -> const FloatVector3u &;
 
 			protected:
 

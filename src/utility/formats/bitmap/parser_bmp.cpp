@@ -36,9 +36,11 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/formats/bitmap/parser_bmp.hpp"
-
-#include <sstream>
+#include "utility/formats/bitmap/bmp_header.hpp"
+#include "utility/formats/bitmap/dib_header.hpp"
+#include "utility/formats/bitmap/color_table.hpp"
 
 namespace ece
 {
@@ -50,52 +52,124 @@ namespace ece
 			{
 				void ParserBMP::load(std::istream & stream)
 				{
-					BMPHeader header;
-					BMPDIB DIB;
-					std::vector<std::byte> buffer;
+					auto buffer = std::vector<std::uint8_t>{};
 
-					// see http://tipsandtricks.runicsoft.com/Cpp/BitmapTutorial.html
+					// see http://paulbourke.net/dataformats/bitmaps/
+					// see http://www.kalytta.com/bitmap.h
 					// see http://www.di.unito.it/~marcog/SM/BMPformat-Wiki.pdf
 					// see https://upload.wikimedia.org/wikipedia/commons/c/c4/BMPfileFormat.png
 					// see https://en.wikipedia.org/wiki/BMP_file_format
+					// see https://forums.adobe.com/message/3272950#3272950
+					// see Tests : http://entropymine.com/jason/bmpsuite/
 
-					stream.read(reinterpret_cast<char *>(&header.magic[0]), sizeof(uint8_t));
-					stream.read(reinterpret_cast<char *>(&header.magic[1]), sizeof(uint8_t));
-					stream.read(reinterpret_cast<char *>(&header.size), sizeof(uint32_t));
-					stream.read(reinterpret_cast<char *>(&header.reserved), sizeof(uint32_t));
-					stream.read(reinterpret_cast<char *>(&header.pixelsOffset), sizeof(uint32_t));
-
-					stream.read(reinterpret_cast<char *>(&DIB), sizeof(BMPDIB));
-
-					buffer.resize(header.size - header.pixelsOffset);
-					stream.seekg(header.pixelsOffset);
-					for (std::size_t i = 0; i < buffer.size(); ++i) { // TODO: should be done with one call to read a contiguous value of size sizeof(std::byte)*nbBytes
-						stream.read(reinterpret_cast<char *>(&buffer[i]), sizeof(std::byte));
+					stream >> this->_bitmap.header;
+					if (this->_bitmap.header.signature != BitmapSignature::BM) {
+						throw std::runtime_error("Alternative bitmap format ('BA', 'CI', 'CP', 'IC', 'PT') are not supported for now.");
+						// TODO: Parser is only dealing with BM bitmap format.
+					}
+					this->_bitmap.dib.size = this->_bitmap.header.pixelsOffset - BMPHeader::INTERNAL_SIZE;
+					stream >> this->_bitmap.dib;
+					if (!this->_bitmap.isValid()) {
+						SYSTEM << "Unknown error in DIB" << flush;
 					}
 
-					int padding = 0;
-					int scanLineBytes = DIB.width * 3;
-					while ((scanLineBytes + padding) % 4 != 0) {
-						++padding;
+					// Color Table
+					this->_bitmap.colors = std::make_shared<ColorTable>(this->_bitmap.dib);
+					stream >> *this->_bitmap.colors;
+
+					buffer.resize(this->_bitmap.header.size - this->_bitmap.header.pixelsOffset);
+					stream.seekg(this->_bitmap.header.pixelsOffset);
+					stream.read(reinterpret_cast<char *>(buffer.data()), buffer.size());
+
+					if (stream.fail() && stream.eof() && !stream.bad()) {
+						throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
 					}
-					int psw = scanLineBytes + padding; // TODO: all here is not efficient at all
 
-					this->_pixels.resize(psw / 3, DIB.height);
-					long bufPos = 0;
-					for (uint32_t y = 0; y < this->_pixels.getHeight(); ++y) {
-						for (uint32_t x = 0; x < 3 * this->_pixels.getWidth(); x += 3) {
-							bufPos = (DIB.height - y - 1) * psw + x;
+					auto uncompressBuffer = uncompress(buffer, this->_bitmap.dib);
+					
+					int psw = ((this->_bitmap.dib.width * this->_bitmap.dib.bitCount / 8) + 3) & ~3; // To be sure it is aligned on 4 bytes.
 
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][0] = buffer[bufPos + 2]; // red
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][1] = buffer[bufPos + 1]; // green
-							this->_pixels[this->_pixels.getHeight() - 1 - y][x / 3][2] = buffer[bufPos]; // blue
+					this->_bitmap.pixels.resize(static_cast<ece::size_t>(this->_bitmap.dib.width), static_cast<ece::size_t>(this->_bitmap.dib.height));
+
+					if (this->_bitmap.dib.nbColorsUsed == 0) {
+						long bufPos = 0;
+						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
+							for (auto x = ece::size_t{ 0 }; x < 3 * this->_bitmap.pixels.getWidth(); x+=3) {
+								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+								if (static_cast<std::size_t>(bufPos) > uncompressBuffer.size()) {
+									throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+								}
+
+								this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][0] = static_cast<std::uint8_t>(static_cast<unsigned char>(uncompressBuffer[bufPos + 2])); // red
+								this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][1] = static_cast<std::uint8_t>(static_cast<unsigned char>(uncompressBuffer[bufPos + 1])); // green
+								this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][2] = static_cast<std::uint8_t>(static_cast<unsigned char>(uncompressBuffer[bufPos])); // blue
+							}
+						}
+					}
+					else {
+						long bufPos = 0;
+						for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
+							for (auto x = ece::size_t{ 0 }; x < this->_bitmap.pixels.getWidth(); ++x) {
+								bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * this->_bitmap.dib.width + static_cast<long>(x);
+								if (static_cast<std::size_t>(bufPos) > uncompressBuffer.size()) {
+									throw std::runtime_error("The file has been truncated in the middle of the bitmap.");
+								}
+								auto colorPos = static_cast<std::size_t>(static_cast<unsigned char>(uncompressBuffer[bufPos]));
+								if (static_cast<std::int32_t>(colorPos) >= this->_bitmap.dib.nbColorsUsed) {
+									throw std::runtime_error("Trying to access the " + std::to_string(colorPos) + "th color while the size of the color table is " + std::to_string(this->_bitmap.dib.nbColorsUsed) + ".");
+								}
+								auto color = (*this->_bitmap.colors)[colorPos];
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x][0] = color.r; // red
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x][1] = color.g; // green
+								this->_bitmap.pixels[this->_bitmap.dib.height - 1 - y][x][2] = color.b; // blue
+							}
 						}
 					}
 				}
 
-				void ParserBMP::save(std::ostream & /*stream*/)
+				void ParserBMP::save(std::ostream & stream)
 				{
-					/* NOT IMPLEMENTED YET*/
+					this->_bitmap.header.signature = BitmapSignature::BM;
+					this->_bitmap.header.pixelsOffset = BMPHeader::INTERNAL_SIZE + getSize(DIBHeaderType::BITMAPV3INFOHEADER);
+					this->_bitmap.header.size = static_cast<ece::size_t>(this->_bitmap.header.pixelsOffset) + (3 * this->_bitmap.pixels.getHeight() * this->_bitmap.pixels.getWidth());
+					
+					this->_bitmap.dib.size = getSize(DIBHeaderType::BITMAPV3INFOHEADER);
+					this->_bitmap.dib.width = this->_bitmap.pixels.getWidth();
+					this->_bitmap.dib.height = this->_bitmap.pixels.getHeight();
+					this->_bitmap.dib.planes = 1;
+					this->_bitmap.dib.bitCount = 24;
+					this->_bitmap.dib.compression = CompressionMethod::RGB;
+					this->_bitmap.dib.imageSize = 0;
+					this->_bitmap.dib.xResolution = static_cast<int>(DPIToPPM(DPI_MAX));
+					this->_bitmap.dib.yResolution = static_cast<int>(DPIToPPM(DPI_MAX));
+					this->_bitmap.dib.nbColorsUsed = 0;
+					this->_bitmap.dib.nbImportantColors = 0;
+					this->_bitmap.dib.mask = RGB24{ 8, 8, 8 };
+
+					if (!this->_bitmap.isValid()) {
+						SYSTEM << "Unknown error in DIB" << flush;
+					}
+
+					stream << this->_bitmap.header;
+					stream << this->_bitmap.dib;
+
+					auto buffer = std::vector<std::uint8_t>{};
+					buffer.resize(this->_bitmap.pixels.getHeight() * this->_bitmap.pixels.getWidth() * 3);
+					
+					int psw = ((this->_bitmap.dib.width * (this->_bitmap.dib.bitCount / 8)) + 3) & ~3; // To be sure it is aligned on 4 bytes.
+					long bufPos = 0;
+					for (auto y = ece::size_t{ 0 }; y < this->_bitmap.pixels.getHeight(); ++y) {
+						for (auto x = ece::size_t{ 0 }; x < 3 * this->_bitmap.pixels.getWidth(); x += 3) {
+							bufPos = (static_cast<long>(this->_bitmap.dib.height) - static_cast<long>(y) - 1) * psw + static_cast<long>(x);
+							buffer[bufPos + 2] = static_cast<std::uint8_t>(static_cast<unsigned char>(this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][0])); // red
+							buffer[bufPos + 1] = static_cast<std::uint8_t>(static_cast<unsigned char>(this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][1])); // green
+							buffer[bufPos] = static_cast<std::uint8_t>(static_cast<unsigned char>(this->_bitmap.pixels[this->_bitmap.pixels.getHeight() - 1 - y][x / 3][2])); // blue
+						}
+					}
+					auto compressed = compress(std::move(buffer), this->_bitmap.dib);
+
+					stream.seekp(this->_bitmap.header.pixelsOffset);
+					stream.write(reinterpret_cast<char *>(compressed.data()), compressed.size());
 				}
 			} // namespace bitmap
 		} // namespace formats

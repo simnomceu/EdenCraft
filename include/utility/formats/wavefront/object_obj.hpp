@@ -40,7 +40,9 @@
 #define OBJECT_OBJ_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
+#include "utility/hash.hpp"
 
 namespace ece
 {
@@ -142,68 +144,55 @@ namespace ece
 					 */
 					ObjectOBJ & operator=(ObjectOBJ && move) noexcept = default;
 
-					inline const std::string & getName() const;
-
-					inline void addVertex(const FloatVector4u & v);
-					inline void addVertex(FloatVector4u && v);
-
-					inline std::size_t getNumberOfVertices() const;
-					inline std::vector<FloatVector4u> & getVertices();
-					inline const std::vector<FloatVector4u> & getVertices() const;
-
-					inline void addVertexTexture(const FloatVector2u & vt);
-					inline void addVertexTexture(FloatVector2u && vt);
-
-					inline std::size_t getNumberOfVerticesTexture() const;
-					inline std::vector<FloatVector2u> & getVerticesTexture();
-					inline const std::vector<FloatVector2u> & getVerticesTexture() const;
-
-					inline void addVertexNormal(const FloatVector3u & vn);
-					inline void addVertexNormal(FloatVector3u && vn);
-
-					inline std::size_t getNumberOfVerticesNormal() const;
-					inline std::vector<FloatVector3u> & getVerticesNormal();
-					inline const std::vector<FloatVector3u> & getVerticesNormal() const;
-
-					inline void addVertexSpaceParameter(const FloatVector3u & vp);
-					inline void addVertexSpaceParameter(FloatVector3u && vp);
-
-					inline std::size_t getNumberOfVerticesSpaceParameter() const;
-					inline std::vector<FloatVector3u> & getVerticesSpaceParameter();
-					inline const std::vector<FloatVector3u> & getVerticesSpaceParameter() const;
+					inline auto getName() const;
 
 					inline void setFaceFormat(const FaceFormat & format);
 					inline void setFaceFormat(FaceFormat && format);
 
-					inline FaceFormat & getFaceFormat();
-					inline const FaceFormat & getFaceFormat() const;
+					inline auto & getFaceFormat();
+					inline auto getFaceFormat() const;
 
 					inline void addFace(const Face & f);
 					inline void addFace(Face && f);
 
-					inline std::size_t getNumberOfFaces() const;
-					inline std::vector<Face> & getFaces();
-					inline const std::vector<Face> & getFaces() const;
+					inline auto getNumberOfFaces() const;
+					inline auto & getFaces();
+					inline auto getFaces() const;
 
 					inline void resetCurrentGroups();
 					inline void addGroup(const std::string & group);
 					inline void setMaterial(const std::string & material);
 
-					inline std::size_t getNumberOfGroups() const;
-					inline std::vector<FaceGroup> & getGroups();
-					inline const std::vector<FaceGroup> & getGroups() const;
+					inline auto getNumberOfGroups() const;
+					inline auto & getGroups();
+					inline auto getGroups() const;
+
+					inline auto getVertexIndice(const ObjectOBJ::Vertex & vertex);
 
 				private:
 					std::string _o; // object name
 
-					std::vector<FloatVector4u> _v; // geometric vertices
-					std::vector<FloatVector2u> _vt; // texture vertices
-					std::vector<FloatVector3u> _vn; // vertex normals
-					std::vector<FloatVector3u> _vp; // parameter space vertices
+					struct VertexCompare
+					{
+						auto operator()(const ObjectOBJ::Vertex & lhs, const ObjectOBJ::Vertex & rhs) const -> bool
+						{
+							return lhs._v == rhs._v && lhs._vt == rhs._vt;
+						}
+					};
+
+					struct VertexHash
+					{
+						auto operator()(const ObjectOBJ::Vertex & vertex) const -> std::size_t
+						{
+							return hash_combine(std::hash<int>{}(vertex._v), std::hash<int>{}(vertex._vt));
+						}
+					};
+
+					std::unordered_map<ObjectOBJ::Vertex, std::size_t, ObjectOBJ::VertexHash, ObjectOBJ::VertexCompare> _vertexIndexing;
 
 					FaceFormat _faceFormat;
 					std::vector<Face> _f; // face
-					std::vector<FaceGroup> _groups;
+					std::unordered_map<std::string, FaceGroup> _groups;
 					std::vector<std::string> _currentGroups;
 				};
 			} // namespace wavefront

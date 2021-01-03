@@ -53,15 +53,14 @@ namespace ece
 			 * @class ContextSettings
 			 * @brief
 			 */
-			class ECE_RENDERER_API ContextSettings
+			struct ECE_RENDERER_API ContextSettings
 			{
-			public:
 				/**
 				 * @fn ContextSettings() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				ContextSettings() noexcept = default;
+				inline ContextSettings() noexcept : minVersion(), maxVersion(), doubleBuffering(), antialiasingSamples(), bitsPerPixel(), depthBits(), stencilBits(), window(), oldContext() {}
 
 				/**
 				 * @fn ContextSettings(const ContextSettings & copy) noexcept

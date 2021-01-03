@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/model/mesh.hpp"
 
 namespace ece
@@ -46,63 +47,56 @@ namespace ece
 	{
 		namespace model
 		{
-			Mesh::Mesh() noexcept: _submeshes(), _vertices()
-			{
-			}
+			Mesh::Mesh() noexcept: _submeshes(), _vertices() {}
 
-			Box3D Mesh::getBouncingBox() const
+			auto Mesh::getBouncingBox() const
 			{
 				auto & vertices = this->_vertices.data();
-				auto xMin = std::min_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[0] < b._position[0]; })->_position[0];
-				auto xMax = std::max_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[0] < b._position[0]; })->_position[0];
 
-				auto yMin = std::min_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[1] < b._position[1]; })->_position[1];
-				auto yMax = std::max_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[1] < b._position[1]; })->_position[1];
+				auto [xMin, xMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[0] < b._position[0]; });
+				auto [yMin, yMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[1] < b._position[1]; });
+				auto [zMin, zMax] = std::minmax_element(vertices.begin(), vertices.end(), [](const auto & a, const auto & b) { return a._position[2] < b._position[2]; });
 
-				auto zMin = std::min_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[2] < b._position[2]; })->_position[2];
-				auto zMax = std::max_element(vertices.begin(), vertices.end(), [](const Vertex &  a, const Vertex & b) { return a._position[2] < b._position[2]; })->_position[2];
-
-				return Box3D(FloatVector3u{ xMin, yMin, zMin }, FloatVector3u{ xMax, yMax, zMax });
+				return Box3D<float>(FloatVector3u{ xMin->_position[0], yMin->_position[1], zMin->_position[2] },
+							 FloatVector3u{ xMax->_position[0], yMax->_position[1], zMax->_position[2] });
 			}
 
-			std::size_t Mesh::addVertex(const Mesh::Vertex & vertex)
+			auto Mesh::addVertex(const Mesh::Vertex & vertex) -> std::size_t
 			{
 				auto & vertices = this->_vertices.data();
-				std::size_t index = std::find_if(vertices.begin(), vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
-					return vertex._position == lhs._position && vertex._textureCoordinate == lhs._textureCoordinate;
-				}) - vertices.begin();
-				if (index >= vertices.size()) {
+				vertices.push_back(vertex);
+
+				return vertices.size();
+			}
+
+			auto Mesh::addVertex(Mesh::Vertex && vertex) -> std::size_t
+			{
+				auto & vertices = this->_vertices.data();
+				vertices.push_back(std::move(vertex));
+
+				return vertices.size();
+			}
+
+			void Mesh::insertVertex(std::size_t position, const Mesh::Vertex & vertex)
+			{
+				auto & vertices = this->_vertices.data();
+				if (position >= vertices.size()) {
 					vertices.push_back(vertex);
 				}
 				else {
-					vertices[index]._normal += vertex._normal;
-					vertices[index]._normal = vertices[index]._normal.normalize();
-
-					// OBJ uses "normal per face" while common use is "normal per vertex". n = normalize(n1 + n2 + n3) with n1, n2, n3 the face normals for one single vertex, to compute the normal of the vertex.
-					// Reverse process: n = normalize(n1 + n2 + n3 + n4) with n1, n2, n3, n4 the normal of the four vertices of a quad, to compute, the normal of the square.
+					vertices[position]._normal += vertex._normal;
 				}
-
-				return index;
 			}
 
-			std::size_t Mesh::addVertex(Mesh::Vertex && vertex)
+			void Mesh::insertVertex(std::size_t position, Mesh::Vertex && vertex)
 			{
 				auto & vertices = this->_vertices.data();
-				std::size_t index = std::find_if(vertices.begin(), vertices.end(), [vertex](const Mesh::Vertex & lhs) -> bool {
-					return vertex._position == lhs._position && vertex._textureCoordinate == lhs._textureCoordinate;
-				}) - vertices.begin();
-				if (index >= vertices.size()) {
+				if (position >= vertices.size()) {
 					vertices.push_back(vertex);
 				}
 				else {
-					vertices[index]._normal += vertex._normal;
-					vertices[index]._normal = vertices[index]._normal.normalize();
-
-					// OBJ uses "normal per face" while common use is "normal per vertex". n = normalize(n1 + n2 + n3) with n1, n2, n3 the face normals for one single vertex, to compute the normal of the vertex.
-					// Reverse process: n = normalize(n1 + n2 + n3 + n4) with n1, n2, n3, n4 the normal of the four vertices of a quad, to compute, the normal of the square.
+					vertices[position]._normal += vertex._normal;
 				}
-
-				return index;
 			}
 
 			void Mesh::update()
@@ -113,9 +107,9 @@ namespace ece
 				}
 			}
 
-			BufferLayout Mesh::getLayout() const
+			auto Mesh::getLayout() const -> BufferLayout
 			{
-				BufferLayout layout;
+				auto layout = BufferLayout();
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(3, false, false, false);
 				layout.add<float>(2, false, false, false);

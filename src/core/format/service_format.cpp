@@ -36,6 +36,7 @@
 
 */
 
+#include "core/pch.hpp"
 #include "core/format/service_format.hpp"
 
 namespace ece
@@ -51,7 +52,7 @@ namespace ece
 				ServiceLocator<core::format::FormatManager, core::format::FormatManager>::_service = service;
 			}
 
-			core::format::FormatManager & ServiceLocator<core::format::FormatManager, core::format::FormatManager>::getService()
+			auto ServiceLocator<core::format::FormatManager, core::format::FormatManager>::getService() -> core::format::FormatManager &
 			{
 				if (ServiceLocator<core::format::FormatManager, core::format::FormatManager>::_service.get() == nullptr) {
 					throw MemoryAccessException("A service.");

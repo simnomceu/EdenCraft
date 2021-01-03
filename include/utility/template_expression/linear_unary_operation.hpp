@@ -39,8 +39,8 @@
 #ifndef LINEAR_UNARY_OPERATION_HPP
 #define LINEAR_UNARY_OPERATION_HPP
 
-#include <functional>
-
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/linear_expression.hpp"
 #include "utility/template_expression/literal.hpp"
 
@@ -138,7 +138,7 @@ namespace ece
         		 * @brief Get the size of the resulting vector.
         		 * @throw
         		 */
-        		inline unsigned int size() const;
+        		inline auto size() const;
 
         	private:
         		/**

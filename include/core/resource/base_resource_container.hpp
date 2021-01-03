@@ -40,9 +40,8 @@
 #define BASE_RESOURCE_CONTAINER_HPP
 
 #include "core/config.hpp"
-
-#include <string>
-#include <vector>
+#include "core/pch.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
@@ -85,7 +84,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~BaseResourceContainer() noexcept = default;
+				virtual ~BaseResourceContainer() noexcept = default;
 
 				/**
 				 * @fn BaseResourceContainer & operator=(const BaseResourceContainer & copy) noexcept
@@ -105,11 +104,14 @@ namespace ece
 				 */
 				BaseResourceContainer & operator=(BaseResourceContainer && move) noexcept = default;
 
-
-				virtual void remove(const std::string & key) = 0;
-				virtual void remove(const std::vector<std::string> & keys) = 0;
+				virtual void remove(ece::size_t id) = 0;
+				virtual void remove(const std::vector<ece::size_t> & ids) = 0;
 
 				virtual void clear() = 0;
+
+				virtual auto isResourceLoaded(ece::size_t ids) const -> bool = 0;
+
+				virtual auto getResourceId(const std::string & path) -> ece::size_t = 0;
 			};
 		} // namespace resource
 	} // namespace core

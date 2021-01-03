@@ -42,9 +42,8 @@
 #define COMPUTED_PROPERTY_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/material/base_property.hpp"
-
-#include <functional>
 
 namespace ece
 {
@@ -105,7 +104,7 @@ namespace ece
 				 */
 				ComputedProperty<T> & operator=(ComputedProperty<T> && move) = default;
 
-				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) override;
+				virtual auto getUniform(std::string name) -> std::shared_ptr<BaseUniform> override;
 
 			private:
 				Function _computedValue;

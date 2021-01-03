@@ -63,8 +63,6 @@ namespace ece
 			class ECE_GRAPHIC_API PhongMaterial: public Material::Visitor
 			{
 			public:
-				using Reference = ResourceHandler<PhongMaterial>;
-
 				/**
 				 * @fn constexpr PhongMaterial()
 				 * @brief Default constructor.
@@ -113,10 +111,10 @@ namespace ece
 				 */
 				PhongMaterial & operator=(PhongMaterial && move) noexcept = default;
 
-				inline virtual void setMaterial(const std::shared_ptr<Material> & material) override;
-				inline virtual std::shared_ptr<Material> getMaterial() override;
+				inline virtual void setMaterial(const Material::Reference & material) override;
+				inline virtual auto getMaterial() -> const Material::Reference & override;
 
-				virtual bool isValid() override;
+				virtual auto isValid() -> bool override;
 				virtual void initialize() override;
 				virtual void clear() override;
 
@@ -124,21 +122,21 @@ namespace ece
 				inline void setDiffuse(const FloatVector3u & diffuse);
 				inline void setSpecular(const FloatVector3u & specular);
 				inline void setShininess(const float shininess);
-				inline void setDiffuseMap(const Texture2D::Texture2DReference & texture);
-				inline void setSpecularMap(const Texture2D::Texture2DReference & texture);
+				inline void setDiffuseMap(const Texture2D::Reference & texture);
+				inline void setSpecularMap(const Texture2D::Reference & texture);
 
-				inline const FloatVector3u & getAmbient() const;
-				inline const FloatVector3u & getDiffuse() const;
-				inline const FloatVector3u & getSpecular() const;
-				inline float getShininess() const;
-				inline Texture2D::Texture2DReference getDiffuseMap() const;
-				inline Texture2D::Texture2DReference getSpecularMap() const;
+				inline const auto & getAmbient();
+				inline const auto & getDiffuse();
+				inline const auto & getSpecular();
+				inline auto getShininess();
+				inline auto getDiffuseMap();
+				inline auto getSpecularMap();
 
 			private:
-				std::shared_ptr<Material> _material;
+				Material::Reference _material;
 
-				using DiffuseMap = Property<Texture2D::Texture2DReference, int>;
-				using SpecularMap = Property<Texture2D::Texture2DReference, int>;
+				using DiffuseMap = Property<Texture2D::Reference, int>;
+				using SpecularMap = Property<Texture2D::Reference, int>;
 				using DiffuseMapEnabled = ComputedProperty<bool>;
 				using SpecularMapEnabled = ComputedProperty<bool>;
 				using Ambient = Property<FloatVector3u, std::array<float, 3>>;

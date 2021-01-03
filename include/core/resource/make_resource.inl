@@ -36,8 +36,6 @@
 
 */
 
-#include "core/resource/resource_handler.hpp"
-
 #include "core/resource/service_resource.hpp"
 
 namespace ece
@@ -47,24 +45,23 @@ namespace ece
 		namespace resource
 		{
 			template <class Type, class... Args>
-			ResourceHandler<Type> makeResource(const std::string & identifier, Args &&... args)
+			auto makeResource(const std::string & identifier, Args &&... args) -> Resource<Type>
 			{
-				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
-				if (resource.isDirty()) {
+				if (!ServiceResourceLocator::getService().hasResource<Type>(identifier)) {
 					ServiceResourceLocator::getService().loadResource<Type>(identifier, args...);
-					resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
 				}
-				return std::move(resource);
+				auto id = ServiceResourceLocator::getService().getResourceId<Type>(identifier);
+				return ResourceHandler(id, typeid(Type).hash_code(), identifier).get<Type>();
 			}
 
 			template <class Type>
-			ResourceHandler<Type> getResource(const std::string & identifier)
+			auto getResource(const std::string & identifier) -> Resource<Type>
 			{
-				auto resource = ServiceResourceLocator::getService().getResource<Type>(identifier);
-				if (resource.isDirty()) {
+				if (!ServiceResourceLocator::getService().hasResource<Type>(identifier)) {
 					throw std::runtime_error("Resource " + identifier + " not found.");
 				}
-				return std::move(resource);
+				auto id = ServiceResourceLocator::getService().getResourceId<Type>(identifier);
+				return ResourceHandler(id, typeid(Type).hash_code(), identifier).get<Type>();
 			}
 		} // namespace resource
 	} // namespace core

@@ -44,13 +44,13 @@ namespace ece
 	{
 		namespace scene
 		{
-			inline void Scene::addObject(const Renderable::Reference & object) { this->_objects.push_back({ object, true }); }
+			inline void Scene::addObject(const Renderable::Reference & object, int level) { this->_objects.push_back(object, true, std::move(level)); }
 
 			inline void Scene::addLight(const Light::Reference & light) { this->_lights.push_back(light); }
 
-			inline Camera & Scene::getCamera() { return this->_camera._value; }
+			inline Camera & Scene::getCamera() { return this->_camera.value; }
 
-			inline void Scene::updateCamera() { this->_camera._hasChanged = true; }
+			inline void Scene::updateCamera() { this->_camera.hasChanged = true; }
 		} // namespace scene
 	} // namespace graphic
 } // namespace ece

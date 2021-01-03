@@ -40,8 +40,7 @@
 #define VIRTUAL_ENABLE_SHARED_FROM_THIS_HPP
 
 #include "utility/config.hpp"
-
-#include <memory>
+#include "utility/pch.hpp"
 
 // see: https://stackoverflow.com/questions/15549722/double-inheritance-of-enable-shared-from-this
 // see: https://stackoverflow.com/questions/14939190/boost-shared-from-this-and-multiple-inheritance
@@ -64,28 +63,24 @@ namespace ece
 				using base_type = virtual_base_enable_shared_from_this;
 
 			public:
-				std::shared_ptr<T> shared_from_this()
+				auto shared_from_this()
 				{
-					std::shared_ptr<T> result(base_type::shared_from_this(), static_cast<T*>(this));
-					return result;
+					return std::shared_ptr<T>{base_type::shared_from_this(), static_cast<T*>(this)};
 				}
 
-				std::shared_ptr<T const> shared_from_this() const
+				auto shared_from_this() const
 				{
-					std::shared_ptr<T const> result(base_type::shared_from_this(), static_cast<T const*>(this));
-					return result;
+					return std::shared_ptr<T const>{base_type::shared_from_this(), static_cast<T const*>(this)};
 				}
 
-				std::weak_ptr<T> weak_from_this()
+				auto weak_from_this() -> std::weak_ptr<T>
 				{
-					std::shared_ptr<T> result(base_type::weak_from_this().lock(), static_cast<T*>(this));
-					return result;
+					return std::shared_ptr<T>{base_type::weak_from_this().lock(), static_cast<T*>(this)};
 				}
 
-				std::weak_ptr<T const> weak_from_this() const
+				auto weak_from_this() const -> std::weak_ptr<T const>
 				{
-					std::shared_ptr<T const> result(base_type::weak_from_this().lock(), static_cast<T const*>(this));
-					return result;
+					return std::shared_ptr<T const>{base_type::weak_from_this().lock(), static_cast<T const*>(this)};
 				}
 			};
 		} // namespace pattern

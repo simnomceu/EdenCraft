@@ -40,9 +40,7 @@
 #define OBSERVABLE_HPP
 
 #include "utility/config.hpp"
-
-#include <memory>
-#include <vector>
+#include "utility/pch.hpp"
 
 namespace ece
 {

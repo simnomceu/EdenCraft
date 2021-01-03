@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/object.hpp"
 #include "renderer/shader.hpp"
 
@@ -65,7 +66,7 @@ namespace ece
 				this->_vertexArray.attach(this->_mesh->getVertexBuffer(), this->_mesh->getLayout());
 
                 if (this->isInstancingEnabled()) {
-					renderer::buffer::BufferLayout layoutInstancing;
+					auto layoutInstancing = renderer::buffer::BufferLayout{};
 					layoutInstancing.setInstanceBlockSize(1);
 					layoutInstancing.add<float>(4, false, false, true);
 					layoutInstancing.add<float>(4, false, false, true);
@@ -87,29 +88,27 @@ namespace ece
 			{
 				this->_vertexArray.bind();
 				for (auto & submesh : this->_mesh->getSubmeshes()) {
-					if (*submesh.material) {
+					if (submesh.material) {
 						auto uniforms = submesh.material->getProperties();
 						for (auto uniform : uniforms) {
 							program->bind(uniform, "material." + uniform->getName());
 						}
-					//	submesh.material->apply(*program);
 					}
 					submesh.mesh.getIndexBuffer().bind();
 					if (submesh.mesh.getIndexBuffer().size() > 0) {
 						if (this->isInstancingEnabled()) {
-							OpenGL::drawElementsInstanced(this->_mode, submesh.mesh.size(), renderer::opengl::DataType::UNSIGNED_INT, 0, this->_instances.size());
-
+							OpenGL::drawElementsInstanced(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0, static_cast<ece::size_t>(this->_instances.size()));
 						}
 						else {
-							OpenGL::drawElements(this->_mode, this->_mesh->size(), renderer::opengl::DataType::UNSIGNED_INT, 0);
+							OpenGL::drawElements(this->_mode, static_cast<ece::size_t>(this->_mesh->size()), 0);
 						}
 					}
 					else {
 						if (this->isInstancingEnabled()) {
-							OpenGL::drawArraysInstanced(this->_mode, 0, this->_mesh->size(), this->_instances.size());
+							OpenGL::drawArraysInstanced(this->_mode, 0, static_cast<ece::size_t>(this->_mesh->size()), static_cast<ece::size_t>(this->_instances.size()));
 						}
 						else {
-							OpenGL::drawArrays(this->_mode, 0, this->_mesh->size());
+							OpenGL::drawArrays(this->_mode, 0, static_cast<ece::size_t>(this->_mesh->size()));
 						}
 					}
 				}

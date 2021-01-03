@@ -46,19 +46,19 @@ namespace ece
 	{
 		namespace rendering
 		{
-			inline RenderContext::RenderContext() noexcept: std::enable_shared_from_this<RenderContext>() {}
+			inline RenderContext::RenderContext() noexcept: std::enable_shared_from_this<RenderContext>(), _created(false) {}
 
-			bool RenderContext::isCreated() const noexcept { return this->_created; }
+			auto RenderContext::isCreated() const noexcept { return this->_created; }
 
 			void RenderContext::setCurrent() { Renderer::setCurrentContext(this->weak_from_this()); }
 
-			inline bool RenderContext::isCurrent() const noexcept
+			inline auto RenderContext::isCurrent() const noexcept
 			{
 				try {
 					return Renderer::getCurrentContext().lock().get() == this;
 				}
-				catch (std::bad_weak_ptr & e) {
-					ServiceLoggerLocator::getService().logError(std::string("A RenderContext need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. ") + e.what());
+				catch (const std::bad_weak_ptr & e) {
+					ece::ERROR << "A RenderContext need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. " << e.what() << ece::flush;
 					return false;
 				}
 			}

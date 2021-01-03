@@ -36,12 +36,10 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/pipeline/forward_rendering.hpp"
 
-#include "renderer/pipeline/render_pipeline.hpp"
-#include "renderer/opengl.hpp"
 #include "renderer/pipeline/staging.hpp"
-#include "renderer/pipeline/drawable.hpp"
 
 namespace ece
 {
@@ -54,7 +52,7 @@ namespace ece
 				this->_pipeline = std::move(pipeline);
 			}
 
-			RenderPipeline & ForwardRendering::getPipeline()
+			auto ForwardRendering::getPipeline() -> RenderPipeline &
 			{
 				return this->_pipeline;
 			}
@@ -63,30 +61,28 @@ namespace ece
 			{
 				auto target = Renderer::getCurrentTarget().lock();
 
-				Rectangle<float> viewport;
-				if (this->_pipeline.getViewport().isRatioUsed()) {
-					viewport = Rectangle<float>(0.0f, 0.0f, target->getSize()[0] * this->_pipeline.getViewport().getViewportRatio().getWidth(), target->getSize()[1] * this->_pipeline.getViewport().getViewportRatio().getHeight());
-				}
-				else {
-					viewport = this->_pipeline.getViewport().getViewport();
+				auto viewport = this->_pipeline.getViewport().area;
+				if (this->_pipeline.getViewport().mode == Viewport::Mode::RATIO) {
+					viewport.width *= target->getSize()[0];
+					viewport.height *= target->getSize()[1];
 				}
 
-				OpenGL::viewport(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+				OpenGL::viewport(static_cast<int>(viewport.x), static_cast<int>(viewport.y), static_cast<int>(viewport.width), static_cast<int>(viewport.height));
 
-				if (this->_pipeline.getScissor() != Rectangle<float>()) {
-					OpenGL::scissor(static_cast<int>(this->_pipeline.getScissor().getX()), static_cast<int>(this->_pipeline.getScissor().getY()), static_cast<int>(this->_pipeline.getScissor().getWidth()), static_cast<int>(this->_pipeline.getScissor().getHeight()));
+				if (this->_pipeline.getScissor() != Scissor()) {
+					OpenGL::scissor(static_cast<int>(this->_pipeline.getScissor().x), static_cast<int>(this->_pipeline.getScissor().y), static_cast<int>(this->_pipeline.getScissor().width), static_cast<int>(this->_pipeline.getScissor().height));
 					OpenGL::enable(Capability::SCISSOR_TEST);
 				}
 
-				if (this->_pipeline.getScissor() == Rectangle<float>()) {
-					OpenGL::scissor(static_cast<int>(viewport.getX()), static_cast<int>(viewport.getY()), static_cast<int>(viewport.getWidth()), static_cast<int>(viewport.getHeight()));
+				if (this->_pipeline.getScissor() == Scissor()) {
+					OpenGL::scissor(static_cast<int>(viewport.x), static_cast<int>(viewport.y), static_cast<int>(viewport.width), static_cast<int>(viewport.height));
 					OpenGL::enable(Capability::SCISSOR_TEST);
 				}
 
-				OpenGL::clearColor(static_cast<float>(color.red) / 255.0f,
-					static_cast<float>(color.green) / 255.0f,
-					static_cast<float>(color.blue) / 255.0f,
-					static_cast<float>(color.alpha) / 100.0f);
+				OpenGL::clearColor(static_cast<float>(color.r) / 255.0f,
+					static_cast<float>(color.g) / 255.0f,
+					static_cast<float>(color.b) / 255.0f,
+					static_cast<float>(color.a) / 100.0f);
 				OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
 			}
 
@@ -98,13 +94,13 @@ namespace ece
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "view"), false, staging._view);
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "projection"), false, staging._projection);
 
-				for (auto & object : this->_objects) {
+				std::for_each(this->_objects.begin(), this->_objects.end(), [this, &staging](auto & object) {
 					this->drawObject(object, staging);
-				}
+				});
 
-				for (auto & sprite : this->_sprites) {
+				std::for_each(this->_sprites.begin(), this->_sprites.end(), [this, &staging](auto & sprite) {
 					this->drawSprite(sprite, staging);
-				}
+				});
 
 				this->_objects.clear();
 				this->_sprites.clear();
@@ -130,8 +126,12 @@ namespace ece
 				drawable->draw(this->_pipeline.getProgram());
 			}
 
-			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & /*drawable*/, const Staging & /*staging*/)
+			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & drawable, const Staging & /*staging*/)
 			{
+				this->_pipeline.setState(drawable->getState());
+				this->_pipeline.apply();
+
+				drawable->draw(this->_pipeline.getProgram());
 			}
 		}
 	}

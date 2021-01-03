@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/x11/x11_api.hpp"
 
 namespace ece

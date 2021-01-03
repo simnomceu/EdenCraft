@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/time/chrono.hpp"
+#include "utility/time.hpp"
 
 SCENARIO("Chrono", "[Utility][Time]")
 {

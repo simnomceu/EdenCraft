@@ -40,12 +40,9 @@
 #define FILE_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/mathematics.hpp"
 #include "utility/enumeration.hpp"
-
-#include <string>
-#include <vector>
-#include <fstream>
 
 namespace ece
 {
@@ -61,11 +58,11 @@ namespace ece
 			EnumFlagsT(/*std::ios_base::openmode*/unsigned short int, OpenMode)
 			{
 				app = std::fstream::app, /*< @brief "Seek to the end of stream before each write". */
-					binary = std::fstream::binary, /*< @brief "Open in binary mode". */
-					in = std::fstream::in, /*< @brief "Open for reading". */
-					out = std::fstream::out, /*< @brief "Open for writing". */
-					trunc = std::fstream::trunc, /*< @brief "Discard the contents of the stream when opening". */
-					ate = std::fstream::ate /*< @brief "Seek to the end of stream immediately after open". */
+				binary = std::fstream::binary, /*< @brief "Open in binary mode". */
+				in = std::fstream::in, /*< @brief "Open for reading". */
+				out = std::fstream::out, /*< @brief "Open for writing". */
+				trunc = std::fstream::trunc, /*< @brief "Discard the contents of the stream when opening". */
+				ate = std::fstream::ate /*< @brief "Seek to the end of stream immediately after open". */
 			};
 
         	/**
@@ -96,7 +93,7 @@ namespace ece
         		 * @see File::File(File && move)
         		 * @throw
         		 */
-        		explicit File(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
+        		explicit File(const std::filesystem::path & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
 
         		/**
         		 * @fn File(const File & copy)
@@ -116,7 +113,7 @@ namespace ece
         		 * @see File::File(const std::string & filename, const OpenMode & mode = File::in | File::out)
         		 * @throw
         		 */
-        		inline File(File && move);
+        		inline File(File && move) noexcept;
 
         		/**
         		 * @fn ~File()
@@ -138,7 +135,7 @@ namespace ece
         		 * @return The stream moved.
         		 * @brief Move assigment operator. The stream is also moved.
         		 */
-        		File & operator=(File && move);
+        		File & operator=(File && move) noexcept;
 
         		/**
         		 * @fn bool open(const std::string & filename, const OpenMode & mode)
@@ -148,7 +145,7 @@ namespace ece
         		 * @brief Open a stream to the given file.
         		 * @throw
         		 */
-        		bool open(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
+        		auto open(const std::filesystem::path & filename, const OpenMode & mode = OpenMode::in | OpenMode::out) -> bool;
 
         		/**
         		 * @fn bool isOpen() const
@@ -156,7 +153,7 @@ namespace ece
         		 * @brief Indicates if the current file is opened or not. If no file is set, it returns FALSE.
         		 * @throw
         		 */
-        		inline bool isOpen() const;
+        		inline auto isOpen() const;
 
         		/**
         		 * @fn void close()
@@ -171,7 +168,7 @@ namespace ece
         		 * @brief Get the entire content of the file as a string.
         		 * @throw
         		 */
-        		std::string parseToString();
+				auto parseToString() -> std::string;
 
         		/**
         		 * @fn std::vector<T> parseToVector()
@@ -181,26 +178,8 @@ namespace ece
         		 * If the file is not opened, an empty vector is returned.
         		 * @throw
         		 */
-        		template<class T> std::vector<T> parseToVector();
-
-        		/**
-        		 * @fn bool exists(const std::string & filename)
-        		 * @param[in] filename The file to check for existence.
-        		 * @return True, if the file exists, or false else.
-        		 * @remark To move in the future class Path as a member method.
-        		 * @brief Check if the file is existing or not.
-        		 * @throw
-        		 */
-        		static bool exists(const std::string & filename);
-
-        		/**
-        		 * @fn long long getLastModification(const std::string & filename)
-        		 * @param[in] fileale The file to check for last time modification.
-        		 * @return The last time it has been modified.
-        		 * @brief Get the last time the file has been modified.
-        		 * @throw
-        		 */
-        		static long long getLastTimeModification(const std::string & filename);
+        		template<class T>
+				auto parseToVector();
 
         		/**
         		 * @fn File & operator>>(T & value)
@@ -212,7 +191,8 @@ namespace ece
         		 * @remark The behaviour is undefined for a binary file.
         		 * @throw
         		 */
-        		template <class T> File & operator>>(T & value);
+        		template <class T>
+				auto & operator>>(T & value);
 
         		/**
         		 * @fn File & operator<<(T & value)
@@ -224,7 +204,8 @@ namespace ece
         		 * @remark The behaviour is undefined for a binary file.
         		 * @throw
         		 */
-        		template <class T> File & operator<<(T & value);
+        		template <class T>
+				auto & operator<<(T & value);
 
         		/**
         		 * @fn T read(const unsigned int size = sizeof(T))
@@ -235,7 +216,8 @@ namespace ece
         		 * The file cursor goes after the element read. If the file is not opened an exception is hired.
         		 * @throw
         		 */
-        		template <class T> T read(const unsigned int size = sizeof(T));
+        		template <class T>
+				auto read(const unsigned int size = sizeof(T));
 
         		/**
         		 * @fn File & operator<<(T & value)
@@ -247,7 +229,8 @@ namespace ece
         		 * @remark The behaviour is undefined for a binary file.
         		 * @throw
         		 */
-        		template <class T> void write(const T & value, const unsigned int size = sizeof(T));
+        		template <class T>
+				void write(const T & value, const unsigned int size = sizeof(T));
 
         		/**
         		 * @fn void moveCursorTo(const unsigned int position)
@@ -257,14 +240,16 @@ namespace ece
         		 */
         		inline void moveCursorTo(const unsigned int position);
 
-				inline std::fstream & getStream();
+				inline auto & getStream();
+
+				inline const std::filesystem::path & getFilename() const;
 
         	protected:
         		/**
         		 * @property _filename
         		 * @brief The filename opened in the file stream.
         		 */
-        		std::string _filename;
+				std::filesystem::path _filename;
 
         		/**
         		 * @property _stream
@@ -278,7 +263,7 @@ namespace ece
         	 * @see std::vector<T> File::parseToVector()
         	 * @throw
         	 */
-        	template<> std::vector<FloatVector3u> File::parseToVector<FloatVector3u>();
+        	template<> auto File::parseToVector<FloatVector3u>();
         } // namespace file_system
     } // namespace utility
 } // namespace ece

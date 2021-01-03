@@ -38,12 +38,9 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/model/obj_loader.hpp"
 
-#include "utility/file_system.hpp"
-#include "utility/formats.hpp"
-#include "renderer/shader.hpp"
-#include "core/resource.hpp"
 #include "renderer/image.hpp"
 #include "graphic/material/phong_material.hpp"
 
@@ -55,121 +52,64 @@ namespace ece
 		{
 			using material::PhongMaterial;
 
-			void OBJLoader::loadFromFile(const std::string & filename)
+			std::vector<ResourceHandler> OBJLoader::load(StreamInfoIn info)
 			{
-				std::ifstream file(filename, std::ios::out);
-				if (!file.is_open()) {
-					throw FileException(FileCodeError::BAD_PATH, filename);
+				std::vector<ResourceHandler> meshes;
+
+				auto parser = ParserOBJ();
+				parser.load(info.stream);
+
+				auto & scene = parser.getScene();
+
+				auto fn = info.filename;
+				meshes.clear();
+				meshes.resize(scene.getObjects().size());
+
+				auto relativePath = fn.substr(0, fn.find_last_of('/') + 1);
+
+				for (auto n = std::size_t{ 0 }; n < scene.getMaterials().size(); ++n) {
+					auto materialFilename = relativePath + scene.getMaterials()[n];
+					ResourceLoader().loadFromFile(materialFilename);
 				}
 
-				ParserOBJ parser;
-				parser.load(file);
+				for (auto n = std::size_t{ 0 }; n < scene.getObjects().size(); ++n) {
+					auto & object = scene.getObjects()[n];
+					meshes[n] = makeResource<Mesh>(object.getName());
+					auto mesh = meshes[n].get<Mesh>();
 
-				this->load(filename, parser);
-			}
-
-			void OBJLoader::loadFromString(const std::string & content)
-			{
-				std::istringstream stream(content);
-				if (!stream) {
-					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
-				}
-
-				ParserOBJ parser;
-				parser.load(stream);
-
-				this->load("", parser);
-			}
-
-			void OBJLoader::loadFromStream(std::istream & stream)
-			{
-				ParserOBJ parser;
-				parser.load(stream);
-
-				this->load("", parser);
-			}
-
-			void OBJLoader::load(const std::string & filename, ParserOBJ & parser)
-			{
-				this->clear();
-				this->_meshes.resize(parser.getObjects().size());
-
-				std::string relativePath = filename.substr(0, filename.find_last_of('/') + 1);
-
-				for (std::size_t n = 0; n < parser.getMaterials().size(); ++n) {
-					std::string materialFilename = relativePath + parser.getMaterials()[n];
-					std::ifstream materialFile(materialFilename, std::ios::out);
-					if (!materialFile.is_open()) {
-						throw FileException(FileCodeError::BAD_PATH, materialFilename);
-					}
-
-					ParserMTL parserMaterial;
-					parserMaterial.load(materialFile);
-					auto material = parserMaterial.getMaterials()[0];
-
-					auto materialResource = makeResource<Material>(material.getName());
-					PhongMaterial materialVisitor;
-					materialVisitor.setMaterial(*materialResource);
-					materialVisitor.initialize();
-
-					materialVisitor.setAmbient(material.getAmbientFactor());
-					materialVisitor.setDiffuse(material.getDiffuseFactor());
-					materialVisitor.setSpecular(material.getSpecularFactor());
-					materialVisitor.setShininess(material.getSpecularExponent());
-
-					if (!material.getDiffuseMap().empty()) {
-						auto diffuseMap = makeResource<Texture2D>(material.getDiffuseMap());
-						if (diffuseMap->getData().empty()) {
-							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getDiffuseMap());
-						}
-						diffuseMap->bind(Texture::Target::TEXTURE_2D);
-						diffuseMap->update();
-						materialVisitor.setDiffuseMap(diffuseMap);
-					}
-
-					if (!material.getSpecularMap().empty()) {
-						auto specularMap = makeResource<Texture2D>(material.getSpecularMap());
-						if (specularMap->getData().empty()) {
-							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.getSpecularMap());
-						}
-						specularMap->bind(Texture::Target::TEXTURE_2D);
-						specularMap->update();
-						materialVisitor.setSpecularMap(specularMap);
-					}
-				}
-
-				for (std::size_t n = 0; n < parser.getObjects().size(); ++n) {
-					auto object = parser.getObjects()[n];
-					this->_meshes[n] = makeResource<Mesh>(object.getName());
-
-					auto & submeshes = this->_meshes[n]->getSubmeshes();
+					auto & submeshes = mesh->getSubmeshes();
 					submeshes.resize(object.getGroups().size());
 
-					for (std::size_t g = 0; g < object.getGroups().size(); ++g) {
-						submeshes[g].material = makeResource<Material>(object.getGroups()[g].material);
-						for (auto it : object.getGroups()[g].faces) {
-							auto f = object.getFaces()[it];
+					auto g = 0;
+					for (auto & group : object.getGroups()) {
+						submeshes[g].material = makeResource<Material>(group.second.material);
+						for (auto & it : group.second.faces) {
+							auto & f = object.getFaces()[it];
 							if (object.getFaceFormat().size > 3) {
 								/* Basic triangulation, working only for full convex polygons. */
-								std::vector<unsigned int> face(object.getFaceFormat().size);
+								auto face = std::vector<unsigned int>(object.getFaceFormat().size);
 
-								int i = 0;
+								auto i = 0;
 								for (auto & fElement : f) {
-									Mesh::Vertex vertex;
+									auto vertex = Mesh::Vertex();
 
 									if (fElement._v > 0) {
-										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
-										vertex._position[1] = object.getVertices()[fElement._v - 1][1];
-										vertex._position[2] = object.getVertices()[fElement._v - 1][2];
+										vertex._position[0] = scene.getVertices()[fElement._v - 1][0];
+										vertex._position[1] = scene.getVertices()[fElement._v - 1][1];
+										vertex._position[2] = scene.getVertices()[fElement._v - 1][2];
 									}
 
 									if (fElement._vn > 0) {
-										vertex._normal = object.getVerticesNormal()[fElement._vn - 1];
+										vertex._normal = scene.getVerticesNormal()[fElement._vn - 1];
 									}
 									if (fElement._vt > 0) {
-										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
+										vertex._textureCoordinate = scene.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = this->_meshes[n]->addVertex(vertex);
+
+									auto index = object.getVertexIndice(fElement);
+									mesh->insertVertex(index, std::move(vertex));
+
+								//	auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -179,30 +119,32 @@ namespace ece
 									++i;
 								}
 
-								for (std::size_t j = 0; j < object.getFaceFormat().size - 2; ++j) {
+								for (auto j = std::size_t{ 0 }; j < object.getFaceFormat().size - 2; ++j) {
 									submeshes[g].mesh.addFace({ face[0], face[j + 1], face[j + 2] });
 								}
 							}
 							else {
-								Submesh::Face face;
+								auto face = Submesh::Face{};
 
-								int i = 0;
+								auto i = 0;
 								for (auto & fElement : f) {
-									Mesh::Vertex vertex;
+									auto vertex = Mesh::Vertex{};
 
 									if (fElement._v > 0) {
-										vertex._position[0] = object.getVertices()[fElement._v - 1][0];
-										vertex._position[1] = object.getVertices()[fElement._v - 1][1];
-										vertex._position[2] = object.getVertices()[fElement._v - 1][2];
+										vertex._position[0] = scene.getVertices()[fElement._v - 1][0];
+										vertex._position[1] = scene.getVertices()[fElement._v - 1][1];
+										vertex._position[2] = scene.getVertices()[fElement._v - 1][2];
 									}
 
 									if (fElement._vn > 0) {
-										vertex._normal = object.getVerticesNormal()[fElement._vn - 1];
+										vertex._normal = scene.getVerticesNormal()[fElement._vn - 1];
 									}
 									if (fElement._vt > 0) {
-										vertex._textureCoordinate = object.getVerticesTexture()[fElement._vt - 1];
+										vertex._textureCoordinate = scene.getVerticesTexture()[fElement._vt - 1];
 									}
-									auto index = this->_meshes[n]->addVertex(vertex);
+									auto index = object.getVertexIndice(fElement);
+									mesh->insertVertex(index, std::move(vertex));
+								//	auto index = this->_meshes[n]->addVertex(std::move(vertex));
 									if (object.getFaceFormat().clockwise == ObjectOBJ::Clockwise::CCW) {
 										face[i] = static_cast<unsigned int>(index);
 									}
@@ -216,13 +158,68 @@ namespace ece
 								submeshes[g].mesh.addFace(std::move(face));
 							}
 						}
+						++g;
+					}
+
+					for (auto & vertex : mesh->getVertices()) {
+						vertex._normal = vertex._normal.normalize();
 					}
 				}
+
+				return meshes;
 			}
 
-			void OBJLoader::clear()
+			void OBJLoader::save(StreamInfoOut info)
 			{
-				this->_meshes.clear();
+				auto parser = ParserOBJ();
+				auto & scene = parser.getScene();
+
+				for (auto & resource : info.resources) {
+					auto meshResource = resource.get<Mesh>();
+					auto relativePath = info.filename.substr(0, info.filename.find_last_of('/') + 1);
+
+					auto & objects = scene.getObjects();
+					auto & materials = scene.getMaterials();
+
+					objects.clear();
+					materials.clear();
+
+					auto & object = objects.emplace_back(info.identifier);
+					object.setFaceFormat(ObjectOBJ::FaceFormat{ 3, ObjectOBJ::Clockwise::CCW });
+
+					for (auto & vertex : meshResource->getVertices()) {
+						scene.addVertex({ vertex._position[0], vertex._position[1], vertex._position[2], 1.0f });
+						scene.addVertexNormal({ vertex._normal[0], vertex._normal[1], vertex._normal[2] });
+						scene.addVertexTexture({ vertex._textureCoordinate[0], vertex._textureCoordinate[1] });
+
+						// TODO :: not optimal as there is dopples. Be careful with face adding at the end.
+					}
+
+					auto & submeshes = meshResource->getSubmeshes();
+					int i = 0;
+					for (auto & submesh : submeshes) {
+						object.resetCurrentGroups();
+						auto groupName = info.identifier + std::to_string(i);
+						object.addGroup(groupName);
+
+						object.setMaterial(submesh.material.path);
+						{
+							auto materialFilename = relativePath + submesh.material.path + ".mtl";
+							ResourceLoader().saveToFile(materialFilename, { submesh.material });
+							materials.push_back(submesh.material.path);
+						}
+
+						for (auto & face : submesh.mesh.getFaces()) {
+							object.addFace({ { static_cast<int>(face[0]), static_cast<int>(face[0]), static_cast<int>(face[0]) },
+											 { static_cast<int>(face[1]), static_cast<int>(face[1]), static_cast<int>(face[1]) },
+											 { static_cast<int>(face[2]), static_cast<int>(face[2]), static_cast<int>(face[2]) } });
+						}
+
+						++i;
+					}
+
+					parser.save(info.stream);
+				}
 			}
 		} // namespace model
 	} // namespace graphic

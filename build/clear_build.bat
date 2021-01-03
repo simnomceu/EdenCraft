@@ -1,6 +1,7 @@
-REM Visual Studio 2015/2017 project
+REM Visual Studio project
 rd "./vs2015/" /s /q
 rd "./vs2017/" /s /q
+rd "./vs2019/" /s /q
 
 REM CodeLite project
 rd "./codelite/" /s /q

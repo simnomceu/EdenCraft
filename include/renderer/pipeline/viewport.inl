@@ -42,19 +42,7 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			inline void Viewport::resetViewport(const Rectangle<float> & bounds) noexcept
-			{
-				this->_bounds = bounds;
-				this->_ratio = Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f);
-			}
-
-			inline void Viewport::setViewportRatio(const Rectangle<float> & ratio) noexcept { this->_ratio = ratio; }
-
-			inline const Rectangle<float> & Viewport::getViewport() const noexcept { return this->_bounds; }
-
-			inline const Rectangle<float> & Viewport::getViewportRatio() const noexcept { return this->_ratio; }
-
-			inline bool Viewport::isRatioUsed() const noexcept { return this->_ratio != Rectangle<float>(0.0f, 0.0f, 1.0f, 1.0f); }
+			inline constexpr Viewport::Viewport() noexcept: area(), mode(DEFAULT_MODE) {}
 		} // namespace pipeline
 	} // namespace renderer
 } // namespace ece

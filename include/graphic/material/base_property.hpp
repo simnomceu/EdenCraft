@@ -42,10 +42,7 @@
 #define BASE_PROPERTY_HPP
 
 #include "graphic/config.hpp"
-
-#include <memory>
-#include <string>
-#include <functional>
+#include "graphic/pch.hpp"
 
 namespace ece
 {
@@ -75,7 +72,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr BaseProperty() noexcept = default;
+				inline BaseProperty() noexcept;
 
 				/**
 				 * @fn BaseProperty(const BaseProperty & copy) noexcept
@@ -118,10 +115,18 @@ namespace ece
 				 */
 				BaseProperty & operator=(BaseProperty && move) noexcept = default;
 
-				virtual std::shared_ptr<BaseUniform> getUniform(std::string name) = 0;
+				virtual auto getUniform(std::string name) -> std::shared_ptr<BaseUniform> = 0;
+
+				inline void enable(bool enabled) noexcept;
+				inline auto isEnabled() const noexcept -> bool;
+
+			private:
+				bool _enabled;
 			};
 		} // namespace material
 	} // namespace graphic
 } // namespace model
+
+#include "graphic/material/base_property.inl"
 
 #endif // BASE_PROPERTY_HPP

@@ -42,10 +42,9 @@
 #define MATERIAL_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "core/resource.hpp"
 #include "graphic/material/base_property.hpp"
-
-#include <type_traits>
 
 namespace ece
 {
@@ -70,7 +69,7 @@ namespace ece
 			class ECE_GRAPHIC_API Material
 			{
 			public:
-				using Reference = ResourceHandler<Material>;
+				using Reference = Resource<Material>;
 				class Visitor;
 
 				/**
@@ -121,15 +120,15 @@ namespace ece
 				 */
 				Material & operator=(Material && move) noexcept = default;
 
-				std::vector<std::shared_ptr<BaseUniform>> getProperties();
-				std::shared_ptr<BaseProperty> getProperty(const std::string name);
+				auto getProperties() -> std::vector<std::shared_ptr<BaseUniform>>;
+				auto getProperty(const std::string name) -> std::shared_ptr<BaseProperty>;
 
 				void addProperty(const std::string name, std::shared_ptr<BaseProperty> property);
-				bool hasProperty(const std::string name);
+				auto hasProperty(const std::string name) -> bool;
 				void removeProperty(const std::string name);
 
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<Visitor, T>>>
-				bool isValid() const;
+				auto isValid() const;
 
 			protected:
 				std::unordered_map<std::string, std::shared_ptr<BaseProperty>> _properties;

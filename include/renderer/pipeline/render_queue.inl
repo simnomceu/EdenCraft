@@ -42,13 +42,13 @@ namespace ece
 	{
 		namespace pipeline
 		{
-			inline RenderQueue::Iterator RenderQueue::begin() noexcept { return this->_drawables.begin(); }
+			inline auto RenderQueue::begin() noexcept { return this->_drawables.begin(); }
 
-			inline RenderQueue::ConstIterator RenderQueue::begin() const noexcept { return this->_drawables.begin(); }
+			inline auto RenderQueue::begin() const noexcept { return this->_drawables.begin(); }
 
-			inline RenderQueue::Iterator RenderQueue::end() noexcept { return this->_drawables.end(); }
+			inline auto RenderQueue::end() noexcept { return this->_drawables.end(); }
 
-			inline RenderQueue::ConstIterator RenderQueue::end() const noexcept { return this->_drawables.end(); }
+			inline auto RenderQueue::end() const noexcept { return this->_drawables.end(); }
 		} // namespace pipeline
 	} // namespace renderer
 } // namespcace ece

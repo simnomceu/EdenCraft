@@ -39,7 +39,8 @@
 #ifndef SERVICE_LOCATOR_HPP
 #define SERVICE_LOCATOR_HPP
 
-#include <memory>
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -74,9 +75,7 @@ namespace ece
         		 * @throw
         		 * @remark Should be rename as consume() ?
         		 */
-        		static Base & getService();
-
-        		//static std::weak_ptr<Base> getServicePtr();
+        		static auto getService() -> Base &;
 
         		/**
         		 * @fn void stop()

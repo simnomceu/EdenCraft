@@ -40,10 +40,10 @@
 #define IMAGE_HPP
 
 #include "renderer/config.hpp"
-
-#include <vector>
-
+#include "renderer/pch.hpp"
 #include "utility/indexing.hpp"
+#include "renderer/image/color.hpp"
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -60,6 +60,8 @@ namespace ece
 			class ECE_RENDERER_API Image : public Dynamic2DArray<E>
 			{
 			public:
+				using Reference = Resource<Image<E>>;
+
 				/**
 				 * @fn constexpr Image() noexcept
 				 * @brief Default constructor.
@@ -135,6 +137,8 @@ namespace ece
 				 * @throw
 				 */
 				void rotateOnLeft();
+
+				void setAlphaColor(E color, std::function<auto (const E &, const E &) -> bool> op = [](const E & pixel, const E & mask) { return pixel == mask; });
 			};
 		} // namespace image
 	} // namespace renderer

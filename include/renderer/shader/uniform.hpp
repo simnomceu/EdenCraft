@@ -126,7 +126,7 @@ namespace ece
 				 * @brief Get the data content of the uniform.
 				 * @throw
 				 */
-				inline data_type getData() const;
+				inline auto getData() const;
 
 				/**
 				 * @fn void setData(const T & data)

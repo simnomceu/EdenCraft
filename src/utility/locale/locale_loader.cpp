@@ -36,14 +36,11 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/locale/locale_loader.hpp"
 
 #include "utility/formats/json.hpp"
 #include "utility/debug.hpp"
-
-#include <utility>
-#include <iostream>
-#include <memory>
 
 namespace ece
 {
@@ -60,17 +57,13 @@ namespace ece
 
         	LocaleLoader::LocaleLoader(const std::string & filename, const Localization & locale): _locale(locale), _resource(), _filename(filename)
         	{
-        		this->_locale = locale;
-        		std::string file = LocaleLoader::_path + this->_filename + "_"
-        							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
-        		this->generateResource(file);
+				this->changeLocale(locale);
         	}
 
         	void LocaleLoader::changeLocale(const Localization & locale)
         	{
         		this->_locale = locale;
-        		std::string file = LocaleLoader::_path + this->_filename + "_"
-        							+ this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
+        		const auto file = LocaleLoader::_path + this->_filename + "_" + this->_locale.getLanguage() + "_" + this->_locale.getCountry() + ".json";
         		this->generateResource(file);
         	}
 
@@ -78,24 +71,29 @@ namespace ece
         	{
         		this->_resource.clear();
         		try {
-					File file;
+					auto file = File{};
 					if (!file.open(filename, OpenMode::in)) {
 						throw std::runtime_error(filename + " has not been opened.");
 					}
 
-        			ParserJSON parser;
+					auto parser = ParserJSON{};
         			parser.load(file.getStream());
-        			std::shared_ptr<ObjectJSON> jsonObject = parser.getObject();
+        			auto jsonObject = parser.getObject();
 
-        			for (auto it = jsonObject->begin(); it != jsonObject->end(); ++it) {
-        				if (it->second->getType() == TypeNodeJSON::STRING_JSON) {
-        					auto element = std::static_pointer_cast<StringJSON>(it->second);
-        					this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
+        			for (auto [key, value] : *jsonObject) {
+        				if (value->getType() == NodeJSON::Type::STRING) {
+        					auto element = NodeJSON::convertTo<StringJSON>(value);
+							if (element) {
+								this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
+							}
+							else {
+								ece::ERROR << "Error while loading '" << key << "' string from locale file " << filename << ece::flush;
+							}
         				}
         			}
         		}
-        		catch (FileException & e) {
-        			std::cerr << e.what() << std::endl;
+        		catch (const FileException & e) {
+					ece::ERROR << e.what() << ece::flush;
         		}
         	}
         } // namespace locale

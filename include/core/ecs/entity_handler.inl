@@ -38,39 +38,69 @@
 
 #include "core/ecs/world.hpp"
 
-#include <utility>
-
 namespace ece
 {
 	namespace core
 	{
 		namespace ecs
 		{
-			inline EntityHandler::EntityHandler(const unsigned int id, World & world) noexcept: _id(id), _world(world) {}
-
-			inline unsigned int EntityHandler::getId() const { return this->_id; }
+			inline EntityHandler::EntityHandler(Handle id, World & world) noexcept: _id(id), _world(world) {}
 
 			template <class ComponentType, class ... Args>
-			ComponentType & EntityHandler::addComponent(Args&&... args)
+			auto & EntityHandler::addComponent(Args&&... args)
 			{
-				ComponentType component(args...);
-				component.setOwner(this->_id);
-				auto tank = this->_world.getTank<ComponentType>().lock();
-				tank->push_back(std::move(component));
-				this->_world.onComponentCreated(tank->back());
-				return tank->back();
+				return this->_world.addComponent<ComponentType, Args...>(this->_id, std::forward<Args>(args)...);
 			}
 
 			template <class ComponentType>
-			bool EntityHandler::HasComponent() const
+			auto EntityHandler::hasComponent() const
 			{
 				return this->_world.hasComponent<ComponentType>(this->_id);
 			}
 
+			template <class... ComponentTypes>
+			auto EntityHandler::hasComponents() const
+			{
+				return this->_world.hasComponents<ComponentTypes...>(this->_id);
+			}
+
 			template <class ComponentType>
-			ComponentType & EntityHandler::getComponent()
+			auto & EntityHandler::getComponent()
 			{
 				return this->_world.getComponent<ComponentType>(this->_id);
+			}
+
+			template <class... ComponentTypes>
+			auto EntityHandler::getComponents()
+			{
+				return this->_world.getComponents<ComponentTypes...>(this->_id);
+			}
+
+			template <class ComponentType>
+			void EntityHandler::removeComponent()
+			{
+				this->_world.removeComponent<ComponentType>(this->_id);
+			}
+
+			template <class... ComponentTypes>
+			void EntityHandler::removeComponents()
+			{
+				this->_world.removeComponents<ComponentTypes...>(this->_id);
+			}
+			
+			inline void EntityHandler::destroy()
+			{
+				this->_world.destroy(this->_id);
+			}
+
+			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
+			{
+				return lhs._id == rhs._id;
+			}
+
+			inline auto operator!=(const EntityHandler & lhs, const EntityHandler & rhs) -> bool
+			{
+				return lhs._id != rhs._id;
 			}
 		} // namespace ecs
 	} // namespace core

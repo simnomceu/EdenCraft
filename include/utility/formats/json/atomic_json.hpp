@@ -57,7 +57,7 @@ namespace ece
 				 * @brief An atomic node of the JSON tree. It is a key/value pair.
 				 */
 				template <class T>
-				class AtomicJSON : public NodeJSON
+				class ECE_UTILITY_API AtomicJSON : public NodeJSON
 				{
 				public:
 					AtomicJSON() = delete;
@@ -121,7 +121,7 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					inline virtual bool isAtomic() const noexcept override;
+					inline virtual auto isAtomic() const noexcept -> bool override;
 
 					/**
 					 * @fn TypeNodeJSON getType() const
@@ -131,14 +131,14 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					inline virtual TypeNodeJSON getType() const noexcept override;
+					inline virtual auto getType() const noexcept ->NodeJSON::Type override;
 
 					/**
 					 * @fn const T & getValue() const
 					 * @return The value of the node.
 					 * @brief Get the value of the node.
 					 */
-					inline const T & getValue() const;
+					inline auto getValue() const;
 
 					/**
 					 * @fn void setValue(const T & value)
@@ -152,7 +152,9 @@ namespace ece
 					 * @return The key of the node.
 					 * @brief Get the key of the node.
 					 */
-					inline const std::string & getKey() const;
+					inline auto getKey() const;
+
+					inline virtual auto to_string() const noexcept -> std::string override;
 
 				private:
 					/**

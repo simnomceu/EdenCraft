@@ -40,10 +40,8 @@
 #define EXCEPTION_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/enumeration.hpp"
-
-#include <string>
-#include <stdexcept>
 
 namespace ece
 {
@@ -93,7 +91,7 @@ namespace ece
         		 *
         		 * Get the exception message with all the parameters binded.
         		 */
-        		inline virtual const char * what() const noexcept override;
+        		inline virtual auto what() const noexcept -> const char * override;
 
         	private:
         		/**
@@ -109,7 +107,7 @@ namespace ece
         	   	 * @brief The end step of the recursive mapping throw template binding.
         		 * @throw noexcept
         		 */
-        		inline std::string mapString(const std::string & content) noexcept;
+        		inline auto mapString(const std::string & content) noexcept;
 
         		/**
         		 * @fn std::string mapString(const std::string & content, V value, Args... args)
@@ -123,10 +121,10 @@ namespace ece
         		 * @throw noexcept
         		 */
         		template <class V, class... Args>
-        		std::string mapString(const std::string & content, V value, Args... args) noexcept;
+        		auto mapString(const std::string & content, V value, Args... args) noexcept;
         	};
 
-			enum FileCodeError : unsigned short int
+			enum class FileCodeError : unsigned short int
 			{
 				BAD_PATH = 0,
 				PARSE_ERROR = 1
@@ -150,7 +148,19 @@ namespace ece
         		 * @throw std::bad_alloc May throw std:bad_alloc
         		 * @see std::runtime_error::runtime_error(const std::string & what_arg)
         		 */
-        		FileException(const FileCodeError codeError, const std::string & filename);
+        		FileException(const FileCodeError codeError, const std::filesystem::path & filename);
+
+				/**
+				 * @fn FileException(const FileCodeError codeError, const std::string & filename)
+				 * @param[in] codeError The type of error which has been raised.
+				 * @param[in] filename the filename where the error raised form.
+				 * @param[in] details Details provided by the system about the file error.
+				 * @brief A constructor to build a FileException.
+				 * @see FileCodeError
+				 * @throw std::bad_alloc May throw std:bad_alloc
+				 * @see std::runtime_error::runtime_error(const std::string & what_arg)
+				 */
+				FileException(const FileCodeError codeError, const std::filesystem::path & filename, const std::string & details);
         	};
 
         	/**

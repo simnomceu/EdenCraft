@@ -36,8 +36,6 @@
 
 */
 
-#include <algorithm>
-
 namespace ece
 {
 	namespace core
@@ -45,16 +43,26 @@ namespace ece
 		namespace ecs
 		{
 			template <class ComponentType>
-			inline std::size_t ComponentTank<ComponentType>::size() const noexcept { return std::vector<ComponentType>::size(); }
+			inline auto ComponentTank<ComponentType>::size() const noexcept -> std::size_t { return std::vector<ComponentType>::size(); }
 
 			template <class ComponentType>
-			inline bool ComponentTank<ComponentType>::empty() const noexcept { return std::vector<ComponentType>::empty(); }
+			inline auto ComponentTank<ComponentType>::empty() const noexcept -> bool { return std::vector<ComponentType>::empty(); }
 
 			template <class ComponentType>
 			void ComponentTank<ComponentType>::update()
 			{
-				this->_components.erase(std::remove_if(this->_components.begin(), this->_components.end(), [](auto & lhs) { return lhs.isDirty(); }), this->_components.end());
+				std::vector<ComponentType>::erase(std::remove_if(std::vector<ComponentType>::begin(), std::vector<ComponentType>::end(), [](auto& lhs) { return lhs.isDirty(); }), std::vector<ComponentType>::end());
 			}
+
+			template <class ComponentType>
+			void ComponentTank<ComponentType>::destroy(Handle entityID)
+			{
+				auto result = std::find_if(this->begin(), this->end(), [&entityID](const auto& component) -> bool { return component.getOwner() == entityID; });
+				if (result != this->end()) {
+					result->setDirty(true);
+				}
+			}
+
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

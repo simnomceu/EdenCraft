@@ -36,6 +36,7 @@
 
 */
 
+#include "utility/pch.hpp"
 #include "utility/log/service_logger.hpp"
 
 namespace ece
@@ -44,24 +45,24 @@ namespace ece
 	{
 		namespace service
 		{
-			std::shared_ptr<log::BaseLogger> ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = std::shared_ptr<log::BaseLogger>();
+			std::shared_ptr<log::Logger> ServiceLocator<log::Logger, log::Logger>::_service = std::make_shared<log::Logger>();
 
-			void ServiceLocator<log::BaseLogger, log::BaseLogger>::provide(const std::shared_ptr<log::BaseLogger> & service)
+			void ServiceLocator<log::Logger, log::Logger>::provide(const std::shared_ptr<log::Logger> & service)
 			{
-				ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = service;
+				ServiceLocator<log::Logger, log::Logger>::_service = service;
 			}
 
-			log::BaseLogger & ServiceLocator<log::BaseLogger, log::BaseLogger>::getService()
+			auto ServiceLocator<log::Logger, log::Logger>::getService() -> log::Logger &
 			{
-				if (ServiceLocator<log::BaseLogger, log::BaseLogger>::_service.get() == nullptr) {
-					throw MemoryAccessException("A service.");
+				if (ServiceLocator<log::Logger, log::Logger>::_service.get() == nullptr) {
+					throw std::runtime_error("Bad access to a service from ServiceLoggerLocator. The pointer has expired.");
 				}
-				return *ServiceLocator<log::BaseLogger, log::BaseLogger>::_service;
+				return *ServiceLocator<log::Logger, log::Logger>::_service;
 			}
 
-			void ServiceLocator<log::BaseLogger, log::BaseLogger>::stop()
+			void ServiceLocator<log::Logger, log::Logger>::stop()
 			{
-				ServiceLocator<log::BaseLogger, log::BaseLogger>::_service = std::shared_ptr<log::BaseLogger>();
+				ServiceLocator<log::Logger, log::Logger>::_service = std::make_shared<log::Logger>();
 			}
 		} // namespace service
 	} // namespace utility

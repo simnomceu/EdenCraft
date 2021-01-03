@@ -36,12 +36,12 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/image/loader_bmp.hpp"
 
 #include "utility/formats/bitmap.hpp"
 #include "utility/debug.hpp"
-
-#include <fstream>
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -51,39 +51,44 @@ namespace ece
 		{
 			using utility::formats::bitmap::ParserBMP;
 
-			void LoaderBMP::loadFromFile(const std::string & filename)
+			std::vector<ResourceHandler> LoaderBMP::load(StreamInfoIn info)
 			{
-				std::ifstream file(filename, std::ios::binary | std::ios::in);
-				if (!file.is_open()) {
-					throw FileException(FileCodeError::BAD_PATH, filename);
-				}
-
-				this->loadFromStream(file);
-			}
-
-			void LoaderBMP::loadFromString(const std::string & content)
-			{
-				std::istringstream stream(content);
-				if (!stream) {
-					throw FileException(FileCodeError::PARSE_ERROR, "std::stringstream");
-				}
-
-				this->loadFromStream(stream);
-			}
-
-			void LoaderBMP::loadFromStream(std::istream & stream)
-			{
-				ParserBMP parser;
-				parser.load(stream);
+				auto parser = ParserBMP{};
+				parser.load(info.stream);
 
 				auto & image = parser.getPixels();
 				auto buffer = image.data();
 
-				this->_image.resize(image.getWidth(), image.getHeight());
-				for (std::size_t i = 0; i < image.getWidth() * image.getHeight(); ++i) {
-					this->_image.data()[i].red = buffer[i][0];
-					this->_image.data()[i].green = buffer[i][1];
-					this->_image.data()[i].blue = buffer[i][2];
+				auto resourceImage = Image<RGBA32>();
+				resourceImage.resize(image.getWidth(), image.getHeight());
+				for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
+					resourceImage.data()[i].r = buffer[i][0];
+					resourceImage.data()[i].g = buffer[i][1];
+					resourceImage.data()[i].b = buffer[i][2];
+					resourceImage.data()[i].a = 255;
+				}
+
+				return { makeResource<Image<RGBA32>>(info.identifier, resourceImage) };
+			}
+
+			void LoaderBMP::save(StreamInfoOut info)
+			{
+				for (auto & resource : info.resources) {
+					auto resourceImage = resource.get<Image<RGBA32>>();
+
+					auto parser = ParserBMP{};
+
+					auto & image = parser.getPixels();
+					image.resize(resourceImage->getWidth(), resourceImage->getHeight());
+					auto buffer = image.data();
+
+					for (auto i = std::size_t{ 0 }; i < image.getWidth() * image.getHeight(); ++i) {
+						buffer[i][0] = resourceImage->data()[i].r;
+						buffer[i][1] = resourceImage->data()[i].g;
+						buffer[i][2] = resourceImage->data()[i].b;
+					}
+
+					parser.save(info.stream);
 				}
 			}
 		} // namespace image

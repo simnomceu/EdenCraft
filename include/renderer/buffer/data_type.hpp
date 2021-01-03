@@ -40,6 +40,7 @@
 #define DATA_TYPE_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 
 namespace ece
 {
@@ -64,14 +65,14 @@ namespace ece
 				UNSIGNED_INT_10F_11F_11F_REV = 0x12
 			};
 
-			template <class T> static inline constexpr DataType dataType();
+			template <class T> static inline constexpr auto dataType();
 
-			template<> inline DataType dataType<short int>();
-			template<> inline DataType dataType<unsigned short int>();
-			template<> inline DataType dataType<int>();
-			template<> inline DataType dataType<unsigned int>();
-			template<> inline DataType dataType<float>();
-			template<> inline DataType dataType<double>();
+			template<> inline auto dataType<short int>();
+			template<> inline auto dataType<unsigned short int>();
+			template<> inline auto dataType<int>();
+			template<> inline auto dataType<unsigned int>();
+			template<> inline auto dataType<float>();
+			template<> inline auto dataType<double>();
 		} // namespace buffer
 	} // namespace renderer
 } // namespace ece

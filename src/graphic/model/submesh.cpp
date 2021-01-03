@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/model/submesh.hpp"
 
 namespace ece
@@ -53,8 +54,9 @@ namespace ece
 
 			Submesh & Submesh::operator=(const Submesh & copy)
 			{
-				this->_faces.write(copy._faces.data());
-
+				if (this != &copy) {
+					this->_faces.write(copy._faces.data());
+				}
 				return *this;
 			}
 

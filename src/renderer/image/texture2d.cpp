@@ -36,16 +36,14 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/image/texture2d.hpp"
 
 #include "utility/formats/bitmap.hpp"
 #include "utility/file_system.hpp"
 #include "core/format.hpp"
 #include "utility/debug.hpp"
-#include "renderer/image/loader_image.hpp"
-
-#include <memory>
+#include "core/resource.hpp"
 
 namespace ece
 {
@@ -53,29 +51,40 @@ namespace ece
 	{
 		namespace image
 		{
+			Texture2D::Texture2D()noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), _handle(OpenGL::genTexture())
+			{
+				this->setParameter<int>(Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
+				this->setParameter<int>(Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
+				this->setParameter<int>(Parameter::MIN_FILTER, GL_LINEAR);
+			}
+
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
-				this->_filename = copy._filename;
-				this->_data = copy._data;
-				this->_width = copy._width;
-				this->_height = copy._height;
-				this->_type = copy._type;
-				this->_handle = copy._handle;
+				if (this != &copy) {
+					this->_filename = copy._filename;
+					this->_data = copy._data;
+					this->_width = copy._width;
+					this->_height = copy._height;
+					this->_type = copy._type;
+					this->_handle = copy._handle;
+				}
 
 				return *this;
 			}
 
 			Texture2D & Texture2D::operator=(Texture2D && move) noexcept
 			{
-				this->_filename = std::move(move._filename);
-				this->_data = std::move(move._data);
-				this->_width = move._width;
-				this->_height = move._height;
-				this->_type = move._type;
-				this->_handle = move._handle;
+				if (this != &move) {
+					this->_filename = std::move(move._filename);
+					this->_data = std::move(move._data);
+					this->_width = move._width;
+					this->_height = move._height;
+					this->_type = move._type;
+					this->_handle = move._handle;
 
-				move._data.clear();
-				move._handle = 0;
+					move._data.content.reset();
+					move._handle = NULL_HANDLE;
+				}
 
 				return *this;
 			}
@@ -87,46 +96,55 @@ namespace ece
 				if (this->_filename != filename) {
 					this->_filename = filename;
 
-					try {
-						this->_data.clear();
+					auto image = ResourceLoader().loadFromFile(filename)[0].get<Image<RGBA32>>();
+					this->loadFromImage(type, image);
+				}
+			}
 
-						auto loader = ServiceFormatLocator::getService().getLoader<LoaderImage>(filename).lock();
+			void Texture2D::loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image)
+			{
+				this->_data = image;
 
-						loader->loadFromFile(this->_filename);
+				this->_width = image->getWidth();
+				this->_height = image->getHeight();
+				this->_type = type;
 
-						auto & image = loader->getImage();
-						auto buffer = image.data();
-						for (std::size_t i = 0; i < image.getHeight() * image.getWidth(); ++i) {
-							this->_data.push_back(buffer[i].red); // red
-							this->_data.push_back(buffer[i].green); // green
-							this->_data.push_back(buffer[i].blue); // blue
-						}
+				auto buffer = reinterpret_cast<std::uint8_t*>(this->_data->data());
+				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGBA, this->_width, this->_height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, &buffer[0]);
+			}
 
-						this->_width = image.getWidth();
-						this->_height = image.getHeight();
-						this->_type = type;
-					}
-					catch (FileException & e) {
-						throw e;
-					}
+			void Texture2D::saveToFile(const std::filesystem::path & filename)
+			{
+				auto resource = makeResource<Image<RGBA32>>(filename.stem().generic_string());
+				this->saveToImage(resource);
+
+				ResourceLoader().saveToFile(filename, { resource });
+			}
+
+			void Texture2D::saveToImage(Image<RGBA32>::Reference image)
+			{
+				auto bufferIn = this->_data->data();
+
+				image->resize(this->_width, this->_height);
+				auto buffer = image->data();
+				for (auto i = std::size_t{ 0 }; i < image->getHeight() * image->getWidth(); ++i) {
+					buffer[i] = bufferIn[i];
 				}
 			}
 
 			void Texture2D::bind(const Target target)
 			{
-				OpenGL::bindTexture(getTextureTarget(target), this->_handle);
+				if (!this->isCurrent(target)) {
+					this->setCurrent(target);
+					OpenGL::bindTexture(getTextureTarget(target), this->_handle);
+				}
 			}
 
-			void Texture2D::update()
+			void Texture2D::generateMipmap()
 			{
-				// TODO: adding setParameter method to Texture2D class to call OpenGL::texParameter for external.
-				// TODO: adding properties for each texParameter here ?
-				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGB, this->_width, this->_height, PixelFormat::RGB, PixelDataType::UNSIGNED_BYTE, &this->_data[0]);
+				this->setParameter<int>(Parameter::MAG_FILTER, GL_NEAREST);
+				this->setParameter<int>(Parameter::MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 				OpenGL::generateMipmap(MipmapTarget::TEXTURE_2D);
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::WRAP_S), GL_REPEAT);
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::WRAP_T), GL_REPEAT);
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MAG_FILTER), GL_NEAREST);
-				OpenGL::texParameter(getTextureTarget(Target::TEXTURE_2D), getTextureParameter(Parameter::MIN_FILTER), GL_NEAREST_MIPMAP_NEAREST);
 			}
 
 			void Texture2D::terminate() {}

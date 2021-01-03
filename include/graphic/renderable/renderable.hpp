@@ -59,7 +59,7 @@ namespace ece
 			class ECE_GRAPHIC_API Renderable: public Drawable
 			{
 			public:
-				using Reference = ResourceHandler<Renderable>;
+				using Reference = Resource<Renderable>;
 
 				/**
 				 * @fn Renderable() noexcept
@@ -109,13 +109,13 @@ namespace ece
 				 */
 				Renderable & operator=(Renderable && move) noexcept = default;
 
-				inline virtual const FloatMatrix4u & getModel() const override;
+				inline virtual auto getModel() const -> const FloatMatrix4u & override;
 
 				void applyTransformation(const FloatMatrix4u & transformation);
 
-                bool isInstancingEnabled() const;
+                auto isInstancingEnabled() const -> bool;
 
-				inline virtual RenderState & getState() override;
+				inline virtual auto getState() -> RenderState & override;
 
 				inline virtual void prepare();
 
@@ -128,7 +128,7 @@ namespace ece
 
 				RenderState _state;
 
-				std::size_t _numberOfInstances;
+				ece::size_t _numberOfInstances;
 			};
 		} // namespace renderable
 	} // namespace graphic

@@ -36,6 +36,7 @@
 
 */
 
+#include "renderer/pch.hpp"
 #include "renderer/rendering/render_window.hpp"
 
 #include "renderer/opengl.hpp"
@@ -49,14 +50,13 @@ namespace ece
 		{
 			RenderWindow::RenderWindow() : Window(), RenderTarget(), _context(std::make_shared<ContextOpenGL>()), _contextSettings(), _currentState()
 			{
-				this->_contextSettings.minVersion = { 3, 2 };
+				this->_contextSettings.minVersion = { 3, 3 };
 				this->_contextSettings.maxVersion = { 4, 6 };
 				this->_contextSettings.doubleBuffering = true;
 				this->_contextSettings.antialiasingSamples = 8;
 				this->_contextSettings.bitsPerPixel = 32;
 				this->_contextSettings.depthBits = 24;
 				this->_contextSettings.stencilBits = 8;
-				this->setCurrent();
 			}
 
 			RenderWindow::~RenderWindow() noexcept
@@ -67,6 +67,7 @@ namespace ece
 			void RenderWindow::open()
 			{
 				if (!this->isOpened()) {
+					this->setCurrent();
 					this->_adapter->createWindow();
 					this->_isOpened = true;
 
@@ -75,18 +76,18 @@ namespace ece
 						this->_contextSettings.oldContext = false;
 						this->_context->create(this->_contextSettings);
 					}
-					catch (Exception & /*e*/) {
+					catch ([[maybe_unused]] Exception & e) {
 						throw;
 					}
 					catch (std::runtime_error & e) {
-						ServiceLoggerLocator::getService().logError(e.what());
+						ERROR << e.what() << flush;
 					}
 
 					this->onWindowOpened();
 				}
 			}
 
-			IntVector2u RenderWindow::getSize() const
+			auto RenderWindow::getSize() const -> IntVector2u
 			{
 				return Window::getSize();
 			}
@@ -107,10 +108,7 @@ namespace ece
 			void RenderWindow::updateVideoMode()
 			{
 				if (this->_videoMode.hasChanged()) {
-					this->_context.reset();
-					this->close();
-					this->_context = std::make_shared<ContextOpenGL>();
-					this->open();
+					this->updateContext();
 					this->_videoMode.applyChanges();
 				}
 			}

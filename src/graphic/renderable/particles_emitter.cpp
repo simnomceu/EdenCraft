@@ -38,12 +38,10 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/renderable/particles_emitter.hpp"
 
 #include "graphic/model.hpp"
-
-#include <vector>
-#include <algorithm>
 
 #ifdef _MSC_VER
 #	undef min
@@ -56,12 +54,12 @@ namespace ece
 	{
 		namespace renderable
 		{
-			ParticlesEmitter::ParticlesEmitter(const std::size_t size) noexcept : Renderable(), _particles(), _size(size), _vertices()
+			ParticlesEmitter::ParticlesEmitter(const ece::size_t size) noexcept : Renderable(), _particles(), _size(size), _vertices()
 			{
-				this->_state._pointSize = 4.0f;
-				this->_state._blending = true;
-				this->_state._sourceBlend = RenderState::BlendingFactor::SRC_ALPHA;
-				this->_state._destinationBlend = RenderState::BlendingFactor::ONE;
+				this->_state.pointSize = 4.0f;
+				this->_state.blending = true;
+				this->_state.sourceBlend = RenderState::BlendingFactor::SRC_ALPHA;
+				this->_state.destinationBlend = RenderState::BlendingFactor::ONE;
 
 				this->_mode = PrimitiveMode::POINTS;
 
@@ -73,7 +71,7 @@ namespace ece
 				this->_vertices.write({ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f });
 				this->_vertexArray.attach(this->_vertices, layout);
 
-				renderer::buffer::BufferLayout instanceLayout;
+				auto instanceLayout = renderer::buffer::BufferLayout{};
 				instanceLayout.setInstanceBlockSize(1);
 				instanceLayout.add<float>(1, false, true, false);
 				instanceLayout.add<float>(3, false, false, true);
@@ -82,21 +80,21 @@ namespace ece
 
 				this->_vertexArray.attach(this->_particles, layout);
 
-				for (int i = 0; i < 10; ++i) {
+				for (auto i = 0; i < 10; ++i) {
 					this->_particles.data().push_back({ 1.0f,
 						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
 						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
 						{ ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), ((rand() % 100) / 100.0f), 1.0f } });
 				}
-				this->_numberOfInstances = this->_particles.size();
+				this->_numberOfInstances = static_cast<ece::size_t>(this->_particles.size());
 			}
 
 			void ParticlesEmitter::update(const float elapsedTime)
 			{
-				this->_particles.data().erase(std::remove_if(this->_particles.data().begin(), this->_particles.data().end(), [](const ParticlesEmitter::Particle & element) { return element._life <= 0.0f; }), this->_particles.data().end());
+				this->_particles.data().erase(std::remove_if(this->_particles.data().begin(), this->_particles.data().end(), [](const auto & element) { return element._life <= 0.0f; }), this->_particles.data().end());
 
 				auto particlesToCreate = std::min(this->_size - this->_particles.size(), std::size_t(10));
-				for (size_t i = 0; i < particlesToCreate; ++i) {
+				for (auto i = std::size_t{ 0 }; i < particlesToCreate; ++i) {
 					this->_particles.data().push_back({ 1.0f,
 						{ ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f, ((rand() % 100) - 50) / 500.0f },
 						{ ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f, ((rand() % 100) - 50) / 50.0f },
@@ -111,17 +109,17 @@ namespace ece
 					}
 				}
 
-				this->_numberOfInstances = this->_particles.size();
+				this->_numberOfInstances = static_cast<ece::size_t>(this->_particles.size());
 
 				this->_particles.update();
 			}
 
-			void ParticlesEmitter::draw(std::shared_ptr<Shader> /*program*/)
+			void ParticlesEmitter::draw([[maybe_unused]] std::shared_ptr<Shader> program)
 			{
 				this->_vertexArray.bind();
 				this->_state.apply();
 
-				OpenGL::drawArraysInstanced(this->_mode, 0, this->_vertices.size(), this->_size);
+				OpenGL::drawArraysInstanced(this->_mode, 0, static_cast<ece::size_t>(this->_vertices.size()), this->_size);
 			}
 		} // namespace renderable
 	} // namespace graphic

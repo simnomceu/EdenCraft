@@ -42,19 +42,19 @@ namespace ece
     {
         namespace indexing
         {
-        	template <unsigned short int level>
-        	inline Version<level>::Version(const std::initializer_list<unsigned short int> & il) noexcept: std::array<unsigned short int, level>()
+        	template <std::size_t level>
+        	inline Version<level>::Version(const std::initializer_list<std::size_t> & il) noexcept: std::array<std::size_t, level>()
         	{
-        		for (unsigned int i = 0; i < level; ++i) {
+				for (auto i = std::size_t{ 0 }; i < level; ++i) {
         			(*this)[i] = *(il.begin() + i);
         		}
         	}
 
-        	template <unsigned short int level>
+        	template <std::size_t level>
         	bool Version<level>::operator==(const Version<level> & rhs) const noexcept
         	{
-        		bool result = true;
-        		unsigned int i = 0;
+        		auto result = true;
+				auto i = std::size_t{ 0 };
         		while (i < this->size() && result) {
         			result = result && (*this)[i] == rhs[i];
         			++i;
@@ -62,79 +62,51 @@ namespace ece
         		return result;
         	}
 
-        	template <unsigned short int level>
+        	template <std::size_t level>
         	bool Version<level>::operator!=(const Version<level> & rhs) const noexcept
         	{
         		return !this->operator==(rhs);
         	}
 
-        	template <unsigned short int level>
+        	template <std::size_t level>
         	bool Version<level>::operator<(const Version<level> & rhs) const noexcept
         	{
-        		bool instantResult = (*this)[0] < rhs[0];
-        		bool result = (*this)[0] <= rhs[0];
-        		unsigned int i = 1;
-        		while (i < this->size() && result && !instantResult) {
-        			instantResult = instantResult || ((*this)[i] < rhs[i]);
-        			result = result && ((*this)[i] <= rhs[i]);
+                auto instantResult = (*this)[0] < rhs[0];
+                auto result = (*this)[0] <= rhs[0];
+				auto i = std::size_t{ 1 };
+                while (i < this->size() && i < rhs.size() && result && !instantResult) {
+                    instantResult = instantResult || ((*this)[i] < rhs[i]);
+                    result = result && ((*this)[i] <= rhs[i]);
         			++i;
-        		}
+                }
         		return instantResult && i <= this->size();
         	}
 
-        	template <unsigned short int level>
+        	template <std::size_t level>
         	bool Version<level>::operator<=(const Version<level> & rhs) const noexcept
         	{
-        		bool instantResult = (*this)[0] < rhs[0];
-        		bool result = (*this)[0] <= rhs[0];
-        		unsigned int i = 1;
-        		while (i < this->size() && result && !instantResult) {
-        			instantResult = instantResult || ((*this)[i] < rhs[i]);
-        			result = result && ((*this)[i] <= rhs[i]);
+                auto instantResult = (*this)[0] < rhs[0];
+                auto result = (*this)[0] <= rhs[0];
+				auto i = std::size_t{ 1 };
+                while (i < this->size() && i < rhs.size() && result && !instantResult) {
+                    instantResult = instantResult || ((*this)[i] < rhs[i]);
+                    result = result && ((*this)[i] <= rhs[i]);
         			++i;
-        		}
+                }
         		return (result || instantResult) && i <= this->size();
         	}
 
-        	template <unsigned short int level>
-        	bool Version<level>::operator>(const Version<level> & rhs) const noexcept
-        	{
-        		bool instantResult = (*this)[0] > rhs[0];
-        		bool result = (*this)[0] >= rhs[0];
-        		unsigned int i = 1;
-        		while (i < this->size() && result && !instantResult) {
-        			instantResult = instantResult || ((*this)[i] > rhs[i]);
-        			result = result && ((*this)[i] >= rhs[i]);
-        			++i;
-        		}
-        		return instantResult && i <= this->size();
-        	}
+        	template <std::size_t level>
+			inline bool Version<level>::operator>(const Version<level> & rhs) const noexcept { return !this->operator<=(rhs); }
 
-        	template <unsigned short int level>
-        	bool Version<level>::operator>=(const Version<level> & rhs) const noexcept
-        	{
-        		bool instantResult = (*this)[0] > rhs[0];
-        		bool result = (*this)[0] >= rhs[0];
-        		unsigned int i = 1;
-        		while (i < this->size() && result && !instantResult) {
-        			instantResult = instantResult || ((*this)[i] < rhs[i]);
-        			result = result && ((*this)[i] >= rhs[i]);
-        			++i;
-        		}
-        		return (result || instantResult) && i <= this->size();
-        	}
+        	template <std::size_t level>
+			inline bool Version<level>::operator>=(const Version<level> & rhs) const noexcept { return !this->operator<(rhs); }
 
-        	template <unsigned short int level>
-        	Version<level> min(const Version<level> & lhs, const Version<level> & rhs) noexcept
-        	{
-        		return lhs <= rhs ? lhs : rhs;
-        	}
+        	template <std::size_t level>
+			inline Version<level> min(const Version<level> & lhs, const Version<level> & rhs) noexcept { return lhs <= rhs ? lhs : rhs; }
 
-        	template <unsigned short int level>
-        	Version<level> max(const Version<level> & lhs, const Version<level> & rhs) noexcept
-        	{
-        		return lhs >= rhs ? lhs : rhs;
-        	}
+        	template <std::size_t level>
+			inline Version<level> max(const Version<level> & lhs, const Version<level> & rhs) noexcept { return lhs >= rhs ? lhs : rhs; }
         } // namespace indexing
     } // namespace utility
 } // namespace ece

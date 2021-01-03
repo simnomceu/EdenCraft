@@ -40,12 +40,9 @@
 #define FORMAT_MANAGER_HPP
 
 #include "core/config.hpp"
-#include "utility/file_system.hpp"
-
-#include <unordered_map>
-#include <string>
-#include <memory>
-#include <type_traits>
+#include "core/pch.hpp"
+#include "core/format/saver.hpp"
+#include "core/format/loader.hpp"
 
 namespace ece
 {
@@ -114,14 +111,14 @@ namespace ece
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<Saver, T>>>
 				void registerSaver(const std::string & extension);
 
-				template <class T>
-				inline std::weak_ptr<T> getLoader(const std::string & filename);
+				inline void unregisterLoader(const std::string & extension);
+				inline void unregisterSaver(const std::string & extension);
 
-				template <class T>
-				inline std::weak_ptr<T> getSaver(const std::string & filename);
+				inline auto getLoader(const std::string & extension);
+				inline auto getSaver(const std::string & extension);
 
-				inline bool hasLoaderFor(const std::string & extension) const;
-				inline bool hasSaverFor(const std::string & extension) const;
+				inline auto hasLoaderFor(const std::string & extension) const -> bool;
+				inline auto hasSaverFor(const std::string & extension) const -> bool;
 
 			private:
 				std::unordered_map<std::string, std::shared_ptr<Loader>> _loaders;

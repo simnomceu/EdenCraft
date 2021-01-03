@@ -36,7 +36,7 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/module/module_manager.hpp"
 
 namespace ece
@@ -47,23 +47,23 @@ namespace ece
 		{
 			void ModuleManager::initAll()
 			{
-				for (auto element : this->_modules) {
+				std::for_each(this->_modules.begin(), this->_modules.end(), [](auto & element) {
 					element->init();
-				}
+				});
 			}
 
 			void ModuleManager::updateAll()
 			{
-				for (auto element : this->_modules) {
+				std::for_each(this->_modules.begin(), this->_modules.end(), [](auto & element) {
 					element->update();
-				}
+				});
 			}
 
 			void ModuleManager::terminateAll()
 			{
-				for (auto element : this->_modules) {
+				std::for_each(this->_modules.begin(), this->_modules.end(), [](auto & element) {
 					element->terminate();
-				}
+				});
 			}
 		} // namespace module
 	} // namespace core

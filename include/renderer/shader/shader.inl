@@ -44,17 +44,17 @@ namespace ece
 	{
 		namespace shader
 		{
-			inline Shader::Shader() : _handle(0), _linkedSuccessfully(false) { this->_handle = OpenGL::createProgram(); }
+			inline Shader::Shader() : _handle(0), _linkedSuccessfully(false), _cachedLocations() { this->_handle = OpenGL::createProgram(); }
 
-			inline Shader::Shader(const Handle handle) noexcept : _handle(handle), _linkedSuccessfully(false) {}
+			inline Shader::Shader(const Handle handle) noexcept : _handle(handle), _linkedSuccessfully(false), _cachedLocations() {}
 
-			inline Handle Shader::getHandle() const { return this->_handle; }
+			inline auto Shader::getHandle() const { return this->_handle; }
 
-			inline bool Shader::isLinked() const noexcept { return this->_linkedSuccessfully; }
+			inline auto Shader::isLinked() const noexcept { return this->_linkedSuccessfully; }
 
 			inline void Shader::use() const { OpenGL::useProgram(this->_handle); }
 
-            inline Handle Shader::getLocation(const std::string & location) { return OpenGL::getUniformLocation(this->_handle, location); }
+            inline auto Shader::getLocation(const std::string & location) { return this->_cachedLocations[location]; }
 		} // namespace shader
 	} // namespace renderer
 } // namespace ece

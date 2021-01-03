@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace scene
 		{
-			inline Camera::Camera() noexcept: _position(), _target(), _upAxis{ 0.0f, 1.0f, 0.0f }, _projection() {}
+			inline Camera::Camera() noexcept: _position(), _target(), _upAxis(UP), _projection() {}
 
 			inline void Camera::lookAt(const Movable & object) { this->updatePosition(this->_position, object.getPosition()); }
 
@@ -58,11 +58,11 @@ namespace ece
 
 			inline void Camera::moveIn(const FloatVector3u & direction) { this->updatePosition(this->_position + direction, this->_target); }
 
-			inline FloatMatrix4u Camera::getView() const { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
+			inline auto Camera::getView() const -> FloatMatrix4u { return utility::mathematics::lookAt(this->_position, this->_target, this->_upAxis); }
 
-            inline const Projection & Camera::getProjection() const { return this->_projection; }
+            inline auto Camera::getProjection() const -> const Projection & { return this->_projection; }
 
-            inline Projection & Camera::getProjection() { return this->_projection; }
+            inline auto Camera::getProjection() -> Projection & { return this->_projection; }
 		} // namespace scene
 	} // namespace camera
 } // namespace ece

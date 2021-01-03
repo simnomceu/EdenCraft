@@ -40,9 +40,8 @@
 #define SLOT_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "utility/pattern.hpp"
-
-#include <functional>
 
 namespace ece
 {

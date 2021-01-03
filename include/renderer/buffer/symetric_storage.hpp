@@ -108,10 +108,10 @@ namespace ece
 				 */
 				SymetricStorage & operator=(SymetricStorage && move) noexcept = default;
 
-				inline data_type & data() noexcept;
-				inline const data_type & data() const noexcept;
+				inline auto & data() noexcept;
+				inline const auto & data() const noexcept;
 
-				data_type read(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency) const;
+				auto read([[maybe_unused]] const BaseBuffer::DataDescriptor & descriptor, [[maybe_unused]] BaseBuffer::Type type, [[maybe_unused]] BaseBuffer::Frequency frequency) const -> data_type;
 
 				void write(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency, const data_type & data);
 

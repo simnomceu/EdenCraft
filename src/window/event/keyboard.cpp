@@ -35,6 +35,7 @@
 
 */
 
+#include "window/pch.hpp"
 #include "window/event/keyboard.hpp"
 
 namespace ece
@@ -44,6 +45,22 @@ namespace ece
 		namespace event
 		{
 			std::array<bool, 132> Keyboard::_states = std::array<bool, 132>();
+
+			auto Keyboard::isKeyPressed(const Key code) -> bool
+			{
+				if (code == Keyboard::Key::NONE) {
+					throw std::runtime_error("That code is not a valid key.");
+				}
+				return Keyboard::_states[static_cast<unsigned int>(code)];
+			}
+
+			void Keyboard::pressKey(const Key code, const bool state)
+			{
+				if (code == Keyboard::Key::NONE) {
+					throw std::runtime_error("That code is not a valid key.");
+				}
+				Keyboard::_states[static_cast<unsigned int>(code)] = state;
+			}
 		} // namespace event
 	} // namespace window
 } // namespace ece

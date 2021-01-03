@@ -36,7 +36,7 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/argument/argument_analyzer.hpp"
 
 namespace ece
@@ -47,7 +47,7 @@ namespace ece
 		{
 			void ArgumentAnalyzer::setParameters(int argc, char * argv[])
 			{
-				for (int i = 1; i < argc; i++) {
+				for (auto i = 1; i < argc; i++) {
 					if (argv[i][0] == '-') {
 						this->_parameters.push_back(std::make_pair<std::string, std::string>(argv[i], ""));
 					}
@@ -67,16 +67,36 @@ namespace ece
 
 			void ArgumentAnalyzer::analyze()
 			{
-				for (auto it = this->_parameters.begin(); it != this->_parameters.end(); ++it) {
-					bool analyzed = false;
+				auto mandatories = std::unordered_map<std::string, bool>();
+				for (auto option : this->_options) {
+					if (!option.isOptional()) {
+						mandatories.emplace(std::make_pair(option.getName(), false));
+					}
+				}
+
+				for (auto & [first, second] : this->_parameters) {
+					auto analyzed = false;
 					auto option = this->_options.begin();
 					while (!analyzed && option != this->_options.end()) {
-						analyzed = option->apply(it->first, it->second);
+						analyzed = option->apply(first, second);
 						++option;
 					}
 					if (option == this->_options.end() && !analyzed) {
-						throw std::runtime_error("Unknown argument: " + it->first);
+						throw std::runtime_error("Unknown argument: " + first);
 					}
+
+					--option;
+					if (analyzed && !option->isOptional()) {
+						mandatories[option->getName()] = true;
+					}
+				}
+
+				auto checked = true;
+				for (auto[name, state] : mandatories) {
+					checked &= state;
+				}
+				if (!checked) {
+					throw std::runtime_error("Not all arguments have been provided.");
 				}
 			}
 		} // namespace argument

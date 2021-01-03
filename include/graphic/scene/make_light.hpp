@@ -42,6 +42,7 @@
 #define MAKE_LIGHT_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/scene/light.hpp"
 
 namespace ece
@@ -50,13 +51,13 @@ namespace ece
 	{
 		namespace scene
 		{
-			ECE_GRAPHIC_API Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position);
+			ECE_GRAPHIC_API auto makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position) -> Light::Reference;
 
-			ECE_GRAPHIC_API Light::Reference makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction);
+			ECE_GRAPHIC_API auto makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction) -> Light::Reference;
 
-			ECE_GRAPHIC_API Light::Reference makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic);
+			ECE_GRAPHIC_API auto makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic) -> Light::Reference;
 
-			ECE_GRAPHIC_API Light::Reference makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff);
+			ECE_GRAPHIC_API auto makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff) -> Light::Reference;
 		} // namespace scene
 	} // namespace graphic
 } // namespace ece

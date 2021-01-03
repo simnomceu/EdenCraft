@@ -38,12 +38,11 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/material/phong_material.hpp"
 
 #include "graphic/material/property.hpp"
 #include "graphic/material/computed_property.hpp"
-
-#include <array>
 
 namespace ece
 {
@@ -51,7 +50,7 @@ namespace ece
 	{
 		namespace material
 		{
-			bool PhongMaterial::isValid()
+			auto PhongMaterial::isValid() -> bool
 			{
 				return this->_material->hasProperty("diffuseMapEnabled")
 					&& this->_material->hasProperty("specularMapEnabled")
@@ -65,13 +64,13 @@ namespace ece
 
 			void PhongMaterial::initialize()
 			{
-				this->_material->addProperty("diffuseMap", makeProperty<Texture2D::Texture2DReference, int>(Texture2D::Texture2DReference(), [this](auto property) -> int {
+				this->_material->addProperty("diffuseMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
 					property->active(0);
 					property->bind(Texture::Target::TEXTURE_2D);
 					return 0;
 				}));
 
-				this->_material->addProperty("specularMap", makeProperty<Texture2D::Texture2DReference, int>(Texture2D::Texture2DReference(), [this](auto property) -> int {
+				this->_material->addProperty("specularMap", makeProperty<Texture2D::Reference, int>(Texture2D::Reference(), [this](auto property) -> int {
 					property->active(1);
 					property->bind(Texture::Target::TEXTURE_2D);
 					return 1;
@@ -79,12 +78,12 @@ namespace ece
 
 				this->_material->addProperty("diffuseMapEnabled", makeComputedProperty<bool>([material = this->_material]() {
 					auto diffuseMap = std::dynamic_pointer_cast<DiffuseMap>(material->getProperty("diffuseMap"))->get();
-					return !diffuseMap.isDirty();
+					return diffuseMap;
 				}));
 
 				this->_material->addProperty("specularMapEnabled", makeComputedProperty<bool>([material = this->_material]() {
 					auto specularMap = std::dynamic_pointer_cast<SpecularMap>(material->getProperty("specularMap"))->get();
-					return !specularMap.isDirty();
+					return specularMap;
 				}));
 
 				this->_material->addProperty("ambient", makeProperty<FloatVector3u, std::array<float, 3>>(FloatVector3u{}, [](auto property) {
@@ -110,33 +109,6 @@ namespace ece
 				this->_material->removeProperty("specularMap");
 				this->_material->removeProperty("shininess");
 			}
-
-		/*	void PhongMaterial::apply(Shader & shader)
-			{
-				shader.bind(std::make_shared<Uniform<bool>>("diffuseMapEnabled", !this->_diffuseMap.isDirty()), "material.diffuseMapEnabled");
-				shader.bind(std::make_shared<Uniform<bool>>("specularMapEnabled", !this->_specularMap.isDirty()), "material.specularMapEnabled");
-
-				if (this->_diffuseMap.isDirty()) {
-					shader.bind(std::make_shared<Uniform<float, 3>>("ambient", this->_ambient.data()), "material.ambient");
-					shader.bind(std::make_shared<Uniform<float, 3>>("diffuse", this->_diffuse.data()), "material.diffuse");
-				}
-				else {
-					shader.bind(std::make_shared<Uniform<int>>("diffuseMap", 0), "material.diffuseMap");
-					this->_diffuseMap->active(0);
-					this->_diffuseMap->bind(Texture::Target::TEXTURE_2D);
-				}
-
-				if (this->_specularMap.isDirty()) {
-					shader.bind(std::make_shared<Uniform<float, 3>>("specular", this->_specular.data()), "material.specular");
-				}
-				else {
-					shader.bind(std::make_shared<Uniform<int>>("specularMap", 1), "material.specularMap");
-					this->_specularMap->active(1);
-					this->_specularMap->bind(Texture::Target::TEXTURE_2D);
-				}
-
-				shader.bind(std::make_shared<Uniform<float>>("shininess", this->_shininess), "material.shininess");
-			}*/
 		} // namespace material
 	} // namespace graphic
 } // namespace ece

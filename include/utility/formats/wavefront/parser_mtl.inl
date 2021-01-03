@@ -46,9 +46,9 @@ namespace ece
 			{
 				inline ParserMTL::ParserMTL() noexcept : _materials(), _currentMaterial(this->_materials.end()) {}
 
-				inline std::vector<MaterialMTL> & ParserMTL::getMaterials() { return this->_materials; }
+				inline auto & ParserMTL::getMaterials() { return this->_materials; }
 
-				inline const std::vector<MaterialMTL> & ParserMTL::getMaterials() const { return this->_materials; }
+				inline auto ParserMTL::getMaterials() const { return this->_materials; }
 			} // namespace wavefront
 		} // namespace formats
 	} // namespace utility

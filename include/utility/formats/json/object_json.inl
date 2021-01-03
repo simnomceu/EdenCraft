@@ -48,19 +48,21 @@ namespace ece
 
 				inline void ObjectJSON::remove(const std::string & key) { this->_children.erase(key); }
 
-				inline bool ObjectJSON::isAtomic() const noexcept { return false; }
+				inline auto ObjectJSON::isAtomic() const noexcept -> bool { return false; }
 
-				inline TypeNodeJSON ObjectJSON::getType() const noexcept { return TypeNodeJSON::OBJECT_JSON; }
+				inline auto ObjectJSON::getType() const noexcept -> NodeJSON::Type { return NodeJSON::Type::OBJECT; }
 
-				inline IteratorObjectJSON ObjectJSON::begin() noexcept { return this->_children.begin(); }
+				inline auto ObjectJSON::begin() noexcept { return this->_children.begin(); }
 
-				inline IteratorObjectJSON ObjectJSON::end() noexcept { return this->_children.end(); }
+				inline auto ObjectJSON::end() noexcept { return this->_children.end(); }
 
-				inline std::shared_ptr<NodeJSON> ObjectJSON::operator[](const std::string & key) { return this->_children[key]; }
+				inline auto ObjectJSON::operator[](const std::string & key) { return this->_children.at(key); }
+
+				inline auto ObjectJSON::hasChild(const std::string & key) -> bool { return this->_children.find(key) != this->_children.end(); }
 
 				inline void ObjectJSON::clear() noexcept { this->_children.clear(); }
 
-				inline std::size_t ObjectJSON::size() const noexcept { return this->_children.size(); }
+				inline auto ObjectJSON::size() const noexcept { return this->_children.size(); }
 			} // namespace json
 		} // namespace formats
     } // namespace utility

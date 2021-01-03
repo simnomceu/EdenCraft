@@ -46,19 +46,19 @@ namespace ece
 			{
 				inline ArrayJSON::ArrayJSON(const std::weak_ptr<NodeJSON>& parent) : NodeJSON(parent), _children() {}
 
-				inline bool ArrayJSON::isAtomic() const noexcept { return false; }
+				inline auto ArrayJSON::isAtomic() const noexcept -> bool { return false; }
 
-				inline TypeNodeJSON ArrayJSON::getType() const noexcept { return TypeNodeJSON::ARRAY_JSON; }
+				inline auto ArrayJSON::getType() const noexcept -> NodeJSON::Type { return NodeJSON::Type::ARRAY; }
 
-				inline IteratorArrayJSON ArrayJSON::begin() noexcept { return this->_children.begin(); }
+				inline auto ArrayJSON::begin() noexcept { return this->_children.begin(); }
 
-				inline IteratorArrayJSON ArrayJSON::end() noexcept { return this->_children.end(); }
+				inline auto ArrayJSON::end() noexcept { return this->_children.end(); }
 
-				inline std::shared_ptr<NodeJSON> ArrayJSON::operator[](const int key) { return this->_children[key]; }
+				inline auto ArrayJSON::operator[](const int key) { return this->_children.at(key); }
 
 				inline void ArrayJSON::clear() noexcept { this->_children.clear(); }
 
-				inline std::size_t ArrayJSON::size() const noexcept { return this->_children.size(); }
+				inline auto ArrayJSON::size() const noexcept { return this->_children.size(); }
 			} // namespace json
 		} // namespace formats
     } // namespace utility

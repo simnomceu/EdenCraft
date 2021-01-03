@@ -40,17 +40,15 @@
 #define WORLD_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 #include "core/ecs/system.hpp"
 #include "utility/indexing.hpp"
 #include "core/ecs/base_component_tank.hpp"
 #include "core/ecs/base_component.hpp"
+#include "core/ecs/tank_view.hpp"
 #include "core/signal.hpp"
-
-#include <memory>
-#include <vector>
-#include <unordered_map>
-#include <typeindex>
-#include <functional>
+#include "utility/time.hpp"
+#include "utility/types.hpp"
 
 namespace ece
 {
@@ -68,17 +66,7 @@ namespace ece
 			class ECE_CORE_API World
 			{
 			public:
-				using Prototype = std::function<EntityHandler(World&)>;
-
-				/**
-				 * @typedef Entity
-				 * @brief Define an entity of the world.
-				 */
-				struct Entity
-				{
-					unsigned int _id;
-					bool _dirty;
-				};
+				using Prototype = std::function<auto (World &) -> EntityHandler>;
 
 				/**
 				 * @fn constexpr World() noexcept
@@ -117,7 +105,7 @@ namespace ece
 				 * @brief Default copy assignment operator.
 				 * @throw noexcept
 				 */
-				World & operator=(const World & copy) noexcept = delete;
+				World & operator=(const World & copy) = default;
 
 				/**
 				 * @fn World & operator=(World && move) noexcept
@@ -130,26 +118,61 @@ namespace ece
 
 				void update();
 
-				template <class ComponentType> std::weak_ptr<ComponentTank<ComponentType>> getTank();
+				template <class ComponentType> auto getComponents() -> TankView<ComponentType>;
 
-				template <class SystemType, class... Args> std::weak_ptr<SystemType> addSystem(Args&&... args);
-				template <class SystemType> bool hasSystem() const;
+				template <class SystemType, class... Args> auto addSystem(Args&&... args) -> SystemType &;
 
-				EntityHandler createEntity();
-				EntityHandler createEntity(Prototype prototype);
+				template <class SystemType> auto hasSystem() const -> bool;
 
-				template <class ComponentType> bool hasComponent(const unsigned int entityID) const;
-				template <class ComponentType> ComponentType & getComponent(const unsigned int entityID);
+				auto createEntity() -> EntityHandler;
+				auto createEntity(Prototype prototype) -> EntityHandler;
+
+				void forEachEntity(const std::function<void(EntityHandler)>& routine);
+				void forEachEntity(std::function<void(EntityHandler)>&& routine);
+				template <class T> void forEachEntity(T& object, void (T::* routine)(EntityHandler));
+				template <class T> void forEachEntity(std::weak_ptr<T>& object, void (T::* routine)(EntityHandler));
+				template <class T> void forEachEntity(const T& object, void (T::* routine)(EntityHandler) const);
+				template <class T> void forEachEntity(const std::weak_ptr<T>& object, void (T::* routine)(EntityHandler) const);
+
+				inline auto getNumberofEntities() const -> std::size_t;
+
+				template <class ComponentType> auto hasComponent(Handle entityID) -> bool;
+				template <class... ComponentTypes> auto hasComponents(Handle EntityID) -> bool;
+
+				template <class ComponentType> auto getComponent(Handle entityID) -> ComponentType &;
+				template <class... ComponentTypes> auto getComponents(Handle entityID) -> std::tuple<ComponentTypes & ...>;
+
+				template <class ComponentType, class ... Args> auto addComponent(Handle entityID, Args&&... args) -> ComponentType &;
+
+				template <class ComponentType> void removeComponent(Handle entityID);
+				template <class... ComponentTypes> void removeComponents(Handle entityID);
+				void destroy(Handle entityID);
 
 				Signal<EntityHandler &> onEntityCreated;
 				Signal<BaseComponent &> onComponentCreated;
 
 			private:
+				template <class ComponentType>
+				void addTank();
+
+				template <class ComponentType>
+				auto getTank()->ComponentTank<ComponentType>&;
+
+				/**
+				 * @typedef Entity
+				 * @brief Define an entity of the world.
+				 */
+				struct Entity
+				{
+					Handle id;
+					bool dirty;
+				};
+
 				/**
 				* @property _systems
 				* @brief The list of system running in the world.
 				*/
-				std::unordered_map<std::type_index, std::shared_ptr<System>> _systems;
+				std::map<std::type_index, std::shared_ptr<System>> _systems;
 
 				/**
 				* @property _components
@@ -167,9 +190,9 @@ namespace ece
 				* @property _entityGenerator
 				* @brief To create a new entity.
 				*/
-				UniqueID _entityGenerator;
+				UniqueID<Handle> _entityGenerator;
 
-				template <class ComponentType> void addTank();
+				Chrono _chrono;
 			};
 		} // namespace ecs
 	} // namespace core

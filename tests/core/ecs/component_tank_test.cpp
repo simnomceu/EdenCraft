@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/ecs/component_tank.hpp"
+#include "core/ecs.hpp"
 
 SCENARIO("ComponentTank", "[Core][ECS]")
 {

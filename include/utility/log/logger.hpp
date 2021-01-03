@@ -39,10 +39,9 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <string>
-
 #include "utility/config.hpp"
-#include "utility/log/base_logger.hpp"
+#include "utility/pch.hpp"
+#include "utility/log/console.hpp"
 
 namespace ece
 {
@@ -56,7 +55,7 @@ namespace ece
         	 * @brief Logger implementation.
         	 * @see BaseLogger
         	 */
-        	class ECE_UTILITY_API Logger: public BaseLogger
+        	class ECE_UTILITY_API Logger
         	{
         	public:
         		/**
@@ -64,7 +63,7 @@ namespace ece
         		 * @brief Default constructor.
         		 * @throw
         		 */
-        		Logger() = default;
+        		inline Logger();
 
         		/**
         		 * @fn Logger(const Logger & copy)
@@ -113,7 +112,7 @@ namespace ece
         		 * @brief Log data with the tag ERROR.
         		 * @throw
         		 */
-        		virtual void logError(const std::string & data) override;
+        		inline void logError(const std::string & data);
 
         		/**
         		 * @fn void logWarning(const std::string & data)
@@ -121,7 +120,7 @@ namespace ece
         		 * @brief Log data with the tag WARNING.
         		 * @throw
         		 */
-        		virtual void logWarning(const std::string & data) override;
+        		inline void logWarning(const std::string & data);
 
         		/**
         		 * @fn void logInfo(const std::string & data)
@@ -129,10 +128,30 @@ namespace ece
         		 * @brief Log data with the tag INFO.
         		 * @throw
         		 */
-        		virtual void logInfo(const std::string & data) override;
+        		inline void logInfo(const std::string & data);
+
+        		/**
+        		 * @fn void logSystem(const std::string & data)
+        		 * @param[in] data The data to log.
+        		 * @brief Log data with the tag INFO.
+        		 * @throw
+        		 */
+        		inline void logSystem(const std::string & data);
+
+            protected:
+				template <ConsoleColor Color>
+                void log(const std::string & tag, const std::string & data);
+
+                /**
+                 * @property _target
+                 * @brief  The target stream to send the log.
+                 */
+                std::ostream & _target;
         	};
         } // namespace log
     } // namespace utility
 } // namespace ece
+
+#include "utility/log/logger.inl"
 
 #endif // LOGGER_HPP

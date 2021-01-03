@@ -40,12 +40,8 @@
 #define NODE_JSON_HPP
 
 #include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/enumeration.hpp"
-
-#include <memory>
-#include <map>
-#include <string>
-
 
 namespace ece
 {
@@ -71,17 +67,6 @@ namespace ece
 		{
 			namespace json
 			{
-				enum TypeNodeJSON : unsigned short int
-				{
-					NULL_JSON = 0,
-					BOOLEAN_JSON = 1,
-					INTEGER_JSON = 2,
-					DOUBLE_JSON = 3,
-					STRING_JSON = 4,
-					OBJECT_JSON = 5,
-					ARRAY_JSON = 6
-				};
-
 				/**
 				 * @class NodeJSON
 				 * @extends std::enable_shared_from_this<NodeJSON>
@@ -91,6 +76,17 @@ namespace ece
 				class ECE_UTILITY_API NodeJSON : public std::enable_shared_from_this<NodeJSON>
 				{
 				public:
+					enum class Type : unsigned short int
+					{
+						NULL_JSON = 0,
+						BOOLEAN = 1,
+						INTEGER = 2,
+						DOUBLE = 3,
+						STRING = 4,
+						OBJECT = 5,
+						ARRAY = 6
+					};
+
 					/**
 					 * @fn NodeJSON(const std::weak_ptr<NodeJSON> & parent = std::weak_ptr<NodeJSON>())
 					 * @param[in] parent The parent node of this node.
@@ -146,7 +142,7 @@ namespace ece
 					 * @brief Get the parent of the node if it exists. Else, returns an empty pointer.
 					 * @throw noexcept
 					 */
-					inline std::shared_ptr<NodeJSON> getParent() noexcept;
+					inline auto getParent() noexcept;
 
 					/**
 					 * @fn bool hasParent() const
@@ -154,7 +150,10 @@ namespace ece
 					 * @brief Indicates if a node has a parent or not.
 					 * @throw noexcept
 					 */
-					inline bool hasParent() const noexcept;
+					inline auto hasParent() const noexcept;
+
+					template <class T, typename enabled = typename std::enable_if_t<std::is_base_of_v<NodeJSON, T>>>
+					static inline auto convertTo(std::shared_ptr<NodeJSON> & node);
 
 					/**
 					 * @pure
@@ -165,7 +164,7 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					virtual bool isAtomic() const noexcept = 0;
+					virtual auto isAtomic() const noexcept -> bool = 0;
 
 					/**
 					 * @pure
@@ -176,7 +175,9 @@ namespace ece
 					 * @throw noexcept
 					 * @remark Define a property of type and not of the object. It should be a trait.
 					 */
-					virtual TypeNodeJSON getType() const noexcept = 0;
+					virtual auto getType() const noexcept -> NodeJSON::Type = 0;
+
+					virtual auto to_string() const noexcept -> std::string = 0;
 
 				private:
 					/**

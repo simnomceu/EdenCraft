@@ -43,6 +43,7 @@
 #include "renderer/config.hpp"
 #include "renderer/image/texture.hpp"
 #include "core/resource.hpp"
+#include "renderer/image/color.hpp"
 
 namespace ece
 {
@@ -58,14 +59,14 @@ namespace ece
 			class ECE_RENDERER_API Texture2D: public Texture
 			{
 			public:
-				using Texture2DReference = ResourceHandler<Texture2D>;
+				using Reference = Resource<Texture2D>;
 
 				/**
 				 * @fn Texture2D() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				inline Texture2D() noexcept;
+				Texture2D() noexcept;
 
 				/**
 				 * @fn Texture2D(const Texture2D & copy)
@@ -117,13 +118,19 @@ namespace ece
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) override;
 
+				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) override;
+
+				virtual void saveToFile(const std::filesystem::path & filename) override;
+
+				virtual void saveToImage(Image<RGBA32>::Reference image) override;
+
 				/**
 				 * @fn const std::string & getFilename() const
 				 * @return The filename of the texture.
 				 * @brief Get he filename which is the source of the texture.
 				 * @throw
 				 */
-				inline virtual const std::string & getFilename() const override;
+				inline virtual auto getFilename() const -> const std::string & override;
 
 				/**
 				 * @fn const std::vector<std::byte> & getData() const
@@ -131,7 +138,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				inline virtual const std::vector<std::byte> & getData() const override;
+				inline virtual auto getData() const -> std::uint8_t * override;
 
 				/**
 				 * @fn std::size_t getWidth() const
@@ -139,7 +146,7 @@ namespace ece
 				 * @brief Get the width of the texture.
 				 * @throw
 				 */
-				inline virtual std::size_t getWidth() const override;
+				inline virtual auto getWidth() const -> ece::size_t override;
 
 				/**
 				* @fn std::size_t getHeight() const
@@ -147,7 +154,7 @@ namespace ece
 				* @brief Get the height of the texture.
 				* @throw
 				*/
-				inline virtual std::size_t getHeight() const override;
+				inline virtual auto getHeight() const -> ece::size_t override;
 
 				/**
 				 * @fn TextureTypeTarget getType() const
@@ -155,7 +162,7 @@ namespace ece
 				 * @brief Get the type of texture.
 				 * @throw
 				 */
-				inline virtual TypeTarget getType() const override;
+				inline virtual auto getType() const -> TypeTarget override;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -163,7 +170,7 @@ namespace ece
 				 * @brief Get the id of the texture.
 				 * @throw
 				 */
-				inline virtual Handle getHandle() const override;
+				inline virtual auto getHandle() const -> Handle override;
 
 				/**
 				 * @fn void bind(const TextureTarget target)
@@ -178,12 +185,7 @@ namespace ece
 				template <typename T> void setParameter(const Parameter name, const T value);
 				template <typename T> void setParameter(const Parameter name, const std::vector<T> & value);
 
-				/**
-				 * @fn void update()
-				 * @brief Update the texture settings.
-				 * @throw
-				 */
-				virtual void update() override;
+				void generateMipmap();
 
 				/**
 				 * @fn void terminate()
@@ -203,19 +205,19 @@ namespace ece
 				 * @property _data
 				 * @brief The pixels of the texture.
 				 */
-				std::vector<std::byte> _data;
+				Image<RGBA32>::Reference _data;
 
 				/**
 				 * @property _width
 				 * @brief The width of the texture.
 				 */
-				std::size_t _width;
+				ece::size_t _width;
 
 				/**
 				 * @property _height
 				 * @brief The height of the texture.
 				 */
-				std::size_t _height;
+				ece::size_t _height;
 
 				/**
 				 * @property _type

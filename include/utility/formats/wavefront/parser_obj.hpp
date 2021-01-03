@@ -40,9 +40,9 @@
 #define PARSER_OBJ_HPP
 
 #include "utility/config.hpp"
-#include "utility/formats/wavefront/object_obj.hpp"
-
-#include <vector>
+#include "utility/pch.hpp"
+#include "utility/formats/wavefront/scene_obj.hpp"
+#include "utility/string.hpp"
 
 namespace ece
 {
@@ -87,19 +87,13 @@ namespace ece
 					 */
 					void save(std::ostream & stream);
 
-					inline std::vector<ObjectOBJ> & getObjects();
-					inline const std::vector<ObjectOBJ> & getObjects() const;
-
-					inline std::vector<std::string> & getMaterials();
-					inline const std::vector<std::string> & getMaterials() const;
+					inline SceneOBJ & getScene();
 
 				private:
-					std::vector<ObjectOBJ> _objects;
+					SceneOBJ _scene;
 					std::vector<ObjectOBJ>::iterator _currentObject;
-					std::vector<std::string> _materials;
 
-					void processLine(const std::string & line);
-					std::vector<ObjectOBJ>::iterator addObject(const std::string & name);
+					void processLine(StringStream & line);
 				};
 			} // namespace wavefront
 		} // namespace formats

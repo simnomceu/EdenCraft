@@ -44,7 +44,7 @@
 #include "graphic/config.hpp"
 #include "utility/mathematics.hpp"
 #include "core/resource.hpp"
-#include "graphic/renderable.hpp"
+#include "graphic/renderable/renderable.hpp"
 
 namespace ece
 {
@@ -59,7 +59,7 @@ namespace ece
 			class ECE_GRAPHIC_API Point : public Renderable
 			{
 			public:
-				using PointReference = ResourceHandler<Point>;
+				using Reference = Resource<Point>;
 
 				/**
 				 * @fn constexpr Point() noexcept
@@ -111,15 +111,15 @@ namespace ece
 				 */
 				Point & operator=(Point && move) noexcept = default;
 
-				inline const FloatVector3u & getPosition() const noexcept;
-				inline const FloatVector3u & getColor() const noexcept;
-				inline float getSize() const noexcept;
+				inline auto getPosition() const noexcept -> const FloatVector3u &;
+				inline auto getColor() const noexcept -> const FloatVector3u &;
+				inline auto getSize() const noexcept -> float;
 
 				inline void setPosition(const FloatVector3u & position) noexcept;
 				inline void setColor(const FloatVector3u & color) noexcept;
 				inline void setSize(const float size) noexcept;
 
-				virtual void draw(std::shared_ptr<Shader> program) override;
+				virtual void draw([[maybe_unused]] std::shared_ptr<Shader> program) override;
 
 			private:
 				FloatVector3u _position;

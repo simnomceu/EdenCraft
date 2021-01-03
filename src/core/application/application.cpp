@@ -36,13 +36,12 @@
 
 */
 
-
+#include "core/pch.hpp"
 #include "core/application/application.hpp"
 
 #include "utility/log.hpp"
 #include "core/resource.hpp"
 #include "core/format.hpp"
-#include "utility/debug.hpp"
 
 namespace ece
 {
@@ -50,16 +49,18 @@ namespace ece
 	{
 		namespace application
 		{
-			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager()
+			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager(), _worlds()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
 				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 			}
 
-			Application::Application(int argc, char * argv[]) : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), _running(false), _moduleManager()
+			Application::Application(int argc, char * argv[]) : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), _running(false), _moduleManager(), _worlds()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
+				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
+				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 
 				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
 				argumentAnalyzer.setParameters(argc, argv);
@@ -89,7 +90,7 @@ namespace ece
 				this->onPostTerminate();
 			}
 
-			World & Application::addWorld()
+			auto Application::addWorld() -> World &
 			{
 				this->_worlds.emplace_back();
 				return this->_worlds.back();
@@ -100,8 +101,8 @@ namespace ece
 				try {
 					this->_moduleManager.initAll();
 				}
-				catch (std::runtime_error & e) {
-					ServiceLoggerLocator::getService().logError("Invalid command argument: " + std::string(e.what()));
+				catch (const std::runtime_error & e) {
+					ERROR << "Invalid command argument: " << e.what() << flush;
 				}
 				this->_running = true;
 			}
@@ -117,7 +118,6 @@ namespace ece
 
 			void Application::processEvents()
 			{
-				//EventServiceLocator::getService().clear();
 			}
 
 			void Application::terminate()

@@ -40,8 +40,7 @@
 #define UNIQUE_ID_HPP
 
 #include "utility/config.hpp"
-
-#include <deque>
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -54,9 +53,12 @@ namespace ece
         	 * @extends std::deque<unsigned int>
         	 * @brief Manage unique IDs, considering limited memory.
         	 */
-        	class ECE_UTILITY_API UniqueID : protected std::deque<unsigned int>
+			template <class T>
+        	class ECE_UTILITY_API UniqueID : protected std::deque<T>
         	{
         	public:
+				using type_index = T;
+
         		/**
         		 * @fn UniqueID()
         		 * @brief Default constructor.
@@ -71,7 +73,7 @@ namespace ece
         		 * @brief Build the unique ID generator, with a minimum ID.
         		 * @throw bad_alloc
         		 */
-        		inline UniqueID(const unsigned int start);
+        		inline UniqueID(const type_index start);
 
         		/**
         		 * @fn UniqueID(const UniqueID & copy)
@@ -87,7 +89,7 @@ namespace ece
         		 * @brief Default move constructor.
         		 * @throw bad_alloc
         		 */
-        		UniqueID(UniqueID && move) = default;
+        		UniqueID(UniqueID && move) noexcept = default;
 
         		/**
         		 * @fn ~UniqueID()
@@ -120,7 +122,7 @@ namespace ece
         		 * @brief Get the next unused Id available.
         		 * @throw bad_alloc
         		 */
-        		unsigned int next();
+				auto next();
 
         		/**
         		 * @fn void restack(const unsigned int value)
@@ -129,17 +131,17 @@ namespace ece
         		 * @throw bad_alloc.
         		 * This ID will be used before generating new IDs.
         		 */
-        		void restack(const unsigned int value);
+        		void restack(const type_index value);
 
         		/**
         		* @see http://en.cppreference.com/w/cpp/container/deque/size
         		*/
-        		using std::deque<unsigned int>::size;
+        		using std::deque<type_index>::size;
 
         		/**
         		* @see http://en.cppreference.com/w/cpp/container/deque/clear
         		*/
-        		using std::deque<unsigned int>::clear;
+        		using std::deque<type_index>::clear;
         	};
         } // namespace indexing
     } // namespace utility

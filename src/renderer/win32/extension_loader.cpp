@@ -36,7 +36,7 @@
 
 */
 
-
+#include "renderer/pch.hpp"
 #include "renderer/opengl/extension_loader.hpp"
 
 #include "renderer/win32/wgl_extension.hpp"
@@ -59,25 +59,25 @@ namespace ece
 			{
 				auto proc = wglGetProcAddress(name.data());
 				if (proc == nullptr) {
-					if (requiredVersion > ece::Version<2>{ 3, 2} && ContextOpenGL::getMaxVersionAvailable() < requiredVersion) {
-						ServiceLoggerLocator::getService().logError(name + " is not available. You need at least a " + std::to_string(requiredVersion[0]) + "." + std::to_string(requiredVersion[1]) + " context.");
+					if (requiredVersion > ece::Version<2>{ 3, 3} && ContextOpenGL::getMaxVersionAvailable() < requiredVersion) {
+						ERROR << name << " is not available. You need at least a " << requiredVersion[0] << "." << requiredVersion[1] << " context." << flush;
 					}
 					else {
-						proc = DataContextOpenGL::getProcAddress(name);//GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
+						proc = DataContextOpenGL::getProcAddress(name); // GetProcAddress(WGLLoader::getInstance().getLibrary(), name.data());
 						if (proc == nullptr) {
-							ServiceLoggerLocator::getService().logError(name + " cannot be loaded.");
+							ERROR << name << " cannot be loaded." << flush;
 						}
 					}
 				}
 				return static_cast<void *>(proc);
 			}
 
-			Version<2> initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL)
+			auto initLoader(const Version<2> & minVersionGL, const Version<2> & maxVersionGL) -> Version<2>
 			{
-				Version<2> latestVersionAvailable;
+				auto latestVersionAvailable = Version<2>{};
 				auto version = glGetString(GL_VERSION);
 				if (version) {
-					std::string versionPtr(reinterpret_cast<const char *>(version));
+					auto versionPtr = std::string(reinterpret_cast<const char *>(version));
 					latestVersionAvailable[0] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(0, 1)));
 					latestVersionAvailable[1] = static_cast<unsigned short int>(std::stoi(versionPtr.substr(2, 1)));
 				}

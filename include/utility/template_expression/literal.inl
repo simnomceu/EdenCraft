@@ -52,7 +52,7 @@ namespace ece
         	E Literal<E>::cell(const unsigned int /*index*/) const { return this->_value; }
 
         	template <typename E>
-        	inline constexpr unsigned int Literal<E>::size() const { return 0; }
+        	inline constexpr auto Literal<E>::size() const -> unsigned int { return 0; }
         } // namespace template_expression
     } // namespace utility
 } // namespace ece

@@ -43,9 +43,9 @@
 #include "GL/glext.h"
 #include "GL/wglext.h"
 
-inline BOOL wglChoosePixelFormat(HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats);
+inline auto wglChoosePixelFormat(HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats) -> BOOL;
 
-inline HGLRC wglCreateContextAttribs(HDC hdc, HGLRC hShareContext, const int *attribList);
+inline auto wglCreateContextAttribs(HDC hdc, HGLRC hShareContext, const int *attribList) -> HGLRC;
 
 #include "renderer/win32/wgl_extension.inl"
 

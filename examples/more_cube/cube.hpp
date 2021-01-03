@@ -40,8 +40,6 @@
 #define CUBE_HPP
 
 #include "core/ecs.hpp"
-#include "core/resource.hpp"
-#include "graphic/scene.hpp"
 
 /**
  * @class Cube

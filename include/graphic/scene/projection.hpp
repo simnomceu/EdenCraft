@@ -42,6 +42,7 @@
 #define PROJECTION_HPP
 
 #include "graphic/config.hpp"
+#include "graphic/pch.hpp"
 #include "window/common.hpp"
 #include "utility/mathematics.hpp"
 
@@ -133,7 +134,7 @@ namespace ece
 				 * @brief Get the projection matrix.
 				 * @throw
 				 */
-				inline const FloatMatrix4u & getMatrix() const;
+				inline auto getMatrix() const -> const FloatMatrix4u &;
 
 			private:
 				/**

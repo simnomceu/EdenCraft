@@ -38,6 +38,7 @@
 
 */
 
+#include "graphic/pch.hpp"
 #include "graphic/scene/make_light.hpp"
 
 #include "core/resource.hpp"
@@ -48,7 +49,7 @@ namespace ece
 	{
 		namespace scene
 		{
-			Light::Reference makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position)
+			auto makeBasicLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position) -> Light::Reference
 			{
 				auto light = makeResource<Light>("BasicLight");
 				light->setAmbient(ambient);
@@ -59,7 +60,7 @@ namespace ece
 				return std::move(light);
 			}
 
-			Light::Reference makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction)
+			auto makeDirectionalLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & direction) -> Light::Reference
 			{
 				auto light = makeResource<Light>("DirectionalLight");
 				light->setAmbient(ambient);
@@ -70,7 +71,7 @@ namespace ece
 				return std::move(light);
 			}
 
-			Light::Reference makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic)
+			auto makePointLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const float constant, const float linear, const float quadratic) -> Light::Reference
 			{
 				auto light = makeResource<Light>("PointLight");
 				light->setAmbient(ambient);
@@ -82,7 +83,7 @@ namespace ece
 				return std::move(light);
 			}
 			
-			Light::Reference makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff)
+			auto makeSpotLight(const float ambient, const float diffuse, const float specular, const FloatVector3u & color, const FloatVector3u & position, const FloatVector3u & direction, const float constant, const float linear, const float quadratic, const float innerCutOff, const float outerCutOff) -> Light::Reference
 			{
 				auto light = makeResource<Light>("SpotLight");
 				light->setAmbient(ambient);

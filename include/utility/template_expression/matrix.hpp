@@ -39,10 +39,8 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include <utility>
-#include <type_traits>
-#include <iostream>
-
+#include "utility/config.hpp"
+#include "utility/pch.hpp"
 #include "utility/template_expression/linear_expression.hpp"
 #include "utility/template_expression/filter.hpp"
 #include "utility/template_expression/vector.hpp"

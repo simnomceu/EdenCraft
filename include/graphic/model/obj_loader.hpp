@@ -42,9 +42,10 @@
 #define OBJ_LOADER_HPP
 
 #include "graphic/config.hpp"
-#include "graphic/model/loader_object.hpp"
+#include "graphic/pch.hpp"
 #include "graphic/model/mesh.hpp"
 #include "utility/formats.hpp"
+#include "core/format.hpp"
 
 namespace ece
 {
@@ -56,7 +57,7 @@ namespace ece
 			 * @class OBJLoader
 			 * @brief
 			 */
-			class ECE_GRAPHIC_API OBJLoader: public LoaderObject
+			class ECE_GRAPHIC_API OBJLoader: public Loader, public Saver
 			{
 			public:
 				/**
@@ -108,42 +109,23 @@ namespace ece
 				OBJLoader & operator=(OBJLoader && move) noexcept = default;
 
 				/**
-				* @fn void loadFromFile(const std::string & filename)
+				* @fn void loadFromFile(const std::filesystem::path & filename)
 				* @param[in] filename The name of the file to load data from.
 				* @brief Load and parse data from a file.
 				* @throw
 				*/
-				virtual void loadFromFile(const std::string & filename) override;
+				virtual std::vector<ResourceHandler> load(StreamInfoIn info) override;
 
 				/**
-				* @fn void loadFromString(const std::string & content)
-				* @param[in] content The string content to load data from.
-				* @brief Load and parse data from a string.
-				* @throw
-				*/
-				virtual void loadFromString(const std::string & content) override;
-
-				/**
-				 * @fn void loadFromStream(std::istream & stream)
-				 * @param[inout] stream The stream to load through.
-				 * @brief Load and parse data through a stream.
+				 * @fn void saveToStream(const std::ostream & stream)
+				 * @param[inout] stream The stream to save through.
+				 * @brief Formate and save data through a stream.
 				 * @throw
 				 */
-				virtual void loadFromStream(std::istream & stream) override;
-
-				inline virtual const std::vector<Mesh::Reference> & getMeshes() const override;
-
-			protected:
-				void load(const std::string & filename, ParserOBJ & parser);
-				void clear();
-
-			private:
-				std::vector<Mesh::Reference> _meshes;
+				virtual void save(StreamInfoOut info) override;
 			};
 		} // namespace model
 	} // namespace graphic
 } // namespace ece
-
-#include "graphic/model/obj_loader.inl"
 
 #endif // OBJ_LOADER_HPP

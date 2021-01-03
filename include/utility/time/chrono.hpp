@@ -40,8 +40,7 @@
 #define CHRONO_HPP
 
 #include "utility/config.hpp"
-
-#include <chrono>
+#include "utility/pch.hpp"
 
 namespace ece
 {
@@ -117,7 +116,7 @@ namespace ece
         		 * @brief Reset the chrono and get the elapsed time.
         		 * @throw
         		 */
-        		int reset();
+        		auto reset() -> int;
 
         		/**
         		 * @fn int getElapsedTime() const
@@ -125,7 +124,7 @@ namespace ece
         		 * @brief Get the elapsed time. Chrono is not stopped or reset.
         		 * @throw
         		 */
-        		int getElapsedTime() const;
+        		auto getElapsedTime() const -> int;
 
         	private:
         		/**

@@ -40,6 +40,7 @@
 #define ENTITY_HANDLER_HPP
 
 #include "core/config.hpp"
+#include "core/pch.hpp"
 
 namespace ece
 {
@@ -56,14 +57,9 @@ namespace ece
 			class ECE_CORE_API EntityHandler
 			{
 			public:
-				/**
-				 * @fn constexpr EntityHandler() noexcept
-				 * @brief Default constructor.
-				 * @throw noexcept
-				 */
 				constexpr EntityHandler() noexcept = delete;
 
-				inline EntityHandler(const unsigned int id, World & world) noexcept;
+				inline EntityHandler(Handle id, World & world) noexcept;
 
 				/**
 				 * @fn EntityHandler(const EntityHandler & copy) noexcept
@@ -106,19 +102,30 @@ namespace ece
 				 */
 				EntityHandler & operator=(EntityHandler && move) noexcept = default;
 
-				inline unsigned int getId() const;
+				template <class ComponentType, class ... Args>
+				auto & addComponent(Args&&... args);
 
-				template <class ComponentType, class ... Args> ComponentType & addComponent(Args&&... args);
+				template <class ComponentType> auto hasComponent() const;
+				template <class... ComponentTypes> auto hasComponents() const;
 
-				template <class ComponentType> bool HasComponent() const;
+				template <class ComponentType> auto & getComponent();
+				template <class... ComponentTypes> auto getComponents();
 
-				template <class ComponentType> ComponentType & getComponent();
+				template <class ComponentType> void removeComponent();
+				template <class... ComponentTypes> void removeComponents();
+				inline void destroy();
+
+				friend auto operator==(const EntityHandler& lhs, const EntityHandler& rhs) -> bool;
+				friend auto operator!=(const EntityHandler& lhs, const EntityHandler& rhs) -> bool;
 
 			private:
-				unsigned int _id;
+				Handle _id;
 
 				World & _world;
 			};
+
+			inline auto operator==(const EntityHandler & lhs, const EntityHandler & rhs) -> bool;
+			inline auto operator!=(const EntityHandler & lhs, const EntityHandler & rhs) -> bool;
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

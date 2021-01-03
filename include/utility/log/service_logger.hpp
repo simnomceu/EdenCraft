@@ -39,9 +39,10 @@
 #ifndef SERVICE_LOGGER_HPP
 #define SERVICE_LOGGER_HPP
 
+#include "utility/pch.hpp"
 #include "utility/config.hpp"
 #include "utility/service.hpp"
-#include "utility/log/base_logger.hpp"
+#include "utility/log/logger.hpp"
 
 namespace ece
 {
@@ -50,7 +51,7 @@ namespace ece
 		namespace service
 		{
 			template <>
-			class ECE_UTILITY_API ServiceFactory<log::BaseLogger>
+			class ECE_UTILITY_API ServiceFactory<log::Logger>
 			{
 			public:
 				/**
@@ -62,17 +63,17 @@ namespace ece
 				* @remark It should be refactor to something like that: build(Args...&& args)
 				*/
 				template <class Derived>
-				static std::shared_ptr<log::BaseLogger> build()
+				static auto build() -> std::shared_ptr<log::Logger>
 				{
-					if (!std::is_base_of<log::BaseLogger, Derived>()) {
-						throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
+					if constexpr (!std::is_base_of<log::Logger, Derived>()) {
+						throw std::runtime_error("This class cannot be instantiate as the service wished. Check again.");
 					}
-					return std::shared_ptr<log::BaseLogger>(new Derived());
+					return std::make_shared<Derived>();
 				}
 			};
 
 			template <>
-			class ECE_UTILITY_API ServiceLocator<log::BaseLogger, log::BaseLogger>
+			class ECE_UTILITY_API ServiceLocator<log::Logger, log::Logger>
 			{
 			public:
 				/**
@@ -81,7 +82,7 @@ namespace ece
 				* @brief Set the service provided by the locator.
 				* @throw
 				*/
-				static void provide(const std::shared_ptr<log::BaseLogger> & service);
+				static void provide(const std::shared_ptr<log::Logger> & service);
 
 				/**
 				* @fn Base & getService()
@@ -90,7 +91,7 @@ namespace ece
 				* @throw
 				* @remark Should be rename as consume() ?
 				*/
-				static log::BaseLogger & getService();
+				static auto getService() -> log::Logger &;
 
 				//static std::weak_ptr<Base> getServicePtr();
 
@@ -106,23 +107,23 @@ namespace ece
 				* @property _service
 				* @brief The service to expose.
 				*/
-				static std::shared_ptr<log::BaseLogger> _service;
+				static std::shared_ptr<log::Logger> _service;
 			};
-		}
-        
+		} // namespace service
+
         namespace log
         {
         	/**
         	 * @typedef ServiceLoggerFactory;
         	 * @brief Factory to build a logger implementation.
         	 */
-        	using ServiceLoggerFactory = ServiceFactory<BaseLogger>;
+        	using ServiceLoggerFactory = ServiceFactory<Logger>;
 
         	/**
         	 * @typedef ServiceLoggerLocator;
         	 * @brief Locator to access the current logger implementation.
         	 */
-        	using ServiceLoggerLocator = ServiceLocator<BaseLogger, BaseLogger>;
+        	using ServiceLoggerLocator = ServiceLocator<Logger, Logger>;
 
         	/**
         	 * @remark LoggerHelper ERROR, WARNING, and INFO which implements operator<< and operator>> should be added to help.
@@ -131,4 +132,4 @@ namespace ece
     } // namespace utility
 } // namespace ece
 
-#endif
+#endif // SERVICE_LOGGER_HPP
