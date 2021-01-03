@@ -49,6 +49,9 @@ namespace ece
 			void LogChannel::flush()
 			{
 				switch (this->_channel) {
+				case Channel::SYSTEM:
+					ServiceLoggerLocator::getService().logSystem(this->_buffer.str());
+					break;
 				case Channel::INFO:
 					ServiceLoggerLocator::getService().logInfo(this->_buffer.str());
 					break;

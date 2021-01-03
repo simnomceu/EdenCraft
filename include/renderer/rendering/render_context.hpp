@@ -49,7 +49,7 @@ namespace ece
 	{
 		namespace rendering
 		{
-			class ContextSettings;
+			struct ContextSettings;
 
 			/**
 			 * @class RenderContext

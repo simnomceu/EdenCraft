@@ -113,7 +113,7 @@ namespace ece
         		 * @see File::File(const std::string & filename, const OpenMode & mode = File::in | File::out)
         		 * @throw
         		 */
-        		inline File(File && move);
+        		inline File(File && move) noexcept;
 
         		/**
         		 * @fn ~File()
@@ -135,7 +135,7 @@ namespace ece
         		 * @return The stream moved.
         		 * @brief Move assigment operator. The stream is also moved.
         		 */
-        		File & operator=(File && move);
+        		File & operator=(File && move) noexcept;
 
         		/**
         		 * @fn bool open(const std::string & filename, const OpenMode & mode)

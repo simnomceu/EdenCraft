@@ -337,7 +337,7 @@ namespace ece
 				int precision;
 			};
 
-			enum ShaderPrecisionType : unsigned short int
+			enum class ShaderPrecisionType : unsigned short int
 			{
 				LOW_FLOAT = GL_LOW_FLOAT,
 				MEDIUM_FLOAT = GL_MEDIUM_FLOAT,
@@ -1486,6 +1486,8 @@ namespace ece
 				Handle id;
 				SeverityDebugMessage severity;
 				std::string message;
+
+				inline DebugMessage(): source(), type(), id(), severity(), message() {}
 			};
 		}
 	} // namespace renderer

@@ -52,7 +52,7 @@
 class GameData
 {
 public:
-	enum State
+	enum class State
 	{
 		NONE,
 		SPLASHSCREEN,

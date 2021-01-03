@@ -2295,7 +2295,7 @@ namespace ece
 			inline auto OpenGL::getProgramBinary(Handle program) -> ProgramBinary
 			{
 				const auto bufsize = ece::size_t{ 8192 };
-				ProgramBinary result;
+				auto result = ProgramBinary();
 				checkErrors(glGetProgramBinary(program, bufsize, reinterpret_cast<GLsizei *>(&result.length), reinterpret_cast<GLenum *>(&result.binaryFormat), result.binary));
 				return std::move(result);
 			}
@@ -2540,7 +2540,7 @@ namespace ece
 
 			inline auto OpenGL::getShaderPrecisionFormat(ShaderType shaderType, ShaderPrecisionType precisionType) -> ShaderPrecisionFormat
 			{
-				ShaderPrecisionFormat precisionFormat;
+				auto precisionFormat = ShaderPrecisionFormat();
 				checkErrors(glGetShaderPrecisionFormat(static_cast<GLenum>(shaderType), static_cast<GLenum>(precisionType), precisionFormat.range.data(), &precisionFormat.precision));
 				return std::move(precisionFormat);
 			}

@@ -47,7 +47,7 @@
 #include "utility/pch.hpp"
 #include "utility/formats/bitmap/dib_header_type.hpp"
 #include "utility/formats/bitmap/compression_method.hpp"
-#include "utility/formats/bitmap/color_format.hpp"
+#include "utility/types.hpp"
 #include "utility/mathematics.hpp"
 
 namespace ece
@@ -70,10 +70,6 @@ namespace ece
 					ECE_UTILITY_API friend std::istream & operator>>(std::istream & stream, DIBHeader & header);
 
 					ECE_UTILITY_API friend std::ostream & operator<<(std::ostream & stream, DIBHeader & header);
-
-					std::size_t getBPP() const;
-
-					bool isValid() const;
 
 					struct Halftoning
 					{
@@ -124,21 +120,22 @@ namespace ece
 						std::size_t size;
 					};
 
+					std::size_t size;
 					DIBHeaderType type;
-					std::size_t width;
-					std::size_t height;
+					std::int32_t width;
+					std::int32_t height;
 					std::size_t planes;
 					std::size_t bitCount;
 					CompressionMethod compression;
 					std::size_t imageSize;
-					std::size_t xResolution;
-					std::size_t yResolution;
-					std::size_t nbColorsUsed;
+					std::int32_t xResolution;
+					std::int32_t yResolution;
+					std::int32_t nbColorsUsed;
 					std::size_t nbImportantColors;
 					Halftoning halftoning;
-					std::variant<RGB<std::size_t>, RGBA<std::size_t>> mask;
+					std::variant<RGB24, RGBA32> mask;
 					ColorSpace colorSpace;
-					RGB<std::size_t> gamma;
+					RGB24 gamma;
 					IntentMapping intent;
 					Profile profile;
 				};

@@ -56,14 +56,14 @@ namespace ece
 				public:
 					ColorTable(DIBHeader & dib);
 
-					RGBA<uint8_t> operator[](const std::size_t index) const;
-					void set(const std::size_t index, RGBA<uint8_t> value);
+					RGBA32 operator[](const std::size_t index) const;
+					void set(const std::size_t index, RGBA32 value);
 
 					friend std::istream & operator>>(std::istream & stream, ColorTable & colorTable);
 					friend std::ostream & operator<<(std::ostream & stream, ColorTable & colorTable);
 
 				private:
-					std::variant<std::vector<BGRA<uint8_t>>, std::vector<BGR<uint8_t>>> _colors;
+					std::variant<std::vector<BGRA32>, std::vector<BGR24>> _colors;
 				};
 			} // namespace bitmap
 		} // namespace formats

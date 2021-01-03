@@ -36,8 +36,6 @@
 
 */
 
-#include "utility/debug.hpp"
-
 namespace ece
 {
     namespace utility
@@ -49,7 +47,7 @@ namespace ece
         	auto ServiceFactory<Base>::build() -> std::shared_ptr<Base>
         	{
         		if (!std::is_base_of<Base, Derived>()) {
-        			throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
+        			throw std::runtime_error("This class cannot be instantiate as the service wished. Check again.");
         		}
         		return std::make_shared<Derived>();
         	}

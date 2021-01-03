@@ -128,8 +128,8 @@ namespace ece
 				using std::vector<ComponentType>::emplace_back;
 
 				virtual void update() override;
-			private:
-				std::vector<ComponentType> _components;
+
+				virtual void destroy(Handle entityID) override;
 			};
 		} // namespace ecs
 	} // namespace core

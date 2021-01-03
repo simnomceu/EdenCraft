@@ -39,6 +39,7 @@
 #ifndef UTILITY_LOG_HPP
 #define UTILITY_LOG_HPP
 
+#include "utility/log/console.hpp"
 #include "utility/log/log_channel.hpp"
 #include "utility/log/logger.hpp"
 #include "utility/log/service_logger.hpp"

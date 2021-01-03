@@ -36,9 +36,6 @@
 
 */
 
-#include "utility/config.hpp"
-#include "utility/debug.hpp"
-
 namespace ece
 {
     namespace utility
@@ -58,7 +55,7 @@ namespace ece
         	auto ServiceLocator<Base, Null>::getService() -> Base &
         	{
         		if (ServiceLocator<Base, Null>::_service.get() == nullptr) {
-        			throw MemoryAccessException("A service.");
+        			throw std::runtime_error("Bad access to a service from ServiceLocator. The pointer has expired.");
         		}
         		return *ServiceLocator<Base, Null>::_service;
         	}

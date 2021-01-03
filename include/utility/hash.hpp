@@ -39,6 +39,7 @@
 #ifndef HASH_HPP
 #define HASH_HPP
 
+#include "utility/hash/hash_fnv.hpp"
 #include "utility/hash/helper.hpp"
 
 namespace ece

@@ -88,7 +88,7 @@ namespace ece
 				inline auto DoubleJSON::to_string() const noexcept -> std::string { return std::to_string(this->_value); }
 
 				template <>
-				inline auto StringJSON::to_string() const noexcept -> std::string { return this->_value; }
+				inline auto StringJSON::to_string() const noexcept -> std::string { return "\"" + this->_value + "\""; }
 			} // namespace json
 		} // namespace formats
     } // namespace utility

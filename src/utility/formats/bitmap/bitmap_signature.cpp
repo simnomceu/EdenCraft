@@ -50,8 +50,25 @@ namespace ece
 			{
 				BitmapSignature toBitmapSignature(std::string signature)
 				{
-					auto hasher = std::hash<std::string>();
-					return static_cast<BitmapSignature>(hasher(signature));
+					if (signature == "BM") {
+						return BitmapSignature::BM;
+					}
+					else if (signature == "BA") {
+						return BitmapSignature::BA;
+					}
+					else if (signature == "CI") {
+						return BitmapSignature::CI;
+					}
+					else if (signature == "CP") {
+						return BitmapSignature::BA;
+					}
+					else if (signature == "IC") {
+						return BitmapSignature::IC;
+					}
+					else if (signature == "PT") {
+						return BitmapSignature::PT;
+					}
+					throw std::runtime_error("Unknown signature for BitmapSignature enumeration.");
 				}
 
 				std::string to_string(BitmapSignature signature)
@@ -60,7 +77,7 @@ namespace ece
 					case BitmapSignature::BM: return "BM"; break;
 					case BitmapSignature::BA: return "BA"; break;
 					case BitmapSignature::CI: return "CI"; break;
-					case BitmapSignature::CP: return "CO"; break;
+					case BitmapSignature::CP: return "CP"; break;
 					case BitmapSignature::IC: return "IC"; break;
 					case BitmapSignature::PT: return "PT"; break;
 					default: throw std::runtime_error("Unknown value for BitmapSignature enumeration."); break;
