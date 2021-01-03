@@ -43,9 +43,15 @@ namespace ece
 		namespace argument
 		{
 			inline Option::Option(const std::string & name, const std::shared_ptr<OptionValue> & value, const std::function<void(const std::string &)> & command) :
-				_name(name), _value(value), _command(command)
+				_name(name), _value(value), _command(command), _optional(false)
 			{
 			}
+
+			inline void Option::setOptional(bool optional) noexcept { this->_optional = optional; }
+
+			inline bool Option::isOptional() const noexcept { return this->_optional; }
+
+			inline const std::string & Option::getName() const noexcept { return this->_name; }
 		} // namespace argument
 	} // namespace core
 } // namespace ece

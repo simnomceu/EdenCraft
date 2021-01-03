@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/file_system/file.hpp"
+#include "utility/file_system.hpp"
 
 SCENARIO("File", "[Utility][File]")
 {

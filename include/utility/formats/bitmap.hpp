@@ -39,6 +39,10 @@
 #ifndef BITMAP_HPP
 #define BITMAP_HPP
 
+#include "utility/formats/bitmap/bitmap_pixel_data.hpp"
+#include "utility/formats/bitmap/bitmap_signature.hpp"
+#include "utility/formats/bitmap/bmp_header.hpp"
+#include "utility/formats/bitmap/compression_method.hpp"
 #include "utility/formats/bitmap/parser_bmp.hpp"
 
 namespace ece

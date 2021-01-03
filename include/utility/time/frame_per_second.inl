@@ -42,7 +42,7 @@ namespace ece
     {
         namespace time
         {
-        	inline FramePerSecond::FramePerSecond(FPSrate rate) : UpdatePerSecond(rate) {}
+        	inline FramePerSecond::FramePerSecond(FPSrate rate) : UpdatePerSecond(static_cast<int>(rate)) {}
 
         	inline auto FramePerSecond::getFPS() const noexcept { return this->getUPS(); }
         } // namespace time

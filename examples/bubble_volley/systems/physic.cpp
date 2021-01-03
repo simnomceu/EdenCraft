@@ -58,20 +58,20 @@ void Physic::update(float elapsedTime)
 	const auto limit = 1.0f / 200.0f;
 	this->_lastUpdate += elapsedTime;
 	if (this->_lastUpdate >= limit) {
-
 		auto forces = std::unordered_map<std::size_t, std::vector<ece::FloatVector2u>>{};
-		for (auto & motion : *this->_world.getTank<Motion>()) {
+		this->_world.getComponents<Motion>().forEach([this, &forces](auto& motion) {
 			auto owner = motion.getOwner();
+			auto ownerID = ece::EntityHandler(owner, this->_world);
 
 			forces[owner] = std::vector<ece::FloatVector2u>{};
 			forces[owner].push_back({ 0.0f, motion.weight * -Physic::gravity });
 
-			if (this->_world.hasComponent<Control>(owner)) {
-				auto & control = this->_world.getComponent<Control>(owner);
+			if (ownerID.hasComponent<Control>()) {
+				auto& control = ownerID.getComponent<Control>();
 
 				auto vertical = ((control.current & Action::JUMP) == Action::JUMP) || ((control.current & Action::SNEAK) == Action::SNEAK);
 				auto horizontal = ((control.current & Action::TO_LEFT) == Action::TO_LEFT) || ((control.current & Action::TO_RIGHT) == Action::TO_RIGHT);
-				auto factor = (vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f;
+				auto factor = ((vertical && horizontal) ? 1.0f / std::sqrt(2.0f) : 1.0f) * 2000.0f;
 
 				if ((control.current & Action::JUMP) == Action::JUMP) {
 					forces[owner].push_back({ 0.0f, motion.weight * 20.0f * factor * Physic::gravity });
@@ -94,11 +94,11 @@ void Physic::update(float elapsedTime)
 			}
 
 			// Check position with collisions
-			if (this->_world.hasComponent<Collision>(owner)) {
-				auto & collision = this->_world.getComponent<Collision>(owner);
+			if (ownerID.hasComponent<Collision>()) {
+				auto& collision = ownerID.getComponent<Collision>();
 				collision.bounds.x = motion.position[0];
 				collision.bounds.y = motion.position[1];
-				for (auto & collisionBis : *this->_world.getTank<Collision>()) {
+				this->_world.getComponents<Collision>().forEach([this, &forces, &collision, &motion, &owner](auto& collisionBis) {
 					if (collisionBis.getOwner() != collision.getOwner()) {
 						auto intersect = collisionBis.bounds.intersects(collision.bounds);
 						if (intersect.x >= 0 && intersect.y >= 0 && intersect.width >= 0 && intersect.height >= 0) {
@@ -111,18 +111,18 @@ void Physic::update(float elapsedTime)
 							}
 						}
 					}
-				}
+				});
 			}
-		}
+		});
 		
-		for (auto & motion : *this->_world.getTank<Motion>()) {
+		this->_world.getComponents<Motion>().forEach([elapsedTime, ratioMeter, floor, &forces](auto& motion) {
 			motion.position += motion.velocity * elapsedTime * ratioMeter;
 
 			motion.position[1] = std::max(motion.position[1], floor);
 
 			auto owner = motion.getOwner();
-			auto result = std::accumulate(forces[owner].begin(), forces[owner].end(), ece::FloatVector2u{ 0, 0 }, [](const auto & lhs, const auto & rhs) -> ece::FloatVector2u { return lhs + rhs; });
-			
+			auto result = std::accumulate(forces[owner].begin(), forces[owner].end(), ece::FloatVector2u{ 0, 0 }, [](const auto& lhs, const auto& rhs) -> ece::FloatVector2u { return lhs + rhs; });
+
 			ece::FloatVector2u acceleration = result / motion.weight;
 			motion.velocity += acceleration * elapsedTime;
 			motion.velocity[0] = std::clamp(motion.velocity[0], -4.0f, 4.0f);
@@ -130,7 +130,8 @@ void Physic::update(float elapsedTime)
 			if (motion.velocity[0] > -0.1f && motion.velocity[0] < 0.1f) {
 				motion.velocity[0] = 0.0f;
 			}
-		}
+
+		});
 
 		this->_lastUpdate = 0.0f;
 	}

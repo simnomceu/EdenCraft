@@ -50,11 +50,11 @@ namespace ece
 			{
 				void ParserOBJ::load(std::istream & stream)
 				{
-					char line[std::numeric_limits<short>::max()];
+					auto line = std::vector<char>(std::numeric_limits<short>::max());
 					StringStream lineStream("");
 					do {
-						stream.getline(line, std::numeric_limits<short>::max());
-						lineStream.str(line);
+						stream.getline(line.data(), std::numeric_limits<short>::max());
+						lineStream.str(line.data());
 						if (lineStream.str().size() >= 2) {
 							this->processLine(lineStream);
 						}
@@ -64,32 +64,32 @@ namespace ece
 
 				void ParserOBJ::save(std::ostream & stream)
 				{
-					for (auto & material : this->_materials) {
+					for (auto & material : this->_scene.getMaterials()) {
 						stream << "mtllib " << material << std::endl;
 					}
 
-					for (auto & object : this->_objects) {
+					for (auto & vertex : this->_scene.getVertices()) {
+						stream << "v " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : this->_scene.getVerticesTexture()) {
+						stream << "vt " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : this->_scene.getVerticesNormal()) {
+						stream << "vn " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & vertex : this->_scene.getVerticesSpaceParameter()) {
+						stream << "vp " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
+					}
+					stream << std::endl;
+
+					for (auto & object : this->_scene.getObjects()) {
 						stream << "o " << object.getName() << std::endl << std::endl;
-
-						for (auto & vertex : object.getVertices()) {
-							stream << "v " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
-						}
-						stream << std::endl;
-
-						for (auto & vertex : object.getVerticesTexture()) {
-							stream << "vt " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
-						}
-						stream << std::endl;
-
-						for (auto & vertex : object.getVerticesNormal()) {
-							stream << "vn " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
-						}
-						stream << std::endl;
-
-						for (auto & vertex : object.getVerticesSpaceParameter()) {
-							stream << "vp " << vertex[0] << " " << vertex[1] << " " << vertex[2] << " " << vertex[3] << std::endl;
-						}
-						stream << std::endl;
 
 						for (auto & group : object.getGroups()) {
 							stream << "g " << group.second.name << std::endl;
@@ -116,45 +116,45 @@ namespace ece
 					case 'v':
 						if (line.peek() == 't') { //vt
 							line.get();
-							if (this->_currentObject == this->_objects.end()) {
-								this->_currentObject = this->addObject("unnamed");
+							if (this->_currentObject == this->_scene.getObjects().end()) {
+								this->_currentObject = this->_scene.addObject("unnamed");
 							}
 
 							auto texture = FloatVector3u{ 0.0f, 0.0f, 0.0f };
 							line.scan("%f %f %f", &texture[0], &texture[1], &texture[2]);
 							// TODO: Deal with 1D, 2D, and 3D texture
-							this->_currentObject->addVertexTexture({ texture[0], texture[1] });
+							this->_scene.addVertexTexture({ texture[0], texture[1] });
 						}
 						else if (line.peek() == 'n') { // vn
 							line.get();
-							if (this->_currentObject == this->_objects.end()) {
-								this->_currentObject = this->addObject("unnamed");
+							if (this->_currentObject == this->_scene.getObjects().end()) {
+								this->_currentObject = this->_scene.addObject("unnamed");
 							}
 
 							auto normal = FloatVector3u{ 0.0f, 0.0f, 0.0f };
 							line.scan("%f %f %f", &normal[0], &normal[1], &normal[2]);
-							this->_currentObject->addVertexNormal(normal);
+							this->_scene.addVertexNormal(normal);
 						}
 						else if (line.peek() == 'p') { // vp
 							line.get();
-							if (this->_currentObject == this->_objects.end()) {
-								this->_currentObject = this->addObject("unnamed");
+							if (this->_currentObject == this->_scene.getObjects().end()) {
+								this->_currentObject = this->_scene.addObject("unnamed");
 							}
 
 							auto parameterSpace = FloatVector3u{ 0.0f, 0.0f, 1.0f };
 							line.scan("%f %f %f", &parameterSpace[0], &parameterSpace[1], &parameterSpace[2]);
 							// TODO: Deal with 1D and 2D parameter space.
-							this->_currentObject->addVertexSpaceParameter(parameterSpace);
+							this->_scene.addVertexSpaceParameter(parameterSpace);
 						}
 						else { // v
 							line.get();
-							if (this->_currentObject == this->_objects.end()) {
-								this->_currentObject = this->addObject("unnamed");
+							if (this->_currentObject == this->_scene.getObjects().end()) {
+								this->_currentObject = this->_scene.addObject("unnamed");
 							}
 
 							auto vertice = FloatVector4u{ 0.0f, 0.0f, 0.0f, 1.0f };
 							line.scan("%f %f %f %f", &vertice[0], &vertice[1], &vertice[2], &vertice[3]);
-							this->_currentObject->addVertex(vertice);
+							this->_scene.addVertex(vertice);
 						}
 						break;
 					case 'f':
@@ -172,12 +172,12 @@ namespace ece
 						}
 
 						if (this->_currentObject->getFaceFormat().clockwise == ObjectOBJ::Clockwise::NON_SIGNIFICANT) {
-							auto a = this->_currentObject->getVertices()[face[0]._v - 1];
-							auto b = this->_currentObject->getVertices()[face[1]._v - 1];
-							auto c = this->_currentObject->getVertices()[face[face.size() - 1]._v - 1];
+							auto a = this->_scene.getVertices()[face[0]._v - 1];
+							auto b = this->_scene.getVertices()[face[1]._v - 1];
+							auto c = this->_scene.getVertices()[face[face.size() - 1]._v - 1];
 							FloatVector3u ab = { b[0] - a[0], b[1] - a[1], b[2] - a[2] };
 							FloatVector3u cb = { b[0] - c[0], b[1] - c[1], b[2] - c[2] };
-							FloatVector3u n = this->_currentObject->getVerticesNormal()[face[0]._vn - 1];
+							FloatVector3u n = this->_scene.getVerticesNormal()[face[0]._vn - 1];
 							float det = (ab[0] * cb[1] * n[2]) + (cb[0] * n[1] * ab[2]) + (n[0] * ab[1] * cb[2]) - (n[0] * cb[1] * ab[2]) - (ab[0] * n[1] * cb[2]) - (cb[0] * ab[1] * n[2]);
 							auto angle = std::atan2(det, ab.dot(cb));
 							if (angle > 0) {
@@ -198,8 +198,9 @@ namespace ece
 					break;
 					case 'o':
 					{
+						line.get();
 						std::string name = line.substr();
-						this->_currentObject = this->addObject(name);
+						this->_currentObject = this->_scene.addObject(name);
 					}
 					break;
 					case 'g':
@@ -207,6 +208,7 @@ namespace ece
 						this->_currentObject->resetCurrentGroups();
 
 						std::string group;
+						(void) line.get();
 						while (!line.eof()) {
 							line >> group;
 							this->_currentObject->addGroup(group);
@@ -216,15 +218,15 @@ namespace ece
 					break;
 					case 'm': // mtllib
 					{
-						line.get(5);
+						(void) line.get(5);
 						std::string materialFile;
 						line >> materialFile;
-						this->_materials.push_back(materialFile);
+						this->_scene.getMaterials().push_back(materialFile);
 					}
 					break;
 					case 'u': // usemtl
 					{
-						line.get(5);
+						(void) line.get(5);
 						std::string material;
 						line >> material;
 						this->_currentObject->setMaterial(material);
@@ -232,12 +234,6 @@ namespace ece
 					break;
 					default: break;
 					}
-				}
-
-				auto ParserOBJ::addObject(const std::string & name) -> std::vector<ObjectOBJ>::iterator
-				{
-					this->_objects.emplace_back(name);
-					return this->_objects.end() - 1;
 				}
 			} // namespace wavefront
 		} // namespace formats

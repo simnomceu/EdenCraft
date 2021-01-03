@@ -82,7 +82,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw
 				 */
-				Option(Option && move) = default;
+				Option(Option && move) noexcept = default;
 
 				/**
 				 * @fn ~Option() noexcept
@@ -107,7 +107,7 @@ namespace ece
 				 * @brief Default move assignment operator.
 				 * @throw
 				 */
-				Option & operator=(Option && move) = default;
+				Option & operator=(Option && move) noexcept = default;
 
 				/**
 				 * @fn bool apply(const std::string & optionName, const std::string & optionValue)
@@ -118,6 +118,11 @@ namespace ece
 				 * @throw
 				 */
 				auto apply(const std::string & optionName, const std::string & optionValue = "") -> bool;
+				
+				inline void setOptional(bool optional) noexcept;
+				inline bool isOptional() const noexcept;
+
+				inline const std::string & getName() const noexcept;
 
 			private:
 				/**
@@ -137,6 +142,8 @@ namespace ece
 				 * @brief The command linked to the command line option.
 				 */
 				std::function<void(const std::string &)> _command;
+
+				bool _optional;
 			};
 		} // namespace argument
 	} // namespace core

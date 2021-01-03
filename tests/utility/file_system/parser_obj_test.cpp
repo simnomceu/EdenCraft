@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/file_system/parser_obj.hpp"
+#include "utility/formats/wavefront.hpp"
 
 SCENARIO("ParserOBJ", "[Utility][File]")
 {

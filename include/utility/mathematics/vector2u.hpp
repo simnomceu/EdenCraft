@@ -55,6 +55,8 @@ namespace ece
         	template <class T>
         	using Vector2u = Vector<T, 2>;
 
+			template <class T> ECE_UTILITY_API inline Vector2u<T> normal(const Vector2u<T> & vector) { return { vector[1], -vector[0] }; }
+
         	/**
         	 * @typedef IntVector2u
         	 */

@@ -52,13 +52,13 @@ namespace ece
 			inline Texture2D::Texture2D(Texture2D && move) noexcept : _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), _height(move._height), _type(move._type),
 				_handle(move._handle)
 			{
-				move._data.clear();
+				move._data.content.reset();
 				move._handle = NULL_HANDLE;
 			}
 
 			inline auto Texture2D::getFilename() const -> const std::string & { return this->_filename; }
 
-			inline auto Texture2D::getData() const -> const std::vector<std::byte> & { return this->_data; }
+			inline auto Texture2D::getData() const -> std::uint8_t * { return this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr; }
 
 			inline auto Texture2D::getWidth() const -> ece::size_t { return this->_width; }
 

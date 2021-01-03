@@ -50,13 +50,15 @@ namespace ece
 
 				inline auto ObjectJSON::isAtomic() const noexcept -> bool { return false; }
 
-				inline auto ObjectJSON::getType() const noexcept -> TypeNodeJSON { return TypeNodeJSON::OBJECT_JSON; }
+				inline auto ObjectJSON::getType() const noexcept -> NodeJSON::Type { return NodeJSON::Type::OBJECT; }
 
 				inline auto ObjectJSON::begin() noexcept { return this->_children.begin(); }
 
 				inline auto ObjectJSON::end() noexcept { return this->_children.end(); }
 
-				inline auto ObjectJSON::operator[](const std::string & key) { return this->_children[key]; }
+				inline auto ObjectJSON::operator[](const std::string & key) { return this->_children.at(key); }
+
+				inline auto ObjectJSON::hasChild(const std::string & key) -> bool { return this->_children.find(key) != this->_children.end(); }
 
 				inline void ObjectJSON::clear() noexcept { this->_children.clear(); }
 

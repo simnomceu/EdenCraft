@@ -49,17 +49,18 @@ namespace ece
 	{
 		namespace application
 		{
-			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager()
+			Application::Application() : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), onPostTerminate(), _running(false), _moduleManager(), _worlds()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
 				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 			}
 
-			Application::Application(int argc, char * argv[]) : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), _running(false), _moduleManager()
+			Application::Application(int argc, char * argv[]) : onPreInit(), onPostInit(), onPreProcess(), onPreUpdate(), onPostUpdate(), onPreTerminate(), _running(false), _moduleManager(), _worlds()
 			{
 				ServiceLoggerLocator::provide(ServiceLoggerFactory::build<Logger>());
 				ServiceResourceLocator::provide(ServiceResourceFactory::build<ResourceManager>());
+				ServiceFormatLocator::provide(ServiceFormatFactory::build<FormatManager>());
 
 				auto & argumentAnalyzer = this->addModule<ArgumentAnalyzer>(&ArgumentAnalyzer::analyze);
 				argumentAnalyzer.setParameters(argc, argv);

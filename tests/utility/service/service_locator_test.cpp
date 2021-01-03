@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "utility/service/service_locator.hpp"
+#include "utility/service.hpp"
 
 SCENARIO("ServiceLocator", "[Utility][Service]")
 {

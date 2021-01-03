@@ -38,19 +38,17 @@
 
 #include "cube.hpp"
 
-#include "graphic_component.hpp"
-#include "core/format.hpp"
+#include "components/graphic.hpp"
+#include "core/resource.hpp"
 
 Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.createEntity())
 {
 	auto renderable = ece::makeResource<ece::Object>("cube");
 
 	{
-	//	auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../examples/more_cube/assets/cube.obj").lock();
-	//	loader->loadFromFile("../../examples/more_cube/assets/cube.obj");
-		auto loader = ece::ServiceFormatLocator::getService().getLoader<ece::LoaderObject>("../../../eROMA/coding_resource/hylas_bas_relief.obj");
-		loader->loadFromFile("../../examples/more_cube/assets/cube.obj");
-		renderable->setMesh(loader->getMeshes()[0]);
+		auto loader = ece::ResourceLoader();
+		auto mesh = loader.loadFromFile("../../examples/more_cube/assets/cube.obj")[0].get<ece::Mesh>();
+		renderable->setMesh(mesh);
 	}
 
 	for (std::size_t i = 0; i < chunkSize; ++i) {
@@ -63,11 +61,11 @@ Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.creat
 
 	renderable->prepare();
 
-	this->_handle.addComponent<GraphicComponent>(renderable);
+	this->_handle.addComponent<Graphic>(renderable);
 }
 
 void Cube::update()
 {
-	auto renderable = this->_handle.getComponent<GraphicComponent>().getRenderable();
+	auto renderable = this->_handle.getComponent<Graphic>().getRenderable();
 	renderable->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
 }

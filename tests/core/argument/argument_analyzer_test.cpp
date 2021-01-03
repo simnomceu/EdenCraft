@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/argument/argument_analyzer.hpp"
+#include "core/argument.hpp"
 
 SCENARIO("ArgumentAnalyzer", "[Core][Argument]")
 {

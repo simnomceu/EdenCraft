@@ -46,7 +46,7 @@ namespace ece
 	{
 		namespace rendering
 		{
-			inline RenderContext::RenderContext() noexcept: std::enable_shared_from_this<RenderContext>() {}
+			inline RenderContext::RenderContext() noexcept: std::enable_shared_from_this<RenderContext>(), _created(false) {}
 
 			auto RenderContext::isCreated() const noexcept { return this->_created; }
 

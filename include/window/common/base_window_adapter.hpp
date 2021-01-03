@@ -90,7 +90,7 @@ namespace ece
 				 * @brief Default move constructor.
 				 * @throw
 				 */
-				BaseWindowAdapter(BaseWindowAdapter && move) = default;
+				BaseWindowAdapter(BaseWindowAdapter && move) noexcept = default;
 
 				/**
 				 * @fn ~BaseWindowAdapter() noexcept

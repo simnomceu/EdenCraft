@@ -108,10 +108,10 @@ namespace ece
 				layout.add<float>(2, false, false, false);
 
 				auto & vertices = this->_vertices.data();
-				vertices.push_back(Sprite::Vertex{ { 0.0f, 0.0f },																						{ this->_texture.clip.x / this->_texture.ref->getWidth(), this->_texture.clip.y / this->_texture.ref->getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { 0.0f, static_cast<float>(this->_texture.ref->getHeight()) },											{ this->_texture.clip.x / this->_texture.ref->getWidth(), (this->_texture.clip.y + this->_texture.clip.height) / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { 0.0f, 0.0f }, { this->_texture.clip.x / this->_texture.ref->getWidth(), this->_texture.clip.y / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { 0.0f, static_cast<float>(this->_texture.ref->getHeight()) }, { this->_texture.clip.x / this->_texture.ref->getWidth(), (this->_texture.clip.y + this->_texture.clip.height) / this->_texture.ref->getHeight() } });
 				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), static_cast<float>(this->_texture.ref->getHeight()) }, { (this->_texture.clip.x + this->_texture.clip.width) / this->_texture.ref->getWidth(), (this->_texture.clip.y + this->_texture.clip.height) / this->_texture.ref->getHeight() } });
-				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), 0.0f },											{ (this->_texture.clip.x + this->_texture.clip.width) / this->_texture.ref->getWidth(), this->_texture.clip.y / this->_texture.ref->getHeight() } });
+				vertices.push_back(Sprite::Vertex{ { static_cast<float>(this->_texture.ref->getWidth()), 0.0f }, { (this->_texture.clip.x + this->_texture.clip.width) / this->_texture.ref->getWidth(), this->_texture.clip.y / this->_texture.ref->getHeight() } });
 				this->_vertices.update();
 				this->_vertexArray.attach(this->_vertices, layout);
 			}

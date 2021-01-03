@@ -37,7 +37,6 @@
 */
 
 #include "core/resource/resource_container.hpp"
-#include "core/resource/resource_handler.hpp"
 
 namespace ece
 {
@@ -46,43 +45,50 @@ namespace ece
 		namespace resource
 		{
 
-			template <class Resource, class... Args>
+			template <class T, class... Args>
 			void ResourceManager::loadResource(const std::string & identifier, Args&&... args)
 			{
-				auto container = this->_containers.find(std::type_index(typeid(Resource)));
-				if (container == this->_containers.end()) {
-					this->_containers[std::type_index(typeid(Resource))] = std::make_shared<ResourceContainer<Resource>>();
+				if (!this->hasResource<T>(identifier)) {
+					auto containerId = typeid(T).hash_code();
+					if (this->_containers.find(containerId) == this->_containers.end()) {
+						this->_containers[containerId] = std::make_shared<ResourceContainer<T>>();
+					}
+					std::static_pointer_cast<ResourceContainer<T>>(this->_containers[containerId])->add(identifier, std::make_shared<T>(std::forward<Args>(args)...));
 				}
-				std::static_pointer_cast<ResourceContainer<Resource>>(this->_containers[std::type_index(typeid(Resource))])->add(identifier, std::make_shared<Resource>(std::forward<Args>(args)...));
-				//auto extension = identifier.substr(identifier.find_last_of('.') + 1);
-				/*if (this->_loaders.find(extension) != this->_loaders.end()) {
-					this->loadResource(identifier, this->_loaders[extension]);
-				}
-				else {
-					ERROR << "It is not possible to identify a loader for the resource " << identifier << + ". Please, provide a loader explicitly for this resource." << flush;
-				}*/
 			}
 
-			template <class Resource>
+			template <class T>
 			void ResourceManager::unloadResource(const std::string & identifier)
 			{
-				auto extension = identifier.substr(identifier.find_last_of('.') + 1);
-				/*if (this->_unloaders.find(extension) != this->_unloaders.end()) {
-					this->unloadResource(identifier, this->_unloaders[extension]);
+				auto containerId = typeid(T).hash_code();
+				if (this->_containers.find(containerId) != this->_containers.end()) {
+					auto id = this->_containers[containerId]->getResourceId(identifier);
+					this->_containers[containerId]->remove(id);
 				}
-				else {
-					ERROR << "It is not possible to identify an unloader for the resource " << identifier << ". Please, provide an unloader explicitly for this resource." << flush;
-				}*/
 			}
 
-			template <class Resource>
-			auto ResourceManager::getResource(const std::string & identifier)
+			template <class T>
+			auto ResourceManager::getResource(ece::size_t id) -> std::weak_ptr<T>
 			{
-				auto container = this->_containers.find(std::type_index(typeid(Resource)));
-				if (container == this->_containers.end()) {
-					return ResourceHandler<Resource>(std::shared_ptr<Resource>());
+				return std::static_pointer_cast<ResourceContainer<T>>(this->_containers[typeid(T).hash_code()])->getResource(id);
+			}
+
+			template <class T>
+			auto ResourceManager::getResourceId(const std::string & identifier) -> ece::size_t
+			{
+				auto containerId = typeid(T).hash_code();
+				return this->_containers[containerId]->getResourceId(identifier);
+			}
+
+			template <class T>
+			auto ResourceManager::hasResource(const std::string & identifier) -> bool
+			{
+				auto containerId = typeid(T).hash_code();
+				if (this->_containers.find(containerId) == this->_containers.end()) {
+					return false;
 				}
-				return std::static_pointer_cast<ResourceContainer<Resource>>(container->second)->getResource(identifier);
+				auto id = this->_containers[containerId]->getResourceId(identifier);
+				return this->_containers[containerId]->isResourceLoaded(id);
 			}
 		} // namespace resource
 	} // namespace core

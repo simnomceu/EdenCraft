@@ -79,11 +79,11 @@ namespace ece
 					OpenGL::enable(Capability::SCISSOR_TEST);
 				}
 
-				OpenGL::clearColor(static_cast<float>(color.red) / 255.0f,
-					static_cast<float>(color.green) / 255.0f,
-					static_cast<float>(color.blue) / 255.0f,
-					static_cast<float>(color.alpha) / 100.0f);
-				OpenGL::clear(BufferBit::COLOR | BufferBit::STENCIL | BufferBit::DEPTH);
+				OpenGL::clearColor(static_cast<float>(color.r) / 255.0f,
+					static_cast<float>(color.g) / 255.0f,
+					static_cast<float>(color.b) / 255.0f,
+					static_cast<float>(color.a) / 100.0f);
+				OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
 			}
 
 			void ForwardRendering::draw(const Staging & staging)
@@ -94,11 +94,11 @@ namespace ece
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "view"), false, staging._view);
 				OpenGL::uniform<float, 4, 4>(glGetUniformLocation(program->getHandle(), "projection"), false, staging._projection);
 
-				std::for_each(this->_objects.begin(), this->_objects.end(), [this, staging](auto & object) {
+				std::for_each(this->_objects.begin(), this->_objects.end(), [this, &staging](auto & object) {
 					this->drawObject(object, staging);
 				});
 
-				std::for_each(this->_sprites.begin(), this->_sprites.end(), [this, staging](auto & sprite) {
+				std::for_each(this->_sprites.begin(), this->_sprites.end(), [this, &staging](auto & sprite) {
 					this->drawSprite(sprite, staging);
 				});
 
@@ -128,6 +128,9 @@ namespace ece
 
 			void ForwardRendering::drawSprite(const std::shared_ptr<Drawable> & drawable, const Staging & /*staging*/)
 			{
+				this->_pipeline.setState(drawable->getState());
+				this->_pipeline.apply();
+
 				drawable->draw(this->_pipeline.getProgram());
 			}
 		}

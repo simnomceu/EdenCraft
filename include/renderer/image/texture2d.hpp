@@ -60,7 +60,7 @@ namespace ece
 			class ECE_RENDERER_API Texture2D: public Texture
 			{
 			public:
-				using Reference = ResourceHandler<Texture2D>;
+				using Reference = Resource<Texture2D>;
 
 				/**
 				 * @fn Texture2D() noexcept
@@ -119,7 +119,11 @@ namespace ece
 				 */
 				virtual void loadFromFile(const TypeTarget type, const std::string & filename) override;
 
-				virtual void loadFromImage(const TypeTarget type, const Image<RGBA32> & image) override;
+				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) override;
+
+				virtual void saveToFile(const std::filesystem::path & filename) override;
+
+				virtual void saveToImage(Image<RGBA32>::Reference image) override;
 
 				/**
 				 * @fn const std::string & getFilename() const
@@ -135,7 +139,7 @@ namespace ece
 				 * @brief Get the texture as an array of pixels.
 				 * @throw
 				 */
-				inline virtual auto getData() const -> const std::vector<std::byte> & override;
+				inline virtual auto getData() const -> std::uint8_t * override;
 
 				/**
 				 * @fn std::size_t getWidth() const
@@ -205,7 +209,7 @@ namespace ece
 				 * @property _data
 				 * @brief The pixels of the texture.
 				 */
-				std::vector<std::byte> _data;
+				Image<RGBA32>::Reference _data;
 
 				/**
 				 * @property _width

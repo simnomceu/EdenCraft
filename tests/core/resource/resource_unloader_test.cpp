@@ -36,9 +36,9 @@
 
 */
 
-#include "Catch2/single_include/catch.hpp"
+#include "catch2/catch.hpp"
 
-#include "core/resource/resource_unloader.hpp"
+#include "core/resource.hpp"
 
 SCENARIO("ResourceUnloaderTest", "[Core][Resource]")
 {
