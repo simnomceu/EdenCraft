@@ -4,8 +4,6 @@
 // etc ....
 // this could be developped using qt module at the beginning, and then, be replaced by ece designer in the future.
 
-#include <iostream>
-
 #include "ia/learning/teacher.hpp"
 #include "ia/neural/network.hpp"
 
@@ -75,8 +73,8 @@ int main()
 		std::vector<double> inputs(3);
 		std::cin >> inputs[0] >> inputs[1] >> inputs[2];
 		auto output = neurone.evaluate(inputs);
-		std::cout << "Perceptron has evaluate the answer is :" << std::endl;
-		std::cout << ">>>>>| " << (std::round(output) ? "RED" : "BLUE") << " |<<<<<" << std::endl;
+		ece::INFO << "Perceptron has evaluate the answer is :" << ece::flush;
+		ece::INFO << ">>>>>| " << (std::round(output) ? "RED" : "BLUE") << " |<<<<<" << ece::flush;
 	}
 
 	return 0;

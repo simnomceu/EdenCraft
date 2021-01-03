@@ -35,51 +35,54 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LAYER_HPP
-#define LAYER_HPP
+#ifndef IA_PCH_HPP
+#define IA_PCH_HPP
 
-#include "ia/config.hpp"
-#include "ia/pch.hpp"
-#include "ia/neural/neurone.hpp"
+#include <memory>
+#include <algorithm>
+#include <iterator>
+#include <functional>
+#include <utility>
+#include <chrono>
+#include <ctime>
+#include <optional>
+#include <filesystem>
+#include <random>
 
-namespace ece
-{
-	enum class SPLIT_RULE : int
-	{
-		ONE_TO_ONE,
-		ALL_TO_ALL,
-		BALANCED
-	};
+#include <cctype>
+#include <cstddef>
+#include <stdexcept>
+#include <type_traits>
+#include <variant>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <typeindex>
+#include <numeric>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 
-	template <unsigned int Size>
-	class ECE_IA_API Layer
-	{
-	public:
-		Layer() = default;
-		Layer(const SPLIT_RULE splitRule, const int nbInputs, const double bias);
-		Layer(const Layer & copy) = default;
-		Layer(Layer && move) = default;
+#include <iostream>
+#include <string>
+#include <string_view>
+#include <sstream>
+#include <fstream>
 
-		~Layer() = default;
+#include <array>
+#include <valarray>
+#include <vector>
+#include <map>
+#include <unordered_map>
+#include <deque>
+#include <queue>
+#include <initializer_list>
+#include <bitset>
+#include <set>
 
-		Layer & operator=(const Layer & copy) = default;
-		Layer & operator=(Layer && move) = default;
+#ifdef __linux__
+#include <unistd.h>
+#else
+#include <Windows.h>
+#endif
 
-		std::array<double, Size> evaluate(const std::vector<double> & inputs);
-		void learn(const std::vector<double>& inputs, const std::array<double, Size> & delta, const double learningFactor);
-
-		inline double getThreshold() const;
-		inline std::array<double, Size> getLastOutputs() const;
-
-	private:
-		std::array<Neurone, Size> neurones;
-		std::array<double, Size> lastOutputs;
-		double bias;
-
-		SPLIT_RULE splitRule;
-	};
-}
-
-#include "ia/neural/layer.inl"
-
-#endif // LAYER_HPP
+#endif // IA_PCH_HPP

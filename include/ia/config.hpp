@@ -35,51 +35,24 @@
 				along with this program.If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LAYER_HPP
-#define LAYER_HPP
+#ifndef IA_CONFIG_HPP
+#define IA_CONFIG_HPP
 
-#include "ia/config.hpp"
-#include "ia/pch.hpp"
-#include "ia/neural/neurone.hpp"
+#include "utility/api/dll_api.hpp"
 
-namespace ece
-{
-	enum class SPLIT_RULE : int
-	{
-		ONE_TO_ONE,
-		ALL_TO_ALL,
-		BALANCED
-	};
+#	ifdef ECE_ia_SHARED
+#		ifdef ECE_ia_BUILD
+#			define ECE_IA_API ECE_EXPORT
+#			define ECE_IA_EXTERN
+#		else
+#			define ECE_IA_API ECE_IMPORT
+#			define ECE_IA_EXTERN extern
+#		endif
+#		define ECE_IA_INTERNAL ECE_INTERNAL
+#	else
+#		define ECE_IA_API
+#		define ECE_IA_INTERNAL
+#		define ECE_IA_EXTERN
+#	endif
 
-	template <unsigned int Size>
-	class ECE_IA_API Layer
-	{
-	public:
-		Layer() = default;
-		Layer(const SPLIT_RULE splitRule, const int nbInputs, const double bias);
-		Layer(const Layer & copy) = default;
-		Layer(Layer && move) = default;
-
-		~Layer() = default;
-
-		Layer & operator=(const Layer & copy) = default;
-		Layer & operator=(Layer && move) = default;
-
-		std::array<double, Size> evaluate(const std::vector<double> & inputs);
-		void learn(const std::vector<double>& inputs, const std::array<double, Size> & delta, const double learningFactor);
-
-		inline double getThreshold() const;
-		inline std::array<double, Size> getLastOutputs() const;
-
-	private:
-		std::array<Neurone, Size> neurones;
-		std::array<double, Size> lastOutputs;
-		double bias;
-
-		SPLIT_RULE splitRule;
-	};
-}
-
-#include "ia/neural/layer.inl"
-
-#endif // LAYER_HPP
+#endif // IA_CONFIG_HPP
