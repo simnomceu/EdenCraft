@@ -44,7 +44,7 @@ namespace ece
 	{
 		namespace scene
 		{
-			inline void Scene::addObject(const Renderable::Reference & object, int level) { this->_objects.push_back({ object, true, level }); }
+			inline void Scene::addObject(const Renderable::Reference & object, int level) { this->_objects.push_back(object, true, std::move(level)); }
 
 			inline void Scene::addLight(const Light::Reference & light) { this->_lights.push_back(light); }
 

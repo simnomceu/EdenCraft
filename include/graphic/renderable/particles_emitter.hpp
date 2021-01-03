@@ -56,6 +56,8 @@ namespace ece
 			class ECE_GRAPHIC_API ParticlesEmitter: public Renderable
 			{
 			public:
+				using Reference = Resource<ParticlesEmitter>;
+
 				struct Particle
 				{
 					float _life;

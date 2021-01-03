@@ -108,6 +108,8 @@ namespace ece
 				virtual auto empty() const noexcept -> bool = 0;
 
 				virtual void update() = 0;
+
+				virtual void destroy(Handle entityID) = 0;
 			};
 		} // namespace ecs
 	} // namespace core

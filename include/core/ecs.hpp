@@ -44,6 +44,7 @@
 #include "core/ecs/component.hpp"
 #include "core/ecs/entity_handler.hpp"
 #include "core/ecs/system.hpp"
+#include "core/ecs/tank_view.hpp"
 #include "core/ecs/world.hpp"
 
 namespace ece

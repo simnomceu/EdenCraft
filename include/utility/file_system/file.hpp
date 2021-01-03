@@ -93,7 +93,7 @@ namespace ece
         		 * @see File::File(File && move)
         		 * @throw
         		 */
-        		explicit File(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
+        		explicit File(const std::filesystem::path & filename, const OpenMode & mode = OpenMode::in | OpenMode::out);
 
         		/**
         		 * @fn File(const File & copy)
@@ -113,7 +113,7 @@ namespace ece
         		 * @see File::File(const std::string & filename, const OpenMode & mode = File::in | File::out)
         		 * @throw
         		 */
-        		inline File(File && move);
+        		inline File(File && move) noexcept;
 
         		/**
         		 * @fn ~File()
@@ -135,7 +135,7 @@ namespace ece
         		 * @return The stream moved.
         		 * @brief Move assigment operator. The stream is also moved.
         		 */
-        		File & operator=(File && move);
+        		File & operator=(File && move) noexcept;
 
         		/**
         		 * @fn bool open(const std::string & filename, const OpenMode & mode)
@@ -145,7 +145,7 @@ namespace ece
         		 * @brief Open a stream to the given file.
         		 * @throw
         		 */
-        		auto open(const std::string & filename, const OpenMode & mode = OpenMode::in | OpenMode::out) -> bool;
+        		auto open(const std::filesystem::path & filename, const OpenMode & mode = OpenMode::in | OpenMode::out) -> bool;
 
         		/**
         		 * @fn bool isOpen() const
@@ -180,25 +180,6 @@ namespace ece
         		 */
         		template<class T>
 				auto parseToVector();
-
-        		/**
-        		 * @fn bool exists(const std::string & filename)
-        		 * @param[in] filename The file to check for existence.
-        		 * @return True, if the file exists, or false else.
-        		 * @remark To move in the future class Path as a member method.
-        		 * @brief Check if the file is existing or not.
-        		 * @throw
-        		 */
-        		static auto exists(const std::string & filename) -> bool;
-
-        		/**
-        		 * @fn long long getLastModification(const std::string & filename)
-        		 * @param[in] fileale The file to check for last time modification.
-        		 * @return The last time it has been modified.
-        		 * @brief Get the last time the file has been modified.
-        		 * @throw
-        		 */
-				[[deprecated]] static auto getLastTimeModification(const std::string & filename) -> long long;
 
         		/**
         		 * @fn File & operator>>(T & value)
@@ -261,12 +242,14 @@ namespace ece
 
 				inline auto & getStream();
 
+				inline const std::filesystem::path & getFilename() const;
+
         	protected:
         		/**
         		 * @property _filename
         		 * @brief The filename opened in the file stream.
         		 */
-        		std::string _filename;
+				std::filesystem::path _filename;
 
         		/**
         		 * @property _stream

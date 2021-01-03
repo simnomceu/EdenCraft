@@ -69,7 +69,7 @@ namespace ece
         		return *this;
         	}
 
-        	File & File::operator=(File && move)
+        	File & File::operator=(File && move) noexcept
         	{
 				if (this != &move) {
 					this->_filename = std::move(move._filename);
@@ -79,11 +79,11 @@ namespace ece
         		return *this;
         	}
 
-        	auto File::open(const std::string & filename, const OpenMode & mode) -> bool
+        	auto File::open(const std::filesystem::path & filename, const OpenMode & mode) -> bool
         	{
         		this->_stream.close();
-        		if (!File::exists(filename)) {
-        			throw FileException(BAD_PATH, filename);
+        		if (!std::filesystem::is_regular_file(filename) && ((mode & OpenMode::out) != OpenMode::out)) {
+        			throw FileException(FileCodeError::BAD_PATH, filename);
         		}
         		this->_filename = filename;
         		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
@@ -123,26 +123,10 @@ namespace ece
         				}
         			}
         			catch (std::exception & e) {
-        				throw FileException(PARSE_ERROR, this->_filename + " (" + e.what() + ")");
+        				throw FileException(FileCodeError::PARSE_ERROR, this->_filename, e.what());
         			}
         		}
         		return content;
-        	}
-
-        	auto File::exists(const std::string & filename) -> bool
-        	{
-				return std::filesystem::is_regular_file(std::filesystem::path(filename));
-        	}
-
-			auto File::getLastTimeModification(const std::string & filename) -> long long
-        	{
-        		// according to : https://stackoverflow.com/questions/40504281/c-how-to-check-the-last-modified-time-of-a-file
-        		struct stat result;
-        		if (stat(filename.c_str(), &result) == 0)
-        		{
-        			return result.st_mtime;
-        		}
-				return -1;
         	}
         } // namespace file_system
     } // namespace utility

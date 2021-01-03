@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Visual Studio 2015 project
+# Visual Studio project
 rm -rf ./vs2015/
 rm -rf ./vs2017/
+rm -rf ./vs2019/
 
 # CodeLite project
 rm -rf ./codelite/

@@ -175,6 +175,8 @@ namespace ece
 				Handle _handle;
 
 				bool _linkedSuccessfully;
+
+				std::unordered_map<std::string, Handle> _cachedLocations;
 			};
 		} // namespace shader
 	} // namespace renderer

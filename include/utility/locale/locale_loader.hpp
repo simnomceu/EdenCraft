@@ -43,7 +43,7 @@
 #include "utility/config.hpp"
 #include "utility/pch.hpp"
 #include "utility/locale/localization.hpp"
-#include "utility/locale/resource_container.hpp"
+#include "utility/locale/locale_container.hpp"
 
 namespace ece
 {
@@ -92,7 +92,7 @@ namespace ece
         		 * @brief Default move constructor.
         		 * @throw
         		 */
-        		LocaleLoader(LocaleLoader && move) = default;
+        		LocaleLoader(LocaleLoader && move) noexcept = default;
 
         		/**
         		 * @fn ~LocaleLoader()
@@ -152,7 +152,7 @@ namespace ece
         		 * @property _resource
         		 * @brief The resource loaded from the file.
         		 */
-        		ResourceContainer _resource;
+        		LocaleContainer _resource;
 
         		/**
         		 * @property _filename

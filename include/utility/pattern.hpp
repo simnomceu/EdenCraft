@@ -39,6 +39,7 @@
 #ifndef WINDOW_PATTERN_HPP
 #define WINDOW_PATTERN_HPP
 
+#include "utility/pattern/class_matcher.hpp"
 #include "utility/pattern/holdable.hpp"
 #include "utility/pattern/holder.hpp"
 #include "utility/pattern/observable.hpp"

@@ -66,7 +66,7 @@ namespace ece
 				static auto build() -> std::shared_ptr<log::Logger>
 				{
 					if constexpr (!std::is_base_of<log::Logger, Derived>()) {
-						throw InitializationException("This class cannot be instantiate as the service wished. Check again.");
+						throw std::runtime_error("This class cannot be instantiate as the service wished. Check again.");
 					}
 					return std::make_shared<Derived>();
 				}

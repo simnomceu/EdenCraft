@@ -108,7 +108,7 @@ namespace ece
 
 					struct LightFactor
 					{
-						enum Type
+						enum class Type
 						{
 							K,
 							K_SPECTRAL,

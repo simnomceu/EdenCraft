@@ -44,11 +44,11 @@ namespace ece
 		{
 			namespace bitmap
 			{
-				inline ParserBMP::ParserBMP() noexcept: Parser(), _pixels(0, 0) {}
+				inline ParserBMP::ParserBMP() noexcept : Parser(), _bitmap{ {}, {}, nullptr, Dynamic2DArray<std::array<std::uint8_t, 3>>(0, 0) } {}
 
-				inline auto & ParserBMP::getPixels() noexcept { return this->_pixels; }
+				inline auto & ParserBMP::getPixels() noexcept { return this->_bitmap.pixels; }
 
-				inline auto ParserBMP::getPixels() const noexcept { return this->_pixels; }
+				inline auto ParserBMP::getPixels() const noexcept { return this->_bitmap.pixels; }
 			} // namespace bitmap
 		} // namespace formats
 	} // namespace utility

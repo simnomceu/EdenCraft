@@ -57,9 +57,10 @@ namespace ece
 			public:
 				enum class Channel
 				{
-					INFO = 0,
-					WARNING = 1,
-					ERROR = 2
+					SYSTEM = 0,
+					INFO = 1,
+					WARNING = 2,
+					ERROR = 3
 				};
 
 				struct Flush
@@ -80,6 +81,7 @@ namespace ece
 
 			template<> ECE_UTILITY_API LogChannel & LogChannel::operator<< <LogChannel::Flush>(LogChannel::Flush data);
 
+			ECE_UTILITY_EXTERN static LogChannel SYSTEM = LogChannel(LogChannel::Channel::SYSTEM);
 			ECE_UTILITY_EXTERN static LogChannel INFO = LogChannel(LogChannel::Channel::INFO);
 			ECE_UTILITY_EXTERN static LogChannel WARNING = LogChannel(LogChannel::Channel::WARNING);
 			ECE_UTILITY_EXTERN static LogChannel ERROR = LogChannel(LogChannel::Channel::ERROR);

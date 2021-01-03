@@ -55,12 +55,14 @@ namespace ece
 			class ECE_CORE_API BaseModule
 			{
 			public:
+				BaseModule() noexcept = delete;
+
 				/**
 				 * @fn BaseModule() noexcept
 				 * @brief Default constructor.
 				 * @thrown noexcept
 				 */
-				inline BaseModule() noexcept = default;
+				inline BaseModule(std::size_t typeId) noexcept : _typeId(typeId) {}
 
 				/**
 				 * @fn BaseModule(const BaseModule & copy) noexcept
@@ -123,6 +125,11 @@ namespace ece
 				 * @throw
 				 */
 				virtual void terminate() = 0;
+
+				template <class T> inline auto is() const -> bool { return this->_typeId == typeid(T).hash_code(); }
+
+			protected:
+				std::size_t _typeId;
 			};
 		} // namespace module
 	} // namespace core

@@ -46,12 +46,12 @@ namespace ece
         {
         	inline File::File() : _filename(), _stream() {}
 
-        	inline File::File(const std::string & filename, const OpenMode & mode): _filename(filename), _stream()
+        	inline File::File(const std::filesystem::path & filename, const OpenMode & mode): _filename(filename), _stream()
         	{
         		this->_stream.open(this->_filename, static_cast<std::ios_base::openmode>(mode));
         	}
 
-        	inline File::File(File && move): _filename(std::move(move._filename)), _stream(std::move(move._stream))
+        	inline File::File(File && move) noexcept : _filename(std::move(move._filename)), _stream(std::move(move._stream))
         	{
         		move.close();
         	}
@@ -102,8 +102,8 @@ namespace ece
         					content.push_back(value);
         				}
         			}
-        			catch ([[maybe_unused]] std::exception & e) {
-        				throw FileException(FileCodeError::PARSE_ERROR, this->_filename);
+        			catch (std::exception & e) {
+        				throw FileException(FileCodeError::PARSE_ERROR, this->_filename, e.what());
         			}
         		}
         		return content;
@@ -113,6 +113,8 @@ namespace ece
         	{
         		this->_stream.seekg(position);
         	}
+
+			inline const std::filesystem::path & File::getFilename() const { return this->_filename; }
         } // namespace file_system
     } // namespace utility
 } // namespace ece

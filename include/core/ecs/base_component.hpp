@@ -110,28 +110,24 @@ namespace ece
 				 */
 				BaseComponent & operator=(BaseComponent && move) noexcept = default;
 
-
-				/**
-				 * @fn ComponentID getID() const
-				 * @return The id to handle the component.
-				 * @brief Get The component id.
-				 * @throw
-				 */
-				virtual auto getID() const -> ComponentID = 0;
-
-				virtual void setOwner(const Handle owner) = 0;
-
 				/**
 				 * @fn unsigned int getOwner() const
 				 * @return The entity owner.
 				 */
 				virtual auto getOwner() const -> Handle = 0;
 
-				virtual auto isDirty() const -> bool = 0;
-
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline bool is() const;
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline T & to();
 				template <class T, typename enabled = std::enable_if_t<std::is_base_of_v<BaseComponent, T>>> inline const T & to() const;
+
+				inline operator bool() const;
+
+			private:
+				virtual void setOwner(const Handle owner) = 0;
+
+				virtual auto isDirty() const -> bool = 0;
+
+				virtual void setDirty(bool dirty) = 0;
 			};
 		} // namespace ecs
 	} // namespace core

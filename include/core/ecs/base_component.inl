@@ -59,6 +59,11 @@ namespace ece
 			{
 				return dynamic_cast<const T &>(*this);
 			}
+
+			inline BaseComponent::operator bool() const
+			{
+				return !this->isDirty();
+			}
 		} // namespace ecs
 	} // namespace core
 } // namespace ece

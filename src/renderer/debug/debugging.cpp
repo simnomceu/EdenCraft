@@ -51,7 +51,7 @@ namespace ece
 			void checkErrors_(const char * file, const int line, const char * function)
 			{
 				auto error(OpenGL::getError());
-				while (error != ErrorGL::NO_ERROR) {
+				while (error != ErrorGL::NO_ERROR && Renderer::isInitialized()) {
 					auto errorMessage = std::string{};
 
 					switch (error) {

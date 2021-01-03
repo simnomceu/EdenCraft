@@ -95,6 +95,7 @@ namespace ece
 					 */
 					inline auto getObject() const;
 
+					inline void setObject(std::shared_ptr<ObjectJSON> content);
 				protected:
 					/**
 					 * @property _pathname

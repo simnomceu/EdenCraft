@@ -55,6 +55,9 @@ namespace ece
 				inline auto NodeJSON::getParent() noexcept { return this->_parent.lock(); }
 
 				inline auto NodeJSON::hasParent() const noexcept { return !this->_parent.expired(); }
+
+				template <class T, typename enabled>
+				inline auto NodeJSON::convertTo(std::shared_ptr<NodeJSON> & node) { return std::static_pointer_cast<T>(node); }
 			} // namespace json
 		} // namespace formats
     } // namespace utility
