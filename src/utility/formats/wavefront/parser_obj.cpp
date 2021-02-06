@@ -207,7 +207,6 @@ namespace ece
 					{
 						this->_currentObject->resetCurrentGroups();
 						line.get();
-						auto count = line.count(' ') + 1;
 						std::string group;
 						(void) line.get();
 						while (!line.eof()) {

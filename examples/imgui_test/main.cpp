@@ -53,7 +53,7 @@ int main()
 
 		auto imgui = ece::Adapter();
 		imgui.init(window.lock());
-
+		
 		window.lock()->onWindowClosed.connect([&app]() {
 			app.stop();
 		});

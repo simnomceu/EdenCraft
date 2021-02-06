@@ -266,25 +266,22 @@ namespace ece
 				checkErrors(glMultiDrawArrays(static_cast<GLenum>(mode), first.data(), reinterpret_cast<const GLsizei *>(count.data()), static_cast<GLsizei>(drawcount)));
 			}
 
-			template <typename T>
-			inline void OpenGL::drawElements(const PrimitiveMode mode, const ece::size_t count, const int offset)
+			inline void OpenGL::drawElements(const PrimitiveMode mode, const ece::size_t count, const int offset, ece::size_t offsetSize)
 			{
-				constexpr auto type = getType<T>();
-				auto byteOffset = offset * sizeof(T);
-				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(static_cast<unsigned long long>(byteOffset))));
+				const auto type = GL_UNSIGNED_INT;
+				auto byteOffset = (intptr_t)(offset * offsetSize);
+				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(byteOffset)));
 			}
 
-			template <typename T>
 			inline void OpenGL::multiDrawElements(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount)
 			{
-				constexpr auto type = getType<T>();
+				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glMultiDrawElements(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), static_cast<GLenum>(type), reinterpret_cast<const GLvoid * const *>(indices.data()), static_cast<GLsizei>(drawcount)));
 			}
 
-			template <typename T>
 			inline void OpenGL::drawRangeElements(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, const ece::size_t * indices)
 			{
-				constexpr auto type = getType<T>();
+				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawRangeElements(static_cast<GLenum>(mode), start, end, count, static_cast<GLenum>(type), static_cast<const GLvoid *>(indices)));
 			}
 
@@ -293,38 +290,33 @@ namespace ece
                 checkErrors(glDrawArraysInstanced(static_cast<GLenum>(mode), first, count, static_cast<GLsizei>(primcount)));
             }
 
-			template <typename T>
             inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const ece::size_t count, ece::offset_t offset, const ece::size_t primcount)
             {
-				constexpr auto type = getType<T>();
+				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(offset), static_cast<GLsizei>(primcount)));
             }
 
-			template <typename T>
-            inline void OpenGL::drawElementsBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex)
+            inline void OpenGL::drawElementsBaseVertex(PrimitiveMode mode, ece::size_t count, ece::offset_t indices, int basevertex)
 			{
-				constexpr auto type = getType<T>();
-				checkErrors(glDrawElementsBaseVertex(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(indices.data()), basevertex));
+				const auto type = GL_UNSIGNED_INT;
+				checkErrors(glDrawElementsBaseVertex(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(indices), basevertex));
 			}
 
-			template <typename T>
 			inline void OpenGL::drawRangeElementsBaseVertex(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex)
 			{
-				constexpr auto type = getType<T>();
+				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawRangeElementsBaseVertex(static_cast<GLenum>(mode), start, end, count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(indices.data()), basevertex));
 			}
 
-			template <typename T>
 			inline void OpenGL::drawElementsInstancedBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, ece::size_t primcount, int basevertex)
 			{
-				constexpr auto type = getType<T>();
+				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glDrawElementsInstancedBaseVertex(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(indices.data()), static_cast<GLsizei>(primcount), basevertex));
 			}
 
-			template <typename T>
 			inline void OpenGL::multiDrawElementsBaseVertex(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount, const std::vector<int> & basevertex)
 			{
-				constexpr auto type = getType<T>();
+				const auto type = GL_UNSIGNED_INT;
 				checkErrors(glMultiDrawElementsBaseVertex(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), static_cast<GLenum>(type), reinterpret_cast<const GLvoid * const *>(indices.data()), drawcount, basevertex.data()));
 			}
 

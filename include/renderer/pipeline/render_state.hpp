@@ -194,6 +194,8 @@ namespace ece
 
 				PolygonMode polygonMode;
 
+				bool primitiveRestart;
+
 			private:
 				static RenderState _currentState;
 			};

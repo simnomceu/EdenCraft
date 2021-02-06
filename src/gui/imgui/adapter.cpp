@@ -47,6 +47,10 @@ namespace ece
 	{
 		namespace imgui
 		{
+			Adapter::Adapter() noexcept : _context(nullptr), _windowAdapter(), _rendererAdapter()
+			{
+			}
+
 			Adapter::~Adapter() noexcept
 			{
 				this->shutdown();
@@ -83,8 +87,8 @@ namespace ece
 
 			void Adapter::render()
 			{
-				ImGui::Render();
 				this->_windowAdapter.render();
+				ImGui::Render();
 				this->_rendererAdapter.render();
 			}
 		} // namespace imgui

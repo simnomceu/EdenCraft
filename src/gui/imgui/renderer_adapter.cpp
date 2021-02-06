@@ -60,8 +60,10 @@ namespace ece
 				this->_state.destinationBlend = RenderState::BlendingFactor::ONE_MINUS_SRC_ALPHA;
 				this->_state.faceCulling = false;
 				this->_state.depthTest = false;
-				this->_state.scissorTest = false;
+				this->_state.scissorTest = true;
+				this->_state.cullFaceMode = RenderState::CullFaceMode::FRONT_AND_BACK;
 				this->_state.polygonMode = RenderState::PolygonMode::FILL;
+				this->_state.primitiveRestart = false;
 			}
 
 			void RendererAdapter::newFrame()
@@ -108,11 +110,11 @@ namespace ece
 				// Render command lists
 				for (auto n = 0; n < draw_data->CmdListsCount; ++n) {
 					const ImDrawList* cmd_list = draw_data->CmdLists[n];
-					std::size_t idx_buffer_offset = 0;
+
 
 					// Upload vertex/index buffers
-					glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
-					glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
+					glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)cmd_list->VtxBuffer.Size * (int)sizeof(ImDrawVert), (const GLvoid*)cmd_list->VtxBuffer.Data, GL_STREAM_DRAW);
+					glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)cmd_list->IdxBuffer.Size * (int)sizeof(ImDrawIdx), (const GLvoid*)cmd_list->IdxBuffer.Data, GL_STREAM_DRAW);
 
 					for (auto cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; ++cmd_i) {
 						auto & pcmd = cmd_list->CmdBuffer[cmd_i];
@@ -142,15 +144,10 @@ namespace ece
 							}
 
 							// Bind texture, Draw
-							OpenGL::bindTexture(TextureTarget::TEXTURE_2D, reinterpret_cast<Handle>(pcmd.TextureId));
-							if constexpr (sizeof(ImDrawIdx) == 2) {
-								OpenGL::drawElements<unsigned short>(this->_mode, pcmd.ElemCount, idx_buffer_offset);
-							}
-							else {
-								OpenGL::drawElements<unsigned int>(this->_mode, pcmd.ElemCount, idx_buffer_offset);
-							}
+							OpenGL::bindTexture(TextureTarget::TEXTURE_2D, static_cast<ece::Handle>(reinterpret_cast<intptr_t>(pcmd.TextureId)));
+
+							glDrawElementsBaseVertex(GL_TRIANGLES, (GLsizei)pcmd.ElemCount, sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, (void*)(intptr_t)(pcmd.IdxOffset * sizeof(ImDrawIdx)), (GLint)pcmd.VtxOffset);
 						}
-						idx_buffer_offset += pcmd.ElemCount;
 					}
 				}
 
@@ -170,13 +167,22 @@ namespace ece
 				float R = draw_data->DisplayPos.x + draw_data->DisplaySize.x;
 				float T = draw_data->DisplayPos.y;
 				float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
-				auto projection = orthographic({ L, B, R - L, T - B }, 1.0f, -1.0f); 
+//				auto projection = orthographic({ L, B, R - L, T - B }, 1.0f, -1.0f); 
+				auto projection = ece::FloatMatrix4u({
+		2.0f / (R - L),   0.0f,         0.0f,   0.0f,
+		0.0f,         2.0f / (T - B),   0.0f,   0.0f,
+		0.0f,         0.0f,        -1.0f,   0.0f,
+		(R + L) / (L - R),  (T + B) / (B - T),  0.0f,   1.0f,
+					});
 				this->_program->use();
-				OpenGL::uniform<int, 1>(this->_program->getLocation("Texture"), { 0 });
-				OpenGL::uniform<float, 4, 4>(this->_program->getLocation("ProjMtx"), false, projection);
+				
+				this->_program->bind(std::make_shared<Uniform<int, 1>>("Texture", 0), "Texture");
+				this->_program->bind(std::make_shared<Uniform<float, 4, 4>>("ProjMtx", projection), "ProjMtx");
+
 #ifdef GL_SAMPLER_BINDING
 				OpenGL::bindSampler(0, 0); // We use combined texture/sampler state. Applications using GL 3.3 may set that otherwise.
 #endif
+
 				this->_vertexArray.bind();
 
 				// Bind vertex/index buffers and setup attributes for ImDrawVert
@@ -198,7 +204,7 @@ namespace ece
 					ece::ShaderStage vsSource;
 					vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/imgui.vert");
 
-					this->_program = ece::makeResource<ece::EnhancedShader>("ImGuiShader");
+					this->_program = std::make_shared<ece::EnhancedShader>();
 					this->_program->setStage(fsSource);
 					this->_program->setStage(vsSource);
 					this->_program->link();

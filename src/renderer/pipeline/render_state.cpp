@@ -66,6 +66,7 @@ namespace ece
 				state.destinationBlend = getBlendingFactor(static_cast<opengl::BlendingFactor>(OpenGL::getInteger(Parameter::BLEND_DST_RGB)[0]));
 				state.scissorTest = OpenGL::isEnabled(Capability::SCISSOR_TEST);
 				state.polygonMode = getPolygonMode(static_cast<opengl::PolygonMode>(OpenGL::getInteger(Parameter::POLYGON_MODE)[0]));
+				state.primitiveRestart = OpenGL::isEnabled(Capability::PRIMITIVE_RESTART);
 			
 				return std::move(state);
 			}
@@ -84,7 +85,8 @@ namespace ece
 				sourceBlend(BlendingFactor::SRC_ALPHA),
 				destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA),
 				scissorTest(true),
-				polygonMode(PolygonMode::FILL)
+				polygonMode(PolygonMode::FILL),
+				primitiveRestart(false)
 			{
 			}
 
@@ -103,7 +105,8 @@ namespace ece
 					&& this->sourceBlend == rhs.sourceBlend
 					&& this->destinationBlend == rhs.destinationBlend
 					&& this->scissorTest == rhs.scissorTest
-					&& this->polygonMode == rhs.polygonMode;
+					&& this->polygonMode == rhs.polygonMode
+					&& this->primitiveRestart == rhs.primitiveRestart;
 			}
 
 			void RenderState::apply(const bool forced)
@@ -163,6 +166,13 @@ namespace ece
 					}
 					else {
 						OpenGL::disable(Capability::SCISSOR_TEST);
+					}
+
+					if (RenderState::_currentState.primitiveRestart) {
+						OpenGL::enable(Capability::PRIMITIVE_RESTART);
+					}
+					else {
+						OpenGL::disable(Capability::PRIMITIVE_RESTART);
 					}
 
 					OpenGL::polygonMode(getPolygonMode(RenderState::_currentState.polygonMode));

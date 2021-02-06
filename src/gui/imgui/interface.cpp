@@ -61,7 +61,6 @@ namespace ece
 			
 			Interface::~Interface() noexcept
 			{
-
 			}
 
 			void Interface::prepare()

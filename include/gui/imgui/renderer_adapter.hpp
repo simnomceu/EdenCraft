@@ -124,7 +124,7 @@ namespace ece
 				unsigned int _vbo;
 				unsigned int _ibo;
 
-				ece::ResourceHandler<ece::EnhancedShader> _program;
+				std::shared_ptr<EnhancedShader>  _program;
 				Font _font;
 
 				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;

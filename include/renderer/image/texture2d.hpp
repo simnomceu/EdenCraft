@@ -89,7 +89,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Texture2D() noexcept = default;
+				~Texture2D() noexcept;
 
 				/**
 				 * @fn Texture2D & operator=(const Texture2D & copy)

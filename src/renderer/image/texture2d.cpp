@@ -60,6 +60,11 @@ namespace ece
 				this->setParameter<int>(Parameter::MIN_FILTER, GL_LINEAR);
 			}
 
+			Texture2D::~Texture2D()
+			{
+				OpenGL::deleteTextures({ this->_handle });
+			}
+
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
 			{
 				if (this != &copy) {

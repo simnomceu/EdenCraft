@@ -100,7 +100,7 @@ namespace ece
 							OpenGL::drawElementsInstanced(this->_mode, static_cast<ece::size_t>(submesh.mesh.size()), 0, static_cast<ece::size_t>(this->_instances.size()));
 						}
 						else {
-							OpenGL::drawElements<unsigned int>(this->_mode, static_cast<ece::size_t>(this->_mesh->size()), 0);
+							OpenGL::drawElements(this->_mode, static_cast<ece::size_t>(this->_mesh->size()), 0);
 						}
 					}
 					else {

@@ -61,7 +61,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				constexpr Font() noexcept = default;
+				Font() noexcept = default;
 
 				/**
 				 * @fn Font(const Font & copy) noexcept
@@ -108,7 +108,7 @@ namespace ece
 				void terminate();
 
 			private:
-				ece::ResourceHandler<ece::Texture2D> _fontTexture;
+				ece::Texture2D::Reference _fontTexture;
 			};
 		} // namespace imgui
 	} // namespace gui

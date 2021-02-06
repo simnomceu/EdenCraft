@@ -64,7 +64,7 @@ namespace ece
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Adapter() noexcept = default;
+				Adapter() noexcept;
 
 				/**
 				 * @fn Adapter(const Adapter & copy) noexcept
