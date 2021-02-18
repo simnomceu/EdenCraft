@@ -67,6 +67,7 @@ namespace ece
 					viewport.height *= target->getSize()[1];
 				}
 
+				target->bind();
 				OpenGL::viewport(static_cast<int>(viewport.x), static_cast<int>(viewport.y), static_cast<int>(viewport.width), static_cast<int>(viewport.height));
 
 				if (this->_pipeline.getScissor() != Scissor()) {

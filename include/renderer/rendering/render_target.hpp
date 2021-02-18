@@ -113,6 +113,8 @@ namespace ece
 				 */
 				virtual auto getSize() const -> IntVector2u = 0;
 
+				virtual void bind() = 0;
+
 				auto getDefaultViewport() const;
 
 				inline void setCurrent();

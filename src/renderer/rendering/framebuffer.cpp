@@ -59,6 +59,7 @@ namespace ece
 			{
 				OpenGL::bindFramebuffer(getFramebufferTarget(this->_specification.target), this->_handle);
 				OpenGL::viewport(0, 0, this->_specification.width, this->_specification.height);
+				this->setCurrent();
 			}
 
 			void Framebuffer::unbind()
@@ -167,6 +168,11 @@ namespace ece
 				}
 
 				return status == FramebufferStatus::COMPLETE;
+			}
+
+			auto Framebuffer::getSize() const -> IntVector2u
+			{
+				return { static_cast<int>(this->_specification.width), static_cast<int>(this->_specification.height) };
 			}
 
 		} // namespace rendering

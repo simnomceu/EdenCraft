@@ -92,6 +92,12 @@ namespace ece
 				return Window::getSize();
 			}
 
+			void RenderWindow::bind()
+			{
+				OpenGL::bindFramebuffer(FramebufferTarget::FRAMEBUFFER, 0);
+				this->setCurrent();
+			}
+
 			void RenderWindow::display()
 			{
 				this->_context->swapBuffers();

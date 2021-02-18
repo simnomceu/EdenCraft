@@ -56,7 +56,7 @@ namespace ece
 				STENCIL = 0b100
 			};
 
-			class ECE_RENDERER_API Framebuffer
+			class ECE_RENDERER_API Framebuffer: public RenderTarget
 			{
 			public:
 				enum class Target : unsigned short int
@@ -162,7 +162,7 @@ namespace ece
 				Framebuffer & operator=(const Framebuffer & copy) noexcept = delete;
 				Framebuffer & operator=(Framebuffer && move) noexcept = default;
 
-				void bind();
+				virtual void bind() override;
 				void unbind();
 
 				void invalidate();
@@ -171,6 +171,8 @@ namespace ece
 				inline const Specification & getSpecification() const;
 
 				auto checkStatus() -> bool;
+
+				virtual auto getSize() const -> IntVector2u override;
 
 			private:
 				Handle _handle;
