@@ -82,7 +82,6 @@ namespace ece
 				this->_vertexArray.bind();
 
 				this->_texture.ref->active(0);
-				this->_texture.ref->setTarget(Texture::Target::TEXTURE_2D);
 				this->_texture.ref->bind();
 				program->bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
 

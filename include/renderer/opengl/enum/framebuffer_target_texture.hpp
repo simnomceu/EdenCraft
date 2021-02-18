@@ -36,13 +36,42 @@
 
 */
 
+#ifndef FRAMEBUFFER_TARGET_TEXTURE_HPP
+#define FRAMEBUFFER_TARGET_TEXTURE_HPP
+
+#include "renderer/config.hpp"
+#include "renderer/pch.hpp"
+#include "GL/glcorearb.h"
+#include "GL/glext.h"
+#include "renderer/rendering/framebuffer.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace opengl
 		{
-			inline const Framebuffer::Specification & Framebuffer::getSpecification() const { return this->_specification; }
-		} // namespace rendering
+			using rendering::Framebuffer;
+
+			enum class FramebufferTargetTexture : unsigned short int
+			{
+				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
+				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
+				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
+				TEXTURE_3D = GL_TEXTURE_3D,
+				TEXTURE_CUBE_MAP_POSITIVE_X = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+				TEXTURE_CUBE_MAP_POSITIVE_Y = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+				TEXTURE_CUBE_MAP_POSITIVE_Z = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+				TEXTURE_CUBE_MAP_NEGATIVE_X = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+				TEXTURE_CUBE_MAP_NEGATIVE_Y = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+				TEXTURE_CUBE_MAP_NEGATIVE_Z = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+			};
+
+			ECE_RENDERER_API FramebufferTargetTexture getFramebufferTargetTexture(Framebuffer::TargetTexture targetTexture);
+
+			ECE_RENDERER_API std::string to_string(FramebufferTargetTexture targetTexture);
+		} // namespace opengl
 	} // namespace renderer
 } // namespace ece
+
+#endif // FRAMEBUFFER_TARGET_TEXTURE_HPP

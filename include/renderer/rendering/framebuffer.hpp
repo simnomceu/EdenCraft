@@ -63,7 +63,22 @@ namespace ece
 				{
 					DRAW,
 					READ,
-					DRAW_AND_READ
+					FRAMEBUFFER
+				};
+
+				enum class TargetTexture : unsigned short int
+				{
+					TEXTURE_RECTANGLE = 0x00,
+					TEXTURE_2D = 0x01,
+					TEXTURE_2D_MULTISAMPLE = 0x02,
+					TEXTURE_2D_MULTISAMPLE_ARRAY = 0x03,
+					TEXTURE_3D = 0x04,
+					TEXTURE_CUBE_MAP_POSITIVE_X = 0x05,
+					TEXTURE_CUBE_MAP_POSITIVE_Y = 0x06,
+					TEXTURE_CUBE_MAP_POSITIVE_Z = 0x07,
+					TEXTURE_CUBE_MAP_NEGATIVE_X = 0x08,
+					TEXTURE_CUBE_MAP_NEGATIVE_Y = 0x09,
+					TEXTURE_CUBE_MAP_NEGATIVE_Z = 0x10
 				};
 
 				enum class InterpolationFilter : unsigned short int
@@ -111,9 +126,33 @@ namespace ece
 					DEPTH_STENCIL = 34
 				};
 
-				Framebuffer() noexcept;
+				inline friend AttachmentChannel operator+(const AttachmentChannel & left, unsigned short int shift)
+				{
+					return static_cast<AttachmentChannel>(static_cast<unsigned short int>(left) + shift);
+				}
 
-				inline Framebuffer(Handle handle) noexcept;
+				struct AttachmentSpecification
+				{
+					Texture::Reference texture;
+					TargetTexture target;
+
+				};
+
+				struct Specification
+				{
+					Target target;
+
+					ece::size_t width;
+					ece::size_t height;
+					ece::size_t samples;
+
+					std::vector<AttachmentSpecification> colors;
+					std::optional<AttachmentSpecification> depth;
+					std::optional<AttachmentSpecification> stencil;
+					std::optional<AttachmentSpecification> depthStencil;
+				};
+
+				Framebuffer(const Specification & specification) noexcept;
 
 				Framebuffer(const Framebuffer & copy) = delete;
 				Framebuffer(Framebuffer && move) = default;
@@ -123,28 +162,19 @@ namespace ece
 				Framebuffer & operator=(const Framebuffer & copy) noexcept = delete;
 				Framebuffer & operator=(Framebuffer && move) noexcept = default;
 
-				void setTarget(Target target = Target::DRAW_AND_READ);
 				void bind();
 				void unbind();
 
+				void invalidate();
 				inline void terminate();
 
-//				void attach(AttachmentChannel channel, Renderbuffer & attachment);
-				void attach(AttachmentChannel channel, Texture & attachment);
-//				void attach(AttachmentChannel channel, Texture1D & attachment);
-//				void attach(AttachmentChannel channel, Texture2D & attachment);
-//				void attach(AttachmentChannel channel, Texture3D & attachment);
-//				void attach(AttachmentChannel channel, TextureLayer & attachment);
+				inline const Specification & getSpecification() const;
 
 				auto checkStatus() -> bool;
 
-				void blit(Rectangle<int> area, Framebuffer & dst, Rectangle<int> dstArea, FramebufferBufferBit mask, InterpolationFilter filter);
-
-				static std::shared_ptr<Framebuffer> getFramebuffer(Handle handle);
-
 			private:
 				Handle _handle;
-				Target _target;
+				Specification _specification;
 			};
 		} // namespace rendering
 	} // namespace renderer

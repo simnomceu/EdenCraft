@@ -46,37 +46,95 @@ namespace ece
 	{
 		namespace rendering
 		{
-			Framebuffer::Framebuffer() noexcept : _handle(NULL_HANDLE)
+			Framebuffer::Framebuffer(const Specification & specification) noexcept : _handle(NULL_HANDLE), _specification(specification)
 			{
-				this->_handle = OpenGL::genFramebuffers(1)[0];
 			}
 
 			Framebuffer::~Framebuffer() noexcept
 			{
-				auto handles = std::vector<Handle>({ this->_handle });
-				OpenGL::deleteFramebuffers(handles);
+				this->terminate();
 			}
 
 			void Framebuffer::bind()
 			{
-				OpenGL::bindFramebuffer(getFramebufferTarget(this->_target), this->_handle);
+				OpenGL::bindFramebuffer(getFramebufferTarget(this->_specification.target), this->_handle);
+				OpenGL::viewport(0, 0, this->_specification.width, this->_specification.height);
 			}
 
 			void Framebuffer::unbind()
 			{
-				OpenGL::bindFramebuffer(getFramebufferTarget(this->_target), NULL_HANDLE);
+				OpenGL::bindFramebuffer(getFramebufferTarget(this->_specification.target), NULL_HANDLE);
+			}
+
+			void Framebuffer::invalidate()
+			{
+				this->terminate();
+
+				this->_handle = OpenGL::createFramebuffers(1)[0];
+				this->bind();
+
+				// Color attachments
+				auto it = unsigned short int{ 0 };
+				for (auto & color : this->_specification.colors) {
+					color.texture->bind();
+					color.texture->create();
+					color.texture->setParameter<int>(Texture::Parameter::MIN_FILTER, GL_LINEAR);
+					color.texture->setParameter<int>(Texture::Parameter::MAG_FILTER, GL_LINEAR);
+					color.texture->setParameter<int>(Texture::Parameter::WRAP_R, GL_CLAMP_TO_EDGE);
+					color.texture->setParameter<int>(Texture::Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
+					color.texture->setParameter<int>(Texture::Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
+					OpenGL::framebufferTexture2D(getFramebufferTarget(this->_specification.target),
+						getFramebufferAttachmentChannel(AttachmentChannel::COLOR0 + it),
+						getFramebufferTargetTexture(color.target),
+						color.texture->getHandle(),
+						0);
+					++it;
+				}
+
+				// Depth attachment
+
+				// Stencil attachment
+
+				//Stencil-Depth attachment
+
+				if (this->_specification.colors.size() > 0) {
+					auto buffers = std::vector<ColorBuffer>{};
+					for (auto i = std::size_t{ 0 }; i < this->_specification.colors.size(); ++i) {
+						// TODO : ColorBuffer to define with operator+(int) method
+						buffers.push_back(static_cast<ColorBuffer>(static_cast<int>(ColorBuffer::COLOR_ATTACHMENT0) + i));
+					}
+					OpenGL::drawBuffers(buffers);
+				}
+				else {
+					OpenGL::drawBuffer(ColorBuffer::NONE);
+				}
+
+				this->checkStatus();
+				this->unbind();
 			}
 
 			void Framebuffer::terminate()
 			{
-				auto framebuffers = std::vector<Handle>({ this->_handle });
-				OpenGL::deleteFramebuffers(framebuffers);
+				if (this->_handle != NULL_HANDLE) {
+					auto buffers = std::vector<Handle>{ this->_handle };
+					OpenGL::deleteFramebuffers(buffers);
+					this->_handle = NULL_HANDLE;
+
+					for (auto & color : this->_specification.colors) {
+						color.texture->terminate();
+					}
+					this->_specification.colors.clear();
+					
+					this->_specification.depth.reset();
+					this->_specification.stencil.reset();
+					this->_specification.depthStencil.reset();
+				}
 			}
 
 			auto Framebuffer::checkStatus() -> bool
 			{
 				this->bind();
-				auto status = OpenGL::checkFramebufferStatus(getFramebufferTarget(this->_target));
+				auto status = OpenGL::checkFramebufferStatus(getFramebufferTarget(this->_specification.target));
 				switch (status) {
 				case FramebufferStatus::COMPLETE:
 					INFO << "Framebuffer completed." << flush;
@@ -109,33 +167,6 @@ namespace ece
 				}
 
 				return status == FramebufferStatus::COMPLETE;
-			}
-
-			void Framebuffer::blit(Rectangle<int> area, Framebuffer & dst, Rectangle<int> dstArea, FramebufferBufferBit mask, InterpolationFilter filter)
-			{
-				this->setTarget(Target::READ);
-				this->bind();
-				dst.setTarget(Target::DRAW);
-				dst.bind();
-				OpenGL::blitFramebuffer(area.x, area.y, area.width, area.height, dstArea.x, dstArea.y, dstArea.width, dstArea.height, getBufferBit(mask), getInterpolationFilter(filter));
-				
-			}
-
-			std::shared_ptr<Framebuffer> Framebuffer::getFramebuffer(Handle handle)
-			{
-				if (OpenGL::isFramebuffer(handle)) {
-					return std::shared_ptr<Framebuffer>();
-				}
-				return std::make_shared<Framebuffer>(handle);
-			}
-
-			void Framebuffer::attach(AttachmentChannel channel, Texture & attachment)
-			{
-				this->bind();
-				attachment.bind();
-
-				const auto level = 0;
-				OpenGL::framebufferTexture(getFramebufferTarget(this->_target), getFramebufferAttachmentChannel(channel), attachment.getHandle(), level);
 			}
 
 		} // namespace rendering

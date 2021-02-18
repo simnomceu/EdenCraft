@@ -52,6 +52,7 @@
 #include "renderer/opengl/enum/depth_function_condition.hpp"
 #include "renderer/opengl/enum/framebuffer_attachment_channel.hpp"
 #include "renderer/opengl/enum/framebuffer_target.hpp"
+#include "renderer/opengl/enum/framebuffer_target_texture.hpp"
 #include "renderer/opengl/enum/front_face_mode.hpp"
 #include "renderer/opengl/enum/interpolation_filter.hpp"
 #include "renderer/opengl/enum/packed_vertex_attrib_type.hpp"
@@ -468,20 +469,6 @@ namespace ece
 				STENCIL_SIZE = GL_RENDERBUFFER_STENCIL_SIZE
 			};
 
-			enum class FramebufferTargetTexture : unsigned short int
-			{
-				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
-				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
-				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
-				TEXTURE_3D = GL_TEXTURE_3D,
-				TEXTURE_CUBE_MAP_POSITIVE_X = GL_TEXTURE_CUBE_MAP_POSITIVE_X,
-				TEXTURE_CUBE_MAP_POSITIVE_Y = GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
-				TEXTURE_CUBE_MAP_POSITIVE_Z = GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
-				TEXTURE_CUBE_MAP_NEGATIVE_X = GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-				TEXTURE_CUBE_MAP_NEGATIVE_Y = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-				TEXTURE_CUBE_MAP_NEGATIVE_Z = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
-			};
-
 			enum class FramebufferAttachmentParameter : unsigned short int
 			{
 				OBJECT_TYPE = GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE,
@@ -578,6 +565,7 @@ namespace ece
 
 			enum class ColorBuffer : unsigned short int
 			{
+				NONE = GL_NONE,
 				FRONT_LEFT = GL_FRONT_LEFT,
 				FRONT_RIGHT = GL_FRONT_RIGHT,
 				BACK_LEFT = GL_BACK_LEFT,
@@ -654,7 +642,8 @@ namespace ece
 			enum class TargetTextureMultisample
 			{
 				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY,
-				PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY = GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY
+				PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY = GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY,
+				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE
 			};
 
 			enum class TargetTexture1D : unsigned short int

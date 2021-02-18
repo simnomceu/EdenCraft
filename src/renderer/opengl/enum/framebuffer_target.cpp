@@ -50,7 +50,7 @@ namespace ece
 				switch (target) {
 				case Framebuffer::Target::READ: return FramebufferTarget::READ_FRAMEBUFFER; break;
 				case Framebuffer::Target::DRAW: return FramebufferTarget::DRAW_FRAMEBUFFER; break;
-				case Framebuffer::Target::DRAW_AND_READ: return FramebufferTarget::FRAMEBUFFER; break;
+				case Framebuffer::Target::FRAMEBUFFER: return FramebufferTarget::FRAMEBUFFER; break;
 				default: throw std::runtime_error("Unknown value for FramebufferTarget enumeration."); break;
 				}
 			}

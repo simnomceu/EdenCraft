@@ -43,7 +43,7 @@
 #include "renderer/pch.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/image/pixel_format.hpp"
+#include "renderer/image/pixel_data.hpp"
 
 namespace ece
 {

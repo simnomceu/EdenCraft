@@ -51,12 +51,21 @@ namespace ece
 	{
 		namespace image
 		{
-			Texture2D::Texture2D()noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), 
-				_pixelData{ PixelData::Format::RGBA, PixelData::InternalFormat::RGBA, PixelData::DataType::UNSIGNED_BYTE }, _handle(OpenGL::genTexture())
+			Texture2D::Texture2D() noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), 
+				_pixelData(), _handle(OpenGL::genTexture())
 			{
+				this->_pixelData.format = PixelData::Format::RGBA;
+				this->_pixelData.internalFormat = PixelData::InternalFormat::RGBA;
+				this->_pixelData.type = PixelData::DataType::UNSIGNED_BYTE;
+
 				this->setParameter<int>(Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
 				this->setParameter<int>(Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
 				this->setParameter<int>(Parameter::MIN_FILTER, GL_LINEAR);
+			}
+
+			Texture2D::~Texture2D() noexcept
+			{
+				OpenGL::deleteTextures({ this->_handle });
 			}
 
 			Texture2D & Texture2D::operator=(const Texture2D & copy)
@@ -112,8 +121,7 @@ namespace ece
 				this->_height = image->getHeight();
 				this->_type = type;
 
-				auto buffer = reinterpret_cast<std::uint8_t*>(this->_data->data());
-				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, PixelInternalFormat::RGBA, this->_width, this->_height, PixelFormat::RGBA, PixelDataType::UNSIGNED_BYTE, &buffer[0]);
+				this->create();
 			}
 
 			void Texture2D::saveToFile(const std::filesystem::path & filename)
@@ -154,8 +162,9 @@ namespace ece
 
 			void Texture2D::create()
 			{
+				auto buffer = this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr;
 				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, getPixelInternalFormat(this->_pixelData.internalFormat), this->_width, this->_height,
-					getPixelFormat(this->_pixelData.format), getPixelDataType(this->_pixelData.type), &this->_data[0]);
+					getPixelFormat(this->_pixelData.format), getPixelDataType(this->_pixelData.type), &buffer[0]);
 			}
 		} // namespace image
 	} // namespace renderer

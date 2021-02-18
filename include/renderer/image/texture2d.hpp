@@ -41,10 +41,9 @@
 #define TEXTURE_2D_HPP
 
 #include "renderer/config.hpp"
+#include "renderer/pch.hpp"
 #include "renderer/image/texture.hpp"
-#include "core/resource.hpp"
 #include "renderer/image/color.hpp"
-#include "renderer/image/pixel_format.hpp"
 
 namespace ece
 {
@@ -90,7 +89,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				~Texture2D() noexcept = default;
+				~Texture2D() noexcept;
 
 				/**
 				 * @fn Texture2D & operator=(const Texture2D & copy)
@@ -183,9 +182,6 @@ namespace ece
 
 				inline virtual void active(const unsigned int channel) override;
 
-				template <typename T> void setParameter(const Parameter name, const T value);
-				template <typename T> void setParameter(const Parameter name, const std::vector<T> & value);
-
 				void generateMipmap();
 
 				inline void setPixelData(PixelData pixelData);
@@ -196,7 +192,9 @@ namespace ece
 				 * @brief Clear and delete the texture.
 				 * @throw
 				 */
-				void terminate();
+				virtual void terminate() override;
+
+				virtual void create() override;
 
 			private:
 				/**
@@ -236,8 +234,6 @@ namespace ece
 				 * @brief The texture handle to use for any OpenGL call.
 				 */
 				Handle _handle;
-
-				void create();
 			};
 		} // namespace image
 	} // namespace renderer

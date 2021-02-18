@@ -44,7 +44,9 @@
 #include "renderer/pch.hpp"
 #include "utility/types.hpp"
 #include "utility/pattern.hpp"
+#include "core/resource.hpp"
 #include "renderer/image/image.hpp"
+#include "renderer/image/pixel_data.hpp"
 
 namespace ece
 {
@@ -60,6 +62,8 @@ namespace ece
 			class ECE_RENDERER_API Texture : public virtual_enable_shared_from_this<Texture>
 			{
 			public:
+				using Reference = Resource<Texture>;
+
 				enum class TypeTarget : unsigned short int
 				{
 					TEXTURE_2D = 0x00,
@@ -190,7 +194,12 @@ namespace ece
 				 */
 				virtual void bind() = 0;
 
-				virtual void active(const unsigned int channel) = 0; 
+				virtual void active(const unsigned int channel) = 0;
+
+				template <typename T> void setParameter(const Parameter name, const T value);
+				template <typename T> void setParameter(const Parameter name, const std::vector<T>& value);
+
+				virtual PixelData getPixelData() const = 0;
 
 				/**
 				 * @fn void terminate()
@@ -198,6 +207,8 @@ namespace ece
 				 * @throw
 				 */
 				virtual void terminate() = 0;
+
+				virtual void create() = 0;
 
 			protected:
 				void setCurrent();
@@ -208,5 +219,7 @@ namespace ece
 		} // namespace image
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/image/texture.inl"
 
 #endif // TEXTURE_HPP

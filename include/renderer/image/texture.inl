@@ -40,9 +40,21 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace image
 		{
-			inline const Framebuffer::Specification & Framebuffer::getSpecification() const { return this->_specification; }
-		} // namespace rendering
+			template <typename T>
+			void Texture::setParameter(const Parameter name, const T value)
+			{
+				this->bind();
+				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
+			}
+
+			template <typename T>
+			void Texture::setParameter(const Parameter name, const std::vector<T>& value)
+			{
+				this->bind();
+				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
+			}
+		} // namespace image
 	} // namespace renderer
 } // namespace ece

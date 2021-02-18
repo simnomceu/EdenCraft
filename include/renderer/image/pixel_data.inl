@@ -40,9 +40,10 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace rendering
+		namespace image
 		{
-			inline const Framebuffer::Specification & Framebuffer::getSpecification() const { return this->_specification; }
-		} // namespace rendering
+			inline PixelData::PixelData() : redMask(), greenMask(), blueMask(), alphaMask(), bpp(32), type(DataType::UNSIGNED_BYTE), 
+											format(Format::RGBA), internalFormat(InternalFormat::RGBA) {}
+		} // namespace image
 	} // namespace renderer
 } // namespace ece

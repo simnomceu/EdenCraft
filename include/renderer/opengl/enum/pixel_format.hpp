@@ -36,14 +36,14 @@
 
 */
 
-#ifndef PIXEL_FORMAT_HPP
-#define PIXEL_FORMAT_HPP
+#ifndef OPENGL_PIXEL_FORMAT_HPP
+#define OPENGL_PIXEL_FORMAT_HPP
 
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
 #include "GL/glcorearb.h"
 #include "GL/glext.h"
-#include "renderer/image/pixel_format.hpp"
+#include "renderer/image/pixel_data.hpp"
 
 namespace ece
 {
@@ -79,4 +79,4 @@ namespace ece
 	} // namespace renderer
 } // namespace ece
 
-#endif // PIXEL_FORMAT_HPP
+#endif // OPENGL_PIXEL_FORMAT_HPP

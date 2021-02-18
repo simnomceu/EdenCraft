@@ -70,20 +70,6 @@ namespace ece
 
 			inline void Texture2D::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
 
-			template <typename T>
-			void Texture2D::setParameter(const Parameter name, const T value)
-			{
-				this->bind();
-				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
-			}
-
-			template <typename T>
-			void Texture2D::setParameter(const Parameter name, const std::vector<T> & value)
-			{
-				this->bind();
-				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
-			}
-
 			inline void Texture2D::setPixelData(PixelData pixelData)
 			{
 				this->_pixelData = pixelData;

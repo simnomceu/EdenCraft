@@ -83,7 +83,7 @@ namespace ece
 					static_cast<float>(color.g) / 255.0f,
 					static_cast<float>(color.b) / 255.0f,
 					static_cast<float>(color.a) / 100.0f);
-				OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
+				OpenGL::clear(BufferBit::COLOR | BufferBit::STENCIL | BufferBit::DEPTH);
 			}
 
 			void ForwardRendering::draw(const Staging & staging)
