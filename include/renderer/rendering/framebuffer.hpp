@@ -42,6 +42,7 @@
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
 #include "renderer/rendering/render_target.hpp"
+#include "renderer/image/pixel_data.hpp"
 
 namespace ece
 {
@@ -49,6 +50,8 @@ namespace ece
 	{
 		namespace rendering
 		{
+			using image::PixelData;
+
 			EnumFlagsT(unsigned short int, FramebufferBufferBit)
 			{
 				COLOR = 0b001,
@@ -133,9 +136,8 @@ namespace ece
 
 				struct AttachmentSpecification
 				{
-					Texture::Reference texture;
 					TargetTexture target;
-
+					PixelData::InternalFormat internalFormat;
 				};
 
 				struct Specification
@@ -177,6 +179,11 @@ namespace ece
 			private:
 				Handle _handle;
 				Specification _specification;
+
+				std::vector<Texture::Reference> _colors;
+				std::optional<Texture::Reference> _depth;
+				std::optional<Texture::Reference> _stencil;
+				std::optional<Texture::Reference> _depthStencil;
 			};
 		} // namespace rendering
 	} // namespace renderer

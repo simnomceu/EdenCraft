@@ -129,6 +129,16 @@ namespace ece
 				case PixelData::InternalFormat::COMPRESSED_SRGB_ALPHA_BPTC_UNORM: return PixelInternalFormat::COMPRESSED_SRGB_ALPHA_BPTC_UNORM; break;
 				case PixelData::InternalFormat::COMPRESSED_RGB_BPTC_SIGNED_FLOAT: return PixelInternalFormat::COMPRESSED_RGB_BPTC_SIGNED_FLOAT; break;
 				case PixelData::InternalFormat::COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT: return PixelInternalFormat::COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT; break;
+				case PixelData::InternalFormat::DEPTH_COMPONENT16: return PixelInternalFormat::DEPTH_COMPONENT16; break;
+				case PixelData::InternalFormat::DEPTH_COMPONENT24: return PixelInternalFormat::DEPTH_COMPONENT24; break;
+				case PixelData::InternalFormat::DEPTH_COMPONENT32: return PixelInternalFormat::DEPTH_COMPONENT32; break;
+				case PixelData::InternalFormat::DEPTH_COMPONENT32F: return PixelInternalFormat::DEPTH_COMPONENT32F; break;
+				case PixelData::InternalFormat::DEPTH24_STENCIL8: return PixelInternalFormat::DEPTH24_STENCIL8; break;
+				case PixelData::InternalFormat::DEPTH32F_STENCIL8: return PixelInternalFormat::DEPTH32F_STENCIL8; break;
+				case PixelData::InternalFormat::STENCIL_INDEX1: return PixelInternalFormat::STENCIL_INDEX1; break;
+				case PixelData::InternalFormat::STENCIL_INDEX4: return PixelInternalFormat::STENCIL_INDEX4; break;
+				case PixelData::InternalFormat::STENCIL_INDEX8: return PixelInternalFormat::STENCIL_INDEX8; break;
+				case PixelData::InternalFormat::STENCIL_INDEX16: return PixelInternalFormat::STENCIL_INDEX16; break;
 				default: throw std::runtime_error("Unknown value for PixelInternalFormat enumeration."); break;
 				}
 			}
@@ -217,6 +227,16 @@ namespace ece
 				case PixelInternalFormat::COMPRESSED_SRGB_ALPHA_BPTC_UNORM: return "GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM"; break;
 				case PixelInternalFormat::COMPRESSED_RGB_BPTC_SIGNED_FLOAT: return "GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT"; break;
 				case PixelInternalFormat::COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT: return "GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT"; break;
+				case PixelInternalFormat::DEPTH_COMPONENT16: return "GL_DEPTH_COMPONENT16"; break;
+				case PixelInternalFormat::DEPTH_COMPONENT24: return "GL_DEPTH_COMPONENT24"; break;
+				case PixelInternalFormat::DEPTH_COMPONENT32: return "GL_DEPTH_COMPONENT32"; break;
+				case PixelInternalFormat::DEPTH_COMPONENT32F: return "GL_DEPTH_COMPONENT32F"; break;
+				case PixelInternalFormat::DEPTH24_STENCIL8: return "GL_DEPTH24_STENCIL8"; break;
+				case PixelInternalFormat::DEPTH32F_STENCIL8: return "GL_DEPTH32F_STENCIL8"; break;
+				case PixelInternalFormat::STENCIL_INDEX1: return "GL_STENCIL_INDEX1"; break;
+				case PixelInternalFormat::STENCIL_INDEX4: return "GL_STENCIL_INDEX4"; break;
+				case PixelInternalFormat::STENCIL_INDEX8: return "GL_STENCIL_INDEX8"; break;
+				case PixelInternalFormat::STENCIL_INDEX16: return "GL_STENCIL_INDEX16"; break;
 				default: throw std::runtime_error("Unknown value for PixelInternalFormat enumeration."); break;
 				}
 			}

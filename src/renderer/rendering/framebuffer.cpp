@@ -77,30 +77,76 @@ namespace ece
 				// Color attachments
 				auto it = unsigned short int{ 0 };
 				for (auto & color : this->_specification.colors) {
-					color.texture->bind();
-					color.texture->create();
-					color.texture->setParameter<int>(Texture::Parameter::MIN_FILTER, GL_LINEAR);
-					color.texture->setParameter<int>(Texture::Parameter::MAG_FILTER, GL_LINEAR);
-					color.texture->setParameter<int>(Texture::Parameter::WRAP_R, GL_CLAMP_TO_EDGE);
-					color.texture->setParameter<int>(Texture::Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
-					color.texture->setParameter<int>(Texture::Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
+					this->_colors.emplace_back();
+					this->_colors.back()->bind();
+					this->_colors.back()->create();
+					this->_colors.back()->setParameter<int>(Texture::Parameter::MIN_FILTER, GL_LINEAR);
+					this->_colors.back()->setParameter<int>(Texture::Parameter::MAG_FILTER, GL_LINEAR);
+					this->_colors.back()->setParameter<int>(Texture::Parameter::WRAP_R, GL_CLAMP_TO_EDGE);
+					this->_colors.back()->setParameter<int>(Texture::Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
+					this->_colors.back()->setParameter<int>(Texture::Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
 					OpenGL::framebufferTexture2D(getFramebufferTarget(this->_specification.target),
 						getFramebufferAttachmentChannel(AttachmentChannel::COLOR0 + it),
 						getFramebufferTargetTexture(color.target),
-						color.texture->getHandle(),
+						this->_colors.back()->getHandle(),
 						0);
 					++it;
 				}
 
 				// Depth attachment
+				if (this->_specification.depth) {
+					this->_depth.emplace();
+					this->_depth.value()->bind();
+					this->_depth.value()->create();
+					this->_depth.value()->setParameter<int>(Texture::Parameter::MIN_FILTER, GL_LINEAR);
+					this->_depth.value()->setParameter<int>(Texture::Parameter::MAG_FILTER, GL_LINEAR);
+					this->_depth.value()->setParameter<int>(Texture::Parameter::WRAP_R, GL_CLAMP_TO_EDGE);
+					this->_depth.value()->setParameter<int>(Texture::Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
+					this->_depth.value()->setParameter<int>(Texture::Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
+					OpenGL::framebufferTexture2D(getFramebufferTarget(this->_specification.target),
+						getFramebufferAttachmentChannel(AttachmentChannel::DEPTH),
+						getFramebufferTargetTexture(this->_specification.depth->target),
+						this->_depth.value()->getHandle(),
+						0);
+				}
 
 				// Stencil attachment
+				if (this->_specification.stencil) {
+					this->_stencil.emplace();
+					this->_stencil.value()->bind();
+					this->_stencil.value()->create();
+					this->_stencil.value()->setParameter<int>(Texture::Parameter::MIN_FILTER, GL_LINEAR);
+					this->_stencil.value()->setParameter<int>(Texture::Parameter::MAG_FILTER, GL_LINEAR);
+					this->_stencil.value()->setParameter<int>(Texture::Parameter::WRAP_R, GL_CLAMP_TO_EDGE);
+					this->_stencil.value()->setParameter<int>(Texture::Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
+					this->_stencil.value()->setParameter<int>(Texture::Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
+					OpenGL::framebufferTexture2D(getFramebufferTarget(this->_specification.target),
+						getFramebufferAttachmentChannel(AttachmentChannel::STENCIL),
+						getFramebufferTargetTexture(this->_specification.stencil->target),
+						this->_stencil.value()->getHandle(),
+						0);
+				}
 
-				//Stencil-Depth attachment
+				// Depth-Stencil attachment
+				if (this->_specification.depthStencil) {
+					this->_depthStencil.emplace();
+					this->_depthStencil.value()->bind();
+					this->_depthStencil.value()->create();
+					this->_depthStencil.value()->setParameter<int>(Texture::Parameter::MIN_FILTER, GL_LINEAR);
+					this->_depthStencil.value()->setParameter<int>(Texture::Parameter::MAG_FILTER, GL_LINEAR);
+					this->_depthStencil.value()->setParameter<int>(Texture::Parameter::WRAP_R, GL_CLAMP_TO_EDGE);
+					this->_depthStencil.value()->setParameter<int>(Texture::Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
+					this->_depthStencil.value()->setParameter<int>(Texture::Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
+					OpenGL::framebufferTexture2D(getFramebufferTarget(this->_specification.target),
+						getFramebufferAttachmentChannel(AttachmentChannel::DEPTH_STENCIL),
+						getFramebufferTargetTexture(this->_specification.depthStencil->target),
+						this->_depthStencil.value()->getHandle(),
+						0);
+				}
 
-				if (this->_specification.colors.size() > 0) {
+				if (this->_colors.size() > 0) {
 					auto buffers = std::vector<ColorBuffer>{};
-					for (auto i = std::size_t{ 0 }; i < this->_specification.colors.size(); ++i) {
+					for (auto i = std::size_t{ 0 }; i < this->_colors.size(); ++i) {
 						// TODO : ColorBuffer to define with operator+(int) method
 						buffers.push_back(static_cast<ColorBuffer>(static_cast<int>(ColorBuffer::COLOR_ATTACHMENT0) + i));
 					}
@@ -121,14 +167,14 @@ namespace ece
 					OpenGL::deleteFramebuffers(buffers);
 					this->_handle = NULL_HANDLE;
 
-					for (auto & color : this->_specification.colors) {
-						color.texture->terminate();
+					for (auto & color : this->_colors) {
+						color->terminate();
 					}
-					this->_specification.colors.clear();
+					this->_colors.clear();
 					
-					this->_specification.depth.reset();
-					this->_specification.stencil.reset();
-					this->_specification.depthStencil.reset();
+					this->_depth.reset();
+					this->_stencil.reset();
+					this->_depthStencil.reset();
 				}
 			}
 
