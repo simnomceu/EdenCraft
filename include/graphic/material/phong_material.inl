@@ -74,7 +74,7 @@ namespace ece
 				*std::dynamic_pointer_cast<Shininess>(this->_material->getProperty("shininess")) = shininess;
 			}
 
-			inline void PhongMaterial::setDiffuseMap(const Texture2D::Reference & texture)
+			inline void PhongMaterial::setDiffuseMap(const Texture::Reference & texture)
 			{
 				this->_material->getProperty("diffuseMap")->enable(true);
 				*std::dynamic_pointer_cast<DiffuseMap>(this->_material->getProperty("diffuseMap")) = texture;
@@ -82,7 +82,7 @@ namespace ece
 				this->_material->getProperty("diffuse")->enable(false);
 			}
 
-			inline void PhongMaterial::setSpecularMap(const Texture2D::Reference & texture)
+			inline void PhongMaterial::setSpecularMap(const Texture::Reference & texture)
 			{
 				this->_material->getProperty("specularMap")->enable(true);
 				*std::dynamic_pointer_cast<SpecularMap>(this->_material->getProperty("specularMap")) = texture;

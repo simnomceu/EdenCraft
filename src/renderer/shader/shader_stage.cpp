@@ -93,7 +93,7 @@ namespace ece
 						shaderFile.close();
 					}
 					catch (const FileException & e) {
-						ERROR << e.what() << flush;
+						ERROR << e.what() << flushing;
 					}
 					this->_type = type;
 					this->_compilationRequired = true;
@@ -120,7 +120,7 @@ namespace ece
     				this->_compilationRequired = false;
 				} else {
                     auto infoLog = OpenGL::getShaderInfoLog(this->_handle);
-					ERROR << infoLog << flush;
+					ERROR << infoLog << flushing;
                 }
 			}
 

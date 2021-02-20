@@ -48,13 +48,24 @@ namespace ece
 {
 	namespace renderer
 	{
+		namespace image
+		{
+			class Texture;
+
+			namespace texture
+			{
+				enum class Target : unsigned short int;
+			}
+		}
+
 		namespace rendering
 		{
 			using namespace opengl;
 
 			class RenderTarget;
 			class RenderContext;
-			using image::Texture;
+
+			using namespace image;
 
 			/**
 			 * @class Renderer

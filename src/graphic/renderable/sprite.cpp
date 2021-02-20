@@ -54,7 +54,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Sprite::Sprite(const Texture2D::Reference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) :
+			Sprite::Sprite(const Texture::Reference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) :
 				Renderable(), _texture{ texture, textureClip }, _bounds(bounds), _rotation(0.0f), _vertices(), _index(), _level(0)
 			{
 				if (this->_bounds == Rectangle<float>()) {
@@ -98,7 +98,7 @@ namespace ece
 				OpenGL::drawElements(this->_mode, static_cast<ece::size_t>(this->_index.size() * 3), 0);
 			}
 
-			void Sprite::setTexture(const Texture2D::Reference & texture)
+			void Sprite::setTexture(const Texture::Reference & texture)
 			{
 				this->_texture.ref = texture;
 

@@ -87,13 +87,13 @@ namespace ece
 								this->_resource.insert(std::pair<std::string, std::string>(element->getKey(), element->getValue()));
 							}
 							else {
-								ece::ERROR << "Error while loading '" << key << "' string from locale file " << filename << ece::flush;
+								ece::ERROR << "Error while loading '" << key << "' string from locale file " << filename << ece::flushing;
 							}
         				}
         			}
         		}
         		catch (const FileException & e) {
-					ece::ERROR << e.what() << ece::flush;
+					ece::ERROR << e.what() << ece::flushing;
         		}
         	}
         } // namespace locale

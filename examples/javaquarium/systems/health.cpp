@@ -54,11 +54,11 @@ void Health::update([[maybe_unused]] float elapsedTime)
 		if (living) {
 			++living.age;
 			if (living.age >= 20) {
-				ece::WARNING << "ID #" << living.getOwner() << " has died of old age." << ece::flush;
+				ece::WARNING << "ID #" << living.getOwner() << " has died of old age." << ece::flushing;
 				this->_world.destroy(living.getOwner());
 			}
 			else if (living.life <= 0) {
-				ece::WARNING << "ID #" << living.getOwner() << " has died of an unknown reason." << ece::flush;
+				ece::WARNING << "ID #" << living.getOwner() << " has died of an unknown reason." << ece::flushing;
 				this->_world.destroy(living.getOwner());
 			}
 			else {
@@ -72,7 +72,7 @@ void Health::update([[maybe_unused]] float elapsedTime)
 				}
 
 				if (living.life <= 0) {
-					ece::WARNING << "ID #" << living.getOwner() << " doesn't find any food and starves to death." << ece::flush;
+					ece::WARNING << "ID #" << living.getOwner() << " doesn't find any food and starves to death." << ece::flushing;
 					this->_world.destroy(living.getOwner());
 				}
 			}

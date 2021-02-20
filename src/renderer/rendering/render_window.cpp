@@ -80,7 +80,7 @@ namespace ece
 						throw;
 					}
 					catch (std::runtime_error & e) {
-						ERROR << e.what() << flush;
+						ERROR << e.what() << flushing;
 					}
 
 					this->onWindowOpened();

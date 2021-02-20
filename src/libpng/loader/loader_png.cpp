@@ -18,7 +18,7 @@ namespace ece
 
 				//if there's an error, display it
 				if (error) {
-					ERROR << "decoder error " << error << ": " << lodepng_error_text(error) << flush;
+					ERROR << "decoder error " << error << ": " << lodepng_error_text(error) << flushing;
 				}
 
 				auto resourceImage = ece::Image<ece::RGBA32>();
@@ -50,7 +50,7 @@ namespace ece
 
 				//if there's an error, display it
 				if (error) {
-					ERROR << "encoder error " << error << ": " << lodepng_error_text(error) << flush;
+					ERROR << "encoder error " << error << ": " << lodepng_error_text(error) << flushing;
 				}
 			}
 		} // namespace loader

@@ -36,12 +36,26 @@
 
 */
 
+#include "renderer/opengl/opengl.hpp"
+
 namespace ece
 {
 	namespace renderer
 	{
 		namespace image
 		{
+			using namespace opengl::OpenGL;
+
+			inline Texture::Texture(const Texture & copy) : _target(copy._target), _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), _type(copy._type),
+				_handle(copy._handle) {}
+
+			inline Texture::Texture(Texture && move) noexcept : _target(move._target), _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), 
+				_height(move._height), _type(move._type), _handle(move._handle)
+			{
+				move._data.content.reset();
+				move._handle = NULL_HANDLE;
+			}
+
 			template <typename T>
 			void Texture::setParameter(const TextureParameter name, const T value)
 			{
@@ -55,6 +69,28 @@ namespace ece
 				this->bind();
 				OpenGL::texParameter(this->_target, name, value);
 			}
+
+			inline auto Texture::getFilename() const -> const std::string& { return this->_filename; }
+
+			inline auto Texture::getData() const -> std::uint8_t* { return this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr; }
+
+			inline auto Texture::getWidth() const -> ece::size_t { return this->_width; }
+
+			inline auto Texture::getHeight() const -> ece::size_t { return this->_height; }
+
+			inline auto Texture::getType() const -> TextureTypeTarget { return this->_type; }
+
+			inline auto Texture::getHandle() const -> Handle { return this->_handle; }
+
+			inline void Texture::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
+
+			inline void Texture::setPixelData(PixelData pixelData)
+			{
+				this->_pixelData = pixelData;
+				this->create();
+			}
+
+			inline PixelData Texture::getPixelData() const { return this->_pixelData; }
 		} // namespace image
 	} // namespace renderer
 } // namespace ece

@@ -76,7 +76,7 @@ namespace ece
 						throw std::runtime_error("Invalid number of planes(" + std::to_string(this->dib.planes) + "), Bitmap files contain only one color plane.");
 					}
 					if (this->dib.bitCount != 1 && this->dib.bitCount != 2 && this->dib.bitCount != 4 && this->dib.bitCount != 8 && this->dib.bitCount != 16 && this->dib.bitCount != 24 && this->dib.bitCount != 32 && this->dib.bitCount != 64) {
-						WARNING << "Unusual number of Bits Per Pixel: " << this->dib.bitCount << " while trying to parse a " << to_string(this->dib.type) << " Bitmap DIB Header" << flush;
+						WARNING << "Unusual number of Bits Per Pixel: " << this->dib.bitCount << " while trying to parse a " << to_string(this->dib.type) << " Bitmap DIB Header" << flushing;
 						if (this->dib.bitCount == 0) {
 							throw std::runtime_error("It is not possible to evaluate a 0bpp bitmap image.");
 						}
@@ -93,7 +93,7 @@ namespace ece
 						throw std::runtime_error("The size of the pixel data is absurdly large (" + std::to_string(this->dib.imageSize) + ") and exceeds the size of the bitmap (" + std::to_string(this->header.size) + ").");
 					}
 					if (this->dib.xResolution != this->dib.yResolution) {
-						WARNING << "The resolution of the image is not uniform (" << PPMToDPI(this->dib.xResolution) << "x" << PPMToDPI(this->dib.yResolution) << "dpi)." << flush;
+						WARNING << "The resolution of the image is not uniform (" << PPMToDPI(this->dib.xResolution) << "x" << PPMToDPI(this->dib.yResolution) << "dpi)." << flushing;
 					}
 					if (PPMToDPI(this->dib.xResolution) > DPI_MAX) {
 						throw std::runtime_error("The X resolution of the image is absurdly large (" + std::to_string(PPMToDPI(this->dib.xResolution)) + "dpi) and exceeds the maximal resolution allowed (" + std::to_string(DPI_MAX) + "dpi).");
@@ -129,7 +129,7 @@ namespace ece
 						throw std::runtime_error("The color palet cannot be used, as the number of bit per pixel is " + std::to_string(this->dib.bitCount) + ".");
 					}
 					if (this->dib.nbColorsUsed > this->dib.width * this->dib.height) {
-						WARNING << "Unusual number of colors used: " << this->dib.nbColorsUsed << " while trying to parse a " << to_string(this->dib.type) << " Bitmap DIB Header" << flush;
+						WARNING << "Unusual number of colors used: " << this->dib.nbColorsUsed << " while trying to parse a " << to_string(this->dib.type) << " Bitmap DIB Header" << flushing;
 
 						auto reservedColorTableSize = static_cast<int32_t>(this->header.pixelsOffset - BMPHeader::INTERNAL_SIZE - this->dib.size);
 						if (reservedColorTableSize < this->dib.nbColorsUsed) {

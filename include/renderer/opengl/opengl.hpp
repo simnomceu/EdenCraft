@@ -43,10 +43,10 @@
 #include "renderer/pch.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 #include "utility/mathematics.hpp"
-#include "renderer/opengl/enum.hpp"
 #include "utility/indexing.hpp"
 #include "utility/container.hpp"
 #include "utility/types.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {

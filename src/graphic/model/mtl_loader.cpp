@@ -71,7 +71,7 @@ namespace ece
 					materialVisitor.setShininess(material.specularExponent);
 
 					if (!material.mapDiffuse.empty()) {
-						auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
+						auto diffuseMap = makeResource<Texture>(material.mapDiffuse);
 
 						if (!diffuseMap->getData()) {
 							diffuseMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
@@ -82,7 +82,7 @@ namespace ece
 					}
 
 					if (!material.mapSpecular.empty()) {
-						auto specularMap = makeResource<Texture2D>(material.mapSpecular);
+						auto specularMap = makeResource<Texture>(material.mapSpecular);
 
 						if (!specularMap->getData()) {
 							specularMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);

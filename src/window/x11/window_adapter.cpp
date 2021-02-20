@@ -59,7 +59,7 @@ namespace ece
 					this->_data->api->createWindow();
 				}
 				catch (std::runtime_error & e) {
-					INFO << e.what() << " Xlib client will be used instead." << flush;
+					INFO << e.what() << " Xlib client will be used instead." << flushing;
 					this->_data = makePimpl<DataWindowAdapter>(std::make_shared<XlibImpl>());
 					this->_data->api->createWindow();
 				}

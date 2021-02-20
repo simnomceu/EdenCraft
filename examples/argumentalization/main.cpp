@@ -71,7 +71,7 @@ int main(int argc, char * argv[])
 		app.run();
 	}
 	catch (std::exception & e) {
-		ece::ERROR << "Uncaught exception: " << e.what() << ece::flush;
+		ece::ERROR << "Uncaught exception: " << e.what() << ece::flushing;
 	}
 
 	return EXIT_SUCCESS;

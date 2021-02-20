@@ -44,7 +44,7 @@
 
 #include "graphic/config.hpp"
 #include "graphic/renderable/renderable.hpp"
-#include "renderer/image/texture2d.hpp"
+#include "renderer/image/texture.hpp"
 #include "utility/mathematics.hpp"
 
 namespace ece
@@ -53,7 +53,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			using renderer::image::Texture2D;
+			using renderer::image::Texture;
 
 			/**
 			 * @class Sprite
@@ -73,7 +73,7 @@ namespace ece
 
 				constexpr Sprite() noexcept = delete;
 
-				Sprite(const Texture2D::Reference & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
+				Sprite(const Texture::Reference & texture, const Rectangle<float> & bounds = Rectangle<float>(), const Rectangle<float> & textureClip = Rectangle<float>());
 
 				/**
 				 * @fn Sprite(const Sprite & copy)
@@ -118,7 +118,7 @@ namespace ece
 
 				virtual void draw(std::shared_ptr<Shader> program) override;
 
-				void setTexture(const Texture2D::Reference & texture);
+				void setTexture(const Texture::Reference & texture);
 				inline void clipTexture(Rectangle<float> textureClip);
 
 				inline void setBounds(Rectangle<float> bounds);
@@ -137,7 +137,7 @@ namespace ece
 
 			private:
 				struct {
-					Texture2D::Reference ref;
+					Texture::Reference ref;
 					Rectangle<float> clip;
 				} _texture;
 

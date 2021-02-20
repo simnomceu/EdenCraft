@@ -79,7 +79,7 @@ namespace ece
 					}
 				} else {
                     auto infoLog = OpenGL::getProgramInfoLog(this->_handle);
-					ERROR << infoLog << flush;
+					ERROR << infoLog << flushing;
                 }
 			}
 
@@ -95,7 +95,7 @@ namespace ece
 						this->_cachedLocations[location] = handle;
 					}
 					catch (const std::runtime_error & e) {
-						WARNING << e.what() << flush;
+						WARNING << e.what() << flushing;
 					}
 					uniform.bind(handle);
 				}
@@ -113,7 +113,7 @@ namespace ece
 						this->_cachedLocations[location] = handle;
 					}
 					catch (const std::runtime_error & e) {
-						WARNING << e.what() << flush;
+						WARNING << e.what() << flushing;
 					}
 					uniform->bind(handle);
 				}

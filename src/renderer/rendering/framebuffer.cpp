@@ -184,31 +184,31 @@ namespace ece
 				auto status = OpenGL::checkFramebufferStatus(this->_specification.target);
 				switch (status) {
 				case FramebufferStatus::COMPLETE:
-					INFO << "Framebuffer completed." << flush;
+					INFO << "Framebuffer completed." << flushing;
 					break;
 				case FramebufferStatus::UNDEFINED:
-					WARNING << "Default framebuffer doesn't exist." << flush;
+					WARNING << "Default framebuffer doesn't exist." << flushing;
 					break;
 				case FramebufferStatus::INCOMPLETE_ATTACHMENT:
-					WARNING << "One of the framebuffer attachment points is framebuffer incomplete." << flush;
+					WARNING << "One of the framebuffer attachment points is framebuffer incomplete." << flushing;
 					break;
 				case FramebufferStatus::INCOMPLETE_MISSING_ATTACHMENT:
-					WARNING << "Framebuffer does not have any image attached to it." << flush;
+					WARNING << "Framebuffer does not have any image attached to it." << flushing;
 					break;
 				case FramebufferStatus::INCOMPLETE_DRAW_BUFFER:
-					WARNING << "None of the color attachment points are typed in draw buffers." << flush;
+					WARNING << "None of the color attachment points are typed in draw buffers." << flushing;
 					break;
 				case FramebufferStatus::INCOMPLETE_READ_BUFFER:
-					WARNING << "None of the color attachment points are typed in read buffers" << flush;
+					WARNING << "None of the color attachment points are typed in read buffers" << flushing;
 					break;
 				case FramebufferStatus::UNSUPPORTED:
-					WARNING << "Combination of internal formats of the attached images violates an implementation-dependent set of restrictions." << flush;
+					WARNING << "Combination of internal formats of the attached images violates an implementation-dependent set of restrictions." << flushing;
 					break;
 				case FramebufferStatus::INCOMPLETE_MULTISAMPLE:
-					WARNING << "Error with texture sample parameter not matching between the framebuffer and the attachment." << flush;
+					WARNING << "Error with texture sample parameter not matching between the framebuffer and the attachment." << flushing;
 					break;
 				case FramebufferStatus::INCOMPLETE_LAYER_TARGETS:
-					WARNING << "One of the framebuffer attachments is layered, and one of the populated attachment is not layered, or if populated color attachments are not from textures of the same target." << flush;
+					WARNING << "One of the framebuffer attachments is layered, and one of the populated attachment is not layered, or if populated color attachments are not from textures of the same target." << flushing;
 					break;
 				default: break;
 				}
