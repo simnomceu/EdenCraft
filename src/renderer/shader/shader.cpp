@@ -127,11 +127,11 @@ namespace ece
 
 			auto Shader::getUniforms() const
 			{
-				auto uniforms = std::vector<BaseUniform::Info>{};
+				auto uniforms = std::vector<UniformInfo>{};
 				auto count = OpenGL::getProgram(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
 				for (auto i =  0; i < count; ++i) {
 					auto uniform = OpenGL::getActiveUniform(this->_handle, static_cast<Handle>(i));
-					uniforms.push_back(getUniformInfo(uniform));
+					uniforms.push_back(uniform);
 				}
 				return std::move(uniforms);
 			}

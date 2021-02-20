@@ -43,6 +43,7 @@
 #include "renderer/pch.hpp"
 #include "renderer/rendering/render_target.hpp"
 #include "renderer/image/pixel_data.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -51,6 +52,7 @@ namespace ece
 		namespace rendering
 		{
 			using image::PixelData;
+			using namespace opengl;
 
 			EnumFlagsT(unsigned short int, FramebufferBufferBit)
 			{
@@ -62,87 +64,15 @@ namespace ece
 			class ECE_RENDERER_API Framebuffer: public RenderTarget
 			{
 			public:
-				enum class Target : unsigned short int
-				{
-					DRAW,
-					READ,
-					FRAMEBUFFER
-				};
-
-				enum class TargetTexture : unsigned short int
-				{
-					TEXTURE_RECTANGLE = 0x00,
-					TEXTURE_2D = 0x01,
-					TEXTURE_2D_MULTISAMPLE = 0x02,
-					TEXTURE_2D_MULTISAMPLE_ARRAY = 0x03,
-					TEXTURE_3D = 0x04,
-					TEXTURE_CUBE_MAP_POSITIVE_X = 0x05,
-					TEXTURE_CUBE_MAP_POSITIVE_Y = 0x06,
-					TEXTURE_CUBE_MAP_POSITIVE_Z = 0x07,
-					TEXTURE_CUBE_MAP_NEGATIVE_X = 0x08,
-					TEXTURE_CUBE_MAP_NEGATIVE_Y = 0x09,
-					TEXTURE_CUBE_MAP_NEGATIVE_Z = 0x10
-				};
-
-				enum class InterpolationFilter : unsigned short int
-				{
-					NEAREST = 0,
-					LINEAR = 1
-				};
-
-				enum class AttachmentChannel : unsigned short int
-				{
-					COLOR0 = 0,
-					COLOR1 = 1,
-					COLOR2 = 2,
-					COLOR3 = 3,
-					COLOR4 = 4,
-					COLOR5 = 5,
-					COLOR6 = 6,
-					COLOR7 = 7,
-					COLOR8 = 8,
-					COLOR9 = 9,
-					COLOR10 = 10,
-					COLOR11 = 11,
-					COLOR12 = 12,
-					COLOR13 = 13,
-					COLOR14 = 14,
-					COLOR15 = 15,
-					COLOR16 = 16,
-					COLOR17 = 17,
-					COLOR18 = 18,
-					COLOR19 = 19,
-					COLOR20 = 20,
-					COLOR21 = 21,
-					COLOR22 = 22,
-					COLOR23 = 23,
-					COLOR24 = 24,
-					COLOR25 = 25,
-					COLOR26 = 26,
-					COLOR27 = 27,
-					COLOR28 = 28,
-					COLOR29 = 29,
-					COLOR30 = 30,
-					COLOR31 = 31,
-					DEPTH = 32,
-					STENCIL = 33,
-					DEPTH_STENCIL = 34
-				};
-
-				inline friend AttachmentChannel operator+(const AttachmentChannel & left, unsigned short int shift)
-				{
-					return static_cast<AttachmentChannel>(static_cast<unsigned short int>(left) + shift);
-				}
-
 				struct AttachmentSpecification
 				{
-					TargetTexture target;
-					PixelData::InternalFormat internalFormat;
+					FramebufferTargetTexture target;
+					PixelInternalFormat internalFormat;
 				};
 
 				struct Specification
 				{
-					Target target;
+					FramebufferTarget target;
 
 					ece::size_t width;
 					ece::size_t height;

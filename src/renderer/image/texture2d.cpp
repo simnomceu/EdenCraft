@@ -51,16 +51,16 @@ namespace ece
 	{
 		namespace image
 		{
-			Texture2D::Texture2D() noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TypeTarget::TEXTURE_2D), 
+			Texture2D::Texture2D() noexcept : Texture(), _filename(), _data(), _width(), _height(), _type(TextureTypeTarget::TEXTURE_2D),
 				_pixelData(), _handle(OpenGL::genTexture())
 			{
-				this->_pixelData.format = PixelData::Format::RGBA;
-				this->_pixelData.internalFormat = PixelData::InternalFormat::RGBA;
-				this->_pixelData.type = PixelData::DataType::UNSIGNED_BYTE;
+				this->_pixelData.format = PixelFormat::RGBA;
+				this->_pixelData.internalFormat = PixelInternalFormat::RGBA;
+				this->_pixelData.type = PixelDataType::UNSIGNED_BYTE;
 
-				this->setParameter<int>(Parameter::WRAP_S, GL_CLAMP_TO_EDGE);
-				this->setParameter<int>(Parameter::WRAP_T, GL_CLAMP_TO_EDGE);
-				this->setParameter<int>(Parameter::MIN_FILTER, GL_LINEAR);
+				this->setParameter<int>(TextureParameter::TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				this->setParameter<int>(TextureParameter::TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				this->setParameter<int>(TextureParameter::TEXTURE_MIN_FILTER, GL_LINEAR);
 			}
 
 			Texture2D::~Texture2D() noexcept
@@ -101,7 +101,7 @@ namespace ece
 				return *this;
 			}
 
-			void Texture2D::loadFromFile(const TypeTarget type, const std::string & filename)
+			void Texture2D::loadFromFile(const TextureTypeTarget type, const std::string & filename)
 			{
 				this->terminate();
 
@@ -113,7 +113,7 @@ namespace ece
 				}
 			}
 
-			void Texture2D::loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image)
+			void Texture2D::loadFromImage(const TextureTypeTarget type, Image<RGBA32>::Reference image)
 			{
 				this->_data = image;
 
@@ -147,14 +147,14 @@ namespace ece
 			{
 				if (!this->isCurrent()) {
 					this->setCurrent();
-					OpenGL::bindTexture(getTextureTarget(this->_target), this->_handle);
+					OpenGL::bindTexture(this->_target, this->_handle);
 				}
 			}
 
 			void Texture2D::generateMipmap()
 			{
-				this->setParameter<int>(Parameter::MAG_FILTER, GL_NEAREST);
-				this->setParameter<int>(Parameter::MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+				this->setParameter<int>(TextureParameter::TEXTURE_MAG_FILTER, GL_NEAREST);
+				this->setParameter<int>(TextureParameter::TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 				OpenGL::generateMipmap(MipmapTarget::TEXTURE_2D);
 			}
 
@@ -163,8 +163,7 @@ namespace ece
 			void Texture2D::create()
 			{
 				auto buffer = this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr;
-				OpenGL::texImage2D(getTextureTypeTarget(this->_type), 0, getPixelInternalFormat(this->_pixelData.internalFormat), this->_width, this->_height,
-					getPixelFormat(this->_pixelData.format), getPixelDataType(this->_pixelData.type), &buffer[0]);
+				OpenGL::texImage2D(this->_type, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, this->_pixelData.type, &buffer[0]);
 			}
 		} // namespace image
 	} // namespace renderer

@@ -62,7 +62,7 @@ namespace ece
 			struct ECE_RENDERER_API has_buffer_read : public std::false_type {};
 
 			template <class T>
-			struct ECE_RENDERER_API has_buffer_read<T, std::void_t<decltype(std::declval<T>().read(std::declval<BaseBuffer::DataDescriptor>(), std::declval<BaseBuffer::Type>(), std::declval<BaseBuffer::Frequency>()))>> : public std::true_type {};
+			struct ECE_RENDERER_API has_buffer_read<T, std::void_t<decltype(std::declval<T>().read(std::declval<BaseBuffer::DataDescriptor>(), std::declval<BufferType>(), std::declval<BaseBuffer::Frequency>()))>> : public std::true_type {};
 
 			template <class T>
 			inline constexpr auto has_buffer_read_v = has_buffer_read<T>::value;
@@ -71,7 +71,7 @@ namespace ece
 			struct ECE_RENDERER_API has_buffer_write : public std::false_type {};
 
 			template <class B, class D>
-			struct ECE_RENDERER_API has_buffer_write<B, D, std::void_t<decltype(std::declval<B>().write(std::declval<BaseBuffer::DataDescriptor>(), std::declval<BaseBuffer::Type>(), std::declval<BaseBuffer::Frequency>(), std::declval<D>()))>> : public std::true_type {};
+			struct ECE_RENDERER_API has_buffer_write<B, D, std::void_t<decltype(std::declval<B>().write(std::declval<BaseBuffer::DataDescriptor>(), std::declval<BufferType>(), std::declval<BaseBuffer::Frequency>(), std::declval<D>()))>> : public std::true_type {};
 
 			template <class B, class D>
 			inline constexpr auto has_buffer_write_v = has_buffer_write<B, D>::value;
@@ -80,7 +80,7 @@ namespace ece
 			struct ECE_RENDERER_API has_buffer_copy : public std::false_type {};
 
 			template <class T>
-			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(std::declval<T&>().copy(std::declval<BaseBuffer::DataDescriptor>(), std::declval<BaseBuffer::Type>(), std::declval<BaseBuffer::Frequency>(), std::declval<BaseBuffer>()))>> : public std::true_type {};
+			struct ECE_RENDERER_API has_buffer_copy<T, std::void_t<decltype(std::declval<T&>().copy(std::declval<BaseBuffer::DataDescriptor>(), std::declval<BufferType>(), std::declval<BaseBuffer::Frequency>(), std::declval<BaseBuffer>()))>> : public std::true_type {};
 
 			template <class T>
 			inline constexpr auto has_buffer_copy_v = has_buffer_copy<T>::value;
@@ -89,7 +89,7 @@ namespace ece
 			struct ECE_RENDERER_API has_buffer_update: public std::false_type {};
 
 			template <class T>
-			struct ECE_RENDERER_API has_buffer_update<T, std::void_t<decltype(std::declval<T>().update(std::declval<BaseBuffer::DataDescriptor>(), std::declval<BaseBuffer::Type>(), std::declval<BaseBuffer::Frequency>()))>> : public std::true_type {};
+			struct ECE_RENDERER_API has_buffer_update<T, std::void_t<decltype(std::declval<T>().update(std::declval<BaseBuffer::DataDescriptor>(), std::declval<BufferType>(), std::declval<BaseBuffer::Frequency>()))>> : public std::true_type {};
 
 			template <class T>
 			inline constexpr auto has_buffer_update_v = has_buffer_update<T>::value;

@@ -42,6 +42,7 @@
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
 #include "renderer/image/texture.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -49,6 +50,8 @@ namespace ece
 	{
 		namespace rendering
 		{
+			using namespace opengl;
+
 			class RenderTarget;
 			class RenderContext;
 			using image::Texture;
@@ -116,15 +119,15 @@ namespace ece
 				static void setCurrentContext(const std::weak_ptr<RenderContext> & context);
 				static auto getCurrentContext() -> std::weak_ptr<RenderContext>;
 
-				static void setCurrentTexture(Texture::Target target, const std::weak_ptr<Texture> & texture);
-				static auto getCurrentTexture(Texture::Target target) -> std::weak_ptr<Texture>;
+				static void setCurrentTexture(TextureTarget target, const std::weak_ptr<Texture> & texture);
+				static auto getCurrentTexture(TextureTarget target) -> std::weak_ptr<Texture>;
 
 				static auto isInitialized() noexcept -> bool;
 
 			private:
 				static std::weak_ptr<RenderTarget> _currentTarget;
 				static std::weak_ptr<RenderContext> _currentContext;
-				static std::map<Texture::Target, std::weak_ptr<Texture>> _currentTextures;
+				static std::map<TextureTarget, std::weak_ptr<Texture>> _currentTextures;
 			};
 		} // namespace rendering
 	} // namespace renderer

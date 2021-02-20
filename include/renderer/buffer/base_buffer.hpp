@@ -42,6 +42,7 @@
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
 #include "utility/types.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -49,6 +50,8 @@ namespace ece
 	{
 		namespace buffer
 		{
+			using namespace opengl;
+
 			/**
 			 * @class BaseBuffer
 			 * @brief
@@ -62,24 +65,6 @@ namespace ece
 				{
 					int offset;
 					int stride;
-				};
-
-				enum class Type : unsigned short int
-				{
-					ARRAY = 0x00,
-					ATOMIC_COUNTER = 0x01,
-					COPY_READ = 0x02,
-					COPY_WRITE = 0x03,
-					DISPATCH_INDIRECT = 0x04,
-					DRAW_INDIRECT = 0x05,
-					ELEMENT_ARRAY = 0x06,
-					PIXEL_PACK= 0x07,
-					PIXEL_UNPACK = 0x08,
-					QUERY = 0x09,
-					SHADER_STORAGE = 0x10,
-					TEXTURE = 0x11,
-					TRANSFORM_FEEDBACK = 0x12,
-					UNIFORM = 0x13
 				};
 
 				enum class Frequency : unsigned short int
@@ -145,8 +130,27 @@ namespace ece
 			protected:
 				Handle _handle;
 				DataDescriptor _descriptor;
-				Type _type;
+				BufferType _type;
 				Frequency _frequency;
+			};
+
+			template <class T>
+			struct ECE_RENDERER_API UsageMap : public std::array<T, 3>
+			{
+				inline T& operator[](const BaseBuffer::Frequency& index) { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline const T& operator[](const BaseBuffer::Frequency& index) const { return std::array<T, 3>::operator[](static_cast<unsigned short int>(index)); }
+			};
+
+			struct ECE_RENDERER_API MethodMap : public std::array<BufferUsage, 3>
+			{
+				inline BufferUsage& operator[](const BaseBuffer::Method& index) { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
+				inline const BufferUsage& operator[](const BaseBuffer::Method& index) const { return std::array<BufferUsage, 3>::operator[](static_cast<unsigned short int>(index)); }
+			};
+
+			static const UsageMap<MethodMap> BUFFER_USAGE{
+				BufferUsage::STATIC_DRAW, BufferUsage::STATIC_READ, BufferUsage::STATIC_COPY,
+				BufferUsage::DYNAMIC_DRAW, BufferUsage::DYNAMIC_READ, BufferUsage::DYNAMIC_COPY,
+				BufferUsage::STREAM_DRAW, BufferUsage::STREAM_READ, BufferUsage::STREAM_COPY
 			};
 		} // namespace buffer
 	} // namespace renderer

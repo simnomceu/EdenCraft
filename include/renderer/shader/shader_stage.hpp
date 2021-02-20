@@ -43,6 +43,7 @@
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
 #include "utility/types.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -50,6 +51,8 @@ namespace ece
 	{
 		namespace shader
 		{
+			using namespace opengl;
+
 			/**
 			 * @class ShaderStage
 			 * @brief A shader stage is a step in the render pipeline.
@@ -57,16 +60,6 @@ namespace ece
 			class ECE_RENDERER_API ShaderStage
 			{
 			public:
-				enum class Type : unsigned char
-				{
-					COMPUTE			=	0x0,
-					FRAGMENT		=	0x1,
-					GEOMETRY		=	0x2,
-					VERTEX			=	0x3,
-					TESS_EVALUATION	=	0x4,
-					TESS_CONTROL	=	0x5
-				};
-
 				/**
 				 * @fn ShaderStage() noexcept
 				 * @brief Default constructor.
@@ -122,7 +115,7 @@ namespace ece
 				 * @brief Load the stage from a source file.
 				 * @throw
 				 */
-				void loadFromFile(const Type type, const std::string & filename);
+				void loadFromFile(const ShaderType type, const std::string & filename);
 
 				/**
 				 * @fn void loadFromFile(const Type type, const std::string & sourceCode)
@@ -131,7 +124,7 @@ namespace ece
 				 * @brief Load the stage from a string.
 				 * @throw
 				 */
-				void loadFromString(const Type type, const std::string & sourceCode);
+				void loadFromString(const ShaderType type, const std::string & sourceCode);
 
 				/**
 				 * @fn const std::string & getFilename() const
@@ -204,7 +197,7 @@ namespace ece
 				 * @property _ type
 				 * @brief The type of shader stage.
 				 */
-				Type _type;
+				ShaderType _type;
 
 				/**
 				 * @property _handle

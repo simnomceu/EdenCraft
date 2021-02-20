@@ -47,6 +47,7 @@
 #include "core/resource.hpp"
 #include "renderer/image/image.hpp"
 #include "renderer/image/pixel_data.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -54,6 +55,8 @@ namespace ece
 	{
 		namespace image
 		{
+			using namespace opengl;
+
 			/**
 			 * @class Texture2D
 			 * @brief OpenGL 2D texture.
@@ -64,59 +67,6 @@ namespace ece
 			public:
 				using Reference = Resource<Texture>;
 
-				enum class TypeTarget : unsigned short int
-				{
-					TEXTURE_2D = 0x00,
-					PROXY_2D = 0x01,
-					TEXTURE_1D_ARRAY = 0x02,
-					PROXY_1D_ARRAY = 0x03,
-					RECTANGLE = 0x04,
-					PROXY_RECTANGLE = 0x05,
-					CUBE_MAP_POSITIVE_X = 0x06,
-					CUBE_MAP_NEGATIVE_X = 0x07,
-					CUBE_MAP_POSITIVE_Y = 0x08,
-					CUBE_MAP_NEGATIVE_Y = 0x09,
-					CUBE_MAP_POSITIVE_Z = 0x10,
-					CUBE_MAP_NEGATIVE_Z = 0x11,
-					PROXY_CUBE_MAP = 0x12
-				};
-
-				enum class Target : unsigned short int
-				{
-					TEXTURE_1D = 0x00,
-					TEXTURE_2D = 0x01,
-					TEXTURE_3D = 0x02,
-					TEXTURE_1D_ARRAY = 0x03,
-					TEXTURE_2D_ARRAY = 0x04,
-					RECTANGLE = 0x05,
-					CUBE_MAP = 0x06,
-					CUBE_MAP_ARRAY = 0x07,
-					BUFFER = 0x08,
-					TEXTURE_2D_MULTISAMPLE = 0x09,
-					TEXTURE_2D_MULTISAMPLE_ARRAY = 0x10
-				};
-
-				enum class Parameter : unsigned short int
-				{
-					DEPTH_STENCIL_MODE = 0x00,
-					BASE_LEVEL = 0x01,
-					COMPARE_FUNC = 0x02,
-					COMPARE_MODE = 0x03,
-					LOD_BIAS = 0x04,
-					MIN_FILTER = 0x05,
-					MAG_FILTER = 0x06,
-					MIN_LOD = 0x07,
-					MAX_LOD = 0x08,
-					MAX_LEVEL = 0x09,
-					SWIZZLE_R = 0x10,
-					SWIZZLE_G = 0x11,
-					SWIZZLE_B = 0x12,
-					SWIZZLE_A = 0x13,
-					WRAP_S = 0x14,
-					WRAP_T = 0x15,
-					WRAP_R = 0x16
-				};
-
 				Texture() noexcept;
 
 				/**
@@ -126,9 +76,9 @@ namespace ece
 				 * @brief Load a texture from a file.
 				 * @throw
 				 */
-				virtual void loadFromFile(const TypeTarget type, const std::string & filename) = 0;
+				virtual void loadFromFile(const TextureTypeTarget type, const std::string & filename) = 0;
 
-				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) = 0;
+				virtual void loadFromImage(const TextureTypeTarget type, Image<RGBA32>::Reference image) = 0;
 
 				virtual void saveToFile(const std::filesystem::path & filename) = 0;
 
@@ -172,7 +122,7 @@ namespace ece
 				 * @brief Get the type of texture.
 				 * @throw
 				 */
-				virtual auto getType() const -> TypeTarget = 0;
+				virtual auto getType() const -> TextureTypeTarget = 0;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -182,9 +132,9 @@ namespace ece
 				 */
 				virtual auto getHandle() const -> Handle = 0;
 
-				void setTarget(const Target target);
+				void setTarget(const TextureTarget target);
 
-				Target getTarget() const;
+				TextureTarget getTarget() const;
 
 				/**
 				 * @fn void bind(const TextureTarget target)
@@ -196,8 +146,8 @@ namespace ece
 
 				virtual void active(const unsigned int channel) = 0;
 
-				template <typename T> void setParameter(const Parameter name, const T value);
-				template <typename T> void setParameter(const Parameter name, const std::vector<T>& value);
+				template <typename T> void setParameter(const TextureParameter name, const T value);
+				template <typename T> void setParameter(const TextureParameter name, const std::vector<T>& value);
 
 				virtual PixelData getPixelData() const = 0;
 
@@ -214,7 +164,7 @@ namespace ece
 				void setCurrent();
 				auto isCurrent() const noexcept -> bool;
 
-				Target _target;
+				TextureTarget _target;
 			};
 		} // namespace image
 	} // namespace renderer

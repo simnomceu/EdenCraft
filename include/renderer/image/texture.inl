@@ -43,17 +43,17 @@ namespace ece
 		namespace image
 		{
 			template <typename T>
-			void Texture::setParameter(const Parameter name, const T value)
+			void Texture::setParameter(const TextureParameter name, const T value)
 			{
 				this->bind();
-				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
+				OpenGL::texParameter(this->_target, name, value);
 			}
 
 			template <typename T>
-			void Texture::setParameter(const Parameter name, const std::vector<T>& value)
+			void Texture::setParameter(const TextureParameter name, const std::vector<T>& value)
 			{
 				this->bind();
-				OpenGL::texParameter(getTextureTarget(this->_target), getTextureParameter(name), value);
+				OpenGL::texParameter(this->_target, name, value);
 			}
 		} // namespace image
 	} // namespace renderer

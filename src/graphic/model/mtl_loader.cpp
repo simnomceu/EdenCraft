@@ -74,7 +74,7 @@ namespace ece
 						auto diffuseMap = makeResource<Texture2D>(material.mapDiffuse);
 
 						if (!diffuseMap->getData()) {
-							diffuseMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
+							diffuseMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.mapDiffuse);
 						}
 						diffuseMap->bind();
 						diffuseMap->generateMipmap();
@@ -85,7 +85,7 @@ namespace ece
 						auto specularMap = makeResource<Texture2D>(material.mapSpecular);
 
 						if (!specularMap->getData()) {
-							specularMap->loadFromFile(Texture::TypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
+							specularMap->loadFromFile(TextureTypeTarget::TEXTURE_2D, relativePath + material.mapSpecular);
 						}
 						specularMap->bind();
 						specularMap->generateMipmap();

@@ -78,7 +78,7 @@ namespace ece
 				return *this;
 			}
 
-			void ShaderStage::loadFromFile(const Type type, const std::string & filename)
+			void ShaderStage::loadFromFile(const ShaderType type, const std::string & filename)
 			{
 				this->terminate();
 
@@ -100,7 +100,7 @@ namespace ece
 				}
 			}
 
-			void ShaderStage::loadFromString(const Type type, const std::string & sourceCode)
+			void ShaderStage::loadFromString(const ShaderType type, const std::string & sourceCode)
 			{
 				this->terminate();
 
@@ -112,7 +112,7 @@ namespace ece
 
 			void ShaderStage::compile()
 			{
-				this->_handle = OpenGL::createShader(getShaderType(this->_type));
+				this->_handle = OpenGL::createShader(this->_type);
 				OpenGL::shaderSource(this->_handle, this->_source);
 				OpenGL::compileShader(this->_handle);
 

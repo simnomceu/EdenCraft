@@ -40,6 +40,7 @@
 #include "renderer/shader/enhanced_shader.hpp"
 
 #include "renderer/rendering.hpp"
+#include "renderer/shader/shader_stage.hpp"
 
 namespace ece
 {

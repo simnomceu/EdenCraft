@@ -42,8 +42,8 @@ namespace ece
 	{
 		namespace image
 		{
-			inline PixelData::PixelData() : redMask(), greenMask(), blueMask(), alphaMask(), bpp(32), type(DataType::UNSIGNED_BYTE), 
-											format(Format::RGBA), internalFormat(InternalFormat::RGBA) {}
+			inline PixelData::PixelData() : redMask(), greenMask(), blueMask(), alphaMask(), bpp(32), type(PixelDataType::UNSIGNED_BYTE), 
+											format(PixelFormat::RGBA), internalFormat(PixelInternalFormat::RGBA) {}
 		} // namespace image
 	} // namespace renderer
 } // namespace ece

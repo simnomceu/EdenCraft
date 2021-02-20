@@ -64,7 +64,7 @@ namespace ece
 
 			inline auto Texture2D::getHeight() const -> ece::size_t { return this->_height; }
 
-			inline auto Texture2D::getType() const -> Texture::TypeTarget { return this->_type; }
+			inline auto Texture2D::getType() const -> TextureTypeTarget { return this->_type; }
 
 			inline auto Texture2D::getHandle() const -> Handle { return this->_handle; }
 

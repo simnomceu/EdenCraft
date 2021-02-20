@@ -116,9 +116,9 @@ namespace ece
 				 * @brief Load a texture from a file.
 				 * @throw
 				 */
-				virtual void loadFromFile(const TypeTarget type, const std::string & filename) override;
+				virtual void loadFromFile(const TextureTypeTarget type, const std::string & filename) override;
 
-				virtual void loadFromImage(const TypeTarget type, Image<RGBA32>::Reference image) override;
+				virtual void loadFromImage(const TextureTypeTarget type, Image<RGBA32>::Reference image) override;
 
 				virtual void saveToFile(const std::filesystem::path & filename) override;
 
@@ -162,7 +162,7 @@ namespace ece
 				 * @brief Get the type of texture.
 				 * @throw
 				 */
-				inline virtual auto getType() const -> TypeTarget override;
+				inline virtual auto getType() const -> TextureTypeTarget override;
 
 				/**
 				 * @fn Handle getHandle() const
@@ -225,7 +225,7 @@ namespace ece
 				 * @property _type
 				 * @brief Type of texture used.
 				 */
-				TypeTarget _type;
+				TextureTypeTarget _type;
 
 				PixelData _pixelData;
 

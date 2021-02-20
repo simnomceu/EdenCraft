@@ -49,14 +49,14 @@ namespace ece
 		{
 			using rendering::Renderer;
 
-			Texture::Texture() noexcept: _target(Texture::Target::TEXTURE_2D) {}
+			Texture::Texture() noexcept: _target(TextureTarget::TEXTURE_2D) {}
 
-			void Texture::setTarget(const Texture::Target target)
+			void Texture::setTarget(const TextureTarget target)
 			{
 				this->_target = target;
 			}
 
-			Texture::Target Texture::getTarget() const
+			TextureTarget Texture::getTarget() const
 			{
 				return this->_target;
 			}
