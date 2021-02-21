@@ -104,7 +104,7 @@ namespace ece
 				return *this;
 			}
 
-			void Texture::loadFromFile(const TextureTypeTarget type, const std::string& filename)
+			void Texture::loadFromFile([[maybe_unused]] const TextureTypeTarget type, const std::string& filename)
 			{
 				this->terminate();
 
@@ -116,7 +116,7 @@ namespace ece
 				}
 			}
 
-			void Texture::loadFromImage(const TextureTypeTarget type, Image<RGBA32>::Reference image)
+			void Texture::loadFromImage([[maybe_unused]] const TextureTypeTarget type, Image<RGBA32>::Reference image)
 			{
 				this->_data = image;
 
@@ -169,6 +169,12 @@ namespace ece
 
 			void Texture::create()
 			{
+				// TODO : Using Direct State Access (DSA) calls instead.
+				// glgenTexture -> glCreateTexture
+				// glTexImage -> glTextureStorage + glTextureSubImage
+				// etc ...
+				// https://github.com/fendevel/Guide-to-Modern-OpenGL-Functions
+
 				auto buffer = this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr;
 				switch (this->_type) {
 				case Texture::Type::TEXTURE_1D:
@@ -264,6 +270,7 @@ namespace ece
 				case Texture::Type::BUFFER: return TextureTarget::TEXTURE_BUFFER; break;
 				default: break;
 				}
+				return TextureTarget::TEXTURE_2D;
 			}
 		} // namespace image
 	} // namespace renderer

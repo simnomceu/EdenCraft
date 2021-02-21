@@ -59,7 +59,7 @@ namespace ece
 			template <typename T>
 			void Texture::setParameter(const TextureParameter name, const T value)
 			{
-				auto target = getTextureTarget(this->_type, this->_samples, this->_nbImages);
+				auto target = this->getTextureTarget();
 				this->bind(target);
 				OpenGL::texParameter(target, name, value);
 			}
@@ -67,7 +67,7 @@ namespace ece
 			template <typename T>
 			void Texture::setParameter(const TextureParameter name, const std::vector<T>& value)
 			{
-				auto target = getTextureTarget(this->_type, this->_samples, this->_nbImages);
+				auto target = this->getTextureTarget();
 				this->bind(target);
 				OpenGL::texParameter(target, name, value);
 			}
