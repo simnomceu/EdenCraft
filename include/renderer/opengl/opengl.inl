@@ -1534,7 +1534,8 @@ namespace ece
 
 			inline auto OpenGL::readPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<float>(width * height).data()); // TODO: should be not working.
+				auto tmp = std::vector<float>(width * height);
+				auto pixels = reinterpret_cast<void *>(tmp.data());
 				checkErrors(glReadPixels(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
 				return std::move(pixels);
 			}
@@ -3228,35 +3229,40 @@ namespace ece
 			
 			inline auto OpenGL::getnTexImage(TextureTarget target, int level, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void *>(tmp.data());
 				checkErrors(glGetnTexImage(static_cast<GLenum>(target), level, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}
 			
 			inline auto OpenGL::getTextureImage(Handle texture, int level, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void*>(tmp.data());
 				checkErrors(glGetTextureImage(texture, level, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}
 			
 			inline auto OpenGL::getnCompressedTexImage(TextureTarget target, int level, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void*>(tmp.data());
 				checkErrors(glGetnCompressedTexImage(static_cast<GLenum>(target), level, bufSize, pixels));
 				return std::move(pixels);
 			}
 			
 			inline auto OpenGL::getCompressedTextureImage(Handle texture, int level, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void*>(tmp.data());
 				checkErrors(glGetCompressedTextureImage(texture, level, bufSize, pixels));
 				return std::move(pixels);
 			}
 			
 			inline auto OpenGL::readnPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<float>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void*>(tmp.data());
 				checkErrors(glReadnPixels(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}

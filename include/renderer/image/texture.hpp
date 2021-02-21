@@ -67,12 +67,22 @@ namespace ece
 			public:
 				using Reference = Resource<Texture>;
 
+				enum class Type
+				{
+					TEXTURE_1D	= 0x00,
+					TEXTURE_2D	= 0x01,
+					TEXTURE_3D	= 0x02,
+					RECTANGLE	= 0x03,
+					CUBE_MAP	= 0x04,
+					BUFFER		= 0x05
+				};
+
 				/**
 				 * @fn Texture() noexcept
 				 * @brief Default constructor.
 				 * @throw noexcept
 				 */
-				Texture() noexcept;
+				Texture(Type type = Type::TEXTURE_2D, ece::size_t samples = 1, ece::size_t nbImages = 1) noexcept;
 
 				/**
 				 * @fn Texture(const Texture & copy)
@@ -163,24 +173,12 @@ namespace ece
 				auto getHeight() const -> ece::size_t;
 
 				/**
-				 * @fn TextureTypeTarget getType() const
-				 * @return The type of texture.
-				 * @brief Get the type of texture.
-				 * @throw
-				 */
-				auto getType() const -> TextureTypeTarget;
-
-				/**
 				 * @fn Handle getHandle() const
 				 * @return The id of the texture.
 				 * @brief Get the id of the texture.
 				 * @throw
 				 */
 				auto getHandle() const -> Handle;
-
-				void setTarget(const TextureTarget target);
-
-				TextureTarget getTarget() const;
 
 				/**
 				 * @fn void bind(const TextureTarget target)
@@ -189,6 +187,7 @@ namespace ece
 				 * @throw
 				 */
 				void bind();
+				void bind(TextureTarget target);
 
 				void active(const unsigned int channel);
 
@@ -209,11 +208,17 @@ namespace ece
 
 				void create();
 
-			protected:
-				void setCurrent();
-				auto isCurrent() const noexcept -> bool;
+				auto getTextureTarget() -> TextureTarget;
 
-				TextureTarget _target;
+			protected:
+				void setCurrent(TextureTarget target);
+				auto isCurrent(TextureTarget target) const noexcept -> bool;
+
+			//	TextureTarget _target;
+
+				Type _type;
+				ece::size_t _samples;
+				ece::size_t _nbImages;
 
 				/**
 				 * @property _filename
@@ -239,11 +244,13 @@ namespace ece
 				 */
 				ece::size_t _height;
 
+				ece::size_t _depth;
+
 				/**
 				 * @property _type
 				 * @brief Type of texture used.
 				 */
-				TextureTypeTarget _type;
+			//	TextureTypeTarget _type;
 
 				PixelData _pixelData;
 

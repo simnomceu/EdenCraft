@@ -46,11 +46,11 @@ namespace ece
 		{
 			using namespace opengl::OpenGL;
 
-			inline Texture::Texture(const Texture & copy) : _target(copy._target), _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), _type(copy._type),
-				_handle(copy._handle) {}
+			inline Texture::Texture(const Texture& copy) : std::enable_shared_from_this<Texture>(), /*_target(TextureTarget::TEXTURE_2D), */_type(copy._type), _samples(copy._samples), 
+				_nbImages(copy._nbImages), _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), /*_type(copy._type), */_handle(copy._handle) {}
 
-			inline Texture::Texture(Texture && move) noexcept : _target(move._target), _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), 
-				_height(move._height), _type(move._type), _handle(move._handle)
+			inline Texture::Texture(Texture && move) noexcept : std::enable_shared_from_this<Texture>(), /*_target(TextureTarget::TEXTURE_2D), */_type(move._type), _samples(move._samples),
+				_nbImages(move._nbImages), _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), _height(move._height), /*_type(move._type), */_handle(move._handle)
 			{
 				move._data.content.reset();
 				move._handle = NULL_HANDLE;
@@ -59,15 +59,17 @@ namespace ece
 			template <typename T>
 			void Texture::setParameter(const TextureParameter name, const T value)
 			{
-				this->bind();
-				OpenGL::texParameter(this->_target, name, value);
+				auto target = getTextureTarget(this->_type, this->_samples, this->_nbImages);
+				this->bind(target);
+				OpenGL::texParameter(target, name, value);
 			}
 
 			template <typename T>
 			void Texture::setParameter(const TextureParameter name, const std::vector<T>& value)
 			{
-				this->bind();
-				OpenGL::texParameter(this->_target, name, value);
+				auto target = getTextureTarget(this->_type, this->_samples, this->_nbImages);
+				this->bind(target);
+				OpenGL::texParameter(target, name, value);
 			}
 
 			inline auto Texture::getFilename() const -> const std::string& { return this->_filename; }
@@ -77,8 +79,6 @@ namespace ece
 			inline auto Texture::getWidth() const -> ece::size_t { return this->_width; }
 
 			inline auto Texture::getHeight() const -> ece::size_t { return this->_height; }
-
-			inline auto Texture::getType() const -> TextureTypeTarget { return this->_type; }
 
 			inline auto Texture::getHandle() const -> Handle { return this->_handle; }
 

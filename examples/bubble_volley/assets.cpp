@@ -46,9 +46,9 @@
 void Assets::loadTexture(const std::string & name, const std::string & path)
 {
 	auto texture = ece::makeResource<ece::Texture>(name);
-	texture->setTarget(ece::Texture::Target::TEXTURE_2D);
+	texture->setTarget(ece::TextureTarget::TEXTURE_2D);
 	texture->bind();
-	texture->loadFromFile(ece::Texture::TypeTarget::TEXTURE_2D, path);
+	texture->loadFromFile(ece::TextureTypeTarget::TEXTURE_2D, path);
 }
 
 void Assets::loadTexture(const std::string & name, const std::string & path, const ece::Color alpha)
@@ -58,9 +58,9 @@ void Assets::loadTexture(const std::string & name, const std::string & path, con
 	auto image = ece::ResourceLoader().loadFromFile(path)[0].get<ece::Image<ece::RGBA32>>();
 	image->setAlphaColor(alpha, [](const ece::RGBA32 & pixel, const ece::RGBA32 & mask) { return pixel.r == mask.r && pixel.g == mask.g && pixel.b == mask.b; });
 
-	texture->setTarget(ece::Texture::Target::TEXTURE_2D);
+	texture->setTarget(ece::TextureTarget::TEXTURE_2D);
 	texture->bind();
-	texture->loadFromImage(ece::Texture::TypeTarget::TEXTURE_2D, image);
+	texture->loadFromImage(ece::TextureTypeTarget::TEXTURE_2D, image);
 }
 
 void Assets::loadAssets()

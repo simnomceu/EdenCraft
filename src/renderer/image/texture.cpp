@@ -54,8 +54,8 @@ namespace ece
 		{
 			using rendering::Renderer;
 
-			Texture::Texture() noexcept: std::enable_shared_from_this<Texture>(), _target(TextureTarget::TEXTURE_2D), _filename(), _data(), _width(), 
-				_height(), _type(TextureTypeTarget::TEXTURE_2D), _pixelData(), _handle(OpenGL::genTexture())
+			Texture::Texture(Type type, ece::size_t samples, ece::size_t nbImages) noexcept: std::enable_shared_from_this<Texture>(), /*_target(TextureTarget::TEXTURE_2D), */_type(type), _samples(samples),
+				_nbImages(nbImages), _filename(), _data(), _width(), _height(), /*_type(TextureTypeTarget::TEXTURE_2D), */_pixelData(), _handle(OpenGL::genTexture())
 			{
 				this->_pixelData.format = PixelFormat::RGBA;
 				this->_pixelData.internalFormat = PixelInternalFormat::RGBA;
@@ -122,7 +122,6 @@ namespace ece
 
 				this->_width = image->getWidth();
 				this->_height = image->getHeight();
-				this->_type = type;
 
 				this->create();
 			}
@@ -141,26 +140,21 @@ namespace ece
 
 				image->resize(this->_width, this->_height);
 				auto buffer = image->data();
-				for (auto i = std::size_t{ 0 }; i < image->getHeight() * image->getWidth(); ++i) {
+				for (auto i = std::size_t{ 0 }; i < static_cast<std::size_t>(image->getHeight() * image->getWidth()); ++i) {
 					buffer[i] = bufferIn[i];
 				}
 			}
 
-			void Texture::setTarget(const TextureTarget target)
-			{
-				this->_target = target;
-			}
-
-			TextureTarget Texture::getTarget() const
-			{
-				return this->_target;
-			}
-
 			void Texture::bind()
 			{
-				if (!this->isCurrent()) {
-					this->setCurrent();
-					OpenGL::bindTexture(this->_target, this->_handle);
+				this->bind(this->getTextureTarget());
+			}
+
+			void Texture::bind(TextureTarget target)
+			{
+				if (!this->isCurrent(target)) {
+					this->setCurrent(target);
+					OpenGL::bindTexture(target, this->_handle);
 				}
 			}
 
@@ -176,19 +170,99 @@ namespace ece
 			void Texture::create()
 			{
 				auto buffer = this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr;
-				OpenGL::texImage2D(this->_type, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+				switch (this->_type) {
+				case Texture::Type::TEXTURE_1D:
+					if (this->_nbImages > 1) {
+						OpenGL::texImage2D(TextureTypeTarget::TEXTURE_1D_ARRAY, 0, this->_pixelData.internalFormat, this->_width, this->_nbImages, this->_pixelData.format, 
+							this->_pixelData.type, &buffer[0]);
+					}
+					else {
+						OpenGL::texImage1D(TargetTexture1D::TEXTURE_1D, 0, this->_pixelData.internalFormat, this->_width, this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+					}
+					break;
+				case Texture::Type::TEXTURE_2D:
+					if (this->_samples > 1) {
+						if (this->_nbImages > 1) {
+							OpenGL::texImage3DMultisample(TargetTextureMultisample::TEXTURE_2D_MULTISAMPLE_ARRAY, this->_samples, this->_pixelData.internalFormat, this->_width, 
+								this->_height, this->_nbImages, true);
+						}
+						else {
+							OpenGL::texImage2DMultisample(TargetTextureMultisample::TEXTURE_2D_MULTISAMPLE, this->_samples, this->_pixelData.internalFormat, this->_width,
+								this->_height, true);
+						}
+					}
+					else {
+						if (this->_nbImages > 1) {
+							OpenGL::texImage3D(TargetTexture3D::TEXTURE_2D_ARRAY, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_nbImages, 
+								this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+						}
+						else {
+							OpenGL::texImage2D(TextureTypeTarget::TEXTURE_2D, 0, this->_pixelData.internalFormat, this->_width, this->_height,
+								this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+						}
+					}
+					break;
+				case Texture::Type::TEXTURE_3D: 
+					OpenGL::texImage3D(TargetTexture3D::TEXTURE_3D, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_depth,
+						this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+					break;
+				case Texture::Type::RECTANGLE:
+					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_RECTANGLE, 0, this->_pixelData.internalFormat, this->_width, this->_height,
+						this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+					break;
+				case Texture::Type::CUBE_MAP:  
+					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_X, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
+						this->_pixelData.type, &buffer[0]);
+					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_Y, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
+						this->_pixelData.type, &buffer[0]);
+					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_Z, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
+						this->_pixelData.type, &buffer[0]);
+					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_X, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
+						this->_pixelData.type, &buffer[0]);
+					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
+						this->_pixelData.type, &buffer[0]);
+					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
+						this->_pixelData.type, &buffer[0]);
+					break;
+				case Texture::Type::BUFFER:
+					OpenGL::texBuffer(this->_pixelData.internalFormat, this->_handle);
+					break;
+				default: break;
+				}
 			}
 
-			void Texture::setCurrent() { Renderer::setCurrentTexture(this->_target, this->weak_from_this()); }
+			void Texture::setCurrent(TextureTarget target) { Renderer::setCurrentTexture(target, this->weak_from_this()); }
 
-			auto Texture::isCurrent() const noexcept -> bool
+			auto Texture::isCurrent(TextureTarget target) const noexcept -> bool
 			{
 				try {
-					return Renderer::getCurrentTexture(this->_target).lock().get() == this;
+					return Renderer::getCurrentTexture(target).lock().get() == this;
 				}
 				catch (std::bad_weak_ptr & e) {
 					ERROR << "A Texture need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. " << e.what() << flushing;
 					return false;
+				}
+			}
+
+			auto Texture::getTextureTarget() -> TextureTarget
+			{
+				switch (this->_type) {
+				case Texture::Type::TEXTURE_1D:
+					return this->_nbImages > 1 ? TextureTarget::TEXTURE_1D_ARRAY : TextureTarget::TEXTURE_1D;
+					break;
+				case Texture::Type::TEXTURE_2D:
+					if (this->_samples > 1) {
+						return this->_nbImages > 1 ? TextureTarget::TEXTURE_2D_MULTISAMPLE_ARRAY : TextureTarget::TEXTURE_2D_MULTISAMPLE;
+					}
+					else {
+						return this->_nbImages > 1 ? TextureTarget::TEXTURE_2D_ARRAY : TextureTarget::TEXTURE_2D;
+					}
+					break;
+				case Texture::Type::TEXTURE_3D: return TextureTarget::TEXTURE_3D; break;
+				case Texture::Type::RECTANGLE: return TextureTarget::TEXTURE_RECTANGLE; break;
+				case Texture::Type::CUBE_MAP: return this->_nbImages > 1 ? TextureTarget::TEXTURE_CUBE_MAP_ARRAY : TextureTarget::TEXTURE_CUBE_MAP; break;
+				case Texture::Type::BUFFER: return TextureTarget::TEXTURE_BUFFER; break;
+				default: break;
 				}
 			}
 		} // namespace image

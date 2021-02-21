@@ -55,8 +55,8 @@ Render::Render(ece::World & world) noexcept: ece::System(world), _process(std::m
 	ece::RenderState states;
 	states.depthTest = false;
 	states.blending = true;
-	states.sourceBlend = ece::RenderState::BlendingFactor::SRC_ALPHA;
-	states.destinationBlend = ece::RenderState::BlendingFactor::ONE_MINUS_SRC_ALPHA;
+	states.sourceBlend = ece::BlendingFactor::SRC_ALPHA;
+	states.destinationBlend = ece::BlendingFactor::ONE_MINUS_SRC_ALPHA;
 	states.apply(true);
 
 	{
@@ -71,9 +71,9 @@ Render::Render(ece::World & world) noexcept: ece::System(world), _process(std::m
 	ece::RenderPipeline pipeline;
 	{
 		ece::ShaderStage fsSource;
-		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/sprite.frag");
+		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../../resource/shader/sprite.frag");
 		ece::ShaderStage vsSource;
-		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/sprite.vert");
+		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../../resource/shader/sprite.vert");
 
 		auto program = std::make_shared<ece::EnhancedShader>();
 		program->setStage(fsSource);
