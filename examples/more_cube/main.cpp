@@ -118,10 +118,10 @@ int main()
 		app.run();
 	}
 	catch (const std::runtime_error & e) {
-		ece::ERROR << e.what() << ece::flush;
+		ece::ERROR << e.what() << ece::flushing;
 	}
 	catch (const std::exception & e) {
-		ece::ERROR << e.what() << ece::flush;
+		ece::ERROR << e.what() << ece::flushing;
 	}
 
 	return 0;

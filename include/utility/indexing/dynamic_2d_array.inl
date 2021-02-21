@@ -43,7 +43,7 @@ namespace ece
 		namespace indexing
 		{
 			template <class E>
-			Dynamic2DArray<E>::Dynamic2DArray(const ece::size_t width, const ece::size_t height) : _buffer(new E[width * height]), _width(width), _height(height)
+			Dynamic2DArray<E>::Dynamic2DArray(const ece::size_t width, const ece::size_t height) : _buffer(new E[static_cast<ece::size_t>(width * height)]), _width(width), _height(height)
 			{
 				for (auto i = ece::size_t{ 0 }; i < this->_width * this->_height; ++i) {
 					this->_buffer[i] = E();

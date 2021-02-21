@@ -119,7 +119,7 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 			<< " the " 
 			<< baby.specie 
 			<< "." 
-			<< ece::flush;
+			<< ece::flushing;
 	}
 	for (auto& [parent, life] : babyAlgas) {
 		auto baby = create(this->_world, parent.hasComponent<Fish>() ? parent.getComponent<Fish>().specie : "alga");
@@ -127,6 +127,6 @@ void Reproduction::update([[maybe_unused]] float elapsedTime)
 		babySexuality.ready = false;
 		babyLiving.life = life;
 		babyLiving.age = 0;
-		ece::INFO << "Alga ID #" << parent.getComponent<Living>().getOwner() << " bring a baby alga into this aquarium : Alga ID #" << babyLiving.getOwner() << "." << ece::flush;
+		ece::INFO << "Alga ID #" << parent.getComponent<Living>().getOwner() << " bring a baby alga into this aquarium : Alga ID #" << babyLiving.getOwner() << "." << ece::flushing;
 	}
 }

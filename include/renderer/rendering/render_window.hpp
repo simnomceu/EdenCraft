@@ -132,6 +132,8 @@ namespace ece
 				 */
 				virtual auto getSize() const -> IntVector2u override;
 
+				virtual void bind() override;
+
 				/**
 				 * void display()
 				 * @brief Display the next frame in the window.

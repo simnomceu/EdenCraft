@@ -1534,7 +1534,8 @@ namespace ece
 
 			inline auto OpenGL::readPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<float>(width * height).data()); // TODO: should be not working.
+				auto tmp = std::vector<float>(width * height);
+				auto pixels = reinterpret_cast<void *>(tmp.data());
 				checkErrors(glReadPixels(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), pixels));
 				return std::move(pixels);
 			}
@@ -1544,7 +1545,7 @@ namespace ece
 				checkErrors(glReadBuffer(static_cast<GLenum>(mode)));
 			}
 			
-			inline void OpenGL::blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter)
+			inline void OpenGL::blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, BufferBit mask, InterpolationFilter filter)
 			{
 				checkErrors(glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<GLbitfield>(mask), static_cast<GLenum>(filter)));
 			}
@@ -1654,7 +1655,7 @@ namespace ece
 				checkErrors(glStencilMaskSeparate(static_cast<GLenum>(face), mask));
 			}
 
-			inline void OpenGL::clear(const Bitfield mask)
+			inline void OpenGL::clear(const BufferBit mask)
 			{
 				checkErrors(glClear(GLbitfield(mask)));
 			}
@@ -1741,33 +1742,33 @@ namespace ece
 				checkErrors(glRenderbufferStorage(target, static_cast<GLenum>(internalformat), static_cast<GLsizei>(width), static_cast<GLsizei>(height)));
 			}
 
-			inline void OpenGL::framebufferRenderbuffer(FramebufferTarget target, FramebufferAttachment attachment, unsigned int renderbuffer)
+			inline void OpenGL::framebufferRenderbuffer(FramebufferTarget target, FramebufferAttachmentChannel attachment, unsigned int renderbuffer)
 			{
 				const auto renderbuffertarget = GL_RENDERBUFFER;
 				checkErrors(glFramebufferRenderbuffer(static_cast<GLenum>(target), static_cast<GLenum>(attachment), renderbuffertarget, renderbuffer));
 			}
 
-			inline void OpenGL::framebufferTexture(FramebufferTarget target, FramebufferAttachment attachment, Handle texture, int level)
+			inline void OpenGL::framebufferTexture(FramebufferTarget target, FramebufferAttachmentChannel attachment, Handle texture, int level)
 			{
 				checkErrors(glFramebufferTexture(static_cast<GLenum>(target), static_cast<GLenum>(attachment), texture, level));
 			}
 
-			inline void OpenGL::framebufferTexture1D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level)
+			inline void OpenGL::framebufferTexture1D(FramebufferTarget target, FramebufferAttachmentChannel attachment, FramebufferTargetTexture textarget, Handle texture, int level)
 			{
 				checkErrors(glFramebufferTexture1D(static_cast<GLenum>(target), static_cast<GLenum>(attachment), static_cast<GLenum>(textarget), texture, level));
 			}
 
-			inline void OpenGL::framebufferTexture2D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level)
+			inline void OpenGL::framebufferTexture2D(FramebufferTarget target, FramebufferAttachmentChannel attachment, FramebufferTargetTexture textarget, Handle texture, int level)
 			{
 				checkErrors(glFramebufferTexture2D(static_cast<GLenum>(target), static_cast<GLenum>(attachment), static_cast<GLenum>(textarget), texture, level));
 			}
 			
-			inline void OpenGL::framebufferTexture3D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level, int layer)
+			inline void OpenGL::framebufferTexture3D(FramebufferTarget target, FramebufferAttachmentChannel attachment, FramebufferTargetTexture textarget, Handle texture, int level, int layer)
 			{
 				checkErrors(glFramebufferTexture3D(static_cast<GLenum>(target), static_cast<GLenum>(attachment), static_cast<GLenum>(textarget), texture, level, layer));
 			}
 			
-			inline void OpenGL::framebufferTextureLayer(FramebufferTarget target, FramebufferAttachment attachment, Handle texture, int level, int layer)
+			inline void OpenGL::framebufferTextureLayer(FramebufferTarget target, FramebufferAttachmentChannel attachment, Handle texture, int level, int layer)
 			{
 				checkErrors(glFramebufferTextureLayer(static_cast<GLenum>(target), static_cast<GLenum>(attachment), texture, level, layer));
 			}
@@ -1780,10 +1781,11 @@ namespace ece
 
 			inline auto OpenGL::isFramebuffer(Handle framebuffer) -> bool
 			{
-				return checkErrors(glIsFramebuffer(framebuffer));
+				auto result = checkErrors(glIsFramebuffer(framebuffer));
+				return std::move(static_cast<bool>(result));
 			}
 
-			inline auto OpenGL::getFramebufferAttachmentParameter(FramebufferTarget target, FramebufferAttachment attachment, FramebufferAttachmentParameter pname) -> int
+			inline auto OpenGL::getFramebufferAttachmentParameter(FramebufferTarget target, FramebufferAttachmentChannel attachment, FramebufferAttachmentParameter pname) -> int
 			{
 				auto params = 0;
 				checkErrors(glGetFramebufferAttachmentParameteriv(static_cast<GLenum>(target), static_cast<GLenum>(attachment), static_cast<GLenum>(pname), &params));
@@ -2831,12 +2833,12 @@ namespace ece
 				checkErrors(glDispatchComputeIndirect(reinterpret_cast<GLintptr>(&indirect)));
 			}
 
-			inline void OpenGL::invalidateSubFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachment> & attachments, int x, int y, int width, int height)
+			inline void OpenGL::invalidateSubFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachmentChannel> & attachments, int x, int y, int width, int height)
 			{
 				checkErrors(glInvalidateSubFramebuffer(static_cast<GLenum>(target), static_cast<ece::size_t>(attachments.size()), reinterpret_cast<const GLenum *>(attachments.data()), x, y, width, height));
 			}
 
-			inline void OpenGL::invalidateFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachment> & attachments)
+			inline void OpenGL::invalidateFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachmentChannel> & attachments)
 			{
 				checkErrors(glInvalidateFramebuffer(static_cast<GLenum>(target), static_cast<ece::size_t>(attachments.size()), reinterpret_cast<const GLenum *>(attachments.data())));
 			}
@@ -3229,35 +3231,40 @@ namespace ece
 			
 			inline auto OpenGL::getnTexImage(TextureTarget target, int level, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void *>(tmp.data());
 				checkErrors(glGetnTexImage(static_cast<GLenum>(target), level, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}
 			
 			inline auto OpenGL::getTextureImage(Handle texture, int level, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void*>(tmp.data());
 				checkErrors(glGetTextureImage(texture, level, static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}
 			
 			inline auto OpenGL::getnCompressedTexImage(TextureTarget target, int level, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void*>(tmp.data());
 				checkErrors(glGetnCompressedTexImage(static_cast<GLenum>(target), level, bufSize, pixels));
 				return std::move(pixels);
 			}
 			
 			inline auto OpenGL::getCompressedTextureImage(Handle texture, int level, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<int>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void*>(tmp.data());
 				checkErrors(glGetCompressedTextureImage(texture, level, bufSize, pixels));
 				return std::move(pixels);
 			}
 			
 			inline auto OpenGL::readnPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type, ece::size_t bufSize) -> void *
 			{
-				auto pixels = reinterpret_cast<void *>(std::vector<float>(bufSize).data()); // TODO: should be not working.
+				auto tmp = std::vector<int>(bufSize);
+				auto pixels = reinterpret_cast<void*>(tmp.data());
 				checkErrors(glReadnPixels(x, y, static_cast<GLsizei>(width), static_cast<GLsizei>(height), static_cast<GLenum>(format), static_cast<GLenum>(type), bufSize, pixels));
 				return std::move(pixels);
 			}
@@ -3267,7 +3274,7 @@ namespace ece
 				checkErrors(glNamedFramebufferReadBuffer(framebuffer, static_cast<GLenum>(mode)));
 			}
 
-			inline void OpenGL::blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter)
+			inline void OpenGL::blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, BufferBit mask, InterpolationFilter filter)
 			{
 				checkErrors(glBlitNamedFramebuffer(readFramebuffer, drawFramebuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, static_cast<GLbitfield>(mask), static_cast<GLenum>(filter)));
 			}
@@ -3312,18 +3319,18 @@ namespace ece
 				checkErrors(glNamedRenderbufferStorage(renderbuffer, static_cast<GLenum>(internalformat), width, height));
 			}
 			
-			inline void OpenGL::namedFramebufferRenderbuffer(Handle framebuffer, FramebufferAttachment attachment, unsigned int renderbuffer)
+			inline void OpenGL::namedFramebufferRenderbuffer(Handle framebuffer, FramebufferAttachmentChannel attachment, unsigned int renderbuffer)
 			{
 				const auto renderbuffertarget = GL_RENDERBUFFER;
 				checkErrors(glNamedFramebufferRenderbuffer(framebuffer, static_cast<GLenum>(attachment), renderbuffertarget, renderbuffer));
 			}
 			
-			inline void OpenGL::namedFramebufferTexture(Handle framebuffer, FramebufferAttachment attachment, Handle texture, int level)
+			inline void OpenGL::namedFramebufferTexture(Handle framebuffer, FramebufferAttachmentChannel attachment, Handle texture, int level)
 			{
 				checkErrors(glNamedFramebufferTexture(framebuffer, static_cast<GLenum>(attachment), texture, level));
 			}
 			
-			inline void OpenGL::namedFramebufferTextureLayer(Handle framebuffer, FramebufferAttachment attachment, Handle texture, int level, int layer)
+			inline void OpenGL::namedFramebufferTextureLayer(Handle framebuffer, FramebufferAttachmentChannel attachment, Handle texture, int level, int layer)
 			{
 				checkErrors(glNamedFramebufferTextureLayer(framebuffer, static_cast<GLenum>(attachment), texture, level, layer));
 			}
@@ -3334,7 +3341,7 @@ namespace ece
 				return std::move(static_cast<FramebufferStatus>(result));
 			}
 
-			inline auto OpenGL::getNamedFramebufferAttachmentParameter(Handle framebuffer, FramebufferAttachment attachment, FramebufferAttachmentParameter pname) -> int
+			inline auto OpenGL::getNamedFramebufferAttachmentParameter(Handle framebuffer, FramebufferAttachmentChannel attachment, FramebufferAttachmentParameter pname) -> int
 			{
 				auto params = 0;
 				checkErrors(glGetNamedFramebufferAttachmentParameteriv(framebuffer, static_cast<GLenum>(attachment), static_cast<GLenum>(pname), &params));
@@ -3571,12 +3578,12 @@ namespace ece
 				checkErrors(glClipControl(static_cast<GLenum>(origin), static_cast<GLenum>(depth)));
 			}
 			
-			inline void OpenGL::invalidateNamedFramebufferSubData(Handle framebuffer, const std::vector<FramebufferAttachment> & attachments, int x, int y, int width, int height)
+			inline void OpenGL::invalidateNamedFramebufferSubData(Handle framebuffer, const std::vector<FramebufferAttachmentChannel> & attachments, int x, int y, int width, int height)
 			{
 				checkErrors(glInvalidateNamedFramebufferSubData(framebuffer, static_cast<ece::size_t>(attachments.size()), reinterpret_cast<const GLenum *>(attachments.data()), x, y, width, height));
 			}
 
-			inline void OpenGL::invalidateNamedFramebufferData(Handle framebuffer, const std::vector<FramebufferAttachment> & attachments)
+			inline void OpenGL::invalidateNamedFramebufferData(Handle framebuffer, const std::vector<FramebufferAttachmentChannel> & attachments)
 			{
 				checkErrors(glInvalidateNamedFramebufferData(framebuffer, static_cast<ece::size_t>(attachments.size()), reinterpret_cast<const GLenum *>(attachments.data())));
 			}

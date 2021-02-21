@@ -58,7 +58,7 @@ namespace ece
 						auto location = this->addAttribute();
 						OpenGL::vertexAttribPointer(location,
 													elementLayout.count,
-													getDataType(elementLayout.type),
+													elementLayout.type,
 													elementLayout.normalized,
 													layout.getStride(),
 													(layout.getStrategy() == BufferLayout::Strategy::STRUCTURED) ? elementLayout.offset : static_cast<ece::size_t>(buffer.size() / layout.size()));

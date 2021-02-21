@@ -77,10 +77,10 @@ int main()
 		app.run();
 	}
 	catch (std::runtime_error& e) {
-		ece::ERROR << e.what() << ece::flush;
+		ece::ERROR << e.what() << ece::flushing;
 	}
 	catch (std::exception& e) {
-		ece::ERROR << e.what() << ece::flush;
+		ece::ERROR << e.what() << ece::flushing;
 	}
 
 	return EXIT_SUCCESS;

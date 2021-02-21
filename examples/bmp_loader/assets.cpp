@@ -48,7 +48,7 @@
 
 void Assets::loadTexture(const std::string & name, const std::string & path)
 {
-	ece::INFO << "Starting loading `" << name << "` from `" << path << "`..." << ece::flush;
+	ece::INFO << "Starting loading `" << name << "` from `" << path << "`..." << ece::flushing;
 
 	auto file = std::ifstream(path, std::ios::binary | std::ios::in);
 	if (!file.is_open()) {
@@ -56,7 +56,7 @@ void Assets::loadTexture(const std::string & name, const std::string & path)
 	}
 	auto parser = ece::ParserBMP{};
 	parser.load(file);
-	ece::INFO << "`" << name << "` loaded correctly from `" << path << "`." << ece::flush;
+	ece::INFO << "`" << name << "` loaded correctly from `" << path << "`." << ece::flushing;
 }
 
 void Assets::loadAssets()
@@ -70,9 +70,9 @@ void Assets::loadAssets()
 			}
 			ece::SYSTEM << std::hex << (int)result8[j * 32 + i] << ' ';
 		}
-		ece::SYSTEM << ece::flush;
+		ece::SYSTEM << ece::flushing;
 	}
-	ece::SYSTEM << ece::flush << ece::flush;
+	ece::SYSTEM << ece::flushing << ece::flushing;
 
 	auto compressed4 = std::vector<std::uint8_t>{ 0x03, 0x04, 0x05, 0x06, 0x00, 0x06, 0x45, 0x56, 0x67, 0x00, 0x04, 0x78, 0x00, 0x02, 0x05, 0x01, 0x04, 0x78, 0x00, 0x00, 0x09, 0x1E, 0x00, 0x01 };
 	auto result4 = ece::uncompressRLE4(compressed4, 32, 4);
@@ -80,9 +80,9 @@ void Assets::loadAssets()
 		for (auto i = std::size_t{ 0 }; i < 32; ++i) {
 			ece::SYSTEM << std::hex << (int)result4[j * 32 + i] << ' ';
 		}
-		ece::SYSTEM << ece::flush;
+		ece::SYSTEM << ece::flushing;
 	}
-	ece::SYSTEM << ece::flush << ece::flush;
+	ece::SYSTEM << ece::flushing << ece::flushing;
 
 	assertAnyExceptionThrown(Assets::loadTexture("b-badbitcount", "../../examples/bmp_loader/assets/b/badbitcount.bmp"));
 	assertAnyExceptionThrown(Assets::loadTexture("b-badbitssize", "../../examples/bmp_loader/assets/b/badbitssize.bmp"));

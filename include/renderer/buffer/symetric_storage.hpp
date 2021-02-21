@@ -41,6 +41,7 @@
 
 #include "renderer/config.hpp"
 #include "utility/container.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -48,6 +49,8 @@ namespace ece
 	{
 		namespace buffer
 		{
+			using namespace opengl;
+
 			class BaseBuffer;
 
 			/**
@@ -111,13 +114,13 @@ namespace ece
 				inline auto & data() noexcept;
 				inline const auto & data() const noexcept;
 
-				auto read([[maybe_unused]] const BaseBuffer::DataDescriptor & descriptor, [[maybe_unused]] BaseBuffer::Type type, [[maybe_unused]] BaseBuffer::Frequency frequency) const -> data_type;
+				auto read([[maybe_unused]] const BaseBuffer::DataDescriptor & descriptor, [[maybe_unused]] BufferType type, [[maybe_unused]] BaseBuffer::Frequency frequency) const -> data_type;
 
-				void write(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency, const data_type & data);
+				void write(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BaseBuffer::Frequency frequency, const data_type & data);
 
-				void copy(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency, const BaseBuffer & rhs);
+				void copy(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BaseBuffer::Frequency frequency, const BaseBuffer & rhs);
 
-				void update(const BaseBuffer::DataDescriptor & descriptor, BaseBuffer::Type type, BaseBuffer::Frequency frequency);
+				void update(const BaseBuffer::DataDescriptor & descriptor, BufferType type, BaseBuffer::Frequency frequency);
 
 			private:
 				data_type _data;

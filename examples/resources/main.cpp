@@ -89,20 +89,20 @@ int main()
 		ece::ResourceLoader().loadFromString("random", "int", "");
 		auto resource1 = ece::getResource<Integer>("random");
 
-		ece::INFO << "Resource is: " << resource1->getValue() << ece::flush;
+		ece::INFO << "Resource is: " << resource1->getValue() << ece::flushing;
 
 		auto backup = std::string();
 		ece::ResourceLoader().saveToString(backup, { resource1 }, "int");
 		ece::ServiceResourceLocator::getService().clear();
 
 		auto resource2 = ece::getResource<Integer>("random");
-		ece::INFO << "Resource is: " << resource2->getValue() << ece::flush;
+		ece::INFO << "Resource is: " << resource2->getValue() << ece::flushing;
 	}
 	catch (const std::runtime_error & e) {
-		ece::ERROR << e.what() << ece::flush;
+		ece::ERROR << e.what() << ece::flushing;
 	}
 	catch (const std::exception & e) {
-		ece::ERROR << e.what() << ece::flush;
+		ece::ERROR << e.what() << ece::flushing;
 	}
 
 	return EXIT_SUCCESS;

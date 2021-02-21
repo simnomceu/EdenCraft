@@ -59,7 +59,7 @@ namespace ece
 
 			void BaseBuffer::bind() const
 			{
-				OpenGL::bindBuffer(getBufferType(this->_type), this->_handle);
+				OpenGL::bindBuffer(this->_type, this->_handle);
 			}
 
 			void BaseBuffer::terminate()

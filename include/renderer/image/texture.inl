@@ -36,44 +36,61 @@
 
 */
 
-#include "renderer/pch.hpp"
-#include "renderer/opengl/enum/cull_face_mode.hpp"
+#include "renderer/opengl/opengl.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace image
 		{
-			CullFaceMode getCullFaceMode(RenderState::CullFaceMode mode)
+			using namespace opengl::OpenGL;
+
+			inline Texture::Texture(const Texture& copy) : std::enable_shared_from_this<Texture>(), /*_target(TextureTarget::TEXTURE_2D), */_type(copy._type), _samples(copy._samples), 
+				_nbImages(copy._nbImages), _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), /*_type(copy._type), */_handle(copy._handle) {}
+
+			inline Texture::Texture(Texture && move) noexcept : std::enable_shared_from_this<Texture>(), /*_target(TextureTarget::TEXTURE_2D), */_type(move._type), _samples(move._samples),
+				_nbImages(move._nbImages), _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), _height(move._height), /*_type(move._type), */_handle(move._handle)
 			{
-				switch (mode) {
-				case RenderState::CullFaceMode::BACK: return CullFaceMode::BACK; break;
-				case RenderState::CullFaceMode::FRONT: return CullFaceMode::FRONT; break;
-				case RenderState::CullFaceMode::FRONT_AND_BACK: return CullFaceMode::FRONT_AND_BACK; break;
-				default: throw std::runtime_error("Unknown value for CullFaceMode enumeration."); break;
-				}
+				move._data.content.reset();
+				move._handle = NULL_HANDLE;
 			}
 
-			RenderState::CullFaceMode getCullFaceMode(CullFaceMode mode)
+			template <typename T>
+			void Texture::setParameter(const TextureParameter name, const T value)
 			{
-				switch (mode) {
-				case CullFaceMode::BACK: return RenderState::CullFaceMode::BACK; break;
-				case CullFaceMode::FRONT: return RenderState::CullFaceMode::FRONT; break;
-				case CullFaceMode::FRONT_AND_BACK: return RenderState::CullFaceMode::FRONT_AND_BACK; break;
-				default: throw std::runtime_error("Unknown value for RenderState::CullFaceMode enumeration."); break;
-				}
+				auto target = this->getTextureTarget();
+				this->bind(target);
+				OpenGL::texParameter(target, name, value);
 			}
 
-			std::string to_string(CullFaceMode mode)
+			template <typename T>
+			void Texture::setParameter(const TextureParameter name, const std::vector<T>& value)
 			{
-				switch (mode) {
-				case CullFaceMode::BACK: return "GL_BACK"; break;
-				case CullFaceMode::FRONT: return "GL_FRONT"; break;
-				case CullFaceMode::FRONT_AND_BACK: return "GL_FRONT_AND_BACK"; break;
-				default: throw std::runtime_error("Unknown value for CullFaceMode enumeration."); break;
-				}
+				auto target = this->getTextureTarget();
+				this->bind(target);
+				OpenGL::texParameter(target, name, value);
 			}
-		} // namespace opengl
+
+			inline auto Texture::getFilename() const -> const std::string& { return this->_filename; }
+
+			inline auto Texture::getData() const -> std::uint8_t* { return this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr; }
+
+			inline auto Texture::getWidth() const -> ece::size_t { return this->_width; }
+
+			inline auto Texture::getHeight() const -> ece::size_t { return this->_height; }
+
+			inline auto Texture::getHandle() const -> Handle { return this->_handle; }
+
+			inline void Texture::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
+
+			inline void Texture::setPixelData(PixelData pixelData)
+			{
+				this->_pixelData = pixelData;
+				this->create();
+			}
+
+			inline PixelData Texture::getPixelData() const { return this->_pixelData; }
+		} // namespace image
 	} // namespace renderer
 } // namespace ece

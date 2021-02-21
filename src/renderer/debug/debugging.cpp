@@ -65,7 +65,7 @@ namespace ece
 					default: break;
 					}
 
-					ERROR << "Error OpenGL: (" << static_cast<unsigned short int>(error) << ") " << errorMessage << " in " << function << " from " << file << ":" << line << "." << flush;
+					ERROR << "Error OpenGL: (" << static_cast<unsigned short int>(error) << ") " << errorMessage << " in " << function << " from " << file << ":" << line << "." << flushing;
 					error = OpenGL::getError();
 				}
 
@@ -107,10 +107,10 @@ namespace ece
 				case GL_DEBUG_SEVERITY_NOTIFICATION: debugMessage += "[Severity: notification]"; break;
 				}
 				if (severity == GL_DEBUG_SEVERITY_NOTIFICATION) {
-					WARNING << debugMessage << flush;
+					WARNING << debugMessage << flushing;
 				}
 				else {
-					ERROR << debugMessage << flush;
+					ERROR << debugMessage << flushing;
 				}
 			}
 		} // namespace opengl

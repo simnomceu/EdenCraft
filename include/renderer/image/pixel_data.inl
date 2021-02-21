@@ -36,41 +36,14 @@
 
 */
 
-#ifndef DEPTH_FUNCTION_CONDITION_HPP
-#define DEPTH_FUNCTION_CONDITION_HPP
-
-#include "renderer/config.hpp"
-#include "renderer/pch.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/pipeline/render_state.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace image
 		{
-			using pipeline::RenderState;
-
-			enum class DepthFunctionCondition : unsigned short int
-			{
-				NEVER = GL_NEVER,
-				LESS = GL_LESS,
-				EQUAL = GL_EQUAL,
-				LEQUAL = GL_LEQUAL,
-				GREATER = GL_GREATER,
-				NOTEQUAL = GL_NOTEQUAL,
-				GEQUAL = GL_GEQUAL,
-				ALWAYS = GL_ALWAYS
-			};
-
-			ECE_RENDERER_API DepthFunctionCondition getDepthFunctionCondition(RenderState::DepthFunctionCondition condition);
-			ECE_RENDERER_API RenderState::DepthFunctionCondition getDepthFunctionCondition(DepthFunctionCondition condition);
-
-			ECE_RENDERER_API std::string to_string(DepthFunctionCondition condition);
-		} // namespace opengl
+			inline PixelData::PixelData() : redMask(), greenMask(), blueMask(), alphaMask(), bpp(32), type(PixelDataType::UNSIGNED_BYTE), 
+											format(PixelFormat::RGBA), internalFormat(PixelInternalFormat::RGBA) {}
+		} // namespace image
 	} // namespace renderer
 } // namespace ece
-
-#endif // DEPTH_FUNCTION_CONDITION_HPP

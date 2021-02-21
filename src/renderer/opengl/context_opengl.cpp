@@ -73,9 +73,9 @@ namespace ece
 
 			void ContextOpenGL::logInfos() const
 			{
-				INFO << "Renderer: " << OpenGL::getString(InfoGL::RENDERER) << flush;
-				INFO << "OpenGL version supported " << OpenGL::getString(InfoGL::VERSION) << flush;
-				INFO << "GLSL version supported " << OpenGL::getString(InfoGL::SHADING_LANGUAGE_VERSION) << flush;
+				INFO << "Renderer: " << OpenGL::getString(InfoGL::RENDERER) << flushing;
+				INFO << "OpenGL version supported " << OpenGL::getString(InfoGL::VERSION) << flushing;
+				INFO << "GLSL version supported " << OpenGL::getString(InfoGL::SHADING_LANGUAGE_VERSION) << flushing;
 			}
 
 			void ContextOpenGL::setDebugContext()

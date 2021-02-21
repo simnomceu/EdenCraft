@@ -79,7 +79,7 @@ namespace ece
 					}
 				} else {
                     auto infoLog = OpenGL::getProgramInfoLog(this->_handle);
-					ERROR << infoLog << flush;
+					ERROR << infoLog << flushing;
                 }
 			}
 
@@ -95,7 +95,7 @@ namespace ece
 						this->_cachedLocations[location] = handle;
 					}
 					catch (const std::runtime_error & e) {
-						WARNING << e.what() << flush;
+						WARNING << e.what() << flushing;
 					}
 					uniform.bind(handle);
 				}
@@ -113,7 +113,7 @@ namespace ece
 						this->_cachedLocations[location] = handle;
 					}
 					catch (const std::runtime_error & e) {
-						WARNING << e.what() << flush;
+						WARNING << e.what() << flushing;
 					}
 					uniform->bind(handle);
 				}
@@ -127,11 +127,11 @@ namespace ece
 
 			auto Shader::getUniforms() const
 			{
-				auto uniforms = std::vector<BaseUniform::Info>{};
+				auto uniforms = std::vector<UniformInfo>{};
 				auto count = OpenGL::getProgram(this->_handle, ProgramParameter::ACTIVE_UNIFORMS)[0];
 				for (auto i =  0; i < count; ++i) {
 					auto uniform = OpenGL::getActiveUniform(this->_handle, static_cast<Handle>(i));
-					uniforms.push_back(getUniformInfo(uniform));
+					uniforms.push_back(uniform);
 				}
 				return std::move(uniforms);
 			}

@@ -43,10 +43,10 @@
 #include "renderer/pch.hpp"
 #include "renderer/opengl/opengl_exception.hpp"
 #include "utility/mathematics.hpp"
-#include "renderer/opengl/enum.hpp"
 #include "utility/indexing.hpp"
 #include "utility/container.hpp"
 #include "utility/types.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
@@ -314,7 +314,7 @@ namespace ece
 				static inline void hint(Hint target, HintMode mode);
 				static inline auto readPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type) -> void *;
 				static inline void readBuffer(ColorBuffer mode);
-				static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter);
+				static inline void blitFramebuffer(int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, BufferBit mask, InterpolationFilter filter);
 				static inline void scissor(const int x, const int y, const unsigned int width, const unsigned int height);
 				static inline void sampleCoverage(float value, bool invert);
 				static inline void sampleMask(unsigned int maskNumber, std::bitset<32> mask);
@@ -336,7 +336,7 @@ namespace ece
 				static inline void depthMask(bool flag);
 				static inline void stencilMask(unsigned int mask);
 				static inline void stencilMaskSeparate(CullFaceMode face, unsigned int mask);
-				static inline void clear(const Bitfield mask);
+				static inline void clear(const BufferBit mask);
 				static inline void clearColor(const float r, const float g, const float b, const float a);
 				static inline void clearDepth(double depth);
 				static inline void clearStencil(int s);
@@ -352,15 +352,15 @@ namespace ece
 				static inline auto genRenderbuffers(ece::size_t n) -> std::vector<Handle>;
 				static inline void renderbufferStorageMultisample(ece::size_t samples, PixelFormat internalformat, ece::size_t width, ece::size_t height);
 				static inline void renderbufferStorage(PixelFormat internalformat, ece::size_t width, ece::size_t height);
-				static inline void framebufferRenderbuffer(FramebufferTarget target, FramebufferAttachment attachment, unsigned int renderbuffer);
-				static inline void framebufferTexture(FramebufferTarget target, FramebufferAttachment attachment, Handle texture, int level);
-				static inline void framebufferTexture1D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level);
-				static inline void framebufferTexture2D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level);
-				static inline void framebufferTexture3D(FramebufferTarget target, FramebufferAttachment attachment, FramebufferTargetTexture textarget, Handle texture, int level, int layer);
-				static inline void framebufferTextureLayer(FramebufferTarget target, FramebufferAttachment attachment, Handle texture, int level, int layer);
+				static inline void framebufferRenderbuffer(FramebufferTarget target, FramebufferAttachmentChannel attachment, unsigned int renderbuffer);
+				static inline void framebufferTexture(FramebufferTarget target, FramebufferAttachmentChannel attachment, Handle texture, int level);
+				static inline void framebufferTexture1D(FramebufferTarget target, FramebufferAttachmentChannel attachment, FramebufferTargetTexture textarget, Handle texture, int level);
+				static inline void framebufferTexture2D(FramebufferTarget target, FramebufferAttachmentChannel attachment, FramebufferTargetTexture textarget, Handle texture, int level);
+				static inline void framebufferTexture3D(FramebufferTarget target, FramebufferAttachmentChannel attachment, FramebufferTargetTexture textarget, Handle texture, int level, int layer);
+				static inline void framebufferTextureLayer(FramebufferTarget target, FramebufferAttachmentChannel attachment, Handle texture, int level, int layer);
 				static inline auto checkFramebufferStatus(FramebufferTarget target) -> FramebufferStatus;
 				static inline auto isFramebuffer(Handle framebuffer) -> bool;
-				static inline auto getFramebufferAttachmentParameter(FramebufferTarget target, FramebufferAttachment attachment, FramebufferAttachmentParameter pname) -> int;
+				static inline auto getFramebufferAttachmentParameter(FramebufferTarget target, FramebufferAttachmentChannel attachment, FramebufferAttachmentParameter pname) -> int;
 				static inline auto isRenderbuffer(Handle renderbuffer) -> bool;
 				static inline auto getRenderbufferParameter(RenderbufferParameter pname) -> int;
 				static inline void flush();
@@ -541,8 +541,8 @@ namespace ece
 				static inline void multiDrawElementsIndirectCount(PrimitiveMode mode, DataType type, const std::vector<DrawElementsIndirectCommand> & indirect, int drawcount, ece::size_t maxdrawcount, ece::size_t stride);
 				static inline void dispatchCompute(unsigned int num_groups_x, unsigned int num_groups_y, unsigned int num_groups_z);
 				static inline void dispatchComputeIndirect(int indirect);
-				static inline void invalidateSubFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachment> & attachments, int x, int y, int width, int height);
-				static inline void invalidateFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachment> & attachments);
+				static inline void invalidateSubFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachmentChannel> & attachments, int x, int y, int width, int height);
+				static inline void invalidateFramebuffer(FramebufferTarget target, const std::vector<FramebufferAttachmentChannel> & attachments);
 				static inline void copyImageSubData(Handle srcName, TextureTarget srcTarget, int srcLevel, int srcX, int srcY, int srcZ, Handle dstName, TextureTarget dstTarget, int dstLevel, int dstX, int dstY, int dstZ, ece::size_t srcWidth, ece::size_t srcHeight, ece::size_t srcDepth);
 				static inline void debugMessageCallback(GLDEBUGPROC callback, const void * userParam);
 				static inline void debugMessageControl(const SourceDebugMessage source, const TypeDebugMessage type, const SeverityDebugMessage severity, const std::vector<unsigned int> & ids, bool enabled);
@@ -615,7 +615,7 @@ namespace ece
 				static inline auto getCompressedTextureImage(Handle texture, int level, ece::size_t bufSize) -> void *;
 				static inline auto readnPixels(int x, int y, ece::size_t width, ece::size_t height, PixelFormat format, DataType type, ece::size_t bufSize) -> void *;
 				static inline void namedFramebufferReadBuffer(Handle framebuffer, ColorBuffer mode);
-				static inline void blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, Bitfield mask, ImageFilter filter);
+				static inline void blitNamedFramebuffer(Handle readFramebuffer, Handle drawFramebuffer, int srcX0, int srcY0, int srcX1, int srcY1, int dstX0, int dstY0, int dstX1, int dstY1, BufferBit mask, InterpolationFilter filter);
 				static inline void namedFramebufferDrawBuffer(Handle framebuffer, ColorBuffer buf);
 				static inline void namedFramebufferDrawBuffers(Handle framebuffer, const std::vector<ColorBuffer> & bufs);
 				static inline void clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, const std::vector<int> & value);
@@ -624,11 +624,11 @@ namespace ece
 				static inline void clearNamedFramebuffer(Handle framebuffer, BufferKind buffer, int drawbuffer, float depth, int stencil);
 				static inline void namedRenderbufferStorageMultisample(Handle renderbuffer, ece::size_t samples, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height);
 				static inline void namedRenderbufferStorage(Handle renderbuffer, PixelInternalFormat internalformat, ece::size_t width, ece::size_t height);
-				static inline void namedFramebufferRenderbuffer(Handle framebuffer, FramebufferAttachment attachment, unsigned int renderbuffer);
-				static inline void namedFramebufferTexture(Handle framebuffer, FramebufferAttachment attachment, Handle texture, int level);
-				static inline void namedFramebufferTextureLayer(Handle framebuffer, FramebufferAttachment attachment, Handle texture, int level, int layer);
+				static inline void namedFramebufferRenderbuffer(Handle framebuffer, FramebufferAttachmentChannel attachment, unsigned int renderbuffer);
+				static inline void namedFramebufferTexture(Handle framebuffer, FramebufferAttachmentChannel attachment, Handle texture, int level);
+				static inline void namedFramebufferTextureLayer(Handle framebuffer, FramebufferAttachmentChannel attachment, Handle texture, int level, int layer);
 				static inline auto checkNamedFramebufferStatus(Handle framebuffer, FramebufferTarget target) -> FramebufferStatus;
-				static inline auto getNamedFramebufferAttachmentParameter(Handle framebuffer, FramebufferAttachment attachment, FramebufferAttachmentParameter pname) -> int;
+				static inline auto getNamedFramebufferAttachmentParameter(Handle framebuffer, FramebufferAttachmentChannel attachment, FramebufferAttachmentParameter pname) -> int;
 				static inline auto getNamedRenderbufferParameter(Handle renderbuffer, RenderbufferParameter pname) -> int;
 				static inline auto getGraphicsResetStatus() -> GraphicResetStatus;
 				static inline auto createBuffers(ece::size_t n) -> std::vector<Handle>;
@@ -668,8 +668,8 @@ namespace ece
 				static inline void transformFeedbackBufferRange(Handle xfb, Handle index, Handle buffer, int offset, ece::size_t size);
 				static inline void transformFeedbackBufferBase(Handle xfb, Handle index, Handle buffer);
 				static inline void clipControl(ClipControl origin, ClipControlDepthMode depth);
-				static inline void invalidateNamedFramebufferSubData(Handle framebuffer, const std::vector<FramebufferAttachment> & attachments, int x, int y, int width, int height);
-				static inline void invalidateNamedFramebufferData(Handle framebuffer, const std::vector<FramebufferAttachment> & attachments);
+				static inline void invalidateNamedFramebufferSubData(Handle framebuffer, const std::vector<FramebufferAttachmentChannel> & attachments, int x, int y, int width, int height);
+				static inline void invalidateNamedFramebufferData(Handle framebuffer, const std::vector<FramebufferAttachmentChannel> & attachments);
 				static inline auto getTransformFeedback(Handle xfb, TransformFeedbackParameter pname) -> int;
 				static inline auto getTransformFeedback(Handle xfb, TransformFeedbackParameter pname, Handle index) -> int;
 				static inline auto getTransformFeedback64(Handle xfb, TransformFeedbackParameter pname, Handle index) -> std::int64_t;

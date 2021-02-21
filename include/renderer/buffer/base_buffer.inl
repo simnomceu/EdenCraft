@@ -42,7 +42,7 @@ namespace ece
 	{
 		namespace buffer
 		{
-			inline constexpr BaseBuffer::BaseBuffer() noexcept : _handle(NULL_HANDLE), _descriptor{}, _type(Type::ARRAY), _frequency(Frequency::STATIC) {}
+			inline constexpr BaseBuffer::BaseBuffer() noexcept : _handle(NULL_HANDLE), _descriptor{}, _type(BufferType::ARRAY_BUFFER), _frequency(Frequency::STATIC) {}
 
 			inline auto BaseBuffer::getType() const noexcept { return this->_type; }
 

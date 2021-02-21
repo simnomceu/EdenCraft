@@ -36,36 +36,89 @@
 
 */
 
-#ifndef CULL_FACE_MODE_HPP
-#define CULL_FACE_MODE_HPP
+#ifndef FRAMEBUFFER_HPP
+#define FRAMEBUFFER_HPP
 
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/pipeline/render_state.hpp"
+#include "renderer/rendering/render_target.hpp"
+#include "renderer/image/pixel_data.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace rendering
 		{
-			using pipeline::RenderState;
+			using image::PixelData;
+			using namespace opengl;
 
-			enum class CullFaceMode : unsigned short int
+			EnumFlagsT(unsigned short int, FramebufferBufferBit)
 			{
-				FRONT = GL_FRONT,
-				BACK = GL_BACK,
-				FRONT_AND_BACK = GL_FRONT_AND_BACK
+				COLOR = 0b001,
+				DEPTH = 0b010,
+				STENCIL = 0b100
 			};
 
-			ECE_RENDERER_API CullFaceMode getCullFaceMode(RenderState::CullFaceMode mode);
-			ECE_RENDERER_API RenderState::CullFaceMode getCullFaceMode(CullFaceMode mode);
+			class ECE_RENDERER_API Framebuffer: public RenderTarget
+			{
+			public:
+				struct AttachmentSpecification
+				{
+					FramebufferTargetTexture target;
+					PixelInternalFormat internalFormat;
+				};
 
-			ECE_RENDERER_API std::string to_string(CullFaceMode mode);
-		} // namespace opengl
+				struct Specification
+				{
+					FramebufferTarget target;
+
+					ece::size_t width;
+					ece::size_t height;
+					ece::size_t samples;
+
+					std::vector<AttachmentSpecification> colors;
+					std::optional<AttachmentSpecification> depth;
+					std::optional<AttachmentSpecification> stencil;
+					std::optional<AttachmentSpecification> depthStencil;
+				};
+
+				Framebuffer(const Specification & specification) noexcept;
+
+				Framebuffer(const Framebuffer & copy) = delete;
+				Framebuffer(Framebuffer && move) = default;
+
+				~Framebuffer() noexcept;
+
+				Framebuffer & operator=(const Framebuffer & copy) noexcept = delete;
+				Framebuffer & operator=(Framebuffer && move) noexcept = default;
+
+				virtual void bind() override;
+				void unbind();
+
+				void invalidate();
+				inline void terminate();
+
+				inline const Specification & getSpecification() const;
+
+				auto checkStatus() -> bool;
+
+				virtual auto getSize() const -> IntVector2u override;
+
+			private:
+				Handle _handle;
+				Specification _specification;
+
+				std::vector<Texture::Reference> _colors;
+				std::optional<Texture::Reference> _depth;
+				std::optional<Texture::Reference> _stencil;
+				std::optional<Texture::Reference> _depthStencil;
+			};
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
 
-#endif // CULL_FACE_MODE_HPP
+#include "renderer/rendering/framebuffer.inl"
+
+#endif // FRAMEBUFFER_HPP

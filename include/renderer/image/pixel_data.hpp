@@ -36,53 +36,48 @@
 
 */
 
+#ifndef PIXEL_DATA_HPP
+#define PIXEL_DATA_HPP
+
+#include "renderer/config.hpp"
 #include "renderer/pch.hpp"
-#include "renderer/opengl/enum/shader_type.hpp"
+#include "utility/types.hpp"
+#include "renderer/opengl/enum.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace image
 		{
-			ShaderType getShaderType(ShaderStage::Type type)
-			{
-				switch (type) {
-				case ShaderStage::Type::COMPUTE: return ShaderType::COMPUTE_SHADER; break;
-				case ShaderStage::Type::FRAGMENT: return ShaderType::FRAGMENT_SHADER; break;
-				case ShaderStage::Type::GEOMETRY: return ShaderType::GEOMETRY_SHADER; break;
-				case ShaderStage::Type::VERTEX: return ShaderType::VERTEX_SHADER; break;
-				case ShaderStage::Type::TESS_EVALUATION: return ShaderType::TESS_EVALUATION_SHADER; break;
-				case ShaderStage::Type::TESS_CONTROL: return ShaderType::TESS_CONTROL_SHADER; break;
-				default: throw std::runtime_error("Unknown value for ShaderType enumeration."); break;
-				}
-			}
+			using namespace opengl;
 
-			ShaderStage::Type getShaderType(ShaderType type)
+			struct ECE_RENDERER_API PixelData
 			{
-				switch (type) {
-				case ShaderType::COMPUTE_SHADER: return ShaderStage::Type::COMPUTE; break;
-				case ShaderType::FRAGMENT_SHADER: return ShaderStage::Type::FRAGMENT; break;
-				case ShaderType::GEOMETRY_SHADER: return ShaderStage::Type::GEOMETRY; break;
-				case ShaderType::VERTEX_SHADER: return ShaderStage::Type::VERTEX; break;
-				case ShaderType::TESS_EVALUATION_SHADER: return ShaderStage::Type::TESS_EVALUATION; break;
-				case ShaderType::TESS_CONTROL_SHADER: return ShaderStage::Type::TESS_CONTROL; break;
-				default: throw std::runtime_error("Unknown value for ShaderStage::Type enumeration."); break;
-				}
-			}
+			public:
+				inline PixelData();
+				PixelData(const PixelData & copy) = default;
+				PixelData(PixelData && move) = default;
 
-			std::string to_string(ShaderType type)
-			{
-				switch (type) {
-				case ShaderType::COMPUTE_SHADER: return "GL_COMPUTE_SHADER"; break;
-				case ShaderType::FRAGMENT_SHADER: return "GL_FRAGMENT_SHADER"; break;
-				case ShaderType::GEOMETRY_SHADER: return "GL_GEOMETRY_SHADER"; break;
-				case ShaderType::VERTEX_SHADER: return "GL_VERTEX_SHADER"; break;
-				case ShaderType::TESS_EVALUATION_SHADER: return "GL_TESS_EVALUATION_SHADER"; break;
-				case ShaderType::TESS_CONTROL_SHADER: return "GL_TESS_CONTROL_SHADER"; break;
-				default: throw std::runtime_error("Unknown value for ShaderType enumeration."); break;
-				}
-			}
-		} // namespace opengl
+				~PixelData() = default;
+
+				PixelData & operator=(const PixelData & copy) = default;
+				PixelData & operator=(PixelData && move) = default;
+
+				std::bitset<8> redMask;
+				std::bitset<8> greenMask;
+				std::bitset<8> blueMask;
+				std::bitset<8> alphaMask;
+				ece::size_t bpp;
+
+				PixelDataType type;
+				PixelFormat format;
+				PixelInternalFormat internalFormat;
+			};
+		} // namespace image
 	} // namespace renderer
 } // namespace ece
+
+#include "renderer/image/pixel_data.inl"
+
+#endif // PIXEL_DATA_HPP

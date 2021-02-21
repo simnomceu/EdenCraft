@@ -80,7 +80,7 @@ namespace ece
 						throw;
 					}
 					catch (std::runtime_error & e) {
-						ERROR << e.what() << flush;
+						ERROR << e.what() << flushing;
 					}
 
 					this->onWindowOpened();
@@ -90,6 +90,12 @@ namespace ece
 			auto RenderWindow::getSize() const -> IntVector2u
 			{
 				return Window::getSize();
+			}
+
+			void RenderWindow::bind()
+			{
+				OpenGL::bindFramebuffer(FramebufferTarget::FRAMEBUFFER, 0);
+				this->setCurrent();
 			}
 
 			void RenderWindow::display()

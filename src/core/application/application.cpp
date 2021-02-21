@@ -104,7 +104,7 @@ namespace ece
 					this->_moduleManager.initAll();
 				}
 				catch (const std::runtime_error & e) {
-					ERROR << "Invalid command argument: " << e.what() << flush;
+					ERROR << "Invalid command argument: " << e.what() << flushing;
 				}
 				this->_running = true;
 			}

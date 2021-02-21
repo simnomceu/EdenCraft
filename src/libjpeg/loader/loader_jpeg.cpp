@@ -21,7 +21,7 @@ namespace ece
 
 				//if there's an error, display it
 				if (error != Jpeg::Decoder::OK) {
-					ERROR << "decoder error " << error << ": Could not read JPEG" << flush;
+					ERROR << "decoder error " << error << ": Could not read JPEG" << flushing;
 				}
 				auto width = decoder.GetWidth();
 				auto height = decoder.GetHeight();
@@ -55,7 +55,7 @@ namespace ece
 
 				//if there's an error, display it
 				if (error) {
-					ERROR << "encoder error " << error << ": could not write JPEG" << flush;
+					ERROR << "encoder error " << error << ": could not write JPEG" << flushing;
 				}
 			}
 		} // namespace loader

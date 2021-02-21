@@ -49,13 +49,13 @@ class Animation: public ece::Component<Animation>
 public:
     Animation() = default;
 
-    void push(ece::Texture2D::Reference texture);
+    void push(ece::Texture::Reference texture);
     void next();
 
-    ece::Texture2D::Reference getCurrent() const;
+    ece::Texture::Reference getCurrent() const;
 private:
-    std::vector<ece::Texture2D::Reference> _textures;
-    std::vector<ece::Texture2D::Reference>::iterator _current;
+    std::vector<ece::Texture::Reference> _textures;
+    std::vector<ece::Texture::Reference>::iterator _current;
 };
 
 #endif // ANIMATION_HPP

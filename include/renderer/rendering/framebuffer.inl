@@ -36,43 +36,13 @@
 
 */
 
-#ifndef OPENGL_TEXTURE_TARGET_HPP
-#define OPENGL_TEXTURE_TARGET_HPP
-
-#include "renderer/config.hpp"
-#include "GL/glcorearb.h"
-#include "GL/glext.h"
-#include "renderer/image/texture.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace rendering
 		{
-			using image::Texture;
-
-			enum class TextureTarget : unsigned short int
-			{
-				TEXTURE_1D = GL_TEXTURE_1D,
-				TEXTURE_2D = GL_TEXTURE_2D,
-				TEXTURE_3D = GL_TEXTURE_3D,
-				TEXTURE_1D_ARRAY = GL_TEXTURE_1D_ARRAY,
-				TEXTURE_2D_ARRAY = GL_TEXTURE_2D_ARRAY,
-				TEXTURE_RECTANGLE = GL_TEXTURE_RECTANGLE,
-				TEXTURE_CUBE_MAP = GL_TEXTURE_CUBE_MAP,
-				TEXTURE_CUBE_MAP_ARRAY = GL_TEXTURE_CUBE_MAP_ARRAY,
-				TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-				TEXTURE_2D_MULTISAMPLE = GL_TEXTURE_2D_MULTISAMPLE,
-				TEXTURE_2D_MULTISAMPLE_ARRAY = GL_TEXTURE_2D_MULTISAMPLE_ARRAY
-			};
-
-			ECE_RENDERER_API TextureTarget getTextureTarget(Texture::Target type);
-			ECE_RENDERER_API Texture::Target getTextureTarget(TextureTarget type);
-
-			ECE_RENDERER_API std::string to_string(TextureTarget type);
-		} // namespace opengl
+			inline const Framebuffer::Specification & Framebuffer::getSpecification() const { return this->_specification; }
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece
-
-#endif // OPENGL_TEXTURE_TARGET_HPP

@@ -48,7 +48,7 @@ namespace ece
 			IndexBuffer<Storage, Data>::IndexBuffer() noexcept: Buffer<Storage, Data>()
 			{
 				this->_handle = OpenGL::genBuffers();
-				this->_type = BaseBuffer::Type::ELEMENT_ARRAY;
+				this->_type = BufferType::ELEMENT_ARRAY_BUFFER;
 			}
 		} // namespace buffer
 	} // namespace renderer

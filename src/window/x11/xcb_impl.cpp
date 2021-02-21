@@ -136,12 +136,12 @@ namespace ece
 
 			void XCBImpl::minimize()
 			{
-				WARNING << "The window implementation does not provide any method to minimize the window." << flush;
+				WARNING << "The window implementation does not provide any method to minimize the window." << flushing;
 			}
 
 			void XCBImpl::maximize()
 			{
-				WARNING << "The window implementation does not provide any method to maximize the window." << flush;
+				WARNING << "The window implementation does not provide any method to maximize the window." << flushing;
 			}
 
 			auto XCBImpl::processEvent(const bool blocking, [[maybe_unused]] const bool keyRepeat) -> std::vector<InputEvent>
