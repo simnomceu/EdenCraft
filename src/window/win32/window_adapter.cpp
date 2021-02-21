@@ -67,7 +67,7 @@ namespace ece
 			{
 				auto codeError = DestroyWindow(this->_data->windowId);
 				if (codeError == 0) {
-					ERROR << "Erreur destruction HWND. (WGL) Code " << GetLastError() << flush;
+					ERROR << "Erreur destruction HWND. (WGL) Code " << GetLastError() << flushing;
 				}
 				this->_data->windowId = nullptr;
 			}
@@ -81,7 +81,7 @@ namespace ece
 			{
 				auto success = SetWindowTextA(this->_data->windowId, title.data());
 				if (!success) {
-					ERROR << "Erreur while renaming window. (WGL) Code " << GetLastError() << flush;
+					ERROR << "Erreur while renaming window. (WGL) Code " << GetLastError() << flushing;
 				}
 			}
 
@@ -91,7 +91,7 @@ namespace ece
 				auto title = new char[length];
 				auto success = GetWindowTextA(this->_data->windowId, title, length);
 				if (!success) {
-					ERROR << "Erreur while getting window name. (WGL) Code " << GetLastError() << flush;
+					ERROR << "Erreur while getting window name. (WGL) Code " << GetLastError() << flushing;
 				}
 				return { title };
 			}
@@ -100,7 +100,7 @@ namespace ece
 			{
 				auto success = SetWindowPos(this->_data->windowId, HWND_NOTOPMOST, position[0], position[1], 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 				if (!success) {
-					ERROR << "Erreur while moving window. (WGL) Code " << GetLastError() << flush;
+					ERROR << "Erreur while moving window. (WGL) Code " << GetLastError() << flushing;
 				}
 			}
 
@@ -109,7 +109,7 @@ namespace ece
 				auto bounds = RECT{};
 				auto success = GetWindowRect(this->_data->windowId, &bounds);
 				if (!success) {
-					ERROR << "Erreur while retrieving window bounds. (WGL) Code " << GetLastError() << flush;
+					ERROR << "Erreur while retrieving window bounds. (WGL) Code " << GetLastError() << flushing;
 				}
 
 				return { bounds.right - bounds.left, bounds.bottom - bounds.top };
@@ -120,7 +120,7 @@ namespace ece
 				auto bounds = RECT{};
 				auto success = GetWindowRect(this->_data->windowId, &bounds);
 				if (!success) {
-					ERROR << "Erreur while retrieving window bounds. (WGL) Code " << GetLastError() << flush;
+					ERROR << "Erreur while retrieving window bounds. (WGL) Code " << GetLastError() << flushing;
 				}
 				return { bounds.left, bounds.top };
 			}
@@ -129,7 +129,7 @@ namespace ece
 			{
 				auto success = ShowWindow(this->_data->windowId, SW_SHOWMINIMIZED);
 				if (!success) {
-					ERROR << "Erreur while minimizing window. (WGL) Code " << GetLastError() << flush;
+					ERROR << "Erreur while minimizing window. (WGL) Code " << GetLastError() << flushing;
 				}
 			}
 
@@ -137,7 +137,7 @@ namespace ece
 			{
 				auto success = ShowWindow(this->_data->windowId, SW_SHOWMAXIMIZED);
 				if (!success) {
-					ERROR << "Erreur while maximizing window. (WGL) Code " << GetLastError() << flush;
+					ERROR << "Erreur while maximizing window. (WGL) Code " << GetLastError() << flushing;
 				}
 			}
 
@@ -147,7 +147,7 @@ namespace ece
 				if (blocking) {
 					auto success = WaitMessage();
 					if (!success) {
-						ERROR << "Erreur while blocking messages queue window. (WGL) Code " << GetLastError() << flush;
+						ERROR << "Erreur while blocking messages queue window. (WGL) Code " << GetLastError() << flushing;
 					}
 				}
 				while (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE)) {
@@ -317,7 +317,7 @@ namespace ece
 
 					auto codeError = RegisterClassEx(&windowPattern);
 					if (codeError == 0) {
-						ERROR << "Erreur while registering WNDCLASSEX window pattern. (WGL) Code " << GetLastError() << flush;
+						ERROR << "Erreur while registering WNDCLASSEX window pattern. (WGL) Code " << GetLastError() << flushing;
 					}
 				}
 			}

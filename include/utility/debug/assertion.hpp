@@ -78,18 +78,18 @@ namespace ece
 
 #		define ece_assert(EXPRESSION, MESSAGE) \
 			if (!(EXPRESSION)) { \
-				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " failed: \"" << MESSAGE << "\"" << ece::flush; \
+				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " failed: \"" << MESSAGE << "\"" << ece::flushing; \
 				abort(); \
 			}
 
 #		define assertExceptionThrown(EXPRESSION, EXCEPTION) \
 			try { \
 				EXPRESSION; \
-				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " doesn't throw any " << #EXCEPTION << "." << ece::flush; \
+				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " doesn't throw any " << #EXCEPTION << "." << ece::flushing; \
 				abort(); \
 			} \
 			catch (const EXCEPTION & e) { \
-				ece::ERROR << e.what() << ece::flush; \
+				ece::ERROR << e.what() << ece::flushing; \
 			}
 
 #		define assertAnyExceptionThrown(EXPRESSION) assertExceptionThrown(EXPRESSION, std::runtime_error)
@@ -99,8 +99,8 @@ namespace ece
 				EXPRESSION; \
 			} \
 			catch (const std::runtime_error & e) { \
-				ece::ERROR << e.what() << ece::flush; \
-				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " throw an exception." << ece::flush; \
+				ece::ERROR << e.what() << ece::flushing; \
+				ece::SYSTEM << "Assertion `" << #EXPRESSION << "` at " << __FILE__ << ":" << __LINE__ << " throw an exception." << ece::flushing; \
 				abort(); \
 			}
         } // namespace debug

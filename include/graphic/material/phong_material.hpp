@@ -46,7 +46,7 @@
 #include "graphic/material/computed_property.hpp"
 #include "graphic/material/property.hpp"
 #include "utility/mathematics.hpp"
-#include "renderer/image/texture2d.hpp"
+#include "renderer/image/texture.hpp"
 
 namespace ece
 {
@@ -54,7 +54,7 @@ namespace ece
 	{
 		namespace material
 		{
-			using renderer::image::Texture2D;
+			using renderer::image::Texture;
 
 			/**
 			 * @class PhongMaterial
@@ -122,8 +122,8 @@ namespace ece
 				inline void setDiffuse(const FloatVector3u & diffuse);
 				inline void setSpecular(const FloatVector3u & specular);
 				inline void setShininess(const float shininess);
-				inline void setDiffuseMap(const Texture2D::Reference & texture);
-				inline void setSpecularMap(const Texture2D::Reference & texture);
+				inline void setDiffuseMap(const Texture::Reference & texture);
+				inline void setSpecularMap(const Texture::Reference & texture);
 
 				inline const auto & getAmbient();
 				inline const auto & getDiffuse();
@@ -135,8 +135,8 @@ namespace ece
 			private:
 				Material::Reference _material;
 
-				using DiffuseMap = Property<Texture2D::Reference, int>;
-				using SpecularMap = Property<Texture2D::Reference, int>;
+				using DiffuseMap = Property<Texture::Reference, int>;
+				using SpecularMap = Property<Texture::Reference, int>;
 				using DiffuseMapEnabled = ComputedProperty<bool>;
 				using SpecularMapEnabled = ComputedProperty<bool>;
 				using Ambient = Property<FloatVector3u, std::array<float, 3>>;

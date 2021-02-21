@@ -55,7 +55,7 @@ Render::Render(ece::World & world) noexcept : ece::System(world), _process(std::
 
 	ece::RenderState states;
 	states.depthTest = true;
-	states.depthFunction = ece::RenderState::DepthFunctionCondition::LESS;
+	states.depthFunction = ece::DepthFunctionCondition::LESS;
 	states.apply(true);
 
 	{
@@ -76,9 +76,9 @@ Render::Render(ece::World & world) noexcept : ece::System(world), _process(std::
 
 	{
 		ece::ShaderStage fsSource;
-		fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/phong.frag");
+		fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../../resource/shader/phong.frag");
 		ece::ShaderStage vsSource;
-		vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/phong_instance.vert");
+		vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../../resource/shader/phong_instance.vert");
 
 		auto program = std::make_shared<ece::EnhancedShader>();
 		program->setStage(fsSource);

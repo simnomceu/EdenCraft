@@ -36,34 +36,13 @@
 
 */
 
-#include "renderer/pch.hpp"
-#include "renderer/opengl/enum/cull_face_mode.hpp"
-
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace rendering
 		{
-			CullFaceMode getCullFaceMode(RenderState::CullFaceMode mode)
-			{
-				switch (mode) {
-				case RenderState::CullFaceMode::BACK: return CullFaceMode::BACK; break;
-				case RenderState::CullFaceMode::FRONT: return CullFaceMode::FRONT; break;
-				case RenderState::CullFaceMode::FRONT_AND_BACK: return CullFaceMode::FRONT_AND_BACK; break;
-				default: throw std::runtime_error("Unknown value for CullFaceMode enumeration."); break;
-				}
-			}
-
-			std::string to_string(CullFaceMode mode)
-			{
-				switch (mode) {
-				case CullFaceMode::BACK: return "GL_BACK"; break;
-				case CullFaceMode::FRONT: return "GL_FRONT"; break;
-				case CullFaceMode::FRONT_AND_BACK: return "GL_FRONT_AND_BACK"; break;
-				default: throw std::runtime_error("Unknown value for CullFaceMode enumeration."); break;
-				}
-			}
-		} // namespace opengl
+			inline const Framebuffer::Specification & Framebuffer::getSpecification() const { return this->_specification; }
+		} // namespace rendering
 	} // namespace renderer
 } // namespace ece

@@ -83,10 +83,10 @@ namespace ece
 				glXQueryVersion(this->_data->display, &glxMajor, &glxMinor);
 
 				if ((glxMajor == 1 && glxMinor < 3) || glxMajor < 1) {
-					WARNING << "GLX 1.3 or greater is not available. Most recent version is GLX " << glxMajor << "." << glxMinor << flush;
+					WARNING << "GLX 1.3 or greater is not available. Most recent version is GLX " << glxMajor << "." << glxMinor << flushing;
                 }
                 else {
-					INFO << "GLX version: " << glxMajor << "." << glxMinor << flush;
+					INFO << "GLX version: " << glxMajor << "." << glxMinor << flushing;
                 }
 
             	const auto visual_attribs = std::array{

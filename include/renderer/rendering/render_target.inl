@@ -53,7 +53,7 @@ namespace ece
 					return Renderer::getCurrentTarget().lock().get() == this;
 				}
 				catch (const std::bad_weak_ptr & e) {
-					ece::ERROR << "A RenderTarget need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. " << e.what() << ece::flush;
+					ece::ERROR << "A RenderTarget need to be managed by a std::shared_ptr, according to std::enabled_shared_from_this mother class specification. " << e.what() << ece::flushing;
 					return false;
 				}
 			}

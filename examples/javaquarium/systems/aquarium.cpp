@@ -52,25 +52,25 @@ Aquarium::Aquarium(ece::World& world) noexcept : ece::System(world), _turn(0)
 
 Aquarium::~Aquarium()
 {
-	ece::INFO << "##### END #####" << ece::flush;
-	ece::INFO << "Number of algas : " << this->_world.getComponents<Alga>().size() << ece::flush;
-	ece::INFO << "Number of fishes : " << this->_world.getComponents<Fish>().size() << ece::flush;
+	ece::INFO << "##### END #####" << ece::flushing;
+	ece::INFO << "Number of algas : " << this->_world.getComponents<Alga>().size() << ece::flushing;
+	ece::INFO << "Number of fishes : " << this->_world.getComponents<Fish>().size() << ece::flushing;
 }
 
 void Aquarium::update([[maybe_unused]] float elapsedTime)
 {
 	++this->_turn;
 
-	ece::INFO << "##### Turn " << this->_turn << " #####" << ece::flush;
-	ece::INFO << "Number of algas : " << this->_world.getComponents<Alga>().size() << ece::flush;
-	ece::INFO << "Number of fishes : " << this->_world.getComponents<Fish>().size() << ece::flush;
+	ece::INFO << "##### Turn " << this->_turn << " #####" << ece::flushing;
+	ece::INFO << "Number of algas : " << this->_world.getComponents<Alga>().size() << ece::flushing;
+	ece::INFO << "Number of fishes : " << this->_world.getComponents<Fish>().size() << ece::flushing;
 	this->_world.getComponents<Fish>().forEach([this](auto& fish) {
 		if (fish) {
 			auto fishId = ece::EntityHandler(fish.getOwner(), this->_world);
 
 			if (fish) {
 				ece::INFO << "    ID #" << fish.getOwner() << ": " << fish.name << " the " << fish.specie << " (" << (fish.gender == Gender::MALE ? "M" : "F") << ") ["
-					<< fishId.getComponent<Living>().life << " PV]" << ece::flush;
+					<< fishId.getComponent<Living>().life << " PV]" << ece::flushing;
 			}
 		}
 	});

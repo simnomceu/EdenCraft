@@ -51,7 +51,7 @@ FoodChain::FoodChain(ece::World& world) noexcept : ece::System(world)
 
 void FoodChain::update([[maybe_unused]] float elapsedTime)
 {
-	ece::INFO << "##### Lunch Time #####" << ece::flush;
+	ece::INFO << "##### Lunch Time #####" << ece::flushing;
 
 	auto nbAlgas = this->_world.getComponents<Alga>().size();
 	const auto nbFishes = this->_world.getComponents<Fish>().size();
@@ -71,11 +71,11 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 							if (feed) {
 								fishLiving.life += 3;
 								fishSexuality.ready = false;
-								ece::INFO << fishFish.name << " the " << fishFish.specie << " (+3 PV) eats an alga (-2 PV)." << ece::flush;
+								ece::INFO << fishFish.name << " the " << fishFish.specie << " (+3 PV) eats an alga (-2 PV)." << ece::flushing;
 
 								targetLiving.life -= 2;
 								if (!targetLiving.isAlive()) {
-									ece::WARNING << "Alga ID #" << targetLiving.getOwner() << " was too weak and died." << ece::flush;
+									ece::WARNING << "Alga ID #" << targetLiving.getOwner() << " was too weak and died." << ece::flushing;
 									targetId.destroy();
 									--nbAlgas;
 								}
@@ -96,11 +96,11 @@ void FoodChain::update([[maybe_unused]] float elapsedTime)
 							if (feed) {
 								fishLiving.life += 5;
 								fishSexuality.ready = false;
-								ece::INFO << fishFish.name << " the " << fishFish.specie << " (+5 PV) eats " << targetFish.name << " the " << targetFish.specie << " (-4 PV)." << ece::flush;
+								ece::INFO << fishFish.name << " the " << fishFish.specie << " (+5 PV) eats " << targetFish.name << " the " << targetFish.specie << " (-4 PV)." << ece::flushing;
 
 								targetLiving.life -= 4;
 								if (!targetLiving.isAlive()) {
-									ece::WARNING << targetFish.name << " the " << targetFish.specie << " was too weak and died." << ece::flush;
+									ece::WARNING << targetFish.name << " the " << targetFish.specie << " was too weak and died." << ece::flushing;
 									targetId.destroy();
 								}
 							}

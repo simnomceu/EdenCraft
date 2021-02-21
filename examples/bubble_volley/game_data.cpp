@@ -50,7 +50,7 @@ GameData::GameData(ece::World & world) noexcept :
 	_playerA(world.createEntity()), _playerB(world.createEntity())
 {
 	{
-		auto sprite = ece::makeResource<ece::Sprite>("background", ece::getResource<ece::Texture2D>("titel"), ece::Rectangle<float>{ 240.0f, 0.0f, 1440.0f, 1080.0f });
+		auto sprite = ece::makeResource<ece::Sprite>("background", ece::getResource<ece::Texture>("titel"), ece::Rectangle<float>{ 240.0f, 0.0f, 1440.0f, 1080.0f });
 		sprite->setLevel(0);
 		this->_background.addComponent<Graphic>(sprite);
 
@@ -82,7 +82,7 @@ void GameData::setState(const GameData::State state)
 	{
 		{
 			auto sprite = ece::getResource<ece::Sprite>("background");
-			sprite->setTexture(ece::getResource<ece::Texture2D>("titel"));
+			sprite->setTexture(ece::getResource<ece::Texture>("titel"));
 		}
 		this->onSplashScreenEntered();
 		break;
@@ -92,12 +92,12 @@ void GameData::setState(const GameData::State state)
 		// Background entity
 		{
 			auto sprite = ece::getResource<ece::Sprite>("background");
-			sprite->setTexture(ece::getResource<ece::Texture2D>("strand1"));
+			sprite->setTexture(ece::getResource<ece::Texture>("strand1"));
 		}
 
 		// Score A entity
 		{
-			auto sprite = ece::makeResource<ece::Sprite>("scoreA", ece::getResource<ece::Texture2D>("f0"));
+			auto sprite = ece::makeResource<ece::Sprite>("scoreA", ece::getResource<ece::Texture>("f0"));
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
 			sprite->setBounds({ 220.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
@@ -106,7 +106,7 @@ void GameData::setState(const GameData::State state)
 
 		// Score B entity
 		{
-			auto sprite = ece::makeResource<ece::Sprite>("scoreB", ece::getResource<ece::Texture2D>("f0"));
+			auto sprite = ece::makeResource<ece::Sprite>("scoreB", ece::getResource<ece::Texture>("f0"));
 			sprite->setLevel(1);
 			auto bounds = sprite->getBounds();
 			sprite->setBounds({ 1840.0f, 940.0f, bounds.width * 2.0f, bounds.height * 2.0f });
@@ -119,7 +119,7 @@ void GameData::setState(const GameData::State state)
 			space.position = { 10.0f, 800.0f };
 			space.velocity = { 0.0f, 0.0f };
 			space.weight = 70.0f;
-			auto sprite = ece::makeResource<ece::Sprite>("playerA", ece::getResource<ece::Texture2D>("blue0"));
+			auto sprite = ece::makeResource<ece::Sprite>("playerA", ece::getResource<ece::Texture>("blue0"));
 			sprite->setLevel(1);
 			sprite->moveTo(space.position);
 			this->_playerA.addComponent<Graphic>(sprite);
@@ -140,7 +140,7 @@ void GameData::setState(const GameData::State state)
 			space.position = { 0.0f, 400.0f };
 			space.velocity = { 0.0f, 0.0f };
 			space.weight = 70.0f;
-			auto sprite = ece::makeResource<ece::Sprite>("playerB", ece::getResource<ece::Texture2D>("red0"));
+			auto sprite = ece::makeResource<ece::Sprite>("playerB", ece::getResource<ece::Texture>("red0"));
 			sprite->setLevel(1);
 			sprite->moveTo(space.position);
 			this->_playerB.addComponent<Graphic>(sprite);

@@ -181,7 +181,7 @@ namespace ece
 			void ContextOpenGL::swapBuffers()
 			{
 				if (!SwapBuffers(this->_data->device)) {
-					ERROR << "Buffers not swapped !" << flush;
+					ERROR << "Buffers not swapped !" << flushing;
 				}
 			}
 

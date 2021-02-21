@@ -43,7 +43,6 @@
 
 #include "renderer/config.hpp"
 #include "renderer/pch.hpp"
-#include "renderer/buffer/data_type.hpp"
 
 namespace ece
 {

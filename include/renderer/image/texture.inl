@@ -36,44 +36,61 @@
 
 */
 
-#include "renderer/pch.hpp"
-#include "renderer/opengl/enum/depth_function_condition.hpp"
+#include "renderer/opengl/opengl.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace opengl
+		namespace image
 		{
-			DepthFunctionCondition getDepthFunctionCondition(RenderState::DepthFunctionCondition condition)
+			using namespace opengl::OpenGL;
+
+			inline Texture::Texture(const Texture& copy) : std::enable_shared_from_this<Texture>(), /*_target(TextureTarget::TEXTURE_2D), */_type(copy._type), _samples(copy._samples), 
+				_nbImages(copy._nbImages), _filename(copy._filename), _data(copy._data), _width(copy._width), _height(copy._height), /*_type(copy._type), */_handle(copy._handle) {}
+
+			inline Texture::Texture(Texture && move) noexcept : std::enable_shared_from_this<Texture>(), /*_target(TextureTarget::TEXTURE_2D), */_type(move._type), _samples(move._samples),
+				_nbImages(move._nbImages), _filename(std::move(move._filename)), _data(std::move(move._data)), _width(move._width), _height(move._height), /*_type(move._type), */_handle(move._handle)
 			{
-				switch (condition) {
-				case RenderState::DepthFunctionCondition::NEVER: return DepthFunctionCondition::NEVER; break;
-				case RenderState::DepthFunctionCondition::LESS: return DepthFunctionCondition::LESS; break;
-				case RenderState::DepthFunctionCondition::EQUAL: return DepthFunctionCondition::EQUAL; break;
-				case RenderState::DepthFunctionCondition::LEQUAL: return DepthFunctionCondition::LEQUAL; break;
-				case RenderState::DepthFunctionCondition::GREATER: return DepthFunctionCondition::GREATER; break;
-				case RenderState::DepthFunctionCondition::NOTEQUAL: return DepthFunctionCondition::NOTEQUAL; break;
-				case RenderState::DepthFunctionCondition::GEQUAL: return DepthFunctionCondition::GEQUAL; break;
-				case RenderState::DepthFunctionCondition::ALWAYS: return DepthFunctionCondition::ALWAYS; break;
-				default: throw std::runtime_error("Unknown value for DepthFunctionCondition enumeration."); break;
-				}
+				move._data.content.reset();
+				move._handle = NULL_HANDLE;
 			}
 
-			std::string to_string(DepthFunctionCondition condition)
+			template <typename T>
+			void Texture::setParameter(const TextureParameter name, const T value)
 			{
-				switch (condition) {
-				case DepthFunctionCondition::NEVER: return "GL_NEVER"; break;
-				case DepthFunctionCondition::LESS: return "GL_LESS"; break;
-				case DepthFunctionCondition::EQUAL: return "GL_EQUAL"; break;
-				case DepthFunctionCondition::LEQUAL: return "GL_LEQUAL"; break;
-				case DepthFunctionCondition::GREATER: return "GL_GREATER"; break;
-				case DepthFunctionCondition::NOTEQUAL: return "GL_NOTEQUAL"; break;
-				case DepthFunctionCondition::GEQUAL: return "GL_GEQUAL"; break;
-				case DepthFunctionCondition::ALWAYS: return "GL_ALWAYS"; break;
-				default: throw std::runtime_error("Unknown value for DepthFunctionCondition enumeration."); break;
-				}
+				auto target = this->getTextureTarget();
+				this->bind(target);
+				OpenGL::texParameter(target, name, value);
 			}
-		} // namespace opengl
+
+			template <typename T>
+			void Texture::setParameter(const TextureParameter name, const std::vector<T>& value)
+			{
+				auto target = this->getTextureTarget();
+				this->bind(target);
+				OpenGL::texParameter(target, name, value);
+			}
+
+			inline auto Texture::getFilename() const -> const std::string& { return this->_filename; }
+
+			inline auto Texture::getData() const -> std::uint8_t* { return this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr; }
+
+			inline auto Texture::getWidth() const -> ece::size_t { return this->_width; }
+
+			inline auto Texture::getHeight() const -> ece::size_t { return this->_height; }
+
+			inline auto Texture::getHandle() const -> Handle { return this->_handle; }
+
+			inline void Texture::active(const unsigned int channel) { OpenGL::activeTexture(channel); }
+
+			inline void Texture::setPixelData(PixelData pixelData)
+			{
+				this->_pixelData = pixelData;
+				this->create();
+			}
+
+			inline PixelData Texture::getPixelData() const { return this->_pixelData; }
+		} // namespace image
 	} // namespace renderer
 } // namespace ece

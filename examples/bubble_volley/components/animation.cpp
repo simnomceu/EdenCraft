@@ -40,7 +40,7 @@
 
 #include "components/animation.hpp"
 
-void Animation::push(ece::Texture2D::Reference texture)
+void Animation::push(ece::Texture::Reference texture)
 {
     this->_textures.push_back(texture);
 }
@@ -53,7 +53,7 @@ void Animation::next()
     }
 }
 
-ece::Texture2D::Reference Animation::getCurrent() const
+ece::Texture::Reference Animation::getCurrent() const
 {
     return *this->_current;
 }

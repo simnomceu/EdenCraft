@@ -67,6 +67,7 @@ namespace ece
 					viewport.height *= target->getSize()[1];
 				}
 
+				target->bind();
 				OpenGL::viewport(static_cast<int>(viewport.x), static_cast<int>(viewport.y), static_cast<int>(viewport.width), static_cast<int>(viewport.height));
 
 				if (this->_pipeline.getScissor() != Scissor()) {
@@ -83,7 +84,7 @@ namespace ece
 					static_cast<float>(color.g) / 255.0f,
 					static_cast<float>(color.b) / 255.0f,
 					static_cast<float>(color.a) / 100.0f);
-				OpenGL::clear(Bitfield::COLOR_BUFFER_BIT | Bitfield::STENCIL_BUFFER_BIT | Bitfield::DEPTH_BUFFER_BIT);
+				OpenGL::clear(BufferBit::COLOR | BufferBit::STENCIL | BufferBit::DEPTH);
 			}
 
 			void ForwardRendering::draw(const Staging & staging)

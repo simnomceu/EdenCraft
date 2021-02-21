@@ -70,7 +70,7 @@ namespace ece
 					this->_bitmap.dib.size = this->_bitmap.header.pixelsOffset - BMPHeader::INTERNAL_SIZE;
 					stream >> this->_bitmap.dib;
 					if (!this->_bitmap.isValid()) {
-						SYSTEM << "Unknown error in DIB" << flush;
+						SYSTEM << "Unknown error in DIB" << flushing;
 					}
 
 					// Color Table
@@ -147,7 +147,7 @@ namespace ece
 					this->_bitmap.dib.mask = RGB24{ 8, 8, 8 };
 
 					if (!this->_bitmap.isValid()) {
-						SYSTEM << "Unknown error in DIB" << flush;
+						SYSTEM << "Unknown error in DIB" << flushing;
 					}
 
 					stream << this->_bitmap.header;

@@ -54,7 +54,7 @@ namespace ece
 	{
 		namespace renderable
 		{
-			Sprite::Sprite(const Texture2D::Reference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) :
+			Sprite::Sprite(const Texture::Reference & texture, const Rectangle<float> & bounds, const Rectangle<float> & textureClip) :
 				Renderable(), _texture{ texture, textureClip }, _bounds(bounds), _rotation(0.0f), _vertices(), _index(), _level(0)
 			{
 				if (this->_bounds == Rectangle<float>()) {
@@ -82,7 +82,7 @@ namespace ece
 				this->_vertexArray.bind();
 
 				this->_texture.ref->active(0);
-				this->_texture.ref->bind(Texture::Target::TEXTURE_2D);
+				this->_texture.ref->bind();
 				program->bind(std::make_shared<Uniform<int>>("theTexture", 0), "theTexture");
 
 				auto projection = ece::translate({ -1.0f, -1.0f, 0.0f }) * ece::scale({ 2.0f, 2.0f, 1.0f }) * ece::scale({ 1.0f / 1920.0f, 1.0f / 1080.0f, 1.0f });
@@ -98,7 +98,7 @@ namespace ece
 				OpenGL::drawElements(this->_mode, static_cast<ece::size_t>(this->_index.size() * 3), 0);
 			}
 
-			void Sprite::setTexture(const Texture2D::Reference & texture)
+			void Sprite::setTexture(const Texture::Reference & texture)
 			{
 				this->_texture.ref = texture;
 

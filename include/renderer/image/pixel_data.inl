@@ -40,28 +40,10 @@ namespace ece
 {
 	namespace renderer
 	{
-		namespace buffer
+		namespace image
 		{
-			template <class T>
-			inline constexpr auto dataType() { throw std::runtime_error("This type cannot be passed."); }
-
-			template <>
-			inline auto dataType<short int>() { return DataType::SHORT; }
-
-			template <>
-			inline auto dataType<unsigned short int>() { return DataType::UNSIGNED_SHORT; }
-
-			template <>
-			inline auto dataType<int>() { return DataType::INT; }
-
-			template <>
-			inline auto dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
-
-			template <>
-			inline auto dataType<float>() { return DataType::FLOAT; }
-
-			template <>
-			inline auto dataType<double>() { return DataType::DOUBLE; }
-		} // namespace buffer
+			inline PixelData::PixelData() : redMask(), greenMask(), blueMask(), alphaMask(), bpp(32), type(PixelDataType::UNSIGNED_BYTE), 
+											format(PixelFormat::RGBA), internalFormat(PixelInternalFormat::RGBA) {}
+		} // namespace image
 	} // namespace renderer
 } // namespace ece
