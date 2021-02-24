@@ -35,17 +35,37 @@
 
 */
 
-#ifndef GUI_IMGUI_HPP
-#define GUI_IMGUI_HPP
-
-#include "gui/imgui/adapter.hpp"
-#include "gui/imgui/font.hpp"
-#include "gui/imgui/imgui_component.hpp"
+#include "gui/pch.hpp"
 #include "gui/imgui/imgui_system.hpp"
+#include "gui/imgui/imgui_component.hpp"
 
 namespace ece
 {
-	using namespace gui::imgui;
-}
+	namespace gui
+	{
+		namespace imgui
+		{
+			ImguiSystem::ImguiSystem(World & world, std::shared_ptr<Window> window) noexcept : System(world), _imgui()
+			{
+				this->_imgui.init(window);
+			}
 
-#endif // GUI_IMGUI_HPP
+			ImguiSystem::~ImguiSystem()
+			{
+				this->_imgui.shutdown();
+			}
+
+			void ImguiSystem::update([[maybe_unused]] float elapsedTime)
+			{
+				ece::OpenGL::clearColor(0.45f, 0.55f, 0.60f, 1.00f);
+				ece::OpenGL::clear(ece::BufferBit::COLOR);
+				this->_imgui.newFrame();
+
+				this->_world.getComponents<ImguiComponent>().forEach([this](auto& component) {
+					component.draw();
+				});
+				this->_imgui.render();
+			}
+		} // namespace imgui
+	} // namespace gui
+} // namespace ece

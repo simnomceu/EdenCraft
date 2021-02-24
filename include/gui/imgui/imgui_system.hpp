@@ -35,17 +35,39 @@
 
 */
 
-#ifndef GUI_IMGUI_HPP
-#define GUI_IMGUI_HPP
+#ifndef IMGUI_SYSTEM
+#define IMGUI_SYSTEM
 
+#include "gui/pch.hpp"
+#include "gui/config.hpp"
+#include "core/ecs.hpp"
 #include "gui/imgui/adapter.hpp"
-#include "gui/imgui/font.hpp"
-#include "gui/imgui/imgui_component.hpp"
-#include "gui/imgui/imgui_system.hpp"
 
 namespace ece
 {
-	using namespace gui::imgui;
-}
+	namespace gui
+	{
+		namespace imgui
+		{
+			class ECE_GUI_API ImguiSystem : public System
+			{
+			public:
+				ImguiSystem(World & world, std::shared_ptr<Window> window) noexcept;
+				ImguiSystem(const ImguiSystem & copy) noexcept = default;
+				ImguiSystem(ImguiSystem && copy) noexcept = default;
 
-#endif // GUI_IMGUI_HPP
+				~ImguiSystem() noexcept;
+
+				ImguiSystem & operator=(const ImguiSystem & copy) noexcept = default;
+				ImguiSystem & operator=(ImguiSystem && copy) noexcept = default;
+
+				virtual void update(float elapsedTime) override;
+
+			private:
+				Adapter _imgui;
+			};
+		} // namespace imgui
+	} // namespace gui
+} // namespace ece
+
+#endif // IMGUI_SYSTEM

@@ -35,17 +35,15 @@
 
 */
 
-#ifndef GUI_IMGUI_HPP
-#define GUI_IMGUI_HPP
-
-#include "gui/imgui/adapter.hpp"
-#include "gui/imgui/font.hpp"
-#include "gui/imgui/imgui_component.hpp"
-#include "gui/imgui/imgui_system.hpp"
-
 namespace ece
 {
-	using namespace gui::imgui;
-}
+	namespace gui
+	{
+		namespace imgui
+		{
+			inline ImguiComponent::ImguiComponent(ImguiComponent::Factory fact) noexcept : Component<ImguiComponent>(), _factory(fact) {}
 
-#endif // GUI_IMGUI_HPP
+			inline void ImguiComponent::draw() { this->_factory(); }
+		} // namespace imgui
+	} // namespace gui
+} // namespace ece

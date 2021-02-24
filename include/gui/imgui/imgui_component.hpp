@@ -35,17 +35,43 @@
 
 */
 
-#ifndef GUI_IMGUI_HPP
-#define GUI_IMGUI_HPP
+#ifndef IMGUI_COMPONENT
+#define IMGUI_COMPONENT
 
+#include "gui/pch.hpp"
+#include "gui/config.hpp"
+#include "core/ecs.hpp"
 #include "gui/imgui/adapter.hpp"
-#include "gui/imgui/font.hpp"
-#include "gui/imgui/imgui_component.hpp"
-#include "gui/imgui/imgui_system.hpp"
 
 namespace ece
 {
-	using namespace gui::imgui;
-}
+	namespace gui
+	{
+		namespace imgui
+		{
+			class ECE_GUI_API ImguiComponent : public Component<ImguiComponent>
+			{
+			public:
+				using Factory = std::function<void()>;
 
-#endif // GUI_IMGUI_HPP
+				inline ImguiComponent(Factory fact) noexcept;
+				ImguiComponent(const ImguiComponent& copy) noexcept = default;
+				ImguiComponent(ImguiComponent&& copy) noexcept = default;
+
+				~ImguiComponent() noexcept = default;
+
+				ImguiComponent& operator=(const ImguiComponent& copy) noexcept = default;
+				ImguiComponent& operator=(ImguiComponent&& copy) noexcept = default;
+
+				inline void draw();
+
+			private:
+				Factory _factory;
+			};
+		} // namespace imgui
+	} // namespace gui
+} // namespace ece
+
+#include "gui/imgui/imgui_component.inl"
+
+#endif // IMGUI_COMPONENT
