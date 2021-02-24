@@ -58,6 +58,23 @@ namespace ece
 		{
 			// TODO: replace lot of enumerations by assert to check the value ?
 
+
+			enum class BlendEquationMode : unsigned short int
+			{
+				FUNC_ADD = GL_FUNC_ADD,
+				FUNC_SUBTRACT = GL_FUNC_SUBTRACT,
+				FUNC_REVERSE_SUBTRACT = GL_FUNC_REVERSE_SUBTRACT,
+				MIN = GL_MIN,
+				MAX = GL_MAX
+			};
+
+			enum class PolygonMode : unsigned short int
+			{
+				POINT = GL_POINT,
+				LINE = GL_LINE,
+				FILL = GL_FILL
+			};
+
 			enum class BlendingFactor : unsigned short int
 			{
 				ZERO = GL_ZERO,
@@ -152,6 +169,8 @@ namespace ece
 			template<> inline auto dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
 			template<> inline auto dataType<float>() { return DataType::FLOAT; }
 			template<> inline auto dataType<double>() { return DataType::DOUBLE; }
+			template<> inline auto dataType<unsigned char>() { return DataType::UNSIGNED_BYTE; }
+			template<> inline auto dataType<char>() { return DataType::BYTE; }
 
 			enum class DepthFunctionCondition : unsigned short int
 			{

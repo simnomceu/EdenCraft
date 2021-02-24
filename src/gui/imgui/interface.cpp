@@ -50,13 +50,13 @@ namespace ece
 				this->_mode = PrimitiveMode::TRIANGLES;
 
 				this->_state.blending = true;
-				this->_state.blendEquation = RenderState::BlendEquationMode::FUNC_ADD;
-				this->_state.sourceBlend = RenderState::BlendingFactor::SRC_ALPHA;
-				this->_state.destinationBlend = RenderState::BlendingFactor::ONE_MINUS_SRC_ALPHA;
+				this->_state.blendEquation = BlendEquationMode::FUNC_ADD;
+				this->_state.sourceBlend = BlendingFactor::SRC_ALPHA;
+				this->_state.destinationBlend = BlendingFactor::ONE_MINUS_SRC_ALPHA;
 				this->_state.faceCulling = false;
 				this->_state.depthTest = false;
 				this->_state.scissorTest = false;
-				this->_state.polygonMode = RenderState::PolygonMode::FILL;
+				this->_state.polygonMode = PolygonMode::FILL;
 			}
 			
 			Interface::~Interface() noexcept

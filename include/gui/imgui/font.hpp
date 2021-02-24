@@ -108,7 +108,7 @@ namespace ece
 				void terminate();
 
 			private:
-				ece::Texture2D::Reference _fontTexture;
+				ece::Texture::Reference _fontTexture;
 			};
 		} // namespace imgui
 	} // namespace gui

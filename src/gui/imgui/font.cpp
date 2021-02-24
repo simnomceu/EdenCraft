@@ -59,10 +59,10 @@ namespace ece
 				fontImage->resize(width, height);
 				imagePtr = pixels;
 
-				this->_fontTexture = ece::makeResource<ece::Texture2D>("ImGuiFont");
-				this->_fontTexture->setParameter<int>(ece::Texture::Parameter::MIN_FILTER, GL_LINEAR);
-				this->_fontTexture->setParameter<int>(ece::Texture::Parameter::MAG_FILTER, GL_LINEAR);
-				this->_fontTexture->loadFromImage(ece::Texture::TypeTarget::TEXTURE_2D, fontImage);
+				this->_fontTexture = ece::makeResource<ece::Texture>("ImGuiFont");
+				this->_fontTexture->setParameter<int>(ece::TextureParameter::TEXTURE_MIN_FILTER, GL_LINEAR);
+				this->_fontTexture->setParameter<int>(ece::TextureParameter::TEXTURE_MAG_FILTER, GL_LINEAR);
+				this->_fontTexture->loadFromImage(ece::TextureTypeTarget::TEXTURE_2D, fontImage);
 #ifdef GL_UNPACK_ROW_LENGTH
 				OpenGL::pixelStore(PixelParameter::UNPACK_ROW_LENGTH, 0);
 #endif

@@ -43,24 +43,16 @@
 #include "renderer/pch.hpp"
 #include "renderer/image/texture.hpp"
 #include "renderer/opengl/enum.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace image
-		{
-			class Texture;
-
-			namespace texture
-			{
-				enum class Target : unsigned short int;
-			}
-		}
-
 		namespace rendering
 		{
 			using namespace opengl;
+			using namespace pipeline;
 
 			class RenderTarget;
 			class RenderContext;

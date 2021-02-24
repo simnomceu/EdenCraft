@@ -55,14 +55,14 @@ namespace ece
 				this->_mode = PrimitiveMode::TRIANGLES;
 
 				this->_state.blending = true;
-				this->_state.blendEquation = RenderState::BlendEquationMode::FUNC_ADD;
-				this->_state.sourceBlend = RenderState::BlendingFactor::SRC_ALPHA;
-				this->_state.destinationBlend = RenderState::BlendingFactor::ONE_MINUS_SRC_ALPHA;
+				this->_state.blendEquation = BlendEquationMode::FUNC_ADD;
+				this->_state.sourceBlend = BlendingFactor::SRC_ALPHA;
+				this->_state.destinationBlend = BlendingFactor::ONE_MINUS_SRC_ALPHA;
 				this->_state.faceCulling = false;
 				this->_state.depthTest = false;
 				this->_state.scissorTest = true;
-				this->_state.cullFaceMode = RenderState::CullFaceMode::FRONT_AND_BACK;
-				this->_state.polygonMode = RenderState::PolygonMode::FILL;
+				this->_state.cullFaceMode = CullFaceMode::FRONT_AND_BACK;
+				this->_state.polygonMode = PolygonMode::FILL;
 				this->_state.primitiveRestart = false;
 			}
 
@@ -169,11 +169,11 @@ namespace ece
 				float B = draw_data->DisplayPos.y + draw_data->DisplaySize.y;
 //				auto projection = orthographic({ L, B, R - L, T - B }, 1.0f, -1.0f); 
 				auto projection = ece::FloatMatrix4u({
-		2.0f / (R - L),   0.0f,         0.0f,   0.0f,
-		0.0f,         2.0f / (T - B),   0.0f,   0.0f,
-		0.0f,         0.0f,        -1.0f,   0.0f,
-		(R + L) / (L - R),  (T + B) / (B - T),  0.0f,   1.0f,
-					});
+					2.0f / (R - L),   0.0f,         0.0f,   0.0f,
+					0.0f,         2.0f / (T - B),   0.0f,   0.0f,
+					0.0f,         0.0f,        -1.0f,   0.0f,
+					(R + L) / (L - R),  (T + B) / (B - T),  0.0f,   1.0f
+				});
 				this->_program->use();
 				
 				this->_program->bind(std::make_shared<Uniform<int, 1>>("Texture", 0), "Texture");
@@ -200,9 +200,9 @@ namespace ece
 			{
 				{
 					ece::ShaderStage fsSource;
-					fsSource.loadFromFile(ece::ShaderStage::Type::FRAGMENT, "../../resource/shader/imgui.frag");
+					fsSource.loadFromFile(ece::ShaderType::FRAGMENT_SHADER, "../../resource/shader/imgui.frag");
 					ece::ShaderStage vsSource;
-					vsSource.loadFromFile(ece::ShaderStage::Type::VERTEX, "../../resource/shader/imgui.vert");
+					vsSource.loadFromFile(ece::ShaderType::VERTEX_SHADER, "../../resource/shader/imgui.vert");
 
 					this->_program = std::make_shared<ece::EnhancedShader>();
 					this->_program->setStage(fsSource);
