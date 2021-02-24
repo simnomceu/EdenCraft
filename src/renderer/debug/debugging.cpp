@@ -68,8 +68,6 @@ namespace ece
 					ERROR << "Error OpenGL: (" << static_cast<unsigned short int>(error) << ") " << errorMessage << " in " << function << " from " << file << ":" << line << "." << flushing;
 					error = OpenGL::getError();
 				}
-
-				WARNING << "Call to " << function << flushing;
 			}
 
 			void APIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei /*length*/, const GLchar *message, const void * /*userParam*/)

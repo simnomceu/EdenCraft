@@ -64,8 +64,8 @@ int main()
 			if (fps.isReadyToUpdate()) {
 				window.lock()->setTitle("IMGUI Test ... - Frame " + std::to_string(fps.getNumberOfFrames()) + " - " + std::to_string(fps.getFPS()) + "FPS - " + std::to_string(fps.getAverage()) + "ms");
 			}
-			ece::OpenGL::clearColor(0.0f, 0.0f, 0.0f, 0.0f);
-			ece::OpenGL::clear(ece::Bitfield::COLOR_BUFFER_BIT);
+			ece::OpenGL::clearColor(0.45f, 0.55f, 0.60f, 1.00f);
+			ece::OpenGL::clear(ece::BufferBit::COLOR);
 			bool show_demo_window = true;
 			imgui.newFrame();
 			ImGui::ShowDemoWindow(&show_demo_window);

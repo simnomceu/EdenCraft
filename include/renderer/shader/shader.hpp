@@ -155,8 +155,8 @@ namespace ece
 
                 inline auto getLocation(const std::string & location);
 
-                void bind(BaseUniform & uniform, const std::string & location);
-				void bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location);
+                void bind(BaseUniform & uniform, const std::string & location, bool transpose = false);
+				void bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location, bool transpose = false);
 
 				/**
 				 * @fn void terminate()

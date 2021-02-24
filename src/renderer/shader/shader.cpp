@@ -83,7 +83,7 @@ namespace ece
                 }
 			}
 
-            void Shader::bind(BaseUniform & uniform, const std::string & location)
+            void Shader::bind(BaseUniform & uniform, const std::string & location, bool transpose)
             {
 				if (this->isLinked()) {
 					auto handle = NULL_HANDLE;
@@ -97,11 +97,11 @@ namespace ece
 					catch (const std::runtime_error & e) {
 						WARNING << e.what() << flushing;
 					}
-					uniform.bind(handle);
+					uniform.bind(handle, transpose);
 				}
             }
 
-			void Shader::bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location)
+			void Shader::bind(const std::shared_ptr<BaseUniform> & uniform, const std::string & location, bool transpose)
 			{
 				if (this->isLinked()) {
 					auto handle = NULL_HANDLE;
@@ -115,7 +115,7 @@ namespace ece
 					catch (const std::runtime_error & e) {
 						WARNING << e.what() << flushing;
 					}
-					uniform->bind(handle);
+					uniform->bind(handle, transpose);
 				}
 			}
 
