@@ -44,6 +44,7 @@
 #include "renderer/buffer.hpp"
 #include "renderer/rendering.hpp"
 #include "renderer/image.hpp"
+#include "imgui.h"
 
 std::weak_ptr<ece::RenderWindow> createMainWindow(ece::WindowedApplication & app);
 
@@ -60,7 +61,7 @@ int main()
 		ece::ServiceFormatLocator::getService().registerLoader<ece::MTLLoader>("mtl");
 
         auto & world = app.addWorld();
-        auto & renderSystem = world.addSystem<Render>();
+        auto & renderSystem = world.addSystem<Render>(window.lock());
 
 		auto & scene = renderSystem.getScene();
 		auto & camera = scene.getCamera();

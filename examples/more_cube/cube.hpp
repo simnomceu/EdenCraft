@@ -40,6 +40,8 @@
 #define CUBE_HPP
 
 #include "core/ecs.hpp"
+#include "core/resource.hpp"
+#include "graphic/renderable.hpp"
 
 /**
  * @class Cube
@@ -97,6 +99,12 @@ public:
 
 private:
 	ece::EntityHandler _handle;
+	float _speed;
+	ece::FloatVector3u _pos;
+	ece::FloatVector3u _lastPos;
+	int _chunkSize;
+	int _lastChunkSize;
+	ece::Object::Reference _object;
 };
 
 #endif // CUBE_HPP
