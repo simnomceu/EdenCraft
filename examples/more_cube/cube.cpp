@@ -55,7 +55,7 @@ Cube::Cube(ece::World& world, const std::size_t chunkSize) : _handle(world.creat
 	for (std::size_t i = 0; i < this->_chunkSize; ++i) {
 		for (std::size_t j = 0; j < this->_chunkSize; ++j) {
 			for (std::size_t k = 0; k < this->_chunkSize; ++k) {
-				this->_object->addInstance(ece::translate(ece::FloatVector3u{ (this->_chunkSize / -2) + i * 1.5f, -(this->_chunkSize / -2) + j * 1.5f, (this->_chunkSize / -2) + k * 1.5f }));
+				this->_object->addInstance(ece::translate(ece::FloatVector3u{ (this->_chunkSize / -2) + i * 1.5f, (this->_chunkSize / -2) + j * 1.5f, (this->_chunkSize / -2) + k * 1.5f }));
 			}
 		}
 	}
@@ -80,7 +80,7 @@ void Cube::update()
 		for (std::size_t i = 0; i < this->_chunkSize; ++i) {
 			for (std::size_t j = 0; j < this->_chunkSize; ++j) {
 				for (std::size_t k = 0; k < this->_chunkSize; ++k) {
-					this->_object->addInstance(ece::translate(ece::FloatVector3u{ (this->_chunkSize / -2) + i * 1.5f, -(this->_chunkSize / -2) + j * 1.5f, (this->_chunkSize / -2) + k * 1.5f }));
+					this->_object->addInstance(ece::translate(ece::FloatVector3u{ (-1 *this->_chunkSize) + i * 1.5f, (-1 * this->_chunkSize) + j * 1.5f, (-1 * this->_chunkSize) + k * 1.5f }));
 				}
 			}
 		}

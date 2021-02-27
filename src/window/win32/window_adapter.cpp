@@ -160,6 +160,7 @@ namespace ece
 			{
 				if (this->_data->windowId == message.windowId) {
 					switch (message.message) {
+					case WM_SYSKEYDOWN:
 					case WM_KEYDOWN: {
 						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message.wParam));
 						if (this->_keyRepeat || (!this->_keyRepeat && !Keyboard::isKeyPressed(keyCode))) {
@@ -169,8 +170,9 @@ namespace ece
 							this->pushEvent(newEvent);
 							Keyboard::pressKey(keyCode, true);
 						}
-						break;
 					}
+					break;
+					case WM_SYSKEYUP:
 					case WM_KEYUP: {
 						auto keyCode = Keyboard::getKey(static_cast<unsigned int>(message.wParam));
 						auto newEvent = InputEvent{};
@@ -178,8 +180,8 @@ namespace ece
 						newEvent.key = keyCode;
 						this->pushEvent(newEvent);
 						Keyboard::pressKey(keyCode, false);
-						break;
 					}
+					break;
 					case WM_LBUTTONDOWN: {
 						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::LEFT))) {
 							auto newEvent = InputEvent{};
@@ -188,16 +190,16 @@ namespace ece
 							this->pushEvent(newEvent);
 							Mouse::pressKey(Mouse::Button::LEFT, true);
 						}
-						break;
 					}
+					break;
 					case WM_LBUTTONUP: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
 						newEvent.mouseButton = Mouse::Button::LEFT;
 						this->pushEvent(newEvent);
 						Mouse::pressKey(Mouse::Button::LEFT, false);
-						break;
 					}
+					break;
 					case WM_LBUTTONDBLCLK: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
@@ -206,8 +208,8 @@ namespace ece
 						this->pushEvent(newEvent);
 						newEvent.doubleTap = InputEvent::DoubleTap::LAST_OF;
 						this->pushEvent(newEvent);
-						break;
 					}
+					break;
 					case WM_RBUTTONDOWN: {
 						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::RIGHT))) {
 							auto newEvent = InputEvent{};
@@ -216,24 +218,24 @@ namespace ece
 							this->pushEvent(newEvent);
 							Mouse::pressKey(Mouse::Button::RIGHT, true);
 						}
-						break;
 					}
+					break;
 					case WM_RBUTTONUP: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
 						newEvent.mouseButton = Mouse::Button::RIGHT;
 						this->pushEvent(newEvent);
 						Mouse::pressKey(Mouse::Button::RIGHT, false);
-						break;
 					}
+					break;
 					case WM_RBUTTONDBLCLK: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
 						newEvent.mouseButton = Mouse::Button::RIGHT;
 						this->pushEvent(newEvent);
 						this->pushEvent(newEvent);
-						break;
 					}
+					break;
 					case WM_MBUTTONDOWN: {
 						if (this->_keyRepeat || (!this->_keyRepeat && !Mouse::isKeyPressed(Mouse::Button::WHEEL))) {
 							auto newEvent = InputEvent{};
@@ -242,24 +244,24 @@ namespace ece
 							this->pushEvent(newEvent);
 							Mouse::pressKey(Mouse::Button::WHEEL, true);
 						}
-						break;
 					}
+					break;
 					case WM_MBUTTONUP: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_RELEASED;
 						newEvent.mouseButton = Mouse::Button::WHEEL;
 						this->pushEvent(newEvent);
 						Mouse::pressKey(Mouse::Button::WHEEL, false);
-						break;
 					}
+					break;
 					case WM_MBUTTONDBLCLK: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
 						newEvent.mouseButton = Mouse::Button::WHEEL;
 						this->pushEvent(newEvent);
 						this->pushEvent(newEvent);
-						break;
 					}
+					break;
 					case WM_MOUSEMOVE: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_MOVED;
@@ -267,41 +269,37 @@ namespace ece
 						newEvent.mousePosition[1] = GET_Y_LPARAM(message.lParam) + 38;
 						Mouse::setPosition(newEvent.mousePosition);
 						this->pushEvent(newEvent);
-						break;
 					}
+					break;
 					case WM_MOUSEWHEEL: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::MOUSE_SCROLLED;
 						newEvent.mouseWheel = static_cast<float>(GET_WHEEL_DELTA_WPARAM(message.wParam) / WHEEL_DELTA);
 						this->pushEvent(newEvent);
-						break;
 					}
+					break;
+					case WM_MOUSEHWHEEL: {
+						auto newEvent = InputEvent{};
+						newEvent.type = InputEvent::Type::MOUSE_SCROLLED;
+						newEvent.mouseWheelHorizontal = static_cast<float>(GET_WHEEL_DELTA_WPARAM(message.wParam) / WHEEL_DELTA);
+						this->pushEvent(newEvent);
+					}
+					break;
 					case WM_CHAR: {
 						auto newEvent = InputEvent{};
 						newEvent.type = InputEvent::Type::CHAR;
 						newEvent.character = static_cast<unsigned char>(message.wParam);
 						this->pushEvent(newEvent);
-						break;
 					}
-					case WM_MOVE: {
-						break;
-					}
-					case WM_MOVING: {
-						break;
-					}
-					case WM_SIZE: {
-						break;
-					}
-					case WM_SIZING: {
-						break;
-					}
-					case WM_CLOSE: {
+					break;
+					case WM_MOVE: break;
+					case WM_MOVING: break;
+					case WM_SIZE: break;
+					case WM_SIZING: break;
+					case WM_CLOSE:
 						this->deleteWindow();
 						break;
-					}
-					default: {
-						break;
-					}
+					default: break;
 					}
 				}
 			}
@@ -327,7 +325,7 @@ namespace ece
 					windowPattern.lpfnWndProc = processMessagesCallback;
 					windowPattern.lpszClassName = className;
 					windowPattern.lpszMenuName = nullptr;
-					windowPattern.style = CS_DBLCLKS;
+					windowPattern.style = CS_DBLCLKS | CS_VREDRAW | CS_HREDRAW;
 
 					auto codeError = RegisterClassEx(&windowPattern);
 					if (codeError == 0) {

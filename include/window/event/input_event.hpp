@@ -173,6 +173,12 @@ namespace ece
 				float mouseWheel;
 
 				/**
+				 * @property mouseWheelHorizontal
+				 * @brief The horizontal rotation of the mouse wheel.
+				 */
+				float mouseWheelHorizontal;
+
+				/**
 				 * @property character
 				 * brief The character written.
 				 */
