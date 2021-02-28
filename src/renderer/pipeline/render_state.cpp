@@ -49,6 +49,28 @@ namespace ece
 		{
 			RenderState RenderState::_currentState = RenderState();
 
+			RenderState RenderState::getCurrentstate()
+			{
+				auto state = RenderState();
+				state.faceCulling = OpenGL::isEnabled(Capability::CULL_FACE);
+				state.cullFaceMode = static_cast<opengl::CullFaceMode>(OpenGL::getInteger(Parameter::CULL_FACE_MODE)[0]);
+				state.frontFaceMode = static_cast<opengl::FrontFaceMode>(OpenGL::getInteger(Parameter::FRONT_FACE)[0]);
+				state.depthTest = OpenGL::isEnabled(Capability::DEPTH_TEST);
+				state.depthFunction = static_cast<opengl::DepthFunctionCondition>(OpenGL::getInteger(Parameter::DEPTH_FUNC)[0]);
+				state.pointSize = OpenGL::getFloat(Parameter::PROGRAM_POINT_SIZE)[0];
+				state.lineWidth = OpenGL::getFloat(Parameter::LINE_WIDTH)[0];
+				state.smoothLine = OpenGL::isEnabled(Capability::LINE_SMOOTH);
+				state.blending = OpenGL::isEnabled(Capability::BLEND);
+				state.blendEquation = static_cast<opengl::BlendEquationMode>(OpenGL::getInteger(Parameter::BLEND_EQUATION_RGB)[0]);
+				state.sourceBlend = static_cast<opengl::BlendingFactor>(OpenGL::getInteger(Parameter::BLEND_SRC_RGB)[0]);
+				state.destinationBlend = static_cast<opengl::BlendingFactor>(OpenGL::getInteger(Parameter::BLEND_DST_RGB)[0]);
+				state.scissorTest = OpenGL::isEnabled(Capability::SCISSOR_TEST);
+				state.polygonMode = static_cast<opengl::PolygonMode>(OpenGL::getInteger(Parameter::POLYGON_MODE)[0]);
+				state.primitiveRestart = OpenGL::isEnabled(Capability::PRIMITIVE_RESTART);
+			
+				return std::move(state);
+			}
+
 			RenderState::RenderState() noexcept :
 				faceCulling(true),
 				cullFaceMode(CullFaceMode::BACK),
@@ -59,8 +81,12 @@ namespace ece
 				lineWidth(0.0f),
 				smoothLine(false),
 				blending(false),
+				blendEquation(BlendEquationMode::FUNC_ADD),
 				sourceBlend(BlendingFactor::SRC_ALPHA),
-				destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA)
+				destinationBlend(BlendingFactor::ONE_MINUS_SRC_ALPHA),
+				scissorTest(true),
+				polygonMode(PolygonMode::FILL),
+				primitiveRestart(false)
 			{
 			}
 
@@ -75,8 +101,12 @@ namespace ece
 					&& this->lineWidth == rhs.lineWidth
 					&& this->smoothLine == rhs.smoothLine
 					&& this->blending == rhs.blending
+					&& this->blendEquation == rhs.blendEquation
 					&& this->sourceBlend == rhs.sourceBlend
-					&& this->destinationBlend == rhs.destinationBlend;
+					&& this->destinationBlend == rhs.destinationBlend
+					&& this->scissorTest == rhs.scissorTest
+					&& this->polygonMode == rhs.polygonMode
+					&& this->primitiveRestart == rhs.primitiveRestart;
 			}
 
 			void RenderState::apply(const bool forced)
@@ -124,11 +154,28 @@ namespace ece
 
 					if (RenderState::_currentState.blending) {
 						OpenGL::enable(Capability::BLEND);
+						OpenGL::blendEquation(RenderState::_currentState.blendEquation);
 						OpenGL::blendFunc(RenderState::_currentState.sourceBlend, RenderState::_currentState.destinationBlend);
 					}
 					else {
 						OpenGL::disable(Capability::BLEND);
 					}
+
+					if (RenderState::_currentState.scissorTest) {
+						OpenGL::enable(Capability::SCISSOR_TEST);
+					}
+					else {
+						OpenGL::disable(Capability::SCISSOR_TEST);
+					}
+
+					if (RenderState::_currentState.primitiveRestart) {
+						OpenGL::enable(Capability::PRIMITIVE_RESTART);
+					}
+					else {
+						OpenGL::disable(Capability::PRIMITIVE_RESTART);
+					}
+
+					OpenGL::polygonMode(RenderState::_currentState.polygonMode);
 				}
 			}
 		} // namespace pipeline

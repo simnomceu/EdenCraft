@@ -59,6 +59,9 @@ namespace ece
 			{
 			public:
 
+
+				static RenderState getCurrentstate();
+
 				/**
 				 * @fn RenderState() noexcept
 				 * @brief Default constructor.
@@ -125,8 +128,15 @@ namespace ece
 				bool smoothLine;
 
 				bool blending;
+				BlendEquationMode blendEquation;
 				BlendingFactor sourceBlend;
 				BlendingFactor destinationBlend;
+
+				bool scissorTest;
+
+				PolygonMode polygonMode;
+
+				bool primitiveRestart;
 
 			private:
 				static RenderState _currentState;

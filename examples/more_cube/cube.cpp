@@ -39,33 +39,55 @@
 #include "cube.hpp"
 
 #include "components/graphic.hpp"
-#include "core/resource.hpp"
+#include "gui/imgui.hpp"
+#include "imgui.h"
 
-Cube::Cube(ece::World & world, const std::size_t chunkSize): _handle(world.createEntity())
+Cube::Cube(ece::World& world, const std::size_t chunkSize) : _handle(world.createEntity()), _speed(1.0f), _pos(), _lastPos(), _chunkSize((int)chunkSize), _lastChunkSize((int)chunkSize), _object()
 {
-	auto renderable = ece::makeResource<ece::Object>("cube");
+	this->_object = ece::makeResource<ece::Object>("cube");
 
 	{
 		auto loader = ece::ResourceLoader();
 		auto mesh = loader.loadFromFile("../../examples/more_cube/assets/cube.obj")[0].get<ece::Mesh>();
-		renderable->setMesh(mesh);
+		this->_object->setMesh(mesh);
 	}
 
-	for (std::size_t i = 0; i < chunkSize; ++i) {
-		for (std::size_t j = 0; j < chunkSize; ++j) {
-			for (std::size_t k = 0; k < chunkSize; ++k) {
-				renderable->addInstance(ece::translate(ece::FloatVector3u{ -50.0f + i * 1.5f, -50.0f + j * 1.5f, -50.0f + k * 1.5f }));
+	for (std::size_t i = 0; i < this->_chunkSize; ++i) {
+		for (std::size_t j = 0; j < this->_chunkSize; ++j) {
+			for (std::size_t k = 0; k < this->_chunkSize; ++k) {
+				this->_object->addInstance(ece::translate(ece::FloatVector3u{ (this->_chunkSize / -2) + i * 1.5f, (this->_chunkSize / -2) + j * 1.5f, (this->_chunkSize / -2) + k * 1.5f }));
 			}
 		}
 	}
 
-	renderable->prepare();
+	this->_object->prepare();
 
-	this->_handle.addComponent<Graphic>(renderable);
+	this->_handle.addComponent<Graphic>(this->_object);
+
+	this->_handle.addComponent<ece::ImguiComponent>([this]() {
+		ImGui::Begin("Cubes");
+		ImGui::SliderFloat("Speed", &this->_speed, 0.1f, 10.0f);
+		ImGui::SliderFloat3("Position", this->_pos.data().data(), -50.0f, 50.0f);
+		ImGui::SliderInt("Number", &this->_chunkSize, 1, 50);
+		ImGui::End();
+	});
 }
 
 void Cube::update()
 {
-	auto renderable = this->_handle.getComponent<Graphic>().getRenderable();
-	renderable->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f));
+	if (this->_chunkSize != this->_lastChunkSize) {
+		this->_object->clearInstances();
+		for (std::size_t i = 0; i < this->_chunkSize; ++i) {
+			for (std::size_t j = 0; j < this->_chunkSize; ++j) {
+				for (std::size_t k = 0; k < this->_chunkSize; ++k) {
+					this->_object->addInstance(ece::translate(ece::FloatVector3u{ (-1 *this->_chunkSize) + i * 1.5f, (-1 * this->_chunkSize) + j * 1.5f, (-1 * this->_chunkSize) + k * 1.5f }));
+				}
+			}
+		}
+		this->_lastChunkSize = this->_chunkSize;
+	}
+
+	this->_object->applyTransformation(ece::rotate(ece::FloatVector3u{ 0.0f, 1.0f, 1.0f }, 0.005f * this->_speed));
+	this->_object->applyTransformation(ece::translate(this->_lastPos - this->_pos));
+	this->_lastPos = this->_pos;
 }

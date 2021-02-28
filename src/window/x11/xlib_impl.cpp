@@ -86,7 +86,7 @@ namespace ece
 					| Button1MotionMask | Button2MotionMask | Button3MotionMask
 					| Button4MotionMask | Button5MotionMask | ButtonMotionMask
 					| KeymapStateMask | ExposureMask | VisibilityChangeMask
-					| StructureNotifyMask | ResizeRedirectMask
+					| StructureNotifyMask /*| ResizeRedirectMask*/
 					| SubstructureNotifyMask | SubstructureRedirectMask
 					| FocusChangeMask | PropertyChangeMask | ColormapChangeMask
 					| OwnerGrabButtonMask;
@@ -136,31 +136,16 @@ namespace ece
 
 			auto XlibImpl::getPosition() const -> IntVector2u
 			{
-				auto x = 0;
-				auto y = 0;
-				auto w = static_cast<unsigned int>(0);
-				auto h = static_cast<unsigned int>(0);
-				auto border = static_cast<unsigned int>(0);
-				auto depth = static_cast<unsigned int>(0);
-				auto dummy = ::Window{};
-				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
-		//        XTranslateCoordinates(this->_connection, XRootWindow(this->_connection, 0), this->_windowId, 0, 0, &result[0], &result[1], &dummy);
-
-				return { x, y };
+				XWindowAttributes attribs;
+				XGetWindowAttributes(this->_connection, this->_windowId, &attribs);
+				return { static_cast<int>(attribs.x), static_cast<int>(attribs.y) };
 			}
 
 			auto XlibImpl::getSize() const -> IntVector2u
 			{
-				auto x = 0;
-				auto y = 0;
-				auto w = static_cast<unsigned int>(0);
-				auto h = static_cast<unsigned int>(0);
-				auto border = static_cast<unsigned int>(0);
-				auto depth = static_cast<unsigned int>(0);
-				auto dummy = ::Window{};
-				XGetGeometry(this->_connection, this->_windowId, &dummy, &x, &y, &w, &h, &border, &depth);
-
-				return { static_cast<int>(w), static_cast<int>(h) };
+				XWindowAttributes attribs;
+				XGetWindowAttributes(this->_connection, this->_windowId, &attribs);
+				return { static_cast<int>(attribs.width), static_cast<int>(attribs.height) };
 			}
 
 			void XlibImpl::minimize()
@@ -170,18 +155,9 @@ namespace ece
 
 			void XlibImpl::maximize()
 			{
-				auto event = XEvent{};
-				event.type = ClientMessage;
-				event.xclient.window = this->_windowId;
-				event.xclient.format = 32;
-				event.xclient.message_type = XInternAtom(this->_connection, "_NET_WM_STATE", false);
-				event.xclient.data.l[0] = XInternAtom(this->_connection, "_NET_WM_STATE_ADD", false);
-				event.xclient.data.l[1] = XInternAtom(this->_connection, "_NET_WM_STATE_MAXIMIZED_VERT", false);
-				event.xclient.data.l[2] = XInternAtom(this->_connection, "_NET_WM_STATE_MAXIMIZED_HORZ", false);
-				event.xclient.data.l[3] = 1;
-				event.xclient.data.l[4] = 0;
-
-				XSendEvent(this->_connection, XRootWindow(this->_connection, 0), false, SubstructureNotifyMask | SubstructureRedirectMask, &event);
+				auto screen = ScreenOfDisplay(this->_connection, 0);
+				XResizeWindow(this->_connection, this->_windowId, screen->width, screen->height);
+				XFlush(this->_connection);
 			}
 
 			auto XlibImpl::processEvent(const bool blocking, const bool keyRepeat) -> std::vector<InputEvent>
@@ -250,16 +226,24 @@ namespace ece
 						break;
 					}
 					case ButtonPress: {
+						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+						auto keyCode = Mouse::getButton(message.impl.xbutton.button);
+						newEvent.mouseButton = keyCode;
+						Mouse::pressKey(keyCode, true);
 						break;
 					}
 					case ButtonRelease: {
+						newEvent.type = InputEvent::Type::MOUSE_PRESSED;
+						auto keyCode = Mouse::getButton(message.impl.xbutton.button);
+						newEvent.mouseButton = keyCode;
+						Mouse::pressKey(keyCode, false);
 						break;
 					}
 					case MotionNotify: {
 						if (0 != message.impl.xmotion.x || 0 != message.impl.xmotion.y) {
 							newEvent.type = InputEvent::Type::MOUSE_MOVED;
-							newEvent.mousePosition[0] = message.impl.xmotion.x;
-							newEvent.mousePosition[1] = message.impl.xmotion.y;
+							newEvent.mousePosition[0] = message.impl.xmotion.x - 13;
+							newEvent.mousePosition[1] = message.impl.xmotion.y - 49;
 							Mouse::setPosition(this->getPosition() + newEvent.mousePosition);
 						}
 						break;

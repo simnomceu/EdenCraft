@@ -1095,13 +1095,13 @@ namespace ece
 				case XK_botrightparens            : break; /* U+23A0 RIGHT PARENTHESIS LOWER HOOK */
 				case XK_leftmiddlecurlybrace      : break; /* U+23A8 LEFT CURLY BRACKET MIDDLE PIECE */
 				case XK_rightmiddlecurlybrace     : break; /* U+23AC RIGHT CURLY BRACKET MIDDLE PIECE */
-				case XK_topleftsummation          : break; 
-				case XK_botleftsummation          : break; 
-				case XK_topvertsummationconnector : break; 
-				case XK_botvertsummationconnector : break; 
-				case XK_toprightsummation         : break; 
-				case XK_botrightsummation         : break; 
-				case XK_rightmiddlesummation      : break; 
+				case XK_topleftsummation          : break;
+				case XK_botleftsummation          : break;
+				case XK_topvertsummationconnector : break;
+				case XK_botvertsummationconnector : break;
+				case XK_toprightsummation         : break;
+				case XK_botrightsummation         : break;
+				case XK_rightmiddlesummation      : break;
 				case XK_lessthanequal             : break; /* U+2264 LESS-THAN OR EQUAL TO */
 				case XK_notequal                  : break; /* U+2260 NOT EQUAL TO */
 				case XK_greaterthanequal          : break; /* U+2265 GREATER-THAN OR EQUAL TO */
@@ -1182,14 +1182,14 @@ namespace ece
 				case XK_leftanglebracket        : break; /*(U+27E8 MATHEMATICAL LEFT ANGLE BRACKET)*/
 				case XK_decimalpoint            : break; /*(U+002E FULL STOP)*/
 				case XK_rightanglebracket       : break; /*(U+27E9 MATHEMATICAL RIGHT ANGLE BRACKET)*/
-				case XK_marker                  : break; 
+				case XK_marker                  : break;
 				case XK_oneeighth               : break; /* U+215B VULGAR FRACTION ONE EIGHTH */
 				case XK_threeeighths            : break; /* U+215C VULGAR FRACTION THREE EIGHTHS */
 				case XK_fiveeighths             : break; /* U+215D VULGAR FRACTION FIVE EIGHTHS */
 				case XK_seveneighths            : break; /* U+215E VULGAR FRACTION SEVEN EIGHTHS */
 				case XK_trademark               : break; /* U+2122 TRADE MARK SIGN */
 				case XK_signaturemark           : break; /*(U+2613 SALTIRE)*/
-				case XK_trademarkincircle       : break; 
+				case XK_trademarkincircle       : break;
 				case XK_leftopentriangle        : break; /*(U+25C1 WHITE LEFT-POINTING TRIANGLE)*/
 				case XK_rightopentriangle       : break; /*(U+25B7 WHITE RIGHT-POINTING TRIANGLE)*/
 				case XK_emopencircle            : break; /*(U+25CB WHITE CIRCLE)*/
@@ -1202,7 +1202,7 @@ namespace ece
 				case XK_minutes                 : break; /* U+2032 PRIME */
 				case XK_seconds                 : break; /* U+2033 DOUBLE PRIME */
 				case XK_latincross              : break; /* U+271D LATIN CROSS */
-				case XK_hexagram                : break; 
+				case XK_hexagram                : break;
 				case XK_filledrectbullet        : break; /*(U+25AC BLACK RECTANGLE)*/
 				case XK_filledlefttribullet     : break; /*(U+25C0 BLACK LEFT-POINTING TRIANGLE)*/
 				case XK_filledrighttribullet    : break; /*(U+25B6 BLACK RIGHT-POINTING TRIANGLE)*/
@@ -1238,7 +1238,7 @@ namespace ece
 				case XK_caret                   : break; /* U+2038 CARET */
 				case XK_singlelowquotemark      : break; /* U+201A SINGLE LOW-9 QUOTATION MARK */
 				case XK_doublelowquotemark      : break; /* U+201E DOUBLE LOW-9 QUOTATION MARK */
-				case XK_cursor                  : break; 
+				case XK_cursor                  : break;
 			#endif /* XK_PUBLISHING */
 			#ifdef XK_APL
 				case XK_leftcaret               :break; /*(U+003C LESS-THAN SIGN)*/
@@ -1353,7 +1353,7 @@ namespace ece
 				case XK_Thai_sarau             : break; /* U+0E38 THAI CHARACTER SARA U */
 				case XK_Thai_sarauu            : break; /* U+0E39 THAI CHARACTER SARA UU */
 				case XK_Thai_phinthu           : break; /* U+0E3A THAI CHARACTER PHINTHU */
-				case XK_Thai_maihanakat_maitho : break; 
+				case XK_Thai_maihanakat_maitho : break;
 				case XK_Thai_baht              : break; /* U+0E3F THAI CURRENCY SYMBOL BAHT */
 				case XK_Thai_sarae             : break; /* U+0E40 THAI CHARACTER SARA E */
 				case XK_Thai_saraae            : break; /* U+0E41 THAI CHARACTER SARA AE */
@@ -1760,6 +1760,344 @@ namespace ece
 					break;
 				}
 				return key;
+			}
+
+			auto Keyboard::getKeyCode(const Key code) -> unsigned int
+			{
+				unsigned int keycode = 0;
+				switch (code) {
+					case Key::NONE: break;
+					case Key::BACKSPACE:
+						keycode = XK_BackSpace;
+						break;
+					case Key::TAB:
+						keycode = XK_Tab;
+						break;
+					case Key::RETURN:
+						keycode = XK_Return;
+						break;
+					case Key::SHIFT:
+						keycode = XK_Shift_L;
+						break;
+					case Key::CTRL:
+						keycode = XK_Control_L;
+						break;
+					case Key::ALTGR:
+						keycode = XK_Alt_L;
+						break;
+					case Key::PAUSE:
+						keycode = XK_Pause;
+						break;
+					case Key::CAPS_LOCK:
+						keycode = XK_Caps_Lock;
+						break;
+					case Key::ESCAPE:
+						keycode = XK_Escape;
+						break;
+					case Key::SPACEBAR:
+						keycode = XK_space;
+						break;
+					case Key::PAGE_UP:
+						keycode = XK_Page_Up;
+						break;
+					case Key::PAGE_DOWN:
+						keycode = XK_Page_Down;
+						break;
+					case Key::END:
+						keycode = XK_End;
+						break;
+					case Key::HOME:
+						keycode = XK_Home;
+						break;
+					case Key::LEFT:
+						keycode = XK_Left;
+						break;
+					case Key::UP:
+						keycode = XK_Up;
+						break;
+					case Key::RIGHT:
+						keycode = XK_Right;
+						break;
+					case Key::DOWN:
+						keycode = XK_Down;
+						break;
+					case Key::PRINT_SCREEN:
+						keycode = XK_Print;
+						break;
+					case Key::INS:
+						keycode = XK_Insert;
+						break;
+					case Key::DEL:
+						keycode = XK_Delete;
+						break;
+					case Key::HELP:
+						keycode = XK_Help;
+						break;
+					case Key::NUM_0:
+						keycode = '0';
+						break;
+					case Key::NUM_1:
+						keycode = '1';
+						break;
+					case Key::NUM_2:
+						keycode = '2';
+						break;
+					case Key::NUM_3:
+						keycode = '3';
+						break;
+					case Key::NUM_4:
+						keycode = '4';
+						break;
+					case Key::NUM_5:
+						keycode = '5';
+						break;
+					case Key::NUM_6:
+						keycode = '6';
+						break;
+					case Key::NUM_7:
+						keycode = '7';
+						break;
+					case Key::NUM_8:
+						keycode = '8';
+						break;
+					case Key::NUM_9:
+						keycode = '9';
+						break;
+					case Key::A:
+						keycode = 'A';
+						break;
+					case Key::B:
+						keycode = 'B';
+						break;
+					case Key::C:
+						keycode = 'C';
+						break;
+					case Key::D:
+						keycode = 'D';
+						break;
+					case Key::E:
+						keycode = 'E';
+						break;
+					case Key::F:
+						keycode = 'F';
+						break;
+					case Key::G:
+						keycode = 'G';
+						break;
+					case Key::H:
+						keycode = 'H';
+						break;
+					case Key::I:
+						keycode = 'I';
+						break;
+					case Key::J:
+						keycode = 'J';
+						break;
+					case Key::K:
+						keycode = 'K';
+						break;
+					case Key::L:
+						keycode = 'L';
+						break;
+					case Key::M:
+						keycode = 'M';
+						break;
+					case Key::N:
+						keycode = 'N';
+						break;
+					case Key::O:
+						keycode = 'O';
+						break;
+					case Key::P:
+						keycode = 'P';
+						break;
+					case Key::Q:
+						keycode = 'Q';
+						break;
+					case Key::R:
+						keycode = 'R';
+						break;
+					case Key::S:
+						keycode = 'S';
+						break;
+					case Key::T:
+						keycode = 'T';
+						break;
+					case Key::U:
+						keycode = 'U';
+						break;
+					case Key::V:
+						keycode = 'V';
+						break;
+					case Key::W:
+						keycode = 'W';
+						break;
+					case Key::X:
+						keycode = 'X';
+						break;
+					case Key::Y:
+						keycode = 'Y';
+						break;
+					case Key::Z:
+						keycode = 'Z';
+						break;
+					case Key::LEFT_COMMAND: break;
+					case Key::RIGHT_COMMAND: break;
+					case Key::APPLICATIONS: break;
+					case Key::SLEEP: break;
+					case Key::NUMPAD_0:
+						keycode = XK_KP_0;
+						break;
+					case Key::NUMPAD_1:
+						keycode = XK_KP_1;
+						break;
+					case Key::NUMPAD_2:
+						keycode = XK_KP_2;
+						break;
+					case Key::NUMPAD_3:
+						keycode = XK_KP_3;
+						break;
+					case Key::NUMPAD_4:
+						keycode = XK_KP_4;
+						break;
+					case Key::NUMPAD_5:
+						keycode = XK_KP_5;
+						break;
+					case Key::NUMPAD_6:
+						keycode = XK_KP_6;
+						break;
+					case Key::NUMPAD_7:
+						keycode = XK_KP_7;
+						break;
+					case Key::NUMPAD_8:
+						keycode = XK_KP_8;
+						break;
+					case Key::NUMPAD_9:
+						keycode = XK_KP_9;
+						break;
+					case Key::MULTIPLY:
+						keycode = XK_KP_Multiply;
+						break;
+					case Key::ADD:
+						keycode = XK_KP_Add;
+						break;
+					case Key::SUBSTRACT:
+						keycode = XK_KP_Subtract;
+						break;
+					case Key::NUMPAD_DEL: break;
+					case Key::DIVIDE:
+						keycode = XK_KP_Divide;
+						break;
+					case Key::F1:
+						keycode = XK_F1;
+						break;
+					case Key::F2:
+						keycode = XK_F2;
+						break;
+					case Key::F3:
+						keycode = XK_F3;
+						break;
+					case Key::F4:
+						keycode = XK_F4;
+						break;
+					case Key::F5:
+						keycode = XK_F5;
+						break;
+					case Key::F6:
+						keycode = XK_F6;
+						break;
+					case Key::F7:
+						keycode = XK_F7;
+						break;
+					case Key::F8:
+						keycode = XK_F8;
+						break;
+					case Key::F9:
+						keycode = XK_F9;
+						break;
+					case Key::F10:
+						keycode = XK_F10;
+						break;
+					case Key::F11:
+						keycode = XK_F11;
+						break;
+					case Key::F12:
+						keycode = XK_F12;
+						break;
+					case Key::F13:
+						keycode = XK_F13;
+						break;
+					case Key::F14:
+						keycode = XK_F14;
+						break;
+					case Key::F15:
+						keycode = XK_F15;
+						break;
+					case Key::F16:
+						keycode = XK_F16;
+						break;
+					case Key::F17:
+						keycode = XK_F17;
+						break;
+					case Key::F18:
+						keycode = XK_F18;
+						break;
+					case Key::F19:
+						keycode = XK_F19;
+						break;
+					case Key::F20:
+						keycode = XK_F20;
+						break;
+					case Key::F21:
+						keycode = XK_F21;
+						break;
+					case Key::F22:
+						keycode = XK_F22;
+						break;
+					case Key::F23:
+						keycode = XK_F23;
+						break;
+					case Key::F24:
+						keycode = XK_F24;
+						break;
+					case Key::NUMLOCK:
+						keycode = XK_Num_Lock;
+						break;
+					case Key::BROWSER_BACK: break;
+					case Key::BROWSER_FORWARD: break;
+					case Key::BROWSER_REFRESH: break;
+					case Key::BROWSER_STOP: break;
+					case Key::BROWSER_SEARCH: break;
+					case Key::BROWSER_FAVORITES: break;
+					case Key::BROWSER_HOME: break;
+					case Key::VOLUME_MUTE: break;
+					case Key::VOLUME_DOWN: break;
+					case Key::VOLUME_UP: break;
+					case Key::MEDIA_NEXT: break;
+					case Key::MEDIA_PREVIOUS: break;
+					case Key::MEDIA_STOP: break;
+					case Key::MEDIA_PLAY: break;
+					case Key::LAUNCH_MAIL: break;
+					case Key::SELECT_MEDIA: break;
+					case Key::APP_1: break;
+					case Key::APP_2: break;
+					case Key::OEM_1: break;
+					case Key::OEM_2: break;
+					case Key::OEM_3: break;
+					case Key::OEM_4: break;
+					case Key::OEM_5: break;
+					case Key::OEM_6: break;
+					case Key::OEM_7: break;
+					case Key::OEM_8: break;
+					case Key::OEM_102: break;
+					case Key::OEM_PLUS: break;
+					case Key::OEM_COMMA: break;
+					case Key::OEM_MINUS: break;
+					case Key::OEM_PERIOD: break;
+				default:
+					break;
+				}
+				return keycode;
 			}
 		} // namespace event
 	} // namespace window

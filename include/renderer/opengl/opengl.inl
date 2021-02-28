@@ -218,7 +218,7 @@ namespace ece
 
 			inline void OpenGL::vertexAttribPointer(const int location, const ece::size_t size, const DataType type, const bool normalized, const ece::size_t stride, const ece::offset_t offset)
 			{
-				checkErrors(glVertexAttribPointer(location, static_cast<GLint>(size), static_cast<GLenum>(type), normalized, static_cast<GLsizei>(stride), reinterpret_cast<GLvoid *>(offset)));
+				checkErrors(glVertexAttribPointer(location, static_cast<GLint>(size), static_cast<GLenum>(type), normalized, static_cast<GLsizei>(stride), reinterpret_cast<GLvoid *>(static_cast<unsigned long long>(offset))));
 			}
 
 			inline void OpenGL::enableVertexAttribArray(const int location)
@@ -266,23 +266,23 @@ namespace ece
 				checkErrors(glMultiDrawArrays(static_cast<GLenum>(mode), first.data(), reinterpret_cast<const GLsizei *>(count.data()), static_cast<GLsizei>(drawcount)));
 			}
 
-			inline void OpenGL::drawElements(const PrimitiveMode mode, const ece::size_t count, const int offset)
+			inline void OpenGL::drawElements(const PrimitiveMode mode, const ece::size_t count, const int offset, ece::size_t offsetSize)
 			{
 				const auto type = GL_UNSIGNED_INT;
-				auto byteOffset = offset * sizeof(unsigned int);
-				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), type, reinterpret_cast<GLvoid *>(byteOffset)));
+				auto byteOffset = (intptr_t)(offset * offsetSize);
+				checkErrors(glDrawElements(static_cast<GLenum>(mode), static_cast<GLsizei>(count), static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(byteOffset)));
 			}
 
 			inline void OpenGL::multiDrawElements(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount)
 			{
 				const auto type = GL_UNSIGNED_INT;
-				checkErrors(glMultiDrawElements(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), type, reinterpret_cast<const GLvoid * const *>(indices.data()), static_cast<GLsizei>(drawcount)));
+				checkErrors(glMultiDrawElements(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), static_cast<GLenum>(type), reinterpret_cast<const GLvoid * const *>(indices.data()), static_cast<GLsizei>(drawcount)));
 			}
 
 			inline void OpenGL::drawRangeElements(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, const ece::size_t * indices)
 			{
 				const auto type = GL_UNSIGNED_INT;
-				checkErrors(glDrawRangeElements(static_cast<GLenum>(mode), start, end, count, type, static_cast<const GLvoid *>(indices)));
+				checkErrors(glDrawRangeElements(static_cast<GLenum>(mode), start, end, count, static_cast<GLenum>(type), static_cast<const GLvoid *>(indices)));
 			}
 
 			inline void OpenGL::drawArraysInstanced(const PrimitiveMode mode, const int first, const ece::size_t count, const ece::size_t primcount)
@@ -293,31 +293,31 @@ namespace ece
             inline void OpenGL::drawElementsInstanced(const PrimitiveMode mode, const ece::size_t count, ece::offset_t offset, const ece::size_t primcount)
             {
 				const auto type = GL_UNSIGNED_INT;
-				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(offset), static_cast<GLsizei>(primcount)));
+				checkErrors(glDrawElementsInstanced(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(offset), static_cast<GLsizei>(primcount)));
             }
 
-            inline void OpenGL::drawElementsBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex)
+            inline void OpenGL::drawElementsBaseVertex(PrimitiveMode mode, ece::size_t count, ece::offset_t indices, int basevertex)
 			{
 				const auto type = GL_UNSIGNED_INT;
-				checkErrors(glDrawElementsBaseVertex(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(indices.data()), basevertex));
+				checkErrors(glDrawElementsBaseVertex(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(indices), basevertex));
 			}
 
 			inline void OpenGL::drawRangeElementsBaseVertex(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex)
 			{
 				const auto type = GL_UNSIGNED_INT;
-				checkErrors(glDrawRangeElementsBaseVertex(static_cast<GLenum>(mode), start, end, count, type, reinterpret_cast<GLvoid *>(indices.data()), basevertex));
+				checkErrors(glDrawRangeElementsBaseVertex(static_cast<GLenum>(mode), start, end, count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(indices.data()), basevertex));
 			}
 
 			inline void OpenGL::drawElementsInstancedBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, ece::size_t primcount, int basevertex)
 			{
 				const auto type = GL_UNSIGNED_INT;
-				checkErrors(glDrawElementsInstancedBaseVertex(static_cast<GLenum>(mode), count, type, reinterpret_cast<GLvoid *>(indices.data()), static_cast<GLsizei>(primcount), basevertex));
+				checkErrors(glDrawElementsInstancedBaseVertex(static_cast<GLenum>(mode), count, static_cast<GLenum>(type), reinterpret_cast<GLvoid *>(indices.data()), static_cast<GLsizei>(primcount), basevertex));
 			}
 
 			inline void OpenGL::multiDrawElementsBaseVertex(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount, const std::vector<int> & basevertex)
 			{
 				const auto type = GL_UNSIGNED_INT;
-				checkErrors(glMultiDrawElementsBaseVertex(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), type, reinterpret_cast<const GLvoid * const *>(indices.data()), drawcount, basevertex.data()));
+				checkErrors(glMultiDrawElementsBaseVertex(static_cast<GLenum>(mode), reinterpret_cast<const GLsizei *>(count.data()), static_cast<GLenum>(type), reinterpret_cast<const GLvoid * const *>(indices.data()), drawcount, basevertex.data()));
 			}
 
 			inline auto OpenGL::genBuffers() -> Handle
@@ -1916,12 +1916,14 @@ namespace ece
 
 			inline auto OpenGL::isEnabled(Capability cap) -> bool
 			{
-				return checkErrors(glIsEnabled(static_cast<GLenum>(cap)));
+				auto result = checkErrors(glIsEnabled(static_cast<GLenum>(cap)));
+				return result == GL_TRUE;
 			}
 
 			inline auto OpenGL::isEnabled(Capability cap, unsigned int index) -> bool
 			{
-				return checkErrors(glIsEnabledi(static_cast<GLenum>(cap), index));
+				auto result = checkErrors(glIsEnabledi(static_cast<GLenum>(cap), index));
+				return result == GL_TRUE;
 			}
 
 			inline auto OpenGL::getString(InfoGL parameter) -> std::string

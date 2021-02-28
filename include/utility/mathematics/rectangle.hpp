@@ -131,6 +131,12 @@ namespace ece
 
 				auto intersects(const Rectangle<T> & rhs) const noexcept;
 
+				template <typename E> auto operator*(E rhs) const noexcept -> Rectangle<decltype(T{} *E{})>;
+				template <typename E> auto operator/(E rhs) const -> Rectangle<decltype(T{} *E{1}) > ;
+
+				template <typename E> Rectangle<T> operator*=(E rhs) noexcept;
+				template <typename E> Rectangle<T> operator/=(E rhs);
+
         		/**
         		 * @property _x
         		 * @brief Position on the x-axis.

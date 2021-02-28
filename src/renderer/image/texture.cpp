@@ -126,6 +126,17 @@ namespace ece
 				this->create();
 			}
 
+			void Texture::loadFromMemory([[maybe_unused]] const TextureTypeTarget type, void* data, ece::size_t width, ece::size_t height)
+			{
+				this->_width = width;
+				this->_height = height;
+				this->_data = makeResource<Image<RGBA32>>(std::to_string(std::rand()));
+				this->_data->resize(this->_width, this->_height);
+
+				std::memcpy(this->_data->data(), data, this->_width * this->_height * sizeof(RGBA32));
+				this->create();
+			}
+
 			void Texture::saveToFile(const std::filesystem::path& filename)
 			{
 				auto resource = makeResource<Image<RGBA32>>(filename.stem().generic_string());
@@ -175,15 +186,15 @@ namespace ece
 				// etc ...
 				// https://github.com/fendevel/Guide-to-Modern-OpenGL-Functions
 
-				auto buffer = this->_data ? reinterpret_cast<std::uint8_t*>(this->_data->data()) : nullptr;
+				auto buffer = this->_data ? reinterpret_cast<char*>(this->_data->data()) : nullptr;
 				switch (this->_type) {
 				case Texture::Type::TEXTURE_1D:
 					if (this->_nbImages > 1) {
 						OpenGL::texImage2D(TextureTypeTarget::TEXTURE_1D_ARRAY, 0, this->_pixelData.internalFormat, this->_width, this->_nbImages, this->_pixelData.format, 
-							this->_pixelData.type, &buffer[0]);
+							this->_pixelData.type, buffer);
 					}
 					else {
-						OpenGL::texImage1D(TargetTexture1D::TEXTURE_1D, 0, this->_pixelData.internalFormat, this->_width, this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+						OpenGL::texImage1D(TargetTexture1D::TEXTURE_1D, 0, this->_pixelData.internalFormat, this->_width, this->_pixelData.format, this->_pixelData.type, buffer);
 					}
 					break;
 				case Texture::Type::TEXTURE_2D:
@@ -200,35 +211,35 @@ namespace ece
 					else {
 						if (this->_nbImages > 1) {
 							OpenGL::texImage3D(TargetTexture3D::TEXTURE_2D_ARRAY, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_nbImages, 
-								this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+								this->_pixelData.format, this->_pixelData.type, buffer);
 						}
 						else {
 							OpenGL::texImage2D(TextureTypeTarget::TEXTURE_2D, 0, this->_pixelData.internalFormat, this->_width, this->_height,
-								this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+								this->_pixelData.format, this->_pixelData.type, buffer);
 						}
 					}
 					break;
 				case Texture::Type::TEXTURE_3D: 
 					OpenGL::texImage3D(TargetTexture3D::TEXTURE_3D, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_depth,
-						this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+						this->_pixelData.format, this->_pixelData.type, buffer);
 					break;
 				case Texture::Type::RECTANGLE:
 					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_RECTANGLE, 0, this->_pixelData.internalFormat, this->_width, this->_height,
-						this->_pixelData.format, this->_pixelData.type, &buffer[0]);
+						this->_pixelData.format, this->_pixelData.type, buffer);
 					break;
 				case Texture::Type::CUBE_MAP:  
 					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_X, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
-						this->_pixelData.type, &buffer[0]);
+						this->_pixelData.type, buffer);
 					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_Y, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
-						this->_pixelData.type, &buffer[0]);
+						this->_pixelData.type, buffer);
 					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_POSITIVE_Z, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
-						this->_pixelData.type, &buffer[0]);
+						this->_pixelData.type, buffer);
 					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_X, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
-						this->_pixelData.type, &buffer[0]);
+						this->_pixelData.type, buffer);
 					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
-						this->_pixelData.type, &buffer[0]);
+						this->_pixelData.type, buffer);
 					OpenGL::texImage2D(TextureTypeTarget::TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, this->_pixelData.internalFormat, this->_width, this->_height, this->_pixelData.format, 
-						this->_pixelData.type, &buffer[0]);
+						this->_pixelData.type, buffer);
 					break;
 				case Texture::Type::BUFFER:
 					OpenGL::texBuffer(this->_pixelData.internalFormat, this->_handle);

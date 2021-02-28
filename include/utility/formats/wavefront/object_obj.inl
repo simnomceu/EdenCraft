@@ -99,7 +99,7 @@ namespace ece
 				inline void ObjectOBJ::addGroup(const std::string & group)
 				{
 					if (this->_groups.find(group) != this->_groups.end()) {
-						this->_groups[group] = { group, "", {} };
+						this->_groups[group] = FaceGroup{ group, "", {} };
 					}
 					this->_currentGroups.push_back(group);
 				}

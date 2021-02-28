@@ -42,6 +42,9 @@
 #include "core/ecs.hpp"
 #include "renderer/pipeline.hpp"
 #include "graphic/scene.hpp"
+#include "gui/imgui.hpp"
+#include "imgui.h"
+#include "window/common.hpp"
 
 /**
  * @class RenderSystem
@@ -55,7 +58,7 @@ public:
 	 * @brief Default constructor.
 	 * @throw noexcept
 	 */
-	RenderSystem(ece::World & world) noexcept;
+	RenderSystem(ece::World & world, std::weak_ptr<ece::Window> window) noexcept;
 
 	/**
 	 * @fn RenderSystem(const RenderSystem & copy) noexcept
@@ -105,6 +108,7 @@ public:
 private:
 	std::unique_ptr<ece::RenderProcess> _process;
 	ece::Scene _scene;
+	ece::Adapter _imgui;
 };
 
 #endif // RENDER_SYSTEM_HPP

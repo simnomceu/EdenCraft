@@ -42,6 +42,7 @@
 #include "core/ecs.hpp"
 #include "renderer/pipeline.hpp"
 #include "graphic/scene.hpp"
+#include "gui/imgui.hpp"
 
 /**
  * @class Render
@@ -55,7 +56,7 @@ public:
 	 * @brief Default constructor.
 	 * @throw noexcept
 	 */
-	Render(ece::World & world) noexcept;
+	Render(ece::World & world, std::shared_ptr<ece::Window> window) noexcept;
 
 	/**
 	 * @fn Render(const Render & copy) noexcept
@@ -78,7 +79,7 @@ public:
 	 * @brief Default destructor.
 	 * @throw noexcept
 	 */
-	~Render() noexcept = default;
+	~Render() noexcept;
 
 	/**
 	 * @fn Render & operator=(const Render & copy) noexcept
@@ -105,6 +106,7 @@ public:
 private:
 	std::unique_ptr<ece::RenderProcess> _process;
 	ece::Scene _scene;
+	ece::Adapter _imgui;
 };
 
 #endif // RENDER_HPP

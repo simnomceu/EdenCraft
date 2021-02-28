@@ -7,6 +7,9 @@
 [submodule "build/modules/enhanced_premake"]
 	path = build/modules/enhanced_premake
 	url = https://framagit.org/simnomce_u/enhanced_premake.git
+[submodule "extlibs/imgui"]
+	path = extlibs/imgui
+	url = https://github.com/ocornut/imgui.git
 [submodule "examples/crytek_sponza/assets/original"]
 	path = examples/crytek_sponza/assets/original
 	url = https://github.com/jimmiebergmann/Sponza.git

@@ -45,25 +45,28 @@ namespace ece
 	{
 		namespace shader
 		{
-			template<class T, std::size_t Size>
-			inline Uniform<T, Size>::Uniform(const std::string & name, data_type data) : BaseUniform(), _data(std::move(data)) { this->setName(name); }
+			template<class T, std::size_t M, std::size_t N>
+			inline Uniform<T, M, N>::Uniform(const std::string & name, data_type data) : BaseUniform(), _data(std::move(data)) { this->setName(name); }
 
-			template <class T, std::size_t Size>
-			inline void Uniform<T, Size>::bind(const Handle & location)
+			template <class T, std::size_t M, std::size_t N>
+			inline void Uniform<T, M, N>::bind(const Handle & location, bool transpose)
 			{
-				if constexpr (Size == 1) {
-					OpenGL::uniform<T, Size>(location, std::array<T, 1>{ this->_data });
+				if constexpr (M == 1) {
+					OpenGL::uniform<T, 1>(location, std::array<T, 1>{ this->_data });
+				}
+				else if constexpr (N == 1){
+					OpenGL::uniform<T, M>(location, this->_data);
 				}
 				else {
-					OpenGL::uniform<T, Size>(location, this->_data);
+					OpenGL::uniform<T, M, N>(location, transpose, this->_data);
 				}
 			}
 
-			template <class T, std::size_t Size>
-			inline auto Uniform<T, Size>::getData() const { return this->_data; }
+			template <class T, std::size_t M, std::size_t N>
+			inline auto Uniform<T, M, N>::getData() const { return this->_data; }
 
-			template<class T, std::size_t Size>
-			inline void Uniform<T, Size>::setData(const data_type & data) { this->_data = data; }
+			template<class T, std::size_t M, std::size_t N>
+			inline void Uniform<T, M, N>::setData(const data_type & data) { this->_data = data; }
 		} // namespace shader
 	} // namespace renderer
 } // namespace ece

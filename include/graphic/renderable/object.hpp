@@ -135,6 +135,7 @@ namespace ece
                 virtual void prepare() override;
 
 				void addInstance(const FloatMatrix4u & instance);
+				void clearInstances();
 
 				virtual void draw(std::shared_ptr<Shader> program) override;
 

@@ -43,6 +43,7 @@
 
 #include "renderer/config.hpp"
 #include "renderer/shader/base_uniform.hpp"
+#include "utility/mathematics.hpp"
 
 namespace ece
 {
@@ -55,11 +56,11 @@ namespace ece
 			 * @tparam T the type of data of the uniform.
 			 * @brief A uniform as defined in OpenGL.
 			 */
-			template <class T, std::size_t Size = 1>
+			template <class T, std::size_t M = 1, std::size_t N = 1>
 			class ECE_RENDERER_API Uniform : public BaseUniform
 			{
 			public:
-				using data_type = std::conditional_t<Size == 1, T, std::array<T, Size>>;
+				using data_type = std::conditional_t<M == 1, T, std::conditional_t<N == 1, std::array<T, M>, Matrix<T, M, N>>>;
 
 				/**
 				 * @fn Uniform(const std::string & name, const T & data)
@@ -118,7 +119,7 @@ namespace ece
 				 */
 				Uniform & operator=(Uniform && move) noexcept = default;
 
-				inline virtual void bind(const Handle & location) override;
+				inline virtual void bind(const Handle & location, bool transpose = false) override;
 
 				/**
 				 * @fn T getData() const

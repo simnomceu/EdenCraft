@@ -84,6 +84,12 @@ namespace ece
 				++this->_numberOfInstances;
 			}
 
+			void Object::clearInstances()
+			{
+				this->_instances.data().clear();
+				this->_numberOfInstances = 1;
+			}
+
 			void Object::draw(std::shared_ptr<Shader> program)
 			{
 				this->_vertexArray.bind();

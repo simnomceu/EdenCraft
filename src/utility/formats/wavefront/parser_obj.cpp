@@ -206,7 +206,7 @@ namespace ece
 					case 'g':
 					{
 						this->_currentObject->resetCurrentGroups();
-
+						line.get();
 						std::string group;
 						(void) line.get();
 						while (!line.eof()) {

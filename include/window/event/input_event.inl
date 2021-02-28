@@ -42,7 +42,7 @@ namespace ece
 		namespace event
 		{
 			inline InputEvent::InputEvent() noexcept: type(InputEvent::Type::NONE), doubleTap(InputEvent::DoubleTap::NONE), mouseButton(Mouse::Button::NONE), mousePosition(), 
-													  key(Keyboard::Key::NONE) {}
+													  key(Keyboard::Key::NONE), mouseWheel(0.0f), mouseWheelHorizontal(0.0f) {}
 		} // namespace window_event
 	} // namespace event
 } // namespace ece

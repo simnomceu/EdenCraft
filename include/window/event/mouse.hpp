@@ -98,7 +98,7 @@ namespace ece
 				 * @return Get the last registered position of the mouse cursor.
 				 * @throw
 				 */
-				static inline auto & getPosition();
+				static auto getPosition() -> const ece::IntVector2u &;
 
 				/**
 				 * @fn void setPosition(const IntVector2u & position)
@@ -106,8 +106,10 @@ namespace ece
 				 * @brief Set the position of the mouse cursor.
 				 * @throw
 				 */
-				static inline void setPosition(const IntVector2u & position);
+				static void setPosition(const IntVector2u & position);
 
+				static auto getButton(const unsigned int button) -> Mouse::Button;
+				static auto getButtonCode(const Button button) -> unsigned int;
 			private:
 				/**
 				 * @property _states
@@ -142,7 +144,5 @@ namespace ece
 		} // namespace enumeration
 	} // namespace utility
 } // namespace ece
-
-#include "window/event/mouse.inl"
 
 #endif // MOUSE_HPP

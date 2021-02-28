@@ -89,7 +89,7 @@ namespace ece
 				 * @brief Default destructor.
 				 * @throw noexcept
 				 */
-				virtual ~Renderable() noexcept = 0;
+				~Renderable() noexcept = default;
 
 				/**
 				 * @fn Renderable & operator=(const Renderable & copy) noexcept
@@ -118,6 +118,8 @@ namespace ece
 				inline virtual auto getState() -> RenderState & override;
 
 				inline virtual void prepare();
+
+				virtual void draw(std::shared_ptr<Shader> program) = 0;
 
 			protected:
 				VertexArray _vertexArray;

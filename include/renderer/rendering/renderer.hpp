@@ -43,24 +43,16 @@
 #include "renderer/pch.hpp"
 #include "renderer/image/texture.hpp"
 #include "renderer/opengl/enum.hpp"
+#include "renderer/pipeline/render_state.hpp"
 
 namespace ece
 {
 	namespace renderer
 	{
-		namespace image
-		{
-			class Texture;
-
-			namespace texture
-			{
-				enum class Target : unsigned short int;
-			}
-		}
-
 		namespace rendering
 		{
 			using namespace opengl;
+			using namespace pipeline;
 
 			class RenderTarget;
 			class RenderContext;
@@ -74,6 +66,27 @@ namespace ece
 			class ECE_RENDERER_API Renderer
 			{
 			public:
+				struct State
+				{
+					unsigned int activeTexture;
+					Handle currentProgram;
+					Handle textureBinding2D;
+					Handle samplerBinding;
+					Handle arrayBufferBinding;
+					Handle vertexArrayBinding;
+					std::array<int, 4> viewport;
+					std::array<int, 4> scissorBox;
+					BlendingFactor blendSrcRGB;
+					BlendingFactor blendDstRGB;
+					BlendingFactor blendSrcAlpha;
+					BlendingFactor blendDstAlpha;
+					BlendEquationMode blendEquationRGB;
+					BlendEquationMode blendEquationAlpha;
+					bool clipOriginLowerLeft;
+					ClipControl clipOrigin;
+					RenderState renderState;
+				};
+
 				/**
 				 * @fn constexpr Renderer() noexcept
 				 * @brief Default constructor.
@@ -135,10 +148,14 @@ namespace ece
 
 				static auto isInitialized() noexcept -> bool;
 
+				static void saveState();
+				static void restoreState();
+				static auto getBackupState() -> State;
 			private:
 				static std::weak_ptr<RenderTarget> _currentTarget;
 				static std::weak_ptr<RenderContext> _currentContext;
 				static std::map<TextureTarget, std::weak_ptr<Texture>> _currentTextures;
+				static State _backup;
 			};
 		} // namespace rendering
 	} // namespace renderer

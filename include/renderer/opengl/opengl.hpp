@@ -105,12 +105,12 @@ namespace ece
 				static inline void primitiveRestartIndex(ece::size_t index);
 				static inline void drawArrays(const PrimitiveMode mode, const int first, const ece::size_t count);
 				static inline void multiDrawArrays(PrimitiveMode mode, const std::vector<int> & first, const std::vector<ece::size_t> & count, ece::size_t drawcount);
-				static inline void drawElements(const PrimitiveMode mode, const ece::size_t count, const int offset);
+				static inline void drawElements(const PrimitiveMode mode, const ece::size_t count, const int offset, ece::size_t offsetSize = sizeof(unsigned int));
 				static inline void multiDrawElements(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount);
 				static inline void drawRangeElements(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, const ece::size_t * indices);
 				static inline void drawArraysInstanced(const PrimitiveMode mode, const int first, const ece::size_t count, const ece::size_t primcount);
 				static inline void drawElementsInstanced(const PrimitiveMode mode, const ece::size_t count, ece::offset_t offset, const ece::size_t primcount);
-				static inline void drawElementsBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex);
+				static inline void drawElementsBaseVertex(PrimitiveMode mode, ece::size_t count, ece::offset_t indices, int basevertex);
 				static inline void drawRangeElementsBaseVertex(PrimitiveMode mode, ece::size_t start, ece::size_t end, ece::size_t count, std::vector<ece::size_t> & indices, int basevertex);
 				static inline void drawElementsInstancedBaseVertex(PrimitiveMode mode, ece::size_t count, std::vector<ece::size_t> & indices, ece::size_t primcount, int basevertex);
 				static inline void multiDrawElementsBaseVertex(PrimitiveMode mode, const std::vector<ece::size_t> & count, const std::vector<ece::size_t *> & indices, ece::size_t drawcount, const std::vector<int> & basevertex);

@@ -136,6 +136,8 @@ namespace ece
 
 				void loadFromImage(const TextureTypeTarget type, Image<RGBA32>::Reference image);
 
+				void loadFromMemory(const TextureTypeTarget type, void* data, ece::size_t width, ece::size_t height);
+
 				void saveToFile(const std::filesystem::path & filename);
 
 				void saveToImage(Image<RGBA32>::Reference image);

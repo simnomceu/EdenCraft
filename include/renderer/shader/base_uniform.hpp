@@ -116,7 +116,7 @@ namespace ece
 
 				inline void setName(const std::string & name);
 
-				virtual void bind(const Handle & location) = 0;
+				virtual void bind(const Handle & location, bool transpose = false) = 0;
 
 			protected:
 				std::string _name;

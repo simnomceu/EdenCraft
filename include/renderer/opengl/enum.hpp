@@ -58,6 +58,23 @@ namespace ece
 		{
 			// TODO: replace lot of enumerations by assert to check the value ?
 
+
+			enum class BlendEquationMode : unsigned short int
+			{
+				FUNC_ADD = GL_FUNC_ADD,
+				FUNC_SUBTRACT = GL_FUNC_SUBTRACT,
+				FUNC_REVERSE_SUBTRACT = GL_FUNC_REVERSE_SUBTRACT,
+				MIN = GL_MIN,
+				MAX = GL_MAX
+			};
+
+			enum class PolygonMode : unsigned short int
+			{
+				POINT = GL_POINT,
+				LINE = GL_LINE,
+				FILL = GL_FILL
+			};
+
 			enum class BlendingFactor : unsigned short int
 			{
 				ZERO = GL_ZERO,
@@ -152,6 +169,8 @@ namespace ece
 			template<> inline auto dataType<unsigned int>() { return DataType::UNSIGNED_INT; }
 			template<> inline auto dataType<float>() { return DataType::FLOAT; }
 			template<> inline auto dataType<double>() { return DataType::DOUBLE; }
+			template<> inline auto dataType<unsigned char>() { return DataType::UNSIGNED_BYTE; }
+			template<> inline auto dataType<char>() { return DataType::BYTE; }
 
 			enum class DepthFunctionCondition : unsigned short int
 			{
@@ -1052,15 +1071,6 @@ namespace ece
 				OR_INVERTED = GL_OR_INVERTED
 			};
 
-			enum class BlendEquationMode : unsigned short int
-			{
-				FUNC_ADD = GL_FUNC_ADD,
-				FUNC_SUBTRACT = GL_FUNC_SUBTRACT,
-				FUNC_REVERSE_SUBTRACT = GL_FUNC_REVERSE_SUBTRACT,
-				MIN = GL_MIN,
-				MAX = GL_MAX
-			};
-
 			enum class TestCondition : unsigned short int
 			{
 				KEEP = GL_KEEP,
@@ -1427,6 +1437,7 @@ namespace ece
 				BLEND_EQUATION_ALPHA = GL_BLEND_EQUATION_ALPHA,
 				BLEND_SRC_ALPHA = GL_BLEND_SRC_ALPHA,
 				BLEND_SRC_RGB = GL_BLEND_SRC_RGB,
+				CLIP_ORIGIN = GL_CLIP_ORIGIN,
 				COLOR_CLEAR_VALUE = GL_COLOR_CLEAR_VALUE,
 				COLOR_LOGIC_OP = GL_COLOR_LOGIC_OP,
 				COLOR_WRITEMASK = GL_COLOR_WRITEMASK,
@@ -1477,6 +1488,7 @@ namespace ece
 				READ_FRAMEBUFFER_BINDING = GL_READ_FRAMEBUFFER_BINDING,
 				ELEMENT_ARRAY_BUFFER_BINDING = GL_ELEMENT_ARRAY_BUFFER_BINDING,
 				FRAGMENT_SHADER_DERIVATIVE_HINT = GL_FRAGMENT_SHADER_DERIVATIVE_HINT,
+				FRONT_FACE = GL_FRONT_FACE,
 				IMPLEMENTATION_COLOR_READ_FORMAT = GL_IMPLEMENTATION_COLOR_READ_FORMAT,
 				IMPLEMENTATION_COLOR_READ_TYPE = GL_IMPLEMENTATION_COLOR_READ_TYPE,
 				LINE_SMOOTH = GL_LINE_SMOOTH,
@@ -1576,6 +1588,7 @@ namespace ece
 				POINT_SIZE = GL_POINT_SIZE,
 				POINT_SIZE_GRANULARITY = GL_POINT_SIZE_GRANULARITY,
 				POINT_SIZE_RANGE = GL_POINT_SIZE_RANGE,
+				POLYGON_MODE = GL_POLYGON_MODE,
 				POLYGON_OFFSET_FACTOR = GL_POLYGON_OFFSET_FACTOR,
 				POLYGON_OFFSET_UNITS = GL_POLYGON_OFFSET_UNITS,
 				POLYGON_OFFSET_FILL = GL_POLYGON_OFFSET_FILL,
@@ -1679,13 +1692,6 @@ namespace ece
 				OUT_OF_MEMORY = GL_OUT_OF_MEMORY,
 				STACK_UNDERFLOW = GL_STACK_UNDERFLOW,
 				STACK_OVERFLOW = GL_STACK_OVERFLOW
-			};
-
-			enum class PolygonMode : unsigned short int
-			{
-				POINT = GL_POINT,
-				LINE = GL_LINE,
-				FILL = GL_FILL
 			};
 
 			enum class MipmapTarget : unsigned short int
