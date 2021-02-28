@@ -126,9 +126,6 @@ namespace ece
 
 				std::shared_ptr<EnhancedShader>  _program;
 				Font _font;
-
-				VertexBuffer<SymetricStorage, std::vector<Mesh::Vertex>> _vertices;
-				IndexBuffer<SymetricStorage, std::vector<Submesh::Face>> _faces;
 			};
 		} // namespace imgui
 	} // namespace gui
